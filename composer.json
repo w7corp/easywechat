@@ -9,6 +9,9 @@
         "sdk"
     ],
     "license": "MIT",
+    "require": {
+        "php":">5.3"
+    },
     "authors": [
         {
             "name": "overtrue",
