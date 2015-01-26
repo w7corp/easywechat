@@ -1,0 +1,16 @@
+{
+    "name": "overtrue/wechat",
+    "description": "微信SDK",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Overtrue\\": "src/"
+        }
+    }
+}
