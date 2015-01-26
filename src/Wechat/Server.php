@@ -1,7 +1,7 @@
 <?php namespace Overtrue\Wechat;
 
 
-class Wechat {
+class Server {
 
 
     public function _construct($appId, $appSecret)
@@ -28,5 +28,4 @@ class Wechat {
     {
         # code...
     }
-
 }
