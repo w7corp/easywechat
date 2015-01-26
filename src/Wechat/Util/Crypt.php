@@ -89,14 +89,14 @@ class Crypt {
     private function decryptMsg($msgSignature, $nonce, $postXML, $timestamp = null)
     {
         if (strlen($this->aesKey) != 43) {
-            $this->exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
+            throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
         //提取密文
         $array = $this->extract($postXML);
 
         if (empty($array)) {
-            $this->exception('Invalid xml.', self::ERROR_PARSE_XML);
+            throw new Exception('Invalid xml.', self::ERROR_PARSE_XML);
         }
 
         $timestamp || $timestamp = time();
@@ -147,7 +147,7 @@ class Crypt {
             return base64_encode($encrypted);
 
         } catch (Exception $e) {
-            $this->exception($e->getMessage(), self::ERROR_ENCRYPT_AES);
+            throw new Exception($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
     }
 
@@ -173,7 +173,7 @@ class Crypt {
             mcrypt_generic_deinit($module);
             mcrypt_module_close($module);
         } catch (Exception $e) {
-            $this->exception($e->getMessage(), self::ERROR_DECRYPT_AES);
+            throw new Exception($e->getMessage(), self::ERROR_DECRYPT_AES);
         }
 
         try {
@@ -191,11 +191,11 @@ class Crypt {
             $xml       = substr($content, 4, $xmlLen);
             $fromAppId = substr($content, $xmlLen + 4);
         } catch (Exception $e) {
-            $this->exception($e->getMessage(), self::ERROR_INVALID_XML);
+            throw new Exception($e->getMessage(), self::ERROR_INVALID_XML);
         }
 
         if ($fromAppId != $this->appId) {
-            $this->exception($e->getMessage(), self::ERROR_INVALID_APPID);
+            throw new Exception($e->getMessage(), self::ERROR_INVALID_APPID);
         }
 
         return $xml;
@@ -221,18 +221,6 @@ class Crypt {
     }
 
     /**
-     * 抛出异常
-     *
-     * @param string $code
-     *
-     * @return void
-     */
-    public function exception($code)
-    {
-        throw new Exception($this->errors[$code], $code);
-    }
-
-    /**
      * 生成SHA1签名
      *
      * @return string
@@ -245,7 +233,7 @@ class Crypt {
 
             return sha1(implode($array));
         } catch (Exception $e) {
-            $this->exception($e->getMessage(), self::ERROR_CALC_SIGNATURE);
+            throw new Exception($e->getMessage(), self::ERROR_CALC_SIGNATURE);
         }
     }
 }
