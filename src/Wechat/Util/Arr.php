@@ -229,6 +229,7 @@ class Arr
     {
         $value = static::get($array, $key, $default);
         static::forget($array, $key);
+
         return $value;
     }
     /**
