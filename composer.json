@@ -1,6 +1,13 @@
 {
     "name": "overtrue/wechat",
     "description": "微信SDK",
+    "keywords": [
+        "微信",
+        "wechat",
+        "weixin",
+        "weixin-sdk"
+        "sdk"
+    ],
     "license": "MIT",
     "authors": [
         {
