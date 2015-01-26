@@ -1,3 +1,7 @@
+测试账号：
+appID： wx3cf0f39249eb0e60
+appsecret：f1c242f4f28f735d4687abb469072a29
+
 主类：\Wechat
     SEC_MODE_PLAIN_TEXT; //明文模式
     SEC_MODE_COMPATIBLE; //明文模式

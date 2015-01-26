@@ -24,4 +24,9 @@ class Wechat {
 
     }
 
+    public function authorize(callback $callback)
+    {
+        # code...
+    }
+
 }
