@@ -50,7 +50,7 @@ class Server {
      */
     public function validation($return = false)
     {
-        if ($this->checkSignature()) {
+        if (!$this->checkSignature()) {
             return false;
         }
 
