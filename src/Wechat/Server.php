@@ -86,9 +86,7 @@ class Server {
 
         sort($input, SORT_STRING);
 
-        $signature = sha1(implode($input));
-
-        return $signature === $inputSignature;
+        return sha1(implode($input)) === $this->request->signature;
     }
 
     /**
