@@ -9,8 +9,8 @@ class Server {
     const SEC_MODE_SECURITY   = 3; //安全模式
 
     protected $appId;
-    protected $options = array();
     protected $securityMode;
+    protected $options   = array();
     protected $listeners = array();
 
     public function _construct(array $options = array())
