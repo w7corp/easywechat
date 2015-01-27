@@ -51,13 +51,16 @@ class Server {
     public function validation($return = false)
     {
         if ($this->checkSignature()) {
-            $msg = Arr::get($_GET, 'echostr');
-            if ($return) {
-                return $msg;
-            }
-
-            exit($msg);
+            return false;
         }
+
+        $msg = Arr::get($_GET, 'echostr');
+
+        if ($return) {
+            return $msg;
+        }
+
+        exit($msg);
     }
 
     /**
@@ -65,9 +68,9 @@ class Server {
      */
     public function checkSignature()
     {
-        $inputSignature = $_GET["signature"];
-        $timestamp      = $_GET["timestamp"];
-        $nonce          = $_GET["nonce"];
+        $inputSignature = Arr::get($_GET, 'signature');
+        $timestamp      = Arr::get($_GET, 'timestamp');
+        $nonce          = Arr::get($_GET, 'nonce');
 
         $token  = Arr::get($this->options, 'token');
         $arr    = array($token, $timestamp, $nonce);
