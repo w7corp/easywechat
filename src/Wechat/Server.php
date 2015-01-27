@@ -1,31 +1,19 @@
 <?php namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Util\Arr;
+use Overtrue\Wechat\Trait\Loggable;
 
 class Server {
 
-    const SEC_MODE_PLAIN_TEXT = 1; //明文模式
-    const SEC_MODE_COMPATIBLE = 2; //兼容模式
-    const SEC_MODE_SECURITY   = 3; //安全模式
+    use Loggable;
 
     protected $appId;
     protected $securityMode;
     protected $options   = array();
     protected $listeners = array();
 
-    public function _construct(array $options = array())
+    public function __construct()
     {
-        $this->options = $options;
-    }
-
-    /**
-     * 设置安全模式
-     *
-     * @param integer $mode
-     */
-    public function setSecurityMode($mode)
-    {
-        $this->securityMode = $mode;
+        $this->listeners = new Bag;
     }
 
     /**
@@ -36,9 +24,22 @@ class Server {
      *
      * @return mixed
      */
-    public function listen($event, callback $function)
+    public function event($event, callback $function)
     {
-        Arr::add($this->listeners, $event, $function);
+        $this->listeners['event']->add($event, $function);
+    }
+
+    /**
+     * 监听消息
+     *
+     * @param string   $type
+     * @param callback $function
+     *
+     * @return string
+     */
+    public function message($type, callback $function)
+    {
+        $this->listeners['message']->add($type, $function);
     }
 
     /**
@@ -64,22 +65,14 @@ class Server {
     }
 
     /**
-     * 检查签名有效性
+     * 开始运行
+     *
+     * @param array $options
+     *
+     * @return mixed
      */
-    public function checkSignature()
+    public function run($options)
     {
-        $inputSignature = Arr::get($_GET, 'signature');
-        $timestamp      = Arr::get($_GET, 'timestamp');
-        $nonce          = Arr::get($_GET, 'nonce');
-
-        $token  = Arr::get($this->options, 'token');
-        $arr    = array($token, $timestamp, $nonce);
-
-        sort($arr, SORT_STRING);
-
-        $signature = implode($arr);
-        $signature = sha1($signature);
-
-        return $signature === $inputSignature;
+        # code...
     }
 }
