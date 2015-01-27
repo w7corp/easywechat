@@ -9,6 +9,8 @@ class Server {
 
     protected $options   = array();
     protected $listeners = array();
+    protected $request   = array();
+    protected static $instance  = null;
 
     public function __construct()
     {
@@ -44,23 +46,11 @@ class Server {
     /**
      * 应答微信的验证请求
      *
-     * @param boolean $return 是否返回echostr,默认直接输出
-     *
      * @return void|string
      */
-    public function validation($return = false)
+    public function validation()
     {
-        if (!$this->checkSignature()) {
-            return false;
-        }
-
-        $msg = Arr::get($_GET, 'echostr');
-
-        if ($return) {
-            return $msg;
-        }
-
-        exit($msg);
+        return $this->request->echostr;
     }
 
     /**
@@ -72,6 +62,31 @@ class Server {
      */
     public function run($options)
     {
-        # code...
+        $this->request = new Bag($_REQUEST);
+
+        if (!$this->checkSignature()) {
+            throw new Exception("Bad Request", 400);
+        }
+
+        //TODO
+    }
+
+    /**
+     * 处理静态访问
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __callStatic($method, $args)
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+
+        if (is_callable(static::$instance, $method)) {
+            return call_user_func_array(array(static::$instance, $method), $args);
+        }
     }
 }
