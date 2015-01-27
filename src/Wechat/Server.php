@@ -1,5 +1,6 @@
 <?php namespace Overtrue\Wechat;
 
+use Exception;
 use Overtrue\Wechat\Util\Bag;
 use Overtrue\Wechat\Trait\Loggable;
 
@@ -44,16 +45,6 @@ class Server {
     }
 
     /**
-     * 应答微信的验证请求
-     *
-     * @return void|string
-     */
-    public function validation()
-    {
-        return $this->request->echostr;
-    }
-
-    /**
      * 开始运行
      *
      * @param array $options
@@ -68,7 +59,31 @@ class Server {
             throw new Exception("Bad Request", 400);
         }
 
-        //TODO
+        return $this->handleRequest();
+    }
+
+    /**
+     * 应答微信的验证请求
+     *
+     * @return void|string
+     */
+    protected function validation()
+    {
+        return $this->request->echostr;
+    }
+
+    /**
+     * 处理微信的请求
+     *
+     * @return string
+     */
+    protected function handleRequest()
+    {
+        if ($this->request->has('echostr')) {
+            return $this->validation();
+        }
+
+        //TODO:其它
     }
 
     /**
