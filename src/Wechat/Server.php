@@ -6,8 +6,6 @@ class Server {
 
     use Loggable;
 
-    protected $appId;
-    protected $securityMode;
     protected $options   = array();
     protected $listeners = array();
 
