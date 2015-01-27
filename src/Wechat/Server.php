@@ -3,15 +3,15 @@
 use Exception;
 use Overtrue\Wechat\Util\Bag;
 use Overtrue\Wechat\Trait\Loggable;
+use Overtrue\Wechat\Trait\StaticCallable;
 
 class Server {
 
-    use Loggable;
+    use Loggable, StaticCallable;
 
-    protected $options   = array();
-    protected $listeners = array();
-    protected $request   = array();
-    protected static $instance  = null;
+    protected $request;
+    protected $options;
+    protected $listeners;
 
     public function __construct()
     {
@@ -53,6 +53,7 @@ class Server {
      */
     public function run($options)
     {
+        $this->options = new Bag($options);
         $this->request = new Bag($_REQUEST);
 
         if (!$this->checkSignature()) {
@@ -73,6 +74,24 @@ class Server {
     }
 
     /**
+     * 检查微信签名有效性
+     */
+    protected function checkSignature()
+    {
+        $input = array(
+                $this->options->token,
+                $this->request->timestamp,
+                $this->request->nonce,
+              );
+
+        sort($input, SORT_STRING);
+
+        $signature = sha1(implode($input));
+
+        return $signature === $inputSignature;
+    }
+
+    /**
      * 处理微信的请求
      *
      * @return string
@@ -84,24 +103,5 @@ class Server {
         }
 
         //TODO:其它
-    }
-
-    /**
-     * 处理静态访问
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public function __callStatic($method, $args)
-    {
-        if (is_null(static::$instance)) {
-            static::$instance = new static;
-        }
-
-        if (is_callable(static::$instance, $method)) {
-            return call_user_func_array(array(static::$instance, $method), $args);
-        }
     }
 }
