@@ -1,5 +1,6 @@
 <?php namespace Overtrue\Wechat;
 
+use Overtrue\Wechat\Util\Bag;
 use Overtrue\Wechat\Trait\Loggable;
 
 class Server {
