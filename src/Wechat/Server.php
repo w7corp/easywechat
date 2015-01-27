@@ -41,8 +41,42 @@ class Server {
         Arr::add($this->listeners, $event, $function);
     }
 
-    public function authorize(callback $callback)
+    /**
+     * 应答微信的验证请求
+     *
+     * @param boolean $return 是否返回echostr,默认直接输出
+     *
+     * @return void|string
+     */
+    public function validation($return = false)
     {
-        # code...
+        if ($this->checkSignature()) {
+            $msg = Arr::get($_GET, 'echostr');
+            if ($return) {
+                return $msg;
+            }
+
+            exit($msg);
+        }
+    }
+
+    /**
+     * 检查签名有效性
+     */
+    public function checkSignature()
+    {
+        $inputSignature = $_GET["signature"];
+        $timestamp      = $_GET["timestamp"];
+        $nonce          = $_GET["nonce"];
+
+        $token  = Arr::get($this->options, 'token');
+        $arr    = array($token, $timestamp, $nonce);
+
+        sort($arr, SORT_STRING);
+
+        $signature = implode($arr);
+        $signature = sha1($signature);
+
+        return $signature === $inputSignature;
     }
 }
