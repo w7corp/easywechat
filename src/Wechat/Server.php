@@ -88,7 +88,7 @@ class Server {
         if (is_array($response)) {
             $response['ToUserName']   = $this->post->FromUserName;
             $response['FromUserName'] = $this->post->ToUserName;
-error_log(json_encode($response));
+
             $xml = XML::build($response);
 
             header('content-type:text/xml');
@@ -148,7 +148,7 @@ error_log(json_encode($response));
                             $this->request->nonce, $this->request->timestamp, $xmlInput);
         }
 
-        return array_merge($_POST, $input);
+        return array_merge($_POST, (array) $input);
     }
 
     /**
