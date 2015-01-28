@@ -1,6 +1,5 @@
-<?php namespace Overtrue\Wechat\Util;
+<?php namespace Overtrue\Wechat\Utils;
 
-use XML;
 use Exception;
 use Crypt\PKCS7;
 

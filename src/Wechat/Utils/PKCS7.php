@@ -1,4 +1,4 @@
-<?php namespace Overtrue\Wechat\Util\Crypt;
+<?php namespace Overtrue\Wechat\Utils;
 
 class PKCS7 {
 

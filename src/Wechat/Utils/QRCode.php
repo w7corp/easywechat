@@ -1,4 +1,4 @@
-<?php namespace Overtrue\Wechat\Util;
+<?php namespace Overtrue\Wechat\Utils;
 
 class QRCode {
 

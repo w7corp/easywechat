@@ -1,8 +1,8 @@
-<?php
+<?php namespace Overtrue\Wechat\Utils;
 /**
  * Bag.php
  *
- * (c) 2014 overtrue <anzhengchao@gmail.com>
+ * (c) 2015 overtrue <anzhengchao@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,7 +12,6 @@
  * @url    http://overtrue.me
  * @date   2014-10-29T22:37:10
  */
-namespace Overtrue\Wechat\Util;
 
 use Closure;
 use Countable;
