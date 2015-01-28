@@ -86,7 +86,18 @@ class Server {
     protected function buildResponse($response)
     {
         if (is_array($response)) {
-            return XML::build($response);
+            $response['ToUserName']   = $this->post->FromUserName;
+            $response['FromUserName'] = $this->post->ToUserName;
+error_log(json_encode($response));
+            $xml = XML::build($response);
+
+            header('content-type:text/xml');
+
+            if ($this->security) {
+                return $this->getCryptor()->encryptMsg($xml);
+            }
+
+            return $xml;
         }
 
         return strval($response);
@@ -133,14 +144,22 @@ class Server {
         if ($this->request->encrypt_type == 'aes') {
             $this->security = true;
 
-            $cryptor = Crypt::make($this->options->app_id,
-                                $this->options->AESKey, $this->options->token);
-
-            $input = $cryptor->decryptMsg($this->request->msg_signature,
+            $input = $this->getCryptor()->decryptMsg($this->request->msg_signature,
                             $this->request->nonce, $this->request->timestamp, $xmlInput);
         }
 
         return array_merge($_POST, $input);
+    }
+
+    /**
+     * 获取加密器
+     *
+     * @return Crypt
+     */
+    protected function getCryptor()
+    {
+        return Crypt::make($this->options->app_id,
+                                $this->options->AESKey, $this->options->token);
     }
 
     /**
@@ -204,7 +223,6 @@ class Server {
         }
 
         foreach ($handlers as $handler) {
-
             if (!is_callable($handler)) {
                 continue;
             }

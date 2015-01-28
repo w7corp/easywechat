@@ -45,27 +45,28 @@ class Crypt {
      *    <li>将消息密文和安全签名打包成xml格式</li>
      * </ol>
      *
-     * @param string  $reply        公众平台待回复用户的消息，xml格式的字符串
+     * @param string  $xml          公众平台待回复用户的消息，xml格式的字符串
      * @param integer $timestamp    时间戳，可以自己生成，也可以用URL参数的timestamp
      * @param string  $nonce        随机串，可以自己生成，也可以用URL参数的nonce
      *
      * @return string 加密后的可以直接回复用户的密文，包括msg_signature, timestamp,
      *                nonce, encrypt的xml格式的字符串,当return返回0时有效
      */
-    public function encryptMsg($reply, $nonce, $timestamp = null)
+    public function encryptMsg($xml, $nonce = null, $timestamp = null)
     {
-        $encrypt = $this->encrypt($reply, $this->appId);
+        $encrypt = $this->encrypt($xml, $this->appId);
 
+        $nonce || $nonce = uniqid();
         $timestamp || $timestamp = time();
 
         //生成安全签名
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypt);
 
         $response = array(
+            'Encrypt'      => $encrypt,
             'MsgSignature' => $signature,
             'TimeStamp'    => $timestamp,
             'Nonce'        => $nonce,
-            'Encrypt'      => $encrypt,
         );
 
         //生成响应xml
