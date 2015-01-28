@@ -1,7 +1,5 @@
 <?php namespace Overtrue\Wechat\Utils;
 
-use SimpleXMLElement;
-
 class XML {
 
     /**
