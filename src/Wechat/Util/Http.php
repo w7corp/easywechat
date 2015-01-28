@@ -31,6 +31,8 @@ class Http
      * @var string
      */
     protected static $userAgent = 'PHP Http Client';
+
+
     /**
      * 发起一个HTTP/HTTPS的请求
      *
@@ -104,6 +106,7 @@ class Http
         curl_close ($ci);
         return $response;
     }
+
     /**
      * set user agent
      *
@@ -113,6 +116,7 @@ class Http
     {
         self::$userAgent = $userAgent;
     }
+
     /**
      * static call
      *
@@ -132,5 +136,4 @@ class Http
         array_unshift($args, $method);
         return call_user_func_array(array(__CLASS__, 'request'), $args);
     }
-}
 }
