@@ -24,18 +24,11 @@ $options = [
     'AESKey' => 'YOUR AESKey' // optional
 ];
 
-$server = new Server($options);
-$server->setSecurityMode(Server::SEC_MODE_PLAIN_TEXT); //设置加解密方式
+$server = Server::make($options);
+$result = $server->run(); 
 
-```
-
-#### 微信的服务器验证
-```php
-$server->validation(); // 直接输出
-```
-如果你不想直接输出而是交给你的框架处理：
-```php
-$echoStr = $server->validation(true); // 把$_GET['echostr']返回
+// 返回值$result为字符串，您可以直接用于echo 或者返回给框架
+echo $result;
 ```
 
 ### 客户端
