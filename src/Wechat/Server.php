@@ -132,8 +132,10 @@ class Server {
 
         if ($this->request->encrypt_type == 'aes') {
             $this->security = true;
+
             $cryptor = Crypt::make($this->options->app_id,
                                 $this->options->AESKey, $this->options->token);
+
             $input = $cryptor->decryptMsg($this->request->msg_signature,
                             $this->request->nonce, $this->request->timestamp, $xmlInput);
         }
@@ -168,7 +170,7 @@ class Server {
      *
      * @return mixed
      */
-    public function handleMessage($message)
+    protected function handleMessage($message)
     {
         return $this->call("message.{$message['MsgType']}", [$message]);
     }
@@ -180,7 +182,7 @@ class Server {
      *
      * @return mixed
      */
-    public function handleEvent($event)
+    protected function handleEvent($event)
     {
         return $this->call("event.{$event['Event']}", [$event]);
     }
@@ -193,7 +195,7 @@ class Server {
      *
      * @return mixed
      */
-    public function call($key, $args)
+    protected function call($key, $args)
     {
         $handlers = (array) $this->listeners[$key];
 
