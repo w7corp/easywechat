@@ -2,20 +2,29 @@
 
 use Exception;
 use Overtrue\Wechat\Util\Bag;
-use Overtrue\Wechat\Trait\Loggable;
-use Overtrue\Wechat\Trait\StaticCallable;
+use Overtrue\Wechat\Traits\Loggable;
+use Overtrue\Wechat\Traits\Instanceable;
 
 class Server {
 
-    use Loggable, StaticCallable;
+    use Loggable, Instanceable;
 
     protected $request;
     protected $options;
     protected $listeners;
 
-    public function __construct()
+    /**
+     * 初始化参数
+     *
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public function instance($options)
     {
         $this->listeners = new Bag;
+        $this->options   = new Bag($options);
+        $this->request   = new Bag($_REQUEST);
     }
 
     /**
@@ -51,11 +60,8 @@ class Server {
      *
      * @return mixed
      */
-    public function run($options)
+    public function run()
     {
-        $this->options = new Bag($options);
-        $this->request = new Bag($_REQUEST);
-
         if (!$this->checkSignature()) {
             throw new Exception("Bad Request", 400);
         }

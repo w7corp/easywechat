@@ -1,4 +1,4 @@
-<?php namespace Overtrue\Wechat\Trait;
+<?php namespace Overtrue\Wechat\Traits;
 
 trait Loggable {
 
@@ -31,6 +31,8 @@ trait Loggable {
      */
     public function log($string)
     {
-        is_null($this->logger) || {$this->logger}($string);
+        if ($this->logger) {
+            return call_user_func_array($this->logger, array($string));
+        }
     }
 }

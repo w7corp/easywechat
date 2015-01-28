@@ -1,23 +1,23 @@
 <?php namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Util\Bag;
-use Overtrue\Wechat\Trait\Loggable;
-use Overtrue\Wechat\Trait\StaticCallable;
+use Overtrue\Wechat\Traits\Loggable;
+use Overtrue\Wechat\Traits\Instanceable;
 
 class Client {
 
-    use Loggable, StaticCallable;
+    use Loggable, Instanceable;
 
     protected $options = array();
 
     /**
-     * 开始运行
+     * 初始化参数
      *
      * @param array $options
      *
      * @return mixed
      */
-    public function run($options)
+    public function instance($options)
     {
         $this->options = new Bag($options);
     }
