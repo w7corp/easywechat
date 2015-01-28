@@ -8,7 +8,8 @@ class Client {
 
     use Loggable, Instanceable;
 
-    protected $options = array();
+    protected $options;
+    protected $errorHandler;
 
     /**
      * 初始化参数
@@ -20,5 +21,17 @@ class Client {
     public function instance($options)
     {
         $this->options = new Bag($options);
+    }
+
+    /**
+     * 错误处理器
+     *
+     * @param callback $handler
+     *
+     * @return void
+     */
+    public function error(callback $handler)
+    {
+        $this->errorHandler = $handler;
     }
 }
