@@ -63,30 +63,39 @@ class XML {
             $attr = implode(' ', $_attr);
         }
 
-        function data2Xml($data, $item = 'item', $id = 'id')
-        {
-            $xml = $attr = '';
-
-            foreach ($data as $key => $val) {
-                if (is_numeric($key)) {
-                    $id && $attr = " {$id}=\"{$key}\"";
-                    $key  = $item;
-                }
-                $xml .=  "<{$key}{$attr}>";
-                $xml .=  (is_array($val) || is_object($val))
-                        ? data2Xml($val, $item, $id) : is_numeric($val) ? $val : static::cdata($val);
-                $xml .=  "</{$key}>";
-            }
-
-            return $xml;
-        }
-
         $attr   = trim($attr);
         $attr   = empty($attr) ? '' : " {$attr}";
         $xml    = "<?xml version=\"1.0\" encoding=\"{$encoding}\"?>";
         $xml   .= "<{$root}{$attr}>";
-        $xml   .= data2Xml($data, $item, $id);
+        $xml   .= static::data2Xml($data, $item, $id);
         $xml   .= "</{$root}>";
+
+        return $xml;
+    }
+
+    /**
+     * 转换数组为xml
+     *
+     * @param array  $data
+     * @param string $item
+     * @param string $id
+     *
+     * @return [type] [description]
+     */
+    static private function data2Xml($data, $item = 'item', $id = 'id')
+    {
+        $xml = $attr = '';
+
+        foreach ($data as $key => $val) {
+            if (is_numeric($key)) {
+                $id && $attr = " {$id}=\"{$key}\"";
+                $key  = $item;
+            }
+            $xml .=  "<{$key}{$attr}>";
+            $xml .=  (is_array($val) || is_object($val))
+                    ? static::data2Xml($val, $item, $id) : (is_numeric($val) ? $val : static::cdata($val));
+            $xml .=  "</{$key}>";
+        }
 
         return $xml;
     }
