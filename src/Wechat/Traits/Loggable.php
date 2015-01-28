@@ -17,9 +17,9 @@ trait Loggable {
      *
      * @return
      */
-    public function logger(callback $logger)
+    public function logger($logger)
     {
-        $this->logger = $logger;
+        !is_callable($logger) || $this->logger = $logger;
     }
 
     /**

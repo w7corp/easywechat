@@ -1,6 +1,6 @@
 <?php namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Util\Bag;
+use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Traits\Loggable;
 use Overtrue\Wechat\Traits\Instanceable;
 
@@ -30,8 +30,8 @@ class Client {
      *
      * @return void
      */
-    public function error(callback $handler)
+    public function error($handler)
     {
-        $this->errorHandler = $handler;
+        !is_callable($handler) || $this->errorHandler = $handler;
     }
 }
