@@ -34,9 +34,13 @@ echo $result;
 #### 接收消息
 
 语法 ：
+
+```php
 $server->message('消息类型', function($message){
     // $message 为微信请求过来的xml转换后的数组
 });
+
+```
 
 sample:
 ```php
@@ -59,9 +63,13 @@ $server->run();
 #### 监听事件
 
 语法：
+
+```php
 $server->event('事件类型', function($event){
     // $event 为微信请求过来的xml转换后的数组
 });
+
+```
 
 sample:
 
