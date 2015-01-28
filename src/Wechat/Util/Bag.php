@@ -21,7 +21,6 @@ use Serializable;
 use ArrayIterator;
 use JsonSerializable;
 use IteratorAggregate;
-use Rester\Helper\Arr;
 
 class Bag implements
     ArrayAccess,
