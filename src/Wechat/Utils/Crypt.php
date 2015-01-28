@@ -24,11 +24,11 @@ class Crypt {
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    public function instance($appId, $AESKey, $token = '')
+    public function instance($appId, $encodingAESKey, $token = '')
     {
         $this->appId          = $appId;
-        $this->AESKey         = $AESKey;
-        $this->encodingAESKey = base64_decode($AESKey . '=');
+        $this->encodingAESKey = $encodingAESKey;
+        $this->AESKey         = base64_decode($encodingAESKey . '=');
         $this->token          = $token;
 
         set_exception_handler(function($e){
@@ -92,7 +92,7 @@ class Crypt {
      */
     public function decryptMsg($msgSignature, $nonce, $timestamp, $postXML)
     {
-        if (strlen($this->AESKey) != 43) {
+        if (strlen($this->encodingAESKey) != 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
@@ -132,12 +132,12 @@ class Crypt {
             // 网络字节序
             $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
             $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv     = substr($this->encodingAESKey, 0, 16);
+            $iv     = substr($this->AESKey, 0, 16);
 
             //使用自定义的填充方式对明文进行补位填充
             $text   = PKCS7::encode($text);
 
-            mcrypt_generic_init($module, $this->encodingAESKey, $iv);
+            mcrypt_generic_init($module, $this->AESKey, $iv);
 
             //加密
             $encrypted = mcrypt_generic($module, $text);
@@ -165,9 +165,9 @@ class Crypt {
             //使用BASE64对需要解密的字符串进行解码
             $ciphertext = base64_decode($encrypted);
             $module     = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv         = substr($this->encodingAESKey, 0, 16);
+            $iv         = substr($this->AESKey, 0, 16);
 
-            mcrypt_generic_init($module, $this->encodingAESKey, $iv);
+            mcrypt_generic_init($module, $this->AESKey, $iv);
 
             //解密
             $decrypted = mdecrypt_generic($module, $ciphertext);

@@ -94,7 +94,7 @@ class Server {
             header('content-type:text/xml');
 
             if ($this->security) {
-                return $this->getCryptor()->encryptMsg($xml);
+                return $this->getCryptor()->encryptMsg($xml, $this->request->nonce, $this->request->timestamp);
             }
 
             return $xml;
@@ -159,7 +159,7 @@ class Server {
     protected function getCryptor()
     {
         return Crypt::make($this->options->app_id,
-                                $this->options->AESKey, $this->options->token);
+                                $this->options->encodingAESKey, $this->options->token);
     }
 
     /**

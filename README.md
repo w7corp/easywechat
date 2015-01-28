@@ -19,9 +19,9 @@ composer require overtrue/wechat
 use Overtrue\Wechat\Server;
 
 $options = [
-    'app_id' => 'YOUR APP ID',
-    'token'  => 'YOUR TOKEN',
-    'AESKey' => 'YOUR AESKey' // optional
+    'app_id'         => 'YOUR APP ID',
+    'token'          => 'YOUR TOKEN',
+    'encodingAESKey' => 'YOUR AESKey' 
 ];
 
 $server = Server::make($options);
