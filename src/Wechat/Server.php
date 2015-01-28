@@ -3,6 +3,7 @@
 use Exception;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
+use Overtrue\Wechat\Utils\Crypt;
 use Overtrue\Wechat\Traits\Loggable;
 use Overtrue\Wechat\Traits\Instanceable;
 
@@ -14,6 +15,7 @@ class Server {
     protected $request;
     protected $options;
     protected $listeners;
+    protected $security = false;
 
     /**
      * 初始化参数
@@ -69,7 +71,25 @@ class Server {
             throw new Exception("Bad Request", 400);
         }
 
-        return $this->handleRequest();
+        $response = $this->handleRequest();
+
+        return $this->buildResponse($response);
+    }
+
+    /**
+     * 生成回复内容
+     *
+     * @param mixed $response
+     *
+     * @return string
+     */
+    protected function buildResponse($response)
+    {
+        if (is_array($response)) {
+            return XML::build($response);
+        }
+
+        return strval($response);
     }
 
     /**
@@ -108,7 +128,17 @@ class Server {
         $xmlInput = !empty($GLOBALS["HTTP_RAW_POST_DATA"])
                 ? $GLOBALS["HTTP_RAW_POST_DATA"] : file_get_contents("php://input");
 
-        return array_merge($_POST, XML::parse($xmlInput));
+        $input = XML::parse($xmlInput);
+
+        if (!empty($input['Encrypt']) && empty($input['MsgId'])) {
+            $this->security = true;
+            $cryptor = Crypt::make($this->options->app_id,
+                                $this->options->AESKey, $this->options->tpken);
+            $input = $cryptor->decryptMsg($this->request->msg_signature,
+                            $this->request->nonce, $this->request->timestamp, $xmlInput);
+        }
+
+        return array_merge($_POST, $input);
     }
 
     /**
