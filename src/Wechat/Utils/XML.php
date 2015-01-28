@@ -26,14 +26,7 @@ class XML {
         $data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
 
         if (is_object($data) && get_class($data) == 'SimpleXMLElement') {
-            $data = (array) $data;
-
-            array_walk_recursive($data, function($item)
-            {
-                if (is_object($item) && get_class($item) != 'SimpleXMLElement') {
-                    $item = (array) $item;
-                }
-            });
+            $data = static::arrarval($data);
         }
 
         return $data;
@@ -71,6 +64,28 @@ class XML {
         $xml   .= "</{$root}>";
 
         return $xml;
+    }
+
+    /**
+     * 把对象转换成数组
+     *
+     * @param string $data
+     *
+     * @return array
+     */
+    static private function arrarval($data)
+    {
+        if (is_object($data) && get_class($data) == 'SimpleXMLElement') {
+            $data = (array) $data;
+        }
+
+        if (is_array($data)) {
+            foreach ($data as $index => $value) {
+                $data[$index] = static::arrarval($value);
+            }
+        }
+
+        return $data;
     }
 
     /**
