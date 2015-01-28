@@ -1,13 +1,16 @@
 <?php namespace Overtrue\Wechat\Utils;
 
 use Exception;
-use Crypt\PKCS7;
+use Overtrue\Wechat\Traits\Instanceable;
 
 class Crypt {
+
+    use Instanceable;
 
     protected $appId;
     protected $AESKey;
     protected $token;
+    protected $encodingAESKey;
 
     const ERROR_INVALID_SIGNATURE = -40001; // 校验签名失败
     const ERROR_PARSE_XML         = -40002; // 解析xml失败
@@ -21,15 +24,16 @@ class Crypt {
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    public function _construct($appId, $AESKey, $token = '')
+    public function instance($appId, $AESKey, $token = '')
     {
-        $this->appId  = $appId;
-        $this->AESKey = $AESKey;
-        $this->token  = $token;
+        $this->appId          = $appId;
+        $this->AESKey         = $AESKey;
+        $this->encodingAESKey = base64_decode($AESKey . '=');
+        $this->token          = $token;
 
         set_exception_handler(function($e){
-            error_log($this->errors[$e->getCode()]);
-            exit($e->getCode);
+            error_log($e->getCode());
+            return $e->getCode();
         });
     }
 
@@ -80,37 +84,34 @@ class Crypt {
      * @param string $msgSignature  签名串，对应URL参数的msg_signature
      * @param string $timestamp     时间戳 对应URL参数的timestamp
      * @param string $nonce         随机串，对应URL参数的nonce
-     * @param string $postXML          密文，对应POST请求的数据
+     * @param string $postXML       密文，对应POST请求的数据
      * @param string &$msg          解密后的原文，当return返回0时有效
      *
-     * @return int 成功0，失败返回对应的错误码
+     * @return array
      */
-    private function decryptMsg($msgSignature, $nonce, $postXML, $timestamp = null)
+    public function decryptMsg($msgSignature, $nonce, $timestamp, $postXML)
     {
-        if (strlen($this->aesKey) != 43) {
+        if (strlen($this->AESKey) != 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
         //提取密文
-        $array = $this->extract($postXML);
+        $array = XML::parse($postXML);
 
         if (empty($array)) {
             throw new Exception('Invalid xml.', self::ERROR_PARSE_XML);
         }
 
-        $timestamp || $timestamp = time();
-
         $encrypted  = $array['Encrypt'];
-        $toUserName = $array['ToUserName'];
 
         //验证安全签名
-        $signature = $this->getSHA1($this->token, $this->timestamp, $nonce, $encrypted);
+        $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypted);
 
         if ($signature != $msgSignature) {
-            $this->expception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
+            throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        return $this->decrypt($encrypted, $this->appId);;
+        return XML::parse($this->decrypt($encrypted, $this->appId));
     }
 
     /**
@@ -130,12 +131,12 @@ class Crypt {
             // 网络字节序
             $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
             $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv     = substr($this->AESKey, 0, 16);
+            $iv     = substr($this->encodingAESKey, 0, 16);
 
             //使用自定义的填充方式对明文进行补位填充
-            $text   = $this->encode($text);
+            $text   = PKCS7::encode($text);
 
-            mcrypt_generic_init($module, $this->AESKey, $iv);
+            mcrypt_generic_init($module, $this->encodingAESKey, $iv);
 
             //加密
             $encrypted = mcrypt_generic($module, $text);
@@ -161,14 +162,14 @@ class Crypt {
     {
         try {
             //使用BASE64对需要解密的字符串进行解码
-            $ciphertext_dec = base64_decode($encrypted);
-            $module         = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv             = substr($this->AESKey, 0, 16);
+            $ciphertext = base64_decode($encrypted);
+            $module     = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
+            $iv         = substr($this->encodingAESKey, 0, 16);
 
-            mcrypt_generic_init($module, $this->AESKey, $iv);
+            mcrypt_generic_init($module, $this->encodingAESKey, $iv);
 
             //解密
-            $decrypted = mdecrypt_generic($module, $ciphertext_dec);
+            $decrypted = mdecrypt_generic($module, $ciphertext);
             mcrypt_generic_deinit($module);
             mcrypt_module_close($module);
         } catch (Exception $e) {
@@ -177,7 +178,7 @@ class Crypt {
 
         try {
             //去除补位字符
-            $result = $this->decode($decrypted);
+            $result = PKCS7::decode($decrypted);
 
             //去除16位随机字符串,网络字节序和AppId
             if (strlen($result) < 16) {

@@ -37,15 +37,15 @@ class PKCS7 {
      *
      * @return string 删除填充补位后的明文
      */
-    static public decode($decrypted)
+    static public function decode($decrypted)
     {
-        $pad = ord(substr($text, -1));
+        $pad = ord(substr($decrypted, -1));
 
         if ($pad < 1 || $pad > self::$blockSize) {
             $pad = 0;
         }
 
-        return substr($text, 0, (strlen($text) - $pad));
+        return substr($decrypted, 0, (strlen($decrypted) - $pad));
     }
 
     /**

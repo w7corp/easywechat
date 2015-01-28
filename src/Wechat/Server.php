@@ -130,10 +130,10 @@ class Server {
 
         $input = XML::parse($xmlInput);
 
-        if (!empty($input['Encrypt']) && empty($input['MsgId'])) {
+        if ($this->request->encrypt_type == 'aes') {
             $this->security = true;
             $cryptor = Crypt::make($this->options->app_id,
-                                $this->options->AESKey, $this->options->tpken);
+                                $this->options->AESKey, $this->options->token);
             $input = $cryptor->decryptMsg($this->request->msg_signature,
                             $this->request->nonce, $this->request->timestamp, $xmlInput);
         }
