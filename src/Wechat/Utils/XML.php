@@ -1,17 +1,7 @@
 <?php namespace Overtrue\Wechat\Utils;
 
 class XML {
-    /**
-     * 生成<![CDATA[%s]]>
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    static public function cdata($string)
-    {
-        return sprintf('<![CDATA[%s]]>', $string);
-    }
+
 
     /**
      * XML 转换为数组
@@ -64,6 +54,18 @@ class XML {
         $xml   .= "</{$root}>";
 
         return $xml;
+    }
+
+    /**
+     * 生成<![CDATA[%s]]>
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    static public function cdata($string)
+    {
+        return sprintf('<![CDATA[%s]]>', $string);
     }
 
     /**
