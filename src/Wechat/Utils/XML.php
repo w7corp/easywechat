@@ -80,7 +80,7 @@ class XML {
      * @param string $item
      * @param string $id
      *
-     * @return [type] [description]
+     * @return string
      */
     static private function data2Xml($data, $item = 'item', $id = 'id')
     {
@@ -91,6 +91,7 @@ class XML {
                 $id && $attr = " {$id}=\"{$key}\"";
                 $key  = $item;
             }
+
             $xml .=  "<{$key}{$attr}>";
             $xml .=  (is_array($val) || is_object($val))
                     ? static::data2Xml($val, $item, $id) : (is_numeric($val) ? $val : static::cdata($val));
