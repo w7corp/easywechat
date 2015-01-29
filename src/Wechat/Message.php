@@ -5,6 +5,9 @@ use InvalidArgumentException;
 
 class Message {
 
+    /**
+     * 消息类型
+     */
     const TEXT  = 'text';
     const IMAGE = 'image';
     const VOICE = 'voice';
@@ -12,7 +15,39 @@ class Message {
     const MUSIC = 'music';
     const NEWS  = 'news';
 
+    /**
+     * 消息属性
+     *
+     * @var array
+     */
     protected $attributes = array();
+
+
+    /**
+     * constructor
+     *
+     * @param string $type
+     */
+    public function __construct($type)
+    {
+        $this->attributes['MsgType'] = $type;
+    }
+
+    /**
+     * 创建消息实例
+     *
+     * @param string $type
+     *
+     * @return Overtrue\Wechat\Message
+     */
+    static public function make($type)
+    {
+        if (!defined(__CLASS__ . '::' . strtoupper($type)) {
+            throw new InvalidArgumentException("Error Message Type '{$type}'");
+        }
+
+        return new static(strtolower($type));
+    }
 
     /**
      * 添加图文消息内容
