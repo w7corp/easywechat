@@ -1,6 +1,5 @@
 <?php namespace Overtrue\Wechat\Utils;
 
-use CURLFile;
 use Exception;
 
 /**
@@ -61,6 +60,14 @@ class Http
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ci, CURLOPT_HEADER, false);
 
+        if (!function_exists('curl_file_create')) {
+            function curl_file_create($filename, $mimetype = '', $postname = '') {
+                return "@$filename;filename="
+                    . ($postname ?: basename($filename))
+                    . ($mimetype ? ";type=$mimetype" : '');
+            }
+        }
+
         switch ($method) {
             case 'PUT':
             case 'POST':
@@ -70,9 +77,11 @@ class Http
                 curl_setopt($ci, CURLOPT_POST, true);
 
                 if (!empty($files)) {
+
                     foreach($files as $index => $file) {
-                        $params[$index] = new CURLFile($file);
+                        $params[$index] = curl_file_create($file);
                     }
+
                     if (phpversion() > '5.5') {
                         curl_setopt($ci, CURLOPT_SAFE_UPLOAD, false);
                     }
