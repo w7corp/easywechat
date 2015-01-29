@@ -21,7 +21,23 @@ class Media {
      */
     static public function upload($type, $path)
     {
-        # TODO:返回media id
+        $access_token = Client::getAccessToken();
+        $url = Client::makeUrl('file.upload');
+        $params = array(
+            'access_token' => $access_token,
+            'type' => $type,
+        );
+        $files = array(
+            'media' => $path,
+        );
+
+        $contents = Client::post($url, $params, $files);
+        if(!is_null($contents['media_id'])){
+
+            return $contents['media_id'];
+        }
+
+        return NULL;
     }
 
     /**
@@ -35,6 +51,21 @@ class Media {
     static public function download($mediaId, $filename = '')
     {
         # TODO: 如果filename存在写入文件，否则直接输出
+        $access_token = Client::getAccessToken();
+        $url = Client::makeUrl('file.download');
+        $params = array(
+            'access_token' => $access_token;
+            'media_id' => $mediaId,
+        );
+
+        $contents = Client::get($url, $params);
+
+        if(is_null($filename)){
+
+            return $contents;
+        }
+
+        return file_put_contents($filename, $contents);
     }
 
     /**
