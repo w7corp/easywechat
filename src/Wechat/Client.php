@@ -11,7 +11,38 @@ class Client {
     /**
      * 缓存寿命
      */
-    const CACHE_LIFETIME = 2 * 3600; // 2h
+    const CACHE_LIFETIME  = 2 * 3600; // 2h
+
+    protected $apis = array(
+            'token.get'           => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'token.refresh'       => 'https://api.weixin.qq.com/sns/oauth2/refresh_token',
+
+            'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize'
+
+            'media.upload'        => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'media.get'           => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
+
+            'menu.create'         => 'https://api.weixin.qq.com/cgi-bin/menu/create',
+            'menu.get'            => 'https://api.weixin.qq.com/cgi-bin/menu/get',
+            'menu.delete'         => 'https://api.weixin.qq.com/cgi-bin/menu/delete',
+
+            'message.send'        => 'https://api.weixin.qq.com/cgi-bin/message/custom/send',
+
+            'group.create'        => 'https://api.weixin.qq.com/cgi-bin/groups/create',
+            'group.update'        => 'https://api.weixin.qq.com/cgi-bin/groups/update',
+            'group.get'           => 'https://api.weixin.qq.com/cgi-bin/groups/get',
+            'group.member.update' => 'https://api.weixin.qq.com/cgi-bin/groups/members/update',
+
+            'user.group'          => 'https://api.weixin.qq.com/cgi-bin/groups/getid',
+            'user.detail'         => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'user.get'            => 'https://api.weixin.qq.com/cgi-bin/user/get',
+            'user.oauth.get'      => 'https://api.weixin.qq.com/sns/userinfo',
+
+            'qrcode.create'       => 'https://mp.weixin.qq.com/cgi-bin/qrcode/create',
+            'qrcode.show'         => 'https://mp.weixin.qq.com/cgi-bin/showqrcode',
+
+            'template.set'        => '/cgi-bin/template/api_set_industry',
+        );
 
     /**
      * 设置
@@ -118,6 +149,29 @@ class Client {
         $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
 
         return call_user_func_array($handler, func_get_args());
+    }
+
+    /**
+     * 获取access_token
+     *
+     * @return string
+     */
+    protected function getAccessToken()
+    {
+        //TODO:获取accesstoken
+    }
+
+    /**
+     * 生成url
+     *
+     * @param string $name    api名称
+     * @param array  $queries 查询
+     *
+     * @return string
+     */
+    protected function makeUrl($name, $queries)
+    {
+        return $this->apis[$name] . '?' . http_build_query($queries);
     }
 
     /**
