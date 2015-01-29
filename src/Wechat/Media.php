@@ -37,7 +37,7 @@ class Media {
             return $contents['media_id'];
         }
 
-        return NULL;
+        return null;
     }
 
     /**
