@@ -20,8 +20,8 @@ class Client {
 
             'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize'
 
-            'file.upload'        => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
-            'file.get'           => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.upload'        => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.get'           => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
 
             'menu.create'         => 'https://api.weixin.qq.com/cgi-bin/menu/create',
             'menu.get'            => 'https://api.weixin.qq.com/cgi-bin/menu/get',
