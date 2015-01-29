@@ -122,17 +122,17 @@ class Message {
      */
     public function to($openId)
     {
-        # code...
+        # TODO
     }
 
     public function toGroup($groupId)
     {
-        # code...
+        # TODO
     }
 
     public function toAll()
     {
-        # code...
+        # TODO
     }
 
     public function build()
