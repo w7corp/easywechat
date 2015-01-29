@@ -67,6 +67,18 @@ class Client {
     }
 
     /**
+     * 发送消息
+     *
+     * @param Message $message
+     *
+     * @return $this
+     */
+    public function send(Message $message)
+    {
+        # code...
+    }
+
+    /**
      * 设置缓存写入器
      *
      * @param callable $handler
@@ -148,5 +160,18 @@ class Client {
     protected function getCacheFile($key)
     {
         return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($key);
+    }
+
+    /**
+     * 处理魔术调用
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+
     }
 }
