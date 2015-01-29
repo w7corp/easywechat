@@ -16,7 +16,7 @@ class Client {
     /**
      * 设置
      *
-     * @var array
+     * @var Overtrue\Wechat\Utils\Bag
      */
     protected $options;
 
