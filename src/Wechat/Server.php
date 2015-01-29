@@ -11,11 +11,41 @@ class Server {
 
     use Loggable, Instanceable;
 
+    /**
+     * POST输入
+     *
+     * @var Overtrue\Wechat\Utils\Bag
+     */
     protected $post;
-    protected $request;
+
+    /**
+     * GET输入
+     *
+     * @var Overtrue\Wechat\Utils\Bag
+     */
+    protected $query;
+
+    /**
+     * 选项
+     *
+     * @var Overtrue\Wechat\Utils\Bag
+     */
     protected $options;
+
+    /**
+     * 监听器
+     *
+     * @var Overtrue\Wechat\Utils\Bag
+     */
     protected $listeners;
+
+    /**
+     * 是否为加密模式
+     *
+     * @var boolean
+     */
     protected $security = false;
+
 
     /**
      * 初始化参数
@@ -28,7 +58,7 @@ class Server {
     {
         $this->listeners = new Bag;
         $this->options   = new Bag($options);
-        $this->request   = new Bag($_REQUEST);
+        $this->query   = new Bag($_REQUEST);
         $this->post      = new Bag($this->getPost());
     }
 
@@ -86,16 +116,22 @@ class Server {
     protected function buildResponse($response)
     {
         if (is_array($response)) {
-            $response['ToUserName']   = $this->post->FromUserName;
-            $response['FromUserName'] = $this->post->ToUserName;
+            $response  = [
+            'ToUserName'   => $this->post->FromUserName,
+            'FromUserName' => $this->post->ToUserName,
+            'CreateTime' => $this->query->timestamp,
+            'MsgType' => 'text',
+            'Content' => '您好',
+            ];
 
             $xml = XML::build($response);
 
             header('content-type:text/xml');
 
             if ($this->security) {
-                return $this->getCryptor()->encryptMsg($xml, $this->request->nonce, $this->request->timestamp);
+                return $this->getCryptor()->encryptMsg($xml, $this->query->nonce, $this->query->timestamp);
             }
+
 
             return $xml;
         }
@@ -110,7 +146,7 @@ class Server {
      */
     protected function validation()
     {
-        return $this->request->echostr;
+        return $this->query->echostr;
     }
 
     /**
@@ -120,13 +156,13 @@ class Server {
     {
         $input = array(
                 $this->options->token,
-                $this->request->timestamp,
-                $this->request->nonce,
+                $this->query->timestamp,
+                $this->query->nonce,
               );
 
         sort($input, SORT_STRING);
 
-        return sha1(implode($input)) === $this->request->signature;
+        return sha1(implode($input)) === $this->query->signature;
     }
 
     /**
@@ -141,11 +177,11 @@ class Server {
 
         $input = XML::parse($xmlInput);
 
-        if ($this->request->encrypt_type == 'aes') {
+        if ($this->query->encrypt_type == 'aes') {
             $this->security = true;
 
-            $input = $this->getCryptor()->decryptMsg($this->request->msg_signature,
-                            $this->request->nonce, $this->request->timestamp, $xmlInput);
+            $input = $this->getCryptor()->decryptMsg($this->query->msg_signature,
+                            $this->query->nonce, $this->query->timestamp, $xmlInput);
         }
 
         return array_merge($_POST, (array) $input);
@@ -169,7 +205,7 @@ class Server {
      */
     protected function handleRequest()
     {
-        if ($this->request->has('echostr')) {
+        if ($this->query->has('echostr')) {
             return $this->validation();
         }
 
