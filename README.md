@@ -86,6 +86,42 @@ $server->run();
 ```
 ### 客户端
 
+初始化
+
+```php
+<?php
+
+use Overtrue\Wechat\Client;
+
+$options = [
+    'app_id'     => 'YOUR APP ID',
+    'app_secret' => 'YOUR APP SECRET',
+];
+
+$client = Client::make($options);
+
+$client->error(function($error){
+    // handle errors...
+});
+// ...
+```
+
+#### 自定义缓存写入/读取
+
+```php
+// writer
+$client->cacheWriter(function($key, $value){
+    // cache the value.
+    return true;
+});
+
+// reader
+$client->cacheReader(function($key){
+    // return the cached value.
+    return 缓存的数据;
+});
+```
+
 ## License
 
 MIT
