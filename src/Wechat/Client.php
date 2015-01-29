@@ -63,7 +63,7 @@ class Client {
      */
     public function error($handler)
     {
-        !is_callable($handler) || $this->errorHandler = $handler;
+        is_callable($handler) && $this->errorHandler = $handler;
     }
 
     /**
@@ -75,7 +75,7 @@ class Client {
      */
     public function cacheWriter($handler)
     {
-        !is_callable($handler) || $this->cacheWriter = $handler;
+        is_callable($handler) && $this->cacheWriter = $handler;
     }
 
     /**
@@ -87,7 +87,7 @@ class Client {
      */
     public function cacheReader($handler)
     {
-        !is_callable($handler) || $this->cacheReader = $handler;
+        is_callable($handler) && $this->cacheReader = $handler;
     }
 
     /**
@@ -100,9 +100,7 @@ class Client {
      */
     protected function cache($key, $value = null)
     {
-        if ($value) {
-            $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
-        }
+        $value && $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
 
         $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
 

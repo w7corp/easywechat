@@ -58,7 +58,7 @@ class Server {
     {
         $this->listeners = new Bag;
         $this->options   = new Bag($options);
-        $this->query   = new Bag($_REQUEST);
+        $this->query     = new Bag($_REQUEST);
         $this->post      = new Bag($this->getPost());
     }
 
