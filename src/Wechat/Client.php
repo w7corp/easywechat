@@ -76,6 +76,7 @@ class Client {
     public function send(Message $message)
     {
         # code...
+        # TODO:发送消息并返回状态
     }
 
     /**
