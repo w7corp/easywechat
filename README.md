@@ -144,6 +144,7 @@ $message = new Message(Message::VIDEO);
 $message->title = '测试视频标题';
 $message->description = '这段视频看完你肯定想转的...';
 $message->video = __DIR__ . '/test.mp4';
+$message->thumb = __DIR__ . '/video_cover.jpg';//XXX: 仅群发时有用
 
 // 音乐消息
 $message = new Message(Message::MUSIC);
@@ -151,7 +152,7 @@ $message->title = '测试音乐标题';
 $message->description = '一段NB的旋律...';
 $message->url = 'http://www.baidu.com/mp3/test.mp3'; 
 $message->hq_url = 'http://www.baidu.com/mp3/test_hq.mp3'; // 高清版
-$message->cover = __DIR__ . '/music_cover.jpg';
+$message->thumb = __DIR__ . '/music_cover.jpg';
 
 // 图文消息
 $message = new Message(Message::NEWS);
@@ -161,7 +162,7 @@ $message->items = array(
     array('标题3', '描述3', __DIR__ . '/图片3.jpg', 'http://阅读全文url3'),
 );
 
-$client->sendMessage($message);
+$client->send($message);
 ```
 
 ## License

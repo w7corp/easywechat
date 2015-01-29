@@ -87,6 +87,10 @@ abstract class Abstract {
             throw new InvalidArgumentException("属性值只能为标量");
         }
 
+        if (!in_array($this->properties, $attribute)) {
+            throw new InvalidArgumentException("不存在的属性‘{$attribute}’");
+        }
+
         $this->attributes[$method] = $value;
 
         return $this;
