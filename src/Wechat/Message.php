@@ -87,7 +87,7 @@ class Message {
      * @param string $method
      * @param array  $args
      *
-     * @return void
+     * @return Overtrue\Wechat\Message
      */
     public function __call($method, $args)
     {
@@ -99,6 +99,19 @@ class Message {
 
         $this->attributes[$method] = $value;
 
+        return $this;
+    }
+
+    /**
+     * 设置发送者
+     *
+     * @param string $account
+     *
+     * @return Overtrue\Wechat\Message
+     */
+    public function from($account)
+    {
+        //TODO:
         return $this;
     }
 
