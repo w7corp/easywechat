@@ -45,10 +45,6 @@ class Media {
      */
     static public function download($mediaId, $filename = '')
     {
-<<<<<<< HEAD
-        # TODO: 如果filename存在写入文件，否则直接输出
-=======
->>>>>>> 65ffcd8b26a94506f082b727c53c7a92bccd0f81
         $url = Client::makeUrl('file.download');
 
         $params = array(
