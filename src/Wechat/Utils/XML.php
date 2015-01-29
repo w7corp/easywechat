@@ -48,11 +48,11 @@ class XML {
 
         $attr   = trim($attr);
         $attr   = empty($attr) ? '' : " {$attr}";
-        $xml    = ''; /*= "<?xml version=\"1.0\" encoding=\"{$encoding}\"?>";*/
-        $xml   .= "<{$root}{$attr}>";
+        /*$xml    = "<?xml version=\"1.0\" encoding=\"{$encoding}\"?>";*/
+        $xml   = "<{$root}{$attr}>";
         $xml   .= static::data2Xml($data, $item, $id);
         $xml   .= "</{$root}>";
-error_log($xml);
+
         return $xml;
     }
 

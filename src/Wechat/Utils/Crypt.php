@@ -50,7 +50,7 @@ class Crypt {
      * @param string  $nonce        随机串，可以自己生成，也可以用URL参数的nonce
      *
      * @return string 加密后的可以直接回复用户的密文，包括msg_signature, timestamp,
-     *                nonce, encrypt的xml格式的字符串,当return返回0时有效
+     *                nonce, encrypt的xml格式的字符串
      */
     public function encryptMsg($xml, $nonce = null, $timestamp = null)
     {
