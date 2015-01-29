@@ -1,6 +1,7 @@
 <?php namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Traits\Loggable;
 use Overtrue\Wechat\Traits\Instanceable;
 
@@ -218,6 +219,29 @@ class Client {
     }
 
     /**
+     * 发起一个HTTP/HTTPS的请求
+     * @param string $method 请求类型   GET | POST
+     * @param string $url    接口的URL
+     * @param array  $params 接口参数
+     * @param array  $files  图片信息
+     * 
+     * @return array
+     */
+    public static function request($method, $url, array $params = array(), array $files = array())
+    {
+        $params['access_token'] = static::getAccessToken();
+        $connects = Http::$method($url, $params, null, $files);
+        $connects = json_decode($connects, true);
+
+        if(isset($connects['errcode']) && (0 !== (int)$connects['errcode'])){
+
+            throw new Exception("Error Processing Request", 1);
+        }
+
+        return $connects;
+    }
+
+    /**
      * 处理魔术调用
      *
      * @param string $method
@@ -227,6 +251,12 @@ class Client {
      */
     public function __call($method, $args)
     {
+        $method = strtoupper($method);
 
+        if($method == 'GET' || $method == 'POST'){
+            array_unshift($args, $method);
+
+            return call_user_func_array(array(__CLASS__, 'request'), $args);
+        }
     }
 }

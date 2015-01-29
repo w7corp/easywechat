@@ -1,7 +1,6 @@
 <?php namespace Overtrue\Wechat;
 
 
-
 class Media {
 
     /**
@@ -24,7 +23,6 @@ class Media {
         $access_token = Client::getAccessToken();
         $url = Client::makeUrl('file.upload');
         $params = array(
-            'access_token' => $access_token,
             'type' => $type,
         );
         $files = array(
@@ -51,10 +49,8 @@ class Media {
     static public function download($mediaId, $filename = '')
     {
         # TODO: 如果filename存在写入文件，否则直接输出
-        $access_token = Client::getAccessToken();
         $url = Client::makeUrl('file.download');
         $params = array(
-            'access_token' => $access_token;
             'media_id' => $mediaId,
         );
 
