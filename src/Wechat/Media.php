@@ -1,6 +1,6 @@
 <?php namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Utils\Http;
+
 
 class Media {
 
@@ -24,7 +24,7 @@ class Media {
         $url = Client::makeUrl('file.upload');
 
         $params = array(
-            'type'         => $type,
+            'type' => $type,
         );
 
         $files = array(
