@@ -67,6 +67,30 @@ class Client {
     }
 
     /**
+     * 设置缓存写入器
+     *
+     * @param callable $handler
+     *
+     * @return void
+     */
+    public function cacheWriter($handler)
+    {
+        !is_callable($handler) || $this->cacheWriter = $handler;
+    }
+
+    /**
+     * 设置缓存读取器
+     *
+     * @param callable $handler
+     *
+     * @return void
+     */
+    public function cacheReader($handler)
+    {
+        !is_callable($handler) || $this->cacheReader = $handler;
+    }
+
+    /**
      * 写入/读取缓存
      *
      * @param string $key
@@ -83,34 +107,6 @@ class Client {
         $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
 
         return call_user_func_array($handler, func_get_args());
-    }
-
-    /**
-     * 设置缓存写入器
-     *
-     * @param callable $callback
-     *
-     * @return void
-     */
-    public function cacheWriter($callbaer)
-    {
-        if (is_callable($callback)) {
-            $this->cacheWriter = $callbaer;
-        }
-    }
-
-    /**
-     * 设置缓存读取器
-     *
-     * @param callable $callback
-     *
-     * @return void
-     */
-    public function cacheReader($callback)
-    {
-        if (is_callable($callback)) {
-            $this->cacheReader = $callback;
-        }
     }
 
     /**
