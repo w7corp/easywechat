@@ -13,6 +13,16 @@ class Text extends AbstractMessage implements MessageInterface {
     public function content($content)
     {
         $this->attributes['content'] = $content;
+
+        return $this;
+    }
+
+    public function formatToClient() {
+
+    }
+
+    public function formatToServer() {
+
     }
 
 }

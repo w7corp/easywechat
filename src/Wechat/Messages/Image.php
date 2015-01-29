@@ -8,12 +8,13 @@ class Image extends AbstractMessage implements MessageInterface {
      *
      * @param string $path
      *
-     * @return Overtrue\Wechat\Messages\Text
+     * @return Overtrue\Wechat\Messages\Image
      */
     public function image($path)
     {
-        //TODO::上传图片
-        $this->attributes['image'] = Media::upload($path);
+        $this->attributes['media_id'] = Media::image($path);
+
+        return $this;
     }
 
     public function formatToClient() {

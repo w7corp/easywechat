@@ -30,6 +30,13 @@ abstract class Abstract {
      */
     protected $attributes = array();
 
+    /**
+     * 允许设置的属性名称
+     *
+     * @var array
+     */
+    protected $properties = array();
+
 
     /**
      * 设置发送者
