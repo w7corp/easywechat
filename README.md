@@ -122,6 +122,55 @@ $client->cacheReader(function($key){
 });
 ```
 
+#### 发送客服消息
+
+```php
+// 文本消息
+$message = new Message();
+$message->type = 'text';
+$message->content = '您好小朋友！';
+
+
+// 图片消息
+$message = new Message();
+$message->type = 'image';
+$message->image = __DIR__ . '/test.jpg';
+
+
+// 语音消息
+$message = new Message();
+$message->type = 'voice';
+$message->voice = __DIR__ . '/test.mp3';
+
+// 视频消息
+$message = new Message();
+$message->type = 'video';
+$message->title = '测试视频标题';
+$message->description = '这段视频看完你肯定想转的...';
+$message->video = __DIR__ . '/test.mp4';
+
+// 音乐消息
+$message = new Message();
+$message->type = 'music';
+$message->title = '测试音乐标题';
+$message->description = '一段NB的旋律...';
+$message->url = 'http://www.baidu.com/mp3/test.mp3'; 
+$message->hq_url = 'http://www.baidu.com/mp3/test_hq.mp3'; // 高清版
+$message->cover = __DIR__ . '/music_cover.jpg';
+
+// 图文消息
+$message = new Message();
+$message->type = 'news';
+
+$message->items = array(
+    array('标题', '描述1', __DIR__ . '/图片1.jpg', 'http://阅读全文url1'),
+    array('标题2', '描述2', __DIR__ . '/图片2.jpg', 'http://阅读全文url2'),
+    array('标题3', '描述3', __DIR__ . '/图片3.jpg', 'http://阅读全文url3'),
+);
+
+$client->sendMessage($message);
+```
+
 ## License
 
 MIT
