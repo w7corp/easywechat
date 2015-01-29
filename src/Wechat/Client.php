@@ -20,8 +20,8 @@ class Client {
 
             'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize'
 
-            'media.upload'        => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
-            'media.get'           => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.upload'        => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.get'           => 'https://file.api.weixin.qq.com/cgi-bin/media/upload',
 
             'menu.create'         => 'https://api.weixin.qq.com/cgi-bin/menu/create',
             'menu.get'            => 'https://api.weixin.qq.com/cgi-bin/menu/get',
@@ -84,6 +84,10 @@ class Client {
     public function instance($options)
     {
         $this->options = new Bag($options);
+
+        set_exception_handler(function($e){
+            return call_user_func_array($this->errorHandler, [$e]);
+        })
     }
 
     /**
@@ -235,7 +239,7 @@ class Client {
 
         if(isset($connects['errcode']) && (0 !== (int)$connects['errcode'])){
 
-            throw new Exception("Error Processing Request", 1);
+            throw new Exception($contents['errormsg'], $contents['errorcode'])
         }
 
         return $connects;
