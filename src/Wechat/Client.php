@@ -83,6 +83,10 @@ class Client {
     public function instance($options)
     {
         $this->options = new Bag($options);
+
+        set_exception_handler(function($e){
+            return call_user_func_array($this->errorHandler, [$e]);
+        })
     }
 
     /**

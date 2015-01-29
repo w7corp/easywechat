@@ -113,6 +113,7 @@ class Http
 
         $response = curl_exec($ci);
         curl_close ($ci);
+
         return $response;
     }
 
