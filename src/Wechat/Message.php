@@ -2,11 +2,6 @@
 
 use Closure;
 use InvalidArgumentException;
-use Overtrue\Wechat\Messages\Text;
-use Overtrue\Wechat\Messages\News;
-use Overtrue\Wechat\Messages\Image;
-use Overtrue\Wechat\Messages\Voice;
-use Overtrue\Wechat\Messages\Video;
 
 class Message {
 
@@ -30,10 +25,12 @@ class Message {
      */
     static public function make($type)
     {
-        if (!defined(__CLASS__ . '::' . strtoupper($type)) {
+        if (!defined(__CLASS__ . '::' . strtoupper($type))) {
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
-        return new ucfirst(strtolower($type));
+        $message = "Overtrue\Wechat\Messages\\" . ucfirst(strtolower($type));
+
+        return new $message;
     }
 }

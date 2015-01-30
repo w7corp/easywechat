@@ -1,7 +1,10 @@
-<?php Overtrue\Wechat\Messages;
+<?php namespace Overtrue\Wechat\Messages;
 
+use Overtrue\Wechat\Media;
 
 class Voice extends AbstractMessage implements MessageInterface {
+
+    protected $properties = array('media_id');
 
     /**
      * 设置语音
@@ -17,12 +20,30 @@ class Voice extends AbstractMessage implements MessageInterface {
         return $this;
     }
 
-    public function formatToClient() {
-
+    public function formatToClient()
+    {
+        return json_encode(array(
+                "touser"  => $this->to,
+                "msgtype" => "voice",
+                "voice"    => array(
+                                 "media_id" => $this->media_id
+                            ),
+        ));
     }
 
-    public function formatToServer() {
+    public function formatToServer()
+    {
+        $format = '<xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[voice]]></MsgType>
+                    <Image>
+                    <MediaId><![CDATA[%s]]></MediaId>
+                    </Image>
+                    </xml>';
 
+        return sprintf($format, $this->to, $this->from, time(), $this->media_id);
     }
 
 }

@@ -1,5 +1,6 @@
-<?php Overtrue\Wechat\Messages;
+<?php namespace Overtrue\Wechat\Messages;
 
+use Overtrue\Wechat\Media;
 
 class Video extends AbstractMessage implements MessageInterface {
 
@@ -14,7 +15,7 @@ class Video extends AbstractMessage implements MessageInterface {
      */
     public function video($path)
     {
-        $this->attributes['media_id'] = Media::voice($path);
+        $this->attributes['media_id'] = Media::video($path);
 
         return $this;
     }
@@ -33,12 +34,35 @@ class Video extends AbstractMessage implements MessageInterface {
         return $this;
     }
 
-    public function formatToClient() {
-
+    public function formatToClient()
+    {
+        return json_encode(array(
+                "touser"  => $this->to,
+                "msgtype" => "video",
+                "video"    => array(
+                                 "media_id"       => $this->media_id,
+                                 "thumb_media_id" => $this->thumb_media_id,
+                                 "title"          => $this->title,
+                                 "description"    => $this->description,
+                            ),
+        ));
     }
 
-    public function formatToServer() {
+    public function formatToServer()
+    {
+        $format = '<xml>
+                    <ToUserName><![CDATA[%s]]></ToUserName>
+                    <FromUserName><![CDATA[%s]]></FromUserName>
+                    <CreateTime>%s</CreateTime>
+                    <MsgType><![CDATA[video]]></MsgType>
+                    <Video>
+                        <MediaId><![CDATA[%s]]></MediaId>
+                        <Title><![CDATA[%s]]></Title>
+                        <Description><![CDATA[%s]]></Description>
+                        </Video>
+                    </xml>';
 
+        return sprintf($format, $this->to, $this->from, time(), $this->media_id, $this->title, $this->description);
     }
 
 }

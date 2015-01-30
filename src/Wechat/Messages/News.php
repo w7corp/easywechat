@@ -1,7 +1,10 @@
-<?php Overtrue\Wechat\Messages;
+<?php namespace Overtrue\Wechat\Messages;
 
+use Overtrue\Wechat\Media;
 
 class News extends AbstractMessage implements MessageInterface {
+
+    protected $properties = array('items');
 
     /**
      * 添加图文消息内容

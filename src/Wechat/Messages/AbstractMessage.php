@@ -1,6 +1,8 @@
 <?php namespace Overtrue\Wechat\Messages;
 
-abstract class Abstract {
+use InvalidArgumentException;
+
+abstract class AbstractMessage {
 
     /**
      * 发送者
@@ -15,6 +17,13 @@ abstract class Abstract {
      * @var mixed
      */
     protected $to;
+
+    /**
+     * 用户组ID
+     *
+     * @var boolean
+     */
+    protected $groupId;
 
     /**
      * 是否群发
@@ -47,7 +56,8 @@ abstract class Abstract {
      */
     public function from($account)
     {
-        //TODO:
+        $this->from = $account;
+
         return $this;
     }
 
@@ -60,17 +70,23 @@ abstract class Abstract {
      */
     public function to($openId)
     {
-        # TODO
+        $this->to = $openId;
+
+        return $this;
     }
 
     public function toGroup($groupId)
     {
-        # TODO
+        $this->groupId = $groupId;
+
+        return $this;
     }
 
     public function toAll()
     {
-        # TODO
+        $this->toAll = true;
+
+        return $this;
     }
 
     /**
@@ -87,11 +103,10 @@ abstract class Abstract {
             throw new InvalidArgumentException("属性值只能为标量");
         }
 
-        if (!in_array($this->properties, $attribute)) {
+        if (!in_array($attribute, $this->properties)) {
             throw new InvalidArgumentException("不存在的属性‘{$attribute}’");
         }
-
-        $this->attributes[$method] = $value;
+        $this->attributes[$attribute] = $value;
 
         return $this;
     }
@@ -114,7 +129,7 @@ abstract class Abstract {
             throw new InvalidArgumentException("item方法要求至少3个参数：标题，描述，图片");
         }
 
-        list($title, $description, $image, $url = '') = $args;
+        list($title, $description, $image, $url) = $args;
 
         $item = array(
             'Title'       => $title,
@@ -148,7 +163,7 @@ abstract class Abstract {
      */
     public function __get($property)
     {
-        return !isset($this->attributes[$property]) ? null : $property;
+        return !isset($this->attributes[$property]) ? null : $this->attributes[$property];
     }
 
     /**

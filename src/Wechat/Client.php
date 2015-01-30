@@ -14,11 +14,11 @@ class Client {
      */
     const CACHE_LIFETIME  = 2 * 3600; // 2h
 
-    protected $apis = array(
+    static protected $apis = array(
             'token.get'           => 'https://api.weixin.qq.com/sns/oauth2/access_token',
             'token.refresh'       => 'https://api.weixin.qq.com/sns/oauth2/refresh_token',
 
-            'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize'
+            'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize',
 
             'file.upload'        => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
             'file.get'           => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
@@ -87,7 +87,7 @@ class Client {
 
         set_exception_handler(function($e){
             return call_user_func_array($this->errorHandler, [$e]);
-        })
+        });
     }
 
     /**
@@ -174,9 +174,9 @@ class Client {
      *
      * @return string
      */
-    protected function makeUrl($name, $queries)
+    static public function makeUrl($name, $queries = array())
     {
-        return $this->apis[$name] . '?' . http_build_query($queries);
+        return self::$apis[$name] . empty($queries) ? '' : ('?' . http_build_query($queries));
     }
 
     /**
@@ -199,7 +199,7 @@ class Client {
      *
      * @return void
      */
-    protected function fileCacheWriter($ker)
+    protected function fileCacheReader($ker)
     {
         $file = $this->getCacheFile($key);
 
@@ -228,18 +228,18 @@ class Client {
      * @param string $url    接口的URL
      * @param array  $params 接口参数
      * @param array  $files  图片信息
-     * 
+     *
      * @return array
      */
     public static function request($method, $url, array $params = array(), array $files = array())
     {
         $params['access_token'] = static::getAccessToken();
-        $connects = Http::$method($url, $params, null, $files);
+        $connects = Http::$method($url, $params, array(), $files);
         $connects = json_decode($connects, true);
 
         if(isset($connects['errcode']) && (0 !== (int)$connects['errcode'])){
 
-            throw new Exception($contents['errormsg'], $contents['errorcode'])
+            throw new Exception($contents['errormsg'], $contents['errorcode']);
         }
 
         return $connects;
@@ -253,7 +253,7 @@ class Client {
      *
      * @return mixed
      */
-    public function __call($method, $args)
+    static public function __callStatic($method, $args)
     {
         $method = strtoupper($method);
 

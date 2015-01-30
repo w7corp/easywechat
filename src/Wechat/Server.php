@@ -6,6 +6,7 @@ use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\Crypt;
 use Overtrue\Wechat\Traits\Loggable;
 use Overtrue\Wechat\Traits\Instanceable;
+use Overtrue\Wechat\Messages\AbstractMessage;
 
 class Server {
 
@@ -101,6 +102,10 @@ class Server {
             throw new Exception("Bad Request", 400);
         }
 
+        if ($this->query->has('echostr')) {
+            return $this->query->echostr;
+        }
+
         $response = $this->handleRequest();
 
         return $this->buildResponse($response);
@@ -115,38 +120,23 @@ class Server {
      */
     protected function buildResponse($response)
     {
-        if (is_array($response)) {
-            $response  = [
-            'ToUserName'   => $this->post->FromUserName,
-            'FromUserName' => $this->post->ToUserName,
-            'CreateTime' => $this->query->timestamp,
-            'MsgType' => 'text',
-            'Content' => '您好',
-            ];
+        if (is_string($response)) {
+            $response = Message::make(Message::TEXT)->with('content', $response);
+        }
 
-            $xml = XML::build($response);
+        if ($response instanceof AbstractMessage) {
+            $response->from($this->post->ToUserName)->to($this->post->FromUserName);
 
-            header('content-type:text/xml');
+            $xml = $response->formatToServer();
 
             if ($this->security) {
                 return $this->getCryptor()->encryptMsg($xml, $this->query->nonce, $this->query->timestamp);
             }
 
-
             return $xml;
         }
 
-        return strval($response);
-    }
-
-    /**
-     * 应答微信的验证请求
-     *
-     * @return void|string
-     */
-    protected function validation()
-    {
-        return $this->query->echostr;
+        return null;
     }
 
     /**

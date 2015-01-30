@@ -68,9 +68,9 @@ class Media {
      *
      * @return string
      */
-    static public function __call($method, $args)
+    static public function __callStatic($method, $args)
     {
-        if (in_array(static::$allowTypes, $method)) {
+        if (in_array($method, static::$allowTypes)) {
 
             $args = array($method, array_shift($args));
 
