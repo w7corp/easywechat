@@ -14,7 +14,7 @@ class Client {
      */
     const CACHE_LIFETIME  = 2 * 3600; // 2h
 
-    static protected $apis = array(
+    protected $apis = array(
             'token.get'           => 'https://api.weixin.qq.com/sns/oauth2/access_token',
             'token.refresh'       => 'https://api.weixin.qq.com/sns/oauth2/refresh_token',
 
@@ -140,6 +140,29 @@ class Client {
     }
 
     /**
+     * 发起一个HTTP/HTTPS的请求
+     * @param string $method 请求类型   GET | POST
+     * @param string $url    接口的URL
+     * @param array  $params 接口参数
+     * @param array  $files  图片信息
+     *
+     * @return array
+     */
+    public static function request($method, $url, array $params = array(), array $files = array())
+    {
+        $params['access_token'] = self::$instance->getAccessToken();
+        $connects = Http::$method($url, $params, array(), $files);
+        $connects = json_decode($connects, true);
+
+        if(isset($connects['errcode']) && (0 !== (int)$connects['errcode'])){
+
+            throw new Exception($contents['errormsg'], $contents['errorcode']);
+        }
+
+        return $connects;
+    }
+
+    /**
      * 写入/读取缓存
      *
      * @param string $key
@@ -163,7 +186,23 @@ class Client {
      */
     protected function getAccessToken()
     {
-        //TODO:获取accesstoken
+        $key = 'overtrue.wechat.access_token';
+
+        if ($cached = $this->cache($key)) {
+            return $cached;
+        }
+
+        $url = $this->makeUrl('token.get', array(
+                                            'appid'      => $this->options->appid,
+                                            'secret'     => $this->options->secret,
+                                            'grant_type' => 'client_credential',
+                                           ));
+
+        $token = static::request('GET', $url);
+
+        $this->cache($key, $token);
+
+        return $token;
     }
 
     /**
@@ -176,7 +215,7 @@ class Client {
      */
     static public function makeUrl($name, $queries = array())
     {
-        return self::$apis[$name] . empty($queries) ? '' : ('?' . http_build_query($queries));
+        return self::$instance->apis[$name] . empty($queries) ? '' : ('?' . http_build_query($queries));
     }
 
     /**
@@ -187,7 +226,7 @@ class Client {
      *
      * @return void
      */
-    protected function fileCacheWriter($key, $valer)
+    protected function fileCacheWriter($key, $value)
     {
         file_put_contents($this->getCacheFile($key), strval($value));
     }
@@ -195,11 +234,11 @@ class Client {
     /**
      * 默认的缓存读取器
      *
-     * @param string $key
+     * @param string   $key
      *
      * @return void
      */
-    protected function fileCacheReader($ker)
+    protected function fileCacheReader($key)
     {
         $file = $this->getCacheFile($key);
 
@@ -220,29 +259,6 @@ class Client {
     protected function getCacheFile($key)
     {
         return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($key);
-    }
-
-    /**
-     * 发起一个HTTP/HTTPS的请求
-     * @param string $method 请求类型   GET | POST
-     * @param string $url    接口的URL
-     * @param array  $params 接口参数
-     * @param array  $files  图片信息
-     *
-     * @return array
-     */
-    public static function request($method, $url, array $params = array(), array $files = array())
-    {
-        $params['access_token'] = static::getAccessToken();
-        $connects = Http::$method($url, $params, array(), $files);
-        $connects = json_decode($connects, true);
-
-        if(isset($connects['errcode']) && (0 !== (int)$connects['errcode'])){
-
-            throw new Exception($contents['errormsg'], $contents['errorcode']);
-        }
-
-        return $connects;
     }
 
     /**
