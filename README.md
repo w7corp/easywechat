@@ -14,19 +14,21 @@ composer require overtrue/wechat
 ```php
 <?php
 
-use Overtrue\Wechat\Server;
+use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Message;
 
 $options = [
-    'app_id'         => 'YOUR appid !!',
-    'secret'         => 'YOUR secret !!'
-    'token'          => 'YOUR token !!',
-    'encodingAESKey' => 'YOU encodingAESKey!!' // optional
+    'app_id'         => 'Your appid !!',
+    'secret'         => 'Your secret !!'
+    'token'          => 'Your token !!',
+    'encodingAESKey' => 'Your encodingAESKey!!' // optional
 ];
 
+// 初始化Wechat实例
 $wechat = Wechat::make($options);
 
-$server = $wechat->server;
+// 获取服务端实例
+$server = $wechat->server; // 同理，获取客户端：$client = $wechat->client;
 
 // 接收消息
 $server->message('text', function($message){
@@ -38,6 +40,8 @@ $result = $server->run();
 // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
 echo $result;
 ```
+
+---
 
 ### 服务端
 
@@ -98,6 +102,8 @@ $server->event('subscribe', function($message){
 
 $server->run();
 ```
+
+---
 ### 客户端
 
 ```php
@@ -147,10 +153,12 @@ $message->items = array(
 $client->send($message);
 ```
 
+---
+
 ### 处理错误
 
 ```
-$client->error(function($error){
+$wechat->error(function($error){
     // $error为Exception对象
     // $error->getCode(); 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
     // $error->getMessage(); 错误消息
