@@ -149,8 +149,10 @@ $client->send($message);
 #### 获取用户信息
 
 ```php
-$user = $client->user($openID);
+$user = $client->user($openID); 
 ```
+> 注意：此时var_dump(\$user);是没有用户资料的，因为这里的设计为：当你真正开始访问用户属性时才取用户用户回来。
+
 ### 访问用户属性
 
 ```php
@@ -184,7 +186,7 @@ $users = $client->users([$nextOpenID = null]);
 ```
 
 > 注意：一次拉取调用最多拉取10000个关注者的OpenID，可以通过多次拉取的方式来满足需求。
-> $nextOpenID 起始用户id,即返回值中的next_openid
+> \$nextOpenID 起始用户id,即返回值中的next_openid
 ---
 
 ### 处理错误
