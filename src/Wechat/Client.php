@@ -147,14 +147,14 @@ class Client {
     {
         $params['access_token'] = self::$instance->getAccessToken();
         $connects = Http::$method($url, $params, array(), $files);
-        $connects = json_decode($connects, true);
+        $contents = json_decode($connects, true);
 
-        if(isset($connects['errcode']) && (0 !== (int)$connects['errcode'])){
+        if(isset($contents['errcode']) && (0 !== (int)$contents['errcode'])){
 
             throw new Exception($contents['errormsg'], $contents['errorcode']);
         }
 
-        return $connects;
+        return $contents;
     }
 
     /**
