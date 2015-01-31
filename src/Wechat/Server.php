@@ -5,12 +5,9 @@ use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\Crypt;
 use Overtrue\Wechat\Traits\Loggable;
-use Overtrue\Wechat\Traits\Instanceable;
 use Overtrue\Wechat\Messages\AbstractMessage;
 
 class Server {
-
-    use Loggable, Instanceable;
 
     /**
      * POST输入
@@ -55,7 +52,7 @@ class Server {
      *
      * @return mixed
      */
-    public function instance($options)
+    public function __construct($options)
     {
         $this->listeners = new Bag;
         $this->options   = new Bag($options);

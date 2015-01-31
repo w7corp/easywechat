@@ -20,7 +20,7 @@ class Media {
      */
     static public function upload($type, $path)
     {
-        $url = Client::makeUrl('file.upload');
+        $url = Wechat::makeUrl('file.upload');
 
         $params = array(
             'type' => $type,
@@ -30,7 +30,7 @@ class Media {
             'media' => $path,
         );
 
-        $contents = Client::post($url, $params, $files);
+        $contents = Wechat::post($url, $params, $files);
 
         return $contents['media_id'];
     }
@@ -45,13 +45,13 @@ class Media {
      */
     static public function download($mediaId, $filename = '')
     {
-        $url = Client::makeUrl('file.download');
+        $url = Wechat::makeUrl('file.download');
 
         $params = array(
             'media_id' => $mediaId,
         );
 
-        $contents = Client::get($url, $params);
+        $contents = Wechat::get($url, $params);
 
         return $filename ? $contents : file_put_contents($filename, $contents);
     }
