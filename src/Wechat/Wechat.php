@@ -251,6 +251,7 @@ class Wechat {
             return $cached;
         }
 
+        // 关闭自动加access_token参数
         $this->autoRequestToken(false);
 
         $url = static::makeUrl('token.get', array(
@@ -263,6 +264,7 @@ class Wechat {
 
         $this->cache($key, $token['access_token'], $token['expires_in']);
 
+        // 开启自动加access_token参数
         $this->autoRequestToken(true);
 
         return $token['access_token'];
