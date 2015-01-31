@@ -200,7 +200,7 @@ class Wechat {
 
         $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
 
-        return call_user_func_array($handler, func_get_args());
+        return call_user_func_array($handler, array($key, $value, $lifetime));
     }
 
     /**
@@ -251,7 +251,7 @@ class Wechat {
      *
      * @return void
      */
-    protected function fileCacheWriter($key, $value, $lifetime)
+    protected function fileCacheWriter($key, $value, $lifetime = 7200)
     {
         $data = array(
                 'token'      => $value,
