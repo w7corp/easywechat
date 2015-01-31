@@ -194,7 +194,7 @@ class Wechat {
      *
      * @return mixed
      */
-    protected function cache($key, $value = null, $lifetime)
+    protected function cache($key, $value = null, $lifetime = 7200)
     {
         $value && $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
 
