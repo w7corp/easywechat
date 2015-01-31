@@ -18,8 +18,8 @@ class Wechat {
 
             'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize',
 
-            'file.upload'        => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
-            'file.get'           => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.upload'         => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.get'            => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
 
             'menu.create'         => 'https://api.weixin.qq.com/cgi-bin/menu/create',
             'menu.get'            => 'https://api.weixin.qq.com/cgi-bin/menu/get',
@@ -33,8 +33,9 @@ class Wechat {
             'group.member.update' => 'https://api.weixin.qq.com/cgi-bin/groups/members/update',
 
             'user.group'          => 'https://api.weixin.qq.com/cgi-bin/groups/getid',
-            'user.detail'         => 'https://api.weixin.qq.com/cgi-bin/user/info',
-            'user.get'            => 'https://api.weixin.qq.com/cgi-bin/user/get',
+            'user.get'            => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'user.list'           => 'https://api.weixin.qq.com/cgi-bin/user/get',
+            'user.remark'         => 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark',
             'user.oauth.get'      => 'https://api.weixin.qq.com/sns/userinfo',
 
             'qrcode.create'       => 'https://mp.weixin.qq.com/cgi-bin/qrcode/create',
@@ -136,6 +137,8 @@ class Wechat {
 
             throw $e;
         });
+
+        return static::$instance;
     }
 
     /**

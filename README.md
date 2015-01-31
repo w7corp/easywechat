@@ -146,6 +146,45 @@ $message->items = array(
 $client->send($message);
 ```
 
+#### 获取用户信息
+
+```php
+$user = $client->user($openID);
+```
+### 访问用户属性
+
+```php
+echo $user->nickname; // iovertrue
+//or
+echo $user['nickname'];
+```
+
+#### 设置用户备注
+
+```php
+$client->user($openID)->remark('小二B');
+```
+
+#### 获取用户列表(openID列表)
+
+```php
+$users = $client->users([$nextOpenID = null]);
+```
+返回值示例：
+
+```json
+{
+    "total":2,
+    "count":2,
+    "data": {
+        "openid":["","OPENID1","OPENID2"]
+    },
+    "next_openid":"NEXT_OPENID"
+}
+```
+
+> 注意：一次拉取调用最多拉取10000个关注者的OpenID，可以通过多次拉取的方式来满足需求。
+> $nextOpenID 起始用户id,即返回值中的next_openid
 ---
 
 ### 处理错误

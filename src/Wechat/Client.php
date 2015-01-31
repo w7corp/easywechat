@@ -2,7 +2,6 @@
 
 use Exception;
 use Overtrue\Wechat\Utils\Bag;
-use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Messages\MessageInterface;
 
 class Client {
@@ -28,6 +27,31 @@ class Client {
     }
 
     /**
+     * 获取用户信息
+     *
+     * @param string $openId
+     * @param string $lang
+     *
+     * @return Overtrue\Wechat\Utils\Bag
+     */
+    public function user($openId, $lang = 'zh_CN')
+    {
+        return new User($openId, $lang);
+    }
+
+    /**
+     * 获取用户列表
+     *
+     * @param string $nextOpenId
+     *
+     * @return Overtrue\Wechat\Utils\Bag
+     */
+    public function users($nextOpenId = null)
+    {
+        return Wechat::get(Wechat::makeUrl('user.list', array('next_openid' => $nextOpenId)));
+    }
+
+    /**
      * 发送消息
      *
      * @param Message $message
@@ -37,8 +61,7 @@ class Client {
     public function send(MessageInterface $message)
     {
         $url = Wechat::makeUrl('message.send');
-        error_log($url);
-error_log(json_encode($message->formatToClient()));
+
         return Wechat::post($url, $message->formatToClient());
     }
 }
