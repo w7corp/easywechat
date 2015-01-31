@@ -1,5 +1,6 @@
 <?php namespace Overtrue\Wechat\Messages;
 
+use Overtrue\Wechat\Utils\XML;
 
 class Text extends AbstractMessage implements MessageInterface {
 
@@ -22,25 +23,25 @@ class Text extends AbstractMessage implements MessageInterface {
     public function formatToClient()
     {
         return array(
-                "touser"  => $this->to,
-                "msgtype" => "text",
-                "text"    => array(
-                                 "content" => $this->content
-                            ),
+                'touser'  => $this->to,
+                'msgtype' => 'text',
+                'text'    => array(
+                              'content' => $this->content
+                             ),
         );
     }
 
     public function formatToServer()
     {
-        $format = '<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[text]]></MsgType>
-                    <Content><![CDATA[%s]]></Content>
-                    </xml>';
+        $response = array(
+                     'ToUserName'   => $this->to,
+                     'FromUserName' => $this->from,
+                     'CreateTime'   => time(),
+                     'MsgType'      => 'text',
+                     'Content'      => $this->content,
+                    );
 
-        return sprintf($format, $this->to, $this->from, time(), $this->content);
+        return XML::build($response);
     }
 
 }

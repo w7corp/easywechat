@@ -1,6 +1,7 @@
 <?php namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
+use Overtrue\Wechat\Utils\XML;
 
 class Video extends AbstractMessage implements MessageInterface {
 
@@ -37,32 +38,32 @@ class Video extends AbstractMessage implements MessageInterface {
     public function formatToClient()
     {
         return array(
-                "touser"  => $this->to,
-                "msgtype" => "video",
-                "video"    => array(
-                                 "media_id"       => $this->media_id,
-                                 "thumb_media_id" => $this->thumb_media_id,
-                                 "title"          => $this->title,
-                                 "description"    => $this->description,
-                            ),
-        );
+                'touser'  => $this->to,
+                'msgtype' => 'video',
+                'video'   => array(
+                              'media_id'       => $this->media_id,
+                              'thumb_media_id' => $this->thumb_media_id,
+                              'title'          => $this->title,
+                              'description'    => $this->description,
+                             ),
+               );
     }
 
     public function formatToServer()
     {
-        $format = '<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[video]]></MsgType>
-                    <Video>
-                        <MediaId><![CDATA[%s]]></MediaId>
-                        <Title><![CDATA[%s]]></Title>
-                        <Description><![CDATA[%s]]></Description>
-                        </Video>
-                    </xml>';
+        $response = array(
+                     'ToUserName'   => $this->to,
+                     'FromUserName' => $this->from,
+                     'CreateTime'   => time(),
+                     'MsgType'      => 'video',
+                     'Video'        => array(
+                                        'MediaId'     => $this->media_id,
+                                        'Title'       => $this->title,
+                                        'Description' => $this->description,
+                                       ),
+                    );
 
-        return sprintf($format, $this->to, $this->from, time(), $this->media_id, $this->title, $this->description);
+        return XML::build($response);
     }
 
 }

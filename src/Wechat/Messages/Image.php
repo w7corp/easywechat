@@ -1,6 +1,7 @@
 <?php namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
+use Overtrue\Wechat\Utils\XML;
 
 class Image extends AbstractMessage implements MessageInterface {
 
@@ -25,27 +26,27 @@ class Image extends AbstractMessage implements MessageInterface {
     public function formatToClient()
     {
         return array(
-                "touser"  => $this->to,
-                "msgtype" => "image",
-                "image"    => array(
-                                 "media_id" => $this->media_id
-                            ),
-        );
+                'touser'  => $this->to,
+                'msgtype' => 'image',
+                'image'   => array(
+                              'media_id' => $this->media_id
+                             ),
+              );
     }
 
     public function formatToServer()
     {
-        $format = '<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[image]]></MsgType>
-                    <Image>
-                    <MediaId><![CDATA[%s]]></MediaId>
-                    </Image>
-                    </xml>';
+        $response = array(
+                     'ToUserName'   => $this->to,
+                     'FromUserName' => $this->from,
+                     'CreateTime'   => time(),
+                     'MsgType'      => 'image',
+                     'Image'        => array(
+                                        'MediaId' => $this->media_id,
+                                       ),
+                    ));
 
-        return sprintf($format, $this->to, $this->from, time(), $this->media_id);
+        return XML::build($response);
     }
 
 }
