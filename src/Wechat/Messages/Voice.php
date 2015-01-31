@@ -22,13 +22,13 @@ class Voice extends AbstractMessage implements MessageInterface {
 
     public function formatToClient()
     {
-        return json_encode(array(
+        return array(
                 "touser"  => $this->to,
                 "msgtype" => "voice",
                 "voice"    => array(
                                  "media_id" => $this->media_id
                             ),
-        ));
+        );
     }
 
     public function formatToServer()

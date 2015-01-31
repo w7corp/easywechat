@@ -1,5 +1,6 @@
 <?php namespace Overtrue\Wechat;
 
+use Exception;
 
 class Media {
 
@@ -20,17 +21,18 @@ class Media {
      */
     static public function upload($type, $path)
     {
-        $url = Wechat::makeUrl('file.upload');
+        if (!file_exists($path) || !is_readable($path)) {
+            throw new Exception("File not found '$path'");
+        }
 
-        $params = array(
-            'type' => $type,
-        );
-
+        $url = Wechat::makeUrl('file.upload', array(
+                                                'type' => $type,
+                                              ));
         $files = array(
             'media' => $path,
         );
 
-        $contents = Wechat::post($url, $params, $files);
+        $contents = Wechat::post($url, [], $files);
 
         return $contents['media_id'];
     }

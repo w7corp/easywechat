@@ -17,18 +17,20 @@ class Image extends AbstractMessage implements MessageInterface {
     {
         $this->attributes['media_id'] = Media::image($path);
 
+        error_log($this->attributes['media_id']);
+
         return $this;
     }
 
     public function formatToClient()
     {
-        return json_encode(array(
+        return array(
                 "touser"  => $this->to,
                 "msgtype" => "image",
                 "image"    => array(
                                  "media_id" => $this->media_id
                             ),
-        ));
+        );
     }
 
     public function formatToServer()

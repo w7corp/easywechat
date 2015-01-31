@@ -3,12 +3,9 @@
 use Exception;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\Http;
-use Overtrue\Wechat\Traits\Loggable;
-use Overtrue\Wechat\Traits\Instanceable;
+use Overtrue\Wechat\Messages\MessageInterface;
 
 class Client {
-
-    use Loggable, Instanceable;
 
     /**
      * 设置
@@ -25,7 +22,7 @@ class Client {
      *
      * @return mixed
      */
-    public function instance($options)
+    public function __construct($options)
     {
         $this->options = new Bag($options);
     }
@@ -37,9 +34,11 @@ class Client {
      *
      * @return $this
      */
-    public function send(Message $message)
+    public function send(MessageInterface $message)
     {
-        # code...
-        # TODO:发送消息并返回状态
+        $url = Wechat::makeUrl('message.send');
+        error_log($url);
+error_log(json_encode($message->formatToClient()));
+        return Wechat::post($url, $message->formatToClient());
     }
 }

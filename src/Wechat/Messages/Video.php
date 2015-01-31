@@ -36,7 +36,7 @@ class Video extends AbstractMessage implements MessageInterface {
 
     public function formatToClient()
     {
-        return json_encode(array(
+        return array(
                 "touser"  => $this->to,
                 "msgtype" => "video",
                 "video"    => array(
@@ -45,7 +45,7 @@ class Video extends AbstractMessage implements MessageInterface {
                                  "title"          => $this->title,
                                  "description"    => $this->description,
                             ),
-        ));
+        );
     }
 
     public function formatToServer()

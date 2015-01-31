@@ -72,12 +72,11 @@ class Http
             case 'PUT':
             case 'POST':
             case 'PATCH':
-                $method != 'POST' && curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
+                $method == 'POST' || curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
 
                 curl_setopt($ci, CURLOPT_POST, true);
 
                 if (!empty($files)) {
-
                     foreach($files as $index => $file) {
                         $params[$index] = curl_file_create($file);
                     }
@@ -97,13 +96,14 @@ class Http
             case 'HEAD':
             case 'DELETE':
             case 'OPTIONS':
-                $method != 'GET' && curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
+                $method == 'GET' || curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
                 if (!empty($params)) {
-                    $url = $url . (strpos($url, '?') ? '&' : '?')
-                        . (is_array($params) ? http_build_query($params) : $params);
+                    $url .= (strpos($url, '?') ? '&' : '?') . http_build_query($params);
                 }
+
                 break;
         }
+
         curl_setopt($ci, CURLINFO_HEADER_OUT, true);
         curl_setopt($ci, CURLOPT_URL, $url);
 
@@ -112,8 +112,12 @@ class Http
         }
 
         $response = curl_exec($ci);
-        curl_close ($ci);
 
+        if (curl_errno($ci)) {
+            error_log("curl错误：" . curl_errno($ci) . ' : ' . curl_error($ci));
+        }
+
+        curl_close($ci);
         return $response;
     }
 

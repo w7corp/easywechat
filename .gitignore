@@ -1,3 +1,5 @@
 *.DS_Store
 /vendor/
 sftp-config.json
+index.php
+*.jpg

@@ -9,26 +9,40 @@ composer require overtrue/wechat
 
 ## Usage
 
-### 服务端
-
-初始化
+基本使用
 
 ```php
 <?php
 
 use Overtrue\Wechat\Server;
+use Overtrue\Wechat\Message;
 
 $options = [
-    'app_id'         => 'YOUR APP ID',
-    'token'          => 'YOUR TOKEN',
-    'encodingAESKey' => 'YOUR AESKey' 
+    'app_id'         => 'YOUR appid !!',
+    'secret'         => 'YOUR secret !!'
+    'token'          => 'YOUR token !!',
+    'encodingAESKey' => 'YOU encodingAESKey!!' // optional
 ];
 
-$server = Server::make($options);
+$wechat = Wechat::make($options);
+
+$server = $wechat->server;
+
+// 接收消息
+$server->message('text', function($message){
+    error_log("收到来自'{$message['FromUserName']}'的文本消息：" . $message['Content']);
+});
+
 $result = $server->run(); 
 
 // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
 echo $result;
+```
+
+### 服务端
+
+```php
+$server = $wechat->server;
 ```
 
 #### 接收消息
@@ -86,43 +100,8 @@ $server->run();
 ```
 ### 客户端
 
-初始化
-
 ```php
-<?php
-
-use Overtrue\Wechat\Client;
-
-$options = [
-    'app_id'     => 'YOUR APP ID',
-    'app_secret' => 'YOUR APP SECRET',
-];
-
-$client = Client::make($options);
-
-//处理错误
-$client->error(function($error){
-    // $error为Exception对象
-    // $error->getCode(); 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
-    // $error->getMessage(); 错误消息
-});
-// ...
-```
-
-#### 自定义缓存写入/读取
-
-```php
-// writer
-$client->cacheWriter(function($key, $value){
-    // cache the value.
-    return true;
-});
-
-// reader
-$client->cacheReader(function($key){
-    // return the cached value.
-    return 缓存的数据;
-});
+$client = $wechat->client;
 ```
 
 #### 发送客服消息
@@ -166,6 +145,33 @@ $message->items = array(
 );
 
 $client->send($message);
+```
+
+### 处理错误
+
+```
+$client->error(function($error){
+    // $error为Exception对象
+    // $error->getCode(); 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
+    // $error->getMessage(); 错误消息
+});
+// ...
+```
+
+### 自定义缓存写入/读取
+
+```php
+// writer
+$wechat->cacheWriter(function($key, $value){
+    // cache the value.
+    return true;
+});
+
+// reader
+$wechat->cacheReader(function($key){
+    // return the cached value.
+    return 缓存的数据;
+});
 ```
 
 ## License

@@ -16,8 +16,7 @@ class Wechat {
      * @var array
      */
     protected $apis = array(
-            'token.get'           => 'https://api.weixin.qq.com/sns/oauth2/access_token',
-            'token.refresh'       => 'https://api.weixin.qq.com/sns/oauth2/refresh_token',
+            'token.get'           => 'https://api.weixin.qq.com/cgi-bin/token',
 
             'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize',
 
@@ -100,7 +99,7 @@ class Wechat {
      *
      * @var string
      */
-    static protected $autoRequestToken;
+    static protected $autoRequestToken = true;
 
 
     /**
@@ -115,7 +114,11 @@ class Wechat {
         $this->options = new Bag($options);
 
         set_exception_handler(function($e){
-            return call_user_func_array($this->errorHandler, array($e));
+            if ($this->errorHandler) {
+                return call_user_func_array($this->errorHandler, array($e));
+            }
+
+            throw $e;
         });
     }
 
@@ -153,7 +156,7 @@ class Wechat {
     public function getClient()
     {
         if (is_null($this->client)) {
-            $this->client = new Server($this->options);
+            $this->client = new Client($this->options);
         }
 
         return $this->client;
@@ -194,11 +197,16 @@ class Wechat {
      */
     static public function request($method, $url, array $params = array(), array $files = array())
     {
-        $connects = Http::$method($url, $params, array(), $files);
-        $contents = json_decode($connects, true);
+        $response = Http::request($method, $url, $params, array(), $files);
 
-        if(isset($contents['errcode']) && (0 !== (int)$contents['errcode'])){
-            throw new Exception($contents['errormsg'], $contents['errorcode']);
+        if (empty($response)) {
+            throw new Exception("请求失败，无返回值.");
+        }
+
+        $contents = json_decode($response, true);
+
+        if(!empty($contents['errcode'])){
+            throw new Exception("[{$contents['errcode']}] ".$contents['errmsg'], $contents['errcode']);
         }
 
         return $contents;
@@ -227,9 +235,11 @@ class Wechat {
      */
     protected function cache($key, $value = null, $lifetime = 7200)
     {
-        $value && $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
-
-        $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
+        if ($value) {
+            $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
+        } else {
+            $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
+        }
 
         return call_user_func_array($handler, array($key, $value, $lifetime));
     }
@@ -255,17 +265,16 @@ class Wechat {
         $this->autoRequestToken(false);
 
         $url = static::makeUrl('token.get', array(
-                                            'appid'      => $this->options->appid,
+                                            'appid'      => $this->options->app_id,
                                             'secret'     => $this->options->secret,
                                             'grant_type' => 'client_credential',
                                            ));
+        // 开启自动加access_token参数
+        $this->autoRequestToken(true);
 
         $token = static::request('GET', $url);
 
         $this->cache($key, $token['access_token'], $token['expires_in']);
-
-        // 开启自动加access_token参数
-        $this->autoRequestToken(true);
 
         return $token['access_token'];
     }
@@ -284,7 +293,7 @@ class Wechat {
             $queries['access_token'] = self::$instance->getAccessToken();
         }
 
-        return self::$instance->apis[$name] . empty($queries) ? '' : ('?' . http_build_query($queries));
+        return self::$instance->apis[$name] . (empty($queries) ? '' : ('?' . http_build_query($queries)));
     }
 
     /**
@@ -335,7 +344,7 @@ class Wechat {
      */
     protected function getCacheFile($key)
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($key);
+        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($this->options->app_id . $key);
     }
 
     /**
