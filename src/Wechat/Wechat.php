@@ -251,6 +251,8 @@ class Wechat {
             return $cached;
         }
 
+        $this->autoRequestToken(false);
+
         $url = static::makeUrl('token.get', array(
                                             'appid'      => $this->options->appid,
                                             'secret'     => $this->options->secret,
@@ -260,6 +262,8 @@ class Wechat {
         $token = static::request('GET', $url);
 
         $this->cache($key, $token['access_token'], $token['expires_in']);
+
+        $this->autoRequestToken(true);
 
         return $token['access_token'];
     }
