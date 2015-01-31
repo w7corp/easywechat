@@ -8,8 +8,6 @@ use Overtrue\Wechat\Traits\Instanceable;
 
 class Wechat {
 
-    use Loggable, Instanceable;
-
     /**
      * API列表
      *
@@ -100,6 +98,16 @@ class Wechat {
      * @var string
      */
     static protected $autoRequestToken = true;
+
+    /**
+     * Wechat实例
+     *
+     * @var Overtrue\Wechat
+     */
+    protected static $instance = null;
+
+    private function __construct() {}
+    private function __clone() {}
 
 
     /**
