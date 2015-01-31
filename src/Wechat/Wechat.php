@@ -88,13 +88,34 @@ class Wechat {
      */
     protected $cacheReader;
 
+    /**
+     * access_token
+     *
+     * @var string
+     */
+    protected $accessToken;
 
+    /**
+     * 自动添加access_token
+     *
+     * @var string
+     */
+    static protected $autoRequestToken;
+
+
+    /**
+     * 初始化应用参数
+     *
+     * @param array $options
+     *
+     * @return void
+     */
     public function instance($options)
     {
         $this->options = new Bag($options);
 
         set_exception_handler(function($e){
-            return call_user_func_array($this->errorHandler, [$e]);
+            return call_user_func_array($this->errorHandler, array($e));
         });
     }
 
@@ -171,18 +192,28 @@ class Wechat {
      *
      * @return array
      */
-    public static function request($method, $url, array $params = array(), array $files = array())
+    static public function request($method, $url, array $params = array(), array $files = array())
     {
-        $params['access_token'] = self::$instance->getAccessToken();
         $connects = Http::$method($url, $params, array(), $files);
         $contents = json_decode($connects, true);
 
         if(isset($contents['errcode']) && (0 !== (int)$contents['errcode'])){
-
             throw new Exception($contents['errormsg'], $contents['errorcode']);
         }
 
         return $contents;
+    }
+
+    /**
+     * 自动添加access_token参数
+     *
+     * @param boolean $status
+     *
+     * @return void
+     */
+    public function autoRequestToken($status)
+    {
+        self::$autoRequestToken = (bool) $status;
     }
 
     /**
@@ -210,13 +241,17 @@ class Wechat {
      */
     protected function getAccessToken()
     {
+        if ($this->accessToken) {
+            return $this->accessToken;
+        }
+
         $key = 'overtrue.wechat.access_token';
 
         if ($cached = $this->cache($key)) {
             return $cached;
         }
 
-        $url = $this->makeUrl('token.get', array(
+        $url = static::makeUrl('token.get', array(
                                             'appid'      => $this->options->appid,
                                             'secret'     => $this->options->secret,
                                             'grant_type' => 'client_credential',
@@ -239,6 +274,10 @@ class Wechat {
      */
     static public function makeUrl($name, $queries = array())
     {
+        if (self::$autoRequestToken) {
+            $queries['access_token'] = self::$instance->getAccessToken();
+        }
+
         return self::$instance->apis[$name] . empty($queries) ? '' : ('?' . http_build_query($queries));
     }
 
