@@ -196,9 +196,9 @@ class Client {
 
         $token = static::request('GET', $url);
 
-        $this->cache($key, $token);
+        $this->cache($key, $token['access_token'], $token['expires_in']);
 
-        return $token;
+        return $token['access_token'];
     }
 
     /**
