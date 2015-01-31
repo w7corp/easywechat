@@ -9,11 +9,6 @@ class Client {
 
     use Loggable, Instanceable;
 
-    /**
-     * 缓存寿命
-     */
-    const CACHE_LIFETIME  = 2 * 3600; // 2h
-
     protected $apis = array(
             'token.get'           => 'https://api.weixin.qq.com/sns/oauth2/access_token',
             'token.refresh'       => 'https://api.weixin.qq.com/sns/oauth2/refresh_token',
@@ -165,12 +160,13 @@ class Client {
     /**
      * 写入/读取缓存
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param string  $key
+     * @param mixed   $value
+     * @param integer $lifetime
      *
      * @return mixed
      */
-    protected function cache($key, $value = null)
+    protected function cache($key, $value = null, $lifetime)
     {
         $value && $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
 
@@ -221,14 +217,20 @@ class Client {
     /**
      * 默认的缓存写入器
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param string  $key
+     * @param mixed   $value
+     * @param integer $lifetime
      *
      * @return void
      */
-    protected function fileCacheWriter($key, $value)
+    protected function fileCacheWriter($key, $value, $lifetime)
     {
-        file_put_contents($this->getCacheFile($key), strval($value));
+        $data = array(
+                'token'      => $value,
+                'expired_at' => time() + $lifetime - 2, //XXX: 减去2秒更可靠的说
+                );
+
+        file_put_contents($this->getCacheFile($key), serialize($data));
     }
 
     /**
@@ -242,8 +244,8 @@ class Client {
     {
         $file = $this->getCacheFile($key);
 
-        if (file_exists($file) && filemtime($file) > time() - static::CACHE_LIFETIME) {
-            return file_get_contents($file);
+        if (file_exists($file) && $token = unserialize(file_get_contents($file))) {
+            return $token['expired_at'] > time() ? $token['token'] : null;
         }
 
         return null;
