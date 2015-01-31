@@ -111,19 +111,27 @@ class Wechat {
 
 
     /**
-     * 初始化应用参数
+     * 创建实例
      *
-     * @param array $options
+     * @param array $$options
      *
-     * @return void
+     * @return mixed
      */
-    public function instance($options)
+    static public function make($options)
     {
-        $this->options = new Bag($options);
+        !is_null(static::$instance) || static::$instance = new static;
+
+        if (empty($options['app_id'])
+            || empty($options['secret'])
+            || empty($options['token'])) {
+            throw new Exception("配置至少包含三项'app_id'、'secret'、'token'且不能为空！");
+        }
+
+        static::$instance->options = new Bag($options);
 
         set_exception_handler(function($e){
-            if ($this->errorHandler) {
-                return call_user_func_array($this->errorHandler, array($e));
+            if (static::$instance->errorHandler) {
+                return call_user_func_array(static::$instance->errorHandler, array($e));
             }
 
             throw $e;
