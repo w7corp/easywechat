@@ -258,7 +258,9 @@ class Wechat {
                 'expired_at' => time() + $lifetime - 2, //XXX: 减去2秒更可靠的说
                 );
 
-        file_put_contents($this->getCacheFile($key), serialize($data));
+        if (!file_put_contents($this->getCacheFile($key), serialize($data))) {
+            throw new Exception("Access toekn 缓存失败！");
+        }
     }
 
     /**
