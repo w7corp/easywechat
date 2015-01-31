@@ -185,7 +185,9 @@ $users = $client->users([$nextOpenID = null]);
 }
 ```
 
->注意：一次拉取调用最多拉取10000个关注者的OpenID，可以通过多次拉取的方式来满足需求。
+> 注意：一次拉取调用最多拉取10000个关注者的OpenID，可以通过多次拉取的方式来满足需求。
+> $nextOpenID 起始用户id,即返回值中的next_openid
+
 ---
 
 ### 处理错误
