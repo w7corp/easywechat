@@ -1,5 +1,6 @@
 <?php namespace Overtrue\Wechat;
 
+use Exception;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Traits\Loggable;
