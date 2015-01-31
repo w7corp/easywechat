@@ -114,28 +114,21 @@ $client = $wechat->client;
 
 ```php
 // 文本消息
-$message = new Message(Message::TEXT);
-$message->content = '您好小朋友！';
-
+$message = Message::make(Message::TEXT)->content('您好小朋友！');
 
 // 图片消息
-$message = new Message(Message::IMAGE);
-$message->image = __DIR__ . '/test.jpg';
-
+$message = Message::make(Message::IMAGE)->image(__DIR__ . '/test.jpg');
 
 // 语音消息
-$message = new Message(Message::VOICE);
-$message->voice = __DIR__ . '/test.mp3';
+$message = Message::make(Message::VOICE)->voice(__DIR__ . '/test.mp3');
 
 // 视频消息
-$message = new Message(Message::VIDEO);
-$message->title = '测试视频标题';
-$message->description = '这段视频看完你肯定想转的...';
-$message->video = __DIR__ . '/test.mp4';
-$message->thumb = __DIR__ . '/video_cover.jpg';//XXX: 仅群发时有用
-
+$message = Message::make(Message::VIDEO)->title('测试视频标题');
+                                    ->description('这段视频看完你肯定想转的...');
+                                    ->video(__DIR__ . '/test.mp4');
+                                    ->thumb(__DIR__ . '/video_cover.jpg');//XXX: 仅群发时有用
 // 音乐消息
-$message = new Message(Message::MUSIC);
+$message = Message::make(Message::MUSIC);
 $message->title = '测试音乐标题';
 $message->description = '一段NB的旋律...';
 $message->url = 'http://www.baidu.com/mp3/test.mp3'; 
@@ -143,7 +136,7 @@ $message->hq_url = 'http://www.baidu.com/mp3/test_hq.mp3'; // 高清版
 $message->thumb = __DIR__ . '/music_cover.jpg';
 
 // 图文消息
-$message = new Message(Message::NEWS);
+$message = Message::make(Message::NEWS);
 $message->items = array(
     array('标题', '描述1', __DIR__ . '/图片1.jpg', 'http://阅读全文url1'),
     array('标题2', '描述2', __DIR__ . '/图片2.jpg', 'http://阅读全文url2'),
