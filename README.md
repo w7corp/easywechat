@@ -205,7 +205,39 @@ $users = $client->users([$nextOpenID = null]);
 TODO
 
 ### 用户组管理
-TODO
+
+### 创建分组
+
+```php
+$client->group()->create($name);
+```
+### 修改分组名
+
+```php
+$client->group($groupId)->update($newName);
+```
+
+### 获取所有分组
+
+```php
+$client->groups();
+```
+
+### 获取用户分组
+
+```php
+$group = $client->user($openId)->groupId();
+```
+
+### 移动单个用户到分组
+
+```php
+$user($openId)->toGroup($groupId);
+
+### 批量移动用户到分组
+```php
+$client->group($groupId)->users(array($openId1, $openId2, ...));
+```
 
 ### 模板消息
 TODO
