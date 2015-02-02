@@ -165,8 +165,6 @@ $client->send($message);
 ```php
 $user = $client->user($openID); 
 ```
-> 注意：此时var_dump($user);是没有用户资料的，因为这里的设计为：当你真正开始访问用户属性时才取用户资料回来。
-
 ### 访问用户属性
 
 ```php

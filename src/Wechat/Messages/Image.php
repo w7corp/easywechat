@@ -44,7 +44,7 @@ class Image extends AbstractMessage implements MessageInterface {
                      'Image'        => array(
                                         'MediaId' => $this->media_id,
                                        ),
-                    ));
+                    );
 
         return XML::build($response);
     }

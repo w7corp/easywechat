@@ -14,34 +14,35 @@ class Wechat {
      * @var array
      */
     protected $apis = array(
-            'token.get'           => 'https://api.weixin.qq.com/cgi-bin/token',
+            'token.get'                 => 'https://api.weixin.qq.com/cgi-bin/token',
 
-            'auth.url'            => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'auth.url'                  => 'https://open.weixin.qq.com/connect/oauth2/authorize',
 
-            'file.upload'         => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
-            'file.get'            => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.upload'               => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
+            'file.get'                  => 'http://file.api.weixin.qq.com/cgi-bin/media/upload',
 
-            'menu.create'         => 'https://api.weixin.qq.com/cgi-bin/menu/create',
-            'menu.get'            => 'https://api.weixin.qq.com/cgi-bin/menu/get',
-            'menu.delete'         => 'https://api.weixin.qq.com/cgi-bin/menu/delete',
+            'menu.create'               => 'https://api.weixin.qq.com/cgi-bin/menu/create',
+            'menu.get'                  => 'https://api.weixin.qq.com/cgi-bin/menu/get',
+            'menu.delete'               => 'https://api.weixin.qq.com/cgi-bin/menu/delete',
 
-            'message.send'        => 'https://api.weixin.qq.com/cgi-bin/message/custom/send',
+            'message.send'              => 'https://api.weixin.qq.com/cgi-bin/message/custom/send',
 
-            'group.create'        => 'https://api.weixin.qq.com/cgi-bin/groups/create',
-            'group.update'        => 'https://api.weixin.qq.com/cgi-bin/groups/update',
-            'group.get'           => 'https://api.weixin.qq.com/cgi-bin/groups/get',
-            'group.member.update' => 'https://api.weixin.qq.com/cgi-bin/groups/members/update',
+            'group.create'              => 'https://api.weixin.qq.com/cgi-bin/groups/create',
+            'group.update'              => 'https://api.weixin.qq.com/cgi-bin/groups/update',
+            'group.get'                 => 'https://api.weixin.qq.com/cgi-bin/groups/get',
+            'group.member.update'       => 'https://api.weixin.qq.com/cgi-bin/groups/members/update',
+            'group.member.batch_update' => 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate',
 
-            'user.group'          => 'https://api.weixin.qq.com/cgi-bin/groups/getid',
-            'user.get'            => 'https://api.weixin.qq.com/cgi-bin/user/info',
-            'user.list'           => 'https://api.weixin.qq.com/cgi-bin/user/get',
-            'user.remark'         => 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark',
-            'user.oauth.get'      => 'https://api.weixin.qq.com/sns/userinfo',
+            'user.group'                => 'https://api.weixin.qq.com/cgi-bin/groups/getid',
+            'user.get'                  => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'user.list'                 => 'https://api.weixin.qq.com/cgi-bin/user/get',
+            'user.remark'               => 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark',
+            'user.oauth.get'            => 'https://api.weixin.qq.com/sns/userinfo',
 
-            'qrcode.create'       => 'https://mp.weixin.qq.com/cgi-bin/qrcode/create',
-            'qrcode.show'         => 'https://mp.weixin.qq.com/cgi-bin/showqrcode',
+            'qrcode.create'             => 'https://mp.weixin.qq.com/cgi-bin/qrcode/create',
+            'qrcode.show'               => 'https://mp.weixin.qq.com/cgi-bin/showqrcode',
 
-            'template.set'        => '/cgi-bin/template/api_set_industry',
+            'template.set'              => '/cgi-bin/template/api_set_industry',
         );
 
     /**

@@ -33,7 +33,6 @@ class User extends Bag {
         parent::__construct($properties);
     }
 
-
     /**
      * 修改用户备注
      *
@@ -49,26 +48,82 @@ class User extends Bag {
                    'remark' => $remark,
                   );
 
-        return Wechat::get(Wechat::makeUrl('user.remark'), $params);
+        return Wechat::post(Wechat::makeUrl('user.remark'), $params);
     }
 
     /**
-     * 获取用户信息
+     * 获取/设置用户所在分组
      *
-     * @param string $openId
+     * @param integer $groupId 是否返回group
+     *
+     * @return Overtrue\Wechat\Group
+     */
+    public function group($groupId = null)
+    {
+        return $groupId ? $this->moveTo($groupId) : $this->getGroup();
+    }
+
+    /**
+     * 移动用户到分组
+     *
+     * @param integer $groupId
+     *
+     * @return boolean
+     */
+    public function toGroup($groupId)
+    {
+        $params = array(
+                   'openid'     => $this->openId,
+                   'to_groupid' => ($groupId instanceof Group) ? $groupId->id : $groupId;
+                  );
+
+        Wechat::post(Wechat::makeUrl('group.member.update'), $params);
+
+        return true;
+    }
+
+    /**
+     * 获取用户所在的组
+     *
+     * @return \Overtrue\Wechat\Group
+     */
+    protected function getGroup()
+    {
+        $params = array(
+                   'openid' => $this->openId,
+                  );
+
+        $response = Wechat::post(Wechat::makeUrl('user.group'), $params);
+
+        return new Group($response['groupid']);
+    }
+
+    /**
+     * 重写生成数组
      *
      * @return array
      */
-    private function getUser($openId)
+    public function toArray()
     {
-        $params = array(
-                   'openid' => $openId,
-                   'lang'   => $lang
-                  );
+        if (!$this->has('openid'))) {
+            $this->merge($this->getUser($this->openId));
+        }
 
-        $url = Wechat::makeUrl('user.get', $params);
+        return parent::toArray();
+    }
 
-        return Wechat::get($url);
+    /**
+     * 重写生成json
+     *
+     * @return array
+     */
+    public function toJson()
+    {
+        if (!$this->has('openid'))) {
+            $this->merge($this->getUser($this->openId));
+        }
+
+        return parent::toJson();
     }
 
     /**
@@ -85,5 +140,24 @@ class User extends Bag {
         }
 
         return parent::get($property, $default, $callback);
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param string $openId
+     *
+     * @return array
+     */
+    private function getUser($openId)
+    {
+        $params = array(
+                   'openid' => $this->openId,
+                   'lang'   => $this->lang
+                  );
+
+        $url = Wechat::makeUrl('user.get', $params);
+
+        return Wechat::get($url);
     }
 }

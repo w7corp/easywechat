@@ -155,6 +155,26 @@ class Bag implements
         return Arr::forget($this->data, $key);
     }
 
+    /**
+     * 返回数组
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->all();
+    }
+
+    /**
+     * 返回json
+     *
+     * @return string
+     */
+    public function toJson()
+    {
+        return json_encode($this->all());
+    }
+
     /** {@inhertDoc} */
     public function jsonSerialize()
     {

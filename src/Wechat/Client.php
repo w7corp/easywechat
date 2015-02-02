@@ -48,7 +48,7 @@ class Client {
      */
     public function users($nextOpenId = null)
     {
-        return Wechat::get(Wechat::makeUrl('user.list', array('next_openid' => $nextOpenId)));
+        return new Bag(Wechat::get(Wechat::makeUrl('user.list', array('next_openid' => $nextOpenId))));
     }
 
     /**
