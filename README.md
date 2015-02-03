@@ -233,6 +233,7 @@ $group = $client->user($openId)->groupId();
 
 ```php
 $user($openId)->toGroup($groupId);
+```
 
 ### 批量移动用户到分组
 ```php
