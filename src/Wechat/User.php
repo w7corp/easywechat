@@ -1,36 +1,42 @@
-<?php namespace Overtrue\Wechat;
+<?php
+
+namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
 
-class User extends Bag {
+class User
+{
 
     /**
-     * 用户open id
-     *
-     * @var string
-     */
-    protected $openId;
-
-    /**
-     * 用户资料语言
-     *
-     * @var string
-     */
-    protected $lang;
-
-
-    /**
-     * 实例化用户
+     * 读取用户信息
      *
      * @param string $openId
-     * @param array  $properties
+     * @param string $lang
+     *
+     * @return array
      */
-    public function __construct($openId, $lang = 'zh_CN', $properties = [])
+    public function get($openId, $lang = 'zh_CN')
     {
-        $this->openId = $openId;
-        $this->lang   = $lang;
+        $params = array(
+                   'openid' => $openId,
+                   'lang'   => $lang,
+                  );
 
-        parent::__construct($properties);
+        return new Bag(Wechat::get(Wechat::makeUrl('user.get', $params)));
+    }
+
+    /**
+     * 获取用户列表
+     *
+     * @param string $nextOpenId
+     *
+     * @return Overtrue\Wechat\Utils\Bag
+     */
+    public function users($nextOpenId = null)
+    {
+        $params = array('next_openid' => $nextOpenId);
+
+        return new Bag(Wechat::get(Wechat::makeUrl('user.list', $params)));
     }
 
     /**
@@ -52,13 +58,13 @@ class User extends Bag {
     }
 
     /**
-     * 获取/设置用户所在分组
+     * 获取用户所在分组
      *
      * @param integer $groupId 是否返回group
      *
-     * @return Overtrue\Wechat\Group
+     * @return string
      */
-    public function group($groupId = null)
+    public function group()
     {
         return $groupId ? $this->moveTo($groupId) : $this->getGroup();
     }
@@ -87,7 +93,7 @@ class User extends Bag {
      *
      * @return \Overtrue\Wechat\Group
      */
-    protected function getGroup()
+    public function getGroup()
     {
         $params = array(
                    'openid' => $this->openId,
@@ -95,69 +101,6 @@ class User extends Bag {
 
         $response = Wechat::post(Wechat::makeUrl('user.group'), $params);
 
-        return new Group($response['groupid']);
-    }
-
-    /**
-     * 重写生成数组
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        if (!$this->has('openid'))) {
-            $this->merge($this->getUser($this->openId));
-        }
-
-        return parent::toArray();
-    }
-
-    /**
-     * 重写生成json
-     *
-     * @return array
-     */
-    public function toJson()
-    {
-        if (!$this->has('openid'))) {
-            $this->merge($this->getUser($this->openId));
-        }
-
-        return parent::toJson();
-    }
-
-    /**
-     * 处理属性访问
-     *
-     * @param string $property
-     *
-     * @return string
-     */
-    public function get($property, $default = null, Closure $callback = null)
-    {
-        if (!$this->has('openid'))) {
-            $this->merge($this->getUser($this->openId));
-        }
-
-        return parent::get($property, $default, $callback);
-    }
-
-    /**
-     * 获取用户信息
-     *
-     * @param string $openId
-     *
-     * @return array
-     */
-    private function getUser($openId)
-    {
-        $params = array(
-                   'openid' => $this->openId,
-                   'lang'   => $this->lang
-                  );
-
-        $url = Wechat::makeUrl('user.get', $params);
-
-        return Wechat::get($url);
+        return $response['groupid'];
     }
 }
