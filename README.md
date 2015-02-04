@@ -122,9 +122,9 @@ echo $result;
         });
         ```
 
-### 客服
+## 客服
 
-$wechat->staff();
+`$wechat->staff();`
 
 + 获取所有客服账号
 
@@ -158,6 +158,7 @@ $wechat->staff();
 + 群发消息
     
     `$wechat->staff()->send($message)->toAll(); `
+
     `$wechat->staff()->send($message)->toGroup($groupId); `
 
 + 消息转发给多个客服
@@ -168,9 +169,9 @@ $wechat->staff();
     
     `$message->transfer($stuffMail); `
 
-### 用户
+## 用户
 
-$wechat->user();
+`$wechat->user();`
 
 + 获取用户信息
 
@@ -184,9 +185,9 @@ $wechat->user();
 
     `$wechat->user()->remark($openId, $remark);`
 
-### 用户组 
+## 用户组 
 
-$wechat->group();
+`$wechat->group();`
 
 + 获取所有分组
 
@@ -199,16 +200,18 @@ $wechat->group();
 + 添加分组用户(批量移动用户)
 
     `$wechat->group()->user($id, $openId);`
+
     `$wechat->group()->users($id, $openIds);`
 
-### 网页授权
+## 网页授权
 
-$wechat->auth();
+`$wechat->auth();`
 
 + 生成授权链接
 
-    `$wechat->auth()->makeUrl($redirect, $state, $scope); 生成并返回`
-    `$wechat->auth()->redirect($to, $state, $scope);   直接跳转`
+    `$wechat->auth()->makeUrl($redirect, $state, $scope);` 生成并返回
+
+    `$wechat->auth()->redirect($to, $state, $scope);`   直接跳转
 
 + 判断是否已经授权
 
@@ -218,9 +221,9 @@ $wechat->auth();
 
     `$wechat->auth()->user();`
 
-### 菜单
+## 菜单
 
-$wechat->menu();
+`$wechat->menu();`
 
 + 读取菜单
     
@@ -234,7 +237,7 @@ $wechat->menu();
     
     `$wechat->menu()->delete();`
 
-### 签名
+## 签名
 
 + 生成
     
@@ -242,7 +245,7 @@ $wechat->menu();
 
 ---
 
-### 处理错误
+## 处理错误
 
 ```php
 $wechat->error(function($error){
@@ -253,7 +256,7 @@ $wechat->error(function($error){
 // ...
 ```
 
-### 自定义缓存写入/读取
+## 自定义缓存写入/读取
 
 ```php
 // writer
