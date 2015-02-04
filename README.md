@@ -124,42 +124,42 @@ echo $result;
 
 ## 客服
 
-`$wechat->staff();`
+`$wechat->staff;`
 
 + 获取所有客服账号
 
-    `$wechat->staff()->all();`
+    `$wechat->staff->all();`
 
 + 获取所有在线的客服账号
 
-    `$wechat->staff()->onlineAll();`
+    `$wechat->staff->onlineAll();`
 
 
 + 添加客服帐号
 
-    `$wechat->staff()->create($mail, $nickname, $password);`
+    `$wechat->staff->create($mail, $nickname, $password);`
 
 + 修改客服帐号
 
-    `$wechat->staff()->update($mail, $nickname, $password);`
+    `$wechat->staff->update($mail, $nickname, $password);`
 
 + 删除客服帐号
 
-    `$wechat->staff()->delete($mail, $nickname, $password);`
+    `$wechat->staff->delete($mail, $nickname, $password);`
 
 + 设置客服帐号的头像
 
-    `$wechat->staff()->avatar($mail, $avatarPath);`
+    `$wechat->staff->avatar($mail, $avatarPath);`
 
 + 主动发送消息给用户
     
-    `$wechat->staff()->send($message)->to($openId);`
+    `$wechat->staff->send($message)->to($openId);`
 
 + 群发消息
     
-    `$wechat->staff()->send($message)->toAll(); `
+    `$wechat->staff->send($message)->toAll(); `
 
-    `$wechat->staff()->send($message)->toGroup($groupId); `
+    `$wechat->staff->send($message)->toGroup($groupId); `
 
 + 消息转发给多个客服
     
@@ -171,71 +171,71 @@ echo $result;
 
 ## 用户
 
-`$wechat->user();`
+`$wechat->user;`
 
 + 获取用户信息
 
-    `$user = $wechat->user()->get($openId);`
+    `$user = $wechat->user->get($openId);`
 
 + 获取用户列表
 
-    `$users = $wechat->user()->all();`
+    `$users = $wechat->user->all();`
 
 + 修改用户备注
 
-    `$wechat->user()->remark($openId, $remark);`
+    `$wechat->user->remark($openId, $remark);`
 
 ## 用户组 
 
-`$wechat->group();`
+`$wechat->group;`
 
 + 获取所有分组
 
-    `$wechat->group()->all();`
+    `$wechat->group->all();`
 
 + 修改分组信息
 
-    `$wechat->group()->update($id, $name);`
+    `$wechat->group->update($id, $name);`
 
 + 添加分组用户(批量移动用户)
 
-    `$wechat->group()->user($id, $openId);`
+    `$wechat->group->user($id, $openId);`
 
-    `$wechat->group()->users($id, $openIds);`
+    `$wechat->group->users($id, $openIds);`
 
 ## 网页授权
 
-`$wechat->auth();`
+`$wechat->auth;`
 
 + 生成授权链接
 
-    `$wechat->auth()->makeUrl($redirect, $state, $scope);` 生成并返回
+    `$wechat->auth->makeUrl($redirect, $state, $scope);` 生成并返回
 
-    `$wechat->auth()->redirect($to, $state, $scope);`   直接跳转
+    `$wechat->auth->redirect($to, $state, $scope);`   直接跳转
 
 + 判断是否已经授权
 
-    `$wechat->auth()->authorized();`
+    `$wechat->auth->authorized();`
 
 + 获取授权用户
 
-    `$wechat->auth()->user();`
+    `$wechat->auth->user();`
 
 ## 菜单
 
-`$wechat->menu();`
+`$wechat->menu;`
 
 + 读取菜单
     
-    `$wechat->menu()->get();`
+    `$wechat->menu->get();`
 
 + 设置菜单
     
-    `$wechat->menu()->set($menus);`
+    `$wechat->menu->set($menus);`
 
 + 删除菜单
     
-    `$wechat->menu()->delete();`
+    `$wechat->menu->delete();`
 
 ## 签名
 
