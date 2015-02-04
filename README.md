@@ -29,7 +29,6 @@ composer require overtrue/wechat
 <?php
 
 use Overtrue\Wechat\Wechat;
-use Overtrue\Wechat\Message;
 
 $options = [
     'app_id'         => 'Your appid !!',
@@ -41,15 +40,12 @@ $options = [
 // 初始化Wechat实例
 $wechat = Wechat::make($options);
 
-// 获取服务端实例
-$server = $wechat->server; // 同理，获取客户端：$client = $wechat->client;
-
 // 接收消息
-$server->message('text', function($message){
+$server = $wechat->on('message', function($message){
     error_log("收到来自'{$message['FromUserName']}'的文本消息：" . $message['Content']);
 });
 
-$result = $server->run(); 
+$result = $wechat->run(); 
 
 // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
 echo $result;
@@ -57,197 +53,190 @@ echo $result;
 
 ---
 
-### 服务端
 
-```php
-$server = $wechat->server;
-```
+- 基础
+    
+    + 初始化
+        
+        * $wechat = new Wechat($options);
+    
+    + 接收用户发来的消息(回复)
+    
+        * $wechat->on('message', callable $callback);
+        * $wechat->on('message', string $messageType, callable $callback);
+        
+            ** 参数说明 **
+                - `$messageType` string, 指定要处理的消息类型，ex：`image`
+                - `$callback` callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
-#### 接收消息
+            example:
 
-语法 ：
+            ```php
+            // 监听所有类型
+            $wechat->on('message', function($message){
+                // 所有类型的消息都会触发此函数
 
-```php
-$server->message('消息类型', function($message){
-    // $message 为微信请求过来的xml转换后的数组
-});
+                error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']}");        
+            
+                // 回复它一条消息
+                return $wechat->message('text')->content('您好！');
+            });
 
-```
+            // 监听指定类型
+            $wechat->on('message', 'image', function($message){
+                //只有收到图片(image)类型触发此函数
 
-sample:
-```php
-$server->message('text', function($message){
-    error_log('收到文本消息：' . $message['Content']);
-});
-$server->message('image', function($message){
-    error_log('收到图片消息：' . $message['PicUrl']);
-});
-$server->message('location', function($message){
-    error_log('收到地址消息：' . $message['Label']);
-});
-$server->message('link', function($message){
-    error_log('收到链接消息：' . $message['Url']);
-});
+                error_log("收到来自{$message['FromUserName']}的图片消息");        
+            
+                // 回复它一条消息
+                return $wechat->message('text')->content('我们已经收到您发送的图片！');
+            });
+            ```
+    
+    + 订阅微信事件
+    
+        * $wechat->on('event',  callable $callback);
+        * $wechat->on('event',  string $eventType, callable $callback);
+            
+            ** 参数说明 **
+                - `$eventType` string, 指定要处理的消息类型，ex：`image`
+                - $callback callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
-$server->run();
-```
+            example:
 
-#### 监听事件
+            ```php
+            // 监听所有事件
+            $wechat->on('event', function($event){
+            
+                error_log('收到取消关注事件，取消关注者openid: ' . $event['FromUserName']);      
+            });
 
-语法：
+            // 只监听指定类型事件
+            $wechat->on('event', 'subscribe', function($event){
+            
+                error_log('收到关注事件，关注者openid: ' . $event['FromUserName']);      
+            
+                return $wechat->message('text')->content('感谢您关注');
+            });
+            ```
 
-```php
-$server->event('事件类型', function($event){
-    // $event 为微信请求过来的xml转换后的数组
-});
+- 客服
+    
+    $wechat->staff();
 
-```
+    + 获取所有客服账号
+    
+        * $wechat->staff()->all();
+    
+    + 获取所有在线的客服账号
+    
+        * $wechat->staff()->onlineAll();
+    
 
-sample:
+    + 添加客服帐号
+    
+        * $wechat->staff()->create($mail, $nickname, $password);
+    
+    + 修改客服帐号
+    
+        * $wechat->staff()->update($mail, $nickname, $password);
+    
+    + 删除客服帐号
+    
+        * $wechat->staff()->delete($mail, $nickname, $password);
+    
+    + 设置客服帐号的头像
+    
+        * $wechat->staff()->avatar($mail, $avatarPath);
+    
+    + 主动发送消息给用户
+        
+        * $wechat->staff()->send($message)->to($openId);
+    
+    + 群发消息
+        
+        * $wechat->staff()->send($message)->toAll(); 
+        * $wechat->staff()->send($message)->toGroup($groupId); 
+    
+    + 消息转发给多个客服
+        
+        * $message->transfer(); 
+    
+    + 消息转发给单个客服
+        
+        * $message->transfer($stuffMail); 
 
-```php
-$server->event('unsubscribe', function($message){
-    error_log('收到取消关注事件，取消关注者openid: ' . $message['FromUserName']);
-});
+- 用户
+    
+    $wechat->user();
 
-$server->event('subscribe', function($message){
-    error_log('收到关注事件, 关注者openid' . $message['FromUserName']);
-});
+    + 获取用户信息
+   
+        * $user = $wechat->user()->get($openId);
+   
+    + 获取用户列表
+   
+        * $users = $wechat->user()->all();
+   
+    + 修改用户备注
+   
+        * $wechat->user()->remark($openId, $remark);
 
-$server->run();
-```
+- 用户组 
+    
+    $wechat->group();
 
----
-### 客户端
+    + 获取所有分组
+    
+        * $wechat->group()->all();
+    
+    + 修改分组信息
+    
+        * $wechat->group()->update($id, $name);
+    
+    + 添加分组用户(批量移动用户)
+    
+        * $wechat->group()->user($id, $openId);
+        * $wechat->group()->users($id, $openIds);
 
-```php
-$client = $wechat->client;
-```
+- 网页授权
+    
+    $wechat->auth();
 
-#### 发送客服消息
+    + 生成授权链接
+    
+        * $wechat->auth()->makeUrl($redirect, $state, $scope); 生成并返回
+        * $wechat->auth()->redirect($to, $state, $scope);   直接跳转
+    
+    + 判断是否已经授权
+    
+        * $wechat->auth()->authorized();
+    
+    + 获取授权用户
+    
+        * $wechat->auth()->user();
 
-```php
-// 文本消息
-$message = Message::make(Message::TEXT)->content('您好小朋友！');
+- 菜单
 
-// 图片消息
-$message = Message::make(Message::IMAGE)->image(__DIR__ . '/test.jpg');
+    $wechat->menu();
 
-// 语音消息
-$message = Message::make(Message::VOICE)->voice(__DIR__ . '/test.mp3');
+    + 读取菜单
+        
+        * $wechat->menu()->get();
 
-// 视频消息
-$message = Message::make(Message::VIDEO)->title('测试视频标题');
-                                    ->description('这段视频看完你肯定想转的...');
-                                    ->video(__DIR__ . '/test.mp4');
-                                    ->thumb(__DIR__ . '/video_cover.jpg');//XXX: 仅群发时有用
-// 音乐消息
-$message = Message::make(Message::MUSIC);
-$message->title = '测试音乐标题';
-$message->description = '一段NB的旋律...';
-$message->url = 'http://www.baidu.com/mp3/test.mp3'; 
-$message->hq_url = 'http://www.baidu.com/mp3/test_hq.mp3'; // 高清版
-$message->thumb = __DIR__ . '/music_cover.jpg';
+    + 设置菜单
+        
+        * $wechat->menu()->set($menus);
+    
+    + 删除菜单
+        
+        * $wechat->menu()->delete();
 
-// 图文消息
-$message = Message::make(Message::NEWS);
-$message->items = array(
-    array('标题', '描述1', __DIR__ . '/图片1.jpg', 'http://阅读全文url1'),
-    array('标题2', '描述2', __DIR__ . '/图片2.jpg', 'http://阅读全文url2'),
-    array('标题3', '描述3', __DIR__ . '/图片3.jpg', 'http://阅读全文url3'),
-);
+- 签名
 
-$client->send($message);
-```
-
-#### 获取用户信息
-
-```php
-$user = $client->user($openID); 
-```
-### 访问用户属性
-
-```php
-echo $user->nickname; // iovertrue
-//or
-echo $user['nickname'];
-```
-
-#### 设置用户备注
-
-```php
-$client->user($openID)->remark('小二B');
-```
-
-#### 获取用户列表(openID列表)
-
-```php
-$users = $client->users([$nextOpenID = null]);
-```
-返回值示例：
-
-```json
-{
-    "total":2,
-    "count":2,
-    "data": {
-        "openid":["","OPENID1","OPENID2"]
-    },
-    "next_openid":"NEXT_OPENID"
-}
-```
-
-> 注意：一次拉取调用最多拉取10000个关注者的OpenID，可以通过多次拉取的方式来满足需求。
-> $nextOpenID 起始用户id,即返回值中的next_openid
-
-
-### 菜单管理
-TODO
-
-### 用户组管理
-
-### 创建分组
-
-```php
-$client->group()->create($name);
-```
-### 修改分组名
-
-```php
-$client->group($groupId)->update($newName);
-```
-
-### 获取所有分组
-
-```php
-$client->groups();
-```
-
-### 获取用户分组
-
-```php
-$group = $client->user($openId)->groupId();
-```
-
-### 移动单个用户到分组
-
-```php
-$user($openId)->toGroup($groupId);
-```
-
-### 批量移动用户到分组
-```php
-$client->group($groupId)->users(array($openId1, $openId2, ...));
-```
-
-### 模板消息
-TODO
-
-### 二维码
-TODO
-
-### 短链接
-TODO
+    + 生成
+        
+        * $wechat->signature($params);
 
 ---
 
