@@ -66,6 +66,7 @@ echo $result;
         * $wechat->on('message', string $messageType, callable $callback);
         
             ** 参数说明 **
+
                 - `$messageType` string, 指定要处理的消息类型，ex：`image`
                 - `$callback` callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
@@ -99,6 +100,7 @@ echo $result;
         * $wechat->on('event',  string $eventType, callable $callback);
             
             ** 参数说明 **
+            
                 - `$eventType` string, 指定要处理的消息类型，ex：`image`
                 - $callback callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
