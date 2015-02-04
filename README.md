@@ -42,7 +42,7 @@ $wechat = Wechat::make($options);
 
 // 接收消息
 $server = $wechat->on('message', function($message){
-    error_log("收到来自'{$message['FromUserName']}'的文本消息：" . $message['Content']);
+    error_log("收到来自'{$message['FromUserName']}'的消息：" . $message['Content']);
 });
 
 $result = $wechat->run(); 
@@ -58,17 +58,17 @@ echo $result;
     
     + 初始化
         
-        * $wechat = new Wechat($options);
+        * `$wechat = new Wechat($options);`
     
     + 接收用户发来的消息(回复)
     
-        * $wechat->on('message', callable $callback);
-        * $wechat->on('message', string $messageType, callable $callback);
+        * `$wechat->on('message', callable $callback);`
+        * `$wechat->on('message', string $messageType, callable $callback);`
         
             ** 参数说明 **
 
-                - `$messageType` string, 指定要处理的消息类型，ex：`image`
-                - `$callback` callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
+            - `$messageType` string, 指定要处理的消息类型，ex：`image`
+            - `$callback` callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
             example:
 
@@ -96,13 +96,13 @@ echo $result;
     
     + 订阅微信事件
     
-        * $wechat->on('event',  callable $callback);
-        * $wechat->on('event',  string $eventType, callable $callback);
+        * `$wechat->on('event',  callable $callback);`
+        * `$wechat->on('event',  string $eventType, callable $callback);`
             
-            ** 参数说明 **
+            *参数说明*
             
-                - `$eventType` string, 指定要处理的消息类型，ex：`image`
-                - $callback callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
+            - `$eventType` string, 指定要处理的消息类型，ex：`image`
+            - $callback callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
             example:
 
