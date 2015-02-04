@@ -53,20 +53,6 @@ class Wechat {
     protected $options;
 
     /**
-     * 服务端
-     *
-     * @var Overtrue\Wechat\Server
-     */
-    protected $server;
-
-    /**
-     * 客户端
-     *
-     * @var Overtrue\Wechat\Client
-     */
-    protected $client;
-
-    /**
      * 错误处理器
      *
      * @var callable
@@ -155,34 +141,6 @@ class Wechat {
     }
 
     /**
-     * 获取服务器端实例
-     *
-     * @return Overtrue\Wechat\Server
-     */
-    public function getServer()
-    {
-        if (is_null($this->server)) {
-            $this->server = new Server($this->options);
-        }
-
-        return $this->server;
-    }
-
-    /**
-     * 获取客户器端实例
-     *
-     * @return Overtrue\Wechat\Client
-     */
-    public function getClient()
-    {
-        if (is_null($this->client)) {
-            $this->client = new Client($this->options);
-        }
-
-        return $this->client;
-    }
-
-    /**
      * 设置缓存写入器
      *
      * @param callable $handler
@@ -242,61 +200,6 @@ class Wechat {
     public function autoRequestToken($status)
     {
         self::$autoRequestToken = (bool) $status;
-    }
-
-    /**
-     * 写入/读取缓存
-     *
-     * @param string  $key
-     * @param mixed   $value
-     * @param integer $lifetime
-     *
-     * @return mixed
-     */
-    protected function cache($key, $value = null, $lifetime = 7200)
-    {
-        if ($value) {
-            $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
-        } else {
-            $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
-        }
-
-        return call_user_func_array($handler, array($key, $value, $lifetime));
-    }
-
-    /**
-     * 获取access_token
-     *
-     * @return string
-     */
-    protected function getAccessToken()
-    {
-        if ($this->accessToken) {
-            return $this->accessToken;
-        }
-
-        $key = 'overtrue.wechat.access_token';
-
-        if ($cached = $this->cache($key)) {
-            return $cached;
-        }
-
-        // 关闭自动加access_token参数
-        $this->autoRequestToken(false);
-
-        $url = static::makeUrl('token.get', array(
-                                            'appid'      => $this->options->app_id,
-                                            'secret'     => $this->options->secret,
-                                            'grant_type' => 'client_credential',
-                                           ));
-        // 开启自动加access_token参数
-        $this->autoRequestToken(true);
-
-        $token = static::request('GET', $url);
-
-        $this->cache($key, $token['access_token'], $token['expires_in']);
-
-        return $token['access_token'];
     }
 
     /**
@@ -368,6 +271,61 @@ class Wechat {
     }
 
     /**
+     * 写入/读取缓存
+     *
+     * @param string  $key
+     * @param mixed   $value
+     * @param integer $lifetime
+     *
+     * @return mixed
+     */
+    protected function cache($key, $value = null, $lifetime = 7200)
+    {
+        if ($value) {
+            $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
+        } else {
+            $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
+        }
+
+        return call_user_func_array($handler, array($key, $value, $lifetime));
+    }
+
+    /**
+     * 获取access_token
+     *
+     * @return string
+     */
+    protected function getAccessToken()
+    {
+        if ($this->accessToken) {
+            return $this->accessToken;
+        }
+
+        $key = 'overtrue.wechat.access_token';
+
+        if ($cached = $this->cache($key)) {
+            return $cached;
+        }
+
+        // 关闭自动加access_token参数
+        $this->autoRequestToken(false);
+
+        $url = static::makeUrl('token.get', array(
+                                            'appid'      => $this->options->app_id,
+                                            'secret'     => $this->options->secret,
+                                            'grant_type' => 'client_credential',
+                                           ));
+        // 开启自动加access_token参数
+        $this->autoRequestToken(true);
+
+        $token = static::request('GET', $url);
+
+        $this->cache($key, $token['access_token'], $token['expires_in']);
+
+        return $token['access_token'];
+    }
+
+    /**
      * 处理魔术调用
      *
      * @param string $method
@@ -387,6 +345,21 @@ class Wechat {
     }
 
     /**
+     * 魔术调用
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        if (class_exists(ucfirst($property))) {
+            return new $property($this->options);
+        }
+    }
+
+    /**
      * 处理魔术调用
      *
      * @param string $property
@@ -395,14 +368,12 @@ class Wechat {
      */
     public function __get($property)
     {
-        if (!property_exists($this, $property)) {
-            return null;
+        if (property_exists($this, $property)) {
+            return $this->{$property};
         }
 
-        if ($property == 'server' || $property == 'client') {
-            $property = "get" . ucfirst($property);
-
-            return $this->{$property}();
+        if (class_exists(ucfirst($property))) {
+            return new $property($this->options);
         }
     }
 }
