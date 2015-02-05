@@ -5,6 +5,13 @@ namespace Overtrue\Wechat\Messages;
 use Overtrue\Wechat\Media;
 use Overtrue\Wechat\Utils\XML;
 
+/**
+ * @property string $url
+ * @property string $hq_url
+ * @property string $title
+ * @property string $description
+ * @property string $thumb_media_id
+ */
 class Music extends AbstractMessage implements MessageInterface
 {
 

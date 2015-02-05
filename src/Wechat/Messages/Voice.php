@@ -5,6 +5,9 @@ namespace Overtrue\Wechat\Messages;
 use Overtrue\Wechat\Media;
 use Overtrue\Wechat\Utils\XML;
 
+/**
+ * @property string $media_id
+ */
 class Voice extends AbstractMessage implements MessageInterface
 {
 

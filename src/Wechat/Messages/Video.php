@@ -5,6 +5,13 @@ namespace Overtrue\Wechat\Messages;
 use Overtrue\Wechat\Media;
 use Overtrue\Wechat\Utils\XML;
 
+/**
+ * @property string $video
+ * @property string $title
+ * @property string $media_id
+ * @property string $description
+ * @property string $thumb_media_id
+ */
 class Video extends AbstractMessage implements MessageInterface
 {
 

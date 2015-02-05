@@ -4,6 +4,9 @@ namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Utils\XML;
 
+/**
+ * @property string $content
+ */
 class Text extends AbstractMessage implements MessageInterface
 {
 
