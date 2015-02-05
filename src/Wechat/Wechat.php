@@ -109,6 +109,8 @@ class Wechat
      */
     protected $resolved = array();
 
+    const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
+
 
     /**
      * 获取实例
@@ -291,18 +293,18 @@ class Wechat
     /**
      * 生成url
      *
-     * @param string $name    api名称
+     * @param string $url     基础网址
      * @param array  $queries 查询
      *
      * @return string
      */
-    public function makeUrl($name, $queries = array())
+    public function makeUrl($url, $queries = array())
     {
         if ($this->autoRequestToken) {
             $queries['access_token'] = $this->getAccessToken();
         }
 
-        return self::$instance->apis[$name] . (empty($queries) ? '' : ('?' . http_build_query($queries)));
+        return $url . (empty($queries) ? '' : ('?' . http_build_query($queries)));
     }
 
     /**
@@ -396,11 +398,11 @@ class Wechat
         // 关闭自动加access_token参数
         $this->autoRequestToken(false);
 
-        $url = $this->makeUrl('token.get', array(
-                                            'appid'      => $this->options->app_id,
-                                            'secret'     => $this->options->secret,
-                                            'grant_type' => 'client_credential',
-                                           ));
+        $url = $this->makeUrl(self::API_TOKEN_GET, array(
+                                                    'appid'      => $this->options->app_id,
+                                                    'secret'     => $this->options->secret,
+                                                    'grant_type' => 'client_credential',
+                                                   ));
         // 开启自动加access_token参数
         $this->autoRequestToken(true);
 
