@@ -97,6 +97,11 @@ $wechat = new Wechat($options);
       // 回复它一条消息
       return $wechat->message('text')->content('我们已经收到您发送的图片！');
   });
+
+  $result = $wechat->serve();  //获取上面各种事件触发运行结果
+
+  // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
+  echo $result;
   ```
 
 + 订阅微信事件
@@ -128,6 +133,11 @@ $wechat = new Wechat($options);
   
       return $wechat->message('text')->content('感谢您关注');
   });
+
+  $result = $wechat->serve();  //获取上面各种事件触发运行结果
+
+  // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
+  echo $result;
   ```
 
 ## 客服
