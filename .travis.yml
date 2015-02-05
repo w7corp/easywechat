@@ -15,14 +15,14 @@ php:
   - hhvm
 
 before_script:
-  # - composer self-update
-  # - composer install --prefer-source --no-interaction --dev
+  - composer self-update
+  - composer install --prefer-source --no-interaction --dev
 
 after_script:
   # - wget https://scrutinizer-ci.com/ocular.phar
   # - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
-# script: phpunit ./ --coverage-clover=coverage.clover
+script: phpunit
 
 matrix:
   fast_finish: true
