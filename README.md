@@ -70,34 +70,34 @@ $wechat = new Wechat($options);
     $wechat->on('message', string $messageType, callable $callback);
 ```
     
-    ** 参数说明 **
+** 参数说明 **
 
-    - `$messageType` string, 指定要处理的消息类型，ex：`image`
-    - `$callback` callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
+- `$messageType` string, 指定要处理的消息类型，ex：`image`
+- `$callback` callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
-    example:
+example:
 
-    ```php
-    // 监听所有类型
-    $wechat->on('message', function($message){
-        // 所有类型的消息都会触发此函数
+```php
+// 监听所有类型
+$wechat->on('message', function($message){
+    // 所有类型的消息都会触发此函数
 
-        error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']}");        
-    
-        // 回复它一条消息
-        return $wechat->message('text')->content('您好！');
-    });
+    error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']}");        
 
-    // 监听指定类型
-    $wechat->on('message', 'image', function($message){
-        //只有收到图片(image)类型触发此函数
+    // 回复它一条消息
+    return $wechat->message('text')->content('您好！');
+});
 
-        error_log("收到来自{$message['FromUserName']}的图片消息");        
-    
-        // 回复它一条消息
-        return $wechat->message('text')->content('我们已经收到您发送的图片！');
-    });
-    ```
+// 监听指定类型
+$wechat->on('message', 'image', function($message){
+    //只有收到图片(image)类型触发此函数
+
+    error_log("收到来自{$message['FromUserName']}的图片消息");        
+
+    // 回复它一条消息
+    return $wechat->message('text')->content('我们已经收到您发送的图片！');
+});
+```
 
 + 订阅微信事件
 
@@ -107,28 +107,28 @@ $wechat = new Wechat($options);
     $wechat->on('event',  string $eventType, callable $callback);
 ```
 
-    *参数说明*
-    
-    - `$eventType` string, 指定要处理的消息类型，ex：`image`
-    - $callback callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
+*参数说明*
 
-    example:
+- `$eventType` string, 指定要处理的消息类型，ex：`image`
+- $callback callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
 
-    ```php
-    // 监听所有事件
-    $wechat->on('event', function($event){
-    
-        error_log('收到取消关注事件，取消关注者openid: ' . $event['FromUserName']);      
-    });
+example:
 
-    // 只监听指定类型事件
-    $wechat->on('event', 'subscribe', function($event){
-    
-        error_log('收到关注事件，关注者openid: ' . $event['FromUserName']);      
-    
-        return $wechat->message('text')->content('感谢您关注');
-    });
-    ```
+```php
+// 监听所有事件
+$wechat->on('event', function($event){
+
+    error_log('收到取消关注事件，取消关注者openid: ' . $event['FromUserName']);      
+});
+
+// 只监听指定类型事件
+$wechat->on('event', 'subscribe', function($event){
+
+    error_log('收到关注事件，关注者openid: ' . $event['FromUserName']);      
+
+    return $wechat->message('text')->content('感谢您关注');
+});
+```
 
 ## 客服
 
