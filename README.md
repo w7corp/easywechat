@@ -310,9 +310,11 @@ $wechat = new Wechat($options);
   $wechat->signature($params);
   ```
 
-+ 获取js ticket
+## Ticket
+  
   ```php
-  $wechat->getJsTicket();
+  $wechat->ticket->js();
+  $wechat->ticket->card();
   ```
 
 ---
