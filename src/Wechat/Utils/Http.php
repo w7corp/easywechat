@@ -60,14 +60,6 @@ class Http
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ci, CURLOPT_HEADER, false);
 
-        if (!function_exists('curl_file_create')) {
-            function curl_file_create($filename, $mimetype = '', $postname = '') {
-                return "@$filename;filename="
-                    . ($postname ?: basename($filename))
-                    . ($mimetype ? ";type=$mimetype" : '');
-            }
-        }
-
         switch ($method) {
             case 'PUT':
             case 'POST':
@@ -149,5 +141,13 @@ class Http
 
         array_unshift($args, $method);
         return call_user_func_array(array(__CLASS__, 'request'), $args);
+    }
+}
+
+if (!function_exists('curl_file_create')) {
+    function curl_file_create($filename, $mimetype = '', $postname = '') {
+        return "@$filename;filename="
+            . ($postname ?: basename($filename))
+            . ($mimetype ? ";type=$mimetype" : '');
     }
 }
