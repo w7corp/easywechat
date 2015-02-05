@@ -28,7 +28,7 @@ class User extends Service
                    'lang'   => $lang,
                   );
 
-        return new Bag($this->get(self::API_GET, $params));
+        return new Bag($this->getRequest(self::API_GET, $params));
     }
 
     /**
@@ -42,7 +42,7 @@ class User extends Service
     {
         $params = array('next_openid' => $nextOpenId);
 
-        return new Bag($this->get(self::API_LIST, $params));
+        return new Bag($this->getRequest(self::API_LIST, $params));
     }
 
     /**
@@ -60,7 +60,7 @@ class User extends Service
                    'remark' => $remark,
                   );
 
-        return $this->post(self::API_REMARK, $params);
+        return $this->postRequest(self::API_REMARK, $params);
     }
 
     /**
@@ -86,7 +86,7 @@ class User extends Service
                    'openid' => $this->openId,
                   );
 
-        $response = $this->post(self::API_GROUP, $params);
+        $response = $this->postRequest(self::API_GROUP, $params);
 
         return $response['groupid'];
     }

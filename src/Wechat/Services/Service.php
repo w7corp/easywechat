@@ -27,7 +27,7 @@ abstract class Service
      *
      * @return array
      */
-    public function get($url, $params)
+    public function getRequest($url, $params)
     {
         return $this->wechat->request('GET', $this->wechat->makeUrl($url, $params));
     }
@@ -42,7 +42,7 @@ abstract class Service
      *
      * @return array
      */
-    public function post($url, $params, $queries = array(), $files = array())
+    public function postRequest($url, $params, $queries = array(), $files = array())
     {
         return $this->wechat->request('POST', $this->wechat->makeUrl($url, $queries), $params, $files);
     }

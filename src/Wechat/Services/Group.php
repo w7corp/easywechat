@@ -29,7 +29,7 @@ class Group extends Service
                                ),
                   );
 
-        $response = $this->post(self::API_CREATE, $params);
+        $response = $this->postRequest(self::API_CREATE, $params);
 
         return $response['group'];
     }
@@ -51,7 +51,7 @@ class Group extends Service
                                ),
                   );
 
-        $this->post(self::API_UPDATE, $params);
+        $this->postRequest(self::API_UPDATE, $params);
 
         return true;
     }
@@ -71,7 +71,7 @@ class Group extends Service
                    'to_groupid' => $groupId,
                   );
 
-        $this->post(self::API_MEMBER_UPDATE, $params);
+        $this->postRequest(self::API_MEMBER_UPDATE, $params);
 
         return true;
     }
@@ -91,7 +91,7 @@ class Group extends Service
                    'to_groupid'  => $groupId,
                   );
 
-        $this->post(self::API_MEMBER_BATCH_UPDATE, $params);
+        $this->postRequest(self::API_MEMBER_BATCH_UPDATE, $params);
 
         return true;
     }
