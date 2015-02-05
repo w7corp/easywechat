@@ -24,7 +24,7 @@ class Video extends AbstractMessage implements MessageInterface
      *
      * @return Overtrue\Wechat\Messages\Video
      */
-    public function video($path)
+    public function media($path)
     {
         $this->attributes['media_id'] = Media::video($path);
 

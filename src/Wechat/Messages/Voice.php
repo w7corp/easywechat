@@ -20,7 +20,7 @@ class Voice extends AbstractMessage implements MessageInterface
      *
      * @return Overtrue\Wechat\Messages\Voice
      */
-    public function voice($path)
+    public function media($path)
     {
         $this->attributes['media_id'] = Media::voice($path);
 

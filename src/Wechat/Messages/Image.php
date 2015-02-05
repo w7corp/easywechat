@@ -20,7 +20,7 @@ class Image extends AbstractMessage implements MessageInterface
      *
      * @return Overtrue\Wechat\Messages\Image
      */
-    public function image($path)
+    public function media($path)
     {
         $this->attributes['media_id'] = Media::image($path);
 
