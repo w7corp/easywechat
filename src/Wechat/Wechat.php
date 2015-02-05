@@ -553,11 +553,11 @@ class Wechat
      */
     protected function handleMessage($message)
     {
-        if (!is_null($response = $this->call("message.*", [$message]))) {
+        if (!is_null($response = $this->call("message.*", array($message)))) {
             return $response;
         }
 
-        return $this->call("message.{$message['MsgType']}", [$message]);
+        return $this->call("message.{$message['MsgType']}", array($message));
     }
 
     /**
@@ -569,11 +569,11 @@ class Wechat
      */
     protected function handleEvent($event)
     {
-        if (!is_null($response = $this->call("event.*", [$event]))) {
+        if (!is_null($response = $this->call("event.*", array($event)))) {
             return $response;
         }
 
-        return $this->call("event.{$event['Event']}", [$event]);
+        return $this->call("event.{$event['Event']}", array($event));
     }
 
     /**
