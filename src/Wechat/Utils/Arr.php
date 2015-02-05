@@ -24,6 +24,7 @@ class Arr
         }
         return $array;
     }
+
     /**
      * Build a new array using a callback.
      *
@@ -40,6 +41,7 @@ class Arr
         }
         return $results;
     }
+
     /**
      * Divide an array into two arrays. One with keys and the other with values.
      *
@@ -50,6 +52,7 @@ class Arr
     {
         return array(array_keys($array), array_values($array));
     }
+
     /**
      * Flatten a multi-dimensional associative array with dots.
      *
@@ -60,6 +63,7 @@ class Arr
     public static function dot($array, $prepend = '')
     {
         $results = array();
+
         foreach ($array as $key => $value) {
             if (is_array($value)) {
                 $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
@@ -67,8 +71,10 @@ class Arr
                 $results[$prepend.$key] = $value;
             }
         }
+
         return $results;
     }
+
     /**
      * Get all of the given array except for a specified array of items.
      *
@@ -80,6 +86,7 @@ class Arr
     {
         return array_diff_key($array, array_flip((array) $keys));
     }
+
     /**
      * Fetch a flattened array of a nested array element.
      *
@@ -89,6 +96,8 @@ class Arr
      */
     public static function fetch($array, $key)
     {
+        $results = array();
+
         foreach (explode('.', $key) as $segment) {
             $results = array();
             foreach ($array as $value) {
@@ -97,8 +106,10 @@ class Arr
             }
             $array = array_values($results);
         }
+
         return array_values($results);
     }
+
     /**
      * Return the first element in an array passing a given truth test.
      *
@@ -114,6 +125,7 @@ class Arr
         }
         return $default;
     }
+
     /**
      * Return the last element in an array passing a given truth test.
      *
@@ -126,6 +138,7 @@ class Arr
     {
         return static::first(array_reverse($array), $callback, $default);
     }
+
     /**
      * Flatten a multi-dimensional array into a single level.
      *
@@ -138,6 +151,7 @@ class Arr
         array_walk_recursive($array, function($x) use (&$return) { $return[] = $x; });
         return $return;
     }
+
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
@@ -161,6 +175,7 @@ class Arr
             $array =& $original;
         }
     }
+
     /**
      * Get an item from an array using "dot" notation.
      *
@@ -181,6 +196,7 @@ class Arr
         }
         return $array;
     }
+
     /**
      * Get a subset of the items from the given array.
      *
@@ -192,6 +208,7 @@ class Arr
     {
         return array_intersect_key($array, array_flip((array) $keys));
     }
+
     /**
      * Pluck an array of values from an array.
      *
@@ -217,6 +234,7 @@ class Arr
         }
         return $results;
     }
+
     /**
      * Get a value from the array, and remove it.
      *
@@ -232,6 +250,7 @@ class Arr
 
         return $value;
     }
+
     /**
      * Set an array item to a given value using "dot" notation.
      *
@@ -259,6 +278,7 @@ class Arr
         $array[array_shift($keys)] = $value;
         return $array;
     }
+
     /**
      * Sort the array using the given Closure.
      *
@@ -274,6 +294,7 @@ class Arr
         }
         return $results;
     }
+
     /**
      * Filter the array using the given Closure.
      *

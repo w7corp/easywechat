@@ -48,15 +48,15 @@ class User extends Service
     /**
      * 修改用户备注
      *
-     * @param string $id     open id
+     * @param string $openId
      * @param string $remark 备注
      *
      * @return boolean
      */
-    public function remark($remark)
+    public function remark($openId, $remark)
     {
         $params = array(
-                   'openid' => $this->openId,
+                   'openid' => $openId,
                    'remark' => $remark,
                   );
 
@@ -66,21 +66,23 @@ class User extends Service
     /**
      * 获取用户所在分组
      *
-     * @param integer $groupId 是否返回group
+     * @param string $openId
      *
      * @return string
      */
-    public function group()
+    public function group($openId)
     {
-        return $this->getGroup();
+        return $this->getGroup($openId);
     }
 
     /**
      * 获取用户所在的组
      *
-     * @return \Overtrue\Wechat\Group
+     * @param string $openId
+     *
+     * @return integer
      */
-    public function getGroup()
+    public function getGroup($openId)
     {
         $params = array(
                    'openid' => $this->openId,

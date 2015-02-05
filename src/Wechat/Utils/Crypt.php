@@ -1,11 +1,8 @@
 <?php namespace Overtrue\Wechat\Utils;
 
 use Exception;
-use Overtrue\Wechat\Traits\Instanceable;
 
 class Crypt {
-
-    use Instanceable;
 
     protected $appId;
     protected $AESKey;
@@ -24,7 +21,7 @@ class Crypt {
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    public function instance($appId, $encodingAESKey, $token = '')
+    public function __construct($appId, $encodingAESKey, $token = '')
     {
         $this->appId          = $appId;
         $this->encodingAESKey = $encodingAESKey;

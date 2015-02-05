@@ -74,6 +74,8 @@ class Wechat
      */
     protected $accessToken;
 
+    protected $httpRequester = 'Overtrue\Wechat\Utils\Http';
+
     /**
      * 自动添加access_token
      *
@@ -117,7 +119,7 @@ class Wechat
      *
      * @param array $options
      */
-    private function __construct($options)
+    public function __construct($options)
     {
         if (empty($options['app_id'])
             || empty($options['secret'])
@@ -140,20 +142,6 @@ class Wechat
     }
 
     private function __clone() {}
-
-    /**
-     * 创建实例
-     *
-     * @param array $options
-     *
-     * @return \Overtrue\Wechat\Wechat
-     */
-    static public function make($options)
-    {
-        !is_null(self::$instance) || self::$instance = new static($options);
-
-        return self::$instance;
-    }
 
     /**
      * 监听
@@ -184,7 +172,12 @@ class Wechat
      */
     public function event($type, $function)
     {
-        $this->listeners->add("event.{$type}", $function);
+        if (!$listeners = $this->listeners->has("event.{$type}")) {
+            $listeners = array();
+        }
+        array_push($listeners, $function);
+
+        $this->listeners->set("event.{$type}", $listeners);
     }
 
     /**
@@ -197,7 +190,12 @@ class Wechat
      */
     public function message($type, $function)
     {
-        $this->listeners->add("message.{$type}", $function);
+        if (!$listeners = $this->listeners->has("message.{$type}")) {
+            $listeners = array();
+        }
+        array_push($listeners, $function);
+
+        $this->listeners->set("message.{$type}", $listeners);
     }
 
     /**
@@ -252,6 +250,18 @@ class Wechat
         $service = "Overtrue\Wechat\Services\\" . ucfirst($service);
 
         return $this->resolved[$service] = new $service($this);
+    }
+
+    /**
+     * 获取监听器
+     *
+     * @param string $type
+     *
+     * @return array
+     */
+    public function getListeners($type = null)
+    {
+        return $type ? $this->listeners->get($type) : $this->listeners->all();
     }
 
     /**
@@ -514,7 +524,7 @@ class Wechat
      */
     protected function getCryptor()
     {
-        return Crypt::make($this->options->app_id,
+        return new Crypt($this->options->app_id,
                                 $this->options->encodingAESKey, $this->options->token);
     }
 

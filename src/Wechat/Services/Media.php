@@ -78,7 +78,7 @@ class Media extends Service
      *
      * @return string
      */
-    static public function __call($method, $args)
+    public function __call($method, $args)
     {
         $args = array($method, array_shift($args));
 

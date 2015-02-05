@@ -42,7 +42,7 @@ $options = [
 ];
 
 // 初始化Wechat实例
-$wechat = Wechat::make($options);
+$wechat = new Wechat($options);
 
 // 接收消息
 $server = $wechat->on('message', function($message){
@@ -75,7 +75,7 @@ $options = [
 ];
 
 // 初始化Wechat实例
-$wechat = Wechat::make($options);
+$wechat = new Wechat($options);
 ```
 
 + 接收用户发来的消息(回复)
