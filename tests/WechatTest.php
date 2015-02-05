@@ -18,16 +18,16 @@ class OvertrueWechatWechatTest extends TestCase
      */
     public function setUp()
     {
-        $options = [
+        $options = array(
             'app_id'            => 'sample_app_id',
             'secret'            => 'f1c242f4f2735d4687abb469072a298f',
             'token'             => 'test',
             // 'encodingAESKey' => 'eEqqLFPwRhf6FkIQpwraE3QDa6U3OpIQ5zYBRi0Zkcl' // optional
-        ];
+        );
 
         $this->object = \Mockery::mock('Overtrue\Wechat\Wechat[request]', array($options));
 
-        $this->object->shouldReceive('request')->andReturn(['key' => 'value']);
+        $this->object->shouldReceive('request')->andReturn(('key' => 'value'));
     }
 
     /**
