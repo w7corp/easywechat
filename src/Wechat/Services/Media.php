@@ -42,7 +42,7 @@ class Media extends Service
                   'media' => $path,
                  );
 
-        $contents = $this->request('POST', self::API_UPLOAD, array(), $queries, $files);
+        $contents = $this->post(self::API_UPLOAD, array(), $queries, $files);
 
         return $contents['media_id'];
     }
@@ -61,7 +61,7 @@ class Media extends Service
             'media_id' => $mediaId,
         );
 
-        $contents = $this->request('GET', self::API_GET, $params);
+        $contents = $this->get(self::API_GET, $params);
 
         return $filename ? $contents : file_put_contents($filename, $contents);
     }
