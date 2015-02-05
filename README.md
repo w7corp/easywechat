@@ -65,9 +65,9 @@ $wechat = new Wechat($options);
 + 接收用户发来的消息(回复)
 
   ```php
-    $wechat->on('message', callable $callback);
-    // or 
-    $wechat->on('message', string $messageType, callable $callback);
+  $wechat->on('message', callable $callback);
+  // or 
+  $wechat->on('message', string $messageType, callable $callback);
   ```
     
   参数说明 
@@ -102,15 +102,15 @@ $wechat = new Wechat($options);
 + 订阅微信事件
 
   ```php
-    $wechat->on('event',  callable $callback);
-    // or 
-    $wechat->on('event',  string $eventType, callable $callback);
+  $wechat->on('event',  callable $callback);
+  // or 
+  $wechat->on('event',  string $eventType, callable $callback);
   ```
 
   参数说明
   
   - `$eventType` string, 指定要处理的消息类型，ex：`image`
-  - $callback callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
+  - `$callback` callable, 回调函数，closure匿名函数，或者一切可调用的方法或者函数
   
   example:
   
@@ -133,181 +133,181 @@ $wechat = new Wechat($options);
 ## 客服
 
   ```php
-      $wechat->staff;
+  $wechat->staff;
   ```
 
 + 获取所有客服账号
 
   ```php
-    $wechat->staff->all();`
+  $wechat->staff->all();`
   ```
 
 + 获取所有在线的客服账号
 
   ```php
-    $wechat->staff->onlineAll();
+  $wechat->staff->onlineAll();
   ```
 
 + 添加客服帐号
 
   ```php
-    $wechat->staff->create($mail, $nickname, $password);
+  $wechat->staff->create($mail, $nickname, $password);
   ```
 
 + 修改客服帐号
 
   ```php
-    $wechat->staff->update($mail, $nickname, $password);
+  $wechat->staff->update($mail, $nickname, $password);
   ```
 
 + 删除客服帐号
 
   ```php
-    $wechat->staff->delete($mail, $nickname, $password);
+  $wechat->staff->delete($mail, $nickname, $password);
   ```
 
 + 设置客服帐号的头像
 
   ```php
-    $wechat->staff->avatar($mail, $avatarPath);
+  $wechat->staff->avatar($mail, $avatarPath);
   ```
 
 + 主动发送消息给用户
 
   ```php  
-    $wechat->staff->send($message)->to($openId);
+  $wechat->staff->send($message)->to($openId);
   ```
 
 + 群发消息
 
   ```php
-    // 所有人
-    $wechat->staff->send($message)->toAll(); 
-    // 指定组
-    $wechat->staff->send($message)->toGroup($groupId); 
-    // 多个人
-    $wechat->staff->send($message)->toMany(array $groupIds); 
+  // 所有人
+  $wechat->staff->send($message)->toAll(); 
+  // 指定组
+  $wechat->staff->send($message)->toGroup($groupId); 
+  // 多个人
+  $wechat->staff->send($message)->toMany(array $groupIds); 
   ```
 + 消息转发给多个客服
  
   ```php
-    $message->transfer(); 
+  $message->transfer(); 
   ```
 
 + 消息转发给单个客服
     
   ```php
-    $message->transfer($stuffMail); 
+  $message->transfer($stuffMail); 
   ```
 
 ## 用户
 
   ```php
-$wechat->user;
+  $wechat->user;
   ```
 
 + 获取用户信息
 
   ```php
-    $user = $wechat->user->get($openId);
+  $user = $wechat->user->get($openId);
   ```
 
 + 获取用户列表
 
   ```php
-    $users = $wechat->user->all();
+  $users = $wechat->user->all();
   ```
 
 + 修改用户备注
 
   ```php
-    $wechat->user->remark($openId, $remark);
+  $wechat->user->remark($openId, $remark);
   ```
 
 ## 用户组 
 
   ```php
-$wechat->group;
+  $wechat->group;
   ```
 
 + 获取所有分组
 
   ```php
-    $wechat->group->all();
+  $wechat->group->all();
   ```
 
 + 修改分组信息
 
   ```php
-    $wechat->group->update($id, $name);
+  $wechat->group->update($id, $name);
   ```
 
 + 添加分组用户(批量移动用户)
 
   ```php
-    // 移动单个用户
-      $wechat->group->user($id, $openId);
-    // 批量移动
-    $wechat->group->users($id, $openIds);
+  // 移动单个用户
+  $wechat->group->user($id, $openId);
+  // 批量移动
+  $wechat->group->users($id, $openIds);
   ``` 
 
 ## 网页授权
 
   ```php
-    $wechat->auth;
+  $wechat->auth;
   ```
 
 + 生成授权链接
 
   ```php
-    // 生成并返回
-    $wechat->auth->makeUrl($redirect, $state, $scope);
-    // 直接跳转
-    $wechat->auth->redirect($to, $state, $scope);   直接跳转
+  // 生成并返回
+  $wechat->auth->makeUrl($redirect, $state, $scope);
+  // 直接跳转
+  $wechat->auth->redirect($to, $state, $scope);   直接跳转
   ```
 
 + 判断是否已经授权
 
   ```php
-    $wechat->auth->authorized();
+  $wechat->auth->authorized();
   ```
 
 + 获取授权用户
 
   ```php
-    $wechat->auth->user();
+  $wechat->auth->user();
   ```
 
 ## 菜单
 
   ```php
-$wechat->menu;
+  $wechat->menu;
   ```
 
 + 读取菜单
 
   ```php
-    $wechat->menu->get();
+  $wechat->menu->get();
   ```
 
 + 设置菜单
 
-  ```php    
-    $wechat->menu->set($menus);
+  ```php  
+  $wechat->menu->set($menus);
   ```
 
 + 删除菜单
-    
+  
   ```php
-    $wechat->menu->delete();
+  $wechat->menu->delete();
   ```
 
 ## 签名
 
 + 生成
-    
+  
   ```php
-    $wechat->signature($params);
+  $wechat->signature($params);
   ```
 
 ---
@@ -315,29 +315,28 @@ $wechat->menu;
 ## 处理错误
 
   ```php
-    $wechat->error(function($error){
-        // $error为Exception对象
-        // $error->getCode(); 
-        // 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/    fa4e1434e57290788bde25603fa2fcbd.html
-        // $error->getMessage(); 错误消息
-    });
-    // ...
+  $wechat->error(function($error){
+      // $error为Exception对象
+      // $error->getCode(); 
+      // 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/    fa4e1434e57290788bde25603fa2fcbd.html
+      // $error->getMessage(); 错误消息
+  });
   ```
 
 ## 自定义缓存写入/读取
 
   ```php
-    // writer
-    $wechat->cacheWriter(function($key, $value){
-        // cache the value.
-        return true;
-    });
-    
-    // reader
-    $wechat->cacheReader(function($key){
-        // return the cached value.
-        return 缓存的数据;
-    });
+  // writer
+  $wechat->cacheWriter(function($key, $value){
+      // cache the value.
+      return true;
+  });
+  
+  // reader
+  $wechat->cacheReader(function($key){
+      // return the cached value.
+      return 缓存的数据;
+  });
   ```
 
 ## License
