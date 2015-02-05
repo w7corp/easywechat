@@ -27,7 +27,7 @@ class OvertrueWechatWechatTest extends TestCase
 
         $this->object = \Mockery::mock('Overtrue\Wechat\Wechat[request]', array($options));
 
-        $this->object->shouldReceive('request')->andReturn(('key' => 'value'));
+        $this->object->shouldReceive('request')->andReturn(array('key' => 'value'));
     }
 
     /**
