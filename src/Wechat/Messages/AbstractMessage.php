@@ -6,8 +6,8 @@ use Closure;
 use InvalidArgumentException;
 
 /**
- * @method {array}  formatToClient() formatToClient()
- * @method {string} formatToServer() formatToServer()
+ * @method array  formatToClient() formatToClient()
+ * @method string formatToServer() formatToServer()
  */
 abstract class AbstractMessage
 {
