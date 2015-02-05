@@ -45,7 +45,7 @@ $server = $wechat->on('message', function($message){
     error_log("收到来自'{$message['FromUserName']}'的消息：" . $message['Content']);
 });
 
-$result = $wechat->run(); 
+$result = $wechat->serve();  //获取上面各种事件触发运行结果
 
 // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
 echo $result;
