@@ -1,6 +1,10 @@
 # Wechat
 微信 SDK
 
+[![Build Status](https://scrutinizer-ci.com/g/overtrue/wechat/badges/build.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/build-status/master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master)
+
+
 > 努力coding中，目前只完成了文档中列出的功能，敬请期待
 
 网上充斥着各种微信SDK，但是找了一圈，发现没有一个想用，因为没有满足本项目存在后的各种优点：
