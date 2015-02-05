@@ -27,7 +27,7 @@ class News extends AbstractMessage implements MessageInterface
             throw new InvalidArgumentException("item方法要求至少3个参数：标题，描述，图片");
         }
 
-        list($title, $description, $image, $url = '') = $args;
+        list($title, $description, $image, $url) = $args;
 
         $item = array(
             'Title'       => $title,
