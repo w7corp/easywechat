@@ -42,17 +42,17 @@ class Music extends AbstractMessage implements MessageInterface
     public function formatToServer()
     {
        $response = array(
-                    'ToUserName' => $this->to,
+                    'ToUserName'   => $this->to,
                     'FromUserName' => $this->from,
-                    'CreateTime' => time(),
-                    'MsgType' => 'music',
-                    'music' => array(
-                                'Title' => $this->title
-                                'Description' => $this->description
-                                'MusicUrl' => $this->url
-                                'HQMusicUrl' => $this->hq_url
-                                'ThumbMediaId' => $this->thumb_media_id
-                               ),
+                    'CreateTime'   => time(),
+                    'MsgType'      => 'music',
+                    'music'        => array(
+                                       'Title'        => $this->title,
+                                       'Description'  => $this->description,
+                                       'MusicUrl'     => $this->url,
+                                       'HQMusicUrl'   => $this->hq_url,
+                                       'ThumbMediaId' => $this->thumb_media_id,
+                                      ),
                    );
 
         return XML::build($response);

@@ -32,7 +32,7 @@ class Image extends AbstractMessage implements MessageInterface
                 'touser'  => $this->to,
                 'msgtype' => 'image',
                 'image'   => array(
-                              'media_id' => $this->media_id
+                              'media_id' => $this->media_id,
                              ),
               );
     }

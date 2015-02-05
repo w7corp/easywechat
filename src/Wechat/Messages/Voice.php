@@ -30,7 +30,7 @@ class Voice extends AbstractMessage implements MessageInterface
                 'touser'  => $this->to,
                 'msgtype' => 'voice',
                 'voice'   => array(
-                              'media_id' => $this->media_id
+                              'media_id' => $this->media_id,
                              ),
                );
     }

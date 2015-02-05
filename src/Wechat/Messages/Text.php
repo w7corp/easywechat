@@ -29,7 +29,7 @@ class Text extends AbstractMessage implements MessageInterface
                 'touser'  => $this->to,
                 'msgtype' => 'text',
                 'text'    => array(
-                              'content' => $this->content
+                              'content' => $this->content,
                              ),
         );
     }
