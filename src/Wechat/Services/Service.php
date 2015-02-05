@@ -9,7 +9,7 @@ abstract class Service
     /**
      * Wechat实例
      *
-     * @var \Overtrue\Wechat\Wechat;
+     * @var \Overtrue\Wechat\Wechat
      */
     protected $wechat;
 
