@@ -93,20 +93,17 @@ $wechat = Wechat::make($options);
   // 监听所有类型
   $wechat->on('message', function($message){
       // 所有类型的消息都会触发此函数
-  
       error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']  }");        
   
-      // 回复它一条消息
+      // 回复一条消息
       return $wechat->message('text')->content('您好！');
   });
   
   // 监听指定类型
   $wechat->on('message', 'image', function($message){
       //只有收到图片(image)类型触发此函数
-  
       error_log("收到来自{$message['FromUserName']}的图片消息");        
   
-      // 回复它一条消息
       return $wechat->message('text')->content('我们已经收到您发送的图片！');
   });
 
