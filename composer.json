@@ -11,6 +11,10 @@
     "require": {
         "php":">=5.3"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit-skeleton-generator": "*"
+    },
     "authors": [
         {
             "name": "overtrue",
@@ -21,5 +25,10 @@
         "psr-4": {
             "Overtrue\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
     }
 }

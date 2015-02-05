@@ -245,13 +245,13 @@ class Wechat
             throw new Exception("未知的服务'{$serve}'");
         }
 
-        if (isset($this->resolved[$services])) {
-            return $this->resolved[$services];
+        if (isset($this->resolved[$service])) {
+            return $this->resolved[$service];
         }
 
         $service = "Overtrue\Wechat\Services\\" . ucfirst($service);
 
-        return $this->resolved[$services] = new $service($this);
+        return $this->resolved[$service] = new $service($this);
     }
 
     /**
@@ -414,6 +414,33 @@ class Wechat
     }
 
     /**
+     * 发起一个HTTP/HTTPS的请求
+     *
+     * @param string $method 请求类型   GET | POST
+     * @param string $url    接口的URL
+     * @param array  $params 接口参数
+     * @param array  $files  图片信息
+     *
+     * @return array
+     */
+    public function request($method, $url, array $params = array(), array $files = array())
+    {
+        $response = Http::request($method, $url, $params, array(), $files);
+
+        if (empty($response)) {
+            throw new Exception("服务器无响应");
+        }
+
+        $contents = json_decode($response, true);
+
+        if(!empty($contents['errcode'])){
+            throw new Exception("[{$contents['errcode']}] ".$contents['errmsg'], $contents['errcode']);
+        }
+
+        return $contents;
+    }
+
+    /**
      * 生成回复内容
      *
      * @param mixed $response
@@ -532,7 +559,7 @@ class Wechat
      */
     protected function handleEvent($event)
     {
-        if (!is_null($response = $this->call("event.*", [$message]))) {
+        if (!is_null($response = $this->call("event.*", [$event]))) {
             return $response;
         }
 
@@ -598,8 +625,8 @@ class Wechat
             return $this->{$property};
         }
 
-        if (in_array($method, $this->services)) {
-            return $this->get($method);
+        if (in_array($property, $this->services)) {
+            return $this->get($property);
         }
     }
 
