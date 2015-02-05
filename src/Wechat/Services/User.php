@@ -72,7 +72,7 @@ class User extends Service
      */
     public function group()
     {
-        return $this->request('GET', Group();
+        return $this->getGroup();
     }
 
     /**

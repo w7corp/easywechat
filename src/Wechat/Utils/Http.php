@@ -45,7 +45,7 @@ class Http
      */
     public static function request($method, $url, array $params = array(), array $headers = array(), $files = [])
     {
-        if (!function_exists('curl_init')) exit('Need to open the curl extension');
+        if (!function_exists('curl_init')) throw new Exception('Need to open the curl extension');
 
         $method = strtoupper($method);
         $timeout = $files ? 30 : 3;
