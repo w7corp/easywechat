@@ -5,6 +5,10 @@ namespace Overtrue\Wechat\Messages;
 use Closure;
 use InvalidArgumentException;
 
+/**
+ * @method {array}  formatToClient() formatToClient()
+ * @method {string} formatToServer() formatToServer()
+ */
 abstract class AbstractMessage
 {
 

@@ -77,14 +77,14 @@ class Wechat
     /**
      * 自动添加access_token
      *
-     * @var string
+     * @var boolean
      */
     static protected $autoRequestToken = true;
 
     /**
      * Wechat实例
      *
-     * @var Overtrue\Wechat
+     * @var \Overtrue\Wechat\Wechat
      */
     protected static $instance = null;
 
@@ -142,13 +142,13 @@ class Wechat
     /**
      * 创建实例
      *
-     * @param array $$options
+     * @param array $options
      *
-     * @return mixed
+     * @return \Overtrue\Wechat\Wechat
      */
     static public function make($options)
     {
-        !is_null(self::$instance) || self::$instance = new static;
+        !is_null(self::$instance) || self::$instance = new static($options);
 
         return self::$instance;
     }
@@ -492,14 +492,10 @@ class Wechat
     /**
      * 处理微信的请求
      *
-     * @return string
+     * @return mixed
      */
     protected function handleRequest()
     {
-        if ($this->query->has('echostr')) {
-            return $this->validation();
-        }
-
         if ($this->post->has('MsgId')) {
             return $this->handleMessage($this->post);
         } else if ($this->post->has('MsgType') && $this->post->MsgType == 'event') {
