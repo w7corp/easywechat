@@ -33,14 +33,14 @@ class Bag implements
      *
      * @var array
      */
-    protected $data = [];
+    protected $data = array();
 
     /**
      * set data
      *
      * @param array $data
      */
-    public function __construct($data = [])
+    public function __construct($data = array())
     {
         $this->data = $data;
     }
@@ -249,6 +249,16 @@ class Bag implements
     public function __unset($key)
     {
         $this->forget($key);
+    }
+
+    /**
+     * var_export
+     *
+     * @return array
+     */
+    public function __set_state()
+    {
+        return $this->all();
     }
 
     /**

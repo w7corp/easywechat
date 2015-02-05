@@ -1,11 +1,17 @@
 <?php
 
-namespace Overtrue\Wechat;
+namespace Overtrue\Wechat\Services;
 
+use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Utils\Bag;
 
-class User
+class User extends Service
 {
+    const API_GET       = 'https://api.weixin.qq.com/cgi-bin/user/info';
+    const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
+    const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+    const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
+    const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
 
     /**
      * 读取用户信息
@@ -22,7 +28,7 @@ class User
                    'lang'   => $lang,
                   );
 
-        return new Bag(Wechat::get(Wechat::makeUrl('user.get', $params)));
+        return new Bag($this->get(self::API_GET, $params));
     }
 
     /**
@@ -36,7 +42,7 @@ class User
     {
         $params = array('next_openid' => $nextOpenId);
 
-        return new Bag(Wechat::get(Wechat::makeUrl('user.list', $params)));
+        return new Bag($this->get(self::API_LIST, $params));
     }
 
     /**
@@ -54,7 +60,7 @@ class User
                    'remark' => $remark,
                   );
 
-        return Wechat::post(Wechat::makeUrl('user.remark'), $params);
+        return $this->post(self::API_REMARK, $params);
     }
 
     /**
@@ -66,26 +72,7 @@ class User
      */
     public function group()
     {
-        return $groupId ? $this->moveTo($groupId) : $this->getGroup();
-    }
-
-    /**
-     * 移动用户到分组
-     *
-     * @param integer $groupId
-     *
-     * @return boolean
-     */
-    public function toGroup($groupId)
-    {
-        $params = array(
-                   'openid'     => $this->openId,
-                   'to_groupid' => ($groupId instanceof Group) ? $groupId->id : $groupId;
-                  );
-
-        Wechat::post(Wechat::makeUrl('group.member.update'), $params);
-
-        return true;
+        return $this->getGroup();
     }
 
     /**
@@ -99,7 +86,7 @@ class User
                    'openid' => $this->openId,
                   );
 
-        $response = Wechat::post(Wechat::makeUrl('user.group'), $params);
+        $response = $this->post(self::API_GROUP, $params);
 
         return $response['groupid'];
     }

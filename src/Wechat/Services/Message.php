@@ -1,9 +1,16 @@
-<?php namespace Overtrue\Wechat;
+<?php
+
+namespace Overtrue\Wechat\Services;
 
 use Closure;
+use Overtrue\Wechat\Utils\XML;
+use Overtrue\Wechat\Messages\AbstractMessage;
 use InvalidArgumentException;
 
-class Message {
+class Message extends Service
+{
+
+    const API_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
 
     /**
      * 消息类型
@@ -32,5 +39,10 @@ class Message {
         $message = "Overtrue\Wechat\Messages\\" . ucfirst(strtolower($type));
 
         return new $message;
+    }
+
+    public function send()
+    {
+        # code...
     }
 }
