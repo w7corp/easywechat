@@ -199,13 +199,11 @@ class Wechat
     }
 
     /**
-     * 开始运行
-     *
-     * @param array $options
+     * handle服务端并返回字符串内容
      *
      * @return mixed
      */
-    public function run()
+    public function serve()
     {
         if (!$this->checkSignature()) {
             throw new Exception("Bad Request", 400);
@@ -217,7 +215,7 @@ class Wechat
 
         $response = $this->handleRequest();
 
-        return $this->buildResponse($response);
+        return $this->response($response);
     }
 
     /**
@@ -447,7 +445,7 @@ class Wechat
      *
      * @return string
      */
-    protected function buildResponse($response)
+    protected function response($response)
     {
         if (is_string($response)) {
             //TODO：修改消息生成方式
