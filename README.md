@@ -59,7 +59,19 @@ echo $result;
 + 初始化
     
 ```php
-$wechat = new Wechat($options);
+<?php
+
+use Overtrue\Wechat\Wechat;
+
+$options = [
+    'app_id'         => 'Your appid !!',
+    'secret'         => 'Your secret !!'
+    'token'          => 'Your token !!',
+    'encodingAESKey' => 'Your encodingAESKey!!' // optional
+];
+
+// 初始化Wechat实例
+$wechat = Wechat::make($options);
 ```
 
 + 接收用户发来的消息(回复)
