@@ -46,4 +46,31 @@ abstract class Service
     {
         return $this->wechat->request('POST', $this->wechat->makeUrl($url, $queries), $params, $files);
     }
+
+    /**
+     * 发起一个HTTP/HTTPS的请求
+     *
+     * @param string $method 请求类型   GET | POST
+     * @param string $url    接口的URL
+     * @param array  $params 接口参数
+     * @param array  $files  图片信息
+     *
+     * @return array
+     */
+    public function request($method, $url, array $params = array(), array $files = array())
+    {
+        $response = Http::request($method, $url, $params, array(), $files);
+
+        if (empty($response)) {
+            throw new Exception("服务器无响应");
+        }
+
+        $contents = json_decode($response, true);
+
+        if(!empty($contents['errcode'])){
+            throw new Exception("[{$contents['errcode']}] ".$contents['errmsg'], $contents['errcode']);
+        }
+
+        return $contents;
+    }
 }
