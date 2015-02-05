@@ -1,4 +1,6 @@
-<?php namespace Overtrue\Wechat\Messages;
+<?php
+
+namespace Overtrue\Wechat\Messages;
 
 interface MessageInterface
 {

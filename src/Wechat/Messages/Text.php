@@ -1,8 +1,11 @@
-<?php namespace Overtrue\Wechat\Messages;
+<?php
+
+namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Utils\XML;
 
-class Text extends AbstractMessage implements MessageInterface {
+class Text extends AbstractMessage implements MessageInterface
+{
 
     protected $properties = array('content');
 

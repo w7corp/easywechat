@@ -1,8 +1,12 @@
-<?php namespace Overtrue\Wechat\Messages;
+<?php
 
+namespace Overtrue\Wechat\Messages;
+
+use Closure;
 use InvalidArgumentException;
 
-abstract class AbstractMessage {
+abstract class AbstractMessage
+{
 
     /**
      * 发送者

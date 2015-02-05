@@ -1,9 +1,12 @@
-<?php namespace Overtrue\Wechat\Messages;
+<?php
+
+namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
 use Overtrue\Wechat\Utils\XML;
 
-class Video extends AbstractMessage implements MessageInterface {
+class Video extends AbstractMessage implements MessageInterface
+{
 
     protected $properties = array('video', 'title', 'description');
 
