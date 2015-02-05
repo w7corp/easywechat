@@ -304,10 +304,15 @@ $wechat = new Wechat($options);
 
 ## 签名
 
-+ 生成
++ 计算签名
   
   ```php
   $wechat->signature($params);
+  ```
+
++ 获取js ticket
+  ```php
+  $wechat->getJsTicket();
   ```
 
 ---
