@@ -330,8 +330,8 @@ class Wechat
         $this->autoRequestToken(false);
 
         $url = $this->makeUrl(self::API_TOKEN_GET, array(
-                                                    'appid'      => $this->options->app_id,
-                                                    'secret'     => $this->options->secret,
+                                                    'appid'      => $this->options->get('app_id'),
+                                                    'secret'     => $this->options->get('secret'),
                                                     'grant_type' => 'client_credential',
                                                    ));
         // 开启自动加access_token参数
