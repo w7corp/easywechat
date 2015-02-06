@@ -58,14 +58,14 @@ class Wechat
      *
      * @var callable
      */
-    protected $cacheWriter;
+    protected $cacheGetter;
 
     /**
      * 缓存读取器
      *
      * @var callable
      */
-    protected $cacheReader;
+    protected $cacheGetter;
 
     /**
      * access_token
@@ -177,7 +177,7 @@ class Wechat
      */
     public function serve()
     {
-        if (!$this->checkSignature()) {
+        if (!$this->getSignature() === $this->query->get('signature')) {
             throw new Exception("Bad Request", 400);
         }
 
@@ -243,9 +243,9 @@ class Wechat
      *
      * @return void
      */
-    public function cacheWriter($handler)
+    public function cacheSetter($handler)
     {
-        is_callable($handler) && $this->cacheWriter = $handler;
+        is_callable($handler) && $this->cacheSetter = $handler;
     }
 
     /**
@@ -255,9 +255,9 @@ class Wechat
      *
      * @return void
      */
-    public function cacheReader($handler)
+    public function cacheGetter($handler)
     {
-        is_callable($handler) && $this->cacheReader = $handler;
+        is_callable($handler) && $this->cacheGetter = $handler;
     }
 
     /**
@@ -290,57 +290,6 @@ class Wechat
     }
 
     /**
-     * 默认的缓存写入器
-     *
-     * @param string  $key
-     * @param mixed   $value
-     * @param integer $lifetime
-     *
-     * @return void
-     */
-    protected function fileCacheWriter($key, $value, $lifetime = 7200)
-    {
-        $data = array(
-                 'token'      => $value,
-                 'expired_at' => time() + $lifetime - 2, //XXX: 减去2秒更可靠的说
-                );
-
-        if (!file_put_contents($this->getCacheFile($key), serialize($data))) {
-            throw new Exception("Access toekn 缓存失败");
-        }
-    }
-
-    /**
-     * 默认的缓存读取器
-     *
-     * @param string   $key
-     *
-     * @return void
-     */
-    protected function fileCacheReader($key)
-    {
-        $file = $this->getCacheFile($key);
-
-        if (file_exists($file) && $token = unserialize(file_get_contents($file))) {
-            return $token['expired_at'] > time() ? $token['token'] : null;
-        }
-
-        return null;
-    }
-
-    /**
-     * 获取缓存文件名
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    protected function getCacheFile($key)
-    {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($this->options->app_id . $key);
-    }
-
-    /**
      * 写入/读取缓存
      *
      * @param string  $key
@@ -352,9 +301,9 @@ class Wechat
     protected function cache($key, $value = null, $lifetime = 7200)
     {
         if ($value) {
-            $handler = $this->cacheWriter ? : array($this, 'fileCacheWriter');
+            $handler = $this->cacheSetter ? : array($this->service('cache'), 'set');
         } else {
-            $handler = $this->cacheReader ? : array($this, 'fileCacheReader');
+            $handler = $this->cacheGetter ? : array($this->service('cache'), 'get');
         }
 
         return call_user_func_array($handler, array($key, $value, $lifetime));
@@ -442,7 +391,7 @@ class Wechat
             $xml = $response->formatToServer();
 
             if ($this->security) {
-                return $this->getCryptor()->encryptMsg($xml, $this->query->get('nonce'), $this->query->get('timestamp'));
+                return $this->service('crypt')->encryptMsg($xml, $this->query->get('nonce'), $this->query->get('timestamp'));
             }
 
             return $xml;
@@ -454,7 +403,7 @@ class Wechat
     /**
      * 检查微信签名有效性
      */
-    protected function checkSignature()
+    protected function getSignature()
     {
         $input = array(
                 $this->options->token,
@@ -464,7 +413,7 @@ class Wechat
 
         sort($input, SORT_STRING);
 
-        return sha1(implode($input)) === $this->query->get('signature');
+        return sha1(implode($input));
     }
 
     /**
@@ -482,22 +431,11 @@ class Wechat
         if ($this->query->get('encrypt_type') == 'aes') {
             $this->security = true;
 
-            $input = $this->getCryptor()->decryptMsg($this->query->get('msg_signature'),
+            $input = $this->service('crypt')->decryptMsg($this->query->get('msg_signature'),
                             $this->query->get('nonce'), $this->query->get('timestamp'), $xmlInput);
         }
 
         return array_merge($_POST, (array) $input);
-    }
-
-    /**
-     * 获取加密器
-     *
-     * @return Crypt
-     */
-    protected function getCryptor()
-    {
-        return new Crypt($this->options->app_id,
-                                $this->options->encodingAESKey, $this->options->token);
     }
 
     /**
