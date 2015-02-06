@@ -109,7 +109,7 @@ class Crypt {
             throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        return XML::parse($this->decrypt($encrypted, $this->appId));
+        return XML::parse($this->decrypt($encrypted));
     }
 
     /**
@@ -119,12 +119,12 @@ class Crypt {
      *
      * @return string 加密后的密文
      */
-    private function encrypt($text, $appId)
+    private function encrypt($text)
     {
         try {
             //获得16位随机字符串，填充到明文之前
             $random = $this->getRandomStr();
-            $text   = $random . pack("N", strlen($text)) . $text . $appId;
+            $text   = $random . pack("N", strlen($text)) . $text . $this->appId;
 
             // 网络字节序
             $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);

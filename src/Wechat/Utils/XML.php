@@ -7,16 +7,15 @@ class XML {
      * XML 转换为数组
      *
      * @param string        $xml
-     * @param callback|null $callback
      *
      * @return array
      */
-    static public function parse($xml, callback $callback = null)
+    static public function parse($xml)
     {
         $data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
 
         if (is_object($data) && get_class($data) == 'SimpleXMLElement') {
-            $data = static::arrarval($data);
+            $data = self::arrarval($data);
         }
 
         return $data;
@@ -30,11 +29,10 @@ class XML {
      * @param string $item     数字索引的子节点名
      * @param string $attr     根节点属性
      * @param string $id       数字索引子节点key转换的属性名
-     * @param string $encoding 数据编码
      *
      * @return string
      */
-    static public function build($data, $root = 'xml', $item = 'item', $attr = '', $id = 'id', $encoding = 'utf-8')
+    static public function build($data, $root = 'xml', $item = 'item', $attr = '', $id = 'id' /*, $encoding = 'utf-8'*/)
     {
         if (is_array($attr)) {
             $_attr = array();
@@ -50,7 +48,7 @@ class XML {
         $attr   = empty($attr) ? '' : " {$attr}";
         /*$xml    = "<?xml version=\"1.0\" encoding=\"{$encoding}\"?>";*/
         $xml   = "<{$root}{$attr}>";
-        $xml   .= static::data2Xml($data, $item, $id);
+        $xml   .= self::data2Xml($data, $item, $id);
         $xml   .= "</{$root}>";
 
         return $xml;
@@ -83,7 +81,7 @@ class XML {
 
         if (is_array($data)) {
             foreach ($data as $index => $value) {
-                $data[$index] = static::arrarval($value);
+                $data[$index] = self::arrarval($value);
             }
         }
 
@@ -111,7 +109,7 @@ class XML {
 
             $xml .=  "<{$key}{$attr}>";
             $xml .=  (is_array($val) || is_object($val))
-                    ? static::data2Xml($val, $item, $id) : (is_numeric($val) ? $val : static::cdata($val));
+                    ? self::data2Xml((array) $val, $item, $id) : (is_numeric($val) ? $val : self::cdata($val));
             $xml .=  "</{$key}>";
         }
 
