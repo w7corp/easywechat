@@ -9,12 +9,6 @@ use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\Crypt;
 use Overtrue\Wechat\Messages\AbstractMessage;
 
-/**
- * @property string $app_id
- * @property string $secret
- * @property string $token
- * @property string $encodingAESKey
- */
 class Wechat
 {
     /**

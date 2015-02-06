@@ -1,14 +1,13 @@
-<?php namespace Overtrue\Wechat\Utils;
+<?php
+
+namespace Overtrue\Wechat\Services;
 
 use Exception;
 
-class Crypt {
-
-    protected $appId;
+class Crypt extends Service
+{
     protected $AESKey;
-    protected $token;
     protected $blockSize;
-    protected $encodingAESKey;
 
     const ERROR_INVALID_SIGNATURE = -40001; // 校验签名失败
     const ERROR_PARSE_XML         = -40002; // 解析xml失败
@@ -22,13 +21,16 @@ class Crypt {
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    public function __construct($appId, $encodingAESKey, $token = '')
+    public function __construct($wechat)
     {
-        $this->appId          = $appId;
-        $this->encodingAESKey = $encodingAESKey;
-        $this->AESKey         = base64_decode($encodingAESKey . '=');
-        $this->token          = $token;
-        $this->blockSize      = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        parent::__construct($wechat);
+
+        if (strlen($this->wechat->options->encodingAESKey) != 43) {
+            throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
+        }
+
+        $this->AESKey    = base64_decode($this->wechat->options->encodingAESKey . '=');
+        $this->blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 
         set_exception_handler(function($e){
             error_log($e->getCode());
@@ -59,7 +61,7 @@ class Crypt {
         $timestamp || $timestamp = time();
 
         //生成安全签名
-        $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypt);
+        $signature = $this->getSHA1($this->wechat->options->token, $timestamp, $nonce, $encrypt);
 
         $response = array(
             'Encrypt'      => $encrypt,
@@ -91,10 +93,6 @@ class Crypt {
      */
     public function decryptMsg($msgSignature, $nonce, $timestamp, $postXML)
     {
-        if (strlen($this->encodingAESKey) != 43) {
-            throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
-        }
-
         //提取密文
         $array = XML::parse($postXML);
 
@@ -105,28 +103,29 @@ class Crypt {
         $encrypted  = $array['Encrypt'];
 
         //验证安全签名
-        $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypted);
+        $signature = $this->getSHA1($this->wechat->options->token, $timestamp, $nonce, $encrypted);
 
         if ($signature != $msgSignature) {
             throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        return XML::parse($this->decrypt($encrypted));
+        return XML::parse($this->decrypt($encrypted, $appId));
     }
 
     /**
      * 对明文进行加密
      *
-     * @param string $text 需要加密的明文
+     * @param string $text  需要加密的明文
+     * @param string $appId app id
      *
      * @return string 加密后的密文
      */
-    private function encrypt($text)
+    private function encrypt($text, $appId)
     {
         try {
             //获得16位随机字符串，填充到明文之前
             $random = $this->getRandomStr();
-            $text   = $random . pack("N", strlen($text)) . $text . $this->appId;
+            $text   = $random . pack("N", strlen($text)) . $text . $appId;
 
             // 网络字节序
             //$size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
@@ -134,7 +133,7 @@ class Crypt {
             $iv     = substr($this->AESKey, 0, 16);
 
             //使用自定义的填充方式对明文进行补位填充
-            $text   = PKCS7::encode($text);
+            $text   = $this->encode($text);
 
             mcrypt_generic_init($module, $this->AESKey, $iv);
 
@@ -155,10 +154,11 @@ class Crypt {
      * 对密文进行解密
      *
      * @param string $encrypted 需要解密的密文
+     * @param string $appId     app id
      *
      * @return string 解密得到的明文
      */
-    private function decrypt($encrypted)
+    private function decrypt($encrypted, $appId)
     {
         try {
             //使用BASE64对需要解密的字符串进行解码
@@ -178,7 +178,7 @@ class Crypt {
 
         try {
             //去除补位字符
-            $result = PKCS7::decode($decrypted);
+            $result = $this->decode($decrypted);
 
             //去除16位随机字符串,网络字节序和AppId
             if (strlen($result) < 16) {
@@ -194,7 +194,7 @@ class Crypt {
             throw new Exception($e->getMessage(), self::ERROR_INVALID_XML);
         }
 
-        if ($fromAppId != $this->appId) {
+        if ($fromAppId != $appId) {
             throw new Exception($e->getMessage(), self::ERROR_INVALID_APPID);
         }
 
