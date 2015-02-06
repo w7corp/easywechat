@@ -19,34 +19,7 @@ class Cache extends Service
      */
     public function boot()
     {
-        $this->filePrefix = $this->wechat->options->app_id;
-    }
-
-    /**
-     * 获取缓存
-     *
-     * @param string   $key
-     * @param callable $callback
-     *
-     * @return mixed
-     */
-    public function get($key, $callback)
-    {
-        # code...
-    }
-
-    /**
-     * 写入缓存
-     *
-     * @param string  $key
-     * @param mixed   $value
-     * @param integer $lifetime
-     *
-     * @return void
-     */
-    public function set($key, $value, $lifetime)
-    {
-        # code...
+        $this->filePrefix = $this->wechat->options->get('app_id');
     }
 
     /**
@@ -58,7 +31,7 @@ class Cache extends Service
      *
      * @return void
      */
-    protected function fileCacheWriter($key, $value, $lifetime = 7200)
+    protected function set($key, $value, $lifetime = 7200)
     {
         $data = array(
                  'token'      => $value,
@@ -77,7 +50,7 @@ class Cache extends Service
      *
      * @return void
      */
-    protected function fileCacheReader($key)
+    protected function get($key)
     {
         $file = $this->getCacheFile($key);
 
