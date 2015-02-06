@@ -134,10 +134,10 @@ class Http
     /**
      * 处理文件上传
      *
-     * @param Curl  $ci
-     * @param array $files
-     * @param array $params
-     * @param array &$headers
+     * @param resource $ci
+     * @param array    $files
+     * @param array    $params
+     * @param array    &$headers
      *
      * @return void
      */
