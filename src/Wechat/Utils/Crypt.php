@@ -7,6 +7,7 @@ class Crypt {
     protected $appId;
     protected $AESKey;
     protected $token;
+    protected $blockSize;
     protected $encodingAESKey;
 
     const ERROR_INVALID_SIGNATURE = -40001; // 校验签名失败
