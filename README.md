@@ -362,16 +362,16 @@ $wechat = new Wechat($options);
 ## 自定义缓存写入/读取
 
   ```php
-  // writer
-  $wechat->cacheWriter(function($key, $value){
+  // 写入
+  $wechat->cache->setter(function($key, $value, $lifetime){
       // cache the value.
-      return true;
+      return your_custom_set_cache($key, $value, $lifetime);
   });
   
-  // reader
-  $wechat->cacheReader(function($key){
+  // 读取
+  $wechat->cache->getter(function($key){
       // return the cached value.
-      return 缓存的数据;
+      return your_custom_get_cache($key);
   });
   ```
 

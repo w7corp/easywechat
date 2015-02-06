@@ -47,4 +47,28 @@ class OvertrueWechatServicesCacheTest extends \PHPUnit_Framework_TestCase
             'This test has not been implemented yet.'
         );
     }
+
+     /**
+     * @covers Overtrue\Wechat\Wechat::cacheWriter
+     * @todo   Implement testCacheWriter().
+     */
+    public function testCacheWriter()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+    }
+
+    /**
+     * @covers Overtrue\Wechat\Wechat::cacheReader
+     * @todo   Implement testCacheReader().
+     */
+    public function testCacheReader()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+    }
 }
