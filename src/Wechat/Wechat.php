@@ -273,7 +273,7 @@ class Wechat
 
         $key = 'overtrue.wechat.access_token';
 
-        if ($cached = $this->service('cache')->cache($key)) {
+        if ($cached = $this->service('cache')->get($key)) {
             return $cached;
         }
 
@@ -290,7 +290,7 @@ class Wechat
 
         $token = $this->request('GET', $url);
 
-        $this->cache($key, $token['access_token'], $token['expires_in']);
+        $this->service('cache')->set($key, $token['access_token'], $token['expires_in']);
 
         return $token['access_token'];
     }

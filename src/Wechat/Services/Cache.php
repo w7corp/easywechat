@@ -37,26 +37,6 @@ class Cache extends Service
     }
 
     /**
-     * 写入/读取缓存
-     *
-     * @param string  $key
-     * @param mixed   $value
-     * @param integer $lifetime
-     *
-     * @return mixed
-     */
-    protected function cache($key, $value = null, $lifetime = 7200)
-    {
-        if ($value) {
-            $handler = $this->cacheSetter ? : array($this, 'set');
-        } else {
-            $handler = $this->cacheGetter ? : array($this, 'get');
-        }
-
-        return call_user_func_array($handler, array($key, $value, $lifetime));
-    }
-
-    /**
      * 默认的缓存写入器
      *
      * @param string  $key
@@ -67,6 +47,10 @@ class Cache extends Service
      */
     public function set($key, $value, $lifetime = 7200)
     {
+        if ($handler = $this->cacheSetter) {
+            return call_user_func_array($handler, func_get_args());
+        }
+
         $data = array(
                  'token'      => $value,
                  'expired_at' => time() + $lifetime - 2, //XXX: 减去2秒更可靠的说
@@ -86,6 +70,10 @@ class Cache extends Service
      */
     public function get($key)
     {
+        if ($handler = $this->cacheGetter) {
+            return call_user_func_array($handler, func_get_args());
+        }
+
         $file = $this->getCacheFile($key);
 
         if (file_exists($file) && $token = unserialize(file_get_contents($file))) {
