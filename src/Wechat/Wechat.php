@@ -159,7 +159,12 @@ class Wechat
             $type     = '*';
         }
 
-        $this->{$target}($type, $callback);
+        if (!$listeners = $this->listeners->has("{$target}.{$type}")) {
+            $listeners = array();
+        }
+        array_push($listeners, $function);
+
+        $this->listeners->set("{$target}.{$type}", $listeners);
     }
 
     /**
@@ -172,12 +177,7 @@ class Wechat
      */
     public function event($type, $function)
     {
-        if (!$listeners = $this->listeners->has("event.{$type}")) {
-            $listeners = array();
-        }
-        array_push($listeners, $function);
-
-        $this->listeners->set("event.{$type}", $listeners);
+        return $this->on("event", $type, $function);
     }
 
     /**
@@ -190,12 +190,7 @@ class Wechat
      */
     public function message($type, $function)
     {
-        if (!$listeners = $this->listeners->has("message.{$type}")) {
-            $listeners = array();
-        }
-        array_push($listeners, $function);
-
-        $this->listeners->set("message.{$type}", $listeners);
+        return $this->on("message", $type, $function);
     }
 
     /**
