@@ -17,6 +17,13 @@ abstract class Service
     public function __construct(Wechat $wechat)
     {
         $this->wechat = $wechat;
+
+        $this->boot();
+    }
+
+    protected function boot()
+    {
+        # code...
     }
 
     /**

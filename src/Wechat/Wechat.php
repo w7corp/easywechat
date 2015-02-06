@@ -82,20 +82,6 @@ class Wechat
     static protected $autoRequestToken = true;
 
     /**
-     * 服务
-     *
-     * @var array
-     */
-    protected $services = array(
-                            'auth',
-                            'user',
-                            'group',
-                            'staff',
-                            'menu',
-                            'ticket',
-                          );
-
-    /**
      * 已经实例化过的服务
      *
      * @var array
@@ -223,17 +209,17 @@ class Wechat
      *
      * @return mixed
      */
-    public function get($service)
+    public function service($service)
     {
-        if (!in_array($service, $this->services)) {
-            throw new Exception("未知的服务'{$serve}'");
-        }
-
         if (isset($this->resolved[$service])) {
             return $this->resolved[$service];
         }
 
         $service = "Overtrue\Wechat\Services\\" . ucfirst($service);
+
+        if (!class_exists($service)) {
+            throw new Exception("未知的服务'$service'");
+        }
 
         return $this->resolved[$service] = new $service($this);
     }
@@ -603,9 +589,7 @@ class Wechat
      */
     public function __call($method, $args)
     {
-        if (in_array($method, $this->services)) {
-            return $this->get($method);
-        }
+        return $this->service($method);
     }
 
     /**
@@ -621,9 +605,7 @@ class Wechat
             return $this->{$property};
         }
 
-        if (in_array($property, $this->services)) {
-            return $this->get($property);
-        }
+        return $this->service($property);
     }
 
     /**

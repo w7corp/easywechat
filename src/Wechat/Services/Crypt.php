@@ -21,10 +21,8 @@ class Crypt extends Service
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    public function __construct($wechat)
+    protected function boot($wechat)
     {
-        parent::__construct($wechat);
-
         if (strlen($this->wechat->options->encodingAESKey) != 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
