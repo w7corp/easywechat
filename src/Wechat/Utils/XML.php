@@ -1,4 +1,6 @@
-<?php namespace Overtrue\Wechat\Utils;
+<?php
+
+namespace Overtrue\Wechat\Utils;
 
 class XML {
 

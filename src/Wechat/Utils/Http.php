@@ -1,4 +1,6 @@
-<?php namespace Overtrue\Wechat\Utils;
+<?php
+
+namespace Overtrue\Wechat\Utils;
 
 use Exception;
 
@@ -60,56 +62,42 @@ class Http
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ci, CURLOPT_HEADER, false);
 
+        if (!in_array($method, array('GET', 'POST'))) {
+            curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
+        }
+
         switch ($method) {
             case 'PUT':
             case 'POST':
             case 'PATCH':
-                $method == 'POST' || curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
-
                 curl_setopt($ci, CURLOPT_POST, true);
 
-                if (!empty($files)) {
-                    foreach($files as $index => $file) {
-                        $params[$index] = curl_file_create($file);
-                    }
-
-                    if (phpversion() > '5.5') {
-                        curl_setopt($ci, CURLOPT_SAFE_UPLOAD, false);
-                    }
-                    curl_setopt($ci, CURLOPT_POSTFIELDS, $params);
-                    $headers[] = 'Expect: ';
-                    $headers[] = 'Content-Type: multipart/form-data';
-                } else {
+                if (empty($files)) {
                     curl_setopt($ci, CURLOPT_POSTFIELDS, http_build_query($params));
+                    break;
                 }
 
+                self::handleFiles($ci, $files, $params, $headers);
                 break;
+
             case 'GET':
             case 'HEAD':
             case 'DELETE':
             case 'OPTIONS':
-                $method == 'GET' || curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
-                if (!empty($params)) {
-                    $url .= (strpos($url, '?') ? '&' : '?') . http_build_query($params);
-                }
-
+                empty($params) || $url .= (strpos($url, '?') ? '&' : '?') . http_build_query($params);
                 break;
         }
 
         curl_setopt($ci, CURLINFO_HEADER_OUT, true);
         curl_setopt($ci, CURLOPT_URL, $url);
-
-        if ($headers) {
-            curl_setopt($ci, CURLOPT_HTTPHEADER, $headers);
-        }
+        curl_setopt($ci, CURLOPT_HTTPHEADER, $headers);
 
         $response = curl_exec($ci);
 
-        if (curl_errno($ci)) {
-            error_log("curl错误：" . curl_errno($ci) . ' : ' . curl_error($ci));
-        }
+        !curl_errno($ci) || error_log("curl错误：" . curl_errno($ci) . ' : ' . curl_error($ci));
 
         curl_close($ci);
+
         return $response;
     }
 
@@ -141,6 +129,30 @@ class Http
 
         array_unshift($args, $method);
         return call_user_func_array(array(__CLASS__, 'request'), $args);
+    }
+
+    /**
+     * 处理文件上传
+     *
+     * @param Curl  $ci
+     * @param array $files
+     * @param array $params
+     * @param array &$headers
+     *
+     * @return void
+     */
+    static private function handleFiles($ci, $files, $params, &$headers)
+    {
+        foreach($files as $index => $file) {
+            $params[$index] = curl_file_create($file);
+        }
+
+        phpversion() < '5.5' || curl_setopt($ci, CURLOPT_SAFE_UPLOAD, false);
+
+        curl_setopt($ci, CURLOPT_POSTFIELDS, $params);
+
+        $headers[] = 'Expect: ';
+        $headers[] = 'Content-Type: multipart/form-data';
     }
 }
 

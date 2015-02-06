@@ -1,4 +1,7 @@
-<?php namespace Overtrue\Wechat\Utils;
+<?php
+
+namespace Overtrue\Wechat\Utils;
+
 /**
  * Bag.php
  *
