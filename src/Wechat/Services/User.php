@@ -85,7 +85,7 @@ class User extends Service
     public function getGroup($openId)
     {
         $params = array(
-                   'openid' => $this->openId,
+                   'openid' => $openId,
                   );
 
         $response = $this->postRequest(self::API_GROUP, $params);

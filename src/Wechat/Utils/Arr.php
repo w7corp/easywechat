@@ -319,7 +319,7 @@ class Arr
     {
         $results = array();
 
-        foreach ($this->items as $key => $value) {
+        foreach ($array as $key => $value) {
             $results[$key] = $callback($value);
         }
 
