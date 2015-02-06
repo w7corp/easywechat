@@ -2,13 +2,14 @@
 微信 SDK
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
-[![Latest Stable Version](https://poser.pugx.org/cooper/wechat/v/stable.svg)](https://packagist.org/packages/cooper/wechat)
-[![Total Downloads](https://poser.pugx.org/cooper/wechat/downloads.svg)](https://packagist.org/packages/cooper/wechat)
-[![Latest Unstable Version](https://poser.pugx.org/cooper/wechat/v/unstable.svg)](https://packagist.org/packages/cooper/wechat)
-[![Monthly Downloads](https://poser.pugx.org/cooper/wechat/d/monthly.png)](https://packagist.org/packages/cooper/wechat)
-[![Daily Downloads](https://poser.pugx.org/cooper/wechat/d/daily.png)](https://packagist.org/packages/cooper/wechat)
+[![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
+[![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
 [![Build Status](https://scrutinizer-ci.com/g/overtrue/wechat/badges/build.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master)
+
+[![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads.svg)](https://packagist.org/packages/overtrue/wechat)
+[![Monthly Downloads](https://poser.pugx.org/overtrue/wechat/d/monthly.png)](https://packagist.org/packages/overtrue/wechat)
+[![Daily Downloads](https://poser.pugx.org/overtrue/wechat/d/daily.png)](https://packagist.org/packages/overtrue/wechat)
 
 
 > 努力coding中，目前只完成了文档中列出的功能，敬请期待
