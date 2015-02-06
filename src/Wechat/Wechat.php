@@ -68,7 +68,7 @@ class Wechat
      *
      * @var boolean
      */
-    static protected $autoRequestToken = true;
+    protected $autoRequestToken = true;
 
     /**
      * 已经实例化过的服务
@@ -114,21 +114,26 @@ class Wechat
      *
      * @param string   $target
      * @param string   $type
-     * @param callable $function
+     * @param callable $callback
      *
      * @return string
      */
-    public function on($target, $type, $function = null)
+    public function on($target, $type, $callback = null)
     {
-        if (is_callable($type)) {
-            $function = $type;
+        if (func_num_args() == 2) {
+            $callback = $type;
             $type     = '*';
         }
 
-        if (!$listeners = $this->listeners->has("{$target}.{$type}")) {
+        if (!is_callable($callback)) {
+            return false;
+        }
+
+        if (!$listeners = $this->listeners->get("{$target}.{$type}")) {
             $listeners = array();
         }
-        array_push($listeners, $function);
+
+        array_push($listeners, $callback);
 
         $this->listeners->set("{$target}.{$type}", $listeners);
     }
@@ -137,26 +142,26 @@ class Wechat
      * 监听事件
      *
      * @param string   $type
-     * @param callable $function
+     * @param callable $callback
      *
      * @return mixed
      */
-    public function event($type, $function)
+    public function event($type, $callback)
     {
-        return $this->on("event", $type, $function);
+        return $this->on("event", $type, $callback);
     }
 
     /**
      * 监听消息
      *
      * @param string   $type
-     * @param callable $function
+     * @param callable $callback
      *
      * @return string
      */
-    public function message($type, $function)
+    public function message($type, $callback)
     {
-        return $this->on("message", $type, $function);
+        return $this->on("message", $type, $callback);
     }
 
     /**
@@ -167,7 +172,7 @@ class Wechat
     public function serve()
     {
         $input = array(
-                $this->options->token,
+                $this->options->get('token'),
                 $this->query->get('timestamp'),
                 $this->query->get('nonce'),
               );
@@ -315,7 +320,11 @@ class Wechat
 
         $contents = json_decode($response, true);
 
-        if(!empty($contents['errcode'])){
+        if(isset($contents['errcode'])){
+            if ($contents['errmsg'] == 'ok') {
+                return true;
+            }
+
             throw new Exception("[{$contents['errcode']}] ".$contents['errmsg'], $contents['errcode']);
         }
 
@@ -354,9 +363,9 @@ class Wechat
     /**
      * 检查微信签名有效性
      */
-    protected function signature()
+    protected function signature($input)
     {
-        sort(func_get_args(), SORT_STRING);
+        sort($input, SORT_STRING);
 
         return sha1(implode($input));
     }
