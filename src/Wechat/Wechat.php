@@ -148,14 +148,14 @@ class Wechat
      *
      * @param string   $target
      * @param string   $type
-     * @param callable $callback
+     * @param callable $function
      *
      * @return string
      */
-    public function on($target, $type, $callback = null)
+    public function on($target, $type, $function = null)
     {
         if (is_callable($type)) {
-            $callback = $type;
+            $function = $type;
             $type     = '*';
         }
 
@@ -216,7 +216,7 @@ class Wechat
     /**
      * 错误处理器
      *
-     * @param callback $handler
+     * @param function $handler
      *
      * @return void
      */
