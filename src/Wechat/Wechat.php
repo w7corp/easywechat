@@ -61,7 +61,7 @@ class Wechat
      *
      * @var callable
      */
-    protected $cacheGetter;
+    protected $cacheSetter;
 
     /**
      * 缓存读取器
