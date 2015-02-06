@@ -169,7 +169,7 @@ $wechat = new Wechat($options);
 + 获取所有客服账号
 
   ```php
-  $wechat->staff->all();`
+  $wechat->staff->all();
   ```
 
 + 获取所有在线的客服账号
@@ -356,7 +356,7 @@ $wechat = new Wechat($options);
   $wechat->error(function($error){
       // $error为Exception对象
       // $error->getCode(); 
-      // 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/    fa4e1434e57290788bde25603fa2fcbd.html
+      // 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
       // $error->getMessage(); 错误消息
   });
   ```
