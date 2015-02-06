@@ -2,8 +2,6 @@
 
 namespace Overtrue\Wechat\Services;
 
-use Overtrue\Wechat\Wechat;
-
 class QRCode extends Service
 {
     const API_CREATE = 'https://mp.weixin.qq.com/cgi-bin/qrcode/create';

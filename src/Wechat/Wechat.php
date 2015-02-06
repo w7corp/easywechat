@@ -166,7 +166,13 @@ class Wechat
      */
     public function serve()
     {
-        if (!$this->getSignature() === $this->query->get('signature')) {
+        $input = array(
+                $this->options->token,
+                $this->query->get('timestamp'),
+                $this->query->get('nonce'),
+              );
+
+        if (!$this->signature($input) === $this->query->get('signature')) {
             throw new Exception("Bad Request", 400);
         }
 
@@ -348,15 +354,9 @@ class Wechat
     /**
      * 检查微信签名有效性
      */
-    protected function getSignature()
+    protected function signature()
     {
-        $input = array(
-                $this->options->token,
-                $this->query->get('timestamp'),
-                $this->query->get('nonce'),
-              );
-
-        sort($input, SORT_STRING);
+        sort(func_get_args(), SORT_STRING);
 
         return sha1(implode($input));
     }

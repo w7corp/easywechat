@@ -211,13 +211,14 @@ $wechat = new Wechat($options);
 
   ```php
   // 所有人
-  $wechat->staff->send($message)->toAll(); 
+  $wechat->staff->send($message); 
   // 指定组
-  $wechat->staff->send($message)->toGroup($groupId); 
+  $wechat->staff->send($message, $groupId); 
   // 多个人
-  $wechat->staff->send($message)->toMany(array $groupIds); 
+  $wechat->staff->send($message, array($openId, $openId, ...)); 
   ```
-+ 消息转发给多个客服
+
++ 消息转发给全部客服
  
   ```php
   $message->transfer(); 
@@ -290,7 +291,7 @@ $wechat = new Wechat($options);
 
   ```php
   // 生成并返回
-  $wechat->auth->makeUrl($redirect, $state, $scope);
+  $wechat->auth->makeUrl($to, $state, $scope);
   // 直接跳转
   $wechat->auth->redirect($to, $state, $scope);   直接跳转
   ```
