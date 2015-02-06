@@ -9,6 +9,12 @@ use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\Crypt;
 use Overtrue\Wechat\Messages\AbstractMessage;
 
+/**
+ * @property string $app_id
+ * @property string $secret
+ * @property string $token
+ * @property string $encodingAESKey
+ */
 class Wechat
 {
     /**
@@ -451,12 +457,12 @@ class Wechat
         }
 
         if ($response instanceof AbstractMessage) {
-            $response->from($this->post->ToUserName)->to($this->post->FromUserName);
+            $response->from($this->post->get('ToUserName'))->to($this->post->get('FromUserName'));
 
             $xml = $response->formatToServer();
 
             if ($this->security) {
-                return $this->getCryptor()->encryptMsg($xml, $this->query->nonce, $this->query->timestamp);
+                return $this->getCryptor()->encryptMsg($xml, $this->query->get('nonce'), $this->query->get('timestamp'));
             }
 
             return $xml;
@@ -472,13 +478,13 @@ class Wechat
     {
         $input = array(
                 $this->options->token,
-                $this->query->timestamp,
-                $this->query->nonce,
+                $this->query->get('timestamp'),
+                $this->query->get('nonce'),
               );
 
         sort($input, SORT_STRING);
 
-        return sha1(implode($input)) === $this->query->signature;
+        return sha1(implode($input)) === $this->query->get('signature');
     }
 
     /**
@@ -493,11 +499,11 @@ class Wechat
 
         $input = XML::parse($xmlInput);
 
-        if ($this->query->encrypt_type == 'aes') {
+        if ($this->query->get('encrypt_type') == 'aes') {
             $this->security = true;
 
-            $input = $this->getCryptor()->decryptMsg($this->query->msg_signature,
-                            $this->query->nonce, $this->query->timestamp, $xmlInput);
+            $input = $this->getCryptor()->decryptMsg($this->query->get('msg_signature'),
+                            $this->query->get('nonce'), $this->query->get('timestamp'), $xmlInput);
         }
 
         return array_merge($_POST, (array) $input);
@@ -523,7 +529,7 @@ class Wechat
     {
         if ($this->post->has('MsgId')) {
             return $this->handleMessage($this->post);
-        } else if ($this->post->has('MsgType') && $this->post->MsgType == 'event') {
+        } else if ($this->post->has('MsgType') && $this->post->get('MsgType') == 'event') {
             return $this->handleEvent($this->post);
         }
 
