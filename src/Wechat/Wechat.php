@@ -303,16 +303,17 @@ class Wechat
     /**
      * 发起一个HTTP/HTTPS的请求
      *
-     * @param string $method 请求类型   GET | POST
-     * @param string $url    接口的URL
-     * @param array  $params 接口参数
-     * @param array  $files  图片信息
+     * @param string $method  请求类型   GET | POST
+     * @param string $url     接口的URL
+     * @param array  $params  接口参数
+     * @param array  $files   图片信息
+     * @param array  $headers 图片信息
      *
      * @return array
      */
-    public function request($method, $url, array $params = array(), array $files = array())
+    public function request($method, $url, array $params = array(), array $files = array(), $headers = array())
     {
-        $response = Http::request($method, $url, $params, array(), $files);
+        $response = Http::request($method, $url, $params, $headers, $files);
 
         if (empty($response)) {
             throw new Exception("服务器无响应");

@@ -13,6 +13,13 @@ abstract class Service
      */
     protected $wechat;
 
+    /**
+     * 请求的headers
+     *
+     * @var array
+     */
+    protected $headers;
+
 
     public function __construct(Wechat $wechat)
     {
@@ -46,11 +53,16 @@ abstract class Service
      * @param array  $params
      * @param array  $queries
      * @param array  $files
+     * @param array  $headers
      *
      * @return array
      */
-    public function postRequest($url, $params, $queries = array(), $files = array())
+    public function postRequest($url, $params, $queries = array(), $files = array(), $headers = array())
     {
-        return $this->wechat->request('POST', $this->wechat->makeUrl($url, $queries), $params, $files);
+        $url = $this->wechat->makeUrl($url, $queries);
+
+        $headers = array_merge($this->headers, $headers);
+
+        return $this->wechat->request('POST', $url, $params, $files, $headers);
     }
 }

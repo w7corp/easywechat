@@ -1,5 +1,6 @@
 *.DS_Store
 /vendor/
 sftp-config.json
+composer.lock
 index.php
 *.jpg

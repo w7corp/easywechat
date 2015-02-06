@@ -38,6 +38,7 @@ class Media extends Service
         $queries = array(
                     'type' => $type,
                    );
+
         $files = array(
                   'media' => $path,
                  );

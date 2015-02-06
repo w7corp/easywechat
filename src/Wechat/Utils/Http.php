@@ -45,7 +45,7 @@ class Http
      *
      * @return string
      */
-    public static function request($method, $url, array $params = array(), array $headers = array(), $files = [])
+    public static function request($method, $url, $params = array(), array $headers = array(), $files = [])
     {
         if (!function_exists('curl_init')) throw new Exception('Need to open the curl extension');
 
@@ -66,11 +66,21 @@ class Http
             curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
         }
 
+        //XXX: FUCK微信的SB的API设计，MLGBD...
+        if (stripos(join('', $headers), 'application/json')) {
+            $params = json_encode($params);
+        }
+
         switch ($method) {
             case 'PUT':
             case 'POST':
             case 'PATCH':
                 curl_setopt($ci, CURLOPT_POST, true);
+
+                if (is_string($params)) {
+                    curl_setopt($ci, CURLOPT_POSTFIELDS, $params);
+                    break;
+                }
 
                 if (empty($files)) {
                     curl_setopt($ci, CURLOPT_POSTFIELDS, http_build_query($params));
@@ -84,7 +94,8 @@ class Http
             case 'HEAD':
             case 'DELETE':
             case 'OPTIONS':
-                empty($params) || $url .= (strpos($url, '?') ? '&' : '?') . http_build_query($params);
+                $query = is_string($params) ? $params : http_build_query($params);
+                empty($params) || $url .= (strpos($url, '?') ? '&' : '?') . $query;
                 break;
         }
 

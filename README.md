@@ -175,7 +175,7 @@ $wechat = new Wechat($options);
 + 获取所有在线的客服账号
 
   ```php
-  $wechat->staff->onlineAll();
+  $wechat->staff->allOnline();
   ```
 
 + 添加客服帐号
@@ -270,16 +270,16 @@ $wechat = new Wechat($options);
 + 修改分组信息
 
   ```php
-  $wechat->group->update($id, $name);
+  $wechat->group->update($groupId, $name);
   ```
 
 + 添加分组用户(批量移动用户)
 
   ```php
   // 移动单个用户
-  $wechat->group->user($id, $openId);
+  $wechat->group->moveUser($openId, $groupId);
   // 批量移动
-  $wechat->group->users($id, $openIds);
+  $wechat->group->moveUsers(array $openIds, $groupId);
   ``` 
 
 ## 网页授权
@@ -292,7 +292,7 @@ $wechat = new Wechat($options);
 
   ```php
   // 生成并返回
-  $wechat->auth->makeUrl($to, $state, $scope);
+  $wechat->auth->url($to, $state, $scope);
   // 直接跳转
   $wechat->auth->redirect($to, $state, $scope);   直接跳转
   ```

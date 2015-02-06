@@ -5,10 +5,11 @@ namespace Overtrue\Wechat\Services;
 class Staff extends Service
 {
     const API_GET           = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
-    const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
+    const API_ONLINE        = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
     const API_DELETE        = 'https://api.weixin.qq.com/customservice/kfaccount/del';
     const API_UPDATE        = 'https://api.weixin.qq.com/customservice/kfaccount/update';
     const API_CREATE        = 'https://api.weixin.qq.com/customservice/kfaccount/add';
+    const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
 
 
     /**
@@ -18,7 +19,19 @@ class Staff extends Service
      */
     public function all()
     {
-        # code...
+        return $this->getRequest(self::API_GET);
+    }
+
+    /**
+     * 获取所有在线的
+     *
+     * @return array
+     */
+    public function allOnline()
+    {
+        $response = $this->getRequest(self::API_GET);
+
+        return $response['kf_online_list'];
     }
 
     /**
@@ -28,7 +41,7 @@ class Staff extends Service
      * @param string $nickname
      * @param string $password
      *
-     * @return array
+     * @return boolean
      */
     public function create($email, $nickname, $password)
     {
@@ -48,7 +61,7 @@ class Staff extends Service
      * @param string $nickname
      * @param string $password
      *
-     * @return array
+     * @return boolean
      */
     public function update($email, $nickname, $password)
     {
@@ -68,7 +81,7 @@ class Staff extends Service
      * @param string $nickname
      * @param string $password
      *
-     * @return array
+     * @return boolean
      */
     public function delete($email, $nickname, $password)
     {
@@ -81,11 +94,28 @@ class Staff extends Service
         return $this->postRequest(self::API_UPDATE, $params);
     }
 
-    public function avatar()
+    /**
+     * 上传头像
+     *
+     * @param string $email
+     * @param string $path
+     *
+     * @return boolean
+     */
+    public function avatar($email, $path)
     {
-        # code...
+        $queries = array(
+                    "kf_account" => $email,
+                   );
+
+        $files = array(
+                  'media' => $path,
+                 );
+
+        return $this->postRequest(self::API_AVATAR_UPLOAD, array(), $queries, $files);
     }
 
+    //TODO:
     public function send()
     {
         # code...
