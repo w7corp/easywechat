@@ -21,13 +21,13 @@ class Crypt extends Service
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    protected function boot($wechat)
+    protected function boot()
     {
-        if (strlen($this->wechat->options->encodingAESKey) != 43) {
+        if (strlen($this->wechat->options->get('encodingAESKey')) != 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
-        $this->AESKey    = base64_decode($this->wechat->options->encodingAESKey . '=');
+        $this->AESKey    = base64_decode($this->wechat->options->get('encodingAESKey') . '=');
         $this->blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 
         set_exception_handler(function($e){
@@ -59,7 +59,7 @@ class Crypt extends Service
         $timestamp || $timestamp = time();
 
         //生成安全签名
-        $signature = $this->getSHA1($this->wechat->options->token, $timestamp, $nonce, $encrypt);
+        $signature = $this->getSHA1($this->wechat->options->get('token'), $timestamp, $nonce, $encrypt);
 
         $response = array(
             'Encrypt'      => $encrypt,
@@ -101,7 +101,7 @@ class Crypt extends Service
         $encrypted  = $array['Encrypt'];
 
         //验证安全签名
-        $signature = $this->getSHA1($this->wechat->options->token, $timestamp, $nonce, $encrypted);
+        $signature = $this->getSHA1($this->wechat->options->get('token'), $timestamp, $nonce, $encrypted);
 
         if ($signature != $msgSignature) {
             throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
