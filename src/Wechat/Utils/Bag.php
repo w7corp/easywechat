@@ -18,15 +18,16 @@ use Countable;
 use ArrayAccess;
 use Serializable;
 use ArrayIterator;
-use JsonSerializable;
+// use JsonSerializable;
+// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
 use IteratorAggregate;
 
 class Bag implements
     ArrayAccess,
     Countable,
     IteratorAggregate,
-    Serializable,
-    JsonSerializable
+    Serializable
+    // , JsonSerializable
 {
     /**
      * Data
