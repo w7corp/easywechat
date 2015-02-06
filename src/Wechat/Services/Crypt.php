@@ -53,7 +53,7 @@ class Crypt extends Service
      */
     public function encryptMsg($xml, $nonce = null, $timestamp = null)
     {
-        $encrypt = $this->encrypt($xml);
+        $encrypt = $this->encrypt($xml, $this->wechat->options->get('app_id'));
 
         $nonce || $nonce = uniqid();
         $timestamp || $timestamp = time();
@@ -107,7 +107,7 @@ class Crypt extends Service
             throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        return XML::parse($this->decrypt($encrypted, $appId));
+        return XML::parse($this->decrypt($encrypted, $this->wechat->options->get('app_id')));
     }
 
     /**
