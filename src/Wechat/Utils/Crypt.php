@@ -27,6 +27,7 @@ class Crypt {
         $this->encodingAESKey = $encodingAESKey;
         $this->AESKey         = base64_decode($encodingAESKey . '=');
         $this->token          = $token;
+        $this->blockSize      = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 
         set_exception_handler(function($e){
             error_log($e->getCode());
@@ -51,7 +52,7 @@ class Crypt {
      */
     public function encryptMsg($xml, $nonce = null, $timestamp = null)
     {
-        $encrypt = $this->encrypt($xml, $this->appId);
+        $encrypt = $this->encrypt($xml);
 
         $nonce || $nonce = uniqid();
         $timestamp || $timestamp = time();
@@ -127,7 +128,7 @@ class Crypt {
             $text   = $random . pack("N", strlen($text)) . $text . $this->appId;
 
             // 网络字节序
-            $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+            //$size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
             $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv     = substr($this->AESKey, 0, 16);
 
@@ -233,5 +234,49 @@ class Crypt {
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), self::ERROR_CALC_SIGNATURE);
         }
+    }
+
+    /**
+     * 对需要加密的明文进行填充补位
+     *
+     * @param string  $text      需要进行填充补位操作的明文
+     *
+     * @return string 补齐明文字符串
+     */
+    public function encode($text)
+    {
+        //计算需要填充的位数
+        $padAmount = $this->blockSize - (mb_strlen($text) % $this->blockSize);
+
+        $padAmount = $padAmount ? $padAmount : $this->blockSize;
+
+        //获得补位所用的字符
+        $padChr = chr($padAmount);
+
+        $tmp = "";
+
+        for ($index = 0; $index < $padAmount; $index++) {
+            $tmp .= $padChr;
+        }
+
+        return $text . $tmp;
+    }
+
+    /**
+     * 对解密后的明文进行补位删除
+     *
+     * @param string $decrypted 解密后的明文
+     *
+     * @return string 删除填充补位后的明文
+     */
+    public function decode($decrypted)
+    {
+        $pad = ord(substr($decrypted, -1));
+
+        if ($pad < 1 || $pad > $this->blockSize) {
+            $pad = 0;
+        }
+
+        return substr($decrypted, 0, (strlen($decrypted) - $pad));
     }
 }
