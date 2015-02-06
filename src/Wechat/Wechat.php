@@ -9,6 +9,9 @@ use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\Crypt;
 use Overtrue\Wechat\Messages\AbstractMessage;
 
+/**
+ * @property \Overtrue\Wechat\Utils\Bag $options
+ */
 class Wechat
 {
     /**
