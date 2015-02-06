@@ -196,7 +196,7 @@ class Wechat
         }
 
         if ($this->query->has('echostr')) {
-            return $this->query->echostr;
+            return $this->query['echostr'];
         }
 
         $response = $this->handleRequest();
