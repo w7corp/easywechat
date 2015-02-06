@@ -57,20 +57,6 @@ class Wechat
     protected $errorHandler;
 
     /**
-     * 缓存写入器
-     *
-     * @var callable
-     */
-    protected $cacheSetter;
-
-    /**
-     * 缓存读取器
-     *
-     * @var callable
-     */
-    protected $cacheGetter;
-
-    /**
      * access_token
      *
      * @var string
@@ -240,30 +226,6 @@ class Wechat
     }
 
     /**
-     * 设置缓存写入器
-     *
-     * @param callable $handler
-     *
-     * @return void
-     */
-    public function cacheSetter($handler)
-    {
-        is_callable($handler) && $this->cacheSetter = $handler;
-    }
-
-    /**
-     * 设置缓存读取器
-     *
-     * @param callable $handler
-     *
-     * @return void
-     */
-    public function cacheGetter($handler)
-    {
-        is_callable($handler) && $this->cacheGetter = $handler;
-    }
-
-    /**
      * 自动添加access_token参数
      *
      * @param boolean $status
@@ -293,26 +255,6 @@ class Wechat
     }
 
     /**
-     * 写入/读取缓存
-     *
-     * @param string  $key
-     * @param mixed   $value
-     * @param integer $lifetime
-     *
-     * @return mixed
-     */
-    protected function cache($key, $value = null, $lifetime = 7200)
-    {
-        if ($value) {
-            $handler = $this->cacheSetter ? : array($this->service('cache'), 'set');
-        } else {
-            $handler = $this->cacheGetter ? : array($this->service('cache'), 'get');
-        }
-
-        return call_user_func_array($handler, array($key, $value, $lifetime));
-    }
-
-    /**
      * 获取access_token
      *
      * @return string
@@ -325,7 +267,7 @@ class Wechat
 
         $key = 'overtrue.wechat.access_token';
 
-        if ($cached = $this->cache($key)) {
+        if ($cached = $this->service('cache')->cache($key)) {
             return $cached;
         }
 

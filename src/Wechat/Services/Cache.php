@@ -11,6 +11,20 @@ class Cache extends Service
      */
     protected $filePrefix;
 
+    /**
+     * 缓存写入器
+     *
+     * @var callable
+     */
+    protected $cacheSetter;
+
+    /**
+     * 缓存读取器
+     *
+     * @var callable
+     */
+    protected $cacheGetter;
+
 
     /**
      * 设置缓存文件前缀
@@ -23,6 +37,26 @@ class Cache extends Service
     }
 
     /**
+     * 写入/读取缓存
+     *
+     * @param string  $key
+     * @param mixed   $value
+     * @param integer $lifetime
+     *
+     * @return mixed
+     */
+    protected function cache($key, $value = null, $lifetime = 7200)
+    {
+        if ($value) {
+            $handler = $this->cacheSetter ? : array($this, 'set');
+        } else {
+            $handler = $this->cacheGetter ? : array($this, 'get');
+        }
+
+        return call_user_func_array($handler, array($key, $value, $lifetime));
+    }
+
+    /**
      * 默认的缓存写入器
      *
      * @param string  $key
@@ -31,7 +65,7 @@ class Cache extends Service
      *
      * @return void
      */
-    protected function set($key, $value, $lifetime = 7200)
+    public function set($key, $value, $lifetime = 7200)
     {
         $data = array(
                  'token'      => $value,
@@ -50,7 +84,7 @@ class Cache extends Service
      *
      * @return void
      */
-    protected function get($key)
+    public function get($key)
     {
         $file = $this->getCacheFile($key);
 
@@ -59,6 +93,30 @@ class Cache extends Service
         }
 
         return null;
+    }
+
+    /**
+     * 设置缓存写入器
+     *
+     * @param callable $handler
+     *
+     * @return void
+     */
+    public function cacheSetter($handler)
+    {
+        is_callable($handler) && $this->cacheSetter = $handler;
+    }
+
+    /**
+     * 设置缓存读取器
+     *
+     * @param callable $handler
+     *
+     * @return void
+     */
+    public function cacheGetter($handler)
+    {
+        is_callable($handler) && $this->cacheGetter = $handler;
     }
 
     /**
