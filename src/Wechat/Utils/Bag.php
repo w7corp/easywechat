@@ -135,11 +135,10 @@ class Bag implements
      *
      * @param string   $key
      * @param mixed    $default
-     * @param \Closure $callback
      *
      * @return mixed
      */
-    public function get($key, $default = null, Closure $callback = null)
+    public function get($key, $default = null)
     {
         return Arr::get($this->data, $key, $default);
     }

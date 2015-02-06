@@ -14,28 +14,28 @@ class Wechat
     /**
      * POST输入
      *
-     * @var Overtrue\Wechat\Utils\Bag
+     * @var \Overtrue\Wechat\Utils\Bag
      */
     protected $post;
 
     /**
      * GET输入
      *
-     * @var Overtrue\Wechat\Utils\Bag
+     * @var \Overtrue\Wechat\Utils\Bag
      */
     protected $query;
 
     /**
      * 选项
      *
-     * @var Overtrue\Wechat\Utils\Bag
+     * @var \Overtrue\Wechat\Utils\Bag
      */
     protected $options;
 
     /**
      * 监听器
      *
-     * @var Overtrue\Wechat\Utils\Bag
+     * @var \Overtrue\Wechat\Utils\Bag
      */
     protected $listeners;
 
@@ -74,21 +74,12 @@ class Wechat
      */
     protected $accessToken;
 
-    protected $httpRequester = 'Overtrue\Wechat\Utils\Http';
-
     /**
      * 自动添加access_token
      *
      * @var boolean
      */
     static protected $autoRequestToken = true;
-
-    /**
-     * Wechat实例
-     *
-     * @var \Overtrue\Wechat\Wechat
-     */
-    protected static $instance = null;
 
     /**
      * 服务
