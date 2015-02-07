@@ -75,10 +75,10 @@ echo $result;
 use Overtrue\Wechat\Wechat;
 
 $options = [
-    'app_id'         => 'Your appid !!',
-    'secret'         => 'Your secret !!'
-    'token'          => 'Your token !!',
-    'encodingAESKey' => 'Your encodingAESKey!!' // optional
+    'app_id'         => 'Your appid',
+    'secret'         => 'Your secret'
+    'token'          => 'Your token',
+    'encodingAESKey' => 'Your encodingAESKey' // 可选
 ];
 
 // 初始化Wechat实例
@@ -376,6 +376,97 @@ $wechat = new Wechat($options);
       return your_custom_get_cache($key);
   });
   ```
+
+## 消息
+
+我把微信的API里的所有“消息”都按类型抽象出来了，也就是说，你不用区分它是回复消息还是主动推送消息，免去了你去手动拼装微信那帮SB那么恶心的XML以及乱七八糟命名不统一的JSON了，我帮忙你承受这份苦。
+
+### 消息的类型及属性
+
+- 文本(`text`)
+  - `content` 内容
+
+- 图片(`image`)
+  - `media_id` 媒体资源id
+
+- 声音(`voice`)
+  - `media_id` 媒体资源id
+
+- 音乐(`music`)
+  - title 标题
+  - description 描述
+  - music_url 音乐URL
+  - hq_music_url  高清URL
+  - thumb_media_id  封面资源id
+
+- 视频(`video`)
+  - `title` 标题
+  - `description` 描述
+  - `media_id`  媒体资源id
+  - `thumb_media_id` 封面资源id
+
+- 位置(`location`)
+  - `lat` 地理位置纬度
+  - `lon` 地理位置经度
+  - `scale` 地图缩放大小
+  - `label` 地理位置信息
+
+- 链接(`link`)
+  - `title` 标题
+  - `description` 描述
+  - `url` 链接URL
+
+### 创建消息
+
+```php
+<?php
+
+use Overtrue\Wechat\Wechat;
+use Overtrue\Wechat\Message;
+
+$options = array(...);
+
+$wechat = new Wechat($options);
+
+$wechat->on('event', 'subscribe', function($event){
+  //创建一条文本消息
+  $message = new Message('text');
+  $message->content = '您好！欢迎关注overtrue';
+  $message->to = $event['FromUserName'];
+
+  // 回复给用户
+  return $message;
+});
+```
+
+当然，消息是支持链式操作的，比如上面的例子可以写成：
+
+```php
+$message = new Message('text');
+$message->content('您好！欢迎关注overtrue')->to($openId);
+```
+再或者:
+
+```php
+$message = $wecaht->message('text')->content('您好！欢迎关注overtrue')->to($openId);
+```
+
+这里有一点需要注意，当属性带下划线的时候，方法名是支持两种的：`media_id()` 或者 `mediaId()` 都一样。
+
+### 上传媒体文件
+
+媒体文件你不用上传，也就是说media_id是我来维护，你直接传本地文件就好了。
+
+```php
+$message = new Message('image');
+$message->media('D:/test/demo.jpg');
+```
+方法`media($file)`会上传文件然后赋值到`media_id`属性。
+
+#### 这里有两个方法用于设置媒体文件：
+
+- `media($file)` 对应设置 `media_id`
+- `thumb($file)` 对应设置 `thumb_media_id`
 
 ## License
 
