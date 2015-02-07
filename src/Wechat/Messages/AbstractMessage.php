@@ -54,6 +54,13 @@ abstract class AbstractMessage
      */
     protected $properties = array();
 
+    /**
+     * 方法名转换缓存
+     *
+     * @var array
+     */
+    static protected $studlyCache = array();
+
 
     /**
      * 设置发送者
@@ -111,9 +118,12 @@ abstract class AbstractMessage
             throw new InvalidArgumentException("属性值只能为标量");
         }
 
+        $attribute = $this->studly($attribute);
+
         if (!in_array($attribute, $this->properties)) {
             throw new InvalidArgumentException("不存在的属性‘{$attribute}’");
         }
+
         $this->attributes[$attribute] = $value;
 
         return $this;
@@ -151,5 +161,25 @@ abstract class AbstractMessage
     public function __set($property, $value)
     {
         return $this->with($property, $value);
+    }
+
+    /**
+     * 转换为下划线模式字符串
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public function studly($value)
+    {
+        $key = $value;
+
+        if (isset(static::$studlyCache[$key])) {
+            return static::$studlyCache[$key];
+        }
+
+        $value = ucwords(str_replace(array('-', '_'), ' ', $value));
+
+        return static::$studlyCache[$key] = str_replace(' ', '', $value);
     }
 }
