@@ -12,7 +12,7 @@ use Overtrue\Wechat\Utils\XML;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends AbstractMessage implements MessageInterface
+class Video extends AbstractMessage
 {
 
     protected $properties = array('video', 'title', 'description');

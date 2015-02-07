@@ -7,7 +7,7 @@ use Overtrue\Wechat\Utils\XML;
 /**
  * @property string $content
  */
-class Text extends AbstractMessage implements MessageInterface
+class Text extends AbstractMessage
 {
 
     protected $properties = array('content');

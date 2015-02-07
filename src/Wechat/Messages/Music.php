@@ -12,7 +12,7 @@ use Overtrue\Wechat\Utils\XML;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Music extends AbstractMessage implements MessageInterface
+class Music extends AbstractMessage
 {
 
     protected $properties = array('url', 'hq_url', 'title', 'description');

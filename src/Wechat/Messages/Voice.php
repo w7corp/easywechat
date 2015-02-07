@@ -8,7 +8,7 @@ use Overtrue\Wechat\Utils\XML;
 /**
  * @property string $media_id
  */
-class Voice extends AbstractMessage implements MessageInterface
+class Voice extends AbstractMessage
 {
 
     protected $properties = array('media_id');
