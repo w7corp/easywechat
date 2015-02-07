@@ -160,6 +160,27 @@ $wechat = new Wechat($options);
   echo $result;
   ```
 
+## 用户
+
+  ```php
+  $user = $wechat->user;
+  ```
+
++ `$user->get($openId);` 获取用户信息
++ `$user->all($nextOpenId = null);` 获取用户列表, $nextOpenId 可选
++ `$user->remark($openId, $remark);` 修改用户备注
+
+## 用户组 
+
+  ```php
+  $group = $wechat->group;
+  ```
+
++ `$group->all();` 获取所有分组
++ `$group->update($groupId, $name);` 修改分组信息
++ `$group->moveUser($openId, $groupId);` 移动单个用户到指定分组
++ `$group->moveUsers(array $openIds, $groupId);` 批量移动用户到指定分组
+
 ## 客服
 
   ```php
@@ -187,26 +208,6 @@ $wechat = new Wechat($options);
 + `$staff->transfer($message); ` 消息转发给全部客服
 + `$staff->transfer($message, $stuffMail); ` 消息转发给单个客服
     
-## 用户
-
-  ```php
-  $user = $wechat->user;
-  ```
-
-+ `$user->get($openId);` 获取用户信息
-+ `$user->all();` 获取用户列表
-+ `$user->remark($openId, $remark);` 修改用户备注
-
-## 用户组 
-
-  ```php
-  $group = $wechat->group;
-  ```
-
-+ `$group->all();` 获取所有分组
-+ `$group->update($groupId, $name);` 修改分组信息
-+ `$group->moveUser($openId, $groupId);` 移动单个用户到指定分组
-+ `$group->moveUsers(array $openIds, $groupId);` 批量移动用户到指定分组
 
 ## 网页授权
 
@@ -295,38 +296,15 @@ $wechat = new Wechat($options);
 
 ### 消息的类型及属性
 
-- 文本(`text`)
-  - `content` 内容
-
-- 图片(`image`)
-  - `media_id` 媒体资源id
-
-- 声音(`voice`)
-  - `media_id` 媒体资源id
-
-- 音乐(`music`)
-  - title 标题
-  - description 描述
-  - music_url 音乐URL
-  - hq_music_url  高清URL
-  - thumb_media_id  封面资源id
-
-- 视频(`video`)
-  - `title` 标题
-  - `description` 描述
-  - `media_id`  媒体资源id
-  - `thumb_media_id` 封面资源id
-
-- 位置(`location`)
-  - `lat` 地理位置纬度
-  - `lon` 地理位置经度
-  - `scale` 地图缩放大小
-  - `label` 地理位置信息
-
-- 链接(`link`)
-  - `title` 标题
-  - `description` 描述
-  - `url` 链接URL
+| 消息类型 | 类型名称 | 属性                                                                             | 备注                                      |
+|----------|----------|----------------------------------------------------------------------------------|-------------------------------------------|
+| 文本     | text     | content 内容                                                                     |                                           |
+| 图片     | image    | media_id 媒体资源id                                                              | media($path)                              |
+| 声音     | voice    | media_id 媒体资源id                                                              | media($path)                              |
+| 音乐     | music    | title 标题 <br>description 描述 <br>url 音乐URL <br>hq_url 高清URL <br>thumb_media_id 封面资源id | url($musicUrl) <br>hqUrl($music) thumb($path) |
+| 视频     | video    | title 标题 <br>description 描述 <br>media_id 媒体资源id <br>thumb_media_id 封面资源id        | media($path) <br>thumb($path)                 |
+| 位置     | location | lat 地理位置纬度 <br>lon 地理位置经度 <br>scale 地图缩放大小 <br>label 地理位置信息          |                                           |
+| 链接     | link     | title 标题 <br>description 描述url  链接URL                                          |                                           |
 
 ### 创建消息
 
