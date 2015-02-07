@@ -301,7 +301,7 @@ $wechat = new Wechat($options);
 | 文本     | text     | content 内容                                                                     |                                           |
 | 图片     | image    | media_id 媒体资源id                                                              | media($path)                              |
 | 声音     | voice    | media_id 媒体资源id                                                              | media($path)                              |
-| 音乐     | music    | title 标题 <br>description 描述 <br>url 音乐URL <br>hq_url 高清URL <br>thumb_media_id 封面资源id | url($musicUrl) <br>hqUrl($music) thumb($path) |
+| 音乐     | music    | title 标题 <br>description 描述 <br>url 音乐URL <br>hq_url 高清URL <br>thumb_media_id 封面资源id | url($musicUrl) <br>hqUrl($music) <br>thumb($path) |
 | 视频     | video    | title 标题 <br>description 描述 <br>media_id 媒体资源id <br>thumb_media_id 封面资源id        | media($path) <br>thumb($path)                 |
 | 位置     | location | lat 地理位置纬度 <br>lon 地理位置经度 <br>scale 地图缩放大小 <br>label 地理位置信息          |                                           |
 | 链接     | link     | title 标题 <br>description 描述url  链接URL                                          |                                           |
