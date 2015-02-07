@@ -163,124 +163,50 @@ $wechat = new Wechat($options);
 ## 客服
 
   ```php
-  $wechat->staff;
+  $staff = $wechat->staff;
   ```
 
-+ 获取所有客服账号
-
-  ```php
-  $wechat->staff->all();
-  ```
-
-+ 获取所有在线的客服账号
-
-  ```php
-  $wechat->staff->allOnline();
-  ```
-
-+ 添加客服帐号
-
-  ```php
-  $wechat->staff->create($mail, $nickname, $password);
-  ```
-
-+ 修改客服帐号
-
-  ```php
-  $wechat->staff->update($mail, $nickname, $password);
-  ```
-
-+ 删除客服帐号
-
-  ```php
-  $wechat->staff->delete($mail, $nickname, $password);
-  ```
-
-+ 设置客服帐号的头像
-
-  ```php
-  $wechat->staff->avatar($mail, $avatarPath);
-  ```
-
-+ 主动发送消息给用户
-
-  ```php  
-  $wechat->staff->send($message)->to($openId);
-  ```
-
++ `$staff->all();` 获取所有客服账号
++ `$staff->allOnline();` 获取所有在线的客服账号
++ `$staff->create($mail, $nickname, $password);` 添加客服帐号
++ `$staff->update($mail, $nickname, $password);` 修改客服帐号
++ `$staff->delete($mail, $nickname, $password);` 删除客服帐号
++ `$staff->avatar($mail, $avatarPath);` 设置客服帐号的头像
++ `$staff->send($message)->to($openId);` 主动发送消息给用户
 + 群发消息
 
   ```php
   // 所有人
-  $wechat->staff->send($message); 
+  $staff->send($message)->toAll(); 
   // 指定组
-  $wechat->staff->send($message, $groupId); 
+  $staff->send($message)->toGroup($groupId); 
   // 多个人
-  $wechat->staff->send($message, array($openId, $openId, ...)); 
+  $staff->send($message)->toMany(array($openId, $openId, ...)); 
   ```
 
-+ 消息转发给全部客服
- 
-  ```php
-  $message->transfer(); 
-  ```
-
-+ 消息转发给单个客服
++ `$staff->transfer($message); ` 消息转发给全部客服
++ `$staff->transfer($message, $stuffMail); ` 消息转发给单个客服
     
-  ```php
-  $message->transfer($stuffMail); 
-  ```
-
 ## 用户
 
   ```php
-  $wechat->user;
+  $user = $wechat->user;
   ```
 
-+ 获取用户信息
-
-  ```php
-  $user = $wechat->user->get($openId);
-  ```
-
-+ 获取用户列表
-
-  ```php
-  $users = $wechat->user->all();
-  ```
-
-+ 修改用户备注
-
-  ```php
-  $wechat->user->remark($openId, $remark);
-  ```
++ `$user->get($openId);` 获取用户信息
++ `$user->all();` 获取用户列表
++ `$user->remark($openId, $remark);` 修改用户备注
 
 ## 用户组 
 
   ```php
-  $wechat->group;
+  $group = $wechat->group;
   ```
 
-+ 获取所有分组
-
-  ```php
-  $wechat->group->all();
-  ```
-
-+ 修改分组信息
-
-  ```php
-  $wechat->group->update($groupId, $name);
-  ```
-
-+ 添加分组用户(批量移动用户)
-
-  ```php
-  // 移动单个用户
-  $wechat->group->moveUser($openId, $groupId);
-  // 批量移动
-  $wechat->group->moveUsers(array $openIds, $groupId);
-  ``` 
++ `$group->all();` 获取所有分组
++ `$group->update($groupId, $name);` 修改分组信息
++ `$group->moveUser($openId, $groupId);` 移动单个用户到指定分组
++ `$group->moveUsers(array $openIds, $groupId);` 批量移动用户到指定分组
 
 ## 网页授权
 
@@ -315,23 +241,9 @@ $wechat = new Wechat($options);
   $wechat->menu;
   ```
 
-+ 读取菜单
-
-  ```php
-  $wechat->menu->get();
-  ```
-
-+ 设置菜单
-
-  ```php  
-  $wechat->menu->set($menus);
-  ```
-
-+ 删除菜单
-  
-  ```php
-  $wechat->menu->delete();
-  ```
++ `$menu->get();` 读取菜单
++ `$menu->set($menus);` 设置菜单
++ `$menu->delete();` 删除菜单
 
 ## 签名
 
