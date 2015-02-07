@@ -102,16 +102,16 @@ $wechat = new Wechat($options);
   
   ```php
   // 监听所有类型
-  $wechat->on('message', function($message){
+  $wechat->on('message', function($message) use ($wechat) {
       // 所有类型的消息都会触发此函数
-      error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']  }");        
+      error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']}");        
   
       // 回复一条消息
       return $wechat->message('text')->content('您好！');
   });
   
   // 监听指定类型
-  $wechat->on('message', 'image', function($message){
+  $wechat->on('message', 'image', function($message) use ($wechat) {
       //只有收到图片(image)类型触发此函数
       error_log("收到来自{$message['FromUserName']}的图片消息");        
   
@@ -141,13 +141,13 @@ $wechat = new Wechat($options);
   
   ```php
   // 监听所有事件
-  $wechat->on('event', function($event){
+  $wechat->on('event', function($event) use ($wechat) {
   
       error_log('收到取消关注事件，取消关注者openid: ' . $event['FromUserName']);      
   });
   
   // 只监听指定类型事件
-  $wechat->on('event', 'subscribe', function($event){
+  $wechat->on('event', 'subscribe', function($event) use ($wechat) {
   
       error_log('收到关注事件，关注者openid: ' . $event['FromUserName']);      
   
