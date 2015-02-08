@@ -20,8 +20,12 @@ class User extends Service
      *
      * @return array
      */
-    public function get($openId, $lang = 'zh_CN')
+    public function get($openId = null, $lang = 'zh_CN')
     {
+        if (empty($openId)) {
+            return $this->all();
+        }
+
         $params = array(
                    'openid' => $openId,
                    'lang'   => $lang,
@@ -37,7 +41,7 @@ class User extends Service
      *
      * @return Overtrue\Wechat\Utils\Bag
      */
-    public function users($nextOpenId = null)
+    public function all($nextOpenId = null)
     {
         $params = array('next_openid' => $nextOpenId);
 
