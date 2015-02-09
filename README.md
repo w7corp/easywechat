@@ -40,10 +40,10 @@ composer require overtrue/wechat
 use Overtrue\Wechat\Wechat;
 
 $options = [
-    'appId'          => 'Your appid',
+    'appId'          => 'Your app id',
     'secret'         => 'Your secret'
     'token'          => 'Your token',
-    'encodingAESKey' => 'Your encodingAESKey' // optional
+    'encodingAESKey' => 'Your encoding AES Key' // optional
 ];
 
 $wechat = new Wechat($options);
