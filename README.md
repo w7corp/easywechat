@@ -242,7 +242,7 @@ echo $result;
   $wechat->error(function($error){
       // $error为Exception对象
       // $error->getCode(); 
-      // 得到错误码：参考：http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
+      // 错误码：参考：http://mp.weixin.qq.com/wiki/17/fa4e1434e57290788bde25603fa2fcbd.html
       // $error->getMessage(); 错误消息
   });
   ```
