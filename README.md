@@ -42,10 +42,10 @@ composer require overtrue/wechat
 use Overtrue\Wechat\Wechat;
 
 $options = [
-    'app_id'         => 'Your appid !!',
-    'secret'         => 'Your secret !!'
-    'token'          => 'Your token !!',
-    'encodingAESKey' => 'Your encodingAESKey!!' // optional
+    'app_id'         => 'Your appid',
+    'secret'         => 'Your secret'
+    'token'          => 'Your token',
+    'encodingAESKey' => 'Your encodingAESKey' // optional
 ];
 
 // 初始化Wechat实例
@@ -304,7 +304,7 @@ $wechat = new Wechat($options);
 | 音乐     | `music`    | `title` 标题 <br>`description` 描述 <br>`url` 音乐URL <br>`hq_url` 高清URL <br>`thumb_media_id` 封面资源id | `url($musicUrl)` <br>`hqUrl($music)` <br>`thumb($path)` |
 | 视频     | `video`    | `title` 标题 <br>`description` 描述 <br>`media_id` 媒体资源id <br>`thumb_media_id` 封面资源id        | `media($path)` <br>`thumb($path)`                 |
 | 位置     | `location` | `lat` 地理位置纬度 <br>`lon` 地理位置经度 <br>`scale` 地图缩放大小 <br>`label` 地理位置信息          |                                           |
-| 链接     | `link`     | `title` 标题 <br>`description` 描述url  链接URL                                          |                                           |
+| 链接     | `link`     | `title` 标题 <br>`description` 描述<br>url  链接URL                                          |                                           |
 
 ### 创建消息
 
@@ -320,7 +320,7 @@ $wechat = new Wechat($options);
 
 $wechat->on('event', 'subscribe', function($event){
   //创建一条文本消息
-  $message = new Message('text');
+  $message = Message::make('text');
   $message->content = '您好！欢迎关注overtrue';
   $message->to = $event['FromUserName'];
 
@@ -332,8 +332,7 @@ $wechat->on('event', 'subscribe', function($event){
 当然，消息是支持链式操作的，比如上面的例子可以写成：
 
 ```php
-$message = new Message('text');
-$message->content('您好！欢迎关注overtrue')->to($openId);
+$message = Message::make('text')->content('您好！欢迎关注overtrue')->to($openId);
 ```
 再或者:
 
@@ -348,10 +347,14 @@ $message = $wecaht->message('text')->content('您好！欢迎关注overtrue')->t
 媒体文件你不用上传，也就是说media_id是我来维护，你直接传本地文件就好了。
 
 ```php
-$message = new Message('image');
-$message->media('D:/test/demo.jpg');
+$message = Message::make('image')->media('D:/test/demo.jpg');
 ```
-方法`media($file)`会上传文件然后赋值到`media_id`属性。
+
+方法`media($file)`会上传文件然后赋值到`media_id`属性。如果想要获取上传后的media_id: 
+
+```php
+$mediaId = $message->media_id;
+```
 
 #### 这里有两个方法用于设置媒体文件：
 

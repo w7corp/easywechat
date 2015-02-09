@@ -15,7 +15,7 @@ use Overtrue\Wechat\Utils\XML;
 class Video extends AbstractMessage
 {
 
-    protected $properties = array('video', 'title', 'description');
+    protected $properties = array('title', 'description', 'media_id', 'thumb_media_id');
 
     /**
      * 设置视频消息
@@ -27,6 +27,20 @@ class Video extends AbstractMessage
     public function media($path)
     {
         $this->attributes['media_id'] = Media::video($path);
+
+        return $this;
+    }
+
+    /**
+     * 设置视频封面图
+     *
+     * @param string $path
+     *
+     * @return Overtrue\Wechat\Messages\Video
+     */
+    public function thumb($path)
+    {
+        $this->attributes['thumb_media_id'] = Media::thumb($path);
 
         return $this;
     }
@@ -51,10 +65,10 @@ class Video extends AbstractMessage
                 'touser'  => $this->to,
                 'msgtype' => 'video',
                 'video'   => array(
-                              'media_id'       => $this->media_id,
-                              'thumb_media_id' => $this->thumb_media_id,
                               'title'          => $this->title,
+                              'media_id'       => $this->media_id,
                               'description'    => $this->description,
+                              'thumb_media_id' => $this->thumb_media_id,
                              ),
                );
     }

@@ -2,6 +2,7 @@
 
 namespace Overtrue\Wechat\Messages;
 
+use Exception;
 use Overtrue\Wechat\Utils\XML;
 
 /**
@@ -14,26 +15,12 @@ class Link extends AbstractMessage
 
     public function formatToClient()
     {
-        return array(
-                'touser'  => $this->to,
-                'msgtype' => 'text',
-                // 'text'    => array(
-                //               'content' => $this->content,
-                //              ),
-        );
+        throw new Exception("暂时不支持发送链接消息");
     }
 
     public function formatToServer()
     {
-        $response = array(
-                     'ToUserName'   => $this->to,
-                     'FromUserName' => $this->from,
-                     'CreateTime'   => time(),
-                     'MsgType'      => 'text',
-                     //'Content'      => $this->content,
-                    );
-
-        return XML::build($response);
+        throw new Exception("暂时不支持回复链接消息");
     }
 
 }

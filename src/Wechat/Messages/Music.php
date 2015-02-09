@@ -15,7 +15,13 @@ use Overtrue\Wechat\Utils\XML;
 class Music extends AbstractMessage
 {
 
-    protected $properties = array('url', 'hq_url', 'title', 'description');
+    protected $properties = array(
+                             'url',
+                             'hq_url',
+                             'title',
+                             'description',
+                             'thumb_media_id',
+                            );
 
     /**
      * 设置音乐消息封面图

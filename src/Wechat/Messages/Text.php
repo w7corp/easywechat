@@ -12,20 +12,6 @@ class Text extends AbstractMessage
 
     protected $properties = array('content');
 
-    /**
-     * 设置内容
-     *
-     * @param string $content
-     *
-     * @return Overtrue\Wechat\Messages\Text
-     */
-    public function content($content)
-    {
-        $this->attributes['content'] = $content;
-
-        return $this;
-    }
-
     public function formatToClient()
     {
         return array(

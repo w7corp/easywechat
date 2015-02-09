@@ -3,15 +3,12 @@
 namespace Overtrue\Wechat\Services;
 
 use Closure;
+use InvalidArgumentException;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Messages\AbstractMessage;
-use InvalidArgumentException;
 
 class Message extends Service
 {
-
-    const API_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
-
     /**
      * 消息类型
      */
@@ -25,12 +22,8 @@ class Message extends Service
 
     /**
      * 创建消息实例
-     *
-     * @param string $type
-     *
-     * @return Overtrue\Wechat\Message
      */
-    static public function make($type)
+    public function make($type = self::TEXT)
     {
         if (!defined(__CLASS__ . '::' . strtoupper($type))) {
             throw new InvalidArgumentException("Error Message Type '{$type}'");
@@ -39,10 +32,5 @@ class Message extends Service
         $message = "Overtrue\Wechat\Messages\\" . ucfirst(strtolower($type));
 
         return new $message;
-    }
-
-    public function send()
-    {
-        # code...
     }
 }

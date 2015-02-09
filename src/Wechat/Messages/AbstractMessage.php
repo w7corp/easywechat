@@ -59,7 +59,7 @@ abstract class AbstractMessage
      *
      * @var array
      */
-    static protected $studlyCache = array();
+    static protected $snakeCache = array();
 
 
     /**
@@ -77,31 +77,16 @@ abstract class AbstractMessage
     }
 
     /**
-     * 设置接收者
+     * 发送消息
      *
-     * @param string|array $openId
-     *
-     * @return Overtrue\Wechat\Message
+     * @return [type] [description]
      */
-    public function to($openId)
+    public function send()
     {
-        $this->to = $openId;
-
-        return $this;
-    }
-
-    public function toGroup($groupId)
-    {
-        $this->groupId = $groupId;
-
-        return $this;
-    }
-
-    public function toAll()
-    {
-        $this->toAll = true;
-
-        return $this;
+        var_dump('abaksndsa');
+        var_dump($this->formatToClient());
+        $response = $this->postRequest(self::API_SEND, $this->formatToClient());
+        var_dump($response);
     }
 
     /**
@@ -118,7 +103,7 @@ abstract class AbstractMessage
             throw new InvalidArgumentException("属性值只能为标量");
         }
 
-        $attribute = $this->studly($attribute);
+        $attribute = $this->snake($attribute);
 
         if (!in_array($attribute, $this->properties)) {
             throw new InvalidArgumentException("不存在的属性‘{$attribute}’");
@@ -167,19 +152,24 @@ abstract class AbstractMessage
      * 转换为下划线模式字符串
      *
      * @param string $value
+     * @param string $delimiter
      *
      * @return string
      */
-    public function studly($value)
+    public function snake($value, $delimiter = '_')
     {
-        $key = $value;
+        $key = $value . $delimiter;
 
-        if (isset(static::$studlyCache[$key])) {
-            return static::$studlyCache[$key];
+        if (isset(static::$snakeCache[$key]))
+        {
+            return static::$snakeCache[$key];
         }
 
-        $value = ucwords(str_replace(array('-', '_'), ' ', $value));
+        if ( ! ctype_lower($value))
+        {
+            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+        }
 
-        return static::$studlyCache[$key] = str_replace(' ', '', $value);
+        return static::$snakeCache[$key] = $value;
     }
 }

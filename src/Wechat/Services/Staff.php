@@ -9,6 +9,7 @@ class Staff extends Service
     const API_DELETE        = 'https://api.weixin.qq.com/customservice/kfaccount/del';
     const API_UPDATE        = 'https://api.weixin.qq.com/customservice/kfaccount/update';
     const API_CREATE        = 'https://api.weixin.qq.com/customservice/kfaccount/add';
+    const API_MESSAGE_SEND  = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
     const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
 
 
@@ -19,7 +20,9 @@ class Staff extends Service
      */
     public function all()
     {
-        return $this->getRequest(self::API_GET);
+        $response = $this->getRequest(self::API_GET);
+
+        return $response['kf_list'];
     }
 
     /**

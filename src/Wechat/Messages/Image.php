@@ -24,8 +24,6 @@ class Image extends AbstractMessage
     {
         $this->attributes['media_id'] = Media::image($path);
 
-        error_log($this->attributes['media_id']);
-
         return $this;
     }
 
