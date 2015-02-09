@@ -125,7 +125,7 @@ class Wechat
         }
 
         if (!is_callable($callback)) {
-            return false;
+            throw new Exception("$callback 不是一个可调用的函数或方法");
         }
 
         if (!$listeners = $this->listeners->get("{$target}.{$type}")) {
@@ -308,7 +308,7 @@ class Wechat
      * @param array  $files   图片信息
      * @param array  $headers 图片信息
      *
-     * @return array
+     * @return array|boolean
      */
     public function request($method, $url, array $params = array(), array $files = array(), $headers = array())
     {
