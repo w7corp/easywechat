@@ -41,7 +41,7 @@ abstract class Service
      *
      * @return array
      */
-    public function getRequest($url, $params)
+    public function getRequest($url, $params = array())
     {
         return $this->wechat->request('GET', $this->wechat->makeUrl($url, $params));
     }
@@ -57,7 +57,7 @@ abstract class Service
      *
      * @return array
      */
-    public function postRequest($url, $params, $queries = array(), $files = array(), $headers = array())
+    public function postRequest($url, $params = array(), $queries = array(), $files = array(), $headers = array())
     {
         $url = $this->wechat->makeUrl($url, $queries);
 
