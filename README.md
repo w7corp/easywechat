@@ -306,24 +306,21 @@ $wechat = new Wechat($options);
 
 ### 创建消息
 
+**请注意：消息类的命名空间为:Overtrue\Wechat\Services\Message**
+
 ```php
 <?php
 
 use Overtrue\Wechat\Wechat;
-use Overtrue\Wechat\Message;
+use Overtrue\Wechat\Services\Message;
 
 $options = array(...);
 
 $wechat = new Wechat($options);
 
 $wechat->on('event', 'subscribe', function($event){
-  //创建一条文本消息
-  $message = Message::make('text');
-  $message->content = '您好！欢迎关注overtrue';
-  $message->to = $event['FromUserName'];
-
-  // 回复给用户
-  return $message;
+  // 快速回复一条文本消息
+  return Message::make('text')->content('您好！欢迎关注overtrue');
 });
 ```
 
