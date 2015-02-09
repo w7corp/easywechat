@@ -6,7 +6,7 @@ use Exception;
 use Overtrue\Wechat\Utils\XML;
 
 /**
- * @property string $content
+ * @property string $account
  */
 class Transfer extends AbstractMessage
 {
