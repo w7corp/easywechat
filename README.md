@@ -279,7 +279,7 @@ echo $result;
 
 ### 创建消息
 
-**请注意：消息类的命名空间为:Overtrue\Wechat\Services\Message**
+**请注意：消息类的命名空间为 `Overtrue\Wechat\Services\Message`**
 
 ```php
 <?php
