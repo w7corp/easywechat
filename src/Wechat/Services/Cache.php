@@ -33,7 +33,7 @@ class Cache extends Service
      */
     public function boot()
     {
-        $this->filePrefix = $this->wechat->options->get('app_id');
+        $this->filePrefix = $this->wechat->options->get('appId');
     }
 
     /**

@@ -86,10 +86,10 @@ class Wechat
      */
     public function __construct($options)
     {
-        if (empty($options['app_id'])
+        if (empty($options['appId'])
             || empty($options['secret'])
             || empty($options['token'])) {
-            throw new Exception("配置至少包含三项'app_id'、'secret'、'token'且不能为空！");
+            throw new Exception("配置至少包含三项'appId'、'secret'、'token'且不能为空！");
         }
 
         $this->listeners = new Bag;
@@ -285,7 +285,7 @@ class Wechat
         $this->autoRequestToken(false);
 
         $url = $this->makeUrl(self::API_TOKEN_GET, array(
-                                                    'appid'      => $this->options->get('app_id'),
+                                                    'appid'      => $this->options->get('appId'),
                                                     'secret'     => $this->options->get('secret'),
                                                     'grant_type' => 'client_credential',
                                                    ));
