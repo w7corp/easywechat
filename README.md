@@ -46,17 +46,15 @@ $options = [
     'encodingAESKey' => 'Your encodingAESKey' // optional
 ];
 
-// 初始化Wechat实例
 $wechat = new Wechat($options);
 
-// 接收消息
 $server = $wechat->on('message', function($message){
     error_log("收到来自'{$message['FromUserName']}'的消息：" . $message['Content']);
 });
 
-$result = $wechat->serve();  //获取上面各种事件触发运行结果
+$result = $wechat->serve();
 
-// 返回值$result为字符串，您可以直接用于echo 或者返回给框架
+// 您可以直接echo 或者返回给框架
 echo $result;
 ```
 
@@ -64,24 +62,6 @@ echo $result;
 
 
 ### 基础
-
-+ 初始化
-    
-```php
-<?php
-
-use Overtrue\Wechat\Wechat;
-
-$options = [
-    'app_id'         => 'Your appid',
-    'secret'         => 'Your secret'
-    'token'          => 'Your token',
-    'encodingAESKey' => 'Your encodingAESKey' // 可选
-];
-
-// 初始化Wechat实例
-$wechat = new Wechat($options);
-```
 
 + 接收用户发来的消息(回复)
 
@@ -101,24 +81,20 @@ $wechat = new Wechat($options);
   ```php
   // 监听所有类型
   $wechat->on('message', function($message) use ($wechat) {
-      // 所有类型的消息都会触发此函数
       error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']}");        
   
-      // 回复一条消息
       return $wechat->message('text')->content('您好！');
   });
   
   // 监听指定类型
   $wechat->on('message', 'image', function($message) use ($wechat) {
-      //只有收到图片(image)类型触发此函数
       error_log("收到来自{$message['FromUserName']}的图片消息");        
   
       return $wechat->message('text')->content('我们已经收到您发送的图片！');
   });
 
-  $result = $wechat->serve();  //获取上面各种事件触发运行结果
+  $result = $wechat->serve(); 
 
-  // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
   echo $result;
   ```
 
@@ -152,9 +128,8 @@ $wechat = new Wechat($options);
       return $wechat->message('text')->content('感谢您关注');
   });
 
-  $result = $wechat->serve();  //获取上面各种事件触发运行结果
+  $result = $wechat->serve(); 
 
-  // 返回值$result为字符串，您可以直接用于echo 或者返回给框架
   echo $result;
   ```
 
@@ -277,13 +252,11 @@ $wechat = new Wechat($options);
   ```php
   // 写入
   $wechat->cache->setter(function($key, $value, $lifetime){
-      // cache the value.
       return your_custom_set_cache($key, $value, $lifetime);
   });
   
   // 读取
   $wechat->cache->getter(function($key){
-      // return the cached value.
       return your_custom_get_cache($key);
   });
   ```
@@ -319,7 +292,6 @@ $options = array(...);
 $wechat = new Wechat($options);
 
 $wechat->on('event', 'subscribe', function($event){
-  // 快速回复一条文本消息
   return Message::make('text')->content('您好！欢迎关注overtrue');
 });
 ```
