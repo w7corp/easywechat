@@ -27,7 +27,10 @@ class Voice extends AbstractMessage
         return $this;
     }
 
-    public function formatToClient()
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
+     */
+    public function buildForStaff)
     {
         return array(
                 'touser'  => $this->to,
@@ -38,7 +41,10 @@ class Voice extends AbstractMessage
                );
     }
 
-    public function formatToServer()
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
+     */
+    public function buildForReply)
     {
         $response = array(
                      'ToUserName'   => $this->to,

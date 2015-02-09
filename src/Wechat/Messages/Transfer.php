@@ -13,12 +13,18 @@ class Transfer extends AbstractMessage
 
     protected $properties = array('account');
 
-    public function formatToClient()
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
+     */
+    public function buildForStaff)
     {
         throw new Exception("转发类型不允许主动发送");
     }
 
-    public function formatToServer()
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
+     */
+    public function buildForReply)
     {
         $response = array(
                      'ToUserName'   => $this->to,

@@ -348,7 +348,7 @@ class Wechat
         if ($response instanceof AbstractMessage) {
             $response->from($this->post->get('ToUserName'))->to($this->post->get('FromUserName'));
 
-            $xml = $response->formatToServer();
+            $xml = $response->buildForReply();
 
             if ($this->security) {
                 return $this->service('crypt')->encryptMsg($xml, $this->query->get('nonce'), $this->query->get('timestamp'));

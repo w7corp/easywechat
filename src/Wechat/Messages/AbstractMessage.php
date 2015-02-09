@@ -6,8 +6,8 @@ use Closure;
 use InvalidArgumentException;
 
 /**
- * @method array  formatToClient() formatToClient()
- * @method string formatToServer() formatToServer()
+ * @method array  buildForStaff() buildForStaff()
+ * @method string buildForReply() buildForReply()
  */
 abstract class AbstractMessage
 {
@@ -77,19 +77,6 @@ abstract class AbstractMessage
     }
 
     /**
-     * 发送消息
-     *
-     * @return [type] [description]
-     */
-    public function send()
-    {
-        var_dump('abaksndsa');
-        var_dump($this->formatToClient());
-        $response = $this->postRequest(self::API_SEND, $this->formatToClient());
-        var_dump($response);
-    }
-
-    /**
      * 设置属性
      *
      * @param string $attribute
@@ -112,6 +99,36 @@ abstract class AbstractMessage
         $this->attributes[$attribute] = $value;
 
         return $this;
+    }
+
+    /**
+     * 生成用于主动推送的数据
+     *
+     * @return array
+     */
+    public function buildForStaff()
+    {
+        throw new Exception(__CLASS__ . "未实现此方法：" . __METHOD__);
+    }
+
+    /**
+     * 生成用于回复的数据
+     *
+     * @return array
+     */
+    public function buildForReply()
+    {
+        throw new Exception(__CLASS__ . "未实现此方法：" . __METHOD__);
+    }
+
+    /**
+     * 生成群发的数据
+     *
+     * @return array
+     */
+    public function buildForBroadcast()
+    {
+        throw new Exception(__CLASS__ . "未实现此方法：" . __METHOD__);
     }
 
     /**
@@ -156,7 +173,7 @@ abstract class AbstractMessage
      *
      * @return string
      */
-    public function snake($value, $delimiter = '_')
+    protected function snake($value, $delimiter = '_')
     {
         $key = $value . $delimiter;
 

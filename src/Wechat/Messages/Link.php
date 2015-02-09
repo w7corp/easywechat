@@ -13,12 +13,18 @@ class Link extends AbstractMessage
 
     protected $properties = array('title', 'description', 'url');
 
-    public function formatToClient()
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
+     */
+    public function buildForStaff)
     {
         throw new Exception("暂时不支持发送链接消息");
     }
 
-    public function formatToServer()
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
+     */
+    public function buildForReply)
     {
         throw new Exception("暂时不支持回复链接消息");
     }

@@ -42,11 +42,17 @@ class News extends AbstractMessage
         array_push($this->attributes['items'], $item);
     }
 
-    public function formatToClient() {
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
+     */
+    public function buildForStaff) {
 
     }
 
-    public function formatToServer() {
+    /**
+     * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
+     */
+    public function buildForReply) {
 
     }
 
