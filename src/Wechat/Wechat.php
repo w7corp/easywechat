@@ -463,7 +463,7 @@ class Wechat
 
             $res = call_user_func_array($handler, $args);
 
-            if (!is_null($res)) {
+            if (!empty($res)) {
                 return $res;
             }
         }
