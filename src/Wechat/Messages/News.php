@@ -45,14 +45,14 @@ class News extends AbstractMessage
     /**
      * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
      */
-    public function buildForStaff) {
+    public function buildForStaff() {
 
     }
 
     /**
      * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
      */
-    public function buildForReply) {
+    public function buildForReply() {
 
     }
 

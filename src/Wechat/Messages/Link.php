@@ -16,7 +16,7 @@ class Link extends AbstractMessage
     /**
      * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
      */
-    public function buildForStaff)
+    public function buildForStaff()
     {
         throw new Exception("暂时不支持发送链接消息");
     }
@@ -24,7 +24,7 @@ class Link extends AbstractMessage
     /**
      * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
      */
-    public function buildForReply)
+    public function buildForReply()
     {
         throw new Exception("暂时不支持回复链接消息");
     }

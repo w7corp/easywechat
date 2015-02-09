@@ -30,7 +30,7 @@ class Image extends AbstractMessage
     /**
      * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
      */
-    public function buildForStaff)
+    public function buildForStaff()
     {
         return array(
                 'touser'  => $this->to,
@@ -44,7 +44,7 @@ class Image extends AbstractMessage
     /**
      * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
      */
-    public function buildForReply)
+    public function buildForReply()
     {
         $response = array(
                      'ToUserName'   => $this->to,
