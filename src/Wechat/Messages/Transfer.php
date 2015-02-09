@@ -14,7 +14,7 @@ class Transfer extends AbstractMessage
     protected $properties = array('account');
 
     /**
-     * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
+     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
      */
     public function buildForStaff()
     {
@@ -22,7 +22,7 @@ class Transfer extends AbstractMessage
     }
 
     /**
-     * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
+     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
      */
     public function buildForReply()
     {

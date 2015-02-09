@@ -14,7 +14,7 @@ class Link extends AbstractMessage
     protected $properties = array('title', 'description', 'url');
 
     /**
-     * @see OvertrueWechatMessagesAbstractMessage::buildForStaff();
+     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
      */
     public function buildForStaff()
     {
@@ -22,7 +22,7 @@ class Link extends AbstractMessage
     }
 
     /**
-     * @see OvertrueWechatMessagesAbstractMessage::buildForReply();
+     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
      */
     public function buildForReply()
     {
