@@ -9,9 +9,9 @@ use Overtrue\Wechat\Utils\XML;
 /**
  * @method   array  buildForStaff() buildForStaff()
  * @method   string buildForReply() buildForReply()
- * @method   string toStaff()       toStaff()
- * @method   string toReply()       toReply()
- * @method   string toBroadcast()   toBroadcast()
+ * @method   array  toStaff()       toStaff()
+ * @method   array  toReply()       toReply()
+ * @method   array  toBroadcast()   toBroadcast()
  * @property string $from
  * @property string $to
  */

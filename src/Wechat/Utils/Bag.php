@@ -42,7 +42,7 @@ class Bag implements
     /**
      * set data
      *
-     * @param array $data
+     * @param mixed $data
      */
     public function __construct($data = array())
     {
