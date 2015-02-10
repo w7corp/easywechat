@@ -31,7 +31,7 @@ class Media extends Service
             throw new Exception("文件不存在或不可读 '$path'");
         }
 
-        if (in_array($type, $this->allowTypes)) {
+        if (!in_array($type, $this->allowTypes)) {
             throw new Exception("错误的媒体类型 '{$type}'");
         }
 

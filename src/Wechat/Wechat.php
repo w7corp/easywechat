@@ -67,7 +67,7 @@ class Wechat
      *
      * @var boolean
      */
-    protected $autoRequestToken = true;
+    protected $autoToken = true;
 
     /**
      * 已经实例化过的服务
@@ -76,6 +76,16 @@ class Wechat
      */
     protected $resolved = array();
 
+    /**
+     * 静态实例
+     *
+     * @var \Overtrue\Wechat\Wechat
+     */
+    static protected $instance;
+
+    /**
+     * access_token API地址
+     */
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
 
 
@@ -84,7 +94,7 @@ class Wechat
      *
      * @param array $options
      */
-    public function __construct($options)
+    private function __construct($options)
     {
         if (empty($options['appId'])
             || empty($options['secret'])
@@ -109,6 +119,16 @@ class Wechat
     private function __clone() {}
 
     /**
+     * 获取实例
+     *
+     * @return \Overtrue\Wechat\Wechat
+     */
+    public function make($options)
+    {
+        return self::$instance ? : self::$instance = new static($options);
+    }
+
+    /**
      * 监听
      *
      * @param string   $target
@@ -117,7 +137,7 @@ class Wechat
      *
      * @return string
      */
-    public function on($target, $type, $callback = null)
+    protected function on($target, $type, $callback = null)
     {
         if (func_num_args() == 2) {
             $callback = $type;
@@ -145,7 +165,7 @@ class Wechat
      *
      * @return mixed
      */
-    public function event($type, $callback)
+    protected function event($type, $callback)
     {
         return $this->on("event", $type, $callback);
     }
@@ -158,7 +178,7 @@ class Wechat
      *
      * @return string
      */
-    public function message($type, $callback)
+    protected function message($type, $callback)
     {
         return $this->on("message", $type, $callback);
     }
@@ -168,7 +188,7 @@ class Wechat
      *
      * @return mixed
      */
-    public function serve()
+    protected function serve()
     {
         $input = array(
                 $this->options->get('token'),
@@ -196,7 +216,7 @@ class Wechat
      *
      * @return void
      */
-    public function error($handler)
+    protected function error($handler)
     {
         is_callable($handler) && $this->errorHandler = $handler;
     }
@@ -208,7 +228,7 @@ class Wechat
      *
      * @return mixed
      */
-    public function service($service)
+    protected function service($service)
     {
         if (isset($this->resolved[$service])) {
             return $this->resolved[$service];
@@ -230,7 +250,7 @@ class Wechat
      *
      * @return array
      */
-    public function getListeners($type = null)
+    protected function getListeners($type = null)
     {
         return $type ? $this->listeners->get($type) : $this->listeners->all();
     }
@@ -242,9 +262,9 @@ class Wechat
      *
      * @return void
      */
-    public function autoRequestToken($status)
+    protected function autoRequestToken($status)
     {
-        $this->autoRequestToken = (bool) $status;
+        $this->autoToken = (bool) $status;
     }
 
     /**
@@ -255,9 +275,9 @@ class Wechat
      *
      * @return string
      */
-    public function makeUrl($url, $queries = array())
+    protected function makeUrl($url, $queries = array())
     {
-        if ($this->autoRequestToken) {
+        if ($this->autoToken) {
             $queries['access_token'] = $this->getAccessToken();
         }
 
@@ -310,7 +330,7 @@ class Wechat
      *
      * @return array|boolean
      */
-    public function request($method, $url, array $params = array(), array $files = array(), $headers = array())
+    protected function request($method, $url, array $params = array(), array $files = array(), $headers = array())
     {
         $response = Http::request($method, $url, $params, $headers, $files);
 
@@ -471,7 +491,7 @@ class Wechat
         return null;
     }
 
-        /**
+    /**
      * 魔术调用
      *
      * @param string $method
@@ -481,7 +501,28 @@ class Wechat
      */
     public function __call($method, $args)
     {
+        if (method_exists($this, $method)) {
+            return call_user_func_array(array($this, $method), $args);
+        }
+
         return $this->service($method);
+    }
+
+     /**
+     * 静态访问
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    static public function __callStatic($method, $args)
+    {
+        if (!self::$instance) {
+            throw new Exception("请先初始化Wechat类");
+        }
+
+        return self::$instance->__call($method, $args);
     }
 
     /**

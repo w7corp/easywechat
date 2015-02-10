@@ -3,7 +3,6 @@
 namespace Overtrue\Wechat\Messages;
 
 use Closure;
-use Overtrue\Wechat\Media;
 
 class News extends BaseMessage
 {

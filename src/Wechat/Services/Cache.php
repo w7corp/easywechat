@@ -2,6 +2,8 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Overtrue\Wechat\Wechat;
+
 class Cache extends Service
 {
     /**
@@ -33,7 +35,7 @@ class Cache extends Service
      */
     public function boot()
     {
-        $this->filePrefix = $this->wechat->options->get('appId');
+        $this->filePrefix = Wechat::getOption('appId');
     }
 
     /**

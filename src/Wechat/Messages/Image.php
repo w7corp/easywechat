@@ -2,7 +2,7 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Media;
+use Overtrue\Wechat\Wechat;
 
 /**
  * @property string $media_id
@@ -21,7 +21,7 @@ class Image extends BaseMessage
      */
     public function media($path)
     {
-        $this->attributes['media_id'] = Media::image($path);
+        $this->attributes['media_id'] = Wechat::media()->image($path);
 
         return $this;
     }

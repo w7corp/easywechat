@@ -2,7 +2,7 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Media;
+use Overtrue\Wechat\Wechat;
 
 /**
  * @property string $url
@@ -31,7 +31,7 @@ class Music extends BaseMessage
      */
     public function thumb($path)
     {
-        $this->attributes['thumb_media_id'] = Media::thumb($path);
+        $this->attributes['thumb_media_id'] = Wechat::media()->thumb($path);
 
         return $this;
     }
