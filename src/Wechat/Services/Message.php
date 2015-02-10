@@ -18,6 +18,7 @@ class Message extends Service
     const VIDEO     = 'video';
     const MUSIC     = 'music';
     const NEWS      = 'news';
+    const TRANSFER  = 'transfer';
     const NEWS_ITEM = 'news_item';
 
 

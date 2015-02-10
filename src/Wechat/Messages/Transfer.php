@@ -10,7 +10,7 @@ use Exception;
 class Transfer extends BaseMessage
 {
 
-    protected $properties = array('account');
+    protected $properties = array('account', 'to');
 
     /**
      * 生成主动消息数组
@@ -32,7 +32,7 @@ class Transfer extends BaseMessage
         // 指定客服
         if (!empty($this->account)) {
             $response['TransInfo'] = array(
-                                      'KfAccount' => $this->account,
+                                      'KfAccount' => $this->account ? : $this->to,
                                      );
         }
 
