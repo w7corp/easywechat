@@ -46,7 +46,7 @@ class Bag implements
      */
     public function __construct($data = array())
     {
-        $this->data = $data;
+        $this->data = (array) $data;
     }
 
     /**
