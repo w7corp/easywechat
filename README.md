@@ -8,9 +8,6 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master)
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads.svg)](https://packagist.org/packages/overtrue/wechat)
 
-
-> 努力coding中，目前只完成了文档中列出的功能，敬请期待
-
 网上充斥着各种微信SDK，但是找了一圈，发现没有一个想用，因为没有满足本项目存在后的各种优点：
 
  - 命名不那么乱七八糟;
@@ -114,6 +111,9 @@ echo $result;
   example:
   
   ```php
+
+  use Overtrue\Wechat\Services\Message;
+
   // 监听所有事件
   $wechat->on('event', function($event) {
   
@@ -300,12 +300,12 @@ $wechat->on('event', 'subscribe', function($event){
 
 ### 上传媒体文件
 
-媒体文件你不用上传，也就是说media_id是我来维护，你直接传本地文件就好了。
 
 ```php
 $message = Message::make('image')->media('D:/test/demo.jpg');
 ```
 
+媒体文件你不用上传，也就是说media_id是我来维护，你直接传本地文件就好了。
 方法`media($file)`会上传文件然后赋值到`media_id`属性。如果想要获取上传后的media_id: 
 
 ```php
@@ -316,6 +316,20 @@ $mediaId = $message->media_id;
 
 - `media($file)` 对应设置 `media_id`
 - `thumb($file)` 对应设置 `thumb_media_id`
+
+## TODO
+
+[x] 用户
+[x] 用户组
+[x] 客服
+[x] 监听事件与消息
+[x] 基本消息类型
+[ ] 图文消息
+[ ] 菜单 
+[ ] Auth
+[ ] Ticket
+[ ] 二维码
+[ ] 短链接
 
 ## License
 
