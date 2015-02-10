@@ -6,53 +6,74 @@ use Closure;
 
 class News extends BaseMessage
 {
-
-    protected $properties = array('items');
+    protected $items = array();
 
     /**
      * 添加图文消息内容
      *
-     * @return void
+     * @return \Overtrue\Wechat\Messages\News
      */
-    public function item()
+    public function item(NewsItem $item)
     {
-        $args    = func_get_args();
-        $argsLen = func_num_args();
+        array_push($this->items, $item);
 
-        if ($argsLen && $args[0] instanceof Closure) {
-            return $args($this);
+        return $this;
+    }
+
+    /**
+     * 添加多条图文消息
+     *
+     * @param array|Closure $items
+     *
+     * @return \Overtrue\Wechat\Messages\News
+     */
+    public function items($items)
+    {
+        if ($items instanceof Closure) {
+            $items = $items();
         }
 
-        if ($argsLen < 3) {
-            throw new InvalidArgumentException("item方法要求至少3个参数：标题，描述，图片");
-        }
+        array_map(array($this, 'item'), (array) $items);
 
-        list($title, $description, $image, $url) = $args;
-
-        $item = array(
-            'Title'       => $title,
-            'Description' => $description,
-            'PicUrl'      => $image,
-            'Url'         => $url,
-        );
-
-        !empty($this->attributes['items']) || $this->attributes['items'] = array();
-
-        array_push($this->attributes['items'], $item);
+        return $this;
     }
 
     /**
      * 生成主动消息数组
      */
-    public function toStaff() {
+    public function toStaff()
+    {
+        $articles = array();
 
+        foreach ($this->items as $item) {
+            $articles [] = array(
+                            "title"       => $item->title,
+                            "description" => $item->description,
+                            "url"         => $item->url,
+                            "picurl"      => $item->picurl,
+                           );
+        }
+
+        return array('news' => array('articles' => $articles));
     }
 
     /**
      * 生成回复消息数组
      */
-    public function toReply() {
+    public function toReply()
+    {
+        $articles = array();
 
+        foreach ($this->items as $item) {
+            $articles [] = array(
+                            "Title"       => $item->title,
+                            "Description" => $item->description,
+                            "Url"         => $item->url,
+                            "PicUrl"      => $item->picurl,
+                           );
+        }
+
+        return array('ArticleCount' => count($articles), 'Articles' => $articles);
     }
 
 }

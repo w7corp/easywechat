@@ -12,12 +12,13 @@ class Message extends Service
     /**
      * 消息类型
      */
-    const TEXT  = 'text';
-    const IMAGE = 'image';
-    const VOICE = 'voice';
-    const VIDEO = 'video';
-    const MUSIC = 'music';
-    const NEWS  = 'news';
+    const TEXT      = 'text';
+    const IMAGE     = 'image';
+    const VOICE     = 'voice';
+    const VIDEO     = 'video';
+    const MUSIC     = 'music';
+    const NEWS      = 'news';
+    const NEWS_ITEM = 'news_item';
 
 
     /**
@@ -29,7 +30,8 @@ class Message extends Service
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
-        $message = "Overtrue\Wechat\Messages\\" . ucfirst(strtolower($type));
+        $message = "Overtrue\Wechat\Messages\\"
+                    . str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
         return new $message;
     }
