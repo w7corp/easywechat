@@ -76,18 +76,21 @@ echo $result;
   example:
   
   ```php
+
+  use Overtrue\Wechat\Services\Message;
+
   // 监听所有类型
-  $wechat->on('message', function($message) use ($wechat) {
+  $wechat->on('message', function($message) {
       error_log("收到来自{$message['FromUserName']}， 消息类型为:{$message['MsgType']}");        
   
-      return $wechat->message('text')->content('您好！');
+      return Message::make('text')->content('您好！');
   });
   
   // 监听指定类型
-  $wechat->on('message', 'image', function($message) use ($wechat) {
+  $wechat->on('message', 'image', function($message) {
       error_log("收到来自{$message['FromUserName']}的图片消息");        
   
-      return $wechat->message('text')->content('我们已经收到您发送的图片！');
+      return Message::make('text')->content('我们已经收到您发送的图片！');
   });
 
   $result = $wechat->serve(); 
@@ -112,17 +115,17 @@ echo $result;
   
   ```php
   // 监听所有事件
-  $wechat->on('event', function($event) use ($wechat) {
+  $wechat->on('event', function($event) {
   
       error_log('收到取消关注事件，取消关注者openid: ' . $event['FromUserName']);      
   });
   
   // 只监听指定类型事件
-  $wechat->on('event', 'subscribe', function($event) use ($wechat) {
+  $wechat->on('event', 'subscribe', function($event) {
   
       error_log('收到关注事件，关注者openid: ' . $event['FromUserName']);      
   
-      return $wechat->message('text')->content('感谢您关注');
+      return Message::make('text')->content('感谢您关注');
   });
 
   $result = $wechat->serve(); 
@@ -301,7 +304,7 @@ $message = Message::make('text')->content('您好！欢迎关注overtrue')->to($
 再或者:
 
 ```php
-$message = $wecaht->message('text')->content('您好！欢迎关注overtrue')->to($openId);
+$message = Message::make('text')->content('您好！欢迎关注overtrue')->to($openId);
 ```
 
 这里有一点需要注意，当属性带下划线的时候，方法名是支持两种的：`media_id()` 或者 `mediaId()` 都一样。
