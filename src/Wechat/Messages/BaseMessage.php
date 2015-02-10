@@ -130,6 +130,10 @@ abstract class BaseMessage
      */
     public function __call($method, $args)
     {
+        if (stripos($method, 'with') === 0) {
+            $method = substr($method, 4);
+        }
+
         return $this->with($method, array_shift($args));
     }
 
