@@ -7,8 +7,13 @@ use InvalidArgumentException;
 use Overtrue\Wechat\Utils\XML;
 
 /**
- * @method array  buildForStaff() buildForStaff()
- * @method string buildForReply() buildForReply()
+ * @method   array  buildForStaff() buildForStaff()
+ * @method   string buildForReply() buildForReply()
+ * @method   string toStaff()       toStaff()
+ * @method   string toReply()       toReply()
+ * @method   string toBroadcast()   toBroadcast()
+ * @property string $from
+ * @property string $to
  */
 abstract class BaseMessage
 {
@@ -165,7 +170,9 @@ abstract class BaseMessage
      */
     public function getDefaultMessageType()
     {
-        return strtolower(array_pop(explode('\\', get_class($this))));
+        $class = explode('\\', get_class($this));
+
+        return strtolower(array_pop($class));
     }
 
     /**
