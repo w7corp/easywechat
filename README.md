@@ -18,17 +18,34 @@
  - 符合PSR-4标准，你可以各种方便的与你的框架集成;
  - 高度抽象的消息类，免去各种拼json与xml的痛苦。
 
-## Install
+## 安装
 
-requirement:
+环境要求:
 
   - PHP >= 5.3.0
+
+1. 使用composer:
 
 ```shell
 composer require overtrue/wechat
 ```
 
-## Usage
+2. 手动安装
+
+下载[最新版zip包](https://github.com/overtrue/wechat/archive/master.zip) 或者下载指定版本:https://github.com/overtrue/wechat/releases
+
+然后引入根目录的autoload.php即可：
+
+```php
+<?php
+
+require "wechat/autoload.php"; // 路径请修改为你具体的实际路径
+
+use Overtrue\Wechat\Wechat;
+...
+```
+
+## 使用
 
 基本使用
 
@@ -56,7 +73,7 @@ $result = $wechat->serve();
 echo $result;
 ```
 
-## Documentation
+## 文档
 
 [Wiki](https://github.com/overtrue/wechat/wiki)
 
