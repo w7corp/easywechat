@@ -32,16 +32,16 @@
 
   下载[最新版zip包](https://github.com/overtrue/wechat/archive/master.zip) 或者下载指定版本:https://github.com/overtrue/wechat/releases
 
-然后引入根目录的autoload.php即可：
-
-```php
-<?php
-
-require "wechat/autoload.php"; // 路径请修改为你具体的实际路径
-
-use Overtrue\Wechat\Wechat;
-...
-```
+  然后引入根目录的autoload.php即可：
+  
+  ```php
+  <?php
+  
+  require "wechat/autoload.php"; // 路径请修改为你具体的实际路径
+  
+  use Overtrue\Wechat\Wechat;
+  ...
+  ```
 
 ## 使用
 
