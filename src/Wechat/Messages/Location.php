@@ -3,28 +3,27 @@
 namespace Overtrue\Wechat\Messages;
 
 use Exception;
-use Overtrue\Wechat\Utils\XML;
 
 /**
  * @property string $content
  */
-class Location extends AbstractMessage
+class Location extends BaseMessage
 {
 
     protected $properties = array('lat', 'lon', 'scale', 'label');
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
+     * 生成主动消息数组
      */
-    public function buildForStaff()
+    public function toStaff()
     {
         throw new Exception("暂时不支持发送链接消息");
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
+     * 生成回复消息数组
      */
-    public function buildForReply()
+    public function toReply()
     {
         throw new Exception("暂时不支持回复链接消息");
     }

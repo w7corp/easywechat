@@ -5,7 +5,7 @@ namespace Overtrue\Wechat\Services;
 use Closure;
 use InvalidArgumentException;
 use Overtrue\Wechat\Utils\XML;
-use Overtrue\Wechat\Messages\AbstractMessage;
+use Overtrue\Wechat\Messages\BaseMessage;
 
 class Message extends Service
 {

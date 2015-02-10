@@ -3,7 +3,6 @@
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
-use Overtrue\Wechat\Utils\XML;
 
 /**
  * @property string $video
@@ -12,7 +11,7 @@ use Overtrue\Wechat\Utils\XML;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends AbstractMessage
+class Video extends BaseMessage
 {
 
     protected $properties = array('title', 'description', 'media_id', 'thumb_media_id');
@@ -32,20 +31,6 @@ class Video extends AbstractMessage
     }
 
     /**
-     * 设置视频封面图
-     *
-     * @param string $path
-     *
-     * @return Overtrue\Wechat\Messages\Video
-     */
-    public function thumb($path)
-    {
-        $this->attributes['thumb_media_id'] = Media::thumb($path);
-
-        return $this;
-    }
-
-    /**
      * 设置视频封面
      *
      * @param string $path
@@ -60,13 +45,11 @@ class Video extends AbstractMessage
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
+     * 生成主动消息数组
      */
-    public function buildForStaff()
+    public function toStaff()
     {
         return array(
-                'touser'  => $this->to,
-                'msgtype' => 'video',
                 'video'   => array(
                               'title'          => $this->title,
                               'media_id'       => $this->media_id,
@@ -77,23 +60,19 @@ class Video extends AbstractMessage
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
+     * 生成回复消息数组
      */
-    public function buildForReply()
+    public function toReply()
     {
         $response = array(
-                     'ToUserName'   => $this->to,
-                     'FromUserName' => $this->from,
-                     'CreateTime'   => time(),
-                     'MsgType'      => 'video',
-                     'Video'        => array(
-                                        'MediaId'     => $this->media_id,
-                                        'Title'       => $this->title,
-                                        'Description' => $this->description,
-                                       ),
+                     'Video' => array(
+                                 'MediaId'     => $this->media_id,
+                                 'Title'       => $this->title,
+                                 'Description' => $this->description,
+                                ),
                     );
 
-        return XML::build($response);
+        return $response;
     }
 
 }

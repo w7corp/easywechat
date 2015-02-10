@@ -3,12 +3,11 @@
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
-use Overtrue\Wechat\Utils\XML;
 
 /**
  * @property string $media_id
  */
-class Image extends AbstractMessage
+class Image extends BaseMessage
 {
 
     protected $properties = array('media_id');
@@ -28,35 +27,27 @@ class Image extends AbstractMessage
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
+     * 生成主动消息数组
      */
-    public function buildForStaff()
+    public function toStaff()
     {
         return array(
-                'touser'  => $this->to,
-                'msgtype' => 'image',
-                'image'   => array(
-                              'media_id' => $this->media_id,
-                             ),
+                'image' => array(
+                            'media_id' => $this->media_id,
+                           ),
               );
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
+     * 生成回复消息数组
      */
-    public function buildForReply()
+    public function toReply()
     {
-        $response = array(
-                     'ToUserName'   => $this->to,
-                     'FromUserName' => $this->from,
-                     'CreateTime'   => time(),
-                     'MsgType'      => 'image',
-                     'Image'        => array(
-                                        'MediaId' => $this->media_id,
-                                       ),
-                    );
-
-        return XML::build($response);
+        return array(
+                'Image' => array(
+                            'MediaId' => $this->media_id,
+                           ),
+               );
     }
 
 }

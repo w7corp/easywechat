@@ -3,7 +3,6 @@
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
-use Overtrue\Wechat\Utils\XML;
 
 /**
  * @property string $url
@@ -12,7 +11,7 @@ use Overtrue\Wechat\Utils\XML;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Music extends AbstractMessage
+class Music extends BaseMessage
 {
 
     protected $properties = array(
@@ -38,13 +37,11 @@ class Music extends AbstractMessage
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
+     * 生成主动消息数组
      */
-    public function buildForStaff()
+    public function toStaff()
     {
         return array(
-                'touser'  => $this->to,
-                'msgtype' => 'music',
                 'music'   => array(
                               'title'          => $this->title,
                               'description'    => $this->description,
@@ -56,25 +53,21 @@ class Music extends AbstractMessage
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
+     * 生成回复消息数组
      */
-    public function buildForReply()
+    public function toReply()
     {
        $response = array(
-                    'ToUserName'   => $this->to,
-                    'FromUserName' => $this->from,
-                    'CreateTime'   => time(),
-                    'MsgType'      => 'music',
-                    'music'        => array(
-                                       'Title'        => $this->title,
-                                       'Description'  => $this->description,
-                                       'MusicUrl'     => $this->url,
-                                       'HQMusicUrl'   => $this->hq_url,
-                                       'ThumbMediaId' => $this->thumb_media_id,
-                                      ),
+                    'music' => array(
+                                'Title'        => $this->title,
+                                'Description'  => $this->description,
+                                'MusicUrl'     => $this->url,
+                                'HQMusicUrl'   => $this->hq_url,
+                                'ThumbMediaId' => $this->thumb_media_id,
+                               ),
                    );
 
-        return XML::build($response);
+        return $response;
     }
 
 }

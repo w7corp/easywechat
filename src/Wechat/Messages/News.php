@@ -5,7 +5,7 @@ namespace Overtrue\Wechat\Messages;
 use Closure;
 use Overtrue\Wechat\Media;
 
-class News extends AbstractMessage
+class News extends BaseMessage
 {
 
     protected $properties = array('items');
@@ -43,16 +43,16 @@ class News extends AbstractMessage
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
+     * 生成主动消息数组
      */
-    public function buildForStaff() {
+    public function toStaff() {
 
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
+     * 生成回复消息数组
      */
-    public function buildForReply() {
+    public function toReply() {
 
     }
 

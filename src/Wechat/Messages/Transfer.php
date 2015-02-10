@@ -3,34 +3,30 @@
 namespace Overtrue\Wechat\Messages;
 
 use Exception;
-use Overtrue\Wechat\Utils\XML;
 
 /**
  * @property string $account
  */
-class Transfer extends AbstractMessage
+class Transfer extends BaseMessage
 {
 
     protected $properties = array('account');
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
+     * 生成主动消息数组
      */
-    public function buildForStaff()
+    public function toStaff()
     {
         throw new Exception("转发类型不允许主动发送");
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
+     * 生成回复消息数组
      */
-    public function buildForReply()
+    public function toReply()
     {
         $response = array(
-                     'ToUserName'   => $this->to,
-                     'FromUserName' => $this->from,
-                     'CreateTime'   => time(),
-                     'MsgType'      => 'transfer_customer_service',
+                     'MsgType' => 'transfer_customer_service',
                     );
 
         // 指定客服
@@ -40,7 +36,7 @@ class Transfer extends AbstractMessage
                                      );
         }
 
-        return XML::build($response);
+        return $response;
     }
 
 }

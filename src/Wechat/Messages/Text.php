@@ -2,44 +2,34 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Utils\XML;
-
 /**
  * @property string $content
  */
-class Text extends AbstractMessage
+class Text extends BaseMessage
 {
 
     protected $properties = array('content');
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForStaff();
+     * 生成主动消息数组
      */
-    public function buildForStaff()
+    public function toStaff()
     {
         return array(
-                'touser'  => $this->to,
-                'msgtype' => 'text',
-                'text'    => array(
-                              'content' => $this->content,
-                             ),
+                'text' => array(
+                           'content' => $this->content,
+                          ),
         );
     }
 
     /**
-     * @see Overtrue\Wechat\Messages\AbstractMessage::buildForReply();
+     * 生成回复消息数组
      */
-    public function buildForReply()
+    public function toReply()
     {
-        $response = array(
-                     'ToUserName'   => $this->to,
-                     'FromUserName' => $this->from,
-                     'CreateTime'   => time(),
-                     'MsgType'      => 'text',
-                     'Content'      => $this->content,
+        return array(
+                     'Content' => $this->content,
                     );
-
-        return XML::build($response);
     }
 
 }

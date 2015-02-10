@@ -6,7 +6,7 @@ use Exception;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\Http;
-use Overtrue\Wechat\Messages\AbstractMessage;
+use Overtrue\Wechat\Messages\BaseMessage;
 
 /**
  * @property \Overtrue\Wechat\Utils\Bag $options
@@ -345,7 +345,7 @@ class Wechat
             $response = Message::make(Message::TEXT)->with('content', $response);
         }
 
-        if ($response instanceof AbstractMessage) {
+        if ($response instanceof BaseMessage) {
             $response->from($this->post->get('ToUserName'))->to($this->post->get('FromUserName'));
 
             $xml = $response->buildForReply();
