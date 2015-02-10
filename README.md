@@ -20,6 +20,10 @@
 
 ## Install
 
+requirement:
+
+  - PHP >= 5.3.0
+
 ```shell
 composer require overtrue/wechat
 ```
