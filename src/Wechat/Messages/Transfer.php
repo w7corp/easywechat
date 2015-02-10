@@ -5,6 +5,7 @@ namespace Overtrue\Wechat\Messages;
 use Exception;
 
 /**
+ * @property string $to
  * @property string $account
  */
 class Transfer extends BaseMessage
