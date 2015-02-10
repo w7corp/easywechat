@@ -43,7 +43,7 @@ $options = [
     'encodingAESKey' => 'Your encoding AES Key' // optional
 ];
 
-$wechat = new Wechat($options);
+$wechat = Wechat::make($options);
 
 $server = $wechat->on('message', function($message){
     error_log("收到来自'{$message['FromUserName']}'的消息：" . $message['Content']);
@@ -289,7 +289,7 @@ use Overtrue\Wechat\Services\Message;
 
 $options = array(...);
 
-$wechat = new Wechat($options);
+$wechat = Wechat::make($options);
 
 $wechat->on('event', 'subscribe', function($event){
   return Message::make('text')->content('您好！欢迎关注overtrue');
