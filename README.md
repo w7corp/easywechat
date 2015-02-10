@@ -20,19 +20,17 @@
 
 ## 安装
 
-环境要求:
-
-  - PHP >= 5.3.0
+环境要求: PHP >= 5.3.0
 
 1. 使用composer:
 
-```shell
-composer require overtrue/wechat
-```
+  ```shell
+  composer require overtrue/wechat
+  ```
 
 2. 手动安装
 
-下载[最新版zip包](https://github.com/overtrue/wechat/archive/master.zip) 或者下载指定版本:https://github.com/overtrue/wechat/releases
+  下载[最新版zip包](https://github.com/overtrue/wechat/archive/master.zip) 或者下载指定版本:https://github.com/overtrue/wechat/releases
 
 然后引入根目录的autoload.php即可：
 
