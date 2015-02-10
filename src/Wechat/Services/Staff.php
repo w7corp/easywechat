@@ -2,6 +2,9 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Exception;
+use Overtrue\Wechat\Messages\BaseMessage;
+
 class Staff extends Service
 {
     const API_GET           = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
@@ -118,9 +121,21 @@ class Staff extends Service
         return $this->postRequest(self::API_AVATAR_UPLOAD, array(), $queries, $files);
     }
 
-    //TODO:
-    public function send()
+    /**
+     * 发送消息
+     *
+     * @return boolean
+     */
+    public function send($message)
     {
-        # code...
+        is_string($message) && $message = Message::make('text')->with('content', $message);
+
+        if (!$message instanceof BaseMessage) {
+            throw new Exception("消息必须继承自 'Overtrue\Wechat\Services\BaseMessage'");
+        }
+
+        $this->postRequest(self::API_MESSAGE_SEND, $message->buildForStaff());
+
+        return true;
     }
 }

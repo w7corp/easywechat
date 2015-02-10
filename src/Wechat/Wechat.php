@@ -360,10 +360,7 @@ class Wechat
      */
     protected function response($response)
     {
-        if (is_string($response)) {
-            //TODO：修改消息生成方式
-            $response = Message::make(Message::TEXT)->with('content', $response);
-        }
+        is_string($response) && $response = Message::make('text')->with('content', $response);
 
         if ($response instanceof BaseMessage) {
             $response->from($this->post->get('ToUserName'))->to($this->post->get('FromUserName'));
