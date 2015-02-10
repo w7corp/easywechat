@@ -122,11 +122,13 @@ class Staff extends Service
     }
 
     /**
-     * 发送消息
+     * 准备消息
      *
-     * @return boolean
+     * @param \Overtrue\Wechat\Messages\BaseMessage $message
+     *
+     * @return \Overtrue\Wechat\Services\Staff;
      */
-    public function send($message)
+    public function message($message)
     {
         is_string($message) && $message = Message::make('text')->with('content', $message);
 
@@ -134,8 +136,68 @@ class Staff extends Service
             throw new Exception("消息必须继承自 'Overtrue\Wechat\Services\BaseMessage'");
         }
 
-        $this->postRequest(self::API_MESSAGE_SEND, $message->buildForStaff());
+        $this->message = $message;
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param string $openId
+     *
+     * @return boolean
+     */
+    public function to($openId)
+    {
+        if (empty($this->message)) {
+            throw new Exception("未设置要发送的消息");
+        }
+
+        $this->message->to = $openId;
+
+        $this->postRequest(self::API_MESSAGE_SEND, $this->message->buildForStaff());
 
         return true;
+    }
+
+    /**
+     * 发送给所有人
+     *
+     * @return boolean
+     */
+    public function toAll()
+    {
+        if (empty($this->message)) {
+            throw new Exception("未设置要发送的消息");
+        }
+
+        # TODO
+    }
+
+    /**
+     * 发送给组
+     *
+     * @return boolean
+     */
+    public function toGroup()
+    {
+        if (empty($this->message)) {
+            throw new Exception("未设置要发送的消息");
+        }
+
+        # TODO
+    }
+
+    /**
+     * 发送给多人
+     *
+     * @return boolean
+     */
+    public function toThem(array $openIds)
+    {
+        if (empty($this->message)) {
+            throw new Exception("未设置要发送的消息");
+        }
+
+        # TODO
     }
 }
