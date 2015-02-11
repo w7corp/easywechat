@@ -131,9 +131,9 @@ class Wechat
     /**
      * 监听
      *
-     * @param string   $target
-     * @param string   $type
-     * @param callable $callback
+     * @param string          $target
+     * @param string|callable $type
+     * @param callable        $callback
      *
      * @return Wechat
      */
