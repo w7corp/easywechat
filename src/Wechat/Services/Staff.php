@@ -133,7 +133,7 @@ class Staff extends Service
      *
      * @param \Overtrue\Wechat\Messages\BaseMessage $message
      *
-     * @return \Overtrue\Wechat\Services\Staff;
+     * @return \Overtrue\Wechat\Services\Staff
      */
     public function message($message)
     {
