@@ -60,18 +60,17 @@ class Auth extends Service
      *
      * @return string
      */
-    public function url($redirect, $state = '', $scope = 'snsapi_userinfo', $ifRedirect = false)
+    public function url($redirect, $state = '', $scope = 'snsapi_userinfo')
     {
         $params = array(
                    'appid'         => Wechat::getOption('appId'),
                    'scope'         => $scope,
-                   'state'         => $state,
+                   'state'         => $state ? : Wechat::getOption('appId'),
                    'redirect_uri'  => $redirect,
                    'response_type' => 'code',
                   );
 
-        return self::API_URL . '?' . http_build_query($params)
-                                   . ($ifRedirect ? '#wechat_redirect' : '');
+        return self::API_URL . '?' . http_build_query($params) . '#wechat_redirect';
     }
 
     /**
@@ -83,9 +82,9 @@ class Auth extends Service
      *
      * @return void
      */
-    public function redirect($redirect, $state = '', $scope = 'snsapi_base')
+    public function redirect($redirect, $state = '', $scope = 'snsapi_userinfo')
     {
-        header('Location:' . $this->url($redirect, $state, $scope, true));
+        header('Location:' . $this->url($redirect, $state, $scope));
     }
 
     /**
