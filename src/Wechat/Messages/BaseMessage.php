@@ -12,6 +12,8 @@ use Overtrue\Wechat\Utils\XML;
  * @method   array  toStaff()       toStaff()
  * @method   array  toReply()       toReply()
  * @method   array  toBroadcast()   toBroadcast()
+ * @property \Overtrue\Wechat\Messages\BaseMessage from() from()
+ * @property \Overtrue\Wechat\Messages\BaseMessage to()   to()
  * @property string $from
  * @property string $to
  */
