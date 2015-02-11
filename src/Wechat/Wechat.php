@@ -14,18 +14,11 @@ use Overtrue\Wechat\Messages\BaseMessage;
 class Wechat
 {
     /**
-     * POST输入
+     * 输入
      *
      * @var \Overtrue\Wechat\Utils\Bag
      */
-    protected $post;
-
-    /**
-     * GET输入
-     *
-     * @var \Overtrue\Wechat\Utils\Bag
-     */
-    protected $query;
+    protected $input;
 
     /**
      * 选项
@@ -104,8 +97,7 @@ class Wechat
 
         $this->listeners = new Bag;
         $this->options   = new Bag($options);
-        $this->query     = new Bag($_REQUEST);
-        $this->post      = new Bag($this->getPost());
+        $this->input     = $this->getInput();
 
         set_exception_handler(function($e){
             if ($this->errorHandler) {
@@ -192,16 +184,16 @@ class Wechat
     {
         $input = array(
                 $this->options->get('token'),
-                $this->query->get('timestamp'),
-                $this->query->get('nonce'),
+                $this->input('timestamp'),
+                $this->input('nonce'),
               );
 
-        if (!$this->signature($input) === $this->query->get('signature')) {
+        if (!$this->signature($input) === $this->input('signature')) {
             throw new Exception("Bad Request", 400);
         }
 
-        if ($this->query->has('echostr')) {
-            return $this->query['echostr'];
+        if ($this->input->has('echostr')) {
+            return $this->input['echostr'];
         }
 
         $response = $this->handleRequest();
@@ -244,30 +236,6 @@ class Wechat
     }
 
     /**
-     * 获取监听器
-     *
-     * @param string $type
-     *
-     * @return array
-     */
-    public function getListeners($type = null)
-    {
-        return $type ? $this->listeners->get($type) : $this->listeners->all();
-    }
-
-    /**
-     * 自动添加access_token参数
-     *
-     * @param boolean $status
-     *
-     * @return void
-     */
-    static public function autoRequestToken($status)
-    {
-        self::$autoToken = (bool) $status;
-    }
-
-    /**
      * 生成url
      *
      * @param string $url     基础网址
@@ -277,9 +245,7 @@ class Wechat
      */
     static public function makeUrl($url, $queries = array())
     {
-        if (!self::$instance) {
-            throw new Exception("请先初始化Wechat类");
-        }
+        self::requireInstance();
 
         !self::$autoToken || $queries['access_token'] = self::$instance->getAccessToken();
 
@@ -291,7 +257,7 @@ class Wechat
      *
      * @return string
      */
-    protected function getAccessToken()
+    public function getAccessToken()
     {
         if ($this->accessToken) {
             return $this->accessToken;
@@ -353,6 +319,154 @@ class Wechat
     }
 
     /**
+     * 检查微信签名有效性
+     */
+    static public function signature($input)
+    {
+        sort($input, SORT_STRING);
+
+        return sha1(implode($input));
+    }
+
+    /**
+     * 获取设置
+     *
+     * @param string $key
+     * @param string $default
+     *
+     * @return string
+     */
+    static public function getOption($key = null, $default = null)
+    {
+        self::requireInstance();
+
+        return $key ? (self::$instance->options->get($key) ? : $default)
+                    : self::$instance->options;
+    }
+
+    /**
+     * 获取输入
+     *
+     * @param string $key
+     * @param string $default
+     *
+     * @return string
+     */
+    static public function input($key = null, $default = null)
+    {
+        self::requireInstance();
+
+        return self::$instance->input->get($key, $default);
+    }
+
+    /**
+     * 获取POST请求数据
+     *
+     * @return array
+     */
+    public function getInput()
+    {
+        if ($this->input) {
+            return $this->input;
+        }
+
+        $xmlInput = !empty($GLOBALS["HTTP_RAW_POST_DATA"])
+                ? $GLOBALS["HTTP_RAW_POST_DATA"] : file_get_contents("php://input");
+
+        $input = XML::parse($xmlInput);
+
+        if (!empty($_REQUEST['encrypt_type'])
+            && $_REQUEST['encrypt_type'] === 'aes') {
+            $this->security = true;
+
+            $input = $this->service('crypt')->decryptMsg($_REQUEST['msg_signature'],
+                            $_REQUEST['nonce'], $_REQUEST['timestamp'], $xmlInput);
+        }
+
+        return new Bag(array_merge($_REQUEST, (array) $input));
+    }
+
+    /**
+     * 获取输入
+     *
+     * @param array $input
+     */
+    public function setInput(array $input)
+    {
+        $this->input = new Bag($input);
+    }
+
+    /**
+     * 魔术调用
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        if (method_exists($this, $method)) {
+            return call_user_func_array(array($this, $method), $args);
+        }
+
+        return $this->service($method);
+    }
+
+    /**
+     * 静态访问
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    static public function __callStatic($method, $args)
+    {
+        self::requireInstance();
+
+        return self::$instance->__call($method, $args);
+    }
+
+    /**
+     * 处理魔术调用
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->{$property};
+        }
+
+        return $this->service($property);
+    }
+
+    /**
+     * 防止序列化
+     *
+     * @return null
+     */
+    public function __sleep()
+    {
+        return null;
+    }
+
+    /**
+     * 检查是否实例化
+     *
+     * @return void
+     */
+    static public function requireInstance()
+    {
+        if (!self::$instance) {
+            throw new Exception("请先初始化Wechat类");
+        }
+    }
+
+    /**
      * 生成回复内容
      *
      * @param mixed $response
@@ -364,50 +478,18 @@ class Wechat
         is_string($response) && $response = Message::make('text')->with('content', $response);
 
         if ($response instanceof BaseMessage) {
-            $response->from($this->post->get('ToUserName'))->to($this->post->get('FromUserName'));
+            $response->from($this->input('ToUserName'))->to($this->input('FromUserName'));
 
             $xml = $response->buildForReply();
-error_log($xml);
+
             if ($this->security) {
-                return $this->service('crypt')->encryptMsg($xml, $this->query->get('nonce'), $this->query->get('timestamp'));
+                return $this->service('crypt')->encryptMsg($xml, $this->input('nonce'), $this->input('timestamp'));
             }
-error_log($xml);
+
             return $xml;
         }
 
         return null;
-    }
-
-    /**
-     * 检查微信签名有效性
-     */
-    static public function signature($input)
-    {
-        sort($input, SORT_STRING);
-
-        return sha1(implode($input));
-    }
-
-    /**
-     * 获取POST请求数据
-     *
-     * @return array
-     */
-    protected function getPost()
-    {
-        $xmlInput = !empty($GLOBALS["HTTP_RAW_POST_DATA"])
-                ? $GLOBALS["HTTP_RAW_POST_DATA"] : file_get_contents("php://input");
-
-        $input = XML::parse($xmlInput);
-
-        if ($this->query->get('encrypt_type') == 'aes') {
-            $this->security = true;
-
-            $input = $this->service('crypt')->decryptMsg($this->query->get('msg_signature'),
-                            $this->query->get('nonce'), $this->query->get('timestamp'), $xmlInput);
-        }
-
-        return array_merge($_POST, (array) $input);
     }
 
     /**
@@ -417,11 +499,10 @@ error_log($xml);
      */
     protected function handleRequest()
     {
-        error_log(json_encode($this->post->all()));
-        if ($this->post->has('MsgId')) {
-            return $this->handleMessage($this->post);
-        } else if ($this->post->has('MsgType') && $this->post->get('MsgType') == 'event') {
-            return $this->handleEvent($this->post);
+        if ($this->input->has('MsgId')) {
+            return $this->handleMessage($this->input);
+        } else if ($this->input->has('MsgType') && $this->input('MsgType') == 'event') {
+            return $this->handleEvent($this->input);
         }
 
         return false;
@@ -436,9 +517,7 @@ error_log($xml);
      */
     protected function handleMessage($message)
     {
-        error_log(json_encode($message));
         if (!is_null($response = $this->call("message.*", array($message)))) {
-            error_log($response);
             return $response;
         }
 
@@ -489,66 +568,6 @@ error_log($xml);
             }
         }
 
-        return null;
-    }
-
-    /**
-     * 魔术调用
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        if (method_exists($this, $method)) {
-            return call_user_func_array(array($this, $method), $args);
-        }
-
-        return $this->service($method);
-    }
-
-    /**
-     * 静态访问
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    static public function __callStatic($method, $args)
-    {
-        if (!self::$instance) {
-            throw new Exception("请先初始化Wechat类");
-        }
-
-        return self::$instance->__call($method, $args);
-    }
-
-    /**
-     * 处理魔术调用
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        if (property_exists($this, $property)) {
-            return $this->{$property};
-        }
-
-        return $this->service($property);
-    }
-
-    /**
-     * 防止序列化
-     *
-     * @return null
-     */
-    public function __sleep()
-    {
         return null;
     }
 }
