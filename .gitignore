@@ -3,4 +3,5 @@
 sftp-config.json
 composer.lock
 index.php
+getcode.php
 *.jpg
