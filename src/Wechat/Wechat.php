@@ -148,9 +148,7 @@ class Wechat
             throw new Exception("$callback 不是一个可调用的函数或方法");
         }
 
-        if (!$listeners = $this->listeners->get("{$target}.{$type}")) {
-            $listeners = array();
-        }
+        $listeners = $this->listeners->get("{$target}.{$type}") ? : array();
 
         array_push($listeners, $callback);
 
@@ -281,9 +279,7 @@ class Wechat
             throw new Exception("请先初始化Wechat类");
         }
 
-        if (self::$autoToken) {
-            $queries['access_token'] = self::$instance->getAccessToken();
-        }
+        !self::$autoToken || $queries['access_token'] = self::$instance->getAccessToken();
 
         return $url . (empty($queries) ? '' : ('?' . http_build_query($queries)));
     }
