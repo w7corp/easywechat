@@ -24,8 +24,12 @@ class Message extends Service
 
     /**
      * 创建消息实例
+     *
+     * @param string $type
+     *
+     * @return mixed
      */
-    public function make($type = self::TEXT)
+    static public function make($type = self::TEXT)
     {
         if (!defined(__CLASS__ . '::' . strtoupper($type))) {
             throw new InvalidArgumentException("Error Message Type '{$type}'");
@@ -35,5 +39,18 @@ class Message extends Service
                     . str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
         return new $message;
+    }
+
+    /**
+     * 魔术访问
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    static public function __callStatic($method, $args = array())
+    {
+        return call_user_func_array('self::make', array($method));
     }
 }
