@@ -35,7 +35,7 @@ class Video extends BaseMessage
      *
      * @param string $path
      *
-     * @return Music
+     * @return Video
      */
     public function thumb($path)
     {
