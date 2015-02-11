@@ -65,31 +65,20 @@ class Http
             curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
         }
 
-        switch ($method) {
-            case 'PUT':
-            case 'POST':
-            case 'PATCH':
-                //XXX: FUCK微信的SB的API设计，MLGBD...
-                if (stripos(join('', $headers), 'application/json')) {
-                    curl_setopt($ci, CURLOPT_POSTFIELDS, json_encode($params));
-                    break;
-                }
+        if (in_array($method, array('PUT','POST','PATCH'))) {
+            //XXX: FUCK微信的SB的API设计，MLGBD...
+            if (stripos(join('', $headers), 'application/json')) {
+                curl_setopt($ci, CURLOPT_POSTFIELDS, json_encode($params));
+            }
 
-                if (!empty($files)) {
-                    self::handleFiles($ci, $files, $params, $headers);
-                } else {
-                    curl_setopt($ci, CURLOPT_POSTFIELDS, http_build_query($params));
-                }
-
-                break;
-
-            case 'GET':
-            case 'HEAD':
-            case 'DELETE':
-            case 'OPTIONS':
-                $query = is_string($params) ? $params : http_build_query($params);
-                empty($params) || $url .= (strpos($url, '?') ? '&' : '?') . $query;
-                break;
+            if (!empty($files)) {
+                self::handleFiles($ci, $files, $params, $headers);
+            } else {
+                curl_setopt($ci, CURLOPT_POSTFIELDS, http_build_query($params));
+            }
+        } else {
+            $query = is_string($params) ? $params : http_build_query($params);
+            empty($params) || $url .= (strpos($url, '?') ? '&' : '?') . $query;
         }
 
         curl_setopt($ci, CURLINFO_HEADER_OUT, true);
