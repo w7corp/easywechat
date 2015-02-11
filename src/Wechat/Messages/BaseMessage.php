@@ -16,6 +16,7 @@ use Overtrue\Wechat\Utils\XML;
  * @property \Overtrue\Wechat\Messages\BaseMessage to()   to()
  * @property string $from
  * @property string $to
+ * @property string $staff
  */
 abstract class BaseMessage
 {
