@@ -135,7 +135,7 @@ class Wechat
      * @param string   $type
      * @param callable $callback
      *
-     * @return string
+     * @return Wechat
      */
     public function on($target, $type, $callback = null)
     {
@@ -153,6 +153,8 @@ class Wechat
         array_push($listeners, $callback);
 
         $this->listeners->set("{$target}.{$type}", $listeners);
+
+        return $this;
     }
 
     /**
