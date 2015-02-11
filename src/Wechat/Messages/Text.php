@@ -12,6 +12,8 @@ class Text extends BaseMessage
 
     /**
      * 生成主动消息数组
+     *
+     * @return array
      */
     public function toStaff()
     {
@@ -24,6 +26,8 @@ class Text extends BaseMessage
 
     /**
      * 生成回复消息数组
+     *
+     * @return array
      */
     public function toReply()
     {

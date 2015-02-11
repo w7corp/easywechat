@@ -11,7 +11,7 @@ class News extends BaseMessage
     /**
      * 添加图文消息内容
      *
-     * @return \Overtrue\Wechat\Messages\News
+     * @return News
      */
     public function item(NewsItem $item)
     {
@@ -25,7 +25,7 @@ class News extends BaseMessage
      *
      * @param array|Closure $items
      *
-     * @return \Overtrue\Wechat\Messages\News
+     * @return News
      */
     public function items($items)
     {

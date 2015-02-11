@@ -21,7 +21,7 @@ class Video extends BaseMessage
      *
      * @param string $path
      *
-     * @return Overtrue\Wechat\Messages\Video
+     * @return Video
      */
     public function media($path)
     {
@@ -35,7 +35,7 @@ class Video extends BaseMessage
      *
      * @param string $path
      *
-     * @return Overtrue\Wechat\Messages\Music
+     * @return Music
      */
     public function thumb($path)
     {
@@ -46,6 +46,8 @@ class Video extends BaseMessage
 
     /**
      * 生成主动消息数组
+     *
+     * @return array
      */
     public function toStaff()
     {
@@ -61,6 +63,8 @@ class Video extends BaseMessage
 
     /**
      * 生成回复消息数组
+     *
+     * @return array
      */
     public function toReply()
     {

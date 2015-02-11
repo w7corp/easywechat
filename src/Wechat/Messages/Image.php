@@ -17,7 +17,7 @@ class Image extends BaseMessage
      *
      * @param string $path
      *
-     * @return Overtrue\Wechat\Messages\Image
+     * @return Image
      */
     public function media($path)
     {
@@ -28,6 +28,8 @@ class Image extends BaseMessage
 
     /**
      * 生成主动消息数组
+     *
+     * @return array
      */
     public function toStaff()
     {
@@ -40,6 +42,7 @@ class Image extends BaseMessage
 
     /**
      * 生成回复消息数组
+     * @return array
      */
     public function toReply()
     {

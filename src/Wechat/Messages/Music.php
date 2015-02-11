@@ -27,7 +27,7 @@ class Music extends BaseMessage
      *
      * @param string $path
      *
-     * @return Overtrue\Wechat\Messages\Music
+     * @return Music
      */
     public function thumb($path)
     {
@@ -38,6 +38,8 @@ class Music extends BaseMessage
 
     /**
      * 生成主动消息数组
+     *
+     * @return array
      */
     public function toStaff()
     {
@@ -54,6 +56,8 @@ class Music extends BaseMessage
 
     /**
      * 生成回复消息数组
+     *
+     * @return array
      */
     public function toReply()
     {
