@@ -139,7 +139,7 @@ class Wechat
      */
     public function on($target, $type, $callback = null)
     {
-        if (func_num_args() == 2) {
+        if (is_null($callback)) {
             $callback = $type;
             $type     = '*';
         }
@@ -160,12 +160,12 @@ class Wechat
     /**
      * 监听事件
      *
-     * @param string   $type
-     * @param callable $callback
+     * @param string|callable $type
+     * @param callable        $callback
      *
      * @return mixed
      */
-    public function event($type, $callback)
+    public function event($type, $callback = null)
     {
         return $this->on("event", $type, $callback);
     }
@@ -173,12 +173,12 @@ class Wechat
     /**
      * 监听消息
      *
-     * @param string   $type
-     * @param callable $callback
+     * @param string|callable $type
+     * @param callable        $callback
      *
      * @return string
      */
-    public function message($type, $callback)
+    public function message($type, $callback = null)
     {
         return $this->on("message", $type, $callback);
     }
@@ -311,11 +311,11 @@ class Wechat
                                                     'secret'     => $this->options->get('secret'),
                                                     'grant_type' => 'client_credential',
                                                    ));
+
         // 开启自动加access_token参数
         self::autoRequestToken(true);
 
         $token = self::request('GET', $url);
-
         $this->service('cache')->set($key, $token['access_token'], $token['expires_in']);
 
         return $token['access_token'];
@@ -341,7 +341,6 @@ class Wechat
         }
 
         $contents = json_decode($response, true);
-
         if(isset($contents['errcode'])){
             if ($contents['errmsg'] == 'ok') {
                 return true;
@@ -368,11 +367,11 @@ class Wechat
             $response->from($this->post->get('ToUserName'))->to($this->post->get('FromUserName'));
 
             $xml = $response->buildForReply();
-
+error_log($xml);
             if ($this->security) {
                 return $this->service('crypt')->encryptMsg($xml, $this->query->get('nonce'), $this->query->get('timestamp'));
             }
-
+error_log($xml);
             return $xml;
         }
 
@@ -418,6 +417,7 @@ class Wechat
      */
     protected function handleRequest()
     {
+        error_log(json_encode($this->post->all()));
         if ($this->post->has('MsgId')) {
             return $this->handleMessage($this->post);
         } else if ($this->post->has('MsgType') && $this->post->get('MsgType') == 'event') {
@@ -436,7 +436,9 @@ class Wechat
      */
     protected function handleMessage($message)
     {
+        error_log(json_encode($message));
         if (!is_null($response = $this->call("message.*", array($message)))) {
+            error_log($response);
             return $response;
         }
 

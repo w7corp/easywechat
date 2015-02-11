@@ -31,7 +31,7 @@ class Transfer extends BaseMessage
                     );
 
         // 指定客服
-        if (!empty($this->account)) {
+        if (!empty($this->account) || !empty($this->to)) {
             $response['TransInfo'] = array(
                                       'KfAccount' => $this->account ? : $this->to,
                                      );

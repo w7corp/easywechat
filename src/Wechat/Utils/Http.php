@@ -57,6 +57,7 @@ class Http
         curl_setopt($ci, CURLOPT_USERAGENT, self::$userAgent);
         curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, 3);
         curl_setopt($ci, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ci, CURLOPT_HEADER, false);
@@ -67,13 +68,13 @@ class Http
 
         if (in_array($method, array('PUT','POST','PATCH'))) {
             //XXX: FUCK微信的SB的API设计，MLGBD...
-            if (stripos(join('', $headers), 'application/json')) {
-                curl_setopt($ci, CURLOPT_POSTFIELDS, json_encode($params));
-            }
-
             if (!empty($files)) {
                 self::handleFiles($ci, $files, $params, $headers);
+
+            } else if (stripos(join('', $headers), 'application/json')) {
+                curl_setopt($ci, CURLOPT_POSTFIELDS, self::encode($params));
             } else {
+
                 curl_setopt($ci, CURLOPT_POSTFIELDS, http_build_query($params));
             }
         } else {
@@ -147,6 +148,24 @@ class Http
 
         $headers[] = 'Expect: ';
         $headers[] = 'Content-Type: multipart/form-data';
+    }
+
+    /**
+     * json化参数
+     *
+     * @param array $data
+     *
+     * @return string
+     */
+    static public function encode($data)
+    {
+        array_walk_recursive($data, function(&$value){
+            if (is_string($value)) {
+                $value = urlencode($value);
+            }
+        });
+
+        return urldecode(json_encode($data));
     }
 }
 

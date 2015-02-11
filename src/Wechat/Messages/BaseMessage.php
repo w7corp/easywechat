@@ -38,7 +38,7 @@ abstract class BaseMessage
      *
      * @var array
      */
-    protected $baseProperties = array('from', 'to', 'to_group', 'to_all');
+    protected $baseProperties = array('from', 'to', 'to_group', 'to_all', 'staff');
 
     /**
      * 方法名转换缓存
@@ -88,6 +88,9 @@ abstract class BaseMessage
                  'touser'  => $this->to,
                  'msgtype' => $this->getDefaultMessageType(),
                 );
+        if (!empty($this->staff)) {
+            $base['customservice'] = array('kf_account' => $this->staff);
+        }
 
         return array_merge($base, $this->toStaff());
     }

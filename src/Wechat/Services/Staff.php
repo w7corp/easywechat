@@ -14,6 +14,20 @@ class Staff extends Service
      */
     protected $message;
 
+    /**
+     * 指定消息发送客服账号
+     *
+     * @var string
+     */
+    protected $by;
+
+    /**
+     * 请求的headers
+     *
+     * @var array
+     */
+    protected $headers = array('content-type:application/json');
+
     const API_GET           = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE        = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
     const API_DELETE        = 'https://api.weixin.qq.com/customservice/kfaccount/del';
@@ -133,9 +147,9 @@ class Staff extends Service
      *
      * @param \Overtrue\Wechat\Messages\BaseMessage $message
      *
-     * @return \Overtrue\Wechat\Services\Staff
+     * @return Staff
      */
-    public function message($message)
+    public function send($message)
     {
         is_string($message) && $message = Message::make('text')->with('content', $message);
 
@@ -144,6 +158,22 @@ class Staff extends Service
         }
 
         $this->message = $message;
+
+        return $this;
+    }
+
+    /**
+     * 指定客服
+     *
+     * @param string $account
+     *
+     * @return Staff
+     */
+    public function by($account)
+    {
+        $this->message->staff = $account;
+
+        return $this;
     }
 
     /**
