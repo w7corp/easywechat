@@ -177,7 +177,7 @@ class Staff extends Service
             throw new Exception("未设置要发送的消息");
         }
 
-        # TODO
+        return true;
     }
 
     /**
@@ -191,7 +191,7 @@ class Staff extends Service
             throw new Exception("未设置要发送的消息");
         }
 
-        # TODO
+        return true;
     }
 
     /**
@@ -205,6 +205,6 @@ class Staff extends Service
             throw new Exception("未设置要发送的消息");
         }
 
-        # TODO
+        return true;
     }
 }
