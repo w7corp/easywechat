@@ -7,6 +7,13 @@ use Overtrue\Wechat\Messages\BaseMessage;
 
 class Staff extends Service
 {
+    /**
+     * 消息
+     *
+     * @var \Overtrue\Wechat\Messages\BaseMessage;
+     */
+    protected $message;
+
     const API_GET           = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE        = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
     const API_DELETE        = 'https://api.weixin.qq.com/customservice/kfaccount/del';
