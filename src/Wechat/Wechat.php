@@ -253,6 +253,18 @@ class Wechat
     }
 
     /**
+     * 设置自动请求access_token
+     *
+     * @param boolean $status
+     *
+     * @return void
+     */
+    static public function autoRequestToken($status)
+    {
+        self::$autoToken = (bool) $status;
+    }
+
+    /**
      * 获取access_token
      *
      * @return string

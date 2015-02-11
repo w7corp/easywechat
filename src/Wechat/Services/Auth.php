@@ -43,7 +43,7 @@ class Auth extends Service
             return true;
         }
 
-        if (!Wechat::input('code', null)) {
+        if (!$code = Wechat::input('code', null)) {
             return false;
         }
 
@@ -167,8 +167,6 @@ class Auth extends Service
         $authResult = Wechat::request('GET', $url);
 
         //TODO:refresh_token机制
-
         return $authResult;
-
     }
 }
