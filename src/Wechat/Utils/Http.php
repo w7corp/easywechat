@@ -57,7 +57,6 @@ class Http
         curl_setopt($ci, CURLOPT_USERAGENT, self::$userAgent);
         curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, 3);
         curl_setopt($ci, CURLOPT_TIMEOUT, $timeout);
-        curl_setopt($ci, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ci, CURLOPT_HEADER, false);
@@ -66,28 +65,22 @@ class Http
             curl_setopt($ci, CURLOPT_CUSTOMREQUEST, $method);
         }
 
-        //XXX: FUCK微信的SB的API设计，MLGBD...
-        if (stripos(join('', $headers), 'application/json')) {
-            $params = json_encode($params);
-        }
-
         switch ($method) {
             case 'PUT':
             case 'POST':
             case 'PATCH':
-                curl_setopt($ci, CURLOPT_POST, true);
-
-                if (is_string($params)) {
-                    curl_setopt($ci, CURLOPT_POSTFIELDS, $params);
+                //XXX: FUCK微信的SB的API设计，MLGBD...
+                if (stripos(join('', $headers), 'application/json')) {
+                    curl_setopt($ci, CURLOPT_POSTFIELDS, json_encode($params));
                     break;
                 }
 
-                if (empty($files)) {
+                if (!empty($files)) {
+                    self::handleFiles($ci, $files, $params, $headers);
+                } else {
                     curl_setopt($ci, CURLOPT_POSTFIELDS, http_build_query($params));
-                    break;
                 }
 
-                self::handleFiles($ci, $files, $params, $headers);
                 break;
 
             case 'GET':
@@ -160,6 +153,7 @@ class Http
 
         phpversion() < '5.5' || curl_setopt($ci, CURLOPT_SAFE_UPLOAD, false);
 
+        curl_setopt($ci, CURLOPT_POST, true);
         curl_setopt($ci, CURLOPT_POSTFIELDS, $params);
 
         $headers[] = 'Expect: ';
