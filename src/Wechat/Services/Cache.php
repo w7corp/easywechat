@@ -2,6 +2,7 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Exception;
 use Overtrue\Wechat\Wechat;
 
 class Cache extends Service
@@ -78,11 +79,27 @@ class Cache extends Service
 
         $file = $this->getCacheFile($key);
 
-        if (file_exists($file) && $token = unserialize(file_get_contents($file))) {
+        if (file_exists($file) && ($token = unserialize(file_get_contents($file)))) {
             return $token['expired_at'] > time() ? $token['token'] : null;
         }
 
         return null;
+    }
+
+    /**
+     * 清空缓存
+     *
+     * @return boolean
+     */
+    public function flush()
+    {
+        try {
+            unlink($this->getCacheFile());
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

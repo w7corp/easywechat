@@ -43,7 +43,7 @@ class Auth extends Service
             return true;
         }
 
-        if (!$code = Wechat::input('code', null)) {
+        if (!($code = Wechat::input('code', null))) {
             return false;
         }
 
@@ -163,7 +163,7 @@ class Auth extends Service
          // 开启自动加access_token参数
         Wechat::autoRequestToken(true);
 
-        $authResult = Wechat::request('GET', $url);
+        $authResult = $this->getRequest($url);
 
         //TODO:refresh_token机制
         return $authResult;
