@@ -162,7 +162,7 @@ class Wechat
      * @param string|callable $type
      * @param callable        $callback
      *
-     * @return mixed
+     * @return Wechat
      */
     public function event($type, $callback = null)
     {
