@@ -4,6 +4,7 @@ namespace Overtrue\Wechat\Services;
 
 use Exception;
 use Overtrue\Wechat\Wechat;
+use Overtrue\Wechat\Utils\Bag;
 
 class Auth
 {
@@ -66,7 +67,8 @@ class Auth
         $params = array(
                    'appid'         => Wechat::getOption('appId'),
                    'scope'         => $scope,
-                   'state'         => $state ? : Wechat::getOption('appId'),
+                   // 'state'         => $state ? : Wechat::getOption('appId'),
+                   'state'         => 'STATE',
                    'redirect_uri'  => $redirect,
                    'response_type' => 'code',
                   );
@@ -115,14 +117,11 @@ class Auth
 
         $url = self::API_USER . '?' . http_build_query($queries);
 
-
         return new Bag(Wechat::request('GET', $url));
     }
 
     /**
      * 获取access_token
-     *
-     * @param string $code
      *
      * @return string
      */
@@ -144,7 +143,7 @@ class Auth
      *
      * @param string $code
      *
-     * @return string
+     * @return array
      */
     protected function authorize($code)
     {

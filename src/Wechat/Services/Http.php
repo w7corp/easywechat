@@ -135,11 +135,15 @@ class Http
      */
     protected function request($url, $method = self::GET, $params = array(), $options = array())
     {
-        curl_setopt($this->curl, CURLOPT_HEADER, true);
-        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
+        error_log($url);
+        curl_setopt($this->curl, CURLOPT_HEADER, 1);
+        curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
 
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($this->curl, CURLOPT_URL, $url);
+
+        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
 
         // Check for files
         if (isset($options['files']) && count($options['files'])) {
@@ -149,7 +153,7 @@ class Http
 
             phpversion() < '5.5' || curl_setopt($this->curl, CURLOPT_SAFE_UPLOAD, false);
 
-            curl_setopt($this->curl, CURLOPT_POST, true);
+            curl_setopt($this->curl, CURLOPT_POST, 1);
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
         } else {
             if (isset($options['json'])) {
