@@ -175,7 +175,7 @@ class Wechat
      * @param string|callable $type
      * @param callable        $callback
      *
-     * @return string
+     * @return Wechat
      */
     public function message($type, $callback = null)
     {
@@ -392,7 +392,7 @@ class Wechat
     /**
      * 获取POST请求数据
      *
-     * @return array
+     * @return Bag
      */
     public function getInput()
     {
@@ -483,7 +483,7 @@ class Wechat
     /**
      * 处理消息
      *
-     * @param array $message
+     * @param Bag $message
      *
      * @return mixed
      */
@@ -499,7 +499,7 @@ class Wechat
     /**
      * 处理事件
      *
-     * @param array $event
+     * @param Bag $event
      *
      * @return mixed
      */
