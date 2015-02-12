@@ -34,6 +34,7 @@ class Auth
      */
     protected $authorizedUser;
 
+
     /**
      * 判断是否已经授权
      *
@@ -66,11 +67,11 @@ class Auth
     {
         $params = array(
                    'appid'         => Wechat::getOption('appId'),
-                   'scope'         => $scope,
                    // 'state'         => $state ? : Wechat::getOption('appId'),
-                   'state'         => 'STATE',
                    'redirect_uri'  => $redirect,
                    'response_type' => 'code',
+                   'scope'         => $scope,
+                   'state'         => 'STATE',
                   );
 
         return self::API_URL . '?' . http_build_query($params) . '#wechat_redirect';

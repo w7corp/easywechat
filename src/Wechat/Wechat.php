@@ -223,23 +223,25 @@ class Wechat
     /**
      * 获取服务
      *
-     * @param string $service
+     * @param string $name
      *
      * @return mixed
      */
-    public function service($service)
+    public function service($name)
     {
-        if (isset($this->resolved[$service])) {
-            return $this->resolved[$service];
+        if (isset($this->resolved[$name])) {
+            return $this->resolved[$name];
         }
 
-        $service = "Overtrue\Wechat\Services\\" . ucfirst($service);
+        $service = "Overtrue\Wechat\Services\\" . ucfirst($name);
 
         if (!class_exists($service)) {
-            throw new Exception("未知的服务'$service'");
+            throw new Exception("未知的服务'$name'");
         }
 
-        return $this->resolved[$service] = new $service($this);
+        $this->resolved[$name] = new $service($this);
+
+        return $this->resolved[$name];
     }
 
     /**
