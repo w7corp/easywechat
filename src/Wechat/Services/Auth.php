@@ -56,22 +56,20 @@ class Auth
     /**
      * 生成outh URL
      *
-     * @param string  $redirect
+     * @param string  $to
      * @param string  $state
      * @param string  $scope
-     * @param boolean $redirect
      *
      * @return string
      */
-    public function url($redirect, $state = '', $scope = 'snsapi_userinfo')
+    public function url($to, $scope = 'snsapi_base', $state = 'STATE')
     {
         $params = array(
                    'appid'         => Wechat::getOption('appId'),
-                   // 'state'         => $state ? : Wechat::getOption('appId'),
-                   'redirect_uri'  => $redirect,
+                   'redirect_uri'  => $to,
                    'response_type' => 'code',
                    'scope'         => $scope,
-                   'state'         => 'STATE',
+                   'state'         => $state,
                   );
 
         return self::API_URL . '?' . http_build_query($params) . '#wechat_redirect';
@@ -80,15 +78,15 @@ class Auth
     /**
      * 直接跳转
      *
-     * @param string  $redirect
-     * @param string  $state
+     * @param string  $to
      * @param string  $scope
+     * @param string  $state
      *
      * @return void
      */
-    public function redirect($redirect, $state = '', $scope = 'snsapi_userinfo')
+    public function redirect($to, $scope = 'snsapi_base', $state = 'STATE')
     {
-        header('Location:' . $this->url($redirect, $state, $scope));
+        header('Location:' . $this->url($to, $state, $scope));
     }
 
     /**

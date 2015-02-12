@@ -516,7 +516,7 @@ class Wechat
      * 调用监听器
      *
      * @param string $key
-     * @param array  $args
+     * @param Bag[]  $args
      *
      * @return mixed
      */
