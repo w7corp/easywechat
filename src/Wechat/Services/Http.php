@@ -60,7 +60,9 @@ class Http
      */
     public function get($url, $params = array(), $options = array())
     {
-        return $this->request($url, self::GET, $params, $options);
+        $url .= (stripos($url, '?') ? '&' : '?') . http_build_query($params);
+
+        return $this->request($url, self::GET, array(), $options);
     }
 
     /**
@@ -116,7 +118,9 @@ class Http
      */
     public function delete($url, $params = array(), $options = array())
     {
-        return $this->request($url, self::DELETE, $params, $options);
+        $url .= (stripos($url, '?') ? '&' : '?') . http_build_query($params);
+
+        return $this->request($url, self::DELETE, array(), $options);
     }
 
     /**

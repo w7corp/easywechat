@@ -425,64 +425,6 @@ class Wechat
     }
 
     /**
-     * 魔术调用
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        if (method_exists($this, $method)) {
-            return call_user_func_array(array($this, $method), $args);
-        }
-
-        return $this->service($method);
-    }
-
-    /**
-     * 静态访问
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    static public function __callStatic($method, $args)
-    {
-        self::requireInstance();
-
-        return self::$instance->__call($method, $args);
-    }
-
-    /**
-     * 处理魔术调用
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        if (property_exists($this, $property)) {
-            return $this->{$property};
-        }
-
-        return $this->service($property);
-    }
-
-    /**
-     * 防止序列化
-     *
-     * @return null
-     */
-    public function __sleep()
-    {
-        return null;
-    }
-
-    /**
      * 检查是否实例化
      *
      * @return void
@@ -596,6 +538,64 @@ class Wechat
             }
         }
 
+        return null;
+    }
+
+    /**
+     * 魔术调用
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        if (method_exists($this, $method)) {
+            return call_user_func_array(array($this, $method), $args);
+        }
+
+        return $this->service($method);
+    }
+
+    /**
+     * 静态访问
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    static public function __callStatic($method, $args)
+    {
+        self::requireInstance();
+
+        return self::$instance->__call($method, $args);
+    }
+
+    /**
+     * 处理魔术调用
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->{$property};
+        }
+
+        return $this->service($property);
+    }
+
+    /**
+     * 防止序列化
+     *
+     * @return null
+     */
+    public function __sleep()
+    {
         return null;
     }
 }

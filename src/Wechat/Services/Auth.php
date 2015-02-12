@@ -113,7 +113,10 @@ class Auth
                    'lang'         => 'zh_CN',
                   );
 
-        return new Bag(Wechat::request('POST', Wechat::self::API_USER, array(), $queries));
+        $url = self::API_USER . '?' . http_build_query($queries);
+
+
+        return new Bag(Wechat::request('GET', $url));
     }
 
     /**
