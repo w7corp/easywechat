@@ -17,7 +17,7 @@ class Http
     const DELETE  = 'DELETE';
 
     /**
-     * @var cURL handle
+     * @var resource handle
      */
     private $curl;
 
@@ -42,7 +42,7 @@ class Http
     /**
      * Get the cURL handle
      *
-     * @return cURL cURL handle
+     * @return resource cURL handle
      */
     public function getCurl()
     {
@@ -196,7 +196,7 @@ class Http
      *
      * @param string $filename
      *
-     * @return CURLFile|string
+     * @return \CURLFile|string
      */
     protected function createCurlFile($filename)
     {
@@ -250,8 +250,6 @@ class Http
 
     /**
      * Perform the Curl request
-     *
-     * @param cURL Handle $curl
      *
      * @return array
      */

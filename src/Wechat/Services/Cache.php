@@ -87,14 +87,14 @@ class Cache
     }
 
     /**
-     * 清空缓存
+     * 删除缓存
      *
      * @return boolean
      */
-    public function flush()
+    public function forget($key)
     {
         try {
-            unlink($this->getCacheFile());
+            unlink($this->getCacheFile($key));
         } catch (Exception $e) {
             return false;
         }
