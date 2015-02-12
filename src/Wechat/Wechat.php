@@ -77,6 +77,13 @@ class Wechat
     static protected $instance;
 
     /**
+     * http 客户端
+     *
+     * @var \Overtrue\Wechat\Service\Http
+     */
+    static protected $httpClient;
+
+    /**
      * access_token API地址
      */
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
@@ -284,16 +291,17 @@ class Wechat
         // 关闭自动加access_token参数
         self::autoRequestToken(false);
 
-        $url = self::makeUrl(self::API_TOKEN_GET, array(
-                                                    'appid'      => $this->options->get('appId'),
-                                                    'secret'     => $this->options->get('secret'),
-                                                    'grant_type' => 'client_credential',
-                                                   ));
+        $params = array(
+                   'appid'      => $this->options->get('appId'),
+                   'secret'     => $this->options->get('secret'),
+                   'grant_type' => 'client_credential',
+                  );
+
+        $token = self::request('GET', self::API_TOKEN_GET, $params);
 
         // 开启自动加access_token参数
         self::autoRequestToken(true);
 
-        $token = self::request('GET', $url);
         $this->service('cache')->set($key, $token['access_token'], $token['expires_in']);
 
         return $token['access_token'];
@@ -305,21 +313,29 @@ class Wechat
      * @param string $method  请求类型   GET | POST
      * @param string $url     接口的URL
      * @param array  $params  接口参数
-     * @param array  $files   图片信息
-     * @param array  $headers 图片信息
+     * @param array  $options 其它选项
      *
      * @return array|boolean
      */
-    static public function request($method, $url, array $params = array(), array $files = array(), $headers = array())
+    static public function request($method, $url, array $params = array(), array $options = array())
     {
-        $response = Http::request($method, $url, $params, $headers, $files);
+        self::requireInstance();
 
-        if (empty($response)) {
+        if (self::$autoToken) {
+            $url .= (stripos($url, '?') ? '&' : '?') .'access_token=' . self::$instance->getAccessToken();
+        }
+
+        $method = strtolower($method);
+
+        $response = self::$instance->service('http')->{$method}($url, $params, $options);
+
+        if (empty($response['data'])) {
             throw new Exception("服务器无响应");
         }
 
-        $contents = json_decode($response, true);
-        if(isset($contents['errcode'])){
+        $contents = json_decode($response['data'], true);
+
+        if(isset($contents['errcode'])) {
             if ($contents['errmsg'] == 'ok') {
                 return true;
             }

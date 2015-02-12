@@ -5,7 +5,7 @@ namespace Overtrue\Wechat\Services;
 use Exception;
 use Overtrue\Wechat\Wechat;
 
-class Cache extends Service
+class Cache
 {
     /**
      * 缓存文件前缀

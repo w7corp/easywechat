@@ -3,9 +3,10 @@
 namespace Overtrue\Wechat\Services;
 
 use Exception;
+use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Messages\BaseMessage;
 
-class Staff extends Service
+class Staff
 {
     /**
      * 消息
@@ -44,7 +45,7 @@ class Staff extends Service
      */
     public function all()
     {
-        $response = $this->getRequest(self::API_GET);
+        $response = Wechat::request('GET', self::API_GET);
 
         return $response['kf_list'];
     }
@@ -56,7 +57,7 @@ class Staff extends Service
      */
     public function allOnline()
     {
-        $response = $this->getRequest(self::API_GET);
+        $response = Wechat::request('GET', self::API_GET);
 
         return $response['kf_online_list'];
     }
@@ -78,7 +79,7 @@ class Staff extends Service
                    "password"   => $password,
                   );
 
-        return $this->postRequest(self::API_CREATE, $params);
+        return Wechat::request('POST', self::API_CREATE, $params);
     }
 
     /**
@@ -98,7 +99,7 @@ class Staff extends Service
                    "password"   => $password,
                   );
 
-        return $this->postRequest(self::API_UPDATE, $params);
+        return Wechat::request('POST', self::API_UPDATE, $params);
     }
 
     /**
@@ -118,7 +119,7 @@ class Staff extends Service
                    "password"   => $password,
                   );
 
-        return $this->postRequest(self::API_UPDATE, $params);
+        return Wechat::request('POST', self::API_UPDATE, $params);
     }
 
     /**
@@ -139,7 +140,7 @@ class Staff extends Service
                   'media' => $path,
                  );
 
-        return $this->postRequest(self::API_AVATAR_UPLOAD, array(), $queries, $files);
+        return Wechat::request('POST', self::API_AVATAR_UPLOAD, array(), $queries, $files);
     }
 
     /**
@@ -191,7 +192,7 @@ class Staff extends Service
 
         $this->message->to = $openId;
 
-        $this->postRequest(self::API_MESSAGE_SEND, $this->message->buildForStaff());
+        Wechat::request('POST', self::API_MESSAGE_SEND, $this->message->buildForStaff(), array('json' => true));
 
         return true;
     }

@@ -2,7 +2,7 @@
 
 namespace Overtrue\Wechat\Services;
 
-class Ticket extends Service
+class Ticket
 {
     public function js()
     {

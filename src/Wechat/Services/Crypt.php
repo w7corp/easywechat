@@ -5,7 +5,7 @@ namespace Overtrue\Wechat\Services;
 use Exception;
 use Overtrue\Wechat\Wechat;
 
-class Crypt extends Service
+class Crypt
 {
     protected $AESKey;
     protected $blockSize;

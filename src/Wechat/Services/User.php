@@ -2,9 +2,10 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Utils\Bag;
 
-class User extends Service
+class User
 {
     /**
      * 请求的headers
@@ -38,7 +39,7 @@ class User extends Service
                    'lang'   => $lang,
                   );
 
-        return new Bag($this->getRequest(self::API_GET, $params));
+        return new Bag(Wechat::request('GET', self::API_GET, $params));
     }
 
     /**
@@ -52,7 +53,7 @@ class User extends Service
     {
         $params = array('next_openid' => $nextOpenId);
 
-        return new Bag($this->getRequest(self::API_LIST, $params));
+        return new Bag(Wechat::request('GET', self::API_LIST, $params));
     }
 
     /**
@@ -70,7 +71,7 @@ class User extends Service
                    'remark' => $remark,
                   );
 
-        return $this->postRequest(self::API_REMARK, $params);
+        return Wechat::request('POST', Wechat::self::API_REMARK, $params);
     }
 
     /**
@@ -98,7 +99,7 @@ class User extends Service
                    'openid' => $openId,
                   );
 
-        $response = $this->postRequest(self::API_GROUP, $params);
+        $response = Wechat::request('POST', Wechat::self::API_GROUP, $params);
 
         return $response['groupid'];
     }

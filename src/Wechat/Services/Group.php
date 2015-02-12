@@ -2,9 +2,10 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Utils\Bag;
 
-class Group extends Service
+class Group
 {
     const API_GET                 = 'https://api.weixin.qq.com/cgi-bin/groups/get';
     const API_CREATE              = 'https://api.weixin.qq.com/cgi-bin/groups/create';
@@ -35,7 +36,7 @@ class Group extends Service
                                ),
                   );
 
-        $response = $this->postRequest(self::API_CREATE, $params);
+        $response = Wechat::request('POST', self::API_CREATE, $params);
 
         return $response['group'];
     }
@@ -47,7 +48,7 @@ class Group extends Service
      */
     public function all()
     {
-        $response = $this->getRequest(self::API_GET);
+        $response = Wechat::request('GET', self::API_GET);
 
         return $response['groups'];
     }
@@ -69,7 +70,7 @@ class Group extends Service
                                ),
                   );
 
-        $this->postRequest(self::API_UPDATE, $params);
+        Wechat::request('POST', self::API_UPDATE, $params);
 
         return true;
     }
@@ -87,7 +88,7 @@ class Group extends Service
                     'openid' => $openId,
                   );
 
-        $response = $this->postRequest(self::API_USER_GROUP_ID, $params);
+        $response = Wechat::request('POST', self::API_USER_GROUP_ID, $params);
 
         return $response['groupid'];
     }
@@ -107,7 +108,7 @@ class Group extends Service
                    'to_groupid' => $groupId,
                   );
 
-        $this->postRequest(self::API_MEMBER_UPDATE, $params);
+        Wechat::request('POST', self::API_MEMBER_UPDATE, $params);
 
         return true;
     }
@@ -127,7 +128,7 @@ class Group extends Service
                    'to_groupid'  => $groupId,
                   );
 
-        $this->postRequest(self::API_MEMBER_BATCH_UPDATE, $params);
+        Wechat::request('POST', self::API_MEMBER_BATCH_UPDATE, $params);
 
         return true;
     }

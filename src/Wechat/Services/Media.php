@@ -3,8 +3,9 @@
 namespace Overtrue\Wechat\Services;
 
 use Exception;
+use Overtrue\Wechat\Wechat;
 
-class Media extends Service
+class Media
 {
 
     const API_UPLOAD = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
@@ -39,11 +40,15 @@ class Media extends Service
                     'type' => $type,
                    );
 
-        $files = array(
-                  'media' => $path,
-                 );
+        $options = array(
+                    'files' => array(
+                                'media' => $path,
+                               ),
+                   );
 
-        $contents = $this->postRequest(self::API_UPLOAD, array(), $queries, $files);
+        $url = self::API_UPLOAD . '?' . http_build_query($queries);
+
+        $contents = Wechat::request('POST', $url, array(), $options);
 
         return $contents['media_id'];
     }
@@ -62,7 +67,7 @@ class Media extends Service
             'media_id' => $mediaId,
         );
 
-        $contents = $this->getRequest(self::API_GET, $params);
+        $contents = Wechat::request('GET', self::API_GET, $params);
 
         return $filename ? $contents : file_put_contents($filename, $contents);
     }

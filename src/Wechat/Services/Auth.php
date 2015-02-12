@@ -2,9 +2,10 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Exception;
 use Overtrue\Wechat\Wechat;
 
-class Auth extends Service
+class Auth
 {
     const API_URL       = 'https://open.weixin.qq.com/connect/oauth2/authorize';
     const API_TOKEN_GET = 'https://api.weixin.qq.com/sns/oauth2/access_token';
@@ -112,7 +113,7 @@ class Auth extends Service
                    'lang'         => 'zh_CN',
                   );
 
-        return new Bag($this->postRequest(self::API_USER, array(), $queries));
+        return new Bag(Wechat::request('POST', Wechat::self::API_USER, array(), $queries));
     }
 
     /**
@@ -158,14 +159,12 @@ class Auth extends Service
                    'grant_type' => 'authorization_code',
                   );
 
-        $url = Wechat::makeUrl(self::API_TOKEN_GET, $params);
+        $authResult = Wechat::request('GET', self::API_TOKEN_GET, $params);
 
          // 开启自动加access_token参数
         Wechat::autoRequestToken(true);
 
-        $authResult = $this->getRequest($url);
-
         //TODO:refresh_token机制
-        return $authResult;
+        return $this->authResult = $authResult;
     }
 }

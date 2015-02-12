@@ -4,7 +4,7 @@ namespace Overtrue\Wechat\Services;
 
 use InvalidArgumentException;
 
-class Message extends Service
+class Message
 {
     /**
      * 消息类型

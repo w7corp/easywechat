@@ -4,7 +4,7 @@ namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Wechat;
 
-class Menu extends Service
+class Menu
 {
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
     const API_GET    = 'https://api.weixin.qq.com/cgi-bin/menu/get';
