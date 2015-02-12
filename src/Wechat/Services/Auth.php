@@ -23,7 +23,7 @@ class Auth
      *     "scope":"SCOPE"
      *  }
      *
-     * @var array
+     * @var array|boolean
      */
     protected $authResult;
 
