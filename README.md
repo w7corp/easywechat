@@ -85,7 +85,7 @@ echo $result;
 - [x] 图文消息
 - [ ] 群发消息
 - [ ] 菜单 
-- [ ] Auth
+- [x] Auth
 - [ ] Ticket
 - [ ] 二维码
 - [ ] 短链接
