@@ -6,17 +6,17 @@ use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\MagicAttributes;
 
 /**
- * @property string $from
- * @property string $to
- * @property string $staff
- * @method   array  to($to)
- * @method   array  from($from)
- * @method   array  staff($staff)
- * @method   array  toStaff()
- * @method   array  toReply()
- * @method   array  toBroadcast()
- * @method   array  buildForStaff()
- * @method   string buildForReply()
+ * @property string      $from
+ * @property string      $to
+ * @property string      $staff
+ * @method   BaseMessage to($to)
+ * @method   BaseMessage from($from)
+ * @method   BaseMessage staff($staff)
+ * @method   array       toStaff()
+ * @method   array       toReply()
+ * @method   array       toBroadcast()
+ * @method   array       buildForStaff()
+ * @method   string      buildForReply()
  */
 abstract class BaseMessage extends MagicAttributes
 {
