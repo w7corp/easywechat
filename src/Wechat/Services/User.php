@@ -71,7 +71,7 @@ class User
                    'remark' => $remark,
                   );
 
-        return Wechat::request('POST', Wechat::self::API_REMARK, $params);
+        return Wechat::request('POST', self::API_REMARK, $params);
     }
 
     /**
@@ -99,7 +99,7 @@ class User
                    'openid' => $openId,
                   );
 
-        $response = Wechat::request('POST', Wechat::self::API_GROUP, $params);
+        $response = Wechat::request('POST', self::API_GROUP, $params);
 
         return $response['groupid'];
     }
