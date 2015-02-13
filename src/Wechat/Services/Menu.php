@@ -2,6 +2,7 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Closure;
 use Overtrue\Wechat\Wechat;
 
 class Menu
@@ -10,18 +11,105 @@ class Menu
     const API_GET    = 'https://api.weixin.qq.com/cgi-bin/menu/get';
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
 
-    public function create()
+
+    /**
+     * 生成菜单项
+     *
+     * @param string $name
+     * @param string $type
+     * @param string $property
+     *
+     * @return MenuItem
+     */
+    static public function make($name, $type = null, $property = null)
     {
-        # code...
+        return new MenuItem($name, $type, $property);
     }
 
+    /**
+     * 设置菜单
+     *
+     * @return boolean
+     */
+    public function set($menus)
+    {
+        if ($menus instanceof Closure) {
+            $menus = $menus($this);
+        }
+
+        if (!is_array($menus)) {
+            throw new Exception("子菜单必须是数组或者匿名函数返回数组", 1);
+        }
+
+        $menus = $this->extractMenus($menus);
+
+        $res  = Wechat::request('POST', self::API_CREATE, array('button' => $menus), array('json' => true));
+        var_dump($res);
+
+        return true;
+    }
+
+    /**
+     * 获取菜单
+     *
+     * @return array
+     */
     public function get()
     {
-        # code...
+        $menus = Wechat::request('GET', self::API_GET);
+
+        return empty($menus['menu']['button']) ? array() : $menus['menu']['button'];
     }
 
+    /**
+     * 删除菜单
+     *
+     * @return boolean
+     */
     public function delete()
     {
-        # code...
+        Wechat::request('GET', self::API_DELETE);
+
+        return true;
+    }
+
+    /**
+     * 转menu为数组
+     *
+     * @param array $menus
+     *
+     * @return array
+     */
+    protected function extractMenus(array $menus)
+    {
+        foreach ($menus as $key => $menu) {
+            $menus[$key] = $menu->toArray();
+
+            if ($menu->sub_button) {
+                $menus[$key]['sub_button'] = $this->extractMenus($menu->sub_button);
+            }
+        }
+
+        return $menus;
+    }
+
+    /**
+     * 静态访问
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return MenuItem
+     */
+    static public function __callStatic($method, $args)
+    {
+        if (count($args) > 1) {
+            list($name, $property) = $args;
+            $args = array($name, $method, $property);
+        } else {
+            array_push($args, $method);
+        }
+
+        return call_user_func_array('self::make', $args);
     }
 }

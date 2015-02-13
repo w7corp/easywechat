@@ -135,7 +135,6 @@ class Http
      */
     protected function request($url, $method = self::GET, $params = array(), $options = array())
     {
-        error_log($url);
         curl_setopt($this->curl, CURLOPT_HEADER, 1);
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
 
@@ -168,12 +167,12 @@ class Http
 
         // Check for custom headers
         if (isset($options['headers']) && count($options['headers'])) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $options['headers']);
+            curl_setopt($this->curl, CURLOPT_HTTPHEADER, $options['headers']);
         }
 
         // Check for basic auth
         if (isset($options['auth']['type']) && "basic" === $options['auth']['type'])
-            curl_setopt($curl, CURLOPT_USERPWD, $options['auth']['username'] . ':' . $options['auth']['password']);
+            curl_setopt($this->curl, CURLOPT_USERPWD, $options['auth']['username'] . ':' . $options['auth']['password']);
 
         $response = $this->doCurl();
 
@@ -245,6 +244,7 @@ class Http
                 $value = urlencode($value);
             }
         });
+
         return urldecode(json_encode($data));
     }
 

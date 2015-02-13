@@ -132,15 +132,16 @@ class Staff
      */
     public function avatar($email, $path)
     {
-        $queries = array(
-                    "kf_account" => $email,
+        $options = array(
+                    'headers' => array('content-type:application/json'),
+                    'files'   => array(
+                                  'media' => $path,
+                                 ),
                    );
 
-        $files = array(
-                  'media' => $path,
-                 );
+        $url = self::API_AVATAR_UPLOAD . "?kf_account={$email}";
 
-        return Wechat::request('POST', self::API_AVATAR_UPLOAD, array(), $queries, $files);
+        return Wechat::request('POST', $url, array(), $options);
     }
 
     /**
@@ -192,7 +193,7 @@ class Staff
 
         $this->message->to = $openId;
 
-        Wechat::request('POST', self::API_MESSAGE_SEND, $this->message->buildForStaff(), array('json' => true));
+        Wechat::request('POST', self::API_MESSAGE_SEND, $this->message->buildForStaff());
 
         return true;
     }
