@@ -3,16 +3,10 @@
 namespace Overtrue\Wechat\Services;
 
 use Closure;
+use Overtrue\Wechat\Utils\MagicAccess;
 
-class MenuItem
+class MenuItem extends MagicAccess
 {
-    /**
-     * 菜单属性
-     *
-     * @var array
-     */
-    protected $attributes;
-
     /**
      * 实例化菜单
      *
@@ -29,25 +23,6 @@ class MenuItem
             $key = ($type == 'view') ? 'url' : 'key';
             $this->attributes[$key] = $property;
         }
-    }
-
-    /**
-     * 魔术调用
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return MenuItem
-     */
-    public function __call($method, $args)
-    {
-        if (stripos($method, 'with') === 0) {
-            $method = substr($method, 4);
-        }
-
-        $this->attributes[$method] = array_shift($args);
-
-        return $this;
     }
 
     /**
@@ -70,38 +45,5 @@ class MenuItem
         $this->attributes['sub_button'] = $buttons;
 
         return $this;
-    }
-
-    /**
-     * 生成数组
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * 获取属性
-     *
-     * @param string $property
-     *
-     * @return string
-     */
-    public function __get($property)
-    {
-        return empty($this->attributes[$property]) ? null : $this->attributes[$property];
-    }
-
-    /**
-     * 设置属性
-     *
-     * @param string $property
-     * @param string $value
-     */
-    public function __set($property, $value)
-    {
-        $this->attributes[$property] = strval($value);
     }
 }
