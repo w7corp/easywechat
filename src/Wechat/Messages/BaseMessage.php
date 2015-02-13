@@ -9,14 +9,14 @@ use Overtrue\Wechat\Utils\MagicAttributes;
  * @property string $from
  * @property string $to
  * @property string $staff
- * @method   array  to()            to()
- * @method   array  from()          from()
- * @method   array  staff()         staff()
- * @method   array  toStaff()       toStaff()
- * @method   array  toReply()       toReply()
- * @method   array  toBroadcast()   toBroadcast()
- * @method   array  buildForStaff() buildForStaff()
- * @method   string buildForReply() buildForReply()
+ * @method   array  to($to)
+ * @method   array  from($from)
+ * @method   array  staff($staff)
+ * @method   array  toStaff()
+ * @method   array  toReply()
+ * @method   array  toBroadcast()
+ * @method   array  buildForStaff()
+ * @method   string buildForReply()
  */
 abstract class BaseMessage extends MagicAttributes
 {
