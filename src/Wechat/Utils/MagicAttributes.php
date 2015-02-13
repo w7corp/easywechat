@@ -2,21 +2,21 @@
 
 namespace Overtrue\Wechat\Utils;
 
-abstract class MagicAccess
+abstract class MagicAttributes
 {
     /**
      * 允许设置的属性名称
      *
      * @var array
      */
-    protected $properties = array();
+    protected $attributes = array();
 
     /**
      * 基础属性
      *
      * @var array
      */
-    protected $baseProperties = array('from', 'to', 'to_group', 'to_all', 'staff');
+    protected $baseAttributes = array('from', 'to', 'to_group', 'to_all', 'staff');
 
     /**
      * 方法名转换缓存
@@ -25,6 +25,17 @@ abstract class MagicAccess
      */
     static protected $snakeCache = array();
 
+
+    /**
+     * 设置属性
+     *
+     * @param string $attribute
+     * @param mixed  $value
+     */
+    public function setAttribute($attribute, $value)
+    {
+        return $this->with($attribute, $value);
+    }
 
     /**
      * 设置属性
@@ -42,7 +53,7 @@ abstract class MagicAccess
 
         $attribute = $this->snake($attribute);
 
-        if (!in_array($attribute, array_merge($this->baseProperties, $this->properties))) {
+        if (!in_array($attribute, array_merge($this->baseAttributes, $this->attributes))) {
             throw new InvalidArgumentException("不存在的属性‘{$attribute}’");
         }
 

@@ -5,7 +5,7 @@ namespace Overtrue\Wechat\Messages;
 use Closure;
 use InvalidArgumentException;
 use Overtrue\Wechat\Utils\XML;
-use Overtrue\Wechat\Utils\MagicAccess;
+use Overtrue\Wechat\Utils\MagicAttributes;
 
 /**
  * @method   array  buildForStaff() buildForStaff()
@@ -19,14 +19,14 @@ use Overtrue\Wechat\Utils\MagicAccess;
  * @property string $to
  * @property string $staff
  */
-abstract class BaseMessage extends MagicAccess
+abstract class BaseMessage extends MagicAttributes
 {
     /**
      * 基础属性
      *
      * @var array
      */
-    protected $baseProperties = array('from', 'to', 'to_group', 'to_all', 'staff');
+    protected $baseAttributes = array('from', 'to', 'to_group', 'to_all', 'staff');
 
     /**
      * 生成用于主动推送的数据

@@ -3,9 +3,9 @@
 namespace Overtrue\Wechat\Services;
 
 use Closure;
-use Overtrue\Wechat\Utils\MagicAccess;
+use Overtrue\Wechat\Utils\MagicAttributes;
 
-class MenuItem extends MagicAccess
+class MenuItem extends MagicAttributes
 {
     /**
      * 实例化菜单
@@ -16,12 +16,13 @@ class MenuItem extends MagicAccess
      */
     public function __construct($name, $type = null, $property = null)
     {
-        $this->attributes['name'] = $name;
-        $type && $this->attributes['type'] = $type;
+        $this->with('name', $name);
+
+        $type && $this->with('type', $type);
 
         if ($property) {
             $key = ($type == 'view') ? 'url' : 'key';
-            $this->attributes[$key] = $property;
+            $this->with($key, $property);
         }
     }
 
@@ -42,7 +43,7 @@ class MenuItem extends MagicAccess
             throw new Exception("子菜单必须是数组或者匿名函数返回数组", 1);
         }
 
-        $this->attributes['sub_button'] = $buttons;
+        $this->with('sub_button', $buttons);
 
         return $this;
     }
