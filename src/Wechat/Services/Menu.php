@@ -44,7 +44,6 @@ class Menu
         $menus = $this->extractMenus($menus);
 
         $res  = Wechat::request('POST', self::API_CREATE, array('button' => $menus), array('json' => true));
-        var_dump($res);
 
         return true;
     }
@@ -91,6 +90,19 @@ class Menu
         }
 
         return $menus;
+    }
+
+    /**
+     * 访问不存在的方法
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return MenuItem
+     */
+    public function __call($method, $args)
+    {
+        return call_user_func_array('self::__callStatic', $args);
     }
 
     /**
