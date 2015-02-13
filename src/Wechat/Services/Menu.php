@@ -43,7 +43,7 @@ class Menu
 
         $menus = $this->extractMenus($menus);
 
-        $res  = Wechat::request('POST', self::API_CREATE, array('button' => $menus), array('json' => true));
+        Wechat::request('POST', self::API_CREATE, array('button' => $menus), array('json' => true));
 
         return true;
     }

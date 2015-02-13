@@ -31,7 +31,7 @@ class MenuItem extends MagicAttributes
      *
      * @param array $buttons
      *
-     * @return MenuItem;
+     * @return MenuItem
      */
     public function buttons($buttons)
     {
