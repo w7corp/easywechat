@@ -2,8 +2,6 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Closure;
-use InvalidArgumentException;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\MagicAttributes;
 
@@ -22,11 +20,18 @@ use Overtrue\Wechat\Utils\MagicAttributes;
 abstract class BaseMessage extends MagicAttributes
 {
     /**
+     * 允许的属性
+     *
+     * @var array
+     */
+    protected $properties = array();
+
+    /**
      * 基础属性
      *
      * @var array
      */
-    protected $baseAttributes = array('from', 'to', 'to_group', 'to_all', 'staff');
+    protected $baseProperties = array('from', 'to', 'to_group', 'to_all', 'staff');
 
     /**
      * 生成用于主动推送的数据
@@ -95,5 +100,20 @@ abstract class BaseMessage extends MagicAttributes
         $class = explode('\\', get_class($this));
 
         return strtolower(array_pop($class));
+    }
+
+    /**
+     * 验证
+     *
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return boolean
+     */
+    protected function validate($attribute, $value)
+    {
+        $properties = array_merge($this->baseProperties, $this->properties);
+
+        return is_scalar($value) && in_array($attribute, $properties);
     }
 }

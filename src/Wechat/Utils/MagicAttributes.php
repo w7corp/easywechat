@@ -2,6 +2,9 @@
 
 namespace Overtrue\Wechat\Utils;
 
+use Closure;
+use InvalidArgumentException;
+
 abstract class MagicAttributes
 {
     /**
@@ -10,13 +13,6 @@ abstract class MagicAttributes
      * @var array
      */
     protected $attributes = array();
-
-    /**
-     * 基础属性
-     *
-     * @var array
-     */
-    protected $baseAttributes = array('from', 'to', 'to_group', 'to_all', 'staff');
 
     /**
      * 方法名转换缓存
@@ -47,14 +43,10 @@ abstract class MagicAttributes
      */
     public function with($attribute, $value)
     {
-        if (!is_scalar($value)) {
-            throw new InvalidArgumentException("属性值只能为标量");
-        }
-
         $attribute = $this->snake($attribute);
 
-        if (!in_array($attribute, array_merge($this->baseAttributes, $this->attributes))) {
-            throw new InvalidArgumentException("不存在的属性‘{$attribute}’");
+        if (!$this->validate($attribute, $value)) {
+            throw new InvalidArgumentException("错误的属性值'{$attribute}'");
         }
 
         $this->attributes[$attribute] = $value;
@@ -70,6 +62,19 @@ abstract class MagicAttributes
     public function toArray()
     {
         return $this->attributes;
+    }
+
+    /**
+     * 验证
+     *
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return boolean
+     */
+    protected function validate($attribute, $value)
+    {
+        return true;
     }
 
     /**

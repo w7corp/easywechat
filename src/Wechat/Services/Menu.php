@@ -102,7 +102,7 @@ class Menu
      */
     public function __call($method, $args)
     {
-        return call_user_func_array('self::__callStatic', $args);
+        return self::__callStatic($method, $args);
     }
 
     /**
