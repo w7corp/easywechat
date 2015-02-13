@@ -31,7 +31,7 @@ class Music extends BaseMessage
      */
     public function thumb($path)
     {
-        $this->attributes['thumb_media_id'] = Wechat::media()->thumb($path);
+        $this->setAttribute('thumb_media_id', Wechat::media()->thumb($path));
 
         return $this;
     }

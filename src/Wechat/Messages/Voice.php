@@ -21,7 +21,7 @@ class Voice extends BaseMessage
      */
     public function media($path)
     {
-        $this->attributes['media_id'] = Wechat::media()->voice($path);
+        $this->setAttribute('media_id', Wechat::media()->voice($path));
 
         return $this;
     }

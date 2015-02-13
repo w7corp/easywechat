@@ -21,7 +21,7 @@ class Image extends BaseMessage
      */
     public function media($path)
     {
-        $this->attributes['media_id'] = Wechat::media()->image($path);
+        $this->setAttribute('media_id', Wechat::media()->image($path));
 
         return $this;
     }

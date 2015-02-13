@@ -25,7 +25,7 @@ class Video extends BaseMessage
      */
     public function media($path)
     {
-        $this->attributes['media_id'] = Wechat::media()->video($path);
+        $this->setAttribute('media_id', Wechat::media()->video($path));
 
         return $this;
     }
@@ -39,7 +39,7 @@ class Video extends BaseMessage
      */
     public function thumb($path)
     {
-        $this->attributes['thumb_media_id'] = Wechat::media()->thumb($path);
+        $this->setAttribute('thumb_media_id', Wechat::media()->thumb($path));
 
         return $this;
     }
