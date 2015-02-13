@@ -37,7 +37,7 @@ abstract class MagicAttributes
      * 设置属性
      *
      * @param string $attribute
-     * @param string $value
+     * @param mixed  $value
      *
      * @return Overtrue\Wechat\Message
      */
