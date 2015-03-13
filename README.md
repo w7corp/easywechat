@@ -1,6 +1,6 @@
 # Wechat
 
-微信 SDK
+可能是目前最优雅的微信 SDK 了
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
