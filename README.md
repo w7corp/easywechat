@@ -1,4 +1,5 @@
 # Wechat
+
 微信 SDK
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
@@ -10,19 +11,19 @@
 
 网上充斥着各种微信SDK，但是找了一圈，发现没有一个想用，因为没有满足本项目存在后的各种优点：
 
- - 命名不那么乱七八糟;
- - 隐藏开发者不需要关注的细节;
+ - 命名不那么乱七八糟；
+ - 隐藏开发者不需要关注的细节；
  - 方法使用更优雅，不再那么恶心的使用恶心的命名譬如：`getXML4Image...`；
  - 统一的错误处理，让你更方便的掌控异常；
- - 自定义缓存方式;
- - 符合PSR-4标准，你可以各种方便的与你的框架集成;
+ - 自定义缓存方式；
+ - 符合 [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) 标准，你可以各种方便的与你的框架集成；
  - 高度抽象的消息类，免去各种拼json与xml的痛苦。
 
 ## 安装
 
-环境要求: PHP >= 5.3.0
+环境要求：PHP >= 5.3.0
 
-1. 使用composer:
+1. 使用 [composer](https://getcomposer.org/):
 
   ```shell
   composer require overtrue/wechat
@@ -30,7 +31,7 @@
 
 2. 手动安装
 
-  下载[最新版zip包](https://github.com/overtrue/wechat/archive/master.zip) 或者下载指定版本:https://github.com/overtrue/wechat/releases
+  下载 [最新版zip包](https://github.com/overtrue/wechat/archive/master.zip)  或者下载指定版本：https://github.com/overtrue/wechat/releases 。
 
   然后引入根目录的autoload.php即可：
   
@@ -89,6 +90,10 @@ echo $result;
 - [ ] Ticket
 - [ ] 二维码
 - [ ] 短链接
+
+## 贡献代码
+
+欢迎大家贡献代码，但请遵循PSR标准: https://github.com/php-fig/fig-standards/blob/master/accepted/ 谢谢！
 
 ## License
 
