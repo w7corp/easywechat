@@ -63,7 +63,7 @@ $options = [
 $wechat = Wechat::make($options);
 
 $server = $wechat->on('message', function($message){
-    error_log("收到来自'{$message['FromUserName']}'的消息：" . $message['Content']);
+    error_log("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
 });
 
 $result = $wechat->serve();
