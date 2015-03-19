@@ -5,6 +5,9 @@ namespace Overtrue\Wechat\Services;
 use Closure;
 use Overtrue\Wechat\Wechat;
 
+/**
+ * @property array $sub_button
+ */
 class Menu
 {
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
