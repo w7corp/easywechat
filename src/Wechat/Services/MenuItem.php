@@ -47,4 +47,20 @@ class MenuItem extends MagicAttributes
 
         return $this;
     }
+    
+    /**
+     * 添加子菜单
+     *
+     * @param MenuItem $button 
+     *
+     * @return void
+     */
+    public function button(MenuItem $button)
+    {
+        $subButtons = $this->sub_button;
+
+        $subButtons[] = $button;
+
+        $this->with('sub_button', $subButtons);
+    }
 }
