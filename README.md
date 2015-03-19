@@ -93,7 +93,7 @@ echo $result;
 
 ## 贡献代码
 
-欢迎大家贡献代码，但请遵循PSR标准: https://github.com/php-fig/fig-standards/blob/master/accepted/ 谢谢！
+欢迎大家贡献代码，但请遵循[PSR标准](https://github.com/php-fig/fig-standards/blob/master/accepted/) 谢谢！
 
 ## License
 
