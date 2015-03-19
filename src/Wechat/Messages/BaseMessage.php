@@ -2,8 +2,8 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\MagicAttributes;
+use Overtrue\Wechat\Utils\XML;
 
 /**
  * @property string      $from

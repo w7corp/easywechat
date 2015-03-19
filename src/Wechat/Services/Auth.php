@@ -2,9 +2,9 @@
 
 namespace Overtrue\Wechat\Services;
 
-use Exception;
-use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Wechat;
+use Exception;
 
 class Auth
 {

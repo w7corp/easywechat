@@ -2,11 +2,11 @@
 
 namespace Overtrue\Wechat;
 
-use Exception;
+use Overtrue\Wechat\Messages\BaseMessage;
+use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
-use Overtrue\Wechat\Utils\Http;
-use Overtrue\Wechat\Messages\BaseMessage;
+use Exception;
 
 /**
  * @property \Overtrue\Wechat\Utils\Bag $options

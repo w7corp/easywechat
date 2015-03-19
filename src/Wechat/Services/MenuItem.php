@@ -2,8 +2,8 @@
 
 namespace Overtrue\Wechat\Services;
 
-use Closure;
 use Overtrue\Wechat\Utils\MagicAttributes;
+use Closure;
 
 class MenuItem extends MagicAttributes
 {
@@ -47,11 +47,11 @@ class MenuItem extends MagicAttributes
 
         return $this;
     }
-    
+
     /**
      * 添加子菜单
      *
-     * @param MenuItem $button 
+     * @param MenuItem $button
      *
      * @return void
      */

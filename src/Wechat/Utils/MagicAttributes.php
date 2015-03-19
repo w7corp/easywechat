@@ -2,8 +2,8 @@
 
 namespace Overtrue\Wechat\Utils;
 
-use Closure;
 use InvalidArgumentException;
+use Closure;
 
 abstract class MagicAttributes
 {

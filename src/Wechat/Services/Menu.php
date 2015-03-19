@@ -2,8 +2,8 @@
 
 namespace Overtrue\Wechat\Services;
 
-use Closure;
 use Overtrue\Wechat\Wechat;
+use Closure;
 
 /**
  * @property array $sub_button

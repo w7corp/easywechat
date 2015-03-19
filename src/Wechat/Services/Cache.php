@@ -2,8 +2,8 @@
 
 namespace Overtrue\Wechat\Services;
 
-use Exception;
 use Overtrue\Wechat\Wechat;
+use Exception;
 
 class Cache
 {

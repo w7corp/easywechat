@@ -16,14 +16,14 @@ namespace Overtrue\Wechat\Utils;
  * @date   2014-10-29T22:37:10
  */
 
-use Closure;
-use Countable;
-use ArrayAccess;
-use Serializable;
-use ArrayIterator;
 // use JsonSerializable;
 // TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
 use IteratorAggregate;
+use ArrayIterator;
+use Serializable;
+use ArrayAccess;
+use Countable;
+use Closure;
 
 class Bag implements
     ArrayAccess,

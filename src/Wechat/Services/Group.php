@@ -2,8 +2,8 @@
 
 namespace Overtrue\Wechat\Services;
 
-use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Wechat;
 
 class Group
 {
