@@ -2,6 +2,7 @@
 
 可能是目前最优雅的微信 SDK 了
 
+
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
 [![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -75,6 +76,9 @@ echo $result;
 ## 文档
 
 [Wiki](https://github.com/overtrue/wechat/wiki)
+
+> 如果你发现看不明白文档，那很有可能你没有真正了解微信API的调用以及组成机制，总之，当时我是看得云里雾里的...
+所以，强烈建议看懂微信文档后再来使用本 SDK，这样你就不会骂我文档写得差了，因为微信的 API 比什么都烂。
 
 ## TODO
 
