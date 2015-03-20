@@ -1,7 +1,6 @@
 # Wechat
 
-可能是目前最优雅的微信 SDK 了
-
+可能是目前最优雅的微信 SDK 了。[Laravel 5 版: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -35,12 +34,12 @@
   下载 [最新版zip包](https://github.com/overtrue/wechat/archive/master.zip)  或者下载指定版本：https://github.com/overtrue/wechat/releases 。
 
   然后引入根目录的autoload.php即可：
-  
+
   ```php
   <?php
-  
+
   require "wechat/autoload.php"; // 路径请修改为你具体的实际路径
-  
+
   use Overtrue\Wechat\Wechat;
   ...
   ```
@@ -89,7 +88,7 @@ echo $result;
 - [x] 基本消息类型
 - [x] 图文消息
 - [ ] 群发消息
-- [x] 自定义菜单 
+- [x] 自定义菜单
 - [x] Auth
 - [ ] Ticket
 - [ ] 二维码
