@@ -92,11 +92,10 @@ echo $result;
 - [x] Auth
 - [ ] Ticket
 - [ ] 二维码
-- [ ] 短链接
 
 ## 贡献代码
 
-欢迎大家贡献代码，但请遵循[PSR标准](https://github.com/php-fig/fig-standards/blob/master/accepted/) 谢谢！
+非常欢迎大家贡献代码共同完善本项目，让更多微信开发者早日摆脱苦恼，但请遵循[PSR标准](https://github.com/php-fig/fig-standards/blob/master/accepted/) 谢谢！
 
 ## License
 
