@@ -178,6 +178,16 @@ class Bag implements
         return json_encode($this->all());
     }
 
+    /**
+     * 返回string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toJson();
+    }
+
     /** {@inhertDoc} */
     public function jsonSerialize()
     {
