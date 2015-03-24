@@ -56,8 +56,8 @@ class Crypt
     {
         $encrypt = $this->encrypt($xml, Wechat::getOption('appId'));
 
-        $nonce || $nonce = uniqid();
-        $timestamp || $timestamp = time();
+        $nonce !== null || $nonce = uniqid();
+        $timestamp !== null || $timestamp = time();
 
         //生成安全签名
         $signature = $this->getSHA1(Wechat::getOption('token'), $timestamp, $nonce, $encrypt);
