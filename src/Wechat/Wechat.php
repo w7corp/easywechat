@@ -185,9 +185,11 @@ class Wechat
     /**
      * handle服务端并返回字符串内容
      *
+     * @param callable $callback
+     *
      * @return mixed
      */
-    public function serve()
+    public function serve($callback = null)
     {
         $input = array(
                 $this->options->get('token'),
@@ -199,11 +201,13 @@ class Wechat
             throw new Exception("Bad Request", 400);
         }
 
-        if ($this->input->has('echostr')) {
-            return $this->input['echostr'];
-        }
-
         $response = $this->handleRequest();
+
+        $callback || $callback = $this->listeners->get('served');
+
+        if (is_callable($callback)) {
+            $response = $callback($response);
+        }
 
         return $this->response($response);
     }
@@ -218,6 +222,26 @@ class Wechat
     public function error($handler)
     {
         is_callable($handler) && $this->errorHandler = $handler;
+    }
+
+    /**
+     * 接收消息后的回调处理
+     *
+     * @return void
+     */
+    public function received($callback)
+    {
+        is_callable($callback) && $this->listeners->set('received', $callback);
+    }
+
+    /**
+     * 服务器处理完以后的回调处理
+     *
+     * @return void
+     */
+    public function served($callback)
+    {
+        is_callable($callback) && $this->listeners->set('served', $callback);
     }
 
     /**
@@ -471,6 +495,14 @@ class Wechat
      */
     protected function handleRequest()
     {
+        $callback = $this->listeners->get('received');
+
+        $callback && $callback($this->input);
+
+        if ($this->input->has('echostr')) {
+            return $this->input['echostr'];
+        }
+
         if ($this->input->has('MsgId')) {
             return $this->handleMessage($this->input);
         } else if ($this->input->has('MsgType') && $this->input('MsgType') == 'event') {
