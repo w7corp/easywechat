@@ -34,9 +34,9 @@ class Cache
      *
      * @return void
      */
-    public function boot()
+    public function __construct(Wechat $wechat)
     {
-        $this->filePrefix = Wechat::getOption('appId');
+        $this->filePrefix = $wechat->option('appId');
     }
 
     /**

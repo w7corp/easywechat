@@ -65,7 +65,7 @@ class Auth
     public function url($to, $scope = 'snsapi_base', $state = 'STATE')
     {
         $params = array(
-                   'appid'         => Wechat::getOption('appId'),
+                   'appid'         => Wechat::option('appId'),
                    'redirect_uri'  => $to,
                    'response_type' => 'code',
                    'scope'         => $scope,
@@ -86,7 +86,7 @@ class Auth
      */
     public function redirect($to, $scope = 'snsapi_base', $state = 'STATE')
     {
-        header('Location:' . $this->url($to, $state, $scope));
+        header('Location:' . $this->url($to, $scope, $state));
     }
 
     /**
@@ -154,8 +154,8 @@ class Auth
         Wechat::autoRequestToken(false);
 
         $params = array(
-                   'appid'      => Wechat::getOption('appId'),
-                   'secret'     => Wechat::getOption('secret'),
+                   'appid'      => Wechat::option('appId'),
+                   'secret'     => Wechat::option('secret'),
                    'code'       => $code,
                    'grant_type' => 'authorization_code',
                   );

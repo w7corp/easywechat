@@ -2,6 +2,7 @@
 
 namespace Overtrue\Wechat\Services;
 
+use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Wechat;
 use Exception;
 
@@ -22,19 +23,16 @@ class Crypt
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    protected function boot()
+    public function __construct()
     {
-        if (strlen(Wechat::getOption('encodingAESKey')) != 43) {
+        $encodingAESKey = Wechat::option('encodingAESKey');
+
+        if (strlen($encodingAESKey) != 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
-        $this->AESKey    = base64_decode(Wechat::getOption('encodingAESKey') . '=');
-        $this->blockSize = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-
-        set_exception_handler(function($e){
-            error_log($e->getCode());
-            return $e->getCode();
-        });
+        $this->AESKey    = base64_decode($encodingAESKey . '=');
+        $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
 
     /**
@@ -54,13 +52,13 @@ class Crypt
      */
     public function encryptMsg($xml, $nonce = null, $timestamp = null)
     {
-        $encrypt = $this->encrypt($xml, Wechat::getOption('appId'));
+        $encrypt = $this->encrypt($xml, Wechat::option('appId'));
 
-        $nonce !== null || $nonce = uniqid();
-        $timestamp !== null || $timestamp = time();
+        !is_null($nonce) || $nonce = substr(Wechat::option('appId'), 0, 10);
+        !is_null($timestamp) || $timestamp = time();
 
         //生成安全签名
-        $signature = $this->getSHA1(Wechat::getOption('token'), $timestamp, $nonce, $encrypt);
+        $signature = $this->getSHA1(Wechat::option('token'), $timestamp, $nonce, $encrypt);
 
         $response = array(
             'Encrypt'      => $encrypt,
@@ -72,7 +70,6 @@ class Crypt
         //生成响应xml
         return XML::build($response);
     }
-
 
     /**
      * 检验消息的真实性，并且获取解密后的明文.
@@ -102,13 +99,13 @@ class Crypt
         $encrypted  = $array['Encrypt'];
 
         //验证安全签名
-        $signature = $this->getSHA1(Wechat::getOption('token'), $timestamp, $nonce, $encrypted);
+        $signature = $this->getSHA1(Wechat::option('token'), $timestamp, $nonce, $encrypted);
 
         if ($signature != $msgSignature) {
             throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        return XML::parse($this->decrypt($encrypted, Wechat::getOption('appId')));
+        return XML::parse($this->decrypt($encrypted, Wechat::option('appId')));
     }
 
     /**
@@ -127,7 +124,7 @@ class Crypt
             $text   = $random . pack("N", strlen($text)) . $text . $appId;
 
             // 网络字节序
-            //$size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+            $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
             $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv     = substr($this->AESKey, 0, 16);
 
@@ -188,13 +185,13 @@ class Crypt
             $listLen   = unpack("N", substr($content, 0, 4));
             $xmlLen    = $listLen[1];
             $xml       = substr($content, 4, $xmlLen);
-            $fromAppId = substr($content, $xmlLen + 4);
+            $fromAppId = trim(substr($content, $xmlLen + 4));
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), self::ERROR_INVALID_XML);
         }
 
         if ($fromAppId != $appId) {
-            throw new Exception($e->getMessage(), self::ERROR_INVALID_APPID);
+            throw new Exception('Invalid appId.', self::ERROR_INVALID_APPID);
         }
 
         return $xml;
@@ -246,9 +243,9 @@ class Crypt
     public function encode($text)
     {
         //计算需要填充的位数
-        $padAmount = $this->blockSize - (mb_strlen($text) % $this->blockSize);
+        $padAmount = $this->blockSize - (strlen($text) % $this->blockSize);
 
-        $padAmount = $padAmount ? $padAmount : $this->blockSize;
+        $padAmount = $padAmount != 0 ? $padAmount : $this->blockSize;
 
         //获得补位所用的字符
         $padChr = chr($padAmount);

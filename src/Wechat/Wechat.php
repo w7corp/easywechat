@@ -3,6 +3,7 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
+use Overtrue\Wechat\Services\Message;
 use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
@@ -56,13 +57,6 @@ class Wechat
     protected $accessToken;
 
     /**
-     * 自动添加access_token
-     *
-     * @var boolean
-     */
-    static protected $autoToken = true;
-
-    /**
      * 已经实例化过的服务
      *
      * @var array
@@ -70,11 +64,19 @@ class Wechat
     protected $resolved = array();
 
     /**
+     * 自动添加access_token
+     *
+     * @var boolean
+     */
+    static protected $autoToken = true;
+
+
+    /**
      * 静态实例
      *
      * @var \Overtrue\Wechat\Wechat
      */
-    static protected $instance;
+    static private $_instance;
 
     /**
      * http 客户端
@@ -82,6 +84,8 @@ class Wechat
      * @var \Overtrue\Wechat\Service\Http
      */
     static protected $httpClient;
+
+    protected $events = array('received', 'served', 'responseCreated');
 
     /**
      * access_token API地址
@@ -104,7 +108,6 @@ class Wechat
 
         $this->listeners = new Bag;
         $this->options   = new Bag($options);
-        $this->input     = $this->getInput();
 
         set_exception_handler(function($e){
             if ($this->errorHandler) {
@@ -122,9 +125,14 @@ class Wechat
      *
      * @return \Overtrue\Wechat\Wechat
      */
-    static public function make($options)
+    static public function make(array $options = null)
     {
-        return self::$instance ? : self::$instance = new static($options);
+        if(! (self::$_instance instanceof self)) {
+            self::$_instance = new self($options);
+            self::$_instance->input = self::$_instance->getInput();
+        }
+
+        return self::$_instance;
     }
 
     /**
@@ -185,11 +193,9 @@ class Wechat
     /**
      * handle服务端并返回字符串内容
      *
-     * @param callable $callback
-     *
      * @return mixed
      */
-    public function serve($callback = null)
+    public function serve()
     {
         $input = array(
                 $this->options->get('token'),
@@ -197,19 +203,15 @@ class Wechat
                 $this->input('nonce'),
               );
 
-        if (!$this->signature($input) === $this->input('signature')) {
+        if ($this->signature($input) !== $this->input('signature')) {
             throw new Exception("Bad Request", 400);
         }
 
-        $response = $this->handleRequest();
-
-        $callback || $callback = $this->listeners->get('served');
-
-        if (is_callable($callback)) {
-            $response = $callback($response);
+        if ($this->input->has('echostr')) {
+            return $this->input['echostr'];
         }
 
-        return $this->response($response);
+        return $this->response($this->handleRequest());
     }
 
     /**
@@ -222,26 +224,6 @@ class Wechat
     public function error($handler)
     {
         is_callable($handler) && $this->errorHandler = $handler;
-    }
-
-    /**
-     * 接收消息后的回调处理
-     *
-     * @return void
-     */
-    public function received($callback)
-    {
-        is_callable($callback) && $this->listeners->set('received', $callback);
-    }
-
-    /**
-     * 服务器处理完以后的回调处理
-     *
-     * @return void
-     */
-    public function served($callback)
-    {
-        is_callable($callback) && $this->listeners->set('served', $callback);
     }
 
     /**
@@ -280,7 +262,7 @@ class Wechat
     {
         self::requireInstance();
 
-        !self::$autoToken || $queries['access_token'] = self::$instance->getAccessToken();
+        !self::$autoToken || $queries['access_token'] = self::$_instance->getAccessToken();
 
         return $url . (empty($queries) ? '' : ('?' . http_build_query($queries)));
     }
@@ -348,12 +330,12 @@ class Wechat
         self::requireInstance();
 
         if (self::$autoToken) {
-            $url .= (stripos($url, '?') ? '&' : '?') .'access_token=' . self::$instance->getAccessToken();
+            $url .= (stripos($url, '?') ? '&' : '?') .'access_token=' . self::$_instance->getAccessToken();
         }
 
         $method = strtolower($method);
 
-        $response = self::$instance->service('http')->{$method}($url, $params, $options);
+        $response = self::$_instance->service('http')->{$method}($url, $params, $options);
 
         if (empty($response['data'])) {
             throw new Exception("服务器无响应");
@@ -390,12 +372,12 @@ class Wechat
      *
      * @return string
      */
-    static public function getOption($key = null, $default = null)
+    static public function option($key = null, $default = null)
     {
         self::requireInstance();
 
-        return $key ? (self::$instance->options->get($key) ? : $default)
-                    : self::$instance->options;
+        return $key ? (self::$_instance->options->get($key) ? : $default)
+                    : self::$_instance->options;
     }
 
     /**
@@ -410,7 +392,7 @@ class Wechat
     {
         self::requireInstance();
 
-        return self::$instance->input->get($key, $default);
+        return self::$_instance->input->get($key, $default);
     }
 
     /**
@@ -457,7 +439,7 @@ class Wechat
      */
     static public function requireInstance()
     {
-        if (!self::$instance) {
+        if (!self::$_instance) {
             throw new Exception("请先初始化Wechat类");
         }
     }
@@ -473,19 +455,25 @@ class Wechat
     {
         is_string($response) && $response = Message::make('text')->with('content', $response);
 
+        $return = null;
+
         if ($response instanceof BaseMessage) {
             $response->from($this->input('ToUserName'))->to($this->input('FromUserName'));
 
-            $xml = $response->buildForReply();
+            $this->call('responseCreated', array($response));
+
+            $return = $response->buildForReply();
 
             if ($this->security) {
-                return $this->service('crypt')->encryptMsg($xml, $this->input('nonce'), $this->input('timestamp'));
+                $return = $this->service('crypt')->encryptMsg(
+                    $return, $this->input('nonce'), $this->input('timestamp')
+                );
             }
-
-            return $xml;
         }
 
-        return null;
+        $return = $this->call('served', array($return), $return);
+
+        return $return;
     }
 
     /**
@@ -495,13 +483,7 @@ class Wechat
      */
     protected function handleRequest()
     {
-        $callback = $this->listeners->get('received');
-
-        $callback && $callback($this->input);
-
-        if ($this->input->has('echostr')) {
-            return $this->input['echostr'];
-        }
+        $this->call('received', array($this->input));
 
         if ($this->input->has('MsgId')) {
             return $this->handleMessage($this->input);
@@ -549,16 +531,13 @@ class Wechat
      *
      * @param string $key
      * @param Bag[]  $args
+     * @param mixed  $default
      *
      * @return mixed
      */
-    protected function call($key, $args)
+    protected function call($key, $args, $default = null)
     {
         $handlers = (array) $this->listeners[$key];
-
-        if (empty($handlers)) {
-            return null;
-        }
 
         foreach ($handlers as $handler) {
             if (!is_callable($handler)) {
@@ -572,7 +551,7 @@ class Wechat
             }
         }
 
-        return null;
+        return $default;
     }
 
     /**
@@ -587,6 +566,13 @@ class Wechat
     {
         if (method_exists($this, $method)) {
             return call_user_func_array(array($this, $method), $args);
+        }
+
+        if (in_array($method, $this->events)) {
+            $callback = array_shift($args);
+            is_callable($callback) && $this->listeners->set($method, $callback);
+
+            return;
         }
 
         return $this->service($method);
@@ -604,7 +590,7 @@ class Wechat
     {
         self::requireInstance();
 
-        return self::$instance->__call($method, $args);
+        return self::$_instance->__call($method, $args);
     }
 
     /**

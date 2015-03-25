@@ -115,6 +115,6 @@ abstract class BaseMessage extends MagicAttributes
     {
         $properties = array_merge($this->baseProperties, $this->properties);
 
-        return is_scalar($value) && in_array($attribute, $properties);
+        return in_array($attribute, $properties);
     }
 }
