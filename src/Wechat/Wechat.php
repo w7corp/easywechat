@@ -96,7 +96,7 @@ class Wechat
     /**
      * 获取实例
      *
-     * @param array $options
+     * @param array|null $options
      */
     private function __construct($options)
     {
@@ -530,7 +530,7 @@ class Wechat
      * 调用监听器
      *
      * @param string $key
-     * @param Bag[]  $args
+     * @param array  $args
      * @param mixed  $default
      *
      * @return mixed

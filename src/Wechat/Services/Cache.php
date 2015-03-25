@@ -31,8 +31,6 @@ class Cache
 
     /**
      * 设置缓存文件前缀
-     *
-     * @return void
      */
     public function __construct(Wechat $wechat)
     {

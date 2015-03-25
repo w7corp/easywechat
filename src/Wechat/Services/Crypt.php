@@ -124,7 +124,7 @@ class Crypt
             $text   = $random . pack("N", strlen($text)) . $text . $appId;
 
             // 网络字节序
-            $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+            // $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
             $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv     = substr($this->AESKey, 0, 16);
 
