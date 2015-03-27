@@ -26,7 +26,7 @@
 1. 使用 [composer](https://getcomposer.org/):
 
   ```shell
-  composer require overtrue/wechat
+  composer require "overtrue/wechat:dev-master"
   ```
 
 2. 手动安装
