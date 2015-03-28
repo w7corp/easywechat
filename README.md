@@ -13,7 +13,7 @@
 
  - 命名不那么乱七八糟；
  - 隐藏开发者不需要关注的细节；
- - 方法使用更优雅，不再那么恶心的使用恶心的命名譬如：`getXML4Image...`；
+ - 方法使用更优雅，不必再去研究那些奇怪的的方法名或者类名是做啥用的；
  - 统一的错误处理，让你更方便的掌控异常；
  - 自定义缓存方式；
  - 符合 [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) 标准，你可以各种方便的与你的框架集成；
