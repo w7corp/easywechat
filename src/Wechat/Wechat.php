@@ -108,13 +108,7 @@ class Wechat
         $this->listeners = new Bag;
         $this->options   = new Bag($options);
 
-        set_exception_handler(function($e){
-            if (($e instanceof Exception) && is_callable($this->errorHandler)) {
-                return call_user_func_array($this->errorHandler, array($e));
-            }
-
-            throw $e;
-        });
+        set_exception_handler(array($this, 'handleException'));
     }
 
     private function __clone() {}
@@ -507,6 +501,24 @@ class Wechat
         }
 
         return $this->call("message.{$message['MsgType']}", array($message));
+    }
+
+    /**
+     * 处理异常
+     *
+     * @param Exception $e
+     *
+     * @return mixed
+     */
+    public function handleException($e)
+    {
+        if (($e instanceof Exception) && is_callable($this->errorHandler)) {
+            return call_user_func_array($this->errorHandler, array($e));
+        }
+
+        error_log('Uncaught '.get_class($e).', code: '.$e->getCode()
+                ."<br />Message: ".htmlentities($e->getMessage())
+                ." at File ".$e->getFile().':'.$e->getLine());
     }
 
     /**
