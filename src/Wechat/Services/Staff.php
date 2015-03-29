@@ -4,8 +4,7 @@ namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Messages\BaseMessage;
 use Overtrue\Wechat\Wechat;
-use Exception;
-
+use Overtrue\Wechat\Exception;
 class Staff
 {
     /**

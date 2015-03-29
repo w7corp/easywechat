@@ -2,8 +2,7 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Exception;
-
+use Overtrue\Wechat\Exception;
 /**
  * @property string $to
  * @property string $account

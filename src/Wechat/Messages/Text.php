@@ -31,6 +31,7 @@ class Text extends BaseMessage
      */
     public function toReply()
     {
+        throw new \Overtrue\Wechat\Exception("Error Processing Request", 1);
         return array(
                      'Content' => $this->content,
                     );

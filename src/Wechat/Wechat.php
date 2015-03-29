@@ -7,8 +7,7 @@ use Overtrue\Wechat\Services\Message;
 use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
-use Exception;
-
+use Overtrue\Wechat\Exception;
 /**
  * @property \Overtrue\Wechat\Utils\Bag $options
  */
@@ -110,7 +109,7 @@ class Wechat
         $this->options   = new Bag($options);
 
         set_exception_handler(function($e){
-            if ($this->errorHandler) {
+            if (($e instanceof Exception) && is_callable($this->errorHandler)) {
                 return call_user_func_array($this->errorHandler, array($e));
             }
 

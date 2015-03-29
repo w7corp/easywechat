@@ -4,8 +4,7 @@ namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Wechat;
-use Exception;
-
+use Overtrue\Wechat\Exception;
 class Crypt
 {
     protected $AESKey;

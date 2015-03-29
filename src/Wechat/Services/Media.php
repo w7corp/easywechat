@@ -3,8 +3,7 @@
 namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Wechat;
-use Exception;
-
+use Overtrue\Wechat\Exception;
 class Media
 {
 

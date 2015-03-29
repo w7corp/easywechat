@@ -4,8 +4,7 @@ namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Wechat;
-use Exception;
-
+use Overtrue\Wechat\Exception;
 class Auth
 {
     const API_URL       = 'https://open.weixin.qq.com/connect/oauth2/authorize';
