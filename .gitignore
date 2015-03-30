@@ -1,5 +1,5 @@
 *.DS_Store
-/vendor/
+/vendor
 sftp-config.json
 composer.lock
 index.php
