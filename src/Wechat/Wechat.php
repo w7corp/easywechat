@@ -122,7 +122,6 @@ class Wechat
     {
         if(! (self::$_instance instanceof self)) {
             self::$_instance = new self($options);
-            self::$_instance->input = self::$_instance->getInput();
         }
 
         return self::$_instance;
@@ -190,6 +189,8 @@ class Wechat
      */
     public function serve()
     {
+        $this->prepareInput();
+        
         $input = array(
                 $this->options->get('token'),
                 $this->input('timestamp'),
@@ -389,14 +390,14 @@ class Wechat
     }
 
     /**
-     * 获取POST请求数据
+     * 初始化POST请求数据
      *
      * @return Bag
      */
-    public function getInput()
+    public function prepareInput()
     {
         if ($this->input) {
-            return $this->input;
+            return ;
         }
 
         $xmlInput = !empty($GLOBALS["HTTP_RAW_POST_DATA"])
@@ -412,7 +413,7 @@ class Wechat
                             $_REQUEST['nonce'], $_REQUEST['timestamp'], $xmlInput);
         }
 
-        return new Bag(array_merge($_REQUEST, (array) $input));
+        $this->input = new Bag(array_merge($_REQUEST, (array) $input));
     }
 
     /**
