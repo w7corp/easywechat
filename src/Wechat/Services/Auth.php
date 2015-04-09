@@ -85,7 +85,7 @@ class Auth
      */
     public function redirect($to, $scope = 'snsapi_base', $state = 'STATE')
     {
-        header('Location:' . $this->url($to, $scope, $state));
+        header('Location:' . $this->url($to, $scope, $state));exit;
     }
 
     /**
