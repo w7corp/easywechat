@@ -190,7 +190,7 @@ class Wechat
     public function serve()
     {
         $this->prepareInput();
-        
+
         $input = array(
                 $this->options->get('token'),
                 $this->input('timestamp'),
@@ -386,6 +386,8 @@ class Wechat
     {
         self::requireInstance();
 
+        self::$_instance->prepareInput();
+
         return self::$_instance->input->get($key, $default);
     }
 
@@ -396,7 +398,7 @@ class Wechat
      */
     public function prepareInput()
     {
-        if ($this->input) {
+        if ($this->input instanceof Bag) {
             return ;
         }
 
