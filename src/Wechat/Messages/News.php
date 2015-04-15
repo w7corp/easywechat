@@ -50,7 +50,7 @@ class News extends BaseMessage
                             "title"       => $item->title,
                             "description" => $item->description,
                             "url"         => $item->url,
-                            "picurl"      => $item->picurl,
+                            "picurl"      => $item->pic_url,
                            );
         }
 
@@ -69,7 +69,7 @@ class News extends BaseMessage
                             "Title"       => $item->title,
                             "Description" => $item->description,
                             "Url"         => $item->url,
-                            "PicUrl"      => $item->picurl,
+                            "PicUrl"      => $item->pic_url,
                            );
         }
 
