@@ -55,7 +55,7 @@ class Store
 
         $stores = Wechat::request('POST', self::API_LIST, $params);
 
-        return new Bag(Arr::fetch($stores['business_list'], 'base_info'));
+        return Arr::fetch($stores['business_list'], 'base_info');
     }
 
     /**
