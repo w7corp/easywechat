@@ -17,7 +17,7 @@ class Store
     const API_GET       = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
     const API_LIST      = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
     const API_UPDATE    = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
-    const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi',
+    const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 
 
     /**

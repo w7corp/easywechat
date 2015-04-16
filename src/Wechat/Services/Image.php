@@ -14,7 +14,6 @@ class Image
      * 上传媒体文件
      *
      * @param string $path
-     * @param string $type
      *
      * @return string
      */
