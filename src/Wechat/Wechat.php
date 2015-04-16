@@ -8,6 +8,7 @@ use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Exception;
+
 /**
  * @property \Overtrue\Wechat\Utils\Bag $options
  */
