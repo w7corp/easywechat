@@ -125,6 +125,8 @@ class Wechat
             self::$_instance = new self($options);
         }
 
+        self::$_instance->mergeOptions($options);
+
         return self::$_instance;
     }
 
@@ -347,6 +349,18 @@ class Wechat
         }
 
         return $contents;
+    }
+
+    /**
+     * 修改配置
+     *
+     * @param array $options
+     */
+    static public function mergeOptions(array $options)
+    {
+        self::requireInstance();
+
+        self::$_instance->options->merge($options);
     }
 
     /**
