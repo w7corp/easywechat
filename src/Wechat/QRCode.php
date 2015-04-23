@@ -111,7 +111,7 @@ class QRCode
      */
     protected function create(array $scene, $temporary = true, $expireSeconds = null)
     {
-        $expireSeconds || $expireSeconds = 7 * self::DAY;
+        $expireSeconds !== null || $expireSeconds = 7 * self::DAY;
 
         $http = new Http(new AccessToken($this->appId, $this->appSecret));
 
