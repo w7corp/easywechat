@@ -15,7 +15,6 @@
  - 命名不那么乱七八糟；
  - 隐藏开发者不需要关注的细节；
  - 方法使用更优雅，不必再去研究那些奇怪的的方法名或者类名是做啥用的；
- - 统一的错误处理，让你更方便的掌控异常；
  - 自定义缓存方式；
  - 符合 [PSR-4](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md) 标准，你可以各种方便的与你的框架集成；
  - 高度抽象的消息类，免去各种拼json与xml的痛苦。
@@ -41,7 +40,6 @@
 
   require "wechat/autoload.php"; // 路径请修改为你具体的实际路径
 
-  use Overtrue\Wechat\Wechat;
   ...
   ```
 
@@ -52,25 +50,22 @@
 ```php
 <?php
 
-use Overtrue\Wechat\Wechat;
+use Overtrue\Wechat\Server;
 
-$options = [
-    'appId'          => 'Your app id',
-    'secret'         => 'Your secret'
-    'token'          => 'Your token',
-    'encodingAESKey' => 'Your encoding AES Key' // optional
-];
+$appId          = 'wx3cf0f39249eb0e60';
+$token          = 'hellotest';
+$encodingAESKey = 'EJThPazwzO4k1cyXJnwQtL60zBdhWvFaHb4emv0dLVN';
 
-$wechat = Wechat::make($options);
+$server = new Server($appId, $token, $encodingAESKey);
 
-$server = $wechat->on('message', function($message){
+$server->on('message', function($message){
     error_log("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
+
+    return "您好！欢迎关注 overtrue!";
 });
 
-$result = $wechat->serve();
-
 // 您可以直接echo 或者返回给框架
-echo $result;
+echo $server->serve();
 ```
 
 ## 文档
@@ -90,11 +85,13 @@ echo $result;
 - [x] 图文消息
 - [ ] 群发消息
 - [x] 自定义菜单
+- [x] 素材管理
 - [x] 门店管理
 - [ ] 卡券管理
 - [x] 网页授权
 - [x] JSSDK
 - [x] 二维码
+- [x] 短链接
 
 ## 贡献代码
 
