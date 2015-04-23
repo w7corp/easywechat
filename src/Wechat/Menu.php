@@ -1,7 +1,6 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Wechat;
 use Closure;
 
 /**
@@ -15,19 +14,23 @@ class Menu
     const API_GET    = 'https://api.weixin.qq.com/cgi-bin/menu/get';
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
 
+    /**
+     * Http对象
+     *
+     * @var Http
+     */
+    protected $http;
+
 
     /**
-     * 生成菜单项
+     * constructor
      *
-     * @param string $name
-     * @param string $type
-     * @param string $property
-     *
-     * @return MenuItem
+     * @param string $appId
+     * @param string $appSecret
      */
-    static public function make($name, $type = null, $property = null)
+    public function __construct($appId, $appSecret)
     {
-        return new MenuItem($name, $type, $property);
+        $this->http = new Http(new AccessToken($appId, $appSecret));
     }
 
     /**
@@ -47,7 +50,7 @@ class Menu
 
         $menus = $this->extractMenus($menus);
 
-        Wechat::request('POST', self::API_CREATE, array('button' => $menus), array('json' => true));
+        $this->http->jsonPost(self::API_CREATE, array('button' => $menus));
 
         return true;
     }
@@ -59,7 +62,7 @@ class Menu
      */
     public function get()
     {
-        $menus = Wechat::request('GET', self::API_GET);
+        $menus = $this->http->get(self::API_GET);
 
         return empty($menus['menu']['button']) ? array() : $menus['menu']['button'];
     }
@@ -71,7 +74,7 @@ class Menu
      */
     public function delete()
     {
-        Wechat::request('GET', self::API_DELETE);
+        $this->http->get(self::API_DELETE);
 
         return true;
     }
@@ -94,38 +97,5 @@ class Menu
         }
 
         return $menus;
-    }
-
-    /**
-     * 访问不存在的方法
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return MenuItem
-     */
-    public function __call($method, $args)
-    {
-        return self::__callStatic($method, $args);
-    }
-
-    /**
-     * 静态访问
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return MenuItem
-     */
-    static public function __callStatic($method, $args)
-    {
-        if (count($args) > 1) {
-            list($name, $property) = $args;
-            $args = array($name, $method, $property);
-        } else {
-            array_push($args, $method);
-        }
-
-        return call_user_func_array('self::make', $args);
     }
 }

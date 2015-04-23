@@ -1,8 +1,5 @@
 <?php
-namespace Overtrue\Wechat\Services;
-
-use Overtrue\Wechat\Exception;
-use Overtrue\Wechat\Wechat;
+namespace Overtrue\Wechat;
 
 /**
  * 图片上传服务
@@ -11,6 +8,24 @@ class Image
 {
     const API_UPLOAD = 'https://file.api.weixin.qq.com/cgi-bin/media/uploadimg';
 
+    /**
+     * Http对象
+     *
+     * @var Http
+     */
+    protected $http;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->http = new Http(new AccessToken($appId, $appSecret));
+    }
 
     /**
      * 上传媒体文件
@@ -31,7 +46,7 @@ class Image
                                ),
                    );
 
-        $contents = Wechat::request('POST', self::API_UPLOAD, array(), $options);
+        $contents = $this->http->post(self::API_UPLOAD, array(), $options);
 
         return $contents['url'];
     }

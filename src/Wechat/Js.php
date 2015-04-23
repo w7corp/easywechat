@@ -1,14 +1,31 @@
 <?php
-namespace Overtrue\Wechat\Services;
-
-use Overtrue\Wechat\Wechat;
+namespace Overtrue\Wechat;
 
 /**
  * 微信 JSSDK
  */
 class Js
 {
-    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket&type=jsapi';
+    /**
+     * 应用ID
+     *
+     * @var string
+     */
+    protected $appId;
+
+    /**
+     * 应用secret
+     *
+     * @var string
+     */
+    protected $appSecret;
+
+    /**
+     * Cache对象
+     *
+     * @var Cache
+     */
+    protected $cache;
 
     /**
      * 当前URL
@@ -17,6 +34,20 @@ class Js
      */
     protected $url;
 
+    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket&type=jsapi';
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->appId     = $appId;
+        $this->appSecret = $appSecret;
+        $this->cache     = new Cache($appId);
+    }
 
     /**
      * 获取JSSDK的配置数组
@@ -43,13 +74,14 @@ class Js
      */
     public function getTicket()
     {
-        $key = 'overtrue.wechat.jsapi_ticket';
-        $cache = Wechat::service('cache');
+        $key = 'overtrue.wechat.jsapi_ticket' . $this->appId;;
 
-        return $cache->get($key, function($key) use ($cache) {
-            $result = Wechat::request('GET', self::API_TICKET);
+        return $this->cache->get($key, function($key) {
+            $http  = new Http(new AccessToken($this->appId, $this->appSecret));
 
-            $cache->set($key, $result['access_token'], $result['expires_in']);
+            $result = $http->get(self::API_TICKET);
+
+            $this->cache->set($key, $result['access_token'], $result['expires_in']);
 
             return $result['access_token'];
         });
@@ -72,7 +104,7 @@ class Js
         $ticket    = $this->getTicket();
 
         $sign = array(
-                 "appId"     => Wechat::option('appId'),
+                 "appId"     => $this->appId,
                  "nonceStr"  => $nonce,
                  "timestamp" => $timestamp,
                  "url"       => $url,
@@ -134,6 +166,6 @@ class Js
      */
     public function getNonce()
     {
-        return uniqid();
+        return uniqid('rand_');
     }
 }

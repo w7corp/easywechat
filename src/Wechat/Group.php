@@ -1,8 +1,7 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
-use Overtrue\Wechat\Wechat;
 
 /**
  * 用户组
@@ -17,11 +16,23 @@ class Group
     const API_MEMBER_BATCH_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate';
 
     /**
-     * 当前服务使用json方式请求
+     * Http对象
      *
-     * @var array
+     * @var Http
      */
-    protected $headers = array('content-type:application/json');
+    protected $http;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->http = new Http(new AccessToken($appId, $appSecret));
+    }
 
     /**
      * 创建分组
@@ -38,7 +49,7 @@ class Group
                                ),
                   );
 
-        $response = Wechat::request('POST', self::API_CREATE, $params);
+        $response = $this->http->jsonPost(self::API_CREATE, $params);
 
         return $response['group'];
     }
@@ -50,7 +61,7 @@ class Group
      */
     public function all()
     {
-        $response = Wechat::request('GET', self::API_GET);
+        $response = $this->http->get(self::API_GET);
 
         return $response['groups'];
     }
@@ -72,7 +83,7 @@ class Group
                                ),
                   );
 
-        Wechat::request('POST', self::API_UPDATE, $params);
+        $this->http->jsonPost(self::API_UPDATE, $params);
 
         return true;
     }
@@ -90,7 +101,7 @@ class Group
                     'openid' => $openId,
                   );
 
-        $response = Wechat::request('POST', self::API_USER_GROUP_ID, $params);
+        $response = $this->http->jsonPost(self::API_USER_GROUP_ID, $params);
 
         return $response['groupid'];
     }
@@ -110,7 +121,7 @@ class Group
                    'to_groupid' => $groupId,
                   );
 
-        Wechat::request('POST', self::API_MEMBER_UPDATE, $params);
+        $this->http->jsonPost(self::API_MEMBER_UPDATE, $params);
 
         return true;
     }
@@ -130,7 +141,7 @@ class Group
                    'to_groupid'  => $groupId,
                   );
 
-        Wechat::request('POST', self::API_MEMBER_BATCH_UPDATE, $params);
+        $this->http->jsonPost(self::API_MEMBER_BATCH_UPDATE, $params);
 
         return true;
     }

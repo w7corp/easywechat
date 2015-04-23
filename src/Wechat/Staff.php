@@ -1,9 +1,7 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
-use Overtrue\Wechat\Exception;
-use Overtrue\Wechat\Wechat;
 
 /**
  * 客服
@@ -39,6 +37,24 @@ class Staff
     const API_MESSAGE_SEND  = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
     const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
 
+    /**
+     * Http对象
+     *
+     * @var Http
+     */
+    protected $http;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->http = new Http(new AccessToken($appId, $appSecret));
+    }
 
     /**
      * 获取所有的客服
@@ -47,7 +63,7 @@ class Staff
      */
     public function all()
     {
-        $response = Wechat::request('GET', self::API_GET);
+        $response = $this->http->get(self::API_GET);
 
         return $response['kf_list'];
     }
@@ -59,7 +75,7 @@ class Staff
      */
     public function allOnline()
     {
-        $response = Wechat::request('GET', self::API_GET);
+        $response = $this->http->get(self::API_GET);
 
         return $response['kf_online_list'];
     }
@@ -81,7 +97,7 @@ class Staff
                    "password"   => $password,
                   );
 
-        return Wechat::request('POST', self::API_CREATE, $params);
+        return $this->http->jsonPost(self::API_CREATE, $params);
     }
 
     /**
@@ -101,7 +117,7 @@ class Staff
                    "password"   => $password,
                   );
 
-        return Wechat::request('POST', self::API_UPDATE, $params);
+        return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
@@ -121,7 +137,7 @@ class Staff
                    "password"   => $password,
                   );
 
-        return Wechat::request('POST', self::API_UPDATE, $params);
+        return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
@@ -143,7 +159,7 @@ class Staff
 
         $url = self::API_AVATAR_UPLOAD . "?kf_account={$email}";
 
-        return Wechat::request('POST', $url, array(), $options);
+        return $this->http->jsonPost($url, array(), $options);
     }
 
     /**
@@ -155,10 +171,10 @@ class Staff
      */
     public function send($message)
     {
-        is_string($message) && $message = Message::make('text')->with('content', $message);
+        is_string($message) && $message = ->with('content', $message);
 
         if (!$message instanceof BaseMessage) {
-            throw new Exception("消息必须继承自 'Overtrue\Wechat\Services\BaseMessage'");
+            throw new Exception("消息必须继承自 'Overtrue\Wechat\BaseMessage'");
         }
 
         $this->message = $message;
@@ -175,6 +191,10 @@ class Staff
      */
     public function by($account)
     {
+        if (empty($this->message)) {
+            throw new Exception("未设置要发送的消息");
+        }
+
         $this->message->staff = $account;
 
         return $this;
@@ -195,49 +215,7 @@ class Staff
 
         $this->message->to = $openId;
 
-        Wechat::request('POST', self::API_MESSAGE_SEND, $this->message->buildForStaff());
-
-        return true;
-    }
-
-    /**
-     * 发送给所有人
-     *
-     * @return boolean
-     */
-    public function toAll()
-    {
-        if (empty($this->message)) {
-            throw new Exception("未设置要发送的消息");
-        }
-
-        return true;
-    }
-
-    /**
-     * 发送给组
-     *
-     * @return boolean
-     */
-    public function toGroup()
-    {
-        if (empty($this->message)) {
-            throw new Exception("未设置要发送的消息");
-        }
-
-        return true;
-    }
-
-    /**
-     * 发送给多人
-     *
-     * @return boolean
-     */
-    public function toThem(array $openIds)
-    {
-        if (empty($this->message)) {
-            throw new Exception("未设置要发送的消息");
-        }
+        $this->http->jsonPost(self::API_MESSAGE_SEND, $this->message->buildForStaff());
 
         return true;
     }

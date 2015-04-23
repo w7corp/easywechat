@@ -1,22 +1,48 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
-use Overtrue\Wechat\Wechat;
 
 /**
  * 二维码
  */
 class QRCode
 {
-    const API_CREATE = 'https://mp.weixin.qq.com/cgi-bin/qrcode/create';
-    const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+    /**
+     * 应用ID
+     *
+     * @var string
+     */
+    protected $appId;
+
+    /**
+     * 应用secret
+     *
+     * @var string
+     */
+    protected $appSecret;
+
+    const DAY = 86400;
 
     const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE'; // 临时
     const SCENE_QR_TEMPORARY   = 'QR_LIMIT_SCENE'; // 永久
     const SCENE_QR_STR_FOREVER = 'QR_LIMIT_STR_SCENE'; // 永久的字符串参数值
 
-    const DAY = 86400;
+    const API_CREATE = 'https://mp.weixin.qq.com/cgi-bin/qrcode/create';
+    const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->appId     = $appId;
+        $this->appSecret = $appSecret;
+    }
 
     /**
      * 创建二维码
@@ -30,13 +56,15 @@ class QRCode
     {
         $expireSeconds || $expireSeconds = 7 * self::DAY;
 
+        $http = new Http(new AccessToken($this->appId, $this->appSecret));
+
         $params = array(
                    'expire_seconds' => min($expireSeconds, 7 * self::DAY),
                    'action_name'    => $temporary ? 'QR_SCENE' : 'QR_LIMIT_SCENE',
                    'action_info'    => array('scene' => $scene),
                   );
 
-        return new Bag(Wechat::request('POST', self::API_CREATE, $params, ['json' => true]));
+        return new Bag($http->jsonPost(self::API_CREATE, $params));
     }
 
     /**

@@ -1,8 +1,5 @@
 <?php
-namespace Overtrue\Wechat\Services;
-
-use Overtrue\Wechat\Exception;
-use Overtrue\Wechat\Wechat;
+namespace Overtrue\Wechat;
 
 /**
  * 媒体素材
@@ -19,6 +16,25 @@ class Media
      * @var array
      */
     protected $allowTypes = array('image', 'voice', 'video', 'thumb');
+
+    /**
+     * Http对象
+     *
+     * @var Http
+     */
+    protected $http;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->http = new Http(new AccessToken($appId, $appSecret));
+    }
 
     /**
      * 上传媒体文件
@@ -50,7 +66,7 @@ class Media
 
         $url = self::API_UPLOAD . '?' . http_build_query($queries);
 
-        $contents = Wechat::request('POST', $url, array(), $options);
+        $contents = $this->http->post($url, array(), $options);
 
         return $contents['media_id'];
     }
@@ -69,7 +85,7 @@ class Media
             'media_id' => $mediaId,
         );
 
-        $contents = Wechat::request('GET', self::API_GET, $params);
+        $contents = $this->http->get(self::API_GET, $params);
 
         return $filename ? $contents : file_put_contents($filename, $contents);
     }

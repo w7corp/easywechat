@@ -1,18 +1,33 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Exception;
 use Overtrue\Wechat\Utils\Bag;
-use Overtrue\Wechat\Wechat;
 
 /**
  * 网页授权
  */
 class Auth
 {
-    const API_URL       = 'https://open.weixin.qq.com/connect/oauth2/authorize';
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/sns/oauth2/access_token';
-    const API_USER      = 'https://api.weixin.qq.com/sns/userinfo';
+    /**
+     * 应用ID
+     *
+     * @var string
+     */
+    protected $appId;
+
+    /**
+     * 应用secret
+     *
+     * @var string
+     */
+    protected $appSecret;
+
+    /**
+     * Cache对象
+     *
+     * @var Cache
+     */
+    protected $cache;
 
     /**
      * 授权结果
@@ -36,6 +51,24 @@ class Auth
      */
     protected $authorizedUser;
 
+    const API_USER      = 'https://api.weixin.qq.com/sns/userinfo';
+    const API_TOKEN_GET = 'https://api.weixin.qq.com/sns/oauth2/access_token';
+    const API_URL       = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->appId     = $appId;
+        $this->appSecret = $appSecret;
+        $this->cache     = new Cache($appId);
+        $this->http      = new Http();//不需要公用的access_token
+    }
 
     /**
      * 判断是否已经授权
@@ -48,7 +81,9 @@ class Auth
             return true;
         }
 
-        if (!($code = Wechat::input('code', null))) {
+        $input = new Input();
+
+        if (!($code = $input->get('code'))) {
             return false;
         }
 
@@ -67,7 +102,7 @@ class Auth
     public function url($to, $scope = 'snsapi_base', $state = 'STATE')
     {
         $params = array(
-                   'appid'         => Wechat::option('appId'),
+                   'appid'         => $this->appId,
                    'redirect_uri'  => $to,
                    'response_type' => 'code',
                    'scope'         => $scope,
@@ -118,7 +153,7 @@ class Auth
 
         $url = self::API_USER . '?' . http_build_query($queries);
 
-        return new Bag(Wechat::request('GET', $url));
+        return new Bag($this->http->get($url));
     }
 
     /**
@@ -130,12 +165,11 @@ class Auth
      */
     public function getAccessToken()
     {
-        $key = 'overtrue.wechat.oauth2.access_token';
-        $cache = Wechat::service('cache');
+        $key = 'overtrue.wechat.oauth2.access_token' . $this->appId;
 
-        return $cache->get($key, function($key) use ($cache) {
+        return $this->cache->get($key, function($key) {
 
-            $cache->set($key, $this->authResult['access_token'], $this->authResult['expires_in']);
+            $this->cache->set($key, $this->authResult['access_token'], $this->authResult['expires_in']);
 
             return $this->authResult['access_token'];
         });
@@ -154,20 +188,14 @@ class Auth
             return $this->authResult;
         }
 
-        // 关闭自动加access_token参数
-        Wechat::autoRequestToken(false);
-
         $params = array(
-                   'appid'      => Wechat::option('appId'),
-                   'secret'     => Wechat::option('secret'),
+                   'appid'      => $this->appId,
+                   'secret'     => $this->appSecret,
                    'code'       => $code,
                    'grant_type' => 'authorization_code',
                   );
 
-        $authResult = Wechat::request('GET', self::API_TOKEN_GET, $params);
-
-         // 开启自动加access_token参数
-        Wechat::autoRequestToken(true);
+        $authResult = $this->http->get(self::API_TOKEN_GET, $params);
 
         //TODO:refresh_token机制
         return $this->authResult = $authResult;

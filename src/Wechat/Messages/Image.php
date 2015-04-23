@@ -1,7 +1,7 @@
 <?php
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Wechat;
+use Overtrue\Wechat\Media;
 
 /**
  * 图片消息
@@ -14,6 +14,25 @@ class Image extends BaseMessage
     protected $properties = array('media_id');
 
     /**
+     * 媒体
+     *
+     * @var Overtrue\Wechat\Media
+     */
+    protected $media;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->media = new Media($appId, $appSecret);
+    }
+
+    /**
      * 设置图片
      *
      * @param string $path
@@ -22,7 +41,7 @@ class Image extends BaseMessage
      */
     public function media($path)
     {
-        $this->setAttribute('media_id', Wechat::media()->image($path));
+        $this->setAttribute('media_id',$this->media->image($path));
 
         return $this;
     }

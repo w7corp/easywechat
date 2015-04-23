@@ -1,7 +1,7 @@
 <?php
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Wechat;
+use Overtrue\Wechat\Media;
 
 /**
  * 视频消息
@@ -18,6 +18,25 @@ class Video extends BaseMessage
     protected $properties = array('title', 'description', 'media_id', 'thumb_media_id');
 
     /**
+     * 媒体
+     *
+     * @var Overtrue\Wechat\Media
+     */
+    protected $media;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->media = new Media($appId, $appSecret);
+    }
+
+    /**
      * 设置视频消息
      *
      * @param string $path
@@ -26,7 +45,7 @@ class Video extends BaseMessage
      */
     public function media($path)
     {
-        $this->setAttribute('media_id', Wechat::media()->video($path));
+        $this->setAttribute('media_id', $this->media->video($path));
 
         return $this;
     }
@@ -40,7 +59,7 @@ class Video extends BaseMessage
      */
     public function thumb($path)
     {
-        $this->setAttribute('thumb_media_id', Wechat::media()->thumb($path));
+        $this->setAttribute('thumb_media_id', $this->media->thumb($path));
 
         return $this;
     }

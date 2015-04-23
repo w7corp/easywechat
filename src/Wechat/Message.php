@@ -1,5 +1,5 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
 use InvalidArgumentException;
 
@@ -28,7 +28,7 @@ class Message
      *
      * @return mixed
      */
-    static public function make($type = self::TEXT)
+    static public function make($type = self::TEXT, $appId = null, $appSecret = null)
     {
         if (!defined(__CLASS__ . '::' . strtoupper($type))) {
             throw new InvalidArgumentException("Error Message Type '{$type}'");
@@ -37,7 +37,7 @@ class Message
         $message = "Overtrue\Wechat\Messages\\"
                     . str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
-        return new $message;
+        return new $message($appId, $appSecret);
     }
 
     /**

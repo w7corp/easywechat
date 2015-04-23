@@ -1,26 +1,38 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
-use Overtrue\Wechat\Wechat;
 
 /**
  * 用户
  */
 class User
 {
+
     /**
-     * 请求的headers
+     * Http对象
      *
-     * @var array
+     * @var Http
      */
-    protected $headers = array('content-type:application/json');
+    protected $http;
 
     const API_GET       = 'https://api.weixin.qq.com/cgi-bin/user/info';
     const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
     const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
     const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
     const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->http = new Http(new AccessToken($appId, $appSecret));
+    }
 
     /**
      * 读取用户信息
@@ -41,7 +53,7 @@ class User
                    'lang'   => $lang,
                   );
 
-        return new Bag(Wechat::request('GET', self::API_GET, $params));
+        return new Bag($this->http->get(self::API_GET, $params));
     }
 
     /**
@@ -55,7 +67,7 @@ class User
     {
         $params = array('next_openid' => $nextOpenId);
 
-        return new Bag(Wechat::request('GET', self::API_LIST, $params));
+        return new Bag($this->http->get(self::API_LIST, $params));
     }
 
     /**
@@ -73,7 +85,7 @@ class User
                    'remark' => $remark,
                   );
 
-        return Wechat::request('POST', self::API_REMARK, $params);
+        return $this->http->jsonPost(self::API_REMARK, $params);
     }
 
     /**
@@ -101,7 +113,7 @@ class User
                    'openid' => $openId,
                   );
 
-        $response = Wechat::request('POST', self::API_GROUP, $params);
+        $response = $this->http->jsonPost(self::API_GROUP, $params);
 
         return $response['groupid'];
     }

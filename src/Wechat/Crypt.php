@@ -1,16 +1,39 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Exception;
 use Overtrue\Wechat\Utils\XML;
-use Overtrue\Wechat\Wechat;
 
 /**
  * 加密解密
  */
 class Crypt
 {
+    /**
+     * 应用ID
+     *
+     * @var string
+     */
+    protected $appId;
+
+    /**
+     * 应用token
+     *
+     * @var string
+     */
+    protected $token;
+
+    /**
+     * 加密用的AESkey
+     *
+     * @var string
+     */
     protected $AESKey;
+
+    /**
+     * 块大小
+     *
+     * @var int
+     */
     protected $blockSize;
 
     const ERROR_INVALID_SIGNATURE = -40001; // 校验签名失败
@@ -25,10 +48,16 @@ class Crypt
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-    public function __construct()
-    {
-        $encodingAESKey = Wechat::option('encodingAESKey');
 
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $token
+     * @param string $encodingAESKey
+     */
+    public function __construct($appId, $token, $encodingAESKey)
+    {
         if (strlen($encodingAESKey) != 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
@@ -54,13 +83,13 @@ class Crypt
      */
     public function encryptMsg($xml, $nonce = null, $timestamp = null)
     {
-        $encrypt = $this->encrypt($xml, Wechat::option('appId'));
+        $encrypt = $this->encrypt($xml, $this->appId);
 
-        !is_null($nonce) || $nonce = substr(Wechat::option('appId'), 0, 10);
+        !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
         !is_null($timestamp) || $timestamp = time();
 
         //生成安全签名
-        $signature = $this->getSHA1(Wechat::option('token'), $timestamp, $nonce, $encrypt);
+        $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypt);
 
         $response = array(
             'Encrypt'      => $encrypt,
@@ -101,13 +130,13 @@ class Crypt
         $encrypted  = $array['Encrypt'];
 
         //验证安全签名
-        $signature = $this->getSHA1(Wechat::option('token'), $timestamp, $nonce, $encrypted);
+        $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypted);
 
         if ($signature != $msgSignature) {
             throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        return XML::parse($this->decrypt($encrypted, Wechat::option('appId')));
+        return XML::parse($this->decrypt($encrypted, $this->appId));
     }
 
     /**
@@ -199,7 +228,6 @@ class Crypt
         return $xml;
     }
 
-
     /**
      * 随机生成16位字符串
      *
@@ -207,15 +235,7 @@ class Crypt
      */
     private function getRandomStr()
     {
-        $strSource = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
-        $max = strlen($strSource) - 1;
-
-        $str = "";
-        for ($i = 0; $i < 16; $i++) {
-            $str .= $strSource[mt_rand(0, $max)];
-        }
-
-        return $str;
+        return uniqid('rand_');
     }
 
     /**

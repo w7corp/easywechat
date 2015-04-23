@@ -1,8 +1,6 @@
 <?php
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Wechat;
-
 /**
  * 声音消息
  *
@@ -14,6 +12,25 @@ class Voice extends BaseMessage
     protected $properties = array('media_id');
 
     /**
+     * 媒体
+     *
+     * @var Overtrue\Wechat\Media
+     */
+    protected $media;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->media = new Media($appId, $appSecret);
+    }
+
+    /**
      * 设置语音
      *
      * @param string $path
@@ -22,7 +39,7 @@ class Voice extends BaseMessage
      */
     public function media($path)
     {
-        $this->setAttribute('media_id', Wechat::media()->voice($path));
+        $this->setAttribute('media_id', $this->media->voice($path));
 
         return $this;
     }

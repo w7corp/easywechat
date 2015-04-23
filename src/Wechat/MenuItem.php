@@ -1,5 +1,5 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
 use Closure;

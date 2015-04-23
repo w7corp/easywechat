@@ -1,5 +1,5 @@
 <?php
-namespace Overtrue\Wechat\Services;
+namespace Overtrue\Wechat\Utils;
 
 /**
  * Http请求类
@@ -160,7 +160,7 @@ class Http
                 $params = $this->encode($params);
                 $options['headers'][] = 'content-type:application/json';
             } else {
-                http_build_query($params);
+                $params = http_build_query($params);
             }
 
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);

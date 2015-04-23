@@ -1,8 +1,5 @@
 <?php
-namespace Overtrue\Wechat\Services;
-
-use Overtrue\Wechat\Exception;
-use Overtrue\Wechat\Wechat;
+namespace Overtrue\Wechat;
 
 /**
  * 缓存服务
@@ -14,29 +11,29 @@ class Cache
      *
      * @var string
      */
-    protected $filePrefix;
+    protected $prefix;
 
     /**
      * 缓存写入器
      *
      * @var callable
      */
-    protected $cacheSetter;
+    static protected $cacheSetter;
 
     /**
      * 缓存读取器
      *
      * @var callable
      */
-    protected $cacheGetter;
+    static protected $cacheGetter;
 
 
     /**
      * 设置缓存文件前缀
      */
-    public function __construct(Wechat $wechat)
+    public function __construct($prefix = '')
     {
-        $this->filePrefix = $wechat->option('appId');
+        $this->prefix = $prefix;
     }
 
     /**
@@ -50,7 +47,7 @@ class Cache
      */
     public function set($key, $value, $lifetime = 7200)
     {
-        if ($handler = $this->cacheSetter) {
+        if ($handler = self::$cacheSetter) {
             return call_user_func_array($handler, func_get_args());
         }
 
@@ -74,7 +71,7 @@ class Cache
      */
     public function get($key, $default = null)
     {
-        if ($handler = $this->cacheGetter) {
+        if ($handler = self::$cacheGetter) {
             $return = call_user_func_array($handler, func_get_args());
         } else {
             $file = $this->getCacheFile($key);
@@ -114,9 +111,9 @@ class Cache
      *
      * @return void
      */
-    public function cacheSetter($handler)
+    static public function cacheSetter($handler)
     {
-        is_callable($handler) && $this->cacheSetter = $handler;
+        is_callable($handler) && self::$cacheSetter = $handler;
     }
 
     /**
@@ -126,9 +123,9 @@ class Cache
      *
      * @return void
      */
-    public function cacheGetter($handler)
+    static public function cacheGetter($handler)
     {
-        is_callable($handler) && $this->cacheGetter = $handler;
+        is_callable($handler) && self::$cacheGetter = $handler;
     }
 
     /**
@@ -140,6 +137,6 @@ class Cache
      */
     protected function getCacheFile($key)
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($this->filePrefix . $key);
+        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($this->prefix . $key);
     }
 }
