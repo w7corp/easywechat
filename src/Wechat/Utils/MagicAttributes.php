@@ -37,7 +37,7 @@ abstract class MagicAttributes
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return Overtrue\Wechat\Message
+     * @return MagicAttributes
      */
     public function with($attribute, $value)
     {
@@ -81,7 +81,7 @@ abstract class MagicAttributes
      * @param string $method
      * @param array  $args
      *
-     * @return Overtrue\Wechat\Message
+     * @return MagicAttributes
      */
     public function __call($method, $args)
     {

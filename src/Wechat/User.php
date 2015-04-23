@@ -61,7 +61,7 @@ class User
      *
      * @param string $nextOpenId
      *
-     * @return Overtrue\Wechat\Utils\Bag
+     * @return Bag
      */
     public function lists($nextOpenId = null)
     {
@@ -93,7 +93,7 @@ class User
      *
      * @param string $openId
      *
-     * @return string
+     * @return int
      */
     public function group($openId)
     {

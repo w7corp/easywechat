@@ -1,8 +1,6 @@
 <?php
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Utils\Bag;
-
 /**
  * 用户组
  */
@@ -72,7 +70,7 @@ class Group
      * @param int     $groupId
      * @param string  $name
      *
-     * @return Overtrue\Wechat\Group
+     * @return boolean
      */
     public function update($groupId, $name)
     {
@@ -83,9 +81,7 @@ class Group
                                ),
                   );
 
-        $this->http->jsonPost(self::API_UPDATE, $params);
-
-        return true;
+        return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**

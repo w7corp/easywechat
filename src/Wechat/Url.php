@@ -1,8 +1,6 @@
 <?php
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Utils\Bag;
-
 /**
  * 链接
  */

@@ -82,7 +82,7 @@ class Server
      * @param string|callable $type
      * @param callable        $callback
      *
-     * @return Wechat
+     * @return Server
      */
     public function on($target, $type, $callback = null)
     {
@@ -112,7 +112,7 @@ class Server
      * @param string|callable $type
      * @param callable        $callback
      *
-     * @return Wechat
+     * @return Server
      */
     public function event($type, $callback = null)
     {
@@ -125,7 +125,7 @@ class Server
      * @param string|callable $type
      * @param callable        $callback
      *
-     * @return Wechat
+     * @return Server
      */
     public function message($type, $callback = null)
     {
@@ -307,9 +307,9 @@ class Server
     /**
      * 调用监听器
      *
-     * @param string $key
-     * @param array  $args
-     * @param mixed  $default
+     * @param string       $key
+     * @param array        $args
+     * @param string|null  $default
      *
      * @return mixed
      */

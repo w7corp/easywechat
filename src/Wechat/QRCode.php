@@ -78,6 +78,8 @@ class QRCode
     /**
      * 获取二维码
      *
+     * @param string $ticket
+     *
      * @return
      */
     public function show($ticket)
@@ -91,7 +93,7 @@ class QRCode
      * @param string $ticket
      * @param string $filename
      *
-     * @return boolean
+     * @return int
      */
     public function download($ticket, $filename)
     {
@@ -103,6 +105,7 @@ class QRCode
      *
      * @param array   $scene
      * @param boolean $temporary
+     * @param int     $expireSeconds
      *
      * @return Bag
      */

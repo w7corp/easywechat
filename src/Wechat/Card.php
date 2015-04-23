@@ -67,10 +67,13 @@ class Card
     /**
      * 生成签名
      *
-     * @param string  $ticket
-     * @param string  $nonce
-     * @param int     $timestamp
-     * @param string  $url
+     * @param string $ticket
+     * @param string $appId
+     * @param stirng $locationId
+     * @param int    $timestamp
+     * @param string $nonce
+     * @param string $cardId
+     * @param string $cardType
      *
      * @return string
      */
