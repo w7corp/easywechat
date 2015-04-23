@@ -71,6 +71,8 @@ class Cache
      */
     public function get($key, $default = null)
     {
+        $return = null;
+
         if ($handler = self::$cacheGetter) {
             $return = call_user_func_array($handler, func_get_args());
         } else {

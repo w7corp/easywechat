@@ -41,7 +41,8 @@ class Image extends BaseMessage
      */
     public function media($path)
     {
-        $this->setAttribute('media_id',$this->media->image($path));
+        error_log($this->media->image($path));exit;
+        $this->setAttribute('media_id', $this->media->image($path));
 
         return $this;
     }

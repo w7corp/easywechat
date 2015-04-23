@@ -61,9 +61,7 @@ class Http
      */
     public function get($url, $params = array(), $options = array())
     {
-        $url .= (stripos($url, '?') ? '&' : '?') . http_build_query($params);
-
-        return $this->request($url, self::GET, array(), $options);
+        return $this->request($url, self::GET, $params, $options);
     }
 
     /**
@@ -119,9 +117,7 @@ class Http
      */
     public function delete($url, $params = array(), $options = array())
     {
-        $url .= (stripos($url, '?') ? '&' : '?') . http_build_query($params);
-
-        return $this->request($url, self::DELETE, array(), $options);
+        return $this->request($url, self::DELETE, $params, $options);
     }
 
     /**
@@ -136,6 +132,11 @@ class Http
      */
     protected function request($url, $method = self::GET, $params = array(), $options = array())
     {
+        if ($method == self::GET || $method == self::DELETE) {
+            $url .= (stripos($url, '?') ? '&' : '?') . http_build_query($params);
+            $params = array();
+        }
+
         curl_setopt($this->curl, CURLOPT_HEADER, 1);
         curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
 
@@ -159,8 +160,6 @@ class Http
             if (isset($options['json'])) {
                 $params = $this->encode($params);
                 $options['headers'][] = 'content-type:application/json';
-            } else {
-                $params = http_build_query($params);
             }
 
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
@@ -184,8 +183,8 @@ class Http
         $results = array(
             'curl_info' => $response['curl_info'],
             'status'    => $response['curl_info']['http_code'],
-            'headers'   => $this->splitHeaders($responseSplit[$responseCount - 2]),
-            'data'      => $responseSplit[$responseCount - 1],
+            'headers'   => count($responseSplit) > 2 ? $this->splitHeaders($responseSplit[$responseCount - 2]) : '' ,
+            'data'      => count($responseSplit) > 1 ? $responseSplit[$responseCount - 1] : '',
         );
 
         return $results;

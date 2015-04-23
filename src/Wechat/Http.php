@@ -39,21 +39,6 @@ class Http extends HttpClient
     }
 
     /**
-     * 生成url
-     *
-     * @param string $url     基础网址
-     * @param array  $queries 查询
-     *
-     * @return string
-     */
-    public function makeUrl($url, $queries = array())
-    {
-        !$this->token || $queries['access_token'] = $this->token;
-
-        return $url . (empty($queries) ? '' : ('?' . http_build_query($queries)));
-    }
-
-    /**
      * 设置请求access_token
      *
      * @param string $token
@@ -81,13 +66,15 @@ class Http extends HttpClient
             $url .= (stripos($url, '?') ? '&' : '?') .'access_token=' . $this->token;
         }
 
-        $method = strtolower($method);
+        $method = strtoupper($method);
 
         if ($this->json) {
             $options['json'] = true;
         }
 
-        $response = parent::{$method}($url, $params, $options);
+        $response = parent::request($url, $method, $params, $options);
+
+        $this->json = false;
 
         if (empty($response['data'])) {
             throw new Exception("服务器无响应");
@@ -100,10 +87,13 @@ class Http extends HttpClient
                 return true;
             }
 
-            throw new Exception("[{$contents['errcode']}] ".$contents['errmsg'], $contents['errcode']);
+            if (empty($contents['errmsg'])) {
+                $contents['errmsg'] = 'Unknown';
+            }
+
+            throw new Exception("[{$contents['errcode']}] ". $contents['errmsg'], $contents['errcode']);
         }
 
-        $this->json = false;
 
         return $contents;
     }

@@ -88,7 +88,7 @@ class AccessToken
 
         $key = $this->getCacheKey();
 
-        return $this->cache->get($key, function(){
+        return $this->cache->get($key, function() use ($key){
             $params = array(
                        'appid'      => $this->appId,
                        'secret'     => $this->appSecret,
@@ -110,7 +110,7 @@ class AccessToken
      * @return string
      */
     public function __toString()
-    {
+    {error_log($this->getToken());
         return $this->getToken();
     }
 }
