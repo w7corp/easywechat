@@ -59,7 +59,7 @@ class Group
      *
      * @return array
      */
-    public function all()
+    public function lists()
     {
         $response = $this->http->get(self::API_GET);
 

@@ -113,7 +113,7 @@ class Cache
      *
      * @return void
      */
-    static public function cacheSetter($handler)
+    static public function setter($handler)
     {
         is_callable($handler) && self::$cacheSetter = $handler;
     }
@@ -125,7 +125,7 @@ class Cache
      *
      * @return void
      */
-    static public function cacheGetter($handler)
+    static public function getter($handler)
     {
         is_callable($handler) && self::$cacheGetter = $handler;
     }

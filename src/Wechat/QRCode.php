@@ -24,11 +24,11 @@ class QRCode
 
     const DAY = 86400;
 
-    const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE'; // 临时
-    const SCENE_QR_TEMPORARY   = 'QR_LIMIT_SCENE'; // 永久
-    const SCENE_QR_STR_FOREVER = 'QR_LIMIT_STR_SCENE'; // 永久的字符串参数值
+    const SCENE_QR_TEMPORARY   = 'QR_SCENE'; // 临时
+    const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE'; // 永久
+    const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE'; // 永久的字符串参数值
 
-    const API_CREATE = 'https://mp.weixin.qq.com/cgi-bin/qrcode/create';
+    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
     const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
 
@@ -45,43 +45,19 @@ class QRCode
     }
 
     /**
-     * 创建二维码
-     *
-     * @param array   $scene
-     * @param boolean $temporary
-     *
-     * @return Bag
-     */
-    protected function create(array $scene, $temporary = true, $expireSeconds = null)
-    {
-        $expireSeconds || $expireSeconds = 7 * self::DAY;
-
-        $http = new Http(new AccessToken($this->appId, $this->appSecret));
-
-        $params = array(
-                   'expire_seconds' => min($expireSeconds, 7 * self::DAY),
-                   'action_name'    => $temporary ? 'QR_SCENE' : 'QR_LIMIT_SCENE',
-                   'action_info'    => array('scene' => $scene),
-                  );
-
-        return new Bag($http->jsonPost(self::API_CREATE, $params));
-    }
-
-    /**
      * 永久二维码
      *
      * @param int    $sceneValue
-     * @param int    $expireSeconds
      * @param string $type
      *
      * @return Bag
      */
-    public function forever($sceneValue, $expireSeconds = null, $type = self::SCENE_QR_FOREVER)
+    public function forever($sceneValue, $type = self::SCENE_QR_FOREVER)
     {
         $sceneKey = $type == self::SCENE_QR_FOREVER ? 'scene_id' : 'scene_str';
         $scene = array($sceneKey => $sceneValue);
 
-        return $this->create($scene, false, $expireSeconds);
+        return $this->create($scene, false);
     }
 
     /**
@@ -94,6 +70,8 @@ class QRCode
      */
     public function temporary($sceneId, $expireSeconds = null)
     {
+        $scene = array('scene_id' => $sceneId);
+
         return $this->create($scene, true, $expireSeconds);
     }
 
@@ -115,8 +93,34 @@ class QRCode
      *
      * @return boolean
      */
-    public function save($ticket, $filename)
+    public function download($ticket, $filename)
     {
         return file_put_contents($filename, file_get_contents($this->show($ticket)));
+    }
+
+    /**
+     * 创建二维码
+     *
+     * @param array   $scene
+     * @param boolean $temporary
+     *
+     * @return Bag
+     */
+    protected function create(array $scene, $temporary = true, $expireSeconds = null)
+    {
+        $expireSeconds || $expireSeconds = 7 * self::DAY;
+
+        $http = new Http(new AccessToken($this->appId, $this->appSecret));
+
+        $params = array(
+                   'action_name'    => $temporary ? 'QR_SCENE' : 'QR_LIMIT_SCENE',
+                   'action_info'    => array('scene' => $scene),
+                  );
+
+        if ($temporary) {
+            $parmas['expire_seconds'] = min($expireSeconds, 7 * self::DAY);
+        }
+
+        return new Bag($http->jsonPost(self::API_CREATE, $params));
     }
 }

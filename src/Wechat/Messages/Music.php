@@ -24,34 +24,15 @@ class Music extends BaseMessage
                             );
 
     /**
-     * 媒体
-     *
-     * @var Overtrue\Wechat\Media
-     */
-    protected $media;
-
-
-    /**
-     * constructor
-     *
-     * @param string $appId
-     * @param string $appSecret
-     */
-    public function __construct($appId, $appSecret)
-    {
-        $this->media = new Media($appId, $appSecret);
-    }
-
-    /**
      * 设置音乐消息封面图
      *
-     * @param string $path
+     * @param string $mediaId
      *
      * @return Music
      */
-    public function thumb($path)
+    public function thumb($mediaId)
     {
-        $this->setAttribute('thumb_media_id', $this->media->thumb($path));
+        $this->setAttribute('thumb_media_id', $mediaId);
 
         return $this;
     }

@@ -6,7 +6,7 @@ use Exception as BaseException;
 class Exception extends BaseException
 {
     protected $errors = array(
-               '-1'      => ' 系统繁忙，此时请开发者稍候再试',
+               '-1'      => '系统繁忙，此时请开发者稍候再试',
                '0'       => '请求成功',
                '40001'   => '获取access_token时AppSecret错误，或者access_token无效。请开发者认真比对AppSecret的正确性，或查看是否正在为恰当的公众号调用接口',
                '40002'   => '不合法的凭证类型',
@@ -133,7 +133,7 @@ class Exception extends BaseException
               );
 
 
-    public function __construct($message, $code)
+    public function __construct($message, $code = -1)
     {
         $message = empty($this->errors[$code]) ? $this->message : $message . ' '. $this->errors[$code];
 

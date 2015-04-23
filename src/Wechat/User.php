@@ -63,7 +63,7 @@ class User
      *
      * @return Overtrue\Wechat\Utils\Bag
      */
-    public function all($nextOpenId = null)
+    public function lists($nextOpenId = null)
     {
         $params = array('next_openid' => $nextOpenId);
 

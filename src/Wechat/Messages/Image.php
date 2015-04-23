@@ -14,35 +14,15 @@ class Image extends BaseMessage
     protected $properties = array('media_id');
 
     /**
-     * 媒体
+     * 设置音乐消息封面图
      *
-     * @var Overtrue\Wechat\Media
-     */
-    protected $media;
-
-
-    /**
-     * constructor
-     *
-     * @param string $appId
-     * @param string $appSecret
-     */
-    public function __construct($appId, $appSecret)
-    {
-        $this->media = new Media($appId, $appSecret);
-    }
-
-    /**
-     * 设置图片
-     *
-     * @param string $path
+     * @param string $mediaId
      *
      * @return Image
      */
-    public function media($path)
+    public function media($mediaId)
     {
-        error_log($this->media->image($path));exit;
-        $this->setAttribute('media_id', $this->media->image($path));
+        $this->setAttribute('media_id', $mediaId);
 
         return $this;
     }

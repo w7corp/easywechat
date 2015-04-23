@@ -95,6 +95,8 @@ class Server
             throw new Exception("$callback 不是一个可调用的函数或方法");
         }
 
+        $type = strtolower($type);
+
         $listeners = $this->listeners->get("{$target}.{$type}") ? : array();
 
         array_push($listeners, $callback);
@@ -287,6 +289,8 @@ class Server
         if (!is_null($response = $this->call("event.*", array($event)))) {
             return $response;
         }
+
+        $event['Event'] = strtolower($event['Event']);
 
         return $this->call("event.{$event['Event']}", array($event));
     }

@@ -21,6 +21,24 @@ class Store
     const API_UPDATE    = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
     const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 
+    /**
+     * Http对象
+     *
+     * @var Http
+     */
+    protected $http;
+
+
+    /**
+     * constructor
+     *
+     * @param string $appId
+     * @param string $appSecret
+     */
+    public function __construct($appId, $appSecret)
+    {
+        $this->http = new Http(new AccessToken($appId, $appSecret));
+    }
 
     /**
      * 获取指定门店信息
@@ -35,7 +53,7 @@ class Store
                    'poi_id' => $storeId,
                   );
 
-        $response = Wechat::request('POST', self::API_GET, $params);
+        $response = $this->http->jsonPost(self::API_GET, $params);
 
         return new Bag(Arr::get($response, 'business.base_info'));
     }
@@ -48,14 +66,14 @@ class Store
      *
      * @return Overtrue\Wechat\Utils\Bag
      */
-    public function all($offset = 0, $limit = 10)
+    public function lists($offset = 0, $limit = 10)
     {
         $params = array(
                    'begin' => $offset,
                    'limit' => $limit,
                   );
 
-        $stores = Wechat::request('POST', self::API_LIST, $params);
+        $stores = $this->http->jsonPost(self::API_LIST, $params);
 
         return Arr::fetch($stores['business_list'], 'base_info');
     }
@@ -75,7 +93,7 @@ class Store
                                  ),
                   );
 
-        return Wechat::request('POST', self::API_CREATE, $params);
+        return $this->http->jsonPost(self::API_CREATE, $params);
     }
 
     /**
@@ -96,7 +114,7 @@ class Store
                                  ),
                   );
 
-        return Wechat::request('POST', self::API_UPDATE, $params);
+        return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
@@ -112,6 +130,6 @@ class Store
                    'poi_id' => $storeId,
                   );
 
-        return Wechat::request('POST', self::API_DELETE, $params);
+        return $this->http->jsonPost(self::API_DELETE, $params);
     }
 }

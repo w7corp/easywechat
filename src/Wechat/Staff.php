@@ -61,7 +61,7 @@ class Staff
      *
      * @return array
      */
-    public function all()
+    public function lists()
     {
         $response = $this->http->get(self::API_GET);
 
@@ -73,7 +73,7 @@ class Staff
      *
      * @return array
      */
-    public function allOnline()
+    public function onlines()
     {
         $response = $this->http->get(self::API_GET);
 
@@ -171,7 +171,7 @@ class Staff
      */
     public function send($message)
     {
-        is_string($message) && $message = ->with('content', $message);
+        is_string($message) && $message = Message::make('text')->with('content', $message);
 
         if (!$message instanceof BaseMessage) {
             throw new Exception("消息必须继承自 'Overtrue\Wechat\BaseMessage'");

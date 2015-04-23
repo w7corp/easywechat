@@ -18,34 +18,15 @@ class Video extends BaseMessage
     protected $properties = array('title', 'description', 'media_id', 'thumb_media_id');
 
     /**
-     * 媒体
-     *
-     * @var Overtrue\Wechat\Media
-     */
-    protected $media;
-
-
-    /**
-     * constructor
-     *
-     * @param string $appId
-     * @param string $appSecret
-     */
-    public function __construct($appId, $appSecret)
-    {
-        $this->media = new Media($appId, $appSecret);
-    }
-
-    /**
      * 设置视频消息
      *
-     * @param string $path
+     * @param string $mediaId
      *
      * @return Video
      */
-    public function media($path)
+    public function media($mediaId)
     {
-        $this->setAttribute('media_id', $this->media->video($path));
+        $this->setAttribute('media_id', $mediaId);
 
         return $this;
     }
@@ -53,13 +34,13 @@ class Video extends BaseMessage
     /**
      * 设置视频封面
      *
-     * @param string $path
+     * @param string $mediaId
      *
      * @return Video
      */
-    public function thumb($path)
+    public function thumb($mediaId)
     {
-        $this->setAttribute('thumb_media_id', $this->media->thumb($path));
+        $this->setAttribute('thumb_media_id', $mediaId);
 
         return $this;
     }

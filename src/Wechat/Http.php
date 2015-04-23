@@ -91,7 +91,7 @@ class Http extends HttpClient
                 $contents['errmsg'] = 'Unknown';
             }
 
-            throw new Exception("[{$contents['errcode']}] ". $contents['errmsg'], $contents['errcode']);
+            throw new Exception("[{$contents['errcode']}] ". $contents['errcode'], $contents['errcode']);
         }
 
 
@@ -113,7 +113,7 @@ class Http extends HttpClient
             $this->json = true;
         }
 
-        $result = call_user_func_array($this->$method, $args);
+        $result = call_user_func_array(array($this, $method), $args);
 
         return $result;
     }
