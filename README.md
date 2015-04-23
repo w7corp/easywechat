@@ -70,7 +70,7 @@ echo $server->serve();
 
 [Wiki](https://github.com/overtrue/wechat/wiki)
 
-> 强烈建议看懂微信文档后再来使用本 SDK，这样你就不会骂我文档写得差了，因为微信的 API 比什么都烂。
+> 强烈建议看懂微信文档后再来使用本 SDK。
 
 ## TODO
 
