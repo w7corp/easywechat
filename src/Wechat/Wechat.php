@@ -229,10 +229,14 @@ class Wechat
      *
      * @return mixed
      */
-    public function service($name)
+    public static function service($name)
     {
-        if (isset($this->resolved[$name])) {
-            return $this->resolved[$name];
+        self::requireInstance();
+
+        $instance = self::$_instance;
+
+        if (isset($instance->resolved[$name])) {
+            return $instance->resolved[$name];
         }
 
         $service = "Overtrue\Wechat\Services\\" . ucfirst($name);
@@ -241,9 +245,9 @@ class Wechat
             throw new Exception("未知的服务'$name'");
         }
 
-        $this->resolved[$name] = new $service($this);
+        $instance->resolved[$name] = new $service();
 
-        return $this->resolved[$name];
+        return $instance->resolved[$name];
     }
 
     /**

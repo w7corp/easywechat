@@ -69,6 +69,7 @@ class Js
         $url       = $url ? $url : $this->getUrl();
         $nonce     = $nonce ? $nonce : $this->getNonce();
         $timestamp = $timestamp ? $timestamp : time();
+        $ticket    = $this->getTicket();
 
         $sign = array(
                  "appId"     => Wechat::option('appId'),
