@@ -1,10 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Wechat;
 
 /**
+ * 音乐消息
+ *
  * @property string $url
  * @property string $hq_url
  * @property string $title

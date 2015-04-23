@@ -1,5 +1,4 @@
 <?php
-
 namespace Overtrue\Wechat\Utils;
 
 /**

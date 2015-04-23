@@ -1,9 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Exception;
+
 /**
+ * 转发多客服消息
+ *
  * @property string $to
  * @property string $account
  */

@@ -1,8 +1,9 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 /**
+ * 文本消息
+ *
  * @property string $content
  */
 class Text extends BaseMessage

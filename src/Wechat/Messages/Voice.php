@@ -1,10 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Wechat;
 
 /**
+ * 声音消息
+ *
  * @property string $media_id
  */
 class Voice extends BaseMessage

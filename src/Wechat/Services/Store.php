@@ -1,9 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Utils\Arr;
 
+/**
+ * 门店
+ */
 class Store
 {
     /**
@@ -79,7 +81,7 @@ class Store
     /**
      * 更新门店
      *
-     * @param integer $storeId
+     * @param int     $storeId
      * @param array   $data
      *
      * @return boolean

@@ -1,8 +1,8 @@
 <?php
-
 namespace Overtrue\Wechat\Utils;
 
-class XML {
+class XML
+{
 
 
     /**

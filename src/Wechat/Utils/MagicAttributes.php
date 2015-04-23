@@ -1,9 +1,7 @@
 <?php
-
 namespace Overtrue\Wechat\Utils;
 
 use InvalidArgumentException;
-use Closure;
 
 abstract class MagicAttributes
 {

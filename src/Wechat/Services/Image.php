@@ -1,10 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
-use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Exception;
+use Overtrue\Wechat\Wechat;
 
+/**
+ * 图片上传服务
+ */
 class Image
 {
     const API_UPLOAD = 'https://file.api.weixin.qq.com/cgi-bin/media/uploadimg';

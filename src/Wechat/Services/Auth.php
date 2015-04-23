@@ -1,10 +1,13 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
+use Overtrue\Wechat\Exception;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Wechat;
-use Overtrue\Wechat\Exception;
+
+/**
+ * 网页授权
+ */
 class Auth
 {
     const API_URL       = 'https://open.weixin.qq.com/connect/oauth2/authorize';
@@ -121,19 +124,21 @@ class Auth
     /**
      * 获取access_token
      *
+     * 注意：这个是OAuth2用的access_token，与普通access_token不一样
+     *
      * @return string
      */
     public function getAccessToken()
     {
         $key = 'overtrue.wechat.oauth2.access_token';
+        $cache = Wechat::service('cache');
 
-        if ($cached = Wechat::service('cache')->get($key)) {
-            return $cached;
-        }
+        return $cache->get($key, function($key) use ($cache) {
 
-        Wechat::service('cache')->set($key, $this->authResult['access_token'], $this->authResult['expires_in']);
+            $cache->set($key, $this->authResult['access_token'], $this->authResult['expires_in']);
 
-        return $this->authResult['access_token'];
+            return $this->authResult['access_token'];
+        });
     }
 
     /**

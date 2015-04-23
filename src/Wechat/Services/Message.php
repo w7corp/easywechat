@@ -1,9 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 use InvalidArgumentException;
 
+/**
+ * 消息
+ */
 class Message
 {
     /**

@@ -1,10 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Wechat;
 
+/**
+ * 用户
+ */
 class User
 {
     /**

@@ -1,10 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
 use Closure;
 
+/**
+ * 菜单项
+ */
 class MenuItem extends MagicAttributes
 {
     /**

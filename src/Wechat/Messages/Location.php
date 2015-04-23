@@ -1,9 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Exception;
+
 /**
+ * 坐标消息
+ *
  * @property string $content
  */
 class Location extends BaseMessage

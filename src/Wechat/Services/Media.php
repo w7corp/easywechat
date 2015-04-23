@@ -1,10 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
-use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Exception;
+use Overtrue\Wechat\Wechat;
 
+/**
+ * 媒体素材
+ */
 class Media
 {
 

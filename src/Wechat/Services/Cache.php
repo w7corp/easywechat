@@ -1,9 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
-use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Exception;
+use Overtrue\Wechat\Wechat;
+
+/**
+ * 缓存服务
+ */
 class Cache
 {
     /**
@@ -41,7 +44,7 @@ class Cache
      *
      * @param string  $key
      * @param mixed   $value
-     * @param integer $lifetime
+     * @param int     $lifetime
      *
      * @return void
      */
@@ -52,7 +55,7 @@ class Cache
         }
 
         $data = array(
-                 'token'      => $value,
+                 'data'      => $value,
                  'expired_at' => time() + $lifetime - 2, //XXX: 减去2秒更可靠的说
                 );
 
@@ -64,23 +67,28 @@ class Cache
     /**
      * 默认的缓存读取器
      *
-     * @param string   $key
+     * @param string $key
+     * @param mixed  $default
      *
      * @return void
      */
-    public function get($key)
+    public function get($key, $default = null)
     {
         if ($handler = $this->cacheGetter) {
-            return call_user_func_array($handler, func_get_args());
+            $return = call_user_func_array($handler, func_get_args());
+        } else {
+            $file = $this->getCacheFile($key);
+
+            if (file_exists($file) && ($data = unserialize(file_get_contents($file)))) {
+                $return = $data['expired_at'] > time() ? $data['data'] : null;
+            }
         }
 
-        $file = $this->getCacheFile($key);
-
-        if (file_exists($file) && ($token = unserialize(file_get_contents($file)))) {
-            return $token['expired_at'] > time() ? $token['token'] : null;
+        if (!$return) {
+            $return = is_callable($default) ? $default($key) : $default;
         }
 
-        return null;
+        return $return;
     }
 
     /**

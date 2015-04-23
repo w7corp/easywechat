@@ -1,10 +1,13 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Messages\BaseMessage;
-use Overtrue\Wechat\Wechat;
 use Overtrue\Wechat\Exception;
+use Overtrue\Wechat\Wechat;
+
+/**
+ * 客服
+ */
 class Staff
 {
     /**

@@ -1,11 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
 use Overtrue\Wechat\Utils\XML;
 
 /**
+ * 消息基类
+ *
  * @property string      $from
  * @property string      $to
  * @property string      $staff

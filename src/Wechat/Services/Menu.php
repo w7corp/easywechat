@@ -1,11 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Wechat;
 use Closure;
 
 /**
+ * 菜单
+ *
  * @property array $sub_button
  */
 class Menu

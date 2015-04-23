@@ -1,7 +1,9 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
+/**
+ * 二维码
+ */
 class QRCode
 {
     const API_CREATE = 'https://mp.weixin.qq.com/cgi-bin/qrcode/create';

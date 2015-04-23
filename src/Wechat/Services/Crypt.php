@@ -1,10 +1,13 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
+use Overtrue\Wechat\Exception;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Wechat;
-use Overtrue\Wechat\Exception;
+
+/**
+ * 加密解密
+ */
 class Crypt
 {
     protected $AESKey;
@@ -43,7 +46,7 @@ class Crypt
      * </ol>
      *
      * @param string  $xml          公众平台待回复用户的消息，xml格式的字符串
-     * @param integer $timestamp    时间戳，可以自己生成，也可以用URL参数的timestamp
+     * @param int     $timestamp    时间戳，可以自己生成，也可以用URL参数的timestamp
      * @param string  $nonce        随机串，可以自己生成，也可以用URL参数的nonce
      *
      * @return string 加密后的可以直接回复用户的密文，包括msg_signature, timestamp,

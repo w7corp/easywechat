@@ -1,8 +1,9 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 /**
+ * Http请求类
+ *
  * from https://github.com/dsyph3r/curl-php/blob/master/lib/Network/Curl/Curl.php
  */
 class Http

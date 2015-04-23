@@ -1,9 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 use Closure;
 
+/**
+ * 图文消息
+ */
 class News extends BaseMessage
 {
     protected $items = array();

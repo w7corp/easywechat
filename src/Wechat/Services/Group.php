@@ -1,10 +1,12 @@
 <?php
-
 namespace Overtrue\Wechat\Services;
 
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Wechat;
 
+/**
+ * 用户组
+ */
 class Group
 {
     const API_GET                 = 'https://api.weixin.qq.com/cgi-bin/groups/get';
@@ -56,7 +58,7 @@ class Group
     /**
      * 更新组名称
      *
-     * @param integer $groupId
+     * @param int     $groupId
      * @param string  $name
      *
      * @return Overtrue\Wechat\Group
@@ -97,7 +99,7 @@ class Group
      * 移动单个用户
      *
      * @param string  $openId
-     * @param integer $groupId
+     * @param int     $groupId
      *
      * @return boolean
      */
@@ -117,7 +119,7 @@ class Group
      * 批量移动用户
      *
      * @param array   $openIds
-     * @param integer $groupId
+     * @param int     $groupId
      *
      * @return boolean
      */

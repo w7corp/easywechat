@@ -1,10 +1,11 @@
 <?php
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Wechat;
 
 /**
+ * 视频消息
+ *
  * @property string $video
  * @property string $title
  * @property string $media_id
