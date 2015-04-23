@@ -59,8 +59,6 @@ $encodingAESKey = 'EJThPazwzO4k1cyXJnwQtL60zBdhWvFaHb4emv0dLVN';
 $server = new Server($appId, $token, $encodingAESKey);
 
 $server->on('message', function($message){
-    error_log("收到来自'{$message['FromUserName']}'的消息：{$message['Content']}");
-
     return "您好！欢迎关注 overtrue!";
 });
 
