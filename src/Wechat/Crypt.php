@@ -237,7 +237,16 @@ class Crypt
      */
     private function getRandomStr()
     {
-        return uniqid('rand_');
+        $strSource = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+        $max = strlen($strSource) - 1;
+
+        $str = "";
+        for ($i = 0; $i < 16; $i++) {
+            $str .= $strSource[mt_rand(0, $max)];
+        }
+
+        return $str;
+        //return uniqid('rand_');
     }
 
     /**
