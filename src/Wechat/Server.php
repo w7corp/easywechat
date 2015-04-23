@@ -73,8 +73,6 @@ class Server
         $this->appId          = $appId;
         $this->token          = $token;
         $this->encodingAESKey = $encodingAESKey;
-
-        set_exception_handler(array($this, 'handleException'));
     }
 
     /**
@@ -147,7 +145,7 @@ class Server
                 $this->input->get('nonce'),
               );
 
-        if ($this->signature($input) !== $this->input->get('signature')) {
+        if ($this->input->has('signature') && $this->signature($input) !== $this->input->get('signature')) {
             throw new Exception("Bad Request", 400);
         }
 
@@ -163,7 +161,7 @@ class Server
      *
      * @return Bag
      */
-    public function prepareInput()
+    protected function prepareInput()
     {
         if ($this->input instanceof Bag) {
             return ;
@@ -294,6 +292,15 @@ class Server
     }
 
     /**
+     * 检查微信签名有效性
+     */
+    protected function signature($input)
+    {
+        sort($input, SORT_STRING);
+        return sha1(implode($input));
+    }
+
+    /**
      * 调用监听器
      *
      * @param string $key
@@ -320,4 +327,25 @@ class Server
 
         return $default;
     }
+
+    /**
+     * 魔术调用
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        if (in_array($method, $this->events)) {
+
+            $callback = array_shift($args);
+
+            is_callable($callback) && $this->listeners->set($method, $callback);
+
+            return;
+        }
+    }
+
 }

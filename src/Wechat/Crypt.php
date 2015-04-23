@@ -62,6 +62,8 @@ class Crypt
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
+        $this->appId     = $appId;
+        $this->token     = $token;
         $this->AESKey    = base64_decode($encodingAESKey . '=');
         $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
