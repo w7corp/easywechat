@@ -23,7 +23,7 @@
 
 环境要求：PHP >= 5.3.0
 
-1. 使用 [composer](https://getcomposer.org/):
+1. 使用 [composer](https://getcomposer.org/)
 
   ```shell
   composer require "overtrue/wechat:dev-master"
