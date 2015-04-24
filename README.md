@@ -85,7 +85,7 @@ echo $server->serve();
 - [x] 自定义菜单
 - [x] 素材管理 `2.0 added`
 - [x] 门店管理 `2.0 added`
-- [ ] 卡券管理
+- [x] 卡券管理 `2.0 added`
 - [x] 网页授权
 - [x] JSSDK `2.0 added`
 - [x] 二维码 `2.0 added`

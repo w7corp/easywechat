@@ -23,10 +23,10 @@ class QRCode
     protected $appSecret;
 
     const DAY = 86400;
-
-    const SCENE_QR_TEMPORARY   = 'QR_SCENE'; // 临时
-    const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE'; // 永久
-    const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE'; // 永久的字符串参数值
+    const SCENE_QE_CARD        = 'QR_CARD';             // 卡券
+    const SCENE_QR_TEMPORARY   = 'QR_SCENE';            // 临时
+    const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE';      // 永久
+    const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';  // 永久的字符串参数值
 
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
     const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
@@ -57,7 +57,7 @@ class QRCode
         $sceneKey = $type == self::SCENE_QR_FOREVER ? 'scene_id' : 'scene_str';
         $scene = array($sceneKey => $sceneValue);
 
-        return $this->create($scene, false);
+        return $this->create($type, $scene, false);
     }
 
     /**
@@ -72,7 +72,27 @@ class QRCode
     {
         $scene = array('scene_id' => $sceneId);
 
-        return $this->create($scene, true, $expireSeconds);
+        return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
+    }
+
+    /**
+     * 创建卡券二维码
+     *
+     * @param array $card
+     *
+     * {
+     *    "card_id": "pFS7Fjg8kV1IdDz01r4SQwMkuCKc",
+     *    "code": "198374613512",
+     *    "openid": "oFS7Fjl0WsZ9AMZqrI80nbIq8xrA",
+     *    "expire_seconds": "1800"，
+     *    "is_unique_code": false , "outer_id" : 1
+     *  }
+     *
+     * @return Bag
+     */
+    public function card($card)
+    {
+        return $this->create(self::SCENE_QE_CARD, array('card' => $card));
     }
 
     /**
@@ -103,21 +123,22 @@ class QRCode
     /**
      * 创建二维码
      *
-     * @param array   $scene
+     * @param string  $actionName
+     * @param array   $actionInfo
      * @param boolean $temporary
      * @param int     $expireSeconds
      *
      * @return Bag
      */
-    protected function create(array $scene, $temporary = true, $expireSeconds = null)
+    protected function create($actionName, $actionInfo, $temporary = true, $expireSeconds = null)
     {
         $expireSeconds !== null || $expireSeconds = 7 * self::DAY;
 
         $http = new Http(new AccessToken($this->appId, $this->appSecret));
 
         $params = array(
-                   'action_name'    => $temporary ? 'QR_SCENE' : 'QR_LIMIT_SCENE',
-                   'action_info'    => array('scene' => $scene),
+                   'action_name'    => $actionName,
+                   'action_info'    => $actionInfo,
                   );
 
         if ($temporary) {
