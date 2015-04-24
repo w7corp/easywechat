@@ -26,7 +26,7 @@
 1. 使用 [composer](https://getcomposer.org/)
 
   ```shell
-  composer require "overtrue/wechat:dev-master"
+  composer require "overtrue/wechat:~2.*"
   ```
 
 2. 手动安装
@@ -83,13 +83,13 @@ echo $server->serve();
 - [ ] 模板消息
 - [ ] 群发消息
 - [x] 自定义菜单
-- [x] 素材管理
-- [x] 门店管理
+- [x] 素材管理 `2.0 added`
+- [x] 门店管理 `2.0 added`
 - [ ] 卡券管理
 - [x] 网页授权
-- [x] JSSDK
-- [x] 二维码
-- [x] 短链接
+- [x] JSSDK `2.0 added`
+- [x] 二维码 `2.0 added`
+- [x] 短链接 `2.0 added`
 
 ## 贡献代码
 
