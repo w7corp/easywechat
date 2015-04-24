@@ -34,7 +34,7 @@ class Js
      */
     protected $url;
 
-    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket&type=jsapi';
+    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi';
 
     /**
      * constructor
