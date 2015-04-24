@@ -20,6 +20,6 @@
     "autoload": {
         "psr-4": {
             "Overtrue\\": "src/"
-        }
+        },
     }
 }
