@@ -160,6 +160,56 @@ class Card
     }
 
     /**
+     * 核销
+     *
+     * @param string $code   要消耗序列号
+     * @param string $cardId 卡券 ID。创建卡券时 use_custom_code 填写 true 时必填。非自定义 code 不必填写。
+     *
+     * @return Bag
+     */
+    public function consume($code, $cardId = null)
+    {
+        $params = array(
+                   'code'    => $code,
+                   'card_id' => $cardId,
+                  );
+
+        return new Bag($this->http->jsonPost(self::API_CONSUME, $params));
+    }
+
+    /**
+     * 废弃卡券，失效
+     *
+     * @param string $code
+     * @param string $cardId
+     *
+     * @return boolean
+     */
+    public function disable($code, $cardId = null)
+    {
+        $params = array(
+                   'code'     => $code,
+                   'card_id'  => $cardId,
+                  );
+
+        return $this->http->jsonPost(self::API_UNAVAILABLE, $params);
+    }
+
+    /**
+     * 删除卡券
+     *
+     * @param string $cardId
+     *
+     * @return boolean
+     */
+    public function delete($cardId)
+    {
+        $params = array('card_id' => $cardId);
+
+        return $this->http->jsonPost(self::API_DELETE, $params);
+    }
+
+    /**
      * 修改库存
      *
      * @param string $cardId
@@ -210,24 +260,6 @@ class Card
     }
 
     /**
-     * 核销
-     *
-     * @param string $code   要消耗序列号
-     * @param string $cardId 卡券 ID。创建卡券时 use_custom_code 填写 true 时必填。非自定义 code 不必填写。
-     *
-     * @return Bag
-     */
-    public function consume($code, $cardId = null)
-    {
-        $params = array(
-                   'code'    => $code,
-                   'card_id' => $cardId,
-                  );
-
-        return new Bag($this->http->jsonPost(self::API_CONSUME, $params));
-    }
-
-    /**
      * 查询Code
      *
      * @param string $code
@@ -266,24 +298,6 @@ class Card
     }
 
     /**
-     * 废弃卡券，失效
-     *
-     * @param string $code
-     * @param string $cardId
-     *
-     * @return boolean
-     */
-    public function disable($code, $cardId = null)
-    {
-        $params = array(
-                   'code'     => $code,
-                   'card_id'  => $cardId,
-                  );
-
-        return $this->http->jsonPost(self::API_UNAVAILABLE, $params);
-    }
-
-    /**
      * code 解码
      *
      * @param string $encryptedCode
@@ -297,20 +311,6 @@ class Card
         $result = $this->http->jsonPost(self::API_CODE_DECRYPT, $params);
 
         return $result['code'];
-    }
-
-    /**
-     * 删除卡券
-     *
-     * @param string $cardId
-     *
-     * @return boolean
-     */
-    public function delete($cardId)
-    {
-        $params = array('card_id' => $cardId);
-
-        return $this->http->jsonPost(self::API_DELETE, $params);
     }
 
     /**
@@ -349,13 +349,13 @@ class Card
      *     "record_balance": "购买焦糖玛琪朵一杯，扣除金额30元。"
      * }
      *
-     * @return boolean
+     * @return Bag
      */
     public function memberCardTrade($cardId, array $data)
     {
         $params = array_merge(array('card_id' => $cardId));
 
-        return $this->http->jsonPost(self::API_MEMBER_CARD_TRADE, $params);
+        return new Bag($this->http->jsonPost(self::API_MEMBER_CARD_TRADE, $params));
     }
 
     /**
