@@ -132,11 +132,12 @@ class Card
      */
     public function update($cardId, $type, array $base = array(), array $data = array())
     {
-        $key = strtolower($type);
+        $key  = strtolower($type);
+        $card = array_merge(array('base_info' => $base), $properties);
 
         $params = array(
                    'card_id' => $cardId,
-                   $key => array_merge(array('base_info' => $base), $properties);
+                   $key => $card,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
