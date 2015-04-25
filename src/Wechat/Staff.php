@@ -151,7 +151,6 @@ class Staff
     public function avatar($email, $path)
     {
         $options = array(
-                    'headers' => array('content-type:application/json'),
                     'files'   => array(
                                   'media' => $path,
                                  ),
