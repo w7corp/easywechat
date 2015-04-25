@@ -31,6 +31,10 @@ class Alias
                'WechatStore'           => 'Overtrue\\Wechat\\Store',
                'WechatUrl'             => 'Overtrue\\Wechat\\Url',
                'WechatUser'            => 'Overtrue\\Wechat\\User',
+               'WechatNotice'          => 'Overtrue\\Wechat\\Notice',
+               'WechatStats'           => 'Overtrue\\Wechat\\Stats',
+               'WechatSemantic'        => 'Overtrue\\Wechat\\Semantic',
+               'WechatColor'           => 'Overtrue\\Wechat\\Color',
     ];
 
     /**

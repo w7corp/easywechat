@@ -78,7 +78,7 @@ echo $server->serve();
 - [x] [监听事件](/overtrue/wechat/wiki/监听微信事件)
 - [x] [基本消息类型](/overtrue/wechat/wiki/消息的使用)
 - [x] [图文消息](/overtrue/wechat/wiki/消息的使用)
-- [ ] 模板消息 `WIP`
+- [x] [模板消息](/overtrue/wechat/wiki/模板消息)  `2.0 added`
 - [ ] 群发消息 `WIP`
 - [x] [用户与用户组](/overtrue/wechat/wiki/用户与用户组管理)
 - [x] [客服与消息发送](/overtrue/wechat/wiki/客服管理与发送消息)
