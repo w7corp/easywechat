@@ -137,7 +137,7 @@ class Card
 
         $params = array(
                    'card_id' => $cardId,
-                   $key => $card,
+                   $key      => $card,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
