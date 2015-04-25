@@ -275,7 +275,7 @@ class Notice
             } else if (is_array($item) && !empty($item)) {
                 if (isset($item['value'])) {
                     $value = strval($item['value']);
-                    $color = empty($item['color']) ? $this->defaultColor : strval($item['color']),
+                    $color = empty($item['color']) ? $this->defaultColor : strval($item['color']);
                 } else if (count($item) < 2) {
                     $value = array_shift($item);
                     $color = $this->defaultColor;
