@@ -1,6 +1,6 @@
 # Wechat
 
-可能是目前最优雅的微信 SDK 了。[Laravel 5 版: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
+可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 版: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -78,8 +78,8 @@ echo $server->serve();
 - [x] [监听事件](/overtrue/wechat/wiki/监听微信事件)
 - [x] [基本消息类型](/overtrue/wechat/wiki/消息的使用)
 - [x] [图文消息](/overtrue/wechat/wiki/消息的使用)
-- [ ] 模板消息 [WIP]
-- [ ] 群发消息 [WIP]
+- [ ] 模板消息 `WIP`
+- [ ] 群发消息 `WIP`
 - [x] [用户与用户组](/overtrue/wechat/wiki/用户与用户组管理)
 - [x] [客服与消息发送](/overtrue/wechat/wiki/客服管理与发送消息)
 - [x] [多客服与消息转发](/overtrue/wechat/wiki/多客服与消息转发)
