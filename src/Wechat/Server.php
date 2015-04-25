@@ -55,7 +55,7 @@ class Server
      */
     public function __construct($appId, $token, $encodingAESKey)
     {
-        $this->listeners      = new Bag;
+        $this->listeners      = new Bag();
         $this->appId          = $appId;
         $this->token          = $token;
         $this->encodingAESKey = $encodingAESKey;
@@ -133,7 +133,8 @@ class Server
                 $this->input->get('nonce'),
               );
 
-        if ($this->input->has('signature') && $this->signature($input) !== $this->input->get('signature')) {
+        if ($this->input->has('signature')
+            && $this->signature($input) !== $this->input->get('signature')) {
             throw new Exception("Bad Request", 400);
         }
 
