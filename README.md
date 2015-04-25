@@ -72,7 +72,7 @@ echo $server->serve();
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
 
-## TODO
+## Features
 
 - [x] [监听消息](/overtrue/wechat/wiki/接收消息与回复)
 - [x] [监听事件](/overtrue/wechat/wiki/监听微信事件)
