@@ -270,8 +270,8 @@ class Notice
 
         foreach ($data as $key => $item) {
             if (is_scalar($item)) {
-                $value = $item,
-                $color = $this->defaultColor,
+                $value = $item;
+                $color = $this->defaultColor;
             } else if (is_array($item) && !empty($item)) {
                 if (isset($item['value'])) {
                     $value = strval($item['value']);
