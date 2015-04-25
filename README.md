@@ -83,11 +83,11 @@ echo $server->serve();
 - [x] [用户与用户组](/overtrue/wechat/wiki/用户与用户组管理)
 - [x] [客服与消息发送](/overtrue/wechat/wiki/客服管理与发送消息)
 - [x] [多客服与消息转发](/overtrue/wechat/wiki/多客服与消息转发)
+- [x] [网页授权](/overtrue/wechat/wiki/网页授权)
 - [x] [自定义菜单](/overtrue/wechat/wiki/自定义菜单)
 - [x] [素材管理](/overtrue/wechat/wiki/素材管理) `2.0 added`
 - [x] [门店管理](/overtrue/wechat/wiki/门店管理) `2.0 added`
 - [x] [卡券管理](/overtrue/wechat/wiki/卡券) `2.0 added`
-- [x] [网页授权](/overtrue/wechat/wiki/网页授权)
 - [x] [JSSDK](/overtrue/wechat/wiki/JSSDK) `2.0 added`
 - [x] [语义理解](/overtrue/wechat/wiki/语义理解服务) `2.0 added`
 - [x] [数据统计](/overtrue/wechat/wiki/数据统计查询服务) `2.0 added`
