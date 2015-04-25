@@ -145,7 +145,7 @@ class Media
      * 修改图文消息
      *
      * @param string  $mediaId
-     * @param array   $articles
+     * @param array   $article
      * @param int     $index
      *
      * @return boolean

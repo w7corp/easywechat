@@ -1,6 +1,8 @@
 <?php
 namespace Overtrue\Wechat;
 
+use Overtrue\Wechat\Utils\Bag;
+
 /**
  * 语义理解
  */
@@ -36,18 +38,20 @@ class Semantic
     }
 
     /**
-     * 创建分组
+     * 语义理解
      *
-     * @param string $name
+     * @param string         $keyword
+     * @param array | string $categories
+     * @param array          $other
      *
-     * @return integer
+     * @return Bag
      */
     public function query($keyword, $categories, array $other = array())
     {
         $params = array(
                    'query'    => $keyword,
                    'category' => join(',', (array) $categories),
-                   'appid'    => $appId,
+                   'appid'    => $this->appId,
                   );
 
         return new Bag($this->http->jsonPost(self::API_CREATE, array_merge($params, $other)));

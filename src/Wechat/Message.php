@@ -48,8 +48,8 @@ class Message
      *
      * @return mixed
      */
-    static public function __callStatic($method, $args = array())
+    static public function __callStatic($method, $args)
     {
-        return call_user_func_array('self::make', array($method));
+        return call_user_func_array('self::make', array($method, $args));
     }
 }

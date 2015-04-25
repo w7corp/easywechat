@@ -16,7 +16,7 @@ class Voice extends BaseMessage
     /**
      * 媒体
      *
-     * @var Overtrue\Wechat\Media
+     * @var Media
      */
     protected $media;
 

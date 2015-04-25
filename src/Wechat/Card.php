@@ -91,11 +91,12 @@ class Card
      */
     public function create(array $base, array $properties = array(), $type = self::GENERAL_COUPON)
     {
-        $key = strtolower($type);
+        $key  = strtolower($type);
+        $card = array_merge(array('base_info' => $base), $properties);
         $params = array(
                    'card' => array(
                               'card_type' => $type,
-                              $key => array_merge(array('base_info' => $base), $properties);
+                              $key        => $card,
                              ),
                   );
 
