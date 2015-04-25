@@ -288,8 +288,8 @@ class Notice
             }
 
             $return[$key] = array(
-                             'value' => $item,
-                             'color' => $this->defaultColor,
+                             'value' => $value,
+                             'color' => $color,
                             );
         }
 

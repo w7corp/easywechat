@@ -2,24 +2,13 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Arr;
+use Overtrue\Wechat\Utils\Bag;
 
 /**
  * 门店
  */
 class Store
 {
-    /**
-     * 请求的headers
-     *
-     * @var array
-     */
-    protected $headers = array('content-type:application/json');
-
-    const API_CREATE    = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
-    const API_GET       = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
-    const API_LIST      = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
-    const API_UPDATE    = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
-    const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 
     /**
      * Http对象
@@ -27,6 +16,12 @@ class Store
      * @var Http
      */
     protected $http;
+
+    const API_CREATE    = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
+    const API_GET       = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
+    const API_LIST      = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
+    const API_UPDATE    = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
+    const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 
 
     /**
