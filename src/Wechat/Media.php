@@ -5,6 +5,10 @@ use Overtrue\Wechat\Utils\Bag;
 
 /**
  * 媒体素材
+ *
+ * @method string image($path)
+ * @method string voice($path)
+ * @method string thumb($path)
  */
 class Media
 {
