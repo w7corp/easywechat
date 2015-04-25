@@ -36,7 +36,7 @@ class AccessToken
      *
      * @var string
      */
-    protected $keyPrefix = 'overtrue.wechat.access_token';
+    protected $cacheKey = 'overtrue.wechat.access_token';
 
     // API
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
@@ -52,7 +52,7 @@ class AccessToken
     {
         $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->cache     = new Cache();
+        $this->cache     = new Cache($appId);
     }
 
     /**
@@ -66,16 +66,6 @@ class AccessToken
     }
 
     /**
-     * 获取缓存key
-     *
-     * @return string
-     */
-    public function getCacheKey()
-    {
-        return $this->keyPrefix.".".$this->appId;
-    }
-
-    /**
      * 获取Token
      *
      * @return string
@@ -86,9 +76,7 @@ class AccessToken
             return $this->token;
         }
 
-        $key = $this->getCacheKey();
-
-        return $this->cache->get($key, function() use ($key){
+        return $this->cache->get($this->cacheKey, function() {
             $params = array(
                        'appid'      => $this->appId,
                        'secret'     => $this->appSecret,
@@ -98,7 +86,7 @@ class AccessToken
 
             $token = $http->get(self::API_TOKEN_GET, $params);
 
-            $this->cache->set($key, $token['access_token'], $token['expires_in']);
+            $this->cache->set($this->cacheKey, $token['access_token'], $token['expires_in']);
 
             return $this->token = $token['access_token'];
         });
@@ -110,7 +98,7 @@ class AccessToken
      * @return string
      */
     public function __toString()
-    {error_log($this->getToken());
+    {
         return $this->getToken();
     }
 }

@@ -30,6 +30,13 @@ class Auth
     protected $cache;
 
     /**
+     * Http对象
+     *
+     * @var Http
+     */
+    protected $http;
+
+    /**
      * 授权结果
      *
      * {
@@ -40,7 +47,7 @@ class Auth
      *     "scope":"SCOPE"
      *  }
      *
-     * @var array|boolean
+     * @var array | boolean
      */
     protected $authResult;
 
@@ -67,7 +74,7 @@ class Auth
         $this->appId     = $appId;
         $this->appSecret = $appSecret;
         $this->cache     = new Cache($appId);
-        $this->http      = new Http();//不需要公用的access_token
+        $this->http      = new Http(); // 不需要公用的access_token
     }
 
     /**
@@ -153,7 +160,7 @@ class Auth
 
         $url = self::API_USER . '?' . http_build_query($queries);
 
-        return new Bag($this->http->get($url));
+        return $this->authorizedUser = new Bag($this->http->get($url));
     }
 
     /**
@@ -165,7 +172,7 @@ class Auth
      */
     public function getAccessToken()
     {
-        $key = 'overtrue.wechat.oauth2.access_token' . $this->appId;
+        $key = 'overtrue.wechat.oauth2.access_token';
 
         return $this->cache->get($key, function($key) {
 
@@ -180,7 +187,7 @@ class Auth
      *
      * @param string $code
      *
-     * @return array
+     * @return array | boolean
      */
     protected function authorize($code)
     {

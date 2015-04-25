@@ -1,6 +1,8 @@
 <?php
 namespace Overtrue\Wechat\Messages;
 
+use Overtrue\Wechat\Media;
+
 /**
  * 声音消息
  *

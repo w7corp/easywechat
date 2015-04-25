@@ -145,7 +145,7 @@ class Media
      * 修改图文消息
      *
      * @param string  $mediaId
-     * @param array   $article
+     * @param array   $articles
      * @param int     $index
      *
      * @return boolean
@@ -155,7 +155,7 @@ class Media
         $params = array(
                    'media_id' => $mediaId,
                    'index'    => $index,
-                   'articles' => $articles,
+                   'articles' => array($article),
                   );
 
         return $this->http->post(self::API_FOREVER_NEWS_UPDATE, $params);

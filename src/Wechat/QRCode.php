@@ -142,7 +142,7 @@ class QRCode
                   );
 
         if ($temporary) {
-            $parmas['expire_seconds'] = min($expireSeconds, 7 * self::DAY);
+            $params['expire_seconds'] = min($expireSeconds, 7 * self::DAY);
         }
 
         return new Bag($http->jsonPost(self::API_CREATE, $params));

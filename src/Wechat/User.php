@@ -40,12 +40,12 @@ class User
      * @param string $openId
      * @param string $lang
      *
-     * @return array
+     * @return Bag
      */
     public function get($openId = null, $lang = 'zh_CN')
     {
         if (empty($openId)) {
-            return $this->all();
+            return $this->lists();
         }
 
         $params = array(

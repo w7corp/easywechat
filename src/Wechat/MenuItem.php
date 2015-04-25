@@ -6,6 +6,8 @@ use Closure;
 
 /**
  * 菜单项
+ *
+ * @property array $sub_button
  */
 class MenuItem extends MagicAttributes
 {

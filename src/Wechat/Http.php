@@ -3,12 +3,15 @@ namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Http as HttpClient;
 
+/**
+ * @method mixed jsonPost($url, $params, $options)
+ */
 class Http extends HttpClient
 {
     /**
      * token
      *
-     * @var token
+     * @var string
      */
     protected $token;
 
@@ -58,7 +61,7 @@ class Http extends HttpClient
      * @param array  $params  接口参数
      * @param array  $options 其它选项
      *
-     * @return array|boolean
+     * @return array | boolean
      */
     public function request($url, $method = self::GET, $params = array(), $options = array())
     {

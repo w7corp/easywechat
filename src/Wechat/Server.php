@@ -18,6 +18,20 @@ class Server
     protected $appId;
 
     /**
+     * token
+     *
+     * @var string
+     */
+    protected $token;
+
+    /**
+     * encodingAESKey
+     *
+     * @var string
+     */
+    protected $encodingAESKey;
+
+    /**
      * 输入
      *
      * @var \Overtrue\Wechat\Utils\Bag
@@ -337,6 +351,16 @@ class Server
 
             return;
         }
+    }
+
+    /**
+     * 直接返回以字符串形式输出时
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->serve();
     }
 
 }

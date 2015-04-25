@@ -31,7 +31,8 @@ class Color
      */
     public function __construct($appId, $appSecret)
     {
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http  = new Http(new AccessToken($appId, $appSecret));
+        $this->cache = new Cache($appId);
     }
 
     /**
@@ -45,9 +46,7 @@ class Color
 
         return $this->cache->get($key, function($key) {
 
-            $http  = new Http(new AccessToken($this->appId, $this->appSecret));
-
-            $result = $http->get(self::API_LIST);
+            $result = $this->http->get(self::API_LIST);
 
             $this->cache->set($key, $result['colors'], 86400);// 1 day
 

@@ -66,7 +66,7 @@ class Card
      */
     public function getTicket()
     {
-        $key = 'overtrue.wechat.cardapi_ticket' . $this->appId;
+        $key = 'overtrue.wechat.card.api_ticket';
 
         return $this->cache->get($key, function($key) {
 
@@ -89,7 +89,7 @@ class Card
      *
      * @return string
      */
-    public function create(array $base, array $properties = array(), $type = self::GENERAL_COUPON);
+    public function create(array $base, array $properties = array(), $type = self::GENERAL_COUPON)
     {
         $key = strtolower($type);
         $params = array(
@@ -157,118 +157,6 @@ class Card
                   );
 
         return $this->http->jsonPost(self::API_CONSUME, $params);
-    }
-
-    /**
-     * 激活/绑定会员卡
-     *
-     * @param string $cardId
-     * @param array  $data
-     * {
-     *  "init_bonus": 100,
-     *  "init_balance": 200,
-     *  "membership_number": "AAA00000001", "code": "12312313",
-     *  "card_id": "xxxx_card_id"
-     * }
-     *
-     * @return boolean
-     */
-    public function memberCardActivate($cardId, array $data)
-    {
-        $params = array_merge(array('card_id' => $cardId));
-
-        return $this->http->jsonPost(self::API_MEMBER_CARD_ACTIVE, $params);
-    }
-
-    /**
-     * 会员卡交易
-     *
-     * @param string $cardId
-     * @param array  $data
-     *
-     * {
-     *     "code": "12312313",
-     *     "card_id":"p1Pj9jr90_SQRaVqYI239Ka1erkI",
-     *     "record_bonus": "消费30元，获得3积分",
-     *     "add_bonus": 3,
-     *     "add_balance": -3000
-     *     "record_balance": "购买焦糖玛琪朵一杯，扣除金额30元。"
-     * }
-     *
-     * @return boolean
-     */
-    public function memberCardTrade($cardId, array $data)
-    {
-        $params = array_merge(array('card_id' => $cardId));
-
-        return $this->http->jsonPost(self::API_MEMBER_CARD_TRADE, $params);
-    }
-
-    /**
-     * 电影票更新座位
-     *
-     * @param stirng $cardId
-     * @param array  $data
-     *
-     * {
-     *     "code" : "277217129962",
-     *     "card_id": "p1Pj9jr90_SQRaVqYI239Ka1erkI",
-     *     "ticket_class": "4D",
-     *     "show_time": 1408493192, "duration"：120, "screening_room": "5 号影厅",
-     *     "seat_number": [ "5 排 14 号" , "5 排 15 号" ]
-     * }
-     *
-     * @return boolean
-     */
-    public function updateMovieTicket($cardId, array $data)
-    {
-        $params = array_merge(array('card_id' => $cardId));
-
-        return $this->http->jsonPost(self::API_MOVIE_TICKET_UPDATE, $params);
-    }
-
-    /**
-     * 会议门票更新
-     *
-     * @param string $cardId
-     * @param array  $data
-     *
-     * {
-     *     "code": "717523732898",
-     *     "card_id": "pXch-jvdwkJjY7evUFV-sGsoMl7A",
-     *     "zone" : "C 区",
-     *     "entrance" : "东北门",
-     *     "seat_number" : "2 排 15 号"
-     * }
-     *
-     * @return boolean
-     */
-    public function updateMeetingTicket($cardId, array $data)
-    {
-        $params = array_merge(array('card_id' => $cardId));
-
-        return $this->http->jsonPost(self::API_MEETING_TICKET_UPDATE, $params);
-    }
-
-    /**
-     * 在线值机
-     *
-     * @param string $cardId
-     * @param array  $data
-     * {
-     *     "code": "198374613512",
-     *     "card_id":"p1Pj9jr90_SQRaVqYI239Ka1erkI",
-     *     "passenger_name": "乘客姓名",
-     *     "class": "舱等",
-     *     "seat": "座位号",
-     *     "etkt_bnr": "电子客票号", "qrcode_data": "二维码数据", "is_cancel ": false
-     * }
-     *
-     * @return boolean
-     */
-    public function checkin($cardId, array $data)
-    {
-        # code...
     }
 
     /**
@@ -422,7 +310,121 @@ class Card
     {
         $params = array('card_id' => $cardId);
 
-        return $this->http->jsonPost(self::API_DELETE, );
+        return $this->http->jsonPost(self::API_DELETE, $params);
+    }
+
+    /**
+     * 激活/绑定会员卡
+     *
+     * @param string $cardId
+     * @param array  $data
+     * {
+     *  "init_bonus": 100,
+     *  "init_balance": 200,
+     *  "membership_number": "AAA00000001", "code": "12312313",
+     *  "card_id": "xxxx_card_id"
+     * }
+     *
+     * @return boolean
+     */
+    public function memberCardActivate($cardId, array $data)
+    {
+        $params = array_merge(array('card_id' => $cardId));
+
+        return $this->http->jsonPost(self::API_MEMBER_CARD_ACTIVE, $params);
+    }
+
+    /**
+     * 会员卡交易
+     *
+     * @param string $cardId
+     * @param array  $data
+     *
+     * {
+     *     "code": "12312313",
+     *     "card_id":"p1Pj9jr90_SQRaVqYI239Ka1erkI",
+     *     "record_bonus": "消费30元，获得3积分",
+     *     "add_bonus": 3,
+     *     "add_balance": -3000
+     *     "record_balance": "购买焦糖玛琪朵一杯，扣除金额30元。"
+     * }
+     *
+     * @return boolean
+     */
+    public function memberCardTrade($cardId, array $data)
+    {
+        $params = array_merge(array('card_id' => $cardId));
+
+        return $this->http->jsonPost(self::API_MEMBER_CARD_TRADE, $params);
+    }
+
+    /**
+     * 电影票更新座位
+     *
+     * @param stirng $cardId
+     * @param array  $data
+     *
+     * {
+     *     "code" : "277217129962",
+     *     "card_id": "p1Pj9jr90_SQRaVqYI239Ka1erkI",
+     *     "ticket_class": "4D",
+     *     "show_time": 1408493192, "duration"：120, "screening_room": "5 号影厅",
+     *     "seat_number": [ "5 排 14 号" , "5 排 15 号" ]
+     * }
+     *
+     * @return boolean
+     */
+    public function updateMovieTicket($cardId, array $data)
+    {
+        $params = array_merge(array('card_id' => $cardId));
+
+        return $this->http->jsonPost(self::API_MOVIE_TICKET_UPDATE, $params);
+    }
+
+    /**
+     * 会议门票更新
+     *
+     * @param string $cardId
+     * @param array  $data
+     *
+     * {
+     *     "code": "717523732898",
+     *     "card_id": "pXch-jvdwkJjY7evUFV-sGsoMl7A",
+     *     "zone" : "C 区",
+     *     "entrance" : "东北门",
+     *     "seat_number" : "2 排 15 号"
+     * }
+     *
+     * @return boolean
+     */
+    public function updateMeetingTicket($cardId, array $data)
+    {
+        $params = array_merge(array('card_id' => $cardId));
+
+        return $this->http->jsonPost(self::API_MEETING_TICKET_UPDATE, $params);
+    }
+
+    /**
+     * 在线值机
+     *
+     * @param string $cardId
+     * @param array  $data
+     * {
+     *     "code": "198374613512",
+     *     "card_id":"p1Pj9jr90_SQRaVqYI239Ka1erkI",
+     *     "passenger_name": "乘客姓名",
+     *     "class": "舱等",
+     *     "seat": "座位号",
+     *     "etkt_bnr": "电子客票号", "qrcode_data": "二维码数据", "is_cancel ": false
+     * }
+     *
+     * @return boolean
+     */
+    public function checkin($cardId, array $data)
+    {
+        $params = array_merge(array('card_id' => $cardId));
+
+        return $this->http->jsonPost(self::API_BOARDING_PASS_CHECKIN, $params);
     }
 
     /**
@@ -454,6 +456,6 @@ class Card
      */
     public function getNonce()
     {
-        return uniqid();
+        return uniqid('pre_');
     }
 }

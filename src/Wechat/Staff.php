@@ -215,8 +215,6 @@ class Staff
 
         $this->message->to = $openId;
 
-        $this->http->jsonPost(self::API_MESSAGE_SEND, $this->message->buildForStaff());
-
-        return true;
+        return $this->http->jsonPost(self::API_MESSAGE_SEND, $this->message->buildForStaff());
     }
 }
