@@ -139,7 +139,7 @@ class Card
     public function update($cardId, $type, array $base = array(), array $data = array())
     {
         $key  = strtolower($type);
-        $card = array_merge(array('base_info' => $base), $properties);
+        $card = array_merge(array('base_info' => $base), $data);
 
         $params = array(
                    'card_id' => $cardId,
@@ -337,7 +337,7 @@ class Card
      */
     public function memberCardActivate($cardId, array $data)
     {
-        $params = array_merge(array('card_id' => $cardId));
+        $params = array_merge(array('card_id' => $cardId), $data);
 
         return $this->http->jsonPost(self::API_MEMBER_CARD_ACTIVE, $params);
     }
@@ -361,7 +361,7 @@ class Card
      */
     public function memberCardTrade($cardId, array $data)
     {
-        $params = array_merge(array('card_id' => $cardId));
+        $params = array_merge(array('card_id' => $cardId), $data);
 
         return new Bag($this->http->jsonPost(self::API_MEMBER_CARD_TRADE, $params));
     }
@@ -384,7 +384,7 @@ class Card
      */
     public function updateMovieTicket($cardId, array $data)
     {
-        $params = array_merge(array('card_id' => $cardId));
+        $params = array_merge(array('card_id' => $cardId), $data);
 
         return $this->http->jsonPost(self::API_MOVIE_TICKET_UPDATE, $params);
     }
@@ -407,7 +407,7 @@ class Card
      */
     public function updateMeetingTicket($cardId, array $data)
     {
-        $params = array_merge(array('card_id' => $cardId));
+        $params = array_merge(array('card_id' => $cardId), $data);
 
         return $this->http->jsonPost(self::API_MEETING_TICKET_UPDATE, $params);
     }
@@ -430,7 +430,7 @@ class Card
      */
     public function checkin($cardId, array $data)
     {
-        $params = array_merge(array('card_id' => $cardId));
+        $params = array_merge(array('card_id' => $cardId), $data);
 
         return $this->http->jsonPost(self::API_BOARDING_PASS_CHECKIN, $params);
     }
@@ -438,17 +438,9 @@ class Card
     /**
      * 生成签名
      *
-     * @param string $ticket
-     * @param string $appId
-     * @param stirng $locationId
-     * @param int    $timestamp
-     * @param string $nonce
-     * @param string $cardId
-     * @param string $cardType
-     *
      * @return string
      */
-    public function getSignature($ticket, $appId, $locationId, $timestamp, $nonce, $cardId, $cardType)
+    public function getSignature()
     {
         $params = func_get_args();
 
