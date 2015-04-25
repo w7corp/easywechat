@@ -29,7 +29,7 @@ class Stats
     const  API_UPSTREAM_MESSSAGE_DIST_WEEKLY  = 'https://api.weixin.qq.com/datacube/getupstreammsgdistweek';   // 获取消息发送分布周数据
     const  API_UPSTREAM_MESSSAGE_DIST_MONTHLY = 'https://api.weixin.qq.com/datacube/getupstreammsgdistmonth?'; // 获取消息发送分布月数据
     const  API_INTERFACE_SUMMARY              = 'https://api.weixin.qq.com/datacube/getinterfacesummary';      // 获取接口分析数据
-    const  API_INTERFACE_SUMMARY_HOURly       = 'https://api.weixin.qq.com/datacube/getinterfacesummaryhour';  // 获取接口分析分时数据
+    const  API_INTERFACE_SUMMARY_HOURLY       = 'https://api.weixin.qq.com/datacube/getinterfacesummaryhour';  // 获取接口分析分时数据
 
     /**
      * constructor
@@ -39,7 +39,6 @@ class Stats
      */
     public function __construct($appId, $appSecret)
     {
-        $this->appId = $appId;
         $this->http = new Http(new AccessToken($appId, $appSecret));
     }
 
@@ -265,13 +264,15 @@ class Stats
     }
 
     /**
-     * 创建分组
+     * 查询数据
      *
-     * @param string $name
+     * @param string $api
+     * @param string $from
+     * @param string $to
      *
-     * @return integer
+     * @return array
      */
-    protected function query($api, $form, $to)
+    protected function query($api, $from, $to)
     {
         $params = array(
                    'begin_date' => $from,

@@ -8,8 +8,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class Semantic
 {
-    const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
-
     /**
      * Http对象
      *
@@ -23,6 +21,8 @@ class Semantic
      * @var string
      */
     protected $appId;
+
+    const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
 
 
     /**
