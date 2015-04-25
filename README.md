@@ -1,6 +1,6 @@
 # Wechat
 
-可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 版: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
+可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
