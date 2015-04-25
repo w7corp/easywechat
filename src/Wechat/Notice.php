@@ -234,6 +234,30 @@ class Notice
     }
 
     /**
+     * 行业列表
+     *
+     * @return array
+     */
+    public function industries()
+    {
+        return self::$industries;
+    }
+
+    /**
+     * 魔术访问
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if ($property == 'industries') {
+            return $this->industries();
+        }
+    }
+
+    /**
      * 格式化模板数据
      *
      * @param array $data
