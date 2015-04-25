@@ -4,7 +4,7 @@ namespace Overtrue\Wechat;
 use Overtrue\Wechat\Utils\Http as HttpClient;
 
 /**
- * @method mixed jsonPost($url, $params, $options)
+ * @method mixed jsonPost($url, $params = array(), $options = array())
  */
 class Http extends HttpClient
 {

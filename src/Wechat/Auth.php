@@ -84,13 +84,13 @@ class Auth
      */
     public function authorized()
     {
-        if ($this->authResult) {
+        if (! empty($this->authResult)) {
             return true;
         }
 
         $input = new Input();
 
-        if (!($code = $input->get('code'))) {
+        if (! $code = $input->get('code')) {
             return false;
         }
 
@@ -164,6 +164,32 @@ class Auth
     }
 
     /**
+     * 通过code授权
+     *
+     * @param string $code
+     *
+     * @return array | boolean
+     */
+    protected function authorize($code)
+    {
+        if (! empty($this->authResult)) {
+            return $this->authResult;
+        }
+
+        $params = array(
+                   'appid'      => $this->appId,
+                   'secret'     => $this->appSecret,
+                   'code'       => $code,
+                   'grant_type' => 'authorization_code',
+                  );
+
+        $authResult = $this->http->get(self::API_TOKEN_GET, $params);
+
+        //TODO:refresh_token机制
+        return $this->authResult = $authResult;
+    }
+
+    /**
      * 获取access_token
      *
      * 注意：这个是OAuth2用的access_token，与普通access_token不一样
@@ -180,31 +206,5 @@ class Auth
 
             return $this->authResult['access_token'];
         });
-    }
-
-    /**
-     * 通过code授权
-     *
-     * @param string $code
-     *
-     * @return array | boolean
-     */
-    protected function authorize($code)
-    {
-        if ($this->authResult) {
-            return $this->authResult;
-        }
-
-        $params = array(
-                   'appid'      => $this->appId,
-                   'secret'     => $this->appSecret,
-                   'code'       => $code,
-                   'grant_type' => 'authorization_code',
-                  );
-
-        $authResult = $this->http->get(self::API_TOKEN_GET, $params);
-
-        //TODO:refresh_token机制
-        return $this->authResult = $authResult;
     }
 }
