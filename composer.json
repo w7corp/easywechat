@@ -9,7 +9,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php":">=5.3"
+        "php":">=5.3",
+        "ext-mcrypt": "*"
     },
     "authors": [
         {
