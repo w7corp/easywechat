@@ -16,6 +16,13 @@ class Card
      */
     protected $http;
 
+    /**
+     * Cache对象
+     *
+     * @var Cache
+     */
+    protected $cache;
+
     // 卡券类型
     const TYPE_GENERAL_COUPON = 'GENERAL_COUPON';   // 通用券
     const TYPE_GROUPON        = 'GROUPON';          // 团购券
@@ -56,7 +63,8 @@ class Card
      */
     public function __construct($appId, $appSecret)
     {
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http  = new Http(new AccessToken($appId, $appSecret));
+        $this->cache = new Cache($appId);
     }
 
     /**
@@ -70,9 +78,7 @@ class Card
 
         return $this->cache->get($key, function($key) {
 
-            $http  = new Http(new AccessToken($this->appId, $this->appSecret));
-
-            $result = $http->get(self::API_TICKET);
+            $result = $this->http->get(self::API_TICKET);
 
             $this->cache->set($key, $result['access_token'], $result['expires_in']);
 
