@@ -24,7 +24,7 @@ abstract class MagicAttributes
      * 设置属性
      *
      * @param string $attribute
-     * @param mixed  $value
+     * @param string $value
      */
     public function setAttribute($attribute, $value)
     {

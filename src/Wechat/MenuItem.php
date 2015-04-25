@@ -22,9 +22,9 @@ class MenuItem extends MagicAttributes
     {
         $this->with('name', $name);
 
-        $type && $this->with('type', $type);
+        $type !== null && $this->with('type', $type);
 
-        if ($property) {
+        if ($property !== null) {
             $key = ($type == 'view') ? 'url' : 'key';
             $this->with($key, $property);
         }
