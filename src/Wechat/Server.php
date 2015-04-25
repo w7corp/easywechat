@@ -11,13 +11,6 @@ use Overtrue\Wechat\Utils\XML;
 class Server
 {
     /**
-     * 输入
-     *
-     * @var \Overtrue\Wechat\Utils\Bag
-     */
-    protected $input;
-
-    /**
      * 应用ID
      *
      * @var string
@@ -25,11 +18,11 @@ class Server
     protected $appId;
 
     /**
-     * 应用secret
+     * 输入
      *
-     * @var string
+     * @var \Overtrue\Wechat\Utils\Bag
      */
-    protected $appSecret;
+    protected $input;
 
     /**
      * 监听器
@@ -44,13 +37,6 @@ class Server
      * @var boolean
      */
     protected $security = false;
-
-    /**
-     * 已经实例化过的服务
-     *
-     * @var array
-     */
-    protected $resolved = array();
 
     /**
      * 允许的事件
