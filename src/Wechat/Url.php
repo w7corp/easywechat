@@ -45,4 +45,16 @@ class Url
 
         return $response['short_url'];
     }
+
+    /**
+     * 获取当前URL
+     *
+     * @return string
+     */
+    public static function current()
+    {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+
+        return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    }
 }

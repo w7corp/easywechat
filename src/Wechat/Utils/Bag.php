@@ -83,7 +83,7 @@ class Bag implements
      */
     public function has($key)
     {
-        return (bool) Arr::get($this->data, $key);
+        return isset($this->data[$key]);
     }
 
     /**

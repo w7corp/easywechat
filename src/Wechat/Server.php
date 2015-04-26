@@ -360,7 +360,7 @@ class Server
      */
     public function __toString()
     {
-        return $this->serve();
+        return "".$this->serve();
     }
 
 }
