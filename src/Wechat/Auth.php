@@ -108,7 +108,7 @@ class Auth
     /**
      * 获取已授权用户
      *
-     * @return \Overtrue\Wechat\Utils\Bag
+     * @return \Overtrue\Wechat\Utils\Bag  | null
      */
     public function user()
     {
@@ -117,11 +117,11 @@ class Auth
         }
 
         if (!$this->input->has('state')) {
-            return false;
+            return null;
         }
 
         if ((!$code = $this->input->get('code')) && $this->input->has('state')) {
-            return false;
+            return null;
         }
 
         $permission = $this->getAccessPermission($code);
@@ -142,7 +142,7 @@ class Auth
      * @param string $state
      * @param string $scope
      *
-     * @return Bag
+     * @return Bag | null
      */
     public function authorize($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
     {
