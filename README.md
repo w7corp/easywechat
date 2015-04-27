@@ -75,25 +75,25 @@ echo $server->serve();
 
 ## Features
 
-- [x] [监听消息](/overtrue/wechat/wiki/接收消息与回复)
-- [x] [监听事件](/overtrue/wechat/wiki/监听微信事件)
-- [x] [基本消息类型](/overtrue/wechat/wiki/消息的使用)
-- [x] [图文消息](/overtrue/wechat/wiki/消息的使用)
-- [x] [模板消息](/overtrue/wechat/wiki/模板消息)  `2.0 added`
+- [x] [监听消息](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/接收消息与回复)
+- [x] [监听事件](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/监听微信事件)
+- [x] [基本消息类型](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/消息的使用)
+- [x] [图文消息](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/消息的使用)
+- [x] [模板消息](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/模板消息)  `2.0 added`
 - [ ] 群发消息 `WIP`
-- [x] [用户与用户组](/overtrue/wechat/wiki/用户与用户组管理)
-- [x] [客服与消息发送](/overtrue/wechat/wiki/客服管理与发送消息)
-- [x] [多客服与消息转发](/overtrue/wechat/wiki/多客服与消息转发)
-- [x] [网页授权](/overtrue/wechat/wiki/网页授权)
-- [x] [自定义菜单](/overtrue/wechat/wiki/自定义菜单)
-- [x] [素材管理](/overtrue/wechat/wiki/素材管理) `2.0 added`
-- [x] [门店管理](/overtrue/wechat/wiki/门店管理) `2.0 added`
-- [x] [卡券管理](/overtrue/wechat/wiki/卡券) `2.0 added`
-- [x] [JSSDK](/overtrue/wechat/wiki/JSSDK) `2.0 added`
-- [x] [语义理解](/overtrue/wechat/wiki/语义理解服务) `2.0 added`
-- [x] [数据统计](/overtrue/wechat/wiki/数据统计查询服务) `2.0 added`
-- [x] [二维码](/overtrue/wechat/wiki/二维码) `2.0 added`
-- [x] [短链接](/overtrue/wechat/wiki/短链接) `2.0 added`
+- [x] [用户与用户组](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/用户与用户组管理)
+- [x] [客服与消息发送](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/客服管理与发送消息)
+- [x] [多客服与消息转发](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/多客服与消息转发)
+- [x] [网页授权](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/网页授权)
+- [x] [自定义菜单](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/自定义菜单)
+- [x] [素材管理](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/素材管理) `2.0 added`
+- [x] [门店管理](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/门店管理) `2.0 added`
+- [x] [卡券管理](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/卡券) `2.0 added`
+- [x] [JSSDK](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/JSSDK) `2.0 added`
+- [x] [语义理解](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/语义理解服务) `2.0 added`
+- [x] [数据统计](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/数据统计查询服务) `2.0 added`
+- [x] [二维码](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/二维码) `2.0 added`
+- [x] [短链接](https://github.com/overtrue/wechat/wiki/overtrue/wechat/wiki/短链接) `2.0 added`
 
 ## 贡献代码
 

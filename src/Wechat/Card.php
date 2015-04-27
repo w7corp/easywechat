@@ -86,6 +86,11 @@ class Card
         });
     }
 
+    public function getCardExtString($value='')
+    {
+        # code...
+    }
+
     /**
      * 创建卡券
      *
