@@ -45,7 +45,7 @@
 
 ## 使用
 
-基本使用
+基本使用（以服务端为例）:
 
 ```php
 <?php
@@ -65,6 +65,7 @@ $server->on('message', function($message){
 // 您可以直接echo 或者返回给框架
 echo $server->serve();
 ```
+更多请参考文档。
 
 ## 文档
 
