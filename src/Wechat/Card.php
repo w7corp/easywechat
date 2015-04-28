@@ -169,7 +169,9 @@ class Card
                    'count'  => $count,
                   );
 
-        return $this->http->jsonPost(self::API_LIST, $params);
+        $result = $this->http->jsonPost(self::API_LIST, $params);
+
+        return $result['card_id_list'];
     }
 
     /**
