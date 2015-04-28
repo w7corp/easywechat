@@ -1,12 +1,8 @@
-preset: recommended
+preset: symfony
 
 enabled:
   - strict
   - strict_param
-  - psr-1
-  - psr-2
-  - symfony
-  - contrib
 
 disabled:
   - short_array_syntax
