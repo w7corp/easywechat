@@ -85,16 +85,16 @@ class Http extends HttpClient
 
         $contents = json_decode($response['data'], true);
 
-        if(isset($contents['errcode'])) {
-            if ($contents['errmsg'] == 'ok') {
-                return true;
-            }
-
+        if(isset($contents['errcode']) && 0 != $contents['errcode']) {
             if (empty($contents['errmsg'])) {
                 $contents['errmsg'] = 'Unknown';
             }
 
             throw new Exception("[{$contents['errcode']}] ". $contents['errcode'], $contents['errcode']);
+        }
+
+        if ($contents == array("errcode" => "0", "errmsg" => "ok")) {
+            return true;
         }
 
 
