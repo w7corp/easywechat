@@ -37,7 +37,7 @@ class Http extends HttpClient
      */
     public function __construct($token = null)
     {
-        $this->token = $token;
+        $this->token = $token instanceof AccessToken ? $token->getToken() : $token;
         parent::__construct();
     }
 

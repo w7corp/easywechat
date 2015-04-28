@@ -41,7 +41,7 @@ class Card
     const API_GET                   = 'https://api.weixin.qq.com/card/get';
     const API_UPDATE                = 'https://api.weixin.qq.com/card/update';
     const API_LIST                  = 'https://api.weixin.qq.com/card/batchget';
-    const API_CONSUME               = 'https://api.weixin.qq.com/code/consume';
+    const API_CONSUME               = 'https://api.weixin.qq.com/card/code/consume';
     const API_UNAVAILABLE           = 'https://api.weixin.qq.com/card/code/unavailable';
     const API_CODE_GET              = 'https://api.weixin.qq.com/card/code/get';
     const API_CODE_UPDATE           = 'https://api.weixin.qq.com/card/code/update';

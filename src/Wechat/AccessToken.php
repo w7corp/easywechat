@@ -91,14 +91,4 @@ class AccessToken
             return $this->token = $token['access_token'];
         });
     }
-
-    /**
-     * 输出字符串
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getToken();
-    }
 }
