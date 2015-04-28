@@ -352,9 +352,8 @@ class Card
     /**
      * 会员卡交易
      *
-     * @param string $cardId
-     * @param array  $data
-     *
+     * <pre>
+     * $data:
      * {
      *     "code": "12312313",
      *     "card_id":"p1Pj9jr90_SQRaVqYI239Ka1erkI",
@@ -363,6 +362,10 @@ class Card
      *     "add_balance": -3000
      *     "record_balance": "购买焦糖玛琪朵一杯，扣除金额30元。"
      * }
+     * </pre>
+     *
+     * @param string $cardId
+     * @param array  $data
      *
      * @return Bag
      */
@@ -376,9 +379,8 @@ class Card
     /**
      * 电影票更新座位
      *
-     * @param stirng $cardId
-     * @param array  $data
-     *
+     * <pre>
+     * $data:
      * {
      *     "code" : "277217129962",
      *     "card_id": "p1Pj9jr90_SQRaVqYI239Ka1erkI",
@@ -386,6 +388,10 @@ class Card
      *     "show_time": 1408493192, "duration"：120, "screening_room": "5 号影厅",
      *     "seat_number": [ "5 排 14 号" , "5 排 15 号" ]
      * }
+     * </pre>
+     *
+     * @param stirng $cardId
+     * @param array  $data
      *
      * @return boolean
      */
@@ -399,9 +405,8 @@ class Card
     /**
      * 会议门票更新
      *
-     * @param string $cardId
-     * @param array  $data
-     *
+     * <pre>
+     * $data:
      * {
      *     "code": "717523732898",
      *     "card_id": "pXch-jvdwkJjY7evUFV-sGsoMl7A",
@@ -409,6 +414,10 @@ class Card
      *     "entrance" : "东北门",
      *     "seat_number" : "2 排 15 号"
      * }
+     * </pre>
+     *
+     * @param string $cardId
+     * @param array  $data
      *
      * @return boolean
      */
@@ -422,8 +431,8 @@ class Card
     /**
      * 在线值机
      *
-     * @param string $cardId
-     * @param array  $data
+     * <pre>
+     * $data:
      * {
      *     "code": "198374613512",
      *     "card_id":"p1Pj9jr90_SQRaVqYI239Ka1erkI",
@@ -432,6 +441,10 @@ class Card
      *     "seat": "座位号",
      *     "etkt_bnr": "电子客票号", "qrcode_data": "二维码数据", "is_cancel ": false
      * }
+     * </pre>
+     *
+     * @param string $cardId
+     * @param array  $data
      *
      * @return boolean
      */
