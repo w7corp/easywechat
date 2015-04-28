@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -44,7 +45,6 @@ class AccessToken
     // API
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
 
-
     /**
      * constructor
      *
@@ -79,7 +79,7 @@ class AccessToken
             return $this->token;
         }
 
-        return $this->cache->get($this->cacheKey, function() {
+        return $this->cache->get($this->cacheKey, function () {
             $params = array(
                        'appid'      => $this->appId,
                        'secret'     => $this->appSecret,

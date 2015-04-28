@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -14,7 +15,6 @@ class Image
      * @var Http
      */
     protected $http;
-
 
     /**
      * constructor

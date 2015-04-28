@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -43,15 +44,12 @@ class Alias
     /**
      * 是否已经注册过
      *
-     * @var boolean
+     * @var bool
      */
     protected static $registered = false;
 
-
     /**
      * 注册别名
-     *
-     * @return void
      */
     public static function register()
     {

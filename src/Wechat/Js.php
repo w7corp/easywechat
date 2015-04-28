@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -52,9 +53,9 @@ class Js
     /**
      * 获取JSSDK的配置数组
      *
-     * @param array   $APIs
-     * @param boolean $debug
-     * @param boolean $json
+     * @param array $APIs
+     * @param bool  $debug
+     * @param bool  $json
      *
      * @return array
      */
@@ -74,9 +75,9 @@ class Js
      */
     public function getTicket()
     {
-        $key = 'overtrue.wechat.jsapi_ticket' . $this->appId;;
+        $key = 'overtrue.wechat.jsapi_ticket'.$this->appId;
 
-        return $this->cache->get($key, function($key) {
+        return $this->cache->get($key, function ($key) {
             $http  = new Http(new AccessToken($this->appId, $this->appSecret));
 
             $result = $http->get(self::API_TICKET);
@@ -104,11 +105,11 @@ class Js
         $ticket    = $this->getTicket();
 
         $sign = array(
-                 "appId"     => $this->appId,
-                 "nonceStr"  => $nonce,
-                 "timestamp" => $timestamp,
-                 "url"       => $url,
-                 "signature" => $this->getSignature($ticket, $nonce, $timestamp, $url),
+                 'appId'     => $this->appId,
+                 'nonceStr'  => $nonce,
+                 'timestamp' => $timestamp,
+                 'url'       => $url,
+                 'signature' => $this->getSignature($ticket, $nonce, $timestamp, $url),
                 );
 
         return $sign;
@@ -117,10 +118,10 @@ class Js
     /**
      * 生成签名
      *
-     * @param string  $ticket
-     * @param string  $nonce
-     * @param int     $timestamp
-     * @param string  $url
+     * @param string $ticket
+     * @param string $nonce
+     * @param int    $timestamp
+     * @param string $url
      *
      * @return string
      */
@@ -154,9 +155,9 @@ class Js
             return $this->url;
         }
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
 
-        return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     }
 
     /**

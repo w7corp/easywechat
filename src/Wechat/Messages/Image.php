@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
@@ -10,7 +11,6 @@ use Overtrue\Wechat\Media;
  */
 class Image extends BaseMessage
 {
-
     protected $properties = array('media_id');
 
     /**
@@ -43,6 +43,7 @@ class Image extends BaseMessage
 
     /**
      * 生成回复消息数组
+     *
      * @return array
      */
     public function toReply()
@@ -53,5 +54,4 @@ class Image extends BaseMessage
                            ),
                );
     }
-
 }

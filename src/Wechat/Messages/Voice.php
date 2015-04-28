@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
@@ -10,7 +11,6 @@ use Overtrue\Wechat\Media;
  */
 class Voice extends BaseMessage
 {
-
     protected $properties = array('media_id');
 
     /**
@@ -19,7 +19,6 @@ class Voice extends BaseMessage
      * @var \Overtrue\Wechat\Media
      */
     protected $media;
-
 
     /**
      * constructor
@@ -73,5 +72,4 @@ class Voice extends BaseMessage
                            ),
                );
     }
-
 }

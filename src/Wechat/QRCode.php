@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -31,7 +32,6 @@ class QRCode
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
     const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
-
     /**
      * constructor
      *
@@ -54,7 +54,7 @@ class QRCode
      */
     public function forever($sceneValue, $type = self::SCENE_QR_FOREVER)
     {
-        $sceneKey = $type == self::SCENE_QR_FOREVER ? 'scene_id' : 'scene_str';
+        $sceneKey = $type === self::SCENE_QR_FOREVER ? 'scene_id' : 'scene_str';
         $scene = array($sceneKey => $sceneValue);
 
         return $this->create($type, $scene, false);
@@ -104,7 +104,7 @@ class QRCode
      */
     public function show($ticket)
     {
-        return self::API_SHOW . "?ticket={$ticket}";
+        return self::API_SHOW."?ticket={$ticket}";
     }
 
     /**
@@ -123,10 +123,10 @@ class QRCode
     /**
      * 创建二维码
      *
-     * @param string  $actionName
-     * @param array   $actionInfo
-     * @param boolean $temporary
-     * @param int     $expireSeconds
+     * @param string $actionName
+     * @param array  $actionInfo
+     * @param bool   $temporary
+     * @param int    $expireSeconds
      *
      * @return Bag
      */

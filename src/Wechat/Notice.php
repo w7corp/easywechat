@@ -1,13 +1,13 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
  * 模板消息
- *
  */
 class Notice
 {
-   /**
+    /**
      * Http对象
      *
      * @var Http
@@ -54,7 +54,6 @@ class Notice
                     8 => '基金|理财|信托',
                     9 => '保险',
                    ),
-
 
         '餐饮' => array(
                    10 => '餐饮',
@@ -132,7 +131,6 @@ class Notice
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
 
-
     /**
      * constructor
      *
@@ -150,7 +148,7 @@ class Notice
      * @param int $industryOne
      * @param int $industryTwo
      *
-     * @return boolean
+     * @return bool
      */
     public function setIndustry($industryOne, $industryTwo)
     {
@@ -181,8 +179,6 @@ class Notice
     }
 
     /**
-     *
-     *
      * @param string $to
      * @param string $templateId
      * @param array  $data
@@ -225,8 +221,6 @@ class Notice
      * 设置模板消息数据项的默认颜色
      *
      * @param string $color
-     *
-     * @return void
      */
     public function defaultColor($color)
     {
@@ -252,7 +246,7 @@ class Notice
      */
     public function __get($property)
     {
-        if ($property == 'industries') {
+        if ($property === 'industries') {
             return $this->industries();
         }
     }
@@ -272,11 +266,11 @@ class Notice
             if (is_scalar($item)) {
                 $value = $item;
                 $color = $this->defaultColor;
-            } else if (is_array($item) && !empty($item)) {
+            } elseif (is_array($item) && !empty($item)) {
                 if (isset($item['value'])) {
                     $value = strval($item['value']);
                     $color = empty($item['color']) ? $this->defaultColor : strval($item['color']);
-                } else if (count($item) < 2) {
+                } elseif (count($item) < 2) {
                     $value = array_shift($item);
                     $color = $this->defaultColor;
                 } else {
@@ -295,7 +289,6 @@ class Notice
 
         return $return;
     }
-
 
     /**
      * 魔术调用
@@ -321,16 +314,17 @@ class Notice
                 'with'         => 'data',
                );
 
-        if (0 == stripos($method, 'with')) {
+        if (0 === stripos($method, 'with')) {
             $method = lcfirst(substr($method, 4));
         }
 
-        if (0 == stripos($method, 'and')) {
+        if (0 === stripos($method, 'and')) {
             $method = lcfirst(substr($method, 3));
         }
 
         if (isset($map[$method])) {
             $this->message[$map[$method]] = array_shift($args);
+
             return $this;
         }
     }

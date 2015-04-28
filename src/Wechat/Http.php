@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Http as HttpClient;
@@ -18,7 +19,7 @@ class Http extends HttpClient
     /**
      * json请求
      *
-     * @var boolean
+     * @var bool
      */
     protected $json = false;
 
@@ -28,7 +29,6 @@ class Http extends HttpClient
      * @var Cache
      */
     protected $cache;
-
 
     /**
      * constructor
@@ -45,8 +45,6 @@ class Http extends HttpClient
      * 设置请求access_token
      *
      * @param string $token
-     *
-     * @return void
      */
     public function setToken($token)
     {
@@ -66,7 +64,7 @@ class Http extends HttpClient
     public function request($url, $method = self::GET, $params = array(), $options = array())
     {
         if ($this->token) {
-            $url .= (stripos($url, '?') ? '&' : '?') .'access_token=' . $this->token;
+            $url .= (stripos($url, '?') ? '&' : '?').'access_token='.$this->token;
         }
 
         $method = strtoupper($method);
@@ -80,23 +78,22 @@ class Http extends HttpClient
         $this->json = false;
 
         if (empty($response['data'])) {
-            throw new Exception("服务器无响应");
+            throw new Exception('服务器无响应');
         }
 
         $contents = json_decode($response['data'], true);
 
-        if(isset($contents['errcode']) && 0 != $contents['errcode']) {
+        if (isset($contents['errcode']) && 0 !== $contents['errcode']) {
             if (empty($contents['errmsg'])) {
                 $contents['errmsg'] = 'Unknown';
             }
 
-            throw new Exception("[{$contents['errcode']}] ". $contents['errcode'], $contents['errcode']);
+            throw new Exception("[{$contents['errcode']}] ".$contents['errcode'], $contents['errcode']);
         }
 
-        if ($contents == array("errcode" => "0", "errmsg" => "ok")) {
+        if ($contents === array('errcode' => '0', 'errmsg' => 'ok')) {
             return true;
         }
-
 
         return $contents;
     }

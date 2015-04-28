@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\XML;
@@ -59,16 +60,16 @@ class Crypt
     public function __construct($appId, $token, $encodingAESKey)
     {
         if (extension_loaded('mcrypt')) {
-            throw new Exception("Mcrypt 拓展未安装或未启用");
+            throw new Exception('Mcrypt 拓展未安装或未启用');
         }
 
-        if (strlen($encodingAESKey) != 43) {
+        if (strlen($encodingAESKey) !== 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
         $this->appId     = $appId;
         $this->token     = $token;
-        $this->AESKey    = base64_decode($encodingAESKey . '=');
+        $this->AESKey    = base64_decode($encodingAESKey.'=', true);
         $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
 
@@ -80,9 +81,9 @@ class Crypt
      *    <li>将消息密文和安全签名打包成xml格式</li>
      * </ol>
      *
-     * @param string  $xml          公众平台待回复用户的消息，xml格式的字符串
-     * @param int     $timestamp    时间戳，可以自己生成，也可以用URL参数的timestamp
-     * @param string  $nonce        随机串，可以自己生成，也可以用URL参数的nonce
+     * @param string $xml       公众平台待回复用户的消息，xml格式的字符串
+     * @param int    $timestamp 时间戳，可以自己生成，也可以用URL参数的timestamp
+     * @param string $nonce     随机串，可以自己生成，也可以用URL参数的nonce
      *
      * @return string 加密后的可以直接回复用户的密文，包括msg_signature, timestamp,
      *                nonce, encrypt的xml格式的字符串
@@ -116,11 +117,11 @@ class Crypt
      *    <li>对消息进行解密</li>
      * </ol>
      *
-     * @param string $msgSignature  签名串，对应URL参数的msg_signature
-     * @param string $timestamp     时间戳 对应URL参数的timestamp
-     * @param string $nonce         随机串，对应URL参数的nonce
-     * @param string $postXML       密文，对应POST请求的数据
-     * @param string &$msg          解密后的原文，当return返回0时有效
+     * @param string $msgSignature 签名串，对应URL参数的msg_signature
+     * @param string $timestamp    时间戳 对应URL参数的timestamp
+     * @param string $nonce        随机串，对应URL参数的nonce
+     * @param string $postXML      密文，对应POST请求的数据
+     * @param string &$msg         解密后的原文，当return返回0时有效
      *
      * @return array
      */
@@ -138,7 +139,7 @@ class Crypt
         //验证安全签名
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypted);
 
-        if ($signature != $msgSignature) {
+        if ($signature !== $msgSignature) {
             throw new Exception('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
@@ -158,7 +159,7 @@ class Crypt
         try {
             //获得16位随机字符串，填充到明文之前
             $random = $this->getRandomStr();
-            $text   = $random . pack("N", strlen($text)) . $text . $appId;
+            $text   = $random.pack('N', strlen($text)).$text.$appId;
 
             // 网络字节序
             // $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
@@ -177,7 +178,6 @@ class Crypt
 
             //使用BASE64对加密后的字符串进行编码
             return base64_encode($encrypted);
-
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
@@ -195,7 +195,7 @@ class Crypt
     {
         try {
             //使用BASE64对需要解密的字符串进行解码
-            $ciphertext = base64_decode($encrypted);
+            $ciphertext = base64_decode($encrypted, true);
             $module     = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv         = substr($this->AESKey, 0, 16);
 
@@ -215,11 +215,11 @@ class Crypt
 
             //去除16位随机字符串,网络字节序和AppId
             if (strlen($result) < 16) {
-                return "";
+                return '';
             }
 
             $content   = substr($result, 16, strlen($result));
-            $listLen   = unpack("N", substr($content, 0, 4));
+            $listLen   = unpack('N', substr($content, 0, 4));
             $xmlLen    = $listLen[1];
             $xml       = substr($content, 4, $xmlLen);
             $fromAppId = trim(substr($content, $xmlLen + 4));
@@ -227,7 +227,7 @@ class Crypt
             throw new Exception($e->getMessage(), self::ERROR_INVALID_XML);
         }
 
-        if ($fromAppId != $appId) {
+        if ($fromAppId !== $appId) {
             throw new Exception('Invalid appId.', self::ERROR_INVALID_APPID);
         }
 
@@ -241,7 +241,7 @@ class Crypt
      */
     private function getRandomStr()
     {
-        return substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"), 0, 16);
+        return substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz'), 0, 16);
     }
 
     /**
@@ -264,7 +264,7 @@ class Crypt
     /**
      * 对需要加密的明文进行填充补位
      *
-     * @param string  $text      需要进行填充补位操作的明文
+     * @param string $text 需要进行填充补位操作的明文
      *
      * @return string 补齐明文字符串
      */
@@ -273,18 +273,18 @@ class Crypt
         //计算需要填充的位数
         $padAmount = $this->blockSize - (strlen($text) % $this->blockSize);
 
-        $padAmount = $padAmount != 0 ? $padAmount : $this->blockSize;
+        $padAmount = $padAmount !== 0 ? $padAmount : $this->blockSize;
 
         //获得补位所用的字符
         $padChr = chr($padAmount);
 
-        $tmp = "";
+        $tmp = '';
 
         for ($index = 0; $index < $padAmount; $index++) {
             $tmp .= $padChr;
         }
 
-        return $text . $tmp;
+        return $text.$tmp;
     }
 
     /**

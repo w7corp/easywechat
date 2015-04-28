@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Exception;
@@ -10,7 +11,6 @@ use Overtrue\Wechat\Exception;
  */
 class Location extends BaseMessage
 {
-
     protected $properties = array('lat', 'lon', 'scale', 'label');
 
     /**
@@ -18,7 +18,7 @@ class Location extends BaseMessage
      */
     public function toStaff()
     {
-        throw new Exception("暂时不支持发送链接消息");
+        throw new Exception('暂时不支持发送链接消息');
     }
 
     /**
@@ -26,6 +26,6 @@ class Location extends BaseMessage
      */
     public function toReply()
     {
-        throw new Exception("暂时不支持回复链接消息");
+        throw new Exception('暂时不支持回复链接消息');
     }
 }

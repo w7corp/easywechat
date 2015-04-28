@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 /**
@@ -8,7 +9,6 @@ namespace Overtrue\Wechat\Messages;
  */
 class Text extends BaseMessage
 {
-
     protected $properties = array('content');
 
     /**
@@ -36,5 +36,4 @@ class Text extends BaseMessage
                      'Content' => $this->content,
                     );
     }
-
 }

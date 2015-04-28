@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -48,7 +49,6 @@ class Auth
     const API_TOKEN_REFRESH = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
     const API_URL           = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
-
     /**
      * constructor
      *
@@ -66,9 +66,9 @@ class Auth
     /**
      * 生成outh URL
      *
-     * @param string  $to
-     * @param string  $state
-     * @param string  $scope
+     * @param string $to
+     * @param string $state
+     * @param string $scope
      *
      * @return string
      */
@@ -84,23 +84,21 @@ class Auth
                    'state'         => $state,
                   );
 
-        return self::API_URL . '?' . http_build_query($params) . '#wechat_redirect';
+        return self::API_URL.'?'.http_build_query($params).'#wechat_redirect';
     }
 
     /**
      * 直接跳转
      *
-     * @param string  $to
-     * @param string  $scope
-     * @param string  $state
-     *
-     * @return void
+     * @param string $to
+     * @param string $scope
+     * @param string $state
      */
     public function redirect($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
     {
         $to !== null || $to = Url::current();
 
-        header('Location:' . $this->url($to, $scope, $state));
+        header('Location:'.$this->url($to, $scope, $state));
 
         exit;
     }
@@ -108,7 +106,7 @@ class Auth
     /**
      * 获取已授权用户
      *
-     * @return \Overtrue\Wechat\Utils\Bag  | null
+     * @return \Overtrue\Wechat\Utils\Bag | null
      */
     public function user()
     {
@@ -117,16 +115,16 @@ class Auth
         }
 
         if (!$this->input->has('state')) {
-            return null;
+            return;
         }
 
         if ((!$code = $this->input->get('code')) && $this->input->has('state')) {
-            return null;
+            return;
         }
 
         $permission = $this->getAccessPermission($code);
 
-        if ($permission['scope'] != 'snsapi_userinfo') {
+        if ($permission['scope'] !== 'snsapi_userinfo') {
             $user = new Bag(array('openid' => $permission['openid']));
         } else {
             $user = $this->getUser($permission['openid'], $permission['access_token']);
@@ -188,7 +186,7 @@ class Auth
                    'lang'         => 'zh_CN',
                   );
 
-        $url = self::API_USER . '?' . http_build_query($queries);
+        $url = self::API_USER.'?'.http_build_query($queries);
 
         return new Bag($this->http->get($url));
     }

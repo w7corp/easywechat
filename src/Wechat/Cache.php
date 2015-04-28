@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -18,15 +19,14 @@ class Cache
      *
      * @var callable
      */
-    static protected $cacheSetter;
+    protected static $cacheSetter;
 
     /**
      * 缓存读取器
      *
      * @var callable
      */
-    static protected $cacheGetter;
-
+    protected static $cacheGetter;
 
     /**
      * 设置缓存文件前缀
@@ -39,11 +39,9 @@ class Cache
     /**
      * 默认的缓存写入器
      *
-     * @param string  $key
-     * @param mixed   $value
-     * @param int     $lifetime
-     *
-     * @return void
+     * @param string $key
+     * @param mixed  $value
+     * @param int    $lifetime
      */
     public function set($key, $value, $lifetime = 7200)
     {
@@ -57,7 +55,7 @@ class Cache
                 );
 
         if (!file_put_contents($this->getCacheFile($key), serialize($data))) {
-            throw new Exception("Access toekn 缓存失败");
+            throw new Exception('Access toekn 缓存失败');
         }
     }
 
@@ -66,8 +64,6 @@ class Cache
      *
      * @param string $key
      * @param mixed  $default
-     *
-     * @return void
      */
     public function get($key, $default = null)
     {
@@ -93,7 +89,7 @@ class Cache
     /**
      * 删除缓存
      *
-     * @return boolean
+     * @return bool
      */
     public function forget($key)
     {
@@ -110,10 +106,8 @@ class Cache
      * 设置缓存写入器
      *
      * @param callable $handler
-     *
-     * @return void
      */
-    static public function setter($handler)
+    public static function setter($handler)
     {
         is_callable($handler) && self::$cacheSetter = $handler;
     }
@@ -122,10 +116,8 @@ class Cache
      * 设置缓存读取器
      *
      * @param callable $handler
-     *
-     * @return void
      */
-    static public function getter($handler)
+    public static function getter($handler)
     {
         is_callable($handler) && self::$cacheGetter = $handler;
     }
@@ -139,6 +131,6 @@ class Cache
      */
     protected function getCacheFile($key)
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($this->prefix . $key);
+        return sys_get_temp_dir().DIRECTORY_SEPARATOR.md5($this->prefix.$key);
     }
 }

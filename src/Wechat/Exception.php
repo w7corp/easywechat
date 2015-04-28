@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Exception as BaseException;
@@ -146,14 +147,12 @@ class Exception extends BaseException
                '9001036' => '查询起始值begin不合法',
               );
 
-
     public function __construct($message, $code = -1)
     {
-        $message = empty($this->errors[$code]) ? $this->message : $message . ' '. $this->errors[$code];
+        $message = empty($this->errors[$code]) ? $this->message : $message.' '.$this->errors[$code];
 
         $message = "[Wechat]{$message}";
 
         parent::__construct($message, $code);
     }
-
 }

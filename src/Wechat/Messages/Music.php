@@ -1,7 +1,6 @@
 <?php
-namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Media;
+namespace Overtrue\Wechat\Messages;
 
 /**
  * 音乐消息
@@ -14,7 +13,6 @@ use Overtrue\Wechat\Media;
  */
 class Music extends BaseMessage
 {
-
     protected $properties = array(
                              'url',
                              'hq_url',
@@ -62,7 +60,7 @@ class Music extends BaseMessage
      */
     public function toReply()
     {
-       $response = array(
+        $response = array(
                     'music' => array(
                                 'Title'        => $this->title,
                                 'Description'  => $this->description,
@@ -74,5 +72,4 @@ class Music extends BaseMessage
 
         return $response;
     }
-
 }

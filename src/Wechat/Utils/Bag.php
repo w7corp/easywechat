@@ -1,7 +1,8 @@
 <?php
+
 namespace Overtrue\Wechat\Utils;
 
-/**
+/*
  * Bag.php
  *
  * (c) 2015 overtrue <anzhengchao@gmail.com>
@@ -22,7 +23,6 @@ use ArrayIterator;
 use Serializable;
 use ArrayAccess;
 use Countable;
-use Closure;
 
 class Bag implements
     ArrayAccess,
@@ -135,8 +135,8 @@ class Bag implements
     /**
      * Retrieve item from Bag.
      *
-     * @param string   $key
-     * @param mixed    $default
+     * @param string $key
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -149,8 +149,6 @@ class Bag implements
      * Remove item form Bag
      *
      * @param string $key
-     *
-     * @return void
      */
     public function forget($key)
     {
@@ -224,7 +222,8 @@ class Bag implements
      *
      * @return mixed
      */
-    public function __get($key) {
+    public function __get($key)
+    {
         return $this->get($key);
     }
 
@@ -233,8 +232,6 @@ class Bag implements
      *
      * @param string $key
      * @param mixed  $value
-     *
-     * @return void
      */
     public function __set($key, $value)
     {
@@ -278,8 +275,6 @@ class Bag implements
      *
      * @param string $offset
      * @param mixed  $value
-     *
-     * @return void
      */
     public function offsetSet($offset, $value)
     {
@@ -290,8 +285,6 @@ class Bag implements
      * Whether or not an offset exists
      *
      * @param string $offset
-     *
-     * @access public
      *
      * @return bool
      */

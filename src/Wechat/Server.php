@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
@@ -48,7 +49,7 @@ class Server
     /**
      * 是否为加密模式
      *
-     * @var boolean
+     * @var bool
      */
     protected $security = false;
 
@@ -58,7 +59,6 @@ class Server
      * @var array
      */
     protected $events = array('received', 'served', 'responseCreated');
-
 
     /**
      * constructor
@@ -97,7 +97,7 @@ class Server
 
         $type = strtolower($type);
 
-        $listeners = $this->listeners->get("{$target}.{$type}") ? : array();
+        $listeners = $this->listeners->get("{$target}.{$type}") ?: array();
 
         array_push($listeners, $callback);
 
@@ -116,7 +116,7 @@ class Server
      */
     public function event($type, $callback = null)
     {
-        return $this->on("event", $type, $callback);
+        return $this->on('event', $type, $callback);
     }
 
     /**
@@ -129,7 +129,7 @@ class Server
      */
     public function message($type, $callback = null)
     {
-        return $this->on("message", $type, $callback);
+        return $this->on('message', $type, $callback);
     }
 
     /**
@@ -149,7 +149,7 @@ class Server
 
         if ($this->input->has('signature')
             && $this->signature($input) !== $this->input->get('signature')) {
-            throw new Exception("Bad Request", 400);
+            throw new Exception('Bad Request', 400);
         }
 
         if ($this->input->has('echostr')) {
@@ -167,11 +167,11 @@ class Server
     protected function prepareInput()
     {
         if ($this->input instanceof Bag) {
-            return ;
+            return;
         }
 
-        $xmlInput = !empty($GLOBALS["HTTP_RAW_POST_DATA"])
-                ? $GLOBALS["HTTP_RAW_POST_DATA"] : file_get_contents("php://input");
+        $xmlInput = !empty($GLOBALS['HTTP_RAW_POST_DATA'])
+                ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents('php://input');
 
         $input = XML::parse($xmlInput);
 
@@ -255,7 +255,7 @@ class Server
 
         if ($this->input->has('MsgId')) {
             return $this->handleMessage($this->input);
-        } else if ($this->input->has('MsgType') && $this->input->get('MsgType') == 'event') {
+        } elseif ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
             return $this->handleEvent($this->input);
         }
 
@@ -271,7 +271,7 @@ class Server
      */
     protected function handleMessage($message)
     {
-        if (!is_null($response = $this->call("message.*", array($message)))) {
+        if (!is_null($response = $this->call('message.*', array($message)))) {
             return $response;
         }
 
@@ -287,7 +287,7 @@ class Server
      */
     protected function handleEvent($event)
     {
-        if (!is_null($response = $this->call("event.*", array($event)))) {
+        if (!is_null($response = $this->call('event.*', array($event)))) {
             return $response;
         }
 
@@ -302,15 +302,16 @@ class Server
     protected function signature($input)
     {
         sort($input, SORT_STRING);
+
         return sha1(implode($input));
     }
 
     /**
      * 调用监听器
      *
-     * @param string       $key
-     * @param array        $args
-     * @param string|null  $default
+     * @param string      $key
+     * @param array       $args
+     * @param string|null $default
      *
      * @return mixed
      */
@@ -343,8 +344,7 @@ class Server
      */
     public function __call($method, $args)
     {
-        if (in_array($method, $this->events)) {
-
+        if (in_array($method, $this->events, true)) {
             $callback = array_shift($args);
 
             is_callable($callback) && $this->listeners->set($method, $callback);
@@ -360,7 +360,6 @@ class Server
      */
     public function __toString()
     {
-        return "".$this->serve();
+        return ''.$this->serve();
     }
-
 }

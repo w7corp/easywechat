@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -23,7 +24,6 @@ class Semantic
     protected $appId;
 
     const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
-
 
     /**
      * constructor
@@ -50,7 +50,7 @@ class Semantic
     {
         $params = array(
                    'query'    => $keyword,
-                   'category' => join(',', (array) $categories),
+                   'category' => implode(',', (array) $categories),
                    'appid'    => $this->appId,
                   );
 

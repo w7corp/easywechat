@@ -1,22 +1,21 @@
 <?php
+
 namespace Overtrue\Wechat\Utils;
 
 class XML
 {
-
-
     /**
      * XML 转换为数组
      *
-     * @param string        $xml
+     * @param string $xml
      *
      * @return array
      */
-    static public function parse($xml)
+    public static function parse($xml)
     {
         $data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
 
-        if (is_object($data) && get_class($data) == 'SimpleXMLElement') {
+        if (is_object($data) && get_class($data) === 'SimpleXMLElement') {
             $data = self::arrarval($data);
         }
 
@@ -26,15 +25,15 @@ class XML
     /**
      * XML编码
      *
-     * @param mixed  $data     数据
-     * @param string $root     根节点名
-     * @param string $item     数字索引的子节点名
-     * @param string $attr     根节点属性
-     * @param string $id       数字索引子节点key转换的属性名
+     * @param mixed  $data 数据
+     * @param string $root 根节点名
+     * @param string $item 数字索引的子节点名
+     * @param string $attr 根节点属性
+     * @param string $id   数字索引子节点key转换的属性名
      *
      * @return string
      */
-    static public function build($data, $root = 'xml', $item = 'item', $attr = '', $id = 'id' /*, $encoding = 'utf-8'*/)
+    public static function build($data, $root = 'xml', $item = 'item', $attr = '', $id = 'id' /*, $encoding = 'utf-8'*/)
     {
         if (is_array($attr)) {
             $_attr = array();
@@ -63,7 +62,7 @@ class XML
      *
      * @return string
      */
-    static public function cdata($string)
+    public static function cdata($string)
     {
         return sprintf('<![CDATA[%s]]>', $string);
     }
@@ -75,9 +74,9 @@ class XML
      *
      * @return array
      */
-    static private function arrarval($data)
+    private static function arrarval($data)
     {
-        if (is_object($data) && get_class($data) == 'SimpleXMLElement') {
+        if (is_object($data) && get_class($data) === 'SimpleXMLElement') {
             $data = (array) $data;
         }
 
@@ -99,7 +98,7 @@ class XML
      *
      * @return string
      */
-    static private function data2Xml($data, $item = 'item', $id = 'id')
+    private static function data2Xml($data, $item = 'item', $id = 'id')
     {
         $xml = $attr = '';
 

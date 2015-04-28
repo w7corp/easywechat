@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use InvalidArgumentException;
@@ -20,7 +21,6 @@ class Message
     const TRANSFER  = 'transfer';
     const NEWS_ITEM = 'news_item';
 
-
     /**
      * 创建消息实例
      *
@@ -28,14 +28,14 @@ class Message
      *
      * @return mixed
      */
-    static public function make($type = self::TEXT)
+    public static function make($type = self::TEXT)
     {
-        if (!defined(__CLASS__ . '::' . strtoupper($type))) {
+        if (!defined(__CLASS__.'::'.strtoupper($type))) {
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
         $message = "Overtrue\Wechat\Messages\\"
-                    . str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
+                    .str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
         return new $message();
     }
@@ -48,7 +48,7 @@ class Message
      *
      * @return mixed
      */
-    static public function __callStatic($method, $args)
+    public static function __callStatic($method, $args)
     {
         return call_user_func_array('self::make', array($method, $args));
     }

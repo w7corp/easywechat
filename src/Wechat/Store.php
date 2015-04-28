@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Arr;
@@ -9,7 +10,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class Store
 {
-
     /**
      * Http对象
      *
@@ -22,7 +22,6 @@ class Store
     const API_LIST      = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
     const API_UPDATE    = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
     const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
-
 
     /**
      * constructor
@@ -78,7 +77,7 @@ class Store
      *
      * @param array $data
      *
-     * @return boolean
+     * @return bool
      */
     public function create(array $data)
     {
@@ -94,10 +93,10 @@ class Store
     /**
      * 更新门店
      *
-     * @param int     $storeId
-     * @param array   $data
+     * @param int   $storeId
+     * @param array $data
      *
-     * @return boolean
+     * @return bool
      */
     public function update($storeId, array $data)
     {
@@ -117,7 +116,7 @@ class Store
      *
      * @param int $storeId
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($storeId)
     {

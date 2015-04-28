@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -20,7 +21,6 @@ class Group
      */
     protected $http;
 
-
     /**
      * constructor
      *
@@ -37,7 +37,7 @@ class Group
      *
      * @param string $name
      *
-     * @return integer
+     * @return int
      */
     public function create($name)
     {
@@ -67,10 +67,10 @@ class Group
     /**
      * 更新组名称
      *
-     * @param int     $groupId
-     * @param string  $name
+     * @param int    $groupId
+     * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
     public function update($groupId, $name)
     {
@@ -89,11 +89,11 @@ class Group
      *
      * @param string $openId
      *
-     * @return integer
+     * @return int
      */
     public function userGroup($openId)
     {
-         $params = array(
+        $params = array(
                     'openid' => $openId,
                   );
 
@@ -105,10 +105,10 @@ class Group
     /**
      * 移动单个用户
      *
-     * @param string  $openId
-     * @param int     $groupId
+     * @param string $openId
+     * @param int    $groupId
      *
-     * @return boolean
+     * @return bool
      */
     public function moveUser($openId, $groupId)
     {
@@ -125,10 +125,10 @@ class Group
     /**
      * 批量移动用户
      *
-     * @param array   $openIds
-     * @param int     $groupId
+     * @param array $openIds
+     * @param int   $groupId
      *
-     * @return boolean
+     * @return bool
      */
     public function moveUsers(array $openIds, $groupId)
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
@@ -44,7 +45,6 @@ class Staff
      */
     protected $http;
 
-
     /**
      * constructor
      *
@@ -87,14 +87,14 @@ class Staff
      * @param string $nickname
      * @param string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function create($email, $nickname, $password)
     {
         $params = array(
-                   "kf_account" => $email,
-                   "nickname"   => $nickname,
-                   "password"   => $password,
+                   'kf_account' => $email,
+                   'nickname'   => $nickname,
+                   'password'   => $password,
                   );
 
         return $this->http->jsonPost(self::API_CREATE, $params);
@@ -107,14 +107,14 @@ class Staff
      * @param string $nickname
      * @param string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function update($email, $nickname, $password)
     {
         $params = array(
-                   "kf_account" => $email,
-                   "nickname"   => $nickname,
-                   "password"   => $password,
+                   'kf_account' => $email,
+                   'nickname'   => $nickname,
+                   'password'   => $password,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
@@ -127,14 +127,14 @@ class Staff
      * @param string $nickname
      * @param string $password
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($email, $nickname, $password)
     {
         $params = array(
-                   "kf_account" => $email,
-                   "nickname"   => $nickname,
-                   "password"   => $password,
+                   'kf_account' => $email,
+                   'nickname'   => $nickname,
+                   'password'   => $password,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
@@ -146,7 +146,7 @@ class Staff
      * @param string $email
      * @param string $path
      *
-     * @return boolean
+     * @return bool
      */
     public function avatar($email, $path)
     {
@@ -156,7 +156,7 @@ class Staff
                                  ),
                    );
 
-        $url = self::API_AVATAR_UPLOAD . "?kf_account={$email}";
+        $url = self::API_AVATAR_UPLOAD."?kf_account={$email}";
 
         return $this->http->jsonPost($url, array(), $options);
     }
@@ -191,7 +191,7 @@ class Staff
     public function by($account)
     {
         if (empty($this->message)) {
-            throw new Exception("未设置要发送的消息");
+            throw new Exception('未设置要发送的消息');
         }
 
         $this->message->staff = $account;
@@ -204,12 +204,12 @@ class Staff
      *
      * @param string $openId
      *
-     * @return boolean
+     * @return bool
      */
     public function to($openId)
     {
         if (empty($this->message)) {
-            throw new Exception("未设置要发送的消息");
+            throw new Exception('未设置要发送的消息');
         }
 
         $this->message->to = $openId;

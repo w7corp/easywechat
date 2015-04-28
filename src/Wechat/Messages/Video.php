@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Media;
@@ -14,7 +15,6 @@ use Overtrue\Wechat\Media;
  */
 class Video extends BaseMessage
 {
-
     protected $properties = array('title', 'description', 'media_id', 'thumb_media_id');
 
     /**
@@ -79,5 +79,4 @@ class Video extends BaseMessage
 
         return $response;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
@@ -10,6 +11,7 @@ use Overtrue\Wechat\Utils\XML;
  * @property string      $from
  * @property string      $to
  * @property string      $staff
+ *
  * @method   BaseMessage to($to)
  * @method   BaseMessage from($from)
  * @method   BaseMessage staff($staff)
@@ -43,7 +45,7 @@ abstract class BaseMessage extends MagicAttributes
     public function buildForStaff()
     {
         if (!method_exists($this, 'toStaff')) {
-            throw new Exception(__CLASS__ . "未实现此方法：toStaff()");
+            throw new Exception(__CLASS__.'未实现此方法：toStaff()');
         }
 
         $base = array(
@@ -65,10 +67,10 @@ abstract class BaseMessage extends MagicAttributes
     public function buildForReply()
     {
         if (!method_exists($this, 'toReply')) {
-            throw new Exception(__CLASS__ . "未实现此方法：toReply()");
+            throw new Exception(__CLASS__.'未实现此方法：toReply()');
         }
 
-         $base = array(
+        $base = array(
                      'ToUserName'   => $this->to,
                      'FromUserName' => $this->from,
                      'CreateTime'   => time(),
@@ -86,7 +88,7 @@ abstract class BaseMessage extends MagicAttributes
     public function buildForBroadcast()
     {
         if (!method_exists($this, 'toBroadcast')) {
-            throw new Exception(__CLASS__ . "未实现此方法：toBroadcast()");
+            throw new Exception(__CLASS__.'未实现此方法：toBroadcast()');
         }
 
         //TODO
@@ -110,12 +112,12 @@ abstract class BaseMessage extends MagicAttributes
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return boolean
+     * @return bool
      */
     protected function validate($attribute, $value)
     {
         $properties = array_merge($this->baseProperties, $this->properties);
 
-        return in_array($attribute, $properties);
+        return in_array($attribute, $properties, true);
     }
 }

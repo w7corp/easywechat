@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 use Closure;
@@ -49,10 +50,10 @@ class News extends BaseMessage
 
         foreach ($this->items as $item) {
             $articles [] = array(
-                            "title"       => $item->title,
-                            "description" => $item->description,
-                            "url"         => $item->url,
-                            "picurl"      => $item->pic_url,
+                            'title'       => $item->title,
+                            'description' => $item->description,
+                            'url'         => $item->url,
+                            'picurl'      => $item->pic_url,
                            );
         }
 
@@ -68,14 +69,13 @@ class News extends BaseMessage
 
         foreach ($this->items as $item) {
             $articles [] = array(
-                            "Title"       => $item->title,
-                            "Description" => $item->description,
-                            "Url"         => $item->url,
-                            "PicUrl"      => $item->pic_url,
+                            'Title'       => $item->title,
+                            'Description' => $item->description,
+                            'Url'         => $item->url,
+                            'PicUrl'      => $item->pic_url,
                            );
         }
 
         return array('ArticleCount' => count($articles), 'Articles' => $articles);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
@@ -25,7 +26,7 @@ class MenuItem extends MagicAttributes
         $type !== null && $this->with('type', $type);
 
         if ($property !== null) {
-            $key = ($type == 'view') ? 'url' : 'key';
+            $key = ($type === 'view') ? 'url' : 'key';
             $this->with($key, $property);
         }
     }
@@ -44,7 +45,7 @@ class MenuItem extends MagicAttributes
         }
 
         if (!is_array($buttons)) {
-            throw new Exception("子菜单必须是数组或者匿名函数返回数组", 1);
+            throw new Exception('子菜单必须是数组或者匿名函数返回数组', 1);
         }
 
         $this->with('sub_button', $buttons);
@@ -56,8 +57,6 @@ class MenuItem extends MagicAttributes
      * 添加子菜单
      *
      * @param MenuItem $button
-     *
-     * @return void
      */
     public function button(MenuItem $button)
     {

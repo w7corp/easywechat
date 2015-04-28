@@ -1,10 +1,11 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
 
-class Input extends Bag {
-
+class Input extends Bag
+{
     /**
      * constructor
      */

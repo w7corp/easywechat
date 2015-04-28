@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Utils;
 
 /**
@@ -132,8 +133,8 @@ class Http
      */
     protected function request($url, $method = self::GET, $params = array(), $options = array())
     {
-        if ($method == self::GET || $method == self::DELETE) {
-            $url .= (stripos($url, '?') ? '&' : '?') . http_build_query($params);
+        if ($method === self::GET || $method === self::DELETE) {
+            $url .= (stripos($url, '?') ? '&' : '?').http_build_query($params);
             $params = array();
         }
 
@@ -148,7 +149,7 @@ class Http
 
         // Check for files
         if (isset($options['files']) && count($options['files'])) {
-            foreach($options['files'] as $index => $file) {
+            foreach ($options['files'] as $index => $file) {
                 $params[$index] = $this->createCurlFile($file);
             }
 
@@ -171,8 +172,9 @@ class Http
         }
 
         // Check for basic auth
-        if (isset($options['auth']['type']) && "basic" === $options['auth']['type'])
-            curl_setopt($this->curl, CURLOPT_USERPWD, $options['auth']['username'] . ':' . $options['auth']['password']);
+        if (isset($options['auth']['type']) && 'basic' === $options['auth']['type']) {
+            curl_setopt($this->curl, CURLOPT_USERPWD, $options['auth']['username'].':'.$options['auth']['password']);
+        }
 
         $response = $this->doCurl();
 
@@ -203,7 +205,7 @@ class Http
             return curl_file_create($filename);
         }
 
-        return "@$filename;filename=" . basename($filename);
+        return "@$filename;filename=".basename($filename);
     }
 
     /**
@@ -221,7 +223,7 @@ class Http
         $headers['HTTP'] = array_shift($headerLines);
 
         foreach ($headerLines as $line) {
-            $header = explode(":", $line, 2);
+            $header = explode(':', $line, 2);
             $headers[trim($header[0])] = trim($header[1]);
         }
 
@@ -239,7 +241,7 @@ class Http
      */
     protected function encode($data)
     {
-        array_walk_recursive($data, function(&$value){
+        array_walk_recursive($data, function (&$value) {
             if (is_string($value)) {
                 $value = urlencode($value);
             }

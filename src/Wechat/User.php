@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -8,7 +9,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class User
 {
-
     /**
      * Http对象
      *
@@ -21,7 +21,6 @@ class User
     const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
     const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
     const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
-
 
     /**
      * constructor
@@ -76,7 +75,7 @@ class User
      * @param string $openId
      * @param string $remark 备注
      *
-     * @return boolean
+     * @return bool
      */
     public function remark($openId, $remark)
     {
@@ -105,7 +104,7 @@ class User
      *
      * @param string $openId
      *
-     * @return integer
+     * @return int
      */
     public function getGroup($openId)
     {

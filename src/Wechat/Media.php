@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -12,7 +13,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class Media
 {
-
     const API_TEMPORARY_UPLOAD    = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
     const API_FOREVER_UPLOAD      = 'http://api.weixin.qq.com/cgi-bin/material/add_material';
     const API_TEMPORARY_GET       = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
@@ -40,10 +40,9 @@ class Media
     /**
      * 是否上传永久素材
      *
-     * @var boolean
+     * @var bool
      */
     protected $forever = false;
-
 
     /**
      * constructor
@@ -71,9 +70,9 @@ class Media
     /**
      * 上传媒体文件
      *
-     * @param string  $path
-     * @param string  $type
-     * @param array   $params
+     * @param string $path
+     * @param string $type
+     * @param array  $params
      *
      * @return string
      */
@@ -83,7 +82,7 @@ class Media
             throw new Exception("文件不存在或不可读 '$path'");
         }
 
-        if (!in_array($type, $this->allowTypes)) {
+        if (!in_array($type, $this->allowTypes, true)) {
             throw new Exception("错误的媒体类型 '{$type}'");
         }
 
@@ -148,11 +147,11 @@ class Media
     /**
      * 修改图文消息
      *
-     * @param string  $mediaId
-     * @param array   $article
-     * @param int     $index
+     * @param string $mediaId
+     * @param array  $article
+     * @param int    $index
      *
-     * @return boolean
+     * @return bool
      */
     public function updateNews($mediaId, $article, $index = 0)
     {
@@ -170,7 +169,7 @@ class Media
      *
      * @param string $mediaId
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($mediaId)
     {
@@ -215,9 +214,9 @@ class Media
      *   ]
      * }
      *
-     * @param string  $type
-     * @param int     $offset
-     * @param int     $count
+     * @param string $type
+     * @param int    $offset
+     * @param int    $count
      *
      * @return array
      */
@@ -283,12 +282,12 @@ class Media
      */
     protected function getUrl($type, $queries = [])
     {
-        if ($type == 'news') {
+        if ($type === 'news') {
             $api = self::API_FOREVER_NEWS_UPLOAD;
         } else {
             $api = $this->forever ? self::API_FOREVER_UPLOAD : self::API_TEMPORARY_UPLOAD;
         }
 
-        return $api . '?' . http_build_query($queries);
+        return $api.'?'.http_build_query($queries);
     }
 }

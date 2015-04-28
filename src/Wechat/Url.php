@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -14,7 +15,6 @@ class Url
     protected $http;
 
     const API_SHORT_URL = 'https://api.weixin.qq.com/cgi-bin/shorturl';
-
 
     /**
      * constructor
@@ -53,8 +53,8 @@ class Url
      */
     public static function current()
     {
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
 
-        return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -8,7 +9,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class Card
 {
-
     /**
      * Http对象
      *
@@ -54,7 +54,6 @@ class Card
     const API_MEETING_TICKET_UPDATE = 'https://api.weixin.qq.com/card/meetingticket/updateuser';
     const API_TICKET                = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
 
-
     /**
      * constructor
      *
@@ -76,7 +75,7 @@ class Card
     {
         $key = 'overtrue.wechat.card.api_ticket';
 
-        return $this->cache->get($key, function($key) {
+        return $this->cache->get($key, function ($key) {
 
             $result = $this->http->get(self::API_TICKET);
 
@@ -86,7 +85,7 @@ class Card
         });
     }
 
-    public function getCardExtString($value='')
+    public function getCardExtString($value = '')
     {
         # code...
     }
@@ -139,7 +138,7 @@ class Card
      *
      * @param string $cardId
      *
-     * @return boolean
+     * @return bool
      */
     public function update($cardId, $type, array $base = array(), array $data = array())
     {
@@ -198,7 +197,7 @@ class Card
      * @param string $code
      * @param string $cardId
      *
-     * @return boolean
+     * @return bool
      */
     public function disable($code, $cardId = null)
     {
@@ -215,7 +214,7 @@ class Card
      *
      * @param string $cardId
      *
-     * @return boolean
+     * @return bool
      */
     public function delete($cardId)
     {
@@ -230,7 +229,7 @@ class Card
      * @param string $cardId
      * @param int    $amount
      *
-     * @return boolean
+     * @return bool
      */
     public function updateStock($cardId, $amount)
     {
@@ -254,7 +253,7 @@ class Card
      * @param string $cardId
      * @param int    $amount
      *
-     * @return boolean
+     * @return bool
      */
     public function incStock($cardId, $amount)
     {
@@ -267,7 +266,7 @@ class Card
      * @param string $cardId
      * @param int    $amount
      *
-     * @return boolean
+     * @return bool
      */
     public function decStock($cardId, $amount)
     {
@@ -299,7 +298,7 @@ class Card
      * @param string $newCode
      * @param string $cardId
      *
-     * @return boolean
+     * @return bool
      */
     public function updateCode($code, $newCode, $cardId)
     {
@@ -344,7 +343,7 @@ class Card
      * @param string $cardId
      * @param array  $data
      *
-     * @return boolean
+     * @return bool
      */
     public function memberCardActivate($cardId, array $data)
     {
@@ -397,7 +396,7 @@ class Card
      * @param stirng $cardId
      * @param array  $data
      *
-     * @return boolean
+     * @return bool
      */
     public function updateMovieTicket($cardId, array $data)
     {
@@ -423,7 +422,7 @@ class Card
      * @param string $cardId
      * @param array  $data
      *
-     * @return boolean
+     * @return bool
      */
     public function updateMeetingTicket($cardId, array $data)
     {
@@ -450,7 +449,7 @@ class Card
      * @param string $cardId
      * @param array  $data
      *
-     * @return boolean
+     * @return bool
      */
     public function checkin($cardId, array $data)
     {

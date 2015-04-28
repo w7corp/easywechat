@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 /**
@@ -6,7 +7,7 @@ namespace Overtrue\Wechat;
  */
 class Color
 {
-   /**
+    /**
      * Http对象
      *
      * @var Http
@@ -21,7 +22,6 @@ class Color
     protected $cache;
 
     const API_LIST = 'https://api.weixin.qq.com/card/getcolors';
-
 
     /**
      * constructor
@@ -44,7 +44,7 @@ class Color
     {
         $key = 'overtrue.wechat.colors';
 
-        return $this->cache->get($key, function($key) {
+        return $this->cache->get($key, function ($key) {
 
             $result = $this->http->get(self::API_LIST);
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Utils;
 
 use InvalidArgumentException;
@@ -17,8 +18,7 @@ abstract class MagicAttributes
      *
      * @var array
      */
-    static protected $snakeCache = array();
-
+    protected static $snakeCache = array();
 
     /**
      * 设置属性
@@ -68,7 +68,7 @@ abstract class MagicAttributes
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return boolean
+     * @return bool
      */
     protected function validate($attribute, $value)
     {
@@ -123,14 +123,14 @@ abstract class MagicAttributes
      */
     protected function snake($value, $delimiter = '_')
     {
-        $key = $value . $delimiter;
+        $key = $value.$delimiter;
 
         if (isset(static::$snakeCache[$key])) {
             return static::$snakeCache[$key];
         }
 
         if (!ctype_lower($value)) {
-            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1' . $delimiter, $value));
+            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
         }
 
         return static::$snakeCache[$key] = $value;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Utils;
 
 use Closure;
@@ -13,9 +14,9 @@ class Arr
     /**
      * Add an element to an array using "dot" notation if it doesn't exist.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param array  $array
+     * @param string $key
+     * @param mixed  $value
      *
      * @return array
      */
@@ -31,8 +32,9 @@ class Arr
     /**
      * Build a new array using a callback.
      *
-     * @param  array     $array
-     * @param  \Closure  $callback
+     * @param array    $array
+     * @param \Closure $callback
+     *
      * @return array
      */
     public static function build($array, Closure $callback)
@@ -50,7 +52,7 @@ class Arr
     /**
      * Divide an array into two arrays. One with keys and the other with values.
      *
-     * @param  array  $array
+     * @param array $array
      *
      * @return array
      */
@@ -62,8 +64,8 @@ class Arr
     /**
      * Flatten a multi-dimensional associative array with dots.
      *
-     * @param  array   $array
-     * @param  string  $prepend
+     * @param array  $array
+     * @param string $prepend
      *
      * @return array
      */
@@ -85,8 +87,8 @@ class Arr
     /**
      * Get all of the given array except for a specified array of items.
      *
-     * @param  array         $array
-     * @param  array|string  $keys
+     * @param array        $array
+     * @param array|string $keys
      *
      * @return array
      */
@@ -98,8 +100,8 @@ class Arr
     /**
      * Fetch a flattened array of a nested array element.
      *
-     * @param  array   $array
-     * @param  string  $key
+     * @param array  $array
+     * @param string $key
      *
      * @return array
      */
@@ -122,16 +124,18 @@ class Arr
     /**
      * Return the first element in an array passing a given truth test.
      *
-     * @param  array     $array
-     * @param  \Closure  $callback
-     * @param  mixed     $default
+     * @param array    $array
+     * @param \Closure $callback
+     * @param mixed    $default
      *
      * @return mixed
      */
     public static function first($array, $callback, $default = null)
     {
         foreach ($array as $key => $value) {
-            if (call_user_func($callback, $key, $value)) return $value;
+            if (call_user_func($callback, $key, $value)) {
+                return $value;
+            }
         }
 
         return $default;
@@ -140,9 +144,9 @@ class Arr
     /**
      * Return the last element in an array passing a given truth test.
      *
-     * @param  array     $array
-     * @param  \Closure  $callback
-     * @param  mixed     $default
+     * @param array    $array
+     * @param \Closure $callback
+     * @param mixed    $default
      *
      * @return mixed
      */
@@ -154,14 +158,14 @@ class Arr
     /**
      * Flatten a multi-dimensional array into a single level.
      *
-     * @param  array  $array
+     * @param array $array
      *
      * @return array
      */
     public static function flatten($array)
     {
         $return = array();
-        array_walk_recursive($array, function($x) use (&$return) { $return[] = $x; });
+        array_walk_recursive($array, function ($x) use (&$return) { $return[] = $x; });
 
         return $return;
     }
@@ -169,46 +173,48 @@ class Arr
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
-     * @param  array  $array
-     * @param  array|string  $keys
-     *
-     * @return void
+     * @param array        $array
+     * @param array|string $keys
      */
     public static function forget(&$array, $keys)
     {
-        $original =& $array;
+        $original = &$array;
 
         foreach ((array) $keys as $key) {
             $parts = explode('.', $key);
             while (count($parts) > 1) {
                 $part = array_shift($parts);
                 if (isset($array[$part]) && is_array($array[$part])) {
-                    $array =& $array[$part];
+                    $array = &$array[$part];
                 }
             }
             unset($array[array_shift($parts)]);
             // clean up after each pass
-            $array =& $original;
+            $array = &$original;
         }
     }
 
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param array  $array
+     * @param string $key
+     * @param mixed  $default
      *
      * @return mixed
      */
     public static function get($array, $key, $default = null)
     {
-        if (is_null($key)) return $array;
+        if (is_null($key)) {
+            return $array;
+        }
 
-        if (isset($array[$key])) return $array[$key];
+        if (isset($array[$key])) {
+            return $array[$key];
+        }
 
         foreach (explode('.', $key) as $segment) {
-            if ( ! is_array($array) || ! array_key_exists($segment, $array)) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return $default;
             }
             $array = $array[$segment];
@@ -220,8 +226,8 @@ class Arr
     /**
      * Get a subset of the items from the given array.
      *
-     * @param  array  $array
-     * @param  array|string  $keys
+     * @param array        $array
+     * @param array|string $keys
      *
      * @return array
      */
@@ -233,9 +239,9 @@ class Arr
     /**
      * Pluck an array of values from an array.
      *
-     * @param  array   $array
-     * @param  string  $value
-     * @param  string  $key
+     * @param array  $array
+     * @param string $value
+     * @param string $key
      *
      * @return array
      */
@@ -262,9 +268,9 @@ class Arr
     /**
      * Get a value from the array, and remove it.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $default
+     * @param array  $array
+     * @param string $key
+     * @param mixed  $default
      *
      * @return mixed
      */
@@ -281,15 +287,17 @@ class Arr
      *
      * If no key is given to the method, the entire array will be replaced.
      *
-     * @param  array   $array
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param array  $array
+     * @param string $key
+     * @param mixed  $value
      *
      * @return array
      */
     public static function set(&$array, $key, $value)
     {
-        if (is_null($key)) return $array = $value;
+        if (is_null($key)) {
+            return $array = $value;
+        }
 
         $keys = explode('.', $key);
 
@@ -301,7 +309,7 @@ class Arr
             if (!isset($array[$key]) || !is_array($array[$key])) {
                 $array[$key] = array();
             }
-            $array =& $array[$key];
+            $array = &$array[$key];
         }
         $array[array_shift($keys)] = $value;
 
@@ -311,8 +319,8 @@ class Arr
     /**
      * Sort the array using the given Closure.
      *
-     * @param  array     $array
-     * @param  \Closure  $callback
+     * @param array    $array
+     * @param \Closure $callback
      *
      * @return array
      */
@@ -330,8 +338,8 @@ class Arr
     /**
      * Filter the array using the given Closure.
      *
-     * @param  array     $array
-     * @param  \Closure  $callback
+     * @param array    $array
+     * @param \Closure $callback
      *
      * @return array
      */
@@ -340,7 +348,9 @@ class Arr
         $filtered = array();
 
         foreach ($array as $key => $value) {
-            if (call_user_func($callback, $key, $value)) $filtered[$key] = $value;
+            if (call_user_func($callback, $key, $value)) {
+                $filtered[$key] = $value;
+            }
         }
 
         return $filtered;

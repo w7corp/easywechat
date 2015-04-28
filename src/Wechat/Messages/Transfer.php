@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Exception;
@@ -11,7 +12,6 @@ use Overtrue\Wechat\Exception;
  */
 class Transfer extends BaseMessage
 {
-
     protected $properties = array('account', 'to');
 
     /**
@@ -19,7 +19,7 @@ class Transfer extends BaseMessage
      */
     public function toStaff()
     {
-        throw new Exception("转发类型不允许主动发送");
+        throw new Exception('转发类型不允许主动发送');
     }
 
     /**
@@ -34,11 +34,10 @@ class Transfer extends BaseMessage
         // 指定客服
         if (!empty($this->account) || !empty($this->to)) {
             $response['TransInfo'] = array(
-                                      'KfAccount' => $this->account ? : $this->to,
+                                      'KfAccount' => $this->account ?: $this->to,
                                      );
         }
 
         return $response;
     }
-
 }

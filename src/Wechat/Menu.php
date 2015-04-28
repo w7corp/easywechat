@@ -1,4 +1,5 @@
 <?php
+
 namespace Overtrue\Wechat;
 
 use Closure;
@@ -21,7 +22,6 @@ class Menu
      */
     protected $http;
 
-
     /**
      * constructor
      *
@@ -36,7 +36,7 @@ class Menu
     /**
      * 设置菜单
      *
-     * @return boolean
+     * @return bool
      */
     public function set($menus)
     {
@@ -45,7 +45,7 @@ class Menu
         }
 
         if (!is_array($menus)) {
-            throw new Exception("子菜单必须是数组或者匿名函数返回数组", 1);
+            throw new Exception('子菜单必须是数组或者匿名函数返回数组', 1);
         }
 
         $menus = $this->extractMenus($menus);
@@ -70,7 +70,7 @@ class Menu
     /**
      * 删除菜单
      *
-     * @return boolean
+     * @return bool
      */
     public function delete()
     {
