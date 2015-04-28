@@ -1,6 +1,9 @@
 <?php
 namespace Overtrue\Wechat;
 
+/**
+ * SDK 服务别名
+ */
 class Alias
 {
     protected static $aliases = [
@@ -43,6 +46,7 @@ class Alias
      * @var boolean
      */
     protected static $registered = false;
+
 
     /**
      * 注册别名

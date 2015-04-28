@@ -4,7 +4,7 @@ namespace Overtrue\Wechat;
 use Overtrue\Wechat\Utils\Bag;
 
 /**
- * 网页授权
+ * OAuth 网页授权获取用户信息
  */
 class Auth
 {

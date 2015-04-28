@@ -1,0 +1,8 @@
+preset: recommended
+
+enabled:
+  - strict
+  - strict_param
+
+disabled:
+  - short_array_syntax

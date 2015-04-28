@@ -1,6 +1,9 @@
 <?php
 namespace Overtrue\Wechat;
 
+/**
+ * 全局通用 AccessToken
+ */
 class AccessToken
 {
     /**
