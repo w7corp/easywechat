@@ -331,14 +331,18 @@ class Card
     /**
      * 激活/绑定会员卡
      *
+     * <pre>
+     * $data:
+     * {
+     *      "init_bonus": 100,
+     *      "init_balance": 200,
+     *      "membership_number": "AAA00000001", "code": "12312313",
+     *      "card_id": "xxxx_card_id"
+     * }
+     * </pre>
+     *
      * @param string $cardId
      * @param array  $data
-     * {
-     *  "init_bonus": 100,
-     *  "init_balance": 200,
-     *  "membership_number": "AAA00000001", "code": "12312313",
-     *  "card_id": "xxxx_card_id"
-     * }
      *
      * @return boolean
      */
