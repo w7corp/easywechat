@@ -3,6 +3,10 @@ preset: recommended
 enabled:
   - strict
   - strict_param
+  - psr-1
+  - psr-2
+  - symfony
 
 disabled:
   - short_array_syntax
+  - phpdoc_short_description
