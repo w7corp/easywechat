@@ -6,6 +6,7 @@ enabled:
   - psr-1
   - psr-2
   - symfony
+  - contrib
 
 disabled:
   - short_array_syntax
