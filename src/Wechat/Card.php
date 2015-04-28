@@ -129,7 +129,7 @@ class Card
                    'card_id' => $cardId,
                   );
 
-        $result = $this->http->jsonPost(self::API_CONSUME, $params);
+        $result = $this->http->jsonPost(self::API_GET, $params);
 
         return new Bag($result['card']);
     }
@@ -169,7 +169,7 @@ class Card
                    'count'  => $count,
                   );
 
-        return $this->http->jsonPost(self::API_CONSUME, $params);
+        return $this->http->jsonPost(self::API_LIST, $params);
     }
 
     /**
