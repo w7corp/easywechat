@@ -59,7 +59,7 @@ class Js
      *
      * @return array
      */
-    public function config(array $APIs, $debug = false, $json = false)
+    public function config(array $APIs, $debug = false, $json = true)
     {
         $signPackage = $this->getSignaturePackage();
 
