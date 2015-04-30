@@ -59,7 +59,7 @@ class Crypt
      */
     public function __construct($appId, $token, $encodingAESKey)
     {
-        if (extension_loaded('mcrypt')) {
+        if (!extension_loaded('mcrypt')) {
             throw new Exception('Mcrypt 拓展未安装或未启用');
         }
 
