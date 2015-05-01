@@ -81,6 +81,12 @@ class Http extends HttpClient
             throw new Exception('服务器无响应');
         }
 
+        $textMIMEs = array('application/json', 'text/plain');
+
+        if (!in_array($response['content_type'], $textMIMEs)) {
+            return $response['data'];
+        }
+
         $contents = json_decode($response['data'], true);
 
         if (isset($contents['errcode']) && 0 !== $contents['errcode']) {

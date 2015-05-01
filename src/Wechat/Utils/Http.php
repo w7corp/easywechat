@@ -183,10 +183,11 @@ class Http
         $responseCount = count($responseSplit);
 
         $results = array(
-            'curl_info' => $response['curl_info'],
-            'status'    => $response['curl_info']['http_code'],
-            'headers'   => count($responseSplit) > 2 ? $this->splitHeaders($responseSplit[$responseCount - 2]) : '' ,
-            'data'      => count($responseSplit) > 1 ? $responseSplit[$responseCount - 1] : '',
+            'curl_info'    => $response['curl_info'],
+            'content-type' => $response['curl_info']['content_type'],
+            'status'       => $response['curl_info']['http_code'],
+            'headers'      => count($responseSplit) > 2 ? $this->splitHeaders($responseSplit[$responseCount - 2]) : '' ,
+            'data'         => count($responseSplit) > 1 ? $responseSplit[$responseCount - 1] : '',
         );
 
         return $results;

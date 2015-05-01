@@ -250,7 +250,7 @@ class Media
 
         $contents = $this->http->{$method}($api, $params);
 
-        return $filename ? $contents : file_put_contents($filename, $contents);
+        return $filename ? file_put_contents($filename, $contents) : $contents;
     }
 
     /**
