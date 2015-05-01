@@ -184,7 +184,7 @@ class Http
 
         $results = array(
             'curl_info'    => $response['curl_info'],
-            'content-type' => $response['curl_info']['content_type'],
+            'content_type' => $response['curl_info']['content_type'],
             'status'       => $response['curl_info']['http_code'],
             'headers'      => count($responseSplit) > 2 ? $this->splitHeaders($responseSplit[$responseCount - 2]) : '' ,
             'data'         => count($responseSplit) > 1 ? $responseSplit[$responseCount - 1] : '',
