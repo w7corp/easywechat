@@ -79,9 +79,9 @@ class Card
 
             $result = $this->http->get(self::API_TICKET);
 
-            $this->cache->set($key, $result['access_token'], $result['expires_in']);
+            $this->cache->set($key, $result['ticket'], $result['expires_in']);
 
-            return $result['access_token'];
+            return $result['ticket'];
         });
     }
 
