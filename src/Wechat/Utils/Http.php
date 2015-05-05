@@ -179,15 +179,16 @@ class Http
         $response = $this->doCurl();
 
         // Separate headers and body
-        $responseSplit = preg_split('/((?:\\r?\\n){2})/', $response['response']);
-        $responseCount = count($responseSplit);
+        $headerSize = $response['curl_info']['header_size'];
+        $header     = substr($response['response'], 0, $headerSize);
+        $body       = substr($response['response'], $headerSize);
 
         $results = array(
             'curl_info'    => $response['curl_info'],
             'content_type' => $response['curl_info']['content_type'],
             'status'       => $response['curl_info']['http_code'],
-            'headers'      => count($responseSplit) > 2 ? $this->splitHeaders($responseSplit[$responseCount - 2]) : '' ,
-            'data'         => count($responseSplit) > 1 ? $responseSplit[$responseCount - 1] : '',
+            'headers'      => $this->splitHeaders($header),
+            'data'         => $body,
         );
 
         return $results;
@@ -218,14 +219,16 @@ class Http
      */
     protected function splitHeaders($rawHeaders)
     {
-        $headers = array();
+        $headers = [];
 
-        $headerLines     = explode("\n", $rawHeaders);
         $headers['HTTP'] = array_shift($headerLines);
 
-        foreach ($headerLines as $line) {
-            $header = explode(':', $line, 2);
-            $headers[trim($header[0])] = trim($header[1]);
+        foreach (explode("\n", trim($rawHeaders)) as $i => $h) {
+            $h = explode(':', $h, 2);
+
+            if (isset($h[1])) {
+                $headers[$h[0]] = trim($h[1]);
+            }
         }
 
         return $headers;
