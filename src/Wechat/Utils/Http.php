@@ -219,7 +219,7 @@ class Http
      */
     protected function splitHeaders($rawHeaders)
     {
-        $headers = [];
+        $headers = array();
 
         $headers['HTTP'] = array_shift($headerLines);
 
