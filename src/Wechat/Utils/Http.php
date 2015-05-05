@@ -221,9 +221,10 @@ class Http
     {
         $headers = array();
 
-        $headers['HTTP'] = array_shift($headerLines);
+        $lines = explode("\n", trim($rawHeaders));
+        $headers['HTTP'] = array_shift($lines);
 
-        foreach (explode("\n", trim($rawHeaders)) as $i => $h) {
+        foreach ($lines as $i => $h) {
             $h = explode(':', $h, 2);
 
             if (isset($h[1])) {
