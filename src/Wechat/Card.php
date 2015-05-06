@@ -121,7 +121,7 @@ class Card
                                 $timestamp, $cardId, $ext['code'], $ext['openid'], $ext['balance']);
 
         return array(
-                'card_id'  => $id,
+                'card_id'  => $cardId,
                 'card_ext' => json_encode($ext),
                );
     }
