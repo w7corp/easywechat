@@ -3,6 +3,7 @@ preset: symfony
 enabled:
   - strict
   - strict_param
+  - align_equals
 
 disabled:
   - short_array_syntax
