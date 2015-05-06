@@ -67,7 +67,7 @@ class Server
      * @param string $token
      * @param string $encodingAESKey
      */
-    public function __construct($appId, $token, $encodingAESKey)
+    public function __construct($appId, $token = null, $encodingAESKey = null)
     {
         $this->listeners      = new Bag();
         $this->appId          = $appId;
@@ -206,6 +206,10 @@ class Server
         static $crypt;
 
         if (!$crypt) {
+            if (empty($this->encodingAESKey) || empty($this->token)) {
+                throw new Exception("加密模式下 'encodingAESKey' 与 'token' 都不能为空！");
+            }
+
             $crypt = new Crypt($this->appId, $this->token, $this->encodingAESKey);
         }
 
