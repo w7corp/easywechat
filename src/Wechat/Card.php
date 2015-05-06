@@ -101,20 +101,20 @@ class Card
      * 生成 js添加到卡包 需要的 card_list 项
      *
      * @param string $cardId
-     * @param array  $ext
+     * @param array  $extension
      *
      * @return string
      */
-    public function attachExtension($cardId, array $ext = array())
+    public function attachExtension($cardId, array $extension = array())
     {
         $timestamp = time();
 
         $ext = array(
-                'code'       => Arr::get('code'),
-                'openid'     => Arr::get('openid', Arr::get('open_id')),
+                'code'       => Arr::get($extension, 'code'),
+                'openid'     => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
                 'timestamp'  => $timestamp,
-                'outer_id'   => Arr::get('outer_id'),
-                'balance'    => Arr::get('balance'),
+                'outer_id'   => Arr::get($extension, 'outer_id'),
+                'balance'    => Arr::get($extension, 'balance'),
                );
 
         $ext['signature'] = $this->getSignature($this->getTicket(),
