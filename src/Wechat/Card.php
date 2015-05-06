@@ -103,9 +103,9 @@ class Card
      * @param string $cardId
      * @param array  $ext
      *
-     * @return array
+     * @return string
      */
-    public function getCardForAdd($cardId, array $ext = array())
+    public function attachExtension($cardId, array $ext = array())
     {
         $timestamp = time();
 
