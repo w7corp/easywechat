@@ -105,7 +105,7 @@ class Card
      *
      * @return array
      */
-    public function getCardExt($cardId, array $ext = array())
+    public function getCardForAdd($cardId, array $ext = array())
     {
         $timestamp = time();
 
