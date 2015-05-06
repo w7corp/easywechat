@@ -3,6 +3,7 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Utils\Arr;
 
 /**
  * 卡券
@@ -22,6 +23,13 @@ class Card
      * @var Cache
      */
     protected $cache;
+
+    /**
+     * js ticket
+     *
+     * @var string
+     */
+    protected $ticket;
 
     // 卡券类型
     const TYPE_GENERAL_COUPON = 'GENERAL_COUPON';   // 通用券
@@ -73,9 +81,13 @@ class Card
      */
     public function getTicket()
     {
+        if ($this->ticket) {
+            return $this->ticket;
+        }
+
         $key = 'overtrue.wechat.card.api_ticket';
 
-        return $this->cache->get($key, function ($key) {
+        return $this->ticket = $this->cache->get($key, function ($key) {
 
             $result = $this->http->get(self::API_TICKET);
 
@@ -85,9 +97,33 @@ class Card
         });
     }
 
-    public function getCardExtString($value = '')
+    /**
+     * 生成 js添加到卡包 需要的 card_list 项
+     *
+     * @param string $cardId
+     * @param array  $ext
+     *
+     * @return array
+     */
+    public function getCardExt($cardId, array $ext = array())
     {
-        # code...
+        $timestamp = time();
+
+        $ext = array(
+                'code'       => Arr::get('code'),
+                'openid'     => Arr::get('openid', Arr::get('open_id')),
+                'timestamp'  => $timestamp,
+                'outer_id'   => Arr::get('outer_id'),
+                'balance'    => Arr::get('balance'),
+               );
+
+        $ext['signature'] = $this->getSignature($this->getTicket(),
+                                $timestamp, $cardId, $ext['code'], $ext['openid'], $ext['balance']);
+
+        return array(
+                'card_id'  => $id,
+                'card_ext' => json_encode($ext),
+               );
     }
 
     /**
