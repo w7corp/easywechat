@@ -2,6 +2,8 @@
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
+QQ群：319502940
+
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
 [![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -80,7 +82,7 @@ echo $server->serve();
 - [x] [基本消息类型](https://github.com/overtrue/wechat/wiki/消息的使用)
 - [x] [图文消息](https://github.com/overtrue/wechat/wiki/消息的使用)
 - [x] [模板消息](https://github.com/overtrue/wechat/wiki/模板消息)  `2.0 added`
-- [ ] 群发消息 `WIP`
+- <del>[ ] 群发消息（微信限制太多，基本算不能用）</del>
 - [x] [用户与用户组](https://github.com/overtrue/wechat/wiki/用户与用户组管理)
 - [x] [客服与消息发送](https://github.com/overtrue/wechat/wiki/客服管理与发送消息)
 - [x] [多客服与消息转发](https://github.com/overtrue/wechat/wiki/多客服与消息转发)
