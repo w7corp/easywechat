@@ -79,19 +79,25 @@ class AccessToken
             return $this->token;
         }
 
-        return $this->cache->get($this->cacheKey, function () {
+        // for php 5.3
+        $appId     = $this->appId;
+        $appSecret = $this->appSecret;
+        $cache     = $this->cache;
+        $cacheKey  = $this->cacheKey;
+
+        return $this->token = $this->cache->get($cacheKey, function ($appId, $appSecret, $cache) {
             $params = array(
-                       'appid'      => $this->appId,
-                       'secret'     => $this->appSecret,
+                       'appid'      => $appId,
+                       'secret'     => $appSecret,
                        'grant_type' => 'client_credential',
                       );
             $http = new Http();
 
             $token = $http->get(self::API_TOKEN_GET, $params);
 
-            $this->cache->set($this->cacheKey, $token['access_token'], $token['expires_in']);
+            $cache->set($cacheKey, $token['access_token'], $token['expires_in']);
 
-            return $this->token = $token['access_token'];
+            return $token['access_token'];
         });
     }
 }

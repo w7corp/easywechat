@@ -77,12 +77,17 @@ class Js
     {
         $key = 'overtrue.wechat.jsapi_ticket'.$this->appId;
 
-        return $this->cache->get($key, function ($key) {
-            $http  = new Http(new AccessToken($this->appId, $this->appSecret));
+        // for php 5.3
+        $appId     = $this->appId;
+        $appSecret = $this->appSecret;
+        $cache     = $this->cache;
+
+        return $this->cache->get($key, function ($key, $appId, $appSecret, $cache) {
+            $http  = new Http(new AccessToken($appId, $appSecret));
 
             $result = $http->get(self::API_TICKET);
 
-            $this->cache->set($key, $result['ticket'], $result['expires_in']);
+            $cache->set($key, $result['ticket'], $result['expires_in']);
 
             return $result['ticket'];
         });

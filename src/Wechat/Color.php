@@ -44,11 +44,15 @@ class Color
     {
         $key = 'overtrue.wechat.colors';
 
-        return $this->cache->get($key, function ($key) {
+        // for php 5.3
+        $http  = $this->http;
+        $cache = $this->cache;
 
-            $result = $this->http->get(self::API_LIST);
+        return $this->cache->get($key, function ($key, $http, $cache) {
 
-            $this->cache->set($key, $result['colors'], 86400);// 1 day
+            $result = $http->get(self::API_LIST);
+
+            $cache->set($key, $result['colors'], 86400);// 1 day
 
             return $result['colors'];
         });
