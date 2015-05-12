@@ -49,7 +49,7 @@ class Color
         $cache = $this->cache;
 
         return $this->cache->get(
-            $key, function ($key, $http, $cache) {
+            $key, function ($key) use ($http, $cache) {
 
                 $result = $http->get(self::API_LIST);
 

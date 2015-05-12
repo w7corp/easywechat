@@ -83,7 +83,7 @@ class Js
         $cache     = $this->cache;
 
         return $this->cache->get(
-            $key, function ($key, $appId, $appSecret, $cache) {
+            $key, function ($key) use ($appId, $appSecret, $cache) {
                 $http  = new Http(new AccessToken($appId, $appSecret));
 
                 $result = $http->get(self::API_TICKET);

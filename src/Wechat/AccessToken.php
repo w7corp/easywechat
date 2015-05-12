@@ -86,7 +86,7 @@ class AccessToken
         $cacheKey  = $this->cacheKey;
 
         return $this->token = $this->cache->get(
-            $cacheKey, function ($appId, $appSecret, $cache) {
+            $cacheKey, function ($cacheKey) use ($appId, $appSecret, $cache) {
                 $params = array(
                        'appid'      => $appId,
                        'secret'     => $appSecret,
