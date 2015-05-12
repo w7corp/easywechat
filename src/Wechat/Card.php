@@ -91,14 +91,16 @@ class Card
         $http  = $this->http;
         $cache = $this->cache;
 
-        return $this->ticket = $this->cache->get($key, function ($key, $http, $cache) {
+        return $this->ticket = $this->cache->get(
+            $key, function ($key, $http, $cache) {
 
-            $result = $http->get(self::API_TICKET);
+                $result = $http->get(self::API_TICKET);
 
-            $cache->set($key, $result['ticket'], $result['expires_in']);
+                $cache->set($key, $result['ticket'], $result['expires_in']);
 
-            return $result['ticket'];
-        });
+                return $result['ticket'];
+            }
+        );
     }
 
     /**
@@ -121,8 +123,10 @@ class Card
                 'balance'    => Arr::get($extension, 'balance'),
                );
 
-        $ext['signature'] = $this->getSignature($this->getTicket(),
-                                $timestamp, $cardId, $ext['code'], $ext['openid'], $ext['balance']);
+        $ext['signature'] = $this->getSignature(
+            $this->getTicket(),
+            $timestamp, $cardId, $ext['code'], $ext['openid'], $ext['balance']
+        );
 
         return array(
                 'card_id'  => $cardId,
