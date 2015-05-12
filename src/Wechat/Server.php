@@ -148,7 +148,8 @@ class Server
               );
 
         if ($this->input->has('signature')
-            && $this->signature($input) !== $this->input->get('signature')) {
+            && $this->signature($input) !== $this->input->get('signature')
+        ) {
             throw new Exception('Bad Request', 400);
         }
 
@@ -176,11 +177,14 @@ class Server
         $input = XML::parse($xmlInput);
 
         if (!empty($_REQUEST['encrypt_type'])
-            && $_REQUEST['encrypt_type'] === 'aes') {
+            && $_REQUEST['encrypt_type'] === 'aes'
+        ) {
             $this->security = true;
 
-            $input = $this->getCrypt()->decryptMsg($_REQUEST['msg_signature'],
-                            $_REQUEST['nonce'], $_REQUEST['timestamp'], $xmlInput);
+            $input = $this->getCrypt()->decryptMsg(
+                $_REQUEST['msg_signature'],
+                $_REQUEST['nonce'], $_REQUEST['timestamp'], $xmlInput
+            );
         }
 
         $this->input = new Bag(array_merge($_REQUEST, (array) $input));

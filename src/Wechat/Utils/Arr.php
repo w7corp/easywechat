@@ -165,7 +165,11 @@ class Arr
     public static function flatten($array)
     {
         $return = array();
-        array_walk_recursive($array, function ($x) use (&$return) { $return[] = $x; });
+        array_walk_recursive(
+            $array, function ($x) use (&$return) {
+                $return[] = $x; 
+            }
+        );
 
         return $return;
     }

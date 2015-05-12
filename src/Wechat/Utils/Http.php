@@ -246,11 +246,13 @@ class Http
      */
     protected function encode($data)
     {
-        array_walk_recursive($data, function (&$value) {
-            if (is_string($value)) {
-                $value = urlencode($value);
+        array_walk_recursive(
+            $data, function (&$value) {
+                if (is_string($value)) {
+                    $value = urlencode($value);
+                }
             }
-        });
+        );
 
         return urldecode(json_encode($data));
     }

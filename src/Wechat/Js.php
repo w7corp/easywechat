@@ -82,15 +82,17 @@ class Js
         $appSecret = $this->appSecret;
         $cache     = $this->cache;
 
-        return $this->cache->get($key, function ($key, $appId, $appSecret, $cache) {
-            $http  = new Http(new AccessToken($appId, $appSecret));
+        return $this->cache->get(
+            $key, function ($key, $appId, $appSecret, $cache) {
+                $http  = new Http(new AccessToken($appId, $appSecret));
 
-            $result = $http->get(self::API_TICKET);
+                $result = $http->get(self::API_TICKET);
 
-            $cache->set($key, $result['ticket'], $result['expires_in']);
+                $cache->set($key, $result['ticket'], $result['expires_in']);
 
-            return $result['ticket'];
-        });
+                return $result['ticket'];
+            }
+        );
     }
 
     /**

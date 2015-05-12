@@ -118,10 +118,12 @@ class Media
      */
     public function video($path, $title, $description)
     {
-        $params = array('description' => json_encode(array(
+        $params = array('description' => json_encode(
+            array(
                                                       'title'        => $title,
                                                       'introduction' => $description,
-                                                     )));
+                                                     )
+        ));
 
         return $this->upload('video', $path, $params);
     }

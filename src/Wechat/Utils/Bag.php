@@ -185,31 +185,41 @@ class Bag implements
         return $this->toJson();
     }
 
-    /** {@inhertDoc} */
+    /**
+     * {@inhertDoc}
+     */
     public function jsonSerialize()
     {
         return $this->data;
     }
 
-    /** {@inhertDoc} */
+    /**
+     * {@inhertDoc}
+     */
     public function serialize()
     {
         return serialize($this->data);
     }
 
-    /** {@inhertDoc} */
+    /**
+     * {@inhertDoc}
+     */
     public function unserialize($data)
     {
         return $this->data = unserialize($data);
     }
 
-    /** {@inhertDoc} **/
+    /**
+     * {@inhertDoc}
+     */
     public function getIterator()
     {
         return new ArrayIterator($this->data);
     }
 
-    /** {@inhertDoc} */
+    /**
+     * {@inhertDoc}
+     */
     public function count($mode = COUNT_NORMAL)
     {
         return count($this->data, $mode);
