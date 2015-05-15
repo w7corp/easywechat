@@ -33,7 +33,7 @@ class Http extends HttpClient
     /**
      * constructor
      *
-     * @param string | AccessToken $token
+     * @param AccessToken $token
      */
     public function __construct($token = null)
     {
