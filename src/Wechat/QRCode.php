@@ -54,8 +54,10 @@ class QRCode
      */
     public function forever($sceneValue, $type = self::SCENE_QR_FOREVER)
     {
-        $sceneKey = $type === self::SCENE_QR_FOREVER ? 'scene_id' : 'scene_str';
-        $scene = array('scene'=>array($sceneKey => $sceneValue));
+        $sceneKey = ($type === self::SCENE_QR_FOREVER) ? 'scene_id' : 'scene_str';
+        $scene = array(
+                  'scene' => array($sceneKey => $sceneValue),
+                 );
 
         return $this->create($type, $scene, false);
     }
@@ -70,7 +72,9 @@ class QRCode
      */
     public function temporary($sceneId, $expireSeconds = null)
     {
-        $scene = array('scene'=>array('scene_id' => $sceneId));
+        $scene = array(
+                  'scene' => array('scene_id' => $sceneId),
+                 );
 
         return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
     }
