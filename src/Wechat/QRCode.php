@@ -56,11 +56,12 @@ class QRCode
         // 永久二维码时最大值为100000（目前参数只支持1--100000）
         if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < 100000) {
             $type = self::SCENE_QR_FOREVER;
+            $sceneKey = 'scene_id';
         } else {
             $type = self::SCENE_QR_FOREVER_STR;
+            $sceneKey = 'scene_str';
         }
 
-        $sceneKey = $type === self::SCENE_QR_FOREVER ? 'scene_id' : 'scene_str';
         $scene = array($sceneKey => $sceneValue);
 
         return $this->create($type, $scene, false);
