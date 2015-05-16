@@ -48,16 +48,20 @@ class QRCode
      * 永久二维码
      *
      * @param int    $sceneValue
-     * @param string $type
      *
      * @return Bag
      */
-    public function forever($sceneValue, $type = self::SCENE_QR_FOREVER)
+    public function forever($sceneValue)
     {
-        $sceneKey = ($type === self::SCENE_QR_FOREVER) ? 'scene_id' : 'scene_str';
-        $scene = array(
-                  'scene' => array($sceneKey => $sceneValue),
-                 );
+        // 永久二维码时最大值为100000（目前参数只支持1--100000）
+        if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < 100000) {
+            $type = self::SCENE_QR_FOREVER;
+        } else {
+            $type = self::SCENE_QR_FOREVER_STR;
+        }
+
+        $sceneKey = $type === self::SCENE_QR_FOREVER ? 'scene_id' : 'scene_str';
+        $scene = array($sceneKey => $sceneValue);
 
         return $this->create($type, $scene, false);
     }
@@ -72,9 +76,8 @@ class QRCode
      */
     public function temporary($sceneId, $expireSeconds = null)
     {
-        $scene = array(
-                  'scene' => array('scene_id' => $sceneId),
-                 );
+        // 临时二维码时为32位非0整型
+        $scene = array('scene_id' => intval($sceneId));
 
         return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
     }
