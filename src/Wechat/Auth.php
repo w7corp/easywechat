@@ -196,7 +196,11 @@ class Auth
                'refresh_token' => $refreshToken,
               );
 
-        return new Bag($this->http->get(self::API_TOKEN_REFRESH, $params));
+        $permission = $this->http->get(self::API_TOKEN_REFRESH, $params);
+
+        $this->lastPermission = array_merge($this->lastPermission, $permission);
+
+        return new Bag($permission);
     }
 
     /**
