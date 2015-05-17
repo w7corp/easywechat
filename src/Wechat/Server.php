@@ -67,7 +67,7 @@ class Server
      * @param string $token
      * @param string $encodingAESKey
      */
-    public function __construct($appId, $token = null, $encodingAESKey = null)
+    public function __construct($appId, $token, $encodingAESKey = null)
     {
         $this->listeners      = new Bag();
         $this->appId          = $appId;
