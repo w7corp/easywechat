@@ -38,16 +38,24 @@ class Auth
     protected $input;
 
     /**
+     * 获取上一次的授权信息
+     *
+     * @var array
+     */
+    protected $lastPermission;
+
+    /**
      * 已授权用户
      *
      * @var \Overtrue\Wechat\Utils\Bag
      */
     protected $authorizedUser;
 
-    const API_USER          = 'https://api.weixin.qq.com/sns/userinfo';
-    const API_TOKEN_GET     = 'https://api.weixin.qq.com/sns/oauth2/access_token';
-    const API_TOKEN_REFRESH = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
-    const API_URL           = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+    const API_USER           = 'https://api.weixin.qq.com/sns/userinfo';
+    const API_TOKEN_GET      = 'https://api.weixin.qq.com/sns/oauth2/access_token';
+    const API_TOKEN_REFRESH  = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
+    const API_TOKEN_VALIDATE = 'https://api.weixin.qq.com/sns/auth';
+    const API_URL            = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
     /**
      * constructor
@@ -152,6 +160,67 @@ class Auth
     }
 
     /**
+     * 检查 Access Token 是否有效
+     *
+     * @param string $accessToken
+     * @param string $openId
+     *
+     * @return boolean
+     */
+    public function accessTokenIsValid($accessToken, $openId)
+    {
+        $params = array(
+                   'openid'       => $openId,
+                   'access_token' => $accessToken,
+                  );
+        try {
+            $this->http->get(self::API_TOKEN_VALIDATE, $params);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * 刷新 access_token
+     *
+     * @param string $refreshToken
+     *
+     * @return Bag
+     */
+    public function refresh($refreshToken)
+    {
+        $params = array(
+               'appid'         => $this->appId,
+               'grant_type'    => 'refresh_token',
+               'refresh_token' => $refreshToken,
+              );
+
+        return new Bag($this->http->get(self::API_TOKEN_REFRESH, $params));
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param string $openId
+     * @param string $accessToken
+     *
+     * @return array
+     */
+    public function getUser($openId, $accessToken)
+    {
+        $queries = array(
+                   'access_token' => $accessToken,
+                   'openid'       => $openId,
+                   'lang'         => 'zh_CN',
+                  );
+
+        $url = self::API_USER.'?'.http_build_query($queries);
+
+        return new Bag($this->http->get($url));
+    }
+
+    /**
      * 获取access token
      *
      * @param string $code
@@ -167,27 +236,20 @@ class Auth
                'grant_type' => 'authorization_code',
               );
 
-        return $this->http->get(self::API_TOKEN_GET, $params);
+        return $this->lastPermission = $this->http->get(self::API_TOKEN_GET, $params);
     }
 
     /**
-     * 获取用户信息
+     * 魔术访问
      *
-     * @param string $openId
-     * @param string $accessToken
+     * @param string $property
      *
-     * @return array
+     * @return mixed
      */
-    protected function getUser($openId, $accessToken)
+    public function __get($property)
     {
-        $queries = array(
-                   'access_token' => $accessToken,
-                   'openid'       => $openId,
-                   'lang'         => 'zh_CN',
-                  );
-
-        $url = self::API_USER.'?'.http_build_query($queries);
-
-        return new Bag($this->http->get($url));
+        if (isset($this->lastPermission[$property])) {
+            return $this->lastPermission[$property];
+        }
     }
 }
