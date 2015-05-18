@@ -80,10 +80,10 @@ class AccessToken
         }
 
         // for php 5.3
-        $appId     = $this->appId;
-        $appSecret = $this->appSecret;
-        $cache     = $this->cache;
-        $cacheKey  = $this->cacheKey;
+        $appId       = $this->appId;
+        $appSecret   = $this->appSecret;
+        $cache       = $this->cache;
+        $cacheKey    = $this->cacheKey;
         $apiTokenGet = self::API_TOKEN_GET;
 
         return $this->token = $this->cache->get(
