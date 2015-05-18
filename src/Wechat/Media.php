@@ -282,7 +282,7 @@ class Media
      *
      * @return string
      */
-    protected function getUrl($type, $queries = [])
+    protected function getUrl($type, $queries = array())
     {
         if ($type === 'news') {
             $api = self::API_FOREVER_NEWS_UPLOAD;
