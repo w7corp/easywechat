@@ -81,12 +81,13 @@ class Js
         $appId     = $this->appId;
         $appSecret = $this->appSecret;
         $cache     = $this->cache;
+        $apiTicket = self::API_TICKET;
 
         return $this->cache->get(
-            $key, function ($key) use ($appId, $appSecret, $cache) {
+            $key, function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
                 $http  = new Http(new AccessToken($appId, $appSecret));
 
-                $result = $http->get(self::API_TICKET);
+                $result = $http->get($apiTicket);
 
                 $cache->set($key, $result['ticket'], $result['expires_in']);
 
