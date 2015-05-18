@@ -28,7 +28,7 @@ QQ群：319502940
 1. 使用 [composer](https://getcomposer.org/)
 
   ```shell
-  composer require "overtrue/wechat:~2.*"
+  composer require "overtrue/wechat:~2.0.*"
   ```
 
 2. 手动安装
