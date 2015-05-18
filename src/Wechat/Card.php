@@ -4,6 +4,7 @@ namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\Arr;
+use Overtrue\Wechat\Utils\JSON;
 
 /**
  * 卡券
@@ -131,7 +132,7 @@ class Card
 
         return array(
                 'card_id'  => $cardId,
-                'card_ext' => json_encode($ext),
+                'card_ext' => JSON::encode($ext),
                );
     }
 

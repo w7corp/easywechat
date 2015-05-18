@@ -65,7 +65,7 @@ class Js
 
         $config = array_merge(array('debug' => $debug), $signPackage, array('jsApiList' => $APIs));
 
-        return $json ? json_encode($config) : $config;
+        return $json ? JSON::encode($config) : $config;
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace Overtrue\Wechat\Utils;
 
+use Overtrue\Wechat\Utils\JSON;
+
 /**
  * Http请求类
  *
@@ -153,7 +155,7 @@ class Http
                 $params[$index] = $this->createCurlFile($file);
             }
 
-            phpversion() < '5.5' || curl_setopt($this->curl, CURLOPT_SAFE_UPLOAD, false);
+            version_compare(PHP_VERSION, '5.5', '<') || curl_setopt($this->curl, CURLOPT_SAFE_UPLOAD, false);
 
             curl_setopt($this->curl, CURLOPT_POST, 1);
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
@@ -254,7 +256,7 @@ class Http
             }
         );
 
-        return urldecode(json_encode($data));
+        return urldecode(JSON::encode($data));
     }
 
     /**

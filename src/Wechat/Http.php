@@ -3,6 +3,7 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Http as HttpClient;
+use Overtrue\Wechat\Utils\JSON;
 
 /**
  * @method mixed jsonPost($url, $params = array(), $options = array())
@@ -88,7 +89,7 @@ class Http extends HttpClient
             return $response['data'];
         }
 
-        $contents = json_decode($response['data'], true);
+        $contents = JSON::decode($response['data'], true);
 
         if (isset($contents['errcode']) && 0 !== $contents['errcode']) {
             if (empty($contents['errmsg'])) {
