@@ -7,7 +7,7 @@ namespace Overtrue\Wechat;
  */
 class Alias
 {
-    protected static $aliases = [
+    protected static $aliases = array(
                'WechatAuth'            => 'Overtrue\\Wechat\\Auth',
                'WechatCard'            => 'Overtrue\\Wechat\\Card',
                'WechatException'       => 'Overtrue\\Wechat\\Exception',
@@ -39,7 +39,7 @@ class Alias
                'WechatStats'           => 'Overtrue\\Wechat\\Stats',
                'WechatSemantic'        => 'Overtrue\\Wechat\\Semantic',
                'WechatColor'           => 'Overtrue\\Wechat\\Color',
-    ];
+    );
 
     /**
      * 是否已经注册过
