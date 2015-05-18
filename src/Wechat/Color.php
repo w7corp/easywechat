@@ -47,11 +47,12 @@ class Color
         // for php 5.3
         $http  = $this->http;
         $cache = $this->cache;
+        $apiList = self::API_LIST;
 
         return $this->cache->get(
-            $key, function ($key) use ($http, $cache) {
+            $key, function ($key) use ($http, $cache, $apiList) {
 
-                $result = $http->get(self::API_LIST);
+                $result = $http->get($apiList);
 
                 $cache->set($key, $result['colors'], 86400);// 1 day
 

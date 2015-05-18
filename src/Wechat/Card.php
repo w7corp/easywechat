@@ -90,11 +90,12 @@ class Card
         // for php 5.3
         $http  = $this->http;
         $cache = $this->cache;
+        $apiTicket = self::API_TICKET;
 
         return $this->ticket = $this->cache->get(
-            $key, function ($key) use ($http, $cache) {
+            $key, function ($key) use ($http, $cache, $apiTicket) {
 
-                $result = $http->get(self::API_TICKET);
+                $result = $http->get($apiTicket);
 
                 $cache->set($key, $result['ticket'], $result['expires_in']);
 
