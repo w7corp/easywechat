@@ -1,4 +1,17 @@
 <?php
+/**
+ * Crypt.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -9,6 +22,7 @@ use Overtrue\Wechat\Utils\XML;
  */
 class Crypt
 {
+
     /**
      * 应用ID
      *
@@ -50,6 +64,11 @@ class Crypt
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
 
+
+
+
+
+
     /**
      * constructor
      *
@@ -82,8 +101,8 @@ class Crypt
      * </ol>
      *
      * @param string $xml       公众平台待回复用户的消息，xml格式的字符串
-     * @param int    $timestamp 时间戳，可以自己生成，也可以用URL参数的timestamp
      * @param string $nonce     随机串，可以自己生成，也可以用URL参数的nonce
+     * @param int    $timestamp 时间戳，可以自己生成，也可以用URL参数的timestamp
      *
      * @return string 加密后的可以直接回复用户的密文，包括msg_signature, timestamp,
      *                nonce, encrypt的xml格式的字符串
@@ -99,11 +118,11 @@ class Crypt
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypt);
 
         $response = array(
-            'Encrypt'      => $encrypt,
-            'MsgSignature' => $signature,
-            'TimeStamp'    => $timestamp,
-            'Nonce'        => $nonce,
-        );
+                     'Encrypt'      => $encrypt,
+                     'MsgSignature' => $signature,
+                     'TimeStamp'    => $timestamp,
+                     'Nonce'        => $nonce,
+                    );
 
         //生成响应xml
         return XML::build($response);
@@ -118,10 +137,9 @@ class Crypt
      * </ol>
      *
      * @param string $msgSignature 签名串，对应URL参数的msg_signature
-     * @param string $timestamp    时间戳 对应URL参数的timestamp
      * @param string $nonce        随机串，对应URL参数的nonce
+     * @param string $timestamp    时间戳 对应URL参数的timestamp
      * @param string $postXML      密文，对应POST请求的数据
-     * @param string &$msg         解密后的原文，当return返回0时有效
      *
      * @return array
      */

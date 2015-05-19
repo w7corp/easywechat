@@ -1,4 +1,9 @@
 <?php
+/**
+ * Part of Overtrue\Wechat
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 
 namespace Overtrue\Wechat\Messages;
 
@@ -7,5 +12,16 @@ namespace Overtrue\Wechat\Messages;
  */
 class NewsItem extends BaseMessage
 {
-    protected $properties = array('title', 'description', 'pic_url', 'url');
+
+    /**
+     * 属性
+     *
+     * @var array
+     */
+    protected $properties = array(
+                             'title',
+                             'description',
+                             'pic_url',
+                             'url',
+                            );
 }

@@ -1,4 +1,17 @@
 <?php
+/**
+ * Auth.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -9,6 +22,7 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class Auth
 {
+
     /**
      * 应用ID
      *
@@ -75,8 +89,8 @@ class Auth
      * 生成outh URL
      *
      * @param string $to
-     * @param string $state
      * @param string $scope
+     * @param string $state
      *
      * @return string
      */
@@ -191,10 +205,10 @@ class Auth
     public function refresh($refreshToken)
     {
         $params = array(
-               'appid'         => $this->appId,
-               'grant_type'    => 'refresh_token',
-               'refresh_token' => $refreshToken,
-              );
+                   'appid'         => $this->appId,
+                   'grant_type'    => 'refresh_token',
+                   'refresh_token' => $refreshToken,
+                  );
 
         $permission = $this->http->get(self::API_TOKEN_REFRESH, $params);
 
@@ -214,10 +228,10 @@ class Auth
     public function getUser($openId, $accessToken)
     {
         $queries = array(
-                   'access_token' => $accessToken,
-                   'openid'       => $openId,
-                   'lang'         => 'zh_CN',
-                  );
+                    'access_token' => $accessToken,
+                    'openid'       => $openId,
+                    'lang'         => 'zh_CN',
+                   );
 
         $url = self::API_USER.'?'.http_build_query($queries);
 
@@ -234,11 +248,11 @@ class Auth
     public function getAccessPermission($code)
     {
         $params = array(
-               'appid'      => $this->appId,
-               'secret'     => $this->appSecret,
-               'code'       => $code,
-               'grant_type' => 'authorization_code',
-              );
+                   'appid'      => $this->appId,
+                   'secret'     => $this->appSecret,
+                   'code'       => $code,
+                   'grant_type' => 'authorization_code',
+                  );
 
         return $this->lastPermission = $this->http->get(self::API_TOKEN_GET, $params);
     }

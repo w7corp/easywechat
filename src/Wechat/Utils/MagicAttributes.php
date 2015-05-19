@@ -1,11 +1,28 @@
 <?php
+/**
+ * MagicAttributes.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat\Utils;
 
 use InvalidArgumentException;
 
+/**
+ * 用于操作通用数组式属性的工具类
+ */
 abstract class MagicAttributes
 {
+
     /**
      * 允许设置的属性名称
      *

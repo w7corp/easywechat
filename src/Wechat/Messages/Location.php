@@ -1,4 +1,9 @@
 <?php
+/**
+ * Part of Overtrue\Wechat
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 
 namespace Overtrue\Wechat\Messages;
 
@@ -11,7 +16,18 @@ use Overtrue\Wechat\Exception;
  */
 class Location extends BaseMessage
 {
-    protected $properties = array('lat', 'lon', 'scale', 'label');
+
+    /**
+     * 属性
+     *
+     * @var array
+     */
+    protected $properties = array(
+                             'lat',
+                             'lon',
+                             'scale',
+                             'label',
+                            );
 
     /**
      * 生成主动消息数组

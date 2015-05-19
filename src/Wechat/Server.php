@@ -1,4 +1,17 @@
 <?php
+/**
+ * Server.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -11,6 +24,7 @@ use Overtrue\Wechat\Utils\XML;
  */
 class Server
 {
+
     /**
      * 应用ID
      *
@@ -58,7 +72,11 @@ class Server
      *
      * @var array
      */
-    protected $events = array('received', 'served', 'responseCreated');
+    protected $events = array(
+                         'received',
+                         'served',
+                         'responseCreated',
+                        );
 
     /**
      * constructor
@@ -142,10 +160,10 @@ class Server
         $this->prepareInput();
 
         $input = array(
-                $this->token,
-                $this->input->get('timestamp'),
-                $this->input->get('nonce'),
-              );
+                  $this->token,
+                  $this->input->get('timestamp'),
+                  $this->input->get('nonce'),
+                 );
 
         if ($this->input->has('signature')
             && $this->signature($input) !== $this->input->get('signature')
@@ -171,8 +189,11 @@ class Server
             return;
         }
 
-        $xmlInput = !empty($GLOBALS['HTTP_RAW_POST_DATA'])
-                ? $GLOBALS['HTTP_RAW_POST_DATA'] : file_get_contents('php://input');
+        if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
+            $xmlInput = $GLOBALS['HTTP_RAW_POST_DATA']
+        } else {
+            $xmlInput = file_get_contents('php://input');
+        }
 
         $input = XML::parse($xmlInput);
 
@@ -183,7 +204,9 @@ class Server
 
             $input = $this->getCrypt()->decryptMsg(
                 $_REQUEST['msg_signature'],
-                $_REQUEST['nonce'], $_REQUEST['timestamp'], $xmlInput
+                $_REQUEST['nonce'],
+                $_REQUEST['timestamp'],
+                $xmlInput
             );
         }
 
@@ -242,7 +265,9 @@ class Server
 
             if ($this->security) {
                 $return = $this->getCrypt()->encryptMsg(
-                    $return, $this->input->get('nonce'), $this->input->get('timestamp')
+                    $return,
+                    $this->input->get('nonce'),
+                    $this->input->get('timestamp')
                 );
             }
         }
@@ -306,6 +331,8 @@ class Server
 
     /**
      * 检查微信签名有效性
+     *
+     * @param array $input
      */
     protected function signature($input)
     {

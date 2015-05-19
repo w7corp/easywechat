@@ -1,9 +1,22 @@
 <?php
+/**
+ * Media.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\JSON;
+use Overtrue\Wechat\Utils\Bag;
 
 /**
  * 媒体素材
@@ -29,7 +42,13 @@ class Media
      *
      * @var array
      */
-    protected $allowTypes = array('image', 'voice', 'video', 'thumb', 'news');
+    protected $allowTypes = array(
+                             'image',
+                             'voice',
+                             'video',
+                             'thumb',
+                             'news',
+                            );
 
     /**
      * Http对象
@@ -71,8 +90,8 @@ class Media
     /**
      * 上传媒体文件
      *
-     * @param string $path
      * @param string $type
+     * @param string $path
      * @param array  $params
      *
      * @return string
@@ -87,14 +106,10 @@ class Media
             throw new Exception("错误的媒体类型 '{$type}'");
         }
 
-        $queries = array(
-                    'type' => $type,
-                   );
+        $queries = array('type' => $type);
 
         $options = array(
-                    'files' => array(
-                                'media' => $path,
-                               ),
+                    'files' => array('media' => $path),
                    );
 
         $url = $this->getUrl($type, $queries);
@@ -119,12 +134,14 @@ class Media
      */
     public function video($path, $title, $description)
     {
-        $params = array('description' => JSON::encode(
-            array(
-                                                      'title'        => $title,
-                                                      'introduction' => $description,
-                                                     )
-        ));
+        $params = array(
+                   'description' => JSON::encode(
+                       array(
+                        'title'        => $title,
+                        'introduction' => $description,
+                       )
+                   ),
+                  );
 
         return $this->upload('video', $path, $params);
     }
@@ -138,9 +155,7 @@ class Media
      */
     public function news(array $articles)
     {
-        $params = array(
-                   'articles' => $articles,
-                  );
+        $params = array('articles' => $articles);
 
         $response = $this->http->jsonPost(self::API_FOREVER_NEWS_UPLOAD, $params);
 
@@ -244,9 +259,7 @@ class Media
      */
     public function download($mediaId, $filename = '')
     {
-        $params = array(
-            'media_id' => $mediaId,
-        );
+        $params = array('media_id' => $mediaId);
 
         $method = $this->forever ? 'jsonPost' : 'get';
         $api    = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
@@ -270,7 +283,10 @@ class Media
      */
     public function __call($method, $args)
     {
-        $args = array($method, array_shift($args));
+        $args = array(
+                 $method,
+                 array_shift($args),
+                );
 
         return call_user_func_array(array(__CLASS__, 'upload'), $args);
     }

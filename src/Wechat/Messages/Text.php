@@ -1,4 +1,9 @@
 <?php
+/**
+ * Part of Overtrue\Wechat
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 
 namespace Overtrue\Wechat\Messages;
 
@@ -9,6 +14,12 @@ namespace Overtrue\Wechat\Messages;
  */
 class Text extends BaseMessage
 {
+
+    /**
+     * 属性
+     *
+     * @var array
+     */
     protected $properties = array('content');
 
     /**
@@ -22,7 +33,7 @@ class Text extends BaseMessage
                 'text' => array(
                            'content' => $this->content,
                           ),
-        );
+               );
     }
 
     /**
@@ -33,7 +44,7 @@ class Text extends BaseMessage
     public function toReply()
     {
         return array(
-                     'Content' => $this->content,
-                    );
+                'Content' => $this->content,
+               );
     }
 }

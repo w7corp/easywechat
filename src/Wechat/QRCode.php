@@ -1,4 +1,17 @@
 <?php
+/**
+ * QRCode.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -9,6 +22,7 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class QRCode
 {
+
     /**
      * 应用ID
      *
@@ -47,7 +61,7 @@ class QRCode
     /**
      * 永久二维码
      *
-     * @param int    $sceneValue
+     * @param int $sceneValue
      *
      * @return Bag
      */
@@ -145,8 +159,8 @@ class QRCode
         $http = new Http(new AccessToken($this->appId, $this->appSecret));
 
         $params = array(
-                   'action_name'    => $actionName,
-                   'action_info'    => $actionInfo,
+                   'action_name' => $actionName,
+                   'action_info' => $actionInfo,
                   );
 
         if ($temporary) {

@@ -1,20 +1,19 @@
 <?php
-
-namespace Overtrue\Wechat\Utils;
-
-/*
+/**
  * Bag.php
  *
- * (c) 2015 overtrue <anzhengchao@gmail.com>
+ * Part of Overtrue\Wechat.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author overtrue <anzhengchao@gmail.com>
- * @github https://github.com/overtrue
- * @url    http://overtrue.me
- * @date   2014-10-29T22:37:10
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
  */
+
+namespace Overtrue\Wechat\Utils;
 
 // use JsonSerializable;
 // TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
@@ -25,6 +24,9 @@ use ArrayAccess;
 use Countable;
 use Overtrue\Wechat\Utils\JSON;
 
+/**
+ * 工具类，实现一些便捷访问接口如：数组式访问
+ */
 class Bag implements
     ArrayAccess,
     Countable,
@@ -32,6 +34,7 @@ class Bag implements
     Serializable
     // , JsonSerializable
 {
+
     /**
      * Data
      *
@@ -42,7 +45,7 @@ class Bag implements
     /**
      * set data
      *
-     * @param mixed $data
+     * @param mixed $data 数据数组
      */
     public function __construct($data = array())
     {
@@ -187,15 +190,15 @@ class Bag implements
     }
 
     /**
-     * {@inhertDoc}
+     * @see JsonSerializable::jsonSerialize()
      */
-    public function jsonSerialize()
-    {
-        return $this->data;
-    }
+    // public function jsonSerialize()
+    // {
+    //     return $this->data;
+    // }
 
     /**
-     * {@inhertDoc}
+     * @see Serializable::serialize()
      */
     public function serialize()
     {
@@ -203,7 +206,7 @@ class Bag implements
     }
 
     /**
-     * {@inhertDoc}
+     * @see Serializable::unserialize()
      */
     public function unserialize($data)
     {
@@ -211,7 +214,7 @@ class Bag implements
     }
 
     /**
-     * {@inhertDoc}
+     * @see ArrayIterator::getIterator()
      */
     public function getIterator()
     {
@@ -219,7 +222,7 @@ class Bag implements
     }
 
     /**
-     * {@inhertDoc}
+     * @see Countable::count()
      */
     public function count($mode = COUNT_NORMAL)
     {

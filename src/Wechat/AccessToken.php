@@ -1,4 +1,17 @@
 <?php
+/**
+ * AccessToken.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -7,6 +20,7 @@ namespace Overtrue\Wechat;
  */
 class AccessToken
 {
+
     /**
      * 应用ID
      *
@@ -87,12 +101,13 @@ class AccessToken
         $apiTokenGet = self::API_TOKEN_GET;
 
         return $this->token = $this->cache->get(
-            $cacheKey, function ($cacheKey) use ($appId, $appSecret, $cache, $apiTokenGet) {
+            $cacheKey,
+            function ($cacheKey) use ($appId, $appSecret, $cache, $apiTokenGet) {
                 $params = array(
-                       'appid'      => $appId,
-                       'secret'     => $appSecret,
-                       'grant_type' => 'client_credential',
-                      );
+                           'appid'      => $appId,
+                           'secret'     => $appSecret,
+                           'grant_type' => 'client_credential',
+                          );
                 $http = new Http();
 
                 $token = $http->get($apiTokenGet, $params);

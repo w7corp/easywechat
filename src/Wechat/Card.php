@@ -1,4 +1,17 @@
 <?php
+/**
+ * Card.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -11,6 +24,7 @@ use Overtrue\Wechat\Utils\JSON;
  */
 class Card
 {
+
     /**
      * Http对象
      *
@@ -94,8 +108,8 @@ class Card
         $apiTicket = self::API_TICKET;
 
         return $this->ticket = $this->cache->get(
-            $key, function ($key) use ($http, $cache, $apiTicket) {
-
+            $key,
+            function ($key) use ($http, $cache, $apiTicket) {
                 $result = $http->get($apiTicket);
 
                 $cache->set($key, $result['ticket'], $result['expires_in']);
@@ -118,16 +132,20 @@ class Card
         $timestamp = time();
 
         $ext = array(
-                'code'       => Arr::get($extension, 'code'),
-                'openid'     => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
-                'timestamp'  => $timestamp,
-                'outer_id'   => Arr::get($extension, 'outer_id'),
-                'balance'    => Arr::get($extension, 'balance'),
+                'code'      => Arr::get($extension, 'code'),
+                'openid'    => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
+                'timestamp' => $timestamp,
+                'outer_id'  => Arr::get($extension, 'outer_id'),
+                'balance'   => Arr::get($extension, 'balance'),
                );
 
         $ext['signature'] = $this->getSignature(
             $this->getTicket(),
-            $timestamp, $cardId, $ext['code'], $ext['openid'], $ext['balance']
+            $timestamp,
+            $cardId,
+            $ext['code'],
+            $ext['openid'],
+            $ext['balance']
         );
 
         return array(
@@ -170,9 +188,7 @@ class Card
      */
     public function get($cardId)
     {
-        $params = array(
-                   'card_id' => $cardId,
-                  );
+        $params = array('card_id' => $cardId);
 
         $result = $this->http->jsonPost(self::API_GET, $params);
 
@@ -183,6 +199,9 @@ class Card
      * 修改卡券
      *
      * @param string $cardId
+     * @param string $type
+     * @param array  $base
+     * @param array  $data
      *
      * @return bool
      */
@@ -223,7 +242,8 @@ class Card
      * 核销
      *
      * @param string $code   要消耗序列号
-     * @param string $cardId 卡券 ID。创建卡券时 use_custom_code 填写 true 时必填。非自定义 code 不必填写。
+     * @param string $cardId 卡券 ID。创建卡券时 use_custom_code 填写 true 时必填。
+     *                       非自定义 code 不必填写。
      *
      * @return Bag
      */
@@ -248,8 +268,8 @@ class Card
     public function disable($code, $cardId = null)
     {
         $params = array(
-                   'code'     => $code,
-                   'card_id'  => $cardId,
+                   'code'    => $code,
+                   'card_id' => $cardId,
                   );
 
         return $this->http->jsonPost(self::API_UNAVAILABLE, $params);

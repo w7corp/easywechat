@@ -1,4 +1,9 @@
 <?php
+/**
+ * Part of Overtrue\Wechat
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 
 namespace Overtrue\Wechat\Messages;
 
@@ -23,6 +28,7 @@ use Overtrue\Wechat\Utils\XML;
  */
 abstract class BaseMessage extends MagicAttributes
 {
+
     /**
      * 允许的属性
      *
@@ -35,7 +41,13 @@ abstract class BaseMessage extends MagicAttributes
      *
      * @var array
      */
-    protected $baseProperties = array('from', 'to', 'to_group', 'to_all', 'staff');
+    protected $baseProperties = array(
+                                 'from',
+                                 'to',
+                                 'to_group',
+                                 'to_all',
+                                 'staff',
+                                );
 
     /**
      * 生成用于主动推送的数据
@@ -71,11 +83,11 @@ abstract class BaseMessage extends MagicAttributes
         }
 
         $base = array(
-                     'ToUserName'   => $this->to,
-                     'FromUserName' => $this->from,
-                     'CreateTime'   => time(),
-                     'MsgType'      => $this->getDefaultMessageType(),
-                    );
+                 'ToUserName'   => $this->to,
+                 'FromUserName' => $this->from,
+                 'CreateTime'   => time(),
+                 'MsgType'      => $this->getDefaultMessageType(),
+                );
 
         return XML::build(array_merge($base, $this->toReply()));
     }

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Part of Overtrue\Wechat
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 
 namespace Overtrue\Wechat\Messages;
 
@@ -12,7 +17,16 @@ use Overtrue\Wechat\Exception;
  */
 class Transfer extends BaseMessage
 {
-    protected $properties = array('account', 'to');
+
+    /**
+     * 属性
+     *
+     * @var array
+     */
+    protected $properties = array(
+                             'account',
+                             'to',
+                            );
 
     /**
      * 生成主动消息数组
@@ -27,9 +41,7 @@ class Transfer extends BaseMessage
      */
     public function toReply()
     {
-        $response = array(
-                     'MsgType' => 'transfer_customer_service',
-                    );
+        $response = array('MsgType' => 'transfer_customer_service');
 
         // 指定客服
         if (!empty($this->account) || !empty($this->to)) {

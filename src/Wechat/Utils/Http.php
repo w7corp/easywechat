@@ -1,4 +1,17 @@
 <?php
+/**
+ * Http.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat\Utils;
 
@@ -11,6 +24,7 @@ use Overtrue\Wechat\Utils\JSON;
  */
 class Http
 {
+
     /**
      * Constants for available HTTP methods
      */
@@ -21,9 +35,11 @@ class Http
     const DELETE  = 'DELETE';
 
     /**
+     * CURL句柄
+     *
      * @var resource handle
      */
-    private $curl;
+    protected $curl;
 
     /**
      * Create the cURL resource
@@ -186,12 +202,12 @@ class Http
         $body       = substr($response['response'], $headerSize);
 
         $results = array(
-            'curl_info'    => $response['curl_info'],
-            'content_type' => $response['curl_info']['content_type'],
-            'status'       => $response['curl_info']['http_code'],
-            'headers'      => $this->splitHeaders($header),
-            'data'         => $body,
-        );
+                    'curl_info'    => $response['curl_info'],
+                    'content_type' => $response['curl_info']['content_type'],
+                    'status'       => $response['curl_info']['http_code'],
+                    'headers'      => $this->splitHeaders($header),
+                    'data'         => $body,
+                   );
 
         return $results;
     }
@@ -249,7 +265,8 @@ class Http
     protected function encode($data)
     {
         array_walk_recursive(
-            $data, function (&$value) {
+            $data,
+            function (&$value) {
                 if (is_string($value)) {
                     $value = urlencode($value);
                 }
@@ -270,9 +287,9 @@ class Http
         $curlInfo = curl_getinfo($this->curl);
 
         $results = array(
-            'curl_info' => $curlInfo,
-            'response'  => $response,
-        );
+                    'curl_info' => $curlInfo,
+                    'response'  => $response,
+                   );
 
         return $results;
     }

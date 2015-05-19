@@ -1,13 +1,30 @@
 <?php
+/**
+ * XML.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat\Utils;
 
+/**
+ * XML 工具类，用于构建与解析 XML
+ */
 class XML
 {
+
     /**
      * XML 转换为数组
      *
-     * @param string $xml
+     * @param string $xml XML string
      *
      * @return array
      */
@@ -33,7 +50,13 @@ class XML
      *
      * @return string
      */
-    public static function build($data, $root = 'xml', $item = 'item', $attr = '', $id = 'id' /*, $encoding = 'utf-8'*/)
+    public static function build(
+        $data,
+        $root = 'xml',
+        $item = 'item',
+        $attr = '',
+        $id = 'id'
+    )
     {
         if (is_array($attr)) {
             $_attr = array();
@@ -45,12 +68,11 @@ class XML
             $attr = implode(' ', $_attr);
         }
 
-        $attr   = trim($attr);
-        $attr   = empty($attr) ? '' : " {$attr}";
-        /*$xml    = "<?xml version=\"1.0\" encoding=\"{$encoding}\"?>";*/
-        $xml   = "<{$root}{$attr}>";
-        $xml   .= self::data2Xml($data, $item, $id);
-        $xml   .= "</{$root}>";
+        $attr = trim($attr);
+        $attr = empty($attr) ? '' : " {$attr}";
+        $xml  = "<{$root}{$attr}>";
+        $xml  .= self::data2Xml($data, $item, $id);
+        $xml  .= "</{$root}>";
 
         return $xml;
     }
@@ -58,7 +80,7 @@ class XML
     /**
      * 生成<![CDATA[%s]]>
      *
-     * @param string $string
+     * @param string $string 内容
      *
      * @return string
      */
@@ -70,7 +92,7 @@ class XML
     /**
      * 把对象转换成数组
      *
-     * @param string $data
+     * @param string $data 数据
      *
      * @return array
      */
@@ -92,9 +114,9 @@ class XML
     /**
      * 转换数组为xml
      *
-     * @param array  $data
-     * @param string $item
-     * @param string $id
+     * @param array  $data 数组
+     * @param string $item item的属性名
+     * @param string $id   id的属性名
      *
      * @return string
      */
@@ -108,10 +130,15 @@ class XML
                 $key  = $item;
             }
 
-            $xml .=  "<{$key}{$attr}>";
-            $xml .=  (is_array($val) || is_object($val))
-                    ? self::data2Xml((array) $val, $item, $id) : (is_numeric($val) ? $val : self::cdata($val));
-            $xml .=  "</{$key}>";
+            $xml .= "<{$key}{$attr}>";
+
+            if ((is_array($val) || is_object($val))) {
+                $xml .= self::data2Xml((array) $val, $item, $id);
+            } else {
+                $xml .= is_numeric($val) ? $val : self::cdata($val);
+            }
+
+            $xml .= "</{$key}>";
         }
 
         return $xml;

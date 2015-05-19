@@ -1,4 +1,17 @@
 <?php
+/**
+ * Group.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -42,9 +55,7 @@ class Group
     public function create($name)
     {
         $params = array(
-                    'group' => array(
-                                'name' => $name,
-                               ),
+                   'group' => array('name' => $name),
                   );
 
         $response = $this->http->jsonPost(self::API_CREATE, $params);
@@ -75,10 +86,10 @@ class Group
     public function update($groupId, $name)
     {
         $params = array(
-                    'group' => array(
-                                'id'   => $groupId,
-                                'name' => $name,
-                               ),
+                   'group' => array(
+                               'id'   => $groupId,
+                               'name' => $name,
+                              ),
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
@@ -93,9 +104,7 @@ class Group
      */
     public function userGroup($openId)
     {
-        $params = array(
-                    'openid' => $openId,
-                  );
+        $params = array('openid' => $openId);
 
         $response = $this->http->jsonPost(self::API_USER_GROUP_ID, $params);
 

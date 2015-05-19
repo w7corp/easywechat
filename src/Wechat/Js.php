@@ -1,4 +1,17 @@
 <?php
+/**
+ * Js.php
+ *
+ * Part of Overtrue\Wechat.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015 overtrue <i@overtrue.me>
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
+ */
 
 namespace Overtrue\Wechat;
 
@@ -7,6 +20,7 @@ namespace Overtrue\Wechat;
  */
 class Js
 {
+
     /**
      * 应用ID
      *
@@ -84,7 +98,8 @@ class Js
         $apiTicket = self::API_TICKET;
 
         return $this->cache->get(
-            $key, function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
+            $key,
+            function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
                 $http  = new Http(new AccessToken($appId, $appSecret));
 
                 $result = $http->get($apiTicket);

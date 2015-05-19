@@ -1,4 +1,9 @@
 <?php
+/**
+ * Part of Overtrue\Wechat
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 
 namespace Overtrue\Wechat\Messages;
 
@@ -11,6 +16,12 @@ use Overtrue\Wechat\Media;
  */
 class Voice extends BaseMessage
 {
+
+    /**
+     * 属性
+     *
+     * @var array
+     */
     protected $properties = array('media_id');
 
     /**
