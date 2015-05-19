@@ -85,11 +85,12 @@ class Http extends HttpClient
         // 文本或者json
         $textMIME = '~application/json|text/plain~i';
 
-        if (!preg_match($textMIME, $response['content_type'])) {
+        $contents = JSON::decode($response['data'], true);
+
+        // while the response is an invalid JSON structure, returned the source data
+        if (!preg_match($textMIME, $response['content_type']) && JSON_ERROR_NONE !== json_last_error() && false === $contents) {
             return $response['data'];
         }
-
-        $contents = JSON::decode($response['data'], true);
 
         if (isset($contents['errcode']) && 0 !== $contents['errcode']) {
             if (empty($contents['errmsg'])) {
