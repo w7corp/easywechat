@@ -15,6 +15,8 @@
 
 namespace Overtrue\Wechat;
 
+use Overtrue\Wechat\Utils\JSON;
+
 /**
  * 微信 JSSDK
  */
