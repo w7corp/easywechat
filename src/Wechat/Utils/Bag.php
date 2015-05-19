@@ -23,6 +23,7 @@ use ArrayIterator;
 use Serializable;
 use ArrayAccess;
 use Countable;
+use Overtrue\Wechat\Utils\JSON;
 
 class Bag implements
     ArrayAccess,
@@ -172,7 +173,7 @@ class Bag implements
      */
     public function toJson()
     {
-        return json_encode($this->all());
+        return JSON::encode($this->all());
     }
 
     /**

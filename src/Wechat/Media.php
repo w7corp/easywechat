@@ -3,6 +3,7 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Utils\JSON;
 
 /**
  * 媒体素材
@@ -118,7 +119,7 @@ class Media
      */
     public function video($path, $title, $description)
     {
-        $params = array('description' => json_encode(
+        $params = array('description' => JSON::encode(
             array(
                                                       'title'        => $title,
                                                       'introduction' => $description,
