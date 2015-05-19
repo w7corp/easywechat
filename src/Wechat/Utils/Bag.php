@@ -15,14 +15,13 @@
 
 namespace Overtrue\Wechat\Utils;
 
-// use JsonSerializable;
-// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
+use Overtrue\Wechat\Utils\JSON;
+// use JsonSerializable;// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
 use IteratorAggregate;
 use ArrayIterator;
 use Serializable;
 use ArrayAccess;
 use Countable;
-use Overtrue\Wechat\Utils\JSON;
 
 /**
  * 工具类，实现一些便捷访问接口如：数组式访问
