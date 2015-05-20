@@ -132,16 +132,10 @@ class Auth
      */
     public function user()
     {
-        if ($this->authorizedUser) {
+        if ($this->authorizedUser
+            || !$this->input->has('state')
+            || (!$code = $this->input->get('code')) && $this->input->has('state')) {
             return $this->authorizedUser;
-        }
-
-        if (!$this->input->has('state')) {
-            return;
-        }
-
-        if ((!$code = $this->input->get('code')) && $this->input->has('state')) {
-            return;
         }
 
         $permission = $this->getAccessPermission($code);
