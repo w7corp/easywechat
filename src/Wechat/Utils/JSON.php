@@ -14,11 +14,19 @@
 
 namespace Overtrue\Wechat\Utils;
 
+// for PHP5.3, prevent PHP Notice msg assumed
+defined('JSON_UNESCAPED_UNICODE') || define('JSON_UNESCAPED_UNICODE', 256);
+
 /**
  * Unicode2multi characters supported for the wechat server
  */
 class JSON
 {
+    /**
+     * To prevent new operation, under static usage only
+     */
+    protected function __construct()
+    {}
 
     /**
      * PHP >= 5.3 JSON_UNESCAPED_UNICODE constant supported
@@ -33,21 +41,26 @@ class JSON
      */
     public static function encode($value, $options = 0, $depth = 512)
     {
-        $depthSupported = version_compare(PHP_VERSION, '5.5.0', '>=');
+        // multi-characters supported by default
+        $options |= JSON_UNESCAPED_UNICODE;
 
-        $data = $depthSupported ? json_encode($value, $options, $depth) : json_encode($value, $options);
+        $data = version_compare(PHP_VERSION, '5.5.0', '>=')
+            ? json_encode($value, $options, $depth)
+            : json_encode($value, $options);
 
         if (JSON_ERROR_NONE !== json_last_error()) {
             return $data;
         }
 
-        return $depthSupported ? $data : preg_replace_callback("/\\\u([\w]{2})([\w]{2})/iu", function ($pipe) {
+        return version_compare(PHP_VERSION, '5.4.0', '>=')
+            ? $data
+            : preg_replace_callback("/\\\u([0-9a-f]{2})([0-9a-f]{2})/iu", function ($pipe) {
                 return iconv(
                     strncasecmp(PHP_OS, 'WIN', 3) ? 'UCS-2BE' : 'UCS-2',
                     'UTF-8',
                     chr(hexdec($pipe[1])) . chr(hexdec($pipe[2]))
                 );
-        }, $data);
+            }, $data);
     }
 
     /**
