@@ -33,7 +33,7 @@ class JSON
      */
     public static function encode($value, $options = 0, $depth = 512)
     {
-        $depthSupported = version_compare(PHP_VERSION, '5.4.0', '>=');
+        $depthSupported = version_compare(PHP_VERSION, '5.5.0', '>=');
 
         $data = $depthSupported ? json_encode($value, $options, $depth) : json_encode($value, $options);
 
