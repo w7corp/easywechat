@@ -62,12 +62,11 @@ class Staff
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * @param Http $http
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(Http $http)
     {
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http = $http;
     }
 
     /**
