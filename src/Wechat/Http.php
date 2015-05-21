@@ -102,7 +102,8 @@ class Http extends HttpClient
         $contents = JSON::decode($response['data'], true);
 
         // while the response is an invalid JSON structure, returned the source data
-        if (!preg_match($textMIME, $response['content_type']) && JSON_ERROR_NONE !== json_last_error() && false === $contents) {
+        if (!preg_match($textMIME, $response['content_type'])
+            || (JSON_ERROR_NONE !== json_last_error() && false === $contents)) {
             return $response['data'];
         }
 
