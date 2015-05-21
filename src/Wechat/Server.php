@@ -286,10 +286,10 @@ class Server
     {
         $this->call('received', array($this->input));
 
-        if ($this->input->has('MsgId')) {
-            return $this->handleMessage($this->input);
-        } elseif ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
+        if ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
             return $this->handleEvent($this->input);
+        } elseif ($this->input->has('MsgId')) {
+            return $this->handleMessage($this->input);
         }
 
         return false;
