@@ -74,13 +74,12 @@ class Auth
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * @param array $config
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(array $config)
     {
-        $this->appId     = $appId;
-        $this->appSecret = $appSecret;
+        $this->appId     = $config['app_id'];
+        $this->appSecret = $config['secret'];
         $this->http      = new Http(); // 不需要公用的access_token
         $this->input     = new Input();
     }

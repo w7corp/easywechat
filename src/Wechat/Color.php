@@ -40,13 +40,13 @@ class Color
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * @param Http  $http
+     * @param Cache $cache
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(Http $http, Cache $cache)
     {
-        $this->http  = new Http(new AccessToken($appId, $appSecret));
-        $this->cache = new Cache($appId);
+        $this->http  = $http;
+        $this->cache = $cache;
     }
 
     /**

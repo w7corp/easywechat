@@ -81,16 +81,12 @@ class Server
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $token
-     * @param string $encodingAESKey
+     * @param array $config
      */
-    public function __construct($appId, $token, $encodingAESKey = null)
+    public function __construct(array $config)
     {
-        $this->listeners      = new Bag();
-        $this->appId          = $appId;
-        $this->token          = $token;
-        $this->encodingAESKey = $encodingAESKey;
+        $this->listeners = new Bag();
+        $this->config    = $config;
     }
 
     /**
@@ -233,11 +229,11 @@ class Server
         static $crypt;
 
         if (!$crypt) {
-            if (empty($this->encodingAESKey) || empty($this->token)) {
+            if (empty($this->config['encoding_key']) || empty($this->config['token'])) {
                 throw new Exception("加密模式下 'encodingAESKey' 与 'token' 都不能为空！");
             }
 
-            $crypt = new Crypt($this->appId, $this->token, $this->encodingAESKey);
+            $crypt = new Crypt($this->config);
         }
 
         return $crypt;
@@ -395,6 +391,6 @@ class Server
      */
     public function __toString()
     {
-        return ''.$this->serve();
+        return strval($this->serve());
     }
 }

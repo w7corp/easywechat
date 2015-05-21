@@ -42,13 +42,12 @@ class Semantic
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * @param array $config
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(array $config)
     {
-        $this->appId = $appId;
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->appId = $config['app_id'];
+        $this->http = new Http(new AccessToken($config['app_id'], $config['secret']));
     }
 
     /**

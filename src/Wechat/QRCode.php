@@ -49,13 +49,12 @@ class QRCode
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * @param array $config
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(array $config)
     {
-        $this->appId     = $appId;
-        $this->appSecret = $appSecret;
+        $this->appId     = $config['app_id'];
+        $this->appSecret = $config['secret'];
     }
 
     /**

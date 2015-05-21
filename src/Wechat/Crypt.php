@@ -72,23 +72,21 @@ class Crypt
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $token
-     * @param string $encodingAESKey
+     * @param array $config
      */
-    public function __construct($appId, $token, $encodingAESKey)
+    public function __construct(array $config)
     {
         if (!extension_loaded('mcrypt')) {
             throw new Exception('Mcrypt 拓展未安装或未启用');
         }
 
-        if (strlen($encodingAESKey) !== 43) {
+        if (strlen($config['encoding_key']) !== 43) {
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
-        $this->appId     = $appId;
-        $this->token     = $token;
-        $this->AESKey    = base64_decode($encodingAESKey.'=', true);
+        $this->appId     = $config['app_id'];
+        $this->token     = $config['token'];
+        $this->AESKey    = base64_decode($config['encoding_key'].'=', true);
         $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
 
