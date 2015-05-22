@@ -28,7 +28,7 @@ use Overtrue\Wechat\Utils\Bag;
 class Media
 {
     const API_TEMPORARY_UPLOAD    = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
-    const API_FOREVER_UPLOAD      = 'http://api.weixin.qq.com/cgi-bin/material/add_material';
+    const API_FOREVER_UPLOAD      = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
     const API_TEMPORARY_GET       = 'https://api.weixin.qq.com/cgi-bin/media/get';
     const API_FOREVER_GET         = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
     const API_FOREVER_NEWS_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_news';
