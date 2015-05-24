@@ -177,7 +177,7 @@ class Http
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
         } else {
             if (isset($options['json'])) {
-                $params = $this->encode($params);
+                $params = JSON::encode($params);
                 $options['headers'][] = 'content-type:application/json';
             }
 
@@ -251,29 +251,6 @@ class Http
         }
 
         return $headers;
-    }
-
-    /**
-     * json encode
-     *
-     * TODO: 5.4以后去除此方法，5.3不支持JSON_UNESCAPED_UNICODE
-     *
-     * @param array $data
-     *
-     * @return string
-     */
-    protected function encode($data)
-    {
-        array_walk_recursive(
-            $data,
-            function (&$value) {
-                if (is_string($value)) {
-                    $value = urlencode($value);
-                }
-            }
-        );
-
-        return urldecode(JSON::encode($data));
     }
 
     /**
