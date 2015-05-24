@@ -176,7 +176,7 @@ class Media
         $params = array(
                    'media_id' => $mediaId,
                    'index'    => $index,
-                   'articles' => array($article),
+                   'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : array()),
                   );
 
         return $this->http->jsonPost(self::API_FOREVER_NEWS_UPDATE, $params);
