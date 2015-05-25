@@ -99,7 +99,7 @@ class Auth
 
         $params = array(
                    'appid'         => $this->appId,
-                   'redirect_uri'  => urlencode(urldecode($to)),
+                   'redirect_uri'  => $to,
                    'response_type' => 'code',
                    'scope'         => $scope,
                    'state'         => $state,
