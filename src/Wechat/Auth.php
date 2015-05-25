@@ -100,7 +100,7 @@ class Auth
 
         $params = array(
                    'appid'         => $this->appId,
-                   'redirect_uri'  => urlencode(urldecode($to)),
+                   'redirect_uri'  => $to,
                    'response_type' => 'code',
                    'scope'         => $scope,
                    'state'         => $state,
@@ -118,8 +118,6 @@ class Auth
      */
     public function redirect($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
     {
-        $to !== null || $to = Url::current();
-
         header('Location:'.$this->url($to, $scope, $state));
 
         exit;
