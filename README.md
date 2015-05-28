@@ -1,5 +1,7 @@
 # Wechat
 
+[English](README_EN.md)
+
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
 QQ群：319502940
