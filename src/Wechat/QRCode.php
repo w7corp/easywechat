@@ -26,16 +26,9 @@ class QRCode
     /**
      * 应用ID
      *
-     * @var string
+     * @var Http
      */
-    protected $appId;
-
-    /**
-     * 应用secret
-     *
-     * @var string
-     */
-    protected $appSecret;
+    protected $http;
 
     const DAY = 86400;
     const SCENE_QE_CARD        = 'QR_CARD';             // 卡券
@@ -53,8 +46,7 @@ class QRCode
      */
     public function __construct(array $config)
     {
-        $this->appId     = $config['app_id'];
-        $this->appSecret = $config['secret'];
+        $this->http = new Http(new AccessToken($config['app_id'], $config['secret']));
     }
 
     /**
@@ -155,8 +147,6 @@ class QRCode
     {
         $expireSeconds !== null || $expireSeconds = 7 * self::DAY;
 
-        $http = new Http(new AccessToken($this->appId, $this->appSecret));
-
         $params = array(
                    'action_name' => $actionName,
                    'action_info' => $actionInfo,
@@ -166,6 +156,6 @@ class QRCode
             $params['expire_seconds'] = min($expireSeconds, 7 * self::DAY);
         }
 
-        return new Bag($http->jsonPost(self::API_CREATE, $params));
+        return new Bag($this->http->jsonPost(self::API_CREATE, $params));
     }
 }

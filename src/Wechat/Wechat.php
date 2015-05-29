@@ -15,15 +15,16 @@
 
 namespace Overtrue\Wechat;
 
-use ReflectionClass;
-
 /**
  * SDK 入口
  */
 class Wechat
 {
+
     /**
      * 配置信息
+     *
+     * @var array
      *
      * <pre>
      * [
@@ -34,8 +35,6 @@ class Wechat
      *   'encoding_key' => 'YourEncodingAESKey' // 加密模式需要，其它模式不需要
      * ]
      * </pre>
-     *
-     * @var array
      */
     protected static $config;
 
@@ -68,7 +67,7 @@ class Wechat
      */
     public static function service($name, $args = array())
     {
-        return $this->build("Overtrue\\Wechat\\" . self::camelCase($name), $args);
+        return self::build("Overtrue\\Wechat\\" . ucfirst(self::camelCase($name)), $args);
     }
 
     /**
@@ -81,7 +80,7 @@ class Wechat
      */
     public static function message($name, $args = array())
     {
-        return $this->build("Overtrue\\Wechat\\Messages\\" . self::camelCase($name), $args);
+        return self::build("Overtrue\\Wechat\\Messages\\" . ucfirst(self::camelCase($name)), $args);
     }
 
     /**
@@ -94,7 +93,7 @@ class Wechat
      */
     public static function util($name, $args = array())
     {
-        return $this->build("Overtrue\\Wechat\\Utils\\" . self::camelCase($name), $args);
+        return self::build("Overtrue\\Wechat\\Utils\\" . ucfirst(self::camelCase($name)), $args);
     }
 
     /**
@@ -107,16 +106,11 @@ class Wechat
      */
     public static function build($class, $args = array())
     {
-        //TODO
         $args = array_merge(self::$config, $args);
 
-        if ($instance = self::getResolved($class, $args)) {
-            return $instance;
-        }
-
-        $reflectedClass = new ReflectionClass($class);
-
-        return $reflectedClass->newInstanceArgs($args);
+        return self::getResolved($class, $args, function ($key) use ($class, $args) {
+            return self::$resolved[$key] = new $class($args);
+        });
     }
 
     /**
@@ -129,25 +123,35 @@ class Wechat
     public static function camelCase($string)
     {
         return preg_replace_callback(
-               '/_{1,}([a-z])/',
-               function($pipe){
-                   return strtolower($pipe[1]);
-               },
-              $string);
+            '/_{1,}([a-z])/',
+            function ($pipe) {
+                    return strtolower($pipe[1]);
+            },
+            $string
+        );
     }
 
     /**
      * 获取已经实例化的对象
      *
-     * @param string $class 类名
-     * @param array  $args  参数
+     * @param string   $class    类名
+     * @param array    $args     参数
+     * @param callable $callback 回调
      *
      * @return mixed
      */
-    protected static function getResolved($class, $args)
+    protected static function getResolved($class, $args, $callback = null)
     {
-        $key = $class.json_encode($args);
+        $key = $class . md5(json_encode($args));
 
-        return isset(self::$resolved[$key]) ? self::$resolved[$key] : null;
+        if (isset(self::$resolved[$key])) {
+            return self::$resolved[$key];
+        }
+
+        if (is_callable($callback)) {
+            return call_user_func_array($callback, array($key));
+        }
+
+        return null;
     }
 }

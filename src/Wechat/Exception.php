@@ -175,5 +175,5 @@ class Exception extends BaseException
         $message = "[Wechat]{$message}";
 
         parent::__construct($message, $code);
-     }
+        }
 }

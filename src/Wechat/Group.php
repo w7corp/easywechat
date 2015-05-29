@@ -38,11 +38,11 @@ class Group
     /**
      * constructor
      *
-     * @param Http $http
+     * @param array $config
      */
-    public function __construct(Http $http)
+    public function __construct(array $config)
     {
-        $this->http = $http;
+        $this->http = new Http(new AccessToken($config['app_id'], $config['secret']));
     }
 
     /**
@@ -105,9 +105,7 @@ class Group
     public function delete($groupId)
     {
         $params = array(
-                   'group' => array(
-                               'id'   => $groupId,
-                              ),
+                   'group' => array('id' => $groupId),
                   );
 
         return $this->http->jsonPost(self::API_DELETE, $params);

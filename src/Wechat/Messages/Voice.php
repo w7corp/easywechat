@@ -40,25 +40,15 @@ class Voice extends BaseMessage
     protected $media;
 
     /**
-     * constructor
-     *
-     * @param array $config
-     */
-    public function __construct(Media $media)
-    {
-        $this->media = $media;
-    }
-
-    /**
      * 设置语音
      *
-     * @param string $path
+     * @param string $mediaId
      *
      * @return Voice
      */
-    public function media($path)
+    public function media($mediaId)
     {
-        $this->setAttribute('media_id', $this->media->voice($path));
+        $this->setAttribute('media_id', $mediaId);
 
         return $this;
     }

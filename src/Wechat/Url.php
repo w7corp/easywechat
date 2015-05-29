@@ -33,11 +33,11 @@ class Url
     /**
      * constructor
      *
-     * @param Http $http
+     * @param array $config
      */
-    public function __construct(Http $http)
+    public function __construct(array $config)
     {
-        $this->http = $http;
+        $this->http = new Http(new AccessToken($config['app_id'], $config['secret']));
     }
 
     /**
