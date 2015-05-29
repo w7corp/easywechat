@@ -207,8 +207,13 @@ class Notice
                    'data'        => $data,
                   );
 
+        $required = array(
+                     'touser',
+                     'template_id',
+                    );
+
         foreach ($params as $key => $value) {
-            if (empty($value) && empty($this->message[$key])) {
+            if (in_array($key, $required) && empty($value) && empty($this->message[$key])) {
                 throw new Exception("消息属性 '$key' 不能为空！");
             }
 

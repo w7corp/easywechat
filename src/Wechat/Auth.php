@@ -117,8 +117,6 @@ class Auth
      */
     public function redirect($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
     {
-        $to !== null || $to = Url::current();
-
         header('Location:'.$this->url($to, $scope, $state));
 
         exit;
