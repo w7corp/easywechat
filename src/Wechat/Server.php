@@ -26,18 +26,11 @@ class Server
 {
 
     /**
-     * 应用ID
+     * 配置
      *
-     * @var string
+     * @var array
      */
-    protected $appId;
-
-    /**
-     * token
-     *
-     * @var string
-     */
-    protected $token;
+    protected $config;
 
     /**
      * encodingAESKey
@@ -156,7 +149,7 @@ class Server
         $this->prepareInput();
 
         $input = array(
-                  $this->token,
+                  $this->config['token'],
                   $this->input->get('timestamp'),
                   $this->input->get('nonce'),
                  );
@@ -383,14 +376,4 @@ class Server
             return;
         }
     }
-
-    /**
-     * 直接返回以字符串形式输出时
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return strval($this->serve());
-    }
-}
+} // end class

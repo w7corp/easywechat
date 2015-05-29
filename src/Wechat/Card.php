@@ -80,13 +80,12 @@ class Card
     /**
      * constructor
      *
-     * @param Http  $http
-     * @param Cache $cache
+     * @param array $config
      */
-    public function __construct(Http $http, Cache $cache)
+    public function __construct(array $config)
     {
-        $this->http  = $http;
-        $this->cache = $cache;
+        $this->http  = new Http(new AccessToken($config['app_id'], $config['secret']));
+        $this->cache = new Cache($config['app_id']);
     }
 
     /**
