@@ -162,7 +162,7 @@ class QRCode
             'action_name' => $actionName,
             'action_info' => array(
                 'scene' => $actionInfo
-            ),
+            )
         );
 
         if ($temporary) {
