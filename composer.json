@@ -21,7 +21,7 @@
     "minimum-stability" : "dev",
     "autoload": {
         "psr-4": {
-            "Overtrue\\": "src/"
+            "Overtrue\\Wechat\\": "src/Wechat/"
         }
     }
 }
