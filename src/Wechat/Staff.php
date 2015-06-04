@@ -66,7 +66,7 @@ class Staff
      */
     public function __construct(array $config)
     {
-        $this->http = new Http(new AccessToken($config['app_id'], $config['secret']));
+        $this->http = new Http(new AccessToken($config));
     }
 
     /**
