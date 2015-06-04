@@ -68,7 +68,7 @@ class AccessToken
     {
         $this->appId     = $config['app_id'];
         $this->appSecret = $config['secret'];
-        $this->cache     = new Cache($appId);
+        $this->cache     = new Cache($this->appId);
     }
 
     /**
