@@ -66,7 +66,7 @@ class Staff
      */
     public function __construct(array $config)
     {
-        $this->http = new Http(new AccessToken($config['app_id'], $config['secret']));
+        $this->http = new Http(new AccessToken($config));
     }
 
     /**
@@ -88,7 +88,7 @@ class Staff
      */
     public function onlines()
     {
-        $response = $this->http->get(self::API_GET);
+        $response = $this->http->get(self::API_ONLINE);
 
         return $response['kf_online_list'];
     }
