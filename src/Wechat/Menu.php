@@ -38,9 +38,16 @@ class Menu
     /**
      * constructor
      *
+     * <pre>
+     * $config:
+     *
+     * array(
+     *  'app_id' => YOUR_APPID,  // string mandatory;
+     *  'secret' => YOUR_SECRET, // string mandatory;
+     * )
+     * </pre>
+     *
      * @param array $config configuration array
-     *                      'app_id' => YOUR_APPID,  // string mandatory;
-     *                      'secret' => YOUR_SECRET, // string mandatory;
      */
     public function __construct(array $config)
     {
