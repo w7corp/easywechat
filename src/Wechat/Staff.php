@@ -89,7 +89,7 @@ class Staff
      */
     public function onlines()
     {
-        $response = $this->http->get(self::API_GET);
+        $response = $this->http->get(self::API_ONLINE);
 
         return $response['kf_online_list'];
     }
@@ -147,11 +147,9 @@ class Staff
     {
         $params = array(
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
                   );
 
-        return $this->http->jsonPost(self::API_UPDATE, $params);
+        return $this->http->get(self::API_DELETE, $params);
     }
 
     /**
@@ -170,7 +168,7 @@ class Staff
 
         $url = self::API_AVATAR_UPLOAD."?kf_account={$email}";
 
-        return $this->http->jsonPost($url, array(), $options);
+        return $this->http->post($url, array(), $options);
     }
 
     /**
