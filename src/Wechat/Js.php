@@ -101,7 +101,7 @@ class Js
         return $this->cache->get(
             $key,
             function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
-                $http  = new Http(new AccessToken($appId, $appSecret));
+                $http  = new Http(new AccessToken(array('app_id' => $appId, 'secret' => $appSecret)));
 
                 $result = $http->get($apiTicket);
 
