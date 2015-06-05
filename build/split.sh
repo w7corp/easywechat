@@ -4,7 +4,6 @@ git subsplit publish "
     src/Wechat/User/:git@github.com:easywechat/user.git
     src/Wechat/Menu/:git@github.com:easywechat/menu.git
     src/Wechat/Js/:git@github.com:easywechat/js.git
-    src/Wechat/Message/:git@github.com:easywechat/message.git
     src/Wechat/Semantic/:git@github.com:easywechat/semantic.git
     src/Wechat/Store/:git@github.com:easywechat/store.git
     src/Wechat/Url/:git@github.com:easywechat/url.git
@@ -16,4 +15,5 @@ git subsplit publish "
     src/Wechat/QRCode/:git@github.com:easywechat/qrcode.git
     src/Wechat/OAuth/:git@github.com:easywechat/oauth.git
     src/Wechat/Payment/:git@github.com:easywechat/payment.git
+    src/Wechat/Device/:git@github.com:easywechat/device.git
 " --no-heads --update --no-tags
