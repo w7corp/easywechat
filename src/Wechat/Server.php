@@ -74,6 +74,15 @@ class Server
     /**
      * constructor
      *
+     * <pre>
+     * $config:
+     *
+     * array(
+     *  'app_id' => YOUR_APPID,  // string mandatory;
+     *  'secret' => YOUR_SECRET, // string mandatory;
+     * )
+     * </pre>
+     *
      * @param array $config
      */
     public function __construct(array $config)
