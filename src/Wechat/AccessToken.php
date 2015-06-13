@@ -62,14 +62,22 @@ class AccessToken
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * <pre>
+     * $config:
+     *
+     * array(
+     *  'app_id' => YOUR_APPID,  // string mandatory;
+     *  'secret' => YOUR_SECRET, // string mandatory;
+     * )
+     * </pre>
+     *
+     * @param array $config configuration array
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(array $config)
     {
-        $this->appId     = $appId;
-        $this->appSecret = $appSecret;
-        $this->cache     = new Cache($appId);
+        $this->appId     = $config['app_id'];
+        $this->appSecret = $config['secret'];
+        $this->cache     = new Cache($this->appId);
     }
 
     /**

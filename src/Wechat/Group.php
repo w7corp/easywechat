@@ -38,12 +38,20 @@ class Group
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * <pre>
+     * $config:
+     *
+     * array(
+     *  'app_id' => YOUR_APPID,  // string mandatory;
+     *  'secret' => YOUR_SECRET, // string mandatory;
+     * )
+     * </pre>
+     *
+     * @param array $config configuration array
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(array $config)
     {
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http = new Http(new AccessToken($config));
     }
 
     /**
@@ -106,9 +114,7 @@ class Group
     public function delete($groupId)
     {
         $params = array(
-                   'group' => array(
-                               'id'   => $groupId,
-                              ),
+                   'group' => array('id' => $groupId),
                   );
 
         return $this->http->jsonPost(self::API_DELETE, $params);

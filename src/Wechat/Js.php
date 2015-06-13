@@ -56,13 +56,12 @@ class Js
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * @param array $config
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(array $config)
     {
-        $this->appId     = $appId;
-        $this->appSecret = $appSecret;
+        $this->appId     = $config['app_id'];
+        $this->appSecret = $config['secret'];
         $this->cache     = new Cache($appId);
     }
 
@@ -119,7 +118,7 @@ class Js
         return $this->cache->get(
             $key,
             function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
-                $http  = new Http(new AccessToken($appId, $appSecret));
+                $http  = new Http(new AccessToken(array('app_id' => $appId, 'secret' => $appSecret)));
 
                 $result = $http->get($apiTicket);
 
