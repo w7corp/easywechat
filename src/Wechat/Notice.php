@@ -177,7 +177,7 @@ class Notice
     {
         $params = array('template_id_short' => $shortId);
 
-        $result = $this->http->jsonPost(self::API_SET_INDUSTRY, $params);
+        $result = $this->http->jsonPost(self::API_ADD_TEMPLATE, $params);
 
         return $result['template_id'];
     }
