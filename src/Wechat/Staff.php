@@ -147,9 +147,11 @@ class Staff
     {
         $params = array(
                    'kf_account' => $email,
+                   'nickname'   => $nickname,
+                   'password'   => $password,
                   );
 
-        return $this->http->get(self::API_DELETE, $params);
+        return $this->http->jsonPost(self::API_DELETE . "?kf_account={$email}", $params);
     }
 
     /**
@@ -166,7 +168,7 @@ class Staff
                     'files' => array('media' => $path),
                    );
 
-        $url = self::API_AVATAR_UPLOAD."?kf_account={$email}";
+        $url = self::API_AVATAR_UPLOAD . "?kf_account={$email}";
 
         return $this->http->post($url, array(), $options);
     }
