@@ -40,7 +40,18 @@ class MenuItem extends MagicAttributes
         $type !== null && $this->with('type', $type);
 
         if ($property !== null) {
-            $key = ($type === 'view') ? 'url' : 'key';
+            switch($type){
+                case 'view':
+                    $key = 'url';
+                    break;
+                case 'media_id':
+                    // no break
+                case 'view_limited':
+                    $key = 'media_id';
+                    break;
+                default:
+                    $key = 'key';
+            }
             $this->with($key, $property);
         }
     }
