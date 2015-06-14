@@ -13,21 +13,24 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Messages;
+namespace EasyWeChat\Server\Messages;
 
 use EasyWeChat\Exception;
+use EasyWeChat\Server\Messages\MessageInterface;
 
 /**
- * 转发多客服消息
+ * Class Transfer
  *
  * @property string $to
  * @property string $account
+ *
+ * @package EasyWeChat\Server\Messages
  */
-class Transfer extends BaseMessage
+class Transfer extends AbstractMessage implements MessageInterface
 {
 
     /**
-     * 属性
+     * Properties
      *
      * @var array
      */

@@ -15,16 +15,110 @@
 
 namespace EasyWeChat\Core;
 
+use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Support\XML;
 
 class Input extends Collection
 {
+    /**
+     * Input encryption status.
+     *
+     * @var bool
+     */
+    protected $encrypted = false;
 
     /**
-     * constructor
+     * Constructor.
+     *
+     * @param string $token
+     *
+     * @param Cryptor $cryptor
      */
-    public function __construct()
+    public function __construct($token, Cryptor $cryptor)
     {
-        parent::__construct(array_merge($_GET, $_POST));
+        parent::__construct($this->build($cryptor));
+        $this->validate($token);
     }
-}
+
+    /**
+     * Get encryption status.
+     *
+     * @return bool
+     */
+    public function isEncrypted()
+    {
+        return $this->encrypted;
+    }
+
+    /**
+     * Build input.
+     *
+     * @param Cryptor $cryptor
+     *
+     * @return array
+     */
+    protected function build($cryptor)
+    {
+        if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
+            $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        } else {
+            $xml = file_get_contents('php://input');
+        }
+
+        $input = XML::parse($xml);
+
+        if (!empty($_REQUEST['encrypt_type'])
+            && $_REQUEST['encrypt_type'] === 'aes'
+        ) {
+            $this->encrypted = true;
+
+            $input = $cryptor->decryptMsg(
+                $_REQUEST['msg_signature'],
+                $_REQUEST['nonce'],
+                $_REQUEST['timestamp'],
+                $xml
+            );
+        }
+
+        /** @var array $input */
+
+        return array_merge($_REQUEST, (array)$input);
+    }
+
+    /**
+     * Validation request params.
+     *
+     * @param string $token
+     *
+     * @throws BadRequestException
+     */
+    public function validate($token)
+    {
+        $input = array(
+            $token,
+            $this->get('timestamp'),
+            $this->get('nonce'),
+        );
+
+        if ($this->has('signature')
+            && $this->signature($input) !== $this->get('signature')
+        ) {
+            throw new BadRequestException('Invalid request signature.', 400);
+        }
+    }
+
+    /**
+     * Get signature.
+     *
+     * @param array $input
+     *
+     * @return string
+     */
+    protected function signature($input)
+    {
+        sort($input, SORT_STRING);
+
+        return sha1(implode($input));
+    }
+}//end class

@@ -1,6 +1,6 @@
 <?php
 /**
- * BaseMessage.php
+ * AbstractMessage.php
  *
  * Part of EasyWeChat.
  *
@@ -13,39 +13,39 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Messages;
+namespace EasyWeChat\Server\Messages;
 
 use EasyWeChat\Support\MagicAttributes;
 use EasyWeChat\Support\XML;
 
 /**
- * 消息基类
+ * Class AbstractMessage
  *
  * @property string      $from
  * @property string      $to
  * @property string      $staff
  *
- * @method BaseMessage to($to)
- * @method BaseMessage from($from)
- * @method BaseMessage staff($staff)
+ * @method AbstractMessage to($to)
+ * @method AbstractMessage from($from)
+ * @method AbstractMessage staff($staff)
  * @method array       toStaff()
  * @method array       toReply()
  * @method array       toBroadcast()
- * @method array       buildForStaff()
- * @method string      buildForReply()
+ *
+ * @package EasyWeChat\Server\Messages
  */
-abstract class BaseMessage extends MagicAttributes
+abstract class AbstractMessage extends MagicAttributes
 {
 
     /**
-     * 允许的属性
+     * Message properties.
      *
      * @var array
      */
     protected $properties = array();
 
     /**
-     * 基础属性
+     * Base properties.
      *
      * @var array
      */
@@ -58,16 +58,12 @@ abstract class BaseMessage extends MagicAttributes
                                 );
 
     /**
-     * 生成用于主动推送的数据
+     * Build message for Staff.
      *
      * @return array
      */
     public function buildForStaff()
     {
-        if (!method_exists($this, 'toStaff')) {
-            throw new Exception(__CLASS__.'未实现此方法：toStaff()');
-        }
-
         $base = array(
                  'touser'  => $this->to,
                  'msgtype' => $this->getDefaultMessageType(),
@@ -80,16 +76,12 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
-     * 生成用于回复的数据
+     * Build message for reply.
      *
      * @return array
      */
     public function buildForReply()
     {
-        if (!method_exists($this, 'toReply')) {
-            throw new Exception(__CLASS__.'未实现此方法：toReply()');
-        }
-
         $base = array(
                  'ToUserName'   => $this->to,
                  'FromUserName' => $this->from,
@@ -101,21 +93,7 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
-     * 生成群发的数据
-     *
-     * @return array
-     */
-    public function buildForBroadcast()
-    {
-        if (!method_exists($this, 'toBroadcast')) {
-            throw new Exception(__CLASS__.'未实现此方法：toBroadcast()');
-        }
-
-        //TODO
-    }
-
-    /**
-     * 获取默认的消息类型名称
+     * Return default message type.
      *
      * @return string
      */
@@ -127,7 +105,7 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
-     * 验证
+     * Validate attribute.
      *
      * @param string $attribute
      * @param mixed  $value
@@ -140,4 +118,4 @@ abstract class BaseMessage extends MagicAttributes
 
         return in_array($attribute, $properties, true);
     }
-}
+}//end class

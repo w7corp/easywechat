@@ -61,7 +61,7 @@ class Wechat
      * 获取服务
      *
      * @param string $name
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
@@ -74,7 +74,7 @@ class Wechat
      * 获取消息
      *
      * @param string $name
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
@@ -87,7 +87,7 @@ class Wechat
      * 获取工具对象
      *
      * @param string $name
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
@@ -100,7 +100,7 @@ class Wechat
      * 获取对象实例
      *
      * @param string $class
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */
@@ -125,7 +125,7 @@ class Wechat
         return preg_replace_callback(
             '/_{1,}([a-z])/',
             function ($pipe) {
-                    return strtolower($pipe[1]);
+                return strtolower($pipe[1]);
             },
             $string
         );
@@ -134,8 +134,8 @@ class Wechat
     /**
      * 获取已经实例化的对象
      *
-     * @param string   $class    类名
-     * @param array    $args     参数
+     * @param string $class 类名
+     * @param array $args 参数
      * @param callable $callback 回调
      *
      * @return mixed

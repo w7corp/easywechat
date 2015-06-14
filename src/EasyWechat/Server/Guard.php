@@ -1,6 +1,6 @@
 <?php
 /**
- * Server.php
+ * Guard.php
  *
  * Part of EasyWeChat.
  *
@@ -15,30 +15,19 @@
 
 namespace EasyWeChat\Server;
 
-use EasyWeChat\Messages\BaseMessage;
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\Core\Input;
+use EasyWeChat\Encryption\Cryptor;
+use EasyWeChat\Server\Messages\AbstractMessage;
 use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\XML;
 
 /**
- * 服务端
+ * Class Guard
+ *
+ * @package EasyWeChat\Server
  */
-class Server
+class Guard
 {
-
-    /**
-     * 配置
-     *
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * encodingAESKey
-     *
-     * @var string
-     */
-    protected $encodingAESKey;
-
     /**
      * 输入
      *
@@ -54,13 +43,6 @@ class Server
     protected $listeners;
 
     /**
-     * 是否为加密模式
-     *
-     * @var bool
-     */
-    protected $security = false;
-
-    /**
      * 允许的事件
      *
      * @var array
@@ -72,33 +54,27 @@ class Server
                         );
 
     /**
-     * constructor
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config
+     * @param Input   $input
+     * @param Cryptor $cryptor
      */
-    public function __construct(array $config)
+    public function __construct(Input $input, Cryptor $cryptor)
     {
         $this->listeners = new Collection();
-        $this->config    = $config;
+        $this->input = $input;
     }
 
     /**
-     * 监听
+     * Add a listener.
      *
      * @param string          $target
      * @param string|callable $type
      * @param callable        $callback
      *
-     * @return Server
+     * @return Guard
+     *
+     * @throws InvalidArgumentException
      */
     public function on($target, $type, $callback = null)
     {
@@ -108,7 +84,7 @@ class Server
         }
 
         if (!is_callable($callback)) {
-            throw new Exception("$callback 不是一个可调用的函数或方法");
+            throw new InvalidArgumentException("The linstener is not callable.");
         }
 
         $type = strtolower($type);
@@ -149,26 +125,14 @@ class Server
     }
 
     /**
-     * handle服务端并返回字符串内容
+     * Handle and return response.
      *
      * @return mixed
+     *
+     * @throws BadRequestException
      */
     public function serve()
     {
-        $this->prepareInput();
-
-        $input = array(
-                  $this->config['token'],
-                  $this->input->get('timestamp'),
-                  $this->input->get('nonce'),
-                 );
-
-        if ($this->input->has('signature')
-            && $this->signature($input) !== $this->input->get('signature')
-        ) {
-            throw new Exception('Bad Request', 400);
-        }
-
         if ($this->input->has('echostr')) {
             return $this->input['echostr'];
         }
@@ -177,72 +141,7 @@ class Server
     }
 
     /**
-     * 初始化POST请求数据
-     *
-     * @return Collection
-     */
-    protected function prepareInput()
-    {
-        if ($this->input instanceof Collection) {
-            return;
-        }
-
-        if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
-            $xmlInput = $GLOBALS['HTTP_RAW_POST_DATA'];
-        } else {
-            $xmlInput = file_get_contents('php://input');
-        }
-
-        $input = XML::parse($xmlInput);
-
-        if (!empty($_REQUEST['encrypt_type'])
-            && $_REQUEST['encrypt_type'] === 'aes'
-        ) {
-            $this->security = true;
-
-            $input = $this->getCrypt()->decryptMsg(
-                $_REQUEST['msg_signature'],
-                $_REQUEST['nonce'],
-                $_REQUEST['timestamp'],
-                $xmlInput
-            );
-        }
-
-        $this->input = new Collection(array_merge($_REQUEST, (array) $input));
-    }
-
-    /**
-     * 获取输入
-     *
-     * @param array $input
-     */
-    public function setInput(array $input)
-    {
-        $this->input = new Collection($input);
-    }
-
-    /**
-     * 获取Crypt服务
-     *
-     * @return Crypt
-     */
-    protected function getCrypt()
-    {
-        static $crypt;
-
-        if (!$crypt) {
-            if (empty($this->config['encoding_key']) || empty($this->config['token'])) {
-                throw new Exception("加密模式下 'encodingAESKey' 与 'token' 都不能为空！");
-            }
-
-            $crypt = new Crypt($this->config);
-        }
-
-        return $crypt;
-    }
-
-    /**
-     * 生成回复内容
+     * Build response.
      *
      * @param mixed $response
      *
@@ -250,19 +149,19 @@ class Server
      */
     protected function response($response)
     {
-        is_string($response) && $response = Message::make('text')->with('content', $response);
+        is_string($response) && $response = MessageBuilder::make('text')->with('content', $response);
 
         $return = null;
 
-        if ($response instanceof BaseMessage) {
+        if ($response instanceof AbstractMessage) {
             $response->from($this->input->get('ToUserName'))->to($this->input->get('FromUserName'));
 
             $this->call('responseCreated', array($response));
 
             $return = $response->buildForReply();
 
-            if ($this->security) {
-                $return = $this->getCrypt()->encryptMsg(
+            if ($this->input->isEncrypted()) {
+                $return = $this->cryptor->encryptMsg(
                     $return,
                     $this->input->get('nonce'),
                     $this->input->get('timestamp')
@@ -290,7 +189,7 @@ class Server
             return $this->handleMessage($this->input);
         }
 
-        return false;
+        return '';
     }
 
     /**
@@ -325,18 +224,6 @@ class Server
         $event['Event'] = strtolower($event['Event']);
 
         return $this->call("event.{$event['Event']}", array($event));
-    }
-
-    /**
-     * 检查微信签名有效性
-     *
-     * @param array $input
-     */
-    protected function signature($input)
-    {
-        sort($input, SORT_STRING);
-
-        return sha1(implode($input));
     }
 
     /**

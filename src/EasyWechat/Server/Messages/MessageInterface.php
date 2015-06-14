@@ -1,6 +1,6 @@
 <?php
 /**
- * Link.php
+ * MessageInterface.php
  *
  * Part of EasyWeChat.
  *
@@ -15,22 +15,25 @@
 
 namespace EasyWeChat\Server\Messages;
 
+
 /**
- * Class Link
- *
+ * Class MessageInterface
+ * 
  * @package EasyWeChat\Server\Messages
  */
-class Link extends AbstractMessage implements MessageInterface
+interface MessageInterface
 {
+    /**
+     * Build message to staff
+     *
+     * @return array
+     */
+    public function toStaff();
 
     /**
-     * Properties
+     * Build message to server.
      *
-     * @var array
+     * @return array
      */
-    protected $properties = array(
-                             'title',
-                             'description',
-                             'url',
-                            );
-}
+    public function toReply();
+}//end class

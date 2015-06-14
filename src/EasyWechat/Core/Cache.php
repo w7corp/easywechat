@@ -56,8 +56,12 @@ class Cache
      * 默认的缓存写入器
      *
      * @param string $key
-     * @param mixed  $value
-     * @param int    $lifetime
+     * @param mixed $value
+     * @param int $lifetime
+     *
+     * @return mixed
+     *
+     * @throws Exception if set cache fail.
      */
     public function set($key, $value, $lifetime = 7200)
     {
@@ -66,9 +70,9 @@ class Cache
         }
 
         $data = array(
-                 'data'       => $value,
-                 'expired_at' => time() + $lifetime - 100, //XXX: 减去 100 秒更可靠的说
-                );
+            'data' => $value,
+            'expired_at' => time() + $lifetime - 100, //XXX: 减去 100 秒更可靠的说
+        );
 
         if (!file_put_contents($this->getCacheFile($key), serialize($data))) {
             throw new Exception('Access toekn 缓存失败');
@@ -79,7 +83,9 @@ class Cache
      * 默认的缓存读取器
      *
      * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
+     *
+     * @return mixed|null
      */
     public function get($key, $default = null)
     {
@@ -147,6 +153,6 @@ class Cache
      */
     protected function getCacheFile($key)
     {
-        return sys_get_temp_dir().DIRECTORY_SEPARATOR.md5($this->prefix.$key);
+        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($this->prefix . $key);
     }
 }

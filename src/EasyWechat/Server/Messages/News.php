@@ -13,18 +13,20 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Messages;
+namespace EasyWeChat\Server\Messages;
 
 use Closure;
 
 /**
- * 图文消息
+ * Class News
+ *
+ * @package EasyWeChat\Server\Messages
  */
-class News extends BaseMessage
+class News extends AbstractMessage implements MessageInterface
 {
 
     /**
-     * 属性
+     * Properties
      *
      * @var array
      */

@@ -13,22 +13,24 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Messages;
+namespace EasyWeChat\Server\Messages;
 
 /**
- * 音乐消息
+ * Class Music
  *
  * @property string $url
  * @property string $hq_url
  * @property string $title
  * @property string $description
  * @property string $thumb_media_id
+ *
+ * @package EasyWeChat\Server\Messages
  */
-class Music extends BaseMessage
+class Music extends AbstractMessage implements MessageInterface
 {
 
     /**
-     * 属性
+     * Properties
      *
      * @var array
      */

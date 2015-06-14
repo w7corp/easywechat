@@ -13,20 +13,20 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Messages;
+namespace EasyWeChat\Server\Messages;
 
 use EasyWeChat\Exception;
 
 /**
- * 坐标消息
+ * Class Location
  *
- * @property string $content
+ * @package EasyWeChat\Server\Messages
  */
-class Location extends BaseMessage
+class Location extends AbstractMessage implements MessageInterface
 {
 
     /**
-     * 属性
+     * Properties
      *
      * @var array
      */

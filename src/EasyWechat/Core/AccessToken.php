@@ -75,9 +75,9 @@ class AccessToken
      */
     public function __construct(array $config)
     {
-        $this->appId     = $config['app_id'];
+        $this->appId = $config['app_id'];
         $this->appSecret = $config['secret'];
-        $this->cache     = new Cache($this->appId);
+        $this->cache = new Cache($this->appId);
     }
 
     /**
@@ -102,20 +102,20 @@ class AccessToken
         }
 
         // for php 5.3
-        $appId       = $this->appId;
-        $appSecret   = $this->appSecret;
-        $cache       = $this->cache;
-        $cacheKey    = $this->cacheKey;
+        $appId = $this->appId;
+        $appSecret = $this->appSecret;
+        $cache = $this->cache;
+        $cacheKey = $this->cacheKey;
         $apiTokenGet = self::API_TOKEN_GET;
 
         return $this->token = $this->cache->get(
             $cacheKey,
             function ($cacheKey) use ($appId, $appSecret, $cache, $apiTokenGet) {
                 $params = array(
-                           'appid'      => $appId,
-                           'secret'     => $appSecret,
-                           'grant_type' => 'client_credential',
-                          );
+                    'appid' => $appId,
+                    'secret' => $appSecret,
+                    'grant_type' => 'client_credential',
+                );
                 $http = new Http();
 
                 $token = $http->get($apiTokenGet, $params);

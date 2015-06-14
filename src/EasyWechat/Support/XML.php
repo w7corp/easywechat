@@ -16,17 +16,21 @@
 namespace EasyWeChat\Support;
 
 /**
- * XML 工具类，用于构建与解析 XML
+ * Class XML
+ *
+ * @package EasyWeChat\Support
  */
 class XML
 {
 
     /**
-     * XML 转换为数组
+     * XML to array
      *
      * @param string $xml XML string
      *
      * @return array
+     *
+     * @throws InvalidArgumentException
      */
     public static function parse($xml)
     {
@@ -40,13 +44,13 @@ class XML
     }
 
     /**
-     * XML编码
+     * XML encode.
      *
-     * @param mixed  $data 数据
-     * @param string $root 根节点名
-     * @param string $item 数字索引的子节点名
-     * @param string $attr 根节点属性
-     * @param string $id   数字索引子节点key转换的属性名
+     * @param mixed  $data
+     * @param string $root
+     * @param string $item
+     * @param string $attr
+     * @param string $id
      *
      * @return string
      */
@@ -78,9 +82,9 @@ class XML
     }
 
     /**
-     * 生成<![CDATA[%s]]>
+     * Build CDATA.
      *
-     * @param string $string 内容
+     * @param string $string
      *
      * @return string
      */
@@ -90,9 +94,9 @@ class XML
     }
 
     /**
-     * 把对象转换成数组
+     * Object to array
      *
-     * @param string $data 数据
+     * @param string $data
      *
      * @return array
      */
@@ -112,11 +116,11 @@ class XML
     }
 
     /**
-     * 转换数组为xml
+     * Array to XML.
      *
-     * @param array  $data 数组
-     * @param string $item item的属性名
-     * @param string $id   id的属性名
+     * @param array  $data
+     * @param string $item
+     * @param string $id
      *
      * @return string
      */
@@ -143,4 +147,4 @@ class XML
 
         return $xml;
     }
-}
+}//end class

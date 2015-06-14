@@ -15,7 +15,7 @@
 
 namespace EasyWeChat\Staff;
 
-use EasyWeChat\Messages\BaseMessage;
+use EasyWeChat\Messages\AbstractMessage;
 
 /**
  * 客服
@@ -26,7 +26,7 @@ class Staff
     /**
      * 消息
      *
-     * @var \EasyWeChat\Messages\BaseMessage;
+     * @var \EasyWeChat\Messages\AbstractMessage;
      */
     protected $message;
 
@@ -184,7 +184,7 @@ class Staff
     /**
      * 准备消息
      *
-     * @param \EasyWeChat\Messages\BaseMessage $message
+     * @param \EasyWeChat\Messages\AbstractMessage $message
      *
      * @return Staff
      */
@@ -192,7 +192,7 @@ class Staff
     {
         is_string($message) && $message = Message::make('text')->with('content', $message);
 
-        if (!$message instanceof BaseMessage) {
+        if (!$message instanceof AbstractMessage) {
             throw new Exception("消息必须继承自 'EasyWeChat\BaseMessage'");
         }
 

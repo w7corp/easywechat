@@ -1,6 +1,6 @@
 <?php
 /**
- * Message.php
+ * MessageBuilder.php
  *
  * Part of EasyWeChat.
  *
@@ -15,12 +15,14 @@
 
 namespace EasyWeChat\Server;
 
-use InvalidArgumentException;
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 
 /**
- * 消息
+ * Class MessageBuilder
+ *
+ * @package EasyWeChat\Server
  */
-class Message
+class MessageBuilder
 {
 
     /**
@@ -36,11 +38,13 @@ class Message
     const NEWS_ITEM = 'news_item';
 
     /**
-     * 创建消息实例
+     * Return message instance.
      *
      * @param string $type
      *
      * @return mixed
+     *
+     * @throws InvalidArgumentException
      */
     public static function make($type = self::TEXT)
     {
@@ -48,14 +52,14 @@ class Message
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
-        $message = "EasyWeChat\Messages\\"
+        $message = "EasyWeChat\\Server\\Messages\\"
                     .str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
         return new $message();
     }
 
     /**
-     * 魔术访问
+     * Magic access.
      *
      * @param string $method
      * @param array  $args
@@ -66,4 +70,4 @@ class Message
     {
         return call_user_func_array('self::make', array($method, $args));
     }
-}
+}//end class

@@ -13,20 +13,22 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Messages;
+namespace EasyWeChat\Server\Messages;
 
 use EasyWeChat\Media;
 
 /**
- * 图片消息
+ * Class Image
  *
  * @property string $media_id
+ *
+ * @package EasyWeChat\Server\Messages
  */
-class Image extends BaseMessage
+class Image extends AbstractMessage implements MessageInterface
 {
 
     /**
-     * 属性
+     * Properties
      *
      * @var array
      */

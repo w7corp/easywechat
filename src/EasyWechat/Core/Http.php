@@ -72,17 +72,17 @@ class Http extends HttpClient
     /**
      * 发起一个HTTP/HTTPS的请求
      *
-     * @param string $url     接口的URL
-     * @param string $method  请求类型   GET | POST
-     * @param array  $params  接口参数
-     * @param array  $options 其它选项
+     * @param string $url 接口的URL
+     * @param string $method 请求类型   GET | POST
+     * @param array $params 接口参数
+     * @param array $options 其它选项
      *
      * @return array | boolean
      */
     public function request($url, $method = self::GET, $params = array(), $options = array())
     {
         if ($this->token) {
-            $url .= (stripos($url, '?') ? '&' : '?').'access_token='.$this->token;
+            $url .= (stripos($url, '?') ? '&' : '?') . 'access_token=' . $this->token;
         }
 
         $method = strtoupper($method);
@@ -106,7 +106,8 @@ class Http extends HttpClient
 
         // while the response is an invalid JSON structure, returned the source data
         if (!preg_match($textMIME, $response['content_type'])
-            || (JSON_ERROR_NONE !== json_last_error() && false === $contents)) {
+            || (JSON_ERROR_NONE !== json_last_error() && false === $contents)
+        ) {
             return $response['data'];
         }
 
@@ -115,7 +116,7 @@ class Http extends HttpClient
                 $contents['errmsg'] = 'Unknown';
             }
 
-            throw new Exception("[{$contents['errcode']}] ".$contents['errcode'], $contents['errcode']);
+            throw new Exception("[{$contents['errcode']}] " . $contents['errcode'], $contents['errcode']);
         }
 
         if ($contents === array('errcode' => '0', 'errmsg' => 'ok')) {
@@ -129,7 +130,7 @@ class Http extends HttpClient
      * 魔术调用
      *
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed
      */

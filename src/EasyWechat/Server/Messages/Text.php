@@ -13,18 +13,20 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Messages;
+namespace EasyWeChat\Server\Messages;
 
 /**
- * 文本消息
+ * Class Text
  *
  * @property string $content
+ *
+ * @package EasyWeChat\Server\Messages
  */
-class Text extends BaseMessage
+class Text extends AbstractMessage implements MessageInterface
 {
 
     /**
-     * 属性
+     * Properties
      *
      * @var array
      */

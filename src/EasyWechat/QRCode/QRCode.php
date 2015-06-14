@@ -15,6 +15,7 @@
 
 namespace EasyWeChat\QRCode;
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**
@@ -122,7 +123,7 @@ class QRCode
      *
      * @param string $ticket
      *
-     * @return
+     * @return string
      */
     public function show($ticket)
     {

@@ -16,4 +16,7 @@ git subsplit publish "
     src/Wechat/OAuth/:git@github.com:easywechat/oauth.git
     src/Wechat/Payment/:git@github.com:easywechat/payment.git
     src/Wechat/Device/:git@github.com:easywechat/device.git
+    src/Wechat/Encryption/:git@github.com:easywechat/encryption.git
 " --heads=master --update --no-tags
+
+rm -rf ./subsplit
