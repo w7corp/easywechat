@@ -1,3 +1,4 @@
+git subsplit init git@github.com:overtrue/wechat.git
 git subsplit publish "
     src/Wechat/Core:git@github.com:easywechat/core.git
     src/Wechat/Support/:git@github.com:easywechat/support.git
