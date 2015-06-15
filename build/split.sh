@@ -1,23 +1,23 @@
 git subsplit init git@github.com:overtrue/wechat.git
 git subsplit publish "
-    src/Wechat/Core:git@github.com:easywechat/core.git
-    src/Wechat/Support/:git@github.com:easywechat/support.git
-    src/Wechat/User/:git@github.com:easywechat/user.git
-    src/Wechat/Menu/:git@github.com:easywechat/menu.git
-    src/Wechat/Js/:git@github.com:easywechat/js.git
-    src/Wechat/Semantic/:git@github.com:easywechat/semantic.git
-    src/Wechat/Store/:git@github.com:easywechat/store.git
-    src/Wechat/Url/:git@github.com:easywechat/url.git
-    src/Wechat/Material/:git@github.com:easywechat/material.git
-    src/Wechat/Notice/:git@github.com:easywechat/notice.git
-    src/Wechat/Server/:git@github.com:easywechat/server.git
-    src/Wechat/Stats/:git@github.com:easywechat/stats.git
-    src/Wechat/Staff/:git@github.com:easywechat/staff.git
-    src/Wechat/QRCode/:git@github.com:easywechat/qrcode.git
-    src/Wechat/OAuth/:git@github.com:easywechat/oauth.git
-    src/Wechat/Payment/:git@github.com:easywechat/payment.git
-    src/Wechat/Device/:git@github.com:easywechat/device.git
-    src/Wechat/Encryption/:git@github.com:easywechat/encryption.git
-" --heads=master --update --no-tags
+    src/EasyWeChat/Core:git@github.com:easywechat/core.git
+    src/EasyWeChat/Support/:git@github.com:easywechat/support.git
+    src/EasyWeChat/User/:git@github.com:easywechat/user.git
+    src/EasyWeChat/Menu/:git@github.com:easywechat/menu.git
+    src/EasyWeChat/Js/:git@github.com:easywechat/js.git
+    src/EasyWeChat/Semantic/:git@github.com:easywechat/semantic.git
+    src/EasyWeChat/Store/:git@github.com:easywechat/store.git
+    src/EasyWeChat/Url/:git@github.com:easywechat/url.git
+    src/EasyWeChat/Material/:git@github.com:easywechat/material.git
+    src/EasyWeChat/Notice/:git@github.com:easywechat/notice.git
+    src/EasyWeChat/Server/:git@github.com:easywechat/server.git
+    src/EasyWeChat/Stats/:git@github.com:easywechat/stats.git
+    src/EasyWeChat/Staff/:git@github.com:easywechat/staff.git
+    src/EasyWeChat/QRCode/:git@github.com:easywechat/qrcode.git
+    src/EasyWeChat/OAuth/:git@github.com:easywechat/oauth.git
+    src/EasyWeChat/Payment/:git@github.com:easywechat/payment.git
+    src/EasyWeChat/Device/:git@github.com:easywechat/device.git
+    src/EasyWeChat/Encryption/:git@github.com:easywechat/encryption.git
+" --update --no-tags --no-heads
 
 rm -rf ./subsplit
