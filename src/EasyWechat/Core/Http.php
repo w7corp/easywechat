@@ -15,69 +15,68 @@
 
 namespace EasyWeChat\Core;
 
+use EasyWeChat\Core\Exceptions\FaultException;
+use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Support\Http as HttpClient;
 use EasyWeChat\Support\JSON;
 
 /**
- * Http 客户端
+ * Class Http
  *
+ * @package EasyWeChat\Core
  * @method mixed jsonPost($url, $params = array(), $options = array())
  */
 class Http extends HttpClient
 {
 
     /**
-     * token
+     * Access token.
      *
      * @var string
      */
     protected $token;
 
     /**
-     * json请求
+     * JSON request flag.
      *
      * @var bool
      */
     protected $json = false;
 
     /**
-     * 缓存类
+     * Constructor.
      *
-     * @var Cache
+     * @param AccessToken|null $token
      */
-    protected $cache;
-
-    /**
-     * constructor
-     *
-     * @param AccessToken $token
-     */
-    public function __construct($token = null)
+    public function __construct(AccessToken $token = null)
     {
-        $this->token = $token instanceof AccessToken ? $token->getToken() : $token;
+        $this->token = $token;
 
         parent::__construct();
     }
 
     /**
-     * 设置请求access_token
+     * Set token.
      *
-     * @param string $token
+     * @param AccessToken $token
      */
-    public function setToken($token)
+    public function setToken(AccessToken $token)
     {
         $this->token = $token;
     }
 
     /**
-     * 发起一个HTTP/HTTPS的请求
+     * Make a request.
      *
-     * @param string $url 接口的URL
-     * @param string $method 请求类型   GET | POST
-     * @param array $params 接口参数
-     * @param array $options 其它选项
+     * @param string $url
+     * @param string $method
+     * @param array  $params
+     * @param array  $options
      *
-     * @return array | boolean
+     * @return array|bool
+     *
+     * @throws FaultException
+     * @throws HttpException
      */
     public function request($url, $method = self::GET, $params = array(), $options = array())
     {
@@ -96,10 +95,10 @@ class Http extends HttpClient
         $this->json = false;
 
         if (empty($response['data'])) {
-            throw new Exception('服务器无响应');
+            throw new HttpException('Empty response.', -1);
         }
 
-        // 文本或者json
+        // plain text or JSON
         $textMIME = '~application/json|text/plain~i';
 
         $contents = JSON::decode($response['data'], true);
@@ -116,7 +115,7 @@ class Http extends HttpClient
                 $contents['errmsg'] = 'Unknown';
             }
 
-            throw new Exception("[{$contents['errcode']}] " . $contents['errcode'], $contents['errcode']);
+            throw new FaultException("[{$contents['errcode']}] " . $contents['errcode'], $contents['errcode']);
         }
 
         if ($contents === array('errcode' => '0', 'errmsg' => 'ok')) {
@@ -127,10 +126,10 @@ class Http extends HttpClient
     }
 
     /**
-     * 魔术调用
+     * Magic call.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      */
@@ -145,4 +144,4 @@ class Http extends HttpClient
 
         return $result;
     }
-}
+}//end class

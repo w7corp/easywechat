@@ -17,7 +17,6 @@ namespace EasyWeChat\Core\Exceptions;
 
 use EasyWeChat\Core\Exception;
 
-
 /**
  * Class RuntimeException
  * 

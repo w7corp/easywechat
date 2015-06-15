@@ -1,6 +1,6 @@
 <?php
 /**
- * InvalidArgumentException.php
+ * HttpException.php
  *
  * Part of EasyWeChat.
  *
@@ -18,11 +18,11 @@ namespace EasyWeChat\Core\Exceptions;
 use EasyWeChat\Core\Exception;
 
 /**
- * Class InvalidArgumentException
+ * Class HttpException
  * 
  * @package EasyWeChat\Core\Exceptions
  */
-class InvalidArgumentException extends Exception
+class HttpException extends Exception
 {
 
 }//end class
