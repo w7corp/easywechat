@@ -16,31 +16,40 @@
 namespace EasyWeChat\Core;
 
 /**
- * 全局通用 AccessToken
+ * Class AccessToken
+ *
+ * @package EasyWeChat\Core
  */
 class AccessToken
 {
 
     /**
-     * 应用ID
+     * App ID.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * 应用secret
+     * App secret.
      *
      * @var string
      */
-    protected $appSecret;
+    protected $secret;
 
     /**
-     * 缓存类
+     * Cacher
      *
      * @var Cache
      */
-    protected $cache;
+    protected $cacher;
+
+    /**
+     * Http client.
+     *
+     * @var Http
+     */
+    protected $http;
 
     /**
      * token
@@ -50,7 +59,7 @@ class AccessToken
     protected $token;
 
     /**
-     * 缓存前缀
+     * Cache key name.
      *
      * @var string
      */
@@ -60,38 +69,23 @@ class AccessToken
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
 
     /**
-     * constructor
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param string $appId
+     * @param string $secret
+     * @param Cache  $cacher
+     * @param Http   $http
      */
-    public function __construct(array $config)
+    public function __construct($appId, $secret, Cache $cacher, Http $http)
     {
-        $this->appId = $config['app_id'];
-        $this->appSecret = $config['secret'];
-        $this->cache = new Cache($this->appId);
+        $this->appId  = $appId;
+        $this->secret = $secret;
+        $this->cacher = $cacher;
+        $this->http   = $http;
     }
 
     /**
-     * 缓存 setter
-     *
-     * @param Cache $cache
-     */
-    public function setCache($cache)
-    {
-        $this->cache = $cache;
-    }
-
-    /**
-     * 获取Token
+     * Get token from WeChat API.
      *
      * @return string
      */
@@ -102,28 +96,28 @@ class AccessToken
         }
 
         // for php 5.3
-        $appId = $this->appId;
-        $appSecret = $this->appSecret;
-        $cache = $this->cache;
+        $appId    = $this->appId;
+        $secret   = $this->secret;
+        $cacher   = $this->cacher;
+        $http     = $this->http;
         $cacheKey = $this->cacheKey;
-        $apiTokenGet = self::API_TOKEN_GET;
+        $api      = self::API_TOKEN_GET;
 
-        return $this->token = $this->cache->get(
+        return $this->token = $this->cacher->get(
             $cacheKey,
-            function ($cacheKey) use ($appId, $appSecret, $cache, $apiTokenGet) {
+            function ($cacheKey) use ($appId, $secret, $cacher, $http, $api) {
                 $params = array(
                     'appid' => $appId,
-                    'secret' => $appSecret,
+                    'secret' => $secret,
                     'grant_type' => 'client_credential',
                 );
-                $http = new Http();
 
-                $token = $http->get($apiTokenGet, $params);
+                $token = $http->get($api, $params);
 
-                $cache->set($cacheKey, $token['access_token'], $token['expires_in']);
+                $cacher->set($cacheKey, $token['access_token'], $token['expires_in']);
 
                 return $token['access_token'];
             }
         );
     }
-}
+}//end class
