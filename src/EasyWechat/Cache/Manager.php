@@ -17,6 +17,7 @@ namespace EasyWeChat\Cache;
 
 use EasyWeChat\Cache\Adapters\AdapterInterface;
 use EasyWeChat\Cache\Adapters\FileAdapter;
+use EasyWeChat\Core\Bootstrapper;
 
 
 /**
@@ -41,13 +42,18 @@ class Manager
     protected $appId;
 
     /**
+     * @var
+     */
+    protected $sdk;
+
+    /**
      * Constructor.
      *
-     * @param string $appId
+     * @param Bootstrapper $sdk
      */
-    public function __construct($appId)
+    public function __construct(Bootstrapper $sdk)
     {
-        $this->appId;
+        $this->sdk = $sdk;
     }
 
     /**
@@ -67,7 +73,21 @@ class Manager
      */
     public function getAdapter()
     {
-        return $this->adapter ?  $this->adapter : $this->adapter = $this->makeDefaultAdapter();
+        return $this->adapter ?  $this->adapter : $this->adapter = $this->makeAdapter();
+    }
+
+    /**
+     * Return cache adapter.
+     *
+     * @return FileAdapter
+     */
+    public function makeAdapter()
+    {
+        if ($adapter = $this->sdk->get('cache.adapter')) {
+            return $adapter;
+        }
+
+        return $this->makeDefaultAdapter();
     }
 
     /**

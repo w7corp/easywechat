@@ -67,6 +67,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      * @var array
      */
     protected $providers = array(
+        'EasyWeChat\Cache\CacheServiceProvider',
         'EasyWeChat\Server\ServerServiceProvider',
     );
 
@@ -80,6 +81,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
         $this->registerConfiguration($config);
         $this->registerCryptor();
         $this->registerInput();
+        $this->registerClientBaseService();
         $this->registerProviders();
     }
 
@@ -212,6 +214,25 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
         foreach ($this->providers as $provider) {
             $this->resolveProvider($provider)->register($this);
         }
+    }
+
+    /**
+     * Register client base service.
+     */
+    protected function registerClientBaseService()
+    {
+        $this->bind('http', function($sdk){
+            return new Http();
+        });
+
+        $this->bind('access_token', function($sdk){
+            return new AccessToken(
+                $sdk->config->get('app_id'),
+                $sdk->config->get('secret'),
+                $sdk['cache'],
+                $sdk['http']
+            );
+        });
     }
 
     /**
