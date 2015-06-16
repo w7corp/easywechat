@@ -31,8 +31,7 @@ class Input extends Collection
     /**
      * Constructor.
      *
-     * @param string $token
-     *
+     * @param string  $token
      * @param Cryptor $cryptor
      */
     public function __construct($token, Cryptor $cryptor)
@@ -60,11 +59,7 @@ class Input extends Collection
      */
     protected function build($cryptor)
     {
-        if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
-            $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-        } else {
-            $xml = file_get_contents('php://input');
-        }
+        $xml = file_get_contents('php://input');
 
         $input = XML::parse($xml);
 
