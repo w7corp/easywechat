@@ -1,6 +1,6 @@
 <?php
 /**
- * Js.php
+ * SDK.php
  *
  * Part of EasyWeChat.
  *
@@ -15,37 +15,48 @@
 
 namespace EasyWeChat\Js;
 
+use EasyWeChat\Cache\Adapters\AdapterInterface as Cache;
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\JSON;
 
 /**
- * 微信 JSSDK
+ * Class SDK
+ *
+ * @package EasyWeChat\Js
  */
-class Js
+class SDK
 {
 
     /**
-     * 应用ID
+     * App id.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * 应用secret
+     * App secret.
      *
      * @var string
      */
-    protected $appSecret;
+    protected $secret;
 
     /**
-     * Cache对象
+     * Cacher.
      *
      * @var Cache
      */
     protected $cache;
 
     /**
-     * 当前URL
+     * Http client.
+     *
+     * @var http
+     */
+    protected $http;
+
+    /**
+     * Current URI.
      *
      * @var string
      */
@@ -54,34 +65,30 @@ class Js
     const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi';
 
     /**
-     * constructor
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config
+     * @param string $appId
+     * @param string $secret
+     * @param Cache  $cache
+     * @param Http   $http
      */
-    public function __construct(array $config)
+    public function __construct($appId, $secret, Cache $cache, Http $http)
     {
-        $this->appId     = $config['app_id'];
-        $this->appSecret = $config['secret'];
-        $this->cache     = new Cache($this->appId);
+        $this->appId  = $appId;
+        $this->secret = $secret;
+        $this->cache  = $cache;
+        $this->http   = $http;
     }
 
-     /**
-     * 获取JSSDK的配置数组
+    /**
+     * Get config json for jsapi.
      *
      * @param array $APIs
      * @param bool  $debug
+     * @param bool  $beta
      * @param bool  $json
      *
-     * @return string|array
+     * @return array|string
      */
     public function config(array $APIs, $debug = false, $beta = false, $json = true)
     {
@@ -97,7 +104,7 @@ class Js
     }
 
     /**
-     * 获取数组形式的配置
+     * Return jsapi config as a PHP array.
      *
      * @param array $APIs
      * @param bool  $debug
@@ -111,7 +118,7 @@ class Js
     }
 
     /**
-     * 获取jsticket
+     * Get jsticket.
      *
      * @return string
      */
@@ -121,15 +128,14 @@ class Js
 
         // for php 5.3
         $appId     = $this->appId;
-        $appSecret = $this->appSecret;
+        $secret    = $this->secret;
         $cache     = $this->cache;
+        $http      = $this->http;
         $apiTicket = self::API_TICKET;
 
         return $this->cache->get(
             $key,
-            function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
-                $http  = new Http(new AccessToken(array('app_id' => $appId, 'secret' => $appSecret)));
-
+            function ($key) use ($appId, $secret, $cache, $http, $apiTicket) {
                 $result = $http->get($apiTicket);
 
                 $cache->set($key, $result['ticket'], $result['expires_in']);
@@ -140,7 +146,7 @@ class Js
     }
 
     /**
-     * 签名
+     * Build signature.
      *
      * @param string $url
      * @param string $nonce
@@ -167,7 +173,7 @@ class Js
     }
 
     /**
-     * 生成签名
+     * Sign the params.
      *
      * @param string $ticket
      * @param string $nonce
@@ -182,7 +188,7 @@ class Js
     }
 
     /**
-     * 设置当前URL
+     * Set current url.
      *
      * @param string $url
      *
@@ -196,7 +202,7 @@ class Js
     }
 
     /**
-     * 获取当前URL
+     * Get current url.
      *
      * @return string
      */
@@ -212,7 +218,7 @@ class Js
     }
 
     /**
-     * 获取随机字符串
+     * Return random string.
      *
      * @return string
      */
@@ -220,4 +226,4 @@ class Js
     {
         return uniqid('rand_');
     }
-}
+}//end class

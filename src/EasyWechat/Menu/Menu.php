@@ -27,6 +27,7 @@ class Menu
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
     const API_GET    = 'https://api.weixin.qq.com/cgi-bin/menu/get';
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
+    const API_QUERY  = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
 
     /**
      * Http对象
@@ -98,6 +99,18 @@ class Menu
         $this->http->get(self::API_DELETE);
 
         return true;
+    }
+
+    /**
+     * 获取菜单【查询接口，能获取到任意方式设置的菜单】
+     *
+     * @return array
+     */
+    public function current()
+    {
+        $menus = $this->http->get(self::API_QUERY);
+
+        return empty($menus) ? array() : $menus;
     }
 
     /**
