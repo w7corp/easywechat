@@ -56,9 +56,10 @@ QQ群：319502940
 
 use Overtrue\Wechat\Server;
 
-$appId          = 'wx3cf0f39249eb0e60';
+$appId = 'wx3cf0f39249eb0e60';
+$token = "overtrue";
 
-$server = new Server($appId);
+$server = new Server($appId, $token);
 
 $server->on('message', function($message){
     return "您好！欢迎关注 overtrue!";
