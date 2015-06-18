@@ -1,22 +1,21 @@
 <?php 
 /**
- * CodeIgniter Curl Class
+ * Curl Class
  *
  * Work with remote servers via cURL much easier than using the native PHP bindings.
  *
- * @package         CodeIgniter
- * @subpackage      Libraries
+ * @package          * @subpackage      Libraries
  * @category        Libraries
  * @author          Philip Sturgeon
  * @license         http://philsturgeon.co.uk/code/dbad-license
- * @link            http://philsturgeon.co.uk/code/codeigniter-curl
+ * @link            http://philsturgeon.co.uk/code/curl
  */
 
 namespace MasApi\Oauth2\Utils;
 
 class Curl {
 
-    // protected $_ci;                 // CodeIgniter instance
+    // protected $_ci;              // instance
     protected $response = '';       // Contains the cURL response for debug
     protected $session;             // Contains the cURL handler for a session
     protected $url;                 // URL of the session
