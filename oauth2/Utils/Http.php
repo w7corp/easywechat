@@ -162,8 +162,8 @@ class Http
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($this->curl, CURLOPT_URL, $url);
 
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
+        // curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
+        // curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
 
         // Check for files
         if (isset($options['files']) && count($options['files'])) {
@@ -269,5 +269,26 @@ class Http
                    );
 
         return $results;
+    }
+
+    /*
+    * ssl
+    */
+    public function ssl($verify_peer = TRUE, $verify_host = 2, $path_to_cert = NULL)
+    {
+        if ($verify_peer)
+        {
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, TRUE);
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, $verify_host);
+            if (isset($path_to_cert)) {
+                $path_to_cert = realpath($path_to_cert);
+                curl_setopt($this->curl, CURLOPT_CAINFO, $path_to_cert);
+            }
+        }
+        else
+        {
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        }
+        return $this;
     }
 }

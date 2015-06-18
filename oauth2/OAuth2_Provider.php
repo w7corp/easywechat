@@ -16,8 +16,7 @@ namespace MasApi\Oauth2;
   * 
   * @author     chekun <234267695@qq.com>
   */
-use MasApi\Oauth2\Utils\Http;
-use MasApi\Oauth2\OAuth2_Exception;
+use MasApi\Oauth2\Utils\Curl;
 use MasApi\Oauth2\Token\OAuth2_Token_Access;
 
 abstract class OAuth2_Provider
@@ -30,9 +29,9 @@ abstract class OAuth2_Provider
     /**
      * Http对象
      *
-     * @var Http
+     * @var curl
      */
-    public $http;
+    public $curl;
 
         
         /**
@@ -110,7 +109,7 @@ abstract class OAuth2_Provider
 	 */
 	public function __construct(array $options = array())
 	{
-		$this->http = new Http();
+		$this->curl = new Curl();
 		if ( ! $this->name)
 		{
 			// Attempt to guess the name from the class name
@@ -244,7 +243,7 @@ abstract class OAuth2_Provider
         //echo "<hr>";
 				// $response = file_get_contents($url);
                 // $response = $ci->curl->ssl(false)->simple_get($url);
-                $response = $this->http->get($url);
+                $response = $this->curl->ssl(false)->simple_get($url);
 				$return = $this->parse_response($response);
 
 			break;
@@ -264,8 +263,8 @@ abstract class OAuth2_Provider
         //echo 'url'.$url;
         //echo "<hr>";
                 // $response = $ci->curl->ssl(false)->simple_post($url,$params);
-                $response = $this->http->post($url,$params);
-                $return = $this->parse_response($response['data']);
+                $response = $this->curl->ssl(false)->simple_post($url,$params);
+                $return = $this->parse_response($response);
 			break;
 
 			default:

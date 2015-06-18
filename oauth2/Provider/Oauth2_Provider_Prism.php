@@ -8,7 +8,7 @@
   */
 namespace MasApi\Oauth2\Provider;
 
-use MasApi\Oauth2\Utils\Http;
+use MasApi\Oauth2\Utils\Curl;
 use MasApi\Oauth2\Token\OAuth2_Token_Access;
 use MasApi\Oauth2\OAuth2_Exception;
 use MasApi\Oauth2\OAuth2_Token;
@@ -19,6 +19,8 @@ class Oauth2_Provider_Prism extends Oauth2_Provider {
 
     const API_URL = 'https://prism-dev.masengine.com/app/index.php/';
     //const API_URL = '10.1.1.198/prism/app/index.php/';
+    
+    public $curl;
 
     public $name = 'prism';
 
@@ -81,7 +83,7 @@ class Oauth2_Provider_Prism extends Oauth2_Provider {
             'lang' => 'zh_CN'
         );
         // $user = json_decode($ci->curl->simple_post($url,$params),true);
-        $user = json_decode($this->http->post($url,$params),true);
+        $user = json_decode($this->curl->ssl(false)->simple_post($url,$params),true);
         if (array_key_exists("errcode", $user)) {
             throw new OAuth2_Exception((array) $user);
         }
