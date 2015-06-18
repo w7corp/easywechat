@@ -51,7 +51,7 @@ class Js
      */
     protected $url;
 
-    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi';
+    const API_CONFIG = 'https://prism-dev.masengine.com/app/index.php/Api/jsApi';
 
     /**
      * constructor
@@ -64,6 +64,7 @@ class Js
         $this->appId     = $appId;
         $this->appSecret = $appSecret;
         $this->cache     = new Cache($appId);
+        $this->http     = new http();
     }
 
     /**
@@ -77,12 +78,16 @@ class Js
      */
     public function config(array $APIs, $debug = false, $beta = false, $json = true)
     {
-        $signPackage = $this->getSignaturePackage();
+        $result = $this->http->get(self::API_CONFIG.'?appid='.$this->appId.'&access_token='.$this->appSecret);
         $base = array(
                  'debug' => $debug,
-                 'beta'  => $beta,
+                 // 'beta'  => $beta,
+                 'appId'  => $result['appId'],
+                 'nonceStr'  => $result['nonceStr'],
+                 'timestamp'  => $result['timestamp'],
+                 'signature'  => $result['signature'],
                 );
-        $config = array_merge($base, $signPackage, array('jsApiList' => $APIs));
+        $config = array_merge($base, array('jsApiList' => $APIs));
 
         return $json ? JSON::encode($config) : $config;
     }

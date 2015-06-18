@@ -30,8 +30,10 @@ class User
      */
     protected $http;
 
-    const API_GET       = 'https://api.weixin.qq.com/cgi-bin/user/info';
-    const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
+    // const API_GET       = 'https://api.weixin.qq.com/cgi-bin/user/info';
+    const API_GET       = 'http://prism­dev.masengine.com/app/index.php/Api/userDetail';
+    // const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
+    const API_LIST      = 'http://prism­dev.masengine.com/app/index.php/Api/userList';
     const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
     const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
     const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
