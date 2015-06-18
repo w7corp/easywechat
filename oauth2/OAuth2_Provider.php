@@ -127,7 +127,6 @@ abstract class OAuth2_Provider
 		isset($options['secret']) and $this->client_secret = $options['secret'];
 		isset($options['scope']) and $this->scope = $options['scope'];
 
-		// $this->redirect_uri = site_url(get_instance()->uri->uri_string());
 		if (strpos($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],'?')) {
 			$this->redirect_uri = mb_strcut("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],0,strpos("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],'?'));
 		}else{
@@ -179,7 +178,6 @@ abstract class OAuth2_Provider
 	public function authorize($options = array())
 	{
 		$state = md5(uniqid(rand(), true));
-		// get_instance()->session->set_userdata('state', $state);
 		$_SESSION['state'] = $state;
 		$params = array(
 			$this->client_id_key 		=> $this->client_id,
@@ -192,7 +190,6 @@ abstract class OAuth2_Provider
 		
 		$params = array_merge($params, $this->params);
 		
-		// redirect($this->url_authorize().'?'.http_build_query($params));
 		header('Location: '.$this->url_authorize().'?'.http_build_query($params));
 	}
 
@@ -204,10 +201,6 @@ abstract class OAuth2_Provider
 	*/	
 	public function access($code, $options = array())
 	{
-  //       $ci =& get_instance();
-		// $ci->load->library('curl');
-      	//check we csrf first
-        // if (isset($_GET[$this->state_key]) AND $_GET[$this->state_key] != get_instance()->session->userdata('state'))
         if (isset($_GET[$this->state_key]) AND $_GET[$this->state_key] != $_SESSION['state'])
         {
         	throw new OAuth2_Exception(array('code' => '403', 'message' => 'The state does not match. Maybe you are a victim of CSRF.'));
@@ -233,36 +226,16 @@ abstract class OAuth2_Provider
 
 		$response = null;
         $url = $this->url_access_token();
-        //echo 'method........'.$this->method;
-        //echo "<hr>";
 		switch ($this->method)
 		{
 			case 'GET':
 				$url .= '?'.http_build_query($params);
-        //echo 'url'.$url;
-        //echo "<hr>";
-				// $response = file_get_contents($url);
-                // $response = $ci->curl->ssl(false)->simple_get($url);
                 $response = $this->curl->ssl(false)->simple_get($url);
 				$return = $this->parse_response($response);
 
 			break;
 
 			case 'POST':
-				// $opts = array(
-				// 	'http' => array(
-				// 		'method'  => 'POST',
-				// 		'header'  => 'Content-type: application/x-www-form-urlencoded',
-				// 		'content' => http_build_query($params),
-				// 	)
-				// );
-
-				// $_default_opts = stream_context_get_params(stream_context_get_default());
-				// $context = stream_context_create(array_merge_recursive($_default_opts['options'], $opts));
-				// $response = file_get_contents($url, false, $context);
-        //echo 'url'.$url;
-        //echo "<hr>";
-                // $response = $ci->curl->ssl(false)->simple_post($url,$params);
                 $response = $this->curl->ssl(false)->simple_post($url,$params);
                 $return = $this->parse_response($response);
 			break;
@@ -270,11 +243,6 @@ abstract class OAuth2_Provider
 			default:
 				throw new OutOfBoundsException("Method '{$this->method}' must be either GET or POST");
 		}
-        //echo "<pre>";
-        //print_r($params);
-        //echo "<hr>";
-        //print_r($return);
-        //exit;
 		if ( ! empty($return[$this->error_key]) OR ! isset($return['access_token']))
 		{
 			throw new OAuth2_Exception($return);

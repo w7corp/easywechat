@@ -23,7 +23,6 @@ abstract class OAuth2_Token {
 	public static function factory($name = 'access', array $options = null)
 	{
 		$name = ucfirst(strtolower($name));
-		// require_once 'Token/OAuth2_Token_'.$name.'.php';
  		$class='\MasApi\Oauth2\Token'.'\\OAuth2_Token_'.$name; 
 
 		return new $class($options);

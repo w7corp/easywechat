@@ -1,21 +1,22 @@
 <?php 
 /**
- * Curl Class
+ *  Curl Class
  *
  * Work with remote servers via cURL much easier than using the native PHP bindings.
  *
- * @package          * @subpackage      Libraries
+ * @package         
+ * @subpackage      Libraries
  * @category        Libraries
  * @author          Philip Sturgeon
  * @license         http://philsturgeon.co.uk/code/dbad-license
- * @link            http://philsturgeon.co.uk/code/curl
+ * @link            http://philsturgeon.co.uk/code/-curl
  */
 
 namespace MasApi\Oauth2\Utils;
 
 class Curl {
 
-    // protected $_ci;              // instance
+    // protected $_ci;                 //  instance
     protected $response = '';       // Contains the cURL response for debug
     protected $session;             // Contains the cURL handler for a session
     protected $url;                 // URL of the session
@@ -27,8 +28,6 @@ class Curl {
 
     function __construct($url = '')
     {
-        // $this->_ci = & get_instance();
-        // log_message('debug', 'cURL Class Initialized');
 
         if ( ! $this->is_enabled())
         {
@@ -271,13 +270,6 @@ class Curl {
     // Start a session from a URL
     public function create($url)
     {
-        // If no a protocol in URL, assume its a CI link
-        // if ( ! preg_match('!^\w+://! i', $url))
-        // {
-        //  $this->_ci->load->helper('url');
-        //  $url = site_url($url);
-        // }
-
         $this->url = $url;
         $this->session = curl_init($this->url);
 
