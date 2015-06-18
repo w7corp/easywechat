@@ -46,12 +46,12 @@ class Oauth2_Provider_Prism extends Oauth2_Provider {
     }
     public function url_authorize()
     {
-        return API_URL.'oauth/AuthCode_Controller/authorize';
+        return static::API_URL.'oauth/AuthCode_Controller/authorize';
     }
 
     public function url_access_token()
     {
-        return API_URL.'oauth/AuthCode_Controller/accessToken';
+        return static::API_URL.'oauth/AuthCode_Controller/accessToken';
     }
 
     public function get_user_info(OAuth2_Token_Access $token)
