@@ -17,7 +17,7 @@ use MasApi\Oauth2\OAuth2_Provider;
 class Oauth2_Provider_Prism extends Oauth2_Provider {
 
 
-    const API_URL = 'http://prism-dev.masengine.com/app/index.php/';
+    const API_URL = 'https://prism-dev.masengine.com/app/index.php/';
     //const API_URL = '10.1.1.198/prism/app/index.php/';
 
     public $name = 'prism';
@@ -45,13 +45,13 @@ class Oauth2_Provider_Prism extends Oauth2_Provider {
     }
     public function url_authorize()
     {
-        return 'http://prism-dev.masengine.com/app/index.php/oauth/AuthCode_Controller/authorize';
+        return 'https://prism-dev.masengine.com/app/index.php/oauth/AuthCode_Controller/authorize';
         //return 'oauth/AuthCode_Controller/authorize';
     }
 
     public function url_access_token()
     {
-        return 'http://prism-dev.masengine.com/app/index.php/oauth/AuthCode_Controller/accessToken';
+        return 'https://prism-dev.masengine.com/app/index.php/oauth/AuthCode_Controller/accessToken';
         //return 'oauth/AuthCode_Controller/accessToken';
     }
 
