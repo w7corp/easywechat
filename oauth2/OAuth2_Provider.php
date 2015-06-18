@@ -17,6 +17,7 @@ namespace MasApi\Oauth2;
   * @author     chekun <234267695@qq.com>
   */
 use MasApi\Oauth2\Utils\Http;
+use MasApi\Oauth2\OAuth2_Exception;
 use MasApi\Oauth2\Token\OAuth2_Token_Access;
 
 abstract class OAuth2_Provider
@@ -25,6 +26,14 @@ abstract class OAuth2_Provider
 	 * @var  string  provider name
 	 */
 	public $name;
+	
+    /**
+     * Http对象
+     *
+     * @var Http
+     */
+    public $http;
+
         
         /**
 	 * @var  string  provider human name
@@ -101,6 +110,7 @@ abstract class OAuth2_Provider
 	 */
 	public function __construct(array $options = array())
 	{
+		$this->http = new Http();
 		if ( ! $this->name)
 		{
 			// Attempt to guess the name from the class name
@@ -109,7 +119,7 @@ abstract class OAuth2_Provider
 
 		if (empty($options['id']))
 		{
-			throw new Exception('Required option not provided: id');
+			throw new OAuth2_Exception(array('code' => '403', 'message' => 'Required option not provided: id'));
 		}
 
 		$this->client_id = $options['id'];
@@ -119,7 +129,11 @@ abstract class OAuth2_Provider
 		isset($options['scope']) and $this->scope = $options['scope'];
 
 		// $this->redirect_uri = site_url(get_instance()->uri->uri_string());
-		$this->redirect_uri = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
+		if (strpos($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],'?')) {
+			$this->redirect_uri = mb_strcut("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],0,strpos("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"],'?'));
+		}else{
+			$this->redirect_uri = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
+		}
 	}
 
 	/**
@@ -230,7 +244,7 @@ abstract class OAuth2_Provider
         //echo "<hr>";
 				// $response = file_get_contents($url);
                 // $response = $ci->curl->ssl(false)->simple_get($url);
-                $response = Http::get($url);
+                $response = $this->http->get($url);
 				$return = $this->parse_response($response);
 
 			break;
@@ -250,8 +264,8 @@ abstract class OAuth2_Provider
         //echo 'url'.$url;
         //echo "<hr>";
                 // $response = $ci->curl->ssl(false)->simple_post($url,$params);
-                $response = Http::post($url,$params);
-                $return = $this->parse_response($response);
+                $response = $this->http->post($url,$params);
+                $return = $this->parse_response($response['data']);
 			break;
 
 			default:

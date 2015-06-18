@@ -17,6 +17,7 @@
 namespace MasApi\Oauth2\Token;
 
 use MasApi\Oauth2\OAuth2_Token;
+use MasApi\Oauth2\OAuth2_Exception;
 
 class OAuth2_Token_Access extends OAuth2_Token
 {
@@ -51,12 +52,12 @@ class OAuth2_Token_Access extends OAuth2_Token
 	{
 		if ( ! isset($options[$options['access_token_key']]))
 		{
-			throw new Exception('Required option not passed: access_token'.PHP_EOL.print_r($options, true));
+			throw new OAuth2_Exception('Required option not passed: access_token'.PHP_EOL.print_r($options, true));
 		}
 		
 		// if ( ! isset($options['expires_in']) and ! isset($options['expires']))
 		// {
-		// 	throw new Exception('We do not know when this access_token will expire');
+		// 	throw new OAuth2_Exception('We do not know when this access_token will expire');
 		// }
 
 		$this->access_token = $options[$options['access_token_key']];

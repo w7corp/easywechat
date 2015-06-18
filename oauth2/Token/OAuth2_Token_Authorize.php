@@ -10,6 +10,7 @@
 namespace MasApi\Oauth2\Token;
 
 use MasApi\Oauth2\OAuth2_Token;
+use MasApi\Oauth2\OAuth2_Exception;
 
 class OAuth2_Token_Authorize extends OAuth2_Token
 {
@@ -33,12 +34,12 @@ class OAuth2_Token_Authorize extends OAuth2_Token
 	{
 		if ( ! isset($options['code']))
 	    {
-            throw new Exception('Required option not passed: code');
+            throw new OAuth2_Exception('Required option not passed: code');
         }
 
         elseif ( ! isset($options['redirect_uri']))
         {
-            throw new Exception('Required option not passed: redirect_uri');
+            throw new OAuth2_Exception('Required option not passed: redirect_uri');
         }
 		
 		$this->code = $options['code'];

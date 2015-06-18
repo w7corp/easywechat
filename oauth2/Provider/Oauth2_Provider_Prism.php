@@ -16,6 +16,7 @@ use MasApi\Oauth2\OAuth2_Provider;
 
 class Oauth2_Provider_Prism extends Oauth2_Provider {
 
+
     const API_URL = 'http://prism-dev.masengine.com/app/index.php/';
     //const API_URL = '10.1.1.198/prism/app/index.php/';
 
@@ -32,7 +33,12 @@ class Oauth2_Provider_Prism extends Oauth2_Provider {
     protected $scope ='base';
 
     public $method = 'POST';
-    
+
+    public function __construct($options)
+    {
+        parent::__construct($options);
+    }
+
     public function scope_min()
     {
          $this->scope = 'snsapi_base';
@@ -75,7 +81,7 @@ class Oauth2_Provider_Prism extends Oauth2_Provider {
             'lang' => 'zh_CN'
         );
         // $user = json_decode($ci->curl->simple_post($url,$params),true);
-        $user = json_decode(Http::post($url,$params),true);
+        $user = json_decode($this->http->post($url,$params),true);
         if (array_key_exists("errcode", $user)) {
             throw new OAuth2_Exception((array) $user);
         }
