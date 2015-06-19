@@ -57,7 +57,7 @@ class AccessToken
     protected $cacheKey = 'overtrue.wechat.access_token';
 
     // API
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
+    const API_TOKEN_GET = 'https://prism-dev.masengine.com/app/index.php/Api/getWxAccessToken';
 
     /**
      * constructor
