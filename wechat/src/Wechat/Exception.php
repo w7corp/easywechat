@@ -23,7 +23,7 @@ class Exception extends BaseException
     protected $errors = array(
                          '-1'      => '系统繁忙，此时请开发者稍候再试',
                          '0'       => '请求成功',
-                         '40001'   => '获取access_token时AppSecret错误，或者access_token无效。请开发者认真比对AppSecret的正确性，或查看是否正在为恰当的公众号调用接口',
+                         '40001'   => '获取access_token时masAccessToken错误，或者access_token无效。请开发者认真比对masAccessToken的正确性，或查看是否正在为恰当的公众号调用接口',
                          '40002'   => '不合法的凭证类型',
                          '40003'   => '不合法的OpenID，请开发者确认OpenID（该用户）是否已关注公众号，或是否是其他公众号的OpenID',
                          '40004'   => '不合法的媒体文件类型',
@@ -117,7 +117,7 @@ class Exception extends BaseException
                          '45021'   => '文本字段超过长度限制,请参考相应字段说明。',
                          '40080'   => '卡券扩展信息 cardext 不合法。',
                          '40097'   => '基本信息 base_info 中填写的 url_name_type 或 promotion_url_name_type 不合法,参考 CreateCard 创建卡券接口。',
-                         '40125'   => '不合法的 appSecrect(invalid appsecret)',
+                         '40125'   => '不合法的 appSecrect(invalid masAccessToken)',
                          '49004'   => '签名错误,建议使用微信卡券接口资料包中的签名工具 SDK。',
                          '43012'   => '无自定义 cell 跳转外链权限,请参考开发者必读中的申请流程开通权限。',
                          '40099'   => '该 code 已被核销。',

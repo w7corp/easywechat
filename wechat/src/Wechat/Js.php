@@ -35,7 +35,7 @@ class Js
      *
      * @var string
      */
-    protected $appSecret;
+    protected $masAccessToken;
 
     /**
      * Cache对象
@@ -57,12 +57,12 @@ class Js
      * constructor
      *
      * @param string $appId
-     * @param string $appSecret
+     * @param string $masAccessToken
      */
-    public function __construct($appId, $appSecret)
+    public function __construct($appId, $masAccessToken)
     {
         $this->appId     = $appId;
-        $this->appSecret = $appSecret;
+        $this->masAccessToken = $masAccessToken;
         $this->cache     = new Cache($appId);
         $this->http     = new http();
     }
@@ -78,7 +78,7 @@ class Js
      */
     public function config(array $APIs, $debug = false, $beta = false, $json = true)
     {
-        $result = $this->http->get(self::API_CONFIG.'?appid='.$this->appId.'&access_token='.$this->appSecret);
+        $result = $this->http->get(self::API_CONFIG.'?appid='.$this->appId.'&access_token='.$this->masAccessToken);
         $base = array(
                  'debug' => $debug,
                  // 'beta'  => $beta,
@@ -117,14 +117,14 @@ class Js
 
         // for php 5.3
         $appId     = $this->appId;
-        $appSecret = $this->appSecret;
+        $masAccessToken = $this->masAccessToken;
         $cache     = $this->cache;
         $apiTicket = self::API_TICKET;
 
         return $this->cache->get(
             $key,
-            function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
-                $http  = new Http(new AccessToken($appId, $appSecret));
+            function ($key) use ($appId, $masAccessToken, $cache, $apiTicket) {
+                $http  = new Http(new AccessToken($appId, $masAccessToken));
 
                 $result = $http->get($apiTicket);
 

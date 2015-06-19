@@ -67,11 +67,11 @@ class Stats
      * constructor
      *
      * @param string $appId
-     * @param string $appSecret
+     * @param string $masAccessToken
      */
-    public function __construct($appId, $appSecret)
+    public function __construct($appId, $masAccessToken)
     {
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http = new Http(new AccessToken($appId, $masAccessToken));
     }
 
     /**

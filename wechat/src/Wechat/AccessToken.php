@@ -33,7 +33,7 @@ class AccessToken
      *
      * @var string
      */
-    protected $appSecret;
+    protected $masAccessToken;
 
     /**
      * 缓存类
@@ -63,12 +63,12 @@ class AccessToken
      * constructor
      *
      * @param string $appId
-     * @param string $appSecret
+     * @param string $masAccessToken
      */
-    public function __construct($appId, $appSecret)
+    public function __construct($appId, $masAccessToken)
     {
         $this->appId     = $appId;
-        $this->appSecret = $appSecret;
+        $this->masAccessToken = $masAccessToken;
         $this->cache     = new Cache($appId);
     }
 
@@ -95,18 +95,18 @@ class AccessToken
 
         // for php 5.3
         $appId       = $this->appId;
-        $appSecret   = $this->appSecret;
+        $masAccessToken   = $this->masAccessToken;
         $cache       = $this->cache;
         $cacheKey    = $this->cacheKey;
         $apiTokenGet = self::API_TOKEN_GET;
 
         return $this->token = $this->cache->get(
             $cacheKey,
-            function ($cacheKey) use ($appId, $appSecret, $cache, $apiTokenGet) {
+            function ($cacheKey) use ($appId, $masAccessToken, $cache, $apiTokenGet) {
                 $params = array(
                            'appid'      => $appId,
-                           'secret'     => $appSecret,
-                           'grant_type' => 'client_credential',
+                           'access_token'     => $masAccessToken,
+                           // 'grant_type' => 'client_credential',
                           );
                 $http = new Http();
 

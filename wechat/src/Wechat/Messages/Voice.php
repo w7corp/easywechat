@@ -43,11 +43,11 @@ class Voice extends BaseMessage
      * constructor
      *
      * @param string $appId
-     * @param string $appSecret
+     * @param string $masAccessToken
      */
-    public function __construct($appId, $appSecret)
+    public function __construct($appId, $masAccessToken)
     {
-        $this->media = new Media($appId, $appSecret);
+        $this->media = new Media($appId, $masAccessToken);
     }
 
     /**
