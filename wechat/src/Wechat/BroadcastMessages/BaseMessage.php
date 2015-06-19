@@ -90,6 +90,24 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
+     * 生成预览的数据
+     *
+     * @return array
+     */
+    public function buildForPreview()
+    {
+        if (!method_exists($this, 'toBroadcast')) {
+            throw new Exception(__CLASS__.'未实现此方法：toBroadcast()');
+        }
+        $base = array(
+                 'touser'  => $this->to,
+                 'msgtype' => $this->getDefaultMessageType(),
+                );
+
+        return array_merge($base, $this->toBroadcast());
+    }
+
+    /**
      * 获取默认的消息类型名称
      *
      * @return string

@@ -160,7 +160,7 @@ class Broadcast
      *
      * @return bool
      */
-    public function preview($openId = array())
+    public function preview($openId = '')
     {
         if (empty($this->message)) {
             throw new Exception('未设置要发送的消息');
@@ -168,7 +168,7 @@ class Broadcast
 
         $this->message->to = $openId;
 
-        return $this->http->jsonPost(self::API_BROADCAST_PREVIEW, $this->message->buildForBroadcast());
+        return $this->http->jsonPost(self::API_BROADCAST_PREVIEW, $this->message->buildForPreview());
     }
 
     /**
