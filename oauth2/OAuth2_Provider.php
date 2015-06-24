@@ -201,7 +201,7 @@ abstract class OAuth2_Provider
 	*/	
 	public function access($code, $options = array())
 	{
-        if (isset($_GET[$this->state_key]) AND $_GET[$this->state_key] != $_SESSION['state'])
+        if (isset($_GET[$this->state_key]) && isset($_SESSION['state']) AND $_GET[$this->state_key] != $_SESSION['state'])
         {
         	throw new OAuth2_Exception(array('code' => '403', 'message' => 'The state does not match. Maybe you are a victim of CSRF.'));
         }
