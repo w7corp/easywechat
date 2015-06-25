@@ -18,7 +18,7 @@ namespace EasyWeChat\Server;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Input;
 use EasyWeChat\Encryption\Cryptor;
-use EasyWeChat\Server\Messages\AbstractMessage;
+use EasyWeChat\Message\AbstractMessage;
 use EasyWeChat\Support\Collection;
 
 /**
