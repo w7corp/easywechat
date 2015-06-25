@@ -13,14 +13,14 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server;
+namespace EasyWeChat\Message;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 
 /**
  * Class MessageBuilder
  *
- * @package EasyWeChat\Server
+ * @package EasyWeChat\Message
  */
 class MessageBuilder
 {

@@ -19,6 +19,7 @@ use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Input;
 use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Message\AbstractMessage;
+use EasyWeChat\Message\MessageBuilder;
 use EasyWeChat\Support\Collection;
 
 /**

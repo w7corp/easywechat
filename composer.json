@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php":">=5.3",
+        "php":">=5.4",
         "ext-mcrypt": "*"
     },
     "authors": [
@@ -26,7 +26,7 @@
     "minimum-stability" : "dev",
     "autoload": {
         "psr-4": {
-            "Overtrue\\Wechat\\": "src/Wechat/"
+            "Overtrue\\Wechat\\": "src/EasyWeChat/"
         }
     }
 }
