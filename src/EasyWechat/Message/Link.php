@@ -13,12 +13,12 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server\Messages;
+namespace EasyWeChat\Message;
 
 /**
  * Class Link
  *
- * @package EasyWeChat\Server\Messages
+ * @package EasyWeChat\Message
  */
 class Link extends AbstractMessage implements MessageInterface
 {

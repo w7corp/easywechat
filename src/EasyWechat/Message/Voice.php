@@ -1,6 +1,6 @@
 <?php
 /**
- * Image.php
+ * Voice.php
  *
  * Part of EasyWeChat.
  *
@@ -13,18 +13,18 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server\Messages;
+namespace EasyWeChat\Message;
 
 use EasyWeChat\Media;
 
 /**
- * Class Image
+ * Class Voice
  *
  * @property string $media_id
  *
- * @package EasyWeChat\Server\Messages
+ * @package EasyWeChat\Message
  */
-class Image extends AbstractMessage implements MessageInterface
+class Voice extends AbstractMessage implements MessageInterface
 {
 
     /**
@@ -35,11 +35,18 @@ class Image extends AbstractMessage implements MessageInterface
     protected $properties = array('media_id');
 
     /**
-     * 设置音乐消息封面图
+     * 媒体
+     *
+     * @var \EasyWeChat\Media
+     */
+    protected $media;
+
+    /**
+     * 设置语音
      *
      * @param string $mediaId
      *
-     * @return Image
+     * @return Voice
      */
     public function media($mediaId)
     {
@@ -56,7 +63,7 @@ class Image extends AbstractMessage implements MessageInterface
     public function toStaff()
     {
         return array(
-                'image' => array(
+                'voice' => array(
                             'media_id' => $this->media_id,
                            ),
                );
@@ -70,7 +77,7 @@ class Image extends AbstractMessage implements MessageInterface
     public function toReply()
     {
         return array(
-                'Image' => array(
+                'Voice' => array(
                             'MediaId' => $this->media_id,
                            ),
                );

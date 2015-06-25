@@ -13,14 +13,14 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server\Messages;
+namespace EasyWeChat\Message;
 
 /**
  * Class Text
  *
  * @property string $content
  *
- * @package EasyWeChat\Server\Messages
+ * @package EasyWeChat\Message
  */
 class Text extends AbstractMessage implements MessageInterface
 {

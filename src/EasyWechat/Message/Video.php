@@ -1,6 +1,6 @@
 <?php
 /**
- * Music.php
+ * Video.php
  *
  * Part of EasyWeChat.
  *
@@ -13,20 +13,22 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server\Messages;
+namespace EasyWeChat\Message;
+
+use EasyWeChat\Media;
 
 /**
- * Class Music
+ * Class Video
  *
- * @property string $url
- * @property string $hq_url
+ * @property string $video
  * @property string $title
+ * @property string $media_id
  * @property string $description
  * @property string $thumb_media_id
  *
- * @package EasyWeChat\Server\Messages
+ * @package EasyWeChat\Message
  */
-class Music extends AbstractMessage implements MessageInterface
+class Video extends AbstractMessage implements MessageInterface
 {
 
     /**
@@ -35,19 +37,32 @@ class Music extends AbstractMessage implements MessageInterface
      * @var array
      */
     protected $properties = array(
-                             'url',
-                             'hq_url',
                              'title',
                              'description',
+                             'media_id',
                              'thumb_media_id',
                             );
 
     /**
-     * 设置音乐消息封面图
+     * 设置视频消息
      *
      * @param string $mediaId
      *
-     * @return Music
+     * @return Video
+     */
+    public function media($mediaId)
+    {
+        $this->setAttribute('media_id', $mediaId);
+
+        return $this;
+    }
+
+    /**
+     * 设置视频封面
+     *
+     * @param string $mediaId
+     *
+     * @return Video
      */
     public function thumb($mediaId)
     {
@@ -64,11 +79,10 @@ class Music extends AbstractMessage implements MessageInterface
     public function toStaff()
     {
         return array(
-                'music' => array(
+                'video' => array(
                             'title'          => $this->title,
+                            'media_id'       => $this->media_id,
                             'description'    => $this->description,
-                            'musicurl'       => $this->url,
-                            'hqmusicurl'     => $this->hq_url,
                             'thumb_media_id' => $this->thumb_media_id,
                            ),
                );
@@ -82,12 +96,10 @@ class Music extends AbstractMessage implements MessageInterface
     public function toReply()
     {
         $response = array(
-                     'music' => array(
-                                 'Title'        => $this->title,
-                                 'Description'  => $this->description,
-                                 'MusicUrl'     => $this->url,
-                                 'HQMusicUrl'   => $this->hq_url,
-                                 'ThumbMediaId' => $this->thumb_media_id,
+                     'Video' => array(
+                                 'MediaId'     => $this->media_id,
+                                 'Title'       => $this->title,
+                                 'Description' => $this->description,
                                 ),
                     );
 

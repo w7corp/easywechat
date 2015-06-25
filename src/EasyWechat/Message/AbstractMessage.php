@@ -13,7 +13,7 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server\Messages;
+namespace EasyWeChat\Message;
 
 use EasyWeChat\Support\MagicAttributes;
 use EasyWeChat\Support\XML;
@@ -21,9 +21,9 @@ use EasyWeChat\Support\XML;
 /**
  * Class AbstractMessage
  *
- * @property string      $from
- * @property string      $to
- * @property string      $staff
+ * @property string $from
+ * @property string $to
+ * @property string $staff
  *
  * @method AbstractMessage to($to)
  * @method AbstractMessage from($from)
@@ -32,7 +32,7 @@ use EasyWeChat\Support\XML;
  * @method array       toReply()
  * @method array       toBroadcast()
  *
- * @package EasyWeChat\Server\Messages
+ * @package EasyWeChat\Message
  */
 abstract class AbstractMessage extends MagicAttributes
 {
