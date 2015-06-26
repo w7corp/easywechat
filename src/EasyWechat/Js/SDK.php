@@ -18,6 +18,7 @@ namespace EasyWeChat\Js;
 use EasyWeChat\Cache\Adapters\AdapterInterface as Cache;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\JSON;
+use EasyWeChat\Support\Str;
 
 /**
  * Class SDK
@@ -26,7 +27,6 @@ use EasyWeChat\Support\JSON;
  */
 class SDK
 {
-
     /**
      * App id.
      *
@@ -100,7 +100,7 @@ class SDK
                 );
         $config = array_merge($base, $signPackage, array('jsApiList' => $APIs));
 
-        return $json ? JSON::encode($config) : $config;
+        return $json ? json_encode($config) : $config;
     }
 
     /**
@@ -224,6 +224,6 @@ class SDK
      */
     public function getNonce()
     {
-        return uniqid('rand_');
+        return Str::quickRandom(10);
     }
 }//end class

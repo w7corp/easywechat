@@ -24,7 +24,6 @@ use EasyWeChat\Support\Arr;
  */
 class Card
 {
-
     /**
      * Http对象
      *
@@ -158,7 +157,7 @@ class Card
 
         return array(
                 'card_id'  => $cardId,
-                'card_ext' => JSON::encode($ext),
+                'card_ext' => json_encode($ext, JSON_UNESCAPED_UNICODE),
                );
     }
 
@@ -555,4 +554,4 @@ class Card
     {
         return uniqid('pre_');
     }
-}
+}// end class
