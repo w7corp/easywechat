@@ -143,7 +143,7 @@ class Media
     public function video($path, $title, $description)
     {
         $params = array(
-                   'description' => JSON::encode(
+                   'description' => json_encode(
                        array(
                         'title'        => $title,
                         'introduction' => $description,

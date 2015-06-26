@@ -18,13 +18,12 @@ namespace EasyWeChat\Support;
 use EasyWeChat\Support\JSON;
 
 /**
- * Http请求类
+ * Class Http
  *
- * from https://github.com/dsyph3r/curl-php/blob/master/lib/Network/Curl/Curl.php
+ * @package EasyWeChat\Support
  */
 class Http
 {
-
     /**
      * Constants for available HTTP methods
      */
@@ -35,7 +34,7 @@ class Http
     const DELETE  = 'DELETE';
 
     /**
-     * CURL句柄
+     * CURL handle
      *
      * @var resource handle
      */
@@ -177,7 +176,7 @@ class Http
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
         } else {
             if (isset($options['json'])) {
-                $params = JSON::encode($params);
+                $params = json_encode($params, JSON_UNESCAPED_UNICODE);
                 $options['headers'][] = 'content-type:application/json';
             }
 
@@ -270,4 +269,4 @@ class Http
 
         return $results;
     }
-}
+}//end class

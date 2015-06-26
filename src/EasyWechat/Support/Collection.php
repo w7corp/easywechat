@@ -15,26 +15,28 @@
 
 namespace EasyWeChat\Support;
 
-// use JsonSerializable;// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
 use ArrayAccess;
-use Countable;
 use ArrayIterator;
+use Countable;
 use IteratorAggregate;
+use JsonSerializable;
 use Serializable;
 
 /**
- * 工具类，实现一些便捷访问接口如：数组式访问
+ * Class Collection
+ *
+ * @package EasyWeChat\Support
  */
 class Collection implements
     ArrayAccess,
     Countable,
     IteratorAggregate,
+    JsonSerializable,
     Serializable
-    // , JsonSerializable
 {
 
     /**
-     * Data
+     * The collection data.
      *
      * @var array
      */
@@ -43,7 +45,7 @@ class Collection implements
     /**
      * set data
      *
-     * @param mixed $data 数据数组
+     * @param mixed $data
      */
     public function __construct($data = array())
     {
@@ -61,7 +63,7 @@ class Collection implements
     }
 
     /**
-     * Merge data
+     * Merge data.
      *
      * @param array $data
      *
@@ -158,7 +160,7 @@ class Collection implements
     }
 
     /**
-     * 返回数组
+     * Build to array.
      *
      * @return array
      */
@@ -168,17 +170,17 @@ class Collection implements
     }
 
     /**
-     * 返回json
+     * Build to json.
      *
      * @return string
      */
     public function toJson()
     {
-        return JSON::encode($this->all());
+        return json_encode($this->all(), JSON_UNESCAPED_UNICODE);
     }
 
     /**
-     * 返回string
+     * To string.
      *
      * @return string
      */
@@ -188,15 +190,24 @@ class Collection implements
     }
 
     /**
-     * @see JsonSerializable::jsonSerialize()
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
      */
-    // public function jsonSerialize()
-    // {
-    //     return $this->data;
-    // }
+     public function jsonSerialize()
+     {
+         return $this->data;
+     }
 
     /**
-     * @see Serializable::serialize()
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * String representation of object
+     * @link http://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
      */
     public function serialize()
     {
@@ -204,7 +215,16 @@ class Collection implements
     }
 
     /**
-     * @see Serializable::unserialize()
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Constructs the object
+     *
+     * @link http://php.net/manual/en/serializable.unserialize.php
+     *
+     * @param string $serialized <p>
+     * The string representation of the object.
+     * </p>
+     *
+     * @return void
      */
     public function unserialize($data)
     {
@@ -212,7 +232,13 @@ class Collection implements
     }
 
     /**
-     * @see ArrayIterator::getIterator()
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Retrieve an external iterator
+     *
+     * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
+     *
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * <b>Traversable</b>
      */
     public function getIterator()
     {
@@ -220,11 +246,19 @@ class Collection implements
     }
 
     /**
-     * @see Countable::count()
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Count elements of an object
+     *
+     * @link http://php.net/manual/en/countable.count.php
+     *
+     * @return int The custom count as an integer.
+     * </p>
+     * <p>
+     * The return value is cast to an integer.
      */
-    public function count($mode = COUNT_NORMAL)
+    public function count()
     {
-        return count($this->data, $mode);
+        return count($this->data);
     }
 
     /**
@@ -283,22 +317,19 @@ class Collection implements
     }
 
     /**
-     * Assigns a value to the specified offset
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Whether a offset exists
      *
-     * @param string $offset
-     * @param mixed  $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->set($offset, $value);
-    }
-
-    /**
-     * Whether or not an offset exists
+     * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      *
-     * @param string $offset
+     * @param mixed $offset <p>
+     * An offset to check for.
+     * </p>
      *
-     * @return bool
+     * @return boolean true on success or false on failure.
+     * </p>
+     * <p>
+     * The return value will be casted to boolean if non-boolean was returned.
      */
     public function offsetExists($offset)
     {
@@ -306,11 +337,16 @@ class Collection implements
     }
 
     /**
-     * Unsets an offset
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to unset
      *
-     * @param string $offset
+     * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      *
-     * @return array
+     * @param mixed $offset <p>
+     * The offset to unset.
+     * </p>
+     *
+     * @return void
      */
     public function offsetUnset($offset)
     {
@@ -320,14 +356,39 @@ class Collection implements
     }
 
     /**
-     * Returns the value at specified offset
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to retrieve
      *
-     * @param string $offset
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php
      *
-     * @return mixed
+     * @param mixed $offset <p>
+     * The offset to retrieve.
+     * </p>
+     *
+     * @return mixed Can return all value types.
      */
     public function offsetGet($offset)
     {
         return $this->offsetExists($offset) ? $this->get($offset) : null;
     }
-}
+
+    /**
+     * (PHP 5 &gt;= 5.0.0)<br/>
+     * Offset to set
+     *
+     * @link http://php.net/manual/en/arrayaccess.offsetset.php
+     *
+     * @param mixed $offset <p>
+     * The offset to assign the value to.
+     * </p>
+     * @param mixed $value <p>
+     * The value to set.
+     * </p>
+     *
+     * @return void
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+}//end class
