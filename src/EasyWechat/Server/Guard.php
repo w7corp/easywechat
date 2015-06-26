@@ -22,6 +22,8 @@ use EasyWeChat\Core\Input;
 use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Message\AbstractMessage;
 use EasyWeChat\Message\MessageBuilder;
+use EasyWeChat\Message\Text;
+use EasyWeChat\Server\Messages\MessageInterface;
 use EasyWeChat\Support\Collection;
 
 /**
@@ -150,16 +152,17 @@ class Guard
      */
     protected function response($response)
     {
-        is_string($response) && $response = MessageBuilder::make('text')->with('content', $response);
+        if (is_string($response)) {
+            $message = new Text();
+            $response = $message->content = $response;
+        }
 
-        $return = null;
+        $return = '';
 
-        if ($response instanceof AbstractMessage) {
-            $response->from($this->input->get('ToUserName'))->to($this->input->get('FromUserName'));
-
+        if ($response instanceof MessageInterface) {
             $this->call('responseCreated', [$response]);
 
-            $return = $response->buildForReply();
+            $return = $this->buildReply($this->input->get('ToUserName'), $this->input->get('FromUserName'), $response);
 
             if ($this->input->isEncrypted()) {
                 $return = $this->cryptor->encryptMsg(
@@ -225,6 +228,27 @@ class Guard
         $event['Event'] = strtolower($event['Event']);
 
         return $this->call("event.{$event['Event']}", [$event]);
+    }
+
+    /**
+     * Build reply XML.
+     *
+     * @param string           $to
+     * @param string           $from
+     * @param MessageInterface $message
+     *
+     * @return string
+     */
+    protected function buildReply($to, $from, $message)
+    {
+        $base = [
+            'ToUserName' => $this->to,
+            'FromUserName' => $this->from,
+            'CreateTime' => time(),
+            'MsgType' => $message->getType(),
+        ];
+
+        return XML::build(array_merge($base, $message->toReply()));
     }
 
     /**

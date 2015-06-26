@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bootstrapper.php.
+ * Application.php.
  *
  * Part of EasyWeChat.
  *
@@ -90,15 +90,30 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      *
      * @param string $abstract
      * @param mixed  $concrete
+     * @param bool   $share
      * @param bool   $force
      */
-    public function bind($abstract, $concrete, $force = false)
+    public function bind($abstract, $concrete, $share = false, $force = false)
     {
         if ($force && $this->isBound($abstract)) {
             $this->unBind($abstract);
         }
 
-        $this->bindings[$abstract] = $concrete;
+        $this->bindings[$abstract] = [
+                                        'concrete' => $concrete,
+                                        'share' => $share,
+                                     ];
+    }
+
+    /**
+     * Bind a singleton service.
+     *
+     * @param string $abstract
+     * @param mixed  $concrete
+     */
+    public function singleton($abstract, $concrete)
+    {
+        $this->bind($abstract, $concrete, true);
     }
 
     /**
@@ -156,6 +171,18 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Wether the abstract is shared.
+     *
+     * @param string $abstract
+     *
+     * @return bool
+     */
+    public function isShare($abstract)
+    {
+        return $this->isBound($abstract) && $this->bindings[$abstract]['share'];
+    }
+
+    /**
      * Set providers.
      *
      * @param array $providers
@@ -189,7 +216,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      *
      * @param array $config
      *
-     * @throws \EasyWeChat\Core\Exception
+     * @throws InvalidConfigException
      */
     protected function registerConfiguration(array $config)
     {
@@ -221,16 +248,16 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      */
     protected function registerClientBaseService()
     {
-        $this->bind('http', function ($sdk) {
+        $this->bind('http', function ($app) {
             return new Http();
         });
 
-        $this->bind('access_token', function ($sdk) {
+        $this->bind('access_token', function ($app) {
             return new AccessToken(
-                $sdk->config->get('app_id'),
-                $sdk->config->get('secret'),
-                $sdk['cache'],
-                $sdk['http']
+                $app->config->get('app_id'),
+                $app->config->get('secret'),
+                $app['cache'],
+                $app['http']
             );
         });
     }
@@ -262,7 +289,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
 
         $service = $this->build($abstract);
 
-        return $this->resolved[$abstract] = $service;
+        return $this->isShare($abstract) ? $this->resolved[$abstract] = $service : $service;
     }
 
     /**
@@ -280,7 +307,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
             throw new UnBoundServiceException("Unknow service '$abstract'", 500);
         }
 
-        $concrete = $this->bindings[$abstract];
+        $concrete = $this->bindings[$abstract]['concrete'];
 
         if ($concrete instanceof Closure) {
             $concrete = $concrete($this);
@@ -294,8 +321,8 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      */
     protected function registerCryptor()
     {
-        $this->bind('cryptor', function ($sdk) {
-            $config = $sdk->config;
+        $this->bind('cryptor', function ($app) {
+            $config = $app->config;
 
             return new Cryptor($config['app_id'], $config['token'], $config['aes_key']);
         });
@@ -306,8 +333,8 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      */
     protected function registerInput()
     {
-        $this->bind('input', function ($sdk) {
-            return new Input($sdk->config->get('token'), $sdk->get('cryptor'));
+        $this->bind('input', function ($app) {
+            return new Input($app->config->get('token'), $app->get('cryptor'));
         });
     }
 

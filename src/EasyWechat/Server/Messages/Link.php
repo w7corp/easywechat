@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MessageInterface.php.
+ * Link.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,25 +15,14 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Message;
+namespace EasyWeChat\Server\Messages;
+
+use EasyWeChat\Message\Link as BaseLink;
 
 /**
- * Class MessageInterface.
+ * Class Link.
  */
-interface MessageInterface
+class Link extends BaseLink
 {
-    /**
-     * Build message to staff.
-     *
-     * @return array
-     */
-    public function toStaff();
 
-    /**
-     * Build message to server.
-     *
-     * @return array
-     */
-    public function toReply();
 }//end class
-

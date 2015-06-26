@@ -15,24 +15,29 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Message;
+namespace EasyWeChat\Server\Messages;
 
 use EasyWeChat\Exception;
+use EasyWeChat\Message\Location as BaseLocation;
 
 /**
  * Class Location.
  */
-class Location extends Attribute
+class Location extends BaseLocation
 {
     /**
-     * Properties.
-     *
-     * @var array
+     * 生成主动消息数组.
      */
-    protected $properties = [
-                             'lat',
-                             'lon',
-                             'scale',
-                             'label',
-                            ];
+    public function toStaff()
+    {
+        throw new Exception('暂时不支持发送链接消息');
+    }
+
+    /**
+     * 生成回复消息数组.
+     */
+    public function toReply()
+    {
+        throw new Exception('暂时不支持回复链接消息');
+    }
 }//end class

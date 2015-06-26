@@ -19,7 +19,7 @@ namespace EasyWeChat\Cache;
 
 use EasyWeChat\Cache\Adapters\AdapterInterface;
 use EasyWeChat\Cache\Adapters\FileAdapter;
-use EasyWeChat\Core\Bootstrapper;
+use EasyWeChat\Core\Application;
 
 /**
  * Class Manager.
@@ -43,16 +43,16 @@ class Manager
     /**
      * @var
      */
-    protected $sdk;
+    protected $app;
 
     /**
      * Constructor.
      *
-     * @param Bootstrapper $sdk
+     * @param Application $app
      */
-    public function __construct(Bootstrapper $sdk)
+    public function __construct(Application $app)
     {
-        $this->sdk = $sdk;
+        $this->sdk = $app;
     }
 
     /**

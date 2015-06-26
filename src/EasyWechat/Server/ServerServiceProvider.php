@@ -18,7 +18,7 @@
 namespace EasyWeChat\Server;
 
 use EasyWeChat\Support\ServiceProvider;
-use EasyWeChat\Core\Bootstrapper;
+use EasyWeChat\Core\Application;
 
 /**
  * Class ServerServiceProvider.
@@ -28,14 +28,14 @@ class ServerServiceProvider extends ServiceProvider
     /**
      * Register Server.
      *
-     * @param Bootstrapper $sdk
+     * @param Application $app
      *
      * @return mixed|void
      */
-    public function register(Bootstrapper $sdk)
+    public function register(Application $app)
     {
-        $sdk->bind('server', function ($sdk) {
-            return new Guard($sdk['input'], $sdk['cryptor']);
+        $app->bind('server', function ($app) {
+            return new Guard($app['input'], $app['cryptor']);
         });
     }
 }//end class

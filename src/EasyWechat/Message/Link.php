@@ -20,7 +20,7 @@ namespace EasyWeChat\Message;
 /**
  * Class Link.
  */
-class Link extends AbstractMessage implements MessageInterface
+class Link extends Attribute
 {
     /**
      * Properties.

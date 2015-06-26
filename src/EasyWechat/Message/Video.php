@@ -28,7 +28,7 @@ use EasyWeChat\Media;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends AbstractMessage implements MessageInterface
+class Video extends Attribute
 {
     /**
      * Properties.
@@ -69,39 +69,4 @@ class Video extends AbstractMessage implements MessageInterface
 
         return $this;
     }
-
-    /**
-     * 生成主动消息数组.
-     *
-     * @return array
-     */
-    public function toStaff()
-    {
-        return [
-                'video' => [
-                            'title' => $this->title,
-                            'media_id' => $this->media_id,
-                            'description' => $this->description,
-                            'thumb_media_id' => $this->thumb_media_id,
-                           ],
-               ];
-    }
-
-    /**
-     * 生成回复消息数组.
-     *
-     * @return array
-     */
-    public function toReply()
-    {
-        $response = [
-                     'Video' => [
-                                 'MediaId' => $this->media_id,
-                                 'Title' => $this->title,
-                                 'Description' => $this->description,
-                                ],
-                    ];
-
-        return $response;
-    }
-}
+}//end class

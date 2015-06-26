@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Location.php.
+ * MessageInterface.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,24 +15,17 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Message;
-
-use EasyWeChat\Exception;
+namespace EasyWeChat\Server\Messages;
 
 /**
- * Class Location.
+ * Class MessageInterface.
  */
-class Location extends Attribute
+interface MessageInterface
 {
     /**
-     * Properties.
+     * Build message to server.
      *
-     * @var array
+     * @return array
      */
-    protected $properties = [
-                             'lat',
-                             'lon',
-                             'scale',
-                             'label',
-                            ];
+    public function toReply();
 }//end class

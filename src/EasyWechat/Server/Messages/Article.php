@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Text.php.
+ * Article.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,19 +15,14 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Message;
+namespace EasyWeChat\Server\Messages;
+
+use EasyWeChat\Message\Article as BaseArticle;
 
 /**
- * Class Text.
- *
- * @property string $content
+ * Class NewsItem.
  */
-class Text extends Attribute
+class Article extends BaseArticle
 {
-    /**
-     * Properties.
-     *
-     * @var array
-     */
-    protected $properties = ['content'];
+
 }//end class

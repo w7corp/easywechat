@@ -24,7 +24,7 @@ use EasyWeChat\Media;
  *
  * @property string $media_id
  */
-class Image extends AbstractMessage implements MessageInterface
+class Image extends Attribute
 {
     /**
      * Properties.
@@ -46,32 +46,4 @@ class Image extends AbstractMessage implements MessageInterface
 
         return $this;
     }
-
-    /**
-     * 生成主动消息数组.
-     *
-     * @return array
-     */
-    public function toStaff()
-    {
-        return [
-                'image' => [
-                            'media_id' => $this->media_id,
-                           ],
-               ];
-    }
-
-    /**
-     * 生成回复消息数组.
-     *
-     * @return array
-     */
-    public function toReply()
-    {
-        return [
-                'Image' => [
-                            'MediaId' => $this->media_id,
-                           ],
-               ];
-    }
-}
+}//end class

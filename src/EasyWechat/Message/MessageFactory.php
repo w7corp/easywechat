@@ -1,7 +1,7 @@
 <?php
 
 /**
- * MessageBuilder.php.
+ * MessageFactory.php.
  *
  * Part of EasyWeChat.
  *
@@ -17,24 +17,35 @@
 
 namespace EasyWeChat\Message;
 
+use EasyWeChat\Core\Application;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\Support\Str;
 
 /**
  * Class MessageBuilder.
  */
-class MessageBuilder
+class MessageFactory
 {
-    /**
-     * 消息类型.
-     */
     const TEXT = 'text';
     const IMAGE = 'image';
     const VOICE = 'voice';
     const VIDEO = 'video';
     const MUSIC = 'music';
-    const NEWS = 'news';
+    const ARTICLES = 'articles';
     const TRANSFER = 'transfer';
     const NEWS_ITEM = 'news_item';
+
+    /**
+     * Application instance.
+     *
+     * @var Application
+     */
+    protected $app;
+
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
     /**
      * Return message instance.
@@ -45,29 +56,12 @@ class MessageBuilder
      *
      * @throws InvalidArgumentException
      */
-    public static function make($type = self::TEXT)
+    public function make($type = self::TEXT)
     {
         if (!defined(__CLASS__.'::'.strtoupper($type))) {
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
-        $message = 'EasyWeChat\\Server\\Messages\\'
-                    .str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $type)));
-
-        return new $message();
-    }
-
-    /**
-     * Magic access.
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public static function __callStatic($method, $args)
-    {
-        return call_user_func_array('self::make', [$method, $args]);
+        return $this->app->get("message.{$type}");
     }
 }//end class
-

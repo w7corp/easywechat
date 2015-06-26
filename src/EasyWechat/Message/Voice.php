@@ -18,13 +18,14 @@
 namespace EasyWeChat\Message;
 
 use EasyWeChat\Media;
+use EasyWeChat\Support\Attribute;
 
 /**
  * Class Voice.
  *
  * @property string $media_id
  */
-class Voice extends AbstractMessage implements MessageInterface
+class Voice extends Attribute
 {
     /**
      * Properties.
@@ -34,14 +35,7 @@ class Voice extends AbstractMessage implements MessageInterface
     protected $properties = ['media_id'];
 
     /**
-     * 媒体.
-     *
-     * @var \EasyWeChat\Media
-     */
-    protected $media;
-
-    /**
-     * 设置语音.
+     * Set media id.
      *
      * @param string $mediaId
      *
@@ -52,33 +46,5 @@ class Voice extends AbstractMessage implements MessageInterface
         $this->setAttribute('media_id', $mediaId);
 
         return $this;
-    }
-
-    /**
-     * 生成主动消息数组.
-     *
-     * @return array
-     */
-    public function toStaff()
-    {
-        return [
-                'voice' => [
-                            'media_id' => $this->media_id,
-                           ],
-               ];
-    }
-
-    /**
-     * 生成回复消息数组.
-     *
-     * @return array
-     */
-    public function toReply()
-    {
-        return [
-                'Voice' => [
-                            'MediaId' => $this->media_id,
-                           ],
-               ];
     }
 }

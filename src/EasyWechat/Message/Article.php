@@ -1,7 +1,7 @@
 <?php
 
 /**
- * NewsItem.php.
+ * Article.php.
  *
  * Part of EasyWeChat.
  *
@@ -18,9 +18,9 @@
 namespace EasyWeChat\Message;
 
 /**
- * Class NewsItem.
+ * Class Article.
  */
-class NewsItem extends AbstractMessage implements MessageInterface
+class Article extends Attribute
 {
     /**
      * Properties.

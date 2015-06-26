@@ -1,7 +1,7 @@
 <?php
 
 /**
- * News.php.
+ * Articles.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,54 +15,16 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Message;
+namespace EasyWeChat\Server\Messages;
 
 use Closure;
+use EasyWeChat\Message\Articles as BaseArticles;
 
 /**
- * Class News.
+ * Class Articles.
  */
-class News extends AbstractMessage implements MessageInterface
+class Articles extends BaseArticles implements MessageInterface
 {
-    /**
-     * Properties.
-     *
-     * @var array
-     */
-    protected $items = [];
-
-    /**
-     * 添加图文消息内容.
-     *
-     * @param NewsItem $item
-     *
-     * @return News
-     */
-    public function item(NewsItem $item)
-    {
-        array_push($this->items, $item);
-
-        return $this;
-    }
-
-    /**
-     * 添加多条图文消息.
-     *
-     * @param array|Closure $items
-     *
-     * @return News
-     */
-    public function items($items)
-    {
-        if ($items instanceof Closure) {
-            $items = $items();
-        }
-
-        array_map([$this, 'item'], (array) $items);
-
-        return $this;
-    }
-
     /**
      * 生成主动消息数组.
      */
@@ -103,4 +65,4 @@ class News extends AbstractMessage implements MessageInterface
                 'Articles' => $articles,
                ];
     }
-}
+}//end class

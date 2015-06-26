@@ -19,7 +19,7 @@ namespace EasyWeChat\Cache;
 
 use EasyWeChat\Cache\Adapters\FileAdapter;
 use EasyWeChat\Support\ServiceProvider;
-use EasyWeChat\Core\Bootstrapper;
+use EasyWeChat\Core\Application;
 
 /**
  * Class CacheServiceProvider.
@@ -29,18 +29,18 @@ class CacheServiceProvider extends ServiceProvider
     /**
      * Register Server.
      *
-     * @param Bootstrapper $sdk
+     * @param Application $app
      *
      * @return mixed|void
      */
-    public function register(Bootstrapper $sdk)
+    public function register(Application $app)
     {
-        $sdk->bind('cache', function ($sdk) {
-            return new Manager($sdk);
+        $app->bind('cache', function ($app) {
+            return new Manager($app);
         });
 
         // default adapter
-        $sdk->bind('cache.adapter', function ($sdk) {
+        $app->bind('cache.adapter', function ($app) {
             return new FileAdapter();
         });
     }

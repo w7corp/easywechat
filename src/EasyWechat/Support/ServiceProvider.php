@@ -17,7 +17,7 @@
 
 namespace EasyWeChat\Support;
 
-use EasyWeChat\Core\Bootstrapper;
+use EasyWeChat\Core\Application;
 
 /**
  * Class ServiceProvider.
@@ -27,10 +27,10 @@ abstract class ServiceProvider
     /**
      * Register service.
      *
-     * @param Bootstrapper $sdk
+     * @param Application $app
      *
      * @return mixed
      */
-    abstract public function register(Bootstrapper $sdk);
+    abstract public function register(Application $app);
 }//end class
 
