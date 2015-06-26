@@ -1,7 +1,6 @@
 <?php
-
 /**
- * StaffServiceProvider.php.
+ * StoreServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -21,9 +20,9 @@ use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Application;
 
 /**
- * Class StaffServiceProvider.
+ * Class StoreServiceProvider.
  */
-class StaffServiceProvider extends ServiceProvider
+class StoreServiceProvider extends ServiceProvider
 {
     /**
      * Register Server.
@@ -34,12 +33,8 @@ class StaffServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        $app->bind('staff', function ($app) {
+        $app->bind('store', function ($app) {
             return new Manager($app['http']);
-        });
-
-        $app->bind('staff.messagener', function ($app) {
-            return new Messagener($app['http'], new Transformer());
         });
     }
 }//end class

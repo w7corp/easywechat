@@ -1,5 +1,4 @@
 <?php
-
 /**
  * User.php.
  *
@@ -20,12 +19,12 @@ namespace EasyWeChat\User;
 use EasyWeChat\Support\Collection;
 
 /**
- * 用户.
+ * Class User.
  */
-class User
+class Manager
 {
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
@@ -38,26 +37,17 @@ class User
     const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http $http
      */
-    public function __construct(array $config)
+    public function __construct(Http $http)
     {
-        $this->http = new Http(new AccessToken($config));
+        $this->http = $http;
     }
 
     /**
-     * 读取用户信息.
+     * Fetch a user by open id.
      *
      * @param string $openId
      * @param string $lang
@@ -79,7 +69,7 @@ class User
     }
 
     /**
-     * 获取用户列表.
+     * List users.
      *
      * @param string $nextOpenId
      *
@@ -93,10 +83,10 @@ class User
     }
 
     /**
-     * 修改用户备注.
+     * Set user remark.
      *
      * @param string $openId
-     * @param string $remark 备注
+     * @param string $remark
      *
      * @return bool
      */
@@ -111,7 +101,7 @@ class User
     }
 
     /**
-     * 获取用户所在分组.
+     * Get user's group id.
      *
      * @param string $openId
      *
@@ -123,7 +113,7 @@ class User
     }
 
     /**
-     * 获取用户所在的组.
+     * Get user's group id.
      *
      * @param string $openId
      *
@@ -137,4 +127,4 @@ class User
 
         return $response['groupid'];
     }
-}
+}//end class

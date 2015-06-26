@@ -21,12 +21,12 @@ use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Collection;
 
 /**
- * 门店.
+ * Class Manager
  */
-class Store
+class Manager
 {
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
@@ -39,30 +39,21 @@ class Store
     const API_DELETE = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http $http
      */
-    public function __construct(array $config)
+    public function __construct(Http $http)
     {
-        $this->http = new Http(new AccessToken($config));
+        $this->http = $http;
     }
 
     /**
-     * 获取指定门店信息.
+     * Get store.
      *
      * @param int $storeId
      *
-     * @return EasyWeChat\Support\Collection
+     * @return Collection
      */
     public function get($storeId)
     {
@@ -74,12 +65,12 @@ class Store
     }
 
     /**
-     * 获取用户列表.
+     * List stores.
      *
      * @param int $offset
      * @param int $limit
      *
-     * @return EasyWeChat\Support\Collection
+     * @return Collection
      */
     public function lists($offset = 0, $limit = 10)
     {
@@ -94,7 +85,7 @@ class Store
     }
 
     /**
-     * 创建门店.
+     * Create store.
      *
      * @param array $data
      *
@@ -110,7 +101,7 @@ class Store
     }
 
     /**
-     * 更新门店.
+     * Update a store.
      *
      * @param int   $storeId
      * @param array $data
@@ -129,7 +120,7 @@ class Store
     }
 
     /**
-     * 删除门店.
+     * Delete a store.
      *
      * @param int $storeId
      *
@@ -141,4 +132,4 @@ class Store
 
         return $this->http->jsonPost(self::API_DELETE, $params);
     }
-}
+}//end class

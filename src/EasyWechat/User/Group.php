@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Group.php.
  *
@@ -18,7 +17,7 @@
 namespace EasyWeChat\User;
 
 /**
- * 用户组.
+ * Class Group.
  */
 class Group
 {
@@ -31,33 +30,24 @@ class Group
     const API_MEMBER_BATCH_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate';
 
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
     protected $http;
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http $http
      */
-    public function __construct(array $config)
+    public function __construct(Http $http)
     {
-        $this->http = new Http(new AccessToken($config));
+        $this->http = $http;
     }
 
     /**
-     * 创建分组.
+     * Create group.
      *
      * @param string $name
      *
@@ -75,7 +65,7 @@ class Group
     }
 
     /**
-     * 获取所有分组.
+     * List all groups.
      *
      * @return array
      */
@@ -87,7 +77,7 @@ class Group
     }
 
     /**
-     * 更新组名称.
+     * Update a group name.
      *
      * @param int    $groupId
      * @param string $name
@@ -107,7 +97,7 @@ class Group
     }
 
     /**
-     * 删除分组.
+     * Delete group.
      *
      * @param int $groupId
      *
@@ -123,7 +113,7 @@ class Group
     }
 
     /**
-     * 获取用户所在分组.
+     * Get user group.
      *
      * @param string $openId
      *
@@ -139,7 +129,7 @@ class Group
     }
 
     /**
-     * 移动单个用户.
+     * Move user to a group.
      *
      * @param string $openId
      * @param int    $groupId
@@ -159,7 +149,7 @@ class Group
     }
 
     /**
-     * 批量移动用户.
+     * Batch move users to a group.
      *
      * @param array $openIds
      * @param int   $groupId
@@ -177,4 +167,4 @@ class Group
 
         return true;
     }
-}
+}//end class
