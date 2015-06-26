@@ -17,15 +17,20 @@
 
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Media;
-
 /**
  * Class Image.
  *
  * @property string $media_id
  */
-class Image extends Attribute
+class Image extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'image';
+
     /**
      * Properties.
      *
@@ -34,7 +39,7 @@ class Image extends Attribute
     protected $properties = ['media_id'];
 
     /**
-     * 设置音乐消息封面图.
+     * Set media_id.
      *
      * @param string $mediaId
      *

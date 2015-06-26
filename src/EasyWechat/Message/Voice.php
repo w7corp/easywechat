@@ -17,16 +17,20 @@
 
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Media;
-use EasyWeChat\Support\Attribute;
-
 /**
  * Class Voice.
  *
  * @property string $media_id
  */
-class Voice extends Attribute
+class Voice extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'voice';
+
     /**
      * Properties.
      *
@@ -47,4 +51,4 @@ class Voice extends Attribute
 
         return $this;
     }
-}
+}//end class

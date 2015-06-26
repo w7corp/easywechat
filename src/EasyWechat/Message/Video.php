@@ -28,8 +28,15 @@ use EasyWeChat\Media;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends Attribute
+class Video extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'video';
+
     /**
      * Properties.
      *

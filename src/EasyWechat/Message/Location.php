@@ -17,22 +17,28 @@
 
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Exception;
-
 /**
  * Class Location.
  */
-class Location extends Attribute
+class Location extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'location';
+
     /**
      * Properties.
      *
      * @var array
      */
     protected $properties = [
-                             'lat',
-                             'lon',
+                             'latitude',
+                             'longitude',
                              'scale',
                              'label',
+                             'precision',
                             ];
 }//end class

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Link.php.
+ * ShortVideo.php.
  *
  * Part of EasyWeChat.
  *
@@ -18,25 +18,20 @@
 namespace EasyWeChat\Message;
 
 /**
- * Class Link.
+ * Class ShortVideo.
+ *
+ * @property string $title
+ * @property string $media_id
+ * @property string $description
+ * @property string $thumb_media_id
  */
-class Link extends BaseMessage
+class ShortVideo extends Video
 {
     /**
      * Message type.
      *
      * @var string
      */
-    protected $type = 'link';
+    protected $type = 'shortvideo';
 
-    /**
-     * Properties.
-     *
-     * @var array
-     */
-    protected $properties = [
-                             'title',
-                             'description',
-                             'url',
-                            ];
 }//end class

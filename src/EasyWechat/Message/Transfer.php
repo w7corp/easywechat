@@ -17,16 +17,21 @@
 
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Exception;
-
 /**
  * Class Transfer.
  *
  * @property string $to
  * @property string $account
  */
-class Transfer extends Attribute
+class Transfer extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'transfer_customer_service';
+
     /**
      * Properties.
      *
@@ -34,6 +39,5 @@ class Transfer extends Attribute
      */
     protected $properties = [
                              'account',
-                             'to',
                             ];
 }//end class

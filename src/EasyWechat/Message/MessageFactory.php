@@ -42,6 +42,12 @@ class MessageFactory
      */
     protected $app;
 
+    /**
+     * Constructor.
+     *
+     * @param Application $app [description]
+     */
+
     public function __construct(Application $app)
     {
         $this->app = $app;

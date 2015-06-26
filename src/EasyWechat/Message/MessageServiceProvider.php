@@ -22,7 +22,7 @@ use EasyWeChat\Support\Str;
 
 /**
  * Class MessageServiceProvider
- * 
+ *
  * @package EasyWeChat\Message
  */
 class MessageServiceProvider extends ServiceProvider
@@ -41,7 +41,7 @@ class MessageServiceProvider extends ServiceProvider
             return new MessageFactory($app);
         });
 
-        $messages = ['Text', 'Articles', 'Article', 'Image', 'Link', 'Location', 'Music', 'Transfer', 'Video', 'Voice'];
+        $messages = ['Text', 'Articles', 'Article', 'Image', 'Link', 'Location', 'Music', 'Transfer', 'ShortVideo', 'Video', 'Voice'];
 
         foreach ($messages as $message) {
             $app->bind("message.".Str::snake($message), function($app) use ($message) {

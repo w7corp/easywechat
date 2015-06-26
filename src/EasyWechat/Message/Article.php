@@ -17,6 +17,8 @@
 
 namespace EasyWeChat\Message;
 
+use EasyWeChat\Support\Attribute;
+
 /**
  * Class Article.
  */
@@ -28,9 +30,15 @@ class Article extends Attribute
      * @var array
      */
     protected $properties = [
-                             'title',
-                             'description',
-                             'pic_url',
-                             'url',
+                                'thumb_media_id',
+                                'author',
+                                'title',
+                                'description',
+                                'content',
+                                'digest',
+                                'url',
+                                'pic_url',
+                                'source_url',
+                                'show_cover_pic',
                             ];
-}
+}//end class

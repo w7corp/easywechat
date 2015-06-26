@@ -25,20 +25,29 @@ namespace EasyWeChat\Message;
  * @property string $title
  * @property string $description
  * @property string $thumb_media_id
+ * @property string $format
  */
-class Music extends Attribute
+class Music extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'music';
+
     /**
      * Properties.
      *
      * @var array
      */
     protected $properties = [
-                             'url',
-                             'hq_url',
                              'title',
                              'description',
+                             'url',
+                             'hq_url',
                              'thumb_media_id',
+                             'format',
                             ];
 
 }//end class

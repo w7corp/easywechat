@@ -22,8 +22,15 @@ use Closure;
 /**
  * Class Articles.
  */
-class Articles extends Attribute
+class Articles extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'news';
+
     /**
      * Properties.
      *

@@ -22,8 +22,15 @@ namespace EasyWeChat\Message;
  *
  * @property string $content
  */
-class Text extends Attribute
+class Text extends BaseMessage
 {
+    /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'text';
+
     /**
      * Properties.
      *
