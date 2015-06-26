@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Staff.php.
+ * Manager.php.
  *
  * Part of EasyWeChat.
  *
@@ -17,34 +17,13 @@
 
 namespace EasyWeChat\Staff;
 
-use EasyWeChat\Messages\AbstractMessage;
+use EasyWeChat\Core\Http;
 
 /**
- * 客服.
+ * Class Manager.
  */
-class Staff
+class Manager
 {
-    /**
-     * 消息.
-     *
-     * @var \EasyWeChat\Messages\AbstractMessage;
-     */
-    protected $message;
-
-    /**
-     * 指定消息发送客服账号.
-     *
-     * @var string
-     */
-    protected $by;
-
-    /**
-     * 请求的headers.
-     *
-     * @var array
-     */
-    protected $headers = ['content-type:application/json'];
-
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
     const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
@@ -54,33 +33,25 @@ class Staff
     const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
 
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
     protected $http;
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http        $http
+     * @param Transformer $transformer
      */
-    public function __construct(array $config)
+    public function __construct(Http $http)
     {
-        $this->http = new Http(new AccessToken($config));
+        $this->http = $http;
     }
 
     /**
-     * 获取所有的客服.
+     * List all staffs.
      *
      * @return array
      */
@@ -92,7 +63,7 @@ class Staff
     }
 
     /**
-     * 获取所有在线的.
+     * List all online staffs.
      *
      * @return array
      */
@@ -104,7 +75,7 @@ class Staff
     }
 
     /**
-     * 添加客服账号.
+     * Create a staff.
      *
      * @param string $email
      * @param string $nickname
@@ -124,7 +95,7 @@ class Staff
     }
 
     /**
-     * 修改客服账号.
+     * Update a staff.
      *
      * @param string $email
      * @param string $nickname
@@ -144,7 +115,7 @@ class Staff
     }
 
     /**
-     * 删除客服账号.
+     * Delete a staff.
      *
      * @param string $email
      * @param string $nickname
@@ -155,16 +126,16 @@ class Staff
     public function delete($email, $nickname, $password)
     {
         $params = [
-                   'kf_account' => $email,
-                   'nickname' => $nickname,
-+'password' => $password,
+                    'kf_account' => $email,
+                    'nickname' => $nickname,
+                    'password' => $password,
                   ];
 
         return $this->http->jsonPost(self::API_DELETE."?kf_account={$email}", $params);
     }
 
     /**
-     * 上传头像.
+     * Set staff avatar.
      *
      * @param string $email
      * @param string $path
@@ -181,60 +152,4 @@ class Staff
 
         return $this->http->post($url, [], $options);
     }
-
-    /**
-     * 准备消息.
-     *
-     * @param \EasyWeChat\Messages\AbstractMessage $message
-     *
-     * @return Staff
-     */
-    public function send($message)
-    {
-        is_string($message) && $message = Message::make('text')->with('content', $message);
-
-        if (!$message instanceof AbstractMessage) {
-            throw new Exception("消息必须继承自 'EasyWeChat\BaseMessage'");
-        }
-
-        $this->message = $message;
-
-        return $this;
-    }
-
-    /**
-     * 指定客服.
-     *
-     * @param string $account
-     *
-     * @return Staff
-     */
-    public function by($account)
-    {
-        if (empty($this->message)) {
-            throw new Exception('未设置要发送的消息');
-        }
-
-        $this->message->staff = $account;
-
-        return $this;
-    }
-
-    /**
-     * 发送消息.
-     *
-     * @param string $openId
-     *
-     * @return bool
-     */
-    public function to($openId)
-    {
-        if (empty($this->message)) {
-            throw new Exception('未设置要发送的消息');
-        }
-
-        $this->message->to = $openId;
-
-        return $this->http->jsonPost(self::API_MESSAGE_SEND, $this->message->buildForStaff());
-    }
-}
+}//end class

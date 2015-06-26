@@ -44,7 +44,9 @@ abstract class Attribute extends Collection
      */
     public function setAttribute($attribute, $value)
     {
-        return $this->add($attribute, $value);
+        $this->add($attribute, $value);
+
+        return $this;
     }
 
     /**
