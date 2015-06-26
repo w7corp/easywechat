@@ -1,6 +1,7 @@
 <?php
+
 /**
- * MessageInterface.php
+ * MessageInterface.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,22 +10,20 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace EasyWeChat\Message;
 
-
 /**
- * Class MessageInterface
- *
- * @package EasyWeChat\Message
+ * Class MessageInterface.
  */
 interface MessageInterface
 {
     /**
-     * Build message to staff
+     * Build message to staff.
      *
      * @return array
      */
@@ -37,3 +36,4 @@ interface MessageInterface
      */
     public function toReply();
 }//end class
+

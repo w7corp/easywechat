@@ -1,6 +1,7 @@
 <?php
+
 /**
- * QRCode.php
+ * QRCode.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,29 +21,28 @@ use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**
- * 二维码
+ * 二维码.
  */
 class QRCode
 {
-
     /**
-     * 应用ID
+     * 应用ID.
      *
      * @var Http
      */
     protected $http;
 
     const DAY = 86400;
-    const SCENE_QE_CARD        = 'QR_CARD';             // 卡券
-    const SCENE_QR_TEMPORARY   = 'QR_SCENE';            // 临时
-    const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE';      // 永久
+    const SCENE_QE_CARD = 'QR_CARD';             // 卡券
+    const SCENE_QR_TEMPORARY = 'QR_SCENE';            // 临时
+    const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';      // 永久
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';  // 永久的字符串参数值
 
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
-    const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+    const API_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -60,7 +61,7 @@ class QRCode
     }
 
     /**
-     * 永久二维码
+     * 永久二维码.
      *
      * @param int $sceneValue
      *
@@ -77,13 +78,13 @@ class QRCode
             $sceneKey = 'scene_str';
         }
 
-        $scene = array($sceneKey => $sceneValue);
+        $scene = [$sceneKey => $sceneValue];
 
         return $this->create($type, $scene, false);
     }
 
     /**
-     * 临时二维码
+     * 临时二维码.
      *
      * @param int $sceneId
      * @param int $expireSeconds
@@ -93,13 +94,13 @@ class QRCode
     public function temporary($sceneId, $expireSeconds = null)
     {
         // 临时二维码时为32位非0整型
-        $scene = array('scene_id' => intval($sceneId));
+        $scene = ['scene_id' => intval($sceneId)];
 
         return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
     }
 
     /**
-     * 创建卡券二维码
+     * 创建卡券二维码.
      *
      * @param array $card
      *
@@ -115,11 +116,11 @@ class QRCode
      */
     public function card($card)
     {
-        return $this->create(self::SCENE_QE_CARD, array('card' => $card));
+        return $this->create(self::SCENE_QE_CARD, ['card' => $card]);
     }
 
     /**
-     * 获取二维码
+     * 获取二维码.
      *
      * @param string $ticket
      *
@@ -131,7 +132,7 @@ class QRCode
     }
 
     /**
-     * 保存二维码
+     * 保存二维码.
      *
      * @param string $ticket
      * @param string $filename
@@ -144,7 +145,7 @@ class QRCode
     }
 
     /**
-     * 创建二维码
+     * 创建二维码.
      *
      * @param string $actionName
      * @param array  $actionInfo
@@ -157,10 +158,10 @@ class QRCode
     {
         $expireSeconds !== null || $expireSeconds = 7 * self::DAY;
 
-        $params = array(
+        $params = [
                    'action_name' => $actionName,
-                   'action_info' => array('scene' => $actionInfo),
-                  );
+                   'action_info' => ['scene' => $actionInfo],
+                  ];
 
         if ($temporary) {
             $params['expire_seconds'] = min($expireSeconds, 7 * self::DAY);

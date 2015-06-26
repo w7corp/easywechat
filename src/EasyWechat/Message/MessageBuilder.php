@@ -1,6 +1,7 @@
 <?php
+
 /**
- * MessageBuilder.php
+ * MessageBuilder.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,23 +20,20 @@ namespace EasyWeChat\Message;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 
 /**
- * Class MessageBuilder
- *
- * @package EasyWeChat\Message
+ * Class MessageBuilder.
  */
 class MessageBuilder
 {
-
     /**
-     * 消息类型
+     * 消息类型.
      */
-    const TEXT      = 'text';
-    const IMAGE     = 'image';
-    const VOICE     = 'voice';
-    const VIDEO     = 'video';
-    const MUSIC     = 'music';
-    const NEWS      = 'news';
-    const TRANSFER  = 'transfer';
+    const TEXT = 'text';
+    const IMAGE = 'image';
+    const VOICE = 'voice';
+    const VIDEO = 'video';
+    const MUSIC = 'music';
+    const NEWS = 'news';
+    const TRANSFER = 'transfer';
     const NEWS_ITEM = 'news_item';
 
     /**
@@ -52,8 +51,8 @@ class MessageBuilder
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
-        $message = "EasyWeChat\\Server\\Messages\\"
-                    .str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
+        $message = 'EasyWeChat\\Server\\Messages\\'
+                    .str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $type)));
 
         return new $message();
     }
@@ -68,6 +67,7 @@ class MessageBuilder
      */
     public static function __callStatic($method, $args)
     {
-        return call_user_func_array('self::make', array($method, $args));
+        return call_user_func_array('self::make', [$method, $args]);
     }
 }//end class
+

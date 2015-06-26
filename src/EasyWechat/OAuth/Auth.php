@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Auth.php
+ * Auth.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,20 +20,19 @@ namespace EasyWeChat\OAuth;
 use EasyWeChat\Support\Collection;
 
 /**
- * OAuth 网页授权获取用户信息
+ * OAuth 网页授权获取用户信息.
  */
 class Auth
 {
-
     /**
-     * 应用ID
+     * 应用ID.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * 应用secret
+     * 应用secret.
      *
      * @var string
      */
@@ -45,47 +46,47 @@ class Auth
     protected $http;
 
     /**
-     * 输入
+     * 输入.
      *
      * @var Collection
      */
     protected $input;
 
     /**
-     * 获取上一次的授权信息
+     * 获取上一次的授权信息.
      *
      * @var array
      */
     protected $lastPermission;
 
     /**
-     * 已授权用户
+     * 已授权用户.
      *
      * @var \EasyWeChat\Support\Collection
      */
     protected $authorizedUser;
 
-    const API_USER           = 'https://api.weixin.qq.com/sns/userinfo';
-    const API_TOKEN_GET      = 'https://api.weixin.qq.com/sns/oauth2/access_token';
-    const API_TOKEN_REFRESH  = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
+    const API_USER = 'https://api.weixin.qq.com/sns/userinfo';
+    const API_TOKEN_GET = 'https://api.weixin.qq.com/sns/oauth2/access_token';
+    const API_TOKEN_REFRESH = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
     const API_TOKEN_VALIDATE = 'https://api.weixin.qq.com/sns/auth';
-    const API_URL            = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+    const API_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param array $config
      */
     public function __construct(array $config)
     {
-        $this->appId     = $config['app_id'];
+        $this->appId = $config['app_id'];
         $this->appSecret = $config['secret'];
-        $this->http      = new Http(); // 不需要公用的access_token
-        $this->input     = new Input();
+        $this->http = new Http(); // 不需要公用的access_token
+        $this->input = new Input();
     }
 
     /**
-     * 生成outh URL
+     * 生成outh URL.
      *
      * @param string $to
      * @param string $scope
@@ -97,19 +98,19 @@ class Auth
     {
         $to !== null || $to = Url::current();
 
-        $params = array(
-                   'appid'         => $this->appId,
-                   'redirect_uri'  => $to,
+        $params = [
+                   'appid' => $this->appId,
+                   'redirect_uri' => $to,
                    'response_type' => 'code',
-                   'scope'         => $scope,
-                   'state'         => $state,
-                  );
+                   'scope' => $scope,
+                   'state' => $state,
+                  ];
 
         return self::API_URL.'?'.http_build_query($params).'#wechat_redirect';
     }
 
     /**
-     * 直接跳转
+     * 直接跳转.
      *
      * @param string $to
      * @param string $scope
@@ -123,7 +124,7 @@ class Auth
     }
 
     /**
-     * 获取已授权用户
+     * 获取已授权用户.
      *
      * @return \EasyWeChat\Support\Collection | null
      */
@@ -138,7 +139,7 @@ class Auth
         $permission = $this->getAccessPermission($code);
 
         if ($permission['scope'] !== 'snsapi_userinfo') {
-            $user = new Collection(array('openid' => $permission['openid']));
+            $user = new Collection(['openid' => $permission['openid']]);
         } else {
             $user = $this->getUser($permission['openid'], $permission['access_token']);
         }
@@ -147,7 +148,7 @@ class Auth
     }
 
     /**
-     * 通过授权获取用户
+     * 通过授权获取用户.
      *
      * @param string $to
      * @param string $state
@@ -165,21 +166,22 @@ class Auth
     }
 
     /**
-     * 检查 Access Token 是否有效
+     * 检查 Access Token 是否有效.
      *
      * @param string $accessToken
      * @param string $openId
      *
-     * @return boolean
+     * @return bool
      */
     public function accessTokenIsValid($accessToken, $openId)
     {
-        $params = array(
-                   'openid'       => $openId,
+        $params = [
+                   'openid' => $openId,
                    'access_token' => $accessToken,
-                  );
+                  ];
         try {
             $this->http->get(self::API_TOKEN_VALIDATE, $params);
+
             return true;
         } catch (Exception $e) {
             return false;
@@ -187,7 +189,7 @@ class Auth
     }
 
     /**
-     * 刷新 access_token
+     * 刷新 access_token.
      *
      * @param string $refreshToken
      *
@@ -195,11 +197,11 @@ class Auth
      */
     public function refresh($refreshToken)
     {
-        $params = array(
-                   'appid'         => $this->appId,
-                   'grant_type'    => 'refresh_token',
+        $params = [
+                   'appid' => $this->appId,
+                   'grant_type' => 'refresh_token',
                    'refresh_token' => $refreshToken,
-                  );
+                  ];
 
         $permission = $this->http->get(self::API_TOKEN_REFRESH, $params);
 
@@ -209,7 +211,7 @@ class Auth
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息.
      *
      * @param string $openId
      * @param string $accessToken
@@ -218,11 +220,11 @@ class Auth
      */
     public function getUser($openId, $accessToken)
     {
-        $queries = array(
+        $queries = [
                     'access_token' => $accessToken,
-                    'openid'       => $openId,
-                    'lang'         => 'zh_CN',
-                   );
+                    'openid' => $openId,
+                    'lang' => 'zh_CN',
+                   ];
 
         $url = self::API_USER.'?'.http_build_query($queries);
 
@@ -230,7 +232,7 @@ class Auth
     }
 
     /**
-     * 获取access token
+     * 获取access token.
      *
      * @param string $code
      *
@@ -238,18 +240,18 @@ class Auth
      */
     public function getAccessPermission($code)
     {
-        $params = array(
-                   'appid'      => $this->appId,
-                   'secret'     => $this->appSecret,
-                   'code'       => $code,
+        $params = [
+                   'appid' => $this->appId,
+                   'secret' => $this->appSecret,
+                   'code' => $code,
                    'grant_type' => 'authorization_code',
-                  );
+                  ];
 
         return $this->lastPermission = $this->http->get(self::API_TOKEN_GET, $params);
     }
 
     /**
-     * 魔术访问
+     * 魔术访问.
      *
      * @param string $property
      *

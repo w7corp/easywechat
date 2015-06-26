@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Store.php
+ * Store.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,11 +21,10 @@ use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Collection;
 
 /**
- * 门店
+ * 门店.
  */
 class Store
 {
-
     /**
      * Http对象
      *
@@ -31,14 +32,14 @@ class Store
      */
     protected $http;
 
-    const API_CREATE    = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
-    const API_GET       = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
-    const API_LIST      = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
-    const API_UPDATE    = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
-    const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
+    const API_CREATE = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
+    const API_GET = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
+    const API_LIST = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
+    const API_UPDATE = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
+    const API_DELETE = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -57,7 +58,7 @@ class Store
     }
 
     /**
-     * 获取指定门店信息
+     * 获取指定门店信息.
      *
      * @param int $storeId
      *
@@ -65,7 +66,7 @@ class Store
      */
     public function get($storeId)
     {
-        $params = array('poi_id' => $storeId);
+        $params = ['poi_id' => $storeId];
 
         $response = $this->http->jsonPost(self::API_GET, $params);
 
@@ -73,7 +74,7 @@ class Store
     }
 
     /**
-     * 获取用户列表
+     * 获取用户列表.
      *
      * @param int $offset
      * @param int $limit
@@ -82,10 +83,10 @@ class Store
      */
     public function lists($offset = 0, $limit = 10)
     {
-        $params = array(
+        $params = [
                    'begin' => $offset,
                    'limit' => $limit,
-                  );
+                  ];
 
         $stores = $this->http->jsonPost(self::API_LIST, $params);
 
@@ -93,7 +94,7 @@ class Store
     }
 
     /**
-     * 创建门店
+     * 创建门店.
      *
      * @param array $data
      *
@@ -101,15 +102,15 @@ class Store
      */
     public function create(array $data)
     {
-        $params = array(
-                   'business' => array('base_info' => $data),
-                  );
+        $params = [
+                   'business' => ['base_info' => $data],
+                  ];
 
         return $this->http->jsonPost(self::API_CREATE, $params);
     }
 
     /**
-     * 更新门店
+     * 更新门店.
      *
      * @param int   $storeId
      * @param array $data
@@ -118,17 +119,17 @@ class Store
      */
     public function update($storeId, array $data)
     {
-        $data = array_merge($data, array('poi_id' => $storeId));
+        $data = array_merge($data, ['poi_id' => $storeId]);
 
-        $params = array(
-                   'business' => array('base_info' => $data),
-                  );
+        $params = [
+                   'business' => ['base_info' => $data],
+                  ];
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
-     * 删除门店
+     * 删除门店.
      *
      * @param int $storeId
      *
@@ -136,7 +137,7 @@ class Store
      */
     public function delete($storeId)
     {
-        $params = array('poi_id' => $storeId);
+        $params = ['poi_id' => $storeId];
 
         return $this->http->jsonPost(self::API_DELETE, $params);
     }

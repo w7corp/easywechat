@@ -1,6 +1,7 @@
 <?php
+
 /**
- * User.php
+ * User.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,11 +20,10 @@ namespace EasyWeChat\User;
 use EasyWeChat\Support\Collection;
 
 /**
- * 用户
+ * 用户.
  */
 class User
 {
-
     /**
      * Http对象
      *
@@ -30,14 +31,14 @@ class User
      */
     protected $http;
 
-    const API_GET       = 'https://api.weixin.qq.com/cgi-bin/user/info';
-    const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
-    const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
-    const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/user/info';
+    const API_LIST = 'https://api.weixin.qq.com/cgi-bin/user/get';
+    const API_GROUP = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+    const API_REMARK = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
     const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -56,7 +57,7 @@ class User
     }
 
     /**
-     * 读取用户信息
+     * 读取用户信息.
      *
      * @param string $openId
      * @param string $lang
@@ -69,16 +70,16 @@ class User
             return $this->lists();
         }
 
-        $params = array(
+        $params = [
                    'openid' => $openId,
-                   'lang'   => $lang,
-                  );
+                   'lang' => $lang,
+                  ];
 
         return new Collection($this->http->get(self::API_GET, $params));
     }
 
     /**
-     * 获取用户列表
+     * 获取用户列表.
      *
      * @param string $nextOpenId
      *
@@ -86,13 +87,13 @@ class User
      */
     public function lists($nextOpenId = null)
     {
-        $params = array('next_openid' => $nextOpenId);
+        $params = ['next_openid' => $nextOpenId];
 
         return new Collection($this->http->get(self::API_LIST, $params));
     }
 
     /**
-     * 修改用户备注
+     * 修改用户备注.
      *
      * @param string $openId
      * @param string $remark 备注
@@ -101,16 +102,16 @@ class User
      */
     public function remark($openId, $remark)
     {
-        $params = array(
+        $params = [
                    'openid' => $openId,
                    'remark' => $remark,
-                  );
+                  ];
 
         return $this->http->jsonPost(self::API_REMARK, $params);
     }
 
     /**
-     * 获取用户所在分组
+     * 获取用户所在分组.
      *
      * @param string $openId
      *
@@ -122,7 +123,7 @@ class User
     }
 
     /**
-     * 获取用户所在的组
+     * 获取用户所在的组.
      *
      * @param string $openId
      *
@@ -130,7 +131,7 @@ class User
      */
     public function getGroup($openId)
     {
-        $params = array('openid' => $openId);
+        $params = ['openid' => $openId];
 
         $response = $this->http->jsonPost(self::API_GROUP, $params);
 

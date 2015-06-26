@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Http.php
+ * Http.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,39 +10,36 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace EasyWeChat\Support;
 
-use EasyWeChat\Support\JSON;
-
 /**
- * Class Http
- *
- * @package EasyWeChat\Support
+ * Class Http.
  */
 class Http
 {
     /**
-     * Constants for available HTTP methods
+     * Constants for available HTTP methods.
      */
-    const GET     = 'GET';
-    const POST    = 'POST';
-    const PUT     = 'PUT';
-    const PATCH   = 'PATCH';
-    const DELETE  = 'DELETE';
+    const GET = 'GET';
+    const POST = 'POST';
+    const PUT = 'PUT';
+    const PATCH = 'PATCH';
+    const DELETE = 'DELETE';
 
     /**
-     * CURL handle
+     * CURL handle.
      *
      * @var resource handle
      */
     protected $curl;
 
     /**
-     * Create the cURL resource
+     * Create the cURL resource.
      */
     public function __construct()
     {
@@ -49,7 +47,7 @@ class Http
     }
 
     /**
-     * Clean up the cURL handle
+     * Clean up the cURL handle.
      */
     public function __destruct()
     {
@@ -59,7 +57,7 @@ class Http
     }
 
     /**
-     * Get the cURL handle
+     * Get the cURL handle.
      *
      * @return resource cURL handle
      */
@@ -69,7 +67,7 @@ class Http
     }
 
     /**
-     * Make a HTTP GET request
+     * Make a HTTP GET request.
      *
      * @param string $url
      * @param array  $params
@@ -77,13 +75,13 @@ class Http
      *
      * @return array
      */
-    public function get($url, $params = array(), $options = array())
+    public function get($url, $params = [], $options = [])
     {
         return $this->request($url, self::GET, $params, $options);
     }
 
     /**
-     * Make a HTTP POST request
+     * Make a HTTP POST request.
      *
      * @param string $url
      * @param array  $params
@@ -91,13 +89,13 @@ class Http
      *
      * @return array
      */
-    public function post($url, $params = array(), $options = array())
+    public function post($url, $params = [], $options = [])
     {
         return $this->request($url, self::POST, $params, $options);
     }
 
     /**
-     * Make a HTTP PUT request
+     * Make a HTTP PUT request.
      *
      * @param string $url
      * @param array  $params
@@ -105,13 +103,13 @@ class Http
      *
      * @return array
      */
-    public function put($url, $params = array(), $options = array())
+    public function put($url, $params = [], $options = [])
     {
         return $this->request($url, self::PUT, $params, $options);
     }
 
     /**
-     * Make a HTTP PATCH request
+     * Make a HTTP PATCH request.
      *
      * @param string $url
      * @param array  $params
@@ -119,13 +117,13 @@ class Http
      *
      * @return array
      */
-    public function patch($url, $params = array(), $options = array())
+    public function patch($url, $params = [], $options = [])
     {
         return $this->request($url, self::PATCH, $params, $options);
     }
 
     /**
-     * Make a HTTP DELETE request
+     * Make a HTTP DELETE request.
      *
      * @param string $url
      * @param array  $params
@@ -133,13 +131,13 @@ class Http
      *
      * @return array
      */
-    public function delete($url, $params = array(), $options = array())
+    public function delete($url, $params = [], $options = [])
     {
         return $this->request($url, self::DELETE, $params, $options);
     }
 
     /**
-     * Make a HTTP request
+     * Make a HTTP request.
      *
      * @param string $url
      * @param string $method
@@ -148,11 +146,11 @@ class Http
      *
      * @return array
      */
-    protected function request($url, $method = self::GET, $params = array(), $options = array())
+    protected function request($url, $method = self::GET, $params = [], $options = [])
     {
         if ($method === self::GET || $method === self::DELETE) {
             $url .= (stripos($url, '?') ? '&' : '?').http_build_query($params);
-            $params = array();
+            $params = [];
         }
 
         curl_setopt($this->curl, CURLOPT_HEADER, 1);
@@ -197,22 +195,22 @@ class Http
 
         // Separate headers and body
         $headerSize = $response['curl_info']['header_size'];
-        $header     = substr($response['response'], 0, $headerSize);
-        $body       = substr($response['response'], $headerSize);
+        $header = substr($response['response'], 0, $headerSize);
+        $body = substr($response['response'], $headerSize);
 
-        $results = array(
-                    'curl_info'    => $response['curl_info'],
+        $results = [
+                    'curl_info' => $response['curl_info'],
                     'content_type' => $response['curl_info']['content_type'],
-                    'status'       => $response['curl_info']['http_code'],
-                    'headers'      => $this->splitHeaders($header),
-                    'data'         => $body,
-                   );
+                    'status' => $response['curl_info']['http_code'],
+                    'headers' => $this->splitHeaders($header),
+                    'data' => $body,
+                   ];
 
         return $results;
     }
 
     /**
-     * make cURL file
+     * make cURL file.
      *
      * @param string $filename
      *
@@ -228,7 +226,7 @@ class Http
     }
 
     /**
-     * Split the HTTP headers
+     * Split the HTTP headers.
      *
      * @param string $rawHeaders
      *
@@ -236,7 +234,7 @@ class Http
      */
     protected function splitHeaders($rawHeaders)
     {
-        $headers = array();
+        $headers = [];
 
         $lines = explode("\n", trim($rawHeaders));
         $headers['HTTP'] = array_shift($lines);
@@ -253,7 +251,7 @@ class Http
     }
 
     /**
-     * Perform the Curl request
+     * Perform the Curl request.
      *
      * @return array
      */
@@ -262,11 +260,12 @@ class Http
         $response = curl_exec($this->curl);
         $curlInfo = curl_getinfo($this->curl);
 
-        $results = array(
+        $results = [
                     'curl_info' => $curlInfo,
-                    'response'  => $response,
-                   );
+                    'response' => $response,
+                   ];
 
         return $results;
     }
 }//end class
+

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Media.php
+ * Media.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,17 +10,17 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace EasyWeChat\Material;
 
-use EasyWeChat\Support\JSON;
 use EasyWeChat\Support\Collection;
 
 /**
- * 媒体素材
+ * 媒体素材.
  *
  * @method string image($path)
  * @method string voice($path)
@@ -27,28 +28,28 @@ use EasyWeChat\Support\Collection;
  */
 class Media
 {
-    const API_TEMPORARY_UPLOAD    = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
-    const API_FOREVER_UPLOAD      = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
-    const API_TEMPORARY_GET       = 'https://api.weixin.qq.com/cgi-bin/media/get';
-    const API_FOREVER_GET         = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
+    const API_TEMPORARY_UPLOAD = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
+    const API_FOREVER_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
+    const API_TEMPORARY_GET = 'https://api.weixin.qq.com/cgi-bin/media/get';
+    const API_FOREVER_GET = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
     const API_FOREVER_NEWS_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_news';
     const API_FOREVER_NEWS_UPDATE = 'https://api.weixin.qq.com/cgi-bin/material/update_news';
-    const API_FOREVER_DELETE      = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
-    const API_FOREVER_COUNT       = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
-    const API_FOREVER_LIST        = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
+    const API_FOREVER_DELETE = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
+    const API_FOREVER_COUNT = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
+    const API_FOREVER_LIST = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
 
     /**
-     * 允许上传的类型
+     * 允许上传的类型.
      *
      * @var array
      */
-    protected $allowTypes = array(
+    protected $allowTypes = [
                              'image',
                              'voice',
                              'video',
                              'thumb',
                              'news',
-                            );
+                            ];
 
     /**
      * Http对象
@@ -58,14 +59,14 @@ class Media
     protected $http;
 
     /**
-     * 是否上传永久素材
+     * 是否上传永久素材.
      *
      * @var bool
      */
     protected $forever = false;
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -84,7 +85,7 @@ class Media
     }
 
     /**
-     * 是否为永久素材
+     * 是否为永久素材.
      *
      * @return Media
      */
@@ -96,7 +97,7 @@ class Media
     }
 
     /**
-     * 上传媒体文件
+     * 上传媒体文件.
      *
      * @param string $type
      * @param string $path
@@ -104,7 +105,7 @@ class Media
      *
      * @return string
      */
-    protected function upload($type, $path, $params = array())
+    protected function upload($type, $path, $params = [])
     {
         if (!file_exists($path) || !is_readable($path)) {
             throw new Exception("文件不存在或不可读 '$path'");
@@ -114,11 +115,11 @@ class Media
             throw new Exception("错误的媒体类型 '{$type}'");
         }
 
-        $queries = array('type' => $type);
+        $queries = ['type' => $type];
 
-        $options = array(
-                    'files' => array('media' => $path),
-                   );
+        $options = [
+                    'files' => ['media' => $path],
+                   ];
 
         $url = $this->getUrl($type, $queries);
 
@@ -130,7 +131,7 @@ class Media
     }
 
     /**
-     * 上传视频
+     * 上传视频.
      *
      * 有点不一样。。。
      *
@@ -142,20 +143,20 @@ class Media
      */
     public function video($path, $title, $description)
     {
-        $params = array(
+        $params = [
                    'description' => json_encode(
-                       array(
-                        'title'        => $title,
+                       [
+                        'title' => $title,
                         'introduction' => $description,
-                       )
+                       ]
                    ),
-                  );
+                  ];
 
         return $this->upload('video', $path, $params);
     }
 
     /**
-     * 新增图文素材
+     * 新增图文素材.
      *
      * @param array $articles
      *
@@ -163,7 +164,7 @@ class Media
      */
     public function news(array $articles)
     {
-        $params = array('articles' => $articles);
+        $params = ['articles' => $articles];
 
         $response = $this->http->jsonPost(self::API_FOREVER_NEWS_UPLOAD, $params);
 
@@ -171,7 +172,7 @@ class Media
     }
 
     /**
-     * 修改图文消息
+     * 修改图文消息.
      *
      * @param string $mediaId
      * @param array  $article
@@ -181,17 +182,17 @@ class Media
      */
     public function updateNews($mediaId, $article, $index = 0)
     {
-        $params = array(
+        $params = [
                    'media_id' => $mediaId,
-                   'index'    => $index,
-                   'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : array()),
-                  );
+                   'index' => $index,
+                   'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : []),
+                  ];
 
         return $this->http->jsonPost(self::API_FOREVER_NEWS_UPDATE, $params);
     }
 
     /**
-     * 删除永久素材
+     * 删除永久素材.
      *
      * @param string $mediaId
      *
@@ -199,11 +200,11 @@ class Media
      */
     public function delete($mediaId)
     {
-        return $this->http->jsonPost(self::API_FOREVER_DELETE, array('media_id' => $mediaId));
+        return $this->http->jsonPost(self::API_FOREVER_DELETE, ['media_id' => $mediaId]);
     }
 
     /**
-     * 图片素材总数
+     * 图片素材总数.
      *
      * @param string $type
      *
@@ -216,7 +217,7 @@ class Media
         $response['voice'] = $response['voice_count'];
         $response['image'] = $response['image_count'];
         $response['video'] = $response['video_count'];
-        $response['news']  = $response['news_count'];
+        $response['news'] = $response['news_count'];
 
         $response = new Collection($response);
 
@@ -224,7 +225,7 @@ class Media
     }
 
     /**
-     * 获取永久素材列表
+     * 获取永久素材列表.
      *
      * example:
      *
@@ -248,17 +249,17 @@ class Media
      */
     public function lists($type, $offset = 0, $count = 20)
     {
-        $params = array(
-                   'type'   => $type,
+        $params = [
+                   'type' => $type,
                    'offset' => intval($offset),
-                   'count'  => min(20, $count),
-                  );
+                   'count' => min(20, $count),
+                  ];
 
         return $this->http->jsonPost(self::API_FOREVER_LIST, $params);
     }
 
     /**
-     * 下载媒体文件
+     * 下载媒体文件.
      *
      * @param string $mediaId
      * @param string $filename
@@ -267,10 +268,10 @@ class Media
      */
     public function download($mediaId, $filename = '')
     {
-        $params = array('media_id' => $mediaId);
+        $params = ['media_id' => $mediaId];
 
         $method = $this->forever ? 'jsonPost' : 'get';
-        $api    = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
+        $api = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
 
         $contents = $this->http->{$method}($api, $params);
 
@@ -278,7 +279,7 @@ class Media
     }
 
     /**
-     * 魔术调用
+     * 魔术调用.
      *
      * <pre>
      * $media->image($path); // $media->upload('image', $path);
@@ -291,23 +292,23 @@ class Media
      */
     public function __call($method, $args)
     {
-        $args = array(
+        $args = [
                  $method,
                  array_shift($args),
-                );
+                ];
 
-        return call_user_func_array(array(__CLASS__, 'upload'), $args);
+        return call_user_func_array([__CLASS__, 'upload'], $args);
     }
 
     /**
-     * 获取API
+     * 获取API.
      *
      * @param string $type
      * @param array  $queries
      *
      * @return string
      */
-    protected function getUrl($type, $queries = array())
+    protected function getUrl($type, $queries = [])
     {
         if ($type === 'news') {
             $api = self::API_FOREVER_NEWS_UPLOAD;

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * ServerServiceProvider.php
+ * ServerServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,9 +21,7 @@ use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Bootstrapper;
 
 /**
- * Class ServerServiceProvider
- *
- * @package EasyWeChat\Server
+ * Class ServerServiceProvider.
  */
 class ServerServiceProvider extends ServiceProvider
 {
@@ -34,8 +34,9 @@ class ServerServiceProvider extends ServiceProvider
      */
     public function register(Bootstrapper $sdk)
     {
-        $sdk->bind('server', function($sdk){
+        $sdk->bind('server', function ($sdk) {
             return new Guard($sdk['input'], $sdk['cryptor']);
         });
     }
 }//end class
+

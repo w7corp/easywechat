@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Menu.php
+ * Menu.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,16 +20,16 @@ namespace EasyWeChat\Menu;
 use Closure;
 
 /**
- * 菜单
+ * 菜单.
  *
  * @property array $sub_button
  */
 class Menu
 {
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
-    const API_GET    = 'https://api.weixin.qq.com/cgi-bin/menu/get';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/menu/get';
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
-    const API_QUERY  = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
+    const API_QUERY = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
 
     /**
      * Http对象
@@ -37,7 +39,7 @@ class Menu
     protected $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -56,7 +58,7 @@ class Menu
     }
 
     /**
-     * 设置菜单
+     * 设置菜单.
      *
      * @return bool
      */
@@ -72,13 +74,13 @@ class Menu
 
         $menus = $this->extractMenus($menus);
 
-        $this->http->jsonPost(self::API_CREATE, array('button' => $menus));
+        $this->http->jsonPost(self::API_CREATE, ['button' => $menus]);
 
         return true;
     }
 
     /**
-     * 获取菜单
+     * 获取菜单.
      *
      * @return array
      */
@@ -86,11 +88,11 @@ class Menu
     {
         $menus = $this->http->get(self::API_GET);
 
-        return empty($menus['menu']['button']) ? array() : $menus['menu']['button'];
+        return empty($menus['menu']['button']) ? [] : $menus['menu']['button'];
     }
 
     /**
-     * 删除菜单
+     * 删除菜单.
      *
      * @return bool
      */
@@ -102,7 +104,7 @@ class Menu
     }
 
     /**
-     * 获取菜单【查询接口，能获取到任意方式设置的菜单】
+     * 获取菜单【查询接口，能获取到任意方式设置的菜单】.
      *
      * @return array
      */
@@ -110,11 +112,11 @@ class Menu
     {
         $menus = $this->http->get(self::API_QUERY);
 
-        return empty($menus) ? array() : $menus;
+        return empty($menus) ? [] : $menus;
     }
 
     /**
-     * 转menu为数组
+     * 转menu为数组.
      *
      * @param array $menus
      *

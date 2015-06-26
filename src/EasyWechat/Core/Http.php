@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Http.php
+ * Http.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -21,14 +23,12 @@ use EasyWeChat\Support\Http as HttpClient;
 use EasyWeChat\Support\JSON;
 
 /**
- * Class Http
+ * Class Http.
  *
- * @package EasyWeChat\Core
  * @method mixed jsonPost($url, $params = array(), $options = array())
  */
 class Http extends HttpClient
 {
-
     /**
      * Access token.
      *
@@ -78,10 +78,10 @@ class Http extends HttpClient
      * @throws FaultException
      * @throws HttpException
      */
-    public function request($url, $method = self::GET, $params = array(), $options = array())
+    public function request($url, $method = self::GET, $params = [], $options = [])
     {
         if ($this->token) {
-            $url .= (stripos($url, '?') ? '&' : '?') . 'access_token=' . $this->token;
+            $url .= (stripos($url, '?') ? '&' : '?').'access_token='.$this->token;
         }
 
         $method = strtoupper($method);
@@ -115,10 +115,10 @@ class Http extends HttpClient
                 $contents['errmsg'] = 'Unknown';
             }
 
-            throw new FaultException("[{$contents['errcode']}] " . $contents['errcode'], $contents['errcode']);
+            throw new FaultException("[{$contents['errcode']}] ".$contents['errcode'], $contents['errcode']);
         }
 
-        if ($contents === array('errcode' => '0', 'errmsg' => 'ok')) {
+        if ($contents === ['errcode' => '0', 'errmsg' => 'ok']) {
             return true;
         }
 
@@ -140,8 +140,9 @@ class Http extends HttpClient
             $this->json = true;
         }
 
-        $result = call_user_func_array(array($this, $method), $args);
+        $result = call_user_func_array([$this, $method], $args);
 
         return $result;
     }
 }//end class
+

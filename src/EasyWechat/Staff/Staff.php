@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Staff.php
+ * Staff.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,38 +20,37 @@ namespace EasyWeChat\Staff;
 use EasyWeChat\Messages\AbstractMessage;
 
 /**
- * 客服
+ * 客服.
  */
 class Staff
 {
-
     /**
-     * 消息
+     * 消息.
      *
      * @var \EasyWeChat\Messages\AbstractMessage;
      */
     protected $message;
 
     /**
-     * 指定消息发送客服账号
+     * 指定消息发送客服账号.
      *
      * @var string
      */
     protected $by;
 
     /**
-     * 请求的headers
+     * 请求的headers.
      *
      * @var array
      */
-    protected $headers = array('content-type:application/json');
+    protected $headers = ['content-type:application/json'];
 
-    const API_GET           = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
-    const API_ONLINE        = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
-    const API_DELETE        = 'https://api.weixin.qq.com/customservice/kfaccount/del';
-    const API_UPDATE        = 'https://api.weixin.qq.com/customservice/kfaccount/update';
-    const API_CREATE        = 'https://api.weixin.qq.com/customservice/kfaccount/add';
-    const API_MESSAGE_SEND  = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
+    const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
+    const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
+    const API_UPDATE = 'https://api.weixin.qq.com/customservice/kfaccount/update';
+    const API_CREATE = 'https://api.weixin.qq.com/customservice/kfaccount/add';
+    const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
     const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
 
     /**
@@ -60,7 +61,7 @@ class Staff
     protected $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -79,7 +80,7 @@ class Staff
     }
 
     /**
-     * 获取所有的客服
+     * 获取所有的客服.
      *
      * @return array
      */
@@ -91,7 +92,7 @@ class Staff
     }
 
     /**
-     * 获取所有在线的
+     * 获取所有在线的.
      *
      * @return array
      */
@@ -103,7 +104,7 @@ class Staff
     }
 
     /**
-     * 添加客服账号
+     * 添加客服账号.
      *
      * @param string $email
      * @param string $nickname
@@ -113,17 +114,17 @@ class Staff
      */
     public function create($email, $nickname, $password)
     {
-        $params = array(
+        $params = [
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
-                  );
+                   'nickname' => $nickname,
+                   'password' => $password,
+                  ];
 
         return $this->http->jsonPost(self::API_CREATE, $params);
     }
 
     /**
-     * 修改客服账号
+     * 修改客服账号.
      *
      * @param string $email
      * @param string $nickname
@@ -133,17 +134,17 @@ class Staff
      */
     public function update($email, $nickname, $password)
     {
-        $params = array(
+        $params = [
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
-                  );
+                   'nickname' => $nickname,
+                   'password' => $password,
+                  ];
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
-     * 删除客服账号
+     * 删除客服账号.
      *
      * @param string $email
      * @param string $nickname
@@ -153,17 +154,17 @@ class Staff
      */
     public function delete($email, $nickname, $password)
     {
-        $params = array(
+        $params = [
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-+                  'password'   => $password,
-                  );
+                   'nickname' => $nickname,
++'password' => $password,
+                  ];
 
-        return $this->http->jsonPost(self::API_DELETE . "?kf_account={$email}", $params);
+        return $this->http->jsonPost(self::API_DELETE."?kf_account={$email}", $params);
     }
 
     /**
-     * 上传头像
+     * 上传头像.
      *
      * @param string $email
      * @param string $path
@@ -172,17 +173,17 @@ class Staff
      */
     public function avatar($email, $path)
     {
-        $options = array(
-                    'files' => array('media' => $path),
-                   );
+        $options = [
+                    'files' => ['media' => $path],
+                   ];
 
-        $url = self::API_AVATAR_UPLOAD . "?kf_account={$email}";
+        $url = self::API_AVATAR_UPLOAD."?kf_account={$email}";
 
-        return $this->http->post($url, array(), $options);
+        return $this->http->post($url, [], $options);
     }
 
     /**
-     * 准备消息
+     * 准备消息.
      *
      * @param \EasyWeChat\Messages\AbstractMessage $message
      *
@@ -202,7 +203,7 @@ class Staff
     }
 
     /**
-     * 指定客服
+     * 指定客服.
      *
      * @param string $account
      *
@@ -220,7 +221,7 @@ class Staff
     }
 
     /**
-     * 发送消息
+     * 发送消息.
      *
      * @param string $openId
      *

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Notice.php
+ * Notice.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,11 +18,10 @@
 namespace EasyWeChat\Notice;
 
 /**
- * 模板消息
+ * 模板消息.
  */
 class Notice
 {
-
     /**
      * Http对象
      *
@@ -29,116 +30,116 @@ class Notice
     protected $http;
 
     /**
-     * 默认数据项颜色
+     * 默认数据项颜色.
      *
      * @var string
      */
     protected $defaultColor = '#173177';
 
     /**
-     * 消息属性
+     * 消息属性.
      *
      * @var array
      */
-    protected $message = array(
-                          'touser'      => '',
+    protected $message = [
+                          'touser' => '',
                           'template_id' => '',
-                          'url'         => '',
-                          'topcolor'    => '#FF00000',
-                          'data'        => array(),
-                         );
+                          'url' => '',
+                          'topcolor' => '#FF00000',
+                          'data' => [],
+                         ];
 
     /**
-     * 工业列表
+     * 工业列表.
      *
      * @var array
      */
-    protected static $industries = array(
-                                    'IT科技'              => array(
+    protected static $industries = [
+                                    'IT科技' => [
                                                                 1 => '互联网/电子商务',
                                                                 2 => 'IT软件与服务',
                                                                 3 => 'IT硬件与设备',
                                                                 4 => '电子技术',
                                                                 5 => '通信与运营商',
                                                                 6 => '网络游戏',
-                                                               ),
+                                                               ],
 
-                                    '金融业'             => array(
+                                    '金融业' => [
                                                                 7 => '银行',
                                                                 8 => '基金|理财|信托',
                                                                 9 => '保险',
-                                                               ),
+                                                               ],
 
-                                    '餐饮'                => array(10 => '餐饮'),
+                                    '餐饮' => [10 => '餐饮'],
 
-                                    '酒店旅游'          => array(
+                                    '酒店旅游' => [
                                                                 11 => '酒店',
                                                                 12 => '旅游',
-                                                               ),
+                                                               ],
 
-                                    '运输与仓储'       => array(
+                                    '运输与仓储' => [
                                                                 13 => '快递',
                                                                 14 => '物流',
                                                                 14 => '仓储',
-                                                               ),
+                                                               ],
 
-                                    '教育'                => array(
+                                    '教育' => [
                                                                 16 => '培训',
                                                                 17 => '院校',
-                                                               ),
+                                                               ],
 
-                                    '政府与公共事业' => array(
+                                    '政府与公共事业' => [
                                                                 18 => '学术科研',
                                                                 19 => '交警',
                                                                 20 => '博物馆',
                                                                 21 => '公共事业|非盈利机构',
-                                                               ),
+                                                               ],
 
-                                    '医药护理'          => array(
+                                    '医药护理' => [
                                                                 22 => '医药医疗',
                                                                 23 => '护理美容',
                                                                 24 => '保健与卫生',
-                                                               ),
+                                                               ],
 
-                                    '交通工具'          => array(
+                                    '交通工具' => [
                                                                 25 => '汽车相关',
                                                                 26 => '摩托车相关',
                                                                 27 => '火车相关',
                                                                 28 => '飞机相关',
-                                                               ),
+                                                               ],
 
-                                    '房地产'             => array(
+                                    '房地产' => [
                                                                 29 => '建筑',
                                                                 30 => '物业',
-                                                               ),
+                                                               ],
 
-                                    '消费品'             => array(31 => '消费品'),
+                                    '消费品' => [31 => '消费品'],
 
-                                    '商业服务'          => array(
+                                    '商业服务' => [
                                                                 32 => '法律',
                                                                 33 => '会展',
                                                                 34 => '中介服务',
                                                                 35 => '认证',
                                                                 36 => '审计',
-                                                               ),
+                                                               ],
 
-                                    '文体娱乐'          => array(
+                                    '文体娱乐' => [
                                                                 37 => '传媒',
                                                                 38 => '体育',
                                                                 39 => '娱乐休闲',
-                                                               ),
+                                                               ],
 
-                                    '印刷'                => array(40 => '印刷'),
+                                    '印刷' => [40 => '印刷'],
 
-                                    '其它'                => array(41 => '其它'),
-                                   );
+                                    '其它' => [41 => '其它'],
+                                   ];
 
-    const API_SEND_NOTICE  = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
+    const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -157,7 +158,7 @@ class Notice
     }
 
     /**
-     * 修改账号所属行业
+     * 修改账号所属行业.
      *
      * @param int $industryOne
      * @param int $industryTwo
@@ -166,16 +167,16 @@ class Notice
      */
     public function setIndustry($industryOne, $industryTwo)
     {
-        $params = array(
+        $params = [
                    'industry_id1' => $industryOne,
                    'industry_id2' => $industryTwo,
-                  );
+                  ];
 
         return $this->http->jsonPost(self::API_SET_INDUSTRY, $params);
     }
 
     /**
-     * 添加模板并获取模板ID
+     * 添加模板并获取模板ID.
      *
      * @param string $shortId
      *
@@ -183,7 +184,7 @@ class Notice
      */
     public function addTemplate($shortId)
     {
-        $params = array('template_id_short' => $shortId);
+        $params = ['template_id_short' => $shortId];
 
         $result = $this->http->jsonPost(self::API_ADD_TEMPLATE, $params);
 
@@ -191,7 +192,7 @@ class Notice
     }
 
     /**
-     * 发送模板消息
+     * 发送模板消息.
      *
      * @param string $to
      * @param string $templateId
@@ -204,22 +205,22 @@ class Notice
     public function send(
         $to = null,
         $templateId = null,
-        array $data = array(),
+        array $data = [],
         $url = null,
         $color = '#FF0000'
     ) {
-        $params = array(
-                   'touser'      => $to,
+        $params = [
+                   'touser' => $to,
                    'template_id' => $templateId,
-                   'url'         => $url,
-                   'topcolor'    => $color,
-                   'data'        => $data,
-                  );
+                   'url' => $url,
+                   'topcolor' => $color,
+                   'data' => $data,
+                  ];
 
-        $required = array(
+        $required = [
                      'touser',
                      'template_id',
-                    );
+                    ];
 
         foreach ($params as $key => $value) {
             if (in_array($key, $required) && empty($value) && empty($this->message[$key])) {
@@ -237,7 +238,7 @@ class Notice
     }
 
     /**
-     * 设置模板消息数据项的默认颜色
+     * 设置模板消息数据项的默认颜色.
      *
      * @param string $color
      */
@@ -247,7 +248,7 @@ class Notice
     }
 
     /**
-     * 行业列表
+     * 行业列表.
      *
      * @return array
      */
@@ -257,7 +258,7 @@ class Notice
     }
 
     /**
-     * 魔术访问
+     * 魔术访问.
      *
      * @param string $property
      *
@@ -271,7 +272,7 @@ class Notice
     }
 
     /**
-     * 格式化模板数据
+     * 格式化模板数据.
      *
      * @param array $data
      *
@@ -279,7 +280,7 @@ class Notice
      */
     protected function formatData($data)
     {
-        $return = array();
+        $return = [];
 
         foreach ($data as $key => $item) {
             if (is_scalar($item)) {
@@ -300,17 +301,17 @@ class Notice
                 $color = $this->defaultColor;
             }
 
-            $return[$key] = array(
+            $return[$key] = [
                              'value' => $value,
                              'color' => $color,
-                            );
+                            ];
         }
 
         return $return;
     }
 
     /**
-     * 魔术调用
+     * 魔术调用.
      *
      * @param string $method
      * @param array  $args
@@ -319,19 +320,19 @@ class Notice
      */
     public function __call($method, $args)
     {
-        $map = array(
-                'template'   => 'template_id',
-                'uses'       => 'template_id',
+        $map = [
+                'template' => 'template_id',
+                'uses' => 'template_id',
                 'templateId' => 'template_id',
-                'to'         => 'touser',
-                'receiver'   => 'touser',
-                'color'      => 'topcolor',
-                'topColor'   => 'topcolor',
-                'url'        => 'url',
-                'linkTo'     => 'linkTo',
-                'data'       => 'data',
-                'with'       => 'data',
-               );
+                'to' => 'touser',
+                'receiver' => 'touser',
+                'color' => 'topcolor',
+                'topColor' => 'topcolor',
+                'url' => 'url',
+                'linkTo' => 'linkTo',
+                'data' => 'data',
+                'with' => 'data',
+               ];
 
         if (0 === stripos($method, 'with')) {
             $method = lcfirst(substr($method, 4));

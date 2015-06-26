@@ -1,6 +1,7 @@
 <?php
+
 /**
- * FileAdapter.php
+ * FileAdapter.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,15 +20,12 @@ namespace EasyWeChat\Cache\Adapters;
 use EasyWeChat\Core\Exceptions\RuntimeException;
 
 /**
- * Class FileAdapter
- *
- * @package EasyWeChat\Cache\Adapters
+ * Class FileAdapter.
  */
 class FileAdapter
 {
-
     /**
-     * appId
+     * appId.
      *
      * @var string
      */
@@ -45,10 +44,10 @@ class FileAdapter
      */
     public function set($key, $value, $lifetime = 7200)
     {
-        $data = array(
-                 'data'       => $value,
+        $data = [
+                 'data' => $value,
                  'expired_at' => time() + $lifetime - 100, //XXX: -100 will be safe.
-                );
+                ];
 
         if (!$length = file_put_contents($this->getCacheFile($key), serialize($data))) {
             throw new RuntimeException('Access toekn cache failed.');
@@ -58,7 +57,7 @@ class FileAdapter
     }
 
     /**
-     * Get cache content
+     * Get cache content.
      *
      * @param string     $key
      * @param mixed|null $default
@@ -91,6 +90,7 @@ class FileAdapter
      */
     protected function getCacheFile($key)
     {
-        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . md5($this->appId . $key);
+        return sys_get_temp_dir().DIRECTORY_SEPARATOR.md5($this->appId.$key);
     }
 }//end class
+

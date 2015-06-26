@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Image.php
+ * Image.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,24 +20,21 @@ namespace EasyWeChat\Message;
 use EasyWeChat\Media;
 
 /**
- * Class Image
+ * Class Image.
  *
  * @property string $media_id
- *
- * @package EasyWeChat\Message
  */
 class Image extends AbstractMessage implements MessageInterface
 {
-
     /**
-     * Properties
+     * Properties.
      *
      * @var array
      */
-    protected $properties = array('media_id');
+    protected $properties = ['media_id'];
 
     /**
-     * 设置音乐消息封面图
+     * 设置音乐消息封面图.
      *
      * @param string $mediaId
      *
@@ -49,30 +48,30 @@ class Image extends AbstractMessage implements MessageInterface
     }
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      *
      * @return array
      */
     public function toStaff()
     {
-        return array(
-                'image' => array(
+        return [
+                'image' => [
                             'media_id' => $this->media_id,
-                           ),
-               );
+                           ],
+               ];
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      *
      * @return array
      */
     public function toReply()
     {
-        return array(
-                'Image' => array(
+        return [
+                'Image' => [
                             'MediaId' => $this->media_id,
-                           ),
-               );
+                           ],
+               ];
     }
 }

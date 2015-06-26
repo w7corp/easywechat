@@ -1,6 +1,7 @@
 <?php
+
 /**
- * NewsItem.php
+ * NewsItem.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,22 +18,19 @@
 namespace EasyWeChat\Message;
 
 /**
- * Class NewsItem
- *
- * @package EasyWeChat\Message
+ * Class NewsItem.
  */
 class NewsItem extends AbstractMessage implements MessageInterface
 {
-
     /**
-     * Properties
+     * Properties.
      *
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
                              'title',
                              'description',
                              'pic_url',
                              'url',
-                            );
+                            ];
 }

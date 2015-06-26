@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Exception.php
+ * Exception.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,14 +20,11 @@ namespace EasyWeChat\Core;
 use Exception as BaseException;
 
 /**
- * Class Exception
- *
- * @package EasyWeChat\Core
+ * Class Exception.
  */
 class Exception extends BaseException
 {
-
-    protected $errors = array(
+    protected $errors = [
         '-2' => '',
         '-1' => '系统繁忙，此时请开发者稍候再试',
         '0' => '请求成功',
@@ -166,17 +165,17 @@ class Exception extends BaseException
         '9001034' => '设备备注信息过长',
         '9001035' => '设备申请参数不合法',
         '9001036' => '查询起始值begin不合法',
-    );
+    ];
 
     /**
      * @see \Exception::__construct
      *
      * @param string $message
-     * @param int $code
+     * @param int    $code
      */
     public function __construct($message, $code = -2)
     {
-        $message = empty($this->errors[$code]) ? $this->message : $message . ' ' . $this->errors[$code];
+        $message = empty($this->errors[$code]) ? $this->message : $message.' '.$this->errors[$code];
 
         $message = "[Wechat]{$message}";
 

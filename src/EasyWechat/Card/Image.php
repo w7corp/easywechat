@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Image.php
+ * Image.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -30,7 +32,7 @@ class Image
     protected $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -49,7 +51,7 @@ class Image
     }
 
     /**
-     * 上传媒体文件
+     * 上传媒体文件.
      *
      * @param string $path
      *
@@ -61,11 +63,11 @@ class Image
             throw new Exception("文件不存在或不可读 '$path'");
         }
 
-        $options = array(
-                    'files' => array('media' => $path),
-                   );
+        $options = [
+                    'files' => ['media' => $path],
+                   ];
 
-        $contents = $this->http->post(self::API_UPLOAD, array(), $options);
+        $contents = $this->http->post(self::API_UPLOAD, [], $options);
 
         return $contents['url'];
     }

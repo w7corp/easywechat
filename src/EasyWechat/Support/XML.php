@@ -1,6 +1,7 @@
 <?php
+
 /**
- * XML.php
+ * XML.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,15 +18,12 @@
 namespace EasyWeChat\Support;
 
 /**
- * Class XML
- *
- * @package EasyWeChat\Support
+ * Class XML.
  */
 class XML
 {
-
     /**
-     * XML to array
+     * XML to array.
      *
      * @param string $xml XML string
      *
@@ -60,10 +59,9 @@ class XML
         $item = 'item',
         $attr = '',
         $id = 'id'
-    )
-    {
+    ) {
         if (is_array($attr)) {
-            $_attr = array();
+            $_attr = [];
 
             foreach ($attr as $key => $value) {
                 $_attr[] = "{$key}=\"{$value}\"";
@@ -74,7 +72,7 @@ class XML
 
         $attr = trim($attr);
         $attr = empty($attr) ? '' : " {$attr}";
-        $xml  = "<{$root}{$attr}>";
+        $xml = "<{$root}{$attr}>";
         $xml  .= self::data2Xml($data, $item, $id);
         $xml  .= "</{$root}>";
 
@@ -94,7 +92,7 @@ class XML
     }
 
     /**
-     * Object to array
+     * Object to array.
      *
      * @param string $data
      *
@@ -131,7 +129,7 @@ class XML
         foreach ($data as $key => $val) {
             if (is_numeric($key)) {
                 $id && $attr = " {$id}=\"{$key}\"";
-                $key  = $item;
+                $key = $item;
             }
 
             $xml .= "<{$key}{$attr}>";
@@ -148,3 +146,4 @@ class XML
         return $xml;
     }
 }//end class
+

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Cryptor.php
+ * Cryptor.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,26 +10,23 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace EasyWeChat\Encryption;
 
-use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
 use EasyWeChat\Core\Exceptions\RuntimeException;
 use EasyWeChat\Support\XML;
 use Exception as BaseException;
 
 /**
- * Class Cryptor
- *
- * @package EasyWeChat\Encryption
+ * Class Cryptor.
  */
 class Cryptor
 {
-
     /**
      * App id.
      *
@@ -37,7 +35,7 @@ class Cryptor
     protected $appId;
 
     /**
-     * App token
+     * App token.
      *
      * @var string
      */
@@ -72,9 +70,9 @@ class Cryptor
             throw new RuntimeException("The ext 'mcrypt' is required.");
         }
 
-        $this->appId     = $appId;
-        $this->token     = $token;
-        $this->AESKey    = $AESKey;
+        $this->appId = $appId;
+        $this->token = $token;
+        $this->AESKey = $AESKey;
         $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
 
@@ -97,12 +95,12 @@ class Cryptor
         //生成安全签名
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypt);
 
-        $response = array(
+        $response = [
             'Encrypt' => $encrypt,
             'MsgSignature' => $signature,
             'TimeStamp' => $timestamp,
             'Nonce' => $nonce,
-        );
+        ];
 
         //生成响应xml
         return XML::build($response);
@@ -175,11 +173,11 @@ class Cryptor
 
         $tmp = '';
 
-        for ($index = 0; $index < $padAmount; $index++) {
+        for ($index = 0; $index < $padAmount; ++$index) {
             $tmp .= $padChr;
         }
 
-        return $text . $tmp;
+        return $text.$tmp;
     }
 
     /**
@@ -215,7 +213,7 @@ class Cryptor
         try {
             $key = $this->getAESKey();
             $random = $this->getRandomStr();
-            $text = $random . pack('N', strlen($text)) . $text . $appId;
+            $text = $random.pack('N', strlen($text)).$text.$appId;
 
             // $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
             $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
@@ -255,7 +253,6 @@ class Cryptor
 
             mcrypt_generic_init($module, $key, $iv);
 
-            //解密
             $decrypted = mdecrypt_generic($module, $ciphertext);
             mcrypt_generic_deinit($module);
             mcrypt_module_close($module);
@@ -290,6 +287,8 @@ class Cryptor
      * Return AESKey.
      *
      * @return string
+     *
+     * @throws InvalidConfigException
      */
     protected function getAESKey()
     {
@@ -303,16 +302,7 @@ class Cryptor
             throw new InvalidConfigException("Configuration mission, 'aes_key' is required.");
         }
 
-        return $key = base64_decode($this->AESKey . '=', true);
-    }
-
-    /**
-     * Return random string.
-     *
-     * @return string
-     */
-    protected function getRandomStr()
-    {
-        return substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz'), 0, 16);
+        return $key = base64_decode($this->AESKey.'=', true);
     }
 }//end class
+

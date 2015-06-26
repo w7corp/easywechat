@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Arr.php
+ * Arr.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  * @link      https://github.com/laravel/framework/blob/4.2/src/Illuminate/Support/Arr.php
@@ -19,11 +21,10 @@ namespace EasyWeChat\Support;
 use Closure;
 
 /**
- * Array helper from Illuminate\Support\Arr
+ * Array helper from Illuminate\Support\Arr.
  */
 class Arr
 {
-
     /**
      * Add an element to an array using "dot" notation if it doesn't exist.
      *
@@ -52,7 +53,7 @@ class Arr
      */
     public static function build($array, Closure $callback)
     {
-        $results = array();
+        $results = [];
 
         foreach ($array as $key => $value) {
             list($innerKey, $innerValue) = call_user_func($callback, $key, $value);
@@ -71,10 +72,10 @@ class Arr
      */
     public static function divide($array)
     {
-        return array(
+        return [
                 array_keys($array),
                 array_values($array),
-               );
+               ];
     }
 
     /**
@@ -87,7 +88,7 @@ class Arr
      */
     public static function dot($array, $prepend = '')
     {
-        $results = array();
+        $results = [];
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
@@ -123,10 +124,10 @@ class Arr
      */
     public static function fetch($array, $key)
     {
-        $results = array();
+        $results = [];
 
         foreach (explode('.', $key) as $segment) {
-            $results = array();
+            $results = [];
             foreach ($array as $value) {
                 $value = (array) $value;
                 $results[] = $value[$segment];
@@ -180,7 +181,7 @@ class Arr
      */
     public static function flatten($array)
     {
-        $return = array();
+        $return = [];
         array_walk_recursive(
             $array,
             function ($x) use (&$return) {
@@ -268,7 +269,7 @@ class Arr
      */
     public static function pluck($array, $value, $key = null)
     {
-        $results = array();
+        $results = [];
 
         foreach ($array as $item) {
             $itemValue = is_object($item) ? $item->{$value} : $item[$value];
@@ -328,7 +329,7 @@ class Arr
             // to hold the next value, allowing us to create the arrays to hold final
             // values at the correct depth. Then we'll keep digging into the array.
             if (!isset($array[$key]) || !is_array($array[$key])) {
-                $array[$key] = array();
+                $array[$key] = [];
             }
             $array = &$array[$key];
         }
@@ -347,7 +348,7 @@ class Arr
      */
     public static function sort($array, Closure $callback)
     {
-        $results = array();
+        $results = [];
 
         foreach ($array as $key => $value) {
             $results[$key] = $callback($value);
@@ -366,7 +367,7 @@ class Arr
      */
     public static function where($array, Closure $callback)
     {
-        $filtered = array();
+        $filtered = [];
 
         foreach ($array as $key => $value) {
             if (call_user_func($callback, $key, $value)) {

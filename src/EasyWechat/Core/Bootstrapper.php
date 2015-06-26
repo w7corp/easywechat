@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Bootstrapper.php
+ * Bootstrapper.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -25,9 +27,7 @@ use EasyWeChat\Core\Exceptions\UnBoundServiceException;
 use IteratorAggregate;
 
 /**
- * Class Bootstrapper
- *
- * @package EasyWeChat\Core
+ * Class Bootstrapper.
  */
 class Bootstrapper implements ArrayAccess, IteratorAggregate
 {
@@ -52,24 +52,24 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      *
      * @var array
      */
-    protected $resolved = array();
+    protected $resolved = [];
 
     /**
      * Service bindings.
      *
      * @var array
      */
-    protected $bindings = array();
+    protected $bindings = [];
 
     /**
-     * Service providers
+     * Service providers.
      *
      * @var array
      */
-    protected $providers = array(
+    protected $providers = [
         'EasyWeChat\Cache\CacheServiceProvider',
         'EasyWeChat\Server\ServerServiceProvider',
-    );
+    ];
 
     /**
      * Constructor.
@@ -164,7 +164,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
     public function setProviders(array $providers, $cleanBefore = false)
     {
         if ($cleanBefore) {
-            $this->providers = array();
+            $this->providers = [];
         }
 
         foreach ($providers as $provider) {
@@ -193,12 +193,12 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      */
     protected function registerConfiguration(array $config)
     {
-        $required = array('app_id', 'secret', 'token');
+        $required = ['app_id', 'secret', 'token'];
 
         if ($diff = array_diff($required, array_keys($config))) {
-            $error = join(',', $diff) . (count($diff) > 1 ? 'are' : 'is') .' required';
+            $error = implode(',', $diff).(count($diff) > 1 ? 'are' : 'is').' required';
 
-            throw new InvalidConfigException('Configuration Missing, ' . $error, 500);
+            throw new InvalidConfigException('Configuration Missing, '.$error, 500);
         }
 
         $this->config = new Collection($config);
@@ -207,7 +207,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Register all Providers
+     * Register all Providers.
      */
     protected function registerProviders()
     {
@@ -221,11 +221,11 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      */
     protected function registerClientBaseService()
     {
-        $this->bind('http', function($sdk){
+        $this->bind('http', function ($sdk) {
             return new Http();
         });
 
-        $this->bind('access_token', function($sdk){
+        $this->bind('access_token', function ($sdk) {
             return new AccessToken(
                 $sdk->config->get('app_id'),
                 $sdk->config->get('secret'),
@@ -294,7 +294,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      */
     protected function registerCryptor()
     {
-        $this->bind('cryptor', function($sdk){
+        $this->bind('cryptor', function ($sdk) {
             $config = $sdk->config;
 
             return new Cryptor($config['app_id'], $config['token'], $config['aes_key']);
@@ -306,7 +306,7 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
      */
     protected function registerInput()
     {
-        $this->bind('input', function($sdk){
+        $this->bind('input', function ($sdk) {
             return new Input($sdk->config->get('token'), $sdk->get('cryptor'));
         });
     }
@@ -350,7 +350,6 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
         return $this->unbind($offset);
     }
 
-
     /**
      * Return Iterator.
      *
@@ -360,6 +359,5 @@ class Bootstrapper implements ArrayAccess, IteratorAggregate
     {
         return new Iterator($this->bindings);
     }
-
-
 }//end class
+

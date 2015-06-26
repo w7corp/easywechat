@@ -1,6 +1,7 @@
 <?php
+
 /**
- * SDK.php
+ * SDK.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -21,9 +23,7 @@ use EasyWeChat\Support\JSON;
 use EasyWeChat\Support\Str;
 
 /**
- * Class SDK
- *
- * @package EasyWeChat\Js
+ * Class SDK.
  */
 class SDK
 {
@@ -74,10 +74,10 @@ class SDK
      */
     public function __construct($appId, $secret, Cache $cache, Http $http)
     {
-        $this->appId  = $appId;
+        $this->appId = $appId;
         $this->secret = $secret;
-        $this->cache  = $cache;
-        $this->http   = $http;
+        $this->cache = $cache;
+        $this->http = $http;
     }
 
     /**
@@ -94,11 +94,11 @@ class SDK
     {
         $signPackage = $this->getSignaturePackage();
 
-        $base = array(
+        $base = [
                  'debug' => $debug,
-                 'beta'  => $beta,
-                );
-        $config = array_merge($base, $signPackage, array('jsApiList' => $APIs));
+                 'beta' => $beta,
+                ];
+        $config = array_merge($base, $signPackage, ['jsApiList' => $APIs]);
 
         return $json ? json_encode($config) : $config;
     }
@@ -127,10 +127,10 @@ class SDK
         $key = 'overtrue.wechat.jsapi_ticket'.$this->appId;
 
         // for php 5.3
-        $appId     = $this->appId;
-        $secret    = $this->secret;
-        $cache     = $this->cache;
-        $http      = $this->http;
+        $appId = $this->appId;
+        $secret = $this->secret;
+        $cache = $this->cache;
+        $http = $this->http;
         $apiTicket = self::API_TICKET;
 
         return $this->cache->get(
@@ -156,18 +156,18 @@ class SDK
      */
     public function getSignaturePackage($url = null, $nonce = null, $timestamp = null)
     {
-        $url       = $url ? $url : $this->getUrl();
-        $nonce     = $nonce ? $nonce : $this->getNonce();
+        $url = $url ? $url : $this->getUrl();
+        $nonce = $nonce ? $nonce : $this->getNonce();
         $timestamp = $timestamp ? $timestamp : time();
-        $ticket    = $this->getTicket();
+        $ticket = $this->getTicket();
 
-        $sign = array(
-                 'appId'     => $this->appId,
-                 'nonceStr'  => $nonce,
+        $sign = [
+                 'appId' => $this->appId,
+                 'nonceStr' => $nonce,
                  'timestamp' => $timestamp,
-                 'url'       => $url,
+                 'url' => $url,
                  'signature' => $this->getSignature($ticket, $nonce, $timestamp, $url),
-                );
+                ];
 
         return $sign;
     }
@@ -227,3 +227,4 @@ class SDK
         return Str::quickRandom(10);
     }
 }//end class
+

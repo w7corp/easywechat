@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Collection.php
+ * Collection.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -23,9 +25,7 @@ use JsonSerializable;
 use Serializable;
 
 /**
- * Class Collection
- *
- * @package EasyWeChat\Support
+ * Class Collection.
  */
 class Collection implements
     ArrayAccess,
@@ -34,26 +34,25 @@ class Collection implements
     JsonSerializable,
     Serializable
 {
-
     /**
      * The collection data.
      *
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
-     * set data
+     * set data.
      *
      * @param mixed $data
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         $this->data = (array) $data;
     }
 
     /**
-     * Return all items
+     * Return all items.
      *
      * @return array
      */
@@ -150,7 +149,7 @@ class Collection implements
     }
 
     /**
-     * Remove item form Collection
+     * Remove item form Collection.
      *
      * @param string $key
      */
@@ -189,15 +188,15 @@ class Collection implements
         return $this->toJson();
     }
 
-    /**
-     * (PHP 5 &gt;= 5.4.0)<br/>
-     * Specify data which should be serialized to JSON
-     *
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     */
+     /**
+      * (PHP 5 &gt;= 5.4.0)<br/>
+      * Specify data which should be serialized to JSON.
+      *
+      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+      *
+      * @return mixed data which can be serialized by <b>json_encode</b>,
+      * which is a value of any type other than a resource.
+      */
      public function jsonSerialize()
      {
          return $this->data;
@@ -205,8 +204,10 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
-     * String representation of object
+     * String representation of object.
+     *
      * @link http://php.net/manual/en/serializable.serialize.php
+     *
      * @return string the string representation of the object or null
      */
     public function serialize()
@@ -216,15 +217,13 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
-     * Constructs the object
+     * Constructs the object.
      *
      * @link http://php.net/manual/en/serializable.unserialize.php
      *
      * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
-     *
-     * @return void
+     *                           The string representation of the object.
+     *                           </p>
      */
     public function unserialize($data)
     {
@@ -233,12 +232,12 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
-     * Retrieve an external iterator
+     * Retrieve an external iterator.
      *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      *
      * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
+     *                     <b>Traversable</b>
      */
     public function getIterator()
     {
@@ -247,14 +246,14 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
-     * Count elements of an object
+     * Count elements of an object.
      *
      * @link http://php.net/manual/en/countable.count.php
      *
      * @return int The custom count as an integer.
-     * </p>
-     * <p>
-     * The return value is cast to an integer.
+     *             </p>
+     *             <p>
+     *             The return value is cast to an integer.
      */
     public function count()
     {
@@ -262,7 +261,7 @@ class Collection implements
     }
 
     /**
-     * Get a data by key
+     * Get a data by key.
      *
      * @param string $key
      *
@@ -274,7 +273,7 @@ class Collection implements
     }
 
     /**
-     * Assigns a value to the specified data
+     * Assigns a value to the specified data.
      *
      * @param string $key
      * @param mixed  $value
@@ -285,7 +284,7 @@ class Collection implements
     }
 
     /**
-     * Whether or not an data exists by key
+     * Whether or not an data exists by key.
      *
      * @param string $key
      *
@@ -297,7 +296,7 @@ class Collection implements
     }
 
     /**
-     * Unsets an data by key
+     * Unsets an data by key.
      *
      * @param string $key
      */
@@ -307,7 +306,7 @@ class Collection implements
     }
 
     /**
-     * var_export
+     * var_export.
      *
      * @return array
      */
@@ -318,18 +317,18 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
-     * Whether a offset exists
+     * Whether a offset exists.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetexists.php
      *
      * @param mixed $offset <p>
-     * An offset to check for.
-     * </p>
+     *                      An offset to check for.
+     *                      </p>
      *
-     * @return boolean true on success or false on failure.
-     * </p>
-     * <p>
-     * The return value will be casted to boolean if non-boolean was returned.
+     * @return bool true on success or false on failure.
+     *              </p>
+     *              <p>
+     *              The return value will be casted to boolean if non-boolean was returned.
      */
     public function offsetExists($offset)
     {
@@ -338,15 +337,13 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to unset
+     * Offset to unset.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetunset.php
      *
      * @param mixed $offset <p>
-     * The offset to unset.
-     * </p>
-     *
-     * @return void
+     *                      The offset to unset.
+     *                      </p>
      */
     public function offsetUnset($offset)
     {
@@ -357,13 +354,13 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to retrieve
+     * Offset to retrieve.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetget.php
      *
      * @param mixed $offset <p>
-     * The offset to retrieve.
-     * </p>
+     *                      The offset to retrieve.
+     *                      </p>
      *
      * @return mixed Can return all value types.
      */
@@ -374,21 +371,20 @@ class Collection implements
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
-     * Offset to set
+     * Offset to set.
      *
      * @link http://php.net/manual/en/arrayaccess.offsetset.php
      *
      * @param mixed $offset <p>
-     * The offset to assign the value to.
-     * </p>
-     * @param mixed $value <p>
-     * The value to set.
-     * </p>
-     *
-     * @return void
+     *                      The offset to assign the value to.
+     *                      </p>
+     * @param mixed $value  <p>
+     *                      The value to set.
+     *                      </p>
      */
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
     }
 }//end class
+

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * BadRequestException.php
+ * BadRequestException.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -17,13 +19,10 @@ namespace EasyWeChat\Server;
 
 use EasyWeChat\Core\Exception;
 
-
 /**
- * Class BadRequestException
- * 
- * @package EasyWeChat\Server
+ * Class BadRequestException.
  */
 class BadRequestException extends Exception
 {
-
 }//end class
+

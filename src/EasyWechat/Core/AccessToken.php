@@ -1,6 +1,7 @@
 <?php
+
 /**
- * AccessToken.php
+ * AccessToken.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,13 +18,10 @@
 namespace EasyWeChat\Core;
 
 /**
- * Class AccessToken
- *
- * @package EasyWeChat\Core
+ * Class AccessToken.
  */
 class AccessToken
 {
-
     /**
      * App ID.
      *
@@ -38,7 +37,7 @@ class AccessToken
     protected $secret;
 
     /**
-     * Cacher
+     * Cacher.
      *
      * @var Cache
      */
@@ -52,7 +51,7 @@ class AccessToken
     protected $http;
 
     /**
-     * token
+     * token.
      *
      * @var string
      */
@@ -78,10 +77,10 @@ class AccessToken
      */
     public function __construct($appId, $secret, Cache $cacher, Http $http)
     {
-        $this->appId  = $appId;
+        $this->appId = $appId;
         $this->secret = $secret;
         $this->cacher = $cacher;
-        $this->http   = $http;
+        $this->http = $http;
     }
 
     /**
@@ -96,21 +95,21 @@ class AccessToken
         }
 
         // for php 5.3
-        $appId    = $this->appId;
-        $secret   = $this->secret;
-        $cacher   = $this->cacher;
-        $http     = $this->http;
+        $appId = $this->appId;
+        $secret = $this->secret;
+        $cacher = $this->cacher;
+        $http = $this->http;
         $cacheKey = $this->cacheKey;
-        $api      = self::API_TOKEN_GET;
+        $api = self::API_TOKEN_GET;
 
         return $this->token = $this->cacher->get(
             $cacheKey,
             function ($cacheKey) use ($appId, $secret, $cacher, $http, $api) {
-                $params = array(
+                $params = [
                     'appid' => $appId,
                     'secret' => $secret,
                     'grant_type' => 'client_credential',
-                );
+                ];
 
                 $token = $http->get($api, $params);
 
@@ -121,3 +120,4 @@ class AccessToken
         );
     }
 }//end class
+

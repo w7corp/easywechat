@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Location.php
+ * Location.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,27 +20,24 @@ namespace EasyWeChat\Message;
 use EasyWeChat\Exception;
 
 /**
- * Class Location
- *
- * @package EasyWeChat\Message
+ * Class Location.
  */
 class Location extends AbstractMessage implements MessageInterface
 {
-
     /**
-     * Properties
+     * Properties.
      *
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
                              'lat',
                              'lon',
                              'scale',
                              'label',
-                            );
+                            ];
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      */
     public function toStaff()
     {
@@ -46,7 +45,7 @@ class Location extends AbstractMessage implements MessageInterface
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      */
     public function toReply()
     {

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Url.php
+ * Url.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,11 +18,10 @@
 namespace EasyWeChat\Url;
 
 /**
- * 链接
+ * 链接.
  */
 class Url
 {
-
     /**
      * Http对象
      *
@@ -31,7 +32,7 @@ class Url
     const API_SHORT_URL = 'https://api.weixin.qq.com/cgi-bin/shorturl';
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -50,7 +51,7 @@ class Url
     }
 
     /**
-     * 转短链接
+     * 转短链接.
      *
      * @param string $url
      *
@@ -58,10 +59,10 @@ class Url
      */
     public function short($url)
     {
-        $params = array(
-                   'action'   => 'long2short',
+        $params = [
+                   'action' => 'long2short',
                    'long_url' => $url,
-                  );
+                  ];
 
         $response = $this->http->jsonPost(self::API_SHORT_URL, $params);
 
@@ -69,7 +70,7 @@ class Url
     }
 
     /**
-     * 获取当前URL
+     * 获取当前URL.
      *
      * @return string
      */

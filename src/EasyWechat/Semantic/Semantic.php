@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Semantic.php
+ * Semantic.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,11 +20,10 @@ namespace EasyWeChat\Semantic;
 use EasyWeChat\Support\Collection;
 
 /**
- * 语义理解
+ * 语义理解.
  */
 class Semantic
 {
-
     /**
      * Http对象
      *
@@ -31,7 +32,7 @@ class Semantic
     protected $http;
 
     /**
-     * 应用ID
+     * 应用ID.
      *
      * @var string
      */
@@ -40,7 +41,7 @@ class Semantic
     const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -60,7 +61,7 @@ class Semantic
     }
 
     /**
-     * 语义理解
+     * 语义理解.
      *
      * @param string         $keyword
      * @param array | string $categories
@@ -68,13 +69,13 @@ class Semantic
      *
      * @return Collection
      */
-    public function query($keyword, $categories, array $other = array())
+    public function query($keyword, $categories, array $other = [])
     {
-        $params = array(
-                   'query'    => $keyword,
+        $params = [
+                   'query' => $keyword,
                    'category' => implode(',', (array) $categories),
-                   'appid'    => $this->appId,
-                  );
+                   'appid' => $this->appId,
+                  ];
 
         return new Collection($this->http->jsonPost(self::API_CREATE, array_merge($params, $other)));
     }

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Group.php
+ * Group.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,16 +18,16 @@
 namespace EasyWeChat\User;
 
 /**
- * 用户组
+ * 用户组.
  */
 class Group
 {
-    const API_GET                 = 'https://api.weixin.qq.com/cgi-bin/groups/get';
-    const API_CREATE              = 'https://api.weixin.qq.com/cgi-bin/groups/create';
-    const API_UPDATE              = 'https://api.weixin.qq.com/cgi-bin/groups/update';
-    const API_DELETE              = 'https://api.weixin.qq.com/cgi-bin/groups/delete';
-    const API_USER_GROUP_ID       = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
-    const API_MEMBER_UPDATE       = 'https://api.weixin.qq.com/cgi-bin/groups/members/update';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/groups/get';
+    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/groups/create';
+    const API_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/update';
+    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/groups/delete';
+    const API_USER_GROUP_ID = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+    const API_MEMBER_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/update';
     const API_MEMBER_BATCH_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate';
 
     /**
@@ -36,7 +38,7 @@ class Group
     protected $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -55,7 +57,7 @@ class Group
     }
 
     /**
-     * 创建分组
+     * 创建分组.
      *
      * @param string $name
      *
@@ -63,9 +65,9 @@ class Group
      */
     public function create($name)
     {
-        $params = array(
-                   'group' => array('name' => $name),
-                  );
+        $params = [
+                   'group' => ['name' => $name],
+                  ];
 
         $response = $this->http->jsonPost(self::API_CREATE, $params);
 
@@ -73,7 +75,7 @@ class Group
     }
 
     /**
-     * 获取所有分组
+     * 获取所有分组.
      *
      * @return array
      */
@@ -85,7 +87,7 @@ class Group
     }
 
     /**
-     * 更新组名称
+     * 更新组名称.
      *
      * @param int    $groupId
      * @param string $name
@@ -94,18 +96,18 @@ class Group
      */
     public function update($groupId, $name)
     {
-        $params = array(
-                   'group' => array(
-                               'id'   => $groupId,
+        $params = [
+                   'group' => [
+                               'id' => $groupId,
                                'name' => $name,
-                              ),
-                  );
+                              ],
+                  ];
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
-     * 删除分组
+     * 删除分组.
      *
      * @param int $groupId
      *
@@ -113,15 +115,15 @@ class Group
      */
     public function delete($groupId)
     {
-        $params = array(
-                   'group' => array('id' => $groupId),
-                  );
+        $params = [
+                   'group' => ['id' => $groupId],
+                  ];
 
         return $this->http->jsonPost(self::API_DELETE, $params);
     }
 
     /**
-     * 获取用户所在分组
+     * 获取用户所在分组.
      *
      * @param string $openId
      *
@@ -129,7 +131,7 @@ class Group
      */
     public function userGroup($openId)
     {
-        $params = array('openid' => $openId);
+        $params = ['openid' => $openId];
 
         $response = $this->http->jsonPost(self::API_USER_GROUP_ID, $params);
 
@@ -137,7 +139,7 @@ class Group
     }
 
     /**
-     * 移动单个用户
+     * 移动单个用户.
      *
      * @param string $openId
      * @param int    $groupId
@@ -146,10 +148,10 @@ class Group
      */
     public function moveUser($openId, $groupId)
     {
-        $params = array(
-                   'openid'     => $openId,
+        $params = [
+                   'openid' => $openId,
                    'to_groupid' => $groupId,
-                  );
+                  ];
 
         $this->http->jsonPost(self::API_MEMBER_UPDATE, $params);
 
@@ -157,7 +159,7 @@ class Group
     }
 
     /**
-     * 批量移动用户
+     * 批量移动用户.
      *
      * @param array $openIds
      * @param int   $groupId
@@ -166,10 +168,10 @@ class Group
      */
     public function moveUsers(array $openIds, $groupId)
     {
-        $params = array(
+        $params = [
                    'openid_list' => $openIds,
-                   'to_groupid'  => $groupId,
-                  );
+                   'to_groupid' => $groupId,
+                  ];
 
         $this->http->jsonPost(self::API_MEMBER_BATCH_UPDATE, $params);
 

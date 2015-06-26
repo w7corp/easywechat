@@ -1,6 +1,7 @@
 <?php
+
 /**
- * AbstractMessage.php
+ * AbstractMessage.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,7 +21,7 @@ use EasyWeChat\Support\MagicAttributes;
 use EasyWeChat\Support\XML;
 
 /**
- * Class AbstractMessage
+ * Class AbstractMessage.
  *
  * @property string $from
  * @property string $to
@@ -31,31 +33,28 @@ use EasyWeChat\Support\XML;
  * @method array       toStaff()
  * @method array       toReply()
  * @method array       toBroadcast()
- *
- * @package EasyWeChat\Message
  */
 abstract class AbstractMessage extends MagicAttributes
 {
-
     /**
      * Message properties.
      *
      * @var array
      */
-    protected $properties = array();
+    protected $properties = [];
 
     /**
      * Base properties.
      *
      * @var array
      */
-    protected $baseProperties = array(
+    protected $baseProperties = [
                                  'from',
                                  'to',
                                  'to_group',
                                  'to_all',
                                  'staff',
-                                );
+                                ];
 
     /**
      * Build message for Staff.
@@ -64,12 +63,12 @@ abstract class AbstractMessage extends MagicAttributes
      */
     public function buildForStaff()
     {
-        $base = array(
-                 'touser'  => $this->to,
+        $base = [
+                 'touser' => $this->to,
                  'msgtype' => $this->getDefaultMessageType(),
-                );
+                ];
         if (!empty($this->staff)) {
-            $base['customservice'] = array('kf_account' => $this->staff);
+            $base['customservice'] = ['kf_account' => $this->staff];
         }
 
         return array_merge($base, $this->toStaff());
@@ -82,12 +81,12 @@ abstract class AbstractMessage extends MagicAttributes
      */
     public function buildForReply()
     {
-        $base = array(
-                 'ToUserName'   => $this->to,
+        $base = [
+                 'ToUserName' => $this->to,
                  'FromUserName' => $this->from,
-                 'CreateTime'   => time(),
-                 'MsgType'      => $this->getDefaultMessageType(),
-                );
+                 'CreateTime' => time(),
+                 'MsgType' => $this->getDefaultMessageType(),
+                ];
 
         return XML::build(array_merge($base, $this->toReply()));
     }
@@ -119,3 +118,4 @@ abstract class AbstractMessage extends MagicAttributes
         return in_array($attribute, $properties, true);
     }
 }//end class
+

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * CacheServiceProvider.php
+ * CacheServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -20,9 +22,7 @@ use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Bootstrapper;
 
 /**
- * Class CacheServiceProvider
- *
- * @package EasyWeChat\Server
+ * Class CacheServiceProvider.
  */
 class CacheServiceProvider extends ServiceProvider
 {
@@ -35,13 +35,14 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function register(Bootstrapper $sdk)
     {
-        $sdk->bind('cache', function($sdk){
+        $sdk->bind('cache', function ($sdk) {
             return new Manager($sdk);
         });
 
         // default adapter
-        $sdk->bind('cache.adapter', function($sdk){
+        $sdk->bind('cache.adapter', function ($sdk) {
             return new FileAdapter();
         });
     }
 }//end class
+

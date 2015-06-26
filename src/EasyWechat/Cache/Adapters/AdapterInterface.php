@@ -1,6 +1,7 @@
 <?php
+
 /**
- * AdapterInterface.php
+ * AdapterInterface.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,17 +10,15 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace EasyWeChat\Cache\Adapters;
 
-
 /**
- * Interface AdapterInterface
- * 
- * @package EasyWeChat\Cache\Adapters
+ * Interface AdapterInterface.
  */
 interface AdapterInterface
 {
@@ -53,3 +52,4 @@ interface AdapterInterface
      */
     public function set($key, $value, $lifetime = 7200);
 }//end class
+

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Str.php
+ * Str.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -41,7 +43,8 @@ class Str
     /**
      * Convert a value to camel case.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     public static function camel($value)
@@ -56,7 +59,8 @@ class Str
     /**
      * Generate a more truly "random" alpha-numeric string.
      *
-     * @param  int  $length
+     * @param int $length
+     *
      * @return string
      *
      * @throws \RuntimeException
@@ -79,7 +83,7 @@ class Str
     /**
      * Generate a more truly "random" bytes.
      *
-     * @param  int $length
+     * @param int $length
      *
      * @return string
      *
@@ -106,7 +110,8 @@ class Str
      *
      * Should not be considered sufficient for cryptography, etc.
      *
-     * @param  int  $length
+     * @param int $length
+     *
      * @return string
      */
     public static function quickRandom($length = 16)
@@ -119,7 +124,8 @@ class Str
     /**
      * Convert the given string to upper-case.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     public static function upper($value)
@@ -130,7 +136,8 @@ class Str
     /**
      * Convert the given string to title case.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     public static function title($value)
@@ -141,8 +148,9 @@ class Str
     /**
      * Convert a string to snake case.
      *
-     * @param  string  $value
-     * @param  string  $delimiter
+     * @param string $value
+     * @param string $delimiter
+     *
      * @return string
      */
     public static function snake($value, $delimiter = '_')
@@ -160,10 +168,11 @@ class Str
         return static::$snakeCache[$key] = $value;
     }
 
-     /**
+    /**
      * Convert a value to studly caps case.
      *
-     * @param  string  $value
+     * @param string $value
+     *
      * @return string
      */
     public static function studly($value)
@@ -179,3 +188,4 @@ class Str
         return static::$studlyCache[$key] = str_replace(' ', '', $value);
     }
 }//end class
+

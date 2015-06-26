@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Transfer.php
+ * Transfer.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,31 +18,27 @@
 namespace EasyWeChat\Message;
 
 use EasyWeChat\Exception;
-use EasyWeChat\Message\MessageInterface;
 
 /**
- * Class Transfer
+ * Class Transfer.
  *
  * @property string $to
  * @property string $account
- *
- * @package EasyWeChat\Message
  */
 class Transfer extends AbstractMessage implements MessageInterface
 {
-
     /**
-     * Properties
+     * Properties.
      *
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
                              'account',
                              'to',
-                            );
+                            ];
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      */
     public function toStaff()
     {
@@ -48,17 +46,17 @@ class Transfer extends AbstractMessage implements MessageInterface
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      */
     public function toReply()
     {
-        $response = array('MsgType' => 'transfer_customer_service');
+        $response = ['MsgType' => 'transfer_customer_service'];
 
         // 指定客服
         if (!empty($this->account) || !empty($this->to)) {
-            $response['TransInfo'] = array(
+            $response['TransInfo'] = [
                                       'KfAccount' => $this->account ?: $this->to,
-                                     );
+                                     ];
         }
 
         return $response;

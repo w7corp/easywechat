@@ -1,6 +1,7 @@
 <?php
+
 /**
- * News.php
+ * News.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,22 +20,19 @@ namespace EasyWeChat\Message;
 use Closure;
 
 /**
- * Class News
- *
- * @package EasyWeChat\Message
+ * Class News.
  */
 class News extends AbstractMessage implements MessageInterface
 {
-
     /**
-     * Properties
+     * Properties.
      *
      * @var array
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
-     * 添加图文消息内容
+     * 添加图文消息内容.
      *
      * @param NewsItem $item
      *
@@ -47,7 +46,7 @@ class News extends AbstractMessage implements MessageInterface
     }
 
     /**
-     * 添加多条图文消息
+     * 添加多条图文消息.
      *
      * @param array|Closure $items
      *
@@ -59,49 +58,49 @@ class News extends AbstractMessage implements MessageInterface
             $items = $items();
         }
 
-        array_map(array($this, 'item'), (array) $items);
+        array_map([$this, 'item'], (array) $items);
 
         return $this;
     }
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      */
     public function toStaff()
     {
-        $articles = array();
+        $articles = [];
 
         foreach ($this->items as $item) {
-            $articles[] = array(
-                           'title'       => $item->title,
+            $articles[] = [
+                           'title' => $item->title,
                            'description' => $item->description,
-                           'url'         => $item->url,
-                           'picurl'      => $item->pic_url,
-                          );
+                           'url' => $item->url,
+                           'picurl' => $item->pic_url,
+                          ];
         }
 
-        return array('news' => array('articles' => $articles));
+        return ['news' => ['articles' => $articles]];
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      */
     public function toReply()
     {
-        $articles = array();
+        $articles = [];
 
         foreach ($this->items as $item) {
-            $articles[] = array(
-                           'Title'       => $item->title,
+            $articles[] = [
+                           'Title' => $item->title,
                            'Description' => $item->description,
-                           'Url'         => $item->url,
-                           'PicUrl'      => $item->pic_url,
-                          );
+                           'Url' => $item->url,
+                           'PicUrl' => $item->pic_url,
+                          ];
         }
 
-        return array(
+        return [
                 'ArticleCount' => count($articles),
-                'Articles'     => $articles,
-               );
+                'Articles' => $articles,
+               ];
     }
 }

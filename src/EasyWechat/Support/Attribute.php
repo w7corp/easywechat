@@ -1,6 +1,7 @@
 <?php
+
 /**
- *Attributes.php
+ *Attributes.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,9 +20,7 @@ namespace EasyWeChat\Support;
 use InvalidArgumentException;
 
 /**
- * Class Attributes
- *
- * @package EasyWeChat\Support
+ * Class Attributes.
  */
 abstract class Attribute extends Collection
 {
@@ -102,7 +102,7 @@ abstract class Attribute extends Collection
      * Magic set.
      *
      * @param string $property
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return Attributes
      */
@@ -111,3 +111,4 @@ abstract class Attribute extends Collection
         return $this->with($property, $value);
     }
 }//end class
+

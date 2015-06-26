@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Manager.php
+ * Manager.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,13 +21,10 @@ use EasyWeChat\Cache\Adapters\AdapterInterface;
 use EasyWeChat\Cache\Adapters\FileAdapter;
 use EasyWeChat\Core\Bootstrapper;
 
-
 /**
- * Class Manager
- * 
- * @package EasyWeChat\Cache
+ * Class Manager.
  */
-class Manager 
+class Manager
 {
     /**
      * Cache adapter.
@@ -105,7 +104,7 @@ class Manager
     }
 
     /**
-     * Magic call
+     * Magic call.
      *
      * @param string $method
      * @param array  $args
@@ -114,6 +113,7 @@ class Manager
      */
     public function __call($method, $args)
     {
-        return call_user_func_array(array($this->getAdapter(), $method), $args);
+        return call_user_func_array([$this->getAdapter(), $method], $args);
     }
 }//end class
+

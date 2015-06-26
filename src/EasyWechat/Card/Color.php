@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Color.php
+ * Color.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,11 +18,10 @@
 namespace EasyWeChat\Card;
 
 /**
- * 颜色接口
+ * 颜色接口.
  */
 class Color
 {
-
     /**
      * Http对象
      *
@@ -38,7 +39,7 @@ class Color
     const API_LIST = 'https://api.weixin.qq.com/card/getcolors';
 
     /**
-     * constructor
+     * constructor.
      *
      * <pre>
      * $config:
@@ -53,12 +54,12 @@ class Color
      */
     public function __construct(array $config)
     {
-        $this->http  = new Http(new AccessToken($config));
+        $this->http = new Http(new AccessToken($config));
         $this->cache = new Cache($config['app_id']);
     }
 
     /**
-     * 获取颜色列表
+     * 获取颜色列表.
      *
      * @return array
      */
@@ -67,8 +68,8 @@ class Color
         $key = 'overtrue.wechat.colors';
 
         // for php 5.3
-        $http    = $this->http;
-        $cache   = $this->cache;
+        $http = $this->http;
+        $cache = $this->cache;
         $apiList = self::API_LIST;
 
         return $this->cache->get(

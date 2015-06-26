@@ -1,6 +1,7 @@
 <?php
+
 /**
- * MenuItem.php
+ * MenuItem.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,15 +21,14 @@ use EasyWeChat\Support\MagicAttributes;
 use Closure;
 
 /**
- * 菜单项
+ * 菜单项.
  *
  * @property array $sub_button
  */
 class MenuItem extends MagicAttributes
 {
-
     /**
-     * 实例化菜单
+     * 实例化菜单.
      *
      * @param string $name
      * @param string $type
@@ -40,7 +41,7 @@ class MenuItem extends MagicAttributes
         $type !== null && $this->with('type', $type);
 
         if ($property !== null) {
-            switch($type){
+            switch ($type) {
                 case 'view':
                     $key = 'url';
                     break;
@@ -57,7 +58,7 @@ class MenuItem extends MagicAttributes
     }
 
     /**
-     * 设置子菜单
+     * 设置子菜单.
      *
      * @param array $buttons
      *
@@ -79,7 +80,7 @@ class MenuItem extends MagicAttributes
     }
 
     /**
-     * 添加子菜单
+     * 添加子菜单.
      *
      * @param MenuItem $button
      */

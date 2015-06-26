@@ -1,6 +1,7 @@
 <?php
+
 /**
- * FaultException.php
+ * FaultException.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,11 +20,9 @@ namespace EasyWeChat\Core\Exceptions;
 use EasyWeChat\Core\Exception;
 
 /**
- * Class FaultException
- * 
- * @package EasyWeChat\Core\Exceptions
+ * Class FaultException.
  */
 class FaultException extends Exception
 {
-
 }//end class
+

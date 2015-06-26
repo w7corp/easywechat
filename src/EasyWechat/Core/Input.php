@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Input.php
+ * Input.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -76,9 +78,9 @@ class Input extends Collection
             );
         }
 
-        /** @var array $input */
+        /* @var array $input */
 
-        return array_merge($_REQUEST, (array)$input);
+        return array_merge($_REQUEST, (array) $input);
     }
 
     /**
@@ -90,11 +92,11 @@ class Input extends Collection
      */
     public function validate($token)
     {
-        $input = array(
+        $input = [
             $token,
             $this->get('timestamp'),
             $this->get('nonce'),
-        );
+        ];
 
         if ($this->has('signature')
             && $this->signature($input) !== $this->get('signature')
@@ -117,3 +119,4 @@ class Input extends Collection
         return sha1(implode($input));
     }
 }//end class
+

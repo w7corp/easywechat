@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Music.php
+ * Music.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,34 +18,31 @@
 namespace EasyWeChat\Message;
 
 /**
- * Class Music
+ * Class Music.
  *
  * @property string $url
  * @property string $hq_url
  * @property string $title
  * @property string $description
  * @property string $thumb_media_id
- *
- * @package EasyWeChat\Message
  */
 class Music extends AbstractMessage implements MessageInterface
 {
-
     /**
-     * Properties
+     * Properties.
      *
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
                              'url',
                              'hq_url',
                              'title',
                              'description',
                              'thumb_media_id',
-                            );
+                            ];
 
     /**
-     * 设置音乐消息封面图
+     * 设置音乐消息封面图.
      *
      * @param string $mediaId
      *
@@ -57,39 +56,39 @@ class Music extends AbstractMessage implements MessageInterface
     }
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      *
      * @return array
      */
     public function toStaff()
     {
-        return array(
-                'music' => array(
-                            'title'          => $this->title,
-                            'description'    => $this->description,
-                            'musicurl'       => $this->url,
-                            'hqmusicurl'     => $this->hq_url,
+        return [
+                'music' => [
+                            'title' => $this->title,
+                            'description' => $this->description,
+                            'musicurl' => $this->url,
+                            'hqmusicurl' => $this->hq_url,
                             'thumb_media_id' => $this->thumb_media_id,
-                           ),
-               );
+                           ],
+               ];
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      *
      * @return array
      */
     public function toReply()
     {
-        $response = array(
-                     'music' => array(
-                                 'Title'        => $this->title,
-                                 'Description'  => $this->description,
-                                 'MusicUrl'     => $this->url,
-                                 'HQMusicUrl'   => $this->hq_url,
+        $response = [
+                     'music' => [
+                                 'Title' => $this->title,
+                                 'Description' => $this->description,
+                                 'MusicUrl' => $this->url,
+                                 'HQMusicUrl' => $this->hq_url,
                                  'ThumbMediaId' => $this->thumb_media_id,
-                                ),
-                    );
+                                ],
+                    ];
 
         return $response;
     }

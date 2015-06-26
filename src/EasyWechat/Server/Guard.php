@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Guard.php
+ * Guard.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -23,36 +25,34 @@ use EasyWeChat\Message\MessageBuilder;
 use EasyWeChat\Support\Collection;
 
 /**
- * Class Guard
- *
- * @package EasyWeChat\Server
+ * Class Guard.
  */
 class Guard
 {
     /**
-     * 输入
+     * 输入.
      *
      * @var \EasyWeChat\Support\Collection
      */
     protected $input;
 
     /**
-     * 监听器
+     * 监听器.
      *
      * @var \EasyWeChat\Support\Collection
      */
     protected $listeners;
 
     /**
-     * 允许的事件
+     * 允许的事件.
      *
      * @var array
      */
-    protected $events = array(
+    protected $events = [
                          'received',
                          'served',
                          'responseCreated',
-                        );
+                        ];
 
     /**
      * Constructor.
@@ -81,16 +81,16 @@ class Guard
     {
         if (is_null($callback)) {
             $callback = $type;
-            $type     = '*';
+            $type = '*';
         }
 
         if (!is_callable($callback)) {
-            throw new InvalidArgumentException("The linstener is not callable.");
+            throw new InvalidArgumentException('The linstener is not callable.');
         }
 
         $type = strtolower($type);
 
-        $listeners = $this->listeners->get("{$target}.{$type}") ?: array();
+        $listeners = $this->listeners->get("{$target}.{$type}") ?: [];
 
         array_push($listeners, $callback);
 
@@ -100,7 +100,7 @@ class Guard
     }
 
     /**
-     * 监听事件
+     * 监听事件.
      *
      * @param string|callable $type
      * @param callable        $callback
@@ -113,7 +113,7 @@ class Guard
     }
 
     /**
-     * 监听消息
+     * 监听消息.
      *
      * @param string|callable $type
      * @param callable        $callback
@@ -157,7 +157,7 @@ class Guard
         if ($response instanceof AbstractMessage) {
             $response->from($this->input->get('ToUserName'))->to($this->input->get('FromUserName'));
 
-            $this->call('responseCreated', array($response));
+            $this->call('responseCreated', [$response]);
 
             $return = $response->buildForReply();
 
@@ -170,19 +170,19 @@ class Guard
             }
         }
 
-        $return = $this->call('served', array($return), $return);
+        $return = $this->call('served', [$return], $return);
 
         return $return;
     }
 
     /**
-     * 处理微信的请求
+     * 处理微信的请求.
      *
      * @return mixed
      */
     protected function handleRequest()
     {
-        $this->call('received', array($this->input));
+        $this->call('received', [$this->input]);
 
         if ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
             return $this->handleEvent($this->input);
@@ -194,7 +194,7 @@ class Guard
     }
 
     /**
-     * 处理消息
+     * 处理消息.
      *
      * @param Collection $message
      *
@@ -202,15 +202,15 @@ class Guard
      */
     protected function handleMessage($message)
     {
-        if (!is_null($response = $this->call('message.*', array($message)))) {
+        if (!is_null($response = $this->call('message.*', [$message]))) {
             return $response;
         }
 
-        return $this->call("message.{$message['MsgType']}", array($message));
+        return $this->call("message.{$message['MsgType']}", [$message]);
     }
 
     /**
-     * 处理事件
+     * 处理事件.
      *
      * @param Collection $event
      *
@@ -218,17 +218,17 @@ class Guard
      */
     protected function handleEvent($event)
     {
-        if (!is_null($response = $this->call('event.*', array($event)))) {
+        if (!is_null($response = $this->call('event.*', [$event]))) {
             return $response;
         }
 
         $event['Event'] = strtolower($event['Event']);
 
-        return $this->call("event.{$event['Event']}", array($event));
+        return $this->call("event.{$event['Event']}", [$event]);
     }
 
     /**
-     * 调用监听器
+     * 调用监听器.
      *
      * @param string      $key
      * @param array       $args
@@ -256,7 +256,7 @@ class Guard
     }
 
     /**
-     * 魔术调用
+     * 魔术调用.
      *
      * @param string $method
      * @param array  $args
@@ -274,3 +274,4 @@ class Guard
         }
     }
 } // end class
+
