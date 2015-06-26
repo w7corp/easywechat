@@ -20,10 +20,8 @@ namespace EasyWeChat\Server;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Input;
 use EasyWeChat\Encryption\Cryptor;
-use EasyWeChat\Message\AbstractMessage;
-use EasyWeChat\Message\MessageBuilder;
+use EasyWeChat\Message\BaseMessage;
 use EasyWeChat\Message\Text;
-use EasyWeChat\Server\Messages\MessageInterface;
 use EasyWeChat\Support\Collection;
 
 /**
@@ -32,29 +30,23 @@ use EasyWeChat\Support\Collection;
 class Guard
 {
     /**
-     * 输入.
+     * Empty string.
+     */
+    const EMPTY_STRING = '';
+
+    /**
+     * Input.
      *
-     * @var \EasyWeChat\Support\Collection
+     * @var Collection
      */
     protected $input;
 
     /**
-     * 监听器.
+     * Listeners.
      *
-     * @var \EasyWeChat\Support\Collection
+     * @var Collection
      */
     protected $listeners;
-
-    /**
-     * 允许的事件.
-     *
-     * @var array
-     */
-    protected $events = [
-                         'received',
-                         'served',
-                         'responseCreated',
-                        ];
 
     /**
      * Constructor.
@@ -102,7 +94,7 @@ class Guard
     }
 
     /**
-     * 监听事件.
+     * Add a event listener.
      *
      * @param string|callable $type
      * @param callable        $callback
@@ -115,7 +107,7 @@ class Guard
     }
 
     /**
-     * 监听消息.
+     * Add a message listener.
      *
      * @param string|callable $type
      * @param callable        $callback
@@ -153,16 +145,17 @@ class Guard
     protected function response($response)
     {
         if (is_string($response)) {
-            $message = new Text();
-            $response = $message->content = $response;
+            $message = new Text(['content' => $response]);
         }
 
         $return = '';
 
-        if ($response instanceof MessageInterface) {
-            $this->call('responseCreated', [$response]);
-
-            $return = $this->buildReply($this->input->get('ToUserName'), $this->input->get('FromUserName'), $response);
+        if ($this->isMessage($response)) {
+            $return = $this->buildReply(
+                    $this->input->get('ToUserName'),
+                    $this->input->get('FromUserName'),
+                    $response
+            );
 
             if ($this->input->isEncrypted()) {
                 $return = $this->cryptor->encryptMsg(
@@ -173,31 +166,39 @@ class Guard
             }
         }
 
-        $return = $this->call('served', [$return], $return);
-
         return $return;
     }
 
     /**
-     * 处理微信的请求.
+     * Wether response is message.
+     *
+     * @param mixed $response
+     *
+     * @return bool
+     */
+    protected function isMessage($response)
+    {
+        return is_subclass_of($response, 'EasyWeChat\Message\BaseMessage');
+    }
+
+    /**
+     * Handle request.
      *
      * @return mixed
      */
     protected function handleRequest()
     {
-        $this->call('received', [$this->input]);
-
         if ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
             return $this->handleEvent($this->input);
         } elseif ($this->input->has('MsgId')) {
             return $this->handleMessage($this->input);
         }
 
-        return '';
+        return self::EMPTY_STRING;
     }
 
     /**
-     * 处理消息.
+     * Handle message.
      *
      * @param Collection $message
      *
@@ -213,7 +214,7 @@ class Guard
     }
 
     /**
-     * 处理事件.
+     * Handle event message.
      *
      * @param Collection $event
      *
@@ -242,17 +243,17 @@ class Guard
     protected function buildReply($to, $from, $message)
     {
         $base = [
-            'ToUserName' => $this->to,
-            'FromUserName' => $this->from,
-            'CreateTime' => time(),
-            'MsgType' => $message->getType(),
+            'ToUserName'   => $to,
+            'FromUserName' => $from,
+            'CreateTime'   => time(),
+            'MsgType'      => $message->getType(),
         ];
 
-        return XML::build(array_merge($base, $message->toReply()));
+        return XML::build(array_merge($base, $this->transformer->transform($message)));
     }
 
     /**
-     * 调用监听器.
+     * Call listener.
      *
      * @param string      $key
      * @param array       $args
@@ -278,24 +279,4 @@ class Guard
 
         return $default;
     }
-
-    /**
-     * 魔术调用.
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        if (in_array($method, $this->events, true)) {
-            $callback = array_shift($args);
-
-            is_callable($callback) && $this->listeners->set($method, $callback);
-
-            return;
-        }
-    }
 } // end class
-
