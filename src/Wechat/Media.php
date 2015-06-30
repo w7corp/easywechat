@@ -16,6 +16,7 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
+use Overtrue\Wechat\Utils\Arr;
 use Overtrue\Wechat\Utils\Bag;
 
 /**
@@ -118,7 +119,7 @@ class Media
 
         $this->forever = false;
 
-        return $response['media_id'];
+        return Arr::last(Arr::only($response, ['media_id', 'thumb_media_id']));
     }
 
     /**
