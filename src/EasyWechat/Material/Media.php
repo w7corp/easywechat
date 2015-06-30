@@ -66,22 +66,14 @@ class Media
     protected $forever = false;
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http        $http
+     * @param Transformer $transformer
      */
-    public function __construct(array $config)
+    public function __construct(Http $http)
     {
-        $this->http = new Http(new AccessToken($config));
+        $this->http = $http;
     }
 
     /**

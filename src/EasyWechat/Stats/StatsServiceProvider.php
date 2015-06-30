@@ -1,6 +1,6 @@
 <?php
 /**
- * UserServiceProvider.php.
+ * StatsServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -14,15 +14,15 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\User;
+namespace EasyWeChat\Stats;
 
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Application;
 
 /**
- * Class UserServiceProvider.
+ * Class StatsServiceProvider.
  */
-class UserServiceProvider extends ServiceProvider
+class StatsServiceProvider extends ServiceProvider
 {
     /**
      * Register Server.
@@ -33,12 +33,8 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        $app->bind('user', function ($app) {
-            return new User($app['http']);
-        });
-
-        $app->bind('user.group', function ($app) {
-            return new Group($app['http']);
+        $app->bind('store', function ($app) {
+            return new Stats($app['http']);
         });
     }
 }//end class

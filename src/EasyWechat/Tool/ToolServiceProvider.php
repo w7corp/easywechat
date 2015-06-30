@@ -1,6 +1,6 @@
 <?php
 /**
- * UrlServiceProvider.php.
+ * ToolServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -14,15 +14,15 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server;
+namespace EasyWeChat\Tool;
 
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Application;
 
 /**
- * Class UrlServiceProvider.
+ * Class ToolServiceProvider.
  */
-class UrlServiceProvider extends ServiceProvider
+class ToolServiceProvider extends ServiceProvider
 {
     /**
      * Register Server.
@@ -33,8 +33,12 @@ class UrlServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        $app->bind('url', function ($app) {
-            return new Client($app['http']);
+        $app->bind('tool.url', function ($app) {
+            return new Url($app['http']);
+        });
+
+        $app->bind('tool.qrcode', function ($app) {
+            return new QRCode($app['http']);
         });
     }
 }//end class

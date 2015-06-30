@@ -110,17 +110,12 @@ class Card
 
         $key = 'overtrue.wechat.card.api_ticket';
 
-        // for php 5.3
-        $http = $this->http;
-        $cache = $this->cache;
-        $apiTicket = self::API_TICKET;
-
         return $this->ticket = $this->cache->get(
             $key,
-            function ($key) use ($http, $cache, $apiTicket) {
-                $result = $http->get($apiTicket);
+            function ($key) {
+                $result = $this->http->get(self::API_TICKET);
 
-                $cache->set($key, $result['ticket'], $result['expires_in']);
+                $this->cache->set($key, $result['ticket'], $result['expires_in']);
 
                 return $result['ticket'];
             }

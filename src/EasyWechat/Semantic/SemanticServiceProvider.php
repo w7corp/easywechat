@@ -1,6 +1,7 @@
 <?php
+
 /**
- * UserServiceProvider.php.
+ * SemanticServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -14,15 +15,15 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\User;
+namespace EasyWeChat\Semantic;
 
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Application;
 
 /**
- * Class UserServiceProvider.
+ * Class SemanticServiceProvider.
  */
-class UserServiceProvider extends ServiceProvider
+class SemanticServiceProvider extends ServiceProvider
 {
     /**
      * Register Server.
@@ -33,12 +34,8 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        $app->bind('user', function ($app) {
-            return new User($app['http']);
-        });
-
-        $app->bind('user.group', function ($app) {
-            return new Group($app['http']);
+        $app->bind('semantic', function ($app) {
+            return new Semantic($app->config['app_id'], $app['http']);
         });
     }
 }//end class

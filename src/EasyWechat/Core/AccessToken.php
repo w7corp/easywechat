@@ -37,11 +37,11 @@ class AccessToken
     protected $secret;
 
     /**
-     * Cacher.
+     * Cache.
      *
      * @var Cache
      */
-    protected $cacher;
+    protected $cache;
 
     /**
      * Http client.
@@ -72,14 +72,14 @@ class AccessToken
      *
      * @param string $appId
      * @param string $secret
-     * @param Cache  $cacher
+     * @param Cache  $cache
      * @param Http   $http
      */
-    public function __construct($appId, $secret, Cache $cacher, Http $http)
+    public function __construct($appId, $secret, Cache $cache, Http $http)
     {
         $this->appId = $appId;
         $this->secret = $secret;
-        $this->cacher = $cacher;
+        $this->cache = $cache;
         $this->http = $http;
     }
 
@@ -94,26 +94,18 @@ class AccessToken
             return $this->token;
         }
 
-        // for php 5.3
-        $appId = $this->appId;
-        $secret = $this->secret;
-        $cacher = $this->cacher;
-        $http = $this->http;
-        $cacheKey = $this->cacheKey;
-        $api = self::API_TOKEN_GET;
-
         return $this->token = $this->cacher->get(
             $cacheKey,
-            function ($cacheKey) use ($appId, $secret, $cacher, $http, $api) {
+            function ($cacheKey) {
                 $params = [
-                    'appid' => $appId,
-                    'secret' => $secret,
+                    'appid' => $this->appId,
+                    'secret' => $this->secret,
                     'grant_type' => 'client_credential',
                 ];
 
-                $token = $http->get($api, $params);
+                $token = $this->http->get(self::API_TOKEN_GET, $params);
 
-                $cacher->set($cacheKey, $token['access_token'], $token['expires_in']);
+                $this->cache->set($cacheKey, $token['access_token'], $token['expires_in']);
 
                 return $token['access_token'];
             }

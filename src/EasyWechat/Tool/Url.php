@@ -15,14 +15,14 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Url;
+namespace EasyWeChat\Tool;
 
 use EasyWeChat\Support\Url as UrlHelper;
 
 /**
- * Class Client.
+ * Class Tool.
  */
-class Client
+class Tool
 {
     /**
      * Http client.

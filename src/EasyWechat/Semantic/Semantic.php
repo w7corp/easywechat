@@ -17,22 +17,23 @@
 
 namespace EasyWeChat\Semantic;
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**
- * 语义理解.
+ * Class Semantic.
  */
 class Semantic
 {
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
     protected $http;
 
     /**
-     * 应用ID.
+     * App id.
      *
      * @var string
      */
@@ -41,31 +42,23 @@ class Semantic
     const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param string $appId
+     * @param Http   $http
      */
-    public function __construct(array $config)
+    public function __construct($appId, Http $http)
     {
-        $this->appId = $config['app_id'];
-        $this->http = new Http(new AccessToken($config));
+        $this->appId = $appId;
+        $this->http = $http;
     }
 
     /**
-     * 语义理解.
+     * Get the semantic content of giving string.
      *
-     * @param string         $keyword
-     * @param array | string $categories
-     * @param array          $other
+     * @param string       $keyword
+     * @param array|string $categories
+     * @param array        $other
      *
      * @return Collection
      */
@@ -79,4 +72,4 @@ class Semantic
 
         return new Collection($this->http->jsonPost(self::API_CREATE, array_merge($params, $other)));
     }
-}
+}// end class

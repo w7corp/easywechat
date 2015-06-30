@@ -21,6 +21,7 @@ use EasyWeChat\Cache\Adapters\AdapterInterface as Cache;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\JSON;
 use EasyWeChat\Support\Str;
+use EasyWeChat\Support\Url as UrlHelper;
 
 /**
  * Class SDK.
@@ -126,19 +127,12 @@ class SDK
     {
         $key = 'overtrue.wechat.jsapi_ticket'.$this->appId;
 
-        // for php 5.3
-        $appId = $this->appId;
-        $secret = $this->secret;
-        $cache = $this->cache;
-        $http = $this->http;
-        $apiTicket = self::API_TICKET;
-
         return $this->cache->get(
             $key,
-            function ($key) use ($appId, $secret, $cache, $http, $apiTicket) {
-                $result = $http->get($apiTicket);
+            function ($key) use ($apiTicket) {
+                $result = $this->http->get(self::API_TICKET);
 
-                $cache->set($key, $result['ticket'], $result['expires_in']);
+                $this->cache->set($key, $result['ticket'], $result['expires_in']);
 
                 return $result['ticket'];
             }
@@ -212,9 +206,7 @@ class SDK
             return $this->url;
         }
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
-
-        return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        return UrlHelper::current();
     }
 
     /**

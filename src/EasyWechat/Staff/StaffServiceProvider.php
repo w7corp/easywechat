@@ -15,7 +15,7 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Server;
+namespace EasyWeChat\Staff;
 
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Application;

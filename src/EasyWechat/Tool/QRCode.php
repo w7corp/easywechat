@@ -42,22 +42,13 @@ class QRCode
     const API_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http        $http
      */
-    public function __construct(array $config)
+    public function __construct(Http $http)
     {
-        $this->http = new Http(new AccessToken($config));
+        $this->http = $http;
     }
 
     /**

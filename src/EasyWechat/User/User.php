@@ -21,7 +21,7 @@ use EasyWeChat\Support\Collection;
 /**
  * Class User.
  */
-class Manager
+class User
 {
     /**
      * Http client.
@@ -31,6 +31,7 @@ class Manager
     protected $http;
 
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/user/info';
+    const API_BATCH_GET = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget';
     const API_LIST = 'https://api.weixin.qq.com/cgi-bin/user/get';
     const API_GROUP = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
     const API_REMARK = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
@@ -66,6 +67,28 @@ class Manager
                   ];
 
         return new Collection($this->http->get(self::API_GET, $params));
+    }
+
+    /**
+     * Batch get users.
+     *
+     * @param array  $openIds
+     * @param string $lang
+     *
+     * @return array
+     */
+    public function batchGet(array $openIds, $lang = 'zh_CN')
+    {
+        $params = [];
+
+        $params['user_list'] = array_map(function($openId) use ($lang){
+            return [
+                    'openid' => $openId,
+                    'lang' => $lang,
+                    ];
+        }, $openIds);
+
+        return new Collection($this->http->get(self::API_BATCH_GET, $params));
     }
 
     /**
