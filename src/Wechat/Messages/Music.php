@@ -80,7 +80,7 @@ class Music extends BaseMessage
     public function toReply()
     {
         $response = array(
-                     'music' => array(
+                     'Music' => array(
                                  'Title'        => $this->title,
                                  'Description'  => $this->description,
                                  'MusicUrl'     => $this->url,
