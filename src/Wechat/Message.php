@@ -34,6 +34,7 @@ class Message
     const NEWS      = 'news';
     const TRANSFER  = 'transfer';
     const NEWS_ITEM = 'news_item';
+    const MP_NEWS = 'mp_news';
 
     /**
      * 创建消息实例
