@@ -153,3 +153,4 @@ class Manager
         return $this->http->post($url, [], $options);
     }
 }//end class
+

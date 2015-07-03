@@ -19,7 +19,6 @@ namespace EasyWeChat\Message;
 
 use EasyWeChat\Core\Application;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Support\Str;
 
 /**
  * Class MessageBuilder.
@@ -47,7 +46,6 @@ class MessageFactory
      *
      * @param Application $app [description]
      */
-
     public function __construct(Application $app)
     {
         $this->app = $app;
@@ -71,3 +69,4 @@ class MessageFactory
         return $this->app->get("message.{$type}");
     }
 }//end class
+

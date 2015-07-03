@@ -1,6 +1,7 @@
 <?php
+
 /**
- * BaseMessage.php
+ * AbstractMessage.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,9 +21,9 @@ use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Attribute;
 
 /**
- * Class BaseMessage.
+ * Class AbstractMessage.
  */
-abstract class BaseMessage extends Attribute
+abstract class AbstractMessage extends Attribute
 {
     /**
      * Message id.
@@ -77,7 +79,7 @@ abstract class BaseMessage extends Attribute
      * @param string $method
      * @param array  $args
      *
-     * @return BaseMessage
+     * @return AbstractMessage
      */
     public function __call($method, $args)
     {

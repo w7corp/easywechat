@@ -27,7 +27,7 @@ namespace EasyWeChat\Message;
  * @property string $thumb_media_id
  * @property string $format
  */
-class Music extends BaseMessage
+class Music extends AbstractMessage
 {
     /**
      * Message type.
@@ -49,5 +49,5 @@ class Music extends BaseMessage
                              'thumb_media_id',
                              'format',
                             ];
-
 }//end class
+

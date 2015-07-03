@@ -22,7 +22,7 @@ namespace EasyWeChat\Message;
  *
  * @property string $media_id
  */
-class Voice extends BaseMessage
+class Voice extends AbstractMessage
 {
     /**
      * Message type.
@@ -52,3 +52,4 @@ class Voice extends BaseMessage
         return $this;
     }
 }//end class
+

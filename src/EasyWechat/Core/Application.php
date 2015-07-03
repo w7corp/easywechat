@@ -29,7 +29,7 @@ use IteratorAggregate;
 /**
  * Class Bootstrapper.
  */
-class Bootstrapper implements ArrayAccess, IteratorAggregate
+class Application implements ArrayAccess, IteratorAggregate
 {
     /**
      * Configuration.

@@ -22,7 +22,7 @@ use EasyWeChat\Support\Url as UrlHelper;
 /**
  * Class Tool.
  */
-class Tool
+class Url
 {
     /**
      * Http client.
@@ -72,3 +72,4 @@ class Tool
         return UrlHelper::current();
     }
 }//end class
+

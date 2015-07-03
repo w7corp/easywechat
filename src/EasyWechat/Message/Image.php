@@ -22,7 +22,7 @@ namespace EasyWeChat\Message;
  *
  * @property string $media_id
  */
-class Image extends BaseMessage
+class Image extends AbstractMessage
 {
     /**
      * Message type.
@@ -52,3 +52,4 @@ class Image extends BaseMessage
         return $this;
     }
 }//end class
+

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Group.php.
  *
@@ -168,3 +169,4 @@ class Group
         return true;
     }
 }//end class
+

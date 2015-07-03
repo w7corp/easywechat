@@ -73,3 +73,4 @@ class Semantic
         return new Collection($this->http->jsonPost(self::API_CREATE, array_merge($params, $other)));
     }
 }// end class
+

@@ -44,7 +44,7 @@ class QRCode
     /**
      * Constructor.
      *
-     * @param Http        $http
+     * @param Http $http
      */
     public function __construct(Http $http)
     {

@@ -22,7 +22,7 @@ use Closure;
 /**
  * Class Articles.
  */
-class Articles extends BaseMessage
+class Articles extends AbstractMessage
 {
     /**
      * Message type.
@@ -70,3 +70,4 @@ class Articles extends BaseMessage
         return $this;
     }
 }//end class
+

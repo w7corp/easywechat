@@ -28,7 +28,7 @@ use EasyWeChat\Media;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends BaseMessage
+class Video extends AbstractMessage
 {
     /**
      * Message type.
@@ -77,3 +77,4 @@ class Video extends BaseMessage
         return $this;
     }
 }//end class
+

@@ -20,7 +20,7 @@ namespace EasyWeChat\Message;
 /**
  * Class Link.
  */
-class Link extends BaseMessage
+class Link extends AbstractMessage
 {
     /**
      * Message type.
@@ -40,3 +40,4 @@ class Link extends BaseMessage
                              'url',
                             ];
 }//end class
+

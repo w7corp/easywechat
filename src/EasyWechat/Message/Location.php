@@ -20,7 +20,7 @@ namespace EasyWeChat\Message;
 /**
  * Class Location.
  */
-class Location extends BaseMessage
+class Location extends AbstractMessage
 {
     /**
      * Message type.
@@ -42,3 +42,4 @@ class Location extends BaseMessage
                              'precision',
                             ];
 }//end class
+

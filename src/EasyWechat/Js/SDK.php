@@ -125,14 +125,14 @@ class SDK
      */
     public function getTicket()
     {
-        $key = 'overtrue.wechat.jsapi_ticket'.$this->appId;
+        $key = 'overtrue.wechat.jsapi_ticket.'.$this->appId;
 
         return $this->cache->get(
             $key,
             function ($key) use ($apiTicket) {
                 $result = $this->http->get(self::API_TICKET);
 
-                $this->cache->set($key, $result['ticket'], $result['expires_in']);
+                $this->cache->set($key, $result['ticket'], $result['expires_in'] - 100);
 
                 return $result['ticket'];
             }

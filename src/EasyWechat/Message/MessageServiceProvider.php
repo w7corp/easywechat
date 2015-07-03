@@ -1,6 +1,7 @@
 <?php
+
 /**
- * MessageServiceProvider.php
+ * MessageServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,15 +21,11 @@ use EasyWeChat\Core\Application;
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Support\Str;
 
-
 /**
- * Class MessageServiceProvider
- *
- * @package EasyWeChat\Message
+ * Class MessageServiceProvider.
  */
 class MessageServiceProvider extends ServiceProvider
 {
-
     /**
      * Register service.
      *
@@ -37,18 +35,19 @@ class MessageServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        $app->singleton('message', function($app){
+        $app->singleton('message', function ($app) {
             return new MessageFactory($app);
         });
 
         $messages = ['Text', 'Articles', 'Article', 'Image', 'Link', 'Location', 'Music', 'Transfer', 'ShortVideo', 'Video', 'Voice'];
 
         foreach ($messages as $message) {
-            $app->bind("message.".Str::snake($message), function($app) use ($message) {
-                $class = __NAMESPACE__. '\\'.$message;
+            $app->bind('message.'.Str::snake($message), function ($app) use ($message) {
+                $class = __NAMESPACE__.'\\'.$message;
 
                 return new $class();
             }, false);
         }
     }
 }//end class
+

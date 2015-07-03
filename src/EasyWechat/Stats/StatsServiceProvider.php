@@ -1,4 +1,5 @@
 <?php
+
 /**
  * StatsServiceProvider.php.
  *

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Messagener.php
+ * Messagener.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,7 +20,7 @@ namespace EasyWeChat\Staff;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Exceptions\RuntimeException;
-use EasyWeChat\Message\BaseMessage;
+use EasyWeChat\Message\AbstractMessage;
 use EasyWeChat\Message\Text;
 
 /**
@@ -36,7 +38,7 @@ class Messagener
     /**
      * Message to send.
      *
-     * @var BaseMessage;
+     * @var AbstractMessage;
      */
     protected $message;
 
@@ -78,7 +80,7 @@ class Messagener
     /**
      * Set message to send.
      *
-     * @param BaseMessage $message
+     * @param AbstractMessage $message
      *
      * @return Staff
      */
@@ -88,8 +90,8 @@ class Messagener
             $message = new Text(['content' => $message]);
         }
 
-        if (!$message instanceof BaseMessage) {
-            throw new InvalidArgumentException("Message must be a instanceof 'EasyWeChat\Message\BaseMessage'.");
+        if (!$message instanceof AbstractMessage) {
+            throw new InvalidArgumentException("Message must be a instanceof 'EasyWeChat\Message\AbstractMessage'.");
         }
 
         $this->message = $message;

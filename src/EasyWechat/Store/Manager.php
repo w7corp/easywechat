@@ -21,7 +21,7 @@ use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Collection;
 
 /**
- * Class Manager
+ * Class Manager.
  */
 class Manager
 {
@@ -133,3 +133,4 @@ class Manager
         return $this->http->jsonPost(self::API_DELETE, $params);
     }
 }//end class
+

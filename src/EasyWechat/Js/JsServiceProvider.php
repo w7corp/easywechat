@@ -1,7 +1,7 @@
 <?php
 
 /**
- * StoreServiceProvider.php.
+ * JsServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,15 +15,15 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Store;
+namespace EasyWeChat\Js;
 
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Application;
 
 /**
- * Class StoreServiceProvider.
+ * Class JsServiceProvider.
  */
-class StoreServiceProvider extends ServiceProvider
+class JsServiceProvider extends ServiceProvider
 {
     /**
      * Register Server.
@@ -34,8 +34,13 @@ class StoreServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        $app->bind('store', function ($app) {
-            return new Manager($app['http']);
+        $app->bind('js', function ($app) {
+            return new SDK(
+                $app['config']['app_id'],
+                $app['config']['secret'],
+                $app['cache'],
+                $app['http']
+            );
         });
     }
 }//end class

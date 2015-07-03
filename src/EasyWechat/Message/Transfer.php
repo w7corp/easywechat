@@ -23,7 +23,7 @@ namespace EasyWeChat\Message;
  * @property string $to
  * @property string $account
  */
-class Transfer extends BaseMessage
+class Transfer extends AbstractMessage
 {
     /**
      * Message type.
@@ -41,3 +41,4 @@ class Transfer extends BaseMessage
                              'account',
                             ];
 }//end class
+

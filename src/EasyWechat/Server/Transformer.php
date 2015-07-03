@@ -15,7 +15,7 @@
 
 namespace EasyWeChat\Server;
 
-use EasyWeChat\Message\BaseMessage;
+use EasyWeChat\Message\AbstractMessage;
 
 /**
  * Class Transformer.
@@ -25,11 +25,11 @@ class Transformer
     /**
      * transform message to XML.
      *
-     * @param BaseMessage $message
+     * @param AbstractMessage $message
      *
      * @return array
      */
-    public function transform(BaseMessage $message)
+    public function transform(AbstractMessage $message)
     {
         $handle = 'transform'.substr(get_class($message), strlen('EasyWeChat\Message'));
 
@@ -41,7 +41,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformText(BaseMessage $message)
+    public function tranformText(AbstractMessage $message)
     {
         return [
                 'Content' => $message->content,
@@ -53,7 +53,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformImage(BaseMessage $message)
+    public function tranformImage(AbstractMessage $message)
     {
         return [
                 'Image' => [
@@ -67,7 +67,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformVideo(BaseMessage $message)
+    public function tranformVideo(AbstractMessage $message)
     {
         $response = [
                      'Video' => [
@@ -85,7 +85,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformVoice(BaseMessage $message)
+    public function tranformVoice(AbstractMessage $message)
     {
         return [
                 'Voice' => [
@@ -99,7 +99,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformTransfer(BaseMessage $message)
+    public function tranformTransfer(AbstractMessage $message)
     {
         $response = [];
 
@@ -118,7 +118,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformArticles(BaseMessage $message)
+    public function tranformArticles(AbstractMessage $message)
     {
         $articles = [];
 

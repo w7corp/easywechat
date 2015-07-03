@@ -22,7 +22,7 @@ namespace EasyWeChat\Message;
  *
  * @property string $content
  */
-class Text extends BaseMessage
+class Text extends AbstractMessage
 {
     /**
      * Message type.
@@ -38,3 +38,4 @@ class Text extends BaseMessage
      */
     protected $properties = ['content'];
 }//end class
+

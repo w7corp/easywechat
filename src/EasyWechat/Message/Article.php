@@ -42,3 +42,4 @@ class Article extends Attribute
                                 'show_cover_pic',
                             ];
 }//end class
+

@@ -20,7 +20,6 @@ namespace EasyWeChat\Server;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Input;
 use EasyWeChat\Encryption\Cryptor;
-use EasyWeChat\Message\BaseMessage;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
 
@@ -178,7 +177,7 @@ class Guard
      */
     protected function isMessage($response)
     {
-        return is_subclass_of($response, 'EasyWeChat\Message\BaseMessage');
+        return is_subclass_of($response, 'EasyWeChat\Message\AbstractMessage');
     }
 
     /**
@@ -243,10 +242,10 @@ class Guard
     protected function buildReply($to, $from, $message)
     {
         $base = [
-            'ToUserName'   => $to,
+            'ToUserName' => $to,
             'FromUserName' => $from,
-            'CreateTime'   => time(),
-            'MsgType'      => $message->getType(),
+            'CreateTime' => time(),
+            'MsgType' => $message->getType(),
         ];
 
         return XML::build(array_merge($base, $this->transformer->transform($message)));
@@ -280,3 +279,4 @@ class Guard
         return $default;
     }
 } // end class
+

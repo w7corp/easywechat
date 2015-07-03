@@ -23,7 +23,7 @@ namespace EasyWeChat\Stats;
 class Stats
 {
     /**
-     * Http client
+     * Http client.
      *
      * @var Http
      */

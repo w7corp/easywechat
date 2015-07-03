@@ -1,4 +1,5 @@
 <?php
+
 /**
  * User.php.
  *
@@ -81,7 +82,7 @@ class User
     {
         $params = [];
 
-        $params['user_list'] = array_map(function($openId) use ($lang){
+        $params['user_list'] = array_map(function ($openId) use ($lang) {
             return [
                     'openid' => $openId,
                     'lang' => $lang,
@@ -151,3 +152,4 @@ class User
         return $response['groupid'];
     }
 }//end class
+
