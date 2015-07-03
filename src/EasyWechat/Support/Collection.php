@@ -78,7 +78,7 @@ class Collection implements
     }
 
     /**
-     * To determine whether the specified element exists.
+     * To determine Whether the specified element exists.
      *
      * @param string $key
      *

@@ -147,7 +147,7 @@ class Application implements ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Return whether the service is binded.
+     * Return Whether the service is binded.
      *
      * @param string $abstract
      *
@@ -159,7 +159,7 @@ class Application implements ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Return whether the service is resolved.
+     * Return Whether the service is resolved.
      *
      * @param string $abstract
      *
@@ -171,7 +171,7 @@ class Application implements ArrayAccess, IteratorAggregate
     }
 
     /**
-     * Wether the abstract is shared.
+     * Whether the abstract is shared.
      *
      * @param string $abstract
      *

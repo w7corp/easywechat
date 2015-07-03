@@ -169,7 +169,7 @@ class Guard
     }
 
     /**
-     * Wether response is message.
+     * Whether response is message.
      *
      * @param mixed $response
      *
