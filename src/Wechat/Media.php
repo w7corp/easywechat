@@ -119,7 +119,7 @@ class Media
 
         $this->forever = false;
 
-        return Arr::last(Arr::only($response, array('media_id', 'thumb_media_id')));
+        return array_pop($temp = Arr::only($response, array('media_id', 'thumb_media_id')));
     }
 
     /**
