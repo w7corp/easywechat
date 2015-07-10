@@ -19,8 +19,10 @@ namespace EasyWeChat\Core;
 
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\Exceptions\HttpException;
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\Http as HttpClient;
 use EasyWeChat\Support\JSON;
+use Exception;
 
 /**
  * Class Http.
@@ -44,6 +46,13 @@ class Http extends HttpClient
     protected $json = false;
 
     /**
+     * Defualt exception.
+     *
+     * @var string
+     */
+    protected $exception = 'EasyWeChat\Core\Exceptions\HttpException';
+
+    /**
      * Constructor.
      *
      * @param AccessToken|null $token
@@ -63,6 +72,24 @@ class Http extends HttpClient
     public function setToken(AccessToken $token)
     {
         $this->token = $token;
+    }
+
+    /**
+     * Set exception to be throw when an error occurs.
+     *
+     * @param Exception $exception
+     *
+     * @return Http
+     */
+    public function setExpectedException($exception)
+    {
+        if (!is_subclass_of($exception, 'Exception')) {
+            throw new InvalidArgumentException('Invalid Exception name.');
+        }
+
+        $this->exception = is_string($exception) ? $exception : get_class($exception);
+
+        return $this;
     }
 
     /**
@@ -99,7 +126,7 @@ class Http extends HttpClient
         }
 
         // plain text or JSON
-        $textMIME = '~application/json|text/plain~i';
+        $textMIME = '~.*/json|text/plain~';
 
         $contents = JSON::decode($response['data'], true);
 
@@ -115,7 +142,7 @@ class Http extends HttpClient
                 $contents['errmsg'] = 'Unknown';
             }
 
-            throw new FaultException("[{$contents['errcode']}] ".$contents['errcode'], $contents['errcode']);
+            $this->thorwException($contents['errmsg'], $contents['errcode']);
         }
 
         if ($contents === ['errcode' => '0', 'errmsg' => 'ok']) {
@@ -123,6 +150,19 @@ class Http extends HttpClient
         }
 
         return $contents;
+    }
+
+    /**
+     * Throw Http Exception.
+     *
+     * @param string $msg
+     * @param int    $code
+     */
+    protected function thorwException($msg, $code)
+    {
+        $exception = new $this->exception($msg, $code);
+
+        throw $exception;
     }
 
     /**

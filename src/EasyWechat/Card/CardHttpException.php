@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Exception.php.
+ * CardHttpException.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,11 +15,14 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Core;
+namespace EasyWeChat\Card;
 
-use Exception as BaseException;
+use EasyWeChat\Core\Exception as CoreException;
 
-class Exception extends BaseException
+/**
+ * Class CardHttpException.
+ */
+class CardHttpException extends CoreException
 {
     protected $errors = [
                          '-1' => '系统繁忙，此时请开发者稍候再试',
@@ -172,8 +175,6 @@ class Exception extends BaseException
      public function __construct($message, $code = -1)
      {
          $message = empty($this->errors[$code]) ? $this->message : $message.' '.$this->errors[$code];
-
-         $message = "[Wechat]{$message}";
 
          parent::__construct($message, $code);
      }

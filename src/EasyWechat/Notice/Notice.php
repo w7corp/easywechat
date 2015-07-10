@@ -49,91 +49,6 @@ class Notice
                           'data' => [],
                          ];
 
-    /**
-     * 工业列表.
-     *
-     * @var array
-     */
-    protected static $industries = [
-                                    'IT科技' => [
-                                                                1 => '互联网/电子商务',
-                                                                2 => 'IT软件与服务',
-                                                                3 => 'IT硬件与设备',
-                                                                4 => '电子技术',
-                                                                5 => '通信与运营商',
-                                                                6 => '网络游戏',
-                                                               ],
-
-                                    '金融业' => [
-                                                                7 => '银行',
-                                                                8 => '基金|理财|信托',
-                                                                9 => '保险',
-                                                               ],
-
-                                    '餐饮' => [10 => '餐饮'],
-
-                                    '酒店旅游' => [
-                                                                11 => '酒店',
-                                                                12 => '旅游',
-                                                               ],
-
-                                    '运输与仓储' => [
-                                                                13 => '快递',
-                                                                14 => '物流',
-                                                                14 => '仓储',
-                                                               ],
-
-                                    '教育' => [
-                                                                16 => '培训',
-                                                                17 => '院校',
-                                                               ],
-
-                                    '政府与公共事业' => [
-                                                                18 => '学术科研',
-                                                                19 => '交警',
-                                                                20 => '博物馆',
-                                                                21 => '公共事业|非盈利机构',
-                                                               ],
-
-                                    '医药护理' => [
-                                                                22 => '医药医疗',
-                                                                23 => '护理美容',
-                                                                24 => '保健与卫生',
-                                                               ],
-
-                                    '交通工具' => [
-                                                                25 => '汽车相关',
-                                                                26 => '摩托车相关',
-                                                                27 => '火车相关',
-                                                                28 => '飞机相关',
-                                                               ],
-
-                                    '房地产' => [
-                                                                29 => '建筑',
-                                                                30 => '物业',
-                                                               ],
-
-                                    '消费品' => [31 => '消费品'],
-
-                                    '商业服务' => [
-                                                                32 => '法律',
-                                                                33 => '会展',
-                                                                34 => '中介服务',
-                                                                35 => '认证',
-                                                                36 => '审计',
-                                                               ],
-
-                                    '文体娱乐' => [
-                                                                37 => '传媒',
-                                                                38 => '体育',
-                                                                39 => '娱乐休闲',
-                                                               ],
-
-                                    '印刷' => [40 => '印刷'],
-
-                                    '其它' => [41 => '其它'],
-                                   ];
-
     const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
@@ -145,7 +60,7 @@ class Notice
      */
     public function __construct(Http $http)
     {
-        $this->http = $http;
+        $this->http = $http->setExpectedException('EasyWeChat\Notice\NoticeHttpException');
     }
 
     /**
@@ -239,30 +154,6 @@ class Notice
     }
 
     /**
-     * 行业列表.
-     *
-     * @return array
-     */
-    public function industries()
-    {
-        return self::$industries;
-    }
-
-    /**
-     * 魔术访问.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        if ($property === 'industries') {
-            return $this->industries();
-        }
-    }
-
-    /**
      * 格式化模板数据.
      *
      * @param array $data
@@ -339,4 +230,5 @@ class Notice
             return $this;
         }
     }
-}
+}//end class
+

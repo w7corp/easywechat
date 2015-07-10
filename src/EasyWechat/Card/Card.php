@@ -17,16 +17,18 @@
 
 namespace EasyWeChat\Card;
 
+use EasyWeChat\Cache\Manager as Cache;
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Arr;
 
 /**
- * 卡券.
+ * Class Card.
  */
 class Card
 {
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
@@ -78,27 +80,19 @@ class Card
     const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http  $http
+     * @param Cache $cache
      */
-    public function __construct(array $config)
+    public function __construct(Http $http, Cache $cache)
     {
-        $this->http = new Http(new AccessToken($config));
-        $this->cache = new Cache($config['app_id']);
+        $this->http = $http->setExpectedException('EasyWeChat\Card\CardHttpException');
+        $this->cache = $cache;
     }
 
     /**
-     * 获取jsticket.
+     * Get JSSDK ticket.
      *
      * @return string
      */
@@ -158,7 +152,7 @@ class Card
     }
 
     /**
-     * 创建卡券.
+     * Create card.
      *
      * @param array  $base
      * @param array  $properties
@@ -183,7 +177,7 @@ class Card
     }
 
     /**
-     * 卡券详情.
+     * Get card detail.
      *
      * @param string $cardId
      *
@@ -199,7 +193,7 @@ class Card
     }
 
     /**
-     * 修改卡券.
+     * Update card.
      *
      * @param string $cardId
      * @param string $type
@@ -222,7 +216,7 @@ class Card
     }
 
     /**
-     * 批量获取卡券列表.
+     * Batch get card list.
      *
      * @param int $offset
      * @param int $count
@@ -242,11 +236,10 @@ class Card
     }
 
     /**
-     * 核销.
+     * Confirm consume.
      *
-     * @param string $code   要消耗序列号
-     * @param string $cardId 卡券 ID。创建卡券时 use_custom_code 填写 true 时必填。
-     *                       非自定义 code 不必填写。
+     * @param string $code
+     * @param string $cardId
      *
      * @return Collection
      */
@@ -261,7 +254,7 @@ class Card
     }
 
     /**
-     * 废弃卡券，失效.
+     * Disable card.
      *
      * @param string $code
      * @param string $cardId
@@ -279,7 +272,7 @@ class Card
     }
 
     /**
-     * 删除卡券.
+     * Delete card.
      *
      * @param string $cardId
      *
@@ -293,7 +286,7 @@ class Card
     }
 
     /**
-     * 修改库存.
+     * Change stock.
      *
      * @param string $cardId
      * @param int    $amount
@@ -317,7 +310,7 @@ class Card
     }
 
     /**
-     * 增加库存.
+     * Increment stock.
      *
      * @param string $cardId
      * @param int    $amount
@@ -330,7 +323,7 @@ class Card
     }
 
     /**
-     * 减少库存.
+     * Decrement stock.
      *
      * @param string $cardId
      * @param int    $amount
@@ -343,7 +336,7 @@ class Card
     }
 
     /**
-     * 查询Code.
+     * Get code of card.
      *
      * @param string $code
      * @param string $cardId
@@ -361,7 +354,7 @@ class Card
     }
 
     /**
-     * 修改code.
+     * Update code of card.
      *
      * @param string $code
      * @param string $newCode
@@ -381,7 +374,7 @@ class Card
     }
 
     /**
-     * code 解码.
+     * Decode code.
      *
      * @param string $encryptedCode
      *
@@ -397,7 +390,7 @@ class Card
     }
 
     /**
-     * 激活/绑定会员卡
+     * Active member card.
      *
      * <pre>
      * $data:
@@ -422,7 +415,7 @@ class Card
     }
 
     /**
-     * 会员卡交易.
+     * Trade member card.
      *
      * <pre>
      * $data:
@@ -449,7 +442,7 @@ class Card
     }
 
     /**
-     * 电影票更新座位.
+     * Update ticket.
      *
      * <pre>
      * $data:
@@ -475,7 +468,7 @@ class Card
     }
 
     /**
-     * 会议门票更新.
+     * Update meeting ticket.
      *
      * <pre>
      * $data:
@@ -501,7 +494,7 @@ class Card
     }
 
     /**
-     * 在线值机.
+     * Checkin.
      *
      * <pre>
      * $data:
@@ -528,7 +521,7 @@ class Card
     }
 
     /**
-     * 生成签名.
+     * Return signature.
      *
      * @return string
      */
@@ -542,7 +535,7 @@ class Card
     }
 
     /**
-     * 获取随机字符串.
+     * Return random string.
      *
      * @return string
      */

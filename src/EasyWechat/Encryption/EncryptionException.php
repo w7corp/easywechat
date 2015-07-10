@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Exception.php.
+ * EncryptionException.php.
  *
  * Part of EasyWeChat.
  *
@@ -20,9 +20,9 @@ namespace EasyWeChat\Encryption;
 use EasyWeChat\Core\Exception as CoreException;
 
 /**
- * Class Exception.
+ * Class EncryptionException.
  */
-class Exception extends CoreException
+class EncryptionException extends CoreException
 {
     const ERROR_INVALID_SIGNATURE = -40001; // Signature verification failed
     const ERROR_PARSE_XML = -40002; // Parse XML failed

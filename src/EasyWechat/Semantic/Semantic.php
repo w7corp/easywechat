@@ -50,7 +50,7 @@ class Semantic
     public function __construct($appId, Http $http)
     {
         $this->appId = $appId;
-        $this->http = $http;
+        $this->http = $http->setExpectedException('EasyWeChat\Semantic\SemanticHttpException');
     }
 
     /**

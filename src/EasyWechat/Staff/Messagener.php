@@ -73,7 +73,7 @@ class Messagener
      */
     public function __construct(Http $http, Transformer $transformer)
     {
-        $this->http = $http;
+        $this->http = $http->setExpectedException('EasyWeChat\Staff\StaffHttpException');
         $this->transformer = $transformer;
     }
 

@@ -5,3 +5,4 @@ composer.lock
 *.jpg
 .subsplit
 .idea
+.php_cs.cache

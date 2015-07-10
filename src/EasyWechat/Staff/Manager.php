@@ -42,12 +42,11 @@ class Manager
     /**
      * Constructor.
      *
-     * @param Http        $http
-     * @param Transformer $transformer
+     * @param Http $http
      */
     public function __construct(Http $http)
     {
-        $this->http = $http;
+        $this->http = $http->setExpectedException('EasyWeChat\Staff\StaffHttpException');
     }
 
     /**

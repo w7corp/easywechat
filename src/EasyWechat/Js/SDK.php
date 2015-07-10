@@ -78,7 +78,7 @@ class SDK
         $this->appId = $appId;
         $this->secret = $secret;
         $this->cache = $cache;
-        $this->http = $http;
+        $this->http = $http->setExpectedException('EasyWeChat\Js\JsHttpException');
     }
 
     /**
