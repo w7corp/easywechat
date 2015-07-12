@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ToolServiceProvider.php.
+ * QRCodeServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,15 +15,15 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Tool;
+namespace EasyWeChat\QRCode;
 
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Application;
 
 /**
- * Class ToolServiceProvider.
+ * Class QRCodeServiceProvider.
  */
-class ToolServiceProvider extends ServiceProvider
+class QRCodeServiceProvider extends ServiceProvider
 {
     /**
      * Register Server.
@@ -34,11 +34,7 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        $app->bind('tool.url', function ($app) {
-            return new Url($app['http']);
-        });
-
-        $app->bind('tool.qrcode', function ($app) {
+        $app->bind('qrcode', function ($app) {
             return new QRCode($app['http']);
         });
     }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ToolHttpException.php.
+ * QRCodeHttpException.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,14 +15,14 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\Tool\ToolHttpEncryption;
+namespace EasyWeChat\QRCode;
 
 use EasyWeChat\Core\Exception as CoreException;
 
 /**
- * Class ToolHttpException.
+ * Class QRCodeHttpException.
  */
-class ToolHttpException extends CoreException
+class QRCodeHttpException extends CoreException
 {
 }//end class
 

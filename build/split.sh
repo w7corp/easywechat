@@ -7,7 +7,7 @@ git subsplit publish "
     src/EasyWeChat/Js/:git@github.com:easywechat/js.git
     src/EasyWeChat/Semantic/:git@github.com:easywechat/semantic.git
     src/EasyWeChat/Store/:git@github.com:easywechat/store.git
-    src/EasyWeChat/Url/:git@github.com:easywechat/url.git
+    src/EasyWeChat/Tool/:git@github.com:easywechat/tool.git
     src/EasyWeChat/Material/:git@github.com:easywechat/material.git
     src/EasyWeChat/Notice/:git@github.com:easywechat/notice.git
     src/EasyWeChat/Server/:git@github.com:easywechat/server.git
