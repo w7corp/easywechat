@@ -22,7 +22,6 @@ use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\Http as HttpClient;
 use EasyWeChat\Support\JSON;
-use Exception;
 
 /**
  * Class Http.
@@ -75,6 +74,16 @@ class Http extends HttpClient
     }
 
     /**
+     * Return token.
+     *
+     * @return AccessToken|null
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
      * Set exception to be throw when an error occurs.
      *
      * @param Exception $exception
@@ -90,6 +99,16 @@ class Http extends HttpClient
         $this->exception = is_string($exception) ? $exception : get_class($exception);
 
         return $this;
+    }
+
+    /**
+     * Return expected exception name.
+     *
+     * @return string
+     */
+    public function getExpectedException()
+    {
+        return $this->exception;
     }
 
     /**
@@ -128,7 +147,7 @@ class Http extends HttpClient
         // plain text or JSON
         $textMIME = '~.*/json|text/plain~';
 
-        $contents = JSON::decode($response['data'], true);
+        $contents = json_decode($response['data'], true);
 
         // while the response is an invalid JSON structure, returned the source data
         if (!preg_match($textMIME, $response['content_type'])
@@ -137,7 +156,7 @@ class Http extends HttpClient
             return $response['data'];
         }
 
-        if (isset($contents['errcode']) && 0 !== $contents['errcode']) {
+        if (isset($contents['errcode']) && 0 != $contents['errcode']) {
             if (empty($contents['errmsg'])) {
                 $contents['errmsg'] = 'Unknown';
             }

@@ -12,6 +12,11 @@
         "php":">=5.4",
         "ext-mcrypt": "*"
     },
+    "require-dev": {
+           "mockery/mockery": "0.9.*",
+           "phpunit/phpunit": "~4.0"
+    },
+
     "authors": [
         {
             "name": "overtrue",
@@ -26,7 +31,12 @@
     "minimum-stability" : "dev",
     "autoload": {
         "psr-4": {
-            "Overtrue\\Wechat\\": "src/EasyWeChat/"
+            "EasyWeChat\\": "src/EasyWeChat/"
         }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
     }
 }

@@ -175,9 +175,7 @@ class Exception extends BaseException
      */
     public function __construct($message, $code = -2)
     {
-        $message = empty($this->errors[$code]) ? $this->message : $message.' '.$this->errors[$code];
-
-        $message = "[Wechat]{$message}";
+        $message = empty($this->errors[$code]) ? $message : $this->errors[$code];
 
         parent::__construct($message, $code);
     }

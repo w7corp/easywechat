@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\OAuth;
 
+use EasyWeChat\Core\Input;
 use EasyWeChat\Support\Collection;
 
 /**
@@ -72,21 +73,24 @@ class Auth
     const API_TOKEN_VALIDATE = 'https://api.weixin.qq.com/sns/auth';
     const API_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
-    /**
-     * constructor.
+     /**
+     * Constructor.
      *
-     * @param array $config
+     * @param string $appId
+     * @param string $secret
+     * @param Input  $input
+     * @param Http   $http
      */
-    public function __construct(array $config)
+    public function __construct($appId, $secret, Input $input, Http $http)
     {
-        $this->appId = $config['app_id'];
-        $this->appSecret = $config['secret'];
-        $this->http = new Http(); // 不需要公用的access_token
-        $this->input = new Input();
+        $this->appId = $appId;
+        $this->secret = $secret;
+        $this->input = $input;
+        $this->http = $http->setExpectedException('EasyWeChat\OAuth\OAuthHttpException');
     }
 
     /**
-     * 生成outh URL.
+     * Return authorization URL.
      *
      * @param string $to
      * @param string $scope

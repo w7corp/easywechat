@@ -24,6 +24,7 @@ use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
 use EasyWeChat\Core\Exceptions\UnBoundServiceException;
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use IteratorAggregate;
 
 /**
@@ -95,14 +96,12 @@ class Application implements ArrayAccess, IteratorAggregate
      */
     public function bind($abstract, $concrete, $share = false, $force = false)
     {
-        if ($force && $this->isBound($abstract)) {
-            $this->unBind($abstract);
+        if (!$this->isBound($abstract) || $force) {
+            $this->bindings[$abstract] = [
+                                            'concrete' => $concrete,
+                                            'share' => $share,
+                                         ];
         }
-
-        $this->bindings[$abstract] = [
-                                        'concrete' => $concrete,
-                                        'share' => $share,
-                                     ];
     }
 
     /**
@@ -114,18 +113,6 @@ class Application implements ArrayAccess, IteratorAggregate
     public function singleton($abstract, $concrete)
     {
         $this->bind($abstract, $concrete, true);
-    }
-
-    /**
-     * Rebind service.
-     *
-     * @param string $abstract
-     * @param mixed  $concrete
-     */
-    public function reBind($abstract, $concrete)
-    {
-        $this->unBind($abstract);
-        $this->bind($abstract, $concrete);
     }
 
     /**
@@ -177,7 +164,7 @@ class Application implements ArrayAccess, IteratorAggregate
      *
      * @return bool
      */
-    public function isShare($abstract)
+    public function isShared($abstract)
     {
         return $this->isBound($abstract) && $this->bindings[$abstract]['share'];
     }
@@ -206,9 +193,41 @@ class Application implements ArrayAccess, IteratorAggregate
      */
     public function setProvider($provider)
     {
-        if ($provider instanceof ServiceProvider) {
-            $this->providers[] = $provider;
+        if (!$provider instanceof ServiceProvider) {
+            throw new InvalidArgumentException("ServiceProvider must be a subclass of 'EasyWeChat\Support\ServiceProvider'.");
         }
+
+        $this->providers[] = $provider;
+    }
+
+    /**
+     * Return all resolved instances.
+     *
+     * @return array
+     */
+    public function getResolved()
+    {
+        return $this->resolved;
+    }
+
+    /**
+     * Return all bindings.
+     *
+     * @return array
+     */
+    public function getBindings()
+    {
+        return $this->bindings;
+    }
+
+    /**
+     * Return all registed providers.
+     *
+     * @return array
+     */
+    public function getProviders()
+    {
+        return $this->providers;
     }
 
     /**
@@ -281,15 +300,15 @@ class Application implements ArrayAccess, IteratorAggregate
      *
      * @return mixed
      */
-    protected function get($abstract)
+    public function get($abstract)
     {
-        if (!empty($this->resolved[$abstract])) {
+        if ($this->isResolved($abstract)) {
             return $this->resolved[$abstract];
         }
 
         $service = $this->build($abstract);
 
-        return $this->isShare($abstract) ? $this->resolved[$abstract] = $service : $service;
+        return $this->isShared($abstract) ? $this->resolved[$abstract] = $service : $service;
     }
 
     /**

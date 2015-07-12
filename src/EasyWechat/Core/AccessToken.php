@@ -17,6 +17,8 @@
 
 namespace EasyWeChat\Core;
 
+use EasyWeChat\Cache\Manager as Cache;
+
 /**
  * Class AccessToken.
  */
@@ -51,18 +53,11 @@ class AccessToken
     protected $http;
 
     /**
-     * token.
+     * Cache key prefix.
      *
      * @var string
      */
-    protected $token;
-
-    /**
-     * Cache key name.
-     *
-     * @var string
-     */
-    protected $cacheKey = 'overtrue.wechat.access_token';
+    protected $prefix = 'easywechat.common.access_token.';
 
     // API
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
@@ -90,22 +85,19 @@ class AccessToken
      */
     public function getToken()
     {
-        if ($this->token) {
-            return $this->token;
-        }
+        $cacheKey = $this->prefix.$this->appId;
 
-        return $this->token = $this->cacher->get(
+        return $this->cache->get(
             $cacheKey,
             function ($cacheKey) {
                 $params = [
-                    'appid' => $this->appId,
-                    'secret' => $this->secret,
+                    'appid'      => $this->appId,
+                    'secret'     => $this->secret,
                     'grant_type' => 'client_credential',
                 ];
-
                 $token = $this->http->get(self::API_TOKEN_GET, $params);
 
-                $this->cache->set($cacheKey, $token['access_token'], $token['expires_in']);
+                $this->cache->set($cacheKey, $token['access_token'], $token['expires_in'] - 100);
 
                 return $token['access_token'];
             }
