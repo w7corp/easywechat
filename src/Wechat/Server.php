@@ -189,7 +189,7 @@ class Server
             return;
         }
 
-        if (version_compare(PHP_VERSION, '5.6'), '<') {
+        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
             if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
                 $xmlInput = $GLOBALS['HTTP_RAW_POST_DATA'];
             } else {
