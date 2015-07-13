@@ -1,4 +1,6 @@
+rm -rf ./subsplit
 git subsplit init git@github.com:overtrue/wechat.git
+git subsplit update
 git subsplit publish "
     src/EasyWeChat/Core:git@github.com:easywechat/core.git
     src/EasyWeChat/Cache:git@github.com:easywechat/cache.git
@@ -22,6 +24,4 @@ git subsplit publish "
     src/EasyWeChat/Encryption/:git@github.com:easywechat/encryption.git
     src/EasyWeChat/Event/:git@github.com:easywechat/event.git
     src/EasyWeChat/Message/:git@github.com:easywechat/message.git
-" --update --no-tags --no-heads
-
-rm -rf ./subsplit
+" --no-tags --heads=develop
