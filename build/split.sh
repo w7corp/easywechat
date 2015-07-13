@@ -1,6 +1,7 @@
 git subsplit init git@github.com:overtrue/wechat.git
 git subsplit publish "
     src/EasyWeChat/Core:git@github.com:easywechat/core.git
+    src/EasyWeChat/Cache:git@github.com:easywechat/cache.git
     src/EasyWeChat/Support/:git@github.com:easywechat/support.git
     src/EasyWeChat/User/:git@github.com:easywechat/user.git
     src/EasyWeChat/Menu/:git@github.com:easywechat/menu.git
@@ -14,6 +15,7 @@ git subsplit publish "
     src/EasyWeChat/Stats/:git@github.com:easywechat/stats.git
     src/EasyWeChat/Staff/:git@github.com:easywechat/staff.git
     src/EasyWeChat/QRCode/:git@github.com:easywechat/qrcode.git
+    src/EasyWeChat/Url/:git@github.com:easywechat/url.git
     src/EasyWeChat/OAuth/:git@github.com:easywechat/oauth.git
     src/EasyWeChat/Payment/:git@github.com:easywechat/payment.git
     src/EasyWeChat/Device/:git@github.com:easywechat/device.git
