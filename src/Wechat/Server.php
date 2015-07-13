@@ -189,7 +189,15 @@ class Server
             return;
         }
 
-        $xmlInput = file_get_contents('php://input');
+        if (version_compare(PHP_VERSION, '5.6'), '<') {
+            if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
+                $xmlInput = $GLOBALS['HTTP_RAW_POST_DATA'];
+            } else {
+                $xmlInput = file_get_contents('php://input');
+            }
+        } else {
+            $xmlInput = file_get_contents('php://input');
+        }
 
         $input = XML::parse($xmlInput);
 
