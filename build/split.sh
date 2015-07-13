@@ -23,6 +23,7 @@ git subsplit publish "
     src/EasyWeChat/Encryption/:git@github.com:easywechat/encryption.git
     src/EasyWeChat/Event/:git@github.com:easywechat/event.git
     src/EasyWeChat/Message/:git@github.com:easywechat/message.git
+    src/EasyWeChat/Card/:git@github.com:easywechat/card.git
 " --no-tags --heads="master"
 
 rm -rf ./subsplit
