@@ -149,8 +149,8 @@ class Card
         );
 
         return array(
-                'card_id'  => $cardId,
-                'card_ext' => JSON::encode($ext),
+                'cardId'  => $cardId,
+                'cardExt' => JSON::encode($ext),
                );
     }
 
