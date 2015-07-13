@@ -172,7 +172,7 @@ class Server
         }
 
         if ($this->input->has('echostr')) {
-            return $this->input['echostr'];
+            return strip_tags($this->input['echostr']);
         }
 
         return $this->response($this->handleRequest());
