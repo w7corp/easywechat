@@ -112,7 +112,7 @@ class Http extends HttpClient
                 $contents['errmsg'] = 'Unknown';
             }
 
-            throw new Exception("[{$contents['errcode']}] ".$contents['errcode'], $contents['errcode']);
+            throw new Exception("[{$contents['errcode']}] ".$contents['errmsg'], $contents['errcode']);
         }
 
         if ($contents === array('errcode' => '0', 'errmsg' => 'ok')) {
