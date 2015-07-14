@@ -2,7 +2,6 @@
 /vendor
 sftp-config.json
 composer.lock
-*.jpg
 .subsplit
 .idea
 .php_cs.cache
