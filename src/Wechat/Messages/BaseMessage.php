@@ -31,8 +31,6 @@ use Overtrue\Wechat\Utils\XML;
  * @method array       toStaff()
  * @method array       toReply()
  * @method array       toBroadcast()
- * @method array       buildForStaff()
- * @method string      buildForReply()
  */
 abstract class BaseMessage extends MagicAttributes
 {
