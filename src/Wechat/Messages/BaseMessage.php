@@ -65,7 +65,7 @@ abstract class BaseMessage extends MagicAttributes
     public function buildForStaff()
     {
         if (!method_exists($this, 'toStaff')) {
-            throw new Exception(__CLASS__.'未实现此方法：toStaff()');
+            throw new \Exception(__CLASS__.'未实现此方法：toStaff()');
         }
 
         $base = array(
@@ -87,7 +87,7 @@ abstract class BaseMessage extends MagicAttributes
     public function buildForReply()
     {
         if (!method_exists($this, 'toReply')) {
-            throw new Exception(__CLASS__.'未实现此方法：toReply()');
+            throw new \Exception(__CLASS__.'未实现此方法：toReply()');
         }
 
         $base = array(
@@ -108,7 +108,7 @@ abstract class BaseMessage extends MagicAttributes
     public function buildForBroadcast()
     {
         if (!method_exists($this, 'toBroadcast')) {
-            throw new Exception(__CLASS__.'未实现此方法：toBroadcast()');
+            throw new \Exception(__CLASS__.'未实现此方法：toBroadcast()');
         }
 
         //TODO
