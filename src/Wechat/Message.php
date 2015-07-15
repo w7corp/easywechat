@@ -49,7 +49,7 @@ class Message
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
-        $message = "Overtrue\Wechat\Messages\\"
+        $message = "Overtrue\\Wechat\\Messages\\"
                     .str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
         return new $message();

@@ -15,8 +15,6 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Media;
-
 /**
  * 多图文消息
  *
@@ -67,7 +65,7 @@ class MpNews extends BaseMessage
      */
     public function toReply()
     {
-        throw new Exception(__CLASS__.'未实现此方法：toReply()');
+        throw new \Exception(__CLASS__.'未实现此方法：toReply()');
         /*return array(
                 'Image' => array(
                             'MediaId' => $this->media_id,

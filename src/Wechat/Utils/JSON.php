@@ -54,7 +54,7 @@ class JSON
 
         return version_compare(PHP_VERSION, '5.4.0', '>=')
             ? $data
-            : preg_replace_callback("/\\\u([0-9a-f]{2})([0-9a-f]{2})/iu", function ($pipe) {
+            : preg_replace_callback("/\\\\u([0-9a-f]{2})([0-9a-f]{2})/iu", function ($pipe) {
                 return iconv(
                     strncasecmp(PHP_OS, 'WIN', 3) ? 'UCS-2BE' : 'UCS-2',
                     'UTF-8',
