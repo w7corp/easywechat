@@ -16,7 +16,7 @@ class CoreApplicationTest extends TestCase
     }
 
     /**
-     * Test _construct()
+     * Test _construct().
      */
     public function testConstruct()
     {
@@ -31,7 +31,7 @@ class CoreApplicationTest extends TestCase
     }
 
     /**
-     * Test bind();
+     * Test bind();.
      */
     public function testBind()
     {
@@ -49,12 +49,12 @@ class CoreApplicationTest extends TestCase
         $this->assertEquals(['bar'], $app->getBindings()['arr']['concrete']);
 
         // callback
-        $app->bind('bar', function(){ return 'bar'; });
+        $app->bind('bar', function () { return 'bar'; });
         $this->assertArrayHasKey('bar', $app->getBindings());
         $this->assertEquals('Closure', get_class($app->getBindings()['bar']['concrete']));
 
         // shared
-        $app->bind('shared_foo', function(){ return new stdClass(); }, true);
+        $app->bind('shared_foo', function () { return new stdClass(); }, true);
         $this->assertTrue($app->getBindings()['shared_foo']['share']);
 
         // force bind
@@ -66,27 +66,27 @@ class CoreApplicationTest extends TestCase
     }
 
     /**
-     * Test singleton()
+     * Test singleton().
      */
     public function testSingleton()
     {
         $app = $this->getApp();
 
         // shared
-        $app->singleton('foo', function(){ return new stdClass(); }, true);
+        $app->singleton('foo', function () { return new stdClass(); }, true);
         $this->assertArrayHasKey('foo', $app->getBindings());
         $this->assertTrue($app->getBindings()['foo']['share']);
     }
 
     /**
-     * Test unBind()
+     * Test unBind().
      */
     public function testUnBind()
     {
         $app = $this->getApp();
 
         // shared
-        $app->singleton('foo', function(){ return new stdClass(); }, true);
+        $app->singleton('foo', function () { return new stdClass(); }, true);
         $this->assertArrayHasKey('foo', $app->getBindings());
         $this->assertTrue($app->getBindings()['foo']['share']);
 
@@ -95,7 +95,7 @@ class CoreApplicationTest extends TestCase
     }
 
     /**
-     * Test isBound()
+     * Test isBound().
      */
     public function testIsBound()
     {
@@ -103,12 +103,12 @@ class CoreApplicationTest extends TestCase
 
         $this->assertFalse($app->isBound('foo'));
 
-        $app->singleton('foo', function(){ return new stdClass(); });
+        $app->singleton('foo', function () { return new stdClass(); });
         $this->assertTrue($app->isBound('foo'));
     }
 
     /**
-     * Test isResolved()
+     * Test isResolved().
      */
     public function testIsResolved()
     {
@@ -116,7 +116,7 @@ class CoreApplicationTest extends TestCase
 
         $this->assertFalse($app->isResolved('foo'));
 
-        $app->singleton('foo', function(){ return new stdClass(); });
+        $app->singleton('foo', function () { return new stdClass(); });
         $foo = $app->get('foo');
         $this->assertEquals('stdClass', get_class($foo));
 
@@ -124,21 +124,21 @@ class CoreApplicationTest extends TestCase
     }
 
     /**
-     * Test isShared()
+     * Test isShared().
      */
     public function testIsShared()
     {
         $app = $this->getApp();
 
-        $app->bind('foo', function(){ return new stdClass(); });
-        $app->singleton('bar', function(){ return new stdClass(); });
+        $app->bind('foo', function () { return new stdClass(); });
+        $app->singleton('bar', function () { return new stdClass(); });
 
         $this->assertFalse($app->isShared('foo'));
         $this->assertTrue($app->isShared('bar'));
     }
 
     /**
-     * Test setProviders()
+     * Test setProviders().
      */
     public function testSetProviders()
     {
@@ -173,7 +173,7 @@ class CoreApplicationTest extends TestCase
     }
 
     /**
-     * Test get()
+     * Test get().
      *
      * @expectedException EasyWeChat\Core\Exceptions\UnboundServiceException
      */
@@ -181,8 +181,8 @@ class CoreApplicationTest extends TestCase
     {
         $app = $this->getApp();
 
-        $app->bind('foo', function(){ return new stdClass(); });
-        $app->singleton('bar', function(){ return new stdClass(); });
+        $app->bind('foo', function () { return new stdClass(); });
+        $app->singleton('bar', function () { return new stdClass(); });
 
         $this->assertEquals('stdClass', get_class($app->get('foo')));
         $this->assertEquals('stdClass', get_class($app->foo));

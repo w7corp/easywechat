@@ -22,7 +22,7 @@ use EasyWeChat\Core\Exception as CoreException;
 /**
  * Class UrlHttpException.
  */
-class UrltpException extends CoreException
+class UrlHttpException extends CoreException
 {
 }//end class
 

@@ -73,7 +73,7 @@ class Auth
     const API_TOKEN_VALIDATE = 'https://api.weixin.qq.com/sns/auth';
     const API_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
-     /**
+    /**
      * Constructor.
      *
      * @param string $appId

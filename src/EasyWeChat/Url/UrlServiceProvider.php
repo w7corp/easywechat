@@ -23,7 +23,7 @@ use EasyWeChat\Core\Application;
 /**
  * Class UrlServiceProvider.
  */
-class UrlrviceProvider extends ServiceProvider
+class UrlServiceProvider extends ServiceProvider
 {
     /**
      * Register Server.

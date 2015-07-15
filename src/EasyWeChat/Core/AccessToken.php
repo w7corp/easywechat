@@ -91,8 +91,8 @@ class AccessToken
             $cacheKey,
             function ($cacheKey) {
                 $params = [
-                    'appid'      => $this->appId,
-                    'secret'     => $this->secret,
+                    'appid' => $this->appId,
+                    'secret' => $this->secret,
                     'grant_type' => 'client_credential',
                 ];
                 $token = $this->http->get(self::API_TOKEN_GET, $params);

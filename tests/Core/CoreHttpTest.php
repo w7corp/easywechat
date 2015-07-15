@@ -3,14 +3,13 @@
 namespace {
 
 use Mockery as m;
-
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Http as HttpClient;
 
 class CoreHttpTest extends TestCase
 {
     /**
-     * Test setToken()
+     * Test setToken().
      */
     public function testConstruct()
     {
@@ -23,7 +22,7 @@ class CoreHttpTest extends TestCase
     }
 
     /**
-     * Test setExpectedException()
+     * Test setExpectedException().
      */
     public function testSetExpectedException()
     {
@@ -108,13 +107,15 @@ class CoreHttpTest extends TestCase
     }
 }
 
-class OvertrueException extends Exception {}
+class OvertrueException extends Exception
+{
+}
 
 }
 
-
 namespace EasyWeChat\Support {
-    class Http {
+    class Http
+    {
         public static $request = [];
         public static $response = [];
 
