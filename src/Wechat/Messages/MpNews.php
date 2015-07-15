@@ -15,8 +15,6 @@
 
 namespace Overtrue\Wechat\Messages;
 
-use Overtrue\Wechat\Media;
-
 /**
  * 多图文消息
  *
