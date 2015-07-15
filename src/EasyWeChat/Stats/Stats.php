@@ -316,4 +316,5 @@ class Stats
 
         return $result['list'];
     }
-}
+}//end class
+
