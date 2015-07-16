@@ -185,7 +185,7 @@ class Staff
         is_string($message) && $message = Message::make('text')->with('content', $message);
 
         if (!$message instanceof BaseMessage) {
-            throw new Exception("消息必须继承自 'Overtrue\Wechat\BaseMessage'");
+            throw new \Exception("消息必须继承自 'Overtrue\\Wechat\\BaseMessage'");
         }
 
         $this->message = $message;
