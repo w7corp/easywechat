@@ -16,8 +16,8 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
-use Overtrue\Wechat\Utils\Arr;
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Utils\File;
 
 /**
  * 媒体素材
@@ -68,12 +68,20 @@ class Media
     /**
      * constructor
      *
-     * @param string $appId
-     * @param string $appSecret
+     * <pre>
+     * $config:
+     *
+     * array(
+     *  'app_id' => YOUR_APPID,  // string mandatory;
+     *  'secret' => YOUR_SECRET, // string mandatory;
+     * )
+     * </pre>
+     *
+     * @param array $config configuration array
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(array $config)
     {
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http = new Http(new AccessToken($config));
     }
 
     /**
@@ -119,9 +127,7 @@ class Media
 
         $this->forever = false;
 
-        $response = Arr::only($response, array('media_id', 'thumb_media_id'));
-
-        return array_pop($response);
+        return $response['media_id'];
     }
 
     /**
@@ -256,11 +262,12 @@ class Media
      * 下载媒体文件
      *
      * @param string $mediaId
+     * @param string $dir
      * @param string $filename
      *
      * @return mixed
      */
-    public function download($mediaId, $filename = '')
+    public function download($mediaId, $dir = '', $filename = '')
     {
         $params = array('media_id' => $mediaId);
 
@@ -269,7 +276,17 @@ class Media
 
         $contents = $this->http->{$method}($api, $params);
 
-        return $filename ? file_put_contents($filename, $contents) : $contents;
+        if(!is_array($contents)){
+
+            $ext = File::getStreamExt($contents);
+
+            file_put_contents($dir.$filename.'.'.$ext, $contents);
+
+            return $filename.'.'.$ext;
+        }else{
+
+            return $contents;
+        }
     }
 
     /**
