@@ -1,0 +1,14 @@
+{
+    "name": "easywechat/support",
+    "description": "support module for EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "support", "easywechat"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "require": {
+    }
+}

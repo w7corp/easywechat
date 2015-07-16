@@ -1,0 +1,15 @@
+{
+    "name": "easywechat/qrcode",
+    "description": "qrcode module for EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "qrcode", "easywechat"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "require": {
+        "easywechat/core" : "3.0.*",
+    }
+}

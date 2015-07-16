@@ -1,0 +1,15 @@
+{
+    "name": "easywechat/oauth",
+    "description": "oauth module for EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "oauth", "easywechat"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "require": {
+        "easywechat/core" : "3.0.*",
+    }
+}

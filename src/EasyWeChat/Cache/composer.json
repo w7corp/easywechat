@@ -1,0 +1,14 @@
+{
+    "name": "easywechat/cache",
+    "description": "cache module for EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "cache", "easywechat"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "require": {
+    }
+}

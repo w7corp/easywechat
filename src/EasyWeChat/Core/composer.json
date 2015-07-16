@@ -1,0 +1,16 @@
+{
+    "name": "easywechat/core",
+    "description": "core module for EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "easywechat"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "require": {
+        "easywechat/cache" : "3.*",
+        "easywechat/support" : "3.*"
+    }
+}

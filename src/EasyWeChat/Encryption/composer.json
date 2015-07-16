@@ -1,0 +1,15 @@
+{
+    "name": "easywechat/encryption",
+    "description": "encryption module for EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "encryption", "easywechat"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "require": {
+        "easywechat/core" : "3.0.*",
+    }
+}
