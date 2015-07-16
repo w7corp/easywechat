@@ -19,7 +19,7 @@ after_script:
   - git clone https://github.com/dflydev/git-subsplit.git
   - cd git-subsplit
   - chmod +x ./install.sh
-  - ./install.sh
+  - sudo ./install.sh
   - cd ..
   - chmod +x ./build/split.sh
   - ./build/split.sh
