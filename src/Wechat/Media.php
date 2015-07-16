@@ -270,6 +270,8 @@ class Media
 
         $contents = $this->http->{$method}($api, $params);
 
+        $filename = $filename ? $filename : $mediaId;
+
         if (!is_array($contents)) {
             $ext = File::getStreamExt($contents);
 
