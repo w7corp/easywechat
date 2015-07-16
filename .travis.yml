@@ -20,6 +20,7 @@ after_script:
   - cd git-subsplit
   - chmod +x ./install.sh
   - ./install.sh
+  - cd ..
   - chmod +x ./build/split.sh
   - ./build/split.sh
 
