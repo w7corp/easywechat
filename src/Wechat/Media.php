@@ -257,12 +257,11 @@ class Media
      * 下载媒体文件
      *
      * @param string $mediaId
-     * @param string $dir
      * @param string $filename
      *
      * @return mixed
      */
-    public function download($mediaId, $dir = '', $filename = '')
+    public function download($mediaId, $filename = '')
     {
         $params = array('media_id' => $mediaId);
 
@@ -274,7 +273,7 @@ class Media
         if (!is_array($contents)) {
             $ext = File::getStreamExt($contents);
 
-            file_put_contents($dir.$filename.'.'.$ext, $contents);
+            file_put_contents($filename.'.'.$ext, $contents);
 
             return $filename.'.'.$ext;
         } else {
