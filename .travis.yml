@@ -16,15 +16,10 @@ before_script:
   - composer install --prefer-source --no-interaction --dev
 
 after_script:
-  - git clone https://github.com/dflydev/git-subsplit.git
-  - cd git-subsplit
-  - chmod +x ./install.sh
-  - sudo ./install.sh
-  - cd ..
-  - chmod +x ./build/split.sh
-  - ./build/split.sh
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml
 
-script: phpunit
+script: phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
 
 matrix:
   fast_finish: true
