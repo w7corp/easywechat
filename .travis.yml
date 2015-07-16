@@ -16,10 +16,14 @@ before_script:
   - composer install --prefer-source --no-interaction --dev
 
 after_script:
+  - git clone https://github.com/dflydev/git-subsplit.git
+  - cd git-subsplit
+  - chmod +x ./install.sh
+  - ./install.sh
   - chmod +x ./build/split.sh
   - ./build/split.sh
 
-script: phpunit ./
+script: phpunit
 
 matrix:
   fast_finish: true
