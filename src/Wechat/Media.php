@@ -16,6 +16,7 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
+use Overtrue\Wechat\Utils\Arr;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\File;
 
@@ -68,20 +69,12 @@ class Media
     /**
      * constructor
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param string $appId
+     * @param string $appSecret
      */
-    public function __construct(array $config)
+    public function __construct($appId, $appSecret)
     {
-        $this->http = new Http(new AccessToken($config));
+        $this->http = new Http(new AccessToken($appId, $appSecret));
     }
 
     /**
@@ -127,7 +120,9 @@ class Media
 
         $this->forever = false;
 
-        return $response['media_id'];
+        $response = Arr::only($response, array('media_id', 'thumb_media_id'));
+
+        return array_pop($response);
     }
 
     /**
@@ -276,14 +271,13 @@ class Media
 
         $contents = $this->http->{$method}($api, $params);
 
-        if(!is_array($contents)){
-
+        if (!is_array($contents)) {
             $ext = File::getStreamExt($contents);
 
             file_put_contents($dir.$filename.'.'.$ext, $contents);
 
             return $filename.'.'.$ext;
-        }else{
+        } else {
 
             return $contents;
         }
