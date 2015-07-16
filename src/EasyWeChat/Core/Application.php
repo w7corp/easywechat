@@ -23,7 +23,7 @@ use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
-use EasyWeChat\Core\Exceptions\UnBoundServiceException;
+use EasyWeChat\Core\Exceptions\UnboundServiceException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use IteratorAggregate;
 
@@ -318,12 +318,12 @@ class Application implements ArrayAccess, IteratorAggregate
      *
      * @return mixed
      *
-     * @throws UnBoundServiceException
+     * @throws UnboundServiceException
      */
     protected function build($abstract)
     {
         if (!$this->isBound($abstract)) {
-            throw new UnBoundServiceException("Unknow service '$abstract'", 500);
+            throw new UnboundServiceException("Unknow service '$abstract'", 500);
         }
 
         $concrete = $this->bindings[$abstract]['concrete'];
