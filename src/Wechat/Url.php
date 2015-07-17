@@ -71,6 +71,11 @@ class Url
                         && $_SERVER['HTTPS'] !== 'off'
                         || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
 
-        return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        if(isset($_SERVER['HTTP_X_FORWARDED_HOST'])){
+            $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+        }else{
+            $host = $_SERVER['HTTP_HOST'];
+        }
+        return $protocol.$host.$_SERVER['REQUEST_URI'];
     }
 }
