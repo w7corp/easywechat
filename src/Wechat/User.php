@@ -89,7 +89,7 @@ class User
                     );
         }, $openIds);
 
-        $response = $this->http->get(self::API_BATCH_GET, $params);
+        $response = $this->http->jsonPost(self::API_BATCH_GET, $params);
 
         return new Bag($response['user_info_list']);
     }
