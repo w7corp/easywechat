@@ -16,6 +16,7 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
+use Overtrue\Wechat\Url;
 
 /**
  * 微信 JSSDK
@@ -197,9 +198,7 @@ class Js
             return $this->url;
         }
 
-        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
-
-        return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+        return Url::current();
     }
 
     /**
