@@ -196,8 +196,8 @@ class Server
                 $xmlInput = file_get_contents('php://input');
             }
 
-            if (empty($xmlInput) && empty($_REQUEST['signature'])) {
-                throw new Exception("读取输入失败，请在 php.ini 中打开 always_populate_raw_post_data=On", 500);
+            if (empty($xmlInput) && !empty($_REQUEST['signature'])) {
+                throw new Exception("没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On", 500);
             }
         } else {
             $xmlInput = file_get_contents('php://input');
