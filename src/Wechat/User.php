@@ -35,7 +35,6 @@ class User
     const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
     const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
     const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
-    const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
 
     /**
      * constructor
@@ -89,7 +88,7 @@ class User
                     );
         }, $openIds);
 
-        $response = $this->http->get(self::API_BATCH_GET, $params);
+        $response = $this->http->jsonPost(self::API_BATCH_GET, $params);
 
         return new Bag($response['user_info_list']);
     }

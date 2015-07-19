@@ -40,7 +40,7 @@ Requirement：PHP >= 5.3.0
   ```php
   <?php
 
-  require "wechat/autoload.php"; // 路径请修改为你具体的实际路径
+  require PATH_OF_YOUR_PROJECT . "wechat/autoload.php";
 
   ...
   ```
@@ -75,25 +75,25 @@ See more usage in Wiki.
 
 ## Features
 
-- [x] [Message Listener](https://github.com/overtrue/wechat/wiki/接收消息与回复)
-- [x] [Event Listener](https://github.com/overtrue/wechat/wiki/监听微信事件)
-- [x] [Basic Message](https://github.com/overtrue/wechat/wiki/消息的使用)
-- [x] [Picture and Text Message](https://github.com/overtrue/wechat/wiki/消息的使用)
-- [x] [Template Message](https://github.com/overtrue/wechat/wiki/模板消息)  
-- <del>[ ] Message Mass Sending（Due to the limitation of the official, it can't be used）</del>
-- [x] [User and Group](https://github.com/overtrue/wechat/wiki/用户与用户组管理)
-- [x] [Customer Service and Message Send Back](https://github.com/overtrue/wechat/wiki/客服管理与发送消息)
-- [x] [MultiCustomer Service and Message Relocate](https://github.com/overtrue/wechat/wiki/多客服与消息转发)
-- [x] [Web Authorization](https://github.com/overtrue/wechat/wiki/网页授权)
-- [x] [Customized Menu](https://github.com/overtrue/wechat/wiki/自定义菜单)
-- [x] [Material Management](https://github.com/overtrue/wechat/wiki/素材管理) 
-- [x] [Store Management](https://github.com/overtrue/wechat/wiki/门店管理) 
-- [x] [Card Management](https://github.com/overtrue/wechat/wiki/卡券)  
-- [x] [JSSDK](https://github.com/overtrue/wechat/wiki/JSSDK)  
-- [x] [Semantic Understanding](https://github.com/overtrue/wechat/wiki/语义理解服务)  
-- [x] [Data statistics](https://github.com/overtrue/wechat/wiki/数据统计查询服务)  
-- [x] [QR Code](https://github.com/overtrue/wechat/wiki/二维码)  
-- [x] [Short Links](https://github.com/overtrue/wechat/wiki/短链接)  
+- [x] [Message Listener](https://github.com/overtrue/wechat/wiki/handling_message)
+- [x] [Event Listener](https://github.com/overtrue/wechat/wiki/wechat_event)
+- [x] [Basic Message](https://github.com/overtrue/wechat/wiki/wechat_message)
+- [x] [Picture and Text Message](https://github.com/overtrue/wechat/wiki/wechat_message)
+- [x] [Template Message](https://github.com/overtrue/wechat/wiki/template_message_service)  
+- [ ] <del>Message Mass Sending（Due to the limitation of the official, it can't be used）</del>
+- [x] [User and Group](https://github.com/overtrue/wechat/wiki/user_and_group_management_service)
+- [x] [Customer Service and Message Send Back](https://github.com/overtrue/wechat/wiki/hotline_service)
+- [x] [MultiCustomer Service and Message Relocate](https://github.com/overtrue/wechat/wiki/multi-hotline_service)
+- [x] [Web Authorization](https://github.com/overtrue/wechat/wiki/web_authorization_service)
+- [x] [Customized Menu](https://github.com/overtrue/wechat/wiki/menu_customization_service)
+- [x] [Material Management](https://github.com/overtrue/wechat/wiki/multimedia_resources_mangement_service) 
+- [x] [Store Management](https://github.com/overtrue/wechat/wiki/store_management_service) 
+- [x] [Card Management](https://github.com/overtrue/wechat/wiki/wxcard_management_service)  
+- [x] [JSSDK](https://github.com/overtrue/wechat/wiki/javascript_sdk)  
+- [x] [Semantic Understanding](https://github.com/overtrue/wechat/wiki/translation_service)  
+- [x] [Data statistics](https://github.com/overtrue/wechat/wiki/statistics_service)  
+- [x] [QR Code](https://github.com/overtrue/wechat/wiki/qrcode_generation_service)  
+- [x] [Short Links](https://github.com/overtrue/wechat/wiki/short_url_service)  
 
 ## Contributing
 
