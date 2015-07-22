@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\Material;
 
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
@@ -102,11 +103,11 @@ class Media
     protected function upload($type, $path, $params = [])
     {
         if (!file_exists($path) || !is_readable($path)) {
-            throw new Exception("文件不存在或不可读 '$path'");
+            throw new InvalidArgumentException("文件不存在或不可读 '$path'");
         }
 
         if (!in_array($type, $this->allowTypes, true)) {
-            throw new Exception("错误的媒体类型 '{$type}'");
+            throw new InvalidArgumentException("错误的媒体类型 '{$type}'");
         }
 
         $queries = ['type' => $type];

@@ -123,7 +123,7 @@ class Cryptor
         try {
             $array = XML::parse($postXML);
         } catch (BaseException $e) {
-            throw new EncryptionException('Invalid xml.', Exception::ERROR_PARSE_XML);
+            throw new EncryptionException('Invalid xml.', EncryptionException::ERROR_PARSE_XML);
         }
 
         $encrypted = $array['Encrypt'];
@@ -131,7 +131,7 @@ class Cryptor
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypted);
 
         if ($signature !== $msgSignature) {
-            throw new EncryptionException('Invalid Signature.', Exception::ERROR_INVALID_SIGNATURE);
+            throw new EncryptionException('Invalid Signature.', EncryptionException::ERROR_INVALID_SIGNATURE);
         }
 
         return XML::parse($this->decrypt($encrypted, $this->appId));
@@ -152,7 +152,7 @@ class Cryptor
 
             return sha1(implode($array));
         } catch (BaseException $e) {
-            throw new EncryptionException($e->getMessage(), Exception::ERROR_CALC_SIGNATURE);
+            throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_CALC_SIGNATURE);
         }
     }
 
@@ -229,7 +229,7 @@ class Cryptor
 
             return base64_encode($encrypted);
         } catch (BaseException $e) {
-            throw new EncryptionException($e->getMessage(), Exception::ERROR_ENCRYPT_AES);
+            throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_ENCRYPT_AES);
         }
     }
 
@@ -257,7 +257,7 @@ class Cryptor
             mcrypt_generic_deinit($module);
             mcrypt_module_close($module);
         } catch (BaseException $e) {
-            throw new EncryptionException($e->getMessage(), Exception::ERROR_DECRYPT_AES);
+            throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);
         }
 
         try {
@@ -273,11 +273,11 @@ class Cryptor
             $xml = substr($content, 4, $xmlLen);
             $fromAppId = trim(substr($content, $xmlLen + 4));
         } catch (BaseException $e) {
-            throw new EncryptionException($e->getMessage(), Exception::ERROR_INVALID_XML);
+            throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_INVALID_XML);
         }
 
         if ($fromAppId !== $appId) {
-            throw new EncryptionException('Invalid appId.', Exception::ERROR_INVALID_APPID);
+            throw new EncryptionException('Invalid appId.', EncryptionException::ERROR_INVALID_APPID);
         }
 
         return $xml;
