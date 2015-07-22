@@ -42,7 +42,6 @@ class Menu
      * Constructor.
      *
      * @param Http        $http
-     * @param Transformer $transformer
      */
     public function __construct(Http $http)
     {
@@ -52,7 +51,11 @@ class Menu
     /**
      * 设置菜单.
      *
+     * @param array $menus
+     *
      * @return bool
+     *
+     * @throws Exception
      */
     public function set($menus)
     {
@@ -66,9 +69,7 @@ class Menu
 
         $menus = $this->extractMenus($menus);
 
-        $this->http->jsonPost(self::API_CREATE, ['button' => $menus]);
-
-        return true;
+        return $this->http->jsonPost(self::API_CREATE, ['button' => $menus]);
     }
 
     /**
@@ -126,4 +127,4 @@ class Menu
 
         return $menus;
     }
-}
+}//end class

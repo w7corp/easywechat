@@ -129,7 +129,7 @@ class SDK
 
         return $this->cache->get(
             $key,
-            function ($key) use ($apiTicket) {
+            function ($key) {
                 $result = $this->http->get(self::API_TICKET);
 
                 $this->cache->set($key, $result['ticket'], $result['expires_in'] - 100);

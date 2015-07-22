@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Auth.php.
+ * Client.php.
  *
  * Part of EasyWeChat.
  *
@@ -21,9 +21,9 @@ use EasyWeChat\Core\Input;
 use EasyWeChat\Support\Collection;
 
 /**
- * OAuth 网页授权获取用户信息.
+ * Class Client.
  */
-class Auth
+class Client
 {
     /**
      * 应用ID.
@@ -267,4 +267,4 @@ class Auth
             return $this->lastPermission[$property];
         }
     }
-}
+}//end class

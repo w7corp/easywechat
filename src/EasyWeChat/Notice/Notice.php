@@ -107,6 +107,8 @@ class Notice
      * @param string $color
      *
      * @return int
+     *
+     * @throws Exception
      */
     public function send(
         $to = null,

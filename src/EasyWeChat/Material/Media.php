@@ -69,7 +69,6 @@ class Media
      * Constructor.
      *
      * @param Http        $http
-     * @param Transformer $transformer
      */
     public function __construct(Http $http)
     {
@@ -93,9 +92,11 @@ class Media
      *
      * @param string $type
      * @param string $path
-     * @param array  $params
+     * @param array $params
      *
      * @return string
+     *
+     * @throws Exception
      */
     protected function upload($type, $path, $params = [])
     {
@@ -310,4 +311,4 @@ class Media
 
         return $api.'?'.http_build_query($queries);
     }
-}
+}//end class

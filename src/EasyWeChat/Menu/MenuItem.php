@@ -63,6 +63,8 @@ class MenuItem extends MagicAttributes
      * @param array $buttons
      *
      * @return MenuItem
+     *
+     * @throws Exception
      */
     public function buttons($buttons)
     {
@@ -71,7 +73,7 @@ class MenuItem extends MagicAttributes
         }
 
         if (!is_array($buttons)) {
-            throw new Exception('子菜单必须是数组或者匿名函数返回数组', 1);
+            throw new Exception('子菜单必须是数组或者匿名函数返回数组');
         }
 
         $this->with('sub_button', $buttons);
@@ -92,4 +94,4 @@ class MenuItem extends MagicAttributes
 
         $this->with('sub_button', $subButtons);
     }
-}
+}// end class
