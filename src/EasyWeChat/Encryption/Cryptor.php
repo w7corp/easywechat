@@ -116,7 +116,7 @@ class Cryptor
      *
      * @return array
      *
-     * @throws Exception
+     * @throws EncryptionException
      */
     public function decryptMsg($msgSignature, $nonce, $timestamp, $postXML)
     {
@@ -142,7 +142,7 @@ class Cryptor
      *
      * @return string
      *
-     * @throws Exception
+     * @throws EncryptionException
      */
     public function getSHA1()
     {
@@ -206,7 +206,7 @@ class Cryptor
      *
      * @return string
      *
-     * @throws Exception
+     * @throws EncryptionException
      */
     private function encrypt($text, $appId)
     {
@@ -241,7 +241,7 @@ class Cryptor
      *
      * @return string
      *
-     * @throws Exception
+     * @throws EncryptionException
      */
     private function decrypt($encrypted, $appId)
     {
@@ -305,4 +305,3 @@ class Cryptor
         return $key = base64_decode($this->AESKey.'=', true);
     }
 }//end class
-

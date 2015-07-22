@@ -17,6 +17,9 @@
 
 namespace EasyWeChat\Card;
 
+use EasyWeChat\Cache\Adapters\AdapterInterface as Cache;
+use EasyWeChat\Core\Http;
+
 /**
  * 颜色接口.
  */
@@ -39,23 +42,15 @@ class Color
     const API_LIST = 'https://api.weixin.qq.com/card/getcolors';
 
     /**
-     * constructor.
+     * Constructor.
      *
-     * <pre>
-     * $config:
-     *
-     * array(
-     *  'app_id' => YOUR_APPID,  // string mandatory;
-     *  'secret' => YOUR_SECRET, // string mandatory;
-     * )
-     * </pre>
-     *
-     * @param array $config configuration array
+     * @param Http  $http
+     * @param Cache $cache
      */
-    public function __construct(array $config)
+    public function __construct(Http $http, Cache $cache)
     {
-        $this->http = new Http(new AccessToken($config));
-        $this->cache = new Cache($config['app_id']);
+        $this->http = $http;
+        $this->cache = $cache;
     }
 
     /**

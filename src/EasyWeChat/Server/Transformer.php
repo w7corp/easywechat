@@ -104,7 +104,7 @@ class Transformer
         $response = [];
 
         // 指定客服
-        if (!empty($message->account))) {
+        if (!empty($message->account)) {
             $response['TransInfo'] = [
                                       'KfAccount' => $message->account,
                                      ];
