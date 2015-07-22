@@ -126,8 +126,6 @@ class Client
     public function redirect($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
     {
         header('Location:'.$this->url($to, $scope, $state));
-
-        exit;
     }
 
     /**
