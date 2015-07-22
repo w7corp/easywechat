@@ -17,6 +17,8 @@
 
 namespace EasyWeChat\Stats;
 
+use EasyWeChat\Core\Http;
+
 /**
  * Class stats.
  */
@@ -67,8 +69,7 @@ class Stats
     /**
      * Constructor.
      *
-     * @param Http        $http
-     * @param Transformer $transformer
+     * @param Http $http
      */
     public function __construct(Http $http)
     {

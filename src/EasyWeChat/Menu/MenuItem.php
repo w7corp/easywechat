@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\Menu;
 
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\MagicAttributes;
 use Closure;
 
@@ -64,7 +65,7 @@ class MenuItem extends MagicAttributes
      *
      * @return MenuItem
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function buttons($buttons)
     {
@@ -73,7 +74,7 @@ class MenuItem extends MagicAttributes
         }
 
         if (!is_array($buttons)) {
-            throw new Exception('子菜单必须是数组或者匿名函数返回数组');
+            throw new InvalidArgumentException('子菜单必须是数组或者匿名函数返回数组');
         }
 
         $this->with('sub_button', $buttons);

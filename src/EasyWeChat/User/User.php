@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\User;
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**

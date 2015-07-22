@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\Store;
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Collection;
 

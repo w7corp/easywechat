@@ -18,6 +18,7 @@
 namespace EasyWeChat\Core;
 
 use ArrayAccess;
+use ArrayIterator;
 use Closure;
 use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Support\Collection;
@@ -44,7 +45,7 @@ class Application implements ArrayAccess, IteratorAggregate
      * }
      * </pre>
      *
-     * @var \EasyWeChat\Support\Collection
+     * @var Collection
      */
     protected $config;
 
@@ -403,7 +404,7 @@ class Application implements ArrayAccess, IteratorAggregate
      */
     public function getIterator()
     {
-        return new Iterator($this->bindings);
+        return new ArrayIterator($this->bindings);
     }
 }//end class
 

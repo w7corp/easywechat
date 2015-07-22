@@ -21,7 +21,6 @@ use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\Http as HttpClient;
-use EasyWeChat\Support\JSON;
 
 /**
  * Class Http.

@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\Url;
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Url as UrlHelper;
 
 /**

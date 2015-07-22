@@ -17,8 +17,11 @@
 
 namespace EasyWeChat\OAuth;
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Core\Input;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Support\Url;
+use Exception;
 
 /**
  * Class Client.

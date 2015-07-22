@@ -18,6 +18,8 @@
 namespace EasyWeChat\Menu;
 
 use Closure;
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\Core\Http;
 
 /**
  * 菜单.
@@ -41,7 +43,7 @@ class Menu
     /**
      * Constructor.
      *
-     * @param Http        $http
+     * @param Http $http
      */
     public function __construct(Http $http)
     {
@@ -55,7 +57,7 @@ class Menu
      *
      * @return bool
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function set($menus)
     {
@@ -64,7 +66,7 @@ class Menu
         }
 
         if (!is_array($menus)) {
-            throw new Exception('子菜单必须是数组或者匿名函数返回数组', 1);
+            throw new InvalidArgumentException('子菜单必须是数组或者匿名函数返回数组', 1);
         }
 
         $menus = $this->extractMenus($menus);

@@ -17,6 +17,8 @@
 
 namespace EasyWeChat\Support;
 
+use EasyWeChat\Core\Exceptions\RuntimeException;
+
 class Str
 {
     /**

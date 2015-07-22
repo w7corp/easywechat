@@ -67,8 +67,6 @@ class Color
     {
         $key = 'overtrue.wechat.colors';
 
-        $apiList = ;
-
         return $this->cache->get(
             $key,
             function ($key) {
@@ -80,4 +78,4 @@ class Color
             }
         );
     }
-}
+}//end class

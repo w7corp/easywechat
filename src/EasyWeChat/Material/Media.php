@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\Material;
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**
@@ -68,7 +69,7 @@ class Media
     /**
      * Constructor.
      *
-     * @param Http        $http
+     * @param Http $http
      */
     public function __construct(Http $http)
     {

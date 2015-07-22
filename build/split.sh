@@ -1,4 +1,3 @@
-rm -rf ./.subsplit/
 git subsplit init git@github.com:overtrue/wechat.git
 git subsplit update
 git subsplit publish "
@@ -27,4 +26,4 @@ git subsplit publish "
     src/EasyWeChat/Shop/:git@github.com:easywechat/shop.git
 " --no-tags --heads="master"
 
-rm -rf ./subsplit
+rm -rf ./.subsplit/

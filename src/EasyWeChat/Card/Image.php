@@ -17,6 +17,9 @@
 
 namespace EasyWeChat\Card;
 
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\Core\Http;
+
 /**
  * 图片上传服务
  */
@@ -35,7 +38,6 @@ class Image
      * Constructor.
      *
      * @param Http        $http
-     * @param Transformer $transformer
      */
     public function __construct(Http $http)
     {
@@ -48,11 +50,13 @@ class Image
      * @param string $path
      *
      * @return string
+     *
+     * @throws InvalidArgumentException
      */
     public function upload($path)
     {
         if (!file_exists($path) || !is_readable($path)) {
-            throw new Exception("文件不存在或不可读 '$path'");
+            throw new InvalidArgumentException("文件不存在或不可读 '$path'");
         }
 
         $options = [
@@ -63,4 +67,4 @@ class Image
 
         return $contents['url'];
     }
-}
+}//end class

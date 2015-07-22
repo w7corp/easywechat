@@ -3,5 +3,4 @@
 sftp-config.json
 composer.lock
 .subsplit
-.idea
 .php_cs.cache

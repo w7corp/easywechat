@@ -17,6 +17,8 @@
 
 namespace EasyWeChat\User;
 
+use EasyWeChat\Core\Http;
+
 /**
  * Class Group.
  */

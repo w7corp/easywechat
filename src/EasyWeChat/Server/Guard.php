@@ -22,6 +22,7 @@ use EasyWeChat\Core\Input;
 use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Support\XML;
 
 /**
  * Class Guard.
@@ -51,9 +52,8 @@ class Guard
      * Constructor.
      *
      * @param Input   $input
-     * @param Cryptor $cryptor
      */
-    public function __construct(Input $input, Cryptor $cryptor)
+    public function __construct(Input $input)
     {
         $this->listeners = new Collection();
         $this->input = $input;
@@ -144,7 +144,7 @@ class Guard
     protected function response($response)
     {
         if (is_string($response)) {
-            $message = new Text(['content' => $response]);
+            $response = new Text(['content' => $response]);
         }
 
         $return = '';

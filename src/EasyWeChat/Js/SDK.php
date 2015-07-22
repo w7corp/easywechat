@@ -19,7 +19,6 @@ namespace EasyWeChat\Js;
 
 use EasyWeChat\Cache\Adapters\AdapterInterface as Cache;
 use EasyWeChat\Core\Http;
-use EasyWeChat\Support\JSON;
 use EasyWeChat\Support\Str;
 use EasyWeChat\Support\Url as UrlHelper;
 

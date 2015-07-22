@@ -17,6 +17,9 @@
 
 namespace EasyWeChat\Notice;
 
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\Core\Http;
+
 /**
  * 模板消息.
  */
@@ -108,7 +111,7 @@ class Notice
      *
      * @return int
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function send(
         $to = null,
@@ -132,7 +135,7 @@ class Notice
 
         foreach ($params as $key => $value) {
             if (in_array($key, $required) && empty($value) && empty($this->message[$key])) {
-                throw new Exception("消息属性 '$key' 不能为空！");
+                throw new InvalidArgumentException("消息属性 '$key' 不能为空！");
             }
 
             $params[$key] = empty($value) ? $this->message[$key] : $value;

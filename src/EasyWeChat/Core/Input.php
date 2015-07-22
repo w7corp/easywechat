@@ -17,10 +17,14 @@
 
 namespace EasyWeChat\Core;
 
+use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 
+/**
+ * Class Input.
+ */
 class Input extends Collection
 {
     /**
@@ -101,7 +105,7 @@ class Input extends Collection
         if ($this->has('signature')
             && $this->signature($input) !== $this->get('signature')
         ) {
-            throw new BadRequestException('Invalid request signature.', 400);
+            throw new FaultException('Invalid request signature.', 400);
         }
     }
 

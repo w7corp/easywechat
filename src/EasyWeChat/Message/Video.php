@@ -17,8 +17,6 @@
 
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Media;
-
 /**
  * Class Video.
  *

@@ -86,7 +86,7 @@ class Collection implements
      */
     public function has($key)
     {
-        return Arr::get($this->data, $key) != null;
+        return !is_null(Arr::get($this->data, $key));
     }
 
     /**

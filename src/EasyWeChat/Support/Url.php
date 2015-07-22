@@ -15,6 +15,8 @@
  * @link      http://overtrue.me
  */
 
+namespace EasyWeChat\Support;
+
 /**
  * Class Url.
  */
