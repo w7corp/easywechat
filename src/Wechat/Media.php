@@ -119,6 +119,10 @@ class Media
         $response = $this->http->post($url, $params, $options);
 
         $this->forever = false;
+        
+        if ($type == 'image') {
+            return $response;
+        }
 
         $response = Arr::only($response, array('media_id', 'thumb_media_id'));
 
