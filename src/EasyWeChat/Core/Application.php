@@ -191,6 +191,8 @@ class Application implements ArrayAccess, IteratorAggregate
      * Add a service provider.
      *
      * @param string $provider
+     *
+     * @throws InvalidArgumentException
      */
     public function setProvider($provider)
     {
@@ -400,7 +402,7 @@ class Application implements ArrayAccess, IteratorAggregate
     /**
      * Return Iterator.
      *
-     * @return Iterator
+     * @return ArrayIterator
      */
     public function getIterator()
     {

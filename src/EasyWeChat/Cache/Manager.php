@@ -23,6 +23,9 @@ use EasyWeChat\Core\Application;
 
 /**
  * Class Manager.
+ *
+ * @method get($key, $default)
+ * @method set($key, $value, $lifetime = 7200)
  */
 class Manager
 {

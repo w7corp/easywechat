@@ -185,7 +185,7 @@ class SDK
      *
      * @param string $url
      *
-     * @return Js
+     * @return SDK
      */
     public function setUrl($url)
     {

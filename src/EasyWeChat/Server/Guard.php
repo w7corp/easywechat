@@ -19,7 +19,6 @@ namespace EasyWeChat\Server;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Input;
-use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
@@ -70,7 +69,7 @@ class Guard
      *
      * @param callable $callback
      *
-     * @return Server
+     * @return Guard
      *
      * @throws InvalidArgumentException
      */
@@ -100,7 +99,7 @@ class Guard
      *
      * @param callable $callback
      *
-     * @return Server
+     * @return Guard
      *
      * @throws InvalidArgumentException
      */
