@@ -25,10 +25,12 @@ use EasyWeChat\Support\Http as HttpClient;
 /**
  * Class Http.
  *
- * @method mixed jsonPost($url, $params = array(), $options = array())
+ * @method mixed json($url, $params = array(), $options = array())
  */
 class Http extends HttpClient
 {
+    const WECHAT_REPONSE_ERROR_NONE = 0;
+
     /**
      * Access token.
      *
@@ -88,6 +90,8 @@ class Http extends HttpClient
      * @param Exception $exception
      *
      * @return Http
+     *
+     * @throws InvalidArgumentException
      */
     public function setExpectedException($exception)
     {
@@ -131,10 +135,6 @@ class Http extends HttpClient
 
         $method = strtoupper($method);
 
-        if ($this->json) {
-            $options['json'] = true;
-        }
-
         $response = parent::request($url, $method, $params, $options);
 
         $this->json = false;
@@ -163,7 +163,7 @@ class Http extends HttpClient
             $this->thorwException($contents['errmsg'], $contents['errcode']);
         }
 
-        if ($contents === ['errcode' => '0', 'errmsg' => 'ok']) {
+        if ($contents['errcode'] == self::WECHAT_REPONSE_ERROR_NONE) {
             return true;
         }
 
@@ -178,29 +178,6 @@ class Http extends HttpClient
      */
     protected function thorwException($msg, $code)
     {
-        $exception = new $this->exception($msg, $code);
-
-        throw $exception;
-    }
-
-    /**
-     * Magic call.
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        if (stripos($method, 'json') === 0) {
-            $method = strtolower(substr($method, 4));
-            $this->json = true;
-        }
-
-        $result = call_user_func_array([$this, $method], $args);
-
-        return $result;
+        throw new $this->exception($msg, $code);
     }
 }//end class
-
