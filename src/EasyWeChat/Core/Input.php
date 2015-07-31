@@ -57,6 +57,20 @@ class Input extends Collection
     }
 
     /**
+     * Set input form custom array or Collection.
+     *
+     * @param array|Collection $input
+     */
+    public function setInput($input)
+    {
+        if ($input instanceof Collection) {
+            $input = $input->toArray();
+        }
+
+        parent::__construct($input);
+    }
+
+    /**
      * Build input.
      *
      * @param Cryptor $cryptor
@@ -69,7 +83,8 @@ class Input extends Collection
 
         $input = XML::parse($xml);
 
-        if (!empty($_REQUEST['encrypt_type'])
+        if (empty($_REQUEST['echostr'])
+            && !empty($_REQUEST['encrypt_type'])
             && $_REQUEST['encrypt_type'] === 'aes'
         ) {
             $this->encrypted = true;
@@ -83,7 +98,6 @@ class Input extends Collection
         }
 
         /* @var array $input */
-
         return array_merge($_REQUEST, (array) $input);
     }
 
@@ -92,9 +106,9 @@ class Input extends Collection
      *
      * @param string $token
      *
-     * @throws BadRequestException
+     * @throws FaultException
      */
-    public function validate($token)
+    protected function validate($token)
     {
         $input = [
             $token,
@@ -123,4 +137,3 @@ class Input extends Collection
         return sha1(implode($input));
     }
 }//end class
-
