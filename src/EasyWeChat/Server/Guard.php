@@ -42,80 +42,87 @@ class Guard
     protected $input;
 
     /**
-     * Listeners.
+     * Event listeners.
      *
-     * @var Collection
+     * @var string
      */
-    protected $listeners;
+    protected $eventListener;
+
+    /**
+     * Message listener.
+     *
+     * @var string
+     */
+    protected $messageListener;
 
     /**
      * Constructor.
      *
-     * @param Input   $input
+     * @param Input $input
      */
     public function __construct(Input $input)
     {
-        $this->listeners = new Collection();
         $this->input = $input;
-    }
-
-    /**
-     * Add a listener.
-     *
-     * @param string          $target
-     * @param string|callable $type
-     * @param callable        $callback
-     *
-     * @return Guard
-     *
-     * @throws InvalidArgumentException
-     */
-    public function on($target, $type, $callback = null)
-    {
-        if (is_null($callback)) {
-            $callback = $type;
-            $type = '*';
-        }
-
-        if (!is_callable($callback)) {
-            throw new InvalidArgumentException('The linstener is not callable.');
-        }
-
-        $type = strtolower($type);
-
-        $listeners = $this->listeners->get("{$target}.{$type}") ?: [];
-
-        array_push($listeners, $callback);
-
-        $this->listeners->set("{$target}.{$type}", $listeners);
-
-        return $this;
     }
 
     /**
      * Add a event listener.
      *
-     * @param string|callable $type
-     * @param callable        $callback
+     * @param callable $callback
      *
      * @return Server
+     *
+     * @throws InvalidArgumentException
      */
-    public function event($type, $callback = null)
+    public function setEventListener($callback = null)
     {
-        return $this->on('event', $type, $callback);
+        if (!is_callable($callback)) {
+            throw new InvalidArgumentException('Argument #2 is not callable.');
+        }
+
+        $this->eventListener = $callback;
+
+        return $this;
     }
 
     /**
-     * Add a message listener.
+     * Return the event listener.
      *
-     * @param string|callable $type
-     * @param callable        $callback
+     * @return string
+     */
+    public function getEventListener()
+    {
+        return $this->eventListener;
+    }
+
+    /**
+     * Add a event listener.
+     *
+     * @param callable $callback
      *
      * @return Server
+     *
+     * @throws InvalidArgumentException
      */
-    public function message($type, $callback = null)
+    public function setMessageListener($callback = null)
     {
-        return $this->on('message', $type, $callback);
+        if (!is_callable($callback)) {
+            throw new InvalidArgumentException('Argument #2 is not callable.');
+        }
+
+        $this->eventListener = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Return the message listener.
+     *
+     * @return string
+     */
+    public function getMessageListener()
+    {
+        return $this->eventListener;
     }
 
     /**
@@ -188,12 +195,12 @@ class Guard
     protected function handleRequest()
     {
         if ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
-            return $this->handleEvent($this->input);
+            $response = $this->handleEvent($this->input);
         } elseif ($this->input->has('MsgId')) {
-            return $this->handleMessage($this->input);
+            $response = $this->handleMessage($this->input);
         }
 
-        return self::EMPTY_STRING;
+        return $response ?: self::EMPTY_STRING;
     }
 
     /**
@@ -205,11 +212,11 @@ class Guard
      */
     protected function handleMessage($message)
     {
-        if (!is_null($response = $this->call('message.*', [$message]))) {
-            return $response;
+        if ($this->messageListener) {
+            return call_user_func_array($this->messageListener, [$message]);
         }
 
-        return $this->call("message.{$message['MsgType']}", [$message]);
+        return false;
     }
 
     /**
@@ -221,13 +228,11 @@ class Guard
      */
     protected function handleEvent($event)
     {
-        if (!is_null($response = $this->call('event.*', [$event]))) {
-            return $response;
+        if ($this->eventListener) {
+            return call_user_func_array($this->eventListener, [$event]);
         }
 
-        $event['Event'] = strtolower($event['Event']);
-
-        return $this->call("event.{$event['Event']}", [$event]);
+        return false;
     }
 
     /**
@@ -249,34 +254,6 @@ class Guard
         ];
 
         return XML::build(array_merge($base, $this->transformer->transform($message)));
-    }
-
-    /**
-     * Call listener.
-     *
-     * @param string      $key
-     * @param array       $args
-     * @param string|null $default
-     *
-     * @return mixed
-     */
-    protected function call($key, $args, $default = null)
-    {
-        $handlers = (array) $this->listeners[$key];
-
-        foreach ($handlers as $handler) {
-            if (!is_callable($handler)) {
-                continue;
-            }
-
-            $res = call_user_func_array($handler, $args);
-
-            if (!empty($res)) {
-                return $res;
-            }
-        }
-
-        return $default;
     }
 } // end class
 
