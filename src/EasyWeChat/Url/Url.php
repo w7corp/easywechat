@@ -58,7 +58,7 @@ class Url
                    'long_url' => $url,
                   ];
 
-        $response = $this->http->jsonPost(self::API_SHORTEN_URL, $params);
+        $response = $this->http->json(self::API_SHORTEN_URL, $params);
 
         return $response['short_url'];
     }

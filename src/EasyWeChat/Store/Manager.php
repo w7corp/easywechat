@@ -60,7 +60,7 @@ class Manager
     {
         $params = ['poi_id' => $storeId];
 
-        $response = $this->http->jsonPost(self::API_GET, $params);
+        $response = $this->http->json(self::API_GET, $params);
 
         return new Collection(Arr::get($response, 'business.base_info'));
     }
@@ -80,7 +80,7 @@ class Manager
                    'limit' => $limit,
                   ];
 
-        $stores = $this->http->jsonPost(self::API_LIST, $params);
+        $stores = $this->http->json(self::API_LIST, $params);
 
         return Arr::fetch($stores['business_list'], 'base_info');
     }
@@ -98,7 +98,7 @@ class Manager
                    'business' => ['base_info' => $data],
                   ];
 
-        return $this->http->jsonPost(self::API_CREATE, $params);
+        return $this->http->json(self::API_CREATE, $params);
     }
 
     /**
@@ -117,7 +117,7 @@ class Manager
                    'business' => ['base_info' => $data],
                   ];
 
-        return $this->http->jsonPost(self::API_UPDATE, $params);
+        return $this->http->json(self::API_UPDATE, $params);
     }
 
     /**
@@ -131,6 +131,6 @@ class Manager
     {
         $params = ['poi_id' => $storeId];
 
-        return $this->http->jsonPost(self::API_DELETE, $params);
+        return $this->http->json(self::API_DELETE, $params);
     }
 }

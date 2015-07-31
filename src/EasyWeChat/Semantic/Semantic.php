@@ -70,7 +70,7 @@ class Semantic
                    'appid' => $this->appId,
                   ];
 
-        return new Collection($this->http->jsonPost(self::API_CREATE, array_merge($params, $other)));
+        return new Collection($this->http->json(self::API_CREATE, array_merge($params, $other)));
     }
 }// end class
 

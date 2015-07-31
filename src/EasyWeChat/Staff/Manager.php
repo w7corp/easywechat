@@ -90,7 +90,7 @@ class Manager
                    'password' => $password,
                   ];
 
-        return $this->http->jsonPost(self::API_CREATE, $params);
+        return $this->http->json(self::API_CREATE, $params);
     }
 
     /**
@@ -110,7 +110,7 @@ class Manager
                    'password' => $password,
                   ];
 
-        return $this->http->jsonPost(self::API_UPDATE, $params);
+        return $this->http->json(self::API_UPDATE, $params);
     }
 
     /**
@@ -130,7 +130,7 @@ class Manager
                     'password' => $password,
                   ];
 
-        return $this->http->jsonPost(self::API_DELETE."?kf_account={$email}", $params);
+        return $this->http->json(self::API_DELETE."?kf_account={$email}", $params);
     }
 
     /**

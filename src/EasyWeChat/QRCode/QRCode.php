@@ -158,6 +158,6 @@ class QRCode
             $params['expire_seconds'] = min($expireSeconds, 7 * self::DAY);
         }
 
-        return new Collection($this->http->jsonPost(self::API_CREATE, $params));
+        return new Collection($this->http->json(self::API_CREATE, $params));
     }
 }

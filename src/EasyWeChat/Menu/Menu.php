@@ -71,7 +71,7 @@ class Menu
 
         $menus = $this->extractMenus($menus);
 
-        return $this->http->jsonPost(self::API_CREATE, ['button' => $menus]);
+        return $this->http->json(self::API_CREATE, ['button' => $menus]);
     }
 
     /**

@@ -62,7 +62,7 @@ class Group
                    'group' => ['name' => $name],
                   ];
 
-        $response = $this->http->jsonPost(self::API_CREATE, $params);
+        $response = $this->http->json(self::API_CREATE, $params);
 
         return $response['group'];
     }
@@ -96,7 +96,7 @@ class Group
                               ],
                   ];
 
-        return $this->http->jsonPost(self::API_UPDATE, $params);
+        return $this->http->json(self::API_UPDATE, $params);
     }
 
     /**
@@ -112,7 +112,7 @@ class Group
                    'group' => ['id' => $groupId],
                   ];
 
-        return $this->http->jsonPost(self::API_DELETE, $params);
+        return $this->http->json(self::API_DELETE, $params);
     }
 
     /**
@@ -126,7 +126,7 @@ class Group
     {
         $params = ['openid' => $openId];
 
-        $response = $this->http->jsonPost(self::API_USER_GROUP_ID, $params);
+        $response = $this->http->json(self::API_USER_GROUP_ID, $params);
 
         return $response['groupid'];
     }
@@ -146,7 +146,7 @@ class Group
                    'to_groupid' => $groupId,
                   ];
 
-        $this->http->jsonPost(self::API_MEMBER_UPDATE, $params);
+        $this->http->json(self::API_MEMBER_UPDATE, $params);
 
         return true;
     }
@@ -166,7 +166,7 @@ class Group
                    'to_groupid' => $groupId,
                   ];
 
-        $this->http->jsonPost(self::API_MEMBER_BATCH_UPDATE, $params);
+        $this->http->json(self::API_MEMBER_BATCH_UPDATE, $params);
 
         return true;
     }

@@ -81,7 +81,7 @@ class Notice
                    'industry_id2' => $industryTwo,
                   ];
 
-        return $this->http->jsonPost(self::API_SET_INDUSTRY, $params);
+        return $this->http->json(self::API_SET_INDUSTRY, $params);
     }
 
     /**
@@ -95,7 +95,7 @@ class Notice
     {
         $params = ['template_id_short' => $shortId];
 
-        $result = $this->http->jsonPost(self::API_ADD_TEMPLATE, $params);
+        $result = $this->http->json(self::API_ADD_TEMPLATE, $params);
 
         return $result['template_id'];
     }
@@ -143,7 +143,7 @@ class Notice
 
         $params['data'] = $this->formatData($params['data']);
 
-        $result = $this->http->jsonPost(self::API_SEND_NOTICE, $params);
+        $result = $this->http->json(self::API_SEND_NOTICE, $params);
 
         return $result['msgid'];
     }

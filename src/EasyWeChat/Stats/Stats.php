@@ -313,7 +313,7 @@ class Stats
                    'end_date' => $to,
                   ];
 
-        $result = $this->http->jsonPost($api, $params);
+        $result = $this->http->json($api, $params);
 
         return $result['list'];
     }

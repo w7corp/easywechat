@@ -171,7 +171,7 @@ class Card
                              ],
                   ];
 
-        $result = $this->http->jsonPost(self::API_CREATE, $params);
+        $result = $this->http->json(self::API_CREATE, $params);
 
         return $result['card_id'];
     }
@@ -187,7 +187,7 @@ class Card
     {
         $params = ['card_id' => $cardId];
 
-        $result = $this->http->jsonPost(self::API_GET, $params);
+        $result = $this->http->json(self::API_GET, $params);
 
         return new Collection($result['card']);
     }
@@ -212,7 +212,7 @@ class Card
                    $key => $card,
                   ];
 
-        return $this->http->jsonPost(self::API_UPDATE, $params);
+        return $this->http->json(self::API_UPDATE, $params);
     }
 
     /**
@@ -230,7 +230,7 @@ class Card
                    'count' => $count,
                   ];
 
-        $result = $this->http->jsonPost(self::API_LIST, $params);
+        $result = $this->http->json(self::API_LIST, $params);
 
         return $result['card_id_list'];
     }
@@ -250,7 +250,7 @@ class Card
                    'card_id' => $cardId,
                   ];
 
-        return new Collection($this->http->jsonPost(self::API_CONSUME, $params));
+        return new Collection($this->http->json(self::API_CONSUME, $params));
     }
 
     /**
@@ -268,7 +268,7 @@ class Card
                    'card_id' => $cardId,
                   ];
 
-        return $this->http->jsonPost(self::API_UNAVAILABLE, $params);
+        return $this->http->json(self::API_UNAVAILABLE, $params);
     }
 
     /**
@@ -282,7 +282,7 @@ class Card
     {
         $params = ['card_id' => $cardId];
 
-        return $this->http->jsonPost(self::API_DELETE, $params);
+        return $this->http->json(self::API_DELETE, $params);
     }
 
     /**
@@ -306,7 +306,7 @@ class Card
                    $key => abs($amount),
                   ];
 
-        return $this->http->jsonPost(self::API_UPDATE_STOCK, $params);
+        return $this->http->json(self::API_UPDATE_STOCK, $params);
     }
 
     /**
@@ -350,7 +350,7 @@ class Card
                    'card_id' => $cardId,
                   ];
 
-        return new Collection($this->http->jsonPost(self::API_CODE_GET, $params));
+        return new Collection($this->http->json(self::API_CODE_GET, $params));
     }
 
     /**
@@ -370,7 +370,7 @@ class Card
                    'new_code' => $newCode,
                   ];
 
-        return $this->http->jsonPost(self::API_CODE_UPDATE, $params);
+        return $this->http->json(self::API_CODE_UPDATE, $params);
     }
 
     /**
@@ -384,7 +384,7 @@ class Card
     {
         $params = ['encrypt_code' => $encryptedCode];
 
-        $result = $this->http->jsonPost(self::API_CODE_DECRYPT, $params);
+        $result = $this->http->json(self::API_CODE_DECRYPT, $params);
 
         return $result['code'];
     }
@@ -411,7 +411,7 @@ class Card
     {
         $params = array_merge(['card_id' => $cardId], $data);
 
-        return $this->http->jsonPost(self::API_MEMBER_CARD_ACTIVE, $params);
+        return $this->http->json(self::API_MEMBER_CARD_ACTIVE, $params);
     }
 
     /**
@@ -438,7 +438,7 @@ class Card
     {
         $params = array_merge(['card_id' => $cardId], $data);
 
-        return new Collection($this->http->jsonPost(self::API_MEMBER_CARD_TRADE, $params));
+        return new Collection($this->http->json(self::API_MEMBER_CARD_TRADE, $params));
     }
 
     /**
@@ -464,7 +464,7 @@ class Card
     {
         $params = array_merge(['card_id' => $cardId], $data);
 
-        return $this->http->jsonPost(self::API_MOVIE_TICKET_UPDATE, $params);
+        return $this->http->json(self::API_MOVIE_TICKET_UPDATE, $params);
     }
 
     /**
@@ -490,7 +490,7 @@ class Card
     {
         $params = array_merge(['card_id' => $cardId], $data);
 
-        return $this->http->jsonPost(self::API_MEETING_TICKET_UPDATE, $params);
+        return $this->http->json(self::API_MEETING_TICKET_UPDATE, $params);
     }
 
     /**
@@ -517,7 +517,7 @@ class Card
     {
         $params = array_merge(['card_id' => $cardId], $data);
 
-        return $this->http->jsonPost(self::API_BOARDING_PASS_CHECKIN, $params);
+        return $this->http->json(self::API_BOARDING_PASS_CHECKIN, $params);
     }
 
     /**

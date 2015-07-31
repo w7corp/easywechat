@@ -122,7 +122,7 @@ class User
                    'remark' => $remark,
                   ];
 
-        return $this->http->jsonPost(self::API_REMARK, $params);
+        return $this->http->json(self::API_REMARK, $params);
     }
 
     /**
@@ -148,7 +148,7 @@ class User
     {
         $params = ['openid' => $openId];
 
-        $response = $this->http->jsonPost(self::API_GROUP, $params);
+        $response = $this->http->json(self::API_GROUP, $params);
 
         return $response['groupid'];
     }

@@ -141,6 +141,6 @@ class Messagener
 
         $message = $this->transformer->transform($this->message);
 
-        return $this->http->jsonPost(self::API_MESSAGE_SEND, $message);
+        return $this->http->json(self::API_MESSAGE_SEND, $message);
     }
 }

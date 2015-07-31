@@ -161,7 +161,7 @@ class Media
     {
         $params = ['articles' => $articles];
 
-        $response = $this->http->jsonPost(self::API_FOREVER_NEWS_UPLOAD, $params);
+        $response = $this->http->json(self::API_FOREVER_NEWS_UPLOAD, $params);
 
         return $response['media_id'];
     }
@@ -183,7 +183,7 @@ class Media
                    'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : []),
                   ];
 
-        return $this->http->jsonPost(self::API_FOREVER_NEWS_UPDATE, $params);
+        return $this->http->json(self::API_FOREVER_NEWS_UPDATE, $params);
     }
 
     /**
@@ -195,7 +195,7 @@ class Media
      */
     public function delete($mediaId)
     {
-        return $this->http->jsonPost(self::API_FOREVER_DELETE, ['media_id' => $mediaId]);
+        return $this->http->json(self::API_FOREVER_DELETE, ['media_id' => $mediaId]);
     }
 
     /**
@@ -250,7 +250,7 @@ class Media
                    'count' => min(20, $count),
                   ];
 
-        return $this->http->jsonPost(self::API_FOREVER_LIST, $params);
+        return $this->http->json(self::API_FOREVER_LIST, $params);
     }
 
     /**
@@ -265,7 +265,7 @@ class Media
     {
         $params = ['media_id' => $mediaId];
 
-        $method = $this->forever ? 'jsonPost' : 'get';
+        $method = $this->forever ? 'json' : 'get';
         $api = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
 
         $contents = $this->http->{$method}($api, $params);
