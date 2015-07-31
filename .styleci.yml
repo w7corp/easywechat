@@ -1,10 +1,10 @@
 preset: symfony
 
 enabled:
+  - align_equals
   - strict
   - strict_param
-  - align_equals
 
 disabled:
-  - short_array_syntax
   - phpdoc_short_description
+  - unalign_equals
