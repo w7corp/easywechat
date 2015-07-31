@@ -35,5 +35,4 @@ class EncryptionException extends CoreException
     const ERROR_BASE64_ENCODE = -40009; // Base64 encoding failed
     const ERROR_BASE64_DECODE = -40010; // Base64 decoding failed
     const ERROR_XML_BUILD = -40011; // XML build failed
-}//end class
-
+}

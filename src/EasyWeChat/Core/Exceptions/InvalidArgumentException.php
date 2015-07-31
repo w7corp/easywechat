@@ -24,5 +24,4 @@ use EasyWeChat\Core\Exception;
  */
 class InvalidArgumentException extends Exception
 {
-}//end class
-
+}

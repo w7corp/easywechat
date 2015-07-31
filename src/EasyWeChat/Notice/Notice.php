@@ -235,5 +235,4 @@ class Notice
             return $this;
         }
     }
-}//end class
-
+}

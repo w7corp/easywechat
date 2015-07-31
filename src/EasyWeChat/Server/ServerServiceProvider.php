@@ -38,5 +38,4 @@ class ServerServiceProvider extends ServiceProvider
             return new Guard($app['input'], $app['cryptor']);
         });
     }
-}//end class
-
+}

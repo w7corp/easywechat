@@ -44,5 +44,4 @@ class CacheServiceProvider extends ServiceProvider
             return new FileAdapter();
         });
     }
-}//end class
-
+}

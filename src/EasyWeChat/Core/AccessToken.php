@@ -103,5 +103,4 @@ class AccessToken
             }
         );
     }
-}//end class
-
+}

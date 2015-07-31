@@ -133,5 +133,4 @@ class Manager
 
         return $this->http->jsonPost(self::API_DELETE, $params);
     }
-}//end class
-
+}

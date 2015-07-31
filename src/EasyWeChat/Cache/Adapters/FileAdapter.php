@@ -92,5 +92,4 @@ class FileAdapter
     {
         return sys_get_temp_dir().DIRECTORY_SEPARATOR.md5($this->appId.$key);
     }
-}//end class
-
+}

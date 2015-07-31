@@ -304,4 +304,4 @@ class Cryptor
 
         return $key = base64_decode($this->AESKey.'=', true);
     }
-}//end class
+}

@@ -112,5 +112,4 @@ abstract class Attribute extends Collection
     {
         return $this->with($property, $value);
     }
-}//end class
-
+}

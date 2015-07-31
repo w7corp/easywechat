@@ -74,5 +74,4 @@ class Video extends AbstractMessage
 
         return $this;
     }
-}//end class
-
+}

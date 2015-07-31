@@ -38,5 +38,4 @@ class UrlServiceProvider extends ServiceProvider
             return new Url($app['http']);
         });
     }
-}//end class
-
+}

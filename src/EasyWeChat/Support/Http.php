@@ -286,4 +286,4 @@ class Http
 
         return $results;
     }
-}//end class
+}

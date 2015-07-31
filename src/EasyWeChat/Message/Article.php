@@ -41,5 +41,4 @@ class Article extends Attribute
                                 'source_url',
                                 'show_cover_pic',
                             ];
-}//end class
-
+}

@@ -406,5 +406,4 @@ class Application implements ArrayAccess, IteratorAggregate
     {
         return new ArrayIterator($this->bindings);
     }
-}//end class
-
+}

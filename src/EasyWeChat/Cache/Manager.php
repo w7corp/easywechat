@@ -115,5 +115,4 @@ class Manager
     {
         return call_user_func_array([$this->getAdapter(), $method], $args);
     }
-}//end class
-
+}

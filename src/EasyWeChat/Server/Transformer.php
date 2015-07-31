@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Transformer.php
+ * Transformer.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -124,16 +126,16 @@ class Transformer
 
         foreach ($message->all() as $item) {
             $articles[] = [
-                           'Title'       => $item->title,
+                           'Title' => $item->title,
                            'Description' => $item->description,
-                           'Url'         => $item->url,
-                           'PicUrl'      => $item->pic_url,
+                           'Url' => $item->url,
+                           'PicUrl' => $item->pic_url,
                           ];
         }
 
         return [
                 'ArticleCount' => count($articles),
-                'Articles'     => $articles,
+                'Articles' => $articles,
                ];
     }
-}//end class
+}

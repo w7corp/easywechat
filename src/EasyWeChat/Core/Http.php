@@ -180,4 +180,4 @@ class Http extends HttpClient
     {
         throw new $this->exception($msg, $code);
     }
-}//end class
+}

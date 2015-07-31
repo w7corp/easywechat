@@ -24,5 +24,4 @@ use EasyWeChat\Core\Exception;
  */
 class UnboundServiceException extends Exception
 {
-}//end class
-
+}

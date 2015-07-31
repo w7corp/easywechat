@@ -69,5 +69,4 @@ class Articles extends AbstractMessage
 
         return $this;
     }
-}//end class
-
+}

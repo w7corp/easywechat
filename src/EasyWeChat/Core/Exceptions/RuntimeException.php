@@ -24,5 +24,4 @@ use EasyWeChat\Core\Exception;
  */
 class RuntimeException extends Exception
 {
-}//end class
-
+}

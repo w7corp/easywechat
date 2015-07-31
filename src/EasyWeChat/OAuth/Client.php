@@ -268,4 +268,4 @@ class Client
             return $this->lastPermission[$property];
         }
     }
-}//end class
+}

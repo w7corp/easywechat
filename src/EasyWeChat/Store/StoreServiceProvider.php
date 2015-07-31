@@ -38,5 +38,4 @@ class StoreServiceProvider extends ServiceProvider
             return new Manager($app['http']);
         });
     }
-}//end class
-
+}

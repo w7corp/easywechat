@@ -36,5 +36,4 @@ class NoticeServiceProvider extends ServiceProvider
     {
         //TODO
     }
-}//end class
-
+}

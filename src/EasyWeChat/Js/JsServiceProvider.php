@@ -43,5 +43,4 @@ class JsServiceProvider extends ServiceProvider
             );
         });
     }
-}//end class
-
+}

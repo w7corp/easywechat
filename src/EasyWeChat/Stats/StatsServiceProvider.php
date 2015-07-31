@@ -38,5 +38,4 @@ class StatsServiceProvider extends ServiceProvider
             return new Stats($app['http']);
         });
     }
-}//end class
-
+}

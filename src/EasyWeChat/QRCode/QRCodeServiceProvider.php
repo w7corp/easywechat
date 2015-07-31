@@ -38,5 +38,4 @@ class QRCodeServiceProvider extends ServiceProvider
             return new QRCode($app['http']);
         });
     }
-}//end class
-
+}

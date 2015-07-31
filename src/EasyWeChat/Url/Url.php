@@ -72,5 +72,4 @@ class Url
     {
         return UrlHelper::current();
     }
-}//end class
-
+}

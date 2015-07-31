@@ -33,5 +33,4 @@ class ShortVideo extends Video
      * @var string
      */
     protected $type = 'shortvideo';
-}//end class
-
+}

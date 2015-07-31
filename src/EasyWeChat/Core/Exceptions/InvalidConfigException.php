@@ -24,5 +24,4 @@ use EasyWeChat\Core\Exception;
  */
 class InvalidConfigException extends Exception
 {
-}//end class
-
+}

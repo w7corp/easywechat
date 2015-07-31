@@ -73,4 +73,4 @@ class Color
             }
         );
     }
-}//end class
+}

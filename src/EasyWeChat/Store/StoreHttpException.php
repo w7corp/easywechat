@@ -24,5 +24,4 @@ use EasyWeChat\Core\Exception as CoreException;
  */
 class StoreHttpException extends CoreException
 {
-}//end class
-
+}

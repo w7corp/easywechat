@@ -49,5 +49,4 @@ class MessageServiceProvider extends ServiceProvider
             }, false);
         }
     }
-}//end class
-
+}

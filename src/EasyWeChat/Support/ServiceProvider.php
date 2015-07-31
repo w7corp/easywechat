@@ -32,5 +32,4 @@ abstract class ServiceProvider
      * @return mixed
      */
     abstract public function register(Application $app);
-}//end class
-
+}

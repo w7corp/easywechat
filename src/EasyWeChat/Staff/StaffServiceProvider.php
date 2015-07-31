@@ -42,5 +42,4 @@ class StaffServiceProvider extends ServiceProvider
             return new Messagener($app['http'], new Transformer());
         });
     }
-}//end class
-
+}

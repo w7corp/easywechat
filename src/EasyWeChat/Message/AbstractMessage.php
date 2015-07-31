@@ -125,5 +125,4 @@ abstract class AbstractMessage extends Attribute
 
         return $this;
     }
-}//end class
-
+}

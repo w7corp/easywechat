@@ -189,5 +189,4 @@ class Str
 
         return static::$studlyCache[$key] = str_replace(' ', '', $value);
     }
-}//end class
-
+}

@@ -37,7 +37,7 @@ class Image
     /**
      * Constructor.
      *
-     * @param Http        $http
+     * @param Http $http
      */
     public function __construct(Http $http)
     {
@@ -67,4 +67,4 @@ class Image
 
         return $contents['url'];
     }
-}//end class
+}

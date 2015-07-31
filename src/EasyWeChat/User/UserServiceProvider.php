@@ -42,5 +42,4 @@ class UserServiceProvider extends ServiceProvider
             return new Group($app['http']);
         });
     }
-}//end class
-
+}

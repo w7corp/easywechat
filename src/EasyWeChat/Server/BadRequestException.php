@@ -24,5 +24,4 @@ use EasyWeChat\Core\Exception;
  */
 class BadRequestException extends Exception
 {
-}//end class
-
+}

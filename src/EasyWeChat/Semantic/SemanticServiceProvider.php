@@ -38,5 +38,4 @@ class SemanticServiceProvider extends ServiceProvider
             return new Semantic($app->config['app_id'], $app['http']);
         });
     }
-}//end class
-
+}

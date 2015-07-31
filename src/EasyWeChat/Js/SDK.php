@@ -217,5 +217,4 @@ class SDK
     {
         return Str::quickRandom(10);
     }
-}//end class
-
+}

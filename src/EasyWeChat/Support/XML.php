@@ -145,5 +145,4 @@ class XML
 
         return $xml;
     }
-}//end class
-
+}

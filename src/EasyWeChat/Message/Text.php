@@ -37,5 +37,4 @@ class Text extends AbstractMessage
      * @var array
      */
     protected $properties = ['content'];
-}//end class
-
+}

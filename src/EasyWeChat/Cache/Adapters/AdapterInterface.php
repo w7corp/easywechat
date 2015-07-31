@@ -51,5 +51,4 @@ interface AdapterInterface
      * @return int
      */
     public function set($key, $value, $lifetime = 7200);
-}//end class
-
+}

@@ -22,5 +22,4 @@ namespace EasyWeChat\Shop;
  */
 class Shop
 {
-}//end class
-
+}

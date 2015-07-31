@@ -117,5 +117,4 @@ class Transformer
 
         return array('news' => array('articles' => $articles));
     }
-}//end class
-
+}

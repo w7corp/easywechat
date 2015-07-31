@@ -136,4 +136,4 @@ class Input extends Collection
 
         return sha1(implode($input));
     }
-}//end class
+}

@@ -36,5 +36,4 @@ class PaymentServiceProvider extends ServiceProvider
     {
         //TODO
     }
-}//end class
-
+}

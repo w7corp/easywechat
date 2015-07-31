@@ -94,7 +94,7 @@ class Media
      *
      * @param string $type
      * @param string $path
-     * @param array $params
+     * @param array  $params
      *
      * @return string
      *
@@ -313,4 +313,4 @@ class Media
 
         return $api.'?'.http_build_query($queries);
     }
-}//end class
+}

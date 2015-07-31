@@ -36,5 +36,4 @@ class OAuthServiceProvider extends ServiceProvider
     {
         //TODO
     }
-}//end class
-
+}

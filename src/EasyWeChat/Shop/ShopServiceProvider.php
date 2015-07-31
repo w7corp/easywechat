@@ -38,5 +38,4 @@ class ShopServiceProvider extends ServiceProvider
             return new Shop($app['http']);
         });
     }
-}//end class
-
+}

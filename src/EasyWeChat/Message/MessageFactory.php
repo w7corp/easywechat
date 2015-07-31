@@ -68,5 +68,4 @@ class MessageFactory
 
         return $this->app->get("message.{$type}");
     }
-}//end class
-
+}

@@ -40,5 +40,4 @@ class Transfer extends AbstractMessage
     protected $properties = [
                              'account',
                             ];
-}//end class
-
+}

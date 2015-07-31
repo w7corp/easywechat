@@ -24,5 +24,4 @@ use EasyWeChat\Core\Exception;
  */
 class HttpException extends Exception
 {
-}//end class
-
+}

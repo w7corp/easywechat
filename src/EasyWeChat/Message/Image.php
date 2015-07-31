@@ -51,5 +51,4 @@ class Image extends AbstractMessage
 
         return $this;
     }
-}//end class
-
+}

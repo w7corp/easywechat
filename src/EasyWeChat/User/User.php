@@ -152,5 +152,4 @@ class User
 
         return $response['groupid'];
     }
-}//end class
-
+}

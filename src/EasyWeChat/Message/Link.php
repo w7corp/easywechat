@@ -39,5 +39,4 @@ class Link extends AbstractMessage
                              'description',
                              'url',
                             ];
-}//end class
-
+}

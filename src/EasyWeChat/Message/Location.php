@@ -41,5 +41,4 @@ class Location extends AbstractMessage
                              'label',
                              'precision',
                             ];
-}//end class
-
+}

@@ -49,5 +49,4 @@ class Music extends AbstractMessage
                              'thumb_media_id',
                              'format',
                             ];
-}//end class
-
+}

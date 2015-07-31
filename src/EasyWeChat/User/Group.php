@@ -170,5 +170,4 @@ class Group
 
         return true;
     }
-}//end class
-
+}
