@@ -108,8 +108,8 @@ class Application implements ArrayAccess, IteratorAggregate
     /**
      * Bind a singleton service.
      *
-     * @param string $abstract
-     * @param mixed  $concrete
+     * @param string  $abstract
+     * @param Closure $concrete
      */
     public function singleton($abstract, $concrete)
     {
