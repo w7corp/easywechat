@@ -319,7 +319,7 @@ class Application implements ArrayAccess, IteratorAggregate
      *
      * @param string $abstract
      *
-     * @return mixed
+     * @return string
      *
      * @throws UnboundServiceException
      */
