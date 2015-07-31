@@ -7,5 +7,4 @@ enabled:
 
 disabled:
   - phpdoc_short_description
-  - short_array_syntax
   - unalign_equals
