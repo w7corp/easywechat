@@ -95,5 +95,4 @@ class MenuItem extends MagicAttributes
 
         $this->with('sub_button', $subButtons);
     }
-}// end class
-
+}

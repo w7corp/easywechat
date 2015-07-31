@@ -255,5 +255,4 @@ class Guard
 
         return XML::build(array_merge($base, $this->transformer->transform($message)));
     }
-} // end class
-
+}

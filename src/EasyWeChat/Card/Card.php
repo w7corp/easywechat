@@ -543,5 +543,4 @@ class Card
     {
         return uniqid('pre_');
     }
-}// end class
-
+}
