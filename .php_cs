@@ -8,7 +8,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 ;
 
 return Symfony\CS\Config\Config::create()
-    ->fixers(array('-symfony'))
+    ->fixers(array('symfony'))
     ->finder($finder)
     ->setUsingCache(true)
 ;
