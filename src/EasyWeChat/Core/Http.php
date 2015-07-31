@@ -77,7 +77,7 @@ class Http extends HttpClient
     /**
      * Return token.
      *
-     * @return AccessToken|null
+     * @return string
      */
     public function getToken()
     {

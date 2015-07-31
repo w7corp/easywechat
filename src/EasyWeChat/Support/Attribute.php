@@ -40,7 +40,7 @@ abstract class Attribute extends Collection
      * @param string $attribute
      * @param string $value
      *
-     * @return Attributes
+     * @return Attribute
      */
     public function setAttribute($attribute, $value)
     {
@@ -55,7 +55,7 @@ abstract class Attribute extends Collection
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return Attributes
+     * @return Attribute
      */
     public function with($attribute, $value)
     {
@@ -89,7 +89,7 @@ abstract class Attribute extends Collection
      * @param string $method
      * @param array  $args
      *
-     * @return Attributes
+     * @return Attribute
      */
     public function __call($method, $args)
     {
@@ -106,7 +106,7 @@ abstract class Attribute extends Collection
      * @param string $property
      * @param mixed  $value
      *
-     * @return Attributes
+     * @return Attribute
      */
     public function __set($property, $value)
     {
