@@ -1,5 +1,1 @@
 preset: symfony
-
-enabled:
-  - strict
-  - strict_param
