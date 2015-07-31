@@ -39,16 +39,16 @@ class Collection implements
      *
      * @var array
      */
-    protected $data = [];
+    protected $items = [];
 
     /**
      * set data.
      *
-     * @param mixed $data
+     * @param mixed $items
      */
-    public function __construct($data = [])
+    public function __construct(array $items = [])
     {
-        $this->data = (array) $data;
+        $this->items = $items;
     }
 
     /**
@@ -58,19 +58,19 @@ class Collection implements
      */
     public function all()
     {
-        return $this->data;
+        return $this->items;
     }
 
     /**
      * Merge data.
      *
-     * @param array $data
+     * @param array $items
      *
      * @return array
      */
-    public function merge($data)
+    public function merge($items)
     {
-        foreach ($data as $key => $value) {
+        foreach ($items as $key => $value) {
             $this->set($key, $value);
         }
 
@@ -86,7 +86,7 @@ class Collection implements
      */
     public function has($key)
     {
-        return !is_null(Arr::get($this->data, $key));
+        return !is_null(Arr::get($this->items, $key));
     }
 
     /**
@@ -96,7 +96,7 @@ class Collection implements
      */
     public function first()
     {
-        return reset($this->data);
+        return reset($this->items);
     }
 
     /**
@@ -106,9 +106,9 @@ class Collection implements
      */
     public function last()
     {
-        $end = end($this->data);
+        $end = end($this->items);
 
-        reset($this->data);
+        reset($this->items);
 
         return $end;
     }
@@ -121,7 +121,7 @@ class Collection implements
      */
     public function add($key, $value)
     {
-        Arr::set($this->data, $key, $value);
+        Arr::set($this->items, $key, $value);
     }
 
     /**
@@ -132,7 +132,7 @@ class Collection implements
      */
     public function set($key, $value)
     {
-        Arr::set($this->data, $key, $value);
+        Arr::set($this->items, $key, $value);
     }
 
     /**
@@ -145,7 +145,7 @@ class Collection implements
      */
     public function get($key, $default = null)
     {
-        return Arr::get($this->data, $key, $default);
+        return Arr::get($this->items, $key, $default);
     }
 
     /**
@@ -155,7 +155,7 @@ class Collection implements
      */
     public function forget($key)
     {
-        return Arr::forget($this->data, $key);
+        return Arr::forget($this->items, $key);
     }
 
     /**
@@ -188,19 +188,19 @@ class Collection implements
         return $this->toJson();
     }
 
-     /**
-      * (PHP 5 &gt;= 5.4.0)<br/>
-      * Specify data which should be serialized to JSON.
-      *
-      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-      *
-      * @return mixed data which can be serialized by <b>json_encode</b>,
-      * which is a value of any type other than a resource.
-      */
-     public function jsonSerialize()
-     {
-         return $this->data;
-     }
+    /**
+     * (PHP 5 &gt;= 5.4.0)<br/>
+     * Specify data which should be serialized to JSON.
+     *
+     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     */
+    public function jsonSerialize()
+    {
+        return $this->items;
+    }
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
@@ -212,22 +212,7 @@ class Collection implements
      */
     public function serialize()
     {
-        return serialize($this->data);
-    }
-
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Constructs the object.
-     *
-     * @link http://php.net/manual/en/serializable.unserialize.php
-     *
-     * @param string $serialized <p>
-     *                           The string representation of the object.
-     *                           </p>
-     */
-    public function unserialize($data)
-    {
-        return $this->data = unserialize($data);
+        return serialize($this->items);
     }
 
     /**
@@ -241,7 +226,7 @@ class Collection implements
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->data);
+        return new ArrayIterator($this->items);
     }
 
     /**
@@ -257,7 +242,24 @@ class Collection implements
      */
     public function count()
     {
-        return count($this->data);
+        return count($this->items);
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Constructs the object.
+     *
+     * @link  http://php.net/manual/en/serializable.unserialize.php
+     *
+     * @param string $serialized <p>
+     *                           The string representation of the object.
+     *                           </p>
+     *
+     * @return mixed|void
+     */
+    public function unserialize($serialized)
+    {
+        return $this->items = unserialize($serialized);
     }
 
     /**
@@ -326,8 +328,6 @@ class Collection implements
      *                      </p>
      *
      * @return bool true on success or false on failure.
-     *              </p>
-     *              <p>
      *              The return value will be casted to boolean if non-boolean was returned.
      */
     public function offsetExists($offset)
@@ -387,4 +387,3 @@ class Collection implements
         $this->set($offset, $value);
     }
 }//end class
-
