@@ -95,6 +95,22 @@ class Http
     }
 
     /**
+     * Make a HTTP POST request.
+     *
+     * @param string $url
+     * @param array  $params
+     * @param array  $options
+     *
+     * @return array
+     */
+    public function json($url, $params = [], $options = [])
+    {
+        $options['json'] = true;
+
+        return $this->request($url, self::POST, $params, $options);
+    }
+
+    /**
      * Make a HTTP PUT request.
      *
      * @param string $url
@@ -164,14 +180,7 @@ class Http
 
         // Check for files
         if (isset($options['files']) && count($options['files'])) {
-            foreach ($options['files'] as $index => $file) {
-                $params[$index] = $this->createCurlFile($file);
-            }
-
-            version_compare(PHP_VERSION, '5.5', '<') || curl_setopt($this->curl, CURLOPT_SAFE_UPLOAD, false);
-
-            curl_setopt($this->curl, CURLOPT_POST, 1);
-            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
+            $this->performFiles($options);
         } else {
             if (isset($options['json'])) {
                 $params = json_encode($params, JSON_UNESCAPED_UNICODE);
@@ -182,7 +191,7 @@ class Http
         }
 
         // Check for custom headers
-        if (isset($options['headers']) && count($options['headers'])) {
+        if (!empty($options['headers'])) {
             curl_setopt($this->curl, CURLOPT_HTTPHEADER, $options['headers']);
         }
 
@@ -191,22 +200,24 @@ class Http
             curl_setopt($this->curl, CURLOPT_USERPWD, $options['auth']['username'].':'.$options['auth']['password']);
         }
 
-        $response = $this->doCurl();
+        return $this->perform();
+    }
 
-        // Separate headers and body
-        $headerSize = $response['curl_info']['header_size'];
-        $header = substr($response['response'], 0, $headerSize);
-        $body = substr($response['response'], $headerSize);
+    /**
+     * Handle files.
+     *
+     * @param array $options
+     */
+    public function performFiles($options)
+    {
+        foreach ($options['files'] as $index => $file) {
+            $params[$index] = $this->createCurlFile($file);
+        }
 
-        $results = [
-                    'curl_info' => $response['curl_info'],
-                    'content_type' => $response['curl_info']['content_type'],
-                    'status' => $response['curl_info']['http_code'],
-                    'headers' => $this->splitHeaders($header),
-                    'data' => $body,
-                   ];
+        version_compare(PHP_VERSION, '5.5', '<') || curl_setopt($this->curl, CURLOPT_SAFE_UPLOAD, false);
 
-        return $results;
+        curl_setopt($this->curl, CURLOPT_POST, 1);
+        curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
     }
 
     /**
@@ -255,17 +266,24 @@ class Http
      *
      * @return array
      */
-    protected function doCurl()
+    protected function perform()
     {
         $response = curl_exec($this->curl);
         $curlInfo = curl_getinfo($this->curl);
 
+        // Separate headers and body
+        $headerSize = $curlInfo['header_size'];
+        $header = substr($response, 0, $headerSize);
+        $body = substr($response, $headerSize);
+
         $results = [
-                    'curl_info' => $curlInfo,
-                    'response' => $response,
-                   ];
+            'curl_info' => $curlInfo,
+            'content_type' => $curlInfo['content_type'],
+            'status' => $curlInfo['http_code'],
+            'headers' => $this->splitHeaders($header),
+            'data' => $body,
+        ];
 
         return $results;
     }
 }//end class
-
