@@ -82,7 +82,7 @@ class Messagener
      *
      * @param AbstractMessage $message
      *
-     * @return Staff
+     * @return Messagener
      */
     public function message($message)
     {
@@ -104,7 +104,7 @@ class Messagener
      *
      * @param string $account
      *
-     * @return Staff
+     * @return Messagener
      */
     public function by($account)
     {
@@ -118,7 +118,7 @@ class Messagener
      *
      * @param string $openId
      *
-     * @return bool
+     * @return boolean|null
      */
     public function to($openId)
     {
