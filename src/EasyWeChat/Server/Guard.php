@@ -44,21 +44,21 @@ class Guard
     /**
      * Event listeners.
      *
-     * @var string
+     * @var string|callable
      */
     protected $eventListener;
 
     /**
      * Message listener.
      *
-     * @var string
+     * @var string|callable
      */
     protected $messageListener;
 
     /**
      * Handle and return response.
      *
-     * @return mixed
+     * @return string
      *
      * @throws BadRequestException
      */

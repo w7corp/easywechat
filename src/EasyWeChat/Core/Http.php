@@ -130,8 +130,6 @@ class Http extends HttpClient
 
         $response = parent::request($url, $method, $params, $options);
 
-        $this->json = false;
-
         if (empty($response['data'])) {
             throw new HttpException('Empty response.', -1);
         }

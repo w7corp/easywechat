@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\Message;
 
+use EasyWeChat\Core\Application;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 
 /**
@@ -32,6 +33,23 @@ class MessageFactory
     const ARTICLES = 'articles';
     const TRANSFER = 'transfer';
     const NEWS_ITEM = 'news_item';
+
+    /**
+     * App.
+     *
+     * @var Application
+     */
+    protected $app;
+
+    /**
+     * Constructor.
+     *
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
     /**
      * Return message instance.
