@@ -11,6 +11,7 @@
     ],
     "require": {
         "easywechat/cache" : "3.*",
+        "easywechat/container" : "3.*",
         "easywechat/support" : "3.*"
     }
 }
