@@ -7,6 +7,7 @@ class TestCase extends PHPUnit_Framework_TestCase
     public function __construct()
     {
         parent::__construct();
+        date_default_timezone_set('PRC');
     }
 
     /**
