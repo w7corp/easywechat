@@ -67,7 +67,7 @@ class Cache
 
         $data = array(
                  'data'       => $value,
-                 'expired_at' => time() + $lifetime - 100, //XXX: 减去 100 秒更可靠的说
+                 'expired_at' => time() + $lifetime - 500, //XXX: 减去 100 秒更可靠的说
                 );
 
         if (!file_put_contents($this->getCacheFile($key), serialize($data))) {
