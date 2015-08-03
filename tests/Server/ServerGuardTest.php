@@ -6,7 +6,7 @@ use EasyWeChat\Server\Transformer;
 class ServerGuardTest extends TestCase
 {
     /**
-     * Test server()
+     * Test server().
      */
     public function testServe()
     {
@@ -20,23 +20,22 @@ class ServerGuardTest extends TestCase
 
         $input = Mockery::mock('EasyWeChat\Core\Input');
         $input->shouldReceive('isEncrypted')->andReturn(false);
-        $input->shouldReceive('has')->andReturnUsing(function($key){
+        $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
         });
 
-        $input->shouldReceive('get')->andReturnUsing(function($key){
+        $input->shouldReceive('get')->andReturnUsing(function ($key) {
             $message = [
-                "signature" => "5fe39987c51aa87c0da1af7420d4649d77850391",
-                "timestamp" => "1437865042",
-                "nonce" => "335941714",
-                "ToUserName" => "gh_9a1a7e312b32",
-                "FromUserName" => "oNlnUjq_uJdd52zt3OxFsJHEr_NY",
-                "CreateTime" => "1437865042",
-                "MsgType" => "text",
-                "Content" => "foobar",
-                "MsgId" => "6175583331658476609"
+                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
+                'timestamp' => '1437865042',
+                'nonce' => '335941714',
+                'ToUserName' => 'gh_9a1a7e312b32',
+                'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
+                'CreateTime' => '1437865042',
+                'MsgType' => 'text',
+                'Content' => 'foobar',
+                'MsgId' => '6175583331658476609',
             ];
-
 
             return $message[$key];
         });
@@ -47,37 +46,36 @@ class ServerGuardTest extends TestCase
     }
 
     /**
-     * Test response()
+     * Test response().
      */
     public function testStringResponse()
     {
         $input = Mockery::mock('EasyWeChat\Core\Input');
         $input->shouldReceive('isEncrypted')->andReturn(false);
-        $input->shouldReceive('has')->andReturnUsing(function($key){
+        $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
         });
 
-        $input->shouldReceive('get')->andReturnUsing(function($key){
+        $input->shouldReceive('get')->andReturnUsing(function ($key) {
             $message = [
-                "signature" => "5fe39987c51aa87c0da1af7420d4649d77850391",
-                "timestamp" => "1437865042",
-                "nonce" => "335941714",
-                "ToUserName" => "gh_9a1a7e312b32",
-                "FromUserName" => "oNlnUjq_uJdd52zt3OxFsJHEr_NY",
-                "CreateTime" => "1437865042",
-                "MsgType" => "text",
-                "Content" => "foobar",
-                "MsgId" => "6175583331658476609"
+                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
+                'timestamp' => '1437865042',
+                'nonce' => '335941714',
+                'ToUserName' => 'gh_9a1a7e312b32',
+                'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
+                'CreateTime' => '1437865042',
+                'MsgType' => 'text',
+                'Content' => 'foobar',
+                'MsgId' => '6175583331658476609',
             ];
-
 
             return $message[$key];
         });
 
         $server = new Guard($input, Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
 
-        $server->setMessageListener(function(){
-            return "hello world!";
+        $server->setMessageListener(function () {
+            return 'hello world!';
         });
 
         $this->assertContains('hello world!', $server->serve());
@@ -90,37 +88,36 @@ class ServerGuardTest extends TestCase
     {
         $input = Mockery::mock('EasyWeChat\Core\Input');
         $input->shouldReceive('isEncrypted')->andReturn(true);
-        $input->shouldReceive('has')->andReturnUsing(function($key){
+        $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
         });
-        $input->shouldReceive('get')->andReturnUsing(function($key){
+        $input->shouldReceive('get')->andReturnUsing(function ($key) {
             $message = [
-                "signature" => "5fe39987c51aa87c0da1af7420d4649d77850391",
-                "timestamp" => "1437865042",
-                "nonce" => "335941714",
-                "ToUserName" => "gh_9a1a7e312b32",
-                "FromUserName" => "oNlnUjq_uJdd52zt3OxFsJHEr_NY",
-                "CreateTime" => "1437865042",
-                "MsgType" => "text",
-                "Content" => "foobar",
-                "MsgId" => "6175583331658476609"
+                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
+                'timestamp' => '1437865042',
+                'nonce' => '335941714',
+                'ToUserName' => 'gh_9a1a7e312b32',
+                'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
+                'CreateTime' => '1437865042',
+                'MsgType' => 'text',
+                'Content' => 'foobar',
+                'MsgId' => '6175583331658476609',
             ];
-
 
             return $message[$key];
         });
         $encryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
         $raw = null;
-        $encryptor->shouldReceive('encryptMsg')->andReturnUsing(function($message) use(&$raw)
-        {
+        $encryptor->shouldReceive('encryptMsg')->andReturnUsing(function ($message) use (&$raw) {
             $raw = $message;
+
             return base64_encode($message);
         });
 
         $server = new Guard($input, $encryptor, new Transformer());
 
-        $server->setMessageListener(function(){
-            return "hello world!";
+        $server->setMessageListener(function () {
+            return 'hello world!';
         });
 
         $response = $server->serve();
@@ -135,19 +132,19 @@ class ServerGuardTest extends TestCase
     {
         $input = Mockery::mock('EasyWeChat\Core\Input');
         $input->shouldReceive('isEncrypted')->andReturn(false);
-        $input->shouldReceive('has')->andReturnUsing(function($key){
+        $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
         });
-        $input->shouldReceive('get')->andReturnUsing(function($key){
+        $input->shouldReceive('get')->andReturnUsing(function ($key) {
             $message = [
-                "signature" => "5fe39987c51aa87c0da1af7420d4649d77850391",
-                "timestamp" => "1437865042",
-                "nonce" => "335941714",
-                "ToUserName" => "gh_9a1a7e312b32",
-                "FromUserName" => "oNlnUjq_uJdd52zt3OxFsJHEr_NY",
-                "CreateTime" => "1437865042",
-                "MsgType" => "event",
-                "Event" => "subscribe",
+                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
+                'timestamp' => '1437865042',
+                'nonce' => '335941714',
+                'ToUserName' => 'gh_9a1a7e312b32',
+                'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
+                'CreateTime' => '1437865042',
+                'MsgType' => 'event',
+                'Event' => 'subscribe',
             ];
 
             return $message[$key];
@@ -160,8 +157,9 @@ class ServerGuardTest extends TestCase
         $this->assertEquals('', $response);
 
         //with listener
-        $server->setEventListener(function($event) use (&$logEvent){
+        $server->setEventListener(function ($event) use (&$logEvent) {
             $logEvent = $event;
+
             return $event->get('Event');
         });
 
@@ -172,47 +170,48 @@ class ServerGuardTest extends TestCase
     }
 
     /**
-     * Test setEventListener()
+     * Test setEventListener().
      *
      * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testSetEventListener()
     {
         $server = new Guard(Mockery::mock('EasyWeChat\Core\Input'), Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
-        $closure = function(){ return 'foo'; };
+        $closure = function () { return 'foo'; };
         $server->setEventListener($closure);
 
         $this->assertEquals($closure, $server->getEventListener());
 
         $server->setEventListener('Foo::bar');
 
-        $this->assertEquals("Foo::bar", $server->getEventListener());
-        
+        $this->assertEquals('Foo::bar', $server->getEventListener());
+
         $server->setEventListener('foo');// invalid
     }
 
     /**
-     * Test setMessageListener()
+     * Test setMessageListener().
      *
      * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testSetMessageListener()
     {
         $server = new Guard(Mockery::mock('EasyWeChat\Core\Input'), Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
-        $closure = function(){ return 'foo'; };
+        $closure = function () { return 'foo'; };
         $server->setMessageListener($closure);
 
         $this->assertEquals($closure, $server->getMessageListener());
 
         $server->setMessageListener('Foo::bar');
 
-        $this->assertEquals("Foo::bar", $server->getMessageListener());
+        $this->assertEquals('Foo::bar', $server->getMessageListener());
 
         $server->setMessageListener('foo');// invalid
     }
 }
 
-class Foo {
+class Foo
+{
     public function bar()
     {
         return 'foobar';

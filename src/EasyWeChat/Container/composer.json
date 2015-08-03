@@ -1,7 +1,7 @@
 {
-    "name": "easywechat/oauth",
-    "description": "oauth module for EasyWeChat SDK.",
-    "keywords": ["wechat", "weixin", "SDK", "oauth", "easywechat"],
+    "name": "easywechat/container",
+    "description": "container of EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "device", "easywechat"],
     "license": "MIT",
     "authors": [
         {

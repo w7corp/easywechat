@@ -39,6 +39,18 @@ class Articles extends AbstractMessage
     protected $items = [];
 
     /**
+     * Constructor.
+     *
+     * @param array $items
+     */
+    public function __construct(array $items = [])
+    {
+        if (!empty($items)) {
+            $this->items($items);
+        }
+    }
+
+    /**
      * Add article.
      *
      * @param Article $item

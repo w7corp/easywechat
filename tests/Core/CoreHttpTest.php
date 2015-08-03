@@ -128,7 +128,7 @@ namespace {
         }
 
         /**
-         * Test request() with token
+         * Test request() with token.
          */
         public function testRequestWithToken()
         {

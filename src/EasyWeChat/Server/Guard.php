@@ -19,6 +19,7 @@ namespace EasyWeChat\Server;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Input;
+use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
@@ -55,13 +56,21 @@ class Guard
     protected $messageListener;
 
     /**
-     * Constructor.
+     * Handle and return response.
      *
-     * @param Input $input
+     * @return mixed
+     *
+     * @throws BadRequestException
      */
-    public function __construct(Input $input)
+    public function serve()
     {
-        $this->input = $input;
+        if ($this->input->has('echostr')) {
+            return $this->input->get('echostr');
+        }
+
+        $response = $this->handleRequest();
+
+        return $response ? $this->response($response) : self::EMPTY_STRING;
     }
 
     /**
@@ -109,7 +118,7 @@ class Guard
             throw new InvalidArgumentException('Argument #2 is not callable.');
         }
 
-        $this->eventListener = $callback;
+        $this->messageListener = $callback;
 
         return $this;
     }
@@ -121,23 +130,21 @@ class Guard
      */
     public function getMessageListener()
     {
-        return $this->eventListener;
+        return $this->messageListener;
     }
 
     /**
-     * Handle and return response.
+     * Constructor.
      *
-     * @return mixed
-     *
-     * @throws BadRequestException
+     * @param Input       $input
+     * @param Cryptor     $cryptor
+     * @param Transformer $transformer
      */
-    public function serve()
+    public function __construct(Input $input, Cryptor $cryptor, Transformer $transformer)
     {
-        if ($this->input->has('echostr')) {
-            return $this->input['echostr'];
-        }
-
-        return $this->response($this->handleRequest());
+        $this->input = $input;
+        $this->cryptor = $cryptor;
+        $this->transformer = $transformer;
     }
 
     /**
@@ -149,11 +156,11 @@ class Guard
      */
     protected function response($response)
     {
+        $return = null;
+
         if (is_string($response)) {
             $response = new Text(['content' => $response]);
         }
-
-        $return = '';
 
         if ($this->isMessage($response)) {
             $return = $this->buildReply(
@@ -193,13 +200,15 @@ class Guard
      */
     protected function handleRequest()
     {
+        $response = null;
+
         if ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
             $response = $this->handleEvent($this->input);
         } elseif ($this->input->has('MsgId')) {
             $response = $this->handleMessage($this->input);
         }
 
-        return $response ?: self::EMPTY_STRING;
+        return $response;
     }
 
     /**

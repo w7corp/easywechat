@@ -1,7 +1,7 @@
 <?php
 
 /**
- * SDK.php.
+ * Js.php.
  *
  * Part of EasyWeChat.
  *
@@ -23,9 +23,9 @@ use EasyWeChat\Support\Str;
 use EasyWeChat\Support\Url as UrlHelper;
 
 /**
- * Class SDK.
+ * Class Js.
  */
-class SDK
+class Js
 {
     /**
      * App id.
@@ -62,6 +62,14 @@ class SDK
      */
     protected $url;
 
+    /**
+     * Ticket cache prefix.
+     */
+    const TICKET_CACHE_PREFIX = 'overtrue.wechat.jsapi_ticket.';
+
+    /**
+     * Api of ticket.
+     */
     const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi';
 
     /**
@@ -92,7 +100,7 @@ class SDK
      */
     public function config(array $APIs, $debug = false, $beta = false, $json = true)
     {
-        $signPackage = $this->getSignaturePackage();
+        $signPackage = $this->signature();
 
         $base = [
                  'debug' => $debug,
@@ -122,16 +130,16 @@ class SDK
      *
      * @return string
      */
-    public function getTicket()
+    public function ticket()
     {
-        $key = 'overtrue.wechat.jsapi_ticket.'.$this->appId;
+        $key = self::TICKET_CACHE_PREFIX.$this->appId;
 
         return $this->cache->get(
             $key,
             function ($key) {
                 $result = $this->http->get(self::API_TICKET);
 
-                $this->cache->set($key, $result['ticket'], $result['expires_in'] - 100);
+                $this->cache->set($key, $result['ticket'], $result['expires_in'] - 500);
 
                 return $result['ticket'];
             }
@@ -147,12 +155,12 @@ class SDK
      *
      * @return array
      */
-    public function getSignaturePackage($url = null, $nonce = null, $timestamp = null)
+    public function signature($url = null, $nonce = null, $timestamp = null)
     {
         $url = $url ? $url : $this->getUrl();
-        $nonce = $nonce ? $nonce : $this->getNonce();
+        $nonce = $nonce ? $nonce : Str::quickRandom(10);
         $timestamp = $timestamp ? $timestamp : time();
-        $ticket = $this->getTicket();
+        $ticket = $this->ticket();
 
         $sign = [
                  'appId' => $this->appId,
@@ -185,7 +193,7 @@ class SDK
      *
      * @param string $url
      *
-     * @return SDK
+     * @return Js
      */
     public function setUrl($url)
     {
@@ -206,15 +214,5 @@ class SDK
         }
 
         return UrlHelper::current();
-    }
-
-    /**
-     * Return random string.
-     *
-     * @return string
-     */
-    public function getNonce()
-    {
-        return Str::quickRandom(10);
     }
 }

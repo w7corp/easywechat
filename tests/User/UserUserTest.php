@@ -5,13 +5,13 @@ use EasyWeChat\User\User;
 class UserUserTest extends TestCase
 {
     /**
-     * Test get()
+     * Test get().
      */
     public function testGet()
     {
         $http = Mockery::mock('EasyWeChat\Core\Http');
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function($api, $params){
+        $http->shouldReceive('get')->andReturnUsing(function ($api, $params) {
             return [$params['openid'] => ['overtrue']];
         });
 
@@ -28,13 +28,13 @@ class UserUserTest extends TestCase
     }
 
     /**
-     * Test batchGet()
+     * Test batchGet().
      */
     public function testBatchGet()
     {
         $http = Mockery::mock('EasyWeChat\Core\Http');
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function($api, $params){
+        $http->shouldReceive('get')->andReturnUsing(function ($api, $params) {
             return $params;
         });
 
@@ -50,20 +50,20 @@ class UserUserTest extends TestCase
             [
                 'openid' => 'openid2',
                 'lang' => 'zh_CN',
-            ]
+            ],
         ];
 
         $this->assertEquals($expected, $result->user_list);
     }
 
     /**
-     * Test lists()
+     * Test lists().
      */
     public function testLists()
     {
         $http = Mockery::mock('EasyWeChat\Core\Http');
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function($api, $params){
+        $http->shouldReceive('get')->andReturnUsing(function ($api, $params) {
             return $params;
         });
 
@@ -75,13 +75,13 @@ class UserUserTest extends TestCase
     }
 
     /**
-     * Test remark()
+     * Test remark().
      */
     public function testRemark()
     {
         $http = Mockery::mock('EasyWeChat\Core\Http');
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('json')->andReturnUsing(function($api, $params){
+        $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return $params;
         });
 
@@ -93,7 +93,7 @@ class UserUserTest extends TestCase
     }
 
     /**
-     * Test group()
+     * Test group().
      */
     public function testGroup()
     {
@@ -109,13 +109,13 @@ class UserUserTest extends TestCase
     }
 
     /**
-     * Test getGroup()
+     * Test getGroup().
      */
     public function testGetGroup()
     {
         $http = Mockery::mock('EasyWeChat\Core\Http');
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('json')->andReturnUsing(function($api, $params){
+        $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return ['groupid' => 123456];
         });
 

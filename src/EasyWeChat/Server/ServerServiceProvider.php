@@ -35,7 +35,7 @@ class ServerServiceProvider extends ServiceProvider
     public function register(Application $app)
     {
         $app->bind('server', function ($app) {
-            return new Guard($app['input'], $app['cryptor']);
+            return new Guard($app['input'], $app['cryptor'], new Transformer());
         });
     }
 }

@@ -8,7 +8,7 @@ class UrlUrlTest extends TestCase
     {
         $http = Mockery::mock('EasyWeChat\Core\Http');
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('json')->andReturnUsing(function($api, $params){
+        $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return ['short_url' => $params['long_url']];
         });
 

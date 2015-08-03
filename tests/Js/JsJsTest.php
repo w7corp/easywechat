@@ -15,7 +15,7 @@ class JsJsTest extends TestCase
     }
 
     /**
-     * Test config()
+     * Test config().
      */
     public function testConfig()
     {
@@ -44,7 +44,7 @@ class JsJsTest extends TestCase
     }
 
     /**
-     * Test getConfigArray()
+     * Test getConfigArray().
      */
     public function testGetConfigArray()
     {
@@ -62,7 +62,7 @@ class JsJsTest extends TestCase
     }
 
     /**
-     * Test ticket()
+     * Test ticket().
      */
     public function testTicket()
     {
@@ -76,13 +76,12 @@ class JsJsTest extends TestCase
 
         $this->assertEquals('foo', $js->ticket());
 
-
         $http = $this->getMockHttp();
         $cache = $this->getMockCache();
-        $cache->shouldReceive('get')->andReturnUsing(function($key, $callback){
+        $cache->shouldReceive('get')->andReturnUsing(function ($key, $callback) {
             return $callback($key);
         });
-        $cache->shouldReceive('set')->andReturnUsing(function($key, $ticket, $expires){
+        $cache->shouldReceive('set')->andReturnUsing(function ($key, $ticket, $expires) {
             return $ticket;
         });
         $http->shouldReceive('setExpectedException')->andReturn($http);
@@ -94,7 +93,7 @@ class JsJsTest extends TestCase
     }
 
     /**
-     * Test signature()
+     * Test signature().
      */
     public function testSignature()
     {
@@ -128,7 +127,7 @@ class JsJsTest extends TestCase
     }
 
     /**
-     * Test getSignature()
+     * Test getSignature().
      */
     public function testGetSignature()
     {
@@ -149,7 +148,7 @@ class JsJsTest extends TestCase
     }
 
     /**
-     * Test setUrl()
+     * Test setUrl().
      */
     public function testSetUrl()
     {

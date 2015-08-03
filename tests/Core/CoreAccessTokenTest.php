@@ -1,6 +1,5 @@
 <?php
 
-use Mockery as m;
 use EasyWeChat\Core\AccessToken;
 
 class CoreAccessTokenTest extends TestCase

@@ -12,7 +12,7 @@ use EasyWeChat\Server\Transformer;
 class ServerTransformerTest extends TestCase
 {
     /**
-     * Test transformText()
+     * Test transformText().
      */
     public function testTransformText()
     {
@@ -24,7 +24,7 @@ class ServerTransformerTest extends TestCase
     }
 
     /**
-     * Test transformImage()
+     * Test transformImage().
      */
     public function testTransformImage()
     {
@@ -36,7 +36,7 @@ class ServerTransformerTest extends TestCase
     }
 
     /**
-     * Test transformVideo()
+     * Test transformVideo().
      */
     public function testTransformVideo()
     {
@@ -53,7 +53,7 @@ class ServerTransformerTest extends TestCase
     }
 
     /**
-     * Test transformVioce()
+     * Test transformVioce().
      */
     public function testTransformVoice()
     {
@@ -65,7 +65,7 @@ class ServerTransformerTest extends TestCase
     }
 
     /**
-     * Test transformTransfer()
+     * Test transformTransfer().
      */
     public function testTransformTransfer()
     {
@@ -77,7 +77,7 @@ class ServerTransformerTest extends TestCase
     }
 
     /**
-     * Test transformArticles()
+     * Test transformArticles().
      */
     public function testTransformArticles()
     {
@@ -101,7 +101,7 @@ class ServerTransformerTest extends TestCase
         $this->assertEquals(2, $result['ArticleCount']);
         $this->assertEquals(2, count($result['Articles']));
         $this->assertEquals('foobar', $result['Articles'][0]['Description']);
-        $this->assertArrayHasKey('Url',$result['Articles'][0]);
+        $this->assertArrayHasKey('Url', $result['Articles'][0]);
         $this->assertArrayNotHasKey('Author', $result['Articles'][0]);
     }
 }

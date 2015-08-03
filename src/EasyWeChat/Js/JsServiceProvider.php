@@ -35,7 +35,7 @@ class JsServiceProvider extends ServiceProvider
     public function register(Application $app)
     {
         $app->bind('js', function ($app) {
-            return new SDK(
+            return new Js(
                 $app['config']['app_id'],
                 $app['config']['secret'],
                 $app['cache'],

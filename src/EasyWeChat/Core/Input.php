@@ -67,7 +67,7 @@ class Input extends Collection
             $input = $input->toArray();
         }
 
-        parent::__construct($input);
+        $this->items = (array) $input;
     }
 
     /**

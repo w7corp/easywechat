@@ -10,6 +10,6 @@
         }
     ],
     "require": {
-        "easywechat/core" : "3.0.*",
+        "easywechat/core" : "3.0.*"
     }
 }

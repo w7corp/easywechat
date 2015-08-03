@@ -146,9 +146,7 @@ class Group
                    'to_groupid' => $groupId,
                   ];
 
-        $this->http->json(self::API_MEMBER_UPDATE, $params);
-
-        return true;
+        return $this->http->json(self::API_MEMBER_UPDATE, $params);
     }
 
     /**
@@ -166,8 +164,6 @@ class Group
                    'to_groupid' => $groupId,
                   ];
 
-        $this->http->json(self::API_MEMBER_BATCH_UPDATE, $params);
-
-        return true;
+        return $this->http->json(self::API_MEMBER_BATCH_UPDATE, $params);
     }
 }

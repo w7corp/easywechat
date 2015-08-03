@@ -17,6 +17,10 @@
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
+            <exclude>
+                <directory suffix="ServiceProvider.php">src/</directory>
+                <directory suffix="Exception.php">src/</directory>
+            </exclude>
         </whitelist>
     </filter>
 </phpunit>

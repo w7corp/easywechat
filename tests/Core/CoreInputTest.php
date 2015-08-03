@@ -1,11 +1,13 @@
 <?php
 
 namespace EasyWeChat\Core {
-    class PHPInput {
+    class PHPInput
+    {
         public static $content = null;
     }
 
-    function file_get_contents() {
+    function file_get_contents()
+    {
         return PHPInput::$content;
     }
 }
@@ -47,15 +49,16 @@ namespace {
         public function testGetWithEncrypted()
         {
             $cryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
-            $cryptor->shouldReceive('decryptMsg')->andReturnUsing(function(){
+            $cryptor->shouldReceive('decryptMsg')->andReturnUsing(function () {
                 $args = func_get_args();
+
                 return XML::parse(array_pop($args));
             });
             $_REQUEST = [
                 'encrypt_type' => 'aes',
                 'msg_signature' => '8d9521e63f84b2cd2e0daa124eb7eb0c34b6204a',
                 'nonce' => '1351554359',
-                'timestamp' => 1411034505
+                'timestamp' => 1411034505,
             ];
             $input = new Input('token', $cryptor);
 
@@ -66,7 +69,7 @@ namespace {
         }
 
         /**
-         * Test validate()
+         * Test validate().
          *
          * @expectedException EasyWeChat\Core\Exceptions\FaultException
          * @expectedExceptionMessage Invalid request signature.
@@ -95,7 +98,7 @@ namespace {
         }
 
         /**
-         * Test setInput()
+         * Test setInput().
          */
         public function testSetInput()
         {

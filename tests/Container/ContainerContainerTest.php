@@ -66,7 +66,7 @@ class ContainerContainerTest extends TestCase
     }
 
     /**
-     * Test getIterator()
+     * Test getIterator().
      */
     public function testGetIterator()
     {
@@ -125,7 +125,7 @@ class ContainerContainerTest extends TestCase
         $this->assertArrayNotHasKey('non-exists', $app->getBindings());
 
         // unbind resolved.
-        $app->singleton('foo', function(){
+        $app->singleton('foo', function () {
             return 'hello';
         });
         $this->assertEquals('hello', $app['foo']);

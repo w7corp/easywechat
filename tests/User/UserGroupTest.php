@@ -5,7 +5,7 @@ use EasyWeChat\User\Group;
 class UserGroupTest extends TestCase
 {
     /**
-     * Test create()
+     * Test create().
      */
     public function testCreate()
     {
@@ -21,13 +21,13 @@ class UserGroupTest extends TestCase
     }
 
     /**
-     * Test lists()
+     * Test lists().
      */
     public function testLists()
     {
         $http = Mockery::mock('EasyWeChat\Core\Http');
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function(){
+        $http->shouldReceive('get')->andReturnUsing(function () {
             return ['groups' => ['foo', 'bar']];
         });
 
@@ -37,7 +37,7 @@ class UserGroupTest extends TestCase
     }
 
     /**
-     * Test update()
+     * Test update().
      */
     public function testUpdate()
     {
@@ -49,7 +49,7 @@ class UserGroupTest extends TestCase
 
         $expected = [
             'group' => [
-                'id'   => 12,
+                'id' => 12,
                 'name' => 'newName',
             ],
         ];
@@ -60,7 +60,7 @@ class UserGroupTest extends TestCase
     }
 
     /**
-     * Test delete()
+     * Test delete().
      */
     public function testDelete()
     {
@@ -72,7 +72,7 @@ class UserGroupTest extends TestCase
 
         $expected = [
             'group' => [
-                'id'   => 12,
+                'id' => 12,
             ],
         ];
 
@@ -82,7 +82,7 @@ class UserGroupTest extends TestCase
     }
 
     /**
-     * Test userGroup()
+     * Test userGroup().
      */
     public function testUserGroup()
     {
@@ -98,7 +98,7 @@ class UserGroupTest extends TestCase
     }
 
     /**
-     * Test moveUser()
+     * Test moveUser().
      */
     public function testMoveUser()
     {
@@ -119,7 +119,7 @@ class UserGroupTest extends TestCase
     }
 
     /**
-     * Test moveUsers()
+     * Test moveUsers().
      */
     public function testMoveUsers()
     {
@@ -136,6 +136,6 @@ class UserGroupTest extends TestCase
             'to_groupid' => 13,
         ];
 
-        $this->assertEquals($expected, $user->moveUsers(['overtrue','foobar'], 13));
+        $this->assertEquals($expected, $user->moveUsers(['overtrue', 'foobar'], 13));
     }
 }

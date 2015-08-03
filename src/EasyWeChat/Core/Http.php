@@ -39,13 +39,6 @@ class Http extends HttpClient
     protected $token;
 
     /**
-     * JSON request flag.
-     *
-     * @var bool
-     */
-    protected $json = false;
-
-    /**
      * Defualt exception.
      *
      * @var string
@@ -143,15 +136,10 @@ class Http extends HttpClient
             throw new HttpException('Empty response.', -1);
         }
 
-        // plain text or JSON
-        $textMIME = '~.*/json|text/plain~';
-
         $contents = json_decode($response['data'], true);
 
         // while the response is an invalid JSON structure, returned the source data
-        if (!preg_match($textMIME, $response['content_type'])
-            || (JSON_ERROR_NONE !== json_last_error() && false === $contents)
-        ) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             return $response['data'];
         }
 
@@ -163,7 +151,7 @@ class Http extends HttpClient
             $this->thorwException($contents['errmsg'], $contents['errcode']);
         }
 
-        if ($contents['errcode'] == self::WECHAT_REPONSE_ERROR_NONE) {
+        if (isset($contents['errcode']) && $contents['errcode'] == self::WECHAT_REPONSE_ERROR_NONE) {
             return true;
         }
 
