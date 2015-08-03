@@ -77,7 +77,7 @@ class User
      * @param array  $openIds
      * @param string $lang
      *
-     * @return array
+     * @return Collection
      */
     public function batchGet(array $openIds, $lang = 'zh_CN')
     {

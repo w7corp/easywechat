@@ -113,7 +113,7 @@ abstract class AbstractMessage extends Attribute
      * @param string $property
      * @param mixed  $value
      *
-     * @return mixed
+     * @return AbstractMessage
      */
     public function __set($property, $value)
     {

@@ -221,7 +221,7 @@ class Client
      * @param string $openId
      * @param string $accessToken
      *
-     * @return array
+     * @return Collection
      */
     public function getUser($openId, $accessToken)
     {

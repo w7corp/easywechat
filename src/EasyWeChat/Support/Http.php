@@ -160,7 +160,7 @@ class Http
      * @param array  $params
      * @param array  $options
      *
-     * @return array
+     * @return string
      */
     protected function request($url, $method = self::GET, $params = [], $options = [])
     {
