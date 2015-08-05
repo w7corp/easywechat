@@ -20,11 +20,10 @@ namespace EasyWeChat\Menu;
 use Closure;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Http;
+use EasyWeChat\Support\Collection;
 
 /**
- * 菜单.
- *
- * @property array $sub_button
+ * Class Menu
  */
 class Menu
 {
@@ -34,7 +33,7 @@ class Menu
     const API_QUERY = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
 
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
@@ -51,7 +50,7 @@ class Menu
     }
 
     /**
-     * 设置菜单.
+     * Set menu.
      *
      * @param array $menus
      *
@@ -66,7 +65,7 @@ class Menu
         }
 
         if (!is_array($menus)) {
-            throw new InvalidArgumentException('子菜单必须是数组或者匿名函数返回数组', 1);
+            throw new InvalidArgumentException('buttons must be an array or Closure returns an array.');
         }
 
         $menus = $this->extractMenus($menus);
@@ -75,7 +74,7 @@ class Menu
     }
 
     /**
-     * 获取菜单.
+     * Get menus.
      *
      * @return array
      */
@@ -87,43 +86,45 @@ class Menu
     }
 
     /**
-     * 删除菜单.
+     * Delete.
      *
      * @return bool
      */
     public function delete()
     {
-        $this->http->get(self::API_DELETE);
-
-        return true;
+        return $this->http->get(self::API_DELETE);
     }
 
     /**
-     * 获取菜单【查询接口，能获取到任意方式设置的菜单】.
+     * Get current menus setting.
      *
      * @return array
      */
     public function current()
     {
-        $menus = $this->http->get(self::API_QUERY);
-
-        return empty($menus) ? [] : $menus;
+        return $this->http->get(self::API_QUERY);
     }
 
     /**
-     * 转menu为数组.
+     * Extract menus to array.
      *
-     * @param array $menus
+     * @param array|Collection $menus
      *
      * @return array
      */
-    protected function extractMenus(array $menus)
+    protected function extractMenus($menus)
     {
-        foreach ($menus as $key => $menu) {
-            $menus[$key] = $menu->toArray();
+        if ($menus instanceof Collection) {
+            $menus = $menus->toArray();
+        }
 
-            if ($menu->sub_button) {
-                $menus[$key]['sub_button'] = $this->extractMenus($menu->sub_button);
+        foreach ($menus as $key => $menu) {
+            if ($menu instanceof Collection) {
+                $menus[$key] = $menu->toArray();
+            }
+
+            if (!empty($menu['sub_button'])) {
+                $menus[$key]['sub_button'] = $this->extractMenus($menu['sub_button']);
             }
         }
 
