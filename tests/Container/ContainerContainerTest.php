@@ -33,25 +33,20 @@ class ContainerContainerTest extends TestCase
 
         // force bind
         $app->bind('foo', 'bar');
-        $app->bind('foo', 'overtrue', false, false);
-        $this->assertEquals('bar', $app->getBindings()['foo']['concrete']);
-        $app->bind('foo', 'overtrue', false, true);
+        $app->bind('foo', 'overtrue', false);
         $this->assertEquals('overtrue', $app->getBindings()['foo']['concrete']);
 
         // array access
         $app['overtrue'] = function () { return 'bar'; };
         $this->assertArrayHasKey('overtrue', $app->getBindings());
 
-        $app['foobarbaz'] = 'something.';
-        $this->assertEquals('something.', $app['foobarbaz']);
-
         //offset set
         $app['foobarbaz'] = 'something anothor.';
-        $this->assertEquals('something.', $app['foobarbaz']);
+        $this->assertEquals('something anothor.', $app['foobarbaz']);
 
         // offset unset
         $app['foobarbaz'] = 'something anothor.';
-        $this->assertEquals('something.', $app['foobarbaz']);
+        $this->assertEquals('something anothor.', $app['foobarbaz']);
         $this->assertTrue(isset($app['foobarbaz']));
         unset($app['foobarbaz']);
         $this->assertArrayNotHasKey('foobarbaz', $app->getBindings());
@@ -103,50 +98,6 @@ class ContainerContainerTest extends TestCase
         $app->singleton('foo', function () { return new stdClass(); }, true);
         $this->assertArrayHasKey('foo', $app->getBindings());
         $this->assertTrue($app->getBindings()['foo']['share']);
-    }
-
-    /**
-     * Test unBind().
-     */
-    public function testUnBind()
-    {
-        $app = new Container();
-
-        // shared
-        $app->singleton('foo', function () { return new stdClass(); }, true);
-        $this->assertArrayHasKey('foo', $app->getBindings());
-        $this->assertTrue($app->getBindings()['foo']['share']);
-
-        $app->unBind('foo');
-        $this->assertArrayNotHasKey('foo', $app->getBindings());
-
-        // non-exists
-        $app->unBind('non-exists');
-        $this->assertArrayNotHasKey('non-exists', $app->getBindings());
-
-        // unbind resolved.
-        $app->singleton('foo', function () {
-            return 'hello';
-        });
-        $this->assertEquals('hello', $app['foo']);
-        $this->assertEquals('hello', $app->get('foo'));
-        $this->assertTrue($app->isResolved('foo'));
-        $this->assertArrayHasKey('foo', $app->getResolved());
-        $app->unBind('foo');
-        $this->assertArrayNotHasKey('foo', $app->getBindings());
-    }
-
-    /**
-     * Test isBound().
-     */
-    public function testIsBound()
-    {
-        $app = new Container();
-
-        $this->assertFalse($app->isBound('foo'));
-
-        $app->singleton('foo', function () { return new stdClass(); });
-        $this->assertTrue($app->isBound('foo'));
     }
 
     /**

@@ -48,16 +48,13 @@ class Container implements ArrayAccess, IteratorAggregate
      * @param string $abstract
      * @param mixed  $concrete
      * @param bool   $share
-     * @param bool   $force
      */
-    public function bind($abstract, $concrete, $share = false, $force = false)
+    public function bind($abstract, $concrete, $share = false)
     {
-        if (!$this->isBound($abstract) || $force) {
-            $this->bindings[$abstract] = [
-                                            'concrete' => $concrete,
-                                            'share' => $share,
-                                         ];
-        }
+        $this->bindings[$abstract] = [
+                                        'concrete' => $concrete,
+                                        'share' => $share,
+                                     ];
     }
 
     /**
@@ -69,36 +66,6 @@ class Container implements ArrayAccess, IteratorAggregate
     public function singleton($abstract, $concrete)
     {
         $this->bind($abstract, $concrete, true);
-    }
-
-    /**
-     * Unbind a service.
-     *
-     * @param string $abstract
-     */
-    public function unBind($abstract)
-    {
-        if (!$this->isBound($abstract)) {
-            return;
-        }
-
-        if ($this->isResolved($abstract)) {
-            unset($this->resolved[$abstract]);
-        }
-
-        unset($this->bindings[$abstract]);
-    }
-
-    /**
-     * Return Whether the service is binded.
-     *
-     * @param string $abstract
-     *
-     * @return bool
-     */
-    public function isBound($abstract)
-    {
-        return isset($this->bindings[$abstract]);
     }
 
     /**
@@ -122,7 +89,7 @@ class Container implements ArrayAccess, IteratorAggregate
      */
     public function isShared($abstract)
     {
-        return $this->isBound($abstract) && $this->bindings[$abstract]['share'];
+        return isset($this->bindings[$abstract]) && $this->bindings[$abstract]['share'];
     }
 
     /**
@@ -164,6 +131,66 @@ class Container implements ArrayAccess, IteratorAggregate
     }
 
     /**
+     * Return bound service.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        return $this->get($property);
+    }
+
+    /**
+     * Bind service.
+     */
+    public function __set($abstract, $concrete)
+    {
+        $this->bind($abstract, $concrete, false);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetExists($offset)
+    {
+        return !empty($this->bindings[$offset]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        return $this->bind($offset, $value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->bindings[$offset]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->bindings);
+    }
+
+    /**
      * Build service.
      *
      * @param string $abstract
@@ -174,8 +201,8 @@ class Container implements ArrayAccess, IteratorAggregate
      */
     protected function build($abstract)
     {
-        if (!$this->isBound($abstract)) {
-            throw new UnboundServiceException("Unknow service '$abstract'", 500);
+        if (empty($this->bindings[$abstract])) {
+            throw new UnboundServiceException("Unknown service '$abstract'", 500);
         }
 
         $concrete = $this->bindings[$abstract]['concrete'];
@@ -185,54 +212,5 @@ class Container implements ArrayAccess, IteratorAggregate
         }
 
         return $concrete;
-    }
-
-    /**
-     * @param $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        return $this->get($property);
-    }
-
-    public function __set($abstract, $concrete)
-    {
-        $this->bind($abstract, $concrete, false);
-    }
-
-    public function offsetExists($offset)
-    {
-        return $this->isBound($offset);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->get($offset);
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        if ($this->isBound($offset)) {
-            return;
-        } else {
-            return $this->bind($offset, $value);
-        }
-    }
-
-    public function offsetUnset($offset)
-    {
-        return $this->unbind($offset);
-    }
-
-    /**
-     * Return Iterator.
-     *
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->bindings);
     }
 }
