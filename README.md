@@ -37,7 +37,7 @@ SDK QQ群：`319502940`
 
 2. 手动安装
 
-  下载 [最新版zip包](https://github.com/overtrue/wechat/archive/master.zip)  或者下载指定版本：https://github.com/overtrue/wechat/releases 。
+  下载 [2.0版zip包](https://github.com/overtrue/wechat/archive/2.0.zip)  或者下载指定版本：https://github.com/overtrue/wechat/releases 。
 
   然后引入根目录的autoload.php即可：
 
