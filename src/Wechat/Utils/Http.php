@@ -261,6 +261,11 @@ class Http
     protected function doCurl()
     {
         $response = curl_exec($this->curl);
+
+        if (curl_errno($this->curl)) {
+            throw new \Exception(curl_error($this->curl), 1);
+        }
+
         $curlInfo = curl_getinfo($this->curl);
 
         $results = array(
