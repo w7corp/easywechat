@@ -17,6 +17,7 @@
 
 namespace EasyWeChat\Material;
 
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Http;
 
 /**
@@ -36,13 +37,15 @@ class Material
      *
      * @var array
      */
-    protected $allowTypes = ['image', 'voice', 'video','thumb', 'news_image'];
+    protected $allowTypes = ['image', 'voice', 'video', 'thumb', 'news_image'];
 
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
+    const API_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
     const API_STATS = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
     const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
     const API_NEWS_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_news';
+    const API_NEWS_UPDATE = 'https://api.weixin.qq.com/cgi-bin/material/update_news';
     const API_NEWS_IMAGE_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/media/uploadimg';
 
     /**
@@ -52,7 +55,7 @@ class Material
      */
     public function __construct(Http $http)
     {
-        $this->http = $http;
+        $this->http = $http->setExpectedException('EasyWeChat\Material\MaterialHttpException');
     }
 
     /**
@@ -111,7 +114,7 @@ class Material
             ),
         ];
 
-        return $this->upload('video', $path, $params);
+        return $this->uploadMedia('video', $path, $params);
     }
 
     /**
@@ -235,48 +238,40 @@ class Material
      *
      * @param string $type
      * @param string $path
-     * @param array  $params
+     * @param array  $form
      *
      * @return string
      *
      * @throws InvalidArgumentException
      */
-    protected function uploadMedia($type, $path, $params = [])
+    protected function uploadMedia($type, $path, array $form = [])
     {
         if (!file_exists($path) || !is_readable($path)) {
             throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
         }
 
-        if (!in_array($type, $this->allowTypes, true)) {
-            throw new InvalidArgumentException("Unsupported media type: '{$type}'");
-        }
+        $form = array_merge($form, ['type' => $type]);
 
-        $queries = ['type' => $type];
-
-        $options = [
-            'files' => ['media' => $path],
-        ];
-
-        return $this->http->post($this->getApi($type, $queries), $params, $options);
+        return $this->http->upload($this->getApi($type), ['media' => $path], $form);
     }
 
     /**
      * 获取API.
      *
      * @param string $type
-     * @param array  $queries
      *
      * @return string
      */
-    protected function getApi($type, $queries = [])
+    protected function getApi($type)
     {
         switch ($type) {
             case 'news_image':
                 $api = self::API_NEWS_IMAGE_UPLOAD;
+                break;
             default:
                 $api = self::API_UPLOAD;
         }
 
-        return $api.'?'.http_build_query($queries);
+        return $api;
     }
 }

@@ -10,7 +10,8 @@
     "license": "MIT",
     "require": {
         "php":">=5.4",
-        "ext-mcrypt": "*"
+        "ext-mcrypt": "*",
+        "guzzlehttp/guzzle": "^6.0@dev"
     },
     "require-dev": {
            "mockery/mockery": "0.9.*",
