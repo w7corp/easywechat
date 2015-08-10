@@ -1,5 +1,6 @@
 <?php
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Semantic\Semantic;
 use EasyWeChat\Support\Collection;
 
@@ -10,7 +11,7 @@ class SemanticSemanticTest extends TestCase
      */
     public function testQuery()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return $params;
         });

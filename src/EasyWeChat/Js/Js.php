@@ -85,7 +85,7 @@ class Js
         $this->appId = $appId;
         $this->secret = $secret;
         $this->cache = $cache;
-        $this->http = $http->setExpectedException('EasyWeChat\Js\JsHttpException');
+        $this->http = $http->setExpectedException(JsHttpException::class);
     }
 
     /**

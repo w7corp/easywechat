@@ -11,7 +11,7 @@ class JsJsTest extends TestCase
 
     public function getMockHttp()
     {
-        return Mockery::mock('EasyWeChat\Core\http');
+        return Mockery::mock(EasyWeChat\Core\http::class);
     }
 
     /**

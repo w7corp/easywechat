@@ -46,7 +46,7 @@ class Group
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\User\GroupHttpException');
+        $this->http = $http->setExpectedException(GroupHttpException::class);
     }
 
     /**

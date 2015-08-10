@@ -1,5 +1,7 @@
 <?php
 
+use EasyWeChat\Core\Input;
+use EasyWeChat\Encryption\Cryptor;
 use EasyWeChat\Server\Guard;
 use EasyWeChat\Server\Transformer;
 
@@ -10,15 +12,15 @@ class ServerGuardTest extends TestCase
      */
     public function testServe()
     {
-        $input = Mockery::mock('EasyWeChat\Core\Input');
+        $input = Mockery::mock(Input::class);
         $input->shouldReceive('has')->andReturn(true);
         $input->shouldReceive('get')->andReturn('foobar');
 
-        $server = new Guard($input, Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
+        $server = new Guard($input, Mockery::mock(Cryptor::class), new Transformer());
 
         $this->assertEquals('foobar', $server->serve());
 
-        $input = Mockery::mock('EasyWeChat\Core\Input');
+        $input = Mockery::mock(Input::class);
         $input->shouldReceive('isEncrypted')->andReturn(false);
         $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
@@ -40,7 +42,7 @@ class ServerGuardTest extends TestCase
             return $message[$key];
         });
 
-        $server = new Guard($input, Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
+        $server = new Guard($input, Mockery::mock(Cryptor::class), new Transformer());
 
         $this->assertEquals('', $server->serve());
     }
@@ -50,7 +52,7 @@ class ServerGuardTest extends TestCase
      */
     public function testStringResponse()
     {
-        $input = Mockery::mock('EasyWeChat\Core\Input');
+        $input = Mockery::mock(Input::class);
         $input->shouldReceive('isEncrypted')->andReturn(false);
         $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
@@ -72,7 +74,7 @@ class ServerGuardTest extends TestCase
             return $message[$key];
         });
 
-        $server = new Guard($input, Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
+        $server = new Guard($input, Mockery::mock(Cryptor::class), new Transformer());
 
         $server->setMessageListener(function () {
             return 'hello world!';
@@ -86,7 +88,7 @@ class ServerGuardTest extends TestCase
      */
     public function testResponseWithEncryptedRequest()
     {
-        $input = Mockery::mock('EasyWeChat\Core\Input');
+        $input = Mockery::mock(Input::class);
         $input->shouldReceive('isEncrypted')->andReturn(true);
         $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
@@ -106,7 +108,7 @@ class ServerGuardTest extends TestCase
 
             return $message[$key];
         });
-        $encryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
+        $encryptor = Mockery::mock(Cryptor::class);
         $raw = null;
         $encryptor->shouldReceive('encryptMsg')->andReturnUsing(function ($message) use (&$raw) {
             $raw = $message;
@@ -130,7 +132,7 @@ class ServerGuardTest extends TestCase
      */
     public function testResponseWithEvent()
     {
-        $input = Mockery::mock('EasyWeChat\Core\Input');
+        $input = Mockery::mock(Input::class);
         $input->shouldReceive('isEncrypted')->andReturn(false);
         $input->shouldReceive('has')->andReturnUsing(function ($key) {
             return $key != 'echostr';
@@ -149,7 +151,7 @@ class ServerGuardTest extends TestCase
 
             return $message[$key];
         });
-        $encryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
+        $encryptor = Mockery::mock(Cryptor::class);
 
         $server = new Guard($input, $encryptor, new Transformer());
         $logEvent = null;
@@ -176,7 +178,7 @@ class ServerGuardTest extends TestCase
      */
     public function testSetEventListener()
     {
-        $server = new Guard(Mockery::mock('EasyWeChat\Core\Input'), Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
+        $server = new Guard(Mockery::mock(Input::class), Mockery::mock(Cryptor::class), new Transformer());
         $closure = function () { return 'foo'; };
         $server->setEventListener($closure);
 
@@ -196,7 +198,7 @@ class ServerGuardTest extends TestCase
      */
     public function testSetMessageListener()
     {
-        $server = new Guard(Mockery::mock('EasyWeChat\Core\Input'), Mockery::mock('EasyWeChat\Encryption\Cryptor'), new Transformer());
+        $server = new Guard(Mockery::mock(Input::class), Mockery::mock(Cryptor::class), new Transformer());
         $closure = function () { return 'foo'; };
         $server->setMessageListener($closure);
 

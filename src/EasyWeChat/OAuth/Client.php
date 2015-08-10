@@ -89,7 +89,7 @@ class Client
         $this->appId = $appId;
         $this->secret = $secret;
         $this->input = $input;
-        $this->http = $http->setExpectedException('EasyWeChat\OAuth\OAuthHttpException');
+        $this->http = $http->setExpectedException(EasyWeChat\OAuth\OAuthHttpException::class);
     }
 
     /**
@@ -114,18 +114,6 @@ class Client
                   ];
 
         return self::API_URL.'?'.http_build_query($params).'#wechat_redirect';
-    }
-
-    /**
-     * 直接跳转.
-     *
-     * @param string $to
-     * @param string $scope
-     * @param string $state
-     */
-    public function redirect($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
-    {
-        header('Location:'.$this->url($to, $scope, $state));
     }
 
     /**

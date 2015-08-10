@@ -1,6 +1,10 @@
 <?php
 
+use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
+use EasyWeChat\Core\Exceptions\HttpException;
 
 class CoreHttpTest extends TestCase
 {
@@ -13,8 +17,8 @@ class CoreHttpTest extends TestCase
      */
     public function getGuzzleWithResponse($expected = null)
     {
-        $guzzle = Mockery::mock('GuzzleHttp\Client');
-        $response = Mockery::mock('GuzzleHttp\Psr7\Response');
+        $guzzle = Mockery::mock(Client::class);
+        $response = Mockery::mock(Response::class);
         $response->shouldReceive('getBody')->andReturn($expected);
         $guzzle->shouldReceive('request')->andReturn($response);
 
@@ -28,7 +32,7 @@ class CoreHttpTest extends TestCase
         $http = new Http($this->getGuzzleWithResponse());
         $this->assertEquals(null, $http->getToken());
 
-        $token = Mockery::mock('EasyWeChat\Core\AccessToken');
+        $token = Mockery::mock(AccessToken::class);
         $http = new Http($this->getGuzzleWithResponse(), $token);
         $this->assertEquals($token, $http->getToken());
     }
@@ -36,13 +40,13 @@ class CoreHttpTest extends TestCase
     /**
      * Test setExpectedException().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testSetExpectedException()
     {
         $http = new Http($this->getGuzzleWithResponse());
 
-        $this->assertEquals('EasyWeChat\Core\Exceptions\HttpException', $http->getExpectedException());
+        $this->assertEquals(HttpException::class, $http->getExpectedException());
 
         $exception = Mockery::namedMock('FooException', 'Exception');
         $http->setExpectedException($exception);
@@ -119,7 +123,7 @@ class CoreHttpTest extends TestCase
     public function testRequestWithToken()
     {
         $http = new Http($this->getGuzzleWithResponse(json_encode(['foo' => 'bar'])));
-        $token = \Mockery::mock('EasyWeChat\Core\AccessToken');
+        $token = \Mockery::mock(EasyWeChat\Core\AccessToken::class);
         $http->setToken($token);
 
         $response = $http->request('http://overtrue.me', 'GET');
@@ -136,4 +140,3 @@ class CoreHttpTest extends TestCase
 class OvertrueException extends Exception
 {
 }
-

@@ -73,7 +73,7 @@ class Stats
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Stats\StatsHttpException');
+        $this->http = $http->setExpectedException(EasyWeChat\Stats\StatsHttpException::class);
     }
 
     /**

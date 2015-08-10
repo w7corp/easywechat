@@ -5,7 +5,7 @@ use EasyWeChat\Menu\Item;
 class MenuItemTest extends TestCase
 {
     /**
-     * Test __construct()
+     * Test __construct().
      */
     public function testBuild()
     {
@@ -30,7 +30,7 @@ class MenuItemTest extends TestCase
     }
 
     /**
-     * Test buttons()
+     * Test buttons().
      */
     public function testButtons()
     {
@@ -50,13 +50,13 @@ class MenuItemTest extends TestCase
             [
                 'name' => 'bar',
                 'type' => 'view',
-                'url' => 'http://easywechat.org'
+                'url' => 'http://easywechat.org',
             ],
         ];
         $this->assertEquals($excepted, $item['sub_button']);
 
         $item = new Item('overtrue');
-        $item->buttons(function() use($buttons){
+        $item->buttons(function () use ($buttons) {
             return $buttons;
         });
         $this->assertEquals($excepted, $item['sub_button']);

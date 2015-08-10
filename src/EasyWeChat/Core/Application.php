@@ -17,8 +17,10 @@
 
 namespace EasyWeChat\Core;
 
+use EasyWeChat\Cache\CacheServiceProvider;
 use EasyWeChat\Container\Container;
 use EasyWeChat\Encryption\Cryptor;
+use EasyWeChat\Server\ServerServiceProvider;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
@@ -52,8 +54,8 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
-        'EasyWeChat\Cache\CacheServiceProvider',
-        'EasyWeChat\Server\ServerServiceProvider',
+        CacheServiceProvider::class,
+        ServerServiceProvider::class,
     ];
 
     /**
@@ -107,7 +109,8 @@ class Application extends Container
     public function setProvider($provider)
     {
         if (!$provider instanceof ServiceProvider) {
-            throw new InvalidArgumentException("ServiceProvider must be a subclass of 'EasyWeChat\Support\ServiceProvider'.");
+            throw new InvalidArgumentException("ServiceProvider must be a subclass of 'EasyWeChat\\Support\\ServiceProvider
+            .");
         }
 
         $this->providers[] = $provider;

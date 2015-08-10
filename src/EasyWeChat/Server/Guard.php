@@ -20,6 +20,7 @@ namespace EasyWeChat\Server;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Input;
 use EasyWeChat\Encryption\Cryptor;
+use EasyWeChat\Message\AbstractMessage;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
@@ -164,9 +165,9 @@ class Guard
 
         if ($this->isMessage($response)) {
             $return = $this->buildReply(
-                    $this->input->get('ToUserName'),
-                    $this->input->get('FromUserName'),
-                    $response
+                $this->input->get('ToUserName'),
+                $this->input->get('FromUserName'),
+                $response
             );
 
             if ($this->input->isEncrypted()) {
@@ -190,7 +191,7 @@ class Guard
      */
     protected function isMessage($response)
     {
-        return is_subclass_of($response, 'EasyWeChat\Message\AbstractMessage');
+        return is_subclass_of($response, AbstractMessage::class);
     }
 
     /**

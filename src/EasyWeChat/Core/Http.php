@@ -17,7 +17,6 @@
 
 namespace EasyWeChat\Core;
 
-use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use GuzzleHttp\Client as HttpClient;
@@ -48,7 +47,7 @@ class Http
      *
      * @var string
      */
-    protected $exception = 'EasyWeChat\Core\Exceptions\HttpException';
+    protected $exception = HttpException::class;
 
     /**
      * Constructor.
@@ -143,7 +142,7 @@ class Http
         $options = [
             'multipart' => array_map(function ($path, $name) {
                 return [
-                    'name'     => $name,
+                    'name' => $name,
                     'contents' => fopen($path, 'r'),
                 ];
             }, $files),

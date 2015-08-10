@@ -1,6 +1,7 @@
 <?php
+
 /**
- * MenuServiceProvider.php
+ * MenuServiceProvider.php.
  *
  * Part of EasyWeChat.
  *
@@ -9,6 +10,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,7 +18,6 @@
 namespace EasyWeChat\Menu;
 
 use EasyWeChat\Core\Application;
-
 
 /**
  * Class MenuServiceProvider.
@@ -32,7 +33,7 @@ class MenuServiceProvider
      */
     public function register(Application $app)
     {
-        $app->singleton('menu', function($app){
+        $app->singleton('menu', function ($app) {
             return new Menu($app['http']);
         });
     }

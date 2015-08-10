@@ -46,7 +46,7 @@ class Manager
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Store\StoreHttpException');
+        $this->http = $http->setExpectedException(StoreHttpException::class);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\User\Group;
 
 class UserGroupTest extends TestCase
@@ -9,7 +10,7 @@ class UserGroupTest extends TestCase
      */
     public function testCreate()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return $params;
@@ -25,7 +26,7 @@ class UserGroupTest extends TestCase
      */
     public function testLists()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
         $http->shouldReceive('get')->andReturnUsing(function () {
             return ['groups' => ['foo', 'bar']];
@@ -41,7 +42,7 @@ class UserGroupTest extends TestCase
      */
     public function testUpdate()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return $params;
@@ -64,7 +65,7 @@ class UserGroupTest extends TestCase
      */
     public function testDelete()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return $params;
@@ -86,7 +87,7 @@ class UserGroupTest extends TestCase
      */
     public function testUserGroup()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return ['groupid' => $params];
@@ -102,7 +103,7 @@ class UserGroupTest extends TestCase
      */
     public function testMoveUser()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return $params;
@@ -123,7 +124,7 @@ class UserGroupTest extends TestCase
      */
     public function testMoveUsers()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return $params;

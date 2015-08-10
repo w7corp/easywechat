@@ -12,9 +12,9 @@ class MenuMenuTest extends TestCase
      */
     public function testSet()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(EasyWeChat\Core\Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('json')->andReturnUsing(function($api, $menus){
+        $http->shouldReceive('json')->andReturnUsing(function ($api, $menus) {
             return $menus;
         });
 
@@ -50,9 +50,10 @@ class MenuMenuTest extends TestCase
 
         $this->assertEquals($excepted, $response['button']);
 
-        $response = $menu->set(function () use ($menus){
+        $response = $menu->set(function () use ($menus) {
             // test collection
             $menus[1]['sub_button'][0] = new Collection($menus[1]['sub_button'][0]);
+
             return $menus;
         });
 
@@ -62,13 +63,13 @@ class MenuMenuTest extends TestCase
     }
 
     /**
-     * Test get()
+     * Test get().
      */
     public function testGet()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(EasyWeChat\Core\Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function(){
+        $http->shouldReceive('get')->andReturnUsing(function () {
             return ['menu' => ['button' => 'foo']];
         });
         $menu = new Menu($http);
@@ -79,13 +80,13 @@ class MenuMenuTest extends TestCase
     }
 
     /**
-     * Test delete()
+     * Test delete().
      */
     public function testDelete()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(EasyWeChat\Core\Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function(){
+        $http->shouldReceive('get')->andReturnUsing(function () {
             return true;
         });
         $menu = new Menu($http);
@@ -96,13 +97,13 @@ class MenuMenuTest extends TestCase
     }
 
     /**
-     * Test current()
+     * Test current().
      */
     public function testCurrent()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(EasyWeChat\Core\Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function(){
+        $http->shouldReceive('get')->andReturnUsing(function () {
             return ['foo', 'bar'];
         });
         $menu = new Menu($http);

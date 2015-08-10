@@ -36,7 +36,7 @@ namespace {
 
         public function testGet()
         {
-            $cryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
+            $cryptor = Mockery::mock(EasyWeChat\Encryption\Cryptor::class);
             $_REQUEST = ['encrypt_type' => 'none'];
             $input = new Input('token', $cryptor);
 
@@ -48,7 +48,7 @@ namespace {
 
         public function testGetWithEncrypted()
         {
-            $cryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
+            $cryptor = Mockery::mock(EasyWeChat\Encryption\Cryptor::class);
             $cryptor->shouldReceive('decryptMsg')->andReturnUsing(function () {
                 $args = func_get_args();
 
@@ -76,7 +76,7 @@ namespace {
          */
         public function testValidate()
         {
-            $cryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
+            $cryptor = Mockery::mock(EasyWeChat\Encryption\Cryptor::class);
 
             $_REQUEST = [
                 'encrypt_type' => 'none',
@@ -113,7 +113,7 @@ namespace {
                 'timestamp' => 1411034505,
                 'signature' => '2dd9c1d69cb87402cdd39c7d00a825acce44378c', // right signature
             ];
-            $cryptor = Mockery::mock('EasyWeChat\Encryption\Cryptor');
+            $cryptor = Mockery::mock(EasyWeChat\Encryption\Cryptor::class);
 
             $input = new Input('token', $cryptor);
 

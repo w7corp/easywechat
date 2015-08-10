@@ -1,5 +1,6 @@
 <?php
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Material\Material;
 
 class MaterialMaterialTest extends TestCase
@@ -11,14 +12,14 @@ class MaterialMaterialTest extends TestCase
      */
     public function getHttp()
     {
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
         $http->shouldReceive('setExpectedException')->andReturn($http);
 
         return $http;
     }
 
     /**
-     * Test for uploadImage()
+     * Test for uploadImage().
      */
     public function testUploadImage()
     {
@@ -30,7 +31,7 @@ class MaterialMaterialTest extends TestCase
                 'form' => $form,
             ];
         });
-        $material = new EasyWeChat\Material\Material($http);
+        $material = new Material($http);
 
         $response = $material->uploadImage(__DIR__.'/stubs/image.jpg');
 
@@ -39,7 +40,7 @@ class MaterialMaterialTest extends TestCase
     }
 
     /**
-     * Test for uploadVoice()
+     * Test for uploadVoice().
      */
     public function testUploadVoice()
     {
@@ -51,7 +52,7 @@ class MaterialMaterialTest extends TestCase
                 'form' => $form,
             ];
         });
-        $material = new EasyWeChat\Material\Material($http);
+        $material = new Material($http);
 
         $response = $material->uploadVoice(__DIR__.'/stubs/voice.wma');
 
@@ -60,7 +61,7 @@ class MaterialMaterialTest extends TestCase
     }
 
     /**
-     * Test for uploadThumb()
+     * Test for uploadThumb().
      */
     public function testUploadThumb()
     {
@@ -72,7 +73,7 @@ class MaterialMaterialTest extends TestCase
                 'form' => $form,
             ];
         });
-        $material = new EasyWeChat\Material\Material($http);
+        $material = new Material($http);
 
         $response = $material->uploadVoice(__DIR__.'/stubs/thumb.png');
 
@@ -81,7 +82,7 @@ class MaterialMaterialTest extends TestCase
     }
 
     /**
-     * Test for uploadVideo()
+     * Test for uploadVideo().
      */
     public function testUploadVideo()
     {
@@ -93,7 +94,7 @@ class MaterialMaterialTest extends TestCase
                 'form' => $form,
             ];
         });
-        $material = new EasyWeChat\Material\Material($http);
+        $material = new Material($http);
 
         $response = $material->uploadVideo(__DIR__.'/stubs/video.mp4', 'foo', 'a mp4 video.');
 

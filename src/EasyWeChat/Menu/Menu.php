@@ -23,7 +23,7 @@ use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**
- * Class Menu
+ * Class Menu.
  */
 class Menu
 {
@@ -46,7 +46,7 @@ class Menu
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Menu\MenuHttpException');
+        $this->http = $http->setExpectedException(MenuHttpException::class);
     }
 
     /**

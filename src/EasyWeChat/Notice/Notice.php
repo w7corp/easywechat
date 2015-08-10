@@ -63,7 +63,7 @@ class Notice
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Notice\NoticeHttpException');
+        $this->http = $http->setExpectedException(NoticeHttpException::class);
     }
 
     /**

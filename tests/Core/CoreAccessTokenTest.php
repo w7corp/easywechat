@@ -1,16 +1,18 @@
 <?php
 
+use EasyWeChat\Cache\Manager;
 use EasyWeChat\Core\AccessToken;
+use EasyWeChat\Core\Http;
 
 class CoreAccessTokenTest extends TestCase
 {
     public function testGetToken()
     {
-        $cache = Mockery::mock('EasyWeChat\Cache\Manager', function ($mock) {
+        $cache = Mockery::mock(Manager::class, function ($mock) {
             $mock->shouldReceive('get')->andReturn('thisIsACachedToken');
         });
 
-        $http = Mockery::mock('EasyWeChat\Core\Http');
+        $http = Mockery::mock(Http::class);
 
         // cached
         $accessToken = new AccessToken('appId', 'secret', $cache, $http);
@@ -25,7 +27,7 @@ class CoreAccessTokenTest extends TestCase
         $cacheObj = new stdClass();
 
         // non-cached
-        $cache = Mockery::mock('EasyWeChat\Cache\Manager', function ($mock) use ($cacheObj) {
+        $cache = Mockery::mock(Manager::class, function ($mock) use ($cacheObj) {
             $mock->shouldReceive('get')->andReturnUsing(function ($cacheKey, $callback) {
                 return $callback($cacheKey);
             });
@@ -39,7 +41,7 @@ class CoreAccessTokenTest extends TestCase
             });
         });
 
-        $http = Mockery::mock('EasyWeChat\Core\Http', function ($mock) {
+        $http = Mockery::mock(Http::class, function ($mock) {
             $mock->shouldReceive('get')->andReturn([
                     'access_token' => 'thisIsAToken',
                     'expires_in' => 7200,

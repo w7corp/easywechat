@@ -50,7 +50,7 @@ class Temporary
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Material\MaterialHttpException');
+        $this->http = $http->setExpectedException(MaterialHttpException::class);
     }
 
     /**

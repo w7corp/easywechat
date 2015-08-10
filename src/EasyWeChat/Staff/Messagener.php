@@ -73,7 +73,7 @@ class Messagener
      */
     public function __construct(Http $http, Transformer $transformer)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Staff\StaffHttpException');
+        $this->http = $http->setExpectedException(StaffHttpException::class);
         $this->transformer = $transformer;
     }
 
@@ -91,7 +91,7 @@ class Messagener
         }
 
         if (!$message instanceof AbstractMessage) {
-            throw new InvalidArgumentException("Message must be a instanceof 'EasyWeChat\Message\AbstractMessage'.");
+            throw new InvalidArgumentException("Message must be a instanceof 'EasyWeChat\\Message\\AbstractMessage'.");
         }
 
         $this->message = $message;
@@ -118,7 +118,7 @@ class Messagener
      *
      * @param string $openId
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function to($openId)
     {
@@ -129,6 +129,8 @@ class Messagener
      * Send the message.
      *
      * @return bool
+     *
+     * @throws RuntimeException
      */
     public function send()
     {

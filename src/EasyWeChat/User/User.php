@@ -46,7 +46,7 @@ class User
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\User\UserHttpException');
+        $this->http = $http->setExpectedException(UserHttpException::class);
     }
 
     /**

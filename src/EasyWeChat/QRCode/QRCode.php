@@ -48,7 +48,7 @@ class QRCode
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Tool\ToolHttpException');
+        $this->http = $http->setExpectedException(EasyWeChat\Tool\ToolHttpException::class);
     }
 
     /**

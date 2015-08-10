@@ -1,6 +1,12 @@
 <?php
 
+use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Application;
+use EasyWeChat\Core\Http;
+use EasyWeChat\Core\Input;
+use EasyWeChat\Encryption\Cryptor;
+use EasyWeChat\Support\Collection;
+use EasyWeChat\Support\ServiceProvider;
 
 class CoreApplicationTest extends TestCase
 {
@@ -21,11 +27,11 @@ class CoreApplicationTest extends TestCase
     {
         $app = $this->getApp();
 
-        $this->assertEquals('EasyWeChat\Support\Collection', get_class($app->get('config')));
-        $this->assertEquals('EasyWeChat\Core\Http', get_class($app['http']));
-        $this->assertEquals('EasyWeChat\Core\Input', get_class($app['input']));
-        $this->assertEquals('EasyWeChat\Core\AccessToken', get_class($app['access_token']));
-        $this->assertEquals('EasyWeChat\Encryption\Cryptor', get_class($app['cryptor']));
+        $this->assertEquals(Collection::class, get_class($app->get('config')));
+        $this->assertEquals(Http::class, get_class($app['http']));
+        $this->assertEquals(Input::class, get_class($app['input']));
+        $this->assertEquals(AccessToken::class, get_class($app['access_token']));
+        $this->assertEquals(Cryptor::class, get_class($app['cryptor']));
 
         $this->assertEquals('overtrue', $app['config']['app_id']);
     }
@@ -36,8 +42,8 @@ class CoreApplicationTest extends TestCase
     public function testSetProviders()
     {
         $providers = [
-            Mockery::namedMock('FooServiceProvider', 'EasyWeChat\Support\ServiceProvider'),
-            Mockery::namedMock('BarServiceProvider', 'EasyWeChat\Support\ServiceProvider'),
+            Mockery::namedMock('FooServiceProvider', ServiceProvider::class),
+            Mockery::namedMock('BarServiceProvider', ServiceProvider::class),
         ];
 
         $app = $this->getApp();
@@ -59,7 +65,7 @@ class CoreApplicationTest extends TestCase
 
         $providers = [
             Mockery::namedMock('BarzServiceProvider', 'stdClass'),
-            Mockery::namedMock('BarServiceProvider', 'EasyWeChat\Support\ServiceProvider'),
+            Mockery::namedMock('BarServiceProvider', ServiceProvider::class),
         ];
 
         $app->setProviders($providers);

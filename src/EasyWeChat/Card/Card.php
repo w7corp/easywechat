@@ -87,7 +87,7 @@ class Card
      */
     public function __construct(Http $http, Cache $cache)
     {
-        $this->http = $http->setExpectedException('EasyWeChat\Card\CardHttpException');
+        $this->http = $http->setExpectedException(CardHttpException::class);
         $this->cache = $cache;
     }
 
