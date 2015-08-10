@@ -23,6 +23,7 @@ use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\ServiceProvider;
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use GuzzleHttp\Client;
 
 /**
  * Class Application.
@@ -150,7 +151,7 @@ class Application extends Container
     protected function registerClientBaseService()
     {
         $this->bind('http', function ($app) {
-            return new Http();
+            return new Http(new Client());
         });
 
         $this->bind('access_token', function ($app) {

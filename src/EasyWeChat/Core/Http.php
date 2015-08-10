@@ -20,16 +20,14 @@ namespace EasyWeChat\Core;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Support\Http as HttpClient;
+use GuzzleHttp\Client as HttpClient;
 
 /**
  * Class Http.
- *
- * @method mixed json($url, $params = array(), $options = array())
  */
-class Http extends HttpClient
+class Http
 {
-    const WECHAT_REPONSE_ERROR_NONE = 0;
+    const HTTP_RESPONSE_ERROR_NONE = 0;
 
     /**
      * Access token.
@@ -37,6 +35,13 @@ class Http extends HttpClient
      * @var string
      */
     protected $token;
+
+    /**
+     * Http client.
+     *
+     * @var HttpClient
+     */
+    protected $client;
 
     /**
      * Defualt exception.
@@ -48,13 +53,13 @@ class Http extends HttpClient
     /**
      * Constructor.
      *
-     * @param AccessToken|null $token
+     * @param \GuzzleHttp\Client                $client
+     * @param \EasyWeChat\Core\AccessToken|null $token
      */
-    public function __construct(AccessToken $token = null)
+    public function __construct(HttpClient $client, AccessToken $token = null)
     {
         $this->token = $token;
-
-        parent::__construct();
+        $this->client = $client;
     }
 
     /**
@@ -75,6 +80,77 @@ class Http extends HttpClient
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * GET request.
+     *
+     * @param string $url
+     * @param array  $params
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function get($url, array $params = [])
+    {
+        return $this->request($url, 'GET', ['query' => $params]);
+    }
+
+    /**
+     * POST request.
+     *
+     * @param string $url
+     * @param array  $params
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function post($url, array $params = [])
+    {
+        return $this->request($url, 'POST', ['body' => $params]);
+    }
+
+    /**
+     * JSON request.
+     *
+     * @param string $url
+     * @param array  $params
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function json($url, array $params = [])
+    {
+        return $this->request($url, 'POST', ['json' => $params]);
+    }
+
+    /**
+     * Upload file.
+     *
+     * @param string $url
+     * @param array  $files
+     * @param array  $form
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function upload($url, array $files = [], array $form = [])
+    {
+        $options = [
+            'multipart' => array_map(function ($path, $name) {
+                return [
+                    'name'     => $name,
+                    'contents' => fopen($path, 'r'),
+                ];
+            }, $files),
+            'form_params' => $form,
+        ];
+
+        return $this->request($url, 'POST', $options);
     }
 
     /**
@@ -113,32 +189,34 @@ class Http extends HttpClient
      * @param string $url
      * @param string $method
      * @param array  $params
-     * @param array  $options
      *
      * @return array|bool
      *
-     * @throws FaultException
      * @throws HttpException
      */
-    public function request($url, $method = self::GET, $params = [], $options = [])
+    public function request($url, $method = 'GET', $params = [])
     {
         if ($this->token) {
-            $url .= (stripos($url, '?') ? '&' : '?').'access_token='.$this->token;
+            if (empty($params['query'])) {
+                $params['query'] = [];
+            }
+
+            $params['query']['access_token'] = $this->token;
         }
 
         $method = strtoupper($method);
 
-        $response = parent::request($url, $method, $params, $options);
+        $response = $this->client->request($method, $url, $params)->getBody();
 
-        if (empty($response['data'])) {
+        if (empty($response)) {
             throw new HttpException('Empty response.', -1);
         }
 
-        $contents = json_decode($response['data'], true);
+        $contents = json_decode($response, true);
 
         // while the response is an invalid JSON structure, returned the source data
         if (JSON_ERROR_NONE !== json_last_error()) {
-            return $response['data'];
+            return $response;
         }
 
         if (isset($contents['errcode']) && 0 != $contents['errcode']) {
@@ -149,7 +227,7 @@ class Http extends HttpClient
             $this->thorwException($contents['errmsg'], $contents['errcode']);
         }
 
-        if (isset($contents['errcode']) && $contents['errcode'] == self::WECHAT_REPONSE_ERROR_NONE) {
+        if (isset($contents['errcode']) && $contents['errcode'] == self::HTTP_RESPONSE_ERROR_NONE) {
             return true;
         }
 
