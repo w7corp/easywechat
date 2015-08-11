@@ -285,7 +285,7 @@ class Notice
                     $value = array_shift($item);
                     $color = $this->defaultColor;
                 } else {
-                    list($value, $color) = each($item);
+                    list($value, $color) = $item;
                 }
             } else {
                 $value = '数据项格式错误';
