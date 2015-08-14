@@ -48,7 +48,8 @@ SDK QQ群：`319502940`
 
   ...
   ```
-  3. **确认你没装 laravel-debugbar!!!! **
+  
+3. **确认你没装 laravel-debugbar!!!! **
 
 ## 使用
 
