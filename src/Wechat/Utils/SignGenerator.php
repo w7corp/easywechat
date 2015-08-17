@@ -21,13 +21,8 @@ namespace Overtrue\Wechat\Utils;
  * Created by thenbsp (thenbsp@gmail.com)
  * Created at 2015/08/06
  */
-class SignGenerator
+class SignGenerator extends MagicAttributes
 {
-    /**
-     * 参与签名的 Key=>Value
-     */
-    protected $params = array();
-    
     /**
      * 加密类型
      */
@@ -45,47 +40,7 @@ class SignGenerator
     
     public function __construct(array $params = array())
     {
-        $this->params = $params;
-    }
-
-    /**
-     * 检测是否包含某项
-     * @param $key
-     *
-     * @return bool
-     */
-    public function hasParams($key)
-    {
-        return isset($this->params[$key]);
-    }
-
-    /**
-     * 获取参数
-     * @param null $key
-     * @param null $default
-     *
-     * @return array|null
-     */
-    public function getParams($key = null, $default = null)
-    {
-        if( !is_null($key) ) {
-            return $this->hasParams($key) ?
-                $this->params[$key] : $default;
-        }
-        return $this->params;
-    }
-
-    /**
-     * 添加一项（重复添加前者会被覆盖）
-     * @param $key
-     * @param $value
-     *
-     * @return $this
-     */
-    public function addParams($key, $value)
-    {
-        $this->params[$key] = $value;
-        return $this;
+        $this->attributes = $params;
     }
 
     /**
@@ -96,9 +51,7 @@ class SignGenerator
      */
     public function removeParams($key)
     {
-        if( $this->hasParams($key) ) {
-            unset($this->params[$key]);
-        }
+        unset($this->attributes[$key]);
         return $this;
     }
 
@@ -133,7 +86,7 @@ class SignGenerator
      */
     public function sortable()
     {
-        ksort($this->params);
+        ksort($this->attributes);
         if( is_callable($this->sortAfterCallback) ) {
             call_user_func($this->sortAfterCallback, $this);
         }
@@ -155,7 +108,7 @@ class SignGenerator
     public function getResult()
     {
         $this->sortable();
-        $query = http_build_query($this->params);
+        $query = http_build_query($this->attributes);
         $query = urldecode($query);
         $result = call_user_func($this->hashType, $query);
         return $this->isUpper ? strtoupper($result) : $result;

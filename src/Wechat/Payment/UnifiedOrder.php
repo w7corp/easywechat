@@ -1,6 +1,6 @@
 <?php
 /**
- * Unifiedorder.php
+ * UnifiedOrder.php
  *
  * Part of Overtrue\Wechat.
  *
@@ -16,12 +16,11 @@
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Payment;
-use Overtrue\Wechat\Utils\Util;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Http;
 use Overtrue\Wechat\AccessToken;
 
-class Unifiedorder
+class UnifiedOrder
 {
     /**
      * 统一下单接口
@@ -40,9 +39,9 @@ class Unifiedorder
     protected $business;
 
     /**
-     * @var Array   Unifiedorder缓存
+     * @var Array   UnifiedOrder缓存
      */
-    protected $unifiedorder = null;
+    protected $unifiedOrder = null;
     
     public function __construct(Business $business = null, Order $order = null)
     {
@@ -64,29 +63,29 @@ class Unifiedorder
      */
     public function setOrder(Order $order)
     {
-        if( !is_null($order) ) {
+        if ($order) {
             try {
                 $order->checkParams();
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
             
-            if( !$order->hasParams('nonce_str') ) {
-                $order->nonce_str(Util::randomString());
+            if (!$order->nonce_str) {
+                $order->nonce_str = md5(uniqid(microtime()));
             }
             
-            if( !$order->hasParams('spbill_create_ip') ) {
-                $order->spbill_create_ip(Util::clientIP());
+            if (!$order->spbill_create_ip) {
+                $order->spbill_create_ip = empty($_SERVER['REMOTE_ADDR']) ? '0.0.0.0' : $_SERVER['REMOTE_ADDR'];
             }
             
-            if( !$order->hasParams('trade_type') ) {
-                if( !$order->hasParams('openid') ) {
+            if (!$order->trade_type) {
+                if (!$order->openid) {
                     throw new Exception('openid is required');
                 }
-                $order->trade_type('JSAPI');
+                $order->trade_type = 'JSAPI';
             }
             $this->order = $order;
-            $this->unifiedorder = null;
+            $this->unifiedOrder = null;
         }
         return $this;
     }
@@ -116,7 +115,7 @@ class Unifiedorder
                 throw new Exception($e->getMessage());
             }
             $this->business = $business;
-            $this->unifiedorder = null;
+            $this->unifiedOrder = null;
         }
         return $this;
     }
@@ -146,37 +145,37 @@ class Unifiedorder
         if( is_null($this->order) ) {
             throw new Exception('Order is required');
         }
-        if ($this->unifiedorder !== null && $force === false) {
-            return $this->unifiedorder;
+        if ($this->unifiedOrder !== null && $force === false) {
+            return $this->unifiedOrder;
         }
         
-        $params = $this->order->getParams();
-        $params['appid']    = $this->business->getParams('appid');
-        $params['mch_id']   = $this->business->getParams('mch_id');
+        $params = $this->order->toArray();
+        $params['appid']    = $this->business->appid;
+        $params['mch_id']   = $this->business->mch_id;
         ksort($params);
         $sign = http_build_query($params);
-        $sign = urldecode($sign).'&key='.$this->business->getParams('mch_key');
+        $sign = urldecode($sign).'&key='.$this->business->mch_key;
         $sign = strtoupper(md5($sign));
         $params['sign'] = $sign;
         $request = XML::build($params);
         
-        $http = new Http(new AccessToken($this->business->getParams('appid'), $this->business->getParams('appsecret')));
+        $http = new Http(new AccessToken($this->business->appid, $this->business->appsecret));
         
         $response = $http->request(static::UNIFIEDORDER_URL, Http::POST, $request);
         if(empty($response)) {
-            throw new Exception('Get Unifiedorder Failure:');
+            throw new Exception('Get UnifiedOrder Failure:');
         }
 
-        $unifiedorder = XML::parse($response);
-        if( isset($unifiedorder['result_code']) &&
-            ($unifiedorder['result_code'] === 'FAIL') ) {
-            throw new Exception($unifiedorder['err_code'].': '.$unifiedorder['err_code_des']);
+        $unifiedOrder = XML::parse($response);
+        if( isset($unifiedOrder['result_code']) &&
+            ($unifiedOrder['result_code'] === 'FAIL') ) {
+            throw new Exception($unifiedOrder['err_code'].': '.$unifiedOrder['err_code_des']);
         }
         
-        if( isset($unifiedorder['return_code']) &&
-            $unifiedorder['return_code'] === 'FAIL' ) {
-            throw new Exception($unifiedorder['return_code'].': '.$unifiedorder['return_msg']);
+        if( isset($unifiedOrder['return_code']) &&
+            $unifiedOrder['return_code'] === 'FAIL' ) {
+            throw new Exception($unifiedOrder['return_code'].': '.$unifiedOrder['return_msg']);
         }
-        return $this->unifiedorder = $unifiedorder;
+        return $this->unifiedOrder = $unifiedOrder;
     }
 }

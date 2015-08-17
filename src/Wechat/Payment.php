@@ -18,7 +18,7 @@ namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
 use Overtrue\Wechat\Utils\SignGenerator;
-use Overtrue\Wechat\Payment\Unifiedorder;
+use Overtrue\Wechat\Payment\UnifiedOrder;
 
 /**
  * 微信支付
@@ -26,13 +26,13 @@ use Overtrue\Wechat\Payment\Unifiedorder;
 class Payment
 {
     /**
-     * @var Unifiedorder 统一下单
+     * @var UnifiedOrder 统一下单
      */
-    protected $unifiedorder;
+    protected $unifiedOrder;
     
-    public function __construct(Unifiedorder $unifiedorder)
+    public function __construct(UnifiedOrder $unifiedOrder)
     {
-        $this->unifiedorder = $unifiedorder;
+        $this->unifiedOrder = $unifiedOrder;
     }
 
     /**
@@ -70,10 +70,10 @@ class Payment
      */
     private function _generateConfig()
     {
-        $response = $this->unifiedorder->getResponse();
-        $business = $this->unifiedorder->getBusiness();
+        $response = $this->unifiedOrder->getResponse();
+        $business = $this->unifiedOrder->getBusiness();
         $config = array(
-            'appId'     => $business->getParams('appid'),
+            'appId'     => $business->appid,
             'timeStamp' => (string) time(),
             'nonceStr'  => $response['nonce_str'],
             'package'   => 'prepay_id='.$response['prepay_id'],
@@ -82,7 +82,7 @@ class Payment
         
         $signGenerator = new SignGenerator($config);
         $signGenerator->onSortAfter(function(SignGenerator $that) use ($business) {
-            $that->addParams('key', $business->getParams('mch_key'));
+            $that->key = $business->mch_key;
         });
         $config['paySign'] = $signGenerator->getResult();
         return $config;

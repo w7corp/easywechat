@@ -16,13 +16,10 @@
 
 namespace Overtrue\Wechat\Payment;
 
-class Business
+use Overtrue\Wechat\Utils\MagicAttributes;
+
+class Business extends MagicAttributes
 {
-    /**
-     * 商户基本信息
-     */
-    protected $params;
-    
     /**
      * 有效的参数
      */
@@ -45,36 +42,12 @@ class Business
      * @param string $mchKey
      */
     public function __construct($appId, $appSecret, $mchId, $mchKey) {
-        $this->appid($appId);
-        $this->appsecret($appSecret);
-        $this->mch_id($mchId);
-        $this->mch_key($mchKey);
+        $this->appid = $appId;
+        $this->appsecret = $appSecret;
+        $this->mch_id = $mchId;
+        $this->mch_key = $mchKey;
     }
-
-    /**
-     * @param string $paramName
-     * @param string $default
-     *
-     * @return string
-     */
-    public function getParams($paramName = null, $default = null)
-    {
-        if(null !== $paramName) {
-            return $this->hasParams($paramName) ? $this->params[$paramName] : $default;
-        }
-        return $this->params;
-    }
-
-    /**
-     * @param $paramName
-     *
-     * @return bool
-     */
-    public function hasParams($paramName)
-    {
-        return isset($this->params[$paramName]);
-    }
-
+    
     /**
      * 设置商户证书 cert
      * @param $filepath
@@ -109,7 +82,7 @@ class Business
      */
     public function setClientKey($filepath)
     {
-        if( !file_exists($filepath) ) {
+        if (!file_exists($filepath)) {
             throw new Exception(sprintf('client_key "%s" is not found', $filepath));
         }
         $this->clientKey = $filepath;
@@ -131,18 +104,10 @@ class Business
     public function checkParams()
     {
         foreach($this->valids AS $paramName) {
-            if( !$this->hasParams($paramName) ) {
+            if (empty($this->attributes[$paramName])) {
                 throw new Exception(sprintf('"%s" is required', $paramName));
             }
         }
     }
     
-    public function __call($method, $arguments)
-    {
-        if( !in_array($method, $this->valids) ) {
-            throw new Exception(sprintf('Invalid arguments "%s"', $method));
-        }
-        $this->params[$method] = $arguments[0];
-        return $this;
-    }
 }
