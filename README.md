@@ -101,6 +101,7 @@ echo $server->serve();
 - [x] [数据统计](https://github.com/overtrue/wechat/wiki/数据统计查询服务)
 - [x] [二维码](https://github.com/overtrue/wechat/wiki/二维码)
 - [x] [短链接](https://github.com/overtrue/wechat/wiki/短链接)
+- [x] [微信支付](https://github.com/overtrue/wechat/wiki/微信支付)
 
 ## 贡献代码
 
