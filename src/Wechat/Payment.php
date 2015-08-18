@@ -26,7 +26,9 @@ use Overtrue\Wechat\Payment\UnifiedOrder;
 class Payment
 {
     /**
-     * @var UnifiedOrder 统一下单
+     * 统一下单
+     * 
+     * @var UnifiedOrder
      */
     protected $unifiedOrder;
     
@@ -36,20 +38,24 @@ class Payment
     }
 
     /**
+     * 获取配置文件（用于 WeixinJSBridge invoke 方式）
+     * 
      * @param bool|true $asJson
      *
-     * @return array|string 获取配置文件（用于 WeixinJSBridge invoke 方式）
+     * @return array|string
      */
     public function getConfig($asJson = true)
     {
-        $config = $this->_generateConfig();
+        $config = $this->generateConfig();
         return $asJson ? JSON::encode($config) : $config;
     }
 
     /**
+     * 获取配置文件（用于 Jssdk chooseWXPay 方式）
+     * 
      * @param bool|true $asJson
      *
-     * @return array|string 获取配置文件（用于 Jssdk chooseWXPay 方式）
+     * @return array|string
      */
     public function getConfigJssdk($asJson = true)
     {
@@ -65,10 +71,12 @@ class Payment
     }
 
     /**
-     * @return array    生成配置
+     * 生成配置
+     * 
+     * @return array
      * @throws Payment\Exception
      */
-    private function _generateConfig()
+    private function generateConfig()
     {
         $response = $this->unifiedOrder->getResponse();
         $business = $this->unifiedOrder->getBusiness();

@@ -22,9 +22,11 @@ class Business extends MagicAttributes
 {
     /**
      * 有效的参数
+     * 
+     * @var array
      */
     protected $valids = array('appid', 'appsecret', 'mch_id', 'mch_key');
-    
+
     /**
      * 商户证书 cert
      */
@@ -50,6 +52,7 @@ class Business extends MagicAttributes
     
     /**
      * 设置商户证书 cert
+     * 
      * @param $filepath
      *
      * @return $this

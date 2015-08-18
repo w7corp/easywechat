@@ -29,17 +29,23 @@ class UnifiedOrder
     const UNIFIEDORDER_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
     
     /**
-     * @var Order   订单信息
+     * 订单信息
+     * 
+     * @var Order
      */
     protected $order;
 
     /**
-     * @var Business    商户信息
+     * 商户信息
+     * 
+     * @var Business
      */
     protected $business;
 
     /**
-     * @var Array   UnifiedOrder缓存
+     * UnifiedOrder缓存
+     * 
+     * @var Array
      */
     protected $unifiedOrder = null;
     
@@ -56,6 +62,7 @@ class UnifiedOrder
 
     /**
      * 设置订单
+     * 
      * @param Order $order
      *
      * @return $this
@@ -92,6 +99,7 @@ class UnifiedOrder
 
     /**
      * 获取订单
+     * 
      * @return Order
      */
     public function getOrder()
@@ -101,6 +109,7 @@ class UnifiedOrder
 
     /**
      * 设置商户
+     * 
      * @param Business $business
      *
      * @return $this
@@ -122,6 +131,7 @@ class UnifiedOrder
 
     /**
      * 获取商户
+     * 
      * @return Business
      */
     public function getBusiness()
@@ -131,6 +141,7 @@ class UnifiedOrder
 
     /**
      * 获取统一下单结果
+     * 
      * @param bool|false $force 是否忽略缓存强制更新
      *
      * @return array

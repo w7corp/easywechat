@@ -22,11 +22,15 @@ class Order extends MagicAttributes
 {
     /**
      * 订单必填项
+     * 
+     * @var array
      */
     protected static $required = array('body', 'out_trade_no', 'total_fee', 'notify_url');
-    
+
     /**
      * 订单选填项
+     * 
+     * @var array
      */
     protected static $optional = array(
         'device_info', 'detail', 'attach', 'fee_type', 'time_start', 'time_expire',
@@ -47,6 +51,7 @@ class Order extends MagicAttributes
     
     /**
      * 检测参数值是否有效
+     * 
      * @throws Exception
      */
     public function checkParams()
