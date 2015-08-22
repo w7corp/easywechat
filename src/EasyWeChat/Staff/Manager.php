@@ -24,7 +24,7 @@ use EasyWeChat\Core\Http;
  */
 class Manager
 {
-    const API_GET = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
+    const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
     const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
     const API_UPDATE = 'https://api.weixin.qq.com/customservice/kfaccount/update';
@@ -56,7 +56,7 @@ class Manager
      */
     public function lists()
     {
-        $response = $this->http->get(self::API_GET);
+        $response = $this->http->get(self::API_LISTS);
 
         return $response['kf_list'];
     }
@@ -117,20 +117,16 @@ class Manager
      * Delete a staff.
      *
      * @param string $email
-     * @param string $nickname
-     * @param string $password
      *
      * @return bool
      */
-    public function delete($email, $nickname, $password)
+    public function delete($email)
     {
         $params = [
                     'kf_account' => $email,
-                    'nickname' => $nickname,
-                    'password' => $password,
                   ];
 
-        return $this->http->json(self::API_DELETE."?kf_account={$email}", $params);
+        return $this->http->get(self::API_DELETE, $params);
     }
 
     /**
@@ -143,12 +139,6 @@ class Manager
      */
     public function avatar($email, $path)
     {
-        $options = [
-                    'files' => ['media' => $path],
-                   ];
-
-        $url = self::API_AVATAR_UPLOAD."?kf_account={$email}";
-
-        return $this->http->post($url, [], $options);
+        return $this->http->upload(self::API_AVATAR_UPLOAD, ['media' => $path], ['kf_account' => $email]);
     }
 }

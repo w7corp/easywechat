@@ -18,7 +18,6 @@
 namespace EasyWeChat\Url;
 
 use EasyWeChat\Core\Http;
-use EasyWeChat\Support\Url as UrlHelper;
 
 /**
  * Class Url.
@@ -61,15 +60,5 @@ class Url
         $response = $this->http->json(self::API_SHORTEN_URL, $params);
 
         return $response['short_url'];
-    }
-
-    /**
-     * Return current url.
-     *
-     * @return string
-     */
-    public function current()
-    {
-        return UrlHelper::current();
     }
 }

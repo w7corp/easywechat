@@ -33,7 +33,7 @@ class Transformer
      */
     public function transform(AbstractMessage $message)
     {
-        $handle = 'transform'.substr(get_class($message), strlen('EasyWeChat\Message'));
+        $handle = 'transform'.substr(get_class($message), strlen('EasyWeChat\Message\\'));
 
         return method_exists($this, $handle) ? $this->$handle($message) : [];
     }
@@ -43,7 +43,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformText(AbstractMessage $message)
+    public function transformText(AbstractMessage $message)
     {
         return array(
                 'text' => array(
@@ -57,7 +57,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformImage(AbstractMessage $message)
+    public function transformImage(AbstractMessage $message)
     {
         return array(
                 'image' => array(
@@ -71,7 +71,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformVideo(AbstractMessage $message)
+    public function transformVideo(AbstractMessage $message)
     {
         return array(
                 'video' => array(
@@ -88,7 +88,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformVoice(AbstractMessage $message)
+    public function transformVoice(AbstractMessage $message)
     {
         return array(
                 'voice' => array(
@@ -102,7 +102,7 @@ class Transformer
      *
      * @return array
      */
-    public function tranformArticles(AbstractMessage $message)
+    public function transformArticles(AbstractMessage $message)
     {
         $articles = array();
 

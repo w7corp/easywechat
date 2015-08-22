@@ -48,19 +48,19 @@ class Stats
     // 获取图文分享转发分时数据
     const  API_USER_SHARE_HOURLY = 'https://api.weixin.qq.com/datacube/getusersharehour';
     // 获取消息发送概况数据
-    const  API_UPSTREAM_MESSSAGE_SUMMARY = 'https://api.weixin.qq.com/datacube/getupstreammsg';
+    const  API_UPSTREAM_MSG_SUMMARY = 'https://api.weixin.qq.com/datacube/getupstreammsg';
     // 获取消息分送分时数据
-    const  API_UPSTREAM_MESSSAGE_HOURLY = 'https://api.weixin.qq.com/datacube/getupstreammsghour';
+    const  API_UPSTREAM_MSG_HOURLY = 'https://api.weixin.qq.com/datacube/getupstreammsghour';
     // 获取消息发送周数据
-    const  API_UPSTREAM_MESSSAGE_WEEKLY = 'https://api.weixin.qq.com/datacube/getupstreammsgweek';
+    const  API_UPSTREAM_MSG_WEEKLY = 'https://api.weixin.qq.com/datacube/getupstreammsgweek';
     // 获取消息发送月数据
-    const  API_UPSTREAM_MESSSAGE_MONTHLY = 'https://api.weixin.qq.com/datacube/getupstreammsgmonth';
+    const  API_UPSTREAM_MSG_MONTHLY = 'https://api.weixin.qq.com/datacube/getupstreammsgmonth';
     // 获取消息发送分布数据
-    const  API_UPSTREAM_MESSSAGE_DIST_SUMMARY = 'https://api.weixin.qq.com/datacube/getupstreammsgdist';
+    const  API_UPSTREAM_MSG_DIST_SUMMARY = 'https://api.weixin.qq.com/datacube/getupstreammsgdist';
     // 获取消息发送分布周数据
-    const  API_UPSTREAM_MESSSAGE_DIST_WEEKLY = 'https://api.weixin.qq.com/datacube/getupstreammsgdistweek';
+    const  API_UPSTREAM_MSG_DIST_WEEKLY = 'https://api.weixin.qq.com/datacube/getupstreammsgdistweek';
     // 获取消息发送分布月数据
-    const  API_UPSTREAM_MESSSAGE_DIST_MONTHLY = 'https://api.weixin.qq.com/datacube/getupstreammsgdistmonth?';
+    const  API_UPSTREAM_MSG_DIST_MONTHLY = 'https://api.weixin.qq.com/datacube/getupstreammsgdistmonth?';
     // 获取接口分析数据
     const  API_INTERFACE_SUMMARY = 'https://api.weixin.qq.com/datacube/getinterfacesummary';
     // 获取接口分析分时数据
@@ -188,7 +188,7 @@ class Stats
      *
      * @return array
      */
-    public function upstreamMesssageSummary($from, $to)
+    public function upstreamMessageSummary($from, $to)
     {
         return $this->query(self::API_UPSTREAM_MSG_SUMMARY, $from, $to);
     }
@@ -201,7 +201,7 @@ class Stats
      *
      * @return array
      */
-    public function upstreamMesssageHourly($from, $to)
+    public function upstreamMessageHourly($from, $to)
     {
         return $this->query(self::API_UPSTREAM_MSG_HOURLY, $from, $to);
     }
@@ -214,7 +214,7 @@ class Stats
      *
      * @return array
      */
-    public function upstreamMesssageWeekly($from, $to)
+    public function upstreamMessageWeekly($from, $to)
     {
         return $this->query(self::API_UPSTREAM_MSG_WEEKLY, $from, $to);
     }
@@ -227,7 +227,7 @@ class Stats
      *
      * @return array
      */
-    public function upstreamMesssageMonthly($from, $to)
+    public function upstreamMessageMonthly($from, $to)
     {
         return $this->query(self::API_UPSTREAM_MSG_MONTHLY, $from, $to);
     }
@@ -240,7 +240,7 @@ class Stats
      *
      * @return array
      */
-    public function upstreamMesssageDistSummary($from, $to)
+    public function upstreamMessageDistSummary($from, $to)
     {
         return $this->query(self::API_UPSTREAM_MSG_DIST_SUMMARY, $from, $to);
     }
@@ -253,7 +253,7 @@ class Stats
      *
      * @return array
      */
-    public function upstreamMesssageDistWeekly($from, $to)
+    public function upstreamMessageDistWeekly($from, $to)
     {
         return $this->query(self::API_UPSTREAM_MSG_DIST_WEEKLY, $from, $to);
     }
@@ -266,7 +266,7 @@ class Stats
      *
      * @return array
      */
-    public function upstreamMesssageDistMonthly($from, $to)
+    public function upstreamMessageDistMonthly($from, $to)
     {
         return $this->query(self::API_UPSTREAM_MSG_DIST_MONTHLY, $from, $to);
     }

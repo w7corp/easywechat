@@ -81,4 +81,22 @@ class Articles extends AbstractMessage
 
         return $this;
     }
+
+    /**
+     * Return all items.
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * Clean items.
+     */
+    public function clean()
+    {
+        $this->items = [];
+    }
 }

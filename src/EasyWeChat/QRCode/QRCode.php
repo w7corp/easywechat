@@ -21,22 +21,23 @@ use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**
- * 二维码.
+ * Class QRCode
  */
 class QRCode
 {
     /**
-     * 应用ID.
+     * Http Client.
      *
      * @var Http
      */
     protected $http;
 
     const DAY = 86400;
-    const SCENE_QE_CARD = 'QR_CARD';             // 卡券
-    const SCENE_QR_TEMPORARY = 'QR_SCENE';            // 临时
-    const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';      // 永久
-    const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';  // 永久的字符串参数值
+    const SCENE_MAX_VALUE = 100000;
+    const SCENE_QR_CARD = 'QR_CARD';
+    const SCENE_QR_TEMPORARY = 'QR_SCENE';
+    const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';
+    const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';
 
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
     const API_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
@@ -48,11 +49,11 @@ class QRCode
      */
     public function __construct(Http $http)
     {
-        $this->http = $http->setExpectedException(EasyWeChat\Tool\ToolHttpException::class);
+        $this->http = $http->setExpectedException(QRCodeHttpException::class);
     }
 
     /**
-     * 永久二维码.
+     * Create forever.
      *
      * @param int $sceneValue
      *
@@ -60,8 +61,7 @@ class QRCode
      */
     public function forever($sceneValue)
     {
-        // 永久二维码时最大值为100000（目前参数只支持1--100000）
-        if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < 100000) {
+        if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < self::SCENE_MAX_VALUE) {
             $type = self::SCENE_QR_FOREVER;
             $sceneKey = 'scene_id';
         } else {
@@ -75,7 +75,7 @@ class QRCode
     }
 
     /**
-     * 临时二维码.
+     * Create temporary.
      *
      * @param int $sceneId
      * @param int $expireSeconds
@@ -84,14 +84,13 @@ class QRCode
      */
     public function temporary($sceneId, $expireSeconds = null)
     {
-        // 临时二维码时为32位非0整型
         $scene = ['scene_id' => intval($sceneId)];
 
         return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
     }
 
     /**
-     * 创建卡券二维码.
+     * Create QRCode for card.
      *
      * @param array $card
      *
@@ -107,11 +106,11 @@ class QRCode
      */
     public function card($card)
     {
-        return $this->create(self::SCENE_QE_CARD, ['card' => $card]);
+        return $this->create(self::SCENE_QR_CARD, ['card' => $card]);
     }
 
     /**
-     * 获取二维码.
+     * Return url for ticket.
      *
      * @param string $ticket
      *
@@ -123,20 +122,7 @@ class QRCode
     }
 
     /**
-     * 保存二维码.
-     *
-     * @param string $ticket
-     * @param string $filename
-     *
-     * @return int
-     */
-    public function download($ticket, $filename)
-    {
-        return file_put_contents($filename, file_get_contents($this->show($ticket)));
-    }
-
-    /**
-     * 创建二维码.
+     * Create a QRCode.
      *
      * @param string $actionName
      * @param array  $actionInfo

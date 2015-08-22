@@ -105,27 +105,58 @@ class Temporary
     }
 
     /**
-     * Magic access.
+     * Upload image.
      *
-     * <pre>
-     * $media->uploadImage($path); // $media->upload('image', $path);
-     * </pre>
-     *
-     * @param string $method
-     * @param array  $args
+     * @param $path
      *
      * @return string
      *
      * @throws InvalidArgumentException
      */
-    public function __call($method, $args)
+    public function uploadImage($path)
     {
-        if (0 !== stripos($method, 'upload')) {
-            throw new InvalidArgumentException("Undefined method '$method'.");
-        }
+        return $this->upload('image', $path);
+    }
 
-        $args = [substr($method, strlen('upload')), array_shift($args)];
+    /**
+     * Upload video.
+     *
+     * @param $path
+     *
+     * @return string
+     *
+     * @throws InvalidArgumentException
+     */
+    public function uploadVideo($path)
+    {
+        return $this->upload('video', $path);
+    }
 
-        return call_user_func_array([__CLASS__, 'upload'], $args);
+    /**
+     * Upload voice.
+     *
+     * @param $path
+     *
+     * @return string
+     *
+     * @throws InvalidArgumentException
+     */
+    public function uploadVoice($path)
+    {
+        return $this->upload('voice', $path);
+    }
+
+    /**
+     * Upload thumb.
+     *
+     * @param $path
+     *
+     * @return string
+     *
+     * @throws InvalidArgumentException
+     */
+    public function uploadThumb($path)
+    {
+        return $this->upload('thumb', $path);
     }
 }

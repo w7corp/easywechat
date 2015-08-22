@@ -134,6 +134,26 @@ class Material
     }
 
     /**
+     * Update article.
+     *
+     * @param string $mediaId
+     * @param array  $article
+     * @param int    $index
+     *
+     * @return bool
+     */
+    public function updateArticle($mediaId, $article, $index = 0)
+    {
+        $params = [
+            'media_id' => $mediaId,
+            'index' => $index,
+            'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : []),
+        ];
+
+        return $this->http->json(self::API_NEWS_UPDATE, $params);
+    }
+
+    /**
      * Upload image for article.
      *
      * @param string $path
@@ -211,26 +231,6 @@ class Material
     public function stats()
     {
         return $this->http->get(self::API_STATS);
-    }
-
-    /**
-     * Update article.
-     *
-     * @param string $mediaId
-     * @param array  $article
-     * @param int    $index
-     *
-     * @return bool
-     */
-    public function updateArticle($mediaId, $article, $index = 0)
-    {
-        $params = [
-            'media_id' => $mediaId,
-            'index' => $index,
-            'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : []),
-        ];
-
-        return $this->http->json(self::API_NEWS_UPDATE, $params);
     }
 
     /**

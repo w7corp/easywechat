@@ -64,34 +64,6 @@ abstract class AbstractMessage extends Attribute
     }
 
     /**
-     * Return message type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Magic call.
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return AbstractMessage
-     */
-    public function __call($method, $args)
-    {
-        if (property_exists($this, $method)) {
-            $method = 'set';
-            array_unshift($args, $method);
-        }
-
-        return call_user_func_array([$this, 'set'], $args);
-    }
-
-    /**
      * Magic getter.
      *
      * @param string $property

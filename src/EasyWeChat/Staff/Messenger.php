@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Messagener.php.
+ * Messenger.php.
  *
  * Part of EasyWeChat.
  *
@@ -24,9 +24,9 @@ use EasyWeChat\Message\AbstractMessage;
 use EasyWeChat\Message\Text;
 
 /**
- * Class Messagener.
+ * Class Messenger.
  */
-class Messagener
+class Messenger
 {
     /**
      * Message transformer.
@@ -82,7 +82,9 @@ class Messagener
      *
      * @param AbstractMessage $message
      *
-     * @return Messagener
+     * @return Messenger
+     *
+     * @throws InvalidArgumentException
      */
     public function message($message)
     {
@@ -104,7 +106,7 @@ class Messagener
      *
      * @param string $account
      *
-     * @return Messagener
+     * @return Messenger
      */
     public function by($account)
     {
@@ -123,6 +125,8 @@ class Messagener
     public function to($openId)
     {
         $this->to = $openId;
+
+        return $this;
     }
 
     /**
@@ -138,11 +142,29 @@ class Messagener
             throw new RuntimeException('No message to send.');
         }
 
-        $this->message->to = $this->to;
-        $this->message->account = $this->account;
+        $content = $this->transformer->transform($this->message);
 
-        $message = $this->transformer->transform($this->message);
+        $message = [
+            'touser' => $this->to,
+            'msgtype' => $this->message->type,
+            $this->message->type => $content,
+            'customservice' => ['kf_account' => $this->account],
+        ];
 
         return $this->http->json(self::API_MESSAGE_SEND, $message);
+    }
+
+    /**
+     * Return property.
+     *
+     * @param $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
     }
 }
