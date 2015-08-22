@@ -4,6 +4,9 @@ use EasyWeChat\Url\Url;
 
 class UrlUrlTest extends TestCase
 {
+    /**
+     * Test shorten()
+     */
     public function testShorten()
     {
         $http = Mockery::mock(EasyWeChat\Core\Http::class);
