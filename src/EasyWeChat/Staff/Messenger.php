@@ -120,7 +120,7 @@ class Messenger
      *
      * @param string $openId
      *
-     * @return bool|null
+     * @return Messenger
      */
     public function to($openId)
     {
