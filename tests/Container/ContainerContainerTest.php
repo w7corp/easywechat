@@ -114,6 +114,7 @@ class ContainerContainerTest extends TestCase
         $this->assertEquals('stdClass', get_class($foo));
 
         $this->assertTrue($app->isResolved('foo'));
+        $this->assertArrayHasKey('foo', $app->getResolved());
     }
 
     /**
@@ -144,7 +145,7 @@ class ContainerContainerTest extends TestCase
 
         $this->assertEquals('stdClass', get_class($app->get('foo')));
         $this->assertEquals('stdClass', get_class($app->foo));
-        $this->assertEquals('stdClass', get_class($app['foo']));
+        $this->assertEquals('stdClass', get_class($app['bar']));
         $this->assertEquals('stdClass', get_class($app->get('bar')));
 
         // exception
