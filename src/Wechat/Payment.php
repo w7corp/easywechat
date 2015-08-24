@@ -59,7 +59,7 @@ class Payment
      */
     public function getConfigJssdk($asJson = true)
     {
-        $config = $this->_generateConfig();
+        $config = $this->generateConfig();
         $params = array(
             'timestamp' => $config['timeStamp'],
             'nonceStr'  => $config['nonceStr'],

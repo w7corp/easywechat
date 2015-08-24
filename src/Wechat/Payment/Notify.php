@@ -18,6 +18,7 @@ namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Utils\SignGenerator;
 
 class Notify
 {
@@ -65,9 +66,12 @@ class Notify
         }
         
         $sign = $input['sign'];
-        unset($input['sign']); ksort($input);
-        $str = strtoupper(md5(http_build_query($input).'&key='.$this->mchKey));
-        if ($sign !== $str) {
+        unset($input['sign']);
+        $signGenerator = new SignGenerator($input);
+        $signGenerator->onSortAfter(function(SignGenerator $that) {
+            $that->key = $this->mchKey;
+        });
+        if ($sign !== $signGenerator->getResult()) {
             return false;
         }
         

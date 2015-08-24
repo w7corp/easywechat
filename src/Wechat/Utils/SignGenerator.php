@@ -64,7 +64,7 @@ class SignGenerator extends MagicAttributes
     public function setHashType($hashType)
     {
         $type = strtolower($hashType);
-        if( !in_array($type, array('md5', 'sha1'), true) ) {
+        if (!in_array($type, array('md5', 'sha1'), true)) {
             throw new \Exception(sprintf('Invalid Hash Type %s', $hashType));
         }
         $this->hashType = $type;
@@ -87,7 +87,7 @@ class SignGenerator extends MagicAttributes
     public function sortable()
     {
         ksort($this->attributes);
-        if( is_callable($this->sortAfterCallback) ) {
+        if (is_callable($this->sortAfterCallback)) {
             call_user_func($this->sortAfterCallback, $this);
         }
     }
@@ -103,7 +103,7 @@ class SignGenerator extends MagicAttributes
 
     /**
      * 获取签结果
-     * @return mixed|string
+     * @return string
      */
     public function getResult()
     {
