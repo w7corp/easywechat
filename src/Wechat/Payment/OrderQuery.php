@@ -19,16 +19,16 @@ use Overtrue\Wechat\Http;
 use Overtrue\Wechat\Util\Bag;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\SignGenerator;
-use Overtrue\Wechat\Config\WechatConfig;
+use Overtrue\Wechat\Payment\Business;
 
 class OrderQuery
 {
-    /**
-     * 订单查询接口
-     * https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2
-     */
+    // 订单查询接口
     const ORDERQUERY_URL = 'https://api.mch.weixin.qq.com/pay/orderquery';
-    
+
+    // 退款订单查询接口
+    const REFUNDQUERY_URL = 'https://api.mch.weixin.qq.com/pay/refundquery';
+
     /**
      * 参数包
      * @var String(32)
@@ -36,9 +36,9 @@ class OrderQuery
     protected $bag;
 
     /**
-     * 商户 Key
+     * 商户
      */
-    protected $key;
+    protected $business;
 
      /**
      * 必填项目
@@ -56,52 +56,49 @@ class OrderQuery
      */
     protected $queryOrder = null;
     
-    public function __construct(Bag $bag)
+    public function __construct(Bag $bag, Business $business)
     {   
         //商户基本信息
-        $bag->set('appid',  WechatConfig::APPID);
-        $bag->set('mch_id', WechatConfig::MCHID);
+        $bag->set('appid',  $business->appid);
+        $bag->set('mch_id', $business->mch_id);
 
-        if( !$bag->has('nonce_str') ) {
-            $bag->set('nonce_str', md5(uniqid(microtime())) );
+        if (!$bag->has('nonce_str')) {
+            $bag->set('nonce_str', md5(uniqid(microtime())));
         }
 
         // 检测必填字段
-        foreach($this->required AS $paramName) {
-            if( !$bag->has($paramName) ) {
+        foreach($this->required as $paramName) {
+            if (!$bag->has($paramName)) {
                 throw new Exception(sprintf('"%s" is required', $paramName));
             }
         }
 
-        if( !$bag->has('transaction_id') && !$bag->has('out_trade_no') ) {
-            throw new Exception('transaction_id or out_trade_no is required as least');
+        if (!$bag->has('refund_id') && !$bag->has('out_refund_no') &&
+                !$bag->has('transaction_id') && !$bag->has('out_trade_no')) {
+            throw new Exception('query order_no is required as least');
         }
 
         $this->bag = $bag;
-        $this->key = WechatConfig::KEY;
+        $this->business = $business;
     }
 
     /**
      * 获取订单查询结果
      * 
-     * @param bool|false $force 是否忽略缓存强制更新
+     * @param bool|false $type 订单类型，默认为付款订单查询
      *
      * @return array
+	 *
      * @throws Exception
      * @throws \Overtrue\Wechat\Exception
      */
-    public function getResponse($force = false)
+    public function getResponse($type = null)
     {
-
-        if ($this->queryOrder !== null && $force === false) {
-            return $this->queryOrder;
-        }
-        
         $params  =  $this->bag->all();
 
         $signGenerator = new SignGenerator($params);
         $signGenerator->onSortAfter(function($that) {
-            $that->key = $this->key;
+            $that->key = $this->business->mch_key;
         });
 
         // 生成签名
@@ -112,21 +109,23 @@ class OrderQuery
 
         $request = XML::build($params);
         
-        // $http = new Http(new AccessToken($this->business->appid, $this->business->appsecret));
         $http = new Http();
-        
-        $response = $http->request(static::ORDERQUERY_URL, Http::POST, $request);
-        if(empty($response)) {
+
+        $url = ($type !== 'refund') ? static::ORDERQUERY_URL : static::REFUNDQUERY_URL;
+
+        $response = $http->request($url, Http::POST, $request);
+
+        if (empty($response)) {
             throw new Exception('Get OrderQuery Failure:');
         }
 
         $response = XML::parse($response);
-        if( isset($response['result_code']) &&
-            ($response['result_code'] === 'FAIL') ) {
+        if (isset($response['result_code']) &&
+            ($response['result_code'] === 'FAIL')) {
             throw new Exception($response['err_code'].': '.$response['err_code_des']);
         }
-        if( isset($response['return_code']) &&
-            $response['return_code'] === 'FAIL' ) {
+        if (isset($response['return_code']) &&
+            $response['return_code'] === 'FAIL') {
             throw new Exception($response['return_code'].': '.$response['return_msg']);
         }
 

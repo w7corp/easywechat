@@ -19,7 +19,6 @@ use Overtrue\Wechat\Http;
 use Overtrue\Wechat\Util\Bag;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\SignGenerator;
-use Overtrue\Wechat\Config\WechatConfig;
 
 class Refund
 {
@@ -36,18 +35,9 @@ class Refund
     protected $bag;
 
     /**
-     * 商户 Key
+     * 商户
      */
-    protected $key;
-
-    /**
-     * 商户证书 cert
-     */
-    protected $clientCert;
-    /**
-     * 商户证书 key
-     */
-    protected $clientKey;
+    protected $business;
 
     /**
      * 必填项目
@@ -67,69 +57,42 @@ class Refund
      */
     protected $refund = null;
     
-    public function __construct(Bag $bag)
+    public function __construct(Bag $bag, Business $business)
     {   
         //商户基本信息
-        $bag->set('appid',  WechatConfig::APPID);
-        $bag->set('mch_id', WechatConfig::MCHID);
+        $bag->set('appid',  $business->appid);
+        $bag->set('mch_id', $business->mch_id);
 
-        //
-        if( !$bag->has('nonce_str') ) {
+
+        if (!$bag->has('nonce_str')) {
             $bag->set('nonce_str', md5(uniqid(microtime())) );
         }
 
         //操作员 默认为商户号
-        if( !$bag->has('op_user_id') ) {
-            $bag->set('op_user_id', WechatConfig::MCHID);
+        if (!$bag->has('op_user_id')) {
+            $bag->set('op_user_id', $business->mch_id);
         }
 
         // 检测必填字段
-        foreach($this->required AS $paramName) {
-            if( !$bag->has($paramName) ) {
+        foreach($this->required as $paramName) {
+            if (!$bag->has($paramName)) {
                 throw new Exception(sprintf('"%s" is required', $paramName));
             }
         }
 
-        if( !$bag->has('transaction_id') && !$bag->has('out_trade_no') ) {
+        if (!$bag->has('transaction_id') && !$bag->has('out_trade_no')) {
             throw new Exception('transaction_id or out_trade_no is required as least');
         }
 
-        $this->bag = $bag;
-        $this->key = WechatConfig::KEY;
-
-        //设置安全证书路径
-        $sslcert_path =  WechatConfig::SSLCERT_PATH? : $bag->get('sslcert_path');
-        $sslkey_path  =  WechatConfig::SSLKEY_PATH ? : $bag->get('sslkey_path');
-        if(empty($sslcert_path) || empty($sslkey_path) ){
+        //检查安全证书设置
+        if (!$business->getClientCert() || !$business->getClientKey()) {
             throw new Exception("Refund required client_cert and client_key");  
-        }else{
-            $this->setClientCert($sslcert_path);
-            $this->setClientKey($sslkey_path);
         }
 
+        $this->bag = $bag;
+        $this->business = $business;
     }
 
-    /**
-     * 设置商户证书 cert
-     */
-    public function setClientCert($filepath)
-    {
-        if( !file_exists($filepath) ) {
-            throw new Exception(sprintf('client_cert "%s" is not found', $filepath));
-        }
-        $this->clientCert = $filepath;
-    }
-
-    /**
-     * 设置商户证书 key
-     */
-    public function setClientKey($filepath)
-    {
-        if( !file_exists($filepath) ) {
-            throw new PaymentException(sprintf('client_key "%s" is not found', $filepath));
-        }
-        $this->clientKey = $filepath;
-    }
 
     /**
      * 获取申请退款结果
@@ -137,6 +100,7 @@ class Refund
      * @param bool|false $force 是否忽略缓存强制更新
      *
      * @return array
+	 *
      * @throws Exception
      * @throws \Overtrue\Wechat\Exception
      */
@@ -151,7 +115,7 @@ class Refund
 
         $signGenerator = new SignGenerator($params);
         $signGenerator->onSortAfter(function($that) {
-            $that->key = $this->key;
+            $that->key = $this->business->mch_key;
         });
 
         // 生成签名
@@ -165,21 +129,21 @@ class Refund
         // $http = new Http(new AccessToken($this->business->appid, $this->business->appsecret));
         $http = new Http();
 
-        $options['ssl']['cert']  = $this->clientCert;
-        $options['ssl']['key']   = $this->clientKey;
+        $options['ssl']['cert']  = $this->business->getClientCert();
+        $options['ssl']['key']   = $this->business->getClientKey();
 
         $response = $http->request(static::REFUND_URL, Http::POST, $request, $options);
-        if(empty($response)) {
+        if (empty($response)) {
             throw new Exception('Get Refund Failure:');
         }
 
         $response = XML::parse($response);
-        if( isset($response['result_code']) &&
-            ($response['result_code'] === 'FAIL') ) {
+        if (isset($response['result_code']) &&
+            ($response['result_code'] === 'FAIL')) {
             throw new Exception($response['err_code'].': '.$response['err_code_des']);
         }
-        if( isset($response['return_code']) &&
-            $response['return_code'] === 'FAIL' ) {
+        if (isset($response['return_code']) &&
+            $response['return_code'] === 'FAIL') {
             throw new Exception($response['return_code'].': '.$response['return_msg']);
         }
 

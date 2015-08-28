@@ -16,21 +16,4 @@
 
 namespace Overtrue\Wechat\Payment;
 
-class Exception extends \Overtrue\Wechat\Exception 
-{ 
-    /**
-      * @see \Exception::__construct
-      *
-      * @param string $message
-      * @param int    $code
-      */
-    public function __construct($message, $code)
-    {
-        $message = empty($this->errors[$code]) ? $message : $this->errors[$code];
-
-        $message = "{$message}";
-
-        parent::__construct($message, $code);
-    }
-
-}
+class Exception extends \Overtrue\Wechat\Exception { }
