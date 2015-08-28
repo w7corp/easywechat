@@ -194,6 +194,16 @@ class Http
             curl_setopt($this->curl, CURLOPT_USERPWD, $options['auth']['username'].':'.$options['auth']['password']);
         }
 
+        //Check for ssl
+        if (isset($options['ssl']['cert']) && isset($options['ssl']['key'])) {
+            if(isset($options['ssl']['type'])){
+                curl_setopt($this->curl,CURLOPT_SSLCERTTYPE, $options['ssl']['type']);
+                curl_setopt($this->curl,CURLOPT_SSLKEYTYPE, $options['ssl']['type']);
+            }
+            curl_setopt($this->curl, CURLOPT_SSLCERT, $options['ssl']['cert']);
+            curl_setopt($this->curl, CURLOPT_SSLKEY, $options['ssl']['key']);
+        }
+
         $response = $this->doCurl();
 
         // Separate headers and body

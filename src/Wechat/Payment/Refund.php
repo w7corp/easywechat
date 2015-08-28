@@ -1,6 +1,6 @@
 <?php
 /**
- * UnifiedOrder.php
+ * Refund.php
  *
  * Part of Overtrue\Wechat.
  *
@@ -15,19 +15,16 @@
 
 namespace Overtrue\Wechat\Payment;
 
-use Overtrue\Wechat\Utils\JSON;
-
-class UnifiedOrder extends Order
+class Refund extends Order
 {
-    // 统一下单接口
-    public $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+    // 申请退款接口
+    public $url = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
 
      /**
      * 必填项目
      */
     protected $required = array(
-        'appid', 'mch_id', 'nonce_str', 'body', 'out_trade_no','total_fee', 'spbill_create_ip',
-         'notify_url', 'trade_type' 
+        'appid', 'mch_id', 'nonce_str', 'out_refund_no','total_fee', 'refund_fee', 'op_user_id'
     );
 
     
@@ -39,18 +36,12 @@ class UnifiedOrder extends Order
         }
 
         //操作员 默认为商户号
-        if (!$bag->has('spbill_create_ip')) {
-
-            $spbill_create_ip = empty($_SERVER['REMOTE_ADDR']) ? '0.0.0.0' : $_SERVER['REMOTE_ADDR'];
-            
-            $bag->set('spbill_create_ip', $spbill_create_ip);
+        if (!$bag->has('op_user_id')) {
+            $bag->set('op_user_id', $bag->get('mch_id'));
         }
 
-        if (!$bag->has('trade_type')) {
-            if (!$bag->has('openid')) {
-                throw new Exception('openid is required');
-            }
-            $bag->set('trade_type', 'JSAPI');
+        if (!$bag->has('transaction_id') && !$bag->has('out_trade_no')) {
+            throw new Exception('query order_no is required as least');
         }
 
         parent::__construct($bag, $key);

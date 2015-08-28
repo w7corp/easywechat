@@ -7,34 +7,125 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    Frye <frye0423@gmail.com>
- * @copyright 2015 Frye <frye0423@gmail.com>
- * @link      https://github.com/0i
- * @link      http://blog.lost-magic.com
- * @link      https://github.com/thenbsp/Wechat
+ * @author    peiwen <haopeiwen123@gmail.com>
+ * @copyright 2015 peiwen <haopeiwen123@gmail.com>
+ * @link      https://github.com/troubleman
+ * @link      https://github.com/troubleman/Wechat
  */
 
 namespace Overtrue\Wechat;
 
+use Overtrue\Wechat\Http;
+use Overtrue\Wechat\Util\Bag;
+use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\JSON;
 use Overtrue\Wechat\Utils\SignGenerator;
-use Overtrue\Wechat\Payment\UnifiedOrder;
+use Overtrue\Wechat\Utils\Arr;
+use Overtrue\Wechat\Payment\Order;
 
 /**
- * 微信支付
+ * 微信支付相关接口调用统一入口
  */
 class Payment
 {
     /**
-     * 统一下单
+     * 接口请求参数
      * 
-     * @var UnifiedOrder
+     * @var Order
      */
-    protected $unifiedOrder;
+    protected $order;
+
+    /**
+     * 参数包
+     */
+    protected $bag;
+
+    /**
+     * 商户key
+     */
+    protected $key;
+
+    /**
+     * 请求结果
+     *
+     * @var Array
+     */
+    protected $response;
     
-    public function __construct(UnifiedOrder $unifiedOrder)
+    public function __construct(Order $order)
     {
-        $this->unifiedOrder = $unifiedOrder;
+        $this->order = $order;
+        $this->bag = $order->getBag();
+        $this->key = $order->getKey();
+    }
+
+    //检查必填参数
+    public function checkParams()
+    {   
+        $required = $this->order->getRequired();
+
+        // 检测必填字段
+        foreach($required as $paramName) {
+            if (!$this->bag->has($paramName)) {
+                throw new Exception(sprintf('"%s" is required', $paramName));
+            }
+        }
+    }
+
+    /**
+     * 获取签名
+     * @param  [array] $params 参与构造签名的所有请求参数
+     * @param  [string] $key    商户的key
+     * 
+     * @return [string]         [description]
+     */
+    public function getSign(Array $params = null, $key = null){
+
+        $params = $params ? : $this->bag->all();
+
+        $key = $key ? : $this->key;
+
+        $signGenerator = new SignGenerator($params);
+
+        $signGenerator->onSortAfter(function(SignGenerator $that) use ($key) {
+            $that->key = $key;
+        });
+
+        return $signGenerator->getResult();
+    }
+
+    /**
+     * 发起一个请求
+     * @return array 响应结果
+     */
+    public function getResponse()
+    {
+        $this->checkParams();
+
+        $params = $this->bag->all();
+
+        $params['sign'] = $this->getSign($params, $this->key);
+
+        $request = XML::build($params);
+        
+        $http = new Http();
+
+        $option = $this->order->sslOption();
+
+        $response = $http->request($this->order->url, Http::POST, $request, $option);
+
+        $response = XML::parse($response);
+
+        if (isset($response['result_code']) &&
+            ($response['result_code'] === 'FAIL')) {
+            throw new Exception($response['err_code'].': '.$response['err_code_des']);
+        }
+        if (isset($response['return_code']) &&
+            $response['return_code'] === 'FAIL') {
+            throw new Exception($response['return_code'].': '.$response['return_msg']);
+        }
+
+        return $this->response = $response;
     }
 
     /**
@@ -44,55 +135,20 @@ class Payment
      *
      * @return array|string
      */
-    public function getConfig($asJson = true)
-    {
-        $config = $this->generateConfig();
-        return $asJson ? JSON::encode($config) : $config;
-    }
-
-    /**
-     * 获取配置文件（用于 Jssdk chooseWXPay 方式）
-     * 
-     * @param bool|true $asJson
-     *
-     * @return array|string
-     */
-    public function getConfigJssdk($asJson = true)
-    {
-        $config = $this->generateConfig();
+    public function getConfig($prepay_id, $asJson = true)
+    {   
         $params = array(
-            'timestamp' => $config['timeStamp'],
-            'nonceStr'  => $config['nonceStr'],
-            'package'   => $config['package'],
-            'signType'  => $config['signType'],
-            'paySign'   => $config['paySign']
+            'appId'     => $this->bag->appid,
+            'timeStamp' => (string) time(),
+            'nonceStr'  =>  $this->bag->nonce_str,
+            'package'   => 'prepay_id='.$prepay_id,
+            'signType'  => 'MD5'
         );
+        $params['paySign'] = $this->getSign($params, $this->key);
+
+        Arr::forget($params, 'signType');
+
         return $asJson ? JSON::encode($params) : $params;
     }
 
-    /**
-     * 生成配置
-     * 
-     * @return array
-     * @throws Payment\Exception
-     */
-    private function generateConfig()
-    {
-        $response = $this->unifiedOrder->getResponse();
-        $business = $this->unifiedOrder->getBusiness();
-        $config = array(
-            'appId'     => $business->appid,
-            'timeStamp' => (string) time(),
-            'nonceStr'  => $response['nonce_str'],
-            'package'   => 'prepay_id='.$response['prepay_id'],
-            'signType'  => 'MD5'
-        );
-        
-        $signGenerator = new SignGenerator($config);
-        $signGenerator->onSortAfter(function(SignGenerator $that) use ($business) {
-            $that->key = $business->mch_key;
-        });
-        $config['paySign'] = $signGenerator->getResult();
-        return $config;
-    }
 }
