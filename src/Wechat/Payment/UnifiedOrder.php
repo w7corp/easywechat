@@ -7,188 +7,53 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    Frye <frye0423@gmail.com>
- * @copyright 2015 Frye <frye0423@gmail.com>
- * @link      https://github.com/0i
- * @link      https://github.com/thenbsp/Wechat
+ * @author    peiwen <haopeiwen123@gmail.com>
+ * @copyright 2015 peiwen <haopeiwen123@gmail.com>
+ * @link      https://github.com/troubleman
+ * @link      https://github.com/troubleman/Wechat
  */
 
 namespace Overtrue\Wechat\Payment;
 
-use Overtrue\Wechat\Payment;
-use Overtrue\Wechat\Utils\XML;
-use Overtrue\Wechat\Utils\SignGenerator;
-use Overtrue\Wechat\Http;
-use Overtrue\Wechat\AccessToken;
+use Overtrue\Wechat\Utils\JSON;
 
-class UnifiedOrder
+class UnifiedOrder extends Order
 {
-    /**
-     * 统一下单接口
-     * https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
+    // 统一下单接口
+    public $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+
+     /**
+     * 必填项目
      */
-    const UNIFIEDORDER_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+    protected $required = array(
+        'appid', 'mch_id', 'nonce_str', 'body', 'out_trade_no','total_fee', 'spbill_create_ip',
+         'notify_url', 'trade_type' 
+    );
+
     
-    /**
-     * 订单信息
-     * 
-     * @var Order
-     */
-    protected $order;
-
-    /**
-     * 商户信息
-     * 
-     * @var Business
-     */
-    protected $business;
-
-    /**
-     * UnifiedOrder缓存
-     * 
-     * @var Array
-     */
-    protected $unifiedOrder = null;
-    
-    public function __construct(Business $business = null, Order $order = null)
-    {
-        if(!is_null($order)) {
-            $this->setOrder($order);
-        }
+    public function __construct(Bag $bag, $key)
+    {   
         
-        if(!is_null($business)) {
-            $this->setBusiness($business);
+        if (!$bag->has('nonce_str')) {
+            $bag->set('nonce_str', md5(uniqid(microtime())));
         }
-    }
 
-    /**
-     * 设置订单
-     * 
-     * @param Order $order
-     *
-     * @return $this
-     * @throws Exception
-     */
-    public function setOrder(Order $order)
-    {
-        if ($order) {
-            try {
-                $order->checkParams();
-            } catch (Exception $e) {
-                throw new Exception($e->getMessage());
-            }
+        //操作员 默认为商户号
+        if (!$bag->has('spbill_create_ip')) {
+
+            $spbill_create_ip = empty($_SERVER['REMOTE_ADDR']) ? '0.0.0.0' : $_SERVER['REMOTE_ADDR'];
             
-            if (!$order->nonce_str) {
-                $order->nonce_str = md5(uniqid(microtime()));
+            $bag->set('spbill_create_ip', $spbill_create_ip);
+        }
+
+        if (!$bag->has('trade_type')) {
+            if (!$bag->has('openid')) {
+                throw new Exception('openid is required');
             }
-            
-            if (!$order->spbill_create_ip) {
-                $order->spbill_create_ip = empty($_SERVER['REMOTE_ADDR']) ? '0.0.0.0' : $_SERVER['REMOTE_ADDR'];
-            }
-            
-            if (!$order->trade_type) {
-                if (!$order->openid) {
-                    throw new Exception('openid is required');
-                }
-                $order->trade_type = 'JSAPI';
-            }
-            $this->order = $order;
-            $this->unifiedOrder = null;
-        }
-        return $this;
-    }
-
-    /**
-     * 获取订单
-     * 
-     * @return Order
-     */
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    /**
-     * 设置商户
-     * 
-     * @param Business $business
-     *
-     * @return $this
-     * @throws Exception
-     */
-    public function setBusiness(Business $business)
-    {
-        if( !is_null($business) ) {
-            try {
-                $business->checkParams();
-            } catch (Exception $e) {
-                throw new Exception($e->getMessage());
-            }
-            $this->business = $business;
-            $this->unifiedOrder = null;
-        }
-        return $this;
-    }
-
-    /**
-     * 获取商户
-     * 
-     * @return Business
-     */
-    public function getBusiness()
-    {
-        return $this->business;
-    }
-
-    /**
-     * 获取统一下单结果
-     * 
-     * @param bool|false $force 是否忽略缓存强制更新
-     *
-     * @return array
-     * @throws Exception
-     * @throws \Overtrue\Wechat\Exception
-     */
-    public function getResponse($force = false)
-    {
-        if( is_null($this->business) ) {
-            throw new Exception('Business is required');
-        }
-        if( is_null($this->order) ) {
-            throw new Exception('Order is required');
-        }
-        if ($this->unifiedOrder !== null && $force === false) {
-            return $this->unifiedOrder;
-        }
-        
-        $params = $this->order->toArray();
-        $params['appid']    = $this->business->appid;
-        $params['mch_id']   = $this->business->mch_id;
-        $signGenerator = new SignGenerator($params);
-        $signGenerator->onSortAfter(function(SignGenerator $that) {
-            $that->key = $this->business->mch_key;
-        });
-        
-        $params['sign'] = $signGenerator->getResult();
-        $request = XML::build($params);
-        
-        $http = new Http(new AccessToken($this->business->appid, $this->business->appsecret));
-        
-        $response = $http->request(static::UNIFIEDORDER_URL, Http::POST, $request);
-        if(empty($response)) {
-            throw new Exception('Get UnifiedOrder Failure:');
+            $bag->set('trade_type', 'JSAPI');
         }
 
-        $unifiedOrder = XML::parse($response);
-        if( isset($unifiedOrder['result_code']) &&
-            ($unifiedOrder['result_code'] === 'FAIL') ) {
-            throw new Exception($unifiedOrder['err_code'].': '.$unifiedOrder['err_code_des']);
-        }
-        
-        if( isset($unifiedOrder['return_code']) &&
-            $unifiedOrder['return_code'] === 'FAIL' ) {
-            throw new Exception($unifiedOrder['return_code'].': '.$unifiedOrder['return_msg']);
-        }
-        return $this->unifiedOrder = $unifiedOrder;
+        parent::__construct($bag, $key);
     }
+
 }
