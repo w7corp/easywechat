@@ -99,14 +99,14 @@ class Http
     /**
      * POST request.
      *
-     * @param string $url
-     * @param array  $params
+     * @param string       $url
+     * @param array|string $params
      *
      * @return array|bool
      *
      * @throws HttpException
      */
-    public function post($url, array $params = [])
+    public function post($url, $params = [])
     {
         return $this->request($url, 'POST', ['body' => $params]);
     }

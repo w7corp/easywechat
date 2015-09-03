@@ -25,6 +25,13 @@ use InvalidArgumentException;
 abstract class Attribute extends Collection
 {
     /**
+     * Attributes alias.
+     *
+     * @var array
+     */
+    protected $aliases = [];
+
+    /**
      * Constructor.
      *
      * @param array $attributes
@@ -47,6 +54,19 @@ abstract class Attribute extends Collection
         $this->add($attribute, $value);
 
         return $this;
+    }
+
+    /**
+     * Get attribute.
+     *
+     * @param string $attribute
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function getAttribute($attribute, $default)
+    {
+        return $this->get($attribute, $default);
     }
 
     /**
@@ -81,6 +101,36 @@ abstract class Attribute extends Collection
     protected function validate($attribute, $value)
     {
         return true;
+    }
+
+    /**
+     * Override parent set() method.
+     *
+     * @param string $attribute
+     * @param mixed  $value
+     */
+    public function set($attribute, $value = null)
+    {
+        if ($alias = array_search($attribute, $this->aliases)) {
+            $attribute = $alias;
+        }
+
+        return parent::set($attribute, $value);
+    }
+
+    /**
+     * Override parent get() method.
+     *
+     * @param string $attribute
+     * @param mixed  $default
+     */
+    public function get($attribute, $default = null)
+    {
+        if ($alias = array_search($attribute, $this->aliases)) {
+            $attribute = $alias;
+        }
+
+        return parent::get($attribute, $default);
     }
 
     /**

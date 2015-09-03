@@ -11,7 +11,8 @@
     "require": {
         "php":">=5.5",
         "ext-mcrypt": "*",
-        "guzzlehttp/guzzle": "^6.0@dev"
+        "guzzlehttp/guzzle": "^6.0@dev",
+        "overtrue/validation": "dev-master"
     },
     "require-dev": {
            "mockery/mockery": "0.9.*",

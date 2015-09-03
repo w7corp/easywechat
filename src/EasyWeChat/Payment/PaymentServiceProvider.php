@@ -34,6 +34,8 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function register(Application $app)
     {
-        //TODO
+        $app->singleton('payment', function($app){
+            return new Payment($merchant, new API(new Http()));
+        });
     }
 }

@@ -72,13 +72,23 @@ class Temporary
 
         $filename = $filename ?: $mediaId;
 
-        $stream = $this->http->get(self::API_GET, ['media_id' => $mediaId]);
+        $stream = $this->getStream($mediaId);
 
         $ext = File::getStreamExt($stream);
 
         file_put_contents($directory.'/'.$filename.'.'.$ext, $stream);
 
         return $filename.'.'.$ext;
+    }
+
+    /**
+     * Return media stream.
+     *
+     * @return string
+     */
+    public function getStream($mediaId)
+    {
+        return $this->http->get(self::API_GET, ['media_id' => $mediaId]);
     }
 
     /**
