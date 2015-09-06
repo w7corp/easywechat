@@ -17,6 +17,7 @@ namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Payment;
 use Overtrue\Wechat\Utils\XML;
+use Overtrue\Wechat\Utils\SignGenerator;
 use Overtrue\Wechat\Http;
 use Overtrue\Wechat\AccessToken;
 
@@ -163,11 +164,12 @@ class UnifiedOrder
         $params = $this->order->toArray();
         $params['appid']    = $this->business->appid;
         $params['mch_id']   = $this->business->mch_id;
-        ksort($params);
-        $sign = http_build_query($params);
-        $sign = urldecode($sign).'&key='.$this->business->mch_key;
-        $sign = strtoupper(md5($sign));
-        $params['sign'] = $sign;
+        $signGenerator = new SignGenerator($params);
+        $signGenerator->onSortAfter(function(SignGenerator $that) {
+            $that->key = $this->business->mch_key;
+        });
+        
+        $params['sign'] = $signGenerator->getResult();
         $request = XML::build($params);
         
         $http = new Http(new AccessToken($this->business->appid, $this->business->appsecret));
