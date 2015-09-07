@@ -12,7 +12,8 @@
         "php":">=5.5",
         "ext-mcrypt": "*",
         "guzzlehttp/guzzle": "^6.0@dev",
-        "overtrue/validation": "dev-master"
+        "overtrue/validation": "dev-master",
+        "symfony/http-foundation": "^3.0@dev"
     },
     "require-dev": {
            "mockery/mockery": "0.9.*",

@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Client.php.
+ * Client.php
  *
  * Part of EasyWeChat.
  *
@@ -14,14 +13,15 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\OAuth;
 
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\Core\Exceptions\RuntimeException;
 use EasyWeChat\Core\Http;
-use EasyWeChat\Core\Input;
 use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\Url;
-use Exception;
+use EasyWeChat\Support\Str;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Client.
@@ -29,160 +29,144 @@ use Exception;
 class Client
 {
     /**
-     * 应用ID.
+     * App id.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * 应用secret.
+     * App secret.
      *
      * @var string
      */
-    protected $appSecret;
+    protected $secret;
 
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
     protected $http;
 
     /**
-     * 输入.
+     * Request object.
      *
-     * @var Collection
+     * @var Request
      */
-    protected $input;
+    protected $request;
+
+    const USER_URL = 'https://api.weixin.qq.com/sns/userinfo';
+    const ACCESS_TOKEN_URL = 'https://api.weixin.qq.com/sns/oauth2/access_token';
+    const TOKEN_REFRESH_URL = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
+    const VALIDATE_URL = 'https://api.weixin.qq.com/sns/auth';
+    const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
     /**
-     * 获取上一次的授权信息.
+     * Authorize scopes.
      *
      * @var array
      */
-    protected $lastPermission;
+    protected $scopes = ['snsapi_base', 'snsapi_userinfo'];
 
     /**
-     * 已授权用户.
+     * The type of the encoding in the query.
      *
-     * @var \EasyWeChat\Support\Collection
+     * @var int Can be either PHP_QUERY_RFC3986 or PHP_QUERY_RFC1738.
      */
-    protected $authorizedUser;
-
-    const API_USER = 'https://api.weixin.qq.com/sns/userinfo';
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/sns/oauth2/access_token';
-    const API_TOKEN_REFRESH = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
-    const API_TOKEN_VALIDATE = 'https://api.weixin.qq.com/sns/auth';
-    const API_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+    protected $encodingType = PHP_QUERY_RFC1738;
 
     /**
      * Constructor.
      *
-     * @param string $appId
-     * @param string $secret
-     * @param Input  $input
-     * @param Http   $http
+     * @param string  $appId
+     * @param string  $secret
+     * @param Request $request
+     * @param Http    $http
      */
-    public function __construct($appId, $secret, Input $input, Http $http)
+    public function __construct($appId, $secret, Request $request, Http $http)
     {
         $this->appId = $appId;
         $this->secret = $secret;
-        $this->input = $input;
-        $this->http = $http->setExpectedException(EasyWeChat\OAuth\OAuthHttpException::class);
+        $this->request = $request;
+        $this->http = $http->setExpectedException(OAuthHttpException::class);
     }
 
     /**
-     * Return authorization URL.
+     * Redirect the user of the application to the WeChat's authentication screen.
      *
      * @param string $to
      * @param string $scope
      * @param string $state
      *
-     * @return string
+     * @return RedirectResponse
+     *
+     * @throws InvalidArgumentException
      */
-    public function url($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
+    public function redirect($to, $scope = 'snsapi_userinfo')
     {
-        $to !== null || $to = Url::current();
+        if (!in_array($scope, $this->scopes)) {
+            throw new InvalidArgumentException("Invalid oauth scope:'$scope'");
+        }
 
-        $params = [
-                   'appid' => $this->appId,
-                   'redirect_uri' => $to,
-                   'response_type' => 'code',
-                   'scope' => $scope,
-                   'state' => $state,
-                  ];
+        $state = $state ?: Str::random(40);
 
-        return self::API_URL.'?'.http_build_query($params).'#wechat_redirect';
+        $this->request->getSession()->set('state', $state);
+
+        return new RedirectResponse($this->buildAuthUrlFromBase($to, $scope, $state).'#wechat_redirect');
     }
 
     /**
-     * 获取已授权用户.
+     * Slient redirect.
      *
-     * @return \EasyWeChat\Support\Collection | null
+     * @param string $to
+     *
+     * @return RedirectResponse
+     *
+     * @throws InvalidArgumentException
+     */
+    public function silentRedirect($to)
+    {
+        return $this->authorizeUrl($to, 'snsapi_base');
+    }
+
+    /**
+     * Get authorized User instance.
+     *
+     * @return User
+     *
+     * @throws RuntimeException
      */
     public function user()
     {
-        if ($this->authorizedUser
-            || !$this->input->has('state')
-            || (!$code = $this->input->get('code')) && $this->input->has('state')) {
-            return $this->authorizedUser;
+        if ($this->hasInvalidState()) {
+            throw new RuntimeException('Invalid state.');
         }
 
-        $permission = $this->getAccessPermission($code);
+        $accessToken = $this->getAccessToken($this->getCode());
 
-        if ($permission['scope'] !== 'snsapi_userinfo') {
-            $user = new Collection(['openid' => $permission['openid']]);
-        } else {
-            $user = $this->getUser($permission['openid'], $permission['access_token']);
-        }
+        $user = $this->mapUserToObject($this->getUserByAccessToken($accessToken['access_token'], $accessToken['openid']));
 
-        return $this->authorizedUser = $user;
+        $user->setToken($accessToken['access_token']);
+        $user->setRefreshToken($accessToken['refresh_token']);
+
+        return $user;
     }
 
     /**
-     * 通过授权获取用户.
+     * Get the access token for the given code.
      *
-     * @param string $to
-     * @param string $state
-     * @param string $scope
+     * @param string $code
      *
-     * @return Collection | null
+     * @return array
      */
-    public function authorize($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
+    public function getAccessToken($code)
     {
-        if (!$this->input->has('state') && !$this->input->has('code')) {
-            $this->redirect($to, $scope, $state);
-        }
-
-        return $this->user();
+        return $this->http->json(self::ACCESS_TOKEN_URL, $this->getTokenFields($code));
     }
 
     /**
-     * 检查 Access Token 是否有效.
-     *
-     * @param string $accessToken
-     * @param string $openId
-     *
-     * @return bool
-     */
-    public function accessTokenIsValid($accessToken, $openId)
-    {
-        $params = [
-                   'openid' => $openId,
-                   'access_token' => $accessToken,
-                  ];
-        try {
-            $this->http->get(self::API_TOKEN_VALIDATE, $params);
-
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    /**
-     * 刷新 access_token.
+     * Refresh access_token.
      *
      * @param string $refreshToken
      *
@@ -190,70 +174,134 @@ class Client
      */
     public function refresh($refreshToken)
     {
-        $params = [
-                   'appid' => $this->appId,
-                   'grant_type' => 'refresh_token',
-                   'refresh_token' => $refreshToken,
-                  ];
+        $params = $this->getRefreshTokenFields($refreshToken);
 
-        $permission = $this->http->get(self::API_TOKEN_REFRESH, $params);
-
-        $this->lastPermission = array_merge($this->lastPermission, $permission);
+        $permission = $this->http->get(self::TOKEN_REFRESH_URL, $params);
 
         return new Collection($permission);
     }
 
     /**
-     * 获取用户信息.
+     * Get User by access token.
      *
      * @param string $openId
      * @param string $accessToken
      *
      * @return Collection
      */
-    public function getUser($openId, $accessToken)
+    public function getUserByAccessToken($openId, $accessToken)
     {
         $queries = [
-                    'access_token' => $accessToken,
-                    'openid' => $openId,
-                    'lang' => 'zh_CN',
-                   ];
+            'openid' => $openId,
+            'lang' => 'zh_CN',
+            'access_token' => $accessToken,
+        ];
 
-        $url = self::API_USER.'?'.http_build_query($queries);
+        $url = self::USER_URL.'?'.http_build_query($queries, '', '&', $this->encodingType);
 
-        return new Collection($this->http->get($url));
+        return $this->http->get($url);
     }
 
     /**
-     * 获取access token.
+     * Get the GET parameters for the code request.
      *
-     * @param string $code
+     * @param string       $redirectUrl
+     * @param string       $scope
+     * @param string|null  $state
+     *
+     * @return array
+     */
+    protected function getCodeFields($redirectUrl, $scope, $state = null)
+    {
+        $fields = [
+            'appid' => $this->appId,
+            'redirect_uri' => $redirectUrl,
+            'scope' => $scope,
+            'state' => $state,
+            'response_type' => 'code',
+        ];
+
+        return $fields;
+    }
+
+    /**
+     * Get the authentication URL.
+     *
+     * @param  string  $redirectUrl
+     * @param  string  $scope
+     * @param  string  $state
+     * @return string
+     */
+    protected function buildAuthUrlFromBase($redirectUrl, $scope, $state)
+    {
+        return self::AUTHORIZE_URL.'?'.http_build_query($this->getCodeFields($redirectUrl, $scope, $state), '', '&', $this->encodingType);
+    }
+
+    /**
+     * Determine if the current request / session has a mismatching "state".
+     *
+     * @return bool
+     */
+    protected function hasInvalidState()
+    {
+        $state = $this->request->getSession()->get('state');
+
+        return ! (strlen($state) > 0 && $this->request->input('state') === $state);
+    }
+
+    /**
+     * Get the POST fields for the token request.
+     *
+     * @param  string  $code
+     * @return array
+     */
+    protected function getTokenFields($code)
+    {
+        $params = [
+            'appid'  => $this->appId,
+            'secret' => $this->secret,
+            'code'   => $code,
+            'grant_type' => 'authorization_code',
+        ];
+
+        return $params;
+    }
+
+    /**
+     * Get the POST fields for the refresh token request.
+     *
+     * @param  string  $refreshToken
+     * @return array
+     */
+    protected function getRefreshTokenFields($refreshToken)
+    {
+        $params = [
+            'appid'  => $this->appId,
+            'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
+        ];
+
+        return $params;
+    }
+
+    /**
+     * Get the code from the request.
      *
      * @return string
      */
-    public function getAccessPermission($code)
+    protected function getCode()
     {
-        $params = [
-                   'appid' => $this->appId,
-                   'secret' => $this->appSecret,
-                   'code' => $code,
-                   'grant_type' => 'authorization_code',
-                  ];
-
-        return $this->lastPermission = $this->http->get(self::API_TOKEN_GET, $params);
+        return $this->request->input('code');
     }
 
+
     /**
-     * 魔术访问.
+     * Return User object from array.
      *
-     * @param string $property
-     *
-     * @return mixed
+     * @param array $user
      */
-    public function __get($property)
+    private function mapUserToObject($user)
     {
-        if (isset($this->lastPermission[$property])) {
-            return $this->lastPermission[$property];
-        }
+        return new User($user);
     }
 }
