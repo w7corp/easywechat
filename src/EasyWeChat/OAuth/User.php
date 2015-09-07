@@ -1,6 +1,7 @@
 <?php
+
 /**
- * User.php
+ * User.php.
  *
  * Part of EasyWeChat.
  *
@@ -13,6 +14,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\OAuth;
 
 use EasyWeChat\Support\Attribute;
@@ -43,7 +45,7 @@ class User extends Attribute
     }
 
     /**
-     * Get username(alias of getNickname)
+     * Get username(alias of getNickname).
      *
      * @return string
      */

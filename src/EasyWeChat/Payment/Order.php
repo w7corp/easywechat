@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Order
+ * Order.
  *
  * Part of EasyWeChat.
  *
@@ -13,6 +14,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\Support\Attribute;
@@ -22,9 +24,9 @@ use EasyWeChat\Support\Attribute;
  */
 class Order extends Attribute
 {
-    const JSAPI    = 'JSAPI';
-    const NATIVE   = 'NATIVE';
-    const APP      = 'APP';
+    const JSAPI = 'JSAPI';
+    const NATIVE = 'NATIVE';
+    const APP = 'APP';
     const MICROPAY = 'MICROPAY';
 
     protected $attributes = [

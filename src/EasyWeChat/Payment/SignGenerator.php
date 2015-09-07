@@ -1,6 +1,7 @@
 <?php
+
 /**
- * SignGenerator.php
+ * SignGenerator.php.
  *
  * Part of Weibo\MAPI\Authentication.
  *
@@ -13,6 +14,7 @@
  * @link      https://gitlab.weibo.cn/mobile-api/weibo-authentication
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Payment;
 
 /**

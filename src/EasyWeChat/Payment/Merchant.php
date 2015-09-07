@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Merchant.php
+ * Merchant.php.
  *
  * Part of EasyWeChat.
  *
@@ -15,7 +16,6 @@
  */
 
 namespace EasyWeChat\Payment;
-
 
 use EasyWeChat\Support\Attribute;
 
@@ -46,11 +46,11 @@ class Merchant extends Attribute
      * @var array
      */
     protected $aliases = [
-        'app_id'      => 'appid',
-        'app_secret'  => 'secret',
+        'app_id' => 'appid',
+        'app_secret' => 'secret',
         'merchant_id' => 'mch_id',
-        'cert_path'   => 'sslcert_path',
-        'key_path'    => 'sslkey_path',
+        'cert_path' => 'sslcert_path',
+        'key_path' => 'sslkey_path',
     ];
 
     /**

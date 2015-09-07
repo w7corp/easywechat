@@ -27,7 +27,7 @@ interface AdapterInterface
      *
      * @param string $appId
      *
-     * @return mixed
+     * @return AdapterInterface
      */
     public function setAppId($appId);
 

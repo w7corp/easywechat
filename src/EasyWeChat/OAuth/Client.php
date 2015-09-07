@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Client.php
+ * Client.php.
  *
  * Part of EasyWeChat.
  *
@@ -13,6 +14,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\OAuth;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
@@ -205,9 +207,9 @@ class Client
     /**
      * Get the GET parameters for the code request.
      *
-     * @param string       $redirectUrl
-     * @param string       $scope
-     * @param string|null  $state
+     * @param string      $redirectUrl
+     * @param string      $scope
+     * @param string|null $state
      *
      * @return array
      */
@@ -227,9 +229,10 @@ class Client
     /**
      * Get the authentication URL.
      *
-     * @param  string  $redirectUrl
-     * @param  string  $scope
-     * @param  string  $state
+     * @param string $redirectUrl
+     * @param string $scope
+     * @param string $state
+     *
      * @return string
      */
     protected function buildAuthUrlFromBase($redirectUrl, $scope, $state)
@@ -246,21 +249,22 @@ class Client
     {
         $state = $this->request->getSession()->get('state');
 
-        return ! (strlen($state) > 0 && $this->request->input('state') === $state);
+        return !(strlen($state) > 0 && $this->request->input('state') === $state);
     }
 
     /**
      * Get the POST fields for the token request.
      *
-     * @param  string  $code
+     * @param string $code
+     *
      * @return array
      */
     protected function getTokenFields($code)
     {
         $params = [
-            'appid'  => $this->appId,
+            'appid' => $this->appId,
             'secret' => $this->secret,
-            'code'   => $code,
+            'code' => $code,
             'grant_type' => 'authorization_code',
         ];
 
@@ -270,13 +274,14 @@ class Client
     /**
      * Get the POST fields for the refresh token request.
      *
-     * @param  string  $refreshToken
+     * @param string $refreshToken
+     *
      * @return array
      */
     protected function getRefreshTokenFields($refreshToken)
     {
         $params = [
-            'appid'  => $this->appId,
+            'appid' => $this->appId,
             'grant_type' => 'refresh_token',
             'refresh_token' => $refreshToken,
         ];
@@ -294,13 +299,14 @@ class Client
         return $this->request->input('code');
     }
 
-
     /**
      * Return User object from array.
      *
      * @param array $user
+     *
+     * @return User
      */
-    private function mapUserToObject($user)
+    protected function mapUserToObject($user)
     {
         return new User($user);
     }

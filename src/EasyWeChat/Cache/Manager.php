@@ -19,7 +19,6 @@ namespace EasyWeChat\Cache;
 
 use EasyWeChat\Cache\Adapters\AdapterInterface;
 use EasyWeChat\Cache\Adapters\FileAdapter;
-use EasyWeChat\Core\Application;
 
 /**
  * Class Manager.
@@ -44,28 +43,27 @@ class Manager
     protected $appId;
 
     /**
-     * @var
-     */
-    protected $app;
-
-    /**
      * Constructor.
      *
-     * @param Application $app
+     * @param AdapterInterface $adapter
      */
-    public function __construct(Application $app)
+    public function __construct(AdapterInterface $adapter = null)
     {
-        $this->sdk = $app;
+        $this->adapter = $adapter;
     }
 
     /**
      * Set cache adapter.
      *
      * @param AdapterInterface $adapter
+     *
+     * @return Manager
      */
     public function setAdapter(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
+
+        return $this;
     }
 
     /**
@@ -85,8 +83,8 @@ class Manager
      */
     public function makeAdapter()
     {
-        if ($adapter = $this->sdk->get('cache.adapter')) {
-            return $adapter;
+        if ($this->adapter) {
+            return $this->adapter;
         }
 
         return $this->makeDefaultAdapter();

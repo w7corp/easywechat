@@ -1,6 +1,7 @@
 <?php
+
 /**
- * API.php
+ * API.php.
  *
  * Part of EasyWeChat.
  *
@@ -13,6 +14,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\Core\Http;
@@ -52,7 +54,7 @@ class API
     const TRANSCATION_ID = 'transcation_id';
     const OUT_TRADE_NO = 'out_trade_no';
     const OUT_REFUND_NO = 'out_refund_no';
-    const REFUND_ID     = 'refund_id';
+    const REFUND_ID = 'refund_id';
 
     // bill types.
     const BILL_TYPE_ALL = 'ALL';
@@ -155,15 +157,14 @@ class API
         $refundNo = null,
         $type = self::OUT_TRADE_NO,
         $opUserId = null
-        )
-    {
+        ) {
         $params = [
-            $type             => $orderNo,
-            'total_fee'       => $totalFee,
-            'refund_fee'      => $refundFee ?: $totalFee,
-            'refund_no'       => $refundNo ?: $orderNo,
+            $type => $orderNo,
+            'total_fee' => $totalFee,
+            'refund_fee' => $refundFee ?: $totalFee,
+            'refund_no' => $refundNo ?: $orderNo,
             'refund_fee_type' => $this->merchant->fee_type,
-            'op_user_id'      => $opUserId ?: $this->merchant->merchant_id,
+            'op_user_id' => $opUserId ?: $this->merchant->merchant_id,
         ];
 
         return $this->request(self::API_REFUND, $params);
@@ -288,12 +289,12 @@ class API
      */
     protected function request($api, array $params, $method = 'post')
     {
-        $params['appid']       = $this->merchant->app_id;
-        $params['mch_id']      = $this->merchant->merchant_id;
+        $params['appid'] = $this->merchant->app_id;
+        $params['mch_id'] = $this->merchant->merchant_id;
         $params['device_info'] = $this->merchant->device_info;
-        $params['time_stamp']  = time();
-        $params['nonce_str']   = uniqid();
-        $params['sign']        = (new SignGenerator($this->merchant->key, 'md5'))
+        $params['time_stamp'] = time();
+        $params['nonce_str'] = uniqid();
+        $params['sign'] = (new SignGenerator($this->merchant->key, 'md5'))
                                     ->generate($params);
 
         return $this->parseResponse($this->http->{$method}($api, XML::build($params)));

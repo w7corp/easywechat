@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Payment.php
+ * Payment.php.
  *
  * Part of EasyWeChat.
  *
@@ -13,6 +14,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\Core\Http;
@@ -41,7 +43,7 @@ class Payment
     public function __construct(Merchant $merchant)
     {
         $this->merchant = $merchant;
-        $this->api      = new API($merchant, new Http(new GuzzleHttp()));
+        $this->api = new API($merchant, new Http(new GuzzleHttp()));
     }
 
     /**
@@ -52,16 +54,16 @@ class Payment
     public function scheme($productId)
     {
         $params = [
-            'appid'      => $this->merchant->appid,
-            'mch_id'     => $this->merchant->mch_id,
+            'appid' => $this->merchant->appid,
+            'mch_id' => $this->merchant->mch_id,
             'time_stamp' => time(),
-            'nonce_str'  => uniqid(),
+            'nonce_str' => uniqid(),
             'product_id' => $productId,
         ];
 
         $params['sign'] = (new SignGenerator($this->merchant->key, 'md5'))->generate($params);
 
-        return self::SCHEME_PATH . "?".http_build_query($params);
+        return self::SCHEME_PATH.'?'.http_build_query($params);
     }
 
     /**

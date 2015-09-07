@@ -21,7 +21,7 @@ use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
 
 /**
- * Class QRCode
+ * Class QRCode.
  */
 class QRCode
 {

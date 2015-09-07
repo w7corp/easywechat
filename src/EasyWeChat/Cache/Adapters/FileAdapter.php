@@ -32,15 +32,17 @@ class FileAdapter
     protected $appId;
 
     /**
-     * Set cache content.
-     *
-     * @param string $key
-     * @param mixed  $value
-     * @param int    $lifetime
-     *
-     * @return int
-     *
-     * @throws RuntimeException
+     * @{inheritdoc}
+     */
+    public function setAppId($appId)
+    {
+        $this->appId = $appId;
+
+        return $this;
+    }
+
+    /**
+     * @{inheritdoc}
      */
     public function set($key, $value, $lifetime = 7200)
     {
@@ -57,12 +59,7 @@ class FileAdapter
     }
 
     /**
-     * Get cache content.
-     *
-     * @param string     $key
-     * @param mixed|null $default
-     *
-     * @return string|null
+     * @{inheritdoc}
      */
     public function get($key, $default = null)
     {
