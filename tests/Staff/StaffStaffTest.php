@@ -1,9 +1,9 @@
 <?php
 
 use EasyWeChat\Core\Http;
-use EasyWeChat\Staff\Manager;
+use EasyWeChat\Staff\Staff;
 
-class StaffManagerTest extends TestCase
+class StaffStaffTest extends TestCase
 {
     public function getHttp()
     {
@@ -22,9 +22,9 @@ class StaffManagerTest extends TestCase
         $http->shouldReceive('get')->andReturnUsing(function ($api) {
             return ['kf_list' => $api];
         });
-        $manager = new Manager($http);
+        $staff = new Staff($http);
 
-        $this->assertEquals(Manager::API_LISTS, $manager->lists());
+        $this->assertEquals(Staff::API_LISTS, $staff->lists());
     }
 
     /**
@@ -36,9 +36,9 @@ class StaffManagerTest extends TestCase
         $http->shouldReceive('get')->andReturnUsing(function ($api) {
             return ['kf_online_list' => $api];
         });
-        $manager = new Manager($http);
+        $staff = new Staff($http);
 
-        $this->assertEquals(Manager::API_ONLINE, $manager->onlines());
+        $this->assertEquals(Staff::API_ONLINE, $staff->onlines());
     }
 
     /**
@@ -50,11 +50,11 @@ class StaffManagerTest extends TestCase
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return compact('api', 'params');
         });
-        $manager = new Manager($http);
+        $staff = new Staff($http);
 
-        $response = $manager->create('anzhengchao@gmail.com', 'overtrue', 'foobar');
+        $response = $staff->create('anzhengchao@gmail.com', 'overtrue', 'foobar');
 
-        $this->assertEquals(Manager::API_CREATE, $response['api']);
+        $this->assertEquals(Staff::API_CREATE, $response['api']);
         $this->assertEquals('anzhengchao@gmail.com', $response['params']['kf_account']);
         $this->assertEquals('overtrue', $response['params']['nickname']);
         $this->assertEquals('foobar', $response['params']['password']);
@@ -69,11 +69,11 @@ class StaffManagerTest extends TestCase
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return compact('api', 'params');
         });
-        $manager = new Manager($http);
+        $staff = new Staff($http);
 
-        $response = $manager->update('anzhengchao@gmail.com', 'overtrue', 'foobar');
+        $response = $staff->update('anzhengchao@gmail.com', 'overtrue', 'foobar');
 
-        $this->assertEquals(Manager::API_UPDATE, $response['api']);
+        $this->assertEquals(Staff::API_UPDATE, $response['api']);
         $this->assertEquals('anzhengchao@gmail.com', $response['params']['kf_account']);
         $this->assertEquals('overtrue', $response['params']['nickname']);
         $this->assertEquals('foobar', $response['params']['password']);
@@ -88,11 +88,11 @@ class StaffManagerTest extends TestCase
         $http->shouldReceive('get')->andReturnUsing(function ($api, $params) {
             return compact('api', 'params');
         });
-        $manager = new Manager($http);
+        $staff = new Staff($http);
 
-        $response = $manager->delete('anzhengchao@gmail.com');
+        $response = $staff->delete('anzhengchao@gmail.com');
 
-        $this->assertEquals(Manager::API_DELETE, $response['api']);
+        $this->assertEquals(Staff::API_DELETE, $response['api']);
         $this->assertEquals('anzhengchao@gmail.com', $response['params']['kf_account']);
     }
 
@@ -105,11 +105,11 @@ class StaffManagerTest extends TestCase
         $http->shouldReceive('upload')->andReturnUsing(function ($api, $media, $params) {
             return compact('api', 'media', 'params');
         });
-        $manager = new Manager($http);
+        $staff = new Staff($http);
 
-        $response = $manager->avatar('anzhengchao@gmail.com', '/foobar/avatar.jpg');
+        $response = $staff->avatar('anzhengchao@gmail.com', '/foobar/avatar.jpg');
 
-        $this->assertEquals(Manager::API_AVATAR_UPLOAD, $response['api']);
+        $this->assertEquals(Staff::API_AVATAR_UPLOAD, $response['api']);
         $this->assertEquals('anzhengchao@gmail.com', $response['params']['kf_account']);
         $this->assertEquals(['media' => '/foobar/avatar.jpg'], $response['media']);
     }

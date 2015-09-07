@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Manager.php.
+ * Staff.php.
  *
  * Part of EasyWeChat.
  *
@@ -20,9 +20,9 @@ namespace EasyWeChat\Staff;
 use EasyWeChat\Core\Http;
 
 /**
- * Class Manager.
+ * Class Staff.
  */
-class Manager
+class Staff
 {
     const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';

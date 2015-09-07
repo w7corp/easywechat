@@ -22,9 +22,9 @@ use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Collection;
 
 /**
- * Class Manager.
+ * Class Store.
  */
-class Manager
+class Store
 {
     /**
      * Http client.
