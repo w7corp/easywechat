@@ -55,6 +55,16 @@ class User extends Attribute
     }
 
     /**
+     * Get name(alias of getNickname).
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getNickname();
+    }
+
+    /**
      * Get avatar of user.
      *
      * @return string
@@ -62,6 +72,36 @@ class User extends Attribute
     public function getAvatar()
     {
         return $this->get('headimgurl');
+    }
+
+    /**
+     * Get OAuth access_token.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->get('token');
+    }
+
+    /**
+     * Get OAuth access_token.
+     *
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        return $this->getToken();
+    }
+
+    /**
+     * Get refresh token.
+     *
+     * @return string
+     */
+    public function getRefreshToken()
+    {
+        return $this->get('refresh_token');
     }
 
     /**
@@ -73,7 +113,9 @@ class User extends Attribute
      */
     public function setToken($token)
     {
-        return $this->set('token', $token);
+        $this->set('token', $token);
+
+        return $this;
     }
 
     /**
@@ -85,6 +127,8 @@ class User extends Attribute
      */
     public function setRefreshToken($token)
     {
-        return $this->set('refresh_token', $token);
+        $this->set('refresh_token', $token);
+
+        return $this;
     }
 }

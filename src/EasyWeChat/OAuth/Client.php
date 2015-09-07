@@ -126,7 +126,7 @@ class Client
      */
     public function silentRedirect($to)
     {
-        return $this->authorizeUrl($to, 'snsapi_base');
+        return $this->redirect($to, 'snsapi_base');
     }
 
     /**
@@ -190,15 +190,9 @@ class Client
      */
     public function getUserByAccessToken($openId, $accessToken)
     {
-        $queries = [
-            'openid' => $openId,
-            'lang' => 'zh_CN',
-            'access_token' => $accessToken,
-        ];
+        $queries = $this->getUserFields($openId, $accessToken);
 
-        $url = self::USER_URL.'?'.http_build_query($queries, '', '&', $this->encodingType);
-
-        return $this->http->get($url);
+        return $this->http->get(self::USER_URL, $queries);
     }
 
     /**
@@ -221,6 +215,23 @@ class Client
         ];
 
         return $fields;
+    }
+
+    /**
+     * Get the parameters for the code request.
+     *
+     * @param string $openId
+     * @param string $accessToken
+     *
+     * @return array
+     */
+    protected function getUserFields($openId, $accessToken)
+    {
+        return [
+            'openid' => $openId,
+            'lang' => 'zh_CN',
+            'access_token' => $accessToken,
+        ];
     }
 
     /**
