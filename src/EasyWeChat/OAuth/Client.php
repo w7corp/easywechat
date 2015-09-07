@@ -99,7 +99,6 @@ class Client
      *
      * @param string $to
      * @param string $scope
-     * @param string $state
      *
      * @return RedirectResponse
      *
@@ -111,9 +110,7 @@ class Client
             throw new InvalidArgumentException("Invalid oauth scope:'$scope'");
         }
 
-        $state = $state ?: Str::random(40);
-
-        $this->request->getSession()->set('state', $state);
+        $this->request->getSession()->set('state', $state = Str::random(40));
 
         return new RedirectResponse($this->buildAuthUrlFromBase($to, $scope, $state).'#wechat_redirect');
     }
