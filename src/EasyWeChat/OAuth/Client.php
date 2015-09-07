@@ -119,7 +119,7 @@ class Client
     }
 
     /**
-     * Slient redirect.
+     * Silent redirect.
      *
      * @param string $to
      *
