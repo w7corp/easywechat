@@ -79,7 +79,7 @@ class Manager
     /**
      * Return cache adapter.
      *
-     * @return FileAdapter
+     * @return AdapterInterface
      */
     public function makeAdapter()
     {
