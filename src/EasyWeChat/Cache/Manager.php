@@ -93,7 +93,7 @@ class Manager
     /**
      * Return default cache adapter instance.
      *
-     * @return FileAdapter
+     * @return AdapterInterface
      */
     protected function makeDefaultAdapter()
     {
