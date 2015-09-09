@@ -48,9 +48,15 @@ class Notice
                           'touser' => '',
                           'template_id' => '',
                           'url' => '',
-                          'topcolor' => '#FF00000',
+                          'topcolor' => '#FF0000',
                           'data' => [],
                          ];
+    /**
+     * Message backup.
+     *
+     * @var array
+     */
+    protected $messageBackup;
 
     const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
@@ -64,6 +70,7 @@ class Notice
     public function __construct(Http $http)
     {
         $this->http = $http->setExpectedException(NoticeHttpException::class);
+        $this->messageBackup = $this->message;
     }
 
     /**
@@ -118,7 +125,7 @@ class Notice
         $templateId = null,
         array $data = [],
         $url = null,
-        $color = '#FF0000'
+        $color = null
     ) {
         $params = [
                    'touser' => $to,
@@ -144,18 +151,9 @@ class Notice
         $params['data'] = $this->formatData($params['data']);
 
         $result = $this->http->json(self::API_SEND_NOTICE, $params);
+        $this->message = $this->messageBackup;
 
         return $result['msgid'];
-    }
-
-    /**
-     * Set default Color
-     *
-     * @param string $color
-     */
-    public function setDefaultColor($color)
-    {
-        $this->defaultColor = $color;
     }
 
     /**
@@ -170,14 +168,13 @@ class Notice
     {
         $map = [
                 'template' => 'template_id',
-                'uses' => 'template_id',
                 'templateId' => 'template_id',
                 'to' => 'touser',
                 'receiver' => 'touser',
                 'color' => 'topcolor',
                 'topColor' => 'topcolor',
                 'url' => 'url',
-                'linkTo' => 'linkTo',
+                'link' => 'url',
                 'data' => 'data',
                 'with' => 'data',
                ];
@@ -193,8 +190,9 @@ class Notice
         if (isset($map[$method])) {
             $this->message[$map[$method]] = array_shift($args);
 
-            return $this;
         }
+
+        return $this;
     }
 
     /**
@@ -220,7 +218,7 @@ class Notice
                     $value = array_shift($item);
                     $color = $this->defaultColor;
                 } else {
-                    list($value, $color) = each($item);
+                    list($value, $color) = $item;
                 }
             } else {
                 $value = 'error data item.';
