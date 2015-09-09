@@ -186,7 +186,7 @@ class Client
      * @param string $openId
      * @param string $accessToken
      *
-     * @return Collection
+     * @return array
      */
     public function getUserByAccessToken($openId, $accessToken)
     {

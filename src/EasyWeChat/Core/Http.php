@@ -140,14 +140,16 @@ class Http
     public function upload($url, array $files = [], array $form = [])
     {
         $options = [
-            'multipart' => array_map(function ($path, $name) {
-                return [
+            'multipart' => [],
+            'form_params' => $form,
+        ];
+
+        foreach ($files as $name => $path) {
+            $options['multipart'][] = [
                     'name' => $name,
                     'contents' => fopen($path, 'r'),
                 ];
-            }, $files),
-            'form_params' => $form,
-        ];
+        }
 
         return $this->request($url, 'POST', $options);
     }
