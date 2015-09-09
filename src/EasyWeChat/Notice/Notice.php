@@ -21,26 +21,26 @@ use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Http;
 
 /**
- * 模板消息.
+ * Class Notice.
  */
 class Notice
 {
     /**
-     * Http对象
+     * Http client.
      *
      * @var Http
      */
     protected $http;
 
     /**
-     * 默认数据项颜色.
+     * Default color.
      *
      * @var string
      */
     protected $defaultColor = '#173177';
 
     /**
-     * 消息属性.
+     * Attributes.
      *
      * @var array
      */
@@ -67,7 +67,7 @@ class Notice
     }
 
     /**
-     * 修改账号所属行业.
+     * Set industry.
      *
      * @param int $industryOne
      * @param int $industryTwo
@@ -85,7 +85,7 @@ class Notice
     }
 
     /**
-     * 添加模板并获取模板ID.
+     * Add a template and get template ID.
      *
      * @param string $shortId
      *
@@ -101,7 +101,7 @@ class Notice
     }
 
     /**
-     * 发送模板消息.
+     * Send a notice message.
      *
      * @param string $to
      * @param string $templateId
@@ -135,7 +135,7 @@ class Notice
 
         foreach ($params as $key => $value) {
             if (in_array($key, $required) && empty($value) && empty($this->message[$key])) {
-                throw new InvalidArgumentException("消息属性 '$key' 不能为空！");
+                throw new InvalidArgumentException("Attibute '$key' can not be empty!");
             }
 
             $params[$key] = empty($value) ? $this->message[$key] : $value;
@@ -149,56 +149,17 @@ class Notice
     }
 
     /**
-     * 设置模板消息数据项的默认颜色.
+     * Set default Color
      *
      * @param string $color
      */
-    public function defaultColor($color)
+    public function setDefaultColor($color)
     {
         $this->defaultColor = $color;
     }
 
     /**
-     * 格式化模板数据.
-     *
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function formatData($data)
-    {
-        $return = [];
-
-        foreach ($data as $key => $item) {
-            if (is_scalar($item)) {
-                $value = $item;
-                $color = $this->defaultColor;
-            } elseif (is_array($item) && !empty($item)) {
-                if (isset($item['value'])) {
-                    $value = strval($item['value']);
-                    $color = empty($item['color']) ? $this->defaultColor : strval($item['color']);
-                } elseif (count($item) < 2) {
-                    $value = array_shift($item);
-                    $color = $this->defaultColor;
-                } else {
-                    list($value, $color) = each($item);
-                }
-            } else {
-                $value = '数据项格式错误';
-                $color = $this->defaultColor;
-            }
-
-            $return[$key] = [
-                             'value' => $value,
-                             'color' => $color,
-                            ];
-        }
-
-        return $return;
-    }
-
-    /**
-     * 魔术调用.
+     * Magic access..
      *
      * @param string $method
      * @param array  $args
@@ -234,5 +195,44 @@ class Notice
 
             return $this;
         }
+    }
+
+    /**
+     * Format template data.
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function formatData($data)
+    {
+        $return = [];
+
+        foreach ($data as $key => $item) {
+            if (is_scalar($item)) {
+                $value = $item;
+                $color = $this->defaultColor;
+            } elseif (is_array($item) && !empty($item)) {
+                if (isset($item['value'])) {
+                    $value = strval($item['value']);
+                    $color = empty($item['color']) ? $this->defaultColor : strval($item['color']);
+                } elseif (count($item) < 2) {
+                    $value = array_shift($item);
+                    $color = $this->defaultColor;
+                } else {
+                    list($value, $color) = each($item);
+                }
+            } else {
+                $value = 'error data item.';
+                $color = $this->defaultColor;
+            }
+
+            $return[$key] = [
+                'value' => $value,
+                'color' => $color,
+            ];
+        }
+
+        return $return;
     }
 }

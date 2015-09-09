@@ -15,7 +15,7 @@
  * @link      http://overtrue.me
  */
 
-namespace EasyWeChat\NoticeHttpEncryption;
+namespace EasyWeChat\Notice;
 
 use EasyWeChat\Core\Exception as CoreException;
 
