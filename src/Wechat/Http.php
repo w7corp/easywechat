@@ -100,7 +100,7 @@ class Http extends HttpClient
             return $response['data'];
         }
 
-        $contents = json_decode(substr(str_replace(['\"', '\\\\'], ['"', ''], json_encode($response['data'])), 1, -1), true);
+        $contents = json_decode(substr(str_replace(array('\"', '\\\\'), array('"', ''), json_encode($response['data'])), 1, -1), true);
 
         // while the response is an invalid JSON structure, returned the source data
         if (JSON_ERROR_NONE !== json_last_error()) {
