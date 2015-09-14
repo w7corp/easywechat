@@ -16,7 +16,6 @@ use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\SignGenerator;
 use Overtrue\Wechat\Http;
-use Overtrue\Wechat\AccessToken;
 
 class QueryOrder
 {
@@ -34,7 +33,7 @@ class QueryOrder
     /**
      * @var Bag
      */
-    protected $transaction_info;
+    protected $transactionInfo;
 
     public function __construct($appId, $appSecret, $mchId, $mchKey) {
         $this->appId = $appId;
@@ -48,48 +47,33 @@ class QueryOrder
     /**
      * 获取订单结果
      *
+     * @param string $order_id 商户订单ID
      * @param bool|false $force 是否忽略缓存强制更新
-     *
-     * @return array
+     * @return Bag
      * @throws Exception
      * @throws \Overtrue\Wechat\Exception
      */
     public function getTransaction($order_id,$force = false)
     {
-
-        $params['appid']    = $this->appId;
-        $params['mch_id']   = $this->mchId;
-        $params['out_trade_no']   = $order_id;
-        $params['nonce_str']  = md5(uniqid(microtime()));
+        $params=array();
+        $params['appid'] = $this->appId;
+        $params['mch_id'] = $this->mchId;
+        $params['out_trade_no'] = $order_id;
+        $params['nonce_str'] = md5(uniqid(microtime()));
         $signGenerator = new SignGenerator($params);
         $signGenerator->onSortAfter(function(SignGenerator $that) {
             $that->key = $this->mchKey;
         });
-        
         $params['sign'] = $signGenerator->getResult();
         $request = XML::build($params);
-
         $http = new Http();
-
         $response = $http->request(static::QUERYORDER_URL, Http::POST, $request);
         if(empty($response)) {
             throw new Exception('Get ORDER Failure:');
         }
 
         $transaction = XML::parse($response);
-
-        if( isset($transaction['result_code']) &&
-            ($transaction['result_code'] === 'FAIL') ) {
-            throw new Exception($transaction['err_code'].': '.$transaction['err_code_des']);
-        }
-        
-        if( isset($transaction['return_code']) &&
-            $transaction['return_code'] === 'FAIL' ) {
-            throw new Exception($transaction['return_code'].': '.$transaction['return_msg']);
-        }
-
-
-        //数据校验
+        //返回签名数据校验
         if (empty($transaction) || empty($transaction['sign'])) {
             return false;
         }
@@ -102,7 +86,18 @@ class QueryOrder
         if ($sign !== $signGenerator->getResult()) {
             return false;
         }
-        //var_dump($transaction);
-        return $transaction_info=new Bag($transaction);
-}
+
+        // 返回结果判断
+        if(isset($transaction['result_code']) &&
+            ($transaction['result_code'] === 'FAIL') ) {
+            throw new Exception($transaction['err_code'].': '.$transaction['err_code_des']);
+        }
+        
+        if(isset($transaction['return_code']) &&
+            $transaction['return_code'] === 'FAIL' ) {
+            throw new Exception($transaction['return_code'].': '.$transaction['return_msg']);
+        }
+
+        return $transactionInfo=new Bag($transaction);
+    }
 }
