@@ -552,14 +552,69 @@ class Card
     /**
      * 设置测试白名单
      *
-     * @param array $openIds
-     * @param array $usernames
+     * <pre>
+     * $data:
+     * {
+     *     "openIds": {
+     *          "openid1",
+     *          "openid2",
+     *          "openid3"...
+     *     }
+     *     "usernames": {
+     *          "username1",
+     *          "username2",
+     *          "username3"...
+     *     }
+     * }
+     * </pre>
+     *
+     * @param array $data
+     *
      * @return mixed
      */
-    public function setWhitelist(array $openIds, array $usernames)
+    public function setWhitelist(array $data)
     {
-        $params = array_merge(array('openid' => $openIds), array('username' => $usernames));
-        
+        $data = array_merge(array('openIds' => array(), 'usernames' => array()), $data);
+        $params = array_merge(array('openid' => $data['openIds']), array('username' => $data['usernames']));
+
         return $this->http->jsonPost(self::API_TESTWHITELIST, $params);
+    }
+
+    /**
+     * 通过openId设置测试白名单
+     *
+     * $data:
+     * {
+     *     "openid1",
+     *     "openid2",
+     *     "openid3"...
+     * }
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function setWhitelistFromOpenId(array $data)
+    {
+        return $this->setWhitelist(array('openIds' => $data));
+    }
+
+    /**
+     * 通过username设置测试白名单
+     *
+     * $data:
+     * {
+     *     "username1",
+     *     "username2",
+     *     "username3"...
+     * }
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function setWhitelistFromUsername(array $data)
+    {
+        return $this->setWhitelist(array('usernames' => $data));
     }
 }
