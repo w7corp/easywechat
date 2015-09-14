@@ -172,7 +172,7 @@ class UnifiedOrder
         $params['sign'] = $signGenerator->getResult();
         $request = XML::build($params);
         
-        $http = new Http(new AccessToken($this->business->appid, $this->business->appsecret));
+        $http = new Http();
         
         $response = $http->request(static::UNIFIEDORDER_URL, Http::POST, $request);
         if(empty($response)) {
