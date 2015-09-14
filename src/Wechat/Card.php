@@ -76,6 +76,7 @@ class Card
     const API_BOARDING_PASS_CHECKIN = 'https://api.weixin.qq.com/card/boardingpass/checkin';
     const API_MEETING_TICKET_UPDATE = 'https://api.weixin.qq.com/card/meetingticket/updateuser';
     const API_TICKET                = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
+    const API_TESTWHITELIST         = 'https://api.weixin.qq.com/card/testwhitelist/set';
 
     /**
      * constructor
@@ -546,5 +547,19 @@ class Card
     public function getNonce()
     {
         return uniqid('pre_');
+    }
+
+    /**
+     * 设置测试白名单
+     *
+     * @param array $openIds
+     * @param array $usernames
+     * @return mixed
+     */
+    public function setWhitelist(array $openIds, array $usernames)
+    {
+        $params = array_merge(array('openid' => $openIds), array('username' => $usernames));
+        
+        return $this->http->jsonPost(self::API_TESTWHITELIST, $params);
     }
 }
