@@ -108,7 +108,7 @@ class Http
      */
     public function post($url, $params = [])
     {
-        return $this->request($url, 'POST', ['body' => $params]);
+        return $this->request($url, 'POST', ['form_params' => $params]);
     }
 
     /**
@@ -207,7 +207,9 @@ class Http
 
         $method = strtoupper($method);
 
-        $response = $this->client->request($method, $url, $params)->getBody();
+        defined('EASYWECHAT_DEBUG') && error_log(json_encode(compact('method', 'url', 'params')));
+
+        $response = strval($this->client->request($method, $url, $params)->getBody());
 
         if (empty($response)) {
             throw new HttpException('Empty response.', -1);
