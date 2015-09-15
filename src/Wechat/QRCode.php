@@ -38,7 +38,7 @@ class QRCode
     protected $appSecret;
 
     const DAY = 86400;
-    const SCENE_QE_CARD        = 'QR_CARD';             // 卡券
+    const SCENE_QR_CARD        = 'QR_CARD';             // 卡券
     const SCENE_QR_TEMPORARY   = 'QR_SCENE';            // 临时
     const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE';      // 永久
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';  // 永久的字符串参数值
@@ -101,6 +101,8 @@ class QRCode
      * 创建卡券二维码
      *
      * @param array $card
+     * @param bool $temporary
+     * @param bool $expireSeconds
      *
      * {
      *    "card_id": "pFS7Fjg8kV1IdDz01r4SQwMkuCKc",
@@ -112,9 +114,22 @@ class QRCode
      *
      * @return Bag
      */
-    public function card($card)
+    public function card($card, $temporary = true, $expireSeconds = null)
     {
-        return $this->create(self::SCENE_QE_CARD, array('card' => $card));
+        $expireSeconds !== null || $expireSeconds = 7 * self::DAY;
+
+        $http = new Http(new AccessToken($this->appId, $this->appSecret));
+
+        $params = array(
+            'action_name' => self::SCENE_QR_CARD,
+            'action_info' => array('card' => $card),
+        );
+
+        if ($temporary) {
+            $params['expire_seconds'] = min($expireSeconds, 7 * self::DAY);
+        }
+
+        return new Bag($http->jsonPost(self::API_CREATE, $params));
     }
 
     /**
