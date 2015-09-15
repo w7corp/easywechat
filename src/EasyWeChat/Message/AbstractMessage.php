@@ -64,6 +64,16 @@ abstract class AbstractMessage extends Attribute
     }
 
     /**
+     * Return type name message.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Magic getter.
      *
      * @param string $property
