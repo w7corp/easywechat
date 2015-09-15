@@ -172,7 +172,7 @@ namespace {
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => ['foo' => 'bar']], $response['body']);
+            $this->assertEquals(['form_params' => ['foo' => 'bar']], $response['body']);
         }
 
         /**

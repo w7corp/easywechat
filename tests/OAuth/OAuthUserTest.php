@@ -98,19 +98,19 @@ class OAuthClientTest extends TestCase
         $session = Mockery::mock(SessionInterface::class);
         $session->shouldReceive('get')->andReturn('state_mock_value');
         $request->shouldReceive('getSession')->andReturn($session);
-        $request->shouldReceive('input')->twice()->andReturnValues(['state_mock_not_equals', 'state_mock_value']);
+        $request->shouldReceive('get')->twice()->andReturnValues(['state_mock_not_equals', 'state_mock_value']);
 
         $http = $this->getHttp();
 
-        $client  = Mockery::mock(Client::class.'[getUserByAccessToken,getAccessToken]', ['foo', 'bar', $request, $http]);
+        $client = Mockery::mock(Client::class.'[getUserByAccessToken,getAccessToken]', ['foo', 'bar', $request, $http]);
 
         try {
             $client->user();
         } catch (Exception $e) {
+            $this->assertInstanceOf(RuntimeException::class, $e);
+            $this->assertEquals('Invalid state.', $e->getMessage());
         }
 
-        $this->assertInstanceOf(RuntimeException::class, $e);
-        $this->assertEquals('Invalid state.', $e->getMessage());
 
         $client->shouldReceive('getAccessToken')->andReturn([
                 'access_token' => 'test_access_token',
@@ -136,7 +136,7 @@ class OAuthClientTest extends TestCase
     public function testGetAccessToken()
     {
         $http = $this->getHttp();
-        $http->shouldReceive('json')->andReturnUsing(function($api, $params){
+        $http->shouldReceive('get')->andReturnUsing(function($api, $params){
             return compact('api', 'params');
         });
         $client = new Client('foo', 'bar', Mockery::mock(Request::class), $http);

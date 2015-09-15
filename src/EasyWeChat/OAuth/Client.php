@@ -64,6 +64,8 @@ class Client
     const VALIDATE_URL = 'https://api.weixin.qq.com/sns/auth';
     const AUTHORIZE_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
+    const LAST_SCOPE_SESSION_KEY = 'easywechat.oauth.last_redirect_scope';
+
     /**
      * Authorize scopes.
      *
@@ -111,6 +113,7 @@ class Client
         }
 
         $this->request->getSession()->set('state', $state = Str::random(40));
+        $this->request->getSession()->set(self::LAST_SCOPE_SESSION_KEY, $scope);
 
         return new RedirectResponse($this->buildAuthUrlFromBase($to, $scope, $state).'#wechat_redirect');
     }
@@ -144,7 +147,14 @@ class Client
 
         $accessToken = $this->getAccessToken($this->getCode());
 
-        $user = $this->mapUserToObject($this->getUserByAccessToken($accessToken['access_token'], $accessToken['openid']));
+        // snsapi_base
+        if ($this->request->getSession()->get(self::LAST_SCOPE_SESSION_KEY) == 'snsapi_base') {
+            $user = $this->mapUserToObject(['openid' => $accessToken['openid']]);
+        } else { // snsapi_userinfo
+            $user = $this->mapUserToObject(
+                $this->getUserByAccessToken($accessToken['openid'], $accessToken['access_token'])
+            );
+        }
 
         $user->setToken($accessToken['access_token']);
         $user->setRefreshToken($accessToken['refresh_token']);
@@ -161,7 +171,7 @@ class Client
      */
     public function getAccessToken($code)
     {
-        return $this->http->json(self::ACCESS_TOKEN_URL, $this->getTokenFields($code));
+        return $this->http->get(self::ACCESS_TOKEN_URL, $this->getTokenFields($code));
     }
 
     /**
@@ -245,7 +255,12 @@ class Client
      */
     protected function buildAuthUrlFromBase($redirectUrl, $scope, $state)
     {
-        return self::AUTHORIZE_URL.'?'.http_build_query($this->getCodeFields($redirectUrl, $scope, $state), '', '&', $this->encodingType);
+        return self::AUTHORIZE_URL.'?'.http_build_query(
+            $this->getCodeFields($redirectUrl, $scope, $state),
+            '',
+            '&',
+            $this->encodingType
+        );
     }
 
     /**
@@ -257,7 +272,7 @@ class Client
     {
         $state = $this->request->getSession()->get('state');
 
-        return !(strlen($state) > 0 && $this->request->input('state') === $state);
+        return !(strlen($state) > 0 && $this->request->get('state') === $state);
     }
 
     /**
@@ -304,7 +319,7 @@ class Client
      */
     protected function getCode()
     {
-        return $this->request->input('code');
+        return $this->request->get('code');
     }
 
     /**
