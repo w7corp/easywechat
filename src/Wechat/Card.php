@@ -164,7 +164,7 @@ class Card
      *
      * @return string
      */
-    public function create(array $base, array $properties = array(), $type = self::GENERAL_COUPON)
+    public function create(array $base, array $properties = array(), $type = self::TYPE_GENERAL_COUPON)
     {
         $key  = strtolower($type);
         $card = array_merge(array('base_info' => $base), $properties);
