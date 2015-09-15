@@ -1,36 +1,28 @@
 <?php
 
-use EasyWeChat\Core\Input;
-use EasyWeChat\Encryption\Cryptor;
+use Symfony\Component\HttpFoundation\Request;
+use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Server\Guard;
 use EasyWeChat\Server\Transformer;
+use EasyWeChat\Support\XML;
 
 class ServerGuardTest extends TestCase
 {
-    /**
-     * Test server().
-     */
-    public function testServe()
+    public function getServer($message = '', $queries = null)
     {
-        $input = Mockery::mock(Input::class);
-        $input->shouldReceive('has')->andReturn(true);
-        $input->shouldReceive('get')->andReturn('foobar');
+        $request = Mockery::mock(Request::class);
 
-        $server = new Guard($input, Mockery::mock(Cryptor::class), new Transformer());
-
-        $this->assertEquals('foobar', $server->serve());
-
-        $input = Mockery::mock(Input::class);
-        $input->shouldReceive('isEncrypted')->andReturn(false);
-        $input->shouldReceive('has')->andReturnUsing(function ($key) {
-            return $key != 'echostr';
-        });
-
-        $input->shouldReceive('get')->andReturnUsing(function ($key) {
-            $message = [
+        $request->shouldReceive('get')->andReturnUsing(function ($key) use ($queries) {
+            $queries = $queries ? : [
                 'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
                 'timestamp' => '1437865042',
                 'nonce' => '335941714',
+            ];
+
+            return isset($queries[$key]) ? $queries[$key] : null;
+        });
+
+        $message = $message ? : [
                 'ToUserName' => 'gh_9a1a7e312b32',
                 'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
                 'CreateTime' => '1437865042',
@@ -39,12 +31,27 @@ class ServerGuardTest extends TestCase
                 'MsgId' => '6175583331658476609',
             ];
 
-            return $message[$key];
-        });
+        $request->shouldReceive('getContent')->andReturn(XML::build($message));
 
-        $server = new Guard($input, Mockery::mock(Cryptor::class), new Transformer());
+        $server = new Guard($request);
 
-        $this->assertEquals('', $server->serve());
+        return $server;
+    }
+
+    /**
+     * Test server().
+     */
+    public function testServe()
+    {
+        $server = $this->getServer(null, [
+                'echostr' => 'foobar'
+            ]);
+
+        $this->assertEquals('foobar', $server->serve()->getContent());
+
+        $server = $this->getServer();
+
+        $this->assertEquals(Guard::EMPTY_STRING, $server->serve()->getContent());
     }
 
     /**
@@ -52,77 +59,43 @@ class ServerGuardTest extends TestCase
      */
     public function testStringResponse()
     {
-        $input = Mockery::mock(Input::class);
-        $input->shouldReceive('isEncrypted')->andReturn(false);
-        $input->shouldReceive('has')->andReturnUsing(function ($key) {
-            return $key != 'echostr';
-        });
-
-        $input->shouldReceive('get')->andReturnUsing(function ($key) {
-            $message = [
-                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
-                'timestamp' => '1437865042',
-                'nonce' => '335941714',
-                'ToUserName' => 'gh_9a1a7e312b32',
-                'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
-                'CreateTime' => '1437865042',
-                'MsgType' => 'text',
-                'Content' => 'foobar',
-                'MsgId' => '6175583331658476609',
-            ];
-
-            return $message[$key];
-        });
-
-        $server = new Guard($input, Mockery::mock(Cryptor::class), new Transformer());
+        $server = $this->getServer();
 
         $server->setMessageListener(function () {
             return 'hello world!';
         });
 
-        $this->assertContains('hello world!', $server->serve());
+        $this->assertContains('hello world!', $server->serve()->getContent());
     }
 
     /**
-     * Test response() with encrypted input.
+     * Test response() with encrypted Request.
      */
     public function testResponseWithEncryptedRequest()
     {
-        $input = Mockery::mock(Input::class);
-        $input->shouldReceive('isEncrypted')->andReturn(true);
-        $input->shouldReceive('has')->andReturnUsing(function ($key) {
-            return $key != 'echostr';
-        });
-        $input->shouldReceive('get')->andReturnUsing(function ($key) {
-            $message = [
-                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
-                'timestamp' => '1437865042',
-                'nonce' => '335941714',
-                'ToUserName' => 'gh_9a1a7e312b32',
-                'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
-                'CreateTime' => '1437865042',
-                'MsgType' => 'text',
-                'Content' => 'foobar',
-                'MsgId' => '6175583331658476609',
-            ];
+        $server = $this->getServer(null, ['encrypt_type' => 'aes']);
 
-            return $message[$key];
+        $server->setMessageListener(function () {
+            return 'hello world!';
         });
-        $encryptor = Mockery::mock(Cryptor::class);
+
+        $encryptor = Mockery::mock(Encryptor::class);
         $raw = null;
         $encryptor->shouldReceive('encryptMsg')->andReturnUsing(function ($message) use (&$raw) {
             $raw = $message;
 
             return base64_encode($message);
         });
+        $encryptor->shouldReceive('decryptMsg')->andReturn([
+                'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
+                'CreateTime' => '1437865042',
+                'MsgType' => 'text',
+                'Content' => 'foobar',
+                'MsgId' => '6175583331658476609',
+            ]);
+        $server->setEncryptor($encryptor);
 
-        $server = new Guard($input, $encryptor, new Transformer());
-
-        $server->setMessageListener(function () {
-            return 'hello world!';
-        });
-
-        $response = $server->serve();
+        $response = $server->serve()->getContent();
 
         $this->assertEquals(base64_encode($raw), $response);
     }
@@ -132,31 +105,16 @@ class ServerGuardTest extends TestCase
      */
     public function testResponseWithEvent()
     {
-        $input = Mockery::mock(Input::class);
-        $input->shouldReceive('isEncrypted')->andReturn(false);
-        $input->shouldReceive('has')->andReturnUsing(function ($key) {
-            return $key != 'echostr';
-        });
-        $input->shouldReceive('get')->andReturnUsing(function ($key) {
-            $message = [
-                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
-                'timestamp' => '1437865042',
-                'nonce' => '335941714',
+        $server = $this->getServer([
                 'ToUserName' => 'gh_9a1a7e312b32',
                 'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
                 'CreateTime' => '1437865042',
                 'MsgType' => 'event',
                 'Event' => 'subscribe',
-            ];
-
-            return $message[$key];
-        });
-        $encryptor = Mockery::mock(Cryptor::class);
-
-        $server = new Guard($input, $encryptor, new Transformer());
+            ]);
         $logEvent = null;
         $response = $server->serve();
-        $this->assertEquals('', $response);
+        $this->assertEquals(Guard::EMPTY_STRING, $response->getContent());
 
         //with listener
         $server->setEventListener(function ($event) use (&$logEvent) {
@@ -168,7 +126,7 @@ class ServerGuardTest extends TestCase
         $response = $server->serve();
 
         $this->assertEquals('subscribe', $logEvent->get('Event'));
-        $this->assertContains('subscribe', $response);
+        $this->assertContains('subscribe', $response->getContent());
     }
 
     /**
@@ -178,7 +136,7 @@ class ServerGuardTest extends TestCase
      */
     public function testSetEventListener()
     {
-        $server = new Guard(Mockery::mock(Input::class), Mockery::mock(Cryptor::class), new Transformer());
+        $server = $this->getServer();
         $closure = function () { return 'foo'; };
         $server->setEventListener($closure);
 
@@ -198,7 +156,7 @@ class ServerGuardTest extends TestCase
      */
     public function testSetMessageListener()
     {
-        $server = new Guard(Mockery::mock(Input::class), Mockery::mock(Cryptor::class), new Transformer());
+        $server = $this->getServer();
         $closure = function () { return 'foo'; };
         $server->setMessageListener($closure);
 

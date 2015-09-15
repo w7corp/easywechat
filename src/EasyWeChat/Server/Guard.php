@@ -17,13 +17,16 @@
 
 namespace EasyWeChat\Server;
 
+use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Core\Input;
-use EasyWeChat\Encryption\Cryptor;
+use EasyWeChat\Core\Exceptions\RuntimeException;
+use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Message\AbstractMessage;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Guard.
@@ -33,14 +36,21 @@ class Guard
     /**
      * Empty string.
      */
-    const EMPTY_STRING = '';
+    const EMPTY_STRING = 'success';
 
     /**
-     * Input.
+     * Request instance.
      *
-     * @var Collection
+     * @var Request
      */
-    protected $input;
+    protected $request;
+
+    /**
+     * Encryptor instance.
+     *
+     * @var Encryptor
+     */
+    protected $encryptor;
 
     /**
      * Event listeners.
@@ -57,6 +67,16 @@ class Guard
     protected $messageListener;
 
     /**
+     * Constructor.
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
+    /**
      * Handle and return response.
      *
      * @return string
@@ -65,13 +85,33 @@ class Guard
      */
     public function serve()
     {
-        if ($this->input->has('echostr')) {
-            return $this->input->get('echostr');
+        if ($str = $this->request->get('echostr')) {
+            return new Response($str);
         }
 
-        $response = $this->handleRequest();
+        $result = $this->handleRequest();
 
-        return $response ? $this->response($response) : self::EMPTY_STRING;
+        return new Response($this->buildResponse($result['to'], $result['from'], $result['response']));
+    }
+
+    /**
+     * Validation request params.
+     *
+     * @param string $token
+     *
+     * @throws FaultException
+     */
+    public function validate($token)
+    {
+        $params = [
+            $token,
+            $this->request->get('timestamp'),
+            $this->request->get('nonce'),
+        ];
+
+        if ($this->request->get('signature') !== $this->signature($params)) {
+            throw new FaultException('Invalid request signature.', 400);
+        }
     }
 
     /**
@@ -135,51 +175,61 @@ class Guard
     }
 
     /**
-     * Constructor.
+     * Set Encryptor
      *
-     * @param Input       $input
-     * @param Cryptor     $cryptor
-     * @param Transformer $transformer
+     * @param Encryptor $encryptor
+     *
+     * @return Guard
      */
-    public function __construct(Input $input, Cryptor $cryptor, Transformer $transformer)
+    public function setEncryptor(Encryptor $encryptor)
     {
-        $this->input = $input;
-        $this->cryptor = $cryptor;
-        $this->transformer = $transformer;
+        $this->encryptor = $encryptor;
+
+        return $this;
+    }
+
+    /**
+     * Return the encryptor instance.
+     *
+     * @return Encryptor
+     */
+    public function getEncryptor()
+    {
+        return $this->encryptor;
     }
 
     /**
      * Build response.
      *
-     * @param mixed $response
+     * @param mixed $message
      *
      * @return string
      */
-    protected function response($response)
+    protected function buildResponse($to, $from, $message)
     {
-        $return = null;
+        $response = self::EMPTY_STRING;
 
-        if (is_string($response)) {
-            $response = new Text(['content' => $response]);
+        if (empty($message)) {
+            return $response;
         }
 
-        if ($this->isMessage($response)) {
-            $return = $this->buildReply(
-                $this->input->get('ToUserName'),
-                $this->input->get('FromUserName'),
-                $response
-            );
+        if (is_string($message)) {
+            $message = new Text(['content' => $message]);
+        }
 
-            if ($this->input->isEncrypted()) {
-                $return = $this->cryptor->encryptMsg(
-                    $return,
-                    $this->input->get('nonce'),
-                    $this->input->get('timestamp')
+        if ($this->isMessage($message)) {
+            $response = $this->buildReply($to, $from, $message);
+
+            if ($this->isSafeMode()) {
+                $response = $this->encryptor->encryptMsg(
+                    $response,
+                    $this->request->get('nonce'),
+                    $this->request->get('timestamp')
                 );
             }
         }
 
-        return $return;
+        return $response;
     }
 
     /**
@@ -198,18 +248,33 @@ class Guard
      * Handle request.
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Core\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Server\BadRequestException
      */
     protected function handleRequest()
     {
         $response = null;
 
-        if ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
-            $response = $this->handleEvent($this->input);
-        } elseif ($this->input->has('MsgId')) {
-            $response = $this->handleMessage($this->input);
+        $message = $this->parseMessageFromRequest($this->request->getContent());
+
+        if (empty($message)) {
+            throw new BadRequestException('Invalid request.');
         }
 
-        return $response;
+        $message = new Collection($message);
+
+        if (!empty($message['MsgType']) && $message['MsgType'] === 'event') {
+            $response = $this->handleEvent($message);
+        } elseif (!empty($message['MsgId'])) {
+            $response = $this->handleMessage($message);
+        }
+
+        return [
+            'to' => $message->get('FromUserName'),
+            'from' => $message->get('ToUserName'),
+            'response' => $response,
+        ];
     }
 
     /**
@@ -247,9 +312,9 @@ class Guard
     /**
      * Build reply XML.
      *
-     * @param string           $to
-     * @param string           $from
-     * @param MessageInterface $message
+     * @param string          $to
+     * @param string          $from
+     * @param AbstractMessage $message
      *
      * @return string
      */
@@ -262,6 +327,61 @@ class Guard
             'MsgType' => $message->getType(),
         ];
 
-        return XML::build(array_merge($base, $this->transformer->transform($message)));
+        $transformer = new Transformer();
+
+        return XML::build(array_merge($base, $transformer->transform($message)));
+    }
+
+    /**
+     * Get signature.
+     *
+     * @param array $request
+     *
+     * @return string
+     */
+    protected function signature($request)
+    {
+        sort($request, SORT_STRING);
+
+        return sha1(implode($request));
+    }
+
+    /**
+     * Parse message array from raw php input.
+     *
+     * @param string $content
+     *
+     * @return array
+     *
+     * @throws \EasyWeChat\Core\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Encryption\EncryptionException
+     */
+    protected function parseMessageFromRequest($content)
+    {
+        if ($this->isSafeMode()) {
+            if (!$this->encryptor) {
+                throw new RuntimeException('Safe mode Encryptor is necessary.');
+            }
+            $message = $this->encryptor->decryptMsg(
+                $this->request->get('msg_signature'),
+                $this->request->get('nonce'),
+                $this->request->get('timestamp'),
+                $content
+            );
+        } else {
+            $message = XML::parse($content);
+        }
+
+        return $message;
+    }
+
+    /**
+     * Check the request message safe mode.
+     *
+     * @return bool
+     */
+    private function isSafeMode()
+    {
+        return $this->request->get('encrypt_type') && $this->request->get('encrypt_type') === 'aes';
     }
 }
