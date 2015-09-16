@@ -79,7 +79,7 @@ class Guard
     /**
      * Handle and return response.
      *
-     * @return string
+     * @return Response
      *
      * @throws BadRequestException
      */
