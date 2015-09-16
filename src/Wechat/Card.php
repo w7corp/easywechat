@@ -77,7 +77,7 @@ class Card
     const API_MEETING_TICKET_UPDATE = 'https://api.weixin.qq.com/card/meetingticket/updateuser';
     const API_TICKET                = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
     const API_TESTWHITELIST         = 'https://api.weixin.qq.com/card/testwhitelist/set';
-    const API_USER_CARD_LIST      = 'https://api.weixin.qq.com/card/user/getcardlist';
+    const API_USER_CARD_LIST        = 'https://api.weixin.qq.com/card/user/getcardlist';
 
     /**
      * constructor
