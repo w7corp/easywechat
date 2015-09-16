@@ -77,6 +77,7 @@ class Card
     const API_MEETING_TICKET_UPDATE = 'https://api.weixin.qq.com/card/meetingticket/updateuser';
     const API_TICKET                = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
     const API_TESTWHITELIST         = 'https://api.weixin.qq.com/card/testwhitelist/set';
+    const API_USER_CARD_LIST        = 'https://api.weixin.qq.com/card/user/getcardlist';
 
     /**
      * constructor
@@ -417,6 +418,22 @@ class Card
         $params = array_merge(array('card_id' => $cardId), $data);
 
         return $this->http->jsonPost(self::API_MEMBER_CARD_ACTIVE, $params);
+    }
+
+    /**
+     * 获取用户已领取卡券接口
+     *
+     * @param string $openid
+     * @param string $cardId
+     *
+     * @return array
+     */
+    public function userCardLists($openid , $cardId = null){
+        $params = [
+            'openid'    =>  $openid,
+            'card_id'   =>  $cardId
+        ];
+        return new Bag($this->http->jsonPost(self::API_USER_CARD_LIST, $params));
     }
 
     /**
