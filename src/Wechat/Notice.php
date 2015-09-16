@@ -336,7 +336,8 @@ class Notice
         if (isset($map[$method])) {
             $this->message[$map[$method]] = array_shift($args);
 
-            return $this;
         }
+
+        return $this;
     }
 }
