@@ -95,7 +95,7 @@ class Refund
      */
     public function setBusiness(Business $business)
     {
-        if( !is_null($business) ) {
+        if(!is_null($business) ) {
             try {
                 $business->checkParams();
             } catch (Exception $e) {
@@ -124,7 +124,7 @@ class Refund
      */
     public function getResponse()
     {
-        if( is_null($this->business) ) {
+        if(is_null($this->business) ) {
             throw new Exception('Business is required');
         }
 
@@ -150,7 +150,7 @@ class Refund
         $redundOrder = XML::parse($response);
 
         //返回签名数据校验
-        if (empty($redundOrder) || empty($redundOrder['sign'])) {
+        if(empty($redundOrder) || empty($redundOrder['sign'])) {
             throw new Exception('check sign error');
         }
         $sign = $redundOrder['sign'];
@@ -159,17 +159,17 @@ class Refund
         $signGenerator->onSortAfter(function(SignGenerator $that) {
             $that->key = $this->business->mch_key;
         });
-        if ($sign !== $signGenerator->getResult()) {
+        if($sign !== $signGenerator->getResult()) {
             throw new Exception('check sign error');
         }
 
         //返回结果判断
-        if( isset($redundOrder['result_code']) &&
+        if(isset($redundOrder['result_code']) &&
             ($redundOrder['result_code'] === 'FAIL') ) {
             throw new Exception($redundOrder['err_code'].': '.$redundOrder['err_code_des']);
         }
         
-        if( isset($redundOrder['return_code']) &&
+        if(isset($redundOrder['return_code']) &&
             $redundOrder['return_code'] === 'FAIL' ) {
             throw new Exception($redundOrder['return_code'].': '.$redundOrder['return_msg']);
         }
@@ -207,7 +207,7 @@ class Refund
     }
 
     public function __set($property, $value) {
-        if (!in_array($property, static::$allowParams)) {
+        if(!in_array($property, static::$allowParams)) {
             throw new Exception(sprintf('"%s" is not required', $property));
         }
         return static::$params[$property]=$value;
