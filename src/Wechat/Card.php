@@ -242,8 +242,8 @@ class Card
     /**
      * 获取用户已领取卡券接口
      *
-     * @param $openid
-     * @param null $cardId
+     * @param string $openid
+     * @param string $cardId
      *
      * @return array
      */
