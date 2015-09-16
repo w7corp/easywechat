@@ -36,6 +36,13 @@ class Payment
     protected $api;
 
     /**
+     * Merchant instance.
+     *
+     * @var \EasyWeChat\Payment\Merchant
+     */
+    protected $merchant;
+
+    /**
      * Constructor.
      *
      * @param Merchant $merchant
