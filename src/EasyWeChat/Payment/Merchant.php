@@ -21,6 +21,17 @@ use EasyWeChat\Support\Attribute;
 
 /**
  * Class Merchant.
+ *
+ * @property string $app_id
+ * @property string app_secret
+ * @property string merchant_id
+ * @property string key
+ * @property string sub_app_id
+ * @property string sub_merchant_id
+ * @property string ssl_cert_path
+ * @property string ssl_key_path
+ * @property string fee_type
+ * @property string device_info
  */
 class Merchant extends Attribute
 {

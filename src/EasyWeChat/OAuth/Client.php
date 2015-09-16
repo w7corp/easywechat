@@ -202,7 +202,7 @@ class Client
     {
         $queries = $this->getUserFields($openId, $accessToken);
 
-        return $this->http->get(self::USER_URL, $queries);
+        return (array)$this->http->get(self::USER_URL, $queries);
     }
 
     /**
@@ -329,7 +329,7 @@ class Client
      *
      * @return User
      */
-    protected function mapUserToObject($user)
+    protected function mapUserToObject(array $user)
     {
         return new User($user);
     }

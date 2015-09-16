@@ -31,7 +31,7 @@ class Http
     /**
      * Access token.
      *
-     * @var string
+     * @var string|AccessToken
      */
     protected $token;
 
@@ -210,6 +210,8 @@ class Http
         defined('EASYWECHAT_DEBUG') && error_log(json_encode(compact('method', 'url', 'params')));
 
         $response = strval($this->client->request($method, $url, $params)->getBody());
+
+        defined('EASYWECHAT_DEBUG') && error_log($response);
 
         if (empty($response)) {
             throw new HttpException('Empty response.', -1);

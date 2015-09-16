@@ -51,7 +51,7 @@ class Js
     /**
      * Http client.
      *
-     * @var http
+     * @var Http
      */
     protected $http;
 
