@@ -262,13 +262,7 @@ class Guard
             throw new BadRequestException('Invalid request.');
         }
 
-        $message = new Collection($message);
-
-        if (!empty($message['MsgType']) && $message['MsgType'] === 'event') {
-            $response = $this->handleEvent($message);
-        } elseif (!empty($message['MsgId'])) {
-            $response = $this->handleMessage($message);
-        }
+        $response = $this->handleMessage($message);
 
         return [
             'to' => $message->get('FromUserName'),
@@ -286,27 +280,17 @@ class Guard
      */
     protected function handleMessage($message)
     {
-        if ($this->messageListener) {
-            return call_user_func_array($this->messageListener, [$message]);
+        $message = new Collection($message);
+
+        $response = false;
+
+        if ($message->get('MsgType') && $message->get('MsgType') === 'event' && $this->eventListener) {
+            $response = call_user_func_array($this->eventListener, [$message]);
+        } elseif (!empty($message['MsgId']) && $this->messageListener) {
+            $response = call_user_func_array($this->messageListener, [$message]);
         }
 
-        return false;
-    }
-
-    /**
-     * Handle event message.
-     *
-     * @param Collection $event
-     *
-     * @return mixed
-     */
-    protected function handleEvent($event)
-    {
-        if ($this->eventListener) {
-            return call_user_func_array($this->eventListener, [$event]);
-        }
-
-        return false;
+        return $response;
     }
 
     /**
@@ -349,7 +333,7 @@ class Guard
     /**
      * Parse message array from raw php input.
      *
-     * @param string $content
+     * @param string|resource $content
      *
      * @return array
      *
