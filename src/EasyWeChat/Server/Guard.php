@@ -247,15 +247,13 @@ class Guard
     /**
      * Handle request.
      *
-     * @return mixed
+     * @return array
      *
      * @throws \EasyWeChat\Core\Exceptions\RuntimeException
      * @throws \EasyWeChat\Server\BadRequestException
      */
     protected function handleRequest()
     {
-        $response = null;
-
         $message = $this->parseMessageFromRequest($this->request->getContent());
 
         if (empty($message)) {
@@ -265,8 +263,8 @@ class Guard
         $response = $this->handleMessage($message);
 
         return [
-            'to' => $message->get('FromUserName'),
-            'from' => $message->get('ToUserName'),
+            'to' => $message['FromUserName'],
+            'from' => $message['ToUserName'],
             'response' => $response,
         ];
     }
@@ -274,7 +272,7 @@ class Guard
     /**
      * Handle message.
      *
-     * @param Collection $message
+     * @param array $message
      *
      * @return mixed
      */
@@ -346,6 +344,7 @@ class Guard
             if (!$this->encryptor) {
                 throw new RuntimeException('Safe mode Encryptor is necessary.');
             }
+
             $message = $this->encryptor->decryptMsg(
                 $this->request->get('msg_signature'),
                 $this->request->get('nonce'),
