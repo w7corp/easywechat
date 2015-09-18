@@ -10,16 +10,16 @@
  * @author    jaring <pengjiayin@gmail.com>
  *
  *
- Usage:
-    $business = new Business($appId, $appSecret, $mchId, $mchKey);
-    $business->setClientCert(dirname(__FILE__).'/cert/apiclient_cert.pem');
-    $business->setClientKey(dirname(__FILE__).'/cert/apiclient_key.pem');
-    $refund =new Refund($business);
-    $refund->out_refund_no= md5(uniqid(microtime()));//退单单号
-    $refund->total_fee=1; //订单金额
-    $refund->refund_fee=1;//退款金额
-    $refund->out_trade_no=$order_id;//原商户订单号
-    var_dump($trans->getResponse());
+ *Usage:
+ *   $business = new Business($appId, $appSecret, $mchId, $mchKey);
+ *   $business->setClientCert(dirname(__FILE__).'/cert/apiclient_cert.pem');
+ *   $business->setClientKey(dirname(__FILE__).'/cert/apiclient_key.pem');
+ *   $refund =new Refund($business);
+ *   $refund->out_refund_no= md5(uniqid(microtime()));//退单单号
+ *   $refund->total_fee=1; //订单金额
+ *   $refund->refund_fee=1;//退款金额
+ *   $refund->out_trade_no=$order_id;//原商户订单号
+ *   var_dump($trans->getResponse());
  *
 */
 
