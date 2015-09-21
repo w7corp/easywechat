@@ -162,8 +162,27 @@ class Http
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($this->curl, CURLOPT_URL, $url);
 
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+        //使用证书情况
+        if(isset($options['sslcert_path']) && isset($options['sslkey_path']) ){
+            if (!file_exists($options['sslcert_path']) ||!file_exists($options['sslkey_path'])  ) {
+                throw new \Exception('Certfile is not correct');
+            }
+            //设置证书
+            //使用证书：cert 与 key 分别属于两个.pem文件
+            curl_setopt($this->curl,CURLOPT_SSL_VERIFYPEER,TRUE);
+            curl_setopt($this->curl,CURLOPT_SSL_VERIFYHOST,2);//严格校验
+            curl_setopt($this->curl,CURLOPT_SSLCERTTYPE,'PEM');
+            curl_setopt($this->curl,CURLOPT_SSLCERT, $options['sslcert_path']);
+            curl_setopt($this->curl,CURLOPT_SSLKEYTYPE,'PEM');
+            curl_setopt($this->curl,CURLOPT_SSLKEY, $options['sslkey_path']);
+        }
+        else
+        {
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+        }
 
         // Check for files
         if (isset($options['files']) && count($options['files'])) {
