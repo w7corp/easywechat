@@ -7,7 +7,6 @@
 
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Utils\SignGenerator;
 use Overtrue\Wechat\Utils\JSON;
 
 /**
@@ -90,7 +89,31 @@ class JsAddress
         $this->refreshRandom();
     }
 
-    public function refreshRandom()
+    /**
+     * @param \Overtrue\Wechat\string $timestamp
+     */
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    /**
+     * @param \Overtrue\Wechat\string $nonce
+     */
+    public function setNonce($nonce)
+    {
+        $this->nonce = $nonce;
+    }
+
+    /**
+     * @param \Overtrue\Wechat\string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+ public function refreshRandom()
     {
         $this->timestamp = (string) time();
         $this->nonce = uniqid('rnd_');
@@ -116,19 +139,15 @@ class JsAddress
 
     private function calcAddrSign()
     {
-        $params = [
-            // 此参数为获取网页授权时从微信服务器取得的access_token, 也可直接跳转到微信服务器获取
-            'accesstoken'   => $this->getAccessTokenRedirectIfNecessary(),
-            'appid'         => $this->appId,
-            'noncestr'      => $this->nonce,
-            'timestamp'     => $this->timestamp,
-            'url'           => $this->url ?: Url::current(),
-        ];
+        // 此参数为获取网页授权时从微信服务器取得的access_token, 也可直接跳转到微信服务器获取
+        $accesstoken   = $this->getAccessTokenRedirectIfNecessary();
+        $appid         = $this->appId;
+        $noncestr      = $this->nonce;
+        $timestamp     = $this->timestamp;
+        $url           = $this->url ?: Url::current();
 
-        $gen = new SignGenerator($params);
-        $gen->setHashType('sha1');
-
-        return $gen->getResult();
+        $str = "accesstoken=$accesstoken&appid=$appid&noncestr=$noncestr&timestamp=$timestamp&url=$url";
+        return sha1($str);
     }
 
     private function getAccessTokenRedirectIfNecessary()
@@ -146,7 +165,7 @@ class JsAddress
         }
 
         // 通过返回的$_GET['code']获取access_token
-        $this->accessToken = $this->fetchAccessTokenByCode();
+        return $this->accessToken = $this->fetchAccessTokenByCode();
     }
 
     /**
@@ -196,6 +215,40 @@ class JsAddress
 
 
 
+/*
 
+
+<?php
+
+
+use Overtrue\Wechat\JsAddress;
+
+
+$appId = 'wx1234566';
+$appSecret = '12345667789';
+
+$addr = new JsAddress($appId, $appSecret);
+
+
+var_dump($addr);
+var_dump($addr->getConfig());
+
+
+?>
+<div onclick="c()" style="width: 300px; height: 300px; background: red;">点击获取地址</div>
+<script>
+function c()
+{
+    WeixinJSBridge.invoke('editAddress', <?=$addr->getConfig()?>, function (rs) {
+    	alert(JSON.stringify(rs));
+    });
+}
+</script>
+
+
+
+
+
+ */
 
 
