@@ -113,7 +113,7 @@ class JsAddress
         $this->url = $url;
     }
 
- public function refreshRandom()
+    public function refreshRandom()
     {
         $this->timestamp = (string) time();
         $this->nonce = uniqid('rnd_');
