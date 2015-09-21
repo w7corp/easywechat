@@ -90,7 +90,7 @@ class JsAddress
     }
 
     /**
-     * @param \Overtrue\Wechat\string $timestamp
+     * @param string $timestamp
      */
     public function setTimestamp($timestamp)
     {
@@ -98,7 +98,7 @@ class JsAddress
     }
 
     /**
-     * @param \Overtrue\Wechat\string $nonce
+     * @param string $nonce
      */
     public function setNonce($nonce)
     {
@@ -106,7 +106,7 @@ class JsAddress
     }
 
     /**
-     * @param \Overtrue\Wechat\string $url
+     * @param string $url
      */
     public function setUrl($url)
     {
