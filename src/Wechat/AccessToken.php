@@ -69,6 +69,7 @@ class AccessToken
     {
         $this->appId     = $appId;
         $this->appSecret = $appSecret;
+        $this->cacheKey = $this->cacheKey.'.'.$appId;
         $this->cache     = new Cache($appId);
     }
 
@@ -112,7 +113,7 @@ class AccessToken
 
                 $token = $http->get($apiTokenGet, $params);
 
-                $cache->set($cacheKey, $token['access_token'], $token['expires_in']);
+                $cache->set($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
 
                 return $token['access_token'];
             }

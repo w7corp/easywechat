@@ -76,6 +76,8 @@ class Card
     const API_BOARDING_PASS_CHECKIN = 'https://api.weixin.qq.com/card/boardingpass/checkin';
     const API_MEETING_TICKET_UPDATE = 'https://api.weixin.qq.com/card/meetingticket/updateuser';
     const API_TICKET                = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
+    const API_TESTWHITELIST         = 'https://api.weixin.qq.com/card/testwhitelist/set';
+    const API_USER_CARD_LIST        = 'https://api.weixin.qq.com/card/user/getcardlist';
 
     /**
      * constructor
@@ -163,7 +165,7 @@ class Card
      *
      * @return string
      */
-    public function create(array $base, array $properties = array(), $type = self::GENERAL_COUPON)
+    public function create(array $base, array $properties = array(), $type = self::TYPE_GENERAL_COUPON)
     {
         $key  = strtolower($type);
         $card = array_merge(array('base_info' => $base), $properties);
@@ -419,6 +421,22 @@ class Card
     }
 
     /**
+     * 获取用户已领取卡券接口
+     *
+     * @param string $openid
+     * @param string $cardId
+     *
+     * @return array
+     */
+    public function userCardLists($openid , $cardId = null){
+        $params = [
+            'openid'    =>  $openid,
+            'card_id'   =>  $cardId
+        ];
+        return new Bag($this->http->jsonPost(self::API_USER_CARD_LIST, $params));
+    }
+
+    /**
      * 会员卡交易
      *
      * <pre>
@@ -546,5 +564,74 @@ class Card
     public function getNonce()
     {
         return uniqid('pre_');
+    }
+
+    /**
+     * 设置测试白名单
+     *
+     * <pre>
+     * $data:
+     * {
+     *     "openIds": {
+     *          "openid1",
+     *          "openid2",
+     *          "openid3"...
+     *     }
+     *     "usernames": {
+     *          "username1",
+     *          "username2",
+     *          "username3"...
+     *     }
+     * }
+     * </pre>
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function setWhitelist(array $data)
+    {
+        $data = array_merge(array('openIds' => array(), 'usernames' => array()), $data);
+        $params = array_merge(array('openid' => $data['openIds']), array('username' => $data['usernames']));
+
+        return $this->http->jsonPost(self::API_TESTWHITELIST, $params);
+    }
+
+    /**
+     * 通过openId设置测试白名单
+     *
+     * $data:
+     * {
+     *     "openid1",
+     *     "openid2",
+     *     "openid3"...
+     * }
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function setWhitelistByOpenId(array $data)
+    {
+        return $this->setWhitelist(array('openIds' => $data));
+    }
+
+    /**
+     * 通过username设置测试白名单
+     *
+     * $data:
+     * {
+     *     "username1",
+     *     "username2",
+     *     "username3"...
+     * }
+     *
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function setWhitelistByUsername(array $data)
+    {
+        return $this->setWhitelist(array('usernames' => $data));
     }
 }
