@@ -68,6 +68,6 @@ class Semantic
                    'appid'    => $this->appId,
                   );
 
-        return new Bag($this->http->jsonPost(self::API_CREATE, array_merge($params, $other)));
+        return new Bag($this->http->jsonPost(self::API_SEARCH, array_merge($params, $other)));
     }
 }

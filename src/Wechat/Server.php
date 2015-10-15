@@ -260,9 +260,13 @@ class Server
      */
     protected function response($response)
     {
+        if (empty($response)) {
+            return "";
+        }
+        
         is_string($response) && $response = Message::make('text')->with('content', $response);
 
-        $return = null;
+        $return = "";
 
         if ($response instanceof BaseMessage) {
             $response->from($this->input->get('ToUserName'))->to($this->input->get('FromUserName'));
