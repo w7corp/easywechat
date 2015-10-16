@@ -147,15 +147,20 @@ class Refund
         if(empty($response)) {
             throw new Exception('Get Refund Failure:');
         }
-        $redundOrder = XML::parse($response);
+        $refundOrder = XML::parse($response);
+
+        if(isset($refundOrder['return_code']) &&
+            $refundOrder['return_code'] === 'FAIL' ) {
+            throw new Exception($refundOrder['return_code'].': '.$refundOrder['return_msg']);
+        }
 
         //返回签名数据校验
-        if(empty($redundOrder) || empty($redundOrder['sign'])) {
-            throw new Exception('check sign error');
+        if(empty($refundOrder) || empty($refundOrder['sign'])) {
+            throw new Exception('param sign is missing or empty');
         }
-        $sign = $redundOrder['sign'];
-        unset($redundOrder['sign']);
-        $signGenerator = new SignGenerator($redundOrder);
+        $sign = $refundOrder['sign'];
+        unset($refundOrder['sign']);
+        $signGenerator = new SignGenerator($refundOrder);
         $signGenerator->onSortAfter(function(SignGenerator $that) {
             $that->key = $this->business->mch_key;
         });
@@ -164,17 +169,17 @@ class Refund
         }
 
         //返回结果判断
-        if(isset($redundOrder['result_code']) &&
-            ($redundOrder['result_code'] === 'FAIL') ) {
-            throw new Exception($redundOrder['err_code'].': '.$redundOrder['err_code_des']);
+        if(isset($refundOrder['result_code']) &&
+            ($refundOrder['result_code'] === 'FAIL') ) {
+            throw new Exception($refundOrder['err_code'].': '.$refundOrder['err_code_des']);
         }
         
-        if(isset($redundOrder['return_code']) &&
-            $redundOrder['return_code'] === 'FAIL' ) {
-            throw new Exception($redundOrder['return_code'].': '.$redundOrder['return_msg']);
+        if(isset($refundOrder['return_code']) &&
+            $refundOrder['return_code'] === 'FAIL' ) {
+            throw new Exception($refundOrder['return_code'].': '.$refundOrder['return_msg']);
         }
 
-        return $this->refundInfo = $redundOrder;
+        return $this->refundInfo = $refundOrder;
     }
 
 
