@@ -35,6 +35,7 @@ class Message
     const TRANSFER  = 'transfer';
     const NEWS_ITEM = 'news_item';
     const MP_NEWS = 'mp_news';
+    const CARD      = 'wxcard';
 
     /**
      * 创建消息实例
