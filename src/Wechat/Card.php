@@ -78,6 +78,7 @@ class Card
     const API_TICKET                = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
     const API_TESTWHITELIST         = 'https://api.weixin.qq.com/card/testwhitelist/set';
     const API_USER_CARD_LIST        = 'https://api.weixin.qq.com/card/user/getcardlist';
+    const API_LANDINGPAGE_CREATE    = 'https://api.weixin.qq.com/card/landingpage/create';
 
     /**
      * constructor
@@ -633,5 +634,52 @@ class Card
     public function setWhitelistByUsername(array $data)
     {
         return $this->setWhitelist(array('usernames' => $data));
+    }
+
+    /**
+     * 创建卡券货架
+     *
+     * <pre>
+     * $data:
+     * {
+     *     "banner": "http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7h  icFN",
+     *     "page_title": "惠城优惠大派送",
+     *     "can_share": true,
+     *     "scene": 'SCENE_H5',
+     *     "card_list": [
+     *         {
+     *             'card_id':"pXch-jnOlGtbuWwIO2NDftZeynRE",
+     *             'thumb_url':"www.qq.com/a.jpg"
+     *         },
+     *         {
+     *             'card_id':"pXch-jnAN-ZBoRbiwgqBZ1RV60fI",
+     *             'thumb_url':"www.qq.com/b.jpg"
+     *         }
+     *     ]
+     * }
+     * </pre>
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    public function createLandingPage(array $data)
+    {
+        $defaultParams = array(
+            'banner' => '',
+            'page_title' => '',
+            'can_share' => true,
+            'scene' => 'SCENE_H5',
+            'card_list' => array(
+                array(
+                    'card_id' => '',
+                    'thumb_url' => ''
+                )
+            )
+        );
+
+        $params = array_merge($defaultParams, $data);
+
+        return $this->http->jsonPost(self::API_LANDINGPAGE_CREATE, $params);
     }
 }
