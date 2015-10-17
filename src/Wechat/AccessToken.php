@@ -110,11 +110,11 @@ class AccessToken
     protected function getTokenFromServer()
     {
         $http = new Http();
-        $params = [
+        $params = array(
             'appid'      => $this->appId,
             'secret'     => $this->appSecret,
             'grant_type' => 'client_credential',
-        ];
+        );
 
         $token = $http->get(self::API_TOKEN_GET, $params);
 
