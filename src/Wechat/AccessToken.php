@@ -43,13 +43,6 @@ class AccessToken
     protected $cache;
 
     /**
-     * token
-     *
-     * @var string
-     */
-    protected $token;
-
-    /**
      * 缓存前缀
      *
      * @var string
@@ -86,37 +79,45 @@ class AccessToken
     /**
      * 获取Token
      *
+     * @param bool $forceRefresh
+     *
      * @return string
      */
-    public function getToken()
+    public function getToken($forceRefresh = false)
     {
-        if ($this->token) {
-            return $this->token;
+        $cacheKey = $this->cacheKey;
+
+        $cached = $this->cache->get($cacheKey);
+
+        if ($forceRefresh || !$cached) {
+            $token = $this->getTokenFromServer();
+
+            $this->cache->set($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
+
+            return $token['access_token'];
         }
 
-        // for php 5.3
-        $appId       = $this->appId;
-        $appSecret   = $this->appSecret;
-        $cache       = $this->cache;
-        $cacheKey    = $this->cacheKey;
-        $apiTokenGet = self::API_TOKEN_GET;
+        return $cached;
+    }
 
-        return $this->token = $this->cache->get(
-            $cacheKey,
-            function ($cacheKey) use ($appId, $appSecret, $cache, $apiTokenGet) {
-                $params = array(
-                           'appid'      => $appId,
-                           'secret'     => $appSecret,
-                           'grant_type' => 'client_credential',
-                          );
-                $http = new Http();
+    /**
+     * Get the access token from WeChat server.
+     *
+     * @param string $cacheKey
+     *
+     * @return array|bool
+     */
+    protected function getTokenFromServer()
+    {
+        $http = new Http();
+        $params = [
+            'appid'      => $this->appId,
+            'secret'     => $this->appSecret,
+            'grant_type' => 'client_credential',
+        ];
 
-                $token = $http->get($apiTokenGet, $params);
+        $token = $http->get(self::API_TOKEN_GET, $params);
 
-                $cache->set($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
-
-                return $token['access_token'];
-            }
-        );
+        return $token;
     }
 }
