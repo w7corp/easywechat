@@ -47,7 +47,7 @@ class Notify
      * @return bool|Bag
      */
     public function verify() {
-        $xmlInput = Http::rawData();
+        $xmlInput = Http::rawInput();
 
         if (empty($xmlInput)) {
             return false;

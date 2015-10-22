@@ -190,7 +190,7 @@ class Server
             return;
         }
 
-        $xmlInput = Http::rawData();
+        $xmlInput = Http::rawInput();
 
         if(empty($_REQUEST['echostr']) && empty($xmlInput) && !empty($_REQUEST['signature'])) {
             throw new Exception("没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On", 500);
