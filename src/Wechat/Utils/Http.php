@@ -294,4 +294,18 @@ class Http
 
         return $results;
     }
+
+    /**
+     * 获取请求的post数据
+     * http://php.net/manual/zh/wrappers.php.php
+     * @return null|string
+     */
+    public static function rawData(){
+        $content = null;
+        if ($content = file_get_contents('php://input')) {
+        } elseif (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
+            $content = $GLOBALS['HTTP_RAW_POST_DATA'];
+        }
+        return $content;
+    }
 }
