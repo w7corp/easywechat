@@ -430,10 +430,10 @@ class Card
      * @return array
      */
     public function userCardLists($openid , $cardId = null){
-        $params = [
+        $params = array(
             'openid'    =>  $openid,
             'card_id'   =>  $cardId
-        ];
+        );
         return new Bag($this->http->jsonPost(self::API_USER_CARD_LIST, $params));
     }
 
