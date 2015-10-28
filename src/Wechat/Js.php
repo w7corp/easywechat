@@ -109,7 +109,7 @@ class Js
      */
     public function getTicket()
     {
-        $key = 'overtrue.wechat.jsapi_ticket'.$this->appId;
+        $key = 'overtrue.wechat.jsapi_ticket.'.$this->appId;
 
         // for php 5.3
         $appId     = $this->appId;
