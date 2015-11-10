@@ -206,8 +206,6 @@ class Bag implements
 
     /**
      * @see Serializable::unserialize()
-     * @param string $data
-     * @return mixed|void
      */
     public function unserialize($data)
     {
@@ -224,8 +222,6 @@ class Bag implements
 
     /**
      * @see Countable::count()
-     * @param int $mode
-     * @return int
      */
     public function count($mode = COUNT_NORMAL)
     {
