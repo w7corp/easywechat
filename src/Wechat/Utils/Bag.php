@@ -86,7 +86,7 @@ class Bag implements
      */
     public function has($key)
     {
-        return Arr::get($this->data, $key) != null;
+        return Arr::get($this->data, $key) !== null;
     }
 
     /**
@@ -155,7 +155,7 @@ class Bag implements
      */
     public function forget($key)
     {
-        return Arr::forget($this->data, $key);
+        Arr::forget($this->data, $key);
     }
 
     /**
