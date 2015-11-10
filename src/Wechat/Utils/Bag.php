@@ -86,7 +86,7 @@ class Bag implements
      */
     public function has($key)
     {
-        return Arr::get($this->data, $key) != null;
+        return Arr::get($this->data, $key) !== null;
     }
 
     /**
@@ -155,7 +155,7 @@ class Bag implements
      */
     public function forget($key)
     {
-        return Arr::forget($this->data, $key);
+        Arr::forget($this->data, $key);
     }
 
     /**
@@ -206,6 +206,8 @@ class Bag implements
 
     /**
      * @see Serializable::unserialize()
+     * @param string $data
+     * @return mixed|void
      */
     public function unserialize($data)
     {
@@ -222,6 +224,8 @@ class Bag implements
 
     /**
      * @see Countable::count()
+     * @param int $mode
+     * @return int
      */
     public function count($mode = COUNT_NORMAL)
     {
