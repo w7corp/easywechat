@@ -138,20 +138,12 @@ class Staff
      * 删除客服账号
      *
      * @param string $email
-     * @param string $nickname
-     * @param string $password
      *
      * @return bool
      */
-    public function delete($email, $nickname, $password)
+    public function delete($email)
     {
-        $params = array(
-                   'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
-                  );
-
-        return $this->http->jsonPost(self::API_DELETE . "?kf_account={$email}", $params);
+        return $this->http->get(self::API_DELETE, array('kf_account' => $email));
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Http.php
+ * Http.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,40 +9,37 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Utils;
 
-use Overtrue\Wechat\Utils\JSON;
-
 /**
- * Http请求类
+ * Http请求类.
  *
  * from https://github.com/dsyph3r/curl-php/blob/master/lib/Network/Curl/Curl.php
  */
 class Http
 {
-
     /**
-     * Constants for available HTTP methods
+     * Constants for available HTTP methods.
      */
-    const GET     = 'GET';
-    const POST    = 'POST';
-    const PUT     = 'PUT';
-    const PATCH   = 'PATCH';
-    const DELETE  = 'DELETE';
+    const GET = 'GET';
+    const POST = 'POST';
+    const PUT = 'PUT';
+    const PATCH = 'PATCH';
+    const DELETE = 'DELETE';
 
     /**
-     * CURL句柄
+     * CURL句柄.
      *
      * @var resource handle
      */
     protected $curl;
 
     /**
-     * Create the cURL resource
+     * Create the cURL resource.
      */
     public function __construct()
     {
@@ -50,7 +47,7 @@ class Http
     }
 
     /**
-     * Clean up the cURL handle
+     * Clean up the cURL handle.
      */
     public function __destruct()
     {
@@ -60,7 +57,7 @@ class Http
     }
 
     /**
-     * Get the cURL handle
+     * Get the cURL handle.
      *
      * @return resource cURL handle
      */
@@ -70,7 +67,7 @@ class Http
     }
 
     /**
-     * Make a HTTP GET request
+     * Make a HTTP GET request.
      *
      * @param string $url
      * @param array  $params
@@ -84,7 +81,7 @@ class Http
     }
 
     /**
-     * Make a HTTP POST request
+     * Make a HTTP POST request.
      *
      * @param string $url
      * @param array  $params
@@ -98,7 +95,7 @@ class Http
     }
 
     /**
-     * Make a HTTP PUT request
+     * Make a HTTP PUT request.
      *
      * @param string $url
      * @param array  $params
@@ -112,7 +109,7 @@ class Http
     }
 
     /**
-     * Make a HTTP PATCH request
+     * Make a HTTP PATCH request.
      *
      * @param string $url
      * @param array  $params
@@ -126,7 +123,7 @@ class Http
     }
 
     /**
-     * Make a HTTP DELETE request
+     * Make a HTTP DELETE request.
      *
      * @param string $url
      * @param array  $params
@@ -140,7 +137,7 @@ class Http
     }
 
     /**
-     * Make a HTTP request
+     * Make a HTTP request.
      *
      * @param string $url
      * @param string $method
@@ -162,26 +159,22 @@ class Http
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $method);
         curl_setopt($this->curl, CURLOPT_URL, $url);
 
-
         //使用证书情况
-        if(isset($options['sslcert_path']) && isset($options['sslkey_path']) ){
-            if (!file_exists($options['sslcert_path']) ||!file_exists($options['sslkey_path'])  ) {
+        if (isset($options['sslcert_path']) && isset($options['sslkey_path'])) {
+            if (!file_exists($options['sslcert_path']) || !file_exists($options['sslkey_path'])) {
                 throw new \Exception('Certfile is not correct');
             }
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
-            curl_setopt($this->curl,CURLOPT_SSL_VERIFYPEER,TRUE);
-            curl_setopt($this->curl,CURLOPT_SSL_VERIFYHOST,2);//严格校验
-            curl_setopt($this->curl,CURLOPT_SSLCERTTYPE,'PEM');
-            curl_setopt($this->curl,CURLOPT_SSLCERT, $options['sslcert_path']);
-            curl_setopt($this->curl,CURLOPT_SSLKEYTYPE,'PEM');
-            curl_setopt($this->curl,CURLOPT_SSLKEY, $options['sslkey_path']);
-        }
-        else
-        {
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 2);//严格校验
+            curl_setopt($this->curl, CURLOPT_SSLCERTTYPE, 'PEM');
+            curl_setopt($this->curl, CURLOPT_SSLCERT, $options['sslcert_path']);
+            curl_setopt($this->curl, CURLOPT_SSLKEYTYPE, 'PEM');
+            curl_setopt($this->curl, CURLOPT_SSLKEY, $options['sslkey_path']);
+        } else {
             curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, 0);
-
         }
 
         // Check for files
@@ -217,22 +210,22 @@ class Http
 
         // Separate headers and body
         $headerSize = $response['curl_info']['header_size'];
-        $header     = substr($response['response'], 0, $headerSize);
-        $body       = substr($response['response'], $headerSize);
+        $header = substr($response['response'], 0, $headerSize);
+        $body = substr($response['response'], $headerSize);
 
         $results = array(
-                    'curl_info'    => $response['curl_info'],
+                    'curl_info' => $response['curl_info'],
                     'content_type' => $response['curl_info']['content_type'],
-                    'status'       => $response['curl_info']['http_code'],
-                    'headers'      => $this->splitHeaders($header),
-                    'data'         => $body,
+                    'status' => $response['curl_info']['http_code'],
+                    'headers' => $this->splitHeaders($header),
+                    'data' => $body,
                    );
 
         return $results;
     }
 
     /**
-     * make cURL file
+     * make cURL file.
      *
      * @param string $filename
      *
@@ -248,7 +241,7 @@ class Http
     }
 
     /**
-     * Split the HTTP headers
+     * Split the HTTP headers.
      *
      * @param string $rawHeaders
      *
@@ -273,7 +266,7 @@ class Http
     }
 
     /**
-     * Perform the Curl request
+     * Perform the Curl request.
      *
      * @return array
      */
@@ -289,7 +282,7 @@ class Http
 
         $results = array(
                     'curl_info' => $curlInfo,
-                    'response'  => $response,
+                    'response' => $response,
                    );
 
         return $results;
