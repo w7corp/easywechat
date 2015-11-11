@@ -165,13 +165,13 @@ class Server
                   $this->input->get('nonce'),
                  );
 
-        if ($this->input->has('signature')
+        if ($this->input->get('signature')
             && $this->signature($input) !== $this->input->get('signature')
         ) {
             throw new Exception('Bad Request', 400);
         }
 
-        if ($this->input->has('echostr')) {
+        if ($this->input->get('echostr')) {
             return strip_tags($this->input['echostr']);
         }
 
@@ -263,7 +263,7 @@ class Server
         if (empty($response)) {
             return "";
         }
-        
+
         is_string($response) && $response = Message::make('text')->with('content', $response);
 
         $return = "";
@@ -298,9 +298,9 @@ class Server
     {
         $this->call('received', array($this->input));
 
-        if ($this->input->has('MsgType') && $this->input->get('MsgType') === 'event') {
+        if ($this->input->get('MsgType') && $this->input->get('MsgType') === 'event') {
             return $this->handleEvent($this->input);
-        } elseif ($this->input->has('MsgId')) {
+        } elseif ($this->input->get('MsgId')) {
             return $this->handleMessage($this->input);
         }
 
