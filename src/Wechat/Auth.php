@@ -131,8 +131,8 @@ class Auth
     public function user()
     {
         if ($this->authorizedUser
-            || !$this->input->has('state')
-            || (!$code = $this->input->get('code')) && $this->input->has('state')) {
+            || !$this->input->get('state')
+            || (!$code = $this->input->get('code')) && $this->input->get('state')) {
             return $this->authorizedUser;
         }
 
@@ -158,7 +158,7 @@ class Auth
      */
     public function authorize($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
     {
-        if (!$this->input->has('state') && !$this->input->has('code')) {
+        if (!$this->input->get('state') && !$this->input->get('code')) {
             $this->redirect($to, $scope, $state);
         }
 
