@@ -141,7 +141,7 @@ class QRCode
      */
     public function show($ticket)
     {
-        return self::API_SHOW."?ticket={$ticket}";
+        return sprintf('%s?ticket=%s', self::API_SHOW, urlencode($ticket));
     }
 
     /**
