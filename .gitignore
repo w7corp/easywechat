@@ -6,3 +6,7 @@ index.php
 getcode.php
 showlink.php
 *.jpg
+
+
+#project file
+.idea

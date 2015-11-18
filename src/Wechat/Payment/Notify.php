@@ -16,6 +16,7 @@
 
 namespace Overtrue\Wechat\Payment;
 
+use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\SignGenerator;
@@ -46,15 +47,7 @@ class Notify
      * @return bool|Bag
      */
     public function verify() {
-        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-            if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
-                $xmlInput = $GLOBALS['HTTP_RAW_POST_DATA'];
-            } else {
-                $xmlInput = file_get_contents('php://input');
-            }
-        } else {
-            $xmlInput = file_get_contents('php://input');
-        }
+        $xmlInput = Http::rawInput();
 
         if (empty($xmlInput)) {
             return false;

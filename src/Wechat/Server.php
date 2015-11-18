@@ -17,6 +17,7 @@ namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
 use Overtrue\Wechat\Utils\Bag;
+use Overtrue\Wechat\Utils\Http;
 use Overtrue\Wechat\Utils\XML;
 
 /**
@@ -189,18 +190,10 @@ class Server
             return;
         }
 
-        if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-            if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
-                $xmlInput = $GLOBALS['HTTP_RAW_POST_DATA'];
-            } else {
-                $xmlInput = file_get_contents('php://input');
-            }
+        $xmlInput = Http::rawInput();
 
-            if (empty($_REQUEST['echostr']) && empty($xmlInput) && !empty($_REQUEST['signature'])) {
-                throw new Exception("没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On", 500);
-            }
-        } else {
-            $xmlInput = file_get_contents('php://input');
+        if(empty($_REQUEST['echostr']) && empty($xmlInput) && !empty($_REQUEST['signature'])) {
+            throw new Exception("没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On", 500);
         }
 
         $input = XML::parse($xmlInput);
