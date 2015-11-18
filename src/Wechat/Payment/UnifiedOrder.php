@@ -28,34 +28,34 @@ class UnifiedOrder
      * https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1
      */
     const UNIFIEDORDER_URL = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-    
+
     /**
      * 订单信息
-     * 
+     *
      * @var Order
      */
     protected $order;
 
     /**
      * 商户信息
-     * 
+     *
      * @var Business
      */
     protected $business;
 
     /**
      * UnifiedOrder缓存
-     * 
+     *
      * @var Array
      */
     protected $unifiedOrder = null;
-    
+
     public function __construct(Business $business = null, Order $order = null)
     {
         if(!is_null($order)) {
             $this->setOrder($order);
         }
-        
+
         if(!is_null($business)) {
             $this->setBusiness($business);
         }
@@ -63,7 +63,7 @@ class UnifiedOrder
 
     /**
      * 设置订单
-     * 
+     *
      * @param Order $order
      *
      * @return $this
@@ -77,15 +77,15 @@ class UnifiedOrder
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
-            
+
             if (!$order->nonce_str) {
                 $order->nonce_str = md5(uniqid(microtime()));
             }
-            
+
             if (!$order->spbill_create_ip) {
                 $order->spbill_create_ip = empty($_SERVER['REMOTE_ADDR']) ? '0.0.0.0' : $_SERVER['REMOTE_ADDR'];
             }
-            
+
             if (!$order->trade_type) {
                 if (!$order->openid) {
                     throw new Exception('openid is required');
@@ -100,7 +100,7 @@ class UnifiedOrder
 
     /**
      * 获取订单
-     * 
+     *
      * @return Order
      */
     public function getOrder()
@@ -110,7 +110,7 @@ class UnifiedOrder
 
     /**
      * 设置商户
-     * 
+     *
      * @param Business $business
      *
      * @return $this
@@ -132,7 +132,7 @@ class UnifiedOrder
 
     /**
      * 获取商户
-     * 
+     *
      * @return Business
      */
     public function getBusiness()
@@ -142,7 +142,7 @@ class UnifiedOrder
 
     /**
      * 获取统一下单结果
-     * 
+     *
      * @param bool|false $force 是否忽略缓存强制更新
      *
      * @return array
@@ -160,20 +160,21 @@ class UnifiedOrder
         if ($this->unifiedOrder !== null && $force === false) {
             return $this->unifiedOrder;
         }
-        
+
         $params = $this->order->toArray();
         $params['appid']    = $this->business->appid;
         $params['mch_id']   = $this->business->mch_id;
         $signGenerator = new SignGenerator($params);
-        $signGenerator->onSortAfter(function(SignGenerator $that) {
-            $that->key = $this->business->mch_key;
+        $me = $this;
+        $signGenerator->onSortAfter(function(SignGenerator $that) use ($me) {
+            $that->key = $me->business->mch_key;
         });
-        
+
         $params['sign'] = $signGenerator->getResult();
         $request = XML::build($params);
-        
+
         $http = new Http();
-        
+
         $response = $http->request(static::UNIFIEDORDER_URL, Http::POST, $request);
         if(empty($response)) {
             throw new Exception('Get UnifiedOrder Failure:');
@@ -184,7 +185,7 @@ class UnifiedOrder
             ($unifiedOrder['result_code'] === 'FAIL') ) {
             throw new Exception($unifiedOrder['err_code'].': '.$unifiedOrder['err_code_des']);
         }
-        
+
         if( isset($unifiedOrder['return_code']) &&
             $unifiedOrder['return_code'] === 'FAIL' ) {
             throw new Exception($unifiedOrder['return_code'].': '.$unifiedOrder['return_msg']);

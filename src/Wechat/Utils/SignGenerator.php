@@ -27,17 +27,17 @@ class SignGenerator extends MagicAttributes
      * 加密类型
      */
     protected $hashType = 'md5';
-    
+
     /**
      * 是否转为大写
      */
     protected $isUpper = true;
-    
+
     /**
      * 排序回调函数
      */
     protected $sortAfterCallback;
-    
+
     public function __construct(array $params = array())
     {
         $this->attributes = $params;
@@ -45,6 +45,7 @@ class SignGenerator extends MagicAttributes
 
     /**
      * 移除一项
+     *
      * @param $key
      *
      * @return $this
@@ -57,6 +58,7 @@ class SignGenerator extends MagicAttributes
 
     /**
      * 设置加密类型
+     *
      * @param $hashType
      *
      * @throws \Exception
@@ -72,6 +74,7 @@ class SignGenerator extends MagicAttributes
 
     /**
      * 是否转为大写
+     *
      * @param $value
      *
      * @return bool
@@ -80,7 +83,7 @@ class SignGenerator extends MagicAttributes
     {
         return $this->isUpper = (bool) $value;
     }
-    
+
     /**
      * 将全部项目排序
      */
@@ -94,15 +97,17 @@ class SignGenerator extends MagicAttributes
 
     /**
      * 排序之后调用（事件）
+     *
      * @param callable $callback
      */
-    public function onSortAfter(callable $callback)
+    public function onSortAfter($callback)
     {
         $this->sortAfterCallback = $callback;
     }
 
     /**
      * 获取签结果
+     *
      * @return string
      */
     public function getResult()
