@@ -15,6 +15,8 @@
 
 namespace Overtrue\Wechat\Utils;
 
+use finfo;
+
 class File
 {
     /**
