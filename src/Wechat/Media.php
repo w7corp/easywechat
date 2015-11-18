@@ -119,7 +119,7 @@ class Media
         $response = $this->http->post($url, $params, $options);
 
         $this->forever = false;
-        
+
         if ($type == 'image') {
             return $response;
         }
@@ -279,11 +279,10 @@ class Media
         if (!is_array($contents)) {
             $ext = File::getStreamExt($contents);
 
-            file_put_contents($filename.'.'.$ext, $contents);
+            file_put_contents($filename.$ext, $contents);
 
-            return $filename.'.'.$ext;
+            return $filename.$ext;
         } else {
-
             return $contents;
         }
     }
