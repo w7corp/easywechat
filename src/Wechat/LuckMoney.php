@@ -114,7 +114,7 @@ class LuckMoney
         $signGenerator = new SignGenerator($param);
         $me = $this;
         $signGenerator->onSortAfter(function (SignGenerator $that) use ($me) {
-            $that->key = $this->business->mch_key;
+            $that->key = $me->business->mch_key;
         });
 
         $sign = $signGenerator->getResult();
@@ -179,7 +179,7 @@ class LuckMoney
         $signGenerator = new SignGenerator($param);
         $me = $this;
         $signGenerator->onSortAfter(function (SignGenerator $that) use ($me) {
-            $that->key = $this->business->mch_key;
+            $that->key = $me->business->mch_key;
         });
 
         $sign = $signGenerator->getResult();
@@ -230,8 +230,9 @@ class LuckMoney
         $param['bill_type'] = 'MCHT';
 
         $signGenerator = new SignGenerator($param);
-        $signGenerator->onSortAfter(function (SignGenerator $that) {
-            $that->key = $this->business->mch_key;
+        $me = $this;
+        $signGenerator->onSortAfter(function (SignGenerator $that) use ($me) {
+            $that->key = $me->business->mch_key;
         });
 
         $sign = $signGenerator->getResult();
