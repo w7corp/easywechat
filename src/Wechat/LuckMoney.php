@@ -113,7 +113,7 @@ class LuckMoney
         $param = array_merge($data, $defaultParam);
         $signGenerator = new SignGenerator($param);
         $me = $this;
-        $signGenerator->onSortAfter(function (SignGenerator $that use ($me)) {
+        $signGenerator->onSortAfter(function (SignGenerator $that) use ($me) {
             $that->key = $this->business->mch_key;
         });
 
