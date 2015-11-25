@@ -12,6 +12,9 @@
         "php":">=5.3",
         "ext-mcrypt": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
     "authors": [
         {
             "name": "overtrue",
@@ -22,6 +25,11 @@
     "autoload": {
         "psr-4": {
             "Overtrue\\Wechat\\": "src/Wechat/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Overtrue\\Wechat\\Test\\": "test/"
         }
     }
 }

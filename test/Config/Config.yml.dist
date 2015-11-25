@@ -1,0 +1,9 @@
+appId: appId
+appSecret: appSecret
+debug: true
+token: token
+encodingAESKey: encodingAESKey
+mchId: mchId
+mchKey: mchKey
+clientCert: clientCert
+clientKey: clientKey
