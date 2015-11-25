@@ -114,7 +114,7 @@ class Http extends HttpClient
             }
 
             // access token 超时重试处理
-            if ($this->token && $contents['errcode'] == '40001' && $retry > 0) {
+            if ($this->token && in_array($contents['errcode'], array('40001', '42001')) && $retry > 0) {
                 // force refresh
                 $this->token->getToken(true);
 
