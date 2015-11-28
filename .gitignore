@@ -8,3 +8,4 @@ showlink.php
 *.jpg
 test/Config/Config.yml
 test/Cert/
+.idea/
