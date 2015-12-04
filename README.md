@@ -6,7 +6,7 @@
 
 SDK QQ群：`319502940`
 
-微信开发者交流群：`9179779`
+微信开发者交流群：`9179779` （这不是微信群，是名称叫“微信开发者交流群” 的QQ群，微信上聊技术？你逗我？）
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
