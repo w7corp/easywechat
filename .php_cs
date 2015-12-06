@@ -1,7 +1,7 @@
 <?php
 
 $header = <<<EOF
-This file is part of the overtrue/socialite.
+This file is part of the overtrue/wechat.
 
 (c) overtrue <i@overtrue.me>
 
