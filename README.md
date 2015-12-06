@@ -1,6 +1,4 @@
-# Wechat
-
-[English](README_EN.md)
+# [WeChat SDK](http://easywechat.org)
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
@@ -76,30 +74,6 @@ $server->serve()->send();
 [http://easywechat.org/](http://easywechat.org/)
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
-
-## Features
-
-- [x] [监听消息]()
-- [x] [监听事件]()
-- [x] [基本消息类型]()
-- [x] [图文消息]()
-- [x] [模板消息]()
-- [ ] [群发消息]()
-- [x] [用户与用户组]()
-- [x] [客服与消息发送]()
-- [x] [多客服与消息转发]()
-- [x] [网页授权]()
-- [x] [自定义菜单]()
-- [x] [素材管理]()
-- [x] [门店管理]()
-- [x] [卡券管理]()
-- [x] [JSSDK]()
-- [x] [语义理解]()
-- [x] [数据统计]()
-- [x] [二维码]()
-- [x] [短链接]()
-- [x] [微信支付]()
-- [ ] [微信小店]()
 
 ## 贡献代码
 
