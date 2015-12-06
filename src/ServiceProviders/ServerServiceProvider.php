@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue/wechat
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\WeChat\ServiceProviders;
 
 use EasyWeChat\Encryption\Encryptor;
