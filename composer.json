@@ -1,0 +1,31 @@
+{
+    "name": "overtrue/wechat",
+    "description": "微信SDK",
+    "keywords": [
+        "wechat",
+        "weixin",
+        "weixin-sdk",
+        "sdk"
+    ],
+    "license": "MIT",
+    "require": {
+        "php":">=5.4",
+        "ext-mcrypt": "*",
+        "easywechat/user": "dev-master",
+        "easywechat/server": "dev-master",
+        "pimple/pimple": "~3.0",
+        "monolog/monolog": "^1.17"
+    },
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "minimum-stability" : "dev",
+    "autoload": {
+        "psr-4": {
+            "Overtrue\\WeChat\\": "src"
+        }
+    }
+}

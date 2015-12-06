@@ -1,0 +1,5 @@
+*.DS_Store
+/vendor
+sftp-config.json
+composer.lock
+/*.php
