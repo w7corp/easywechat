@@ -4,6 +4,8 @@
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
+> 3.0 开发中，目前大部分模块已经完成，希望您能帮忙测试为谢！[3.0](https://github.com/overtrue/wechat/tree/3.0)
+
 SDK QQ群：`319502940`
 
 微信开发者交流群：`9179779`
