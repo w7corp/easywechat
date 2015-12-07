@@ -46,6 +46,15 @@ class Application extends Container
     protected $providers = [
         'Overtrue\\WeChat\\ServiceProviders\\ServerServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\UserServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\JsServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\MenuServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\NoticeServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\MaterialServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\StaffServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\UrlServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\QRCodeServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\SemanticServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\StatsServiceProvider',
     ];
 
     /**
