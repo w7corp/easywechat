@@ -22,6 +22,7 @@
 
 namespace Overtrue\WeChat\ServiceProviders;
 
+use EasyWeChat\Stats\Stats;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

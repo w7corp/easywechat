@@ -30,6 +30,7 @@ use EasyWeChat\Cache\Manager as CacheManager;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Exception as EasyWeChatException;
 use EasyWeChat\Support\Log;
+use ErrorException;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
