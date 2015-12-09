@@ -4,7 +4,13 @@ enabled:
   - align_equals
   - strict
   - strict_param
+  - header_comment
+  - short_array_syntax
+  - ordered_use
+  - php_unit_construct
+  - php_unit_strict
+  - align_double_arrow
+  - align_equals
 
 disabled:
   - phpdoc_short_description
-  - unalign_equals
