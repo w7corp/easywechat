@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue/wechat
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\WeChat;
 
 use EasyWeChat\Support\Collection;

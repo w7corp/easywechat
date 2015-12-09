@@ -9,7 +9,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php":">=5.4",
+        "php":">=5.5.0",
         "ext-mcrypt": "*",
         "easywechat/user": "dev-master",
         "easywechat/server": "dev-master",

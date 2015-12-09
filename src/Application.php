@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue/wechat
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\WeChat;
 
 use EasyWeChat\Cache\Manager as CacheManager;
@@ -32,6 +33,7 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Application.
@@ -72,6 +74,7 @@ class Application extends Container
 
         $this->registerProviders();
         $this->registerBase();
+        $this->registerExceptionHandler();
         $this->initializeLogger();
     }
 
@@ -90,6 +93,10 @@ class Application extends Container
      */
     private function registerBase()
     {
+        $this['request'] = $this->factory(function () {
+            return Request::createFromGlobals();
+        });
+
         $this['cache'] = $this->factory(function () {
             return new CacheManager();
         });
@@ -104,18 +111,43 @@ class Application extends Container
     }
 
     /**
+     * Register exception and error handler.
+     */
+    private function registerExceptionHandler()
+    {
+        $logTemplate          = '%s: %s in %s on line %s.';
+        $lastExceptionHandler = set_exception_handler(function ($e) use (&$lastExceptionHandler, $logTemplate) {
+            if ($e instanceof EasyWeChatException) {
+                return Log::error(sprintf($logTemplate, $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine()));
+            }
+
+            if (is_callable($lastExceptionHandler)) {
+                return call_user_func($lastExceptionHandler, $e);
+            }
+        });
+
+        set_error_handler(function ($severity, $message, $file, $line) use ($logTemplate) {
+            if (!(error_reporting() & $severity)) {
+                return Log::error(sprintf($logTemplate, $severity, $message, $file, $line));
+            }
+
+            throw new ErrorException($message, 0, $severity, $file, $line);
+        });
+    }
+
+    /**
      * Initialize logger.
      */
     private function initializeLogger()
     {
+        $logger = new Logger('easywechat');
+
         if (!$this['config']['debug']) {
-            $logger = new Logger('easywechat');
             $logger->pushHandler(new NullHandler());
-            Log::setLogger($logger);
-        } elseif ($logFile = $this['config']['log_file']) {
-            $logger = new Logger('easywechat');
-            $logger->pushHandler(new StreamHandler($logFile, $this['config']->get('log_level', Logger::WARNING)));
-            Log::setLogger($logger);
+        } elseif ($logFile = $this['config']['log.file']) {
+            $logger->pushHandler(new StreamHandler($logFile, $this['config']->get('log.level', Logger::WARNING)));
         }
+
+        Log::setLogger($logger);
     }
 }

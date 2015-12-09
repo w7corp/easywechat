@@ -34,7 +34,7 @@ SDK 使用交流 QQ 群：`319502940`
 
 ## 安装
 
-环境要求：PHP >= 5.4.0
+环境要求：PHP >= 5.5.0
 
 1. 使用 [composer](https://getcomposer.org/)
 
