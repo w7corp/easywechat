@@ -44,7 +44,7 @@ class OAuthServiceProvider implements ServiceProviderInterface
                         $pimple['config']['secret'],
                         $callback,
                     ],
-                ],
+                ]
             ))->driver('wechat');
 
 
