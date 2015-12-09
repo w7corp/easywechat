@@ -28,6 +28,7 @@ namespace Overtrue\WeChat;
 
 use EasyWeChat\Cache\Manager as CacheManager;
 use EasyWeChat\Core\AccessToken;
+use EasyWeChat\Core\Exception as EasyWeChatException;
 use EasyWeChat\Support\Log;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
