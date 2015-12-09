@@ -1,5 +1,7 @@
 preset: symfony
 
+linting: true
+
 enabled:
   - align_equals
   - strict
