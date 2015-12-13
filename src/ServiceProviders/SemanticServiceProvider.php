@@ -45,8 +45,8 @@ class SemanticServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['semantic'] = $pimple->factory(function ($pimple) {
+        $pimple['semantic'] = function ($pimple) {
            return new Semantic($pimple['access_token']);
-        });
+        };
     }
 }

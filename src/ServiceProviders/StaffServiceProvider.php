@@ -41,8 +41,8 @@ class StaffServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['staff'] = $pimple->factory(function ($pimple) {
+        $pimple['staff'] = function ($pimple) {
             return new Staff($pimple['access_token']);
-        });
+        };
     }
 }

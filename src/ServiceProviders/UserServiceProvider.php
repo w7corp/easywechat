@@ -45,8 +45,8 @@ class UserServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['user'] = $pimple->factory(function ($pimple) {
+        $pimple['user'] = function ($pimple) {
            return new User($pimple['access_token']);
-        });
+        };
     }
 }

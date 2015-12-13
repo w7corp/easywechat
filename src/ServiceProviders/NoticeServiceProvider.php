@@ -41,8 +41,8 @@ class NoticeServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['notice'] = $pimple->factory(function ($pimple) {
+        $pimple['notice'] = function ($pimple) {
             return new Notice($pimple['access_token']);
-        });
+        };
     }
 }

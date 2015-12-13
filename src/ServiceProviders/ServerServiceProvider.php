@@ -46,19 +46,19 @@ class ServerServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['encryptor'] = $pimple->factory(function ($pimple) {
+        $pimple['encryptor'] = function ($pimple) {
             return new Encryptor(
                 $pimple['config']['app_id'],
                 $pimple['config']['secret'],
                 $pimple['config']['aes_key']
             );
-        });
+        };
 
-        $pimple['server'] = $pimple->factory(function ($pimple) {
+        $pimple['server'] = function ($pimple) {
             $server = new Guard();
             $server->setEncryptor($pimple['encryptor']);
 
             return $server;
-        });
+        };
     }
 }

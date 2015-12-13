@@ -41,8 +41,8 @@ class StatsServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['stats'] = $pimple->factory(function ($pimple) {
+        $pimple['stats'] = function ($pimple) {
             return new Stats($pimple['access_token']);
-        });
+        };
     }
 }

@@ -62,6 +62,13 @@ class Application extends Container
     ];
 
     /**
+     * The exception handler.
+     *
+     * @var callable
+     */
+    protected $exceptionHandler;
+
+    /**
      * Application constructor.
      *
      * @param array $config
@@ -70,14 +77,40 @@ class Application extends Container
     {
         parent::__construct();
 
-        $this['config'] = $this->factory(function () use ($config) {
+        $this['config'] = function () use ($config) {
             return new Config($config);
-        });
+        };
 
         $this->registerProviders();
         $this->registerBase();
         $this->registerExceptionHandler();
         $this->initializeLogger();
+
+        Log::info('Current configuration:', $config);
+    }
+
+    /**
+     * Set the exception handler.
+     *
+     * @param callable $callback
+     *
+     * @return $this
+     */
+    public function setExceptionHanler(callable $callback)
+    {
+        $this->exceptionHandler = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Return current exception handler.
+     *
+     * @return callable
+     */
+    public function getExceptionHandler()
+    {
+        return $this->exceptionHandler;
     }
 
     /**
@@ -95,21 +128,21 @@ class Application extends Container
      */
     private function registerBase()
     {
-        $this['request'] = $this->factory(function () {
+        $this['request'] = function () {
             return Request::createFromGlobals();
-        });
+        };
 
-        $this['cache'] = $this->factory(function () {
+        $this['cache'] = function () {
             return new CacheManager();
-        });
+        };
 
-        $this['access_token'] = $this->factory(function () {
+        $this['access_token'] = function () {
            return new AccessToken(
                $this['config']['app_id'],
                $this['config']['secret'],
                $this['cache']
            );
-        });
+        };
     }
 
     /**
@@ -123,17 +156,30 @@ class Application extends Container
                 return Log::error(sprintf($logTemplate, $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine()));
             }
 
+            $this->exceptionHandler && call_user_func_array($this->exceptionHandler, [$e]);
+
             if (is_callable($lastExceptionHandler)) {
                 return call_user_func($lastExceptionHandler, $e);
             }
         });
 
-        set_error_handler(function ($severity, $message, $file, $line) use ($logTemplate) {
-            if (!(error_reporting() & $severity)) {
-                return Log::error(sprintf($logTemplate, $severity, $message, $file, $line));
-            }
+        $errorHandler = function ($severity, $message, $file, $line) use ($logTemplate) {
+            Log::error(sprintf($logTemplate, $severity, $message, $file, $line));
 
-            throw new ErrorException($message, 0, $severity, $file, $line);
+            if (error_reporting() & $severity) {
+                throw new ErrorException($message, 0, $severity, $file, $line);
+            }
+        };
+
+        set_error_handler($errorHandler);
+
+        register_shutdown_function(function () use ($logTemplate, $errorHandler) {
+            $lastError = error_get_last();
+
+            if ($lastError['type'] === E_ERROR) {
+                // fatal error
+                $errorHandler(E_ERROR, $lastError['message'], $lastError['file'], $lastError['line']);
+            }
         });
     }
 

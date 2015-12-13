@@ -41,8 +41,8 @@ class UrlServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['url'] = $pimple->factory(function ($pimple) {
+        $pimple['url'] = function ($pimple) {
             return new Url($pimple['access_token']);
-        });
+        };
     }
 }
