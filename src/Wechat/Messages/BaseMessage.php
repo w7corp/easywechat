@@ -128,11 +128,11 @@ abstract class BaseMessage extends MagicAttributes
             );
         }
 
-        $base = array_merge($group, array(
+        $base = array(
             'msgtype' => $this->getDefaultMessageType(),
-        ));
+        );
 
-        return array_merge($base, $this->toStaff());
+        return array_merge($group, $this->toStaff(), $base);
     }
 
     /**
