@@ -30,12 +30,13 @@ class Message
     const IMAGE     = 'image';
     const VOICE     = 'voice';
     const VIDEO     = 'video';
+    const MP_VIDEO  = 'mpvideo';
     const MUSIC     = 'music';
     const NEWS      = 'news';
     const TRANSFER  = 'transfer';
     const NEWS_ITEM = 'news_item';
     const MP_NEWS = 'mp_news';
-    const CARD      = 'wxcard';
+    const WXCARD      = 'wxcard';
 
     /**
      * 创建消息实例
