@@ -99,17 +99,63 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
-     * 生成群发的数据
+     * 生成通过群发的数据
      *
      * @return array
      */
     public function buildForBroadcast()
     {
-        if (!method_exists($this, 'toBroadcast')) {
-            throw new \Exception(__CLASS__.'未实现此方法：toBroadcast()');
+        if (!method_exists($this, 'toStaff')) {
+            throw new \Exception(__CLASS__.'未实现此方法：toStaff()');
         }
 
-        //TODO
+        if (is_null($this->to_group)) {
+            $group = array(
+                'filter' => array(
+                    'is_to_all' => true,
+                ),
+            );
+        } elseif (is_array($this->to_group)) {
+            $group = array(
+                'touser' => $this->to_group,
+            );
+        } else {
+            $group = array(
+                'filter' => array(
+                    'is_to_all' => false,
+                    'group_id' => $this->to_group,
+                ),
+            );
+        }
+
+        $base = array(
+            'msgtype' => $this->getDefaultMessageType(),
+        );
+
+        return array_merge($group, $this->toStaff(), $base);
+    }
+
+    /**
+     * 生成通过群发预览的数据
+     *
+     * @param $type
+     *
+     * @return array
+     *
+     * @throws \Exception
+     */
+    public function buildForBroadcastPreview($type)
+    {
+        if (!method_exists($this, 'toStaff')) {
+            throw new \Exception(__CLASS__.'未实现此方法：toStaff()');
+        }
+
+        $base = array(
+            $type => $this->to,
+            'msgtype' => $this->getDefaultMessageType(),
+        );
+
+        return array_merge($base, $this->toStaff());
     }
 
     /**
