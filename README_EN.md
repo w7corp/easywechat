@@ -1,6 +1,6 @@
 # Wechat
 
-May be the most beautiful Wechat SDK till now.[Laravel 5 extension package: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
+May be the most beautiful Wechat SDK till now. [Laravel 5 extension package: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
 We discuss @ QQ Group：319502940. Welcome to join us! ^^
 
