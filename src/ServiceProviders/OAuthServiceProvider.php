@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * OAuthServiceProvider.php
+ * OAuthServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -16,13 +26,11 @@ use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-
 /**
  * Class OAuthServiceProvider.
  */
 class OAuthServiceProvider implements ServiceProviderInterface
 {
-
     /**
      * Registers services on the given container.
      *
@@ -33,9 +41,9 @@ class OAuthServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['oauth'] = function($pimple){
-            $callback = $this->prepareCallbackUrl($pimple);
-            $scopes   = $pimple['config']->get('oauth.scopes', []);
+        $pimple['oauth'] = function ($pimple) {
+            $callback  = $this->prepareCallbackUrl($pimple);
+            $scopes    = $pimple['config']->get('oauth.scopes', []);
             $socialite = (new Socialite(
                 [
                     'wechat' => [
@@ -65,7 +73,7 @@ class OAuthServiceProvider implements ServiceProviderInterface
     {
         $callback = $pimple['config']->get('oauth.callback');
         $baseUrl  = $pimple['request']->getSchemeAndHttpHost();
-        $callback = stripos($callback, 'http') === 0 ? $callback : $baseUrl .'/'.ltrim($callback, '/');
+        $callback = stripos($callback, 'http') === 0 ? $callback : $baseUrl.'/'.ltrim($callback, '/');
 
         return $callback;
     }
