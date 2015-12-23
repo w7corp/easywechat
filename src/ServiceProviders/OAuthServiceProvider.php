@@ -12,7 +12,7 @@
 
 namespace Overtrue\WeChat\ServiceProviders;
 
-use Overtrue\Socialite;
+use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -36,17 +36,15 @@ class OAuthServiceProvider implements ServiceProviderInterface
         $pimple['oauth'] = function($pimple){
             $callback = $this->prepareCallbackUrl($pimple);
             $scopes   = $pimple['config']->get('oauth.scopes', []);
-
             $socialite = (new Socialite(
                 [
                     'wechat' => [
-                        $pimple['config']['app_id'],
-                        $pimple['config']['secret'],
-                        $callback,
+                        'client_id'     => $pimple['config']['app_id'],
+                        'client_secret' => $pimple['config']['secret'],
+                        'redirect'      => $callback,
                     ],
                 ]
             ))->driver('wechat');
-
 
             if (!empty($scopes)) {
                 $socialite->scopes($scopes);

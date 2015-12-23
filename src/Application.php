@@ -51,6 +51,7 @@ class Application extends Container
         'Overtrue\\WeChat\\ServiceProviders\\ServerServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\UserServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\JsServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\OAuthServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\MenuServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\NoticeServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\MaterialServiceProvider',
@@ -80,6 +81,10 @@ class Application extends Container
         $this['config'] = function () use ($config) {
             return new Config($config);
         };
+
+        if ($this['config']['debug']) {
+            error_reporting(E_ALL);
+        }
 
         $this->registerProviders();
         $this->registerBase();
