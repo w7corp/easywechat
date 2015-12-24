@@ -11,21 +11,23 @@
     "require": {
         "php":">=5.5.0",
         "ext-mcrypt": "*",
-        "easywechat/user": "dev-master",
-        "easywechat/server": "dev-master",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.17",
+        "overtrue/socialite": "^1.0",
+        "easywechat/user": "dev-master",
+        "easywechat/server": "dev-master",
         "easywechat/menu": "dev-master",
         "easywechat/material": "dev-master",
         "easywechat/staff": "dev-master",
         "easywechat/url": "dev-master",
         "easywechat/js": "dev-master",
         "easywechat/card": "dev-master",
-        "overtrue/socialite": "^1.0",
         "easywechat/notice": "dev-master",
         "easywechat/semantic": "dev-master",
         "easywechat/qrcode": "dev-master",
-        "easywechat/stats": "dev-master"
+        "easywechat/stats": "dev-master",
+        "easywechat/payment": "dev-master",
+        "easywechat/poi": "dev-master"
     },
     "authors": [
         {
