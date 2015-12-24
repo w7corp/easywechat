@@ -60,6 +60,7 @@ class Application extends Container
         'Overtrue\\WeChat\\ServiceProviders\\QRCodeServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\SemanticServiceProvider',
         'Overtrue\\WeChat\\ServiceProviders\\StatsServiceProvider',
+        'Overtrue\\WeChat\\ServiceProviders\\PaymentServiceProvider',
     ];
 
     /**
