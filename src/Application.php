@@ -48,19 +48,20 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
-        'Overtrue\\WeChat\\ServiceProviders\\ServerServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\UserServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\JsServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\OAuthServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\MenuServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\NoticeServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\MaterialServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\StaffServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\UrlServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\QRCodeServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\SemanticServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\StatsServiceProvider',
-        'Overtrue\\WeChat\\ServiceProviders\\PaymentServiceProvider',
+        ServiceProviders\ServerServiceProvider::class,
+        ServiceProviders\UserServiceProvider::class,
+        ServiceProviders\JsServiceProvider::class,
+        ServiceProviders\OAuthServiceProvider::class,
+        ServiceProviders\MenuServiceProvider::class,
+        ServiceProviders\NoticeServiceProvider::class,
+        ServiceProviders\MaterialServiceProvider::class,
+        ServiceProviders\StaffServiceProvider::class,
+        ServiceProviders\UrlServiceProvider::class,
+        ServiceProviders\QRCodeServiceProvider::class,
+        ServiceProviders\SemanticServiceProvider::class,
+        ServiceProviders\StatsServiceProvider::class,
+        ServiceProviders\PaymentServiceProvider::class,
+        ServiceProviders\POIServiceProvider::class,
     ];
 
     /**
