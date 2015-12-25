@@ -214,7 +214,7 @@ class Application extends Container
 
         set_error_handler($errorHandler);
 
-        register_shutdown_function(function () use ($logTemplate, $errorHandler) {
+        register_shutdown_function(function () use ($errorHandler) {
             $lastError = error_get_last();
 
             if ($lastError['type'] === E_ERROR) {
