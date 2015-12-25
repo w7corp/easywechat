@@ -36,7 +36,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             $container['cache'] = $app->raw('cache');
 
             foreach ($container->keys() as $providerName) {
-                $this->assertSame($container->raw($providerName), $app->raw($providerName));
+                $this->assertEquals($container->raw($providerName), $app->raw($providerName));
             }
 
             unset($container);
