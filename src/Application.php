@@ -31,10 +31,12 @@ use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Exception as EasyWeChatException;
 use EasyWeChat\Support\Log;
 use ErrorException;
+use Exception;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -90,8 +92,8 @@ class Application extends Container
 
         $this->registerProviders();
         $this->registerBase();
-        $this->registerExceptionHandler();
         $this->initializeLogger();
+        $this->registerExceptionHandler();
 
         Log::info('Current configuration:', $config);
     }
@@ -103,7 +105,7 @@ class Application extends Container
      *
      * @return $this
      */
-    public function setExceptionHanler(callable $callback)
+    public function setExceptionHandler(callable $callback)
     {
         $this->exceptionHandler = $callback;
 
@@ -118,6 +120,42 @@ class Application extends Container
     public function getExceptionHandler()
     {
         return $this->exceptionHandler;
+    }
+
+    /**
+     * Add a provider.
+     *
+     * @param string $provider
+     */
+    public function addProvider($provider)
+    {
+        array_push($this->providers, $provider);
+
+        return $this;
+    }
+
+    /**
+     * Set providers
+     *
+     * @param array $providers
+     */
+    public function setProviders(array $providers)
+    {
+        $this->providers = [];
+
+        foreach ($providers as $provider) {
+            $this->addProvider($provider);
+        }
+    }
+
+    /**
+     * Return all providers.
+     *
+     * @return array
+     */
+    public function getProviders()
+    {
+        return $this->providers;
     }
 
     /**
@@ -157,11 +195,10 @@ class Application extends Container
      */
     private function registerExceptionHandler()
     {
-        $logTemplate          = '%s: %s in %s on line %s.';
+        $logTemplate = '%s: %s in %s on line %s.';
+
         $lastExceptionHandler = set_exception_handler(function ($e) use (&$lastExceptionHandler, $logTemplate) {
-            if ($e instanceof EasyWeChatException) {
-                return Log::error(sprintf($logTemplate, $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine()));
-            }
+            Log::error(sprintf($logTemplate, $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine()));
 
             $this->exceptionHandler && call_user_func_array($this->exceptionHandler, [$e]);
 
