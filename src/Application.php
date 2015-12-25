@@ -132,7 +132,7 @@ class Application extends Container
     }
 
     /**
-     * Set providers
+     * Set providers.
      *
      * @param array $providers
      */

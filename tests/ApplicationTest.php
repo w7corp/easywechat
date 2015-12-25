@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 use Overtrue\WeChat\Application;
 use Overtrue\WeChat\Config;
 use Pimple\Container;
@@ -8,9 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ApplicationTest extends PHPUnit_Framework_TestCase
 {
-
     /**
-     * Test __construct()
+     * Test __construct().
      */
     public function testConstructor()
     {
@@ -22,13 +30,13 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         foreach ($providers as $provider) {
             $container = new Container();
             $container->register(new $provider());
-            $container['config']       = $app->raw('config');
+            $container['config'] = $app->raw('config');
             $container['access_token'] = $app->raw('access_token');
-            $container['request']      = $app->raw('request');
-            $container['cache']        = $app->raw('cache');
+            $container['request'] = $app->raw('request');
+            $container['cache'] = $app->raw('cache');
 
             foreach ($container->keys() as $providerName) {
-                $this->assertEquals($container->raw($providerName), $app->raw($providerName));
+                $this->assertSame($container->raw($providerName), $app->raw($providerName));
             }
 
             unset($container);
@@ -48,8 +56,8 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->assertCount(count($providers) + 1, $app->getProviders());
 
-        $app->setProviders(["foo", "bar"]);
+        $app->setProviders(['foo', 'bar']);
 
-        $this->assertEquals(["foo", "bar"], $app->getProviders());
+        $this->assertSame(['foo', 'bar'], $app->getProviders());
     }
 }

@@ -26,8 +26,8 @@
 
 namespace Overtrue\WeChat\ServiceProviders;
 
-use EasyWeChat\Payment\Payment;
 use EasyWeChat\Payment\Merchant;
+use EasyWeChat\Payment\Payment;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -46,11 +46,12 @@ class PaymentServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['merchant'] = function($pimple){
+        $pimple['merchant'] = function ($pimple) {
             $config = array_merge(
                     ['app_id' => $pimple['config']['app_id']],
                     $pimple['config']->get('payment', [])
                 );
+
             return new Merchant($config);
         };
 

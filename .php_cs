@@ -19,10 +19,8 @@ return Symfony\CS\Config\Config::create()
         'ordered_use',
         'php_unit_construct',
         'php_unit_strict',
-        // 'strict',
-        // 'strict_param',
-        'align_double_arrow',
-        'align_equals'
+        'strict',
+        'strict_param',
     ))
     ->finder(
         Symfony\CS\Finder\DefaultFinder::create()

@@ -42,14 +42,14 @@ class OAuthServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['oauth'] = function ($pimple) {
-            $callback  = $this->prepareCallbackUrl($pimple);
-            $scopes    = $pimple['config']->get('oauth.scopes', []);
+            $callback = $this->prepareCallbackUrl($pimple);
+            $scopes = $pimple['config']->get('oauth.scopes', []);
             $socialite = (new Socialite(
                 [
                     'wechat' => [
-                        'client_id'     => $pimple['config']['app_id'],
+                        'client_id' => $pimple['config']['app_id'],
                         'client_secret' => $pimple['config']['secret'],
-                        'redirect'      => $callback,
+                        'redirect' => $callback,
                     ],
                 ]
             ))->driver('wechat');
@@ -72,7 +72,7 @@ class OAuthServiceProvider implements ServiceProviderInterface
     private function prepareCallbackUrl($pimple)
     {
         $callback = $pimple['config']->get('oauth.callback');
-        $baseUrl  = $pimple['request']->getSchemeAndHttpHost();
+        $baseUrl = $pimple['request']->getSchemeAndHttpHost();
         $callback = stripos($callback, 'http') === 0 ? $callback : $baseUrl.'/'.ltrim($callback, '/');
 
         return $callback;
