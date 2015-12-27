@@ -49,7 +49,7 @@ class ServerServiceProvider implements ServiceProviderInterface
         $pimple['encryptor'] = function ($pimple) {
             return new Encryptor(
                 $pimple['config']['app_id'],
-                $pimple['config']['secret'],
+                $pimple['config']['token'],
                 $pimple['config']['aes_key']
             );
         };
