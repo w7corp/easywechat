@@ -2,12 +2,12 @@
 
 > 当前版本为 3.0 开发中,如果您愿意加入到开发版本测试当中，那必然是极好的事儿，测试方法：
 
-1. 把你项目的 composer.json 中的 "minimum-stability" 改成 "dev":
-  ```
-  "minimum-stability":"dev",
-  ```
-2. `composer require "overtrue/wechat:3.0.x-dev" -vvv` 安装 3.0 分支
-3. 试用并[反馈给我](https://github.com/overtrue/wechat/issues) ，请以"[3.0]"开头，谢谢！
+> 1. 把你项目的 composer.json 中的 "minimum-stability" 改成 "dev":
+   ```
+   "minimum-stability":"dev",
+   ```
+> 2. `composer require "overtrue/wechat:3.0.x-dev" -vvv` 安装 3.0 分支
+> 3. 试用并[反馈给我](https://github.com/overtrue/wechat/issues) ，请以"[3.0]"开头，谢谢！
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
