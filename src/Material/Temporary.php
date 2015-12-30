@@ -85,7 +85,7 @@ class Temporary extends AbstractAPI
 
         foreach ($response->getHeader('Content-Type') as $mime) {
             if (preg_match('/(image|video|audio)/i', $mime)) {
-                return $response->getContents();
+                return $response->getBody();
             }
         }
 

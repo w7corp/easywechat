@@ -12,6 +12,7 @@
 use EasyWeChat\Core\Http;
 use EasyWeChat\Material\Material;
 use EasyWeChat\Message\Article;
+use GuzzleHttp\Psr7\Response;
 
 class MaterialMaterialTest extends PHPUnit_Framework_TestCase
 {
@@ -161,11 +162,30 @@ class MaterialMaterialTest extends PHPUnit_Framework_TestCase
     public function testGet()
     {
         $material = $this->getMaterial();
+        $http = Mockery::mock(Http::class.'[get]');
+        $http->shouldReceive('addMiddleware')->andReturn($http);
+        $http->shouldReceive('get')->andReturnUsing(function($api, $params){
+            return new Response(200, ['Content-Type' => ['text/plain']], json_encode(compact('api', 'params')));
+        });
+        $material->setHttp($http);
 
+        // news
         $response = $material->get('foo');
 
-        $this->assertStringStartsWith(Material::API_GET, $response[0]);
-        $this->assertEquals(['media_id' => 'foo'], $response[1]);
+        $this->assertStringStartsWith(Material::API_GET, $response['api']);
+        $this->assertEquals(['media_id' => 'foo'], $response['params']);
+
+        // media
+        $http = Mockery::mock(Http::class.'[get]');
+        $http->shouldReceive('addMiddleware')->andReturn($http);
+        $http->shouldReceive('get')->andReturnUsing(function($api, $params){
+            return new Response(200, ['Content-Type' => ['media/video']], "media content");
+        });
+        $material->setHttp($http);
+
+        $response = $material->get('bar');
+
+        $this->assertEquals("media content", $response);
     }
 
     /**
