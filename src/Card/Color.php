@@ -18,6 +18,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Card;
 
 use EasyWeChat\Cache\Adapters\AdapterInterface as Cache;

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EasyWeChat.
+ * This file is part of the overtrue/wechat.
  *
  * (c) overtrue <i@overtrue.me>
  *
@@ -43,7 +43,7 @@ abstract class Attribute extends Collection
     protected $snakeable = true;
 
     /**
-     * Required attributes
+     * Required attributes.
      *
      * @var array
      */
@@ -210,17 +210,18 @@ abstract class Attribute extends Collection
      */
     protected function checkRequiredAttributes()
     {
-        foreach($this->requireds as $attribute) {
+        foreach ($this->requireds as $attribute) {
             if (!isset($this->$attribute)) {
                 throw new InvalidArgumentException(" '{$attribute}' cannot be empty.");
             }
         }
     }
-    
+
     /**
      * Return all items.
      *
      * @return array
+     *
      * @throws InvalidArgumentException
      */
     public function all()

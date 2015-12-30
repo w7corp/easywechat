@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EasyWeChat.
+ * This file is part of the overtrue/wechat.
  *
  * (c) overtrue <i@overtrue.me>
  *
@@ -9,8 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Message\News;
 use EasyWeChat\Message\Image;
+use EasyWeChat\Message\News;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Message\Transfer;
 use EasyWeChat\Message\Video;
@@ -30,7 +30,7 @@ class ServerTransformerTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(['Content' => 'foo'], $transformer->transform($message));
 
-        $this->assertEquals(['Content' => 'Text message.'], $transformer->transform("Text message."));
+        $this->assertEquals(['Content' => 'Text message.'], $transformer->transform('Text message.'));
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EasyWeChat.
+ * This file is part of the overtrue/wechat.
  *
  * (c) overtrue <i@overtrue.me>
  *
@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Message\News;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Link;
+use EasyWeChat\Message\News;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Message\Video;
 use EasyWeChat\Message\Voice;
@@ -110,7 +110,6 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
                 new News(['title' => 'foo']),
                 new News(['title' => 'bar']),
         ];
-
 
         $result = $transformer->transform($news)['news']['articles'];
 

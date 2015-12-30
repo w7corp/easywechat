@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EasyWeChat.
+ * This file is part of the overtrue/wechat.
  *
  * (c) overtrue <i@overtrue.me>
  *
@@ -206,7 +206,11 @@ class Guard
      */
     public function getEncryptor()
     {
-        return $this->encryptor ?: new Encryptor($this->options['app_id'], $this->options['token'], $this->options['aes_key']);
+        return $this->encryptor ?: $this->encryptor = new Encryptor(
+                                    $this->options['app_id'],
+                                    $this->options['token'],
+                                    $this->options['aes_key']
+                                    );
     }
 
     /**
