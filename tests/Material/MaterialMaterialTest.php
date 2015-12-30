@@ -11,6 +11,7 @@
 
 use EasyWeChat\Core\Http;
 use EasyWeChat\Material\Material;
+use EasyWeChat\Message\Article;
 
 class MaterialMaterialTest extends PHPUnit_Framework_TestCase
 {
@@ -108,6 +109,14 @@ class MaterialMaterialTest extends PHPUnit_Framework_TestCase
 
         $this->assertStringStartsWith(Material::API_NEWS_UPLOAD, $response[0]);
         $this->assertEquals(['articles' => ['foo' => 'bar']], $response[1]);
+
+        $response = $material->uploadArticle(new Article(['title' => 'foo']));
+
+        $this->assertEquals(['articles' => [['title' => 'foo']]], $response[1]);
+
+        $response = $material->uploadArticle([new Article(['title' => 'foo', 'show_cover' => 0]), new Article(['title' => 'bar'])]);
+
+        $this->assertEquals(['articles' => [['title' => 'foo', 'show_cover_pic' => 0], ['title' => 'bar']]], $response[1]);
     }
 
     /**

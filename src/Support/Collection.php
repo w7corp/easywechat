@@ -70,6 +70,28 @@ class Collection implements
     }
 
     /**
+     * Return specific items.
+     *
+     * @param array $keys
+     *
+     * @return array
+     */
+    public function only(array $keys)
+    {
+        $return = [];
+
+        foreach ($keys as $key) {
+            $value = $this->get($key);
+
+            if (!is_null($value)) {
+                $return[$key] = $value;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
      * Merge data.
      *
      * @param array $items

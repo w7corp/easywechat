@@ -24,6 +24,7 @@ namespace EasyWeChat\Material;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Http;
+use EasyWeChat\Message\Article;
 
 /**
  * Class Material.
@@ -106,15 +107,28 @@ class Material extends AbstractAPI
     }
 
     /**
-     * Upload articles.
+     * Upload article.
      *
-     * @param array $articles
+     * @param array|Article $article
      *
      * @return string
      */
-    public function uploadArticle(array $articles)
+    public function uploadArticle($articles)
     {
-        $params = ['articles' => $articles];
+        if (!empty($articles['title']) || $articles instanceof Article) {
+            $articles = [$articles];
+        }
+
+        $params = ['articles' => array_map(function($article){
+            if ($article instanceof Article) {
+                return $article->only([
+                    'title', 'thumb_media_id', 'author', 'digest',
+                    'show_cover_pic', 'content', 'content_source_url'
+                    ]);
+            }
+
+            return $article;
+        }, $articles)];
 
         return $this->parseJSON('json', [self::API_NEWS_UPLOAD, $params]);
     }
