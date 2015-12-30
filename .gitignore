@@ -5,3 +5,4 @@ composer.lock
 /*.php
 /.idea
 /examples
+/.split
