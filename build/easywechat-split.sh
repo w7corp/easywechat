@@ -30,7 +30,7 @@ split()
 
     popd
 
-    rm -rf $SUBDIR
+    rm -rf ./.split
 }
 
 split cache         src/Cache:git@github.com:easywechat/cache.git $TAGS
