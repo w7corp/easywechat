@@ -24,10 +24,13 @@ use Closure;
  */
 class Menu
 {
-    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
-    const API_GET    = 'https://api.weixin.qq.com/cgi-bin/menu/get';
-    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
-    const API_QUERY  = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
+    const API_CREATE             = 'https://api.weixin.qq.com/cgi-bin/menu/create';
+    const API_GET                = 'https://api.weixin.qq.com/cgi-bin/menu/get';
+    const API_DELETE             = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
+    const API_QUERY              = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
+    const API_CONDITIONAL_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/addconditional';
+    const API_CONDITIONAL_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delconditional';
+    const API_CONDITIONAL_TEST   = 'https://api.weixin.qq.com/cgi-bin/menu/trymatch';
 
     /**
      * Http对象
@@ -54,14 +57,6 @@ class Menu
      */
     public function set($menus)
     {
-        if ($menus instanceof Closure) {
-            $menus = $menus($this);
-        }
-
-        if (!is_array($menus)) {
-            throw new Exception('子菜单必须是数组或者匿名函数返回数组', 1);
-        }
-
         $menus = $this->extractMenus($menus);
 
         $this->http->jsonPost(self::API_CREATE, array('button' => $menus));
@@ -105,14 +100,63 @@ class Menu
     }
 
     /**
+     * 添加个性化的菜单
+     *
+     * @param mixed $menus
+     * @param array $condition
+     */
+    public function addConditional($menus, array $condition)
+    {
+        $menus = $this->extractMenus($menus);
+
+        $this->http->jsonPost(self::API_CONDITIONAL_CREATE, array('button' => $menus, 'matchrule' => $condition));
+
+        return true;
+    }
+
+    /**
+     * 测试菜单
+     *
+     * @param string $userId
+     *
+     * @return boolean
+     */
+    public function test($userId)
+    {
+        return $this->http->post(self::API_CONDITIONAL_TEST, array('user_id' => $userId));
+    }
+
+    /**
+     * 按菜单ID删除菜单
+     *
+     * @param int $menuId
+     *
+     * @return boolean
+     */
+    public function deleteById($menuId)
+    {
+        $this->http->post(self::API_CONDITIONAL_DELETE, array('menuid' => $menuId));
+
+        return true;
+    }
+
+    /**
      * 转menu为数组
      *
-     * @param array $menus
+     * @param mixed $menus
      *
      * @return array
      */
-    protected function extractMenus(array $menus)
+    protected function extractMenus($menus)
     {
+        if ($menus instanceof Closure) {
+            $menus = $menus($this);
+        }
+
+        if (!is_array($menus)) {
+            throw new Exception('子菜单必须是数组或者匿名函数返回数组', 1);
+        }
+
         foreach ($menus as $key => $menu) {
             $menus[$key] = $menu->toArray();
 

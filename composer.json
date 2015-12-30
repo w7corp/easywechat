@@ -29,7 +29,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Overtrue\\Wechat\\Test\\": "test/"
+            "Overtrue\\Wechat\\Tests\\": "tests/"
         }
     }
 }

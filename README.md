@@ -4,9 +4,11 @@
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
+> 3.0 开发中，目前大部分模块已经完成，希望您能帮忙测试为谢！[3.0](https://github.com/overtrue/wechat/tree/3.0)
+
 SDK QQ群：`319502940`
 
-微信开发者交流群：`9179779`
+微信开发者交流群：`9179779` （这不是微信群，是名称叫“微信开发者交流群” 的QQ群，微信上聊技术？你逗我？）
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -74,6 +76,8 @@ echo $server->serve();
 ```
 更多请参考文档。
 
+:mega: 现在我们已经把用 2.0 API 写的一个基本例子开源了：[微易](https://github.com/vieasehub/viease)
+
 ## 文档
 
 [Wiki](https://github.com/overtrue/wechat/wiki)
@@ -87,7 +91,7 @@ echo $server->serve();
 - [x] [基本消息类型](https://github.com/overtrue/wechat/wiki/消息的使用)
 - [x] [图文消息](https://github.com/overtrue/wechat/wiki/消息的使用)
 - [x] [模板消息](https://github.com/overtrue/wechat/wiki/模板消息)
-- [ ] <del>群发消息（微信限制太多，基本算不能用）</del>
+- [x] [群发消息](https://github.com/overtrue/wechat/wiki/群发消息) `2.1.28+`
 - [x] [用户与用户组](https://github.com/overtrue/wechat/wiki/用户与用户组管理)
 - [x] [客服与消息发送](https://github.com/overtrue/wechat/wiki/客服管理与发送消息)
 - [x] [多客服与消息转发](https://github.com/overtrue/wechat/wiki/多客服与消息转发)

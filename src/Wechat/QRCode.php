@@ -92,7 +92,7 @@ class QRCode
     public function temporary($sceneId, $expireSeconds = null)
     {
         // 临时二维码时为32位非0整型
-        $scene = array('scene_id' => intval($sceneId));
+        $scene = array('scene_id' => $sceneId);
 
         return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
     }
