@@ -19,21 +19,28 @@
         "ext-mcrypt": "*",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.17",
-        "overtrue/socialite": "^1.0",
-        "easywechat/user": "dev-master",
-        "easywechat/server": "dev-master",
-        "easywechat/menu": "dev-master",
-        "easywechat/material": "dev-master",
-        "easywechat/staff": "dev-master",
-        "easywechat/url": "dev-master",
-        "easywechat/js": "dev-master",
-        "easywechat/card": "dev-master",
-        "easywechat/notice": "dev-master",
-        "easywechat/semantic": "dev-master",
-        "easywechat/qrcode": "dev-master",
-        "easywechat/stats": "dev-master",
-        "easywechat/payment": "dev-master",
-        "easywechat/poi": "dev-master"
+        "overtrue/socialite": "^1.0"
+    },
+    "replace":{
+        "easywechat/core":"self.version",
+        "easywechat/card":"self.version",
+        "easywechat/device":"self.version",
+        "easywechat/encryption":"self.version",
+        "easywechat/js":"self.version",
+        "easywechat/material":"self.version",
+        "easywechat/menu":"self.version",
+        "easywechat/message":"self.version",
+        "easywechat/notice":"self.version",
+        "easywechat/payment":"self.version",
+        "easywechat/qrcode":"self.version",
+        "easywechat/semantic":"self.version",
+        "easywechat/server":"self.version",
+        "easywechat/staff":"self.version",
+        "easywechat/stats":"self.version",
+        "easywechat/store":"self.version",
+        "easywechat/poi":"self.version",
+        "easywechat/url":"self.version",
+        "easywechat/user":"self.version"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -42,7 +49,10 @@
     "minimum-stability" : "dev",
     "autoload": {
         "psr-4": {
-            "Overtrue\\WeChat\\": "src"
-        }
+            "EasyWeChat\\": "src/"
+        },
+        "files": [
+            "src/Payment/helpers.php"
+        ]
     }
 }
