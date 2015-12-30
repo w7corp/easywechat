@@ -1,0 +1,256 @@
+<?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+/**
+ * Http.php.
+ *
+ * This file is part of the wechat-components.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+namespace EasyWeChat\Core;
+
+use EasyWeChat\Core\Exceptions\HttpException;
+use EasyWeChat\Support\Log;
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+
+/**
+ * Class Http.
+ */
+class Http
+{
+    /**
+     * Http client.
+     *
+     * @var HttpClient
+     */
+    protected $client;
+
+    /**
+     * The middlewares.
+     *
+     * @var array
+     */
+    protected $middlewares = [];
+
+    /**
+     * GET request.
+     *
+     * @param string $url
+     * @param array  $options
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function get($url, array $options = [])
+    {
+        return $this->request($url, 'GET', ['query' => $options]);
+    }
+
+    /**
+     * POST request.
+     *
+     * @param string       $url
+     * @param array|string $options
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function post($url, $options = [])
+    {
+        return $this->request($url, 'POST', ['form_options' => $options]);
+    }
+
+    /**
+     * JSON request.
+     *
+     * @param string $url
+     * @param array  $options
+     * @param int    $encodeOption
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function json($url, array $options = [], $encodeOption = JSON_UNESCAPED_UNICODE)
+    {
+        $params = ['body' => json_encode($options, $encodeOption)];
+
+        return $this->request($url, 'POST', $params);
+    }
+
+    /**
+     * Upload file.
+     *
+     * @param string $url
+     * @param array  $files
+     * @param array  $form
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function upload($url, array $files = [], array $form = [], array $queries = [])
+    {
+        $multipart = [];
+
+        foreach ($files as $name => $path) {
+            $multipart[] = [
+                'name' => $name,
+                'contents' => fopen($path, 'r'),
+            ];
+        }
+
+        foreach ($form as $name => $contents) {
+            $multipart[] = compact('name', 'contents');
+        }
+
+        return $this->request($url, 'POST', ['query' => $queries, 'multipart' => $multipart]);
+    }
+
+    /**
+     * Set GuzzleHttp\Client.
+     *
+     * @param \GuzzleHttp\Client $client
+     *
+     * @return Http
+     */
+    public function setClient(HttpClient $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Return GuzzleHttp\Client instance.
+     *
+     * @return \GuzzleHttp\Client.
+     */
+    public function getClient()
+    {
+        if (!($this->client instanceof HttpClient)) {
+            $this->client = new HttpClient();
+        }
+
+        return $this->client;
+    }
+
+    /**
+     * Add a middleware.
+     *
+     * @param callable $middleware
+     *
+     * @return $this
+     */
+    public function addMiddleware(callable $middleware)
+    {
+        array_push($this->middlewares, $middleware);
+
+        return $this;
+    }
+
+    /**
+     * Return all middlewares.
+     *
+     * @return array
+     */
+    public function getMiddlewares()
+    {
+        return $this->middlewares;
+    }
+
+    /**
+     * Make a request.
+     *
+     * @param string $url
+     * @param string $method
+     * @param array  $options
+     *
+     * @return array|bool
+     *
+     * @throws HttpException
+     */
+    public function request($url, $method = 'GET', $options = [])
+    {
+        $method = strtoupper($method);
+
+        Log::debug('Client Request:', compact('url', 'method', 'options'));
+
+        $options['handler'] = $this->getHandler();
+
+        $response = $this->getClient()->request($method, $url, $options);
+
+        Log::debug('API response:', [
+            'Status' => $response->getStatusCode(),
+            'Reason' => $response->getReasonPhrase(),
+            'Headers' => $response->getHeaders(),
+            'Body' => strval($response->getBody()),
+        ]);
+
+        return $response;
+    }
+
+    /**
+     * @param \GuzzleHttp\Psr7\Stream|string $body
+     * @param bool|true                      $throws
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Core\Exceptions\FaultException
+     * @throws \EasyWeChat\Core\Exceptions\HttpException
+     */
+    public function parseJSON($body, $throws = true)
+    {
+        // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
+//        $contents = json_decode(substr(str_replace(['\"', '\\\\'], ['"', ''], json_encode($body)), 1, -1), true);
+        if ($body instanceof ResponseInterface) {
+            $body = $body->getBody();
+        }
+
+        $contents = json_decode($body, true);
+
+        Log::debug('API response decoded:', compact('contents'));
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new HttpException('Failed to parse JSON.', json_last_error());
+        }
+
+        return $contents;
+    }
+
+    /**
+     * Build a handler.
+     *
+     * @return HandlerStack
+     */
+    protected function getHandler()
+    {
+        $stack = new HandlerStack();
+        $stack->setHandler(new CurlHandler());
+
+        foreach ($this->middlewares as $middleware) {
+            $stack->push($middleware);
+        }
+
+        return $stack;
+    }
+}
