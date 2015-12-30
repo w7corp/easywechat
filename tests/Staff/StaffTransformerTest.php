@@ -9,8 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Message\Article;
-use EasyWeChat\Message\Articles;
+use EasyWeChat\Message\News;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Link;
 use EasyWeChat\Message\Text;
@@ -91,21 +90,29 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test transformArticles().
+     * Test transformNews().
      */
-    public function testTransformArticles()
+    public function testTransformNews()
     {
-        $message = new Articles();
-        $message->items(function () {
-            return [
-                new Article(['title' => 'foo']),
-                new Article(['title' => 'bar']),
-            ];
-        });
-
         $transformer = new Transformer();
 
-        $result = $transformer->transform($message)['news']['articles'];
+        // one
+        $result = $transformer->transform(new News([
+                'title' => 'overtrue',
+                'description' => 'foobar',
+            ]))['news']['articles'];
+
+        $this->assertEquals('overtrue', $result[0]['title']);
+        $this->assertEquals('foobar', $result[0]['description']);
+
+        // more
+        $news = [
+                new News(['title' => 'foo']),
+                new News(['title' => 'bar']),
+        ];
+
+
+        $result = $transformer->transform($news)['news']['articles'];
 
         $this->assertEquals('foo', $result[0]['title']);
         $this->assertEquals('bar', $result[1]['title']);

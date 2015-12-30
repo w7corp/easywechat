@@ -9,8 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Message\Article;
-use EasyWeChat\Message\Articles;
+use EasyWeChat\Message\News;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Message\Transfer;
@@ -30,6 +29,8 @@ class ServerTransformerTest extends PHPUnit_Framework_TestCase
         $message = new Text(['content' => 'foo']);
 
         $this->assertEquals(['Content' => 'foo'], $transformer->transform($message));
+
+        $this->assertEquals(['Content' => 'Text message.'], $transformer->transform("Text message."));
     }
 
     /**
@@ -86,30 +87,42 @@ class ServerTransformerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test transformArticles().
+     * Test transformNews().
      */
-    public function testTransformArticles()
+    public function testTransformNews()
     {
         $transformer = new Transformer();
 
+        // one
+        $result = $transformer->transform(new News([
+                'author' => 'overtrue',
+                'description' => 'foobar',
+            ]));
+
+        $this->assertEquals(1, $result['ArticleCount']);
+        $this->assertEquals(1, count($result['Articles']));
+        $this->assertEquals('foobar', $result['Articles'][0]['Description']);
+        $this->assertArrayHasKey('Url', $result['Articles'][0]);
+        $this->assertArrayNotHasKey('Author', $result['Articles'][0]);
+
+        // more
         $articles = [
-            new Article([
+            new News([
                 'author' => 'overtrue',
                 'description' => 'foobar',
             ]),
-            new Article([
+            new News([
                 'author' => 'foo',
                 'description' => 'bar',
             ]),
         ];
 
-        $message = new Articles($articles);
-
-        $result = $transformer->transform($message);
+        $result = $transformer->transform($articles);
 
         $this->assertEquals(2, $result['ArticleCount']);
         $this->assertEquals(2, count($result['Articles']));
         $this->assertEquals('foobar', $result['Articles'][0]['Description']);
+        $this->assertEquals('bar', $result['Articles'][1]['Description']);
         $this->assertArrayHasKey('Url', $result['Articles'][0]);
         $this->assertArrayNotHasKey('Author', $result['Articles'][0]);
     }

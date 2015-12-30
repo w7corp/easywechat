@@ -22,6 +22,8 @@
 namespace EasyWeChat\Staff;
 
 use EasyWeChat\Message\AbstractMessage;
+use EasyWeChat\Message\News;
+use EasyWeChat\Message\Text;
 
 /**
  * Class Transformer.
@@ -31,13 +33,23 @@ class Transformer
     /**
      * transform message to XML.
      *
-     * @param AbstractMessage $message
+     * @param array|string|AbstractMessage $message
      *
      * @return array
      */
-    public function transform(AbstractMessage $message)
+    public function transform($message)
     {
-        $handle = 'transform'.substr(get_class($message), strlen('EasyWeChat\Message\\'));
+        if (is_array($message)) {
+            $class = News::class;
+        } else {
+            if (is_string($message)) {
+                $message = new Text(['content' => $message]);
+            }
+
+            $class = get_class($message);
+        }
+
+        $handle = 'transform'.substr($class, strlen('EasyWeChat\Message\\'));
 
         return method_exists($this, $handle) ? $this->$handle($message) : [];
     }
@@ -106,11 +118,15 @@ class Transformer
      *
      * @return array
      */
-    public function transformArticles(AbstractMessage $message)
+    public function transformNews($news)
     {
         $articles = [];
 
-        foreach ($message->items as $item) {
+        if (!is_array($news)) {
+            $news = [$news];
+        }
+
+        foreach ($news as $item) {
             $articles[] = [
                            'title' => $item->title,
                            'description' => $item->description,
