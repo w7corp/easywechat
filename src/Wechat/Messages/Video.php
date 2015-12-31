@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Messages;
 
 /**
@@ -26,7 +26,6 @@ namespace Overtrue\Wechat\Messages;
  */
 class Video extends BaseMessage
 {
-
     /**
      * 属性
      *
@@ -76,9 +75,9 @@ class Video extends BaseMessage
     {
         return array(
                 'video' => array(
-                            'title'          => $this->title,
-                            'media_id'       => $this->media_id,
-                            'description'    => $this->description,
+                            'title' => $this->title,
+                            'media_id' => $this->media_id,
+                            'description' => $this->description,
                             'thumb_media_id' => $this->thumb_media_id,
                            ),
                );
@@ -93,8 +92,8 @@ class Video extends BaseMessage
     {
         $response = array(
                      'Video' => array(
-                                 'MediaId'     => $this->media_id,
-                                 'Title'       => $this->title,
+                                 'MediaId' => $this->media_id,
+                                 'Title' => $this->title,
                                  'Description' => $this->description,
                                 ),
                     );

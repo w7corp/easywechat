@@ -8,13 +8,9 @@
  * file that was distributed with this source code.
  *
  * @author bontian <bontian@163.com>
- *
  */
-
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Exception;
-use Overtrue\Wechat\Http;
 use Overtrue\Wechat\Utils\SignGenerator;
 
 class Lottery
@@ -52,7 +48,6 @@ class Lottery
         $this->http = new Http(new AccessToken($appId, $appSecret));
     }
 
-
     /**
      * 创建红包活动
      *
@@ -82,11 +77,11 @@ class Lottery
      */
     public function create(array $data, $useTemplate = 1, $logoUrl = '')
     {
-        if ($useTemplate == 1 && empty($logoUrl)) {
+        if ($useTemplate === 1 && empty($logoUrl)) {
             throw new Exception('logo_url is required when using template.');
         }
 
-        $url = self::API_CREATE . "?use_template={$useTemplate}&logo_url={$logoUrl}";
+        $url = self::API_CREATE."?use_template={$useTemplate}&logo_url={$logoUrl}";
 
         return $this->http->jsonPost($url, $data);
     }
@@ -145,7 +140,7 @@ class Lottery
     {
         $params = array(
             'lottery_id' => $lotteryId,
-            'onoff' => $status
+            'onoff' => $status,
         );
 
         return $this->http->get(self::API_SET_STATUS, $params);
@@ -186,9 +181,9 @@ class Lottery
      */
     public function getJsPackage($lotteryId, $openId, $key)
     {
-        $param['noncestr'] = uniqid('pre_');
+        $param['noncestr']   = uniqid('pre_');
         $param['lottery_id'] = $lotteryId;
-        $param['openid'] = $openId;
+        $param['openid']     = $openId;
 
         $signGenerator = new SignGenerator($param);
 

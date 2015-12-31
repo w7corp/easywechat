@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -22,7 +22,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class Semantic
 {
-
     /**
      * Http对象
      *
@@ -48,7 +47,7 @@ class Semantic
     public function __construct($appId, $appSecret)
     {
         $this->appId = $appId;
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http  = new Http(new AccessToken($appId, $appSecret));
     }
 
     /**
@@ -63,9 +62,9 @@ class Semantic
     public function query($keyword, $categories, array $other = array())
     {
         $params = array(
-                   'query'    => $keyword,
+                   'query' => $keyword,
                    'category' => implode(',', (array) $categories),
-                   'appid'    => $this->appId,
+                   'appid' => $this->appId,
                   );
 
         return new Bag($this->http->jsonPost(self::API_SEARCH, array_merge($params, $other)));

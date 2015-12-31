@@ -9,16 +9,15 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Shop\Foundation;
 
 /**
  * 分组管理
  *
  * Interface Group
- * @package Shop
  */
 interface Group
 {
@@ -27,6 +26,7 @@ interface Group
      *
      * @param $groupName
      * @param $productList
+     *
      * @return int
      */
     public function add($groupName, array $productList);
@@ -35,6 +35,7 @@ interface Group
      * 删除分组
      *
      * @param $groupId
+     *
      * @return bool
      */
     public function delete($groupId);
@@ -44,6 +45,7 @@ interface Group
      *
      * @param $groupId
      * @param $groupName
+     *
      * @return bool
      */
     public function updateAttribute($groupId, $groupName);
@@ -53,6 +55,7 @@ interface Group
      *
      * @param $groupId
      * @param $product
+     *
      * @return bool
      */
     public function updateProduct($groupId, array $product);
@@ -68,6 +71,7 @@ interface Group
      * 根据分组ID获取分组信息
      *
      * @param $groupId
+     *
      * @return array
      */
     public function getById($groupId);

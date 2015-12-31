@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
@@ -24,7 +24,6 @@ use Overtrue\Wechat\Utils\XML;
  */
 class Server
 {
-
     /**
      * 应用ID
      *
@@ -197,7 +196,7 @@ class Server
             }
 
             if (empty($_REQUEST['echostr']) && empty($xmlInput) && !empty($_REQUEST['signature'])) {
-                throw new Exception("没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On", 500);
+                throw new Exception('没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On', 500);
             }
         } else {
             $xmlInput = file_get_contents('php://input');
@@ -261,12 +260,12 @@ class Server
     protected function response($response)
     {
         if (empty($response)) {
-            return "";
+            return '';
         }
 
         is_string($response) && $response = Message::make('text')->with('content', $response);
 
-        $return = "";
+        $return = '';
 
         if ($response instanceof BaseMessage) {
             $response->from($this->input->get('ToUserName'))->to($this->input->get('FromUserName'));

@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -22,7 +22,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class Auth
 {
-
     /**
      * 应用ID
      *
@@ -99,11 +98,11 @@ class Auth
         $to !== null || $to = Url::current();
 
         $params = array(
-                   'appid'         => $this->appId,
-                   'redirect_uri'  => $to,
+                   'appid' => $this->appId,
+                   'redirect_uri' => $to,
                    'response_type' => 'code',
-                   'scope'         => $scope,
-                   'state'         => $state,
+                   'scope' => $scope,
+                   'state' => $state,
                   );
 
         return self::API_URL.'?'.http_build_query($params).'#wechat_redirect';
@@ -171,16 +170,17 @@ class Auth
      * @param string $accessToken
      * @param string $openId
      *
-     * @return boolean
+     * @return bool
      */
     public function accessTokenIsValid($accessToken, $openId)
     {
         $params = array(
-                   'openid'       => $openId,
+                   'openid' => $openId,
                    'access_token' => $accessToken,
                   );
         try {
             $this->http->get(self::API_TOKEN_VALIDATE, $params);
+
             return true;
         } catch (Exception $e) {
             return false;
@@ -197,8 +197,8 @@ class Auth
     public function refresh($refreshToken)
     {
         $params = array(
-                   'appid'         => $this->appId,
-                   'grant_type'    => 'refresh_token',
+                   'appid' => $this->appId,
+                   'grant_type' => 'refresh_token',
                    'refresh_token' => $refreshToken,
                   );
 
@@ -221,8 +221,8 @@ class Auth
     {
         $queries = array(
                     'access_token' => $accessToken,
-                    'openid'       => $openId,
-                    'lang'         => 'zh_CN',
+                    'openid' => $openId,
+                    'lang' => 'zh_CN',
                    );
 
         $url = self::API_USER.'?'.http_build_query($queries);
@@ -240,9 +240,9 @@ class Auth
     public function getAccessPermission($code)
     {
         $params = array(
-                   'appid'      => $this->appId,
-                   'secret'     => $this->appSecret,
-                   'code'       => $code,
+                   'appid' => $this->appId,
+                   'secret' => $this->appSecret,
+                   'code' => $code,
                    'grant_type' => 'authorization_code',
                   );
 
