@@ -211,6 +211,58 @@ class LuckMoney
     }
 
     /**
+     * 发送普通红包
+     *
+     * <pre>
+     * $data:
+     * {
+     *     "mch_billno": "198374613512",
+     *     "send_name":"某某公司",
+     *     "re_openid": "oJCvDjjQKx5LMtM_1kjK0gGQLsew",
+     *     "total_amount": 1000,
+     *     "wishing": "祝福语",
+     *     "act_name": "活动名称",
+     *     "total_num": 1,
+     *     "remark": "红包备注"
+     * }
+     * </pre>
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    public function sendNormal(array $data)
+    {
+        return $this->send($data, self::TYPE_CASH_LUCK_MONEY);
+    }
+
+    /**
+     * 发送裂变红包
+     *
+     * <pre>
+     * $data:
+     * {
+     *     "mch_billno": "198374613512",
+     *     "send_name":"某某公司",
+     *     "re_openid": "oJCvDjjQKx5LMtM_1kjK0gGQLsew",
+     *     "total_amount": 1000,
+     *     "wishing": "祝福语",
+     *     "act_name": "活动名称",
+     *     "total_num": 1,
+     *     "remark": "红包备注"
+     * }
+     * </pre>
+     *
+     * @param array $data
+     *
+     * @return array
+     */
+    public function sendGroup(array $data)
+    {
+        return $this->send($data, self::TYPE_GROUP_LUCK_MONEY);
+    }
+
+    /**
      * 查询红包信息
      *
      * @param string $mchBillNumber
