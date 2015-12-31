@@ -9,17 +9,15 @@
  *
  * @author    Frye <frye0423@gmail.com>
  * @copyright 2015 Frye <frye0423@gmail.com>
+ *
  * @link      https://github.com/0i
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
-use Overtrue\Wechat\Payment;
 use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\SignGenerator;
 use Overtrue\Wechat\Http;
-use Overtrue\Wechat\AccessToken;
 
 class UnifiedOrder
 {
@@ -46,17 +44,17 @@ class UnifiedOrder
     /**
      * UnifiedOrder缓存
      *
-     * @var Array
+     * @var array
      */
     protected $unifiedOrder = null;
 
     public function __construct(Business $business = null, Order $order = null)
     {
-        if(!is_null($order)) {
+        if (!is_null($order)) {
             $this->setOrder($order);
         }
 
-        if(!is_null($business)) {
+        if (!is_null($business)) {
             $this->setBusiness($business);
         }
     }
@@ -67,6 +65,7 @@ class UnifiedOrder
      * @param Order $order
      *
      * @return $this
+     *
      * @throws Exception
      */
     public function setOrder(Order $order)
@@ -92,9 +91,10 @@ class UnifiedOrder
                 }
                 $order->trade_type = 'JSAPI';
             }
-            $this->order = $order;
+            $this->order        = $order;
             $this->unifiedOrder = null;
         }
+
         return $this;
     }
 
@@ -114,19 +114,21 @@ class UnifiedOrder
      * @param Business $business
      *
      * @return $this
+     *
      * @throws Exception
      */
     public function setBusiness(Business $business)
     {
-        if( !is_null($business) ) {
+        if (!is_null($business)) {
             try {
                 $business->checkParams();
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
-            $this->business = $business;
+            $this->business     = $business;
             $this->unifiedOrder = null;
         }
+
         return $this;
     }
 
@@ -146,50 +148,52 @@ class UnifiedOrder
      * @param bool|false $force 是否忽略缓存强制更新
      *
      * @return array
+     *
      * @throws Exception
      * @throws \Overtrue\Wechat\Exception
      */
     public function getResponse($force = false)
     {
-        if( is_null($this->business) ) {
+        if (is_null($this->business)) {
             throw new Exception('Business is required');
         }
-        if( is_null($this->order) ) {
+        if (is_null($this->order)) {
             throw new Exception('Order is required');
         }
         if ($this->unifiedOrder !== null && $force === false) {
             return $this->unifiedOrder;
         }
 
-        $params = $this->order->toArray();
+        $params             = $this->order->toArray();
         $params['appid']    = $this->business->appid;
         $params['mch_id']   = $this->business->mch_id;
-        $signGenerator = new SignGenerator($params);
-        $me = $this;
-        $signGenerator->onSortAfter(function(SignGenerator $that) use ($me) {
+        $signGenerator      = new SignGenerator($params);
+        $me                 = $this;
+        $signGenerator->onSortAfter(function (SignGenerator $that) use ($me) {
             $that->key = $me->business->mch_key;
         });
 
         $params['sign'] = $signGenerator->getResult();
-        $request = XML::build($params);
+        $request        = XML::build($params);
 
         $http = new Http();
 
         $response = $http->request(static::UNIFIEDORDER_URL, Http::POST, $request);
-        if(empty($response)) {
+        if (empty($response)) {
             throw new Exception('Get UnifiedOrder Failure:');
         }
 
         $unifiedOrder = XML::parse($response);
-        if( isset($unifiedOrder['result_code']) &&
-            ($unifiedOrder['result_code'] === 'FAIL') ) {
+        if (isset($unifiedOrder['result_code']) &&
+            ($unifiedOrder['result_code'] === 'FAIL')) {
             throw new Exception($unifiedOrder['err_code'].': '.$unifiedOrder['err_code_des']);
         }
 
-        if( isset($unifiedOrder['return_code']) &&
-            $unifiedOrder['return_code'] === 'FAIL' ) {
+        if (isset($unifiedOrder['return_code']) &&
+            $unifiedOrder['return_code'] === 'FAIL') {
             throw new Exception($unifiedOrder['return_code'].': '.$unifiedOrder['return_msg']);
         }
+
         return $this->unifiedOrder = $unifiedOrder;
     }
 }

@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use InvalidArgumentException;
@@ -22,20 +22,19 @@ use InvalidArgumentException;
  */
 class Message
 {
-
     /**
      * 消息类型
      */
-    const TEXT      = 'text';
-    const IMAGE     = 'image';
-    const VOICE     = 'voice';
-    const VIDEO     = 'video';
-    const MP_VIDEO  = 'mpvideo';
-    const MUSIC     = 'music';
-    const NEWS      = 'news';
-    const TRANSFER  = 'transfer';
-    const NEWS_ITEM = 'news_item';
-    const MP_NEWS = 'mp_news';
+    const TEXT        = 'text';
+    const IMAGE       = 'image';
+    const VOICE       = 'voice';
+    const VIDEO       = 'video';
+    const MP_VIDEO    = 'mpvideo';
+    const MUSIC       = 'music';
+    const NEWS        = 'news';
+    const TRANSFER    = 'transfer';
+    const NEWS_ITEM   = 'news_item';
+    const MP_NEWS     = 'mp_news';
     const WXCARD      = 'wxcard';
 
     /**
@@ -51,7 +50,7 @@ class Message
             throw new InvalidArgumentException("Error Message Type '{$type}'");
         }
 
-        $message = "Overtrue\\Wechat\\Messages\\"
+        $message = 'Overtrue\\Wechat\\Messages\\'
                     .str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $type)));
 
         return new $message();

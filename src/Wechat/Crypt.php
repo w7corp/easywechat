@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\XML;
@@ -22,7 +22,6 @@ use Overtrue\Wechat\Utils\XML;
  */
 class Crypt
 {
-
     /**
      * 应用ID
      *
@@ -63,12 +62,6 @@ class Crypt
     const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
     const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
-
-
-
-
-
-
     /**
      * constructor
      *
@@ -89,7 +82,7 @@ class Crypt
         $this->appId     = $appId;
         $this->token     = $token;
         $this->AESKey    = base64_decode($encodingAESKey.'=', true);
-        $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $this->blockSize = 32; // mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
 
     /**
@@ -111,17 +104,17 @@ class Crypt
     {
         $encrypt = $this->encrypt($xml, $this->appId);
 
-        !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
+        !is_null($nonce) || $nonce         = substr($this->appId, 0, 10);
         !is_null($timestamp) || $timestamp = time();
 
         //生成安全签名
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypt);
 
         $response = array(
-                     'Encrypt'      => $encrypt,
+                     'Encrypt' => $encrypt,
                      'MsgSignature' => $signature,
-                     'TimeStamp'    => $timestamp,
-                     'Nonce'        => $nonce,
+                     'TimeStamp' => $timestamp,
+                     'Nonce' => $nonce,
                     );
 
         //生成响应xml
@@ -298,7 +291,7 @@ class Crypt
 
         $tmp = '';
 
-        for ($index = 0; $index < $padAmount; $index++) {
+        for ($index = 0; $index < $padAmount; ++$index) {
             $tmp .= $padChr;
         }
 

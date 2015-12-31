@@ -9,18 +9,17 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Shop\Foundation;
-
 
 use Overtrue\Wechat\Http;
 
 class Base
 {
     /**
-     * @var Object Http
+     * @var object Http
      */
     protected $http;
 
@@ -43,22 +42,28 @@ class Base
      * 获得响应
      *
      * @param array $response
+     *
      * @return bool|array
+     *
      * @throws ShopsException
      */
     protected function getResponse($response = array())
     {
-        $response = empty($response) ? $this->response : $response ;
+        $response = empty($response) ? $this->response : $response;
 
-        if ($response['errcode'] == 0) {
-
-            if (count($response) == 2)  return true;
+        if ($response['errcode'] === 0) {
+            if (count($response) === 2) {
+                return true;
+            }
             if (count($response) > 2) {
+                if (isset($response['errmsg'])) {
+                    unset($response['errmsg']);
+                }
+                if (isset($response['errcode'])) {
+                    unset($response['errcode']);
+                }
 
-                if (isset($response['errmsg'])) unset($response['errmsg']);
-                if (isset($response['errcode'])) unset($response['errcode']);
-
-                if (count($response) == 1) {
+                if (count($response) === 1) {
                     $key = array_keys($response);
 
                     return $response[$key[0]];
@@ -66,9 +71,8 @@ class Base
                     return $response;
                 }
             }
-
         } else {
-            throw new ShopsException($response['errmsg'],$response['errcode']);
+            throw new ShopsException($response['errmsg'], $response['errcode']);
         }
     }
 }
