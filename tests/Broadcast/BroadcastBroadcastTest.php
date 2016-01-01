@@ -18,7 +18,7 @@ class BroadcastBroadcastTest extends PHPUnit_Framework_TestCase
         $broadcast = Mockery::mock('EasyWeChat\Broadcast\Broadcast[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $broadcast->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
-                'api'    => $params[0],
+                'api' => $params[0],
                 'params' => empty($params[1]) ? null : $params[1],
                 'quires' => empty($params[3]) ? null : $params[3],
             ];
