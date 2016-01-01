@@ -81,7 +81,7 @@ class MessageBuilder
      *
      * @return MessageBuilder
      *
-     * @throws InvalidConfigException
+     * @throws InvalidArgumentException
      */
     public function msgType($msgType)
     {
