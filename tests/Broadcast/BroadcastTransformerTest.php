@@ -85,7 +85,7 @@ class BroadcastTransformerTest extends PHPUnit_Framework_TestCase
 
         $msg = [
             'video' => [
-                'media_id'  => 'MEDIA_ID',
+                'media_id' => 'MEDIA_ID',
                 'title' => 'TITLE',
                 'description' => 'DESCRIPTION',
             ],
@@ -107,7 +107,7 @@ class BroadcastTransformerTest extends PHPUnit_Framework_TestCase
 
         $msg = [
             'mpvideo' => [
-                'media_id'  => 'MEDIA_ID',
+                'media_id' => 'MEDIA_ID',
             ],
             'msgtype' => 'mpvideo',
         ];

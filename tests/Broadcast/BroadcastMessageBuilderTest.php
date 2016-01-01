@@ -9,8 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Broadcast\MessageBuilder;
 use EasyWeChat\Broadcast\Broadcast;
+use EasyWeChat\Broadcast\MessageBuilder;
 
 class BroadcastMessageBuilderTest extends PHPUnit_Framework_TestCase
 {
@@ -33,7 +33,7 @@ class BroadcastMessageBuilderTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test message();
+     * Test message();.
      */
     public function testMessage()
     {

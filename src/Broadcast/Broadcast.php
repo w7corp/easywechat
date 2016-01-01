@@ -18,7 +18,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Broadcast;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -49,8 +48,8 @@ class Broadcast extends AbstractAPI
      * Send a message.
      *
      * @param string $msgType message type
-     * @param mixed $message message
-     * @param mixed $to
+     * @param mixed  $message message
+     * @param mixed  $to
      *
      * @return mixed
      */
@@ -67,7 +66,7 @@ class Broadcast extends AbstractAPI
      * Preview a message.
      *
      * @param string $msgType message type
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param string $to
      * @param string $by
      *
@@ -115,7 +114,7 @@ class Broadcast extends AbstractAPI
     /**
      * post request.
      *
-     * @param string $url
+     * @param string       $url
      * @param array|string $options
      *
      * @return array|bool

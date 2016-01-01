@@ -18,7 +18,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Broadcast;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
@@ -62,7 +61,7 @@ class Transformer
      */
     public function transform()
     {
-        $handle = sprintf("transform%s", ucfirst($this->msgType));
+        $handle = sprintf('transform%s', ucfirst($this->msgType));
 
         return method_exists($this, $handle) ? $this->$handle($this->message) : [];
     }
@@ -129,13 +128,13 @@ class Transformer
      */
     public function transformVideo(array $message)
     {
-        if (3 != count($message)) {
+        if (3 !== count($message)) {
             throw new InvalidArgumentException('send message to openids, the message must be three arguments.');
         }
 
         return [
             'video' => [
-                'media_id'  => $message[0],
+                'media_id' => $message[0],
                 'title' => $message[1],
                 'description' => $message[2],
             ],
@@ -154,7 +153,7 @@ class Transformer
     {
         return [
             'mpvideo' => [
-                'media_id'  => $message,
+                'media_id' => $message,
             ],
             'msgtype' => 'mpvideo',
         ];
