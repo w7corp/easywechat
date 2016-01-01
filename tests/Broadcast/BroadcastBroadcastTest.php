@@ -88,11 +88,11 @@ class BroadcastBroadcastTest extends PHPUnit_Framework_TestCase
 
         $broadcast = $this->getBroadcast();
 
-        $response = $broadcast->preview(Broadcast::MSG_TYPE_TEXT, 'CONTENT', 'WXH', Broadcast::PREVIEW_BY_WXH);
+        $response = $broadcast->preview(Broadcast::MSG_TYPE_TEXT, 'CONTENT', 'WXH', Broadcast::PREVIEW_BY_NAME);
 
         $this->assertStringStartsWith(Broadcast::API_PREVIEW, $response['api']);
         $data = [
-            Broadcast::PREVIEW_BY_WXH => 'WXH',
+            Broadcast::PREVIEW_BY_NAME => 'WXH',
             'text' => [
                 'content' => 'CONTENT',
             ],
