@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "EasyWeChat\\POI\\": "src/"
+            "EasyWeChat\\POI\\": "."
         }
     },
     "minimum-stability":"dev",

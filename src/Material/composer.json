@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "EasyWeChat\\Material\\": "src/"
+            "EasyWeChat\\Material\\": "."
         }
     },
     "minimum-stability":"dev",

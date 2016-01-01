@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "EasyWeChat\\Semantic\\": "src/"
+            "EasyWeChat\\Semantic\\": "."
         }
     },
     "minimum-stability":"dev",

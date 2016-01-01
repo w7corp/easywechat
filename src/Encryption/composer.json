@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "EasyWeChat\\Encryption\\": "src/"
+            "EasyWeChat\\Encryption\\": "."
         }
     },
     "minimum-stability":"dev",

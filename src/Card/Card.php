@@ -91,7 +91,7 @@ class Card
      */
     public function __construct(Http $http, Cache $cache)
     {
-        $this->http = $http->setExpectedException(CardHttpException::class);
+        $this->http = $http;
         $this->cache = $cache;
     }
 

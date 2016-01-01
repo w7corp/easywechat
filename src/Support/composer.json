@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "EasyWeChat\\Support\\": "src/"
+            "EasyWeChat\\Support\\": "."
         }
     },
     "minimum-stability":"dev",
