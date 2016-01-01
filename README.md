@@ -6,7 +6,7 @@
    ```
    "minimum-stability":"dev",
    ```
-> 2. `composer require "overtrue/wechat:3.0.x-dev" -vvv` 安装 3.0 分支
+> 2. `composer require "overtrue/wechat:develop-dev" -vvv` 安装 3.0 分支
 > 3. 试用并[反馈给我](https://github.com/overtrue/wechat/issues) ，请以"[3.0]"开头，谢谢！
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
@@ -35,7 +35,7 @@ SDK 使用交流 QQ 群：`319502940`
 
 ## 安装
 
-环境要求：PHP >= 5.5.0
+环境要求：PHP >= 5.5.9
 
 1. 使用 [composer](https://getcomposer.org/)
 
@@ -49,17 +49,19 @@ SDK 使用交流 QQ 群：`319502940`
 
 ```php
 <?php
-include __DIR__. '/vendor/autoload.php';
 
-use Overtrue\WeChat\Application;
+use EasyWeChat\Foundation\Application;
 
 $options = [
     'debug'     => true,
     'app_id'    => 'wx3cf0f39249eb0e60',
     'secret'    => 'f1c242f4f28f735d4687abb469072a29',
     'token'     => 'hellotest',
-    'log_level' => \Monolog\Logger::DEBUG,
-    'log_file'  => '/tmp/easywechat.log',
+    'log' => [
+        'level' => \Monolog\Logger::DEBUG,
+        'file'  => '/tmp/easywechat.log',
+    ],
+    // ...
 ];
 
 $app = new Application($options);
