@@ -70,7 +70,7 @@ class MessageBuilder
      */
     private $previewBys = [
         Broadcast::PREVIEW_BY_OPENID,
-        Broadcast::PREVIEW_BY_WXH,
+        Broadcast::PREVIEW_BY_NAME,
     ];
 
     /**

@@ -135,13 +135,13 @@ class BroadcastMessageBuilderTest extends PHPUnit_Framework_TestCase
         $messageBuilder = new MessageBuilder();
         $messageBuilder->msgType(Broadcast::MSG_TYPE_TEXT)->message('CONTENT')->to('WXH');
         $message = [
-            Broadcast::PREVIEW_BY_WXH => 'WXH',
+            Broadcast::PREVIEW_BY_NAME => 'WXH',
             'text' => [
                 'content' => 'CONTENT',
             ],
             'msgtype' => 'text',
         ];
-        $this->assertEquals($message, $messageBuilder->buildPreview(Broadcast::PREVIEW_BY_WXH));
+        $this->assertEquals($message, $messageBuilder->buildPreview(Broadcast::PREVIEW_BY_NAME));
 
         // exception
         $messageBuilder = new MessageBuilder();

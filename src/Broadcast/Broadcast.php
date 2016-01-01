@@ -35,7 +35,7 @@ class Broadcast extends AbstractAPI
     const API_GET = 'http://api.weixin.qq.com/cgi-bin/message/mass/get';
 
     const PREVIEW_BY_OPENID = 'touser';
-    const PREVIEW_BY_WXH = 'towxname';
+    const PREVIEW_BY_NAME = 'towxname';
 
     const MSG_TYPE_TEXT = 'text'; // 文本
     const MSG_TYPE_NEWS = 'news'; // 图文
@@ -63,6 +63,84 @@ class Broadcast extends AbstractAPI
     }
 
     /**
+     * Send a text message.
+     *
+     * @param mixed $message message
+     * @param mixed $to
+     *
+     * @return mixed
+     */
+    public function sendText($message, $to = null)
+    {
+        return $this->send(self::MSG_TYPE_TEXT, $message, $to);
+    }
+
+    /**
+     * Send a news message.
+     *
+     * @param mixed $message message
+     * @param mixed $to
+     *
+     * @return mixed
+     */
+    public function sendNews($message, $to = null)
+    {
+        return $this->send(self::MSG_TYPE_NEWS, $message, $to);
+    }
+
+    /**
+     * Send a voice message.
+     *
+     * @param mixed $message message
+     * @param mixed $to
+     *
+     * @return mixed
+     */
+    public function sendVoice($message, $to = null)
+    {
+        return $this->send(self::MSG_TYPE_VOICE, $message, $to);
+    }
+
+    /**
+     * Send a image message.
+     *
+     * @param mixed $message message
+     * @param mixed $to
+     *
+     * @return mixed
+     */
+    public function sendImage($message, $to = null)
+    {
+        return $this->send(self::MSG_TYPE_IMAGE, $message, $to);
+    }
+
+    /**
+     * Send a video message.
+     *
+     * @param mixed $message message
+     * @param mixed $to
+     *
+     * @return mixed
+     */
+    public function sendVideo($message, $to = null)
+    {
+        return $this->send(self::MSG_TYPE_VIDEO, $message, $to);
+    }
+
+    /**
+     * Send a card message.
+     *
+     * @param mixed $message message
+     * @param mixed $to
+     *
+     * @return mixed
+     */
+    public function sendCard($message, $to = null)
+    {
+        return $this->send(self::MSG_TYPE_CARD, $message, $to);
+    }
+
+    /**
      * Preview a message.
      *
      * @param string $msgType message type
@@ -79,6 +157,182 @@ class Broadcast extends AbstractAPI
         return $this->post(self::API_PREVIEW, $message);
     }
 
+    /**
+     * Preview a text message.
+     *
+     * @param mixed $message message
+     * @param string $to
+     * @param string $by
+     *
+     * @return mixed
+     */
+    public function previewText($message, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->preview(self::MSG_TYPE_TEXT, $message, $to, $by);
+    }
+
+    /**
+     * Preview a news message.
+     *
+     * @param mixed $message message
+     * @param string $to
+     * @param string $by
+     *
+     * @return mixed
+     */
+    public function previewNews($message, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->preview(self::MSG_TYPE_NEWS, $message, $to, $by);
+    }
+
+    /**
+     * Preview a voice message.
+     *
+     * @param mixed $message message
+     * @param string $to
+     * @param string $by
+     *
+     * @return mixed
+     */
+    public function previewVoice($message, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->preview(self::MSG_TYPE_VOICE, $message, $to, $by);
+    }
+
+    /**
+     * Preview a image message.
+     *
+     * @param mixed $message message
+     * @param string $to
+     * @param string $by
+     *
+     * @return mixed
+     */
+    public function previewImage($message, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->preview(self::MSG_TYPE_IMAGE, $message, $to, $by);
+    }
+
+    /**
+     * Preview a video message.
+     *
+     * @param mixed $message message
+     * @param string $to
+     * @param string $by
+     *
+     * @return mixed
+     */
+    public function previewVideo($message, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->preview(self::MSG_TYPE_VIDEO, $message, $to, $by);
+    }
+
+    /**
+     * Preview a card message.
+     *
+     * @param mixed $message message
+     * @param string $to
+     * @param string $by
+     *
+     * @return mixed
+     */
+    public function previewCard($message, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->preview(self::MSG_TYPE_CARD, $message, $to, $by);
+    }
+
+    /**
+     * Preview a message by name.
+     *
+     * @param string $msgType message type
+     * @param mixed $message message
+     * @param $to
+     *
+     * @return mixed
+     */
+    public function previewByName($msgType, $message, $to)
+    {
+        return $this->preview($msgType, $message, $to, self::PREVIEW_BY_NAME);
+    }
+
+    /**
+     * Preview a text message by name.
+     *
+     * @param mixed $message message
+     * @param $to
+     *
+     * @return mixed
+     */
+    public function previewTextByName($message, $to)
+    {
+        return $this->preview(self::MSG_TYPE_TEXT, $message, $to, self::PREVIEW_BY_NAME);
+    }
+
+    /**
+     * Preview a news message by name.
+     *
+     * @param mixed $message message
+     * @param $to
+     *
+     * @return mixed
+     */
+    public function previewNewsByName($message, $to)
+    {
+        return $this->preview(self::MSG_TYPE_NEWS, $message, $to, self::PREVIEW_BY_NAME);
+    }
+
+    /**
+     * Preview a voice message by name.
+     *
+     * @param mixed $message message
+     * @param $to
+     *
+     * @return mixed
+     */
+    public function previewVoiceByName($message, $to)
+    {
+        return $this->preview(self::MSG_TYPE_VOICE, $message, $to, self::PREVIEW_BY_NAME);
+    }
+
+    /**
+     * Preview a image message by name.
+     *
+     * @param mixed $message message
+     * @param $to
+     *
+     * @return mixed
+     */
+    public function previewImageByName($message, $to)
+    {
+        return $this->preview(self::MSG_TYPE_IMAGE, $message, $to, self::PREVIEW_BY_NAME);
+    }
+
+    /**
+     * Preview a video message by name.
+     *
+     * @param mixed $message message
+     * @param $to
+     *
+     * @return mixed
+     */
+    public function previewVideoByName($message, $to)
+    {
+        return $this->preview(self::MSG_TYPE_VIDEO, $message, $to, self::PREVIEW_BY_NAME);
+    }
+
+    /**
+     * Preview a card message by name.
+     *
+     * @param mixed $message message
+     * @param $to
+     *
+     * @return mixed
+     */
+    public function previewCardByName($message, $to)
+    {
+        return $this->preview(self::MSG_TYPE_CARD, $message, $to, self::PREVIEW_BY_NAME);
+    }
+    
     /**
      * Delete a broadcast.
      *
