@@ -21,6 +21,7 @@
 
 namespace EasyWeChat\Broadcast;
 
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Exceptions\RuntimeException;
 
 /**
@@ -80,12 +81,12 @@ class MessageBuilder
      *
      * @return MessageBuilder
      *
-     * @throws RuntimeException
+     * @throws InvalidConfigException
      */
     public function msgType($msgType)
     {
         if (!in_array($msgType, $this->msgTypes)) {
-            throw new RuntimeException('This message type not exist.');
+            throw new InvalidArgumentException('This message type not exist.');
         }
 
         $this->msgType = $msgType;
@@ -162,11 +163,12 @@ class MessageBuilder
      * @return array
      *
      * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function buildPreview($by)
     {
         if (!in_array($by, $this->previewBys)) {
-            throw new RuntimeException('This preview by not exist.');
+            throw new InvalidArgumentException('This preview by not exist.');
         }
 
         if (empty($this->msgType)) {

@@ -17,7 +17,7 @@ class BroadcastMessageBuilderTest extends PHPUnit_Framework_TestCase
     /**
      * Test msgType().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\RuntimeException
+     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testMsgType()
     {
@@ -117,6 +117,7 @@ class BroadcastMessageBuilderTest extends PHPUnit_Framework_TestCase
      * Test buildPreview().
      *
      * @expectedException EasyWeChat\Core\Exceptions\RuntimeException
+     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testBuildPreview()
     {
