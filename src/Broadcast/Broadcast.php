@@ -160,7 +160,7 @@ class Broadcast extends AbstractAPI
     /**
      * Preview a text message.
      *
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param string $to
      * @param string $by
      *
@@ -174,7 +174,7 @@ class Broadcast extends AbstractAPI
     /**
      * Preview a news message.
      *
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param string $to
      * @param string $by
      *
@@ -188,7 +188,7 @@ class Broadcast extends AbstractAPI
     /**
      * Preview a voice message.
      *
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param string $to
      * @param string $by
      *
@@ -202,7 +202,7 @@ class Broadcast extends AbstractAPI
     /**
      * Preview a image message.
      *
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param string $to
      * @param string $by
      *
@@ -216,7 +216,7 @@ class Broadcast extends AbstractAPI
     /**
      * Preview a video message.
      *
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param string $to
      * @param string $by
      *
@@ -230,7 +230,7 @@ class Broadcast extends AbstractAPI
     /**
      * Preview a card message.
      *
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param string $to
      * @param string $by
      *
@@ -245,7 +245,7 @@ class Broadcast extends AbstractAPI
      * Preview a message by name.
      *
      * @param string $msgType message type
-     * @param mixed $message message
+     * @param mixed  $message message
      * @param $to
      *
      * @return mixed
@@ -332,7 +332,7 @@ class Broadcast extends AbstractAPI
     {
         return $this->preview(self::MSG_TYPE_CARD, $message, $to, self::PREVIEW_BY_NAME);
     }
-    
+
     /**
      * Delete a broadcast.
      *
