@@ -10,7 +10,7 @@
  */
 
 /**
- * BadRequestException.php.
+ * CardHttpException.php.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -18,13 +18,13 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-namespace EasyWeChat\Server;
+namespace EasyWeChat\Card;
 
-use EasyWeChat\Core\Exception;
+use EasyWeChat\Core\Exception as CoreException;
 
 /**
- * Class BadRequestException.
+ * Class CardHttpException.
  */
-class BadRequestException extends Exception
+class CardHttpException extends CoreException
 {
 }

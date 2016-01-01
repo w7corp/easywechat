@@ -84,7 +84,7 @@ namespace
             $this->assertStringStartsWith(Temporary::API_UPLOAD, $result[0]);
             $this->assertEquals(['media' => __DIR__.'/stubs/image.jpg'], $result[1]);
 
-            $temporary->upload('image', '/this-is-are-non-exists-path/foo.jpg');// exception,invalid path
+            $temporary->upload('image', '/this-is-are-non-exists-path/foo.jpg'); // exception,invalid path
         }
 
         /**
@@ -95,7 +95,7 @@ namespace
         public function testUploadWithInvalidType()
         {
             $temporary = new Temporary($this->getMockAccessToken());
-            $temporary->upload('img', __DIR__.'/stubs/image.jpg');// exception,invalid type
+            $temporary->upload('img', __DIR__.'/stubs/image.jpg'); // exception,invalid type
         }
 
         /**

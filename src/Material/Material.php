@@ -18,7 +18,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Material;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -119,11 +118,11 @@ class Material extends AbstractAPI
             $articles = [$articles];
         }
 
-        $params = ['articles' => array_map(function($article){
+        $params = ['articles' => array_map(function ($article) {
             if ($article instanceof Article) {
                 return $article->only([
                     'title', 'thumb_media_id', 'author', 'digest',
-                    'show_cover_pic', 'content', 'content_source_url'
+                    'show_cover_pic', 'content', 'content_source_url',
                     ]);
             }
 
