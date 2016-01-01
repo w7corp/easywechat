@@ -6,7 +6,6 @@ enabled:
   - align_equals
   - strict
   - strict_param
-  - header_comment
   - short_array_syntax
   - ordered_use
   - php_unit_construct
