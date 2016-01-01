@@ -61,6 +61,7 @@ class Application extends Container
         ServiceProviders\StatsServiceProvider::class,
         ServiceProviders\PaymentServiceProvider::class,
         ServiceProviders\POIServiceProvider::class,
+        ServiceProviders\BroadcastServiceProvider::class,
     ];
 
     /**
@@ -123,6 +124,8 @@ class Application extends Container
      * Add a provider.
      *
      * @param string $provider
+     *
+     * @return Application
      */
     public function addProvider($provider)
     {
