@@ -18,7 +18,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Encryption;
 
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
@@ -77,7 +76,7 @@ class Encryptor
         $this->appId = $appId;
         $this->token = $token;
         $this->AESKey = $AESKey;
-        $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $this->blockSize = 32; // mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
 
     /**

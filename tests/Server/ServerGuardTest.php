@@ -155,7 +155,7 @@ class ServerGuardTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('Foo::bar', $server->getMessageHandler());
 
-        $server->setMessageHandler('foo');// invalid
+        $server->setMessageHandler('foo'); // invalid
     }
 
     /**
