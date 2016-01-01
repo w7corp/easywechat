@@ -1,4 +1,4 @@
-preset: recommended
+preset: symfony
 
 linting: true
 
