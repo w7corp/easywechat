@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Exception;
@@ -25,7 +25,6 @@ use Overtrue\Wechat\Exception;
  */
 class Transfer extends BaseMessage
 {
-
     /**
      * 属性
      *

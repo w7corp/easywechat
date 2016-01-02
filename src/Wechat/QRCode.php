@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -22,7 +22,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class QRCode
 {
-
     /**
      * 应用ID
      *
@@ -37,7 +36,7 @@ class QRCode
      */
     protected $appSecret;
 
-    const DAY = 86400;
+    const DAY                  = 86400;
     const SCENE_QR_CARD        = 'QR_CARD';             // 卡券
     const SCENE_QR_TEMPORARY   = 'QR_SCENE';            // 临时
     const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE';      // 永久
@@ -69,10 +68,10 @@ class QRCode
     {
         // 永久二维码时最大值为100000（目前参数只支持1--100000）
         if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < 100000) {
-            $type = self::SCENE_QR_FOREVER;
+            $type     = self::SCENE_QR_FOREVER;
             $sceneKey = 'scene_id';
         } else {
-            $type = self::SCENE_QR_FOREVER_STR;
+            $type     = self::SCENE_QR_FOREVER_STR;
             $sceneKey = 'scene_str';
         }
 
@@ -101,8 +100,8 @@ class QRCode
      * 创建卡券二维码
      *
      * @param array $card
-     * @param bool $temporary
-     * @param bool $expireSeconds
+     * @param bool  $temporary
+     * @param bool  $expireSeconds
      *
      * {
      *    "card_id": "pFS7Fjg8kV1IdDz01r4SQwMkuCKc",

@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -20,7 +20,6 @@ namespace Overtrue\Wechat;
  */
 class Url
 {
-
     /**
      * Http对象
      *
@@ -51,7 +50,7 @@ class Url
     public function short($url)
     {
         $params = array(
-                   'action'   => 'long2short',
+                   'action' => 'long2short',
                    'long_url' => $url,
                   );
 
@@ -71,11 +70,12 @@ class Url
                         && $_SERVER['HTTPS'] !== 'off'
                         || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
 
-        if(isset($_SERVER['HTTP_X_FORWARDED_HOST'])){
+        if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
             $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
-        }else{
+        } else {
             $host = $_SERVER['HTTP_HOST'];
         }
+
         return $protocol.$host.$_SERVER['REQUEST_URI'];
     }
 }

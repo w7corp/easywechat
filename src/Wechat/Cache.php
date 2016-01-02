@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -20,7 +20,6 @@ namespace Overtrue\Wechat;
  */
 class Cache
 {
-
     /**
      * 缓存文件前缀
      *
@@ -66,7 +65,7 @@ class Cache
         }
 
         $data = array(
-                 'data'       => $value,
+                 'data' => $value,
                  'expired_at' => time() + $lifetime - 500, //XXX: 微信API是世界上最烂的，没有之一
                 );
 

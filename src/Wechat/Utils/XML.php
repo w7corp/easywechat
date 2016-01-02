@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Utils;
 
 /**
@@ -20,7 +20,6 @@ namespace Overtrue\Wechat\Utils;
  */
 class XML
 {
-
     /**
      * XML 转换为数组
      *
@@ -56,8 +55,7 @@ class XML
         $item = 'item',
         $attr = '',
         $id = 'id'
-    )
-    {
+    ) {
         if (is_array($attr)) {
             $_attr = array();
 
@@ -127,7 +125,7 @@ class XML
         foreach ($data as $key => $val) {
             if (is_numeric($key)) {
                 $id && $attr = " {$id}=\"{$key}\"";
-                $key  = $item;
+                $key         = $item;
             }
 
             $xml .= "<{$key}{$attr}>";
