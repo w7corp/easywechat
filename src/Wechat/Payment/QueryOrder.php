@@ -9,7 +9,6 @@
  *
  * @author    jaring <pengjiayin@gmail.com>
  */
-
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -35,40 +34,41 @@ class QueryOrder
      */
     protected $transactionInfo;
 
-    public function __construct($appId, $appSecret, $mchId, $mchKey) {
-        $this->appId = $appId;
+    public function __construct($appId, $appSecret, $mchId, $mchKey)
+    {
+        $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->mchId = $mchId;
-        $this->mchKey = $mchKey;
+        $this->mchId     = $mchId;
+        $this->mchKey    = $mchKey;
     }
-
-
 
     /**
      * 获取订单结果
      *
-     * @param string $order_id 商户订单ID
-     * @param bool|false $force 是否忽略缓存强制更新
+     * @param string     $order_id 商户订单ID
+     * @param bool|false $force    是否忽略缓存强制更新
+     *
      * @return Bag
+     *
      * @throws Exception
      * @throws \Overtrue\Wechat\Exception
      */
-    public function getTransaction($order_id,$force = false)
+    public function getTransaction($order_id, $force = false)
     {
-        $params=array();
-        $params['appid'] = $this->appId;
-        $params['mch_id'] = $this->mchId;
+        $params                 = array();
+        $params['appid']        = $this->appId;
+        $params['mch_id']       = $this->mchId;
         $params['out_trade_no'] = $order_id;
-        $params['nonce_str'] = md5(uniqid(microtime()));
-        $signGenerator = new SignGenerator($params);
-        $signGenerator->onSortAfter(function(SignGenerator $that) {
+        $params['nonce_str']    = md5(uniqid(microtime()));
+        $signGenerator          = new SignGenerator($params);
+        $signGenerator->onSortAfter(function (SignGenerator $that) {
             $that->key = $this->mchKey;
         });
         $params['sign'] = $signGenerator->getResult();
-        $request = XML::build($params);
-        $http = new Http();
-        $response = $http->request(static::QUERYORDER_URL, Http::POST, $request);
-        if(empty($response)) {
+        $request        = XML::build($params);
+        $http           = new Http();
+        $response       = $http->request(static::QUERYORDER_URL, Http::POST, $request);
+        if (empty($response)) {
             throw new Exception('Get ORDER Failure:');
         }
 
@@ -80,7 +80,7 @@ class QueryOrder
         $sign = $transaction['sign'];
         unset($transaction['sign']);
         $signGenerator = new SignGenerator($transaction);
-        $signGenerator->onSortAfter(function(SignGenerator $that) {
+        $signGenerator->onSortAfter(function (SignGenerator $that) {
             $that->key = $this->mchKey;
         });
         if ($sign !== $signGenerator->getResult()) {
@@ -88,16 +88,16 @@ class QueryOrder
         }
 
         // 返回结果判断
-        if(isset($transaction['result_code']) &&
-            ($transaction['result_code'] === 'FAIL') ) {
+        if (isset($transaction['result_code']) &&
+            ($transaction['result_code'] === 'FAIL')) {
             throw new Exception($transaction['err_code'].': '.$transaction['err_code_des']);
         }
-        
-        if(isset($transaction['return_code']) &&
-            $transaction['return_code'] === 'FAIL' ) {
+
+        if (isset($transaction['return_code']) &&
+            $transaction['return_code'] === 'FAIL') {
             throw new Exception($transaction['return_code'].': '.$transaction['return_msg']);
         }
 
-        return $transactionInfo=new Bag($transaction);
+        return $transactionInfo = new Bag($transaction);
     }
 }

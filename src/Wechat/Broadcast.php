@@ -9,24 +9,24 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
 
 class Broadcast
 {
-    const API_SEND_BY_GROUP = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall';
+    const API_SEND_BY_GROUP  = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall';
     const API_SEND_BY_OPENID = 'https://api.weixin.qq.com/cgi-bin/message/mass/send';
-    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete';
-    const API_PREVIEW = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview';
-    const API_GET = 'http://api.weixin.qq.com/cgi-bin/message/mass/get';
+    const API_DELETE         = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete';
+    const API_PREVIEW        = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview';
+    const API_GET            = 'http://api.weixin.qq.com/cgi-bin/message/mass/get';
 
     const PREVIEW_BY_OPENID = 'touser';
-    const PREVIEW_BY_WXH = 'towxname';
+    const PREVIEW_BY_WXH    = 'towxname';
 
     /**
      * Http对象
@@ -109,7 +109,7 @@ class Broadcast
      * 预览
      *
      * @param string $openId 接收消息用户对应该公众号的openid
-     * @param string $type 接收消息用户的类型
+     * @param string $type   接收消息用户的类型
      *
      * @return bool
      */
