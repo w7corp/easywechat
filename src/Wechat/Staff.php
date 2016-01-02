@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
@@ -22,7 +22,6 @@ use Overtrue\Wechat\Messages\BaseMessage;
  */
 class Staff
 {
-
     /**
      * 消息
      *
@@ -107,8 +106,8 @@ class Staff
     {
         $params = array(
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
+                   'nickname' => $nickname,
+                   'password' => $password,
                   );
 
         return $this->http->jsonPost(self::API_CREATE, $params);
@@ -127,8 +126,8 @@ class Staff
     {
         $params = array(
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
+                   'nickname' => $nickname,
+                   'password' => $password,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
@@ -160,7 +159,7 @@ class Staff
                     'files' => array('media' => $path),
                    );
 
-        $url = self::API_AVATAR_UPLOAD . "?kf_account={$email}";
+        $url = self::API_AVATAR_UPLOAD."?kf_account={$email}";
 
         return $this->http->post($url, array(), $options);
     }

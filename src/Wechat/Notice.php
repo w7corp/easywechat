@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -20,7 +20,6 @@ namespace Overtrue\Wechat;
  */
 class Notice
 {
-
     /**
      * Http对象
      *
@@ -41,11 +40,11 @@ class Notice
      * @var array
      */
     protected $message = array(
-                          'touser'      => '',
+                          'touser' => '',
                           'template_id' => '',
-                          'url'         => '',
-                          'topcolor'    => '#FF00000',
-                          'data'        => array(),
+                          'url' => '',
+                          'topcolor' => '#FF00000',
+                          'data' => array(),
                          );
 
     /**
@@ -54,7 +53,7 @@ class Notice
      * @var array
      */
     protected static $industries = array(
-                                    'IT科技'              => array(
+                                    'IT科技' => array(
                                                                 1 => '互联网/电子商务',
                                                                 2 => 'IT软件与服务',
                                                                 3 => 'IT硬件与设备',
@@ -63,26 +62,26 @@ class Notice
                                                                 6 => '网络游戏',
                                                                ),
 
-                                    '金融业'             => array(
+                                    '金融业' => array(
                                                                 7 => '银行',
                                                                 8 => '基金|理财|信托',
                                                                 9 => '保险',
                                                                ),
 
-                                    '餐饮'                => array(10 => '餐饮'),
+                                    '餐饮' => array(10 => '餐饮'),
 
-                                    '酒店旅游'          => array(
+                                    '酒店旅游' => array(
                                                                 11 => '酒店',
                                                                 12 => '旅游',
                                                                ),
 
-                                    '运输与仓储'       => array(
+                                    '运输与仓储' => array(
                                                                 13 => '快递',
                                                                 14 => '物流',
                                                                 14 => '仓储',
                                                                ),
 
-                                    '教育'                => array(
+                                    '教育' => array(
                                                                 16 => '培训',
                                                                 17 => '院校',
                                                                ),
@@ -94,27 +93,27 @@ class Notice
                                                                 21 => '公共事业|非盈利机构',
                                                                ),
 
-                                    '医药护理'          => array(
+                                    '医药护理' => array(
                                                                 22 => '医药医疗',
                                                                 23 => '护理美容',
                                                                 24 => '保健与卫生',
                                                                ),
 
-                                    '交通工具'          => array(
+                                    '交通工具' => array(
                                                                 25 => '汽车相关',
                                                                 26 => '摩托车相关',
                                                                 27 => '火车相关',
                                                                 28 => '飞机相关',
                                                                ),
 
-                                    '房地产'             => array(
+                                    '房地产' => array(
                                                                 29 => '建筑',
                                                                 30 => '物业',
                                                                ),
 
-                                    '消费品'             => array(31 => '消费品'),
+                                    '消费品' => array(31 => '消费品'),
 
-                                    '商业服务'          => array(
+                                    '商业服务' => array(
                                                                 32 => '法律',
                                                                 33 => '会展',
                                                                 34 => '中介服务',
@@ -122,15 +121,15 @@ class Notice
                                                                 36 => '审计',
                                                                ),
 
-                                    '文体娱乐'          => array(
+                                    '文体娱乐' => array(
                                                                 37 => '传媒',
                                                                 38 => '体育',
                                                                 39 => '娱乐休闲',
                                                                ),
 
-                                    '印刷'                => array(40 => '印刷'),
+                                    '印刷' => array(40 => '印刷'),
 
-                                    '其它'                => array(41 => '其它'),
+                                    '其它' => array(41 => '其它'),
                                    );
 
     const API_SEND_NOTICE  = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
@@ -201,11 +200,11 @@ class Notice
         $color = '#FF0000'
     ) {
         $params = array(
-                   'touser'      => $to,
+                   'touser' => $to,
                    'template_id' => $templateId,
-                   'url'         => $url,
-                   'topcolor'    => $color,
-                   'data'        => $data,
+                   'url' => $url,
+                   'topcolor' => $color,
+                   'data' => $data,
                   );
 
         $required = array(
@@ -214,7 +213,7 @@ class Notice
                     );
 
         foreach ($params as $key => $value) {
-            if (in_array($key, $required) && empty($value) && empty($this->message[$key])) {
+            if (in_array($key, $required, true) && empty($value) && empty($this->message[$key])) {
                 throw new Exception("消息属性 '$key' 不能为空！");
             }
 
@@ -312,17 +311,17 @@ class Notice
     public function __call($method, $args)
     {
         $map = array(
-                'template'   => 'template_id',
-                'uses'       => 'template_id',
+                'template' => 'template_id',
+                'uses' => 'template_id',
                 'templateId' => 'template_id',
-                'to'         => 'touser',
-                'receiver'   => 'touser',
-                'color'      => 'topcolor',
-                'topColor'   => 'topcolor',
-                'url'        => 'url',
-                'linkTo'     => 'linkTo',
-                'data'       => 'data',
-                'with'       => 'data',
+                'to' => 'touser',
+                'receiver' => 'touser',
+                'color' => 'topcolor',
+                'topColor' => 'topcolor',
+                'url' => 'url',
+                'linkTo' => 'linkTo',
+                'data' => 'data',
+                'with' => 'data',
                );
 
         if (0 === stripos($method, 'with')) {
@@ -335,7 +334,6 @@ class Notice
 
         if (isset($map[$method])) {
             $this->message[$map[$method]] = array_shift($args);
-
         }
 
         return $this;

@@ -9,11 +9,13 @@
  *
  * @author    Frye <frye0423@gmail.com>
  * @copyright 2015 Frye <frye0423@gmail.com>
+ *
  * @link      https://github.com/0i
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
-class Exception extends \Overtrue\Wechat\Exception { }
+class Exception extends \Overtrue\Wechat\Exception
+{
+}

@@ -9,11 +9,11 @@
  *
  * @author    Frye <frye0423@gmail.com>
  * @copyright 2015 Frye <frye0423@gmail.com>
+ *
  * @link      https://github.com/0i
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/0i/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\XML;
@@ -26,17 +26,18 @@ class Notify
     protected $appSecret;
     protected $mchId;
     protected $mchKey;
-    
+
     /**
      * @var Bag
      */
     protected $transaction;
 
-    public function __construct($appId, $appSecret, $mchId, $mchKey) {
-        $this->appId = $appId;
+    public function __construct($appId, $appSecret, $mchId, $mchKey)
+    {
+        $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->mchId = $mchId;
-        $this->mchKey = $mchKey;
+        $this->mchId     = $mchId;
+        $this->mchKey    = $mchKey;
     }
 
     /**
@@ -45,7 +46,8 @@ class Notify
      * 
      * @return bool|Bag
      */
-    public function verify() {
+    public function verify()
+    {
         if (version_compare(PHP_VERSION, '5.6.0', '<')) {
             if (!empty($GLOBALS['HTTP_RAW_POST_DATA'])) {
                 $xmlInput = $GLOBALS['HTTP_RAW_POST_DATA'];
@@ -64,17 +66,17 @@ class Notify
         if (empty($input) || empty($input['sign'])) {
             return false;
         }
-        
+
         $sign = $input['sign'];
         unset($input['sign']);
         $signGenerator = new SignGenerator($input);
-        $signGenerator->onSortAfter(function(SignGenerator $that) {
+        $signGenerator->onSortAfter(function (SignGenerator $that) {
             $that->key = $this->mchKey;
         });
         if ($sign !== $signGenerator->getResult()) {
             return false;
         }
-        
+
         return $this->transaction = new Bag($input);
     }
 
@@ -86,13 +88,13 @@ class Notify
      *
      * @return string
      */
-    public function reply($code = 'SUCCESS', $msg = 'OK') {
+    public function reply($code = 'SUCCESS', $msg = 'OK')
+    {
         $params = [
             'return_code' => $code,
             'return_msg' => $msg,
         ];
-        
+
         return XML::build($params);
     }
-    
 }

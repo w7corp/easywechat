@@ -9,11 +9,10 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Messages;
-
 
 /**
  * 卡券消息
@@ -29,18 +28,19 @@ class Wxcard extends BaseMessage
      * @var array
      */
     protected $properties = array(
-        'card_id','card_ext'
+        'card_id', 'card_ext',
     );
 
     /**
      * 设置 card_id
      *
      * @param string $cardId
+     *
      * @return $this
      */
     public function cardId($cardId)
     {
-        $this->setAttribute('card_id',$cardId);
+        $this->setAttribute('card_id', $cardId);
 
         return $this;
     }
@@ -49,11 +49,12 @@ class Wxcard extends BaseMessage
      * 设置 card_ext
      *
      * @param string $cardExt
+     *
      * @return $this
      */
     public function cardExt($cardExt)
     {
-        $this->setAttribute('card_ext',$cardExt);
+        $this->setAttribute('card_ext', $cardExt);
 
         return $this;
     }
@@ -66,10 +67,10 @@ class Wxcard extends BaseMessage
     public function toStaff()
     {
         return array(
-            'wxcard'=>array(
-                'card_id'=>$this->card_id,
-                'card_ext'=>$this->card_ext
-            )
+            'wxcard' => array(
+                'card_id' => $this->card_id,
+                'card_ext' => $this->card_ext,
+            ),
         );
     }
 }

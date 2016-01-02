@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Messages;
 
 use Closure;
@@ -22,7 +22,6 @@ use Closure;
  */
 class News extends BaseMessage
 {
-
     /**
      * 属性
      *
@@ -71,10 +70,10 @@ class News extends BaseMessage
 
         foreach ($this->items as $item) {
             $articles[] = array(
-                           'title'       => $item->title,
+                           'title' => $item->title,
                            'description' => $item->description,
-                           'url'         => $item->url,
-                           'picurl'      => $item->pic_url,
+                           'url' => $item->url,
+                           'picurl' => $item->pic_url,
                           );
         }
 
@@ -90,16 +89,16 @@ class News extends BaseMessage
 
         foreach ($this->items as $item) {
             $articles[] = array(
-                           'Title'       => $item->title,
+                           'Title' => $item->title,
                            'Description' => $item->description,
-                           'Url'         => $item->url,
-                           'PicUrl'      => $item->pic_url,
+                           'Url' => $item->url,
+                           'PicUrl' => $item->pic_url,
                           );
         }
 
         return array(
                 'ArticleCount' => count($articles),
-                'Articles'     => $articles,
+                'Articles' => $articles,
                );
     }
 }

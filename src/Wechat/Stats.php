@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -20,7 +20,6 @@ namespace Overtrue\Wechat;
  */
 class Stats
 {
-
     /**
      * Http对象
      *
@@ -308,7 +307,7 @@ class Stats
     {
         $params = array(
                    'begin_date' => $from,
-                   'end_date'   => $to,
+                   'end_date' => $to,
                   );
 
         $result = $this->http->jsonPost($api, $params);
