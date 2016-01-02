@@ -116,8 +116,9 @@ class Auth
      * @param string $scope
      * @param string $state
      */
-    public function redirect($to = null, $scope = 'snsapi_userinfo', $state = 'STATE')
+    public function redirect($to = null, $scope = 'snsapi_userinfo', $state = null)
     {
+        $state = $state ? $state : md5(time());
         header('Location:'.$this->url($to, $scope, $state));
 
         exit;
@@ -139,7 +140,7 @@ class Auth
         $permission = $this->getAccessPermission($code);
 
         if ($permission['scope'] !== 'snsapi_userinfo') {
-            $user = new Bag(array('openid' => $permission['openid']));
+            $user = new Bag($permission);
         } else {
             $user = $this->getUser($permission['openid'], $permission['access_token']);
         }

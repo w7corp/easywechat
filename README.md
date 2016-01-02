@@ -74,6 +74,7 @@ $server->on('message', function($message){
 // 您可以直接echo 或者返回给框架
 echo $server->serve();
 ```
+
 更多请参考文档。
 
 :mega: 现在我们已经把用 2.0 API 写的一个基本例子开源了：[微易](https://github.com/vieasehub/viease)
