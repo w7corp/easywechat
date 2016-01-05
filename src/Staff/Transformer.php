@@ -136,4 +136,18 @@ class Transformer
 
         return ['news' => ['articles' => $articles]];
     }
+
+    /**
+     * Transform material message.
+     *
+     * @return array
+     */
+    public function transformMaterial(AbstractMessage $message)
+    {
+        return [
+                $message->getType() => [
+                            'media_id' => $message->media_id,
+                           ],
+               ];
+    }
 }

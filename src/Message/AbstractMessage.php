@@ -29,6 +29,13 @@ use EasyWeChat\Support\Attribute;
 abstract class AbstractMessage extends Attribute
 {
     /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type;
+
+    /**
      * Message id.
      *
      * @var int
