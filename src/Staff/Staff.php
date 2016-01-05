@@ -149,6 +149,6 @@ class Staff extends AbstractAPI
      */
     public function send(array $message)
     {
-        return $this->parseJSON('post', [self::API_MESSAGE_SEND, $message]);
+        return $this->parseJSON('json', [self::API_MESSAGE_SEND, $message]);
     }
 }
