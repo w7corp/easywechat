@@ -20,12 +20,10 @@
  */
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Support\Attribute;
-
 /**
  * Class News.
  */
-class News extends Attribute
+class News extends AbstractMessage
 {
     /**
      * Properties.

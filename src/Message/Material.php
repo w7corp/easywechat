@@ -20,20 +20,11 @@
  */
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Support\Attribute;
-
 /**
  * Class Material.
  */
-class Material extends Attribute
+class Material extends AbstractMessage
 {
-    /**
-     * Material type.
-     *
-     * @var string
-     */
-    protected $type = 'mpnews';
-
     /**
      * Properties.
      *
@@ -47,12 +38,9 @@ class Material extends Attribute
      * @param string $mediaId
      * @param string $type
      */
-    public function __construct($mediaId, $type = null)
+    public function __construct($type, $mediaId)
     {
         $this->set('media_id', $mediaId);
-
-        if ($type) {
-            $this->type = $type;
-        }
+        $this->type = $type;
     }
 }
