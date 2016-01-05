@@ -301,4 +301,14 @@ class Encryptor
 
         return $xml;
     }
+
+    /**
+     * Generate random string.
+     *
+     * @return string
+     */
+    private function getRandomStr()
+    {
+        return substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz'), 0, 16);
+    }
 }
