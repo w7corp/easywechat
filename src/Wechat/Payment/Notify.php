@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/0i/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -45,10 +44,10 @@ class Notify
 
     public function __construct($appId, $appSecret, $mchId, $mchKey)
     {
-        $this->appId = $appId;
+        $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->mchId = $mchId;
-        $this->mchKey = $mchKey;
+        $this->mchId     = $mchId;
+        $this->mchKey    = $mchKey;
     }
 
     /**

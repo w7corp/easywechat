@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Utils;
 
 /**
@@ -36,10 +35,10 @@ class Http
     /**
      * Constants for available HTTP methods.
      */
-    const GET = 'GET';
-    const POST = 'POST';
-    const PUT = 'PUT';
-    const PATCH = 'PATCH';
+    const GET    = 'GET';
+    const POST   = 'POST';
+    const PUT    = 'PUT';
+    const PATCH  = 'PATCH';
     const DELETE = 'DELETE';
 
     /**
@@ -178,7 +177,7 @@ class Http
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
             curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, true);
-            curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 2);//严格校验
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYHOST, 2); //严格校验
             curl_setopt($this->curl, CURLOPT_SSLCERTTYPE, 'PEM');
             curl_setopt($this->curl, CURLOPT_SSLCERT, $options['sslcert_path']);
             curl_setopt($this->curl, CURLOPT_SSLKEYTYPE, 'PEM');
@@ -200,7 +199,7 @@ class Http
             curl_setopt($this->curl, CURLOPT_POSTFIELDS, $params);
         } else {
             if (isset($options['json'])) {
-                $params = JSON::encode($params);
+                $params               = JSON::encode($params);
                 $options['headers'][] = 'content-type:application/json';
             }
 
@@ -221,8 +220,8 @@ class Http
 
         // Separate headers and body
         $headerSize = $response['curl_info']['header_size'];
-        $header = substr($response['response'], 0, $headerSize);
-        $body = substr($response['response'], $headerSize);
+        $header     = substr($response['response'], 0, $headerSize);
+        $body       = substr($response['response'], $headerSize);
 
         $results = array(
                     'curl_info' => $response['curl_info'],
@@ -262,7 +261,7 @@ class Http
     {
         $headers = array();
 
-        $lines = explode("\n", trim($rawHeaders));
+        $lines           = explode("\n", trim($rawHeaders));
         $headers['HTTP'] = array_shift($lines);
 
         foreach ($lines as $h) {
