@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -75,11 +74,11 @@ class Auth
      */
     protected $authorizedUser;
 
-    const API_USER = 'https://api.weixin.qq.com/sns/userinfo';
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/sns/oauth2/access_token';
-    const API_TOKEN_REFRESH = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
+    const API_USER           = 'https://api.weixin.qq.com/sns/userinfo';
+    const API_TOKEN_GET      = 'https://api.weixin.qq.com/sns/oauth2/access_token';
+    const API_TOKEN_REFRESH  = 'https://api.weixin.qq.com/sns/oauth2/refresh_token';
     const API_TOKEN_VALIDATE = 'https://api.weixin.qq.com/sns/auth';
-    const API_URL = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+    const API_URL            = 'https://open.weixin.qq.com/connect/oauth2/authorize';
 
     /**
      * constructor.
@@ -89,10 +88,10 @@ class Auth
      */
     public function __construct($appId, $appSecret)
     {
-        $this->appId = $appId;
+        $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->http = new Http(); // 不需要公用的access_token
-        $this->input = new Input();
+        $this->http      = new Http(); // 不需要公用的access_token
+        $this->input     = new Input();
     }
 
     /**

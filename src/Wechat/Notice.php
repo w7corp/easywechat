@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -143,7 +142,7 @@ class Notice
                                     '其它' => array(41 => '其它'),
                                    );
 
-    const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
+    const API_SEND_NOTICE  = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
 
@@ -224,7 +223,7 @@ class Notice
                     );
 
         foreach ($params as $key => $value) {
-            if (in_array($key, $required) && empty($value) && empty($this->message[$key])) {
+            if (in_array($key, $required, true) && empty($value) && empty($this->message[$key])) {
                 throw new Exception("消息属性 '$key' 不能为空！");
             }
 
