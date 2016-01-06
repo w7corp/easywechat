@@ -22,7 +22,6 @@
  *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Shop;
 
 use Overtrue\Wechat\Shop\Data\Product as ProductData;
@@ -32,15 +31,15 @@ use Overtrue\Wechat\Shop\Foundation\ShopsException;
 
 class Product extends Base implements ProductInterface
 {
-    const API_CREATE = 'https://api.weixin.qq.com/merchant/create';
-    const API_DELETE = 'https://api.weixin.qq.com/merchant/del';
-    const API_UPDATE = 'https://api.weixin.qq.com/merchant/update';
-    const API_GET = 'https://api.weixin.qq.com/merchant/get';
+    const API_CREATE        = 'https://api.weixin.qq.com/merchant/create';
+    const API_DELETE        = 'https://api.weixin.qq.com/merchant/del';
+    const API_UPDATE        = 'https://api.weixin.qq.com/merchant/update';
+    const API_GET           = 'https://api.weixin.qq.com/merchant/get';
     const API_GET_BY_STATUS = 'https://api.weixin.qq.com/merchant/getbystatus';
     const API_UPDATE_STATUS = 'https://api.weixin.qq.com/merchant/modproductstatus';
-    const API_SUB = 'https://api.weixin.qq.com/merchant/category/getsub';
-    const API_SKU = 'https://api.weixin.qq.com/merchant/category/getsku';
-    const API_Property = 'https://api.weixin.qq.com/merchant/category/getproperty';
+    const API_SUB           = 'https://api.weixin.qq.com/merchant/category/getsub';
+    const API_SKU           = 'https://api.weixin.qq.com/merchant/category/getsku';
+    const API_Property      = 'https://api.weixin.qq.com/merchant/category/getproperty';
 
     /**
      * 新建商品

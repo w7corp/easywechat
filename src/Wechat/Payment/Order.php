@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
@@ -77,7 +76,7 @@ class Order extends MagicAttributes
 
     public function __set($property, $value)
     {
-        if (!in_array($property, static::$params)) {
+        if (!in_array($property, static::$params, true)) {
             throw new Exception(sprintf('"%s" is required', $property));
         }
 

@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
@@ -71,9 +70,9 @@ class Js
      */
     public function __construct($appId, $appSecret)
     {
-        $this->appId = $appId;
+        $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->cache = new Cache($appId);
+        $this->cache     = new Cache($appId);
     }
 
     /**
@@ -88,7 +87,7 @@ class Js
     public function config(array $APIs, $debug = false, $beta = false, $json = true)
     {
         $signPackage = $this->getSignaturePackage();
-        $base = array(
+        $base        = array(
                  'debug' => $debug,
                  'beta' => $beta,
                 );
@@ -121,9 +120,9 @@ class Js
         $key = 'overtrue.wechat.jsapi_ticket.'.$this->appId;
 
         // for php 5.3
-        $appId = $this->appId;
+        $appId     = $this->appId;
         $appSecret = $this->appSecret;
-        $cache = $this->cache;
+        $cache     = $this->cache;
         $apiTicket = self::API_TICKET;
 
         return $this->cache->get(
@@ -151,10 +150,10 @@ class Js
      */
     public function getSignaturePackage($url = null, $nonce = null, $timestamp = null)
     {
-        $url = $url ? $url : $this->getUrl();
-        $nonce = $nonce ? $nonce : $this->getNonce();
+        $url       = $url ? $url : $this->getUrl();
+        $nonce     = $nonce ? $nonce : $this->getNonce();
         $timestamp = $timestamp ? $timestamp : time();
-        $ticket = $this->getTicket();
+        $ticket    = $this->getTicket();
 
         $sign = array(
                  'appId' => $this->appId,

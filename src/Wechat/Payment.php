@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Payment\UnifiedOrder;
@@ -94,7 +93,7 @@ class Payment
     {
         $response = $this->unifiedOrder->getResponse();
         $business = $this->unifiedOrder->getBusiness();
-        $config = array(
+        $config   = array(
             'appId' => $business->appid,
             'timeStamp' => (string) time(),
             'nonceStr' => $response['nonce_str'],
