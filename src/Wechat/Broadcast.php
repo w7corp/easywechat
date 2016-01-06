@@ -23,21 +23,20 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
 
 class Broadcast
 {
-    const API_SEND_BY_GROUP = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall';
+    const API_SEND_BY_GROUP  = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall';
     const API_SEND_BY_OPENID = 'https://api.weixin.qq.com/cgi-bin/message/mass/send';
-    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete';
-    const API_PREVIEW = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview';
-    const API_GET = 'http://api.weixin.qq.com/cgi-bin/message/mass/get';
+    const API_DELETE         = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete';
+    const API_PREVIEW        = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview';
+    const API_GET            = 'http://api.weixin.qq.com/cgi-bin/message/mass/get';
 
     const PREVIEW_BY_OPENID = 'touser';
-    const PREVIEW_BY_WXH = 'towxname';
+    const PREVIEW_BY_WXH    = 'towxname';
 
     /**
      * Http对象
