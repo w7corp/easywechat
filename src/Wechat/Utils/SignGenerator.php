@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat\Utils;
 
 /**
@@ -125,8 +124,8 @@ class SignGenerator extends MagicAttributes
     public function getResult()
     {
         $this->sortable();
-        $query = http_build_query($this->attributes);
-        $query = urldecode($query);
+        $query  = http_build_query($this->attributes);
+        $query  = urldecode($query);
         $result = call_user_func($this->hashType, $query);
 
         return $this->isUpper ? strtoupper($result) : $result;

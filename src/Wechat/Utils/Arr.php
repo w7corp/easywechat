@@ -24,7 +24,6 @@
  * @link      http://overtrue.me
  * @link      https://github.com/laravel/framework/blob/4.2/src/Illuminate/Support/Arr.php
  */
-
 namespace Overtrue\Wechat\Utils;
 
 use Closure;
@@ -66,7 +65,7 @@ class Arr
 
         foreach ($array as $key => $value) {
             list($innerKey, $innerValue) = call_user_func($callback, $key, $value);
-            $results[$innerKey] = $innerValue;
+            $results[$innerKey]          = $innerValue;
         }
 
         return $results;
@@ -138,7 +137,7 @@ class Arr
         foreach (explode('.', $key) as $segment) {
             $results = array();
             foreach ($array as $value) {
-                $value = (array) $value;
+                $value     = (array) $value;
                 $results[] = $value[$segment];
             }
             $array = array_values($results);
@@ -288,7 +287,7 @@ class Arr
             if (is_null($key)) {
                 $results[] = $itemValue;
             } else {
-                $itemKey = is_object($item) ? $item->{$key} : $item[$key];
+                $itemKey           = is_object($item) ? $item->{$key} : $item[$key];
                 $results[$itemKey] = $itemValue;
             }
         }

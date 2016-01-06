@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Arr;
@@ -40,15 +39,15 @@ use Overtrue\Wechat\Utils\JSON;
  */
 class Media
 {
-    const API_TEMPORARY_UPLOAD = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
-    const API_FOREVER_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
-    const API_TEMPORARY_GET = 'https://api.weixin.qq.com/cgi-bin/media/get';
-    const API_FOREVER_GET = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
+    const API_TEMPORARY_UPLOAD    = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
+    const API_FOREVER_UPLOAD      = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
+    const API_TEMPORARY_GET       = 'https://api.weixin.qq.com/cgi-bin/media/get';
+    const API_FOREVER_GET         = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
     const API_FOREVER_NEWS_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_news';
     const API_FOREVER_NEWS_UPDATE = 'https://api.weixin.qq.com/cgi-bin/material/update_news';
-    const API_FOREVER_DELETE = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
-    const API_FOREVER_COUNT = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
-    const API_FOREVER_LIST = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
+    const API_FOREVER_DELETE      = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
+    const API_FOREVER_COUNT       = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
+    const API_FOREVER_LIST        = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
 
     /**
      * 允许上传的类型.
@@ -131,7 +130,7 @@ class Media
 
         $this->forever = false;
 
-        if ($type == 'image') {
+        if ($type === 'image') {
             return $response;
         }
 
@@ -227,7 +226,7 @@ class Media
         $response['voice'] = $response['voice_count'];
         $response['image'] = $response['image_count'];
         $response['video'] = $response['video_count'];
-        $response['news'] = $response['news_count'];
+        $response['news']  = $response['news_count'];
 
         $response = new Bag($response);
 
@@ -281,7 +280,7 @@ class Media
         $params = array('media_id' => $mediaId);
 
         $method = $this->forever ? 'jsonPost' : 'get';
-        $api = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
+        $api    = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
 
         $contents = $this->http->{$method}($api, $params);
 
