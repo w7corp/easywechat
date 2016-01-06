@@ -91,7 +91,7 @@ class Http extends HttpClient
     {
         if ($this->token) {
             // clear repeat token
-            $url = preg_replace('/[\?&]access_token=.*?/i', '', $url);
+            $url = preg_replace('/[\?&]access_token=.*/i', '', $url);
             $url .= (stripos($url, '?') ? '&' : '?').'access_token='.$this->token->getToken();
         }
 
