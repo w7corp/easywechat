@@ -22,7 +22,6 @@
  *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Shop\Data;
 
 use Overtrue\Wechat\Shop\Foundation\ShopsException;
@@ -72,7 +71,7 @@ class Product extends MagicAttributes
         );
 
         if (!$this->shelf) {
-            $this->attributes['product_base']['name'] = $name;
+            $this->attributes['product_base']['name']          = $name;
             $this->attributes['product_base']['category_id'][] = $categoryId;
         } else {
             if (!empty($name)) {
@@ -102,7 +101,7 @@ class Product extends MagicAttributes
      */
     public function setDetail($name, $value)
     {
-        if ($name != 'text' && $name != 'img') {
+        if ($name !== 'text' && $name !== 'img') {
             throw new ShopsException('name 只能为 text 或者 img ');
         }
 
@@ -285,12 +284,12 @@ class Product extends MagicAttributes
             throw new ShopsException('attrext 不允许为空');
         }
 
-        if ($this->attributes['attrext']['isPostFree'] == 0) {
+        if ($this->attributes['attrext']['isPostFree'] === 0) {
             if (empty($this->attributes['delivery_info'])) {
                 throw new ShopsException('deliveryInfo 不允许为空');
             }
 
-            if ($this->attributes['delivery_info']['delivery_type'] == 0) {
+            if ($this->attributes['delivery_info']['delivery_type'] === 0) {
                 if (empty($this->attributes['delivery_info']['express'])) {
                     throw new ShopsException('express 不允许为空');
                 }

@@ -19,7 +19,6 @@
  *
  * @author bontian <bontian@163.com>
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\SignGenerator;
@@ -88,7 +87,7 @@ class Lottery
      */
     public function create(array $data, $useTemplate = 1, $logoUrl = '')
     {
-        if ($useTemplate == 1 && empty($logoUrl)) {
+        if ($useTemplate === 1 && empty($logoUrl)) {
             throw new Exception('logo_url is required when using template.');
         }
 
@@ -192,9 +191,9 @@ class Lottery
      */
     public function getJsPackage($lotteryId, $openId, $key)
     {
-        $param['noncestr'] = uniqid('pre_');
+        $param['noncestr']   = uniqid('pre_');
         $param['lottery_id'] = $lotteryId;
-        $param['openid'] = $openId;
+        $param['openid']     = $openId;
 
         $signGenerator = new SignGenerator($param);
 

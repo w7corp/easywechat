@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -58,7 +57,7 @@ class Semantic
     public function __construct($appId, $appSecret)
     {
         $this->appId = $appId;
-        $this->http = new Http(new AccessToken($appId, $appSecret));
+        $this->http  = new Http(new AccessToken($appId, $appSecret));
     }
 
     /**
