@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -20,7 +20,6 @@ namespace Overtrue\Wechat;
  */
 class Color
 {
-
     /**
      * Http对象
      *
@@ -68,7 +67,7 @@ class Color
             function ($key) use ($http, $cache, $apiList) {
                 $result = $http->get($apiList);
 
-                $cache->set($key, $result['colors'], 86400);// 1 day
+                $cache->set($key, $result['colors'], 86400); // 1 day
 
                 return $result['colors'];
             }

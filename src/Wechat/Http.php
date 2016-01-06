@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Http as HttpClient;
@@ -23,7 +23,6 @@ use Overtrue\Wechat\Utils\JSON;
  */
 class Http extends HttpClient
 {
-
     /**
      * token
      *
@@ -82,7 +81,7 @@ class Http extends HttpClient
         if ($this->token) {
             // clear repeat token
             $url = preg_replace('/[\?&]access_token=.*?/i', '', $url);
-            $url .= (stripos($url, '?') ? '&' : '?').'access_token='. $this->token->getToken();
+            $url .= (stripos($url, '?') ? '&' : '?').'access_token='.$this->token->getToken();
         }
 
         $method = strtoupper($method);
@@ -116,7 +115,7 @@ class Http extends HttpClient
             }
 
             // access token 超时重试处理
-            if ($this->token && in_array($contents['errcode'], array('40001', '42001')) && $retry > 0) {
+            if ($this->token && in_array($contents['errcode'], array('40001', '42001'), true) && $retry > 0) {
                 // force refresh
                 $this->token->getToken(true);
 
@@ -144,7 +143,7 @@ class Http extends HttpClient
     public function __call($method, $args)
     {
         if (stripos($method, 'json') === 0) {
-            $method = strtolower(substr($method, 4));
+            $method     = strtolower(substr($method, 4));
             $this->json = true;
         }
 

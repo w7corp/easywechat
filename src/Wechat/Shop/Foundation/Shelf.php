@@ -9,16 +9,15 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Shop\Foundation;
 
 /**
  * 商品货架
  *
  * Interface Shelf
- * @package Shop
  */
 interface Shelf
 {
@@ -28,6 +27,7 @@ interface Shelf
      * @param $shelfData
      * @param $shelfBanner
      * @param $shelfName
+     *
      * @return mixed
      */
     public function add($shelfData, $shelfBanner, $shelfName);
@@ -36,6 +36,7 @@ interface Shelf
      * 删除货架
      *
      * @param int $shelfId
+     *
      * @return bool
      */
     public function delete($shelfId);
@@ -47,9 +48,10 @@ interface Shelf
      * @param $shelfId
      * @param $shelfBanner
      * @param $shelfName
+     *
      * @return bool
      */
-    public function update($shelfData,$shelfId,$shelfBanner,$shelfName);
+    public function update($shelfData, $shelfId, $shelfBanner, $shelfName);
 
     /**
      * 获取所有货架
@@ -62,6 +64,7 @@ interface Shelf
      * 根据货架ID获取货架信息
      *
      * @param $shelfId
+     *
      * @return array
      */
     public function getById($shelfId);

@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
@@ -120,7 +120,7 @@ class Media
 
         $this->forever = false;
 
-        if ($type == 'image') {
+        if ($type === 'image') {
             return $response;
         }
 
@@ -145,7 +145,7 @@ class Media
         $params = array(
                    'description' => JSON::encode(
                        array(
-                        'title'        => $title,
+                        'title' => $title,
                         'introduction' => $description,
                        )
                    ),
@@ -183,7 +183,7 @@ class Media
     {
         $params = array(
                    'media_id' => $mediaId,
-                   'index'    => $index,
+                   'index' => $index,
                    'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : array()),
                   );
 
@@ -249,9 +249,9 @@ class Media
     public function lists($type, $offset = 0, $count = 20)
     {
         $params = array(
-                   'type'   => $type,
+                   'type' => $type,
                    'offset' => intval($offset),
-                   'count'  => min(20, $count),
+                   'count' => min(20, $count),
                   );
 
         return $this->http->jsonPost(self::API_FOREVER_LIST, $params);
