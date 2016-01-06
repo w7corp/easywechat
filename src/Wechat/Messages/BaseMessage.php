@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Messages;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
@@ -34,7 +34,6 @@ use Overtrue\Wechat\Utils\XML;
  */
 abstract class BaseMessage extends MagicAttributes
 {
-
     /**
      * 允许的属性
      *
@@ -67,7 +66,7 @@ abstract class BaseMessage extends MagicAttributes
         }
 
         $base = array(
-                 'touser'  => $this->to,
+                 'touser' => $this->to,
                  'msgtype' => $this->getDefaultMessageType(),
                 );
         if (!empty($this->staff)) {
@@ -89,10 +88,10 @@ abstract class BaseMessage extends MagicAttributes
         }
 
         $base = array(
-                 'ToUserName'   => $this->to,
+                 'ToUserName' => $this->to,
                  'FromUserName' => $this->from,
-                 'CreateTime'   => time(),
-                 'MsgType'      => $this->getDefaultMessageType(),
+                 'CreateTime' => time(),
+                 'MsgType' => $this->getDefaultMessageType(),
                 );
 
         return XML::build(array_merge($base, $this->toReply()));

@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -88,7 +88,7 @@ class Group
     {
         $params = array(
                    'group' => array(
-                               'id'   => $groupId,
+                               'id' => $groupId,
                                'name' => $name,
                               ),
                   );
@@ -107,7 +107,7 @@ class Group
     {
         $params = array(
                    'group' => array(
-                               'id'   => $groupId,
+                               'id' => $groupId,
                               ),
                   );
 
@@ -141,7 +141,7 @@ class Group
     public function moveUser($openId, $groupId)
     {
         $params = array(
-                   'openid'     => $openId,
+                   'openid' => $openId,
                    'to_groupid' => $groupId,
                   );
 
@@ -162,7 +162,7 @@ class Group
     {
         $params = array(
                    'openid_list' => $openIds,
-                   'to_groupid'  => $groupId,
+                   'to_groupid' => $groupId,
                   );
 
         $this->http->jsonPost(self::API_MEMBER_BATCH_UPDATE, $params);

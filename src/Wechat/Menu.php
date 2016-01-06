@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Closure;
@@ -96,6 +96,7 @@ class Menu
     public function current()
     {
         $menus = $this->http->get(self::API_QUERY);
+
         return empty($menus) ? array() : $menus;
     }
 
@@ -119,7 +120,7 @@ class Menu
      *
      * @param string $userId
      *
-     * @return boolean
+     * @return bool
      */
     public function test($userId)
     {
@@ -131,7 +132,7 @@ class Menu
      *
      * @param int $menuId
      *
-     * @return boolean
+     * @return bool
      */
     public function deleteById($menuId)
     {

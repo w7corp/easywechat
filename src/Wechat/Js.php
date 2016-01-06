@@ -9,21 +9,19 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
-use Overtrue\Wechat\Url;
 
 /**
  * 微信 JSSDK
  */
 class Js
 {
-
     /**
      * 应用ID
      *
@@ -79,9 +77,9 @@ class Js
     public function config(array $APIs, $debug = false, $beta = false, $json = true)
     {
         $signPackage = $this->getSignaturePackage();
-        $base = array(
+        $base        = array(
                  'debug' => $debug,
-                 'beta'  => $beta,
+                 'beta' => $beta,
                 );
         $config = array_merge($base, $signPackage, array('jsApiList' => $APIs));
 
@@ -148,10 +146,10 @@ class Js
         $ticket    = $this->getTicket();
 
         $sign = array(
-                 'appId'     => $this->appId,
-                 'nonceStr'  => $nonce,
+                 'appId' => $this->appId,
+                 'nonceStr' => $nonce,
                  'timestamp' => $timestamp,
-                 'url'       => $url,
+                 'url' => $url,
                  'signature' => $this->getSignature($ticket, $nonce, $timestamp, $url),
                 );
 

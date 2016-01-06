@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -22,7 +22,6 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class User
 {
-
     /**
      * Http对象
      *
@@ -63,7 +62,7 @@ class User
 
         $params = array(
                    'openid' => $openId,
-                   'lang'   => $lang,
+                   'lang' => $lang,
                   );
 
         return new Bag($this->http->get(self::API_GET, $params));
@@ -81,7 +80,7 @@ class User
     {
         $params = array();
 
-        $params['user_list'] = array_map(function($openId) use ($lang) {
+        $params['user_list'] = array_map(function ($openId) use ($lang) {
             return array(
                     'openid' => $openId,
                     'lang' => $lang,

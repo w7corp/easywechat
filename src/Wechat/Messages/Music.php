@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat\Messages;
 
 /**
@@ -26,7 +26,6 @@ namespace Overtrue\Wechat\Messages;
  */
 class Music extends BaseMessage
 {
-
     /**
      * 属性
      *
@@ -63,10 +62,10 @@ class Music extends BaseMessage
     {
         return array(
                 'music' => array(
-                            'title'          => $this->title,
-                            'description'    => $this->description,
-                            'musicurl'       => $this->url,
-                            'hqmusicurl'     => $this->hq_url,
+                            'title' => $this->title,
+                            'description' => $this->description,
+                            'musicurl' => $this->url,
+                            'hqmusicurl' => $this->hq_url,
                             'thumb_media_id' => $this->thumb_media_id,
                            ),
                );
@@ -81,10 +80,10 @@ class Music extends BaseMessage
     {
         $response = array(
                      'Music' => array(
-                                 'Title'        => $this->title,
-                                 'Description'  => $this->description,
-                                 'MusicUrl'     => $this->url,
-                                 'HQMusicUrl'   => $this->hq_url,
+                                 'Title' => $this->title,
+                                 'Description' => $this->description,
+                                 'MusicUrl' => $this->url,
+                                 'HQMusicUrl' => $this->hq_url,
                                  'ThumbMediaId' => $this->thumb_media_id,
                                 ),
                     );

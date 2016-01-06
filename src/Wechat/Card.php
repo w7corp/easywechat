@@ -9,10 +9,10 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -24,7 +24,6 @@ use Overtrue\Wechat\Utils\JSON;
  */
 class Card
 {
-
     /**
      * Http对象
      *
@@ -59,11 +58,11 @@ class Card
     const TYPE_LUCKY_MONEY    = 'LUCKY_MONEY';      // 红包
     const TYPE_MEETING_TICKET = 'MEETING_TICKET';   // 会议门票
 
-    const CARD_STATUS_NOT_VERIFY    = 'CARD_STATUS_NOT_VERIFY' ;   // 待审核
+    const CARD_STATUS_NOT_VERIFY    = 'CARD_STATUS_NOT_VERIFY';   // 待审核
     const CARD_STATUS_VERIFY_FAIL   = 'CARD_STATUS_VERIFY_FAIL';   //审核失败
     const CARD_STATUS_VERIFY_OK     = 'CARD_STATUS_VERIFY_OK';     //通过审核
     const CARD_STATUS_USER_DELETE   = 'CARD_STATUS_USER_DELETE';   //卡券被商户删除
-    const CARD_STATUS_USER_DISPATCH = 'CARD_STATUS_USER_DISPATCH'; //在公众平台投放过的卡券 
+    const CARD_STATUS_USER_DISPATCH = 'CARD_STATUS_USER_DISPATCH'; //在公众平台投放过的卡券
 
     const API_CREATE                = 'https://api.weixin.qq.com/card/create';
     const API_DELETE                = 'https://api.weixin.qq.com/card/delete';
@@ -141,11 +140,11 @@ class Card
         $timestamp = time();
 
         $ext = array(
-                'code'      => Arr::get($extension, 'code'),
-                'openid'    => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
+                'code' => Arr::get($extension, 'code'),
+                'openid' => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
                 'timestamp' => $timestamp,
-                'outer_id'  => Arr::get($extension, 'outer_id'),
-                'balance'   => Arr::get($extension, 'balance'),
+                'outer_id' => Arr::get($extension, 'outer_id'),
+                'balance' => Arr::get($extension, 'balance'),
                );
 
         $ext['signature'] = $this->getSignature(
@@ -158,7 +157,7 @@ class Card
         );
 
         return array(
-                'cardId'  => $cardId,
+                'cardId' => $cardId,
                 'cardExt' => JSON::encode($ext),
                );
     }
@@ -174,12 +173,12 @@ class Card
      */
     public function create(array $base, array $properties = array(), $type = self::TYPE_GENERAL_COUPON)
     {
-        $key  = strtolower($type);
-        $card = array_merge(array('base_info' => $base), $properties);
+        $key    = strtolower($type);
+        $card   = array_merge(array('base_info' => $base), $properties);
         $params = array(
                    'card' => array(
                               'card_type' => $type,
-                              $key        => $card,
+                              $key => $card,
                              ),
                   );
 
@@ -221,7 +220,7 @@ class Card
 
         $params = array(
                    'card_id' => $cardId,
-                   $key      => $card,
+                   $key => $card,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
@@ -230,8 +229,8 @@ class Card
     /**
      * 批量获取卡券列表
      *
-     * @param int $offset
-     * @param int $count
+     * @param int   $offset
+     * @param int   $count
      * @param array $statusList
      *
      * @return array
@@ -240,8 +239,8 @@ class Card
     {
         $params = array(
                    'offset' => $offset,
-                   'count'  => $count,
-                   'status_list' => $statusList
+                   'count' => $count,
+                   'status_list' => $statusList,
                   );
 
         $result = $this->http->jsonPost(self::API_LIST, $params);
@@ -261,7 +260,7 @@ class Card
     public function consume($code, $cardId = null)
     {
         $params = array(
-                   'code'    => $code,
+                   'code' => $code,
                    'card_id' => $cardId,
                   );
 
@@ -279,7 +278,7 @@ class Card
     public function disable($code, $cardId = null)
     {
         $params = array(
-                   'code'    => $code,
+                   'code' => $code,
                    'card_id' => $cardId,
                   );
 
@@ -318,7 +317,7 @@ class Card
 
         $params = array(
                    'card_id' => $cardId,
-                   $key      => abs($amount),
+                   $key => abs($amount),
                   );
 
         return $this->http->jsonPost(self::API_UPDATE_STOCK, $params);
@@ -361,7 +360,7 @@ class Card
     public function getCode($code, $cardId = null)
     {
         $params = array(
-                   'code'    => $code,
+                   'code' => $code,
                    'card_id' => $cardId,
                   );
 
@@ -380,8 +379,8 @@ class Card
     public function updateCode($code, $newCode, $cardId)
     {
         $params = array(
-                   'code'     => $code,
-                   'card_id'  => $cardId,
+                   'code' => $code,
+                   'card_id' => $cardId,
                    'new_code' => $newCode,
                   );
 
@@ -437,11 +436,13 @@ class Card
      *
      * @return array
      */
-    public function userCardLists($openid , $cardId = null){
+    public function userCardLists($openid, $cardId = null)
+    {
         $params = array(
-            'openid'    =>  $openid,
-            'card_id'   =>  $cardId
+            'openid' => $openid,
+            'card_id' => $cardId,
         );
+
         return new Bag($this->http->jsonPost(self::API_USER_CARD_LIST, $params));
     }
 
@@ -600,7 +601,7 @@ class Card
      */
     public function setWhitelist(array $data)
     {
-        $data = array_merge(array('openIds' => array(), 'usernames' => array()), $data);
+        $data   = array_merge(array('openIds' => array(), 'usernames' => array()), $data);
         $params = array_merge(array('openid' => $data['openIds']), array('username' => $data['usernames']));
 
         return $this->http->jsonPost(self::API_TESTWHITELIST, $params);
@@ -681,9 +682,9 @@ class Card
             'card_list' => array(
                 array(
                     'card_id' => '',
-                    'thumb_url' => ''
-                )
-            )
+                    'thumb_url' => '',
+                ),
+            ),
         );
 
         $params = array_merge($defaultParams, $data);
