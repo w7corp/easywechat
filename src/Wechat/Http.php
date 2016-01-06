@@ -80,6 +80,8 @@ class Http extends HttpClient
     public function request($url, $method = self::GET, $params = array(), $options = array(), $retry = 1)
     {
         if ($this->token) {
+            // clear repeat token
+            $url = preg_replace('/[\?&]access_token=.*?/i', '', $url);
             $url .= (stripos($url, '?') ? '&' : '?').'access_token='. $this->token->getToken();
         }
 
