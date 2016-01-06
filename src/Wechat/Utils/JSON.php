@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * JSON.php
+ * JSON.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    James ZHANG <james.cau@gmail.com>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://thenorthmemory.github.io
  */
 
@@ -18,18 +29,19 @@ namespace Overtrue\Wechat\Utils;
 defined('JSON_UNESCAPED_UNICODE') || define('JSON_UNESCAPED_UNICODE', 256);
 
 /**
- * Unicode2multi characters supported for the wechat server
+ * Unicode2multi characters supported for the wechat server.
  */
 class JSON
 {
     /**
-     * To prevent new operation, under static usage only
+     * To prevent new operation, under static usage only.
      */
     protected function __construct()
-    {}
+    {
+    }
 
     /**
-     * PHP >= 5.3 JSON_UNESCAPED_UNICODE constant supported
+     * PHP >= 5.3 JSON_UNESCAPED_UNICODE constant supported.
      *
      * @param mixed $value   The value (except a resource) being encoded.
      * @param int   $options Bitmask consisting of blah...
@@ -54,17 +66,17 @@ class JSON
 
         return version_compare(PHP_VERSION, '5.4.0', '>=')
             ? $data
-            : preg_replace_callback("/\\\\u([0-9a-f]{2})([0-9a-f]{2})/iu", function ($pipe) {
+            : preg_replace_callback('/\\\\u([0-9a-f]{2})([0-9a-f]{2})/iu', function ($pipe) {
                 return iconv(
                     strncasecmp(PHP_OS, 'WIN', 3) ? 'UCS-2BE' : 'UCS-2',
                     'UTF-8',
-                    chr(hexdec($pipe[1])) . chr(hexdec($pipe[2]))
+                    chr(hexdec($pipe[1])).chr(hexdec($pipe[2]))
                 );
             }, $data);
     }
 
     /**
-     * PHP >= 5.3 options supported (TODO)
+     * PHP >= 5.3 options supported (TODO).
      *
      * @param string $json    The json string being decoded.
      * @param bool   $assoc   When TRUE, returned objects will be converted into associative arrays.

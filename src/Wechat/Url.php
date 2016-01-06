@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Url.php
+ * Url.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,11 +27,10 @@
 namespace Overtrue\Wechat;
 
 /**
- * 链接
+ * 链接.
  */
 class Url
 {
-
     /**
      * Http对象
      *
@@ -31,7 +41,7 @@ class Url
     const API_SHORT_URL = 'https://api.weixin.qq.com/cgi-bin/shorturl';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -42,7 +52,7 @@ class Url
     }
 
     /**
-     * 转短链接
+     * 转短链接.
      *
      * @param string $url
      *
@@ -51,7 +61,7 @@ class Url
     public function short($url)
     {
         $params = array(
-                   'action'   => 'long2short',
+                   'action' => 'long2short',
                    'long_url' => $url,
                   );
 
@@ -61,7 +71,7 @@ class Url
     }
 
     /**
-     * 获取当前URL
+     * 获取当前URL.
      *
      * @return string
      */
@@ -71,11 +81,12 @@ class Url
                         && $_SERVER['HTTPS'] !== 'off'
                         || $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
 
-        if(isset($_SERVER['HTTP_X_FORWARDED_HOST'])){
+        if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
             $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
-        }else{
+        } else {
             $host = $_SERVER['HTTP_HOST'];
         }
+
         return $protocol.$host.$_SERVER['REQUEST_URI'];
     }
 }

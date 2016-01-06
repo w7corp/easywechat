@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * XML.php
+ * XML.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,13 +27,12 @@
 namespace Overtrue\Wechat\Utils;
 
 /**
- * XML 工具类，用于构建与解析 XML
+ * XML 工具类，用于构建与解析 XML.
  */
 class XML
 {
-
     /**
-     * XML 转换为数组
+     * XML 转换为数组.
      *
      * @param string $xml XML string
      *
@@ -56,8 +66,7 @@ class XML
         $item = 'item',
         $attr = '',
         $id = 'id'
-    )
-    {
+    ) {
         if (is_array($attr)) {
             $_attr = array();
 
@@ -70,7 +79,7 @@ class XML
 
         $attr = trim($attr);
         $attr = empty($attr) ? '' : " {$attr}";
-        $xml  = "<{$root}{$attr}>";
+        $xml = "<{$root}{$attr}>";
         $xml  .= self::data2Xml($data, $item, $id);
         $xml  .= "</{$root}>";
 
@@ -78,7 +87,7 @@ class XML
     }
 
     /**
-     * 生成<![CDATA[%s]]>
+     * 生成<![CDATA[%s]]>.
      *
      * @param string $string 内容
      *
@@ -90,7 +99,7 @@ class XML
     }
 
     /**
-     * 把对象转换成数组
+     * 把对象转换成数组.
      *
      * @param string $data 数据
      *
@@ -112,7 +121,7 @@ class XML
     }
 
     /**
-     * 转换数组为xml
+     * 转换数组为xml.
      *
      * @param array  $data 数组
      * @param string $item item的属性名
@@ -127,7 +136,7 @@ class XML
         foreach ($data as $key => $val) {
             if (is_numeric($key)) {
                 $id && $attr = " {$id}=\"{$key}\"";
-                $key  = $item;
+                $key = $item;
             }
 
             $xml .= "<{$key}{$attr}>";

@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Shelf.php
+ * Shelf.php.
  *
  * Part of Overtrue\Wechat\Shop\Data.
  *
@@ -9,22 +19,23 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
 
 namespace Overtrue\Wechat\Shop\Data;
 
-
-use Overtrue\Wechat\Utils\MagicAttributes;
 use Overtrue\Wechat\Shop\Foundation\ShopsException;
+use Overtrue\Wechat\Utils\MagicAttributes;
 
 class Shelf extends MagicAttributes
 {
     /**
-     * 控件1
+     * 控件1.
      *
      * @param int $count
      * @param int $groupId
+     *
      * @return $this
      */
     public function controlOne($count, $groupId)
@@ -32,21 +43,23 @@ class Shelf extends MagicAttributes
         $this->attributes[] = array(
             'group_info' => array(
                 'filter' => array(
-                    'count' => $count
+                    'count' => $count,
                 ),
-                'group_id' => $groupId
+                'group_id' => $groupId,
             ),
-            'eid' => count($this->attributes)+1
+            'eid' => count($this->attributes) + 1,
         );
 
         return $this;
     }
 
     /**
-     * 控件2
+     * 控件2.
      *
      * @param array $groupId
+     *
      * @return Shelf $this
+     *
      * @throws ShopsException
      */
     public function controlTwo(array $groupId)
@@ -58,24 +71,25 @@ class Shelf extends MagicAttributes
         $groupsData = array();
 
         foreach ($groupId as $v) {
-            $groupsData[] = array( 'group_id' => $v);
+            $groupsData[] = array('group_id' => $v);
         }
 
         $this->attributes[] = array(
             'group_infos' => array(
-                'groups' => $groupsData
+                'groups' => $groupsData,
             ),
-            'eid' => count($this->attributes)+1
+            'eid' => count($this->attributes) + 1,
         );
 
         return $this;
     }
 
     /**
-     * 控件3
+     * 控件3.
      *
      * @param string $groupId
      * @param string $img
+     *
      * @return Shelf $this
      */
     public function controlThree($groupId, $img)
@@ -83,29 +97,35 @@ class Shelf extends MagicAttributes
         $this->attributes[] = array(
             'group_info' => array(
                 'group_id' => $groupId,
-                'img' => $img
+                'img' => $img,
             ),
-            'eid' => count($this->attributes)+1
+            'eid' => count($this->attributes) + 1,
         );
 
         return $this;
     }
 
     /**
-     * 控件4
+     * 控件4.
      *
      * @param array $groups
+     *
      * @return $this
+     *
      * @throws ShopsException
      */
     public function controlFour(array $groups)
     {
-        if (count($groups) > 3) throw new ShopsException('个数错误');
+        if (count($groups) > 3) {
+            throw new ShopsException('个数错误');
+        }
 
         $groupsData = array();
 
-        foreach ($groups as $k =>$v) {
-            if (count($v) != 2) throw new ShopsException('个数错误');
+        foreach ($groups as $k => $v) {
+            if (count($v) != 2) {
+                throw new ShopsException('个数错误');
+            }
 
             $keys = array_keys($v);
 
@@ -116,12 +136,11 @@ class Shelf extends MagicAttributes
 //            ];
 
             if (is_numeric($keys[0]) && is_numeric($keys[1])) {
-
                 $values = array_values($v);
 
                 $groupsData[] = array(
                     'group_id' => $values[0],
-                    'img' => $values[1]
+                    'img' => $values[1],
                 );
             }
 
@@ -138,36 +157,36 @@ class Shelf extends MagicAttributes
 
         $this->attributes[] = array(
             'group_infos' => array(
-                'groups'=>$groupsData
+                'groups' => $groupsData,
             ),
-            'eid' => count($this->attributes)+1
+            'eid' => count($this->attributes) + 1,
         );
 
         return $this;
     }
 
     /**
-     * 控件5
+     * 控件5.
      *
-     * @param array $groups
+     * @param array  $groups
      * @param string $imgBackground
+     *
      * @return $this
      */
     public function controlFive(array $groups, $imgBackground)
     {
-
         $groupsData = array();
 
         foreach ($groups as $v) {
-            $groupsData[] = array('group_id'=>$v);
+            $groupsData[] = array('group_id' => $v);
         }
 
         $this->attributes[] = array(
             'group_infos' => array(
                 'groups' => $groupsData,
-                'img_background'=>$imgBackground
+                'img_background' => $imgBackground,
             ),
-            'eid'=>count($this->attributes)+1
+            'eid' => count($this->attributes) + 1,
         );
 
         return $this;

@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * ShopException.php
+ * ShopException.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
 
@@ -17,18 +28,18 @@ namespace Overtrue\Wechat\Shop\Foundation;
 use Exception;
 
 /**
- * 异常类
+ * 异常类.
  *
  * Class ShopsException
- * @package Shop
  */
 class ShopsException extends Exception
 {
-    function __construct($message,$code = null)
+    public function __construct($message, $code = null)
     {
-        if (!empty($code)) $message = '[Wechat]错误信息：'.$message.'错误代码：'.$code;
+        if (!empty($code)) {
+            $message = '[Wechat]错误信息：'.$message.'错误代码：'.$code;
+        }
 
         parent::__construct($message);
     }
-
 }

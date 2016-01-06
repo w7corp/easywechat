@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * MpVideo.php
+ * MpVideo.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,14 +27,14 @@
 namespace Overtrue\Wechat\Messages;
 
 /**
- * 群发视频消息
+ * 群发视频消息.
  *
  * @property string $media_id
  */
 class MpVideo extends BaseMessage
 {
     /**
-     * 属性
+     * 属性.
      *
      * @var array
      */
@@ -32,7 +43,7 @@ class MpVideo extends BaseMessage
     );
 
     /**
-     * 设置视频消息
+     * 设置视频消息.
      *
      * @param string $mediaId
      *
@@ -46,7 +57,7 @@ class MpVideo extends BaseMessage
     }
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      *
      * @return array
      */
@@ -54,7 +65,7 @@ class MpVideo extends BaseMessage
     {
         return array(
             'mpvideo' => array(
-                'media_id'       => $this->media_id,
+                'media_id' => $this->media_id,
             ),
         );
     }

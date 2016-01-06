@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Bag.php
+ * Bag.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,22 +19,22 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace Overtrue\Wechat\Utils;
 
-use Overtrue\Wechat\Utils\JSON;
 // use JsonSerializable;// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
-use IteratorAggregate;
-use ArrayIterator;
-use Serializable;
 use ArrayAccess;
+use ArrayIterator;
 use Countable;
+use IteratorAggregate;
+use Serializable;
 
 /**
- * 工具类，实现一些便捷访问接口如：数组式访问
+ * 工具类，实现一些便捷访问接口如：数组式访问.
  */
 class Bag implements
     ArrayAccess,
@@ -33,16 +43,15 @@ class Bag implements
     Serializable
     // , JsonSerializable
 {
-
     /**
-     * Data
+     * Data.
      *
      * @var array
      */
     protected $data = array();
 
     /**
-     * set data
+     * set data.
      *
      * @param mixed $data 数据数组
      */
@@ -52,7 +61,7 @@ class Bag implements
     }
 
     /**
-     * Return all items
+     * Return all items.
      *
      * @return array
      */
@@ -62,7 +71,7 @@ class Bag implements
     }
 
     /**
-     * Merge data
+     * Merge data.
      *
      * @param array $data
      *
@@ -149,7 +158,7 @@ class Bag implements
     }
 
     /**
-     * Remove item form Bag
+     * Remove item form Bag.
      *
      * @param string $key
      */
@@ -159,7 +168,7 @@ class Bag implements
     }
 
     /**
-     * 返回数组
+     * 返回数组.
      *
      * @return array
      */
@@ -169,7 +178,7 @@ class Bag implements
     }
 
     /**
-     * 返回json
+     * 返回json.
      *
      * @return string
      */
@@ -179,7 +188,7 @@ class Bag implements
     }
 
     /**
-     * 返回string
+     * 返回string.
      *
      * @return string
      */
@@ -229,7 +238,7 @@ class Bag implements
     }
 
     /**
-     * Get a data by key
+     * Get a data by key.
      *
      * @param string $key
      *
@@ -241,7 +250,7 @@ class Bag implements
     }
 
     /**
-     * Assigns a value to the specified data
+     * Assigns a value to the specified data.
      *
      * @param string $key
      * @param mixed  $value
@@ -252,7 +261,7 @@ class Bag implements
     }
 
     /**
-     * Whether or not an data exists by key
+     * Whether or not an data exists by key.
      *
      * @param string $key
      *
@@ -264,7 +273,7 @@ class Bag implements
     }
 
     /**
-     * Unsets an data by key
+     * Unsets an data by key.
      *
      * @param string $key
      */
@@ -274,7 +283,7 @@ class Bag implements
     }
 
     /**
-     * var_export
+     * var_export.
      *
      * @return array
      */
@@ -284,7 +293,7 @@ class Bag implements
     }
 
     /**
-     * Assigns a value to the specified offset
+     * Assigns a value to the specified offset.
      *
      * @param string $offset
      * @param mixed  $value
@@ -295,7 +304,7 @@ class Bag implements
     }
 
     /**
-     * Whether or not an offset exists
+     * Whether or not an offset exists.
      *
      * @param string $offset
      *
@@ -307,7 +316,7 @@ class Bag implements
     }
 
     /**
-     * Unsets an offset
+     * Unsets an offset.
      *
      * @param string $offset
      *
@@ -321,7 +330,7 @@ class Bag implements
     }
 
     /**
-     * Returns the value at specified offset
+     * Returns the value at specified offset.
      *
      * @param string $offset
      *

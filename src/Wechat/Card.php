@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Card.php
+ * Card.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,22 +19,22 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\Arr;
+use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\JSON;
 
 /**
- * 卡券
+ * 卡券.
  */
 class Card
 {
-
     /**
      * Http对象
      *
@@ -40,7 +50,7 @@ class Card
     protected $cache;
 
     /**
-     * js ticket
+     * js ticket.
      *
      * @var string
      */
@@ -48,58 +58,58 @@ class Card
 
     // 卡券类型
     const TYPE_GENERAL_COUPON = 'GENERAL_COUPON';   // 通用券
-    const TYPE_GROUPON        = 'GROUPON';          // 团购券
-    const TYPE_DISCOUNT       = 'DISCOUNT';         // 折扣券
-    const TYPE_GIFT           = 'GIFT';             // 礼品券
-    const TYPE_CASH           = 'CASH';             // 代金券
-    const TYPE_MEMBER_CARD    = 'MEMBER_CARD';      // 会员卡
-    const TYPE_SCENIC_TICKET  = 'SCENIC_TICKET';    // 景点门票
-    const TYPE_MOVIE_TICKET   = 'MOVIE_TICKET';     // 电影票
-    const TYPE_BOARDING_PASS  = 'BOARDING_PASS';    // 飞机票
-    const TYPE_LUCKY_MONEY    = 'LUCKY_MONEY';      // 红包
+    const TYPE_GROUPON = 'GROUPON';          // 团购券
+    const TYPE_DISCOUNT = 'DISCOUNT';         // 折扣券
+    const TYPE_GIFT = 'GIFT';             // 礼品券
+    const TYPE_CASH = 'CASH';             // 代金券
+    const TYPE_MEMBER_CARD = 'MEMBER_CARD';      // 会员卡
+    const TYPE_SCENIC_TICKET = 'SCENIC_TICKET';    // 景点门票
+    const TYPE_MOVIE_TICKET = 'MOVIE_TICKET';     // 电影票
+    const TYPE_BOARDING_PASS = 'BOARDING_PASS';    // 飞机票
+    const TYPE_LUCKY_MONEY = 'LUCKY_MONEY';      // 红包
     const TYPE_MEETING_TICKET = 'MEETING_TICKET';   // 会议门票
 
-    const CARD_STATUS_NOT_VERIFY    = 'CARD_STATUS_NOT_VERIFY' ;   // 待审核
-    const CARD_STATUS_VERIFY_FAIL   = 'CARD_STATUS_VERIFY_FAIL';   //审核失败
-    const CARD_STATUS_VERIFY_OK     = 'CARD_STATUS_VERIFY_OK';     //通过审核
-    const CARD_STATUS_USER_DELETE   = 'CARD_STATUS_USER_DELETE';   //卡券被商户删除
+    const CARD_STATUS_NOT_VERIFY = 'CARD_STATUS_NOT_VERIFY';   // 待审核
+    const CARD_STATUS_VERIFY_FAIL = 'CARD_STATUS_VERIFY_FAIL';   //审核失败
+    const CARD_STATUS_VERIFY_OK = 'CARD_STATUS_VERIFY_OK';     //通过审核
+    const CARD_STATUS_USER_DELETE = 'CARD_STATUS_USER_DELETE';   //卡券被商户删除
     const CARD_STATUS_USER_DISPATCH = 'CARD_STATUS_USER_DISPATCH'; //在公众平台投放过的卡券 
 
-    const API_CREATE                = 'https://api.weixin.qq.com/card/create';
-    const API_DELETE                = 'https://api.weixin.qq.com/card/delete';
-    const API_GET                   = 'https://api.weixin.qq.com/card/get';
-    const API_UPDATE                = 'https://api.weixin.qq.com/card/update';
-    const API_LIST                  = 'https://api.weixin.qq.com/card/batchget';
-    const API_CONSUME               = 'https://api.weixin.qq.com/card/code/consume';
-    const API_UNAVAILABLE           = 'https://api.weixin.qq.com/card/code/unavailable';
-    const API_CODE_GET              = 'https://api.weixin.qq.com/card/code/get';
-    const API_CODE_UPDATE           = 'https://api.weixin.qq.com/card/code/update';
-    const API_CODE_DECRYPT          = 'https://api.weixin.qq.com/card/code/decrypt';
-    const API_UPDATE_STOCK          = 'https://api.weixin.qq.com/card/modifystock';
-    const API_MEMBER_CARD_ACTIVE    = 'https://api.weixin.qq.com/card/membercard/activate';
-    const API_MEMBER_CARD_TRADE     = 'https://api.weixin.qq.com/card/membercard/updateuser';
-    const API_MOVIE_TICKET_UPDATE   = 'https://api.weixin.qq.com/card/movieticket/updateuser';
+    const API_CREATE = 'https://api.weixin.qq.com/card/create';
+    const API_DELETE = 'https://api.weixin.qq.com/card/delete';
+    const API_GET = 'https://api.weixin.qq.com/card/get';
+    const API_UPDATE = 'https://api.weixin.qq.com/card/update';
+    const API_LIST = 'https://api.weixin.qq.com/card/batchget';
+    const API_CONSUME = 'https://api.weixin.qq.com/card/code/consume';
+    const API_UNAVAILABLE = 'https://api.weixin.qq.com/card/code/unavailable';
+    const API_CODE_GET = 'https://api.weixin.qq.com/card/code/get';
+    const API_CODE_UPDATE = 'https://api.weixin.qq.com/card/code/update';
+    const API_CODE_DECRYPT = 'https://api.weixin.qq.com/card/code/decrypt';
+    const API_UPDATE_STOCK = 'https://api.weixin.qq.com/card/modifystock';
+    const API_MEMBER_CARD_ACTIVE = 'https://api.weixin.qq.com/card/membercard/activate';
+    const API_MEMBER_CARD_TRADE = 'https://api.weixin.qq.com/card/membercard/updateuser';
+    const API_MOVIE_TICKET_UPDATE = 'https://api.weixin.qq.com/card/movieticket/updateuser';
     const API_BOARDING_PASS_CHECKIN = 'https://api.weixin.qq.com/card/boardingpass/checkin';
     const API_MEETING_TICKET_UPDATE = 'https://api.weixin.qq.com/card/meetingticket/updateuser';
-    const API_TICKET                = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
-    const API_TESTWHITELIST         = 'https://api.weixin.qq.com/card/testwhitelist/set';
-    const API_USER_CARD_LIST        = 'https://api.weixin.qq.com/card/user/getcardlist';
-    const API_LANDINGPAGE_CREATE    = 'https://api.weixin.qq.com/card/landingpage/create';
+    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=wx_card';
+    const API_TESTWHITELIST = 'https://api.weixin.qq.com/card/testwhitelist/set';
+    const API_USER_CARD_LIST = 'https://api.weixin.qq.com/card/user/getcardlist';
+    const API_LANDINGPAGE_CREATE = 'https://api.weixin.qq.com/card/landingpage/create';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
      */
     public function __construct($appId, $appSecret)
     {
-        $this->http  = new Http(new AccessToken($appId, $appSecret));
+        $this->http = new Http(new AccessToken($appId, $appSecret));
         $this->cache = new Cache($appId);
     }
 
     /**
-     * 获取jsticket
+     * 获取jsticket.
      *
      * @return string
      */
@@ -112,8 +122,8 @@ class Card
         $key = 'overtrue.wechat.card.api_ticket';
 
         // for php 5.3
-        $http      = $this->http;
-        $cache     = $this->cache;
+        $http = $this->http;
+        $cache = $this->cache;
         $apiTicket = self::API_TICKET;
 
         return $this->ticket = $this->cache->get(
@@ -129,7 +139,7 @@ class Card
     }
 
     /**
-     * 生成 js添加到卡包 需要的 card_list 项
+     * 生成 js添加到卡包 需要的 card_list 项.
      *
      * @param string $cardId
      * @param array  $extension
@@ -141,11 +151,11 @@ class Card
         $timestamp = time();
 
         $ext = array(
-                'code'      => Arr::get($extension, 'code'),
-                'openid'    => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
+                'code' => Arr::get($extension, 'code'),
+                'openid' => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
                 'timestamp' => $timestamp,
-                'outer_id'  => Arr::get($extension, 'outer_id'),
-                'balance'   => Arr::get($extension, 'balance'),
+                'outer_id' => Arr::get($extension, 'outer_id'),
+                'balance' => Arr::get($extension, 'balance'),
                );
 
         $ext['signature'] = $this->getSignature(
@@ -158,13 +168,13 @@ class Card
         );
 
         return array(
-                'cardId'  => $cardId,
+                'cardId' => $cardId,
                 'cardExt' => JSON::encode($ext),
                );
     }
 
     /**
-     * 创建卡券
+     * 创建卡券.
      *
      * @param array  $base
      * @param array  $properties
@@ -174,12 +184,12 @@ class Card
      */
     public function create(array $base, array $properties = array(), $type = self::TYPE_GENERAL_COUPON)
     {
-        $key  = strtolower($type);
+        $key = strtolower($type);
         $card = array_merge(array('base_info' => $base), $properties);
         $params = array(
                    'card' => array(
                               'card_type' => $type,
-                              $key        => $card,
+                              $key => $card,
                              ),
                   );
 
@@ -189,7 +199,7 @@ class Card
     }
 
     /**
-     * 卡券详情
+     * 卡券详情.
      *
      * @param string $cardId
      *
@@ -205,7 +215,7 @@ class Card
     }
 
     /**
-     * 修改卡券
+     * 修改卡券.
      *
      * @param string $cardId
      * @param string $type
@@ -216,22 +226,22 @@ class Card
      */
     public function update($cardId, $type, array $base = array(), array $data = array())
     {
-        $key  = strtolower($type);
+        $key = strtolower($type);
         $card = array_merge(array('base_info' => $base), $data);
 
         $params = array(
                    'card_id' => $cardId,
-                   $key      => $card,
+                   $key => $card,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
-     * 批量获取卡券列表
+     * 批量获取卡券列表.
      *
-     * @param int $offset
-     * @param int $count
+     * @param int   $offset
+     * @param int   $count
      * @param array $statusList
      *
      * @return array
@@ -240,8 +250,8 @@ class Card
     {
         $params = array(
                    'offset' => $offset,
-                   'count'  => $count,
-                   'status_list' => $statusList
+                   'count' => $count,
+                   'status_list' => $statusList,
                   );
 
         $result = $this->http->jsonPost(self::API_LIST, $params);
@@ -261,7 +271,7 @@ class Card
     public function consume($code, $cardId = null)
     {
         $params = array(
-                   'code'    => $code,
+                   'code' => $code,
                    'card_id' => $cardId,
                   );
 
@@ -269,7 +279,7 @@ class Card
     }
 
     /**
-     * 废弃卡券，失效
+     * 废弃卡券，失效.
      *
      * @param string $code
      * @param string $cardId
@@ -279,7 +289,7 @@ class Card
     public function disable($code, $cardId = null)
     {
         $params = array(
-                   'code'    => $code,
+                   'code' => $code,
                    'card_id' => $cardId,
                   );
 
@@ -287,7 +297,7 @@ class Card
     }
 
     /**
-     * 删除卡券
+     * 删除卡券.
      *
      * @param string $cardId
      *
@@ -301,7 +311,7 @@ class Card
     }
 
     /**
-     * 修改库存
+     * 修改库存.
      *
      * @param string $cardId
      * @param int    $amount
@@ -318,14 +328,14 @@ class Card
 
         $params = array(
                    'card_id' => $cardId,
-                   $key      => abs($amount),
+                   $key => abs($amount),
                   );
 
         return $this->http->jsonPost(self::API_UPDATE_STOCK, $params);
     }
 
     /**
-     * 增加库存
+     * 增加库存.
      *
      * @param string $cardId
      * @param int    $amount
@@ -338,7 +348,7 @@ class Card
     }
 
     /**
-     * 减少库存
+     * 减少库存.
      *
      * @param string $cardId
      * @param int    $amount
@@ -351,7 +361,7 @@ class Card
     }
 
     /**
-     * 查询Code
+     * 查询Code.
      *
      * @param string $code
      * @param string $cardId
@@ -361,7 +371,7 @@ class Card
     public function getCode($code, $cardId = null)
     {
         $params = array(
-                   'code'    => $code,
+                   'code' => $code,
                    'card_id' => $cardId,
                   );
 
@@ -369,7 +379,7 @@ class Card
     }
 
     /**
-     * 修改code
+     * 修改code.
      *
      * @param string $code
      * @param string $newCode
@@ -380,8 +390,8 @@ class Card
     public function updateCode($code, $newCode, $cardId)
     {
         $params = array(
-                   'code'     => $code,
-                   'card_id'  => $cardId,
+                   'code' => $code,
+                   'card_id' => $cardId,
                    'new_code' => $newCode,
                   );
 
@@ -430,23 +440,25 @@ class Card
     }
 
     /**
-     * 获取用户已领取卡券接口
+     * 获取用户已领取卡券接口.
      *
      * @param string $openid
      * @param string $cardId
      *
      * @return array
      */
-    public function userCardLists($openid , $cardId = null){
+    public function userCardLists($openid, $cardId = null)
+    {
         $params = array(
-            'openid'    =>  $openid,
-            'card_id'   =>  $cardId
+            'openid' => $openid,
+            'card_id' => $cardId,
         );
+
         return new Bag($this->http->jsonPost(self::API_USER_CARD_LIST, $params));
     }
 
     /**
-     * 会员卡交易
+     * 会员卡交易.
      *
      * <pre>
      * $data:
@@ -473,7 +485,7 @@ class Card
     }
 
     /**
-     * 电影票更新座位
+     * 电影票更新座位.
      *
      * <pre>
      * $data:
@@ -499,7 +511,7 @@ class Card
     }
 
     /**
-     * 会议门票更新
+     * 会议门票更新.
      *
      * <pre>
      * $data:
@@ -525,7 +537,7 @@ class Card
     }
 
     /**
-     * 在线值机
+     * 在线值机.
      *
      * <pre>
      * $data:
@@ -552,7 +564,7 @@ class Card
     }
 
     /**
-     * 生成签名
+     * 生成签名.
      *
      * @return string
      */
@@ -566,7 +578,7 @@ class Card
     }
 
     /**
-     * 获取随机字符串
+     * 获取随机字符串.
      *
      * @return string
      */
@@ -576,7 +588,7 @@ class Card
     }
 
     /**
-     * 设置测试白名单
+     * 设置测试白名单.
      *
      * <pre>
      * $data:
@@ -607,7 +619,7 @@ class Card
     }
 
     /**
-     * 通过openId设置测试白名单
+     * 通过openId设置测试白名单.
      *
      * $data:
      * {
@@ -626,7 +638,7 @@ class Card
     }
 
     /**
-     * 通过username设置测试白名单
+     * 通过username设置测试白名单.
      *
      * $data:
      * {
@@ -645,7 +657,7 @@ class Card
     }
 
     /**
-     * 创建卡券货架
+     * 创建卡券货架.
      *
      * <pre>
      * $data:
@@ -681,9 +693,9 @@ class Card
             'card_list' => array(
                 array(
                     'card_id' => '',
-                    'thumb_url' => ''
-                )
-            )
+                    'thumb_url' => '',
+                ),
+            ),
         );
 
         $params = array_merge($defaultParams, $data);

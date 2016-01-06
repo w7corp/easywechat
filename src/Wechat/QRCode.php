@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * QRCode.php
+ * QRCode.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -22,39 +33,38 @@ use Overtrue\Wechat\Utils\Bag;
  */
 class QRCode
 {
-
     /**
-     * 应用ID
+     * 应用ID.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * 应用secret
+     * 应用secret.
      *
      * @var string
      */
     protected $appSecret;
 
     const DAY = 86400;
-    const SCENE_QR_CARD        = 'QR_CARD';             // 卡券
-    const SCENE_QR_TEMPORARY   = 'QR_SCENE';            // 临时
-    const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE';      // 永久
+    const SCENE_QR_CARD = 'QR_CARD';             // 卡券
+    const SCENE_QR_TEMPORARY = 'QR_SCENE';            // 临时
+    const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';      // 永久
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';  // 永久的字符串参数值
 
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
-    const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+    const API_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
      */
     public function __construct($appId, $appSecret)
     {
-        $this->appId     = $appId;
+        $this->appId = $appId;
         $this->appSecret = $appSecret;
     }
 
@@ -101,8 +111,8 @@ class QRCode
      * 创建卡券二维码
      *
      * @param array $card
-     * @param bool $temporary
-     * @param bool $expireSeconds
+     * @param bool  $temporary
+     * @param bool  $expireSeconds
      *
      * {
      *    "card_id": "pFS7Fjg8kV1IdDz01r4SQwMkuCKc",

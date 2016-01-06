@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Cache.php
+ * Cache.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -20,7 +31,6 @@ namespace Overtrue\Wechat;
  */
 class Cache
 {
-
     /**
      * 缓存文件前缀
      *
@@ -29,14 +39,14 @@ class Cache
     protected $prefix;
 
     /**
-     * 缓存写入器
+     * 缓存写入器.
      *
      * @var callable
      */
     protected static $cacheSetter;
 
     /**
-     * 缓存读取器
+     * 缓存读取器.
      *
      * @var callable
      */
@@ -53,7 +63,7 @@ class Cache
     }
 
     /**
-     * 默认的缓存写入器
+     * 默认的缓存写入器.
      *
      * @param string $key
      * @param mixed  $value
@@ -66,7 +76,7 @@ class Cache
         }
 
         $data = array(
-                 'data'       => $value,
+                 'data' => $value,
                  'expired_at' => time() + $lifetime - 500, //XXX: 微信API是世界上最烂的，没有之一
                 );
 
@@ -76,7 +86,7 @@ class Cache
     }
 
     /**
-     * 默认的缓存读取器
+     * 默认的缓存读取器.
      *
      * @param string $key
      * @param mixed  $default
@@ -103,7 +113,7 @@ class Cache
     }
 
     /**
-     * 删除缓存
+     * 删除缓存.
      *
      * @return bool
      */
@@ -119,7 +129,7 @@ class Cache
     }
 
     /**
-     * 设置缓存写入器
+     * 设置缓存写入器.
      *
      * @param callable $handler
      */
@@ -129,7 +139,7 @@ class Cache
     }
 
     /**
-     * 设置缓存读取器
+     * 设置缓存读取器.
      *
      * @param callable $handler
      */
@@ -139,7 +149,7 @@ class Cache
     }
 
     /**
-     * 获取缓存文件名
+     * 获取缓存文件名.
      *
      * @param string $key
      *

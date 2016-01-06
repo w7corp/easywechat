@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Js.php
+ * Js.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,23 +27,21 @@
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\JSON;
-use Overtrue\Wechat\Url;
 
 /**
- * 微信 JSSDK
+ * 微信 JSSDK.
  */
 class Js
 {
-
     /**
-     * 应用ID
+     * 应用ID.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * 应用secret
+     * 应用secret.
      *
      * @var string
      */
@@ -46,7 +55,7 @@ class Js
     protected $cache;
 
     /**
-     * 当前URL
+     * 当前URL.
      *
      * @var string
      */
@@ -55,20 +64,20 @@ class Js
     const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
      */
     public function __construct($appId, $appSecret)
     {
-        $this->appId     = $appId;
+        $this->appId = $appId;
         $this->appSecret = $appSecret;
-        $this->cache     = new Cache($appId);
+        $this->cache = new Cache($appId);
     }
 
     /**
-     * 获取JSSDK的配置数组
+     * 获取JSSDK的配置数组.
      *
      * @param array $APIs
      * @param bool  $debug
@@ -81,7 +90,7 @@ class Js
         $signPackage = $this->getSignaturePackage();
         $base = array(
                  'debug' => $debug,
-                 'beta'  => $beta,
+                 'beta' => $beta,
                 );
         $config = array_merge($base, $signPackage, array('jsApiList' => $APIs));
 
@@ -89,7 +98,7 @@ class Js
     }
 
     /**
-     * 获取数组形式的配置
+     * 获取数组形式的配置.
      *
      * @param array $APIs
      * @param bool  $debug
@@ -103,7 +112,7 @@ class Js
     }
 
     /**
-     * 获取jsticket
+     * 获取jsticket.
      *
      * @return string
      */
@@ -112,15 +121,15 @@ class Js
         $key = 'overtrue.wechat.jsapi_ticket.'.$this->appId;
 
         // for php 5.3
-        $appId     = $this->appId;
+        $appId = $this->appId;
         $appSecret = $this->appSecret;
-        $cache     = $this->cache;
+        $cache = $this->cache;
         $apiTicket = self::API_TICKET;
 
         return $this->cache->get(
             $key,
             function ($key) use ($appId, $appSecret, $cache, $apiTicket) {
-                $http  = new Http(new AccessToken($appId, $appSecret));
+                $http = new Http(new AccessToken($appId, $appSecret));
 
                 $result = $http->get($apiTicket);
 
@@ -132,7 +141,7 @@ class Js
     }
 
     /**
-     * 签名
+     * 签名.
      *
      * @param string $url
      * @param string $nonce
@@ -142,16 +151,16 @@ class Js
      */
     public function getSignaturePackage($url = null, $nonce = null, $timestamp = null)
     {
-        $url       = $url ? $url : $this->getUrl();
-        $nonce     = $nonce ? $nonce : $this->getNonce();
+        $url = $url ? $url : $this->getUrl();
+        $nonce = $nonce ? $nonce : $this->getNonce();
         $timestamp = $timestamp ? $timestamp : time();
-        $ticket    = $this->getTicket();
+        $ticket = $this->getTicket();
 
         $sign = array(
-                 'appId'     => $this->appId,
-                 'nonceStr'  => $nonce,
+                 'appId' => $this->appId,
+                 'nonceStr' => $nonce,
                  'timestamp' => $timestamp,
-                 'url'       => $url,
+                 'url' => $url,
                  'signature' => $this->getSignature($ticket, $nonce, $timestamp, $url),
                 );
 
@@ -159,7 +168,7 @@ class Js
     }
 
     /**
-     * 生成签名
+     * 生成签名.
      *
      * @param string $ticket
      * @param string $nonce
@@ -174,7 +183,7 @@ class Js
     }
 
     /**
-     * 设置当前URL
+     * 设置当前URL.
      *
      * @param string $url
      *
@@ -188,7 +197,7 @@ class Js
     }
 
     /**
-     * 获取当前URL
+     * 获取当前URL.
      *
      * @return string
      */
@@ -202,7 +211,7 @@ class Js
     }
 
     /**
-     * 获取随机字符串
+     * 获取随机字符串.
      *
      * @return string
      */

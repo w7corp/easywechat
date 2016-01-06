@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Menu.php
+ * Menu.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,19 +29,19 @@ namespace Overtrue\Wechat;
 use Closure;
 
 /**
- * 菜单
+ * 菜单.
  *
  * @property array $sub_button
  */
 class Menu
 {
-    const API_CREATE             = 'https://api.weixin.qq.com/cgi-bin/menu/create';
-    const API_GET                = 'https://api.weixin.qq.com/cgi-bin/menu/get';
-    const API_DELETE             = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
-    const API_QUERY              = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
+    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/menu/get';
+    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
+    const API_QUERY = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
     const API_CONDITIONAL_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/addconditional';
     const API_CONDITIONAL_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delconditional';
-    const API_CONDITIONAL_TEST   = 'https://api.weixin.qq.com/cgi-bin/menu/trymatch';
+    const API_CONDITIONAL_TEST = 'https://api.weixin.qq.com/cgi-bin/menu/trymatch';
 
     /**
      * Http对象
@@ -40,7 +51,7 @@ class Menu
     protected $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -51,7 +62,7 @@ class Menu
     }
 
     /**
-     * 设置菜单
+     * 设置菜单.
      *
      * @return bool
      */
@@ -65,7 +76,7 @@ class Menu
     }
 
     /**
-     * 获取菜单
+     * 获取菜单.
      *
      * @return array
      */
@@ -77,7 +88,7 @@ class Menu
     }
 
     /**
-     * 删除菜单
+     * 删除菜单.
      *
      * @return bool
      */
@@ -89,18 +100,19 @@ class Menu
     }
 
     /**
-     * 获取菜单【查询接口，能获取到任意方式设置的菜单】
+     * 获取菜单【查询接口，能获取到任意方式设置的菜单】.
      *
      * @return array
      */
     public function current()
     {
         $menus = $this->http->get(self::API_QUERY);
+
         return empty($menus) ? array() : $menus;
     }
 
     /**
-     * 添加个性化的菜单
+     * 添加个性化的菜单.
      *
      * @param mixed $menus
      * @param array $condition
@@ -115,11 +127,11 @@ class Menu
     }
 
     /**
-     * 测试菜单
+     * 测试菜单.
      *
      * @param string $userId
      *
-     * @return boolean
+     * @return bool
      */
     public function test($userId)
     {
@@ -127,11 +139,11 @@ class Menu
     }
 
     /**
-     * 按菜单ID删除菜单
+     * 按菜单ID删除菜单.
      *
      * @param int $menuId
      *
-     * @return boolean
+     * @return bool
      */
     public function deleteById($menuId)
     {
@@ -141,7 +153,7 @@ class Menu
     }
 
     /**
-     * 转menu为数组
+     * 转menu为数组.
      *
      * @param mixed $menus
      *

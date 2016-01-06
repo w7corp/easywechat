@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Server.php
+ * Server.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -20,55 +31,54 @@ use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\XML;
 
 /**
- * 服务端
+ * 服务端.
  */
 class Server
 {
-
     /**
-     * 应用ID
+     * 应用ID.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * token
+     * token.
      *
      * @var string
      */
     protected $token;
 
     /**
-     * encodingAESKey
+     * encodingAESKey.
      *
      * @var string
      */
     protected $encodingAESKey;
 
     /**
-     * 输入
+     * 输入.
      *
      * @var \Overtrue\Wechat\Utils\Bag
      */
     protected $input;
 
     /**
-     * 监听器
+     * 监听器.
      *
      * @var \Overtrue\Wechat\Utils\Bag
      */
     protected $listeners;
 
     /**
-     * 是否为加密模式
+     * 是否为加密模式.
      *
      * @var bool
      */
     protected $security = false;
 
     /**
-     * 允许的事件
+     * 允许的事件.
      *
      * @var array
      */
@@ -79,7 +89,7 @@ class Server
                         );
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $token
@@ -87,14 +97,14 @@ class Server
      */
     public function __construct($appId, $token, $encodingAESKey = null)
     {
-        $this->listeners      = new Bag();
-        $this->appId          = $appId;
-        $this->token          = $token;
+        $this->listeners = new Bag();
+        $this->appId = $appId;
+        $this->token = $token;
         $this->encodingAESKey = $encodingAESKey;
     }
 
     /**
-     * 监听
+     * 监听.
      *
      * @param string          $target
      * @param string|callable $type
@@ -106,7 +116,7 @@ class Server
     {
         if (is_null($callback)) {
             $callback = $type;
-            $type     = '*';
+            $type = '*';
         }
 
         if (!is_callable($callback)) {
@@ -125,7 +135,7 @@ class Server
     }
 
     /**
-     * 监听事件
+     * 监听事件.
      *
      * @param string|callable $type
      * @param callable        $callback
@@ -138,7 +148,7 @@ class Server
     }
 
     /**
-     * 监听消息
+     * 监听消息.
      *
      * @param string|callable $type
      * @param callable        $callback
@@ -151,7 +161,7 @@ class Server
     }
 
     /**
-     * handle服务端并返回字符串内容
+     * handle服务端并返回字符串内容.
      *
      * @return mixed
      */
@@ -179,7 +189,7 @@ class Server
     }
 
     /**
-     * 初始化POST请求数据
+     * 初始化POST请求数据.
      *
      * @return Bag
      */
@@ -197,7 +207,7 @@ class Server
             }
 
             if (empty($_REQUEST['echostr']) && empty($xmlInput) && !empty($_REQUEST['signature'])) {
-                throw new Exception("没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On", 500);
+                throw new Exception('没有读取到消息 XML，请在 php.ini 中打开 always_populate_raw_post_data=On', 500);
             }
         } else {
             $xmlInput = file_get_contents('php://input');
@@ -222,7 +232,7 @@ class Server
     }
 
     /**
-     * 获取输入
+     * 获取输入.
      *
      * @param array $input
      */
@@ -252,7 +262,7 @@ class Server
     }
 
     /**
-     * 生成回复内容
+     * 生成回复内容.
      *
      * @param mixed $response
      *
@@ -261,12 +271,12 @@ class Server
     protected function response($response)
     {
         if (empty($response)) {
-            return "";
+            return '';
         }
 
         is_string($response) && $response = Message::make('text')->with('content', $response);
 
-        $return = "";
+        $return = '';
 
         if ($response instanceof BaseMessage) {
             $response->from($this->input->get('ToUserName'))->to($this->input->get('FromUserName'));
@@ -308,7 +318,7 @@ class Server
     }
 
     /**
-     * 处理消息
+     * 处理消息.
      *
      * @param Bag $message
      *
@@ -324,7 +334,7 @@ class Server
     }
 
     /**
-     * 处理事件
+     * 处理事件.
      *
      * @param Bag $event
      *
@@ -342,7 +352,7 @@ class Server
     }
 
     /**
-     * 检查微信签名有效性
+     * 检查微信签名有效性.
      *
      * @param array $input
      */
@@ -354,7 +364,7 @@ class Server
     }
 
     /**
-     * 调用监听器
+     * 调用监听器.
      *
      * @param string      $key
      * @param array       $args
@@ -382,7 +392,7 @@ class Server
     }
 
     /**
-     * 魔术调用
+     * 魔术调用.
      *
      * @param string $method
      * @param array  $args
@@ -401,7 +411,7 @@ class Server
     }
 
     /**
-     * 直接返回以字符串形式输出时
+     * 直接返回以字符串形式输出时.
      *
      * @return string
      */

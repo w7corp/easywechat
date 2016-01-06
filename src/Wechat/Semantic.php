@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Semantic.php
+ * Semantic.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,11 +29,10 @@ namespace Overtrue\Wechat;
 use Overtrue\Wechat\Utils\Bag;
 
 /**
- * 语义理解
+ * 语义理解.
  */
 class Semantic
 {
-
     /**
      * Http对象
      *
@@ -31,7 +41,7 @@ class Semantic
     protected $http;
 
     /**
-     * 应用ID
+     * 应用ID.
      *
      * @var string
      */
@@ -40,7 +50,7 @@ class Semantic
     const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -52,7 +62,7 @@ class Semantic
     }
 
     /**
-     * 语义理解
+     * 语义理解.
      *
      * @param string         $keyword
      * @param array | string $categories
@@ -63,9 +73,9 @@ class Semantic
     public function query($keyword, $categories, array $other = array())
     {
         $params = array(
-                   'query'    => $keyword,
+                   'query' => $keyword,
                    'category' => implode(',', (array) $categories),
-                   'appid'    => $this->appId,
+                   'appid' => $this->appId,
                   );
 
         return new Bag($this->http->jsonPost(self::API_SEARCH, array_merge($params, $other)));

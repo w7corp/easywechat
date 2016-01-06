@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * LuckMoney.php
+ * LuckMoney.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -8,41 +18,38 @@
  * file that was distributed with this source code.
  *
  * @author bontian <bontian@163.com>
- *
  */
 
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Exception;
-use Overtrue\Wechat\Http;
 use Overtrue\Wechat\Utils\SignGenerator;
 
 class Lottery
 {
     /**
-     * 创建红包活动API
+     * 创建红包活动API.
      */
     const API_CREATE = 'https://api.weixin.qq.com/shakearound/lottery/addlotteryinfo';
 
     /**
-     * 录入红包信息API
+     * 录入红包信息API.
      */
     const API_SET_INFO = 'https://api.weixin.qq.com/shakearound/lottery/setprizebucket';
 
     /**
-     * 设置红包活动开关状态API
+     * 设置红包活动开关状态API.
      */
     const API_SET_STATUS = 'https://api.weixin.qq.com/shakearound/lottery/setlotteryswitch';
 
     /**
-     * 查询红包活动信息API
+     * 查询红包活动信息API.
      */
     const API_QUERY = 'https://api.weixin.qq.com/shakearound/lottery/querylottery';
 
     private $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -52,9 +59,8 @@ class Lottery
         $this->http = new Http(new AccessToken($appId, $appSecret));
     }
 
-
     /**
-     * 创建红包活动
+     * 创建红包活动.
      *
      * <pre>
      * $data:
@@ -86,13 +92,13 @@ class Lottery
             throw new Exception('logo_url is required when using template.');
         }
 
-        $url = self::API_CREATE . "?use_template={$useTemplate}&logo_url={$logoUrl}";
+        $url = self::API_CREATE."?use_template={$useTemplate}&logo_url={$logoUrl}";
 
         return $this->http->jsonPost($url, $data);
     }
 
     /**
-     * 设置红包活动信息
+     * 设置红包活动信息.
      *
      * <pre>
      * $data:
@@ -122,7 +128,7 @@ class Lottery
     }
 
     /**
-     * 查询红包活动信息
+     * 查询红包活动信息.
      *
      * @param string $lotteryId
      *
@@ -145,14 +151,14 @@ class Lottery
     {
         $params = array(
             'lottery_id' => $lotteryId,
-            'onoff' => $status
+            'onoff' => $status,
         );
 
         return $this->http->get(self::API_SET_STATUS, $params);
     }
 
     /**
-     * 开启红包活动
+     * 开启红包活动.
      *
      * @param string $lotteryId 红包活动ID
      *
@@ -164,7 +170,7 @@ class Lottery
     }
 
     /**
-     * 关闭红包活动
+     * 关闭红包活动.
      *
      * @param string $lotteryId 红包活动ID
      *
@@ -176,7 +182,7 @@ class Lottery
     }
 
     /**
-     * 生成用于摇红包JSAPI调用的数据
+     * 生成用于摇红包JSAPI调用的数据.
      *
      * @param string $lotteryId
      * @param string $openId

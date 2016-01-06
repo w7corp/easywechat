@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * BaseMessage.php
+ * BaseMessage.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,7 +30,7 @@ use Overtrue\Wechat\Utils\MagicAttributes;
 use Overtrue\Wechat\Utils\XML;
 
 /**
- * 消息基类
+ * 消息基类.
  *
  * @property string      $from
  * @property string      $to
@@ -34,16 +45,15 @@ use Overtrue\Wechat\Utils\XML;
  */
 abstract class BaseMessage extends MagicAttributes
 {
-
     /**
-     * 允许的属性
+     * 允许的属性.
      *
      * @var array
      */
     protected $properties = array();
 
     /**
-     * 基础属性
+     * 基础属性.
      *
      * @var array
      */
@@ -56,7 +66,7 @@ abstract class BaseMessage extends MagicAttributes
                                 );
 
     /**
-     * 生成用于主动推送的数据
+     * 生成用于主动推送的数据.
      *
      * @return array
      */
@@ -67,7 +77,7 @@ abstract class BaseMessage extends MagicAttributes
         }
 
         $base = array(
-                 'touser'  => $this->to,
+                 'touser' => $this->to,
                  'msgtype' => $this->getDefaultMessageType(),
                 );
         if (!empty($this->staff)) {
@@ -78,7 +88,7 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
-     * 生成用于回复的数据
+     * 生成用于回复的数据.
      *
      * @return array
      */
@@ -89,17 +99,17 @@ abstract class BaseMessage extends MagicAttributes
         }
 
         $base = array(
-                 'ToUserName'   => $this->to,
+                 'ToUserName' => $this->to,
                  'FromUserName' => $this->from,
-                 'CreateTime'   => time(),
-                 'MsgType'      => $this->getDefaultMessageType(),
+                 'CreateTime' => time(),
+                 'MsgType' => $this->getDefaultMessageType(),
                 );
 
         return XML::build(array_merge($base, $this->toReply()));
     }
 
     /**
-     * 生成通过群发的数据
+     * 生成通过群发的数据.
      *
      * @return array
      */
@@ -136,7 +146,7 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
-     * 生成通过群发预览的数据
+     * 生成通过群发预览的数据.
      *
      * @param $type
      *
@@ -159,7 +169,7 @@ abstract class BaseMessage extends MagicAttributes
     }
 
     /**
-     * 获取默认的消息类型名称
+     * 获取默认的消息类型名称.
      *
      * @return string
      */

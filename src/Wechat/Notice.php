@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Notice.php
+ * Notice.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,11 +27,10 @@
 namespace Overtrue\Wechat;
 
 /**
- * 模板消息
+ * 模板消息.
  */
 class Notice
 {
-
     /**
      * Http对象
      *
@@ -29,32 +39,32 @@ class Notice
     protected $http;
 
     /**
-     * 默认数据项颜色
+     * 默认数据项颜色.
      *
      * @var string
      */
     protected $defaultColor = '#173177';
 
     /**
-     * 消息属性
+     * 消息属性.
      *
      * @var array
      */
     protected $message = array(
-                          'touser'      => '',
+                          'touser' => '',
                           'template_id' => '',
-                          'url'         => '',
-                          'topcolor'    => '#FF00000',
-                          'data'        => array(),
+                          'url' => '',
+                          'topcolor' => '#FF00000',
+                          'data' => array(),
                          );
 
     /**
-     * 工业列表
+     * 工业列表.
      *
      * @var array
      */
     protected static $industries = array(
-                                    'IT科技'              => array(
+                                    'IT科技' => array(
                                                                 1 => '互联网/电子商务',
                                                                 2 => 'IT软件与服务',
                                                                 3 => 'IT硬件与设备',
@@ -63,26 +73,26 @@ class Notice
                                                                 6 => '网络游戏',
                                                                ),
 
-                                    '金融业'             => array(
+                                    '金融业' => array(
                                                                 7 => '银行',
                                                                 8 => '基金|理财|信托',
                                                                 9 => '保险',
                                                                ),
 
-                                    '餐饮'                => array(10 => '餐饮'),
+                                    '餐饮' => array(10 => '餐饮'),
 
-                                    '酒店旅游'          => array(
+                                    '酒店旅游' => array(
                                                                 11 => '酒店',
                                                                 12 => '旅游',
                                                                ),
 
-                                    '运输与仓储'       => array(
+                                    '运输与仓储' => array(
                                                                 13 => '快递',
                                                                 14 => '物流',
                                                                 14 => '仓储',
                                                                ),
 
-                                    '教育'                => array(
+                                    '教育' => array(
                                                                 16 => '培训',
                                                                 17 => '院校',
                                                                ),
@@ -94,27 +104,27 @@ class Notice
                                                                 21 => '公共事业|非盈利机构',
                                                                ),
 
-                                    '医药护理'          => array(
+                                    '医药护理' => array(
                                                                 22 => '医药医疗',
                                                                 23 => '护理美容',
                                                                 24 => '保健与卫生',
                                                                ),
 
-                                    '交通工具'          => array(
+                                    '交通工具' => array(
                                                                 25 => '汽车相关',
                                                                 26 => '摩托车相关',
                                                                 27 => '火车相关',
                                                                 28 => '飞机相关',
                                                                ),
 
-                                    '房地产'             => array(
+                                    '房地产' => array(
                                                                 29 => '建筑',
                                                                 30 => '物业',
                                                                ),
 
-                                    '消费品'             => array(31 => '消费品'),
+                                    '消费品' => array(31 => '消费品'),
 
-                                    '商业服务'          => array(
+                                    '商业服务' => array(
                                                                 32 => '法律',
                                                                 33 => '会展',
                                                                 34 => '中介服务',
@@ -122,34 +132,34 @@ class Notice
                                                                 36 => '审计',
                                                                ),
 
-                                    '文体娱乐'          => array(
+                                    '文体娱乐' => array(
                                                                 37 => '传媒',
                                                                 38 => '体育',
                                                                 39 => '娱乐休闲',
                                                                ),
 
-                                    '印刷'                => array(40 => '印刷'),
+                                    '印刷' => array(40 => '印刷'),
 
-                                    '其它'                => array(41 => '其它'),
+                                    '其它' => array(41 => '其它'),
                                    );
 
-    const API_SEND_NOTICE  = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
+    const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
      */
     public function __construct($appId, $appSecret)
     {
-        $this->http  = new Http(new AccessToken($appId, $appSecret));
+        $this->http = new Http(new AccessToken($appId, $appSecret));
     }
 
     /**
-     * 修改账号所属行业
+     * 修改账号所属行业.
      *
      * @param int $industryOne
      * @param int $industryTwo
@@ -167,7 +177,7 @@ class Notice
     }
 
     /**
-     * 添加模板并获取模板ID
+     * 添加模板并获取模板ID.
      *
      * @param string $shortId
      *
@@ -183,7 +193,7 @@ class Notice
     }
 
     /**
-     * 发送模板消息
+     * 发送模板消息.
      *
      * @param string $to
      * @param string $templateId
@@ -201,11 +211,11 @@ class Notice
         $color = '#FF0000'
     ) {
         $params = array(
-                   'touser'      => $to,
+                   'touser' => $to,
                    'template_id' => $templateId,
-                   'url'         => $url,
-                   'topcolor'    => $color,
-                   'data'        => $data,
+                   'url' => $url,
+                   'topcolor' => $color,
+                   'data' => $data,
                   );
 
         $required = array(
@@ -229,7 +239,7 @@ class Notice
     }
 
     /**
-     * 设置模板消息数据项的默认颜色
+     * 设置模板消息数据项的默认颜色.
      *
      * @param string $color
      */
@@ -239,7 +249,7 @@ class Notice
     }
 
     /**
-     * 行业列表
+     * 行业列表.
      *
      * @return array
      */
@@ -249,7 +259,7 @@ class Notice
     }
 
     /**
-     * 魔术访问
+     * 魔术访问.
      *
      * @param string $property
      *
@@ -263,7 +273,7 @@ class Notice
     }
 
     /**
-     * 格式化模板数据
+     * 格式化模板数据.
      *
      * @param array $data
      *
@@ -302,7 +312,7 @@ class Notice
     }
 
     /**
-     * 魔术调用
+     * 魔术调用.
      *
      * @param string $method
      * @param array  $args
@@ -312,17 +322,17 @@ class Notice
     public function __call($method, $args)
     {
         $map = array(
-                'template'   => 'template_id',
-                'uses'       => 'template_id',
+                'template' => 'template_id',
+                'uses' => 'template_id',
                 'templateId' => 'template_id',
-                'to'         => 'touser',
-                'receiver'   => 'touser',
-                'color'      => 'topcolor',
-                'topColor'   => 'topcolor',
-                'url'        => 'url',
-                'linkTo'     => 'linkTo',
-                'data'       => 'data',
-                'with'       => 'data',
+                'to' => 'touser',
+                'receiver' => 'touser',
+                'color' => 'topcolor',
+                'topColor' => 'topcolor',
+                'url' => 'url',
+                'linkTo' => 'linkTo',
+                'data' => 'data',
+                'with' => 'data',
                );
 
         if (0 === stripos($method, 'with')) {
@@ -335,7 +345,6 @@ class Notice
 
         if (isset($map[$method])) {
             $this->message[$map[$method]] = array_shift($args);
-
         }
 
         return $this;

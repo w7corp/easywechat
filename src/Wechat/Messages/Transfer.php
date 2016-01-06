@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Transfer.php
+ * Transfer.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,16 +29,15 @@ namespace Overtrue\Wechat\Messages;
 use Overtrue\Wechat\Exception;
 
 /**
- * 转发多客服消息
+ * 转发多客服消息.
  *
  * @property string $to
  * @property string $account
  */
 class Transfer extends BaseMessage
 {
-
     /**
-     * 属性
+     * 属性.
      *
      * @var array
      */
@@ -37,7 +47,7 @@ class Transfer extends BaseMessage
                             );
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      */
     public function toStaff()
     {
@@ -45,7 +55,7 @@ class Transfer extends BaseMessage
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      */
     public function toReply()
     {

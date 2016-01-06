@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * User.php
+ * User.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,11 +29,10 @@ namespace Overtrue\Wechat;
 use Overtrue\Wechat\Utils\Bag;
 
 /**
- * 用户
+ * 用户.
  */
 class User
 {
-
     /**
      * Http对象
      *
@@ -30,14 +40,14 @@ class User
      */
     protected $http;
 
-    const API_GET       = 'https://api.weixin.qq.com/cgi-bin/user/info';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/user/info';
     const API_BATCH_GET = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget';
-    const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
-    const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
-    const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
+    const API_LIST = 'https://api.weixin.qq.com/cgi-bin/user/get';
+    const API_GROUP = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+    const API_REMARK = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -48,7 +58,7 @@ class User
     }
 
     /**
-     * 读取用户信息
+     * 读取用户信息.
      *
      * @param string $openId
      * @param string $lang
@@ -63,7 +73,7 @@ class User
 
         $params = array(
                    'openid' => $openId,
-                   'lang'   => $lang,
+                   'lang' => $lang,
                   );
 
         return new Bag($this->http->get(self::API_GET, $params));
@@ -81,7 +91,7 @@ class User
     {
         $params = array();
 
-        $params['user_list'] = array_map(function($openId) use ($lang) {
+        $params['user_list'] = array_map(function ($openId) use ($lang) {
             return array(
                     'openid' => $openId,
                     'lang' => $lang,
@@ -94,7 +104,7 @@ class User
     }
 
     /**
-     * 获取用户列表
+     * 获取用户列表.
      *
      * @param string $nextOpenId
      *
@@ -108,7 +118,7 @@ class User
     }
 
     /**
-     * 修改用户备注
+     * 修改用户备注.
      *
      * @param string $openId
      * @param string $remark 备注
@@ -126,7 +136,7 @@ class User
     }
 
     /**
-     * 获取用户所在分组
+     * 获取用户所在分组.
      *
      * @param string $openId
      *
@@ -138,7 +148,7 @@ class User
     }
 
     /**
-     * 获取用户所在的组
+     * 获取用户所在的组.
      *
      * @param string $openId
      *

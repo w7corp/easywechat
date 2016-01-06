@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Http.php
+ * Http.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -23,9 +34,8 @@ use Overtrue\Wechat\Utils\JSON;
  */
 class Http extends HttpClient
 {
-
     /**
-     * token
+     * token.
      *
      * @var AccessToken
      */
@@ -39,14 +49,14 @@ class Http extends HttpClient
     protected $json = false;
 
     /**
-     * 缓存类
+     * 缓存类.
      *
      * @var Cache
      */
     protected $cache;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param AccessToken $token
      */
@@ -57,7 +67,7 @@ class Http extends HttpClient
     }
 
     /**
-     * 设置请求access_token
+     * 设置请求access_token.
      *
      * @param AccessToken $token
      */
@@ -82,7 +92,7 @@ class Http extends HttpClient
         if ($this->token) {
             // clear repeat token
             $url = preg_replace('/[\?&]access_token=.*?/i', '', $url);
-            $url .= (stripos($url, '?') ? '&' : '?').'access_token='. $this->token->getToken();
+            $url .= (stripos($url, '?') ? '&' : '?').'access_token='.$this->token->getToken();
         }
 
         $method = strtoupper($method);
@@ -134,7 +144,7 @@ class Http extends HttpClient
     }
 
     /**
-     * 魔术调用
+     * 魔术调用.
      *
      * @param string $method
      * @param array  $args

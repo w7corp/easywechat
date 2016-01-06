@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * AccessToken.php
+ * AccessToken.php.
  *
  * Part of Overtrue\Wechat\Shop
  *
@@ -9,11 +19,11 @@
  *
  * @author    a9396 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
 
 namespace Overtrue\Wechat\Shop;
-
 
 class AccessToken extends \Overtrue\Wechat\AccessToken
 {

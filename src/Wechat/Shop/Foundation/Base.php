@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Base.php
+ * Base.php.
  *
  * Part of Overtrue\Wechat\Shop\Foundation.
  *
@@ -9,18 +19,18 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
 
 namespace Overtrue\Wechat\Shop\Foundation;
-
 
 use Overtrue\Wechat\Http;
 
 class Base
 {
     /**
-     * @var Object Http
+     * @var object Http
      */
     protected $http;
 
@@ -30,7 +40,7 @@ class Base
     protected $response;
 
     /**
-     * 初始化
+     * 初始化.
      *
      * @param Http $http
      */
@@ -40,23 +50,29 @@ class Base
     }
 
     /**
-     * 获得响应
+     * 获得响应.
      *
      * @param array $response
+     *
      * @return bool|array
+     *
      * @throws ShopsException
      */
     protected function getResponse($response = array())
     {
-        $response = empty($response) ? $this->response : $response ;
+        $response = empty($response) ? $this->response : $response;
 
         if ($response['errcode'] == 0) {
-
-            if (count($response) == 2)  return true;
+            if (count($response) == 2) {
+                return true;
+            }
             if (count($response) > 2) {
-
-                if (isset($response['errmsg'])) unset($response['errmsg']);
-                if (isset($response['errcode'])) unset($response['errcode']);
+                if (isset($response['errmsg'])) {
+                    unset($response['errmsg']);
+                }
+                if (isset($response['errcode'])) {
+                    unset($response['errcode']);
+                }
 
                 if (count($response) == 1) {
                     $key = array_keys($response);
@@ -66,9 +82,8 @@ class Base
                     return $response;
                 }
             }
-
         } else {
-            throw new ShopsException($response['errmsg'],$response['errcode']);
+            throw new ShopsException($response['errmsg'], $response['errcode']);
         }
     }
 }

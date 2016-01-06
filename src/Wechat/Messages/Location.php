@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Location.php
+ * Location.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,15 +29,14 @@ namespace Overtrue\Wechat\Messages;
 use Overtrue\Wechat\Exception;
 
 /**
- * 坐标消息
+ * 坐标消息.
  *
  * @property string $content
  */
 class Location extends BaseMessage
 {
-
     /**
-     * 属性
+     * 属性.
      *
      * @var array
      */
@@ -38,7 +48,7 @@ class Location extends BaseMessage
                             );
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      */
     public function toStaff()
     {
@@ -46,7 +56,7 @@ class Location extends BaseMessage
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      */
     public function toReply()
     {

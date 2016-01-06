@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Postage.php
+ * Postage.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,16 +19,16 @@
  *
  * @author    a939638621 <a939638621@hotmail.com>
  * @copyright 2015 a939638621 <a939638621@hotmail.com>
+ *
  * @link      https://github.com/a939638621
  */
 
 namespace Overtrue\Wechat\Shop\Foundation;
 
 /**
- * 邮费接口
+ * 邮费接口.
  *
  * Interface Postage
- * @package Shop
  */
 interface Postage
 {
@@ -29,6 +39,7 @@ interface Postage
      * @param $assumer
      * @param $valuation
      * @param $topFee
+     *
      * @return int
      */
     public function add($name, $topFee, $assumer = 0, $valuation = 0);
@@ -37,6 +48,7 @@ interface Postage
      * 删除邮费模板
      *
      * @param $templateId
+     *
      * @return bool
      */
     public function delete($templateId);
@@ -47,14 +59,16 @@ interface Postage
      * @param $templateId
      * @param $name
      * @param null $topFee
-     * @param int $assumer
-     * @param int $valuation
+     * @param int  $assumer
+     * @param int  $valuation
+     *
      * @return bool
      */
     public function update($templateId, $name, $topFee, $assumer = 0, $valuation = 0);
 
     /**
      * @param $templateId
+     *
      * @return array
      */
     public function getById($templateId);
@@ -65,5 +79,4 @@ interface Postage
      * @return mixed
      */
     public function lists();
-
 }

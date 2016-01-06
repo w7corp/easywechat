@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Group.php
+ * Group.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,16 +27,16 @@
 namespace Overtrue\Wechat;
 
 /**
- * 用户组
+ * 用户组.
  */
 class Group
 {
-    const API_GET                 = 'https://api.weixin.qq.com/cgi-bin/groups/get';
-    const API_CREATE              = 'https://api.weixin.qq.com/cgi-bin/groups/create';
-    const API_UPDATE              = 'https://api.weixin.qq.com/cgi-bin/groups/update';
-    const API_DELETE              = 'https://api.weixin.qq.com/cgi-bin/groups/delete';
-    const API_USER_GROUP_ID       = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
-    const API_MEMBER_UPDATE       = 'https://api.weixin.qq.com/cgi-bin/groups/members/update';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/groups/get';
+    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/groups/create';
+    const API_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/update';
+    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/groups/delete';
+    const API_USER_GROUP_ID = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+    const API_MEMBER_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/update';
     const API_MEMBER_BATCH_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate';
 
     /**
@@ -36,7 +47,7 @@ class Group
     protected $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -47,7 +58,7 @@ class Group
     }
 
     /**
-     * 创建分组
+     * 创建分组.
      *
      * @param string $name
      *
@@ -65,7 +76,7 @@ class Group
     }
 
     /**
-     * 获取所有分组
+     * 获取所有分组.
      *
      * @return array
      */
@@ -77,7 +88,7 @@ class Group
     }
 
     /**
-     * 更新组名称
+     * 更新组名称.
      *
      * @param int    $groupId
      * @param string $name
@@ -88,7 +99,7 @@ class Group
     {
         $params = array(
                    'group' => array(
-                               'id'   => $groupId,
+                               'id' => $groupId,
                                'name' => $name,
                               ),
                   );
@@ -97,7 +108,7 @@ class Group
     }
 
     /**
-     * 删除分组
+     * 删除分组.
      *
      * @param int $groupId
      *
@@ -107,7 +118,7 @@ class Group
     {
         $params = array(
                    'group' => array(
-                               'id'   => $groupId,
+                               'id' => $groupId,
                               ),
                   );
 
@@ -115,7 +126,7 @@ class Group
     }
 
     /**
-     * 获取用户所在分组
+     * 获取用户所在分组.
      *
      * @param string $openId
      *
@@ -131,7 +142,7 @@ class Group
     }
 
     /**
-     * 移动单个用户
+     * 移动单个用户.
      *
      * @param string $openId
      * @param int    $groupId
@@ -141,7 +152,7 @@ class Group
     public function moveUser($openId, $groupId)
     {
         $params = array(
-                   'openid'     => $openId,
+                   'openid' => $openId,
                    'to_groupid' => $groupId,
                   );
 
@@ -151,7 +162,7 @@ class Group
     }
 
     /**
-     * 批量移动用户
+     * 批量移动用户.
      *
      * @param array $openIds
      * @param int   $groupId
@@ -162,7 +173,7 @@ class Group
     {
         $params = array(
                    'openid_list' => $openIds,
-                   'to_groupid'  => $groupId,
+                   'to_groupid' => $groupId,
                   );
 
         $this->http->jsonPost(self::API_MEMBER_BATCH_UPDATE, $params);

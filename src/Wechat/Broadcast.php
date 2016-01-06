@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Broadcast.php
+ * Broadcast.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -36,14 +47,14 @@ class Broadcast
     protected $http;
 
     /**
-     * 消息
+     * 消息.
      *
      * @var \Overtrue\Wechat\Messages\BaseMessage;
      */
     protected $message;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -54,7 +65,7 @@ class Broadcast
     }
 
     /**
-     * 准备消息
+     * 准备消息.
      *
      * @param \Overtrue\Wechat\Messages\BaseMessage $message
      *
@@ -74,7 +85,7 @@ class Broadcast
     }
 
     /**
-     * 发送消息
+     * 发送消息.
      *
      * @param string $group 组或oppenid
      *
@@ -94,7 +105,7 @@ class Broadcast
     }
 
     /**
-     * 删除群发
+     * 删除群发.
      *
      * @param string $msgId 发出去的消息ID
      *
@@ -106,10 +117,10 @@ class Broadcast
     }
 
     /**
-     * 预览
+     * 预览.
      *
      * @param string $openId 接收消息用户对应该公众号的openid
-     * @param string $type 接收消息用户的类型
+     * @param string $type   接收消息用户的类型
      *
      * @return bool
      */

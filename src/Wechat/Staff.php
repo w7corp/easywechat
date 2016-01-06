@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Staff.php
+ * Staff.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,38 +29,37 @@ namespace Overtrue\Wechat;
 use Overtrue\Wechat\Messages\BaseMessage;
 
 /**
- * 客服
+ * 客服.
  */
 class Staff
 {
-
     /**
-     * 消息
+     * 消息.
      *
      * @var \Overtrue\Wechat\Messages\BaseMessage;
      */
     protected $message;
 
     /**
-     * 指定消息发送客服账号
+     * 指定消息发送客服账号.
      *
      * @var string
      */
     protected $by;
 
     /**
-     * 请求的headers
+     * 请求的headers.
      *
      * @var array
      */
     protected $headers = array('content-type:application/json');
 
-    const API_GET           = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
-    const API_ONLINE        = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
-    const API_DELETE        = 'https://api.weixin.qq.com/customservice/kfaccount/del';
-    const API_UPDATE        = 'https://api.weixin.qq.com/customservice/kfaccount/update';
-    const API_CREATE        = 'https://api.weixin.qq.com/customservice/kfaccount/add';
-    const API_MESSAGE_SEND  = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
+    const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
+    const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
+    const API_UPDATE = 'https://api.weixin.qq.com/customservice/kfaccount/update';
+    const API_CREATE = 'https://api.weixin.qq.com/customservice/kfaccount/add';
+    const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
     const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
 
     /**
@@ -60,7 +70,7 @@ class Staff
     protected $http;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -71,7 +81,7 @@ class Staff
     }
 
     /**
-     * 获取所有的客服
+     * 获取所有的客服.
      *
      * @return array
      */
@@ -83,7 +93,7 @@ class Staff
     }
 
     /**
-     * 获取所有在线的
+     * 获取所有在线的.
      *
      * @return array
      */
@@ -95,7 +105,7 @@ class Staff
     }
 
     /**
-     * 添加客服账号
+     * 添加客服账号.
      *
      * @param string $email
      * @param string $nickname
@@ -107,15 +117,15 @@ class Staff
     {
         $params = array(
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
+                   'nickname' => $nickname,
+                   'password' => $password,
                   );
 
         return $this->http->jsonPost(self::API_CREATE, $params);
     }
 
     /**
-     * 修改客服账号
+     * 修改客服账号.
      *
      * @param string $email
      * @param string $nickname
@@ -127,15 +137,15 @@ class Staff
     {
         $params = array(
                    'kf_account' => $email,
-                   'nickname'   => $nickname,
-                   'password'   => $password,
+                   'nickname' => $nickname,
+                   'password' => $password,
                   );
 
         return $this->http->jsonPost(self::API_UPDATE, $params);
     }
 
     /**
-     * 删除客服账号
+     * 删除客服账号.
      *
      * @param string $email
      *
@@ -147,7 +157,7 @@ class Staff
     }
 
     /**
-     * 上传头像
+     * 上传头像.
      *
      * @param string $email
      * @param string $path
@@ -160,13 +170,13 @@ class Staff
                     'files' => array('media' => $path),
                    );
 
-        $url = self::API_AVATAR_UPLOAD . "?kf_account={$email}";
+        $url = self::API_AVATAR_UPLOAD."?kf_account={$email}";
 
         return $this->http->post($url, array(), $options);
     }
 
     /**
-     * 准备消息
+     * 准备消息.
      *
      * @param \Overtrue\Wechat\Messages\BaseMessage $message
      *
@@ -186,7 +196,7 @@ class Staff
     }
 
     /**
-     * 指定客服
+     * 指定客服.
      *
      * @param string $account
      *
@@ -204,7 +214,7 @@ class Staff
     }
 
     /**
-     * 发送消息
+     * 发送消息.
      *
      * @param string $openId
      *

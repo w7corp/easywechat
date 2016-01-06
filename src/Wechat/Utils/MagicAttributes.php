@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * MagicAttributes.php
+ * MagicAttributes.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -18,27 +29,26 @@ namespace Overtrue\Wechat\Utils;
 use InvalidArgumentException;
 
 /**
- * 用于操作通用数组式属性的工具类
+ * 用于操作通用数组式属性的工具类.
  */
 abstract class MagicAttributes
 {
-
     /**
-     * 允许设置的属性名称
+     * 允许设置的属性名称.
      *
      * @var array
      */
     protected $attributes = array();
 
     /**
-     * 方法名转换缓存
+     * 方法名转换缓存.
      *
      * @var array
      */
     protected static $snakeCache = array();
 
     /**
-     * 设置属性
+     * 设置属性.
      *
      * @param string $attribute
      * @param string $value
@@ -49,7 +59,7 @@ abstract class MagicAttributes
     }
 
     /**
-     * 设置属性
+     * 设置属性.
      *
      * @param string $attribute
      * @param mixed  $value
@@ -70,7 +80,7 @@ abstract class MagicAttributes
     }
 
     /**
-     * 生成数组
+     * 生成数组.
      *
      * @return array
      */
@@ -93,7 +103,7 @@ abstract class MagicAttributes
     }
 
     /**
-     * 调用不存在的方法
+     * 调用不存在的方法.
      *
      * @param string $method
      * @param array  $args
@@ -110,7 +120,7 @@ abstract class MagicAttributes
     }
 
     /**
-     * 魔术读取
+     * 魔术读取.
      *
      * @param string $property
      */
@@ -120,7 +130,7 @@ abstract class MagicAttributes
     }
 
     /**
-     * 魔术写入
+     * 魔术写入.
      *
      * @param string $property
      * @param mixed  $value
@@ -131,7 +141,7 @@ abstract class MagicAttributes
     }
 
     /**
-     * 转换为下划线模式字符串
+     * 转换为下划线模式字符串.
      *
      * @param string $value
      * @param string $delimiter

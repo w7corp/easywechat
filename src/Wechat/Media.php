@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Media.php
+ * Media.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,19 +19,20 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
 
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Utils\JSON;
 use Overtrue\Wechat\Utils\Arr;
 use Overtrue\Wechat\Utils\Bag;
 use Overtrue\Wechat\Utils\File;
+use Overtrue\Wechat\Utils\JSON;
 
 /**
- * 媒体素材
+ * 媒体素材.
  *
  * @method string image($path)
  * @method string voice($path)
@@ -29,18 +40,18 @@ use Overtrue\Wechat\Utils\File;
  */
 class Media
 {
-    const API_TEMPORARY_UPLOAD    = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
-    const API_FOREVER_UPLOAD      = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
-    const API_TEMPORARY_GET       = 'https://api.weixin.qq.com/cgi-bin/media/get';
-    const API_FOREVER_GET         = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
+    const API_TEMPORARY_UPLOAD = 'http://file.api.weixin.qq.com/cgi-bin/media/upload';
+    const API_FOREVER_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
+    const API_TEMPORARY_GET = 'https://api.weixin.qq.com/cgi-bin/media/get';
+    const API_FOREVER_GET = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
     const API_FOREVER_NEWS_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_news';
     const API_FOREVER_NEWS_UPDATE = 'https://api.weixin.qq.com/cgi-bin/material/update_news';
-    const API_FOREVER_DELETE      = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
-    const API_FOREVER_COUNT       = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
-    const API_FOREVER_LIST        = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
+    const API_FOREVER_DELETE = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
+    const API_FOREVER_COUNT = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
+    const API_FOREVER_LIST = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
 
     /**
-     * 允许上传的类型
+     * 允许上传的类型.
      *
      * @var array
      */
@@ -60,14 +71,14 @@ class Media
     protected $http;
 
     /**
-     * 是否上传永久素材
+     * 是否上传永久素材.
      *
      * @var bool
      */
     protected $forever = false;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -78,7 +89,7 @@ class Media
     }
 
     /**
-     * 是否为永久素材
+     * 是否为永久素材.
      *
      * @return Media
      */
@@ -90,7 +101,7 @@ class Media
     }
 
     /**
-     * 上传媒体文件
+     * 上传媒体文件.
      *
      * @param string $type
      * @param string $path
@@ -130,7 +141,7 @@ class Media
     }
 
     /**
-     * 上传视频
+     * 上传视频.
      *
      * 有点不一样。。。
      *
@@ -145,7 +156,7 @@ class Media
         $params = array(
                    'description' => JSON::encode(
                        array(
-                        'title'        => $title,
+                        'title' => $title,
                         'introduction' => $description,
                        )
                    ),
@@ -155,7 +166,7 @@ class Media
     }
 
     /**
-     * 新增图文素材
+     * 新增图文素材.
      *
      * @param array $articles
      *
@@ -171,7 +182,7 @@ class Media
     }
 
     /**
-     * 修改图文消息
+     * 修改图文消息.
      *
      * @param string $mediaId
      * @param array  $article
@@ -183,7 +194,7 @@ class Media
     {
         $params = array(
                    'media_id' => $mediaId,
-                   'index'    => $index,
+                   'index' => $index,
                    'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : array()),
                   );
 
@@ -191,7 +202,7 @@ class Media
     }
 
     /**
-     * 删除永久素材
+     * 删除永久素材.
      *
      * @param string $mediaId
      *
@@ -203,7 +214,7 @@ class Media
     }
 
     /**
-     * 图片素材总数
+     * 图片素材总数.
      *
      * @param string $type
      *
@@ -216,7 +227,7 @@ class Media
         $response['voice'] = $response['voice_count'];
         $response['image'] = $response['image_count'];
         $response['video'] = $response['video_count'];
-        $response['news']  = $response['news_count'];
+        $response['news'] = $response['news_count'];
 
         $response = new Bag($response);
 
@@ -224,7 +235,7 @@ class Media
     }
 
     /**
-     * 获取永久素材列表
+     * 获取永久素材列表.
      *
      * example:
      *
@@ -249,16 +260,16 @@ class Media
     public function lists($type, $offset = 0, $count = 20)
     {
         $params = array(
-                   'type'   => $type,
+                   'type' => $type,
                    'offset' => intval($offset),
-                   'count'  => min(20, $count),
+                   'count' => min(20, $count),
                   );
 
         return $this->http->jsonPost(self::API_FOREVER_LIST, $params);
     }
 
     /**
-     * 下载媒体文件
+     * 下载媒体文件.
      *
      * @param string $mediaId
      * @param string $filename
@@ -270,7 +281,7 @@ class Media
         $params = array('media_id' => $mediaId);
 
         $method = $this->forever ? 'jsonPost' : 'get';
-        $api    = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
+        $api = $this->forever ? self::API_FOREVER_GET : self::API_TEMPORARY_GET;
 
         $contents = $this->http->{$method}($api, $params);
 
@@ -288,7 +299,7 @@ class Media
     }
 
     /**
-     * 魔术调用
+     * 魔术调用.
      *
      * <pre>
      * $media->image($path); // $media->upload('image', $path);
@@ -310,7 +321,7 @@ class Media
     }
 
     /**
-     * 获取API
+     * 获取API.
      *
      * @param string $type
      * @param array  $queries

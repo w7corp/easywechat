@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Store.php
+ * Store.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -19,11 +30,10 @@ use Overtrue\Wechat\Utils\Arr;
 use Overtrue\Wechat\Utils\Bag;
 
 /**
- * 门店
+ * 门店.
  */
 class Store
 {
-
     /**
      * Http对象
      *
@@ -31,14 +41,14 @@ class Store
      */
     protected $http;
 
-    const API_CREATE    = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
-    const API_GET       = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
-    const API_LIST      = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
-    const API_UPDATE    = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
-    const API_DELETE    = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
+    const API_CREATE = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
+    const API_GET = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
+    const API_LIST = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
+    const API_UPDATE = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
+    const API_DELETE = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
@@ -49,7 +59,7 @@ class Store
     }
 
     /**
-     * 获取指定门店信息
+     * 获取指定门店信息.
      *
      * @param int $storeId
      *
@@ -65,7 +75,7 @@ class Store
     }
 
     /**
-     * 获取用户列表
+     * 获取用户列表.
      *
      * @param int $offset
      * @param int $limit
@@ -85,7 +95,7 @@ class Store
     }
 
     /**
-     * 创建门店
+     * 创建门店.
      *
      * @param array $data
      *
@@ -101,7 +111,7 @@ class Store
     }
 
     /**
-     * 更新门店
+     * 更新门店.
      *
      * @param int   $storeId
      * @param array $data
@@ -120,7 +130,7 @@ class Store
     }
 
     /**
-     * 删除门店
+     * 删除门店.
      *
      * @param int $storeId
      *

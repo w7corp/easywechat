@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Video.php
+ * Video.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,7 +27,7 @@
 namespace Overtrue\Wechat\Messages;
 
 /**
- * 视频消息
+ * 视频消息.
  *
  * @property string $video
  * @property string $title
@@ -26,9 +37,8 @@ namespace Overtrue\Wechat\Messages;
  */
 class Video extends BaseMessage
 {
-
     /**
-     * 属性
+     * 属性.
      *
      * @var array
      */
@@ -40,7 +50,7 @@ class Video extends BaseMessage
                             );
 
     /**
-     * 设置视频消息
+     * 设置视频消息.
      *
      * @param string $mediaId
      *
@@ -54,7 +64,7 @@ class Video extends BaseMessage
     }
 
     /**
-     * 设置视频封面
+     * 设置视频封面.
      *
      * @param string $mediaId
      *
@@ -68,7 +78,7 @@ class Video extends BaseMessage
     }
 
     /**
-     * 生成主动消息数组
+     * 生成主动消息数组.
      *
      * @return array
      */
@@ -76,16 +86,16 @@ class Video extends BaseMessage
     {
         return array(
                 'video' => array(
-                            'title'          => $this->title,
-                            'media_id'       => $this->media_id,
-                            'description'    => $this->description,
+                            'title' => $this->title,
+                            'media_id' => $this->media_id,
+                            'description' => $this->description,
                             'thumb_media_id' => $this->thumb_media_id,
                            ),
                );
     }
 
     /**
-     * 生成回复消息数组
+     * 生成回复消息数组.
      *
      * @return array
      */
@@ -93,8 +103,8 @@ class Video extends BaseMessage
     {
         $response = array(
                      'Video' => array(
-                                 'MediaId'     => $this->media_id,
-                                 'Title'       => $this->title,
+                                 'MediaId' => $this->media_id,
+                                 'Title' => $this->title,
                                  'Description' => $this->description,
                                 ),
                     );

@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * LuckMoney.php
+ * LuckMoney.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -8,46 +18,41 @@
  * file that was distributed with this source code.
  *
  * @author bontian <bontian@163.com>
- *
  */
 
 namespace Overtrue\Wechat;
 
-use Overtrue\Wechat\Exception;
 use Overtrue\Wechat\Payment\Business;
-use Overtrue\Wechat\Utils\XML;
 use Overtrue\Wechat\Utils\SignGenerator;
-use Overtrue\Wechat\Http;
+use Overtrue\Wechat\Utils\XML;
 
 class LuckMoney
 {
     /**
-     * 发送现金红包
+     * 发送现金红包.
      */
     const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
 
     /**
-     * 发送裂变红包
+     * 发送裂变红包.
      */
     const API_GROUP_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack';
 
     /**
-     * 红包查询
+     * 红包查询.
      */
     const API_QUERY = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo';
 
     /**
-     * 红包预下单接口
+     * 红包预下单接口.
      */
     const API_PREORDER = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/hbpreorder';
 
     const TYPE_CASH_LUCK_MONEY = 'NORMAL';   //红包类型，现金红包
     const TYPE_GROUP_LUCK_MONEY = 'GROUP';  //红包类型，裂变红包
 
-
-
     /**
-     * 商户信息
+     * 商户信息.
      *
      * @var Business
      */
@@ -61,7 +66,7 @@ class LuckMoney
     }
 
     /**
-     * 设置商户
+     * 设置商户.
      *
      * @param Business $business
      *
@@ -72,11 +77,12 @@ class LuckMoney
         if (!is_null($business)) {
             $this->business = $business;
         }
+
         return $this;
     }
 
     /**
-     * 红包预下单，主要用于摇一摇红包活动
+     * 红包预下单，主要用于摇一摇红包活动.
      *
      * <pre>
      * $data:
@@ -140,7 +146,7 @@ class LuckMoney
     }
 
     /**
-     * 发送红包
+     * 发送红包.
      *
      * <pre>
      * $data:
@@ -211,7 +217,7 @@ class LuckMoney
     }
 
     /**
-     * 发送普通红包
+     * 发送普通红包.
      *
      * <pre>
      * $data:
@@ -237,7 +243,7 @@ class LuckMoney
     }
 
     /**
-     * 发送裂变红包
+     * 发送裂变红包.
      *
      * <pre>
      * $data:
@@ -263,7 +269,7 @@ class LuckMoney
     }
 
     /**
-     * 查询红包信息
+     * 查询红包信息.
      *
      * @param string $mchBillNumber
      *

@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Util.php
+ * Util.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    Frye <frye0423@gmail.com>
  * @copyright 2015 Frye <frye0423@gmail.com>
+ *
  * @link      https://github.com/0i
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
@@ -19,22 +30,22 @@ namespace Overtrue\Wechat\Utils;
 /**
  * 签名生成器（专门用于生成微信各种签名）
  * Created by thenbsp (thenbsp@gmail.com)
- * Created at 2015/08/06
+ * Created at 2015/08/06.
  */
 class SignGenerator extends MagicAttributes
 {
     /**
-     * 加密类型
+     * 加密类型.
      */
     protected $hashType = 'md5';
 
     /**
-     * 是否转为大写
+     * 是否转为大写.
      */
     protected $isUpper = true;
 
     /**
-     * 排序回调函数
+     * 排序回调函数.
      */
     protected $sortAfterCallback;
 
@@ -44,7 +55,7 @@ class SignGenerator extends MagicAttributes
     }
 
     /**
-     * 移除一项
+     * 移除一项.
      *
      * @param $key
      *
@@ -53,11 +64,12 @@ class SignGenerator extends MagicAttributes
     public function removeParams($key)
     {
         unset($this->attributes[$key]);
+
         return $this;
     }
 
     /**
-     * 设置加密类型
+     * 设置加密类型.
      *
      * @param $hashType
      *
@@ -73,7 +85,7 @@ class SignGenerator extends MagicAttributes
     }
 
     /**
-     * 是否转为大写
+     * 是否转为大写.
      *
      * @param $value
      *
@@ -85,7 +97,7 @@ class SignGenerator extends MagicAttributes
     }
 
     /**
-     * 将全部项目排序
+     * 将全部项目排序.
      */
     public function sortable()
     {
@@ -96,7 +108,7 @@ class SignGenerator extends MagicAttributes
     }
 
     /**
-     * 排序之后调用（事件）
+     * 排序之后调用（事件）.
      *
      * @param callable $callback
      */
@@ -106,7 +118,7 @@ class SignGenerator extends MagicAttributes
     }
 
     /**
-     * 获取签结果
+     * 获取签结果.
      *
      * @return string
      */
@@ -116,6 +128,7 @@ class SignGenerator extends MagicAttributes
         $query = http_build_query($this->attributes);
         $query = urldecode($query);
         $result = call_user_func($this->hashType, $query);
+
         return $this->isUpper ? strtoupper($result) : $result;
     }
 }

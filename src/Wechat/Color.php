@@ -1,6 +1,16 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
- * Color.php
+ * Color.php.
  *
  * Part of Overtrue\Wechat.
  *
@@ -9,6 +19,7 @@
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
+ *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -16,11 +27,10 @@
 namespace Overtrue\Wechat;
 
 /**
- * 颜色接口
+ * 颜色接口.
  */
 class Color
 {
-
     /**
      * Http对象
      *
@@ -38,19 +48,19 @@ class Color
     const API_LIST = 'https://api.weixin.qq.com/card/getcolors';
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $appId
      * @param string $appSecret
      */
     public function __construct($appId, $appSecret)
     {
-        $this->http  = new Http(new AccessToken($appId, $appSecret));
+        $this->http = new Http(new AccessToken($appId, $appSecret));
         $this->cache = new Cache($appId);
     }
 
     /**
-     * 获取颜色列表
+     * 获取颜色列表.
      *
      * @return array
      */
@@ -59,8 +69,8 @@ class Color
         $key = 'overtrue.wechat.colors';
 
         // for php 5.3
-        $http    = $this->http;
-        $cache   = $this->cache;
+        $http = $this->http;
+        $cache = $this->cache;
         $apiList = self::API_LIST;
 
         return $this->cache->get(
