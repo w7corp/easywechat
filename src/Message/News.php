@@ -26,6 +26,13 @@ namespace EasyWeChat\Message;
 class News extends AbstractMessage
 {
     /**
+     * Message type.
+     *
+     * @var string
+     */
+    protected $type = 'news';
+    
+    /**
      * Properties.
      *
      * @var array
