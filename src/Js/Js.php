@@ -18,11 +18,12 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Js;
 
-use EasyWeChat\Cache\Manager as Cache;
+use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AbstractAPI;
-use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Str;
 use EasyWeChat\Support\Url as UrlHelper;
@@ -102,12 +103,12 @@ class Js extends AbstractAPI
     {
         $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
 
-        return $this->getCache()->get(
+        return $this->getCache()->fetch(
             $key,
             function ($key) {
                 $result = $this->parseJSON('get', [self::API_TICKET, ['type' => 'jsapi']]);
 
-                $this->getCache()->set($key, $result['ticket'], $result['expires_in'] - 500);
+                $this->getCache()->save($key, $result['ticket'], $result['expires_in'] - 500);
 
                 return $result['ticket'];
             }
@@ -187,7 +188,7 @@ class Js extends AbstractAPI
     /**
      * Set cache manager.
      *
-     * @param \EasyWeChat\Cache\Manager $cache
+     * @param Doctrine\Common\Cache\Cache $cache
      *
      * @return $this
      */
@@ -201,10 +202,10 @@ class Js extends AbstractAPI
     /**
      * Return cache manager.
      *
-     * @return \EasyWeChat\Cache\Manager
+     * @return Doctrine\Common\Cache\Cache
      */
     public function getCache()
     {
-        return $this->cache ?: $this->cache = new Cache();
+        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
     }
 }

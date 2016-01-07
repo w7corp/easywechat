@@ -19,6 +19,7 @@
  * @link      http://overtrue.me
  * @link      https://github.com/laravel/framework/blob/4.2/src/Illuminate/Support/Arr.php
  */
+
 namespace EasyWeChat\Support;
 
 use Closure;

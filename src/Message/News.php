@@ -18,6 +18,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Message;
 
 /**
@@ -31,7 +32,7 @@ class News extends AbstractMessage
      * @var string
      */
     protected $type = 'news';
-    
+
     /**
      * Properties.
      *

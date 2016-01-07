@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Cache\Manager;
+use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 
@@ -17,9 +17,9 @@ class CoreAccessTokenTest extends PHPUnit_Framework_TestCase
 {
     public function testGetToken()
     {
-        $cache = Mockery::mock(Manager::class, function ($mock) {
-            $mock->shouldReceive('get')->andReturn('thisIsACachedToken');
-            $mock->shouldReceive('set')->andReturnUsing(function ($key, $token, $expire) {
+        $cache = Mockery::mock(Cache::class, function ($mock) {
+            $mock->shouldReceive('fetch')->andReturn('thisIsACachedToken');
+            $mock->shouldReceive('save')->andReturnUsing(function ($key, $token, $expire) {
                 return $token;
             });
         });
@@ -48,12 +48,12 @@ class CoreAccessTokenTest extends PHPUnit_Framework_TestCase
         $cacheObj = new stdClass();
 
         // non-cached
-        $cache = Mockery::mock(Manager::class, function ($mock) use ($cacheObj) {
-            $mock->shouldReceive('get')->andReturnUsing(function ($cacheKey) {
+        $cache = Mockery::mock(Cache::class, function ($mock) use ($cacheObj) {
+            $mock->shouldReceive('fetch')->andReturnUsing(function ($cacheKey) {
                 return;
             });
 
-            $mock->shouldReceive('set')->andReturnUsing(function ($key, $token, $expire) use ($cacheObj) {
+            $mock->shouldReceive('save')->andReturnUsing(function ($key, $token, $expire) use ($cacheObj) {
                 $cacheObj->cacheKey = $key;
                 $cacheObj->token = $token;
                 $cacheObj->expire = $expire;

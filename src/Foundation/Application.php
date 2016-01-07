@@ -23,9 +23,10 @@
  * @link      https://github.com/overtrue/wechat
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Foundation;
 
-use EasyWeChat\Cache\Manager as CacheManager;
+use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Support\Log;
 use ErrorException;
@@ -177,7 +178,7 @@ class Application extends Container
         };
 
         $this['cache'] = function () {
-            return new CacheManager();
+            return new FilesystemCache(sys_get_temp_dir());
         };
 
         $this['access_token'] = function () {

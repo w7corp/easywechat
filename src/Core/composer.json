@@ -21,7 +21,7 @@
     },
     "require": {
         "php":">=5.5.0",
-        "easywechat/cache" : "dev-master",
+        "doctrine/cache": "~1.4",
         "easywechat/support" : "dev-master",
         "guzzlehttp/guzzle": "^6.1@dev"
     }

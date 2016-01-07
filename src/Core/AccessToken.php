@@ -18,9 +18,11 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Core;
 
-use EasyWeChat\Cache\Manager as Cache;
+use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\FilesystemCache;
 
 /**
  * Class AccessToken.
@@ -75,9 +77,9 @@ class AccessToken
     /**
      * Constructor.
      *
-     * @param string                    $appId
-     * @param string                    $secret
-     * @param \EasyWeChat\Cache\Manager $cache
+     * @param string                      $appId
+     * @param string                      $secret
+     * @param Doctrine\Common\Cache\Cache $cache
      */
     public function __construct($appId, $secret, Cache $cache = null)
     {
@@ -97,13 +99,13 @@ class AccessToken
     {
         $cacheKey = $this->prefix.$this->appId;
 
-        $cached = $this->getCache()->get($cacheKey);
+        $cached = $this->getCache()->fetch($cacheKey);
 
         if ($forceRefresh || !$cached) {
             $token = $this->getTokenFromServer();
 
             // XXX: T_T... 7200 - 1500
-            $this->getCache()->set($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
+            $this->getCache()->save($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
 
             return $token['access_token'];
         }
@@ -132,13 +134,25 @@ class AccessToken
     }
 
     /**
+     * Set cache instance.
+     *
+     * @param \Doctrine\Common\Cache\Cache $cache
+     */
+    public function setCache(Cache $cache)
+    {
+        $this->cache = $cache;
+
+        return $this;
+    }
+
+    /**
      * Return the cache manager.
      *
-     * @return \EasyWeChat\Cache\Manager
+     * @return \Doctrine\Common\Cache\Cache
      */
     public function getCache()
     {
-        return $this->cache ?: $this->cache = new Cache();
+        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
     }
 
     /**

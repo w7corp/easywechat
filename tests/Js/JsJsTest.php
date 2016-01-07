@@ -17,7 +17,7 @@ namespace {
     {
         public function getMockCache()
         {
-            return Mockery::mock('EasyWeChat\Cache\Manager');
+            return Mockery::mock('Doctrine\Common\Cache\Cache');
         }
 
         public function getMockHttp()
@@ -51,7 +51,7 @@ namespace {
             $http = $this->getMockHttp();
             $cache = $this->getMockCache();
 
-            $cache->shouldReceive('get')->andReturn('foo');
+            $cache->shouldReceive('fetch')->andReturn('foo');
             $accessToken = $this->getMockAccessToken();
             $js = new Js($accessToken, $cache);
             $js->setHttp($http);
@@ -81,7 +81,7 @@ namespace {
             $http = $this->getMockHttp();
             $cache = $this->getMockCache();
 
-            $cache->shouldReceive('get')->andReturn('foo');
+            $cache->shouldReceive('fetch')->andReturn('foo');
             $accessToken = $this->getMockAccessToken();
             $js = new Js($accessToken, $cache);
             $js->setHttp($http);
@@ -100,9 +100,10 @@ namespace {
             $http = $this->getMockHttp();
             $cache = $this->getMockCache();
 
-            $cache->shouldReceive('get')->andReturn('foo');
+            $cache->shouldReceive('fetch')->andReturn('foo');
             $accessToken = $this->getMockAccessToken();
-            $js = new Js($accessToken, $cache);
+            $js = new Js($accessToken);
+            $js->setCache($cache);
             $js->setHttp($http);
             $js->setUrl('http://easywechat.org');
 
@@ -110,7 +111,7 @@ namespace {
 
             $http = $this->getMockHttp();
             $cache = $this->getMockCache();
-            $cache->shouldReceive('get')->andReturnUsing(function ($key) {
+            $cache->shouldReceive('fetch')->andReturnUsing(function ($key) {
                 return 'overtrue.ticket';
             });
             $cache->shouldReceive('set')->andReturnUsing(function ($key, $ticket, $expires) {
@@ -119,7 +120,8 @@ namespace {
 
             $http->shouldReceive('get')->andReturn(['ticket' => 'overtrue.ticket', 'expires_in' => 7200]);
             $accessToken = $this->getMockAccessToken();
-            $js = new Js($accessToken, $cache);
+            $js = new Js($accessToken);
+            $js->setCache($cache);
             $js->setHttp($http);
 
             $this->assertEquals('overtrue.ticket', $js->ticket());
@@ -133,7 +135,7 @@ namespace {
             $http = $this->getMockHttp();
             $cache = $this->getMockCache();
 
-            $cache->shouldReceive('get')->andReturn('foo');
+            $cache->shouldReceive('fetch')->andReturn('foo');
             $accessToken = $this->getMockAccessToken();
             $js = new Js($accessToken, $cache);
             $js->setHttp($http);

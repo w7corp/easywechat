@@ -20,7 +20,8 @@
         "ext-openssl": "*",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.17",
-        "overtrue/socialite": "^1.0"
+        "overtrue/socialite": "^1.0",
+        "doctrine/cache": "~1.4"
     },
     "replace":{
         "easywechat/core":"self.version",
