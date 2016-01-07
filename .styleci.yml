@@ -6,6 +6,3 @@ enabled:
   - strict
   - strict_param
   - ordered_use
-
-disabled:
-  - no_blank_lines_before_namespace
