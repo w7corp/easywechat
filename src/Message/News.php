@@ -31,7 +31,7 @@ class News extends AbstractMessage
      * @var string
      */
     protected $type = 'news';
-    
+
     /**
      * Properties.
      *
