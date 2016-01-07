@@ -162,6 +162,7 @@ abstract class AbstractAPI
             return;
         }
 
+        // log
         $this->getHttp()->addMiddleware(function (callable $handler) {
             return function (RequestInterface $request, array $options) use ($handler) {
                 $field = $this->accessToken->getQueryName();
@@ -175,6 +176,25 @@ abstract class AbstractAPI
                 return $handler($request, $options);
             };
         });
+
+        // retry
+        $this->getHttp()->addMiddleware(Middleware::retry(function (
+                                                      $retries,
+                                                      Request $request,
+                                                      Response $response = null,
+                                                      RequestException $exception = null
+                                                   )
+        {
+          // Limit the number of retries to 2
+          if ($retries <= 2 && $response) {
+             // Retry on server errors
+             if (stripos($response->getBody(), 'errcode') && (stripos($response->getBody(), '40001') || stripos($response->getBody(), '42001'))) {
+                return true;
+             }
+          }
+
+          return false;
+       });
     }
 
     /**
