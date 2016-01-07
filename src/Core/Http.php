@@ -220,11 +220,12 @@ class Http
      */
     public function parseJSON($body, $throws = true)
     {
-        // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
-//        $contents = json_decode(substr(str_replace(['\"', '\\\\'], ['"', ''], json_encode($body)), 1, -1), true);
         if ($body instanceof ResponseInterface) {
             $body = $body->getBody();
         }
+
+        // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
+        $body = $this->fuckTheWeChatInvalidJSON($body);
 
         $contents = json_decode($body, true);
 
@@ -235,6 +236,18 @@ class Http
         }
 
         return $contents;
+    }
+
+    /**
+     * Filter the invalid JSON string.
+     *
+     * @param string $invalidJSON
+     *
+     * @return string
+     */
+    protected function fuckTheWeChatInvalidJSON($invalidJSON)
+    {
+        return preg_replace("/\p{Cc}/u", '', trim($invalidJSON));
     }
 
     /**

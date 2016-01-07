@@ -205,6 +205,6 @@ class Js extends AbstractAPI
      */
     public function getCache()
     {
-        return $this->cache ?: $this->cache = $this->getAccessToken()->getCache();
+        return $this->cache ?: $this->cache = new Cache();
     }
 }
