@@ -183,18 +183,17 @@ abstract class AbstractAPI
                                                       Request $request,
                                                       Response $response = null,
                                                       RequestException $exception = null
-                                                   )
-        {
-          // Limit the number of retries to 2
-          if ($retries <= 2 && $response && $body = $response->getBody()) {
-             // Retry on server errors
-             if (stripos($body, 'errcode') && (stripos($body, '40001') || stripos($body, '42001'))) {
-                return true;
-             }
-          }
+                                                   ) {
+            // Limit the number of retries to 2
+            if ($retries <= 2 && $response && $body = $response->getBody()) {
+                // Retry on server errors
+                if (stripos($body, 'errcode') && (stripos($body, '40001') || stripos($body, '42001'))) {
+                    return true;
+                }
+            }
 
-          return false;
-       });
+            return false;
+        }));
     }
 
     /**
