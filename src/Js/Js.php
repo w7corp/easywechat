@@ -54,7 +54,7 @@ class Js extends AbstractAPI
     /**
      * Api of ticket.
      */
-    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi';
+    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
 
     /**
      * Get config json for jsapi.
