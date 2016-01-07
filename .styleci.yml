@@ -6,5 +6,6 @@ enabled:
   - strict
   - strict_param
   - ordered_use
+
 disabled:
   - namespace_no_leading_whitespace
