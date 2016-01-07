@@ -8,4 +8,4 @@ enabled:
   - ordered_use
 
 disabled:
-  - namespace_no_leading_whitespace
+  - no_blank_lines_before_namespace
