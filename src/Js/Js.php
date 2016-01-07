@@ -33,20 +33,6 @@ use EasyWeChat\Support\Url as UrlHelper;
 class Js extends AbstractAPI
 {
     /**
-     * App id.
-     *
-     * @var string
-     */
-    protected $appId;
-
-    /**
-     * App secret.
-     *
-     * @var string
-     */
-    protected $secret;
-
-    /**
      * Cacher.
      *
      * @var Cache
@@ -69,20 +55,6 @@ class Js extends AbstractAPI
      * Api of ticket.
      */
     const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi';
-
-    /**
-     * Js constructor.
-     *
-     * @param \EasyWeChat\Core\AccessToken   $accessToken
-     * @param \EasyWeChat\Cache\Manager|null $cache
-     */
-    public function __construct(AccessToken $accessToken, Cache $cache = null)
-    {
-        $this->appId = $accessToken->getAppId();
-        $this->secret = $accessToken->getSecret();
-        $this->cache = $cache;
-        $this->accessToken = $accessToken;
-    }
 
     /**
      * Get config json for jsapi.
@@ -128,12 +100,12 @@ class Js extends AbstractAPI
      */
     public function ticket()
     {
-        $key = self::TICKET_CACHE_PREFIX.$this->appId;
+        $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
 
         return $this->getCache()->get(
             $key,
             function ($key) {
-                $result = $this->parseJSON($this->getHttp()->get($this->getAPI(self::API_TICKET)));
+                $result = $this->parseJSON('get', [self::API_TICKET]);
 
                 $this->getCache()->set($key, $result['ticket'], $result['expires_in'] - 500);
 
@@ -159,7 +131,7 @@ class Js extends AbstractAPI
         $ticket = $this->ticket();
 
         $sign = [
-                 'appId' => $this->appId,
+                 'appId' => $this->getAccessToken()->getAppId(),
                  'nonceStr' => $nonce,
                  'timestamp' => $timestamp,
                  'url' => $url,
