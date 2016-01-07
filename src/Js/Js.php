@@ -22,7 +22,6 @@ namespace EasyWeChat\Js;
 
 use EasyWeChat\Cache\Manager as Cache;
 use EasyWeChat\Core\AbstractAPI;
-use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Str;
 use EasyWeChat\Support\Url as UrlHelper;
