@@ -33,7 +33,6 @@ split()
     rm -rf ./.split
 }
 
-split cache         src/Cache:git@github.com:easywechat/cache.git $TAGS
 split card          src/Card:git@github.com:easywechat/card.git $TAGS
 split core          src/Core:git@github.com:easywechat/core.git $TAGS
 split device        src/Device:git@github.com:easywechat/device.git $TAGS

@@ -22,7 +22,6 @@ delete_branch()
     popd
 }
 
-delete_branch cache
 delete_branch card
 delete_branch core
 delete_branch device
