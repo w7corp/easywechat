@@ -186,9 +186,9 @@ abstract class AbstractAPI
                                                    )
         {
           // Limit the number of retries to 2
-          if ($retries <= 2 && $response) {
+          if ($retries <= 2 && $response && $body = $response->getBody()) {
              // Retry on server errors
-             if (stripos($response->getBody(), 'errcode') && (stripos($response->getBody(), '40001') || stripos($response->getBody(), '42001'))) {
+             if (stripos($body, 'errcode') && (stripos($body, '40001') || stripos($body, '42001'))) {
                 return true;
              }
           }
