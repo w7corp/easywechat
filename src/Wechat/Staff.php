@@ -151,9 +151,15 @@ class Staff
      *
      * @return bool
      */
-    public function delete($email)
+    public function delete($email, $nickname, $password)
     {
-        return $this->http->get(self::API_DELETE, array('kf_account' => $email));
+        $params = array(
+                   'kf_account' => $email,
+                   'nickname' => $nickname,
+                   'password' => $password,
+                  );
+
+        return $this->http->jsonPost(self::API_DELETE, $params);
     }
 
     /**
