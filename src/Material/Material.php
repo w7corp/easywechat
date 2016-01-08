@@ -18,7 +18,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Material;
 
 use EasyWeChat\Core\AbstractAPI;
