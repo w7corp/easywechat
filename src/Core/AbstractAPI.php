@@ -26,7 +26,9 @@ use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class AbstractAPI.
@@ -180,8 +182,8 @@ abstract class AbstractAPI
         // retry
         $this->getHttp()->addMiddleware(Middleware::retry(function (
                                                       $retries,
-                                                      Request $request,
-                                                      Response $response = null,
+                                                      RequestInterface $request,
+                                                      ResponseInterface $response = null,
                                                       RequestException $exception = null
                                                    ) {
             // Limit the number of retries to 2
