@@ -153,6 +153,7 @@ class Notice extends AbstractAPI
         $map = [
                 'template' => 'template_id',
                 'templateId' => 'template_id',
+                'uses' => 'template_id',
                 'to' => 'touser',
                 'receiver' => 'touser',
                 'color' => 'topcolor',
