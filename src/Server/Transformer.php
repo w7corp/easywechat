@@ -133,19 +133,15 @@ class Transformer
     /**
      * Transform news message.
      *
-     * @param array|EasyWeChat\Message\News $news
+     * @param EasyWeChat\Message\News $news
      *
      * @return array
      */
-    public function transformNews($news)
+    public function transformNews(AbstractMessage $news)
     {
         $articles = [];
 
-        if (!is_array($news)) {
-            $news = [$news];
-        }
-
-        foreach ($news as $item) {
+        foreach ($news->all() as $item) {
             $articles[] = [
                            'Title' => $item->title,
                            'Description' => $item->description,
