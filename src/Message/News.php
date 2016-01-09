@@ -66,7 +66,7 @@ class News extends AbstractMessage
                 //multiple items
                 foreach($items as $item) {
                     if(!empty($item)) {
-                        array_push($this->items,new News($item));
+                        array_push($this->items, new News($item));
                     }
                 }
             }
