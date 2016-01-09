@@ -133,7 +133,7 @@ class Transformer
     /**
      * Transform news message.
      *
-     * @param array|EasyWeChat\Message\News $news
+     * @param EasyWeChat\Message\News $news
      *
      * @return array
      */
