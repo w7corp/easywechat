@@ -90,7 +90,7 @@ class Log
      */
     private static function createDefaultLogger()
     {
-        $log = new Logger('easywechat');
+        $log = new Logger('EasyWeChat');
         $log->pushHandler(new ErrorLogHandler());
 
         return $log;
