@@ -58,15 +58,15 @@ class News extends AbstractMessage
      */
     public function __construct(array $items = [])
     {
-        if(!empty($items)) {
-            if(!is_array(current($items))) {
+        if(!empty($items)){
+            if(!is_array(current($items))){
                 //single item
                 parent::__construct($items);
-            } else {
+            }else{
                 //multiple items
-                foreach($items as $item) {
-                    if(!empty($item)) {
-                        array_push($this->items, new News($item));
+                foreach($items as $item){
+                    if(!empty($item)){
+                        array_push($this->items,new News($item));
                     }
                 }
             }
