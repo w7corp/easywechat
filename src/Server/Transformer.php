@@ -137,7 +137,7 @@ class Transformer
      *
      * @return array
      */
-    public function transformNews(News $news)
+    public function transformNews(AbstractMessage $news)
     {
         $articles = [];
 
