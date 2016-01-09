@@ -133,8 +133,6 @@ class Transformer
     /**
      * Transform news message.
      *
-     * @param array|EasyWeChat\Message\News $news
-     *
      * @return array
      */
     public function transformNews(AbstractMessage $news)
