@@ -190,6 +190,14 @@ abstract class AbstractAPI
             if ($retries <= 2 && $response && $body = $response->getBody()) {
                 // Retry on server errors
                 if (stripos($body, 'errcode') && (stripos($body, '40001') || stripos($body, '42001'))) {
+                    $field = $this->accessToken->getQueryName();
+                    $token = $this->accessToken->getToken();
+
+                    $request = $request->withUri($newUri = Uri::withQueryValue($request->getUri(), $field, $token));
+
+                    Log::debug("Retry with Request Token: {$token}");
+                    Log::debug("Retry with Request Uri: {$newUri}");
+
                     return true;
                 }
             }

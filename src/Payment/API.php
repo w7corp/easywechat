@@ -377,6 +377,6 @@ class API extends AbstractAPI
      */
     protected function parseResponse($response)
     {
-        return new Collection((array) XML::parse($response));
+        return new Collection((array) XML::parse($response->getBody()));
     }
 }
