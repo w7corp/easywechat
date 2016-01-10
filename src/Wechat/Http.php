@@ -113,7 +113,7 @@ class Http extends HttpClient
             return $response['data'];
         }
 
-        $contents = json_decode($response['data'], true);
+        $contents = json_decode($this->fuckTheWeChatInvalidJSON($response['data']), true);
 
         // while the response is an invalid JSON structure, returned the source data
         if (JSON_ERROR_NONE !== json_last_error()) {
@@ -141,6 +141,18 @@ class Http extends HttpClient
         }
 
         return $contents;
+    }
+
+    /**
+     * Filter the invalid JSON string.
+     *
+     * @param string $invalidJSON
+     *
+     * @return string
+     */
+    protected function fuckTheWeChatInvalidJSON($invalidJSON)
+    {
+        return preg_replace("/\p{Cc}/u", '', trim($invalidJSON));
     }
 
     /**
