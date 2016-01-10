@@ -258,7 +258,16 @@ class Guard
      */
     protected function isMessage($response)
     {
-        return is_subclass_of($response, AbstractMessage::class);
+        if(is_array($response)){
+            foreach($response as $element){
+                if(!is_subclass_of($element, MessageBase::class)){
+                    return false;
+                }
+            }
+            return true;
+        }else{
+            return is_subclass_of($response, MessageBase::class);
+        }
     }
 
     /**
@@ -323,7 +332,7 @@ class Guard
      *
      * @param string          $to
      * @param string          $from
-     * @param AbstractMessage $message
+     * @param AbstractMessage |array $message
      *
      * @return string
      */
@@ -333,7 +342,7 @@ class Guard
             'ToUserName' => $to,
             'FromUserName' => $from,
             'CreateTime' => time(),
-            'MsgType' => $message->getType(),
+            'MsgType' => is_array($message) ? current($messege)->getType() : $message->getType(),
         ];
 
         $transformer = new Transformer();

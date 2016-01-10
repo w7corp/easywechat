@@ -6,3 +6,4 @@ composer.lock
 /.idea
 /examples
 /.split
+/nbproject/private/
