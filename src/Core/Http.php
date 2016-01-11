@@ -94,7 +94,7 @@ class Http
     {
         is_array($options) && $options = json_encode($options, $encodeOption);
 
-        return $this->request($url, 'POST', ['body' => $options]);
+        return $this->request($url, 'POST', ['body' => $options, 'headers' => ['content-type' => 'application/json']]);
     }
 
     /**
