@@ -12,6 +12,7 @@
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Server\Guard;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Message\Raw;
 use Symfony\Component\HttpFoundation\Request;
 
 class ServerGuardTest extends PHPUnit_Framework_TestCase
@@ -156,6 +157,30 @@ class ServerGuardTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Foo::bar', $server->getMessageHandler());
 
         $server->setMessageHandler('foo'); // invalid
+    }
+
+    /**
+     * Test return raw message.
+     */
+    public function testRawMessage()
+    {
+        $server = $this->getServer();
+
+        $string = '{
+            "touser":"OPENID",
+            "msgtype":"text",
+            "text":
+            {
+                 "content":"Hello World"
+            }
+        }';
+        $message = new Raw($string);
+
+        $server->setMessageHandler(function() use ($message){
+            return $message;
+        });
+
+        $this->assertContains($string, $server->serve()->getContent());
     }
 
     /**

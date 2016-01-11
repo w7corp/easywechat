@@ -23,6 +23,7 @@ namespace EasyWeChat\Payment;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class API.
@@ -377,6 +378,10 @@ class API extends AbstractAPI
      */
     protected function parseResponse($response)
     {
-        return new Collection((array) XML::parse($response->getBody()));
+        if ($response instanceof ResponseInterface) {
+            $response = $response->getBody();
+        }
+
+        return new Collection((array) XML::parse($response));
     }
 }

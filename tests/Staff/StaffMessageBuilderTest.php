@@ -10,6 +10,7 @@
  */
 
 use EasyWeChat\Message\Text;
+use EasyWeChat\Message\Raw;
 use EasyWeChat\Staff\MessageBuilder;
 
 class StaffMessageBuilderTest extends PHPUnit_Framework_TestCase
@@ -88,5 +89,25 @@ class StaffMessageBuilderTest extends PHPUnit_Framework_TestCase
         // exception
         $MessageBuilder = $this->getMessageBuilder();
         $MessageBuilder->by('overtrue')->to('easywechat')->send();
+    }
+
+    /**
+     * Test message() with raw message.
+     */
+    public function testRawMessage()
+    {
+        $MessageBuilder = $this->getMessageBuilder();
+        $string = '{
+            "touser":"OPENID",
+            "msgtype":"text",
+            "text":
+            {
+                 "content":"Hello World"
+            }
+        }';
+        $message = new Raw($string);
+        $response = $MessageBuilder->message($message)->send();
+
+        $this->assertEquals($string, $response);
     }
 }

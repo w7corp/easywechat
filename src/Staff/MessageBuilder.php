@@ -23,6 +23,7 @@ namespace EasyWeChat\Staff;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Exceptions\RuntimeException;
 use EasyWeChat\Message\AbstractMessage;
+use EasyWeChat\Message\Raw as RawMessage;
 use EasyWeChat\Message\Text;
 
 /**
@@ -135,13 +136,17 @@ class MessageBuilder
 
         $transformer = new Transformer();
 
-        $content = $transformer->transform($this->message);
+        if ($this->message instanceof RawMessage) {
+            $message = $this->message->get('content');
+        } else {
+            $content = $transformer->transform($this->message);
 
-        $message = array_merge([
-            'touser' => $this->to,
-            'msgtype' => $this->message->type,
-            'customservice' => ['kf_account' => $this->account],
-        ], $content);
+            $message = array_merge([
+                'touser' => $this->to,
+                'msgtype' => $this->message->type,
+                'customservice' => ['kf_account' => $this->account],
+            ], $content);
+        }
 
         return $this->staff->send($message);
     }

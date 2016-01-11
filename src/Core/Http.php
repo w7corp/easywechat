@@ -83,18 +83,18 @@ class Http
      * JSON request.
      *
      * @param string $url
-     * @param array  $options
+     * @param string|array  $options
      * @param int    $encodeOption
      *
      * @return array|bool
      *
      * @throws HttpException
      */
-    public function json($url, array $options = [], $encodeOption = JSON_UNESCAPED_UNICODE)
+    public function json($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE)
     {
-        $params = ['body' => json_encode($options, $encodeOption)];
+        is_array($options) && $options = json_encode($options, $encodeOption);
 
-        return $this->request($url, 'POST', $params);
+        return $this->request($url, 'POST', ['body' => $options]);
     }
 
     /**

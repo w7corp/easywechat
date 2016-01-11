@@ -143,11 +143,11 @@ class Staff extends AbstractAPI
     /**
      *  Send a message.
      *
-     * @param array $message
+     * @param string|array $message
      *
      * @return mixed
      */
-    public function send(array $message)
+    public function send($message)
     {
         return $this->parseJSON('json', [self::API_MESSAGE_SEND, $message]);
     }
