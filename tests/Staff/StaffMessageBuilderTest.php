@@ -9,8 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Message\Text;
 use EasyWeChat\Message\Raw;
+use EasyWeChat\Message\Text;
 use EasyWeChat\Staff\MessageBuilder;
 
 class StaffMessageBuilderTest extends PHPUnit_Framework_TestCase
