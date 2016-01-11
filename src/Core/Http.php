@@ -257,8 +257,7 @@ class Http
      */
     protected function getHandler()
     {
-        $stack = new HandlerStack();
-        $stack->setHandler(new CurlHandler());
+        $stack = HandlerStack::create();
 
         foreach ($this->middlewares as $middleware) {
             $stack->push($middleware);
