@@ -24,7 +24,6 @@ namespace EasyWeChat\Core;
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Support\Log;
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -82,9 +81,9 @@ class Http
     /**
      * JSON request.
      *
-     * @param string $url
-     * @param string|array  $options
-     * @param int    $encodeOption
+     * @param string       $url
+     * @param string|array $options
+     * @param int          $encodeOption
      *
      * @return array|bool
      *

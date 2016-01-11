@@ -24,9 +24,9 @@ namespace EasyWeChat\Core;
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Uri;
-use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

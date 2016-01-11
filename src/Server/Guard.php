@@ -260,7 +260,7 @@ class Guard
     {
         if (is_array($message)) {
             foreach ($message as $element) {
-                if(!is_subclass_of($element, AbstractMessage::class)){
+                if (!is_subclass_of($element, AbstractMessage::class)) {
                     return false;
                 }
             }
