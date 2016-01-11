@@ -61,6 +61,8 @@ abstract class AbstractAPI
     public function __construct(AccessToken $accessToken)
     {
         $this->setAccessToken($accessToken);
+
+        $this->registerHttpMiddleware();
     }
 
     /**
@@ -83,8 +85,6 @@ abstract class AbstractAPI
     public function setHttp(Http $http)
     {
         $this->http = $http;
-
-        $this->attachAccessToken();
 
         return $this;
     }
@@ -109,8 +109,6 @@ abstract class AbstractAPI
     public function setAccessToken(AccessToken $accessToken)
     {
         $this->accessToken = $accessToken;
-
-        $this->attachAccessToken();
 
         return $this;
     }
@@ -158,34 +156,65 @@ abstract class AbstractAPI
     /**
      * Set request access_token query.
      */
-    protected function attachAccessToken()
+    protected function registerHttpMiddleware()
     {
-        if (!$this->accessToken) {
-            return;
-        }
-
+        // access token
+        $this->getHttp()->addMiddleware($this->accessTokenMiddleware());
         // log
-        $this->getHttp()->addMiddleware(function (callable $handler) {
+        $this->getHttp()->addMiddleware($this->logMiddleware());
+        // retry
+        $this->getHttp()->addMiddleware($this->retryMiddleware());
+    }
+
+    /**
+     * Attache access token to request query.
+     *
+     * @return Closure
+     */
+    public function accessTokenMiddleware()
+    {
+        return function (callable $handler) {
             return function (RequestInterface $request, array $options) use ($handler) {
+                if (!$this->accessToken) {
+                    return $handler($request, $options);
+                }
+
                 $field = $this->accessToken->getQueryName();
                 $token = $this->accessToken->getToken();
 
                 $request = $request->withUri(Uri::withQueryValue($request->getUri(), $field, $token));
 
-                Log::debug("Request Token: {$token}");
-                Log::debug('Request Uri: '.$request->getUri());
-
                 return $handler($request, $options);
             };
-        });
+        };
+    }
 
-        // retry
-        $this->getHttp()->addMiddleware(Middleware::retry(function (
-                                                      $retries,
-                                                      RequestInterface $request,
-                                                      ResponseInterface $response = null,
-                                                      RequestException $exception = null
-                                                   ) {
+    /**
+     * Log the request.
+     *
+     * @return \GuzzleHttp\Middleware
+     */
+    public function logMiddleware()
+    {
+        return Middleware::tap(function (RequestInterface $request) {
+            Log::info("Request: {$request->getMethod()} {$request->getUri()}");
+            Log::info("Request Body: {$request->getBody()}");
+        });
+    }
+
+    /**
+     * Return retry middleware.
+     *
+     * @return \GuzzleHttp\RetryMiddleware
+     */
+    protected function retryMiddleware()
+    {
+        return Middleware::retry(function (
+                                          $retries,
+                                          RequestInterface $request,
+                                          ResponseInterface $response = null,
+                                          RequestException $exception = null
+                                       ) {
             // Limit the number of retries to 2
             if ($retries <= 2 && $response && $body = $response->getBody()) {
                 // Retry on server errors
@@ -203,7 +232,7 @@ abstract class AbstractAPI
             }
 
             return false;
-        }));
+        });
     }
 
     /**
