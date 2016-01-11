@@ -252,22 +252,23 @@ class Guard
     /**
      * Whether response is message.
      *
-     * @param mixed $response
+     * @param mixed $message
      *
      * @return bool
      */
-    protected function isMessage($response)
+    protected function isMessage($message)
     {
-        if(is_array($response)){
-            foreach ($response as $element) {
+        if (is_array($message)) {
+            foreach ($message as $element) {
                 if(!is_subclass_of($element, AbstractMessage::class)){
                     return false;
                 }
             }
+
             return true;
-        }else{
-            return is_subclass_of($response, AbstractMessage::class);
         }
+
+        return is_subclass_of($message, AbstractMessage::class);
     }
 
     /**
