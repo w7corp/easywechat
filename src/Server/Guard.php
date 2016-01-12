@@ -118,7 +118,7 @@ class Guard
         ]);
 
         if ($str = $this->request->get('echostr')) {
-            Log::info("Output 'echostr' is '$str'.");
+            Log::debug("Output 'echostr' is '$str'.");
 
             return new Response($str);
         }
@@ -237,7 +237,7 @@ class Guard
             $response = $this->buildReply($to, $from, $message);
 
             if ($this->isSafeMode()) {
-                Log::info('Message safe mode is enable.');
+                Log::debug('Message safe mode is enable.');
                 $response = $this->encryptor->encryptMsg(
                     $response,
                     $this->request->get('nonce'),

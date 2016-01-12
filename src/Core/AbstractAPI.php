@@ -197,8 +197,8 @@ abstract class AbstractAPI
     public function logMiddleware()
     {
         return Middleware::tap(function (RequestInterface $request) {
-            Log::info("Request: {$request->getMethod()} {$request->getUri()}");
-            Log::info("Request Body: {$request->getBody()}");
+            Log::debug("Request: {$request->getMethod()} {$request->getUri()}");
+            Log::debug("Request Body: {$request->getBody()}");
         });
     }
 

@@ -92,7 +92,7 @@ class Application extends Container
         $this->initializeLogger();
         $this->registerExceptionHandler();
 
-        Log::info('Current configuration:', $config);
+        Log::debug('Current configuration:', $config);
     }
 
     /**
