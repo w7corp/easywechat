@@ -58,7 +58,7 @@ $options = [
     'secret'    => 'f1c242f4f28f735d4687abb469072a29',
     'token'     => 'easywechat',
     'log' => [
-        'level' => \Monolog\Logger::DEBUG,
+        'level' => 'debug',
         'file'  => '/tmp/easywechat.log',
     ],
     // ...
