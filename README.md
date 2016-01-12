@@ -40,7 +40,7 @@ SDK 使用交流 QQ 群：`319502940`
 1. 使用 [composer](https://getcomposer.org/)
 
   ```shell
-  composer require "overtrue/wechat:~3.0"
+  composer require "overtrue/wechat:develop-dev" -vvv
   ```
 
 ## 使用
