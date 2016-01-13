@@ -1,17 +1,16 @@
 <?php
 
+use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
-use EasyWeChat\Support\XML;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
-use EasyWeChat\Core\Exceptions\FaultException;
-
 
 class PaymentNotifyTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test isInvalid()
+     * Test isInvalid().
      */
     public function testIsValid()
     {
@@ -33,7 +32,7 @@ class PaymentNotifyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getNotify()
+     * Test getNotify().
      */
     public function testGetNotify()
     {
@@ -46,7 +45,7 @@ class PaymentNotifyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getNotify()
+     * Test getNotify().
      */
     public function testGetNotifyWithInvalidXMLContent()
     {
