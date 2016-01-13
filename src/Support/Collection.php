@@ -91,6 +91,20 @@ class Collection implements
     }
 
     /**
+     * Get all items except for those with the specified keys.
+     *
+     * @param mixed $keys
+     *
+     * @return static
+     */
+    public function except($keys)
+    {
+        $keys = is_array($keys) ? $keys : func_get_args();
+
+        return new static(Arr::except($this->items, $keys));
+    }
+
+    /**
      * Merge data.
      *
      * @param array $items

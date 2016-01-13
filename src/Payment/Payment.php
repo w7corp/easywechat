@@ -20,6 +20,10 @@
  */
 namespace EasyWeChat\Payment;
 
+use EasyWeChat\Core\Exceptions\FaultException;
+use EasyWeChat\Support\XML;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Class Payment.
  */
@@ -75,6 +79,41 @@ class Payment
     }
 
     /**
+     * Handle payment notify.
+     *
+     * @param callable $callback
+     *
+     * @return Response
+     */
+    public function handleNotify(callable $callback)
+    {
+        $notify = $this->getNotify();
+
+        if (!$notify->isValid()) {
+            throw new FaultException('Invalid request XML.', 400);
+        }
+
+        $notify = $notify->getNotify();
+        $successful = $notify->result_code == 'SUCCESS';
+
+        $handleResult = call_user_func_array($callback, [$notify, $successful]);
+
+        if (is_bool($handleResult) && $handleResult) {
+            $response = [
+                'return_code' => 'SUCCESS',
+                'return_msg' => 'OK',
+            ];
+        } else {
+            $response = [
+                'return_code' => 'FAIL',
+                'return_msg' => $handleResult,
+            ];
+        }
+
+        return new Response(XML::build($response));
+    }
+
+    /**
      * Merchant setter.
      *
      * @param Merchant $merchant
@@ -92,6 +131,16 @@ class Payment
     public function getMerchant()
     {
         return $this->merchant;
+    }
+
+    /**
+     * Return Notify instance.
+     *
+     * @return \EasyWeChat\Payment\Notify
+     */
+    public function getNotify()
+    {
+        return new Notify($this->merchant);
     }
 
     /**

@@ -12,6 +12,11 @@
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Payment;
+use EasyWeChat\Payment\Notify;
+use EasyWeChat\Support\XML;
+use Symfony\Component\HttpFoundation\Request;
+use EasyWeChat\Core\Exceptions\FaultException;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaymentPaymentTest extends PHPUnit_Framework_TestCase
 {
@@ -49,6 +54,64 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
         $this->assertContains('time_stamp=', $url);
         $this->assertContains('nonce_str=', $url);
         $this->assertContains('sign=', $url);
+    }
+
+    /**
+     * Test handleNotify()
+     */
+    public function testHandleNotifyWithInvalidRequest()
+    {
+        $merchant = new Merchant(['key' => 'different_sign_key']);
+        $payment = Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
+        $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><foo>bar</foo></xml>');
+        $notify = Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
+        $notify->shouldReceive('isValid')->andReturn(false);
+        $payment->shouldReceive('getNotify')->andReturn($notify);
+
+        $this->setExpectedException(FaultException::class, 'Invalid request XML.', 400);
+
+        $payment->handleNotify(function (){});
+    }
+
+    /**
+     * Test handleNotify()
+     */
+    public function testHandleNotify()
+    {
+        $merchant = new Merchant(['key' => 'different_sign_key']);
+        $payment = Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
+        $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><foo>bar</foo></xml>');
+        $notify = Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
+        $notify->shouldReceive('isValid')->andReturn(true);
+        $payment->shouldReceive('getNotify')->andReturn($notify);
+
+        $response = $payment->handleNotify(function (){
+            return true;
+        });
+
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(XML::build([
+                'return_code' => 'SUCCESS',
+                'return_msg' => 'OK',
+            ]), $response->getContent());
+
+        $response = $payment->handleNotify(function (){
+            return 'error_message';
+        });
+
+        $this->assertEquals(XML::build([
+                'return_code' => 'FAIL',
+                'return_msg' => 'error_message',
+            ]), $response->getContent());
+
+        $response = $payment->handleNotify(function (){
+            return false;
+        });
+
+        $this->assertEquals(XML::build([
+                'return_code' => 'FAIL',
+                'return_msg' => '',
+            ]), $response->getContent());
     }
 
     /**
