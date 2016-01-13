@@ -42,5 +42,6 @@ delete_branch poi
 delete_branch support
 delete_branch url
 delete_branch user
+delete_branch broadcast
 
 rm -rf ./.tmp

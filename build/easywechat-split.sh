@@ -53,3 +53,4 @@ split poi           src/POI:git@github.com:easywechat/poi.git $TAGS
 split support       src/Support:git@github.com:easywechat/support.git $TAGS
 split url           src/Url:git@github.com:easywechat/url.git $TAGS
 split user          src/User:git@github.com:easywechat/user.git $TAGS
+split broadcast     src/User:git@github.com:easywechat/broadcast.git $TAGS
