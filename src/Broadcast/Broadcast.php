@@ -377,6 +377,6 @@ class Broadcast extends AbstractAPI
      */
     private function post($url, $options)
     {
-        return $this->parseJSON('post', [$url, $options]);
+        return $this->parseJSON('json', [$url, $options]);
     }
 }
