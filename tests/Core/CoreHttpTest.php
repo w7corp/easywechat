@@ -110,11 +110,19 @@ namespace {
                 return compact('url', 'method', 'body');
             });
 
+            // array
             $response = $http->post('http://easywechat.org', ['foo' => 'bar']);
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['form_options' => ['foo' => 'bar']], $response['body']);
+            $this->assertEquals(['form_params' => ['foo' => 'bar']], $response['body']);
+
+            // string
+            $response = $http->post('http://easywechat.org', "hello here.");
+
+            $this->assertEquals('http://easywechat.org', $response['url']);
+            $this->assertEquals('POST', $response['method']);
+            $this->assertEquals(['body' => 'hello here.'], $response['body']);
         }
 
         /**
@@ -134,13 +142,13 @@ namespace {
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => json_encode(['foo' => 'bar'])], $response['body']);
+            $this->assertEquals(['body' => json_encode(['foo' => 'bar']), 'headers' => ['content-type' => 'application/json']], $response['body']);
 
             $response = $http->json('http://easywechat.org', ['foo' => 'bar'], JSON_UNESCAPED_UNICODE);
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => json_encode(['foo' => 'bar'], JSON_UNESCAPED_UNICODE)], $response['body']);
+            $this->assertEquals(['body' => json_encode(['foo' => 'bar'], JSON_UNESCAPED_UNICODE), 'headers' => ['content-type' => 'application/json']], $response['body']);
         }
 
         /**

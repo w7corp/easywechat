@@ -76,8 +76,13 @@ class Notify
         if (!empty($this->notify)) {
             return $this->notify;
         }
-
-        $xml = XML::parse($this->request->getContent());
+        try {
+            $xml = XML::parse($this->request->getContent());
+        } catch (\Throwable $t) {
+            throw new FaultException('Invalid request XML: '.$t->getMessage(), 400);
+        } catch (\Exception $e) {
+            throw new FaultException('Invalid request XML: '.$e->getMessage(), 400);
+        }
 
         if (!is_array($xml) || empty($xml)) {
             throw new FaultException('Invalid request XML.', 400);
