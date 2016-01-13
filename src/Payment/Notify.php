@@ -51,7 +51,7 @@ class Notify
     public function __construct(Merchant $merchant, Request $request = null)
     {
         $this->merchant = $merchant;
-        $this->request = $request ? : Request::createFromGlobals();
+        $this->request = $request ?: Request::createFromGlobals();
     }
 
     /**

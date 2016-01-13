@@ -9,13 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
+use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
-use EasyWeChat\Payment\Payment;
 use EasyWeChat\Payment\Notify;
+use EasyWeChat\Payment\Payment;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
-use EasyWeChat\Core\Exceptions\FaultException;
 use Symfony\Component\HttpFoundation\Response;
 
 class PaymentPaymentTest extends PHPUnit_Framework_TestCase
@@ -57,7 +57,7 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test handleNotify()
+     * Test handleNotify().
      */
     public function testHandleNotifyWithInvalidRequest()
     {
@@ -70,11 +70,11 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException(FaultException::class, 'Invalid request XML.', 400);
 
-        $payment->handleNotify(function (){});
+        $payment->handleNotify(function () {});
     }
 
     /**
-     * Test handleNotify()
+     * Test handleNotify().
      */
     public function testHandleNotify()
     {
@@ -85,7 +85,7 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
         $notify->shouldReceive('isValid')->andReturn(true);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
-        $response = $payment->handleNotify(function (){
+        $response = $payment->handleNotify(function () {
             return true;
         });
 
@@ -95,7 +95,7 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
                 'return_msg' => 'OK',
             ]), $response->getContent());
 
-        $response = $payment->handleNotify(function (){
+        $response = $payment->handleNotify(function () {
             return 'error_message';
         });
 
@@ -104,7 +104,7 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
                 'return_msg' => 'error_message',
             ]), $response->getContent());
 
-        $response = $payment->handleNotify(function (){
+        $response = $payment->handleNotify(function () {
             return false;
         });
 
