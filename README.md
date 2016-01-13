@@ -8,6 +8,7 @@
    ```
 > 2. `composer require "overtrue/wechat:develop-dev" -vvv` 安装 3.0 分支
 > 3. 试用并[反馈给我](https://github.com/overtrue/wechat/issues) ，请以"[3.0]"开头，谢谢！
+> 4. 开发版可能每天都在更新，所以出问题的时候先更新一下看看是否已经修复再反馈，谢谢！
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
