@@ -75,7 +75,9 @@ class Http
      */
     public function post($url, $options = [])
     {
-        return $this->request($url, 'POST', ['form_params' => $options]);
+        $key = is_array($options) ? 'form_params' : 'body';
+
+        return $this->request($url, 'POST', [$key => $options]);
     }
 
     /**
