@@ -105,7 +105,7 @@ class Payment
             $result = $notifyContent;
         }
 
-        return $result;
+        return compact ( 'result', 'successful' );
     }
 
     /**
