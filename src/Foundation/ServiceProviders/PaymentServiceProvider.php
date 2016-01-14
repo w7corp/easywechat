@@ -25,6 +25,7 @@
  */
 namespace EasyWeChat\Foundation\ServiceProviders;
 
+use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Payment;
 use Pimple\Container;
@@ -56,6 +57,10 @@ class PaymentServiceProvider implements ServiceProviderInterface
 
         $pimple['payment'] = function ($pimple) {
            return new Payment($pimple['merchant']);
+        };
+
+        $pimple['luckymoney'] = function ($pimple) {
+            return new LuckyMoney($pimple['merchant']);
         };
     }
 }
