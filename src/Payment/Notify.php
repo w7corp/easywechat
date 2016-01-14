@@ -90,4 +90,31 @@ class Notify
 
         return $this->notify = new Collection($xml);
     }
+    
+    /**
+    * response payment notify
+    *
+    * @param $successful bool or string
+    *
+    * @return Response
+    */
+    public function response ( $successful )
+    {
+        if ( is_bool ( $successful ) && $successful )
+        {
+            $response = [
+                'return_code' => 'SUCCESS',
+                'return_msg'  => 'OK',
+            ];
+        }
+        else
+        {
+            $response = [
+                'return_code' => 'FAIL',
+                'return_msg'  => $successful,
+            ];
+        }
+
+        return new Response( XML::build ( $response ) );
+    }
 }
