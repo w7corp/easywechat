@@ -84,33 +84,28 @@ class Payment
      * @param callable $callback
      *
      * @return Response
+     * @throws FaultException
      */
-    public function handleNotify(callable $callback)
+    public function handleNotify ( callable $callback = null )
     {
-        $notify = $this->getNotify();
-
-        if (!$notify->isValid()) {
-            throw new FaultException('Invalid request XML.', 400);
+        $notify = $this->getNotify ();
+        if ( ! $notify->isValid () )
+        {
+            throw new FaultException( 'Invalid request XML.', 400 );
         }
 
-        $notify = $notify->getNotify();
-        $successful = $notify->result_code === 'SUCCESS';
-
-        $handleResult = call_user_func_array($callback, [$notify, $successful]);
-
-        if (is_bool($handleResult) && $handleResult) {
-            $response = [
-                'return_code' => 'SUCCESS',
-                'return_msg' => 'OK',
-            ];
-        } else {
-            $response = [
-                'return_code' => 'FAIL',
-                'return_msg' => $handleResult,
-            ];
+        $notifyContent = $notify->getNotify ();
+        $successful    = $notifyContent->result_code == 'SUCCESS';
+        if ( ! is_null ( $callback ) )
+        {
+            $result = $notify->response ( call_user_func_array ( $callback, [ $notifyContent, $successful ] ) );
+        }
+        else
+        {
+            $result = $notifyContent;
         }
 
-        return new Response(XML::build($response));
+        return compact ( 'result', 'successful' );
     }
 
     /**
