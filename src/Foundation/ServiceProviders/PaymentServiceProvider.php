@@ -26,6 +26,7 @@
 namespace EasyWeChat\Foundation\ServiceProviders;
 
 use EasyWeChat\Payment\Merchant;
+use EasyWeChat\Payment\Notify;
 use EasyWeChat\Payment\Payment;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -57,5 +58,9 @@ class PaymentServiceProvider implements ServiceProviderInterface
         $pimple['payment'] = function ($pimple) {
            return new Payment($pimple['merchant']);
         };
+        $pimple['payment.notify'] = function ($pimple) {
+           return new Notify( $pimple[ 'merchant' ] );
+        };
+
     }
 }
