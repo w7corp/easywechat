@@ -118,7 +118,7 @@ namespace {
             $this->assertEquals(['form_params' => ['foo' => 'bar']], $response['body']);
 
             // string
-            $response = $http->post('http://easywechat.org', "hello here.");
+            $response = $http->post('http://easywechat.org', 'hello here.');
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);

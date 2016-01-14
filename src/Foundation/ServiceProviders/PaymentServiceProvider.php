@@ -25,9 +25,9 @@
  */
 namespace EasyWeChat\Foundation\ServiceProviders;
 
+use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Payment;
-use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
