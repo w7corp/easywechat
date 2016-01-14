@@ -255,7 +255,7 @@ class API extends AbstractAPI
      */
     public function queryRefundByTranscationId($transcationId)
     {
-        return $this->queryRefund($refundNo, self::TRANSCATION_ID);
+        return $this->queryRefund($transcationId, self::TRANSCATION_ID);
     }
 
     /**
@@ -267,7 +267,7 @@ class API extends AbstractAPI
      */
     public function queryRefundByRefundId($refundId)
     {
-        return $this->queryRefund($refundNo, self::REFUND_ID);
+        return $this->queryRefund($refundId, self::REFUND_ID);
     }
 
     /**
