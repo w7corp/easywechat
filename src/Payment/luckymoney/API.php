@@ -20,8 +20,8 @@
  */
 namespace EasyWeChat\Payment\LuckyMoney;
 
-use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Psr\Http\Message\ResponseInterface;
@@ -108,7 +108,7 @@ class API extends AbstractAPI
      */
     public function send(array $params, $type = self::TYPE_NORMAL)
     {
-        if ($type == self::TYPE_NORMAL) {
+        if ($type === self::TYPE_NORMAL) {
             $api = self::API_SEND;
         } else {
             $api = self::API_SEND_GROUP;
@@ -208,5 +208,4 @@ class API extends AbstractAPI
 
         return new Collection((array) XML::parse($response));
     }
-
 }
