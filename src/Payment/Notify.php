@@ -15,6 +15,7 @@ use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Notify.
