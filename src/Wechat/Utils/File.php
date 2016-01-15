@@ -91,7 +91,7 @@ class File
     {
         $finfo = new finfo(FILEINFO_MIME);
 
-        $mime = $finfo->buffer($content);
+        $mime = strstr($finfo->buffer($content), ';', true);
 
         return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : '';
     }
