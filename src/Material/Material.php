@@ -106,9 +106,9 @@ class Material extends AbstractAPI
     }
 
     /**
-     * Upload article.
+     * Upload articles.
      *
-     * @param array|Article $article
+     * @param array|Article $articles
      *
      * @return string
      */
@@ -275,10 +275,10 @@ class Material extends AbstractAPI
     {
         switch ($type) {
             case 'news_image':
-                $api = parent::getAPI(self::API_NEWS_IMAGE_UPLOAD);
+                $api = self::API_NEWS_IMAGE_UPLOAD;
                 break;
             default:
-                $api = parent::getAPI(self::API_UPLOAD);
+                $api = self::API_UPLOAD;
         }
 
         return $api;

@@ -114,19 +114,6 @@ abstract class AbstractAPI
     }
 
     /**
-     * Return API url, and add some parameters.
-     *
-     * @param string $url
-     * @param array  $quires
-     *
-     * @return string
-     */
-    public function getAPI($url, array $quires = [])
-    {
-        return $url;
-    }
-
-    /**
      * Parse JSON from response and check error.
      *
      * @param string $method
@@ -134,17 +121,12 @@ abstract class AbstractAPI
      * @param bool   $throws
      *
      * @return \EasyWeChat\Support\Collection
-     *
-     * @throws \EasyWeChat\Core\Exceptions\HttpException
      */
     public function parseJSON($method, $args, $throws = true)
     {
         $http = $this->getHttp();
 
         $args = (array) $args;
-
-        // Add access token
-        $args['0'] = $this->getAPI($args[0]);
 
         $contents = $http->parseJSON(call_user_func_array([$http, $method], $args));
 
@@ -212,8 +194,7 @@ abstract class AbstractAPI
         return Middleware::retry(function (
                                           $retries,
                                           RequestInterface $request,
-                                          ResponseInterface $response = null,
-                                          RequestException $exception = null
+                                          ResponseInterface $response = null
                                        ) {
             // Limit the number of retries to 2
             if ($retries <= 2 && $response && $body = $response->getBody()) {

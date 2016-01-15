@@ -61,7 +61,7 @@ class Transformer
     public function transformText(AbstractMessage $message)
     {
         return [
-                'Content' => $message->content,
+                'Content' => $message->get('content'),
                ];
     }
 
@@ -74,7 +74,7 @@ class Transformer
     {
         return [
                 'Image' => [
-                            'MediaId' => $message->media_id,
+                            'MediaId' => $message->get('media_id'),
                            ],
                ];
     }
@@ -88,9 +88,9 @@ class Transformer
     {
         $response = [
                      'Video' => [
-                                 'MediaId' => $message->media_id,
-                                 'Title' => $message->title,
-                                 'Description' => $message->description,
+                                 'MediaId' => $message->get('media_id'),
+                                 'Title' => $message->get('title'),
+                                 'Description' => $message->get('description'),
                                 ],
                     ];
 
@@ -106,7 +106,7 @@ class Transformer
     {
         return [
                 'Voice' => [
-                            'MediaId' => $message->media_id,
+                            'MediaId' => $message->get('media_id'),
                            ],
                ];
     }
@@ -121,9 +121,9 @@ class Transformer
         $response = [];
 
         // 指定客服
-        if (!empty($message->account)) {
+        if (!$message->get('account')) {
             $response['TransInfo'] = [
-                                      'KfAccount' => $message->account,
+                                      'KfAccount' => $message->get('account'),
                                      ];
         }
 
@@ -147,10 +147,10 @@ class Transformer
 
         foreach ($news as $item) {
             $articles[] = [
-                           'Title' => $item->title,
-                           'Description' => $item->description,
-                           'Url' => $item->url,
-                           'PicUrl' => $item->pic_url,
+                           'Title' => $item->get('title'),
+                           'Description' => $item->get('description'),
+                           'Url' => $item->get('url'),
+                           'PicUrl' => $item->get('pic_url'),
                           ];
         }
 

@@ -63,7 +63,7 @@ class Notify
     {
         $localSign = generate_sign($this->getNotify()->except('sign')->all(), $this->merchant->key, 'md5');
 
-        return $localSign === $this->getNotify()->sign;
+        return $localSign === $this->getNotify()->get('sign');
     }
 
     /**
@@ -77,7 +77,7 @@ class Notify
             return $this->notify;
         }
         try {
-            $xml = XML::parse($this->request->getContent());
+            $xml = XML::parse(strval($this->request->getContent()));
         } catch (\Throwable $t) {
             throw new FaultException('Invalid request XML: '.$t->getMessage(), 400);
         } catch (\Exception $e) {

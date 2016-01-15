@@ -82,7 +82,7 @@ class Menu extends AbstractAPI
      */
     public function destroy($menuId = null)
     {
-        if ($menuId) {
+        if ($menuId !== null) {
             return $this->parseJSON('post', [self::API_CONDITIONAL_DELETE, ['menuid' => $menuId]]);
         }
 

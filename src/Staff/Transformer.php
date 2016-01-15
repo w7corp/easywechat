@@ -62,7 +62,7 @@ class Transformer
     {
         return [
                 'text' => [
-                           'content' => $message->content,
+                           'content' => $message->get('content'),
                           ],
                ];
     }
@@ -76,7 +76,7 @@ class Transformer
     {
         return [
                 'image' => [
-                            'media_id' => $message->media_id,
+                            'media_id' => $message->get('media_id'),
                            ],
                ];
     }
@@ -90,10 +90,10 @@ class Transformer
     {
         return [
                 'video' => [
-                            'title' => $message->title,
-                            'media_id' => $message->media_id,
-                            'description' => $message->description,
-                            'thumb_media_id' => $message->thumb_media_id,
+                            'title' => $message->get('title'),
+                            'media_id' => $message->get('media_id'),
+                            'description' => $message->get('description'),
+                            'thumb_media_id' => $message->get('thumb_media_id'),
                            ],
                ];
     }
@@ -107,7 +107,7 @@ class Transformer
     {
         return [
                 'voice' => [
-                            'media_id' => $message->media_id,
+                            'media_id' => $message->get('media_id'),
                            ],
                ];
     }
@@ -127,10 +127,10 @@ class Transformer
 
         foreach ($news as $item) {
             $articles[] = [
-                           'title' => $item->title,
-                           'description' => $item->description,
-                           'url' => $item->url,
-                           'picurl' => $item->pic_url,
+                           'title' => $item->get('title'),
+                           'description' => $item->get('description'),
+                           'url' => $item->get('url'),
+                           'picurl' => $item->get('pic_url'),
                           ];
         }
 
@@ -146,7 +146,7 @@ class Transformer
     {
         return [
                 $message->getType() => [
-                            'media_id' => $message->media_id,
+                            'media_id' => $message->get('media_id'),
                            ],
                ];
     }

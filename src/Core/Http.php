@@ -211,12 +211,11 @@ class Http
     }
 
     /**
-     * @param \GuzzleHttp\Psr7\Stream|string $body
-     * @param bool|true                      $throws
+     * @param \Psr\Http\Message\ResponseInterface|string $body
+     * @param bool|true                                  $throws
      *
      * @return mixed
      *
-     * @throws \EasyWeChat\Core\Exceptions\FaultException
      * @throws \EasyWeChat\Core\Exceptions\HttpException
      */
     public function parseJSON($body, $throws = true)

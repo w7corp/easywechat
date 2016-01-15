@@ -214,7 +214,7 @@ class Encryptor
             throw new InvalidConfigException("Configuration mission, 'aes_key' is required.");
         }
 
-        return $key = base64_decode($this->AESKey.'=', true);
+        return base64_decode($this->AESKey.'=', true);
     }
 
     /**
