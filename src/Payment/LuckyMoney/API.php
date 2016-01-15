@@ -74,9 +74,8 @@ class API extends AbstractAPI
     {
         $params['wxappid'] = $this->merchant->app_id;
 
-        //This parameter is fixed and can not be changed.
+        //XXX: PLEASE DON'T CHANGE THE FOLLOWING LINES.
         $params['auth_mchid'] = '1000052601';
-        //This parameter is fixed and can not be changed.
         $params['auth_appid'] = 'wxbf42bd79c4391863';
 
         $params['amt_type'] = 'ALL_RAND';
