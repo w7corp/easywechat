@@ -241,7 +241,7 @@ class Http
     /**
      * Filter the invalid JSON string.
      *
-     * @param string $invalidJSON
+     * @param \Psr\Http\Message\StreamInterface|string $invalidJSON
      *
      * @return string
      */

@@ -382,6 +382,8 @@ class Guard
      */
     protected function parseMessageFromRequest($content)
     {
+        $content = strval($content);
+
         if ($this->isSafeMode()) {
             if (!$this->encryptor) {
                 throw new RuntimeException('Safe mode Encryptor is necessary, please use Guard::setEncryptor(Encryptor $encryptor) set the encryptor instance.');
