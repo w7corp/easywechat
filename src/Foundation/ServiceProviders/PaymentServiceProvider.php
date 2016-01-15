@@ -59,7 +59,7 @@ class PaymentServiceProvider implements ServiceProviderInterface
            return new Payment($pimple['merchant']);
         };
 
-        $pimple['luckymoney'] = function ($pimple) {
+        $pimple['lucky_money'] = function ($pimple) {
             return new LuckyMoney($pimple['merchant']);
         };
     }
