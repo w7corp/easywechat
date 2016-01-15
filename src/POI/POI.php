@@ -21,7 +21,6 @@
 namespace EasyWeChat\POI;
 
 use EasyWeChat\Core\AbstractAPI;
-use EasyWeChat\Support\Collection;
 
 /**
  * Class POI.
@@ -39,7 +38,7 @@ class POI extends AbstractAPI
      *
      * @param int $poiId
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function get($poiId)
     {
@@ -52,7 +51,7 @@ class POI extends AbstractAPI
      * @param int $offset
      * @param int $limit
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function lists($offset = 0, $limit = 10)
     {

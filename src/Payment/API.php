@@ -76,7 +76,7 @@ class API extends AbstractAPI
      *
      * @param Order $order
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function pay(Order $order)
     {
@@ -88,7 +88,7 @@ class API extends AbstractAPI
      *
      * @param Order $order
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function prepare(Order $order)
     {
@@ -115,7 +115,7 @@ class API extends AbstractAPI
      *
      * @param string $transcationId
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function queryByTranscationId($transcationId)
     {
@@ -127,7 +127,7 @@ class API extends AbstractAPI
      *
      * @param $tradeNo
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function close($tradeNo)
     {
@@ -144,7 +144,7 @@ class API extends AbstractAPI
      * @param string $orderNo
      * @param string $type
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function reverse($orderNo, $type = self::OUT_TRADE_NO)
     {
@@ -160,7 +160,7 @@ class API extends AbstractAPI
      *
      * @param int $transcationId
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function reverseByTranscationId($transcationId)
     {
@@ -173,11 +173,10 @@ class API extends AbstractAPI
      * @param string $orderNo
      * @param float  $totalFee
      * @param float  $refundFee
-     * @param string $refundNo
      * @param string $opUserId
      * @param string $type
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function refund(
         $orderNo,
@@ -203,10 +202,9 @@ class API extends AbstractAPI
      * @param string $orderNo
      * @param float  $totalFee
      * @param float  $refundFee
-     * @param string $refundNo
      * @param string $opUserId
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function refundByTranscationId(
         $orderNo,
@@ -223,7 +221,7 @@ class API extends AbstractAPI
      * @param string $orderNo
      * @param string $type
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function queryRefund($orderNo, $type = self::OUT_TRADE_NO)
     {
@@ -239,7 +237,7 @@ class API extends AbstractAPI
      *
      * @param string $refundNo
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function queryRefundByRefundNo($refundNo)
     {
@@ -251,7 +249,7 @@ class API extends AbstractAPI
      *
      * @param string $transcationId
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function queryRefundByTranscationId($transcationId)
     {
@@ -263,7 +261,7 @@ class API extends AbstractAPI
      *
      * @param string $refundId
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function queryRefundByRefundId($refundId)
     {
@@ -293,7 +291,7 @@ class API extends AbstractAPI
      *
      * @param string $url
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function urlShorten($url)
     {
@@ -309,7 +307,7 @@ class API extends AbstractAPI
      * @param string $returnCode
      * @param array  $other         ex: err_code,err_code_des,out_trade_no,user_ip...
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function report($api, $timeConsuming, $resultCode, $returnCode, array $other = [])
     {
@@ -355,7 +353,7 @@ class API extends AbstractAPI
      * @param array  $params
      * @param string $method
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     protected function request($api, array $params, $method = 'post')
     {
@@ -374,7 +372,7 @@ class API extends AbstractAPI
      *
      * @param string $response
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     protected function parseResponse($response)
     {

@@ -68,13 +68,13 @@ class API extends AbstractAPI
      * Prepare luckymoney.
      *
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function prepare(array $params)
     {
         $params['wxappid'] = $this->merchant->app_id;
 
-        //XXX: PLEASE DON'T CHANGE THE FOLLOWING LINES.
+        // XXX: PLEASE DON'T CHANGE THE FOLLOWING LINES.
         $params['auth_mchid'] = '1000052601';
         $params['auth_appid'] = 'wxbf42bd79c4391863';
 
@@ -86,7 +86,7 @@ class API extends AbstractAPI
     /**
      * Query luckymoney.
      *
-     * @param string $mchBillNo
+     * @param string $orderNo
      */
     public function query($orderNo)
     {
@@ -104,14 +104,12 @@ class API extends AbstractAPI
      *
      * @param array  $params
      * @param string $type
+     *
+     * @return \EasyWeChat\Support\Collection
      */
     public function send(array $params, $type = self::TYPE_NORMAL)
     {
-        if ($type === self::TYPE_NORMAL) {
-            $api = self::API_SEND;
-        } else {
-            $api = self::API_SEND_GROUP;
-        }
+        $api = ($type === self::TYPE_NORMAL) ? self::API_SEND : self::API_SEND_GROUP;
 
         $params['wxappid'] = $this->merchant->app_id;
 
@@ -123,7 +121,7 @@ class API extends AbstractAPI
      *
      * @param array $params
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function sendNormal($params)
     {
@@ -138,7 +136,7 @@ class API extends AbstractAPI
      *
      * @param array $params
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function sendGroup($params)
     {
@@ -177,7 +175,7 @@ class API extends AbstractAPI
      * @param array  $params
      * @param string $method
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     protected function request($api, array $params, $method = 'post')
     {
@@ -185,9 +183,11 @@ class API extends AbstractAPI
         $params['nonce_str'] = uniqid();
         $params['sign'] = \EasyWeChat\Payment\generate_sign($params, $this->merchant->key, 'md5');
 
-        $options['body'] = XML::build($params);
-        $options['cert'] = $this->merchant->get('cert_path');
-        $options['ssl_key'] = $this->merchant->get('key_path');
+        $options = [
+            'body' => XML::build($params),
+            'cert' => $this->merchant->get('cert_path'),
+            'ssl_key' => $this->merchant->get('key_path'),
+        ];
 
         return $this->parseResponse($this->getHttp()->request($api, $method, $options));
     }
@@ -195,9 +195,9 @@ class API extends AbstractAPI
     /**
      * Parse Response XML to array.
      *
-     * @param string $response
+     * @param \Psr\Http\Message\ResponseInterface|string $response
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     protected function parseResponse($response)
     {

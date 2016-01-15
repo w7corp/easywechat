@@ -212,11 +212,7 @@ class Guard
      */
     public function getEncryptor()
     {
-        return $this->encryptor ?: $this->encryptor = new Encryptor(
-                                    $this->options['app_id'],
-                                    $this->options['token'],
-                                    $this->options['aes_key']
-                                    );
+        return $this->encryptor;
     }
 
     /**
@@ -240,17 +236,19 @@ class Guard
             $message = new Text(['content' => $message]);
         }
 
-        if ($this->isMessage($message)) {
-            $response = $this->buildReply($to, $from, $message);
+        if (!$this->isMessage($message)) {
+            throw new InvalidArgumentException("Invalid Message type .'{gettype($message)}'");
+        }
 
-            if ($this->isSafeMode()) {
-                Log::debug('Message safe mode is enable.');
-                $response = $this->encryptor->encryptMsg(
-                    $response,
-                    $this->request->get('nonce'),
-                    $this->request->get('timestamp')
-                );
-            }
+        $response = $this->buildReply($to, $from, $message);
+
+        if ($this->isSafeMode()) {
+            Log::debug('Message safe mode is enable.');
+            $response = $this->encryptor->encryptMsg(
+                $response,
+                $this->request->get('nonce'),
+                $this->request->get('timestamp')
+            );
         }
 
         return $response;
@@ -290,7 +288,7 @@ class Guard
     {
         $message = $this->parseMessageFromRequest($this->request->getContent(false));
 
-        if (empty($message)) {
+        if (!is_array($message) || empty($message)) {
             throw new BadRequestException('Invalid request.');
         }
 
@@ -375,7 +373,7 @@ class Guard
     /**
      * Parse message array from raw php input.
      *
-     * @param string $content
+     * @param string|resource $content
      *
      * @throws \EasyWeChat\Core\Exceptions\RuntimeException
      * @throws \EasyWeChat\Encryption\EncryptionException
@@ -386,7 +384,7 @@ class Guard
     {
         if ($this->isSafeMode()) {
             if (!$this->encryptor) {
-                throw new RuntimeException('Safe mode Encryptor is necessary.');
+                throw new RuntimeException('Safe mode Encryptor is necessary, please use Guard::setEncryptor(Encryptor $encryptor) set the encryptor instance.');
             }
 
             $message = $this->encryptor->decryptMsg(
