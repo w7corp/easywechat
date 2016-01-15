@@ -75,6 +75,13 @@ class Guard
     protected $messageHandler;
 
     /**
+     * Message type filter.
+     *
+     * @var int
+     */
+    protected $messageFilter;
+
+    /**
      * Message type mapping.
      *
      * @var array
