@@ -121,7 +121,7 @@ class Transformer
         $response = [];
 
         // 指定客服
-        if (!$message->get('account')) {
+        if ($message->get('account')) {
             $response['TransInfo'] = [
                                       'KfAccount' => $message->get('account'),
                                      ];
