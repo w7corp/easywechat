@@ -20,6 +20,7 @@ use Exception as BaseException;
 class Exception extends BaseException
 {
 
+    protected $message = '';
     protected $errors = array(
                          //'-1'      => '系统繁忙，此时请开发者稍候再试',
                          '0'       => '请求成功',
@@ -172,8 +173,18 @@ class Exception extends BaseException
      {
         $message = empty($this->errors[$code]) ? $message : $this->errors[$code];
 
-        $message = "[Wechat]{$message}";
+        $this->message = "[Wechat]{$message}";
 
-        parent::__construct($message, $code);
+        parent::__construct($this->message, $code);
      }
+    
+    /**
+     * use die( $e->__toStrint() )
+     *
+     * @return string $this->messge
+     */
+    public function __toString()
+    {
+        return $this->message;
+    }
 }
