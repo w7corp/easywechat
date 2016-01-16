@@ -126,7 +126,7 @@ class QRCode extends AbstractAPI
                   ];
 
         if ($temporary) {
-            $params['expire_seconds'] = min($expireSeconds, 7 * self::DAY);
+            $params['expire_seconds'] = min($expireSeconds, 30 * self::DAY );
         }
 
         return $this->parseJSON('json', [self::API_CREATE, $params]);
