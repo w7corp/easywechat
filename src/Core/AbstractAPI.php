@@ -150,7 +150,7 @@ abstract class AbstractAPI
     /**
      * Attache access token to request query.
      *
-     * @return Closure
+     * @return \Closure
      */
     public function accessTokenMiddleware()
     {
@@ -173,7 +173,7 @@ abstract class AbstractAPI
     /**
      * Log the request.
      *
-     * @return \GuzzleHttp\Middleware
+     * @return \Closure
      */
     public function logMiddleware()
     {
@@ -186,7 +186,7 @@ abstract class AbstractAPI
     /**
      * Return retry middleware.
      *
-     * @return \GuzzleHttp\RetryMiddleware
+     * @return \Closure
      */
     protected function retryMiddleware()
     {
