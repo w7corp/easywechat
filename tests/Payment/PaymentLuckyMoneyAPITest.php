@@ -16,6 +16,11 @@ use EasyWeChat\Support\XML;
 
 class PaymentLuckyMoneyAPITest extends PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        $_SERVER['HTTP_CLIENT_IP'] = '127.0.0.1';
+    }
+
     /**
      * Build API instance.
      *
