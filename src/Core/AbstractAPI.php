@@ -121,11 +121,9 @@ abstract class AbstractAPI
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function parseJSON($method, $args, $throws = true)
+    public function parseJSON($method, array $args, $throws = true)
     {
         $http = $this->getHttp();
-
-        $args = (array) $args;
 
         $contents = $http->parseJSON(call_user_func_array([$http, $method], $args));
 

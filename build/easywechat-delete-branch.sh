@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-TARGET_BRANCH="3.0"
+TARGET_BRANCH="develop"
 
 mkdir .tmp
 cd .tmp
@@ -15,7 +15,7 @@ delete_branch()
 
     pushd $TEMPDIR
 
-    git push origin :$TARGET_BRANCH
+    git push origin :$TARGET_BRANCH -f
 
     pwd
 
