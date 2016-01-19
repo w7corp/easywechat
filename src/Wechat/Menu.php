@@ -82,9 +82,7 @@ class Menu
      */
     public function get()
     {
-        $menus = $this->http->get(self::API_GET);
-
-        return empty($menus['menu']['button']) ? array() : $menus['menu']['button'];
+        return $this->http->get(self::API_GET);
     }
 
     /**
