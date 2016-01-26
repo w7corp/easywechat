@@ -25,8 +25,6 @@ use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\Support\Log;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -212,13 +210,12 @@ class Http
 
     /**
      * @param \Psr\Http\Message\ResponseInterface|string $body
-     * @param bool|true                                  $throws
      *
      * @return mixed
      *
      * @throws \EasyWeChat\Core\Exceptions\HttpException
      */
-    public function parseJSON($body, $throws = true)
+    public function parseJSON($body)
     {
         if ($body instanceof ResponseInterface) {
             $body = $body->getBody();

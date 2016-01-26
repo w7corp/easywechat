@@ -87,7 +87,7 @@ class StaffStaffTest extends PHPUnit_Framework_TestCase
         $response = $staff->delete('anzhengchao@gmail.com');
 
         $this->assertStringStartsWith(Staff::API_DELETE, $response['api']);
-        $this->assertEquals('anzhengchao@gmail.com', $response['params']['kf_account']);
+        $this->assertContains('kf_account=anzhengchao@gmail.com', $response['api']);
     }
 
     /**

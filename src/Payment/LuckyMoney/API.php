@@ -67,6 +67,7 @@ class API extends AbstractAPI
     /**
      * Prepare luckymoney.
      *
+     * @param array $params
      *
      * @return \EasyWeChat\Support\Collection
      */
@@ -86,13 +87,15 @@ class API extends AbstractAPI
     /**
      * Query luckymoney.
      *
-     * @param string $orderNo
+     * @param string $mchBillNo
+     *
+     * @return \EasyWeChat\Support\Collection
      */
-    public function query($orderNo)
+    public function query($mchBillNo)
     {
         $params = [
             'appid' => $this->merchant->app_id,
-            'mch_billno' => $orderNo,
+            'mch_billno' => $mchBillNo,
             'bill_type' => 'MCHT',
         ];
 
@@ -100,7 +103,7 @@ class API extends AbstractAPI
     }
 
     /**
-     * Send Luckymoney.
+     * Send LuckyMoney.
      *
      * @param array  $params
      * @param string $type
@@ -117,7 +120,7 @@ class API extends AbstractAPI
     }
 
     /**
-     * Send normal lucnymoney.
+     * Send normal LuckyMoney.
      *
      * @param array $params
      *
@@ -126,7 +129,7 @@ class API extends AbstractAPI
     public function sendNormal($params)
     {
         $params['total_num'] = 1;
-        $params['client_ip'] = $params['client_ip'] ?: $_SERVER['HTTP_CLIENT_IP'];
+        $params['client_ip'] = !empty($params['client_ip']) ? $params['client_ip'] : $_SERVER['HTTP_CLIENT_IP'];
 
         return $this->send($params, self::TYPE_NORMAL);
     }
@@ -141,7 +144,7 @@ class API extends AbstractAPI
     public function sendGroup($params)
     {
         $params['amt_type'] = 'ALL_RAND';
-        $params['client_ip'] = $params['client_ip'] ?: $_SERVER['HTTP_CLIENT_IP'];
+        $params['client_ip'] = !empty($params['client_ip']) ? $params['client_ip'] : $_SERVER['HTTP_CLIENT_IP'];
 
         return $this->send($params, self::TYPE_GROUP);
     }

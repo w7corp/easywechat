@@ -22,7 +22,6 @@ namespace EasyWeChat\Material;
 
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Core\Http;
 use EasyWeChat\Message\Article;
 
 /**

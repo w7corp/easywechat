@@ -21,7 +21,6 @@
 namespace EasyWeChat\Url;
 
 use EasyWeChat\Core\AbstractAPI;
-use EasyWeChat\Core\Http;
 
 /**
  * Class Url.

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-TAGS="develop"
+TAGS="master"
 
 split()
 {

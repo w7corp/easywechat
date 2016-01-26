@@ -23,7 +23,6 @@ namespace EasyWeChat\Js;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AbstractAPI;
-use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Str;
 use EasyWeChat\Support\Url as UrlHelper;
 

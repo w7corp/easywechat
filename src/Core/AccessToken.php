@@ -22,6 +22,7 @@ namespace EasyWeChat\Core;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
+use EasyWeChat\Core\Exceptions\HttpException;
 
 /**
  * Class AccessToken.

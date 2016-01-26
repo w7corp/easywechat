@@ -21,7 +21,6 @@
 namespace EasyWeChat\User;
 
 use EasyWeChat\Core\AbstractAPI;
-use EasyWeChat\Core\Http;
 
 /**
  * Class User.
