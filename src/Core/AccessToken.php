@@ -20,6 +20,7 @@
  */
 namespace EasyWeChat\Core;
 
+use EasyWeChat\Core\Exceptions\HttpException;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
 
