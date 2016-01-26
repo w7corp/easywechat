@@ -22,6 +22,7 @@
 namespace EasyWeChat\Support;
 
 use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
@@ -91,7 +92,12 @@ class Log
     private static function createDefaultLogger()
     {
         $log = new Logger('EasyWeChat');
-        $log->pushHandler(new ErrorLogHandler());
+
+        if (defined('PHPUNIT_RUNNING')) {
+            $log->pushHandler(new NullHandler());    
+        } else {
+            $log->pushHandler(new ErrorLogHandler());
+        }
 
         return $log;
     }

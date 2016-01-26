@@ -233,7 +233,7 @@ class Application extends Container
     {
         $logger = new Logger('easywechat');
 
-        if (!$this['config']['debug']) {
+        if (!$this['config']['debug'] || defined('PHPUNIT_RUNNING')) {
             $logger->pushHandler(new NullHandler());
         } elseif ($logFile = $this['config']['log.file']) {
             $logger->pushHandler(new StreamHandler($logFile, $this['config']->get('log.level', Logger::WARNING)));
