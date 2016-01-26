@@ -104,10 +104,6 @@ class Staff extends AbstractAPI
      */
     public function delete($email)
     {
-        $params = [
-                    'kf_account' => $email,
-                  ];
-
         return $this->parseJSON('get', [sprintf(self::API_DELETE.'?kf_account=%s', $email)]);
     }
 

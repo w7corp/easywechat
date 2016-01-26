@@ -23,7 +23,6 @@ namespace EasyWeChat\Material;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Exceptions\RuntimeException;
-use EasyWeChat\Core\Http;
 use EasyWeChat\Support\File;
 
 /**
