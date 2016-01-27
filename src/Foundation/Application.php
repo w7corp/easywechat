@@ -158,6 +158,29 @@ class Application extends Container
     }
 
     /**
+     * Magic get access. 
+     *
+     * @param string $id
+     *
+     * @return mixed
+     */
+    public function __get($id)
+    {
+        return $this->offsetGet($id);
+    }
+
+    /**
+     * Magic set access.
+     *
+     * @param string $id    
+     * @param mixed  $value 
+     */
+    public function __set($id, $value)
+    {
+        return $this->offsetSet($id, $value);
+    }
+
+    /**
      * Register providers.
      */
     private function registerProviders()

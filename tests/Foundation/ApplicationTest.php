@@ -25,8 +25,8 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $app = new Application(['foo' => 'bar']);
 
         $this->assertInstanceOf(Config::class, $app['config']);
-        $providers = $app->getProviders();
 
+        $providers = $app->getProviders();
         foreach ($providers as $provider) {
             $container = new Container();
             $container->register(new $provider());
@@ -41,6 +41,19 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
             unset($container);
         }
+    }
+
+    /**
+     * test __set, __get
+     */
+    public function testMagicMethod()
+    {
+        $app = new Application(['foo' => 'bar']);
+
+        $app->foo = "bar";
+        
+        // getter setter 
+        $this->assertEquals("bar", $app->foo);
     }
 
     /**
