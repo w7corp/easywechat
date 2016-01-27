@@ -224,12 +224,16 @@ class Http
         // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
         $body = $this->fuckTheWeChatInvalidJSON($body);
 
+        if (empty($body)) {
+            return false;
+        }
+
         $contents = json_decode($body, true);
 
         Log::debug('API response decoded:', compact('contents'));
 
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new HttpException('Failed to parse JSON.', json_last_error());
+            throw new HttpException('Failed to parse JSON: '.json_last_error_msg());
         }
 
         return $contents;

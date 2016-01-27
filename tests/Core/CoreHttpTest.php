@@ -67,13 +67,18 @@ namespace {
         {
             $http = new Http();
             $http->setClient($this->getGuzzleWithResponse('{"foo:"bar"}'));
-            $this->assertEquals(null, $http->parseJSON($http->request('http://overtrue.me', 'GET')));
+            try {
+                $http->parseJSON($http->request('http://overtrue.me', 'GET'));
+                $this->assertFail("Invalid json body check fail.");
+            } catch (\Exception $e) {
+                $this->assertInstanceOf("\EasyWeChat\Core\Exceptions\HttpException", $e);
+            }
 
             $http->setClient($this->getGuzzleWithResponse('{"foo":"bar"}'));
             $this->assertEquals(['foo' => 'bar'], $http->parseJSON($http->request('http://overtrue.me', 'GET')));
 
             $http = new Http();
-            $http->setClient($this->getGuzzleWithResponse());
+            $http->setClient($this->getGuzzleWithResponse(""));
             $this->assertEquals(null, $http->parseJSON($http->request('http://overtrue.me', 'GET')));
         }
 

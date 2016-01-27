@@ -49,8 +49,11 @@ class UserServiceProvider implements ServiceProviderInterface
            return new User($pimple['access_token']);
         };
 
-        $pimple['user.group'] = function ($pimple) {
+        $group = function ($pimple) {
            return new Group($pimple['access_token']);
         };
+
+        $pimple['user_group'] = $group;
+        $pimple['user.group'] = $group;
     }
 }
