@@ -12,6 +12,8 @@
 
 可能是目前最优雅的微信公众平台 SDK 了。[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
+> 不支持企业号，也不打算支持，原因？微信的API实在设计得太乱了，我怕累死。。。
+
 SDK 使用交流 QQ 群：`319502940`
 
 微信开发者交流 QQ 群：`9179779`
