@@ -21,6 +21,7 @@
 namespace EasyWeChat\Staff;
 
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Support\Collection;
 
 /**
  * Class Staff.
