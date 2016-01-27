@@ -162,9 +162,9 @@ class MaterialMaterialTest extends PHPUnit_Framework_TestCase
     public function testGet()
     {
         $material = $this->getMaterial();
-        $http = Mockery::mock(Http::class.'[get]');
+        $http = Mockery::mock(Http::class.'[json]');
         $http->shouldReceive('addMiddleware')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function ($api, $params) {
+        $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return new Response(200, ['Content-Type' => ['text/plain']], json_encode(compact('api', 'params')));
         });
         $material->setHttp($http);
@@ -176,9 +176,9 @@ class MaterialMaterialTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(['media_id' => 'foo'], $response['params']);
 
         // media
-        $http = Mockery::mock(Http::class.'[get]');
+        $http = Mockery::mock(Http::class.'[json]');
         $http->shouldReceive('addMiddleware')->andReturn($http);
-        $http->shouldReceive('get')->andReturnUsing(function ($api, $params) {
+        $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return new Response(200, ['Content-Type' => ['media/video']], 'media content');
         });
         $material->setHttp($http);
