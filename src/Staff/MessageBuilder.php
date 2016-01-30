@@ -139,7 +139,6 @@ class MessageBuilder
 
             $message = array_merge([
                 'touser' => $this->to,
-                'msgtype' => $this->message->type,
                 'customservice' => ['kf_account' => $this->account],
             ], $content);
         }
