@@ -84,10 +84,6 @@ class MessageBuilder
             $message = new Text(['content' => $message]);
         }
 
-        if (!$message instanceof AbstractMessage) {
-            throw new InvalidArgumentException("Message must be a instanceof 'EasyWeChat\\Message\\AbstractMessage'.");
-        }
-
         $this->message = $message;
 
         return $this;
