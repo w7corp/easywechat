@@ -126,15 +126,15 @@ class Payment
     {
         $params = [
             'appId' => $this->merchant->app_id,
-            'timeStamp' => time(),
-            'nonceStr' => uniqueid(),
+            'timeStamp' => strval(time()),
+            'nonceStr' => uniqid(),
             'package' => "prepay_id=$prepayId",
             'signType' => 'MD5',
         ];
 
         $params['paySign'] = generate_sign($params, $this->merchant->key, 'md5');
 
-        return $json ? jsond_encode($params) : $params;
+        return $json ? json_encode($params) : $params;
     }
 
     /**
@@ -150,8 +150,8 @@ class Payment
         $params = [
             'appId' => $this->merchant->app_id,
             'scope' => 'jsapi_address',
-            'timeStamp' => time(),
-            'nonceStr' => uniqueid(),
+            'timeStamp' => strval(time()),
+            'nonceStr' => uniqid(),
             'package' => "prepay_id=$prepayId",
             'signType' => 'SHA1',
         ];
@@ -166,7 +166,7 @@ class Payment
 
         $params['addrSign'] = generate_sign($signParams, $this->merchant->key, 'sha1');
 
-        return $json ? jsond_encode($params) : $params;
+        return $json ? json_encode($params) : $params;
     }
 
     /**
