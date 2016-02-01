@@ -152,7 +152,6 @@ class Payment
             'scope' => 'jsapi_address',
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
-            'package' => "prepay_id=$prepayId",
             'signType' => 'SHA1',
         ];
 
