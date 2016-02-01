@@ -21,6 +21,7 @@
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\Core\Exceptions\FaultException;
+use EasyWeChat\Support\Url as UrlHelper;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -111,6 +112,60 @@ class Payment
         }
 
         return new Response(XML::build($response));
+    }
+
+    /**
+     * Gernerate js config for payment.
+     *
+     * @param string $prepayId
+     * @param bool   $json
+     *
+     * @return string|array
+     */
+    public function configForPayment($prepayId, $json = true)
+    {
+        $params = [
+            'appId' => $this->merchant->app_id,
+            'timeStamp' => strval(time()),
+            'nonceStr' => uniqid(),
+            'package' => "prepay_id=$prepayId",
+            'signType' => 'MD5',
+        ];
+
+        $params['paySign'] = generate_sign($params, $this->merchant->key, 'md5');
+
+        return $json ? json_encode($params) : $params;
+    }
+
+    /**
+     * Generate js config for share user address.
+     *
+     * @param string $accessToken
+     * @param bool   $json
+     *
+     * @return string|array
+     */
+    public function configForShareAddress($accessToken, $json = true)
+    {
+        $params = [
+            'appId' => $this->merchant->app_id,
+            'scope' => 'jsapi_address',
+            'timeStamp' => strval(time()),
+            'nonceStr' => uniqid(),
+            'signType' => 'SHA1',
+        ];
+
+        $signParams = [
+            'appid' => $params['appId'],
+            'url' => UrlHelper::current(),
+            'timestamp' => $params['timeStamp'],
+            'noncestr' => $params['nonceStr'],
+            'accesstoken' => $accessToken,
+        ];
+
+        $params['addrSign'] = generate_sign($signParams, $this->merchant->key, 'sha1');
+
+        return $json ? json_encode($params) : $params;
     }
 
     /**

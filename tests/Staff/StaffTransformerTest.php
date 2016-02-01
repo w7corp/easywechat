@@ -40,7 +40,7 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
 
         $transformer = new Transformer();
 
-        $this->assertEquals(['text' => ['content' => 'foo']], $transformer->transform($message));
+        $this->assertEquals(['msgtype' => 'text', 'text' => ['content' => 'foo']], $transformer->transform($message));
     }
 
     /**
@@ -53,7 +53,7 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
 
         $transformer = new Transformer();
 
-        $this->assertEquals(['image' => ['media_id' => 'foo']], $transformer->transform($message));
+        $this->assertEquals(['msgtype' => 'image', 'image' => ['media_id' => 'foo']], $transformer->transform($message));
     }
 
     /**
@@ -69,11 +69,12 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
 
         $transformer = new Transformer();
 
-        $result = $transformer->transform($message)['video'];
-        $this->assertEquals('foo', $result['media_id']);
-        $this->assertEquals('hello world', $result['title']);
-        $this->assertEquals('description string.', $result['description']);
-        $this->assertEquals('thumb media id', $result['thumb_media_id']);
+        $result = $transformer->transform($message);
+        $this->assertEquals('video', $result['msgtype']);
+        $this->assertEquals('foo', $result['video']['media_id']);
+        $this->assertEquals('hello world', $result['video']['title']);
+        $this->assertEquals('description string.', $result['video']['description']);
+        $this->assertEquals('thumb media id', $result['video']['thumb_media_id']);
     }
 
     /**
@@ -86,7 +87,7 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
 
         $transformer = new Transformer();
 
-        $this->assertEquals(['voice' => ['media_id' => 'foo']], $transformer->transform($message));
+        $this->assertEquals(['msgtype' => 'voice', 'voice' => ['media_id' => 'foo']], $transformer->transform($message));
     }
 
     /**
@@ -100,10 +101,11 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
         $result = $transformer->transform(new News([
                 'title' => 'overtrue',
                 'description' => 'foobar',
-            ]))['news']['articles'];
+            ]));
 
-        $this->assertEquals('overtrue', $result[0]['title']);
-        $this->assertEquals('foobar', $result[0]['description']);
+        $this->assertEquals('news', $result['msgtype']);
+        $this->assertEquals('overtrue', $result['news']['articles'][0]['title']);
+        $this->assertEquals('foobar', $result['news']['articles'][0]['description']);
 
         // more
         $news = [
@@ -111,9 +113,9 @@ class StaffTransformerTest extends PHPUnit_Framework_TestCase
                 new News(['title' => 'bar']),
         ];
 
-        $result = $transformer->transform($news)['news']['articles'];
-
-        $this->assertEquals('foo', $result[0]['title']);
-        $this->assertEquals('bar', $result[1]['title']);
+        $result = $transformer->transform($news);
+        $this->assertEquals('news', $result['msgtype']);
+        $this->assertEquals('foo', $result['news']['articles'][0]['title']);
+        $this->assertEquals('bar', $result['news']['articles'][1]['title']);
     }
 }

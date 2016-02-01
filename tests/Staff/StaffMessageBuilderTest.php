@@ -27,8 +27,6 @@ class StaffMessageBuilderTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test message().
-     *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testMessage()
     {
@@ -38,9 +36,6 @@ class StaffMessageBuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($MessageBuilder, $response);
         $this->assertInstanceOf(Text::class, $MessageBuilder->message);
-
-        // exception
-        $MessageBuilder->message(new stdClass());
     }
 
     /**
