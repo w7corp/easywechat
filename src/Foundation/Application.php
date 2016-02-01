@@ -172,8 +172,8 @@ class Application extends Container
     /**
      * Magic set access.
      *
-     * @param string $id    
-     * @param mixed  $value 
+     * @param string $id
+     * @param mixed  $value
      */
     public function __set($id, $value)
     {

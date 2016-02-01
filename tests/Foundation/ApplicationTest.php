@@ -44,16 +44,16 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test __set, __get
+     * test __set, __get.
      */
     public function testMagicMethod()
     {
         $app = new Application(['foo' => 'bar']);
 
-        $app->foo = "bar";
-        
-        // getter setter 
-        $this->assertEquals("bar", $app->foo);
+        $app->foo = 'bar';
+
+        // getter setter
+        $this->assertEquals('bar', $app->foo);
     }
 
     /**

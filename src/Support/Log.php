@@ -94,7 +94,7 @@ class Log
         $log = new Logger('EasyWeChat');
 
         if (defined('PHPUNIT_RUNNING')) {
-            $log->pushHandler(new NullHandler());    
+            $log->pushHandler(new NullHandler());
         } else {
             $log->pushHandler(new ErrorLogHandler());
         }
