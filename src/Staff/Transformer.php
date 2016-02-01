@@ -61,7 +61,7 @@ class Transformer
     public function transformText(AbstractMessage $message)
     {
         return [
-                'msgtype' => 'text',            
+                'msgtype' => 'text',
                 'text' => [
                            'content' => $message->get('content'),
                           ],
@@ -149,6 +149,7 @@ class Transformer
     public function transformMaterial(AbstractMessage $message)
     {
         $type = $message->getType();
+
         return [
                 'msgtype' => $type,
                 $type => [
