@@ -21,8 +21,8 @@
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\Core\Exceptions\FaultException;
-use EasyWeChat\Support\XML;
 use EasyWeChat\Support\Url as UrlHelper;
+use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -117,8 +117,8 @@ class Payment
     /**
      * Gernerate js config for payment.
      *
-     * @param string $prepayId 
-     * @param bool   $json     
+     * @param string $prepayId
+     * @param bool   $json
      *
      * @return string|array
      */
@@ -140,7 +140,7 @@ class Payment
     /**
      * Generate js config for share user address.
      *
-     * @param string $accessToken 
+     * @param string $accessToken
      * @param bool   $json
      *
      * @return string|array
@@ -157,7 +157,7 @@ class Payment
         ];
 
         $signParams = [
-            'appid'  => $params['appId'],
+            'appid' => $params['appId'],
             'url' => UrlHelper::current(),
             'timestamp' => $params['timeStamp'],
             'noncestr' => $params['nonceStr'],
