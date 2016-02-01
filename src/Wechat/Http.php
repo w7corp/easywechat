@@ -136,7 +136,7 @@ class Http extends HttpClient
             throw new Exception("[{$contents['errcode']}] ".$contents['errmsg'], $contents['errcode']);
         }
 
-        if ($contents === array('errcode' => '0', 'errmsg' => 'ok')) {
+        if (is_array($contents) && array_keys($contents) == array("errcode", "errmsg")) {
             return true;
         }
 
