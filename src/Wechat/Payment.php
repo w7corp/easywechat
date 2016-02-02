@@ -49,15 +49,21 @@ class Payment
     }
 
     /**
-     * 获取配置文件（用于 WeixinJSBridge invoke 方式）.
-     * 
-     * @param bool|true $asJson
-     *
-     * @return array|string
+     * 获取配置文件.
+     * @param string $trade_type
+     * @param bool $asJson
+     * @return array|mixed
+     * @throws Exception
      */
-    public function getConfig($asJson = true)
+    public function getConfig($trade_type = 'JSAPI', $asJson = true)
     {
-        $config = $this->generateConfig();
+        if($trade_type=='JSAPI'){
+            $config = $this->generateConfig();
+        }elseif($trade_type=='APP'){
+            $config = $this->generatePhoneConfig();
+        }else{
+            throw new Exception('不支持trade_type为'.$trade_type.'支付参数');
+        }
 
         return $asJson ? JSON::encode($config) : $config;
     }
@@ -108,6 +114,30 @@ class Payment
         });
         $config['paySign'] = $signGenerator->getResult();
 
+        return $config;
+    }
+
+    /**
+     * 获得移动端支付参数
+     * @return array
+     * @throws Payment\Exception
+     */
+    private function generatePhoneConfig(){
+        $response = $this->unifiedOrder->getResponse();
+        $business = $this->unifiedOrder->getBusiness();
+        $config = array(
+            'appId'         => $business->appid,
+            'partnerId'     => $business->mch_id,
+            'prepayId'      => $response['prepay_id'],
+            'packageValue'  => 'Sign=WXPay',
+            'nonceStr'      => $response['nonce_str'],
+            'timeStamp'     => (string) time(),
+        );
+        $signGenerator = new SignGenerator($config);
+        $signGenerator->onSortAfter(function (SignGenerator $that) use ($business) {
+            $that->key = $business->mch_key;
+        });
+        $config['sign'] = $signGenerator->getResult();
         return $config;
     }
 }
