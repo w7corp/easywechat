@@ -39,16 +39,16 @@ EasyWeChat 是一个开源的，社区驱动的项目。
 1. Fork [overtrue/wechat](https://github.com/overtrue/wechat) 到本地.
 2. 创建新的分支：
 
-    {% code %}
+    ```shell
     $ git checkout -b new_feature
-    {% endcode %}
+    ```
 
 3. 编写代码。
 4. Push 到你的分支:
 
-    {% code %}
+    ```shell
     $ git push origin new_feature
-    {% endcode %}
+    ```
 
 5. 创建 Pull Request 并描述你完成的功能或者做出的修改。
 
@@ -61,10 +61,10 @@ EasyWeChat 是一个开源的，社区驱动的项目。
 1. Fork [EasyWeChat/docs](https://github.com/EasyWeChat/docs)
 2. Clone 到你的电脑：
 
-    {% code %}
+    ```shell
     $ git clone https://github.com/<username>/site.git
     $ cd docs
-    {% endcode %}
+    ```
 
 3. 创建新的分支，编辑文档
 4. Push 到你的分支。
