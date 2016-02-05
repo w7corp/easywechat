@@ -36,7 +36,7 @@ class Article extends AbstractMessage
                                 'title',
                                 'content',
                                 'digest',
-                                'source_url',
+                                'content_source_url',
                                 'show_cover',
                             ];
 
@@ -46,7 +46,6 @@ class Article extends AbstractMessage
      * @var array
      */
     protected $aliases = [
-        'source_url' => 'content_source_url',
         'show_cover' => 'show_cover_pic',
     ];
 }
