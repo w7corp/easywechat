@@ -71,7 +71,7 @@ class User extends AbstractAPI
                     ];
         }, $openIds);
 
-        return $this->parseJSON('get', [self::API_BATCH_GET, $params]);
+        return $this->parseJSON('json', [self::API_BATCH_GET, $params]);
     }
 
     /**
