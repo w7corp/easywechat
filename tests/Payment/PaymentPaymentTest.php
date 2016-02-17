@@ -10,6 +10,7 @@
  */
 
 use EasyWeChat\Core\Exceptions\FaultException;
+use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
@@ -148,6 +149,18 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('timeStamp', $array);
         $this->assertArrayHasKey('nonceStr', $array);
         $this->assertArrayHasKey('addrSign', $array);
+
+        $log = new stdClass();
+        $log->called = false;
+        $accessToken = Mockery::mock(AccessToken::class.'[getToken]', ['foo', 'bar']);
+
+        $accessToken->shouldReceive('getToken')->andReturnUsing(function() use ($log) {
+                $log->called = true;
+                return "mockToken";
+        });
+
+        $json = $payment->configForShareAddress($accessToken);
+        $this->assertTrue($log->called);
     }
 
     /**
