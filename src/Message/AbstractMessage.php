@@ -20,7 +20,6 @@
  */
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Attribute;
 
 /**
