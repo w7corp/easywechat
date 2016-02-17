@@ -9,8 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\AccessToken;
+use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
@@ -116,13 +116,13 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test configForPayment
+     * test configForPayment.
      */
     public function testConfigForPayment()
     {
         $payment = $this->getPayment();
 
-        $json = $payment->configForPayment("prepayId");
+        $json = $payment->configForPayment('prepayId');
 
         $array = json_decode($json, true);
         $this->assertEquals('wxTestAppId', $array['appId']);
@@ -134,13 +134,13 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test configForShareAddress
+     * test configForShareAddress.
      */
     public function testConfigForShareAddress()
     {
         $payment = $this->getPayment();
 
-        $json = $payment->configForShareAddress("accessToken");
+        $json = $payment->configForShareAddress('accessToken');
 
         $array = json_decode($json, true);
         $this->assertEquals('wxTestAppId', $array['appId']);
@@ -154,9 +154,10 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
         $log->called = false;
         $accessToken = Mockery::mock(AccessToken::class.'[getToken]', ['foo', 'bar']);
 
-        $accessToken->shouldReceive('getToken')->andReturnUsing(function() use ($log) {
+        $accessToken->shouldReceive('getToken')->andReturnUsing(function () use ($log) {
                 $log->called = true;
-                return "mockToken";
+
+                return 'mockToken';
         });
 
         $json = $payment->configForShareAddress($accessToken);
@@ -164,7 +165,7 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * test getNotify
+     * test getNotify.
      */
     public function testGetNotify()
     {

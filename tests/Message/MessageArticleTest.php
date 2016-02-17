@@ -19,12 +19,12 @@ class MessageArticleTest extends PHPUnit_Framework_TestCase
     public function testAttributes()
     {
         $attributes = [
-                'title'              => 'TITLE', 
-                'thumb_media_id'     => 'THUMB_MEDIA_ID', 
-                'author'             => 'AUTHOR', 
-                'digest'             => 'DIGEST',
-                'show_cover_pic'     => 'SHOW_COVER_PIC', 
-                'content'            => 'CONTENT',
+                'title' => 'TITLE',
+                'thumb_media_id' => 'THUMB_MEDIA_ID',
+                'author' => 'AUTHOR',
+                'digest' => 'DIGEST',
+                'show_cover_pic' => 'SHOW_COVER_PIC',
+                'content' => 'CONTENT',
                 'content_source_url' => 'CONTENT_SOURCE_URL',
             ];
         $article = new Article($attributes);

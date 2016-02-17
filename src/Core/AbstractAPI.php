@@ -73,7 +73,7 @@ abstract class AbstractAPI
             $this->http = new Http();
         }
 
-        if (count($this->http->getMiddlewares()) == 0) {
+        if (count($this->http->getMiddlewares()) === 0) {
             $this->registerHttpMiddlewares();
         }
 
