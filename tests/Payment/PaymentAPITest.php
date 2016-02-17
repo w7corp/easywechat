@@ -184,6 +184,19 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test authCodeToOpenId().
+     */
+    public function testAuthCodeToOpenId()
+    {
+        $api = $this->getAPI();
+
+        $response = $api->authCodeToOpenId('authcode');
+
+        $this->assertEquals(API::API_AUTH_CODE_TO_OPENID, $response['api']);
+        $this->assertEquals('authcode', $response['params']['auth_code']);
+    }
+
+    /**
      * Test setMerchant() and getMerchant.
      */
     public function testMerchantGetterAndSetter()
