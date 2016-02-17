@@ -43,5 +43,6 @@ delete_branch support
 delete_branch url
 delete_branch user
 delete_branch broadcast
+delete_branch reply
 
 rm -rf ./.tmp

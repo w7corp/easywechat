@@ -38,7 +38,7 @@ class Menu extends AbstractAPI
     /**
      * Get all menus.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function all()
     {
@@ -48,7 +48,7 @@ class Menu extends AbstractAPI
     /**
      * Get current menus.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function current()
     {
@@ -60,6 +60,8 @@ class Menu extends AbstractAPI
      *
      * @param array $buttons
      * @param array $matchRule
+     *
+     * @return bool
      */
     public function add(array $buttons, array $matchRule = [])
     {
