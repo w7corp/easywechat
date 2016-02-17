@@ -72,7 +72,7 @@ class MessageBuilder
     /**
      * Set message to send.
      *
-     * @param AbstractMessage $message
+     * @param string|AbstractMessage $message
      *
      * @return MessageBuilder
      *
