@@ -129,6 +129,6 @@ class User extends AbstractAPI
     {
         $params = ['openid' => $openId];
 
-        return $this->parseJSON('get', [self::API_GROUP, $params]);
+        return $this->parseJSON('json', [self::API_GROUP, $params]);
     }
 }
