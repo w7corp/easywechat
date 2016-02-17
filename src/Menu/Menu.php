@@ -83,7 +83,7 @@ class Menu extends AbstractAPI
     public function destroy($menuId = null)
     {
         if ($menuId !== null) {
-            return $this->parseJSON('post', [self::API_CONDITIONAL_DELETE, ['menuid' => $menuId]]);
+            return $this->parseJSON('json', [self::API_CONDITIONAL_DELETE, ['menuid' => $menuId]]);
         }
 
         return  $this->parseJSON('get', [self::API_DELETE]);
@@ -98,6 +98,6 @@ class Menu extends AbstractAPI
      */
     public function test($userId)
     {
-        return $this->parseJSON('post', [self::API_CONDITIONAL_TEST, ['user_id' => $userId]]);
+        return $this->parseJSON('json', [self::API_CONDITIONAL_TEST, ['user_id' => $userId]]);
     }
 }
