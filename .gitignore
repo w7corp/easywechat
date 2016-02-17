@@ -4,5 +4,5 @@ sftp-config.json
 composer.lock
 /*.php
 /.idea
-/examples
+/coverage
 /.split

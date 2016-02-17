@@ -55,7 +55,9 @@ abstract class Attribute extends Collection
      */
     public function __construct($attributes = [])
     {
-        parent::__construct($attributes);
+        foreach ($attributes as $key => $value) {
+            $this->set($key, $value);
+        }
     }
 
     /**
@@ -68,7 +70,7 @@ abstract class Attribute extends Collection
      */
     public function setAttribute($attribute, $value)
     {
-        $this->add($attribute, $value);
+        $this->set($attribute, $value);
 
         return $this;
     }

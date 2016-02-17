@@ -38,7 +38,7 @@ class Menu extends AbstractAPI
     /**
      * Get all menus.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function all()
     {
@@ -48,7 +48,7 @@ class Menu extends AbstractAPI
     /**
      * Get current menus.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function current()
     {
@@ -60,6 +60,8 @@ class Menu extends AbstractAPI
      *
      * @param array $buttons
      * @param array $matchRule
+     *
+     * @return bool
      */
     public function add(array $buttons, array $matchRule = [])
     {
@@ -83,7 +85,7 @@ class Menu extends AbstractAPI
     public function destroy($menuId = null)
     {
         if ($menuId !== null) {
-            return $this->parseJSON('post', [self::API_CONDITIONAL_DELETE, ['menuid' => $menuId]]);
+            return $this->parseJSON('json', [self::API_CONDITIONAL_DELETE, ['menuid' => $menuId]]);
         }
 
         return  $this->parseJSON('get', [self::API_DELETE]);
@@ -98,6 +100,6 @@ class Menu extends AbstractAPI
      */
     public function test($userId)
     {
-        return $this->parseJSON('post', [self::API_CONDITIONAL_TEST, ['user_id' => $userId]]);
+        return $this->parseJSON('json', [self::API_CONDITIONAL_TEST, ['user_id' => $userId]]);
     }
 }

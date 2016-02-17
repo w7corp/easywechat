@@ -20,7 +20,6 @@
  */
 namespace EasyWeChat\Message;
 
-use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Attribute;
 
 /**
@@ -62,16 +61,6 @@ abstract class AbstractMessage extends Attribute
      * @var array
      */
     protected $properties = [];
-
-    /**
-     * Constructor.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct(Arr::only($attributes, $this->properties));
-    }
 
     /**
      * Return type name message.

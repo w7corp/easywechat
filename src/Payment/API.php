@@ -48,6 +48,7 @@ class API extends AbstractAPI
     const API_DOWNLOAD_BILL = 'https://api.mch.weixin.qq.com/pay/downloadbill';
     const API_REPORT = 'https://api.mch.weixin.qq.com/payitil/report';
     const API_URL_SHORTEN = 'https://api.mch.weixin.qq.com/tools/shorturl';
+    const API_AUTH_CODE_TO_OPENID = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
 
     // order id types.
     const TRANSCATION_ID = 'transcation_id';
@@ -322,6 +323,18 @@ class API extends AbstractAPI
         ], $other);
 
         return $this->request(self::API_REPORT, $params);
+    }
+
+    /**
+     * Get openid by auth code.
+     *
+     * @param string $authCode
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function authCodeToOpenId($authCode)
+    {
+        return $this->request(self::API_AUTH_CODE_TO_OPENID, ['auth_code' => $authCode]);
     }
 
     /**

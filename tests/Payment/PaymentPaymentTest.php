@@ -9,6 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
+use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
@@ -112,6 +113,65 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
                 'return_code' => 'FAIL',
                 'return_msg' => '',
             ]), $response->getContent());
+    }
+
+    /**
+     * test configForPayment.
+     */
+    public function testConfigForPayment()
+    {
+        $payment = $this->getPayment();
+
+        $json = $payment->configForPayment('prepayId');
+
+        $array = json_decode($json, true);
+        $this->assertEquals('wxTestAppId', $array['appId']);
+        $this->assertEquals('prepay_id=prepayId', $array['package']);
+        $this->assertEquals('MD5', $array['signType']);
+        $this->assertArrayHasKey('timeStamp', $array);
+        $this->assertArrayHasKey('nonceStr', $array);
+        $this->assertArrayHasKey('paySign', $array);
+    }
+
+    /**
+     * test configForShareAddress.
+     */
+    public function testConfigForShareAddress()
+    {
+        $payment = $this->getPayment();
+
+        $json = $payment->configForShareAddress('accessToken');
+
+        $array = json_decode($json, true);
+        $this->assertEquals('wxTestAppId', $array['appId']);
+        $this->assertEquals('jsapi_address', $array['scope']);
+        $this->assertEquals('SHA1', $array['signType']);
+        $this->assertArrayHasKey('timeStamp', $array);
+        $this->assertArrayHasKey('nonceStr', $array);
+        $this->assertArrayHasKey('addrSign', $array);
+
+        $log = new stdClass();
+        $log->called = false;
+        $accessToken = Mockery::mock(AccessToken::class.'[getToken]', ['foo', 'bar']);
+
+        $accessToken->shouldReceive('getToken')->andReturnUsing(function () use ($log) {
+                $log->called = true;
+
+                return 'mockToken';
+        });
+
+        $json = $payment->configForShareAddress($accessToken);
+        $this->assertTrue($log->called);
+    }
+
+    /**
+     * test getNotify.
+     */
+    public function testGetNotify()
+    {
+        $payment = $this->getPayment();
+
+        $this->assertInstanceOf(Notify::class, $payment->getNotify());
     }
 
     /**

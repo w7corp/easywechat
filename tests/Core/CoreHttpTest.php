@@ -16,6 +16,13 @@ namespace {
 
     class CoreHttpTest extends PHPUnit_Framework_TestCase
     {
+        public function testConstruct()
+        {
+            $http = new Http();
+
+            $this->assertInstanceOf(Client::class, $http->getClient());
+        }
+
         /**
          * Get guzzle mock client.
          *
