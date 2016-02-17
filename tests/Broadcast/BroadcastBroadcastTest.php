@@ -130,11 +130,11 @@ class BroadcastBroadcastTest extends PHPUnit_Framework_TestCase
     public function testAlias()
     {
         $broadcast = Mockery::mock(Broadcast::class.'[send,preview]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
-        $broadcast->shouldReceive('send')->andReturnUsing(function($api, $message, $to){
+        $broadcast->shouldReceive('send')->andReturnUsing(function ($api, $message, $to) {
             return compact('api', 'message', 'to');
         });
 
-        $broadcast->shouldReceive('preview')->andReturnUsing(function($msgType, $message, $to, $by){
+        $broadcast->shouldReceive('preview')->andReturnUsing(function ($msgType, $message, $to, $by) {
             return compact('msgType', 'message', 'to', 'by');
         });
 

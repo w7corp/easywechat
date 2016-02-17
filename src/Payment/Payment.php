@@ -20,8 +20,8 @@
  */
 namespace EasyWeChat\Payment;
 
-use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Core\AccessToken;
+use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Support\Url as UrlHelper;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Response;
@@ -142,7 +142,7 @@ class Payment
      * Generate js config for share user address.
      *
      * @param string|accessToken $accessToken
-     * @param bool   $json
+     * @param bool               $json
      *
      * @return string|array
      */
