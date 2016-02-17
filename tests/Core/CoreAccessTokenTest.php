@@ -75,5 +75,48 @@ class CoreAccessTokenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('thisIsATokenFromHttp', $accessToken->getToken());
         $this->assertEquals('thisIsATokenFromHttp', $cacheObj->token);
         $this->assertEquals(5700, $cacheObj->expire);
+
+
+         $http = Mockery::mock(Http::class.'[get]', function ($mock) {
+            $mock->shouldReceive('get')->andReturn(json_encode([
+                    'foo' => 'bar', // without "access_token"
+                ]));
+        });
+
+        $accessToken = new AccessToken('appId', 'secret', $cache);
+        $accessToken->setHttp($http);
+
+        $this->setExpectedException(\EasyWeChat\Core\Exceptions\HttpException::class, 'Request AccessToken fail. response: {"foo":"bar"}');
+        $accessToken->getToken();
+        $this->fail();
+    }
+
+    public function testGetterAndSetter()
+    {
+        $accessToken = new AccessToken('appId', 'secret');
+
+        $this->assertEquals('secret', $accessToken->getSecret());
+        $this->assertEquals('appId', $accessToken->getAppId());
+
+        $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
+        
+        $cache = Mockery::mock(Cache::class, function ($mock) {
+            $mock->shouldReceive('fetch')->andReturn('thisIsACachedToken');
+            $mock->shouldReceive('save')->andReturnUsing(function ($key, $token, $expire) {
+                return $token;
+            });
+        });
+
+        $accessToken->setCache($cache);
+        $this->assertEquals($cache, $accessToken->getCache());
+
+        $this->assertEquals('access_token', $accessToken->getQueryName());
+        $this->assertArrayHasKey('access_token', $accessToken->getQueryFields());
+
+        $accessToken->setQueryName('foo');
+
+        $this->assertEquals('foo', $accessToken->getQueryName());
+        $this->assertArrayHasKey('foo', $accessToken->getQueryFields());
+        $this->assertArrayNotHasKey('access_token', $accessToken->getQueryFields());
     }
 }

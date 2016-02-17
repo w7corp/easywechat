@@ -64,16 +64,6 @@ abstract class AbstractMessage extends Attribute
     protected $properties = [];
 
     /**
-     * Constructor.
-     *
-     * @param array $attributes
-     */
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct(Arr::only($attributes, $this->properties));
-    }
-
-    /**
      * Return type name message.
      *
      * @return string

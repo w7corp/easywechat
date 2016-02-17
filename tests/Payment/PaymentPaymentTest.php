@@ -115,6 +115,52 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * test configForPayment
+     */
+    public function testConfigForPayment()
+    {
+        $payment = $this->getPayment();
+
+        $json = $payment->configForPayment("prepayId");
+
+        $array = json_decode($json, true);
+        $this->assertEquals('wxTestAppId', $array['appId']);
+        $this->assertEquals('prepay_id=prepayId', $array['package']);
+        $this->assertEquals('MD5', $array['signType']);
+        $this->assertArrayHasKey('timeStamp', $array);
+        $this->assertArrayHasKey('nonceStr', $array);
+        $this->assertArrayHasKey('paySign', $array);
+    }
+
+    /**
+     * test configForShareAddress
+     */
+    public function testConfigForShareAddress()
+    {
+        $payment = $this->getPayment();
+
+        $json = $payment->configForShareAddress("accessToken");
+
+        $array = json_decode($json, true);
+        $this->assertEquals('wxTestAppId', $array['appId']);
+        $this->assertEquals('jsapi_address', $array['scope']);
+        $this->assertEquals('SHA1', $array['signType']);
+        $this->assertArrayHasKey('timeStamp', $array);
+        $this->assertArrayHasKey('nonceStr', $array);
+        $this->assertArrayHasKey('addrSign', $array);
+    }
+
+    /**
+     * test getNotify
+     */
+    public function testGetNotify()
+    {
+        $payment = $this->getPayment();
+
+        $this->assertInstanceOf(Notify::class, $payment->getNotify());
+    }
+
+    /**
      * Test setMerchant()、getMerchant()、setAPI() and getAPI().
      */
     public function testSetterAndGetter()

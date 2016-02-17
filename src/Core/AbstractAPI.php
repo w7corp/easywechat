@@ -60,8 +60,6 @@ abstract class AbstractAPI
     public function __construct(AccessToken $accessToken)
     {
         $this->setAccessToken($accessToken);
-
-        $this->registerHttpMiddleware();
     }
 
     /**
@@ -71,7 +69,15 @@ abstract class AbstractAPI
      */
     public function getHttp()
     {
-        return $this->http ?: $this->http = new Http();
+        if (is_null($this->http)) {
+            $this->http = new Http();
+        }
+
+        if (count($this->http->getMiddlewares()) == 0) {
+            $this->registerHttpMiddlewares();
+        }
+
+        return $this->http;
     }
 
     /**
@@ -134,14 +140,14 @@ abstract class AbstractAPI
     /**
      * Set request access_token query.
      */
-    protected function registerHttpMiddleware()
+    protected function registerHttpMiddlewares()
     {
         // access token
-        $this->getHttp()->addMiddleware($this->accessTokenMiddleware());
+        $this->http->addMiddleware($this->accessTokenMiddleware());
         // log
-        $this->getHttp()->addMiddleware($this->logMiddleware());
+        $this->http->addMiddleware($this->logMiddleware());
         // retry
-        $this->getHttp()->addMiddleware($this->retryMiddleware());
+        $this->http->addMiddleware($this->retryMiddleware());
     }
 
     /**
@@ -149,7 +155,7 @@ abstract class AbstractAPI
      *
      * @return \Closure
      */
-    public function accessTokenMiddleware()
+    protected function accessTokenMiddleware()
     {
         return function (callable $handler) {
             return function (RequestInterface $request, array $options) use ($handler) {
@@ -172,7 +178,7 @@ abstract class AbstractAPI
      *
      * @return \Closure
      */
-    public function logMiddleware()
+    protected function logMiddleware()
     {
         return Middleware::tap(function (RequestInterface $request) {
             Log::debug("Request: {$request->getMethod()} {$request->getUri()}");
