@@ -76,8 +76,7 @@ class CoreAccessTokenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('thisIsATokenFromHttp', $cacheObj->token);
         $this->assertEquals(5700, $cacheObj->expire);
 
-
-         $http = Mockery::mock(Http::class.'[get]', function ($mock) {
+        $http = Mockery::mock(Http::class.'[get]', function ($mock) {
             $mock->shouldReceive('get')->andReturn(json_encode([
                     'foo' => 'bar', // without "access_token"
                 ]));
@@ -99,7 +98,7 @@ class CoreAccessTokenTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('appId', $accessToken->getAppId());
 
         $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
-        
+
         $cache = Mockery::mock(Cache::class, function ($mock) {
             $mock->shouldReceive('fetch')->andReturn('thisIsACachedToken');
             $mock->shouldReceive('save')->andReturnUsing(function ($key, $token, $expire) {
