@@ -22,7 +22,6 @@ namespace EasyWeChat\Material;
 
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Core\Exceptions\RuntimeException;
 use EasyWeChat\Support\File;
 
 /**
@@ -80,7 +79,7 @@ class Temporary extends AbstractAPI
     public function getStream($mediaId)
     {
         $response = $this->getHttp()->get(self::API_GET, ['media_id' => $mediaId]);
-        
+
         return $response->getBody();
     }
 
