@@ -80,16 +80,8 @@ class Temporary extends AbstractAPI
     public function getStream($mediaId)
     {
         $response = $this->getHttp()->get(self::API_GET, ['media_id' => $mediaId]);
-
-        foreach ($response->getHeader('Content-Type') as $mime) {
-            if (preg_match('/(image|video|audio)/i', $mime)) {
-                return $response->getBody();
-            }
-        }
-
-        $this->checkAndThrow($this->getHttp()->parseJSON($response));
-
-        throw new RuntimeException('Unknown API response.'.$response->getBody());
+        
+        return $response->getBody();
     }
 
     /**
