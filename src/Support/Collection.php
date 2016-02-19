@@ -30,12 +30,7 @@ use Serializable;
 /**
  * Class Collection.
  */
-class Collection implements
-    ArrayAccess,
-    Countable,
-    IteratorAggregate,
-    JsonSerializable,
-    Serializable
+class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
 {
     /**
      * The collection data.

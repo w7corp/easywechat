@@ -72,4 +72,4 @@ EasyWeChat 是一个开源的，社区驱动的项目。
 
 ## 报告 Bug
 
-当你在使用过程中遇到问题，请查阅 [疑难解答](troubleshooting.html) 或者在这里提问 [GitHub](https://github.com/overtrue/wechat/issues). 如果还是不能解决你的问题，请到 GitHub 联系我们。
+当你在使用过程中遇到问题，请查阅 [疑难解答](http://easywechat.org/docs/zh-cn/troubleshooting.html) 或者在这里提问 [GitHub](https://github.com/overtrue/wechat/issues). 如果还是不能解决你的问题，请到 GitHub 联系我们。

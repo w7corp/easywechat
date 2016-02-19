@@ -182,6 +182,11 @@ class Material extends AbstractAPI
 
         $json = $this->getHttp()->parseJSON($response);
 
+        // XXX: 微信开发这帮混蛋，尼玛文件二进制输出不带header，简直日了!!!
+        if (!$json) {
+            return $response->getBody();
+        }
+
         $this->checkAndThrow($json);
 
         return $json;

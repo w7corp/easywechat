@@ -33,29 +33,6 @@ class File
      * @var array
      */
     protected static $extensionMap = array(
-        'application/msword' => '.doc',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => '.docx',
-        'application/rtf' => '.rtf',
-        'application/vnd.ms-excel' => '.xls',
-        'application/x-excel' => '.xls',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => '.xlsx',
-        'application/vnd.ms-powerpoint' => '.ppt',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => '.pptx',
-        'application/vnd.ms-powerpoint' => '.pps',
-        'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => '.ppsx',
-        'application/pdf' => '.pdf',
-        'application/x-shockwave-flash' => '.swf',
-        'application/x-msdownload' => '.dll',
-        'application/octet-stream' => '.exe',
-        'application/octet-stream' => '.msi',
-        'application/octet-stream' => '.chm',
-        'application/octet-stream' => '.cab',
-        'application/octet-stream' => '.ocx',
-        'application/octet-stream' => '.rar',
-        'application/x-tar' => '.tar',
-        'application/x-compressed' => '.tgz',
-        'application/x-zip-compressed' => '.zip',
-        'application/x-compress' => '.z',
         'audio/wav' => '.wav',
         'audio/x-ms-wma' => '.wma',
         'video/x-ms-wmv' => '.wmv',
@@ -69,13 +46,29 @@ class File
         'image/png' => '.png',
         'image/tiff' => '.tiff',
         'image/jpeg' => '.jpg',
-        'text/plain' => '.txt',
-        'text/xml' => '.xml',
-        'text/html' => '.html',
-        'text/css' => '.css',
-        'text/javascript' => '.js',
-        'message/rfc822' => '.mhtml',
     );
+
+    /**
+     * File header signatures.
+     *
+     * @var array
+     */
+    protected static $signatures = [
+        'ffd8ff' => '.jpg',
+        '424d' => '.bmp',
+        '47494638' => '.gif',
+        '89504e47' => '.png',
+        '494433' => '.mp3',
+        'fffb' => '.mp3',
+        'fff3' => '.mp3',
+        '3026b2758e66cf11' => '.wma',
+        '52494646' => '.wav',
+        '57415645' => '.wav',
+        '41564920' => '.avi',
+        '000001ba' => '.mpg',
+        '000001b3' => '.mpg',
+        '2321414d52' => '.amr',
+    ];
 
     /**
      * Return steam extension.
@@ -90,6 +83,26 @@ class File
 
         $mime = strstr($finfo->buffer($stream), ';', true);
 
-        return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : '';
+        return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : self::getExtBySignature($stream);
+    }
+
+    /**
+     * Get file extension by file header signature.
+     *
+     * @param string $stream
+     *
+     * @return string
+     */
+    public static function getExtBySignature($stream)
+    {
+        $prefix = strval(bin2hex(mb_strcut($stream, 0, 10)));
+
+        foreach (self::$signatures as $signature => $extension) {
+            if (0 === strpos($prefix, strval($signature))) {
+                return $extension;
+            }
+        }
+
+        return '';
     }
 }
