@@ -28,7 +28,6 @@ namespace EasyWeChat\Foundation;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Support\Log;
-use ErrorException;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
