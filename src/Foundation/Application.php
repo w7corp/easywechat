@@ -28,7 +28,6 @@ namespace EasyWeChat\Foundation;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Support\Log;
-use ErrorException;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -65,13 +64,6 @@ class Application extends Container
     ];
 
     /**
-     * The exception handler.
-     *
-     * @var callable
-     */
-    protected $exceptionHandler;
-
-    /**
      * Application constructor.
      *
      * @param array $config
@@ -91,33 +83,8 @@ class Application extends Container
         $this->registerProviders();
         $this->registerBase();
         $this->initializeLogger();
-        $this->registerExceptionHandler();
 
         Log::debug('Current configuration:', $config);
-    }
-
-    /**
-     * Set the exception handler.
-     *
-     * @param callable $callback
-     *
-     * @return $this
-     */
-    public function setExceptionHandler(callable $callback)
-    {
-        $this->exceptionHandler = $callback;
-
-        return $this;
-    }
-
-    /**
-     * Return current exception handler.
-     *
-     * @return callable
-     */
-    public function getExceptionHandler()
-    {
-        return $this->exceptionHandler;
     }
 
     /**
@@ -211,43 +178,6 @@ class Application extends Container
                $this['cache']
            );
         };
-    }
-
-    /**
-     * Register exception and error handler.
-     */
-    private function registerExceptionHandler()
-    {
-        $logTemplate = '%s: %s in %s on line %s.';
-
-        $lastExceptionHandler = set_exception_handler(function ($e) use (&$lastExceptionHandler, $logTemplate) {
-            Log::error(sprintf($logTemplate, $e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine()));
-
-            $this->exceptionHandler && call_user_func_array($this->exceptionHandler, [$e]);
-
-            if (is_callable($lastExceptionHandler)) {
-                return call_user_func($lastExceptionHandler, $e);
-            }
-        });
-
-        $errorHandler = function ($severity, $message, $file, $line) use ($logTemplate) {
-            Log::error(sprintf($logTemplate, $severity, $message, $file, $line));
-
-            if (error_reporting() & $severity) {
-                throw new ErrorException($message, 0, $severity, $file, $line);
-            }
-        };
-
-        set_error_handler($errorHandler);
-
-        register_shutdown_function(function () use ($errorHandler) {
-            $lastError = error_get_last();
-
-            if ($lastError['type'] === E_ERROR) {
-                // fatal error
-                $errorHandler(E_ERROR, $lastError['message'], $lastError['file'], $lastError['line']);
-            }
-        });
     }
 
     /**
