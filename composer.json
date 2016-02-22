@@ -20,7 +20,7 @@
         "ext-openssl": "*",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.17",
-        "overtrue/socialite": "^1.0",
+        "overtrue/socialite": ">=1.0.7",
         "doctrine/cache": "~1.4"
     },
     "require-dev": {
