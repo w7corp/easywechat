@@ -193,7 +193,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      */
     public function forget($key)
     {
-        return Arr::forget($this->items, $key);
+        Arr::forget($this->items, $key);
     }
 
     /**
