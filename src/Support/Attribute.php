@@ -95,6 +95,7 @@ abstract class Attribute extends Collection
      * @param mixed  $value
      *
      * @return Attribute
+     *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function with($attribute, $value)
