@@ -32,7 +32,7 @@ use EasyWeChat\Support\Url as UrlHelper;
 class Js extends AbstractAPI
 {
     /**
-     * Cacher.
+     * Cache.
      *
      * @var Cache
      */
@@ -185,7 +185,7 @@ class Js extends AbstractAPI
     /**
      * Set cache manager.
      *
-     * @param Doctrine\Common\Cache\Cache $cache
+     * @param \Doctrine\Common\Cache\Cache $cache
      *
      * @return $this
      */
@@ -199,7 +199,7 @@ class Js extends AbstractAPI
     /**
      * Return cache manager.
      *
-     * @return Doctrine\Common\Cache\Cache
+     * @return \Doctrine\Common\Cache\Cache
      */
     public function getCache()
     {
