@@ -139,6 +139,29 @@ class Payment
     }
 
     /**
+     * Generate app payment parameters.
+     *
+     * @param string $prepayId
+     *
+     * @return array
+     */
+    public function configForAppPayment($prepayId)
+    {
+        $params = [
+            'appid' => $this->merchant->app_id,
+            'partnerid' => $this->merchant->merchant_id,
+            'prepayid' => $prepayId,
+            'noncestr' => uniqid(),
+            'timestamp' => time(),
+            'package' => 'Sign=WXPay',
+        ];
+
+        $params['sign'] = generate_sign($params, $this->merchant->key);
+
+        return $params;
+    }
+
+    /**
      * Generate js config for share user address.
      *
      * @param string|accessToken $accessToken
