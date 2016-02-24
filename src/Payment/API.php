@@ -277,7 +277,7 @@ class API extends AbstractAPI
      * @param string $date
      * @param string $type
      *
-     * @return stream
+     * @return \EasyWeChat\Support\Collection
      */
     public function downloadBill($date, $type = self::BILL_TYPE_ALL)
     {
