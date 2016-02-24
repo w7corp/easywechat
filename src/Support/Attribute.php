@@ -131,7 +131,7 @@ abstract class Attribute extends Collection
      */
     public function set($attribute, $value = null)
     {
-        return parent::set($this->getRealKey($attribute), $value);
+        parent::set($this->getRealKey($attribute), $value);
     }
 
     /**
