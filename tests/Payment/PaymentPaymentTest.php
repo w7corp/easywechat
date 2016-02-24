@@ -134,6 +134,23 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * test configForAppPayment.
+     */
+    public function testConfigForAppPayment()
+    {
+        $payment = $this->getPayment();
+
+        $array = $payment->configForAppPayment('prepayId');
+
+        $this->assertEquals('wxTestAppId', $array['appid']);
+        $this->assertEquals('prepayId', $array['prepayid']);
+        $this->assertEquals('Sign=WXPay', $array['package']);
+        $this->assertArrayHasKey('timestamp', $array);
+        $this->assertArrayHasKey('noncestr', $array);
+        $this->assertArrayHasKey('sign', $array);
+    }
+
+    /**
      * test configForShareAddress.
      */
     public function testConfigForShareAddress()
