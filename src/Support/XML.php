@@ -30,9 +30,7 @@ class XML
      *
      * @param string $xml XML string
      *
-     * @return array
-     *
-     * @throws InvalidArgumentException
+     * @return array|\SimpleXMLElement
      */
     public static function parse($xml)
     {

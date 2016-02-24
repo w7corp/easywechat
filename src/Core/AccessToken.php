@@ -77,9 +77,9 @@ class AccessToken
     /**
      * Constructor.
      *
-     * @param string                      $appId
-     * @param string                      $secret
-     * @param Doctrine\Common\Cache\Cache $cache
+     * @param string                       $appId
+     * @param string                       $secret
+     * @param \Doctrine\Common\Cache\Cache $cache
      */
     public function __construct($appId, $secret, Cache $cache = null)
     {
@@ -137,6 +137,8 @@ class AccessToken
      * Set cache instance.
      *
      * @param \Doctrine\Common\Cache\Cache $cache
+     *
+     * @return AccessToken
      */
     public function setCache(Cache $cache)
     {
@@ -191,6 +193,8 @@ class AccessToken
 
     /**
      * Get the access token from WeChat server.
+     *
+     * @throws \EasyWeChat\Core\Exceptions\HttpException
      *
      * @return array|bool
      */

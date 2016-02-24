@@ -95,6 +95,8 @@ abstract class Attribute extends Collection
      * @param mixed  $value
      *
      * @return Attribute
+     *
+     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function with($attribute, $value)
     {
@@ -130,7 +132,7 @@ abstract class Attribute extends Collection
      */
     public function set($attribute, $value = null)
     {
-        return parent::set($this->getRealKey($attribute), $value);
+        parent::set($this->getRealKey($attribute), $value);
     }
 
     /**
