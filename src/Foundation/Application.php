@@ -145,7 +145,7 @@ class Application extends Container
      */
     public function __set($id, $value)
     {
-        return $this->offsetSet($id, $value);
+        $this->offsetSet($id, $value);
     }
 
     /**
