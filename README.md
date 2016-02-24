@@ -1,4 +1,4 @@
-# [WeChat SDK](http://easywechat.org)
+# [Easy WeChat](http://easywechat.org)
 
 可能是目前最优雅的微信公众平台 SDK 了。
 
