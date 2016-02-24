@@ -218,9 +218,13 @@ class Guard
     /**
      * Build response.
      *
+     * @param $to
+     * @param $from
      * @param mixed $message
      *
      * @return string
+     *
+     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     protected function buildResponse($to, $from, $message)
     {

@@ -126,7 +126,7 @@ class Notice extends AbstractAPI
 
         foreach ($params as $key => $value) {
             if (in_array($key, $required, true) && empty($value) && empty($this->message[$key])) {
-                throw new InvalidArgumentException("Attibute '$key' can not be empty!");
+                throw new InvalidArgumentException("Attribute '$key' can not be empty!");
             }
 
             $params[$key] = empty($value) ? $this->message[$key] : $value;

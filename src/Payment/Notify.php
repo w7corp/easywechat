@@ -70,6 +70,8 @@ class Notify
      * Return the notify body from request.
      *
      * @return \EasyWeChat\Support\Collection
+     *
+     * @throws \EasyWeChat\Core\Exceptions\FaultException
      */
     public function getNotify()
     {
