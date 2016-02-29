@@ -17,7 +17,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    overtrue <i@overtrue.me>
+ * @author    AC <alexever@gmail.com>
  * @copyright 2015
  *
  * @link      https://github.com/overtrue/wechat
@@ -26,6 +26,7 @@
 namespace EasyWeChat\Foundation\ServiceProviders;
 
 use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
+use EasyWeChat\Payment\MerchantPay\MerchantPay;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Payment;
 use Pimple\Container;
@@ -61,6 +62,10 @@ class PaymentServiceProvider implements ServiceProviderInterface
 
         $pimple['lucky_money'] = function ($pimple) {
             return new LuckyMoney($pimple['merchant']);
+        };
+
+        $pimple['merchant_pay'] = function ($pimple) {
+            return new MerchantPay($pimple['merchant']);
         };
     }
 }
