@@ -97,8 +97,7 @@ class Material extends AbstractAPI
                 [
                     'title' => $title,
                     'introduction' => $description,
-                ]
-            , JSON_UNESCAPED_UNICODE),
+                ], JSON_UNESCAPED_UNICODE),
         ];
 
         return $this->uploadMedia('video', $path, $params);
