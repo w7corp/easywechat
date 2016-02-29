@@ -101,7 +101,7 @@ class API extends AbstractAPI
      *
      * @param string $orderNo
      * @param string $type
-     * 
+     *
      * @return \EasyWeChat\Support\Collection
      */
     public function query($orderNo, $type = self::OUT_TRADE_NO)
