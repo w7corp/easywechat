@@ -142,12 +142,12 @@ abstract class AbstractAPI
      */
     protected function registerHttpMiddlewares()
     {
-        // access token
-        $this->http->addMiddleware($this->accessTokenMiddleware());
         // log
         $this->http->addMiddleware($this->logMiddleware());
         // retry
         $this->http->addMiddleware($this->retryMiddleware());
+        // access token
+        $this->http->addMiddleware($this->accessTokenMiddleware());
     }
 
     /**
@@ -180,9 +180,9 @@ abstract class AbstractAPI
      */
     protected function logMiddleware()
     {
-        return Middleware::tap(function (RequestInterface $request) {
-            Log::debug("Request: {$request->getMethod()} {$request->getUri()}");
-            Log::debug("Request Body: {$request->getBody()}");
+        return Middleware::tap(function (RequestInterface $request, $options) {
+            Log::debug("Request: {$request->getMethod()} {$request->getUri()} ".json_encode($options));
+            Log::debug('Request headers:'.json_encode($request->getHeaders()));
         });
     }
 
@@ -203,7 +203,7 @@ abstract class AbstractAPI
                 // Retry on server errors
                 if (stripos($body, 'errcode') && (stripos($body, '40001') || stripos($body, '42001'))) {
                     $field = $this->accessToken->getQueryName();
-                    $token = $this->accessToken->getToken();
+                    $token = $this->accessToken->getToken(true);
 
                     $request = $request->withUri($newUri = Uri::withQueryValue($request->getUri(), $field, $token));
 

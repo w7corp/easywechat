@@ -97,8 +97,7 @@ class Material extends AbstractAPI
                 [
                     'title' => $title,
                     'introduction' => $description,
-                ]
-            ),
+                ], JSON_UNESCAPED_UNICODE),
         ];
 
         return $this->uploadMedia('video', $path, $params);
@@ -265,7 +264,9 @@ class Material extends AbstractAPI
             throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
         }
 
-        return $this->parseJSON('upload', [$this->getAPIByType($type), ['media' => $path], $form, ['type' => $type]]);
+        $form['type'] = $type;
+
+        return $this->parseJSON('upload', [$this->getAPIByType($type), ['media' => $path], $form]);
     }
 
     /**

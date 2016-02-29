@@ -126,7 +126,7 @@ class Application extends Container
     }
 
     /**
-     * Magic get access. 
+     * Magic get access.
      *
      * @param string $id
      *

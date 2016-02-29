@@ -101,7 +101,7 @@ class AccessToken
 
         $cached = $this->getCache()->fetch($cacheKey);
 
-        if ($forceRefresh || !$cached) {
+        if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
 
             // XXX: T_T... 7200 - 1500
