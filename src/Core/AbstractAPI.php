@@ -42,7 +42,7 @@ abstract class AbstractAPI
     protected $http;
 
     /**
-     * The reqeust token.
+     * The request token.
      *
      * @var \EasyWeChat\Core\AccessToken
      */
@@ -219,7 +219,7 @@ abstract class AbstractAPI
     }
 
     /**
-     * Check the array data erros, and Throw expcetion when the contents cotnains error.
+     * Check the array data errors, and Throw exception when the contents contains error.
      *
      * @param array $contents
      *
