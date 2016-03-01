@@ -93,7 +93,7 @@ class MerchantPay
      * Magic call.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed
      *
