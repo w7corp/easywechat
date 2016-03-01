@@ -144,7 +144,6 @@ class API extends AbstractAPI
     public function sendGroup($params)
     {
         $params['amt_type'] = 'ALL_RAND';
-        $params['client_ip'] = !empty($params['client_ip']) ? $params['client_ip'] : $_SERVER['HTTP_CLIENT_IP'];
 
         return $this->send($params, self::TYPE_GROUP);
     }
