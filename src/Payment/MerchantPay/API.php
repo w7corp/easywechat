@@ -75,7 +75,7 @@ class API extends AbstractAPI
     /**
      * Send MerchantPay.
      *
-     * @param array $params
+     * @param array  $params
      * @param string $type
      *
      * @return \EasyWeChat\Support\Collection
@@ -84,6 +84,7 @@ class API extends AbstractAPI
     {
         $params['mchid'] = $this->merchant->merchant_id;
         $params['mch_appid'] = $this->merchant->app_id;
+
         return $this->request(self::API_SEND, $params);
     }
 
@@ -113,7 +114,7 @@ class API extends AbstractAPI
      * Make a API request.
      *
      * @param string $api
-     * @param array $params
+     * @param array  $params
      * @param string $method
      *
      * @return \EasyWeChat\Support\Collection
@@ -145,6 +146,6 @@ class API extends AbstractAPI
             $response = $response->getBody();
         }
 
-        return new Collection((array)XML::parse($response));
+        return new Collection((array) XML::parse($response));
     }
 }
