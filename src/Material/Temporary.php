@@ -103,7 +103,7 @@ class Temporary extends AbstractAPI
             throw new InvalidArgumentException("Unsupported media type: '{$type}'");
         }
 
-        return $this->parseJSON('upload', [self::API_UPLOAD, ['media' => $path], ['type'=> $type]]);
+        return $this->parseJSON('upload', [self::API_UPLOAD, ['media' => $path], ['type' => $type]]);
     }
 
     /**
