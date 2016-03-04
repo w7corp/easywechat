@@ -138,7 +138,7 @@ abstract class AbstractAPI
     }
 
     /**
-     * Set request access_token query.
+     * Register Guzzle middlewares.
      */
     protected function registerHttpMiddlewares()
     {
