@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Payment\UnifiedOrder;
@@ -38,7 +37,7 @@ class Payment
 {
     /**
      * 统一下单.
-     * 
+     *
      * @var UnifiedOrder
      */
     protected $unifiedOrder;
@@ -50,7 +49,7 @@ class Payment
 
     /**
      * 获取配置文件（用于 WeixinJSBridge invoke 方式）.
-     * 
+     *
      * @param bool|true $asJson
      *
      * @return array|string
@@ -64,7 +63,7 @@ class Payment
 
     /**
      * 获取配置文件（用于 Jssdk chooseWXPay 方式）.
-     * 
+     *
      * @param bool|true $asJson
      *
      * @return array|string
@@ -85,7 +84,7 @@ class Payment
 
     /**
      * 生成配置.
-     * 
+     *
      * @return array
      *
      * @throws Payment\Exception
@@ -94,7 +93,7 @@ class Payment
     {
         $response = $this->unifiedOrder->getResponse();
         $business = $this->unifiedOrder->getBusiness();
-        $config = array(
+        $config   = array(
             'appId' => $business->appid,
             'timeStamp' => (string) time(),
             'nonceStr' => $response['nonce_str'],
