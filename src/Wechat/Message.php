@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use InvalidArgumentException;
@@ -36,17 +35,17 @@ class Message
     /**
      * 消息类型.
      */
-    const TEXT = 'text';
-    const IMAGE = 'image';
-    const VOICE = 'voice';
-    const VIDEO = 'video';
-    const MP_VIDEO = 'mpvideo';
-    const MUSIC = 'music';
-    const NEWS = 'news';
-    const TRANSFER = 'transfer';
+    const TEXT      = 'text';
+    const IMAGE     = 'image';
+    const VOICE     = 'voice';
+    const VIDEO     = 'video';
+    const MP_VIDEO  = 'mpvideo';
+    const MUSIC     = 'music';
+    const NEWS      = 'news';
+    const TRANSFER  = 'transfer';
     const NEWS_ITEM = 'news_item';
-    const MP_NEWS = 'mp_news';
-    const WXCARD = 'wxcard';
+    const MP_NEWS   = 'mp_news';
+    const WXCARD    = 'wxcard';
 
     /**
      * 创建消息实例.

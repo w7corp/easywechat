@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/0i/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -45,16 +44,16 @@ class Notify
 
     public function __construct($appId, $appSecret, $mchId, $mchKey)
     {
-        $this->appId = $appId;
+        $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->mchId = $mchId;
-        $this->mchKey = $mchKey;
+        $this->mchId     = $mchId;
+        $this->mchKey    = $mchKey;
     }
 
     /**
      * 验证订单消息是否合法,
      * 不合法返回false, 合法返回订单信息详情.
-     * 
+     *
      * @return bool|Bag
      */
     public function verify()
@@ -93,7 +92,7 @@ class Notify
 
     /**
      * 回复消息, 如果不回复, 微信会一直发送请求到notify_url.
-     * 
+     *
      * @param string $code
      * @param string $msg
      *

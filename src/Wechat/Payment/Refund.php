@@ -30,8 +30,7 @@
  *   $refund->refund_fee=1;//退款金额
  *   $refund->out_trade_no=$order_id;//原商户订单号
  *   var_dump($trans->getResponse());
-*/
-
+ */
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Http;
@@ -47,7 +46,7 @@ class Refund
 
     /**
      * 商户信息.
-     * 
+     *
      * @var Business
      */
     protected $business;
@@ -69,7 +68,7 @@ class Refund
     /**
      * @var array
      */
-    protected static $params = array();
+    protected static $params      = array();
     protected static $allowParams = array();
 
     /**
@@ -84,14 +83,14 @@ class Refund
         if (!is_null($business)) {
             $this->setBusiness($business);
         }
-        if (sizeof(static::$allowParams) == 0) {
+        if (count(static::$allowParams) === 0) {
             static::$allowParams = array_merge(static::$required, static::$optional);
         }
     }
 
     /**
      * 设置商户.
-     * 
+     *
      * @param Business $business
      *
      * @return $this
@@ -106,7 +105,7 @@ class Refund
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
-            $this->business = $business;
+            $this->business   = $business;
             $this->refundInfo = null;
         }
 
@@ -115,7 +114,7 @@ class Refund
 
     /**
      * 获取商户.
-     * 
+     *
      * @return Business
      */
     public function getBusiness()
@@ -136,7 +135,7 @@ class Refund
             throw new Exception('Business is required');
         }
 
-        static::$params['appid'] = $this->business->appid;
+        static::$params['appid']  = $this->business->appid;
         static::$params['mch_id'] = $this->business->mch_id;
         $this->checkParams();
         $signGenerator = new SignGenerator(static::$params);
@@ -148,9 +147,9 @@ class Refund
         $request = XML::build(static::$params);
         //设置Http使用的证书
         $options['sslcert_path'] = $this->business->getClientCert();
-        $options['sslkey_path'] = $this->business->getClientKey();
+        $options['sslkey_path']  = $this->business->getClientKey();
 
-        $http = new Http();
+        $http     = new Http();
         $response = $http->request(static::REFUNDORDER_URL, Http::POST, $request, $options);
         if (empty($response)) {
             throw new Exception('Get Refund Failure:');
@@ -218,7 +217,7 @@ class Refund
 
     public function __set($property, $value)
     {
-        if (!in_array($property, static::$allowParams)) {
+        if (!in_array($property, static::$allowParams, true)) {
             throw new Exception(sprintf('"%s" is not required', $property));
         }
 

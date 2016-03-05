@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -70,10 +69,10 @@ class AccessToken
      */
     public function __construct($appId, $appSecret)
     {
-        $this->appId = $appId;
+        $this->appId     = $appId;
         $this->appSecret = $appSecret;
-        $this->cacheKey = $this->cacheKey.'.'.$appId;
-        $this->cache = new Cache($appId);
+        $this->cacheKey  = $this->cacheKey.'.'.$appId;
+        $this->cache     = new Cache($appId);
     }
 
     /**
@@ -119,7 +118,7 @@ class AccessToken
      */
     protected function getTokenFromServer()
     {
-        $http = new Http();
+        $http   = new Http();
         $params = array(
             'appid' => $this->appId,
             'secret' => $this->appSecret,
