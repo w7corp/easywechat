@@ -22,7 +22,6 @@
  *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Shop;
 
 use Overtrue\Wechat\Shop\Foundation\Base;
@@ -39,21 +38,21 @@ class Order extends Base implements OrderInterface
     /**
      * 快递.
      */
-    const EMS = 'Fsearch_code';
-    const STO = '002shentong';
-    const ZTO = '066zhongtong';
-    const YTO = '056yuantong';
-    const TTK = '042tiantian';
-    const SF = '003shunfeng';
-    const YUN_DA = '059Yunda';
-    const ZJS = '064zhaijisong';
+    const EMS      = 'Fsearch_code';
+    const STO      = '002shentong';
+    const ZTO      = '066zhongtong';
+    const YTO      = '056yuantong';
+    const TTK      = '042tiantian';
+    const SF       = '003shunfeng';
+    const YUN_DA   = '059Yunda';
+    const ZJS      = '064zhaijisong';
     const HUI_TONG = '020huitong';
-    const YI_XUN = 'zj001yixun';
+    const YI_XUN   = 'zj001yixun';
 
-    const API_GET_BY_ID = 'https://api.weixin.qq.com/merchant/order/getbyid';
+    const API_GET_BY_ID        = 'https://api.weixin.qq.com/merchant/order/getbyid';
     const API_GET_BY_ATTRIBUTE = 'https://api.weixin.qq.com/merchant/order/getbyfilter';
-    const API_SET_DELIVERY = 'https://api.weixin.qq.com/merchant/order/setdelivery';
-    const API_CLOSE = 'https://api.weixin.qq.com/merchant/order/close';
+    const API_SET_DELIVERY     = 'https://api.weixin.qq.com/merchant/order/setdelivery';
+    const API_CLOSE            = 'https://api.weixin.qq.com/merchant/order/close';
 
     /**
      * 根据订单ID获取订单详情.
@@ -124,8 +123,8 @@ class Order extends Base implements OrderInterface
         if (empty($deliveryCompany) && empty($deliveryTrackNo)) {
             $data['need_delivery'] = 0;
         } else {
-            $data['need_delivery'] = 1;
-            $data['delivery_company'] = $deliveryCompany;
+            $data['need_delivery']     = 1;
+            $data['delivery_company']  = $deliveryCompany;
             $data['delivery_track_no'] = $deliveryTrackNo;
         }
 

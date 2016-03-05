@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
@@ -33,7 +32,7 @@ class Business extends MagicAttributes
 {
     /**
      * 有效的参数.
-     * 
+     *
      * @var array
      */
     protected $valids = array('appid', 'appsecret', 'mch_id', 'mch_key');
@@ -56,15 +55,15 @@ class Business extends MagicAttributes
      */
     public function __construct($appId, $appSecret, $mchId, $mchKey)
     {
-        $this->appid = $appId;
+        $this->appid     = $appId;
         $this->appsecret = $appSecret;
-        $this->mch_id = $mchId;
-        $this->mch_key = $mchKey;
+        $this->mch_id    = $mchId;
+        $this->mch_key   = $mchKey;
     }
 
     /**
      * 设置商户证书 cert.
-     * 
+     *
      * @param $filepath
      *
      * @return $this

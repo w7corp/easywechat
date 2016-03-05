@@ -24,7 +24,6 @@
  * @link      http://blog.lost-magic.com
  * @link      https://github.com/thenbsp/Wechat
  */
-
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
@@ -33,14 +32,14 @@ class Order extends MagicAttributes
 {
     /**
      * 订单必填项.
-     * 
+     *
      * @var array
      */
     protected static $required = array('body', 'out_trade_no', 'total_fee', 'notify_url');
 
     /**
      * 订单选填项.
-     * 
+     *
      * @var array
      */
     protected static $optional = array(
@@ -63,7 +62,7 @@ class Order extends MagicAttributes
 
     /**
      * 检测参数值是否有效.
-     * 
+     *
      * @throws Exception
      */
     public function checkParams()
@@ -77,7 +76,7 @@ class Order extends MagicAttributes
 
     public function __set($property, $value)
     {
-        if (!in_array($property, static::$params)) {
+        if (!in_array($property, static::$params, true)) {
             throw new Exception(sprintf('"%s" is required', $property));
         }
 

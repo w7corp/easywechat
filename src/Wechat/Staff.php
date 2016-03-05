@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
@@ -54,12 +53,12 @@ class Staff
      */
     protected $headers = array('content-type:application/json');
 
-    const API_GET = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
-    const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
-    const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
-    const API_UPDATE = 'https://api.weixin.qq.com/customservice/kfaccount/update';
-    const API_CREATE = 'https://api.weixin.qq.com/customservice/kfaccount/add';
-    const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
+    const API_GET           = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
+    const API_ONLINE        = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
+    const API_DELETE        = 'https://api.weixin.qq.com/customservice/kfaccount/del';
+    const API_UPDATE        = 'https://api.weixin.qq.com/customservice/kfaccount/update';
+    const API_CREATE        = 'https://api.weixin.qq.com/customservice/kfaccount/add';
+    const API_MESSAGE_SEND  = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
     const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
 
     /**

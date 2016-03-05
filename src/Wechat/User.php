@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -40,11 +39,11 @@ class User
      */
     protected $http;
 
-    const API_GET = 'https://api.weixin.qq.com/cgi-bin/user/info';
+    const API_GET       = 'https://api.weixin.qq.com/cgi-bin/user/info';
     const API_BATCH_GET = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget';
-    const API_LIST = 'https://api.weixin.qq.com/cgi-bin/user/get';
-    const API_GROUP = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
-    const API_REMARK = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
+    const API_LIST      = 'https://api.weixin.qq.com/cgi-bin/user/get';
+    const API_GROUP     = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+    const API_REMARK    = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
 
     /**
      * constructor.
