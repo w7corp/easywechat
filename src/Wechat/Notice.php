@@ -23,7 +23,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace Overtrue\Wechat;
 
 /**
@@ -143,11 +142,11 @@ class Notice
         '其它' => array(41 => '其它'),
     );
 
-    const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
-    const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
-    const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
+    const API_SEND_NOTICE          = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
+    const API_SET_INDUSTRY         = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
+    const API_ADD_TEMPLATE         = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
     const GET_ALL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/get_all_private_template';
-    const DEL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/del_private_template';
+    const DEL_PRIVATE_TEMPLATE     = 'https://api.weixin.qq.com/cgi-bin/template/del_private_template';
 
     /**
      * constructor.
@@ -195,7 +194,6 @@ class Notice
     }
 
     /**
-     *
      * 获取模板列表 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
      *
      * @return array
@@ -207,24 +205,29 @@ class Notice
 
     /**
      * 删除模板 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1433751277&token=&lang=zh_CN
+     *
      * @param $templateId
+     *
      * @return mixed
      */
     public function delPrivateTemplate($templateId)
     {
         $params = array('template_id' => $templateId);
+
         return $this->http->jsonPost(self::DEL_PRIVATE_TEMPLATE, $params);
     }
-    
+
     /**
      * 发送模板消息.
      *
      * @param string $to
      * @param string $templateId
-     * @param array $data
+     * @param array  $data
      * @param string $url
      * @param string $color
+     *
      * @return int
+     *
      * @throws Exception
      */
     public function send($to = null, $templateId = null, array $data = array(), $url = null, $color = '#FF0000')
@@ -243,7 +246,7 @@ class Notice
         );
 
         foreach ($params as $key => $value) {
-            if (in_array($key, $required) && empty($value) && empty($this->message[$key])) {
+            if (in_array($key, $required, true) && empty($value) && empty($this->message[$key])) {
                 throw new Exception("消息属性 '$key' 不能为空！");
             }
 
@@ -334,7 +337,7 @@ class Notice
      * 魔术调用.
      *
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return Notice
      */

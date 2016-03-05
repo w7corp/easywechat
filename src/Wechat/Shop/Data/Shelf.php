@@ -22,7 +22,6 @@
  *
  * @link      https://github.com/a939638621
  */
-
 namespace Overtrue\Wechat\Shop\Data;
 
 use Overtrue\Wechat\Shop\Foundation\ShopsException;
@@ -123,7 +122,7 @@ class Shelf extends MagicAttributes
         $groupsData = array();
 
         foreach ($groups as $k => $v) {
-            if (count($v) != 2) {
+            if (count($v) !== 2) {
                 throw new ShopsException('个数错误');
             }
 
@@ -150,7 +149,7 @@ class Shelf extends MagicAttributes
 //                [ 'group_id'=>'1','img'=>'images' ]
 //            ];
 
-            if ($keys[0] == 'group_id' && $keys[1] == 'img') {
+            if ($keys[0] === 'group_id' && $keys[1] === 'img') {
                 $groupsData = $groups;
             }
         }
