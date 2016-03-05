@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;
@@ -46,14 +47,14 @@ class QRCode
      */
     protected $appSecret;
 
-    const DAY                  = 86400;
-    const SCENE_QR_CARD        = 'QR_CARD';             // 卡券
-    const SCENE_QR_TEMPORARY   = 'QR_SCENE';            // 临时
-    const SCENE_QR_FOREVER     = 'QR_LIMIT_SCENE';      // 永久
+    const DAY = 86400;
+    const SCENE_QR_CARD = 'QR_CARD';             // 卡券
+    const SCENE_QR_TEMPORARY = 'QR_SCENE';            // 临时
+    const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';      // 永久
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';  // 永久的字符串参数值
 
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
-    const API_SHOW   = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+    const API_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
     /**
      * constructor.
@@ -63,7 +64,7 @@ class QRCode
      */
     public function __construct($appId, $appSecret)
     {
-        $this->appId     = $appId;
+        $this->appId = $appId;
         $this->appSecret = $appSecret;
     }
 
@@ -78,10 +79,10 @@ class QRCode
     {
         // 永久二维码时最大值为100000（目前参数只支持1--100000）
         if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < 100000) {
-            $type     = self::SCENE_QR_FOREVER;
+            $type = self::SCENE_QR_FOREVER;
             $sceneKey = 'scene_id';
         } else {
-            $type     = self::SCENE_QR_FOREVER_STR;
+            $type = self::SCENE_QR_FOREVER_STR;
             $sceneKey = 'scene_str';
         }
 

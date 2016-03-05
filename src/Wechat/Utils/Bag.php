@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat\Utils;
 
 // use JsonSerializable;// TODO:适时开放,为了兼容低版本PHP不得不放弃。。。
@@ -39,7 +40,8 @@ class Bag implements
     ArrayAccess,
     Countable,
     IteratorAggregate,
-    Serializable // , JsonSerializable
+    Serializable
+    // , JsonSerializable
 {
     /**
      * Data.

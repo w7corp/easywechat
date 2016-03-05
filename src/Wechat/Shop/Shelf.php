@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop;
 
 use Overtrue\Wechat\Shop\Data\Shelf as ShelfData;
@@ -36,10 +37,10 @@ use Overtrue\Wechat\Shop\Foundation\ShopsException;
  */
 class Shelf extends Base implements ShelfInterface
 {
-    const API_ADD       = 'https://api.weixin.qq.com/merchant/shelf/add';
-    const API_DELETE    = 'https://api.weixin.qq.com/merchant/shelf/del';
-    const API_UPDATE    = 'https://api.weixin.qq.com/merchant/shelf/mod';
-    const API_LISTS     = 'https://api.weixin.qq.com/merchant/shelf/getall';
+    const API_ADD = 'https://api.weixin.qq.com/merchant/shelf/add';
+    const API_DELETE = 'https://api.weixin.qq.com/merchant/shelf/del';
+    const API_UPDATE = 'https://api.weixin.qq.com/merchant/shelf/mod';
+    const API_LISTS = 'https://api.weixin.qq.com/merchant/shelf/getall';
     const API_GET_BY_ID = 'https://api.weixin.qq.com/merchant/shelf/getbyid';
 
     /**

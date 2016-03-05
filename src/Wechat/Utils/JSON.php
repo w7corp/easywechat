@@ -22,6 +22,7 @@
  *
  * @link      https://thenorthmemory.github.io
  */
+
 namespace Overtrue\Wechat\Utils;
 
 // for PHP5.3, prevent PHP Notice msg assumed

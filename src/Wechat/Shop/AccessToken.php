@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop;
 
 class AccessToken extends \Overtrue\Wechat\AccessToken

@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop\Data;
 
 /**
@@ -266,27 +267,27 @@ class Regional
         $data = array();
 
         foreach ($this->data['Country'] as $k => $countrys) {
-            if ($type === 'Country') {
+            if ($type == 'Country') {
                 $data[] = $countrys['name'];
                 continue;
             }
 
-            if ($countrys['name'] === $country) {
+            if ($countrys['name'] == $country) {
                 foreach ($countrys['Province'] as $provinces) {
-                    if ($type === 'Province') {
+                    if ($type == 'Province') {
                         $data[] = $provinces['name'];
                         continue;
                     }
 
                     $province = is_array($province) ? $province : array($province);
 
-                    if ((empty($province) || !$province) && $type === 'City') {
-                        if ($provinces['name'] === $province) {
+                    if ((empty($province) || !$province) && $type == 'City') {
+                        if ($provinces['name'] == $province) {
                             return $provinces['City'];
                         }
                     } else {
                         foreach ($province as $v) {
-                            if ($provinces['name'] === $v) {
+                            if ($provinces['name'] == $v) {
                                 $data[] = $provinces['City'];
                             }
                         }

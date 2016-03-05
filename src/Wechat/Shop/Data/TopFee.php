@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop\Data;
 
 use Overtrue\Wechat\Shop\Foundation\ShopsException;

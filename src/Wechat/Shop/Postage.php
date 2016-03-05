@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop;
 
 use Overtrue\Wechat\Shop\Data\TopFee;
@@ -39,14 +40,14 @@ use Overtrue\Wechat\Shop\Foundation\ShopsException;
 class Postage extends Base implements PostageInterface
 {
     const PING_YOU = '10000027';
-    const KUAI_DI  = '10000028';
-    const EMS      = '10000029';
+    const KUAI_DI = '10000028';
+    const EMS = '10000029';
 
-    const API_ADD       = 'https://api.weixin.qq.com/merchant/express/add';
-    const API_DELETE    = 'https://api.weixin.qq.com/merchant/express/del';
-    const API_UPDATE    = 'https://api.weixin.qq.com/merchant/express/update';
+    const API_ADD = 'https://api.weixin.qq.com/merchant/express/add';
+    const API_DELETE = 'https://api.weixin.qq.com/merchant/express/del';
+    const API_UPDATE = 'https://api.weixin.qq.com/merchant/express/update';
     const API_GET_BY_ID = 'https://api.weixin.qq.com/merchant/express/getbyid';
-    const API_LISTS     = 'https://api.weixin.qq.com/merchant/express/getall';
+    const API_LISTS = 'https://api.weixin.qq.com/merchant/express/getall';
 
     /**
      * 添加邮费模板

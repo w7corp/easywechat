@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Arr;
@@ -41,8 +42,8 @@ class Store
     protected $http;
 
     const API_CREATE = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
-    const API_GET    = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
-    const API_LIST   = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
+    const API_GET = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';
+    const API_LIST = 'http://api.weixin.qq.com/cgi-bin/poi/getpoilist';
     const API_UPDATE = 'http://api.weixin.qq.com/cgi-bin/poi/updatepoi';
     const API_DELETE = 'http://api.weixin.qq.com/cgi-bin/poi/delpoi';
 

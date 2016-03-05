@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\Bag;

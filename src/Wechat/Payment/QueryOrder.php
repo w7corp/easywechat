@@ -19,6 +19,7 @@
  *
  * @author    jaring <pengjiayin@gmail.com>
  */
+
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Http;
@@ -46,10 +47,10 @@ class QueryOrder
 
     public function __construct($appId, $appSecret, $mchId, $mchKey)
     {
-        $this->appId     = $appId;
+        $this->appId = $appId;
         $this->appSecret = $appSecret;
-        $this->mchId     = $mchId;
-        $this->mchKey    = $mchKey;
+        $this->mchId = $mchId;
+        $this->mchKey = $mchKey;
     }
 
     /**
@@ -65,19 +66,19 @@ class QueryOrder
      */
     public function getTransaction($order_id, $force = false)
     {
-        $params                 = array();
-        $params['appid']        = $this->appId;
-        $params['mch_id']       = $this->mchId;
+        $params = array();
+        $params['appid'] = $this->appId;
+        $params['mch_id'] = $this->mchId;
         $params['out_trade_no'] = $order_id;
-        $params['nonce_str']    = md5(uniqid(microtime()));
-        $signGenerator          = new SignGenerator($params);
+        $params['nonce_str'] = md5(uniqid(microtime()));
+        $signGenerator = new SignGenerator($params);
         $signGenerator->onSortAfter(function (SignGenerator $that) {
             $that->key = $this->mchKey;
         });
         $params['sign'] = $signGenerator->getResult();
-        $request        = XML::build($params);
-        $http           = new Http();
-        $response       = $http->request(static::QUERYORDER_URL, Http::POST, $request);
+        $request = XML::build($params);
+        $http = new Http();
+        $response = $http->request(static::QUERYORDER_URL, Http::POST, $request);
         if (empty($response)) {
             throw new Exception('Get ORDER Failure:');
         }

@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Utils\XML;
@@ -61,16 +62,16 @@ class Crypt
     protected $blockSize;
 
     const ERROR_INVALID_SIGNATURE = -40001; // 校验签名失败
-    const ERROR_PARSE_XML         = -40002; // 解析xml失败
-    const ERROR_CALC_SIGNATURE    = -40003; // 计算签名失败
-    const ERROR_INVALID_AESKEY    = -40004; // 不合法的AESKey
-    const ERROR_INVALID_APPID     = -40005; // 校验AppID失败
-    const ERROR_ENCRYPT_AES       = -40006; // AES加密失败
-    const ERROR_DECRYPT_AES       = -40007; // AES解密失败
-    const ERROR_INVALID_XML       = -40008; // 公众平台发送的xml不合法
-    const ERROR_BASE64_ENCODE     = -40009; // Base64编码失败
-    const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
-    const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
+    const ERROR_PARSE_XML = -40002; // 解析xml失败
+    const ERROR_CALC_SIGNATURE = -40003; // 计算签名失败
+    const ERROR_INVALID_AESKEY = -40004; // 不合法的AESKey
+    const ERROR_INVALID_APPID = -40005; // 校验AppID失败
+    const ERROR_ENCRYPT_AES = -40006; // AES加密失败
+    const ERROR_DECRYPT_AES = -40007; // AES解密失败
+    const ERROR_INVALID_XML = -40008; // 公众平台发送的xml不合法
+    const ERROR_BASE64_ENCODE = -40009; // Base64编码失败
+    const ERROR_BASE64_DECODE = -40010; // Base64解码失败
+    const ERROR_XML_BUILD = -40011; // 公众帐号生成回包xml失败
 
     /**
      * constructor.
@@ -89,10 +90,10 @@ class Crypt
             throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
         }
 
-        $this->appId     = $appId;
-        $this->token     = $token;
-        $this->AESKey    = base64_decode($encodingAESKey.'=', true);
-        $this->blockSize = 32; // mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $this->appId = $appId;
+        $this->token = $token;
+        $this->AESKey = base64_decode($encodingAESKey.'=', true);
+        $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
     }
 
     /**
@@ -114,7 +115,7 @@ class Crypt
     {
         $encrypt = $this->encrypt($xml, $this->appId);
 
-        !is_null($nonce) || $nonce         = substr($this->appId, 0, 10);
+        !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
         !is_null($timestamp) || $timestamp = time();
 
         //生成安全签名
@@ -180,12 +181,12 @@ class Crypt
         try {
             //获得16位随机字符串，填充到明文之前
             $random = $this->getRandomStr();
-            $text   = $random.pack('N', strlen($text)).$text.$appId;
+            $text = $random.pack('N', strlen($text)).$text.$appId;
 
             // 网络字节序
             // $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
             $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv     = substr($this->AESKey, 0, 16);
+            $iv = substr($this->AESKey, 0, 16);
 
             //使用自定义的填充方式对明文进行补位填充
             $text = $this->encode($text);
@@ -217,8 +218,8 @@ class Crypt
         try {
             //使用BASE64对需要解密的字符串进行解码
             $ciphertext = base64_decode($encrypted, true);
-            $module     = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv         = substr($this->AESKey, 0, 16);
+            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
+            $iv = substr($this->AESKey, 0, 16);
 
             mcrypt_generic_init($module, $this->AESKey, $iv);
 
@@ -239,10 +240,10 @@ class Crypt
                 return '';
             }
 
-            $content   = substr($result, 16, strlen($result));
-            $listLen   = unpack('N', substr($content, 0, 4));
-            $xmlLen    = $listLen[1];
-            $xml       = substr($content, 4, $xmlLen);
+            $content = substr($result, 16, strlen($result));
+            $listLen = unpack('N', substr($content, 0, 4));
+            $xmlLen = $listLen[1];
+            $xml = substr($content, 4, $xmlLen);
             $fromAppId = trim(substr($content, $xmlLen + 4));
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), self::ERROR_INVALID_XML);

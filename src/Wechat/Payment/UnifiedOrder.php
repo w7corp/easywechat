@@ -23,6 +23,7 @@
  * @link      https://github.com/0i
  * @link      https://github.com/thenbsp/Wechat
  */
+
 namespace Overtrue\Wechat\Payment;
 
 use Overtrue\Wechat\Http;
@@ -101,7 +102,7 @@ class UnifiedOrder
                 }
                 $order->trade_type = 'JSAPI';
             }
-            $this->order        = $order;
+            $this->order = $order;
             $this->unifiedOrder = null;
         }
 
@@ -135,7 +136,7 @@ class UnifiedOrder
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
-            $this->business     = $business;
+            $this->business = $business;
             $this->unifiedOrder = null;
         }
 
@@ -174,17 +175,17 @@ class UnifiedOrder
             return $this->unifiedOrder;
         }
 
-        $params           = $this->order->toArray();
-        $params['appid']  = $this->business->appid;
+        $params = $this->order->toArray();
+        $params['appid'] = $this->business->appid;
         $params['mch_id'] = $this->business->mch_id;
-        $signGenerator    = new SignGenerator($params);
-        $me               = $this;
+        $signGenerator = new SignGenerator($params);
+        $me = $this;
         $signGenerator->onSortAfter(function (SignGenerator $that) use ($me) {
             $that->key = $me->business->mch_key;
         });
 
         $params['sign'] = $signGenerator->getResult();
-        $request        = XML::build($params);
+        $request = XML::build($params);
 
         $http = new Http();
 

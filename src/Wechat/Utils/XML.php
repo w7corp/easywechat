@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat\Utils;
 
 /**
@@ -78,7 +79,7 @@ class XML
 
         $attr = trim($attr);
         $attr = empty($attr) ? '' : " {$attr}";
-        $xml  = "<{$root}{$attr}>";
+        $xml = "<{$root}{$attr}>";
         $xml  .= self::data2Xml($data, $item, $id);
         $xml  .= "</{$root}>";
 
@@ -135,7 +136,7 @@ class XML
         foreach ($data as $key => $val) {
             if (is_numeric($key)) {
                 $id && $attr = " {$id}=\"{$key}\"";
-                $key         = $item;
+                $key = $item;
             }
 
             $xml .= "<{$key}{$attr}>";

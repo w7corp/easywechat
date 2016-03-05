@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop;
 
 use Overtrue\Wechat\Utils\MagicAttributes;
@@ -54,7 +55,7 @@ class Config extends MagicAttributes
         $this->debug = $debug;
 
         //基础参数
-        $this->appId     = $appId;
+        $this->appId = $appId;
         $this->appSecret = $appSecret;
     }
 
@@ -67,7 +68,7 @@ class Config extends MagicAttributes
     public function setMessageConfig($token, $encodingAESKey = null)
     {
         //消息参数
-        $this->token          = $token;
+        $this->token = $token;
         $this->encodingAESKey = $encodingAESKey;
     }
 
@@ -79,7 +80,7 @@ class Config extends MagicAttributes
      */
     public function setPayConfig($mchId, $mchKey)
     {
-        $this->mchId  = $mchId;
+        $this->mchId = $mchId;
         $this->mchKey = $mchKey;
     }
 
@@ -92,7 +93,7 @@ class Config extends MagicAttributes
     public function setPEMConfig($clientCert, $clientKey)
     {
         $this->clientCert = $clientCert;
-        $this->clientKey  = $clientKey;
+        $this->clientKey = $clientKey;
     }
 
     public function __get($property)

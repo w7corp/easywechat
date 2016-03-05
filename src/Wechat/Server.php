@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat;
 
 use Overtrue\Wechat\Messages\BaseMessage;
@@ -96,9 +97,9 @@ class Server
      */
     public function __construct($appId, $token, $encodingAESKey = null)
     {
-        $this->listeners      = new Bag();
-        $this->appId          = $appId;
-        $this->token          = $token;
+        $this->listeners = new Bag();
+        $this->appId = $appId;
+        $this->token = $token;
         $this->encodingAESKey = $encodingAESKey;
     }
 
@@ -115,7 +116,7 @@ class Server
     {
         if (is_null($callback)) {
             $callback = $type;
-            $type     = '*';
+            $type = '*';
         }
 
         if (!is_callable($callback)) {

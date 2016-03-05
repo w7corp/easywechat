@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace Overtrue\Wechat;
 
 use Closure;
@@ -34,13 +35,13 @@ use Closure;
  */
 class Menu
 {
-    const API_CREATE             = 'https://api.weixin.qq.com/cgi-bin/menu/create';
-    const API_GET                = 'https://api.weixin.qq.com/cgi-bin/menu/get';
-    const API_DELETE             = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
-    const API_QUERY              = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
+    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
+    const API_GET = 'https://api.weixin.qq.com/cgi-bin/menu/get';
+    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delete';
+    const API_QUERY = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info';
     const API_CONDITIONAL_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/addconditional';
     const API_CONDITIONAL_DELETE = 'https://api.weixin.qq.com/cgi-bin/menu/delconditional';
-    const API_CONDITIONAL_TEST   = 'https://api.weixin.qq.com/cgi-bin/menu/trymatch';
+    const API_CONDITIONAL_TEST = 'https://api.weixin.qq.com/cgi-bin/menu/trymatch';
 
     /**
      * Http对象

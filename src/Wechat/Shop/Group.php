@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop;
 
 use Overtrue\Wechat\Shop\Foundation\Base;
@@ -35,12 +36,12 @@ use Overtrue\Wechat\Shop\Foundation\ShopsException;
  */
 class Group extends Base implements GroupInterface
 {
-    const API_ADD              = 'https://api.weixin.qq.com/merchant/group/add';
-    const API_DELETE           = 'https://api.weixin.qq.com/merchant/group/del';
+    const API_ADD = 'https://api.weixin.qq.com/merchant/group/add';
+    const API_DELETE = 'https://api.weixin.qq.com/merchant/group/del';
     const API_UPDATE_ATTRIBUTE = 'https://api.weixin.qq.com/merchant/group/propertymod';
-    const API_UPDATE_PRODUCT   = 'https://api.weixin.qq.com/merchant/group/productmod';
-    const API_LISTS            = 'https://api.weixin.qq.com/merchant/group/getall';
-    const API_GET_BY_ID        = 'https://api.weixin.qq.com/merchant/group/getbyid';
+    const API_UPDATE_PRODUCT = 'https://api.weixin.qq.com/merchant/group/productmod';
+    const API_LISTS = 'https://api.weixin.qq.com/merchant/group/getall';
+    const API_GET_BY_ID = 'https://api.weixin.qq.com/merchant/group/getbyid';
 
     /**
      * 添加分组.
@@ -123,8 +124,8 @@ class Group extends Base implements GroupInterface
         foreach ($product as $v) {
             $keys = array_keys($v);
 
-            if (count($keys) === 2) {
-                if (!($keys[0] === 'product_id' && $keys[1] === 'mod_action')) {
+            if (count($keys) == 2) {
+                if (!($keys[0] == 'product_id' && $keys[1] == 'mod_action')) {
                     $data[] = array('product_id' => $v[$keys[0]], 'mod_action' => $v[$keys[1]]);
                 }
             }

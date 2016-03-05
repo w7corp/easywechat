@@ -22,6 +22,7 @@
  *
  * @link      https://github.com/a939638621
  */
+
 namespace Overtrue\Wechat\Shop;
 
 use Overtrue\Wechat\Shop\Foundation\Base;
@@ -33,7 +34,7 @@ use Overtrue\Wechat\Shop\Foundation\Stock as StockInterface;
  */
 class Stock extends Base implements StockInterface
 {
-    const API_ADD    = 'https://api.weixin.qq.com/merchant/stock/add';
+    const API_ADD = 'https://api.weixin.qq.com/merchant/stock/add';
     const API_REDUCE = 'https://api.weixin.qq.com/merchant/stock/reduce';
 
     /**
