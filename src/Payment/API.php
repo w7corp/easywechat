@@ -81,7 +81,7 @@ class API extends AbstractAPI
      */
     public function pay(Order $order)
     {
-        $order['notify_url'] = $order['notify_url']? : $this->merchant->notify_url;
+        $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
         
         return $this->request(self::API_PAY_ORDER, $order->all());
     }
@@ -95,7 +95,7 @@ class API extends AbstractAPI
      */
     public function prepare(Order $order)
     {
-        $order['notify_url'] = $order['notify_url']? : $this->merchant->notify_url;
+        $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
         
         return $this->request(self::API_PREPARE_ORDER, $order->all());
     }

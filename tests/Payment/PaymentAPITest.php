@@ -38,6 +38,7 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
                 'app_id' => 'wxTestAppId',
                 'device_info' => 'testDeviceInfo',
                 'key' => 'testKey',
+                'notify_url' => 'merchant_default_notify_url',
             ]);
 
         $api = Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
@@ -52,13 +53,36 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
     public function testPrepare()
     {
         $api = $this->getAPI();
-        $order = Mockery::mock(Order::class);
+        $_SERVER['SERVER_ADDR'] = '127.0.0.1';
+
+        $order = new Order(['foo' => 'bar']);
         $order->shouldReceive('all')->andReturn(['foo' => 'bar']);
 
         $response = $api->prepare($order);
 
         $this->assertEquals(API::API_PREPARE_ORDER, $response['api']);
         $this->assertEquals('wxTestAppId', $response['params']['appid']);
+        $this->assertEquals('merchant_default_notify_url', $response['params']['notify_url']);
+        $this->assertEquals('testMerchantId', $response['params']['mch_id']);
+        $this->assertEquals('bar', $response['params']['foo']);
+    }
+
+    /**
+     * Test pay().
+     */
+    public function testPay()
+    {
+        $api = $this->getAPI();
+        $_SERVER['SERVER_ADDR'] = '127.0.0.1';
+
+        $order = new Order(['foo' => 'bar']);
+        $order->shouldReceive('all')->andReturn(['foo' => 'bar']);
+
+        $response = $api->pay($order);
+
+        $this->assertEquals(API::API_PAY_ORDER, $response['api']);
+        $this->assertEquals('wxTestAppId', $response['params']['appid']);
+        $this->assertEquals('merchant_default_notify_url', $response['params']['notify_url']);
         $this->assertEquals('testMerchantId', $response['params']['mch_id']);
         $this->assertEquals('bar', $response['params']['foo']);
     }
