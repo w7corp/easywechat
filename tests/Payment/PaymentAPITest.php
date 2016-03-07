@@ -74,14 +74,14 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
         $this->assertEquals(API::API_QUERY, $response['api']);
         $this->assertEquals('testTradeNoFoo', $response['params']['out_trade_no']);
 
-        $response = $api->query('testTradeNoBar', API::TRANSCATION_ID);
+        $response = $api->query('testTradeNoBar', API::TRANSACTION_ID);
 
         $this->assertEquals(API::API_QUERY, $response['api']);
-        $this->assertEquals('testTradeNoBar', $response['params']['transcation_id']);
+        $this->assertEquals('testTradeNoBar', $response['params']['transaction_id']);
 
-        $response = $api->queryByTranscationId('testTranscationId');
+        $response = $api->queryByTransactionId('testTransactionId');
         $this->assertEquals(API::API_QUERY, $response['api']);
-        $this->assertEquals('testTranscationId', $response['params']['transcation_id']);
+        $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
     /**
@@ -107,9 +107,9 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
         $this->assertEquals(API::API_REVERSE, $response['api']);
         $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
-        $response = $api->reverse('testTranscationId', API::TRANSCATION_ID);
+        $response = $api->reverse('testTransactionId', API::TRANSACTION_ID);
         $this->assertEquals(API::API_REVERSE, $response['api']);
-        $this->assertEquals('testTranscationId', $response['params']['transcation_id']);
+        $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
     /**
@@ -147,9 +147,9 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
         $this->assertEquals(API::API_QUERY_REFUND, $response['api']);
         $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
-        $response = $api->queryRefund('testTranscationId', API::TRANSCATION_ID);
+        $response = $api->queryRefund('testTransactionId', API::TRANSACTION_ID);
         $this->assertEquals(API::API_QUERY_REFUND, $response['api']);
-        $this->assertEquals('testTranscationId', $response['params']['transcation_id']);
+        $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
     /**
