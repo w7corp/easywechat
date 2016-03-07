@@ -375,7 +375,7 @@ class API extends AbstractAPI
         $params['appid'] = $this->merchant->app_id;
         $params['mch_id'] = $this->merchant->merchant_id;
         $params['device_info'] = $this->merchant->device_info;
-        $params['time_stamp'] = time();
+        // $params['time_stamp'] = time();
         $params['nonce_str'] = uniqid();
         $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
 
