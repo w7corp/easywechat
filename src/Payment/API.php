@@ -187,6 +187,7 @@ class API extends AbstractAPI
      */
     public function refund(
         $orderNo,
+        $refundNo,
         $totalFee,
         $refundFee = null,
         $opUserId = null,
@@ -194,6 +195,7 @@ class API extends AbstractAPI
         ) {
         $params = [
             $type => $orderNo,
+            'out_refund_no' => $refundNo,
             'total_fee' => $totalFee,
             'refund_fee' => $refundFee ?: $totalFee,
             'refund_fee_type' => $this->merchant->fee_type,
@@ -215,11 +217,12 @@ class API extends AbstractAPI
      */
     public function refundByTranscationId(
         $orderNo,
+        $refundNo,
         $totalFee,
         $refundFee = null,
         $opUserId = null
         ) {
-        return $this->refund($orderNo, $totalFee, $refundFee, $opUserId, self::TRANSCATION_ID);
+        return $this->refund($orderNo, $refundNo, $totalFee, $refundFee, $opUserId, self::TRANSCATION_ID);
     }
 
     /**

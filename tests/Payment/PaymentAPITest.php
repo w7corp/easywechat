@@ -143,19 +143,22 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
     {
         $api = $this->getAPI();
 
-        $response = $api->refund('testTradeNo', 100);
+        $response = $api->refund('testTradeNo', 'testRefundNo', 100);
         $this->assertEquals(API::API_REFUND, $response['api']);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
         $this->assertEquals(100, $response['params']['total_fee']);
         $this->assertEquals(100, $response['params']['refund_fee']);
         $this->assertEquals('CNY', $response['params']['refund_fee_type']);
         $this->assertEquals('testMerchantId', $response['params']['op_user_id']);
         $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
-        $response = $api->refund('testTradeNo', 100, 50);
+        $response = $api->refund('testTradeNo','testRefundNo', 100, 50);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
         $this->assertEquals(100, $response['params']['total_fee']);
         $this->assertEquals(50, $response['params']['refund_fee']);
 
-        $response = $api->refund('testTradeNo', 100, 50, 'testRefundNo');
+        $response = $api->refund('testTradeNo', 'testRefundNo', 100, 50);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
         $this->assertEquals(100, $response['params']['total_fee']);
         $this->assertEquals(50, $response['params']['refund_fee']);
     }
