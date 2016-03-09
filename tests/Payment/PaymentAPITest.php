@@ -152,7 +152,7 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
         $this->assertEquals('testMerchantId', $response['params']['op_user_id']);
         $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
-        $response = $api->refund('testTradeNo','testRefundNo', 100, 50);
+        $response = $api->refund('testTradeNo', 'testRefundNo', 100, 50);
         $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
         $this->assertEquals(100, $response['params']['total_fee']);
         $this->assertEquals(50, $response['params']['refund_fee']);
