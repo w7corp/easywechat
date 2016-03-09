@@ -26,8 +26,8 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
     {
         $http = Mockery::mock(Http::class);
 
-        $http->shouldReceive('post')->andReturnUsing(function ($api, $params) {
-            $params = XML::parse($params);
+        $http->shouldReceive('request')->andReturnUsing(function ($api, $method, $options) {
+            $params = XML::parse($options['body']);
 
             return XML::build(compact('api', 'params'));
         });
