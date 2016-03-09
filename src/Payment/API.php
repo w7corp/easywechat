@@ -81,6 +81,8 @@ class API extends AbstractAPI
      */
     public function pay(Order $order)
     {
+        $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
+
         return $this->request(self::API_PAY_ORDER, $order->all());
     }
 
@@ -93,6 +95,8 @@ class API extends AbstractAPI
      */
     public function prepare(Order $order)
     {
+        $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
+
         return $this->request(self::API_PREPARE_ORDER, $order->all());
     }
 
@@ -183,6 +187,7 @@ class API extends AbstractAPI
      */
     public function refund(
         $orderNo,
+        $refundNo,
         $totalFee,
         $refundFee = null,
         $opUserId = null,
@@ -190,6 +195,7 @@ class API extends AbstractAPI
         ) {
         $params = [
             $type => $orderNo,
+            'out_refund_no' => $refundNo,
             'total_fee' => $totalFee,
             'refund_fee' => $refundFee ?: $totalFee,
             'refund_fee_type' => $this->merchant->fee_type,
@@ -211,11 +217,12 @@ class API extends AbstractAPI
      */
     public function refundByTransactionId(
         $orderNo,
+        $refundNo,
         $totalFee,
         $refundFee = null,
         $opUserId = null
         ) {
-        return $this->refund($orderNo, $totalFee, $refundFee, $opUserId, self::TRANSACTION_ID);
+        return $this->refund($orderNo, $refundNo, $totalFee, $refundFee, $opUserId, self::TRANSCATION_ID);
     }
 
     /**
@@ -378,7 +385,13 @@ class API extends AbstractAPI
         $params['nonce_str'] = uniqid();
         $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
 
-        return $this->parseResponse($this->getHttp()->{$method}($api, XML::build($params)));
+        $options = [
+            'body' => XML::build($params),
+            'cert' => $this->merchant->get('cert_path'),
+            'ssl_key' => $this->merchant->get('key_path'),
+        ];
+
+        return $this->parseResponse($this->getHttp()->request($api, $method, $options));
     }
 
     /**
