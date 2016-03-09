@@ -386,7 +386,13 @@ class API extends AbstractAPI
         $params['nonce_str'] = uniqid();
         $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
 
-        return $this->parseResponse($this->getHttp()->{$method}($api, XML::build($params)));
+        $options = [
+            'body' => XML::build($params),
+            'cert' => $this->merchant->get('cert_path'),
+            'ssl_key' => $this->merchant->get('key_path'),
+        ];
+
+        return $this->parseResponse($this->getHttp()->request($api, $method, $options));
     }
 
     /**
