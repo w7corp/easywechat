@@ -51,7 +51,7 @@ class API extends AbstractAPI
     const API_AUTH_CODE_TO_OPENID = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
 
     // order id types.
-    const TRANSCATION_ID = 'transcation_id';
+    const TRANSACTION_ID = 'transaction_id';
     const OUT_TRADE_NO = 'out_trade_no';
     const OUT_REFUND_NO = 'out_refund_no';
     const REFUND_ID = 'refund_id';
@@ -118,15 +118,15 @@ class API extends AbstractAPI
     }
 
     /**
-     * Query order by transcation_id.
+     * Query order by transaction_id.
      *
-     * @param string $transcationId
+     * @param string $transactionId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function queryByTranscationId($transcationId)
+    public function queryByTransactionId($transactionId)
     {
-        return $this->query($transcationId, self::TRANSCATION_ID);
+        return $this->query($transactionId, self::TRANSACTION_ID);
     }
 
     /**
@@ -163,15 +163,15 @@ class API extends AbstractAPI
     }
 
     /**
-     * Reverse order by transcation_id.
+     * Reverse order by transaction_id.
      *
-     * @param int $transcationId
+     * @param int $transactionId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function reverseByTranscationId($transcationId)
+    public function reverseByTransactionId($transactionId)
     {
-        return $this->reverse($transcationId, self::TRANSCATION_ID);
+        return $this->reverse($transactionId, self::TRANSACTION_ID);
     }
 
     /**
@@ -206,7 +206,7 @@ class API extends AbstractAPI
     }
 
     /**
-     * Refund by transcation id.
+     * Refund by transaction id.
      *
      * @param string $orderNo
      * @param float  $totalFee
@@ -215,7 +215,7 @@ class API extends AbstractAPI
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function refundByTranscationId(
+    public function refundByTransactionId(
         $orderNo,
         $refundNo,
         $totalFee,
@@ -257,13 +257,13 @@ class API extends AbstractAPI
     /**
      * Query refund status by transaction_id.
      *
-     * @param string $transcationId
+     * @param string $transactionId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function queryRefundByTranscationId($transcationId)
+    public function queryRefundByTransactionId($transactionId)
     {
-        return $this->queryRefund($transcationId, self::TRANSCATION_ID);
+        return $this->queryRefund($transactionId, self::TRANSACTION_ID);
     }
 
     /**
@@ -382,7 +382,6 @@ class API extends AbstractAPI
         $params['appid'] = $this->merchant->app_id;
         $params['mch_id'] = $this->merchant->merchant_id;
         $params['device_info'] = $this->merchant->device_info;
-        $params['time_stamp'] = time();
         $params['nonce_str'] = uniqid();
         $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
 
