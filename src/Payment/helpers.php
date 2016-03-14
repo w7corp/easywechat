@@ -45,5 +45,5 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
  */
 function get_server_ip()
 {
-    return getenv('SERVER_ADDR') ?: 'unknown';
+    return getenv('SERVER_ADDR') ?: '127.0.0.1';
 }
