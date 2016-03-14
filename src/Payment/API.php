@@ -159,7 +159,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->request(self::API_REVERSE, $params);
+        return $this->safeRequest(self::API_REVERSE, $params);
     }
 
     /**
@@ -202,7 +202,7 @@ class API extends AbstractAPI
             'op_user_id' => $opUserId ?: $this->merchant->merchant_id,
         ];
 
-        return $this->request(self::API_REFUND, $params);
+        return $this->safeRequest(self::API_REFUND, $params);
     }
 
     /**
@@ -374,10 +374,11 @@ class API extends AbstractAPI
      * @param string $api
      * @param array  $params
      * @param string $method
+     * @param array  $options
      *
      * @return \EasyWeChat\Support\Collection
      */
-    protected function request($api, array $params, $method = 'post')
+    protected function request($api, array $params, $method = 'post', array $options = [])
     {
         $params['appid'] = $this->merchant->app_id;
         $params['mch_id'] = $this->merchant->merchant_id;
@@ -385,13 +386,30 @@ class API extends AbstractAPI
         $params['nonce_str'] = uniqid();
         $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
 
-        $options = [
+        $options = array_merge([
             'body' => XML::build($params),
+        ], $options);
+
+        return $this->parseResponse($this->getHttp()->request($api, $method, $options));
+    }
+
+    /**
+     * Request with SSL.
+     *
+     * @param string $api
+     * @param array  $params
+     * @param string $method
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    protected function safeRequest($api, array $params, $method = 'post')
+    {
+        $options = [
             'cert' => $this->merchant->get('cert_path'),
             'ssl_key' => $this->merchant->get('key_path'),
         ];
 
-        return $this->parseResponse($this->getHttp()->request($api, $method, $options));
+        return $this->request($api, $params, $method, $options);
     }
 
     /**
