@@ -129,7 +129,7 @@ class API extends AbstractAPI
     public function sendNormal($params)
     {
         $params['total_num'] = 1;
-        $params['client_ip'] = !empty($params['client_ip']) ? $params['client_ip'] : \EasyWeChat\Payment\get_client_ip();
+        $params['client_ip'] = !empty($params['client_ip']) ? $params['client_ip'] : \EasyWeChat\Payment\get_server_ip();
 
         return $this->send($params, self::TYPE_NORMAL);
     }
