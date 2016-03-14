@@ -37,13 +37,3 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
 
     return strtoupper(call_user_func_array($encryptMethod, [urldecode(http_build_query($attributes))]));
 }
-
-/**
- * Get server ip address.
- *
- * @return string
- */
-function get_server_ip()
-{
-    return getenv('SERVER_ADDR') ?: '127.0.0.1';
-}
