@@ -14,6 +14,7 @@ use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Support\XML;
+use Psr\Http\Message\ResponseInterface;
 
 class PaymentAPITest extends PHPUnit_Framework_TestCase
 {
@@ -184,7 +185,27 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
      */
     public function testDownloadBill()
     {
-        $api = $this->getAPI();
+        $http = Mockery::mock(Http::class);
+
+        $http->shouldReceive('request')->andReturnUsing(function ($api, $method, $options) {
+            $params = XML::parse($options['body']);
+            $response = Mockery::mock(ResponseInterface::class);
+            $response->shouldReceive('getBody')->andReturn(compact('api', 'params'));
+
+            return $response;
+        });
+
+        $merchant = new Merchant([
+                'fee_type' => 'CNY',
+                'merchant_id' => 'testMerchantId',
+                'app_id' => 'wxTestAppId',
+                'device_info' => 'testDeviceInfo',
+                'key' => 'testKey',
+                'notify_url' => 'merchant_default_notify_url',
+            ]);
+
+        $api = Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
+        $api->shouldReceive('getHttp')->andReturn($http);
 
         $response = $api->downloadBill('20150901');
         $this->assertEquals(API::API_DOWNLOAD_BILL, $response['api']);

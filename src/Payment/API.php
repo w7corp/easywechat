@@ -293,7 +293,7 @@ class API extends AbstractAPI
             'bill_type' => $type,
         ];
 
-        return $this->request(self::API_DOWNLOAD_BILL, $params);
+        return $this->request(self::API_DOWNLOAD_BILL, $params, 'post', [], true)->getBody();
     }
 
     /**
@@ -371,14 +371,15 @@ class API extends AbstractAPI
     /**
      * Make a API request.
      *
-     * @param string $api
-     * @param array  $params
-     * @param string $method
-     * @param array  $options
+     * @param string  $api
+     * @param array   $params
+     * @param string  $method
+     * @param array   $options
+     * @param boolean $options
      *
      * @return \EasyWeChat\Support\Collection
      */
-    protected function request($api, array $params, $method = 'post', array $options = [])
+    protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
         $params['appid'] = $this->merchant->app_id;
         $params['mch_id'] = $this->merchant->merchant_id;
@@ -390,7 +391,9 @@ class API extends AbstractAPI
             'body' => XML::build($params),
         ], $options);
 
-        return $this->parseResponse($this->getHttp()->request($api, $method, $options));
+        $response = $this->getHttp()->request($api, $method, $options);
+
+        return $returnResponse ? $response : $this->parseResponse($response);
     }
 
     /**
