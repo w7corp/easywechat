@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "ext-mcrypt": "*"
+        "ext-openssl": "*"
     },
     "autoload": {
         "psr-4": {

@@ -69,14 +69,14 @@ class Encryptor
      */
     public function __construct($appId, $token, $AESKey)
     {
-        if (!extension_loaded('mcrypt')) {
-            throw new RuntimeException("The ext 'mcrypt' is required.");
+        if (!extension_loaded('openssl')) {
+            throw new RuntimeException("The ext 'openssl' is required.");
         }
 
         $this->appId = $appId;
         $this->token = $token;
         $this->AESKey = $AESKey;
-        $this->blockSize = 32; // mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $this->blockSize = 32;
     }
 
     /**
@@ -232,19 +232,11 @@ class Encryptor
         try {
             $key = $this->getAESKey();
             $random = $this->getRandomStr();
-            $text = $random.pack('N', strlen($text)).$text.$appId;
+            $text = $this->encode($random.pack('N', strlen($text)).$text.$appId);
 
-            // $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv = substr($key, 0, 16);
 
-            $text = $this->encode($text);
-
-            mcrypt_generic_init($module, $key, $iv);
-
-            $encrypted = mcrypt_generic($module, $text);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
+            $encrypted = openssl_encrypt($text, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
 
             return base64_encode($encrypted);
         } catch (BaseException $e) {
@@ -267,14 +259,9 @@ class Encryptor
         try {
             $key = $this->getAESKey();
             $ciphertext = base64_decode($encrypted, true);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv = substr($key, 0, 16);
 
-            mcrypt_generic_init($module, $key, $iv);
-
-            $decrypted = mdecrypt_generic($module, $ciphertext);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
+            $decrypted = openssl_decrypt($ciphertext, 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
         } catch (BaseException $e) {
             throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);
         }

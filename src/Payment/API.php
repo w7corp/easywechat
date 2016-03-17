@@ -284,7 +284,7 @@ class API extends AbstractAPI
      * @param string $date
      * @param string $type
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function downloadBill($date, $type = self::BILL_TYPE_ALL)
     {
@@ -377,7 +377,7 @@ class API extends AbstractAPI
      * @param array  $options
      * @param bool   $options
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \EasyWeChat\Support\Collection|\Psr\Http\Message\ResponseInterface
      */
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
@@ -418,7 +418,7 @@ class API extends AbstractAPI
     /**
      * Parse Response XML to array.
      *
-     * @param string $response
+     * @param string|\Psr\Http\Message\ResponseInterface $response
      *
      * @return \EasyWeChat\Support\Collection
      */
