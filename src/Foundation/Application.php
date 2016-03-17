@@ -36,6 +36,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Application.
+ *
  * @property \EasyWeChat\Server\Guard                    $server
  * @property \EasyWeChat\User\User                       $user
  * @property \EasyWeChat\User\Group                      $user_group
