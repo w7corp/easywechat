@@ -371,11 +371,11 @@ class API extends AbstractAPI
     /**
      * Make a API request.
      *
-     * @param string  $api
-     * @param array   $params
-     * @param string  $method
-     * @param array   $options
-     * @param boolean $options
+     * @param string $api
+     * @param array  $params
+     * @param string $method
+     * @param array  $options
+     * @param bool   $options
      *
      * @return \EasyWeChat\Support\Collection|\Psr\Http\Message\ResponseInterface
      */

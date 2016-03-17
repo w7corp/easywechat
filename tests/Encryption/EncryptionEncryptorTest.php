@@ -1,7 +1,7 @@
 <?php
 
-use EasyWeChat\Support\XML;
 use EasyWeChat\Encryption\Encryptor;
+use EasyWeChat\Support\XML;
 
 class EncryptionEncryptorTest extends PHPUnit_Framework_TestCase
 {
@@ -33,12 +33,11 @@ class EncryptionEncryptorTest extends PHPUnit_Framework_TestCase
                 'FromUserName' => 'gh_7f083739789a',
                 'CreateTime' => '1407743423',
                 'MsgType' => 'video',
-                'Video' =>
-                  array(
+                'Video' => array(
                     'MediaId' => 'eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0',
                     'Title' => 'testCallBackReplyVideo',
                     'Description' => 'testCallBackReplyVideo',
-                  ));
+                  ), );
         $xml = XML::build($raw);
         $encrypted = $this->getEncryptor()->encryptMsg($xml, 'xxxxxx', '1407743423');
         $array = XML::parse($encrypted);
