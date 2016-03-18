@@ -12,18 +12,13 @@ class EncryptionEncryptorTest extends PHPUnit_Framework_TestCase
 
     public function testDecrypt()
     {
-        $encrypted = '<xml>
-<Encrypt><![CDATA[LNa1abdO4/gDi4KsEBFYTkUNxX2305W30BnbbCOaO7NSgbK7x0TRfipWgvOq5iduE5O0ReCJPhvVWN/m5BRSWNiEUj9fF/lmqf03MvPz+fI7Pnz1a4JlIPItIsgZ3nlpweWF3jFqA+6TYtyOvp0IuuyyPllovLanwGdjjF5KQhRTJh+PvdRD7k4ZYa010qsUhoOwWuFfbJ3L4dlnAC7hmn7AbcQoyaRi1YitINwcqbyxiFnXO/WzPM3YIvg1WaxDjczZwLPl1Nk6FbpbKy/qzatuEUefnPEqWbN5VFgIC34otxBfdMVLPApbTlJn1/NzaZgA//4eYNrUwE/WAjuff6tpuCHcs0xeIpUbUzf11n60RcFZ0cZb9meVhpBCrYElbQwS6UIA7RqJlgmID7W3i4xrPRp0ZYUCY6SAp8uPpd3UJG11OPplODZNym8caZh7JDbsTegyco/SonO0Db+EM0rDUdosC/UxfdKTY6XAlYDA3lwQQ/vKg0o6S7XcIJijK3xDakotfeo44FmLM147NlP6/ozcqAMscRVcExJv7pArcNBazEJTnyU5iS3GhWRrUnLHrUzu3/cg0ZF/XBkrpJox1NB+beyw/KZkx9vKvL8=]]></Encrypt>
-<MsgSignature><![CDATA[fe770a375568b46d29aed2d7071846524a289b32]]></MsgSignature>
-<TimeStamp>1409304348</TimeStamp>
-<Nonce><![CDATA[xxxxxx]]></Nonce>
-</xml>';
+        $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
 
-        $decrypted = $this->getEncryptor()->decryptMsg('fe770a375568b46d29aed2d7071846524a289b32', 'xxxxxx', '1409304348', $encrypted);
-        $this->assertEquals('测试中文', $decrypted['ToUserName']);
-        $this->assertEquals('gh_7f083739789a', $decrypted['FromUserName']);
-        $this->assertEquals('1407743423', $decrypted['CreateTime']);
-        $this->assertEquals('eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0', $decrypted['Video']['MediaId']);
+        $decrypted = $this->getEncryptor()->decryptMsg('4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676', $encrypted);
+        $this->assertEquals('asdasdasd', $decrypted['ToUserName']);
+        $this->assertEquals('asdasdasdsadasd', $decrypted['FromUserName']);
+        $this->assertEquals('1234567898', $decrypted['CreateTime']);
+        $this->assertEquals('hello', $decrypted['Content']);
     }
 
     public function testEncryptAndDecrypt()
