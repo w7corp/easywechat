@@ -69,7 +69,7 @@ class Refund
     /**
      * @var array
      */
-    protected static $params = array();
+    protected static $params  = null;
     protected static $allowParams = array();
 
     /**
