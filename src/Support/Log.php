@@ -59,6 +59,16 @@ class Log
     }
 
     /**
+     * Tests if logger exists
+     * 
+     * @return bool
+     */
+    public static function hasLogger()
+    {
+        return self::$logger ? true : false;
+    }
+
+    /**
      * Forward call.
      *
      * @param string $method
