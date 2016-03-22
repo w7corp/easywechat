@@ -116,7 +116,7 @@ class Payment
     }
 
     /**
-     * Gernerate js config for payment.
+     * Generate js config for payment.
      *
      * @param string $prepayId
      * @param bool   $json
