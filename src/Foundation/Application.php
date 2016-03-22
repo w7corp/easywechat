@@ -209,7 +209,7 @@ class Application extends Container
         if (Log::hasLogger()) {
             return;
         }
-        
+
         $logger = new Logger('easywechat');
 
         if (!$this['config']['debug'] || defined('PHPUNIT_RUNNING')) {

@@ -59,8 +59,8 @@ class Log
     }
 
     /**
-     * Tests if logger exists
-     * 
+     * Tests if logger exists.
+     *
      * @return bool
      */
     public static function hasLogger()
