@@ -206,6 +206,10 @@ class Application extends Container
      */
     private function initializeLogger()
     {
+        if (Log::hasLogger()) {
+            return;
+        }
+        
         $logger = new Logger('easywechat');
 
         if (!$this['config']['debug'] || defined('PHPUNIT_RUNNING')) {
