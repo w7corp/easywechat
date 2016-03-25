@@ -38,6 +38,7 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
     return strtoupper(call_user_func_array($encryptMethod, [urldecode(http_build_query($attributes))]));
 }
 
+
 /**
  * Get client ip address.
  *

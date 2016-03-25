@@ -187,7 +187,9 @@ class Payment
             'accesstoken' => $accessToken,
         ];
 
-        $params['addrSign'] = generate_sign($signParams, $this->merchant->key, 'sha1');
+        ksort($signParams);
+
+        $params['addrSign'] = sha1(urldecode(http_build_query($signParams)));
 
         return $json ? json_encode($params) : $params;
     }
