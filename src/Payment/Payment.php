@@ -164,17 +164,13 @@ class Payment
     /**
      * Generate js config for share user address.
      *
-     * @param string|accessToken $accessToken
-     * @param bool               $json
+     * @param string $accessToken
+     * @param bool   $json
      *
      * @return string|array
      */
     public function configForShareAddress($accessToken, $json = true)
     {
-        if ($accessToken instanceof AccessToken) {
-            $accessToken = $accessToken->getToken();
-        }
-
         $params = [
             'appId' => $this->merchant->app_id,
             'scope' => 'jsapi_address',
