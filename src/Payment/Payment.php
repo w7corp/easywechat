@@ -20,10 +20,10 @@
  */
 namespace EasyWeChat\Payment;
 
-use Overtrue\Socialite\AccessTokenInterface;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Support\Url as UrlHelper;
 use EasyWeChat\Support\XML;
+use Overtrue\Socialite\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -165,7 +165,7 @@ class Payment
      * Generate js config for share user address.
      *
      * @param string|\Overtrue\Socialite\AccessTokenInterface $accessToken
-     * @param bool   $json
+     * @param bool                                            $json
      *
      * @return string|array
      */
