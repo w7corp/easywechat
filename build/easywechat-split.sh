@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-TAGS="master"
+TAGS="master 3.0.9"
 
 split()
 {
