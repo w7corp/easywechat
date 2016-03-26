@@ -261,7 +261,7 @@ class Encryptor
             $ciphertext = base64_decode($encrypted, true);
             $iv = substr($key, 0, 16);
 
-            $decrypted = openssl_decrypt($ciphertext, 'aes-256-cbc', $key,  OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $iv);
+            $decrypted = openssl_decrypt($ciphertext, 'aes-256-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $iv);
         } catch (BaseException $e) {
             throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);
         }
