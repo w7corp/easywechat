@@ -5,3 +5,4 @@ sftp-config.json
 /.idea
 /coverage
 /.split
+/composer.lock
