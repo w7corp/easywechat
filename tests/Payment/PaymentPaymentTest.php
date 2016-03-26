@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\Core\AccessToken;
+use Overtrue\Socialite\AccessToken;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
@@ -169,7 +169,7 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
 
         $log = new stdClass();
         $log->called = false;
-        $accessToken = Mockery::mock(AccessToken::class.'[getToken]', ['foo', 'bar']);
+        $accessToken = Mockery::mock(AccessToken::class.'[getToken]', [['access_token' => 'mockToken']]);
 
         $accessToken->shouldReceive('getToken')->andReturnUsing(function () use ($log) {
                 $log->called = true;
