@@ -83,7 +83,6 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(API::API_PAY_ORDER, $response['api']);
         $this->assertEquals('wxTestAppId', $response['params']['appid']);
-        $this->assertEquals('merchant_default_notify_url', $response['params']['notify_url']);
         $this->assertEquals('testMerchantId', $response['params']['mch_id']);
         $this->assertEquals('bar', $response['params']['foo']);
     }
