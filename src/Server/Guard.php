@@ -98,6 +98,13 @@ class Guard
     ];
 
     /**
+     * Debug mode.
+     *
+     * @var bool
+     */
+    protected $debug = false;
+
+    /**
      * Constructor.
      *
      * @param Request $request
@@ -105,6 +112,20 @@ class Guard
     public function __construct(Request $request = null)
     {
         $this->request = $request ?: Request::createFromGlobals();
+    }
+
+    /**
+     * Enable/Disable debug mode.
+     *
+     * @param bool $debug
+     *
+     * @return $this
+     */
+    public function debug($debug = true)
+    {
+        $this->debug = $debug;
+
+        return $this;
     }
 
     /**
@@ -154,7 +175,7 @@ class Guard
             $this->request->get('nonce'),
         ];
 
-        if ($this->request->get('signature') !== $this->signature($params)) {
+        if (!$this->debug && $this->request->get('signature') !== $this->signature($params)) {
             throw new FaultException('Invalid request signature.', 400);
         }
     }

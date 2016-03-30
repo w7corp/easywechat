@@ -55,6 +55,9 @@ class ServerServiceProvider implements ServiceProviderInterface
 
         $pimple['server'] = function ($pimple) {
             $server = new Guard();
+
+            $server->debug($pimple['config']['debug']);
+
             $server->setEncryptor($pimple['encryptor']);
 
             return $server;
