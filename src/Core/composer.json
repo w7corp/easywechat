@@ -23,6 +23,6 @@
         "php":">=5.5.0",
         "doctrine/cache": "~1.4",
         "easywechat/support" : "dev-master",
-        "guzzlehttp/guzzle": "^6.1@dev"
+        "guzzlehttp/guzzle": "~6.1"
     }
 }
