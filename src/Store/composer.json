@@ -1,5 +1,5 @@
 {
-    "name": "easywechat/shop",
+    "name": "easywechat/store",
     "description": "shop module for EasyWeChat SDK.",
     "keywords": ["wechat", "weixin", "SDK", "shop", "easywechat"],
     "license": "MIT",

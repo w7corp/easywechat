@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-$HEADS="master 3.0.9"
+HEADS="master 3.0.9"
 
 split()
 {
