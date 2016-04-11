@@ -58,6 +58,9 @@ class Notice extends AbstractAPI
     const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
+    const API_GET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/get_industry';
+    const API_GET_ALL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/get_all_private_template';
+    const API_DEL_PRIVATE_TEMPLATE = 'https://api,weixin.qq.com/cgi-bin/template/del_private_template';
 
     /**
      * Notice constructor.
@@ -90,6 +93,17 @@ class Notice extends AbstractAPI
     }
 
     /**
+     * Get industry.
+     *
+     * @return array
+     */
+    public function getIndustry()
+    {
+        $params = [];
+        return $this->parseJSON('json', [self::API_GET_INDUSTRY, $params]);
+    }
+    
+    /**
      * Add a template and get template ID.
      *
      * @param string $shortId
@@ -103,6 +117,30 @@ class Notice extends AbstractAPI
         return $this->parseJSON('json', [self::API_ADD_TEMPLATE, $params]);
     }
 
+    /**
+     * Get all private template.
+     *
+     * @return array
+     */
+    public function getAllPrivateTemplate()
+    {
+        $params = [];
+        return $this->parseJSON('json', [self::API_GET_ALL_PRIVATE_TEMPLATE, $params]);
+    }
+    
+    /**
+     * Delete private template.
+     *
+     * @param int $templateId
+     * 
+     * @return array
+     */
+    public function delPrivateTemplate($templateId)
+    {
+        $params = ['template_id' => $templateId];
+        return $this->parseJSON('json', [self::API_DEL_PRIVATE_TEMPLATE, $params]);
+    }
+    
     /**
      * Send a notice message.
      *
