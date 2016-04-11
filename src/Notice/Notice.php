@@ -117,7 +117,7 @@ class Notice extends AbstractAPI
     }
 
     /**
-     * Get all private template.
+     * Get private templates.
      *
      * @return array
      */
