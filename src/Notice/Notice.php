@@ -133,9 +133,10 @@ class Notice extends AbstractAPI
      * 
      * @return array
      */
-    public function delPrivateTemplate($templateId)
+    public function deletePrivateTemplate($templateId)
     {
         $params = ['template_id' => $templateId];
+        
         return $this->parseJSON('json', [self::API_DEL_PRIVATE_TEMPLATE, $params]);
     }
     
