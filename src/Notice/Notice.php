@@ -101,7 +101,7 @@ class Notice extends AbstractAPI
     {
         return $this->parseJSON('json', [self::API_GET_INDUSTRY]);
     }
-    
+
     /**
      * Add a template and get template ID.
      *
@@ -125,7 +125,7 @@ class Notice extends AbstractAPI
     {
         return $this->parseJSON('json', [self::API_GET_ALL_PRIVATE_TEMPLATE]);
     }
-    
+
     /**
      * Delete private template.
      *
@@ -136,10 +136,10 @@ class Notice extends AbstractAPI
     public function deletePrivateTemplate($templateId)
     {
         $params = ['template_id' => $templateId];
-        
+
         return $this->parseJSON('json', [self::API_DEL_PRIVATE_TEMPLATE, $params]);
     }
-    
+
     /**
      * Send a notice message.
      *
