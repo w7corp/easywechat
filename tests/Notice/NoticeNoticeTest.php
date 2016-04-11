@@ -54,6 +54,18 @@ class NoticeNoticeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test getIndustry().
+     */
+    public function testGetIndustry()
+    {
+        $notice = $this->getNotice();
+
+        $response = $notice->getIndustry();
+
+        $this->assertStringStartsWith(Notice::API_GET_INDUSTRY, $response['api']);
+    }
+
+    /**
      * Test addTemplate().
      */
     public function testAddTemplate()
@@ -64,6 +76,31 @@ class NoticeNoticeTest extends PHPUnit_Framework_TestCase
 
         $this->assertStringStartsWith(Notice::API_ADD_TEMPLATE, $response['api']);
         $this->assertEquals('foo', $response['params']['template_id_short']);
+    }
+
+    /**
+     * Test getPrivateTemplates().
+     */
+    public function testGetPrivateTemplates()
+    {
+        $notice = $this->getNotice();
+
+        $response = $notice->getPrivateTemplates();
+
+        $this->assertStringStartsWith(Notice::API_GET_ALL_PRIVATE_TEMPLATE, $response['api']);
+    }
+
+    /**
+     * Test deletePrivateTemplate().
+     */
+    public function testDeletePrivateTemplate()
+    {
+        $notice = $this->getNotice();
+
+        $response = $notice->deletePrivateTemplate('foo');
+
+        $this->assertStringStartsWith(Notice::API_DEL_PRIVATE_TEMPLATE, $response['api']);
+        $this->assertEquals('foo', $response['params']['template_id']);
     }
 
     /**
