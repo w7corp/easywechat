@@ -100,6 +100,7 @@ class Notice extends AbstractAPI
     public function getIndustry()
     {
         $params = [];
+        
         return $this->parseJSON('json', [self::API_GET_INDUSTRY, $params]);
     }
     
@@ -113,7 +114,7 @@ class Notice extends AbstractAPI
     public function addTemplate($shortId)
     {
         $params = ['template_id_short' => $shortId];
-
+        
         return $this->parseJSON('json', [self::API_ADD_TEMPLATE, $params]);
     }
 
@@ -125,6 +126,7 @@ class Notice extends AbstractAPI
     public function getAllPrivateTemplate()
     {
         $params = [];
+        
         return $this->parseJSON('json', [self::API_GET_ALL_PRIVATE_TEMPLATE, $params]);
     }
     
@@ -138,6 +140,7 @@ class Notice extends AbstractAPI
     public function delPrivateTemplate($templateId)
     {
         $params = ['template_id' => $templateId];
+        
         return $this->parseJSON('json', [self::API_DEL_PRIVATE_TEMPLATE, $params]);
     }
     
