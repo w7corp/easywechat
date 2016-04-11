@@ -131,7 +131,7 @@ class Notice extends AbstractAPI
     /**
      * Delete private template.
      *
-     * @param int $templateId
+     * @param string $templateId
      * 
      * @return array
      */
