@@ -79,27 +79,27 @@ class NoticeNoticeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getAllPrivateTemplate().
+     * Test getPrivateTemplates().
      */
-    public function testGetAllPrivateTemplate()
+    public function testGetPrivateTemplates()
     {
         $notice = $this->getNotice();
 
-        $response = $notice->getAllPrivateTemplate();
+        $response = $notice->getPrivateTemplates();
 
         $this->assertStringStartsWith(Notice::API_GET_ALL_PRIVATE_TEMPLATE, $response['api']);
     }
 
     /**
-     * Test delPrivateTemplate().
+     * Test deletePrivateTemplate().
      */
-    public function testDelPrivateTemplate()
+    public function testDeletePrivateTemplate()
     {
         $notice = $this->getNotice();
 
-        $response = $notice->delPrivateTemplate('foo');
+        $response = $notice->deletePrivateTemplate('foo');
 
-        $this->assertStringStartsWith(Notice::API_GET_ALL_PRIVATE_TEMPLATE, $response['api']);
+        $this->assertStringStartsWith(Notice::API_DEL_PRIVATE_TEMPLATE, $response['api']);
         $this->assertEquals('foo', $response['params']['template_id']);
     }
 
