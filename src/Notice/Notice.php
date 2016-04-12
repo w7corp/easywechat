@@ -60,7 +60,7 @@ class Notice extends AbstractAPI
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
     const API_GET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/get_industry';
     const API_GET_ALL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/get_all_private_template';
-    const API_DEL_PRIVATE_TEMPLATE = 'https://api,weixin.qq.com/cgi-bin/template/del_private_template';
+    const API_DEL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/del_private_template';
 
     /**
      * Notice constructor.
