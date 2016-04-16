@@ -60,11 +60,11 @@ class Temporary extends AbstractAPI
 
         $stream = $this->getStream($mediaId);
 
-        $ext = File::getStreamExt($stream);
+        $filename .= File::getStreamExt($stream);
 
-        file_put_contents($directory.'/'.$filename.$ext, $stream);
+        file_put_contents($directory.'/'.$filename, $stream);
 
-        return $filename.$ext;
+        return $filename;
     }
 
     /**

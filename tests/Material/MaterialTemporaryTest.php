@@ -124,7 +124,7 @@ namespace EasyWeChat\Support
     {
         public static function getStreamExt()
         {
-            return 'jpg';
+            return '.jpg';
         }
     }
 }
