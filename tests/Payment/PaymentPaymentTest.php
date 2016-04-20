@@ -128,9 +128,26 @@ class PaymentPaymentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('wxTestAppId', $array['appId']);
         $this->assertEquals('prepay_id=prepayId', $array['package']);
         $this->assertEquals('MD5', $array['signType']);
-        $this->assertArrayHasKey('timestamp', $array);
+        $this->assertArrayHasKey('timeStamp', $array);
         $this->assertArrayHasKey('nonceStr', $array);
         $this->assertArrayHasKey('paySign', $array);
+    }
+
+    /**
+     * test configForPayment.
+     */
+    public function testConfigForJSSDKPayment()
+    {
+        $payment = $this->getPayment();
+
+        $config = $payment->configForJSSDKPayment('prepayId');
+
+        $this->assertEquals('wxTestAppId', $config['appId']);
+        $this->assertEquals('prepay_id=prepayId', $config['package']);
+        $this->assertEquals('MD5', $config['signType']);
+        $this->assertArrayHasKey('timestamp', $config);
+        $this->assertArrayHasKey('nonceStr', $config);
+        $this->assertArrayHasKey('paySign', $config);
     }
 
     /**
