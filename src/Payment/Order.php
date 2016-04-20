@@ -61,6 +61,6 @@ class Order extends Attribute
     {
         parent::__construct($attributes);
 
-        $this->with('spbill_create_ip', $_SERVER['SERVER_ADDR']);
+        $this->with('spbill_create_ip', get_client_ip());
     }
 }
