@@ -37,3 +37,18 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
 
     return strtoupper(call_user_func_array($encryptMethod, [urldecode(http_build_query($attributes))]));
 }
+
+/**
+ * Get client ip address.
+ *
+ * @return string
+ */
+function get_client_ip()
+{
+    // for php-cli(phpunit etc.)
+    if (!isset($_SERVER['REMOTE_ADDR'])) {
+        return gethostbyname(gethostname());
+    }
+
+    return $_SERVER['REMOTE_ADDR'];
+}
