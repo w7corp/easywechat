@@ -18,6 +18,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Support;
 
 use finfo;
@@ -32,7 +33,7 @@ class File
      *
      * @var array
      */
-    protected static $extensionMap = array(
+    protected static $extensionMap = [
         'audio/wav' => '.wav',
         'audio/x-ms-wma' => '.wma',
         'video/x-ms-wmv' => '.wmv',
@@ -46,7 +47,7 @@ class File
         'image/png' => '.png',
         'image/tiff' => '.tiff',
         'image/jpeg' => '.jpg',
-    );
+    ];
 
     /**
      * File header signatures.
