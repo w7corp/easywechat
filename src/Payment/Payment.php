@@ -135,6 +135,10 @@ class Payment
 
         $params['paySign'] = generate_sign($params, $this->merchant->key, 'md5');
 
+        // 简直了，这帮人真的是快玩出花儿来了！
+        $params['timestamp'] = $params['timeStamp'];
+        unset($params['timeStamp']);
+
         return $json ? json_encode($params) : $params;
     }
 
