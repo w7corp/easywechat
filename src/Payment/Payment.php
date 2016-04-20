@@ -153,7 +153,6 @@ class Payment
      * </pre>
      *
      * @param string $prepayId
-     * @param bool   $json
      *
      * @return array|string
      */
