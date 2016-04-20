@@ -46,18 +46,16 @@ abstract class Attribute extends Collection
      *
      * @var array
      */
-    protected $requireds = [];
+    protected $requirements = [];
 
     /**
      * Constructor.
      *
      * @param array $attributes
      */
-    public function __construct($attributes = [])
+    public function __construct(array $attributes = [])
     {
-        foreach ($attributes as $key => $value) {
-            $this->set($key, $value);
-        }
+        parent::__construct($attributes);
     }
 
     /**
@@ -207,13 +205,13 @@ abstract class Attribute extends Collection
     }
 
     /**
-     * Check requireds attributes.
+     * Check required attributes.
      *
      * @throws InvalidArgumentException
      */
     protected function checkRequiredAttributes()
     {
-        foreach ($this->requireds as $attribute) {
+        foreach ($this->requirements as $attribute) {
             if (!isset($this->$attribute)) {
                 throw new InvalidArgumentException(" '{$attribute}' cannot be empty.");
             }

@@ -325,7 +325,7 @@ class API extends AbstractAPI
             'return_code' => $returnCode,
             'return_msg' => null,
             'result_code' => $resultCode,
-            'user_ip' => $_SERVER['SERVER_ADDR'],
+            'user_ip' => get_client_ip(),
             'time' => time(),
         ], $other);
 

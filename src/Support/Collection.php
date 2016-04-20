@@ -46,10 +46,8 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      */
     public function __construct(array $items = [])
     {
-        if (!empty($items)) {
-            foreach ($items as $key => $value) {
-                $this->set($key, $value);
-            }
+        foreach ($items as $key => $value) {
+            $this->set($key, $value);
         }
     }
 

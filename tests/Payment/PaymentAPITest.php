@@ -54,7 +54,6 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
     public function testPrepare()
     {
         $api = $this->getAPI();
-        $_SERVER['SERVER_ADDR'] = '127.0.0.1';
 
         $order = new Order(['foo' => 'bar']);
         $order->shouldReceive('all')->andReturn(['foo' => 'bar']);
@@ -74,7 +73,6 @@ class PaymentAPITest extends PHPUnit_Framework_TestCase
     public function testPay()
     {
         $api = $this->getAPI();
-        $_SERVER['SERVER_ADDR'] = '127.0.0.1';
 
         $order = new Order(['foo' => 'bar']);
         $order->shouldReceive('all')->andReturn(['foo' => 'bar']);
