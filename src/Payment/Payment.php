@@ -142,7 +142,6 @@ class Payment
 
         $params['paySign'] = generate_sign($params, $this->merchant->key, 'md5');
 
-
         return $json ? json_encode($params) : $params;
     }
 
