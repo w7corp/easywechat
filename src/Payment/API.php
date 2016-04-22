@@ -383,6 +383,7 @@ class API extends AbstractAPI
         $params['mch_id'] = $this->merchant->merchant_id;
         $params['device_info'] = $this->merchant->device_info;
         $params['nonce_str'] = uniqid();
+        $params = array_filter($params);
         $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
 
         $options = array_merge([

@@ -121,6 +121,7 @@ class API extends AbstractAPI
      */
     protected function request($api, array $params, $method = 'post')
     {
+        $params = array_filter($params);
         $params['nonce_str'] = uniqid();
         $params['sign'] = \EasyWeChat\Payment\generate_sign($params, $this->merchant->key, 'md5');
 
