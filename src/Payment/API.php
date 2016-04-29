@@ -375,11 +375,11 @@ class API extends AbstractAPI
      */
     public function addIfServiceProvider(array $params)
     {
-        if($this->merchant->has('sub_app_id')) {
+        if ($this->merchant->has('sub_app_id')) {
             $params['sub_appid'] = $this->merchant->get('sub_app_id');
         }
 
-        if($this->merchant->has('sub_merchant_id')) {
+        if ($this->merchant->has('sub_merchant_id')) {
             $params['sub_mch_id'] = $this->merchant->get('sub_merchant_id');
         }
 
@@ -400,7 +400,7 @@ class API extends AbstractAPI
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
         $params = $this->addIfServiceProvider($params);
-        
+
         $params['appid'] = $this->merchant->app_id;
         $params['mch_id'] = $this->merchant->merchant_id;
         $params['device_info'] = $this->merchant->device_info;
