@@ -61,6 +61,8 @@ class Merchant extends Attribute
         'app_id' => 'appid',
         'key' => 'mch_key',
         'merchant_id' => 'mch_id',
+        'sub_app_id' => 'sub_appid',
+        'sub_merchant_id' => 'sub_mch_id',
         'cert_path' => 'sslcert_path',
         'key_path' => 'sslkey_path',
     ];
