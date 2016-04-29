@@ -367,26 +367,6 @@ class API extends AbstractAPI
     }
 
     /**
-     * Add Params If Wechat Payment Service Provider.
-     *
-     * @param array $params
-     *
-     * @return array
-     */
-    public function addIfServiceProvider(array $params)
-    {
-        if ($this->merchant->has('sub_app_id')) {
-            $params['sub_appid'] = $this->merchant->get('sub_app_id');
-        }
-
-        if ($this->merchant->has('sub_merchant_id')) {
-            $params['sub_mch_id'] = $this->merchant->get('sub_merchant_id');
-        }
-
-        return $params;
-    }
-
-    /**
      * Make a API request.
      *
      * @param string $api
@@ -399,7 +379,7 @@ class API extends AbstractAPI
      */
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
-        $params = $this->addIfServiceProvider($params);
+        $params = array_merge($params, $this->merchant->only(['sub_appid', 'sub_mch_id']));
 
         $params['appid'] = $this->merchant->app_id;
         $params['mch_id'] = $this->merchant->merchant_id;
