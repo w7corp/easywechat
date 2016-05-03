@@ -27,7 +27,6 @@ class UserTagTest extends TestCase
     {
         $tag = $this->getTag();
 
-
         $tag->shouldReceive('parseJSON')->withArgs(['json', [Tag::API_CREATE, ['tag' => ['name' => 'overtrue']]]])->once();
 
         $result = $tag->create('overtrue');
@@ -114,13 +113,13 @@ class UserTagTest extends TestCase
         $tag = $this->getTag();
 
         $params = [
-            'openid_list' => [1,2,3],
+            'openid_list' => [1, 2, 3],
             'tagid' => 'thetagid',
         ];
 
         $tag->shouldReceive('parseJSON')->withArgs(['json', [Tag::API_MEMBER_BATCH_TAG, $params]])->once();
 
-        $result = $tag->batchTagUsers([1,2,3], 'thetagid');
+        $result = $tag->batchTagUsers([1, 2, 3], 'thetagid');
     }
 
     /**
@@ -131,12 +130,12 @@ class UserTagTest extends TestCase
         $tag = $this->getTag();
 
         $params = [
-            'openid_list' => [1,2,3],
+            'openid_list' => [1, 2, 3],
             'tagid' => 'thetagid',
         ];
 
         $tag->shouldReceive('parseJSON')->withArgs(['json', [Tag::API_MEMBER_BATCH_UNTAG, $params]])->once();
 
-        $result = $tag->batchUntagUsers([1,2,3], 'thetagid');
+        $result = $tag->batchUntagUsers([1, 2, 3], 'thetagid');
     }
 }
