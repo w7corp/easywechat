@@ -143,6 +143,7 @@ class Tag extends AbstractAPI
 
         return $this->parseJSON('json', [self::API_MEMBER_BATCH_TAG, $params]);
     }
+
     /**
      * Untag users from a tag.
      *

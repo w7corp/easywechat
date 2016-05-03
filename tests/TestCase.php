@@ -2,15 +2,12 @@
 
 
 /**
- * class TestCase
+ * class TestCase.
  */
 class TestCase extends PHPUnit_Framework_TestCase
 {
-
     /**
      * Tear down the test case.
-     *
-     * @return void
      */
     public function tearDown()
     {
@@ -24,8 +21,6 @@ class TestCase extends PHPUnit_Framework_TestCase
 
     /**
      * Run extra tear down code.
-     *
-     * @return void
      */
     protected function finish()
     {
