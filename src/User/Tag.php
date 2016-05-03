@@ -134,7 +134,7 @@ class Tag extends AbstractAPI
      *
      * @return bool
      */
-    public function batchtagUsers(array $openIds, $tagId)
+    public function batchTagUsers(array $openIds, $tagId)
     {
         $params = [
                    'openid_list' => $openIds,
