@@ -16,7 +16,7 @@ use EasyWeChat\Payment\Order;
 use EasyWeChat\Support\XML;
 use Psr\Http\Message\ResponseInterface;
 
-class PaymentAPITest extends PHPUnit_Framework_TestCase
+class PaymentAPITest extends TestCase
 {
     /**
      * Build API instance.

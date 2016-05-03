@@ -11,7 +11,7 @@
 
 use EasyWeChat\Staff\Staff;
 
-class StaffStaffTest extends PHPUnit_Framework_TestCase
+class StaffStaffTest extends TestCase
 {
     public function getStaff()
     {

@@ -7,7 +7,7 @@ use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
 
-class PaymentNotifyTest extends PHPUnit_Framework_TestCase
+class PaymentNotifyTest extends TestCase
 {
     /**
      * Test isInvalid().

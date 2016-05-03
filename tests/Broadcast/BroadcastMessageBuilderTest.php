@@ -12,7 +12,7 @@
 use EasyWeChat\Broadcast\Broadcast;
 use EasyWeChat\Broadcast\MessageBuilder;
 
-class BroadcastMessageBuilderTest extends PHPUnit_Framework_TestCase
+class BroadcastMessageBuilderTest extends TestCase
 {
     /**
      * Test msgType().

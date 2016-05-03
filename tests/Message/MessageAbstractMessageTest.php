@@ -16,7 +16,7 @@ class FooMessage extends AbstractMessage
     protected $properties = ['foo', 'bar'];
 }
 
-class MessageAbstractMessageTest extends PHPUnit_Framework_TestCase
+class MessageAbstractMessageTest extends TestCase
 {
     /**
      * Test __get().

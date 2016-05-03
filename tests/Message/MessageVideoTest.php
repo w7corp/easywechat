@@ -11,7 +11,7 @@
 
 use EasyWeChat\Message\Video;
 
-class MessageVideoTest extends PHPUnit_Framework_TestCase
+class MessageVideoTest extends TestCase
 {
     /**
      * Test media().

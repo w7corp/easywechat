@@ -13,7 +13,7 @@ use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 
-class CoreAccessTokenTest extends PHPUnit_Framework_TestCase
+class CoreAccessTokenTest extends TestCase
 {
     public function testGetToken()
     {

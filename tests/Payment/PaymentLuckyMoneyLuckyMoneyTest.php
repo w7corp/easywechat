@@ -13,7 +13,7 @@ use EasyWeChat\Payment\LuckyMoney\API;
 use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
 use EasyWeChat\Payment\Merchant;
 
-class PaymentLuckyMoneyLuckyMoneyTest extends PHPUnit_Framework_TestCase
+class PaymentLuckyMoneyLuckyMoneyTest extends TestCase
 {
     /**
      * Return LuckyMoney instance.

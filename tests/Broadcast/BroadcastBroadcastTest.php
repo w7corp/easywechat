@@ -11,7 +11,7 @@
 
 use EasyWeChat\Broadcast\Broadcast;
 
-class BroadcastBroadcastTest extends PHPUnit_Framework_TestCase
+class BroadcastBroadcastTest extends TestCase
 {
     public function getBroadcast()
     {

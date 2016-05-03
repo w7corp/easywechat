@@ -13,7 +13,7 @@ namespace {
     use EasyWeChat\Core\Http;
     use EasyWeChat\Js\Js;
 
-    class JsJsTest extends PHPUnit_Framework_TestCase
+    class JsJsTest extends TestCase
     {
         public function getMockCache()
         {

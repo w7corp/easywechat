@@ -11,7 +11,7 @@
 
 use EasyWeChat\Message\Article;
 
-class MessageArticleTest extends PHPUnit_Framework_TestCase
+class MessageArticleTest extends TestCase
 {
     /**
      * Test get attributes.

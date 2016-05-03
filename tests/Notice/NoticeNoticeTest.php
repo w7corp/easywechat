@@ -12,7 +12,7 @@
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Notice\Notice;
 
-class NoticeNoticeTest extends PHPUnit_Framework_TestCase
+class NoticeNoticeTest extends TestCase
 {
     public function getNotice($mockHttp = false)
     {

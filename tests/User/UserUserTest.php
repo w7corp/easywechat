@@ -11,7 +11,7 @@
 
 use EasyWeChat\User\User;
 
-class UserUserTest extends PHPUnit_Framework_TestCase
+class UserUserTest extends TestCase
 {
     public function getUser()
     {

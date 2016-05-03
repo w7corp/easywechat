@@ -15,7 +15,7 @@ namespace
     use EasyWeChat\Material\Temporary;
     use Mockery\Mock;
 
-    class MaterialTemporaryTest extends PHPUnit_Framework_TestCase
+    class MaterialTemporaryTest extends TestCase
     {
         /**
          * Return mock http.

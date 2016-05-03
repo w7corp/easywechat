@@ -17,7 +17,7 @@ use EasyWeChat\Message\Video;
 use EasyWeChat\Message\Voice;
 use EasyWeChat\Server\Transformer;
 
-class ServerTransformerTest extends PHPUnit_Framework_TestCase
+class ServerTransformerTest extends TestCase
 {
     /**
      * Test transformText().

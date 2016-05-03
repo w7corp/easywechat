@@ -11,7 +11,7 @@
 
 use EasyWeChat\Menu\Menu;
 
-class MenuMenuTest extends PHPUnit_Framework_TestCase
+class MenuMenuTest extends TestCase
 {
     public function getMenu()
     {

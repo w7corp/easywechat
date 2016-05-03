@@ -14,7 +14,7 @@ use EasyWeChat\Material\Material;
 use EasyWeChat\Message\Article;
 use GuzzleHttp\Psr7\Response;
 
-class MaterialMaterialTest extends PHPUnit_Framework_TestCase
+class MaterialMaterialTest extends TestCase
 {
     /**
      * Return mock http.
