@@ -379,6 +379,8 @@ class API extends AbstractAPI
      */
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
+        $params = array_merge($params, $this->merchant->only(['sub_appid', 'sub_mch_id']));
+
         $params['appid'] = $this->merchant->app_id;
         $params['mch_id'] = $this->merchant->merchant_id;
         $params['device_info'] = $this->merchant->device_info;
