@@ -11,7 +11,7 @@
 
 use EasyWeChat\Message\Voice;
 
-class MessageVoiceTest extends PHPUnit_Framework_TestCase
+class MessageVoiceTest extends TestCase
 {
     /**
      * Test media().

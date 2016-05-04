@@ -15,7 +15,7 @@ use EasyWeChat\Server\Guard;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
 
-class ServerGuardTest extends PHPUnit_Framework_TestCase
+class ServerGuardTest extends TestCase
 {
     public function getServer($message = '', $queries = null)
     {

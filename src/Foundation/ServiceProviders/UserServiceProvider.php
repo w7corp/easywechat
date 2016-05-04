@@ -26,6 +26,7 @@
 namespace EasyWeChat\Foundation\ServiceProviders;
 
 use EasyWeChat\User\Group;
+use EasyWeChat\User\Tag;
 use EasyWeChat\User\User;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -53,7 +54,14 @@ class UserServiceProvider implements ServiceProviderInterface
            return new Group($pimple['access_token']);
         };
 
+        $tag = function ($pimple) {
+           return new Tag($pimple['access_token']);
+        };
+
         $pimple['user_group'] = $group;
         $pimple['user.group'] = $group;
+
+        $pimple['user_tag'] = $tag;
+        $pimple['user.tag'] = $tag;
     }
 }

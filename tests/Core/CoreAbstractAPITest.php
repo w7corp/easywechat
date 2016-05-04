@@ -22,7 +22,7 @@ class FooAPI extends AbstractAPI
     }
 }
 
-class CoreAbstractAPITest extends PHPUnit_Framework_TestCase
+class CoreAbstractAPITest extends TestCase
 {
     /**
      * Test __construct.

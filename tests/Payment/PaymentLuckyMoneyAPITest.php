@@ -14,7 +14,7 @@ use EasyWeChat\Payment\LuckyMoney\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Support\XML;
 
-class PaymentLuckyMoneyAPITest extends PHPUnit_Framework_TestCase
+class PaymentLuckyMoneyAPITest extends TestCase
 {
     public static function setUpBeforeClass()
     {

@@ -15,7 +15,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ApplicationTest extends PHPUnit_Framework_TestCase
+class ApplicationTest extends TestCase
 {
     /**
      * Test __construct().

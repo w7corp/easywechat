@@ -11,7 +11,7 @@
 
 use EasyWeChat\QRCode\QRCode;
 
-class QRCodeQRCodeTest extends PHPUnit_Framework_TestCase
+class QRCodeQRCodeTest extends TestCase
 {
     public function getQRCode()
     {

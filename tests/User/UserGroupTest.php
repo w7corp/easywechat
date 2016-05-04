@@ -11,7 +11,7 @@
 
 use EasyWeChat\User\Group;
 
-class UserGroupTest extends PHPUnit_Framework_TestCase
+class UserGroupTest extends TestCase
 {
     public function getGroup()
     {

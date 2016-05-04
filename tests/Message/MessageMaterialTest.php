@@ -11,7 +11,7 @@
 
 use EasyWeChat\Message\Material;
 
-class MessageMaterialTest extends PHPUnit_Framework_TestCase
+class MessageMaterialTest extends TestCase
 {
     /**
      * Test get attributes.

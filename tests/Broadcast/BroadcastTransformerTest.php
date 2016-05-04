@@ -11,7 +11,7 @@
 
 use EasyWeChat\Broadcast\Transformer;
 
-class BroadcastTransformerTest extends PHPUnit_Framework_TestCase
+class BroadcastTransformerTest extends TestCase
 {
     /**
      * Test transform().

@@ -11,7 +11,7 @@
 
 use EasyWeChat\Url\Url;
 
-class UrlUrlTest extends PHPUnit_Framework_TestCase
+class UrlUrlTest extends TestCase
 {
     /**
      * Test shorten().

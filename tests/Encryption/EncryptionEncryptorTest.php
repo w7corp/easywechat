@@ -3,7 +3,7 @@
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Support\XML;
 
-class EncryptionEncryptorTest extends PHPUnit_Framework_TestCase
+class EncryptionEncryptorTest extends TestCase
 {
     public function getEncryptor()
     {

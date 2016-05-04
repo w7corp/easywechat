@@ -14,7 +14,7 @@ namespace {
     use GuzzleHttp\Client;
     use GuzzleHttp\Psr7\Response;
 
-    class CoreHttpTest extends PHPUnit_Framework_TestCase
+    class CoreHttpTest extends TestCase
     {
         public function testConstruct()
         {

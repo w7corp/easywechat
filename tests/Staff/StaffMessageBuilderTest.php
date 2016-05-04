@@ -13,7 +13,7 @@ use EasyWeChat\Message\Raw;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Staff\MessageBuilder;
 
-class StaffMessageBuilderTest extends PHPUnit_Framework_TestCase
+class StaffMessageBuilderTest extends TestCase
 {
     public function getMessageBuilder()
     {

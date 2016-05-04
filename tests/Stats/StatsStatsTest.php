@@ -11,7 +11,7 @@
 
 use EasyWeChat\Stats\Stats;
 
-class StatsStatsTest extends PHPUnit_Framework_TestCase
+class StatsStatsTest extends TestCase
 {
     public function getStats()
     {

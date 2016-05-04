@@ -11,7 +11,7 @@
 
 use EasyWeChat\POI\POI;
 
-class POIPOITest extends PHPUnit_Framework_TestCase
+class POIPOITest extends TestCase
 {
     public function getPOI()
     {

@@ -11,7 +11,7 @@
 
 use EasyWeChat\Message\Image;
 
-class MessageImageTest extends PHPUnit_Framework_TestCase
+class MessageImageTest extends TestCase
 {
     /**
      * Test media().

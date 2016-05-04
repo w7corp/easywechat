@@ -12,7 +12,7 @@
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Semantic\Semantic;
 
-class SemanticSemanticTest extends PHPUnit_Framework_TestCase
+class SemanticSemanticTest extends TestCase
 {
     /**
      * Test query().

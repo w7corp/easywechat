@@ -19,7 +19,7 @@ use Overtrue\Socialite\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PaymentPaymentTest extends PHPUnit_Framework_TestCase
+class PaymentPaymentTest extends TestCase
 {
     /**
      * Return Payment instance.

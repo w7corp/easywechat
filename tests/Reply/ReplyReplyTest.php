@@ -11,7 +11,7 @@
 
 use EasyWeChat\Reply\Reply;
 
-class ReplyReplyTest extends PHPUnit_Framework_TestCase
+class ReplyReplyTest extends TestCase
 {
     public function getReply()
     {
