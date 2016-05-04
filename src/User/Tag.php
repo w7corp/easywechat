@@ -115,7 +115,7 @@ class Tag extends AbstractAPI
     /**
      * Get users from a tag.
      *
-     * @param string $openId
+     * @param string $tagId
      *
      * @return int
      */
@@ -130,7 +130,7 @@ class Tag extends AbstractAPI
      * Batch tag users.
      *
      * @param array $openIds
-     * @param int   $tagid
+     * @param int   $tagId
      *
      * @return bool
      */
@@ -148,7 +148,7 @@ class Tag extends AbstractAPI
      * Untag users from a tag.
      *
      * @param array $openIds
-     * @param int   $tagid
+     * @param int   $tagId
      *
      * @return bool
      */
