@@ -47,14 +47,14 @@ class Http
     protected $middlewares = [];
 
     /**
-     * 默认参数
+     * Guzzle client default settings.
      *
      * @var array
      */
     protected static $defaults = [];
 
     /**
-     * 设置默认请求参数
+     * Set guzzle default settings.
      *
      * @param array $defaults
      */
@@ -64,7 +64,7 @@ class Http
     }
 
     /**
-     * 返回当前设置的默认参数
+     * Return current guzzle default settings.
      *
      * @return array
      */
