@@ -4,9 +4,9 @@
 
 > 不支持企业号，也不打算支持，原因？微信的API实在设计得太乱了，我怕累死。。。
 
-SDK 使用交流 QQ 群：`319502940`
-
-微信开发者交流 QQ 群：`9179779`
+- SDK 官方论坛：https://forum.easywechat.org
+- SDK 使用交流 QQ 群：`319502940`
+- 微信开发者交流 QQ 群：`9179779`
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -69,7 +69,7 @@ $server->setMessageHandler(function($message) use ($user) {
     return "{$fromUser->nickname} 您好！欢迎关注 overtrue!";
 });
 
-$server->serve()->send(); 
+$server->serve()->send();
 ```
 
 更多请参考[http://easywechat.org/](http://easywechat.org/)。
