@@ -47,6 +47,33 @@ class Http
     protected $middlewares = [];
 
     /**
+     * Guzzle client default settings.
+     *
+     * @var array
+     */
+    protected static $defaults = [];
+
+    /**
+     * Set guzzle default settings.
+     *
+     * @param array $defaults
+     */
+    public static function setDefaultOptions($defaults = [])
+    {
+        self::$defaults = $defaults;
+    }
+
+    /**
+     * Return current guzzle default settings.
+     *
+     * @return array
+     */
+    public static function getDefaultOptions()
+    {
+        return self::$defaults;
+    }
+
+    /**
      * GET request.
      *
      * @param string $url
@@ -191,6 +218,8 @@ class Http
     public function request($url, $method = 'GET', $options = [])
     {
         $method = strtoupper($method);
+
+        $options = array_merge(self::$defaults, $options);
 
         Log::debug('Client Request:', compact('url', 'method', 'options'));
 
