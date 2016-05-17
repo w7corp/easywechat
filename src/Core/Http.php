@@ -47,14 +47,14 @@ class Http
     protected $middlewares = [];
 
     /**
-     * 默认参数
+     * 默认参数.
      *
      * @var array
      */
     protected static $defaults = [];
 
     /**
-     * 设置默认请求参数
+     * 设置默认请求参数.
      *
      * @param array $defaults
      */
@@ -64,7 +64,7 @@ class Http
     }
 
     /**
-     * 返回当前设置的默认参数
+     * 返回当前设置的默认参数.
      *
      * @return array
      */
