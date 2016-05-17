@@ -71,9 +71,11 @@ class OAuthServiceProvider implements ServiceProviderInterface
     private function prepareCallbackUrl($pimple)
     {
         $callback = $pimple['config']->get('oauth.callback');
+        if (0 === stripos($callback, 'http')) {
+            return $callback;
+        }
         $baseUrl = $pimple['request']->getSchemeAndHttpHost();
-        $callback = stripos($callback, 'http') === 0 ? $callback : $baseUrl.'/'.ltrim($callback, '/');
 
-        return $callback;
+        return $baseUrl.'/'.ltrim($callback, '/');
     }
 }
