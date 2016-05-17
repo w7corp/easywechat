@@ -47,6 +47,33 @@ class Http
     protected $middlewares = [];
 
     /**
+     * 默认参数
+     *
+     * @var array
+     */
+    protected static $defaults = [];
+
+    /**
+     * 设置默认请求参数
+     *
+     * @param array $defaults
+     */
+    public static function setDefaultOptions($defaults = [])
+    {
+        self::$defaults = $defaults;
+    }
+
+    /**
+     * 返回当前设置的默认参数
+     *
+     * @return array
+     */
+    public static function getDefaultOptions()
+    {
+        return self::$defaults;
+    }
+
+    /**
      * GET request.
      *
      * @param string $url
@@ -191,6 +218,8 @@ class Http
     public function request($url, $method = 'GET', $options = [])
     {
         $method = strtoupper($method);
+
+        $options = array_merge(self::$defaults, $options);
 
         Log::debug('Client Request:', compact('url', 'method', 'options'));
 

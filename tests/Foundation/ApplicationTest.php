@@ -9,6 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
+use EasyWeChat\Core\Http;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Foundation\Config;
 use Pimple\Container;
@@ -41,6 +42,18 @@ class ApplicationTest extends TestCase
 
             unset($container);
         }
+    }
+
+    public function testHttpDefaultOptions()
+    {
+        $app = new Application([]);
+
+        $this->assertEmpty(Http::getDefaultOptions());
+
+        $config = ['guzzle' => ['timeout' => 5]];
+        $app = new Application($config);
+
+        $this->assertEquals($config['guzzle'], Http::getDefaultOptions());
     }
 
     /**
