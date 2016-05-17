@@ -106,7 +106,7 @@ class Application extends Container
         $this->registerBase();
         $this->initializeLogger();
 
-        Http::setDefaultOptions($this['config']->get('guzzle', []));
+        Http::setDefaultOptions($this['config']->get('guzzle', ['timeout' => 5.0]));
 
         Log::debug('Current configuration:', $config);
     }
