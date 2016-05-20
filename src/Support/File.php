@@ -79,6 +79,10 @@ class File
      */
     public static function getStreamExt($stream)
     {
+        if (is_file($stream)) {
+            $stream = file_get_contents($stream);
+        }
+
         $finfo = new finfo(FILEINFO_MIME);
 
         $mime = strstr($finfo->buffer($stream), ';', true);
