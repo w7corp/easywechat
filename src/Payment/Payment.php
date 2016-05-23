@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Payment.
- * 
+ *
  * @mixin API
  */
 class Payment
