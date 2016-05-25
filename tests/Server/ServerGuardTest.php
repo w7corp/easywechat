@@ -24,7 +24,6 @@ class ServerGuardTest extends TestCase
         $timestamp = '1437865042';
         $signature = 'd060dbd49d56631d867c5fa8063650d3246bd355';
 
-
         $queries = array_merge([
             'signature' => $signature,
             'timestamp' => $timestamp,
