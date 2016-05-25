@@ -17,20 +17,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ServerGuardTest extends TestCase
 {
-    public function getServer($message = '', $queries = null)
+    public function getServer($message = '', $queries = [])
     {
-        $request = Mockery::mock(Request::class.'[get,getContent]');
+        $token = 'test_token';
+        $nonce = '335941714';
+        $timestamp = '1437865042';
+        $signature = 'd060dbd49d56631d867c5fa8063650d3246bd355';
 
-        $request->shouldReceive('get')->andReturnUsing(function ($key) use ($queries) {
-            $queries = $queries ?: [
-                'signature' => '5fe39987c51aa87c0da1af7420d4649d77850391',
-                'timestamp' => '1437865042',
-                'nonce' => '335941714',
-            ];
 
-            return isset($queries[$key]) ? $queries[$key] : null;
-        });
-
+        $queries = array_merge([
+            'signature' => $signature,
+            'timestamp' => $timestamp,
+            'nonce' => $nonce,
+        ], $queries);
         $message = $message ?: [
                 'ToUserName' => 'gh_9a1a7e312b32',
                 'FromUserName' => 'oNlnUjq_uJdd52zt3OxFsJHEr_NY',
@@ -40,9 +39,9 @@ class ServerGuardTest extends TestCase
                 'MsgId' => '6175583331658476609',
             ];
 
-        $request->shouldReceive('getContent')->andReturn(XML::build($message));
+        $request = new Request($queries, [], [], [], [], [], XML::build($message));
 
-        $server = new Guard($request);
+        $server = new Guard($token, $request);
 
         return $server;
     }
