@@ -54,36 +54,31 @@ class Guard
     const ALL_MSG = 1048830;
 
     /**
-     * Request instance.
-     *
      * @var Request
      */
     protected $request;
 
     /**
-     * Encryptor instance.
-     *
+     * @var string
+     */
+    protected $token;
+
+    /**
      * @var Encryptor
      */
     protected $encryptor;
 
     /**
-     * Message listener.
-     *
      * @var string|callable
      */
     protected $messageHandler;
 
     /**
-     * Message type filter.
-     *
      * @var int
      */
     protected $messageFilter;
 
     /**
-     * Message type mapping.
-     *
      * @var array
      */
     protected $messageTypeMapping = [
@@ -98,8 +93,6 @@ class Guard
     ];
 
     /**
-     * Debug mode.
-     *
      * @var bool
      */
     protected $debug = false;
@@ -107,10 +100,12 @@ class Guard
     /**
      * Constructor.
      *
+     * @param string  $token
      * @param Request $request
      */
-    public function __construct(Request $request = null)
+    public function __construct($token, Request $request = null)
     {
+        $this->token = $token;
         $this->request = $request ?: Request::createFromGlobals();
     }
 
@@ -144,6 +139,8 @@ class Guard
             'Protocal' => $this->request->server->get('SERVER_PROTOCOL'),
             'Content' => $this->request->getContent(),
         ]);
+
+        $this->validate($this->token);
 
         if ($str = $this->request->get('echostr')) {
             Log::debug("Output 'echostr' is '$str'.");
