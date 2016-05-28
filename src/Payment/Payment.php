@@ -94,7 +94,7 @@ class Payment
         $notify = $this->getNotify();
 
         if (!$notify->isValid()) {
-            throw new FaultException('Invalid request XML.', 400);
+            throw new FaultException('Invalid request payloads.', 400);
         }
 
         $notify = $notify->getNotify();
