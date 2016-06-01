@@ -40,6 +40,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @property \EasyWeChat\Server\Guard                    $server
  * @property \EasyWeChat\User\User                       $user
+ * @property \EasyWeChat\User\Tag                        $user_tag
  * @property \EasyWeChat\User\Group                      $user_group
  * @property \EasyWeChat\Js\Js                           $js
  * @property \Overtrue\Socialite\SocialiteManager        $oauth
