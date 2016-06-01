@@ -145,7 +145,9 @@ class ServerGuardTest extends TestCase
     public function testSetMessageHandler()
     {
         $server = $this->getServer();
-        $closure = function () { return 'foo'; };
+        $closure = function () {
+            return 'foo';
+        };
         $server->setMessageHandler($closure);
 
         $this->assertEquals($closure, $server->getMessageHandler());

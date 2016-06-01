@@ -71,7 +71,8 @@ class PaymentPaymentTest extends TestCase
 
         $this->setExpectedException(FaultException::class, 'Invalid request payloads.', 400);
 
-        $payment->handleNotify(function () {});
+        $payment->handleNotify(function () {
+        });
     }
 
     /**
@@ -189,9 +190,9 @@ class PaymentPaymentTest extends TestCase
         $accessToken = Mockery::mock(AccessToken::class.'[getToken]', [['access_token' => 'mockToken']]);
 
         $accessToken->shouldReceive('getToken')->andReturnUsing(function () use ($log) {
-                $log->called = true;
+            $log->called = true;
 
-                return 'mockToken';
+            return 'mockToken';
         });
 
         $json = $payment->configForShareAddress($accessToken);

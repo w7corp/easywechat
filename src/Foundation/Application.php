@@ -201,7 +201,7 @@ class Application extends Container
         };
 
         $this['access_token'] = function () {
-           return new AccessToken(
+            return new AccessToken(
                $this['config']['app_id'],
                $this['config']['secret'],
                $this['cache']
