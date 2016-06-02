@@ -299,6 +299,22 @@ class Guard
     }
 
     /**
+     * Get request message.
+     *
+     * @return object
+     */
+    public function getMessage()
+    {
+        $message = $this->parseMessageFromRequest($this->request->getContent(false));
+
+        if (!is_array($message) || empty($message)) {
+            throw new BadRequestException('Invalid request.');
+        }
+
+        return $message;
+    }
+
+    /**
      * Handle request.
      *
      * @return array
@@ -308,12 +324,7 @@ class Guard
      */
     protected function handleRequest()
     {
-        $message = $this->parseMessageFromRequest($this->request->getContent(false));
-
-        if (!is_array($message) || empty($message)) {
-            throw new BadRequestException('Invalid request.');
-        }
-
+        $message = $this->getMessage();
         $response = $this->handleMessage($message);
 
         return [
