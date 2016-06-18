@@ -81,9 +81,13 @@ class Notify
         $sign = $input['sign'];
         unset($input['sign']);
         $signGenerator = new SignGenerator($input);
-        $signGenerator->onSortAfter(function (SignGenerator $that) {
-            $that->key = $this->mchKey;
+        
+        $me = $this;
+
+        $signGenerator->onSortAfter(function (SignGenerator $that) use ($me) {
+            $that->key = $me->mchKey;
         });
+        
         if ($sign !== $signGenerator->getResult()) {
             return false;
         }
