@@ -13,7 +13,7 @@
         "psr-4": {
             "EasyWeChat\\Payment\\": "."
         },
-        "files": ["src/helpers.php"]
+        "files": ["helpers.php"]
     },
     "minimum-stability":"dev",
     "require-dev": {
