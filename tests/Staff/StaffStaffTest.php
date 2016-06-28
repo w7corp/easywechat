@@ -54,12 +54,11 @@ class StaffStaffTest extends TestCase
     {
         $staff = $this->getStaff();
 
-        $response = $staff->create('anzhengchao@gmail.com', 'overtrue', 'foobar');
+        $response = $staff->create('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(Staff::API_CREATE, $response['api']);
-        $this->assertEquals('anzhengchao@gmail.com', $response['params']['kf_account']);
+        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
         $this->assertEquals('overtrue', $response['params']['nickname']);
-        $this->assertEquals('foobar', $response['params']['password']);
     }
 
     /**
@@ -69,12 +68,25 @@ class StaffStaffTest extends TestCase
     {
         $staff = $this->getStaff();
 
-        $response = $staff->update('anzhengchao@gmail.com', 'overtrue', 'foobar');
+        $response = $staff->update('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(Staff::API_UPDATE, $response['api']);
-        $this->assertEquals('anzhengchao@gmail.com', $response['params']['kf_account']);
+        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
         $this->assertEquals('overtrue', $response['params']['nickname']);
-        $this->assertEquals('foobar', $response['params']['password']);
+    }
+
+    /**
+     * Test invite().
+     */
+    public function testInvite()
+    {
+        $staff = $this->getStaff();
+
+        $response = $staff->invite('anzhengchao@test', 'overtrue');
+
+        $this->assertStringStartsWith(Staff::API_INVITE_BIND, $response['api']);
+        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertEquals('overtrue', $response['params']['invite_wx']);
     }
 
     /**
@@ -85,10 +97,10 @@ class StaffStaffTest extends TestCase
         // 这里 不 TM 测了
         // $staff = $this->getStaff();
 
-        // $response = $staff->delete('anzhengchao@gmail.com');
+        // $response = $staff->delete('anzhengchao@test');
 
         // $this->assertStringStartsWith(Staff::API_DELETE, $response['api']);
-        // $this->assertContains('kf_account=anzhengchao@gmail.com', $response['api']);
+        // $this->assertContains('kf_account=anzhengchao@test', $response['api']);
     }
 
     /**
@@ -98,10 +110,10 @@ class StaffStaffTest extends TestCase
     {
         $staff = $this->getStaff();
 
-        $response = $staff->avatar('anzhengchao@gmail.com', '/foobar/avatar.jpg');
+        $response = $staff->avatar('anzhengchao@test', '/foobar/avatar.jpg');
 
         $this->assertStringStartsWith(Staff::API_AVATAR_UPLOAD, $response['api']);
-        $this->assertContains('anzhengchao@gmail.com', $response['quires']['kf_account']);
+        $this->assertContains('anzhengchao@test', $response['quires']['kf_account']);
         $this->assertEquals(['media' => '/foobar/avatar.jpg'], $response['params']);
     }
 }
