@@ -51,13 +51,11 @@ class Session extends AbstractAPI
     /**
      * List all waiters of $account.
      *
-     * @param string $account
-     *
      * @return array
      */
-    public function waiters($account)
+    public function waiters()
     {
-        return $this->parseJSON('get', [self::API_WAITERS, ['kf_account' => $account]]);
+        return $this->parseJSON('get', [self::API_WAITERS]);
     }
 
     /**

@@ -47,10 +47,10 @@ class StaffSessionTest extends TestCase
     {
         $session = $this->getSession();
 
-        $response = $session->waiters('foo');
+        $response = $session->waiters();
 
         $this->assertStringStartsWith(Session::API_WAITERS, $response['api']);
-        $this->assertSame('foo', $response['params']['kf_account']);
+        $this->assertEmpty($response['params']);
     }
 
     /**
