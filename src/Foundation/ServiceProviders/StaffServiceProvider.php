@@ -21,8 +21,8 @@
  */
 namespace EasyWeChat\Foundation\ServiceProviders;
 
-use EasyWeChat\Staff\Staff;
 use EasyWeChat\Staff\Session;
+use EasyWeChat\Staff\Staff;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
