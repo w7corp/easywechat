@@ -33,13 +33,15 @@ class Staff extends AbstractAPI
     const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
     const API_UPDATE = 'https://api.weixin.qq.com/customservice/kfaccount/update';
     const API_CREATE = 'https://api.weixin.qq.com/customservice/kfaccount/add';
+    const API_INVITE_BIND = 'https://api.weixin.qq.com/customservice/kfaccount/inviteworker';
     const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
-    const API_AVATAR_UPLOAD = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
+    const API_AVATAR_UPLOAD = 'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
+    const API_RECORDS = 'https://api.weixin.qq.com/customservice/msgrecord/getrecord';
 
     /**
      * List all staffs.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function lists()
     {
@@ -49,7 +51,7 @@ class Staff extends AbstractAPI
     /**
      * List all online staffs.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function onlines()
     {
@@ -59,18 +61,16 @@ class Staff extends AbstractAPI
     /**
      * Create a staff.
      *
-     * @param string $email
+     * @param string $account
      * @param string $nickname
-     * @param string $password
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
-    public function create($email, $nickname, $password)
+    public function create($account, $nickname)
     {
         $params = [
-                   'kf_account' => $email,
+                   'kf_account' => $account,
                    'nickname' => $nickname,
-                   'password' => $password,
                   ];
 
         return $this->parseJSON('json', [self::API_CREATE, $params]);
@@ -79,18 +79,16 @@ class Staff extends AbstractAPI
     /**
      * Update a staff.
      *
-     * @param string $email
+     * @param string $account
      * @param string $nickname
-     * @param string $password
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
-    public function update($email, $nickname, $password)
+    public function update($account, $nickname)
     {
         $params = [
-                   'kf_account' => $email,
+                   'kf_account' => $account,
                    'nickname' => $nickname,
-                   'password' => $password,
                   ];
 
         return $this->parseJSON('json', [self::API_UPDATE, $params]);
@@ -99,11 +97,11 @@ class Staff extends AbstractAPI
     /**
      * Delete a staff.
      *
-     * @param string $email
+     * @param string $account
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
-    public function delete($email)
+    public function delete($account)
     {
         // XXX: 微信那帮搞技术的都 TM 是 SB，url上的文本居然不 TM urlencode,
         // 这里客服账号因为有 @ 符，而微信不接收urlencode的账号。。
@@ -111,7 +109,7 @@ class Staff extends AbstractAPI
         // #222
         // PS: 如果你是微信做接口的，奉劝你们，尊重技术，不会别乱搞，笨不是你们的错，你们出来坑人就是大错特错。
         $accessTokenField = sprintf('%s=%s', $this->accessToken->getQueryName(), $this->accessToken->getToken());
-        $url = sprintf(self::API_DELETE.'?%s&kf_account=%s', $accessTokenField, $email);
+        $url = sprintf(self::API_DELETE.'?%s&kf_account=%s', $accessTokenField, $account);
 
         $contents = $this->getHttp()->parseJSON(file_get_contents($url));
 
@@ -121,16 +119,34 @@ class Staff extends AbstractAPI
     }
 
     /**
+     * Invite a staff.
+     *
+     * @param string $account
+     * @param string $wechatId
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function invite($account, $wechatId)
+    {
+        $params = [
+                   'kf_account' => $account,
+                   'invite_wx' => $wechatId,
+                  ];
+
+        return $this->parseJSON('json', [self::API_INVITE_BIND, $params]);
+    }
+
+    /**
      * Set staff avatar.
      *
-     * @param string $email
+     * @param string $account
      * @param string $path
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
-    public function avatar($email, $path)
+    public function avatar($account, $path)
     {
-        return $this->parseJSON('upload', [self::API_AVATAR_UPLOAD, ['media' => $path], [], ['kf_account' => $email]]);
+        return $this->parseJSON('upload', [self::API_AVATAR_UPLOAD, ['media' => $path], [], ['kf_account' => $account]]);
     }
 
     /**
@@ -150,14 +166,36 @@ class Staff extends AbstractAPI
     }
 
     /**
-     *  Send a message.
+     * Send a message.
      *
      * @param string|array $message
      *
-     * @return mixed
+     * @return \EasyWeChat\Support\Collection
      */
     public function send($message)
     {
         return $this->parseJSON('json', [self::API_MESSAGE_SEND, $message]);
+    }
+
+    /**
+     * Get staff session history.
+     *
+     * @param  int $startTime
+     * @param  int $endTime
+     * @param  int $page
+     * @param  int $pageSize
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function records($startTime, $endTime, $page = 1, $pageSize = 10)
+    {
+        $params = [
+                   'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
+                   'endtime'   => is_numeric($endTime) ? $endTime : strtotime($endTime),
+                   'pageindex' => $page,
+                   'pagesize'  => $pageSize,
+                  ];
+
+        return $this->parseJSON('json', [self::API_RECORDS, $params]);
     }
 }

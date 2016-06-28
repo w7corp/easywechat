@@ -22,6 +22,7 @@
 namespace EasyWeChat\Foundation\ServiceProviders;
 
 use EasyWeChat\Staff\Staff;
+use EasyWeChat\Staff\Session;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -42,6 +43,10 @@ class StaffServiceProvider implements ServiceProviderInterface
     {
         $pimple['staff'] = function ($pimple) {
             return new Staff($pimple['access_token']);
+        };
+
+        $pimple['staff_session'] = $pimple['staff.session'] = function ($pimple) {
+            return new Session($pimple['access_token']);
         };
     }
 }
