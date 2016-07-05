@@ -196,10 +196,14 @@ class Application extends Container
             return Request::createFromGlobals();
         };
 
-        $this['cache'] = function () {
-            return new FilesystemCache(sys_get_temp_dir());
-        };
-
+        if(empty($this['config']['cache'])) {
+            $this['cache'] = function () {
+                return new FilesystemCache(sys_get_temp_dir());
+            };
+        } else {
+            $this['cache'] = $this['config']['cache'];
+        }
+        
         $this['access_token'] = function () {
             return new AccessToken(
                $this['config']['app_id'],
