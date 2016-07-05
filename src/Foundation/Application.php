@@ -25,6 +25,7 @@
  */
 namespace EasyWeChat\Foundation;
 
+use Doctrine\Common\Cache\Cache as CacheInterface;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
@@ -196,9 +197,13 @@ class Application extends Container
             return Request::createFromGlobals();
         };
 
-        $this['cache'] = function () {
-            return new FilesystemCache(sys_get_temp_dir());
-        };
+        if (!empty($this['config']['cache']) && $this['config']['cache'] instanceof CacheInterface) {
+            $this['cache'] = $this['config']['cache'];
+        } else {
+            $this['cache'] = function () {
+                return new FilesystemCache(sys_get_temp_dir());
+            };
+        }
 
         $this['access_token'] = function () {
             return new AccessToken(
