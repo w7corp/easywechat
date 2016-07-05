@@ -25,7 +25,7 @@
  */
 namespace EasyWeChat\Foundation;
 
-use Doctrine\Common\Cache as CacheInterface;
+use Doctrine\Common\Cache\Cache as CacheInterface;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
