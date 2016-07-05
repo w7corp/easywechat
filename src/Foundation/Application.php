@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue/wechat
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Foundation;
 
 use Doctrine\Common\Cache\FilesystemCache;
@@ -196,14 +197,14 @@ class Application extends Container
             return Request::createFromGlobals();
         };
 
-        if(empty($this['config']['cache'])) {
+        if (empty($this['config']['cache'])) {
             $this['cache'] = function () {
                 return new FilesystemCache(sys_get_temp_dir());
             };
         } else {
             $this['cache'] = $this['config']['cache'];
         }
-        
+
         $this['access_token'] = function () {
             return new AccessToken(
                $this['config']['app_id'],
