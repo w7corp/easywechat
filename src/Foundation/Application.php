@@ -198,11 +198,11 @@ class Application extends Container
         };
 
         if (!empty($this['config']['cache']) && $this['config']['cache'] instanceof CacheInterface) {
+            $this['cache'] = $this['config']['cache'];
+        } else {
             $this['cache'] = function () {
                 return new FilesystemCache(sys_get_temp_dir());
             };
-        } else {
-            $this['cache'] = $this['config']['cache'];
         }
 
         $this['access_token'] = function () {
