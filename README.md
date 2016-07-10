@@ -39,7 +39,7 @@
 ## 安装
 
 ```shell
-composer require "overtrue/wechat:~3.0" -vvv
+composer require "overtrue/wechat:~3.1" -vvv
 ```
 
 ## 使用
