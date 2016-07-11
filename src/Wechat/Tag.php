@@ -89,7 +89,7 @@ class Tag
     }
 
     /**
-     * 更新组名称.
+     * 更新标签名称.
      *
      * @param int    $tagId
      * @param string $name
@@ -127,7 +127,7 @@ class Tag
     }
 
     /**
-     * 获取用户所在标签.
+     * 获取用户所有标签.
      *
      * @param string $openId
      *
