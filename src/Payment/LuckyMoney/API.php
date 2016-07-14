@@ -115,7 +115,10 @@ class API extends AbstractAPI
         $api = ($type === self::TYPE_NORMAL) ? self::API_SEND : self::API_SEND_GROUP;
 
         $params['wxappid'] = $this->merchant->app_id;
-
+        //如果类型为分裂红则去掉client_ip参数,否则签名会出错
+        if ($type == self::TYPE_GROUP) {
+            unset($params['client_ip']);
+        }
         return $this->request($api, $params);
     }
 
