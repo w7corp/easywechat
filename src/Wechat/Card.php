@@ -498,7 +498,7 @@ class Card
      * }
      * </pre>
      *
-     * @param stirng $cardId
+     * @param string $cardId
      * @param array  $data
      *
      * @return bool
