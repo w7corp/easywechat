@@ -233,7 +233,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
      *
      * @return mixed data which can be serialized by <b>json_encode</b>,
-     *               which is a value of any type other than a resource.
+     *               which is a value of any type other than a resource
      */
     public function jsonSerialize()
     {
@@ -276,7 +276,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @return int The custom count as an integer.
      *             </p>
      *             <p>
-     *             The return value is cast to an integer.
+     *             The return value is cast to an integer
      */
     public function count()
     {
@@ -366,7 +366,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *                      </p>
      *
      * @return bool true on success or false on failure.
-     *              The return value will be casted to boolean if non-boolean was returned.
+     *              The return value will be casted to boolean if non-boolean was returned
      */
     public function offsetExists($offset)
     {
@@ -400,7 +400,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *                      The offset to retrieve.
      *                      </p>
      *
-     * @return mixed Can return all value types.
+     * @return mixed Can return all value types
      */
     public function offsetGet($offset)
     {

@@ -169,7 +169,7 @@ class Http
     /**
      * Return GuzzleHttp\Client instance.
      *
-     * @return \GuzzleHttp\Client.
+     * @return \GuzzleHttp\Client
      */
     public function getClient()
     {
