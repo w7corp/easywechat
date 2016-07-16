@@ -100,7 +100,7 @@ class XML
         $result = null;
 
         if (is_object($obj)) {
-            $obj = (array)$obj;
+            $obj = (array) $obj;
         }
 
         if (is_array($obj)) {
