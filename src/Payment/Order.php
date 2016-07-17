@@ -60,7 +60,5 @@ class Order extends Attribute
     public function __construct(array $attributes)
     {
         parent::__construct($attributes);
-
-        $this->with('spbill_create_ip', get_client_ip());
     }
 }

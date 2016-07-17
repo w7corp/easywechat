@@ -39,16 +39,31 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
 }
 
 /**
- * Get client ip address.
+ * Get client ip.
  *
  * @return string
  */
 function get_client_ip()
 {
     // for php-cli(phpunit etc.)
-    if (!isset($_SERVER['REMOTE_ADDR'])) {
+    if (empty($_SERVER['REMOTE_ADDR'])) {
         return gethostbyname(gethostname());
     }
 
     return $_SERVER['REMOTE_ADDR'];
+}
+
+/**
+ * Get current server ip.
+ *
+ * @return string
+ */
+function get_server_ip()
+{
+    // for php-cli(phpunit etc.)
+    if (empty($_SERVER['SERVER_ADDR'])) {
+        return gethostbyname(gethostname());
+    }
+
+    return $_SERVER['SERVER_ADDR'];
 }
