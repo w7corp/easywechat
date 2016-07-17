@@ -31,7 +31,7 @@ use EasyWeChat\Support\Attribute;
  * @property string $out_trade_no
  * @property string $fee_type
  * @property string $total_fee
- * @property string $spbill_create
+ * @property string $spbill_create_ip
  * @property string $time_start
  * @property string $time_expire
  * @property string $goods_tag
