@@ -79,7 +79,7 @@ class Http
      * @param string $url
      * @param array  $options
      *
-     * @return array|bool
+     * @return ResponseInterface
      *
      * @throws HttpException
      */
@@ -94,7 +94,7 @@ class Http
      * @param string       $url
      * @param array|string $options
      *
-     * @return array|bool
+     * @return ResponseInterface
      *
      * @throws HttpException
      */
@@ -112,7 +112,7 @@ class Http
      * @param string|array $options
      * @param int          $encodeOption
      *
-     * @return array|bool
+     * @return ResponseInterface
      *
      * @throws HttpException
      */
@@ -130,7 +130,7 @@ class Http
      * @param array  $files
      * @param array  $form
      *
-     * @return array|bool
+     * @return ResponseInterface
      *
      * @throws HttpException
      */
@@ -211,7 +211,7 @@ class Http
      * @param string $method
      * @param array  $options
      *
-     * @return array|bool
+     * @return ResponseInterface
      *
      * @throws HttpException
      */
