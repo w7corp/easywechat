@@ -27,15 +27,20 @@
  - 高度抽象的消息类，免去各种拼json与xml的痛苦；
  - 详细 Debug 日志，一切交互都一目了然；
 
+## 环境要求
+
+1. PHP >= 5.5.9
+2. **[composer](https://getcomposer.org/)**
+3. openssl 拓展
+4. fileinfo 拓展（素材管理模块需要用到）
+
+> SDK 对所使用的框架并无特别要求
+
 ## 安装
 
-环境要求：PHP >= 5.5.9
-
-1. 使用 [composer](https://getcomposer.org/)
-
-  ```shell
-  composer require "overtrue/wechat:~3.0" -vvv
-  ```
+```shell
+composer require "overtrue/wechat:~3.1" -vvv
+```
 
 ## 使用
 

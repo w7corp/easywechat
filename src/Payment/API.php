@@ -221,7 +221,7 @@ class API extends AbstractAPI
         $refundFee = null,
         $opUserId = null
         ) {
-        return $this->refund($orderNo, $refundNo, $totalFee, $refundFee, $opUserId, self::TRANSCATION_ID);
+        return $this->refund($orderNo, $refundNo, $totalFee, $refundFee, $opUserId, self::TRANSACTION_ID);
     }
 
     /**
@@ -374,7 +374,7 @@ class API extends AbstractAPI
      * @param array  $params
      * @param string $method
      * @param array  $options
-     * @param bool   $options
+     * @param bool   $returnResponse
      *
      * @return \EasyWeChat\Support\Collection|\Psr\Http\Message\ResponseInterface
      */
