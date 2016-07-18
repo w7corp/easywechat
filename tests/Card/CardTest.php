@@ -290,21 +290,21 @@ class CardTest extends TestCase
     }
 
     //设置测试白名单
-    public function testTestWhiteList()
+    public function testTestWhitelist()
     {
         $card = $this->getCard();
 
         $openid = [];
         $username = ['tianye0327'];
 
-        $result = $card->testWhiteList($openid, $username);
+        $result = $card->testWhitelist($openid, $username);
         $this->assertStringStartsWith(Card::API_TEST_WHITE_LIST, $result['api']);
         $this->assertEquals($openid, $result['params']['openid']);
         $this->assertEquals($username, $result['params']['username']);
     }
 
     //查询Code接口
-    public function testCodeGet()
+    public function testGetCode()
     {
         $card = $this->getCard();
 
@@ -312,7 +312,7 @@ class CardTest extends TestCase
         $checkConsume = true;
         $cardId = 'pdkJ9uDgnm0pKfrTb1yV0dFMO_Gk';
 
-        $result = $card->codeGet($code, $checkConsume, $cardId);
+        $result = $card->getCode($code, $checkConsume, $cardId);
         $this->assertStringStartsWith(Card::API_CODE_GET, $result['api']);
         $this->assertEquals($code, $result['params']['code']);
         $this->assertEquals($checkConsume, $result['params']['check_consume']);
@@ -338,10 +338,10 @@ class CardTest extends TestCase
     {
         $card = $this->getCard();
 
-        $encryptCode = 'XXIzTtMqCxwOaawoE91+VJdsFmv7b8g0VZIZkqf4GWA60Fzpc8ksZ/5ZZ0DVkXdE';
-        $result = $card->decrypt($encryptCode);
+        $encryptedCode = 'XXIzTtMqCxwOaawoE91+VJdsFmv7b8g0VZIZkqf4GWA60Fzpc8ksZ/5ZZ0DVkXdE';
+        $result = $card->decrypt($encryptedCode);
         $this->assertStringStartsWith(Card::API_DECRYPT, $result['api']);
-        $this->assertEquals($encryptCode, $result['params']['encrypt_code']);
+        $this->assertEquals($encryptedCode, $result['params']['encrypt_code']);
     }
 
     //获取用户已领取卡券接口
@@ -359,19 +359,19 @@ class CardTest extends TestCase
     }
 
     //查看卡券详情
-    public function testCardGet()
+    public function testGetCard()
     {
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uLRSbnB3UFEjZAgUxAJrjeY';
 
-        $result = $card->cardGet($cardId);
+        $result = $card->getCard($cardId);
         $this->assertStringStartsWith(Card::API_CARD_GET, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //批量查询卡列表
-    public function testBatchGet()
+    public function testGetBatch()
     {
         $card = $this->getCard();
 
@@ -379,7 +379,7 @@ class CardTest extends TestCase
         $count = 10;
         $statusList = 'CARD_STATUS_VERIFY_OK';
 
-        $result = $card->batchGet($offset, $count, $statusList);
+        $result = $card->getBatch($offset, $count, $statusList);
         $this->assertStringStartsWith(Card::API_BATCH_GET, $result['api']);
         $this->assertEquals($offset, $result['params']['offset']);
         $this->assertEquals($count, $result['params']['count']);
@@ -443,7 +443,7 @@ class CardTest extends TestCase
     //更改Code接口
     //为确保转赠后的安全性，微信允许自定义Code的商户对已下发的code进行更改。
     //注：为避免用户疑惑，建议仅在发生转赠行为后（发生转赠后，微信会通过事件推送的方式告知商户被转赠的卡券Code）对用户的Code进行更改。
-    public function testCodeUpdate()
+    public function testUpdateCode()
     {
         $card = $this->getCard();
 
@@ -451,7 +451,7 @@ class CardTest extends TestCase
         $newCode = '659266965266';
         $cardId = '';
 
-        $result = $card->codeUpdate($code, $newCode, $cardId);
+        $result = $card->updateCode($code, $newCode, $cardId);
         $this->assertStringStartsWith(Card::API_CODE_UPDATE, $result['api']);
         $this->assertEquals($code, $result['params']['code']);
         $this->assertEquals($newCode, $result['params']['new_code']);
@@ -459,26 +459,26 @@ class CardTest extends TestCase
     }
 
     //删除卡券接口
-    public function testCardDelete()
+    public function testDelete()
     {
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uItT7iUpBp4GjZp8Cae0Vig';
 
-        $result = $card->cardDelete($cardId);
+        $result = $card->delete($cardId);
         $this->assertStringStartsWith(Card::API_CARD_DELETE, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //设置卡券失效
-    public function testUnavailable()
+    public function testDisable()
     {
         $card = $this->getCard();
 
         $code = '736052543512';
         $cardId = '';
 
-        $result = $card->unavailable($code, $cardId);
+        $result = $card->disable($code, $cardId);
         $this->assertStringStartsWith(Card::API_UNAVAILABLE, $result['api']);
         $this->assertEquals($code, $result['params']['code']);
         $this->assertEquals($cardId, $result['params']['card_id']);
@@ -501,7 +501,7 @@ class CardTest extends TestCase
     }
 
     //获取免费券数据接口
-    public function testGetCardCardInfo()
+    public function testGetFreeCardInfo()
     {
         $card = $this->getCard();
 
@@ -510,7 +510,7 @@ class CardTest extends TestCase
         $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
         $cardId = '';
 
-        $result = $card->getCardCardInfo($beginDate, $endDate, $condSource, $cardId);
+        $result = $card->getFreeCardInfo($beginDate, $endDate, $condSource, $cardId);
         $this->assertStringStartsWith(Card::API_CARD_CARD_INFO, $result['api']);
         $this->assertEquals($beginDate, $result['params']['begin_date']);
         $this->assertEquals($endDate, $result['params']['end_date']);
@@ -519,7 +519,7 @@ class CardTest extends TestCase
     }
 
     //拉取会员卡数据接口
-    public function testGetCardMemberCardInfo()
+    public function testGetMemberCardInfo()
     {
         $card = $this->getCard();
 
@@ -527,7 +527,7 @@ class CardTest extends TestCase
         $endDate = '2015-07-20';
         $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
 
-        $result = $card->getCardMemberCardInfo($beginDate, $endDate, $condSource);
+        $result = $card->getMemberCardInfo($beginDate, $endDate, $condSource);
         $this->assertStringStartsWith(Card::API_CARD_MEMBER_CARD_INFO, $result['api']);
         $this->assertEquals($beginDate, $result['params']['begin_date']);
         $this->assertEquals($endDate, $result['params']['end_date']);
@@ -577,27 +577,27 @@ class CardTest extends TestCase
         ];
         $optionalForm['custom_field_list'] = ['喜欢的电影'];
 
-        $result = $card->activateUserFrom($cardId, $requiredForm, $optionalForm);
+        $result = $card->activateUserForm($cardId, $requiredForm, $optionalForm);
         $this->assertStringStartsWith(Card::API_ACTIVATE_USER_FORM, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //拉取会员信息接口
-    public function testMemberCardUserInfo()
+    public function testGetMemberCardUser()
     {
         $card = $this->getCard();
 
         $cardId = 'pbLatjtZ7v1BG_ZnTjbW85GYc_E8';
         $code = '916679873278';
 
-        $result = $card->memberCardUserInfo($cardId, $code);
+        $result = $card->getMemberCardUser($cardId, $code);
         $this->assertStringStartsWith(Card::API_MEMBER_USER_INFO, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($code, $result['params']['code']);
     }
 
     //更新会员信息
-    public function testMemberCardUpdateUser()
+    public function testUpdateMemberCardUser()
     {
         $card = $this->getCard();
 
@@ -613,7 +613,7 @@ class CardTest extends TestCase
             'custom_field_value3' => '300', //创建时字段custom_field3定义类型的最新数值，限制为4个汉字，12字节。
         ];
 
-        $result = $card->memberCardUpdateUser($updateUser);
+        $result = $card->updateMemberCardUser($updateUser);
         $this->assertStringStartsWith(Card::API_UPDATE_USER, $result['api']);
         $this->assertEquals($updateUser, $result['params']);
     }

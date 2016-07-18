@@ -100,11 +100,11 @@ class Card extends AbstractAPI
 
         $type = strtolower($cardType);
 
-        $card_info = [];
-        $card_info['base_info'] = $baseInfo;
+        $cardInfo = [];
+        $cardInfo['base_info'] = $baseInfo;
 
         $card['card'][$type] = [];
-        $card['card'][$type] = array_merge($card_info, $especial, $advancedInfo);
+        $card['card'][$type] = array_merge($cardInfo, $especial, $advancedInfo);
 
         if (is_string($cardType) && is_array($baseInfo) && is_array($especial)) {
             return $this->parseJSON('json', [self::API_CREATE, $card]);
@@ -116,19 +116,19 @@ class Card extends AbstractAPI
     /**
      * 创建二维码.
      *
-     * @param array $cardList
+     * @param array $cards
      *
      * @return array|bool
      */
-    public function qrCode($cardList = [])
+    public function qrCode($cards = [])
     {
-        return $this->parseJSON('json', [self::API_QRCODE_CREATE, $cardList]);
+        return $this->parseJSON('json', [self::API_QRCODE_CREATE, $cards]);
     }
 
     /**
      * ticket 换取二维码图片.
      *
-     * @param null $ticket
+     * @param string $ticket
      *
      * @return array
      */
@@ -155,7 +155,7 @@ class Card extends AbstractAPI
     /**
      * 通过ticket换取二维码 链接.
      *
-     * @param $ticket
+     * @param string $ticket
      *
      * @return string
      */
@@ -169,20 +169,20 @@ class Card extends AbstractAPI
     /**
      * 获取 卡券 Api_ticket.
      *
-     * @param bool $isRefresh 是否强制刷新
+     * @param bool $refresh 是否强制刷新
      *
      * @return string $apiTicket
      */
-    public function cardApiTicket($isRefresh = false)
+    public function cardApiTicket($refresh = false)
     {
         $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
 
         $ticket = $this->getCache()->fetch($key);
 
-        if (!$ticket || $isRefresh) {
+        if (!$ticket || $refresh) {
             $result = $this->parseJSON('get', [self::API_GET_CARD_TICKET, ['type' => 'wx_card']]);
 
-            $res = $this->getCache()->save($key, $result['ticket'], $result['expires_in'] - 500);
+            $this->getCache()->save($key, $result['ticket'], $result['expires_in'] - 500);
 
             return $result['ticket'];
         }
@@ -193,13 +193,13 @@ class Card extends AbstractAPI
     /**
      * 微信卡券：JSAPI 卡券Package - 基础参数没有附带任何值 - 再生产环境中需要根据实际情况进行修改.
      *
-     * @param array $cardList
-     * @param null  $timestamp
-     * @param null  $apiTicket
+     * @param array $cards
+     * @param int  $timestamp
+     * @param string  $apiTicket
      *
      * @return string
      */
-    public function wxCardPackage(array $cardList, $timestamp = null, $apiTicket = null)
+    public function wxCardPackage(array $cards, $timestamp = null, $apiTicket = null)
     {
         if (empty($timestamp) || $timestamp === '') {
             $timestamp = time();
@@ -209,47 +209,45 @@ class Card extends AbstractAPI
             $apiTicket = $this->cardApiTicket();
         }
 
-        $resultArray = [];
-        foreach ($cardList as $key => $value) {
-            if (empty($value['code']) || !isset($value['code'])) {
-                $value['code'] = '';
+        $result = [];
+        foreach ($cards as $index => $card) {
+            if (empty($card['code']) || !isset($card['code'])) {
+                $card['code'] = '';
             }
 
-            if (empty($value['openid']) || !isset($value['openid'])) {
-                $value['openid'] = '';
+            if (empty($card['openid']) || !isset($card['openid'])) {
+                $card['openid'] = '';
             }
 
-            $arrays = [$apiTicket, $timestamp, $value['card_id'], $value['code'], $value['openid']];
+            $arrays = [$apiTicket, $timestamp, $card['card_id'], $card['code'], $card['openid']];
             sort($arrays, SORT_STRING);
             $string = sha1(implode($arrays));
 
-            $resultArray['cardList'][$key]['cardId'] = $value['card_id'];
-            $resultArray['cardList'][$key]['cardExt']['code'] = $value['code'];
-            $resultArray['cardList'][$key]['cardExt']['openid'] = $value['openid'];
+            $result['cardList'][$index]['cardId'] = $card['card_id'];
+            $result['cardList'][$index]['cardExt']['code'] = $card['code'];
+            $result['cardList'][$index]['cardExt']['openid'] = $card['openid'];
 
-            $resultArray['cardList'][$key]['cardExt']['timestamp'] = $timestamp;
-            $resultArray['cardList'][$key]['cardExt']['signature'] = $string;
+            $result['cardList'][$index]['cardExt']['timestamp'] = $timestamp;
+            $result['cardList'][$index]['cardExt']['signature'] = $string;
 
-            if (!empty($value['outer_id'])) {
-                $resultArray['cardList'][$key]['cardExt']['outer_id'] = $value['outer_id'];
+            if (!empty($card['outer_id'])) {
+                $result['cardList'][$index]['cardExt']['outer_id'] = $card['outer_id'];
             }
 
-            $resultArray['cardList'][$key]['cardExt'] = json_encode($resultArray['cardList'][$key]['cardExt']);
+            $result['cardList'][$index]['cardExt'] = json_encode($result['cardList'][$index]['cardExt']);
         }
 
-        $resultJson = json_encode($resultArray);
-
-        return $resultJson;
+        return json_encode($result);
     }
 
     /**
      * 创建货架接口.
      *
-     * @param $banner
-     * @param $pageTitle
-     * @param $canShare
-     * @param $scene
-     * @param $cardList
+     * @param string $banner
+     * @param string $pageTitle
+     * @param bool $canShare
+     * @param string $scene [SCENE_NEAR_BY 附近,SCENE_MENU 自定义菜单,SCENE_QRCODE 二维码,SCENE_ARTICLE 公众号文章,SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
+     * @param array $cardList
      *
      * @return array
      */
@@ -269,8 +267,8 @@ class Card extends AbstractAPI
     /**
      * 导入code接口.
      *
-     * @param $cardId
-     * @param $code
+     * @param string $cardId
+     * @param array $code
      *
      * @return array
      */
@@ -287,7 +285,7 @@ class Card extends AbstractAPI
     /**
      * 查询导入code数目.
      *
-     * @param $cardId
+     * @param string $cardId
      *
      * @return array
      */
@@ -303,8 +301,8 @@ class Card extends AbstractAPI
     /**
      * 核查code接口.
      *
-     * @param $cardId
-     * @param $code
+     * @param string $cardId
+     * @param array $code
      *
      * @return array
      */
@@ -321,7 +319,7 @@ class Card extends AbstractAPI
     /**
      * 图文消息群发卡券.
      *
-     * @param $cardId
+     * @param string $cardId
      *
      * @return array
      */
@@ -337,12 +335,12 @@ class Card extends AbstractAPI
     /**
      * 设置测试白名单.
      *
-     * @param $openid
-     * @param $username
+     * @param array $openid
+     * @param array $username
      *
      * @return array
      */
-    public function testWhiteList($openid, $username)
+    public function testWhitelist($openid, $username)
     {
         $params = [
             'openid' => $openid,
@@ -355,13 +353,13 @@ class Card extends AbstractAPI
     /**
      * 查询Code接口.
      *
-     * @param $code
-     * @param $checkConsume
-     * @param $cardId
+     * @param string $code
+     * @param bool $checkConsume
+     * @param string $cardId
      *
      * @return array
      */
-    public function codeGet($code, $checkConsume, $cardId)
+    public function getCode($code, $checkConsume, $cardId)
     {
         $params = [
             'code' => $code,
@@ -375,8 +373,8 @@ class Card extends AbstractAPI
     /**
      * 核销Code接口.
      *
-     * @param $cardId
-     * @param $code
+     * @param string $cardId
+     * @param string $code
      *
      * @return array
      */
@@ -393,14 +391,14 @@ class Card extends AbstractAPI
     /**
      * Code解码接口.
      *
-     * @param $encryptCode
+     * @param string $encryptedCode
      *
      * @return array
      */
-    public function decrypt($encryptCode)
+    public function decrypt($encryptedCode)
     {
         $params = [
-            'encrypt_code' => $encryptCode,
+            'encrypt_code' => $encryptedCode,
         ];
 
         return $this->parseJSON('json', [self::API_DECRYPT, $params]);
@@ -409,7 +407,7 @@ class Card extends AbstractAPI
     /**
      * 获取用户已领取卡券接口.
      *
-     * @param        $openid
+     * @param string $openid
      * @param string $cardId
      *
      * @return array
@@ -427,11 +425,11 @@ class Card extends AbstractAPI
     /**
      * 查看卡券详情.
      *
-     * @param $cardId
+     * @param string $cardId
      *
      * @return array
      */
-    public function cardGet($cardId)
+    public function getCard($cardId)
     {
         $params = [
             'card_id' => $cardId,
@@ -443,13 +441,13 @@ class Card extends AbstractAPI
     /**
      * 批量查询卡列表.
      *
-     * @param int    $offset
-     * @param int    $count
+     * @param int int $offset
+     * @param int int $count
      * @param string $statusList
      *
      * @return array
      */
-    public function batchGet($offset = 0, $count = 10, $statusList = 'CARD_STATUS_VERIFY_OK')
+    public function getBatch($offset = 0, $count = 10, $statusList = 'CARD_STATUS_VERIFY_OK')
     {
         $params = [
             'offset' => $offset,
@@ -463,8 +461,8 @@ class Card extends AbstractAPI
     /**
      * 更改卡券信息接口 and 设置跟随推荐接口.
      *
-     * @param       $cardId
-     * @param       $type
+     * @param string $cardId
+     * @param string $type
      * @param array $baseInfo
      * @param array $especial
      *
@@ -488,7 +486,7 @@ class Card extends AbstractAPI
      * 设置微信买单接口.
      * 设置买单的card_id必须已经配置了门店，否则会报错.
      *
-     * @param      $cardId
+     * @param string $cardId
      * @param bool $isOpen
      *
      * @return array
@@ -506,16 +504,18 @@ class Card extends AbstractAPI
     /**
      * 修改库存接口.
      *
-     * @param        $cardId
+     * @param string $cardId
      * @param string $stock
-     * @param int    $value
+     * @param int $value
      *
      * @return array
      */
     public function modifyStock($cardId, $stock = 'increase', $value = 0)
     {
-        $params = [];
-        $params['card_id'] = $cardId;
+        $params = [
+            'card_id' => $cardId,
+        ];
+        
         if ($stock === 'increase') {
             $params['increase_stock_value'] = intval($value);
         } elseif ($stock === 'reduce') {
@@ -530,13 +530,13 @@ class Card extends AbstractAPI
     /**
      * 更改Code接口.
      *
-     * @param       $code
-     * @param       $newCode
+     * @param string $code
+     * @param string $newCode
      * @param array $cardId
      *
      * @return array
      */
-    public function codeUpdate($code, $newCode, $cardId = [])
+    public function updateCode($code, $newCode, $cardId = [])
     {
         $params = [
             'code' => $code,
@@ -550,11 +550,11 @@ class Card extends AbstractAPI
     /**
      * 删除卡券接口.
      *
-     * @param $cardId
+     * @param string $cardId
      *
      * @return array
      */
-    public function cardDelete($cardId)
+    public function delete($cardId)
     {
         $params = [
             'card_id' => $cardId,
@@ -566,12 +566,12 @@ class Card extends AbstractAPI
     /**
      * 设置卡券失效.
      *
-     * @param      $code
-     * @param null $cardId
+     * @param string $code
+     * @param string $cardId
      *
      * @return array
      */
-    public function unavailable($code, $cardId = null)
+    public function disable($code, $cardId = '')
     {
         $params = [
             'code' => $code,
@@ -584,8 +584,8 @@ class Card extends AbstractAPI
     /**
      * 拉取卡券概况数据接口.
      *
-     * @param     $beginDate
-     * @param     $endDate
+     * @param string $beginDate
+     * @param string $endDate
      * @param int $condSource
      *
      * @return array
@@ -612,14 +612,14 @@ class Card extends AbstractAPI
     /**
      * 获取免费券数据接口.
      *
-     * @param        $beginDate
-     * @param        $endDate
-     * @param int    $condSource
+     * @param string $beginDate
+     * @param string $endDate
+     * @param int $condSource
      * @param string $cardId
      *
      * @return array
      */
-    public function getCardCardInfo($beginDate, $endDate, $condSource = 0, $cardId = '')
+    public function getFreeCardInfo($beginDate, $endDate, $condSource = 0, $cardId = '')
     {
         $params = [
             'begin_date' => $beginDate,
@@ -634,13 +634,13 @@ class Card extends AbstractAPI
     /**
      * 拉取会员卡数据接口.
      *
-     * @param     $beginDate
-     * @param     $endDate
+     * @param string $beginDate
+     * @param string $endDate
      * @param int $condSource
      *
      * @return array
      */
-    public function getCardMemberCardInfo($beginDate, $endDate, $condSource = 0)
+    public function getMemberCardInfo($beginDate, $endDate, $condSource = 0)
     {
         $params = [
             'begin_date' => $beginDate,
@@ -666,13 +666,13 @@ class Card extends AbstractAPI
     /**
      * 设置开卡字段接口.
      *
-     * @param       $cardId
+     * @param string $cardId
      * @param array $requiredForm
      * @param array $optionalForm
      *
      * @return array
      */
-    public function activateUserFrom($cardId, $requiredForm = [], $optionalForm = [])
+    public function activateUserForm($cardId, $requiredForm = [], $optionalForm = [])
     {
         $card = [];
         $card['card_id'] = $cardId;
@@ -685,12 +685,12 @@ class Card extends AbstractAPI
     /**
      * 拉取会员信息接口.
      *
-     * @param $cardId
-     * @param $code
+     * @param string $cardId
+     * @param string $code
      *
      * @return array
      */
-    public function memberCardUserInfo($cardId, $code)
+    public function getMemberCardUser($cardId, $code)
     {
         $params = [
             'card_id' => $cardId,
@@ -707,7 +707,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function memberCardUpdateUser($updateUser = [])
+    public function updateMemberCardUser($updateUser = [])
     {
         $params = $updateUser;
 
@@ -717,14 +717,14 @@ class Card extends AbstractAPI
     /**
      * 添加子商户.
      *
-     * @param        $brandName
-     * @param        $logoUrl
-     * @param        $protocol
-     * @param        $endTime
-     * @param        $primaryCategoryId
-     * @param        $secondaryCategoryId
-     * @param        $agreementMediaId
-     * @param        $operatorMediaId
+     * @param string $brandName
+     * @param string $logoUrl
+     * @param string $protocol
+     * @param int $endTime
+     * @param int $primaryCategoryId
+     * @param int $secondaryCategoryId
+     * @param string $agreementMediaId
+     * @param string $operatorMediaId
      * @param string $appId
      *
      * @return array
