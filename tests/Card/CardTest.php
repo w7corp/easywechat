@@ -27,8 +27,6 @@ class CardTest extends TestCase
             ];
         });
 
-        \EasyWeChat\Core\Http::setDefaultOptions(['verify' => false]);
-
         return $card;
     }
 
@@ -39,7 +37,7 @@ class CardTest extends TestCase
 
     public function getMockHttp()
     {
-        $http = Mockery::mock(Http::class . '[get]', function ($mock) {
+        $http = Mockery::mock(Http::class.'[get]', function ($mock) {
             $mock->shouldReceive('get')->andReturn(json_encode([
                 'access_token' => 'thisIsATokenFromHttp',
                 'expires_in' => 7200,
@@ -100,7 +98,7 @@ class CardTest extends TestCase
 
         $baseInfo['get_limit'] = 1;
         $baseInfo['use_custom_code'] = true; //自定义code时必须为true
-        $baseInfo['get_custom_code_mode'] = "GET_CUSTOM_CODE_MODE_DEPOSIT";  //自定义code时设置
+        $baseInfo['get_custom_code_mode'] = 'GET_CUSTOM_CODE_MODE_DEPOSIT';  //自定义code时设置
         $baseInfo['bind_openid'] = false;
         $baseInfo['can_share'] = true;
         $baseInfo['can_give_friend'] = false;
@@ -115,7 +113,7 @@ class CardTest extends TestCase
         $baseInfo['source'] = '造梦空间';
 
         $especial = [];
-        $especial['deal_detail'] = "deal_detail";
+        $especial['deal_detail'] = 'deal_detail';
 
         $type = strtolower($cardType);
 
@@ -567,9 +565,9 @@ class CardTest extends TestCase
 
         $requiredForm = [];
         $requiredForm['common_field_id_list'] = [
-            "USER_FORM_INFO_FLAG_MOBILE",
-            "USER_FORM_INFO_FLAG_LOCATION",
-            "USER_FORM_INFO_FLAG_BIRTHDAY",
+            'USER_FORM_INFO_FLAG_MOBILE',
+            'USER_FORM_INFO_FLAG_LOCATION',
+            'USER_FORM_INFO_FLAG_BIRTHDAY',
         ];
         $requiredForm['custom_field_list'] = ['喜欢的食物'];
 
@@ -625,12 +623,12 @@ class CardTest extends TestCase
     {
         $card = $this->getCard();
 
-        $brandName = "aaaaaa";
-        $appId = "";
-        $logoUrl = "http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0";
-        $protocol = "qIqwTfzAdJ_1-VJFT0fIV53DSY4sZY2WyhkzZzbV498Qgdp-K5HJtZihbHLS0Ys0";
-        $agreementMediaId = "";
-        $operatorMediaId = "";
+        $brandName = 'aaaaaa';
+        $appId = '';
+        $logoUrl = 'http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0';
+        $protocol = 'qIqwTfzAdJ_1-VJFT0fIV53DSY4sZY2WyhkzZzbV498Qgdp-K5HJtZihbHLS0Ys0';
+        $agreementMediaId = '';
+        $operatorMediaId = '';
         $endTime = 1438990559;
         $primaryCategoryId = 1;
         $secondaryCategoryId = 101;

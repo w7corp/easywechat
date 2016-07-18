@@ -113,7 +113,7 @@ class Application extends Container
         Http::setDefaultOptions($this['config']->get('guzzle', ['timeout' => 5.0]));
 
         foreach (['app_id', 'secret'] as $key) {
-            !isset($config[$key]) || $config[$key] = '***' . substr($config[$key], -5);
+            !isset($config[$key]) || $config[$key] = '***'.substr($config[$key], -5);
         }
 
         Log::debug('Current config:', $config);

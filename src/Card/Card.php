@@ -148,7 +148,7 @@ class Card extends AbstractAPI
             'reason' => $response->getReasonPhrase(),
             'headers' => $response->getHeaders(),
             'body' => strval($response->getBody()),
-            'url' => self::API_QRCODE_SHOW . '?' . http_build_query($params),
+            'url' => self::API_QRCODE_SHOW.'?'.http_build_query($params),
         ];
     }
 
@@ -161,21 +161,21 @@ class Card extends AbstractAPI
      */
     public function showQrCodeUrl($ticket)
     {
-        $params = '?ticket=' . $ticket;
+        $params = '?ticket='.$ticket;
 
-        return self::API_QRCODE_SHOW . $params;
+        return self::API_QRCODE_SHOW.$params;
     }
 
     /**
      * 获取 卡券 Api_ticket.
      *
-     * @param  boolean $isRefresh 是否强制刷新
+     * @param bool $isRefresh 是否强制刷新
      *
-     * @return string  $apiTicket
+     * @return string $apiTicket
      */
     public function cardApiTicket($isRefresh = false)
     {
-        $key = self::TICKET_CACHE_PREFIX . $this->getAccessToken()->getAppId();
+        $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
 
         $ticket = $this->getCache()->fetch($key);
 
@@ -201,11 +201,11 @@ class Card extends AbstractAPI
      */
     public function wxCardPackage(array $cardList, $timestamp = null, $apiTicket = null)
     {
-        if (empty($timestamp) || $timestamp == '') {
+        if (empty($timestamp) || $timestamp === '') {
             $timestamp = time();
         }
 
-        if (empty($apiTicket) || $apiTicket == '') {
+        if (empty($apiTicket) || $apiTicket === '') {
             $apiTicket = $this->cardApiTicket();
         }
 
@@ -516,9 +516,9 @@ class Card extends AbstractAPI
     {
         $params = [];
         $params['card_id'] = $cardId;
-        if ($stock == 'increase') {
+        if ($stock === 'increase') {
             $params['increase_stock_value'] = intval($value);
-        } elseif ($stock == 'reduce') {
+        } elseif ($stock === 'reduce') {
             $params['reduce_stock_value'] = intval($value);
         } else {
             return false;
