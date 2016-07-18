@@ -94,7 +94,6 @@ class Card extends AbstractAPI
      */
     public function create($cardType = 'member_card', $baseInfo = [], $especial = [], $advancedInfo = [])
     {
-
         $card = [];
         $card['card'] = [];
         $card['card']['card_type'] = strtoupper($cardType);
@@ -248,8 +247,8 @@ class Card extends AbstractAPI
      * @param string $banner
      * @param string $pageTitle
      * @param bool   $canShare
-     * @param string $scene [SCENE_NEAR_BY 附近,SCENE_MENU 自定义菜单,SCENE_QRCODE 二维码,SCENE_ARTICLE 公众号文章,
-     *                      SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
+     * @param string $scene     [SCENE_NEAR_BY 附近,SCENE_MENU 自定义菜单,SCENE_QRCODE 二维码,SCENE_ARTICLE 公众号文章,
+     *                          SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
      * @param array  $cardList
      *
      * @return array
@@ -516,10 +515,9 @@ class Card extends AbstractAPI
     public function modifyStock($cardId, $stock = 'increase', $value = 0)
     {
         $params = [
-            'card_id' => $cardId,
+            'card_id' => $cardId
         ];
 
-        
         if ($stock === 'increase') {
             $params['increase_stock_value'] = intval($value);
         } elseif ($stock === 'reduce') {
