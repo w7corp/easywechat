@@ -413,14 +413,14 @@ class CardTest extends TestCase
     }
 
     //设置微信买单接口
-    public function testPayCellSet()
+    public function testSetPayCell()
     {
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uH7u11R-Tu1kilbaW_zDFow';
         $isOpen = true;
 
-        $result = $card->payCellSet($cardId, $isOpen);
+        $result = $card->setPayCell($cardId, $isOpen);
         $this->assertStringStartsWith(Card::API_PAY_CELL_SET, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($isOpen, $result['params']['is_open']);

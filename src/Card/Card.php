@@ -94,14 +94,16 @@ class Card extends AbstractAPI
      */
     public function create($cardType = 'member_card', $baseInfo = [], $especial = [], $advancedInfo = [])
     {
+
         $card = [];
         $card['card'] = [];
         $card['card']['card_type'] = strtoupper($cardType);
 
         $type = strtolower($cardType);
 
-        $cardInfo = [];
-        $cardInfo['base_info'] = $baseInfo;
+        $cardInfo = [
+            'base_info' => $baseInfo,
+        ];
 
         $card['card'][$type] = [];
         $card['card'][$type] = array_merge($cardInfo, $especial, $advancedInfo);
@@ -193,9 +195,9 @@ class Card extends AbstractAPI
     /**
      * 微信卡券：JSAPI 卡券Package - 基础参数没有附带任何值 - 再生产环境中需要根据实际情况进行修改.
      *
-     * @param array $cards
-     * @param int  $timestamp
-     * @param string  $apiTicket
+     * @param array  $cards
+     * @param int    $timestamp
+     * @param string $apiTicket
      *
      * @return string
      */
@@ -245,9 +247,10 @@ class Card extends AbstractAPI
      *
      * @param string $banner
      * @param string $pageTitle
-     * @param bool $canShare
-     * @param string $scene [SCENE_NEAR_BY 附近,SCENE_MENU 自定义菜单,SCENE_QRCODE 二维码,SCENE_ARTICLE 公众号文章,SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
-     * @param array $cardList
+     * @param bool   $canShare
+     * @param string $scene [SCENE_NEAR_BY 附近,SCENE_MENU 自定义菜单,SCENE_QRCODE 二维码,SCENE_ARTICLE 公众号文章,
+     *                      SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
+     * @param array  $cardList
      *
      * @return array
      */
@@ -268,7 +271,7 @@ class Card extends AbstractAPI
      * 导入code接口.
      *
      * @param string $cardId
-     * @param array $code
+     * @param array  $code
      *
      * @return array
      */
@@ -302,7 +305,7 @@ class Card extends AbstractAPI
      * 核查code接口.
      *
      * @param string $cardId
-     * @param array $code
+     * @param array  $code
      *
      * @return array
      */
@@ -354,7 +357,7 @@ class Card extends AbstractAPI
      * 查询Code接口.
      *
      * @param string $code
-     * @param bool $checkConsume
+     * @param bool   $checkConsume
      * @param string $cardId
      *
      * @return array
@@ -441,8 +444,8 @@ class Card extends AbstractAPI
     /**
      * 批量查询卡列表.
      *
-     * @param int int $offset
-     * @param int int $count
+     * @param int    $offset
+     * @param int    $count
      * @param string $statusList
      *
      * @return array
@@ -463,8 +466,8 @@ class Card extends AbstractAPI
      *
      * @param string $cardId
      * @param string $type
-     * @param array $baseInfo
-     * @param array $especial
+     * @param array  $baseInfo
+     * @param array  $especial
      *
      * @return array
      */
@@ -487,11 +490,11 @@ class Card extends AbstractAPI
      * 设置买单的card_id必须已经配置了门店，否则会报错.
      *
      * @param string $cardId
-     * @param bool $isOpen
+     * @param bool   $isOpen
      *
      * @return array
      */
-    public function payCellSet($cardId, $isOpen = true)
+    public function setPayCell($cardId, $isOpen = true)
     {
         $params = [
             'card_id' => $cardId,
@@ -506,7 +509,7 @@ class Card extends AbstractAPI
      *
      * @param string $cardId
      * @param string $stock
-     * @param int $value
+     * @param int    $value
      *
      * @return array
      */
@@ -515,6 +518,7 @@ class Card extends AbstractAPI
         $params = [
             'card_id' => $cardId,
         ];
+
         
         if ($stock === 'increase') {
             $params['increase_stock_value'] = intval($value);
@@ -532,7 +536,7 @@ class Card extends AbstractAPI
      *
      * @param string $code
      * @param string $newCode
-     * @param array $cardId
+     * @param array  $cardId
      *
      * @return array
      */
@@ -586,7 +590,7 @@ class Card extends AbstractAPI
      *
      * @param string $beginDate
      * @param string $endDate
-     * @param int $condSource
+     * @param int    $condSource
      *
      * @return array
      */
@@ -614,7 +618,7 @@ class Card extends AbstractAPI
      *
      * @param string $beginDate
      * @param string $endDate
-     * @param int $condSource
+     * @param int    $condSource
      * @param string $cardId
      *
      * @return array
@@ -636,7 +640,7 @@ class Card extends AbstractAPI
      *
      * @param string $beginDate
      * @param string $endDate
-     * @param int $condSource
+     * @param int    $condSource
      *
      * @return array
      */
@@ -667,8 +671,8 @@ class Card extends AbstractAPI
      * 设置开卡字段接口.
      *
      * @param string $cardId
-     * @param array $requiredForm
-     * @param array $optionalForm
+     * @param array  $requiredForm
+     * @param array  $optionalForm
      *
      * @return array
      */
@@ -720,9 +724,9 @@ class Card extends AbstractAPI
      * @param string $brandName
      * @param string $logoUrl
      * @param string $protocol
-     * @param int $endTime
-     * @param int $primaryCategoryId
-     * @param int $secondaryCategoryId
+     * @param int    $endTime
+     * @param int    $primaryCategoryId
+     * @param int    $secondaryCategoryId
      * @param string $agreementMediaId
      * @param string $operatorMediaId
      * @param string $appId
