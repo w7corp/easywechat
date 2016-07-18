@@ -515,7 +515,7 @@ class Card extends AbstractAPI
     public function modifyStock($cardId, $stock = 'increase', $value = 0)
     {
         $params = [
-            'card_id' => $cardId
+            'card_id' => $cardId,
         ];
 
         if ($stock === 'increase') {
