@@ -60,6 +60,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Payment\MerchantPay\MerchantPay $merchant_pay
  * @property \EasyWeChat\Reply\Reply                     $reply
  * @property \EasyWeChat\Broadcast\Broadcast             $broadcast
+ * @property \EasyWeChat\Card\Card                       $card
  */
 class Application extends Container
 {
@@ -85,6 +86,7 @@ class Application extends Container
         ServiceProviders\POIServiceProvider::class,
         ServiceProviders\ReplyServiceProvider::class,
         ServiceProviders\BroadcastServiceProvider::class,
+        ServiceProviders\CardServiceProvider::class,
     ];
 
     /**
@@ -207,10 +209,10 @@ class Application extends Container
 
         $this['access_token'] = function () {
             return new AccessToken(
-               $this['config']['app_id'],
-               $this['config']['secret'],
-               $this['cache']
-           );
+                $this['config']['app_id'],
+                $this['config']['secret'],
+                $this['cache']
+            );
         };
     }
 
