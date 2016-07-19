@@ -121,7 +121,7 @@ class Card extends AbstractAPI
      *
      * @return array|bool
      */
-    public function qrCode($cards = [])
+    public function QRCode($cards = [])
     {
         return $this->parseJSON('json', [self::API_QRCODE_CREATE, $cards]);
     }
@@ -133,7 +133,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function showQrCode($ticket = null)
+    public function showQRCode($ticket = null)
     {
         $params = [
             'ticket' => $ticket,
@@ -160,7 +160,7 @@ class Card extends AbstractAPI
      *
      * @return string
      */
-    public function showQrCodeUrl($ticket)
+    public function getQRCodeUrl($ticket)
     {
         $params = '?ticket='.$ticket;
 
@@ -174,7 +174,7 @@ class Card extends AbstractAPI
      *
      * @return string $apiTicket
      */
-    public function cardApiTicket($refresh = false)
+    public function getAPITicket($refresh = false)
     {
         $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
 
@@ -207,7 +207,7 @@ class Card extends AbstractAPI
         }
 
         if (empty($apiTicket) || $apiTicket === '') {
-            $apiTicket = $this->cardApiTicket();
+            $apiTicket = $this->getAPITicket();
         }
 
         $result = [];
@@ -253,7 +253,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function landingPage($banner, $pageTitle, $canShare, $scene, $cardList)
+    public function createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList)
     {
         $params = [
             'banner' => $banner,
@@ -291,7 +291,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function getDepositCount($cardId)
+    public function getDepositedCount($cardId)
     {
         $params = [
             'card_id' => $cardId,
@@ -342,7 +342,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function testWhitelist($openid, $username)
+    public function setTestWhitelist($openid, $username)
     {
         $params = [
             'openid' => $openid,
@@ -397,7 +397,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function decrypt($encryptedCode)
+    public function decryptCode($encryptedCode)
     {
         $params = [
             'encrypt_code' => $encryptedCode,
@@ -414,7 +414,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function getCardList($openid, $cardId = '')
+    public function getUserCards($openid, $cardId = '')
     {
         $params = [
             'openid' => $openid,
@@ -449,7 +449,7 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function getBatch($offset = 0, $count = 10, $statusList = 'CARD_STATUS_VERIFY_OK')
+    public function lists($offset = 0, $count = 10, $statusList = 'CARD_STATUS_VERIFY_OK')
     {
         $params = [
             'offset' => $offset,
@@ -581,76 +581,6 @@ class Card extends AbstractAPI
         ];
 
         return $this->parseJSON('json', [self::API_UNAVAILABLE, $params]);
-    }
-
-    /**
-     * 拉取卡券概况数据接口.
-     *
-     * @param string $beginDate
-     * @param string $endDate
-     * @param int    $condSource
-     *
-     * @return array
-     */
-    public function getCardBizUinInfo($beginDate, $endDate, $condSource = 0)
-    {
-        if (is_numeric($beginDate)) {
-            $beginDate = date('Y-m-d', $beginDate);
-        }
-
-        if (is_numeric($endDate)) {
-            $endDate = date('Y-m-d', $endDate);
-        }
-
-        $params = [
-            'begin_date' => $beginDate,
-            'end_date' => $endDate,
-            'cond_source' => intval($condSource),
-        ];
-
-        return $this->parseJSON('json', [self::API_CARD_BIZ_UIN_INFO, $params]);
-    }
-
-    /**
-     * 获取免费券数据接口.
-     *
-     * @param string $beginDate
-     * @param string $endDate
-     * @param int    $condSource
-     * @param string $cardId
-     *
-     * @return array
-     */
-    public function getFreeCardInfo($beginDate, $endDate, $condSource = 0, $cardId = '')
-    {
-        $params = [
-            'begin_date' => $beginDate,
-            'end_date' => $endDate,
-            'cond_source' => intval($condSource),
-            'card_id' => $cardId,
-        ];
-
-        return $this->parseJSON('json', [self::API_CARD_CARD_INFO, $params]);
-    }
-
-    /**
-     * 拉取会员卡数据接口.
-     *
-     * @param string $beginDate
-     * @param string $endDate
-     * @param int    $condSource
-     *
-     * @return array
-     */
-    public function getMemberCardInfo($beginDate, $endDate, $condSource = 0)
-    {
-        $params = [
-            'begin_date' => $beginDate,
-            'end_date' => $endDate,
-            'cond_source' => intval($condSource),
-        ];
-
-        return $this->parseJSON('json', [self::API_CARD_MEMBER_CARD_INFO, $params]);
     }
 
     /**

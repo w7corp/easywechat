@@ -74,46 +74,49 @@ class CardTest extends TestCase
 
         $cardType = 'GROUPON';
 
-        $baseInfo = [];
-        $baseInfo['logo_url'] = 'http://mmbiz.qpic.cn/mmbiz/2aJY6aCPatSeibYAyy7yct9zJXL9WsNVL4JdkTbBr184gNWS6nibcA75Hia9CqxicsqjYiaw2xuxYZiaibkmORS2oovdg/0';
-        $baseInfo['brand_name'] = '测试商户造梦空间';
-        $baseInfo['code_type'] = 'CODE_TYPE_QRCODE';
-        $baseInfo['title'] = '测试';
-        $baseInfo['sub_title'] = '测试副标题';
-        $baseInfo['color'] = 'Color010';
-        $baseInfo['notice'] = '测试使用时请出示此券';
-        $baseInfo['service_phone'] = '15311931577';
-        $baseInfo['description'] = "测试不可与其他优惠同享\n如需团购券发票，请在消费时向商户提出\n店内均可使用，仅限堂食";
+        $baseInfo = [
+            'logo_url' => 'http://mmbiz.qpic.cn/mmbiz/2aJY6aCPatSeibYAyy7yct9zJXL9WsNVL4JdkTbBr184gNWS6nibcA75Hia9CqxicsqjYiaw2xuxYZiaibkmORS2oovdg/0',
+            'brand_name' => '测试商户造梦空间',
+            'code_type' => 'CODE_TYPE_QRCODE',
+            'title' => '测试',
+            'sub_title' => '测试副标题',
+            'color' => 'Color010',
+            'notice' => '测试使用时请出示此券',
+            'service_phone' => '15311931577',
+            'description' => "测试不可与其他优惠同享\n如需团购券发票，请在消费时向商户提出\n店内均可使用，仅限堂食",
 
-        $baseInfo['date_info'] = [];
-        $baseInfo['date_info']['type'] = 'DATE_TYPE_FIX_TERM';
-        $baseInfo['date_info']['fixed_term'] = 90; //表示自领取后多少天内有效，不支持填写0
-        $baseInfo['date_info']['fixed_begin_term'] = 0; //表示自领取后多少天开始生效，领取后当天生效填写0。
+            'date_info' => [
+                'type' => 'DATE_TYPE_FIX_TERM',
+                'fixed_term' => 90, //表示自领取后多少天内有效，不支持填写0
+                'fixed_begin_term' => 0, //表示自领取后多少天开始生效，领取后当天生效填写0。
+            ],
 
-        $baseInfo['sku'] = [];
-        $baseInfo['sku']['quantity'] = '0'; //自定义code时设置库存为0
+            'sku' => [
+                'quantity' => '0', //自定义code时设置库存为0
+            ],
 
-        $baseInfo['location_id_list'] = [];
-        $baseInfo['location_id_list'] = ['461907340'];  //获取门店位置poi_id，具备线下门店的商户为必填
+            'location_id_list' => ['461907340'],  //获取门店位置poi_id，具备线下门店的商户为必填
 
-        $baseInfo['get_limit'] = 1;
-        $baseInfo['use_custom_code'] = true; //自定义code时必须为true
-        $baseInfo['get_custom_code_mode'] = 'GET_CUSTOM_CODE_MODE_DEPOSIT';  //自定义code时设置
-        $baseInfo['bind_openid'] = false;
-        $baseInfo['can_share'] = true;
-        $baseInfo['can_give_friend'] = false;
-        $baseInfo['center_title'] = '顶部居中按钮';
-        $baseInfo['center_sub_title'] = '按钮下方的wording';
-        $baseInfo['center_url'] = 'http://www.qq.com';
-        $baseInfo['custom_url_name'] = '立即使用';
-        $baseInfo['custom_url'] = 'http://www.qq.com';
-        $baseInfo['custom_url_sub_title'] = '6个汉字tips';
-        $baseInfo['promotion_url_name'] = '更多优惠';
-        $baseInfo['promotion_url'] = 'http://www.qq.com';
-        $baseInfo['source'] = '造梦空间';
+            'get_limit' => 1,
+            'use_custom_code' => true, //自定义code时必须为true
+            'get_custom_code_mode' => 'GET_CUSTOM_CODE_MODE_DEPOSIT',  //自定义code时设置
+            'bind_openid' => false,
+            'can_share' => true,
+            'can_give_friend' => false,
+            'center_title' => '顶部居中按钮',
+            'center_sub_title' => '按钮下方的wording',
+            'center_url' => 'http://www.qq.com',
+            'custom_url_name' => '立即使用',
+            'custom_url' => 'http://www.qq.com',
+            'custom_url_sub_title' => '6个汉字tips',
+            'promotion_url_name' => '更多优惠',
+            'promotion_url' => 'http://www.qq.com',
+            'source' => '造梦空间',
+        ];
 
-        $especial = [];
-        $especial['deal_detail'] = 'deal_detail';
+        $especial = [
+            'deal_detail' => 'deal_detail',
+        ];
 
         $type = strtolower($cardType);
 
@@ -124,50 +127,60 @@ class CardTest extends TestCase
     }
 
     //创建二维码
-    public function testQrCode()
+    public function testQRCode()
     {
         $card = $this->getCard();
 
         //领取单张卡券
-        $cardList = [];
-        $cardList['action_name'] = 'QR_CARD';
-        $cardList['expire_seconds'] = 1800;
-        $cardList['action_info']['card']['card_id'] = 'pdkJ9uFS2WWCFfbbEfsAzrzizVyY';
-        $cardList['action_info']['card']['is_unique_code'] = false;
-        $cardList['action_info']['card']['outer_id'] = 1;
-
-        //领取多张卡券
-        $cardList = [];
-        $cardList['action_name'] = 'QR_MULTIPLE_CARD';
-        $cardList['action_info']['multiple_card']['card_list'] = [
-            ['card_id' => 'pdkJ9uFS2WWCFfbbEfsAzrzizVyY'],
+        $cards = [
+            'action_name' => 'QR_CARD',
+            'expire_seconds' => 1800,
+            'action_info' => [
+                'card' => [
+                    'card_id' => 'pdkJ9uFS2WWCFfbbEfsAzrzizVyY',
+                    'is_unique_code' => false,
+                    'outer_id' => 1,
+                ],
+            ],
         ];
 
-        $result = $card->qrCode($cardList);
+        //领取多张卡券
+        $cards = [
+            'action_name' => 'QR_MULTIPLE_CARD',
+            'action_info' => [
+                'multiple_card' => [
+                    'card_list' => [
+                        ['card_id' => 'pdkJ9uFS2WWCFfbbEfsAzrzizVyY'],
+                    ],
+                ],
+            ],
+        ];
+
+        $result = $card->QRCode($cards);
         $this->assertStringStartsWith(Card::API_QRCODE_CREATE, $result['api']);
-        $this->assertEquals($cardList, $result['params']);
+        $this->assertEquals($cards, $result['params']);
     }
 
     //ticket 换取二维码图片
-    public function testShowQrCode()
+    public function testShowQRCode()
     {
         $card = $this->getCard();
 
         $ticket = 'gQFF8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL01VTzN0T0hsS1BwUlBBYUszbVN5AAIEughxVwMEAKd2AA==';
-        $card->showQrCode($ticket);
+        $card->showQRCode($ticket);
     }
 
     //通过ticket换取二维码 链接
-    public function testShowQrCodeUrl()
+    public function testGetQRCodeUrl()
     {
         $card = $this->getCard();
 
         $ticket = 'gQFF8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL01VTzN0T0hsS1BwUlBBYUszbVN5AAIEughxVwMEAKd2AA==';
-        $card->showQrCodeUrl($ticket);
+        $card->getQRCodeUrl($ticket);
     }
 
     //获取 卡券 Api_ticket
-    public function testCardApiTicket()
+    public function testGetAPITicket()
     {
         $http = $this->getMockHttp();
         $cache = $this->getMockCache();
@@ -180,7 +193,7 @@ class CardTest extends TestCase
         $card->setUrl('http://easywechat.org');
 
         $cache->shouldReceive('save')->andReturn('foo');
-        $this->assertNull($card->cardApiTicket(true));
+        $this->assertNull($card->getAPITicket(true));
     }
 
     //微信卡券：JSAPI 卡券Package - 基础参数没有附带任何值 - 再生产环境中需要根据实际情况进行修改
@@ -211,7 +224,7 @@ class CardTest extends TestCase
     }
 
     //创建货架接口
-    public function testLandingPage()
+    public function testCreateLandingPage()
     {
         $card = $this->getCard();
 
@@ -227,7 +240,7 @@ class CardTest extends TestCase
             ['card_id' => 'pdkJ9uJ37aU-tyRj4_grs8S45k1c', 'thumb_url' => 'http://test.digilinx.cn/wxApi/Uploads/aa.jpg'],
         ];
 
-        $result = $card->landingPage($banner, $pageTitle, $canShare, $scene, $cardList);
+        $result = $card->createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList);
         $this->assertStringStartsWith(Card::API_LANDING_PAGE, $result['api']);
         $this->assertEquals($banner, $result['params']['banner']);
         $this->assertEquals($pageTitle, $result['params']['page_title']);
@@ -251,13 +264,13 @@ class CardTest extends TestCase
     }
 
     //查询导入code数目
-    public function testGetDepositCount()
+    public function testGetDepositedCount()
     {
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uLCEF_HSKO7JdQOUcZ-PUzo';
 
-        $result = $card->getDepositCount($cardId);
+        $result = $card->getDepositedCount($cardId);
         $this->assertStringStartsWith(Card::API_GET_DEPOSIT_COUNT, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
@@ -290,14 +303,14 @@ class CardTest extends TestCase
     }
 
     //设置测试白名单
-    public function testTestWhitelist()
+    public function testSetTestWhitelist()
     {
         $card = $this->getCard();
 
         $openid = [];
         $username = ['tianye0327'];
 
-        $result = $card->testWhitelist($openid, $username);
+        $result = $card->setTestWhitelist($openid, $username);
         $this->assertStringStartsWith(Card::API_TEST_WHITE_LIST, $result['api']);
         $this->assertEquals($openid, $result['params']['openid']);
         $this->assertEquals($username, $result['params']['username']);
@@ -334,25 +347,25 @@ class CardTest extends TestCase
     }
 
     //Code解码接口
-    public function testDecrypt()
+    public function testDecryptCode()
     {
         $card = $this->getCard();
 
         $encryptedCode = 'XXIzTtMqCxwOaawoE91+VJdsFmv7b8g0VZIZkqf4GWA60Fzpc8ksZ/5ZZ0DVkXdE';
-        $result = $card->decrypt($encryptedCode);
+        $result = $card->decryptCode($encryptedCode);
         $this->assertStringStartsWith(Card::API_DECRYPT, $result['api']);
         $this->assertEquals($encryptedCode, $result['params']['encrypt_code']);
     }
 
     //获取用户已领取卡券接口
-    public function testGetCardList()
+    public function testGetUserCards()
     {
         $card = $this->getCard();
 
         $openid = 'odkJ9uDUz26RY-7DN1mxkznfo9xU';
         $cardId = ''; //卡券ID。不填写时默认查询当前appid下的卡券。
 
-        $result = $card->getCardList($openid, $cardId);
+        $result = $card->getUserCards($openid, $cardId);
         $this->assertStringStartsWith(Card::API_GET_CARD_LIST, $result['api']);
         $this->assertEquals($openid, $result['params']['openid']);
         $this->assertEquals($cardId, $result['params']['card_id']);
@@ -371,7 +384,7 @@ class CardTest extends TestCase
     }
 
     //批量查询卡列表
-    public function testGetBatch()
+    public function testLists()
     {
         $card = $this->getCard();
 
@@ -379,7 +392,7 @@ class CardTest extends TestCase
         $count = 10;
         $statusList = 'CARD_STATUS_VERIFY_OK';
 
-        $result = $card->getBatch($offset, $count, $statusList);
+        $result = $card->lists($offset, $count, $statusList);
         $this->assertStringStartsWith(Card::API_BATCH_GET, $result['api']);
         $this->assertEquals($offset, $result['params']['offset']);
         $this->assertEquals($count, $result['params']['count']);
@@ -395,16 +408,17 @@ class CardTest extends TestCase
 
         $type = 'groupon';
 
-        $baseInfo = [];
-        $baseInfo['logo_url'] = 'http://mmbiz.qpic.cn/mmbiz/2aJY6aCPatSeibYAyy7yct9zJXL9WsNVL4JdkTbBr184gNWS6nibcA75Hia9CqxicsqjYiaw2xuxYZiaibkmORS2oovdg/0';
-        $baseInfo['center_title'] = '顶部居中按钮';
-        $baseInfo['center_sub_title'] = '按钮下方的wording';
-        $baseInfo['center_url'] = 'http://www.baidu.com';
-        $baseInfo['custom_url_name'] = '立即使用';
-        $baseInfo['custom_url'] = 'http://www.qq.com';
-        $baseInfo['custom_url_sub_title'] = '6个汉字tips';
-        $baseInfo['promotion_url_name'] = '更多优惠';
-        $baseInfo['promotion_url'] = 'http://www.qq.com';
+        $baseInfo = [
+            'logo_url' => 'http://mmbiz.qpic.cn/mmbiz/2aJY6aCPatSeibYAyy7yct9zJXL9WsNVL4JdkTbBr184gNWS6nibcA75Hia9CqxicsqjYiaw2xuxYZiaibkmORS2oovdg/0',
+            'center_title' => '顶部居中按钮',
+            'center_sub_title' => '按钮下方的wording',
+            'center_url' => 'http://www.baidu.com',
+            'custom_url_name' => '立即使用',
+            'custom_url' => 'http://www.qq.com',
+            'custom_url_sub_title' => '6个汉字tips',
+            'promotion_url_name' => '更多优惠',
+            'promotion_url' => 'http://www.qq.com',
+        ];
 
         $result = $card->update($cardId, $type, $baseInfo);
         $this->assertStringStartsWith(Card::API_UPDATE, $result['api']);
@@ -482,56 +496,6 @@ class CardTest extends TestCase
         $this->assertStringStartsWith(Card::API_UNAVAILABLE, $result['api']);
         $this->assertEquals($code, $result['params']['code']);
         $this->assertEquals($cardId, $result['params']['card_id']);
-    }
-
-    //拉取卡券概况数据接口
-    public function testGetCardBizUinInfo()
-    {
-        $card = $this->getCard();
-
-        $beginDate = '2016-06-20';
-        $endDate = '2016-06-28';
-        $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
-
-        $result = $card->getCardBizUinInfo($beginDate, $endDate, $condSource);
-        $this->assertStringStartsWith(Card::API_CARD_BIZ_UIN_INFO, $result['api']);
-        $this->assertEquals($beginDate, $result['params']['begin_date']);
-        $this->assertEquals($endDate, $result['params']['end_date']);
-        $this->assertEquals($condSource, $result['params']['cond_source']);
-    }
-
-    //获取免费券数据接口
-    public function testGetFreeCardInfo()
-    {
-        $card = $this->getCard();
-
-        $beginDate = '2016-06-20';
-        $endDate = '2016-06-28';
-        $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
-        $cardId = '';
-
-        $result = $card->getFreeCardInfo($beginDate, $endDate, $condSource, $cardId);
-        $this->assertStringStartsWith(Card::API_CARD_CARD_INFO, $result['api']);
-        $this->assertEquals($beginDate, $result['params']['begin_date']);
-        $this->assertEquals($endDate, $result['params']['end_date']);
-        $this->assertEquals($condSource, $result['params']['cond_source']);
-        $this->assertEquals($cardId, $result['params']['card_id']);
-    }
-
-    //拉取会员卡数据接口
-    public function testGetMemberCardInfo()
-    {
-        $card = $this->getCard();
-
-        $beginDate = '2015-05-20';
-        $endDate = '2015-07-20';
-        $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
-
-        $result = $card->getMemberCardInfo($beginDate, $endDate, $condSource);
-        $this->assertStringStartsWith(Card::API_CARD_MEMBER_CARD_INFO, $result['api']);
-        $this->assertEquals($beginDate, $result['params']['begin_date']);
-        $this->assertEquals($endDate, $result['params']['end_date']);
-        $this->assertEquals($condSource, $result['params']['cond_source']);
     }
 
     //会员卡接口激活
