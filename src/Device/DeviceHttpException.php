@@ -18,6 +18,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Device;
 
 use EasyWeChat\Core\Exception as CoreException;

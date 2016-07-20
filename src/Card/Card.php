@@ -18,6 +18,7 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Card;
 
 use Doctrine\Common\Cache\Cache;
@@ -181,7 +182,7 @@ class Card extends AbstractAPI
     }
 
     /**
-     * 微信卡券：JSAPI 卡券发放
+     * 微信卡券：JSAPI 卡券发放.
      *
      * @param array $cards
      *
@@ -189,7 +190,7 @@ class Card extends AbstractAPI
      */
     public function jsConfigForAssign(array $cards)
     {
-        return json_encode(array_map(function($card){
+        return json_encode(array_map(function ($card) {
             return $this->attachExtension($card['card_id'], $card);
         }, $cards));
     }
@@ -202,7 +203,7 @@ class Card extends AbstractAPI
      *
      * @return string
      */
-    public function attachExtension($cardId, array $extension = array())
+    public function attachExtension($cardId, array $extension = [])
     {
         $timestamp = time();
         $ext = [
@@ -236,6 +237,7 @@ class Card extends AbstractAPI
     {
         $params = func_get_args();
         sort($params, SORT_STRING);
+
         return sha1(implode($params));
     }
 
@@ -370,7 +372,7 @@ class Card extends AbstractAPI
         return $this->parseJSON('json', [self::API_DECRYPT_CODE, $params]);
     }
 
-     /**
+    /**
      * 图文消息群发卡券.
      *
      * @param string $cardId
@@ -502,10 +504,10 @@ class Card extends AbstractAPI
     }
 
     /**
-     * 增加库存
+     * 增加库存.
      *
-     * @param  string $cardId
-     * @param  int    $amount
+     * @param string $cardId
+     * @param int    $amount
      *
      * @return bool
      */
@@ -515,10 +517,10 @@ class Card extends AbstractAPI
     }
 
     /**
-     * 减少库存
+     * 减少库存.
      *
-     * @param  string $cardId
-     * @param  int    $amount
+     * @param string $cardId
+     * @param int    $amount
      *
      * @return bool
      */
@@ -624,7 +626,6 @@ class Card extends AbstractAPI
      */
     public function activateUserForm($cardId, array $requiredForm = [], array $optionalForm = [])
     {
-
         $params = array_merge(['card_id' => $cardId], $requiredForm, $optionalForm);
 
         return $this->parseJSON('json', [self::API_ACTIVATE_USER_FORM, $params]);

@@ -23,6 +23,7 @@
  * @link      https://github.com/overtrue/wechat
  * @link      http://overtrue.me
  */
+
 namespace EasyWeChat\Foundation;
 
 use Doctrine\Common\Cache\Cache as CacheInterface;
