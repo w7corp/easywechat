@@ -396,11 +396,26 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function setTestWhitelist($openid, $username)
+    public function setTestWhitelist($openids)
     {
         $params = [
-            'openid' => $openid,
-            'username' => $username,
+            'openid' => $openids,
+        ];
+
+        return $this->parseJSON('json', [self::API_SET_TEST_WHITE_LIST, $params]);
+    }
+
+    /**
+     * 设置测试白名单(by username).
+     *
+     * @param array $usernames
+     *
+     * @return array
+     */
+    public function setTestWhitelistByUsername($usernames)
+    {
+        $params = [
+            'username' => $usernames,
         ];
 
         return $this->parseJSON('json', [self::API_SET_TEST_WHITE_LIST, $params]);
@@ -606,13 +621,13 @@ class Card extends AbstractAPI
     /**
      * 会员卡接口激活.
      *
-     * @param array $activate
+     * @param array $info
      *
      * @return array
      */
-    public function activate($activate = [])
+    public function activate($info = [])
     {
-        return $this->parseJSON('json', [self::API_ACTIVATE_CARD, $activate]);
+        return $this->parseJSON('json', [self::API_ACTIVATE_CARD, $info]);
     }
 
     /**

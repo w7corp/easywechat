@@ -309,13 +309,19 @@ class CardTest extends TestCase
     {
         $card = $this->getCard();
 
-        $openid = [];
-        $username = ['tianye0327'];
+        $openids = ['foo', 'bar', 'baz'];
+        $usernames = ['tianye0327', 'iovertrue'];
 
-        $result = $card->setTestWhitelist($openid, $username);
+
+        // openids
+        $result = $card->setTestWhitelist($openids);
         $this->assertStringStartsWith(Card::API_SET_TEST_WHITE_LIST, $result['api']);
-        $this->assertEquals($openid, $result['params']['openid']);
-        $this->assertEquals($username, $result['params']['username']);
+        $this->assertEquals($openids, $result['params']['openid']);
+
+        // usernames
+        $result = $card->setTestWhitelistByUsername($usernames);
+        $this->assertStringStartsWith(Card::API_SET_TEST_WHITE_LIST, $result['api']);
+        $this->assertEquals($usernames, $result['params']['username']);
     }
 
     //查询Code接口
