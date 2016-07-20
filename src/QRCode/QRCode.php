@@ -18,7 +18,6 @@
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\QRCode;
 
 use EasyWeChat\Core\AbstractAPI;
