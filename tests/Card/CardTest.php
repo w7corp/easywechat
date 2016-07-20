@@ -11,6 +11,7 @@
 
 use EasyWeChat\Card\Card;
 use EasyWeChat\Core\Http;
+use EasyWeChat\Support\Arr;
 
 class CardTest extends TestCase
 {
@@ -64,6 +65,7 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $result = $card->getColors();
+
         $this->assertStringStartsWith(Card::API_GET_COLORS, $result['api']);
     }
 
@@ -121,7 +123,7 @@ class CardTest extends TestCase
         $type = strtolower($cardType);
 
         $result = $card->create($cardType, $baseInfo, $especial);
-        $this->assertStringStartsWith(Card::API_CREATE, $result['api']);
+        $this->assertStringStartsWith(Card::API_CREATE_CARD, $result['api']);
         $this->assertEquals($cardType, $result['params']['card']['card_type']);
         $this->assertEquals($baseInfo, $result['params']['card'][$type]['base_info']);
     }
@@ -157,7 +159,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->QRCode($cards);
-        $this->assertStringStartsWith(Card::API_QRCODE_CREATE, $result['api']);
+        $this->assertStringStartsWith(Card::API_CREATE_QRCODE, $result['api']);
         $this->assertEquals($cards, $result['params']);
     }
 
@@ -220,7 +222,7 @@ class CardTest extends TestCase
         $card->setHttp($http);
 
         $cache->shouldReceive('save')->andReturn('foo');
-        $card->wxCardPackage($cardList);
+        $card->jsConfigForAssign($cardList);
     }
 
     //创建货架接口
@@ -241,7 +243,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList);
-        $this->assertStringStartsWith(Card::API_LANDING_PAGE, $result['api']);
+        $this->assertStringStartsWith(Card::API_CREATE_LANDING_PAGE, $result['api']);
         $this->assertEquals($banner, $result['params']['banner']);
         $this->assertEquals($pageTitle, $result['params']['page_title']);
         $this->assertEquals($canShare, $result['params']['can_share']);
@@ -258,7 +260,7 @@ class CardTest extends TestCase
         $code = ['11111', '22222', '33333'];
 
         $result = $card->deposit($cardId, $code);
-        $this->assertStringStartsWith(Card::API_DEPOSIT, $result['api']);
+        $this->assertStringStartsWith(Card::API_DEPOSIT_CODE, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($code, $result['params']['code']);
     }
@@ -311,7 +313,7 @@ class CardTest extends TestCase
         $username = ['tianye0327'];
 
         $result = $card->setTestWhitelist($openid, $username);
-        $this->assertStringStartsWith(Card::API_TEST_WHITE_LIST, $result['api']);
+        $this->assertStringStartsWith(Card::API_SET_TEST_WHITE_LIST, $result['api']);
         $this->assertEquals($openid, $result['params']['openid']);
         $this->assertEquals($username, $result['params']['username']);
     }
@@ -326,7 +328,7 @@ class CardTest extends TestCase
         $cardId = 'pdkJ9uDgnm0pKfrTb1yV0dFMO_Gk';
 
         $result = $card->getCode($code, $checkConsume, $cardId);
-        $this->assertStringStartsWith(Card::API_CODE_GET, $result['api']);
+        $this->assertStringStartsWith(Card::API_GET_CODE, $result['api']);
         $this->assertEquals($code, $result['params']['code']);
         $this->assertEquals($checkConsume, $result['params']['check_consume']);
         $this->assertEquals($cardId, $result['params']['card_id']);
@@ -341,7 +343,7 @@ class CardTest extends TestCase
         $code = '789248558333';
 
         $result = $card->consume($cardId, $code);
-        $this->assertStringStartsWith(Card::API_CONSUME, $result['api']);
+        $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($code, $result['params']['code']);
     }
@@ -353,7 +355,7 @@ class CardTest extends TestCase
 
         $encryptedCode = 'XXIzTtMqCxwOaawoE91+VJdsFmv7b8g0VZIZkqf4GWA60Fzpc8ksZ/5ZZ0DVkXdE';
         $result = $card->decryptCode($encryptedCode);
-        $this->assertStringStartsWith(Card::API_DECRYPT, $result['api']);
+        $this->assertStringStartsWith(Card::API_DECRYPT_CODE, $result['api']);
         $this->assertEquals($encryptedCode, $result['params']['encrypt_code']);
     }
 
@@ -379,7 +381,7 @@ class CardTest extends TestCase
         $cardId = 'pdkJ9uLRSbnB3UFEjZAgUxAJrjeY';
 
         $result = $card->getCard($cardId);
-        $this->assertStringStartsWith(Card::API_CARD_GET, $result['api']);
+        $this->assertStringStartsWith(Card::API_GET_CARD, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
@@ -393,7 +395,7 @@ class CardTest extends TestCase
         $statusList = 'CARD_STATUS_VERIFY_OK';
 
         $result = $card->lists($offset, $count, $statusList);
-        $this->assertStringStartsWith(Card::API_BATCH_GET, $result['api']);
+        $this->assertStringStartsWith(Card::API_LIST_CARD, $result['api']);
         $this->assertEquals($offset, $result['params']['offset']);
         $this->assertEquals($count, $result['params']['count']);
         $this->assertEquals($statusList, $result['params']['status_list']);
@@ -421,7 +423,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->update($cardId, $type, $baseInfo);
-        $this->assertStringStartsWith(Card::API_UPDATE, $result['api']);
+        $this->assertStringStartsWith(Card::API_UPDATE_CARD, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($baseInfo, $result['params'][$type]['base_info']);
     }
@@ -435,7 +437,7 @@ class CardTest extends TestCase
         $isOpen = true;
 
         $result = $card->setPayCell($cardId, $isOpen);
-        $this->assertStringStartsWith(Card::API_PAY_CELL_SET, $result['api']);
+        $this->assertStringStartsWith(Card::API_SET_PAY_CELL, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($isOpen, $result['params']['is_open']);
     }
@@ -446,12 +448,16 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uLRSbnB3UFEjZAgUxAJrjeY';
-        $stock = 'increase'; //increase 增加   reduce 减少
-        $value = 100;
 
-        $result = $card->modifyStock($cardId, $stock, $value);
+        $result = $card->increaseStock($cardId, 100);
         $this->assertStringStartsWith(Card::API_MODIFY_STOCK, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals(100, $result['params']['increase_stock_value']);
+
+        $result = $card->reduceStock($cardId, 100);
+        $this->assertStringStartsWith(Card::API_MODIFY_STOCK, $result['api']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals(100, $result['params']['reduce_stock_value']);
     }
 
     //更改Code接口
@@ -466,7 +472,7 @@ class CardTest extends TestCase
         $cardId = '';
 
         $result = $card->updateCode($code, $newCode, $cardId);
-        $this->assertStringStartsWith(Card::API_CODE_UPDATE, $result['api']);
+        $this->assertStringStartsWith(Card::API_UPDATE_CODE, $result['api']);
         $this->assertEquals($code, $result['params']['code']);
         $this->assertEquals($newCode, $result['params']['new_code']);
         $this->assertEquals($cardId, $result['params']['card_id']);
@@ -480,7 +486,7 @@ class CardTest extends TestCase
         $cardId = 'pdkJ9uItT7iUpBp4GjZp8Cae0Vig';
 
         $result = $card->delete($cardId);
-        $this->assertStringStartsWith(Card::API_CARD_DELETE, $result['api']);
+        $this->assertStringStartsWith(Card::API_DELETE_CARD, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
@@ -493,7 +499,7 @@ class CardTest extends TestCase
         $cardId = '';
 
         $result = $card->disable($code, $cardId);
-        $this->assertStringStartsWith(Card::API_UNAVAILABLE, $result['api']);
+        $this->assertStringStartsWith(Card::API_DISABLE_CARD, $result['api']);
         $this->assertEquals($code, $result['params']['code']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
@@ -516,7 +522,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->activate($activate);
-        $this->assertStringStartsWith(Card::API_CARD_ACTIVATE, $result['api']);
+        $this->assertStringStartsWith(Card::API_ACTIVATE_CARD, $result['api']);
         $this->assertEquals($activate, $result['params']);
     }
 
@@ -555,7 +561,7 @@ class CardTest extends TestCase
         $code = '916679873278';
 
         $result = $card->getMemberCardUser($cardId, $code);
-        $this->assertStringStartsWith(Card::API_MEMBER_USER_INFO, $result['api']);
+        $this->assertStringStartsWith(Card::API_GET_MEMBER_USER_INFO, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($code, $result['params']['code']);
     }
@@ -578,44 +584,61 @@ class CardTest extends TestCase
         ];
 
         $result = $card->updateMemberCardUser($updateUser);
-        $this->assertStringStartsWith(Card::API_UPDATE_USER, $result['api']);
+        $this->assertStringStartsWith(Card::API_UPDATE_MEMBER_CARD_USER, $result['api']);
         $this->assertEquals($updateUser, $result['params']);
     }
 
     //添加子商户
-    public function testSubMerchant()
+    public function testCreateSubMerchant()
     {
         $card = $this->getCard();
 
-        $brandName = 'aaaaaa';
-        $appId = '';
-        $logoUrl = 'http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0';
-        $protocol = 'qIqwTfzAdJ_1-VJFT0fIV53DSY4sZY2WyhkzZzbV498Qgdp-K5HJtZihbHLS0Ys0';
-        $agreementMediaId = '';
-        $operatorMediaId = '';
-        $endTime = 1438990559;
-        $primaryCategoryId = 1;
-        $secondaryCategoryId = 101;
+        $info = [
+            'brand_name' => 'overtrue',
+            'logo_url' => 'http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0',
+            'protocol' => 'qIqwTfzAdJ_1-VJFT0fIV53DSY4sZY2WyhkzZzbV498Qgdp-K5HJtZihbHLS0Ys0',
+            'end_time' => '1438990559',
+            'primary_category_id' => 1,
+            'secondary_category_id' => 101,
+            'agreement_media_id' => '',
+            'operator_media_id' => '',
+            'app_id' => '',
+        ];
 
-        $result = $card->subMerchant($brandName, $logoUrl, $protocol, $endTime, $primaryCategoryId, $secondaryCategoryId, $agreementMediaId, $operatorMediaId, $appId);
-        $this->assertStringStartsWith(Card::API_SUB_MERCHANT, $result['api']);
-        $this->assertEquals($brandName, $result['params']['info']['brand_name']);
-        $this->assertEquals($appId, $result['params']['info']['app_id']);
-        $this->assertEquals($logoUrl, $result['params']['info']['logo_url']);
-        $this->assertEquals($protocol, $result['params']['info']['protocol']);
-        $this->assertEquals($agreementMediaId, $result['params']['info']['agreement_media_id']);
-        $this->assertEquals($operatorMediaId, $result['params']['info']['operator_media_id']);
-        $this->assertEquals($endTime, $result['params']['info']['end_time']);
-        $this->assertEquals($primaryCategoryId, $result['params']['info']['primary_category_id']);
-        $this->assertEquals($secondaryCategoryId, $result['params']['info']['secondary_category_id']);
+        $result = $card->createSubMerchant($info);
+        $this->assertStringStartsWith(Card::API_CREATE_SUB_MERCHANT, $result['api']);
+        $this->assertEquals($info, $result['params']['info']);
+    }
+
+    //添加子商户
+    public function testUpdateSubMerchant()
+    {
+        $card = $this->getCard();
+
+        $info = [
+            'brand_name' => 'overtrue',
+            'logo_url' => 'http://mmbiz.qpic.cn/mmbiz/iaL1LJM1mF9aRKPZJkmG8xXhiaHqkKSVMMWeN3hLut7X7hicFNjakmxibMLGWpXrEXB33367o7zHN0CwngnQY7zb7g/0',
+            'protocol' => 'qIqwTfzAdJ_1-VJFT0fIV53DSY4sZY2WyhkzZzbV498Qgdp-K5HJtZihbHLS0Ys0',
+            'end_time' => '1438990559',
+            'primary_category_id' => 1,
+            'secondary_category_id' => 101,
+            'agreement_media_id' => '',
+            'operator_media_id' => '',
+            'app_id' => '',
+        ];
+
+        $result = $card->updateSubMerchant('12', $info);
+        $this->assertStringStartsWith(Card::API_UPDATE_SUB_MERCHANT, $result['api']);
+        $this->assertEquals(12, $result['params']['info']['merchant_id']);
+        $this->assertEquals($info, Arr::except($result['params']['info'], 'merchant_id'));
     }
 
     //卡券开放类目查询接口
-    public function testGetApplyProtocol()
+    public function testGetCategories()
     {
         $card = $this->getCard();
 
-        $result = $card->getApplyProtocol();
-        $this->assertStringStartsWith(Card::API_GET_APPLY_PROTOCOL, $result['api']);
+        $result = $card->getCategories();
+        $this->assertStringStartsWith(Card::API_GET_CATEGORIES, $result['api']);
     }
 }

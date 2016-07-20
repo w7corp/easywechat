@@ -23,6 +23,7 @@ namespace EasyWeChat\Card;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 
 class Card extends AbstractAPI
@@ -40,37 +41,37 @@ class Card extends AbstractAPI
     const TICKET_CACHE_PREFIX = 'overtrue.wechat.card_api_ticket.';
 
     const API_GET_COLORS = 'https://api.weixin.qq.com/card/getcolors';
-    const API_CREATE = 'https://api.weixin.qq.com/card/create';
-    const API_QRCODE_CREATE = 'https://api.weixin.qq.com/card/qrcode/create';
-    const API_QRCODE_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+    const API_CREATE_CARD = 'https://api.weixin.qq.com/card/create';
+    const API_CREATE_QRCODE = 'https://api.weixin.qq.com/card/qrcode/create';
+    const API_SHOW_QRCODE = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
     const API_GET_CARD_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
-    const API_LANDING_PAGE = 'https://api.weixin.qq.com/card/landingpage/create';
-    const API_DEPOSIT = 'https://api.weixin.qq.com/card/code/deposit';
+    const API_CREATE_LANDING_PAGE = 'https://api.weixin.qq.com/card/landingpage/create';
+    const API_DEPOSIT_CODE = 'https://api.weixin.qq.com/card/code/deposit';
     const API_GET_DEPOSIT_COUNT = 'https://api.weixin.qq.com/card/code/getdepositcount';
     const API_CHECK_CODE = 'https://api.weixin.qq.com/card/code/checkcode';
     const API_GET_HTML = 'https://api.weixin.qq.com/card/mpnews/gethtml';
-    const API_TEST_WHITE_LIST = 'https://api.weixin.qq.com/card/testwhitelist/set';
-    const API_CODE_GET = 'https://api.weixin.qq.com/card/code/get';
-    const API_CONSUME = 'https://api.weixin.qq.com/card/code/consume';
-    const API_DECRYPT = 'https://api.weixin.qq.com/card/code/decrypt';
+    const API_SET_TEST_WHITE_LIST = 'https://api.weixin.qq.com/card/testwhitelist/set';
+    const API_GET_CODE = 'https://api.weixin.qq.com/card/code/get';
+    const API_CONSUME_CARD = 'https://api.weixin.qq.com/card/code/consume';
+    const API_DECRYPT_CODE = 'https://api.weixin.qq.com/card/code/decrypt';
     const API_GET_CARD_LIST = 'https://api.weixin.qq.com/card/user/getcardlist';
-    const API_CARD_GET = 'https://api.weixin.qq.com/card/get';
-    const API_BATCH_GET = 'https://api.weixin.qq.com/card/batchget';
-    const API_UPDATE = 'https://api.weixin.qq.com/card/update';
-    const API_PAY_CELL_SET = 'https://api.weixin.qq.com/card/paycell/set';
+    const API_GET_CARD = 'https://api.weixin.qq.com/card/get';
+    const API_LIST_CARD = 'https://api.weixin.qq.com/card/batchget';
+    const API_UPDATE_CARD = 'https://api.weixin.qq.com/card/update';
+    const API_SET_PAY_CELL = 'https://api.weixin.qq.com/card/paycell/set';
     const API_MODIFY_STOCK = 'https://api.weixin.qq.com/card/modifystock';
-    const API_CODE_UPDATE = 'https://api.weixin.qq.com/card/code/update';
-    const API_CARD_DELETE = 'https://api.weixin.qq.com/card/delete';
-    const API_UNAVAILABLE = 'https://api.weixin.qq.com/card/code/unavailable';
-    const API_CARD_BIZ_UIN_INFO = 'https://api.weixin.qq.com/datacube/getcardbizuininfo';
-    const API_CARD_CARD_INFO = 'https://api.weixin.qq.com/datacube/getcardcardinfo';
-    const API_CARD_MEMBER_CARD_INFO = 'https://api.weixin.qq.com/datacube/getcardmembercardinfo';
-    const API_CARD_ACTIVATE = 'https://api.weixin.qq.com/card/membercard/activate';
+    const API_UPDATE_CODE = 'https://api.weixin.qq.com/card/code/update';
+    const API_DELETE_CARD = 'https://api.weixin.qq.com/card/delete';
+    const API_DISABLE_CARD = 'https://api.weixin.qq.com/card/code/unavailable';
+    const API_ACTIVATE_CARD = 'https://api.weixin.qq.com/card/membercard/activate';
     const API_ACTIVATE_USER_FORM = 'https://api.weixin.qq.com/card/membercard/activateuserform/set';
-    const API_MEMBER_USER_INFO = 'https://api.weixin.qq.com/card/membercard/userinfo/get';
-    const API_UPDATE_USER = 'https://api.weixin.qq.com/card/membercard/updateuser';
-    const API_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/submit';
-    const API_GET_APPLY_PROTOCOL = 'https://api.weixin.qq.com/card/getapplyprotocol';
+    const API_GET_MEMBER_USER_INFO = 'https://api.weixin.qq.com/card/membercard/userinfo/get';
+    const API_UPDATE_MEMBER_CARD_USER = 'https://api.weixin.qq.com/card/membercard/updateuser';
+    const API_CREATE_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/submit';
+    const API_UPDATE_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/update';
+    const API_GET_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/get';
+    const API_LIST_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/batchget';
+    const API_GET_CATEGORIES = 'https://api.weixin.qq.com/card/getapplyprotocol';
 
     /**
      * 获取卡券颜色.
@@ -92,26 +93,16 @@ class Card extends AbstractAPI
      *
      * @return bool|array
      */
-    public function create($cardType = 'member_card', $baseInfo = [], $especial = [], $advancedInfo = [])
+    public function create($cardType = 'member_card', array $baseInfo = [], array $especial = [], array $advancedInfo = [])
     {
-        $card = [];
-        $card['card'] = [];
-        $card['card']['card_type'] = strtoupper($cardType);
-
-        $type = strtolower($cardType);
-
-        $cardInfo = [
-            'base_info' => $baseInfo,
+        $params = [
+            'card' => [
+                'card_type' => strtoupper($cardType),
+                strtolower($cardType) => array_merge(['base_info' => $baseInfo], $especial, $advancedInfo),
+            ],
         ];
 
-        $card['card'][$type] = [];
-        $card['card'][$type] = array_merge($cardInfo, $especial, $advancedInfo);
-
-        if (is_string($cardType) && is_array($baseInfo) && is_array($especial)) {
-            return $this->parseJSON('json', [self::API_CREATE, $card]);
-        }
-
-        return false;
+        return $this->parseJSON('json', [self::API_CREATE_CARD, $params]);
     }
 
     /**
@@ -121,9 +112,9 @@ class Card extends AbstractAPI
      *
      * @return array|bool
      */
-    public function QRCode($cards = [])
+    public function QRCode(array $cards = [])
     {
-        return $this->parseJSON('json', [self::API_QRCODE_CREATE, $cards]);
+        return $this->parseJSON('json', [self::API_CREATE_QRCODE, $cards]);
     }
 
     /**
@@ -142,14 +133,14 @@ class Card extends AbstractAPI
         $http = $this->getHttp();
 
         /** @var ResponseInterface $response */
-        $response = $http->get(self::API_QRCODE_SHOW, $params);
+        $response = $http->get(self::API_SHOW_QRCODE, $params);
 
         return [
             'status' => $response->getStatusCode(),
             'reason' => $response->getReasonPhrase(),
             'headers' => $response->getHeaders(),
             'body' => strval($response->getBody()),
-            'url' => self::API_QRCODE_SHOW.'?'.http_build_query($params),
+            'url' => self::API_SHOW_QRCODE.'?'.http_build_query($params),
         ];
     }
 
@@ -162,9 +153,7 @@ class Card extends AbstractAPI
      */
     public function getQRCodeUrl($ticket)
     {
-        $params = '?ticket='.$ticket;
-
-        return self::API_QRCODE_SHOW.$params;
+        return self::API_SHOW_QRCODE.'?ticket='.$ticket;
     }
 
     /**
@@ -192,53 +181,62 @@ class Card extends AbstractAPI
     }
 
     /**
-     * 微信卡券：JSAPI 卡券Package - 基础参数没有附带任何值 - 再生产环境中需要根据实际情况进行修改.
+     * 微信卡券：JSAPI 卡券发放
      *
-     * @param array  $cards
-     * @param int    $timestamp
-     * @param string $apiTicket
+     * @param array $cards
      *
      * @return string
      */
-    public function wxCardPackage(array $cards, $timestamp = null, $apiTicket = null)
+    public function jsConfigForAssign(array $cards)
     {
-        if (empty($timestamp) || $timestamp === '') {
-            $timestamp = time();
-        }
+        return json_encode(array_map(function($card){
+            return $this->attachExtension($card['card_id'], $card);
+        }, $cards));
+    }
 
-        if (empty($apiTicket) || $apiTicket === '') {
-            $apiTicket = $this->getAPITicket();
-        }
+    /**
+     * 生成 js添加到卡包 需要的 card_list 项.
+     *
+     * @param string $cardId
+     * @param array  $extension
+     *
+     * @return string
+     */
+    public function attachExtension($cardId, array $extension = array())
+    {
+        $timestamp = time();
+        $ext = [
+                'code' => Arr::get($extension, 'code'),
+                'openid' => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
+                'timestamp' => $timestamp,
+                'outer_id' => Arr::get($extension, 'outer_id'),
+                'balance' => Arr::get($extension, 'balance'),
+               ];
+        $ext['signature'] = $this->getSignature(
+            $this->getAPITicket(),
+            $timestamp,
+            $cardId,
+            $ext['code'],
+            $ext['openid'],
+            $ext['balance']
+        );
 
-        $result = [];
-        foreach ($cards as $index => $card) {
-            if (empty($card['code']) || !isset($card['code'])) {
-                $card['code'] = '';
-            }
+        return [
+                'cardId' => $cardId,
+                'cardExt' => json_encode($ext),
+               ];
+    }
 
-            if (empty($card['openid']) || !isset($card['openid'])) {
-                $card['openid'] = '';
-            }
-
-            $arrays = [$apiTicket, $timestamp, $card['card_id'], $card['code'], $card['openid']];
-            sort($arrays, SORT_STRING);
-            $string = sha1(implode($arrays));
-
-            $result['cardList'][$index]['cardId'] = $card['card_id'];
-            $result['cardList'][$index]['cardExt']['code'] = $card['code'];
-            $result['cardList'][$index]['cardExt']['openid'] = $card['openid'];
-
-            $result['cardList'][$index]['cardExt']['timestamp'] = $timestamp;
-            $result['cardList'][$index]['cardExt']['signature'] = $string;
-
-            if (!empty($card['outer_id'])) {
-                $result['cardList'][$index]['cardExt']['outer_id'] = $card['outer_id'];
-            }
-
-            $result['cardList'][$index]['cardExt'] = json_encode($result['cardList'][$index]['cardExt']);
-        }
-
-        return json_encode($result);
+    /**
+     * 生成签名.
+     *
+     * @return string
+     */
+    public function getSignature()
+    {
+        $params = func_get_args();
+        sort($params, SORT_STRING);
+        return sha1(implode($params));
     }
 
     /**
@@ -263,7 +261,7 @@ class Card extends AbstractAPI
             'card_list' => $cardList,
         ];
 
-        return $this->parseJSON('json', [self::API_LANDING_PAGE, $params]);
+        return $this->parseJSON('json', [self::API_CREATE_LANDING_PAGE, $params]);
     }
 
     /**
@@ -281,7 +279,7 @@ class Card extends AbstractAPI
             'code' => $code,
         ];
 
-        return $this->parseJSON('json', [self::API_DEPOSIT, $params]);
+        return $this->parseJSON('json', [self::API_DEPOSIT_CODE, $params]);
     }
 
     /**
@@ -319,6 +317,60 @@ class Card extends AbstractAPI
     }
 
     /**
+     * 查询Code接口.
+     *
+     * @param string $code
+     * @param bool   $checkConsume
+     * @param string $cardId
+     *
+     * @return array
+     */
+    public function getCode($code, $checkConsume, $cardId)
+    {
+        $params = [
+            'code' => $code,
+            'check_consume' => $checkConsume,
+            'card_id' => $cardId,
+        ];
+
+        return $this->parseJSON('json', [self::API_GET_CODE, $params]);
+    }
+
+    /**
+     * 核销Code接口.
+     *
+     * @param string $cardId
+     * @param string $code
+     *
+     * @return array
+     */
+    public function consume($cardId, $code)
+    {
+        $params = [
+            'card_id' => $cardId,
+            'code' => $code,
+        ];
+
+        return $this->parseJSON('json', [self::API_CONSUME_CARD, $params]);
+    }
+
+    /**
+     * Code解码接口.
+     *
+     * @param string $encryptedCode
+     *
+     * @return array
+     */
+    public function decryptCode($encryptedCode)
+    {
+        $params = [
+            'encrypt_code' => $encryptedCode,
+        ];
+
+        return $this->parseJSON('json', [self::API_DECRYPT_CODE, $params]);
+    }
+
+     /**
      * 图文消息群发卡券.
      *
      * @param string $cardId
@@ -349,61 +401,7 @@ class Card extends AbstractAPI
             'username' => $username,
         ];
 
-        return $this->parseJSON('json', [self::API_TEST_WHITE_LIST, $params]);
-    }
-
-    /**
-     * 查询Code接口.
-     *
-     * @param string $code
-     * @param bool   $checkConsume
-     * @param string $cardId
-     *
-     * @return array
-     */
-    public function getCode($code, $checkConsume, $cardId)
-    {
-        $params = [
-            'code' => $code,
-            'check_consume' => $checkConsume,
-            'card_id' => $cardId,
-        ];
-
-        return $this->parseJSON('json', [self::API_CODE_GET, $params]);
-    }
-
-    /**
-     * 核销Code接口.
-     *
-     * @param string $cardId
-     * @param string $code
-     *
-     * @return array
-     */
-    public function consume($cardId, $code)
-    {
-        $params = [
-            'card_id' => $cardId,
-            'code' => $code,
-        ];
-
-        return $this->parseJSON('json', [self::API_CONSUME, $params]);
-    }
-
-    /**
-     * Code解码接口.
-     *
-     * @param string $encryptedCode
-     *
-     * @return array
-     */
-    public function decryptCode($encryptedCode)
-    {
-        $params = [
-            'encrypt_code' => $encryptedCode,
-        ];
-
-        return $this->parseJSON('json', [self::API_DECRYPT, $params]);
+        return $this->parseJSON('json', [self::API_SET_TEST_WHITE_LIST, $params]);
     }
 
     /**
@@ -437,7 +435,7 @@ class Card extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_CARD_GET, $params]);
+        return $this->parseJSON('json', [self::API_GET_CARD, $params]);
     }
 
     /**
@@ -457,7 +455,7 @@ class Card extends AbstractAPI
             'status_list' => $statusList,
         ];
 
-        return $this->parseJSON('json', [self::API_BATCH_GET, $params]);
+        return $this->parseJSON('json', [self::API_LIST_CARD, $params]);
     }
 
     /**
@@ -481,12 +479,12 @@ class Card extends AbstractAPI
 
         $card[$type] = array_merge($cardInfo, $especial);
 
-        return $this->parseJSON('json', [self::API_UPDATE, $card]);
+        return $this->parseJSON('json', [self::API_UPDATE_CARD, $card]);
     }
 
     /**
      * 设置微信买单接口.
-     * 设置买单的card_id必须已经配置了门店，否则会报错.
+     * 设置买单的 card_id 必须已经配置了门店，否则会报错.
      *
      * @param string $cardId
      * @param bool   $isOpen
@@ -500,31 +498,51 @@ class Card extends AbstractAPI
             'is_open' => $isOpen,
         ];
 
-        return $this->parseJSON('json', [self::API_PAY_CELL_SET, $params]);
+        return $this->parseJSON('json', [self::API_SET_PAY_CELL, $params]);
+    }
+
+    /**
+     * 增加库存
+     *
+     * @param  string $cardId
+     * @param  int    $amount
+     *
+     * @return bool
+     */
+    public function increaseStock($cardId, $amount)
+    {
+        return $this->updateStock($cardId, $amount, 'increase');
+    }
+
+    /**
+     * 减少库存
+     *
+     * @param  string $cardId
+     * @param  int    $amount
+     *
+     * @return bool
+     */
+    public function reduceStock($cardId, $amount)
+    {
+        return $this->updateStock($cardId, $amount, 'reduce');
     }
 
     /**
      * 修改库存接口.
      *
      * @param string $cardId
-     * @param string $stock
-     * @param int    $value
+     * @param int    $amount
+     * @param string $action
      *
      * @return array
      */
-    public function modifyStock($cardId, $stock = 'increase', $value = 0)
+    protected function updateStock($cardId, $amount, $action = 'increase')
     {
+        $key = $action === 'increase' ? 'increase_stock_value' : 'reduce_stock_value';
         $params = [
             'card_id' => $cardId,
+            $key => abs($amount),
         ];
-
-        if ($stock === 'increase') {
-            $params['increase_stock_value'] = intval($value);
-        } elseif ($stock === 'reduce') {
-            $params['reduce_stock_value'] = intval($value);
-        } else {
-            return false;
-        }
 
         return $this->parseJSON('json', [self::API_MODIFY_STOCK, $params]);
     }
@@ -546,7 +564,7 @@ class Card extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_CODE_UPDATE, $params]);
+        return $this->parseJSON('json', [self::API_UPDATE_CODE, $params]);
     }
 
     /**
@@ -562,7 +580,7 @@ class Card extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_CARD_DELETE, $params]);
+        return $this->parseJSON('json', [self::API_DELETE_CARD, $params]);
     }
 
     /**
@@ -580,7 +598,7 @@ class Card extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_UNAVAILABLE, $params]);
+        return $this->parseJSON('json', [self::API_DISABLE_CARD, $params]);
     }
 
     /**
@@ -592,7 +610,7 @@ class Card extends AbstractAPI
      */
     public function activate($activate = [])
     {
-        return $this->parseJSON('json', [self::API_CARD_ACTIVATE, $activate]);
+        return $this->parseJSON('json', [self::API_ACTIVATE_CARD, $activate]);
     }
 
     /**
@@ -604,12 +622,10 @@ class Card extends AbstractAPI
      *
      * @return array
      */
-    public function activateUserForm($cardId, $requiredForm = [], $optionalForm = [])
+    public function activateUserForm($cardId, array $requiredForm = [], array $optionalForm = [])
     {
-        $card = [];
-        $card['card_id'] = $cardId;
 
-        $params = array_merge($card, $requiredForm, $optionalForm);
+        $params = array_merge(['card_id' => $cardId], $requiredForm, $optionalForm);
 
         return $this->parseJSON('json', [self::API_ACTIVATE_USER_FORM, $params]);
     }
@@ -629,55 +645,105 @@ class Card extends AbstractAPI
             'code' => $code,
         ];
 
-        return $this->parseJSON('json', [self::API_MEMBER_USER_INFO, $params]);
+        return $this->parseJSON('json', [self::API_GET_MEMBER_USER_INFO, $params]);
     }
 
     /**
      * 更新会员信息.
      *
-     * @param array $updateUser
+     * @param array $params
      *
      * @return array
      */
-    public function updateMemberCardUser($updateUser = [])
+    public function updateMemberCardUser(array $params = [])
     {
-        $params = $updateUser;
-
-        return $this->parseJSON('json', [self::API_UPDATE_USER, $params]);
+        return $this->parseJSON('json', [self::API_UPDATE_MEMBER_CARD_USER, $params]);
     }
 
     /**
      * 添加子商户.
      *
-     * @param string $brandName
-     * @param string $logoUrl
-     * @param string $protocol
-     * @param int    $endTime
-     * @param int    $primaryCategoryId
-     * @param int    $secondaryCategoryId
-     * @param string $agreementMediaId
-     * @param string $operatorMediaId
-     * @param string $appId
+     * @param array $info
      *
      * @return array
      */
-    public function subMerchant($brandName, $logoUrl, $protocol, $endTime, $primaryCategoryId, $secondaryCategoryId, $agreementMediaId, $operatorMediaId, $appId = '')
+    public function createSubMerchant(array $info = [])
     {
         $params = [
-            'info' => [
-                'brand_name' => $brandName,
-                'logo_url' => $logoUrl,
-                'protocol' => $protocol,
-                'end_time' => $endTime,
-                'primary_category_id' => $primaryCategoryId,
-                'secondary_category_id' => $secondaryCategoryId,
-                'agreement_media_id' => $agreementMediaId,
-                'operator_media_id' => $operatorMediaId,
-                'app_id' => $appId,
-            ],
+            'info' => Arr::only($info, [
+                    'brand_name',
+                    'logo_url',
+                    'protocol',
+                    'end_time',
+                    'primary_category_id',
+                    'secondary_category_id',
+                    'agreement_media_id',
+                    'operator_media_id',
+                    'app_id',
+                ]),
         ];
 
-        return $this->parseJSON('json', [self::API_SUB_MERCHANT, $params]);
+        return $this->parseJSON('json', [self::API_CREATE_SUB_MERCHANT, $params]);
+    }
+
+    /**
+     * 更新子商户.
+     *
+     * @param int   $merchantId
+     * @param array $info
+     *
+     * @return array
+     */
+    public function updateSubMerchant($merchantId, array $info = [])
+    {
+        $params = [
+            'info' => array_merge(['merchant_id' => $merchantId],
+                Arr::only($info, [
+                    'brand_name',
+                    'logo_url',
+                    'protocol',
+                    'end_time',
+                    'primary_category_id',
+                    'secondary_category_id',
+                    'agreement_media_id',
+                    'operator_media_id',
+                    'app_id',
+                ])),
+        ];
+
+        return $this->parseJSON('json', [self::API_UPDATE_SUB_MERCHANT, $params]);
+    }
+
+    /**
+     * 获取子商户信息.
+     *
+     * @param int $merchantId
+     *
+     * @return array
+     */
+    public function getSubMerchant($merchantId)
+    {
+        return $this->parseJSON('json', [self::API_GET_SUB_MERCHANT, ['merchant_id' => $merchantId]]);
+    }
+
+    /**
+     * 批量获取子商户信息.
+     *
+     * @param int    $beginId
+     * @param int    $limit
+     * @param string $status
+     *
+     * @return array
+     */
+    public function listSubMerchants($beginId = 0, $limit = 50, $status = 'CHECKING')
+    {
+        $params = [
+            'begin_id' => $beginId,
+            'limit' => $limit,
+            'status' => $status,
+        ];
+
+        return $this->parseJSON('json', [self::API_LIST_SUB_MERCHANT, $params]);
     }
 
     /**
@@ -685,9 +751,9 @@ class Card extends AbstractAPI
      *
      * @return array|bool
      */
-    public function getApplyProtocol()
+    public function getCategories()
     {
-        return $this->parseJSON('get', [self::API_GET_APPLY_PROTOCOL]);
+        return $this->parseJSON('get', [self::API_GET_CATEGORIES]);
     }
 
     /**
