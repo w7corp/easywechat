@@ -120,7 +120,7 @@ class Tag extends AbstractAPI
      *
      * @return int
      */
-    public function usersOfTag($tagId, $nextOpenId)
+    public function usersOfTag($tagId, $nextOpenId = '')
     {
         $params = ['tagid' => $tagId, 'next_openid' => $nextOpenId];
 
