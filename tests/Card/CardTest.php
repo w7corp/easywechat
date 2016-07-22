@@ -460,6 +460,7 @@ class CardTest extends TestCase
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals(100, $result['params']['reduce_stock_value']);
     }
+
     //更改Code接口
     //为确保转赠后的安全性，微信允许自定义Code的商户对已下发的code进行更改。
     //注：为避免用户疑惑，建议仅在发生转赠行为后（发生转赠后，微信会通过事件推送的方式告知商户被转赠的卡券Code）对用户的Code进行更改。
