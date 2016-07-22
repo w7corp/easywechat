@@ -100,9 +100,15 @@ class UserTagTest extends TestCase
     {
         $tag = $this->getTag();
 
-        $tag->shouldReceive('parseJSON')->withArgs(['json', [Tag::API_USERS_OF_TAG, ['tagid' => 'thetagid']]])->once();
-
+        $tag->shouldReceive('parseJSON')
+                ->withArgs(['json', [Tag::API_USERS_OF_TAG, ['tagid' => 'thetagid', 'next_openid' => '']]])
+                ->once();
         $result = $tag->usersOfTag('thetagid');
+
+        $tag->shouldReceive('parseJSON')
+                ->withArgs(['json', [Tag::API_USERS_OF_TAG, ['tagid' => 'thetagid', 'next_openid' => 'foo']]])
+                ->once();
+        $result = $tag->usersOfTag('thetagid', 'foo');
     }
 
     /**
