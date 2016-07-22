@@ -140,7 +140,7 @@ class Card extends AbstractAPI
             'reason' => $response->getReasonPhrase(),
             'headers' => $response->getHeaders(),
             'body' => strval($response->getBody()),
-            'url' => self::API_SHOW_QRCODE . '?' . http_build_query($params),
+            'url' => self::API_SHOW_QRCODE.'?'.http_build_query($params),
         ];
     }
 
@@ -153,7 +153,7 @@ class Card extends AbstractAPI
      */
     public function getQRCodeUrl($ticket)
     {
-        return self::API_SHOW_QRCODE . '?ticket=' . $ticket;
+        return self::API_SHOW_QRCODE.'?ticket='.$ticket;
     }
 
     /**
@@ -165,7 +165,7 @@ class Card extends AbstractAPI
      */
     public function getAPITicket($refresh = false)
     {
-        $key = self::TICKET_CACHE_PREFIX . $this->getAccessToken()->getAppId();
+        $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
 
         $ticket = $this->getCache()->fetch($key);
 
