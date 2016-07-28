@@ -1,6 +1,7 @@
-# [Easy WeChat](http://easywechat.org)
+<div style="text-align: center;">
+<a href="https://easywechat.org/">![Easy WeChat](https://easywechat.org/logo.svg)</a>
 
-可能是目前最优雅的微信公众平台 SDK 了。
+:package: Maybe it is the best SDK for develop WeChat App.
 
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -10,6 +11,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/overtrue/wechat/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master)
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat)
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat)
+</div>
 
 ## Supporting EasyWeChat
 
