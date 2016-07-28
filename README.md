@@ -1,11 +1,11 @@
-<div style="text-align: center;">
+<p align="center">
 <a href="https://easywechat.org/">
 <img src="https://easywechat.org/logo.svg" alt="EasyWeChat" width="160">
 </a>
 
-<p>📦 Maybe it is the best SDK for develop WeChat App.</p>
+<p align="center">📦 Maybe it is the best SDK for develop WeChat App.</p>
 
-<p>
+<p align="center">
 <a href="https://travis-ci.org/overtrue/wechat"><img src="https://travis-ci.org/overtrue/wechat.svg?branch=master" alt="Build Status"></a>
 <a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/v/unstable.svg" alt="Latest Unstable Version"></a>
