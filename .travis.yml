@@ -12,6 +12,7 @@ php:
 before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
+  - ./vendor/bin/phplint
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
