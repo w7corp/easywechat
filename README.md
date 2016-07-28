@@ -2,12 +2,6 @@
 
 可能是目前最优雅的微信公众平台 SDK 了。
 
-> 不支持企业号，也不打算支持，原因？微信的API实在设计得太乱了，我怕累死。。。
-
-- SDK 官方论坛：https://forum.easywechat.org
-- SDK 使用交流 QQ 群：`319502940`
-- 微信开发者交流 QQ 群：`9179779`
-
 [![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
 [![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
@@ -91,7 +85,8 @@ $server->serve()->send();
 
 ## Documention
 
-[http://easywechat.org/](http://easywechat.org/)
+- Homepage: http://easywechat.org/
+- Forum: https://forum.easywechat.org
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
 
