@@ -17,7 +17,17 @@
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat)
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat)
 
-## 特点
+## Supporting EasyWeChat
+
+EasyWeChat is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome backers.
+
+Special thanks to the generous sponsorship by:
+
+<a href="https://laravist.com">
+  <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
+</a>
+
+## Feature
 
  - 命名不那么乱七八糟；
  - 隐藏开发者不需要关注的细节；
@@ -27,7 +37,7 @@
  - 高度抽象的消息类，免去各种拼json与xml的痛苦；
  - 详细 Debug 日志，一切交互都一目了然；
 
-## 环境要求
+## Requirement
 
 1. PHP >= 5.5.9
 2. **[composer](https://getcomposer.org/)**
@@ -36,13 +46,13 @@
 
 > SDK 对所使用的框架并无特别要求
 
-## 安装
+## Installation
 
 ```shell
 composer require "overtrue/wechat:~3.1" -vvv
 ```
 
-## 使用
+## Usage
 
 基本使用（以服务端为例）:
 
@@ -79,19 +89,19 @@ $server->serve()->send();
 
 更多请参考[http://easywechat.org/](http://easywechat.org/)。
 
-## 文档
+## Documention
 
 [http://easywechat.org/](http://easywechat.org/)
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
 
-## 框架集成
+## Integration
 
 [Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
-## 贡献代码
+## Contribution
 
-[贡献指南](CONTRIBUTING.md)
+[Contribution Guide](CONTRIBUTING.md)
 
 ## License
 
