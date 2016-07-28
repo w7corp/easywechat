@@ -254,7 +254,7 @@ class Guard
             return $message->get('content', self::SUCCESS_EMPTY_RESPONSE);
         }
 
-        if (is_string($message)) {
+        if (is_string($message) || is_numeric($message)) {
             $message = new Text(['content' => $message]);
         }
 
