@@ -231,4 +231,54 @@ class StatsStatsTest extends TestCase
 
         $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
+
+    //拉取卡券概况数据接口.
+    public function testCardSummary()
+    {
+        $stats = $this->getStats();
+
+        $beginDate = '2016-06-20';
+        $endDate = '2016-06-28';
+        $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
+
+        $result = $stats->cardSummary($beginDate, $endDate, $condSource);
+        $this->assertStringStartsWith(Stats::API_CARD_SUMMARY, $result['api']);
+        $this->assertEquals($beginDate, $result['params']['begin_date']);
+        $this->assertEquals($endDate, $result['params']['end_date']);
+        $this->assertEquals($condSource, $result['params']['cond_source']);
+    }
+
+    //获取免费券数据接口.
+    public function testFreeCardSummary()
+    {
+        $stats = $this->getStats();
+
+        $beginDate = '2016-06-20';
+        $endDate = '2016-06-28';
+        $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
+        $cardId = '';
+
+        $result = $stats->freeCardSummary($beginDate, $endDate, $condSource, $cardId);
+        $this->assertStringStartsWith(Stats::API_FREE_CARD_SUMMARY, $result['api']);
+        $this->assertEquals($beginDate, $result['params']['begin_date']);
+        $this->assertEquals($endDate, $result['params']['end_date']);
+        $this->assertEquals($condSource, $result['params']['cond_source']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+    }
+
+    //拉取会员卡数据接口.
+    public function testMemberCardSummary()
+    {
+        $stats = $this->getStats();
+
+        $beginDate = '2015-05-20';
+        $endDate = '2015-07-20';
+        $condSource = 1; //卡券来源，0为公众平台创建的卡券数据、1是API创建的卡券数据
+
+        $result = $stats->memberCardSummary($beginDate, $endDate, $condSource);
+        $this->assertStringStartsWith(Stats::API_MEMBER_CARD_SUMMARY, $result['api']);
+        $this->assertEquals($beginDate, $result['params']['begin_date']);
+        $this->assertEquals($endDate, $result['params']['end_date']);
+        $this->assertEquals($condSource, $result['params']['cond_source']);
+    }
 }

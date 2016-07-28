@@ -283,7 +283,6 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uLCEF_HSKO7JdQOUcZ-PUzo';
-
         $code = ['807732265476', '22222', '33333'];
 
         $result = $card->checkCode($cardId, $code);
@@ -312,12 +311,10 @@ class CardTest extends TestCase
         $openids = ['foo', 'bar', 'baz'];
         $usernames = ['tianye0327', 'iovertrue'];
 
-
         // openids
         $result = $card->setTestWhitelist($openids);
         $this->assertStringStartsWith(Card::API_SET_TEST_WHITE_LIST, $result['api']);
         $this->assertEquals($openids, $result['params']['openid']);
-
         // usernames
         $result = $card->setTestWhitelistByUsername($usernames);
         $this->assertStringStartsWith(Card::API_SET_TEST_WHITE_LIST, $result['api']);
@@ -360,6 +357,7 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $encryptedCode = 'XXIzTtMqCxwOaawoE91+VJdsFmv7b8g0VZIZkqf4GWA60Fzpc8ksZ/5ZZ0DVkXdE';
+
         $result = $card->decryptCode($encryptedCode);
         $this->assertStringStartsWith(Card::API_DECRYPT_CODE, $result['api']);
         $this->assertEquals($encryptedCode, $result['params']['encrypt_code']);
@@ -385,8 +383,8 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uLRSbnB3UFEjZAgUxAJrjeY';
-
         $result = $card->getCard($cardId);
+
         $this->assertStringStartsWith(Card::API_GET_CARD, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
@@ -413,9 +411,7 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uCzKWebwgNjxosee0ZuO3Os';
-
         $type = 'groupon';
-
         $baseInfo = [
             'logo_url' => 'http://mmbiz.qpic.cn/mmbiz/2aJY6aCPatSeibYAyy7yct9zJXL9WsNVL4JdkTbBr184gNWS6nibcA75Hia9CqxicsqjYiaw2xuxYZiaibkmORS2oovdg/0',
             'center_title' => '顶部居中按钮',
@@ -454,12 +450,11 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $cardId = 'pdkJ9uLRSbnB3UFEjZAgUxAJrjeY';
-
         $result = $card->increaseStock($cardId, 100);
+
         $this->assertStringStartsWith(Card::API_MODIFY_STOCK, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals(100, $result['params']['increase_stock_value']);
-
         $result = $card->reduceStock($cardId, 100);
         $this->assertStringStartsWith(Card::API_MODIFY_STOCK, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);

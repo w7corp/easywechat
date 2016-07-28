@@ -206,12 +206,12 @@ class Card extends AbstractAPI
     {
         $timestamp = time();
         $ext = [
-                'code' => Arr::get($extension, 'code'),
-                'openid' => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
-                'timestamp' => $timestamp,
-                'outer_id' => Arr::get($extension, 'outer_id'),
-                'balance' => Arr::get($extension, 'balance'),
-               ];
+            'code' => Arr::get($extension, 'code'),
+            'openid' => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
+            'timestamp' => $timestamp,
+            'outer_id' => Arr::get($extension, 'outer_id'),
+            'balance' => Arr::get($extension, 'balance'),
+        ];
         $ext['signature'] = $this->getSignature(
             $this->getAPITicket(),
             $timestamp,
@@ -222,9 +222,9 @@ class Card extends AbstractAPI
         );
 
         return [
-                'cardId' => $cardId,
-                'cardExt' => json_encode($ext),
-               ];
+            'cardId' => $cardId,
+            'cardExt' => json_encode($ext),
+        ];
     }
 
     /**
@@ -686,16 +686,16 @@ class Card extends AbstractAPI
     {
         $params = [
             'info' => Arr::only($info, [
-                    'brand_name',
-                    'logo_url',
-                    'protocol',
-                    'end_time',
-                    'primary_category_id',
-                    'secondary_category_id',
-                    'agreement_media_id',
-                    'operator_media_id',
-                    'app_id',
-                ]),
+                'brand_name',
+                'logo_url',
+                'protocol',
+                'end_time',
+                'primary_category_id',
+                'secondary_category_id',
+                'agreement_media_id',
+                'operator_media_id',
+                'app_id',
+            ]),
         ];
 
         return $this->parseJSON('json', [self::API_CREATE_SUB_MERCHANT, $params]);
