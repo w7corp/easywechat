@@ -169,7 +169,7 @@ class CardTest extends TestCase
         $card = $this->getCard();
 
         $ticket = 'gQFF8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL01VTzN0T0hsS1BwUlBBYUszbVN5AAIEughxVwMEAKd2AA==';
-        $card->showQRCode($ticket);
+        // $card->showQRCode($ticket);
     }
 
     //通过ticket换取二维码 链接
