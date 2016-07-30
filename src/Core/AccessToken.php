@@ -104,7 +104,8 @@ class AccessToken
      */
     public function getToken($forceRefresh = false)
     {
-        $cached = $this->getCache()->fetch($this->getCacheKey());
+        $cacheKey = $this->getCacheKey();
+        $cached = $this->getCache()->fetch($cacheKey);
 
         if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
