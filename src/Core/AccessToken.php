@@ -51,6 +51,13 @@ class AccessToken
     protected $cache;
 
     /**
+     * Cache Key.
+     *
+     * @var cacheKey
+     */
+    protected $cacheKey;
+
+    /**
      * Http instance.
      *
      * @var Http
@@ -97,9 +104,7 @@ class AccessToken
      */
     public function getToken($forceRefresh = false)
     {
-        $cacheKey = $this->prefix.$this->appId;
-
-        $cached = $this->getCache()->fetch($cacheKey);
+        $cached = $this->getCache()->fetch($this->getCacheKey());
 
         if ($forceRefresh || empty($cached)) {
             $token = $this->getTokenFromServer();
@@ -239,5 +244,47 @@ class AccessToken
         $this->http = $http;
 
         return $this;
+    }
+
+    /**
+     * Set the access token prefix.
+     *
+     * @param string $prefix
+     *
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Set access token cache key.
+     *
+     * @param string $prefix
+     *
+     * @return $this
+     */
+    public function setCacheKey($cacheKey)
+    {
+        $this->cacheKey = $cacheKey;
+
+        return $this;
+    }
+
+    /**
+     * Get access token cache key.
+     *
+     * @return string Cache key.
+     */
+    public function getCacheKey()
+    {
+        if (is_null($this->cacheKey)) {
+            return $this->prefix.$this->appId;
+        }
+
+        return $this->cacheKey;
     }
 }
