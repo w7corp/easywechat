@@ -278,7 +278,7 @@ class AccessToken
     /**
      * Get access token cache key.
      *
-     * @return string Cache key.
+     * @return string $this->cacheKey
      */
     public function getCacheKey()
     {
