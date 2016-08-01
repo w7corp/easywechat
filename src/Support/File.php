@@ -46,6 +46,7 @@ class File
         'image/png' => '.png',
         'image/tiff' => '.tiff',
         'image/jpeg' => '.jpg',
+        'application/pdf'=>'.pdf',
     ];
 
     /**
@@ -68,6 +69,7 @@ class File
         '000001ba' => '.mpg',
         '000001b3' => '.mpg',
         '2321414d52' => '.amr',
+        '25504446'=>'.pdf',
     ];
 
     /**
