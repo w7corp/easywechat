@@ -91,8 +91,8 @@ class XML
     /**
      * Object to array.
      *
-     * @param string $data
      *
+     * @param SimpleXMLElement $obj
      * @return array
      */
     protected static function normalize($obj)
