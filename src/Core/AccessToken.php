@@ -202,7 +202,7 @@ class AccessToken
      *
      * @throws \EasyWeChat\Core\Exceptions\HttpException
      *
-     * @return array|bool
+     * @return string
      */
     public function getTokenFromServer()
     {
