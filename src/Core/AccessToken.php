@@ -264,7 +264,7 @@ class AccessToken
     /**
      * Set access token cache key.
      *
-     * @param string $prefix
+     * @param string $cacheKey
      *
      * @return $this
      */
