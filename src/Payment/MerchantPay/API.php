@@ -75,7 +75,7 @@ class API extends AbstractAPI
     /**
      * Send MerchantPay.
      *
-     * @param array  $params
+     * @param array $params
      *
      * @return \EasyWeChat\Support\Collection
      */

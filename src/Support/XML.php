@@ -93,6 +93,7 @@ class XML
      *
      *
      * @param SimpleXMLElement $obj
+     *
      * @return array
      */
     protected static function normalize($obj)
