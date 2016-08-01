@@ -534,19 +534,29 @@ class CardTest extends TestCase
 
         $cardId = 'pdkJ9uJYAyfLXsUCwI2LdH2Pn1AU';
 
-        $requiredForm = [];
-        $requiredForm['common_field_id_list'] = [
-            'USER_FORM_INFO_FLAG_MOBILE',
-            'USER_FORM_INFO_FLAG_LOCATION',
-            'USER_FORM_INFO_FLAG_BIRTHDAY',
+        $requiredForm = [
+            'required_form' => [
+                'common_field_id_list' => [
+                    'USER_FORM_INFO_FLAG_MOBILE',
+                    'USER_FORM_INFO_FLAG_LOCATION',
+                    'USER_FORM_INFO_FLAG_BIRTHDAY',
+                ],
+                'custom_field_list' => [
+                    '喜欢的食物',
+                ],
+            ],
         ];
-        $requiredForm['custom_field_list'] = ['喜欢的食物'];
-
-        $optionalForm = [];
-        $optionalForm['common_field_id_list'] = [
-            'USER_FORM_INFO_FLAG_EMAIL',
+        
+        $optionalForm = [
+            'optional_form' => [
+                'common_field_id_list' => [
+                    'USER_FORM_INFO_FLAG_EMAIL',
+                ],
+                'custom_field_list' => [
+                    '喜欢的食物',
+                ],
+            ],
         ];
-        $optionalForm['custom_field_list'] = ['喜欢的电影'];
 
         $result = $card->activateUserForm($cardId, $requiredForm, $optionalForm);
         $this->assertStringStartsWith(Card::API_ACTIVATE_USER_FORM, $result['api']);
