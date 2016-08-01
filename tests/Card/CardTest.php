@@ -546,7 +546,7 @@ class CardTest extends TestCase
                 ],
             ],
         ];
-        
+
         $optionalForm = [
             'optional_form' => [
                 'common_field_id_list' => [
