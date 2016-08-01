@@ -131,7 +131,7 @@ class Notice extends AbstractAPI
      *
      * @param string $templateId
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function deletePrivateTemplate($templateId)
     {
