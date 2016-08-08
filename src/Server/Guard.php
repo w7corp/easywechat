@@ -210,6 +210,30 @@ class Guard
     }
 
     /**
+     * Request getter.
+     *
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * Request setter.
+     *
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
      * Set Encryptor.
      *
      * @param Encryptor $encryptor
