@@ -69,7 +69,7 @@ $options = [
     'token'     => 'easywechat',
     'log' => [
         'level' => 'debug',
-        'file'  => '/tmp/easywechat.log',
+        'file'  => sys_get_temp_dir().'/easywechat.log',
     ],
     // ...
 ];
@@ -88,11 +88,11 @@ $server->setMessageHandler(function($message) use ($user) {
 $server->serve()->send();
 ```
 
-更多请参考[http://easywechat.org/](http://easywechat.org/)。
+更多请参考[https://easywechat.org/](https://easywechat.org/)。
 
 ## Documention
 
-- Homepage: http://easywechat.org/
+- Homepage: https://easywechat.org/
 - Forum: https://forum.easywechat.org
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
