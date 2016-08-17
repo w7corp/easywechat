@@ -200,7 +200,7 @@ class Notice extends AbstractAPI
                 'with' => 'data',
                ];
 
-        if (0 === stripos($method, 'with')) {
+        if (0 === stripos($method, 'with') && strlen($method) > 4) {
             $method = lcfirst(substr($method, 4));
         }
 
