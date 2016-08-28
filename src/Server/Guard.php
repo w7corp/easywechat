@@ -283,7 +283,8 @@ class Guard
         }
 
         if (!$this->isMessage($message)) {
-            throw new InvalidArgumentException("Invalid Message type .'{gettype($message)}'");
+            $messageType = gettype($message);
+            throw new InvalidArgumentException("Invalid Message type .'{$messageType}'");
         }
 
         $response = $this->buildReply($to, $from, $message);
