@@ -1,25 +1,14 @@
 <?php
-
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 /**
- * Crypt.php.
+ * Crypt.php
  *
  * Part of Overtrue\Wechat.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    overtrue <i@overtrue.me>
+ * @author    overtrue <i@overtrue.me> AC <alexever@gmail.com>
  * @copyright 2015 overtrue <i@overtrue.me>
- *
  * @link      https://github.com/overtrue
  * @link      http://overtrue.me
  */
@@ -29,52 +18,53 @@ namespace Overtrue\Wechat;
 use Overtrue\Wechat\Utils\XML;
 
 /**
- * 加密解密.
+ * 加密解密
  */
 class Crypt
 {
+
     /**
-     * 应用ID.
+     * 应用ID
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * 应用token.
+     * 应用token
      *
      * @var string
      */
     protected $token;
 
     /**
-     * 加密用的AESkey.
+     * 加密用的AESkey
      *
      * @var string
      */
     protected $AESKey;
 
     /**
-     * 块大小.
+     * 块大小
      *
      * @var int
      */
     protected $blockSize;
 
     const ERROR_INVALID_SIGNATURE = -40001; // 校验签名失败
-    const ERROR_PARSE_XML = -40002; // 解析xml失败
-    const ERROR_CALC_SIGNATURE = -40003; // 计算签名失败
-    const ERROR_INVALID_AESKEY = -40004; // 不合法的AESKey
-    const ERROR_INVALID_APPID = -40005; // 校验AppID失败
-    const ERROR_ENCRYPT_AES = -40006; // AES加密失败
-    const ERROR_DECRYPT_AES = -40007; // AES解密失败
-    const ERROR_INVALID_XML = -40008; // 公众平台发送的xml不合法
-    const ERROR_BASE64_ENCODE = -40009; // Base64编码失败
-    const ERROR_BASE64_DECODE = -40010; // Base64解码失败
-    const ERROR_XML_BUILD = -40011; // 公众帐号生成回包xml失败
+    const ERROR_PARSE_XML         = -40002; // 解析xml失败
+    const ERROR_CALC_SIGNATURE    = -40003; // 计算签名失败
+    const ERROR_INVALID_AESKEY    = -40004; // 不合法的AESKey
+    const ERROR_INVALID_APPID     = -40005; // 校验AppID失败
+    const ERROR_ENCRYPT_AES       = -40006; // AES加密失败
+    const ERROR_DECRYPT_AES       = -40007; // AES解密失败
+    const ERROR_INVALID_XML       = -40008; // 公众平台发送的xml不合法
+    const ERROR_BASE64_ENCODE     = -40009; // Base64编码失败
+    const ERROR_BASE64_DECODE     = -40010; // Base64解码失败
+    const ERROR_XML_BUILD         = -40011; // 公众帐号生成回包xml失败
 
     /**
-     * constructor.
+     * constructor
      *
      * @param string $appId
      * @param string $token
@@ -82,18 +72,14 @@ class Crypt
      */
     public function __construct($appId, $token, $encodingAESKey)
     {
-        if (!extension_loaded('mcrypt')) {
-            throw new Exception('Mcrypt 拓展未安装或未启用');
+        if (!extension_loaded('openssl')) {
+            throw new Exception("The ext 'openssl' is required.");
         }
 
-        if (strlen($encodingAESKey) !== 43) {
-            throw new Exception('Invalid AESKey.', self::ERROR_INVALID_AESKEY);
-        }
-
-        $this->appId = $appId;
-        $this->token = $token;
-        $this->AESKey = base64_decode($encodingAESKey.'=', true);
-        $this->blockSize = 32;// mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+        $this->appId     = $appId;
+        $this->token     = $token;
+        $this->AESKey    = $encodingAESKey;
+        $this->blockSize = 32;
     }
 
     /**
@@ -102,7 +88,7 @@ class Crypt
      *    <li>对要发送的消息进行AES-CBC加密</li>
      *    <li>生成安全签名</li>
      *    <li>将消息密文和安全签名打包成xml格式</li>
-     * </ol>.
+     * </ol>
      *
      * @param string $xml       公众平台待回复用户的消息，xml格式的字符串
      * @param string $nonce     随机串，可以自己生成，也可以用URL参数的nonce
@@ -122,10 +108,10 @@ class Crypt
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypt);
 
         $response = array(
-                     'Encrypt' => $encrypt,
+                     'Encrypt'      => $encrypt,
                      'MsgSignature' => $signature,
-                     'TimeStamp' => $timestamp,
-                     'Nonce' => $nonce,
+                     'TimeStamp'    => $timestamp,
+                     'Nonce'        => $nonce,
                     );
 
         //生成响应xml
@@ -138,7 +124,7 @@ class Crypt
      *    <li>利用收到的密文生成安全签名，进行签名验证</li>
      *    <li>若验证通过，则提取xml中的加密消息</li>
      *    <li>对消息进行解密</li>
-     * </ol>.
+     * </ol>
      *
      * @param string $msgSignature 签名串，对应URL参数的msg_signature
      * @param string $nonce        随机串，对应URL参数的nonce
@@ -156,7 +142,7 @@ class Crypt
             throw new Exception('Invalid xml.', self::ERROR_PARSE_XML);
         }
 
-        $encrypted = $array['Encrypt'];
+        $encrypted  = $array['Encrypt'];
 
         //验证安全签名
         $signature = $this->getSHA1($this->token, $timestamp, $nonce, $encrypted);
@@ -169,7 +155,7 @@ class Crypt
     }
 
     /**
-     * 对明文进行加密.
+     * 对明文进行加密
      *
      * @param string $text  需要加密的明文
      * @param string $appId app id
@@ -179,26 +165,14 @@ class Crypt
     private function encrypt($text, $appId)
     {
         try {
-            //获得16位随机字符串，填充到明文之前
+            $key = $this->getAESKey();
             $random = $this->getRandomStr();
-            $text = $random.pack('N', strlen($text)).$text.$appId;
+            $text = $this->encode($random.pack('N', strlen($text)).$text.$appId);
 
-            // 网络字节序
-            // $size   = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv = substr($this->AESKey, 0, 16);
+            $iv = substr($key, 0, 16);
 
-            //使用自定义的填充方式对明文进行补位填充
-            $text = $this->encode($text);
+            $encrypted = openssl_encrypt($text, 'aes-256-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $iv);
 
-            mcrypt_generic_init($module, $this->AESKey, $iv);
-
-            //加密
-            $encrypted = mcrypt_generic($module, $text);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
-
-            //使用BASE64对加密后的字符串进行编码
             return base64_encode($encrypted);
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), self::ERROR_ENCRYPT_AES);
@@ -206,7 +180,7 @@ class Crypt
     }
 
     /**
-     * 对密文进行解密.
+     * 对密文进行解密
      *
      * @param string $encrypted 需要解密的密文
      * @param string $appId     app id
@@ -216,17 +190,11 @@ class Crypt
     private function decrypt($encrypted, $appId)
     {
         try {
-            //使用BASE64对需要解密的字符串进行解码
+            $key = $this->getAESKey();
             $ciphertext = base64_decode($encrypted, true);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
-            $iv = substr($this->AESKey, 0, 16);
+            $iv = substr($key, 0, 16);
 
-            mcrypt_generic_init($module, $this->AESKey, $iv);
-
-            //解密
-            $decrypted = mdecrypt_generic($module, $ciphertext);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
+            $decrypted = openssl_decrypt($ciphertext, 'aes-256-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $iv);
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), self::ERROR_DECRYPT_AES);
         }
@@ -240,10 +208,10 @@ class Crypt
                 return '';
             }
 
-            $content = substr($result, 16, strlen($result));
-            $listLen = unpack('N', substr($content, 0, 4));
-            $xmlLen = $listLen[1];
-            $xml = substr($content, 4, $xmlLen);
+            $content   = substr($result, 16, strlen($result));
+            $listLen   = unpack('N', substr($content, 0, 4));
+            $xmlLen    = $listLen[1];
+            $xml       = substr($content, 4, $xmlLen);
             $fromAppId = trim(substr($content, $xmlLen + 4));
         } catch (Exception $e) {
             throw new Exception($e->getMessage(), self::ERROR_INVALID_XML);
@@ -257,7 +225,7 @@ class Crypt
     }
 
     /**
-     * 随机生成16位字符串.
+     * 随机生成16位字符串
      *
      * @return string 生成的字符串
      */
@@ -267,7 +235,23 @@ class Crypt
     }
 
     /**
-     * 生成SHA1签名.
+     * Return AESKey.
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    protected function getAESKey()
+    {
+        if (empty($this->AESKey) || strlen($this->AESKey) !== 43) {
+            throw new Exception("Configuration mission, 'aes_key' is required.");
+        }
+
+        return base64_decode($this->AESKey.'=', true);
+    }
+
+    /**
+     * 生成SHA1签名
      *
      * @return string
      */
@@ -284,7 +268,7 @@ class Crypt
     }
 
     /**
-     * 对需要加密的明文进行填充补位.
+     * 对需要加密的明文进行填充补位
      *
      * @param string $text 需要进行填充补位操作的明文
      *
@@ -302,7 +286,7 @@ class Crypt
 
         $tmp = '';
 
-        for ($index = 0; $index < $padAmount; ++$index) {
+        for ($index = 0; $index < $padAmount; $index++) {
             $tmp .= $padChr;
         }
 
@@ -310,7 +294,7 @@ class Crypt
     }
 
     /**
-     * 对解密后的明文进行补位删除.
+     * 对解密后的明文进行补位删除
      *
      * @param string $decrypted 解密后的明文
      *
