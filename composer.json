@@ -10,7 +10,7 @@
     "license": "MIT",
     "require": {
         "php":">=5.3",
-        "ext-mcrypt": "*"
+        "ext-openssl": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0"
