@@ -30,10 +30,10 @@ use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Log;
+use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Monolog\Handler\HandlerInterface;
 use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
 
