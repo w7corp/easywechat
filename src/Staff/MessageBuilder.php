@@ -146,7 +146,6 @@ class MessageBuilder
             }
 
             $message = array_merge($message, $content);
-            
         }
 
         return $this->staff->send($message);
