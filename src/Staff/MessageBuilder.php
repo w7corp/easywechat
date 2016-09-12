@@ -136,7 +136,6 @@ class MessageBuilder
             $message = $this->message->get('content');
         } else {
             $content = $transformer->transform($this->message);
-
             $message = [
                 'touser' => $this->to,
             ];
