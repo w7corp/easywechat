@@ -349,6 +349,22 @@ class CardTest extends TestCase
         $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
         $this->assertEquals($code, $result['params']['code']);
+
+        // test cardId
+        $result = $card->consume($code);
+        $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertArrayNotHasKey('card_id', $result['params']);
+
+        $result = $card->consume($cardId, $code);
+        $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+
+        $result = $card->consume($code, $cardId);
+        $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //Code解码接口

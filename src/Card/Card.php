@@ -340,17 +340,24 @@ class Card extends AbstractAPI
     /**
      * 核销Code接口.
      *
-     * @param string $cardId
      * @param string $code
+     * @param string $cardId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function consume($cardId, $code)
+    public function consume($code, $cardId = null)
     {
+        if (strlen($code) === 28 && $cardId && strlen($cardId) !== 28) {
+            list($code, $cardId) = [$cardId, $code];
+        }
+
         $params = [
-            'card_id' => $cardId,
             'code' => $code,
         ];
+
+        if ($cardId) {
+            $params['card_id'] = $cardId;
+        }
 
         return $this->parseJSON('json', [self::API_CONSUME_CARD, $params]);
     }
