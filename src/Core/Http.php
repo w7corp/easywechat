@@ -277,7 +277,7 @@ class Http
      */
     protected function fuckTheWeChatInvalidJSON($invalidJSON)
     {
-        return preg_replace("/\p{Cc}/u", '', trim($invalidJSON));
+        return preg_replace('/[\x00-\x1F\x7F-\x9F]/u', '', trim($invalidJSON));
     }
 
     /**
