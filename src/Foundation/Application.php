@@ -88,6 +88,7 @@ class Application extends Container
         ServiceProviders\ReplyServiceProvider::class,
         ServiceProviders\BroadcastServiceProvider::class,
         ServiceProviders\CardServiceProvider::class,
+        ServiceProviders\StoreServiceProvider::class,
     ];
 
     /**
