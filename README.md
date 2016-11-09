@@ -20,9 +20,9 @@
 
 ## Supporting EasyWeChat
 
-EasyWeChat is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome backers.
+EasyWeChat 是一个 MIT 协议的开源项目. 它的发展离不开背后的支持者。
 
-Special thanks to the generous sponsorship by:
+特别感谢他们的慷慨赞助:
 
 <a href="https://laravist.com">
   <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
