@@ -120,6 +120,21 @@ class AccessToken
     }
 
     /**
+     * 设置自定义 token
+     *
+     * @param string $token
+     * @param int    $expires
+     *
+     * @return $this
+     */
+    public function setToken($token, $expires = 7200)
+    {
+        $this->getCache()->save($this->getCacheKey(), $token, $expires - 1500);
+
+        return $this;
+    }
+
+    /**
      * Return the app id.
      *
      * @return string
