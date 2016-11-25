@@ -93,7 +93,7 @@ class Guard
         'link' => 128,
         'device_event' => 256,
         'device_text' => 512,
-        'event' => 1049598,
+        'event' => 1048576,
     ];
 
     /**
