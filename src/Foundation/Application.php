@@ -64,6 +64,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Reply\Reply                     $reply
  * @property \EasyWeChat\Broadcast\Broadcast             $broadcast
  * @property \EasyWeChat\Card\Card                       $card
+ * @property \EasyWeChat\Device\Device                   $device
  */
 class Application extends Container
 {
@@ -90,6 +91,7 @@ class Application extends Container
         ServiceProviders\ReplyServiceProvider::class,
         ServiceProviders\BroadcastServiceProvider::class,
         ServiceProviders\CardServiceProvider::class,
+        ServiceProviders\DeviceServiceProvider::class,
     ];
 
     /**
