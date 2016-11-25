@@ -14,19 +14,17 @@
  *
  * @author    soone <66812590@qq.com>
  * @copyright 2016 soone <66812590@qq.com>
- *
  */
 namespace EasyWeChat\Device;
 
-use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Core\AccessToken;
 
 /**
  * Class Device.
  */
 class Device extends AbstractAPI
 {
-
     protected $deviceType;
     protected $productId;
     protected $config;
@@ -59,8 +57,8 @@ class Device extends AbstractAPI
     }
 
     /**
-     * Send message to device
      *
+     * Send message to device.
      * @param int $sceneValue
      *
      * @return \EasyWeChat\Support\Collection
@@ -71,7 +69,7 @@ class Device extends AbstractAPI
             'device_type' => $this->deviceType,
             'device_id' => $deviceId,
             'open_id' => $openId,
-            'content' => base64_decode($content),
+            'content' => base64_decode($content, true),
         ];
 
         return $this->parseJSON('json', [self::API_TRANS_MSG, $params]);
@@ -81,7 +79,7 @@ class Device extends AbstractAPI
     {
         $params = [
             'device_num' => count($deviceIds),
-            'device_id_list' => $deviceIds
+            'device_id_list' => $deviceIds,
         ];
 
         return $this->parseJSON('json', [self::API_CREATE, $params]);
@@ -93,7 +91,7 @@ class Device extends AbstractAPI
             'device_num' => count($deviceInfos),
             'device_list' => $this->getDeviceList($deviceInfos),
             'op_type' => $opType,
-            'product_id' => $this->productId
+            'product_id' => $this->productId,
         ];
 
         return $this->parseJSON('json', [self::API_DEV_AUTH, $params]);
@@ -102,8 +100,7 @@ class Device extends AbstractAPI
     protected function getDeviceList($deviceInfos)
     {
         $res = [];
-        foreach($deviceInfos as $dInfo)
-        {
+        foreach($deviceInfos as $dInfo) {
             $data = [
                 'id' => $dInfo['deviceId'],
                 'mac' => $dInfo['mac'],
@@ -139,7 +136,7 @@ class Device extends AbstractAPI
         $params = [
             'ticket' => $ticket,
             'device_id' => $deviceId,
-            'openid' => $openId
+            'openid' => $openId,
         ];
 
         return $this->parseJSON('json', [self::API_DEV_BIND, $params]);
@@ -150,7 +147,7 @@ class Device extends AbstractAPI
         $params = [
             'ticket' => $ticket,
             'device_id' => $deviceId,
-            'openid' => $openId
+            'openid' => $openId,
         ];
 
         return $this->parseJSON('json', [self::API_DEV_UNBIND, $params]);
@@ -160,7 +157,7 @@ class Device extends AbstractAPI
     {
         $params = [
             'device_id' => $deviceId,
-            'openid' => $openId
+            'openid' => $openId,
         ];
 
         return $this->parseJSON('json', [self::API_DEV_COMPEL_BIND, $params]);
@@ -170,7 +167,7 @@ class Device extends AbstractAPI
     {
         $params = [
             'device_id' => $deviceId,
-            'openid' => $openId
+            'openid' => $openId,
         ];
 
         return $this->parseJSON('json', [self::API_DEV_COMPEL_UNBIND, $params]);
@@ -179,7 +176,7 @@ class Device extends AbstractAPI
     public function getDeviceStatus($deviceId)
     {
         $params = [
-            'device_id' => $deviceId
+            'device_id' => $deviceId,
         ];
 
         return $this->parseJSON('get', [self::API_DEV_STAT, $params]);
@@ -188,7 +185,7 @@ class Device extends AbstractAPI
     public function verifyQrcode($ticket)
     {
         $params = [
-            'ticket' => $ticket
+            'ticket' => $ticket,
         ];
 
         return $this->parseJSON('post', [self::API_DEV_VERIFY_QRCODE, $params]);
@@ -198,7 +195,7 @@ class Device extends AbstractAPI
     {
         $params = [
             'device_type' => $this->deviceType,
-            'device_id' => $deviceId
+            'device_id' => $deviceId,
         ];
 
         return $this->parseJSON('get', [self::API_DEV_GET_OPENID, $params]);
@@ -207,7 +204,7 @@ class Device extends AbstractAPI
     public function getDeviceidByOpenid($openid)
     {
         $params = [
-            'openid' => $openid
+            'openid' => $openid,
         ];
 
         return $this->parseJSON('get', [self::API_USER_DEV_BIND, $params]);

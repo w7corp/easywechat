@@ -25,6 +25,6 @@ class DeviceText extends AbstractMessage
         'device_id',
         'content',
         'session_id',
-        'open_id'
+        'open_id',
     ];
 }
