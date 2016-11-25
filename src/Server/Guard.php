@@ -50,8 +50,10 @@ class Guard
     const SHORT_VIDEO_MSG = 32;
     const LOCATION_MSG = 64;
     const LINK_MSG = 128;
+    const DEVICE_EVENT_MSG = 256;
+    const DEVICE_TEXT_MSG = 512;
     const EVENT_MSG = 1048576;
-    const ALL_MSG = 1048830;
+    const ALL_MSG = 1049598;
 
     /**
      * @var Request
@@ -89,7 +91,9 @@ class Guard
         'shortvideo' => 32,
         'location' => 64,
         'link' => 128,
-        'event' => 1048576,
+        'device_event' => 256,
+        'device_text' => 512,
+        'event' => 1049598,
     ];
 
     /**
