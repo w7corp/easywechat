@@ -53,12 +53,13 @@ class Device extends AbstractAPI
     public function setProductId($productId)
     {
         $this->productId = $productId;
+
         return $this;
     }
 
     /**
-     *
      * Send message to device.
+     *
      * @param int $sceneValue
      *
      * @return \EasyWeChat\Support\Collection
@@ -100,7 +101,7 @@ class Device extends AbstractAPI
     protected function getDeviceList($deviceInfos)
     {
         $res = [];
-        foreach($deviceInfos as $dInfo) {
+        foreach ($deviceInfos as $dInfo) {
             $data = [
                 'id' => $dInfo['deviceId'],
                 'mac' => $dInfo['mac'],

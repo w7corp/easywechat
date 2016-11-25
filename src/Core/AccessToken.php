@@ -120,7 +120,7 @@ class AccessToken
     }
 
     /**
-     * 设置自定义 token
+     * 设置自定义 token.
      *
      * @param string $token
      * @param int    $expires
