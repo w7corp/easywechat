@@ -70,8 +70,8 @@ class XML
         $attr = trim($attr);
         $attr = empty($attr) ? '' : " {$attr}";
         $xml = "<{$root}{$attr}>";
-        $xml  .= self::data2Xml($data, $item, $id);
-        $xml  .= "</{$root}>";
+        $xml .= self::data2Xml($data, $item, $id);
+        $xml .= "</{$root}>";
 
         return $xml;
     }
@@ -91,7 +91,8 @@ class XML
     /**
      * Object to array.
      *
-     * @param string $data
+     *
+     * @param SimpleXMLElement $obj
      *
      * @return array
      */

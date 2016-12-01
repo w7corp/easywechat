@@ -116,12 +116,13 @@ class Tag extends AbstractAPI
      * Get users from a tag.
      *
      * @param string $tagId
+     * @param string $nextOpenId
      *
      * @return int
      */
-    public function usersOfTag($tagId)
+    public function usersOfTag($tagId, $nextOpenId = '')
     {
-        $params = ['tagid' => $tagId];
+        $params = ['tagid' => $tagId, 'next_openid' => $nextOpenId];
 
         return $this->parseJSON('json', [self::API_USERS_OF_TAG, $params]);
     }

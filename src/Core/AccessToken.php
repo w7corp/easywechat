@@ -51,6 +51,13 @@ class AccessToken
     protected $cache;
 
     /**
+     * Cache Key.
+     *
+     * @var cacheKey
+     */
+    protected $cacheKey;
+
+    /**
      * Http instance.
      *
      * @var Http
@@ -97,8 +104,7 @@ class AccessToken
      */
     public function getToken($forceRefresh = false)
     {
-        $cacheKey = $this->prefix.$this->appId;
-
+        $cacheKey = $this->getCacheKey();
         $cached = $this->getCache()->fetch($cacheKey);
 
         if ($forceRefresh || empty($cached)) {
@@ -111,6 +117,21 @@ class AccessToken
         }
 
         return $cached;
+    }
+
+    /**
+     * 设置自定义 token.
+     *
+     * @param string $token
+     * @param int    $expires
+     *
+     * @return $this
+     */
+    public function setToken($token, $expires = 7200)
+    {
+        $this->getCache()->save($this->getCacheKey(), $token, $expires - 1500);
+
+        return $this;
     }
 
     /**
@@ -196,7 +217,7 @@ class AccessToken
      *
      * @throws \EasyWeChat\Core\Exceptions\HttpException
      *
-     * @return array|bool
+     * @return string
      */
     public function getTokenFromServer()
     {
@@ -239,5 +260,47 @@ class AccessToken
         $this->http = $http;
 
         return $this;
+    }
+
+    /**
+     * Set the access token prefix.
+     *
+     * @param string $prefix
+     *
+     * @return $this
+     */
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Set access token cache key.
+     *
+     * @param string $cacheKey
+     *
+     * @return $this
+     */
+    public function setCacheKey($cacheKey)
+    {
+        $this->cacheKey = $cacheKey;
+
+        return $this;
+    }
+
+    /**
+     * Get access token cache key.
+     *
+     * @return string $this->cacheKey
+     */
+    public function getCacheKey()
+    {
+        if (is_null($this->cacheKey)) {
+            return $this->prefix.$this->appId;
+        }
+
+        return $this->cacheKey;
     }
 }

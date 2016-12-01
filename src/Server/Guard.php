@@ -50,8 +50,10 @@ class Guard
     const SHORT_VIDEO_MSG = 32;
     const LOCATION_MSG = 64;
     const LINK_MSG = 128;
+    const DEVICE_EVENT_MSG = 256;
+    const DEVICE_TEXT_MSG = 512;
     const EVENT_MSG = 1048576;
-    const ALL_MSG = 1048830;
+    const ALL_MSG = 1049598;
 
     /**
      * @var Request
@@ -89,6 +91,8 @@ class Guard
         'shortvideo' => 32,
         'location' => 64,
         'link' => 128,
+        'device_event' => 256,
+        'device_text' => 512,
         'event' => 1048576,
     ];
 
@@ -210,6 +214,30 @@ class Guard
     }
 
     /**
+     * Request getter.
+     *
+     * @return Request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * Request setter.
+     *
+     * @param Request $request
+     *
+     * @return $this
+     */
+    public function setRequest(Request $request)
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
      * Set Encryptor.
      *
      * @param Encryptor $encryptor
@@ -254,12 +282,13 @@ class Guard
             return $message->get('content', self::SUCCESS_EMPTY_RESPONSE);
         }
 
-        if (is_string($message)) {
+        if (is_string($message) || is_numeric($message)) {
             $message = new Text(['content' => $message]);
         }
 
         if (!$this->isMessage($message)) {
-            throw new InvalidArgumentException("Invalid Message type .'{gettype($message)}'");
+            $messageType = gettype($message);
+            throw new InvalidArgumentException("Invalid Message type .'{$messageType}'");
         }
 
         $response = $this->buildReply($to, $from, $message);
@@ -301,7 +330,9 @@ class Guard
     /**
      * Get request message.
      *
-     * @return object
+     * @return array
+     *
+     * @throws BadRequestException
      */
     public function getMessage()
     {

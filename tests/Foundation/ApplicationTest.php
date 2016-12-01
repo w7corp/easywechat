@@ -9,6 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
+use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Foundation\Config;
@@ -85,5 +86,21 @@ class ApplicationTest extends TestCase
         $app->setProviders(['foo', 'bar']);
 
         $this->assertSame(['foo', 'bar'], $app->getProviders());
+    }
+
+    public function testSetCustomAccessToken()
+    {
+        $config = [
+            'app_id' => 'foo',
+            'secret' => 'bar',
+        ];
+
+        $app = new Application($config);
+
+        $this->assertInstanceOf(AccessToken::class, $app['access_token']);
+
+        $app['access_token']->setToken('iamtokenhere');
+
+        $this->assertSame('iamtokenhere', $app['access_token']->getToken());
     }
 }

@@ -1,23 +1,34 @@
-# [Easy WeChat](http://easywechat.org)
+<p align="center">
+<a href="https://easywechat.org/">
+<img src="https://easywechat.org/logo.svg" alt="EasyWeChat" width="160">
+</a>
 
-可能是目前最优雅的微信公众平台 SDK 了。
+<p align="center">📦 Maybe it is the best SDK for develop WeChat App.</p>
 
-> 不支持企业号，也不打算支持，原因？微信的API实在设计得太乱了，我怕累死。。。
+<p align="center">
+<a href="https://travis-ci.org/overtrue/wechat"><img src="https://travis-ci.org/overtrue/wechat.svg?branch=master" alt="Build Status"></a>
+<a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/v/stable.svg" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/v/unstable.svg" alt="Latest Unstable Version"></a>
+<a href="https://scrutinizer-ci.com/g/overtrue/wechat/build-status/master"><img src="https://scrutinizer-ci.com/g/overtrue/wechat/badges/build.png?b=master" alt="Build Status"></a>
+<a href="https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master"><img src="https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality"></a>
+<a href="https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master"><img src="https://scrutinizer-ci.com/g/overtrue/wechat/badges/coverage.png?b=master" alt="Code Coverage"></a>
+<a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/downloads" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/license" alt="License"></a>
+</p>
 
-- SDK 官方论坛：https://forum.easywechat.org
-- SDK 使用交流 QQ 群：`319502940`
-- 微信开发者交流 QQ 群：`9179779`
+</div>
 
-[![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat)
-[![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat)
-[![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
-[![Build Status](https://scrutinizer-ci.com/g/overtrue/wechat/badges/build.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/overtrue/wechat/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master)
-[![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat)
-[![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat)
+## Supporting EasyWeChat
 
-## 特点
+EasyWeChat 是一个 MIT 协议的开源项目. 它的发展离不开背后的支持者。
+
+特别感谢他们的慷慨赞助:
+
+<a href="https://laravist.com">
+  <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
+</a>
+
+## Feature
 
  - 命名不那么乱七八糟；
  - 隐藏开发者不需要关注的细节；
@@ -27,7 +38,7 @@
  - 高度抽象的消息类，免去各种拼json与xml的痛苦；
  - 详细 Debug 日志，一切交互都一目了然；
 
-## 环境要求
+## Requirement
 
 1. PHP >= 5.5.9
 2. **[composer](https://getcomposer.org/)**
@@ -36,13 +47,13 @@
 
 > SDK 对所使用的框架并无特别要求
 
-## 安装
+## Installation
 
 ```shell
 composer require "overtrue/wechat:~3.1" -vvv
 ```
 
-## 使用
+## Usage
 
 基本使用（以服务端为例）:
 
@@ -79,19 +90,20 @@ $server->serve()->send();
 
 更多请参考[http://easywechat.org/](http://easywechat.org/)。
 
-## 文档
+## Documention
 
-[http://easywechat.org/](http://easywechat.org/)
+- Homepage: http://easywechat.org/
+- Forum: https://forum.easywechat.org
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
 
-## 框架集成
+## Integration
 
 [Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
-## 贡献代码
+## Contribution
 
-[贡献指南](CONTRIBUTING.md)
+[Contribution Guide](CONTRIBUTING.md)
 
 ## License
 

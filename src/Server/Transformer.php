@@ -159,4 +159,16 @@ class Transformer
                 'Articles' => $articles,
                ];
     }
+
+    public function transformDeviceText(AbstractMessage $message)
+    {
+        $response = [
+                        'DeviceType' => $message->get('device_type'),
+                        'DeviceID' => $message->get('device_id'),
+                        'SessionID' => $message->get('session_id'),
+                        'Content' => base64_encode($message->get('content')),
+                    ];
+
+        return $response;
+    }
 }

@@ -61,6 +61,12 @@ class Stats extends AbstractAPI
     const  API_INTERFACE_SUMMARY = 'https://api.weixin.qq.com/datacube/getinterfacesummary';
     // 获取接口分析分时数据
     const  API_INTERFACE_SUMMARY_HOURLY = 'https://api.weixin.qq.com/datacube/getinterfacesummaryhour';
+    // 拉取卡券概况数据接口
+    const  API_CARD_SUMMARY = 'https://api.weixin.qq.com/datacube/getcardbizuininfo';
+    // 获取免费券数据接口
+    const  API_FREE_CARD_SUMMARY = 'https://api.weixin.qq.com/datacube/getcardcardinfo';
+    // 拉取会员卡数据接口
+    const  API_MEMBER_CARD_SUMMARY = 'https://api.weixin.qq.com/datacube/getcardmembercardinfo';
 
     /**
      * 获取用户增减数据.
@@ -284,6 +290,62 @@ class Stats extends AbstractAPI
     }
 
     /**
+     * 拉取卡券概况数据接口.
+     *
+     * @param string $from
+     * @param string $to
+     * @param int    $condSource
+     *
+     * @return array
+     */
+    public function cardSummary($from, $to, $condSource = 0)
+    {
+        $ext = [
+            'cond_source' => intval($condSource),
+        ];
+
+        return $this->query(self::API_CARD_SUMMARY, $from, $to, $ext);
+    }
+
+    /**
+     * 获取免费券数据接口.
+     *
+     * @param string $from
+     * @param string $to
+     * @param int    $condSource
+     * @param string $cardId
+     *
+     * @return array
+     */
+    public function freeCardSummary($from, $to, $condSource = 0, $cardId = '')
+    {
+        $ext = [
+            'cond_source' => intval($condSource),
+            'card_id' => $cardId,
+        ];
+
+        return $this->query(self::API_FREE_CARD_SUMMARY, $from, $to, $ext);
+    }
+
+    /**
+     * 拉取会员卡数据接口.
+     *
+     * @param string $from
+     * @param string $to
+     * @param int    $condSource
+     *
+     * @return array
+     */
+    public function memberCardSummary($from, $to, $condSource = 0)
+    {
+        $ext = [
+            'cond_source' => intval($condSource),
+        ];
+
+        return $this->query(self::API_MEMBER_CARD_SUMMARY, $from, $to, $ext);
+    }
+
+    /**
      * 查询数据.
      *
      * @param string $api
@@ -292,12 +354,16 @@ class Stats extends AbstractAPI
      *
      * @return array
      */
-    protected function query($api, $from, $to)
+    protected function query($api, $from, $to, array $ext = [])
     {
         $params = [
-                   'begin_date' => $from,
-                   'end_date' => $to,
-                  ];
+            'begin_date' => $from,
+            'end_date' => $to,
+        ];
+
+        if (!empty($ext)) {
+            $params = array_merge($params, $ext);
+        }
 
         return $this->parseJSON('json', [$api, $params]);
     }

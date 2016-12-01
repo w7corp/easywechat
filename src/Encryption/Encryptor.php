@@ -210,8 +210,12 @@ class Encryptor
      */
     protected function getAESKey()
     {
-        if (empty($this->AESKey) || strlen($this->AESKey) !== 43) {
+        if (empty($this->AESKey)) {
             throw new InvalidConfigException("Configuration mission, 'aes_key' is required.");
+        }
+
+        if (strlen($this->AESKey) !== 43) {
+            throw new InvalidConfigException("The length of 'aes_key' must be 43.");
         }
 
         return base64_decode($this->AESKey.'=', true);
