@@ -97,7 +97,7 @@ class Transformer
         return $response;
     }
 
-     /**
+    /**
      * Transform music message.
      *
      * @return array
