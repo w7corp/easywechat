@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 HEADS="master"
-TAGS="3.0.20"
+TAGS="3.1.8"
 
 split()
 {
