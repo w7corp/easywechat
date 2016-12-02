@@ -160,6 +160,11 @@ class Transformer
                ];
     }
 
+	/**
+     * Transform Device message.
+     *
+     * @return array
+     */
     public function transformDeviceText(AbstractMessage $message)
     {
         $response = [
@@ -168,6 +173,26 @@ class Transformer
                         'SessionID' => $message->get('session_id'),
                         'Content' => base64_encode($message->get('content')),
                     ];
+
+        return $response;
+    }
+	
+	/**
+     * Transform music message.
+     *
+     * @return array
+     */
+    public function transformMusic(AbstractMessage $message)
+    {
+        $response = [
+            'Music' => [
+                'Title' => $message->get('title'),
+                'Description' => $message->get('description'),
+                'MusicUrl' => $message->get('url'),
+                'HQMusicUrl' => $message->get('hq_url'),
+                'ThumbMediaId' => $message->get('thumb_media_id'),
+            ],
+        ];
 
         return $response;
     }
