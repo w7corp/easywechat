@@ -52,4 +52,18 @@ class Music extends AbstractMessage
                              'thumb_media_id',
                              'format',
                             ];
+
+    /**
+     * 设置视频封面.
+     *
+     * @param string $mediaId
+     *
+     * @return Video
+     */
+    public function thumb($mediaId)
+    {
+        $this->setAttribute('thumb_media_id', $mediaId);
+
+        return $this;
+    }
 }

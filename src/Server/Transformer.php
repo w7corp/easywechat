@@ -98,6 +98,26 @@ class Transformer
     }
 
     /**
+     * Transform music message.
+     *
+     * @return array
+     */
+    public function transformMusic(AbstractMessage $message)
+    {
+        $response = [
+                        'Music' => [
+                            'Title' => $message->get('title'),
+                            'Description' => $message->get('description'),
+                            'MusicUrl' => $message->get('url'),
+                            'HQMusicUrl' => $message->get('hq_url'),
+                            'ThumbMediaId' => $message->get('thumb_media_id'),
+                        ],
+                    ];
+
+        return $response;
+    }
+
+    /**
      * Transform voice message.
      *
      * @return array
