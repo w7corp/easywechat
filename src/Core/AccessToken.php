@@ -71,7 +71,7 @@ class AccessToken
      */
     protected $queryName = 'access_token';
 
-    protected $tokenKey = 'access_token';
+    protected $tokenJsonKey = 'access_token';
 
     /**
      * Cache key prefix.
@@ -113,9 +113,9 @@ class AccessToken
             $token = $this->getTokenFromServer();
 
             // XXX: T_T... 7200 - 1500
-            $this->getCache()->save($cacheKey, $token[$this->tokenKey], $token['expires_in'] - 1500);
+            $this->getCache()->save($cacheKey, $token[$this->tokenJsonKey], $token['expires_in'] - 1500);
 
-            return $token[$this->tokenKey];
+            return $token[$this->tokenJsonKey];
         }
 
         return $cached;
