@@ -44,7 +44,7 @@ class MaterialMaterialTest extends TestCase
     /**
      * Test for uploadImage().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testUploadImage()
     {
