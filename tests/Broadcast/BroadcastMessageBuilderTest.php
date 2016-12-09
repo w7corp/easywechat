@@ -17,7 +17,7 @@ class BroadcastMessageBuilderTest extends TestCase
     /**
      * Test msgType().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testMsgType()
     {
@@ -61,7 +61,7 @@ class BroadcastMessageBuilderTest extends TestCase
     /**
      * Test build().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\RuntimeException
+     * @expectedException \EasyWeChat\Core\Exceptions\RuntimeException
      */
     public function testBuild()
     {
@@ -116,8 +116,8 @@ class BroadcastMessageBuilderTest extends TestCase
     /**
      * Test buildPreview().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\RuntimeException
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\RuntimeException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testBuildPreview()
     {
