@@ -71,6 +71,11 @@ class AccessToken
      */
     protected $queryName = 'access_token';
 
+    /**
+     * Response Json key name.
+     *
+     * @var string
+     */
     protected $tokenJsonKey = 'access_token';
 
     /**
