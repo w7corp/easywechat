@@ -138,25 +138,4 @@ class Page extends AbstractAPI
 
         return $this->parseJSON('json', [self::API_DELETE, $params]);
     }
-
-    /**
-     * Get devices by page_id.
-     *
-     * @param int $page_id
-     * @param int $begin
-     * @param int $count
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    public function getDeviceByPageId($page_id, $begin, $count)
-    {
-        $params = [
-            'type' => 2,
-            'page_id' => intval($page_id),
-            'begin' => intval($begin),
-            'count' => intval($count),
-        ];
-
-        return $this->parseJSON('json', [self::API_RELATION_SEARCH, $params]);
-    }
 }
