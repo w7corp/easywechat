@@ -52,11 +52,12 @@ class Relation extends AbstractAPI
     /**
      * Get page_ids by device_id.
      *
-     * @param array $device_identifier
+     * @param array   $device_identifier
+     * @param boolean $raw
      *
-     * @return array
+     * @return array|\EasyWeChat\Support\Collection
      */
-    public function getPageByDeviceId(array $device_identifier)
+    public function getPageByDeviceId(array $device_identifier, $raw = false)
     {
         $params = [
             'type' => 1,
@@ -65,6 +66,9 @@ class Relation extends AbstractAPI
 
         $result = $this->parseJSON('json', [self::API_RELATION_SEARCH, $params]);
 
+        if ($raw === true) {
+            return $result;
+        }
         $page_ids = array();
         if (!empty($result->data['relations'])) {
             foreach ($result->data['relations'] as $item) {

@@ -69,18 +69,31 @@ class ShakeAroundRelationTest extends TestCase
      */
     public function testGetPageByDeviceId()
     {
+
+        $relation = $this->getRelation();
+
+        $expected = [
+            'type' => 1,
+            'device_identifier' => [
+                'device_id' => 10100,	
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'major' => 10001,
+                'minor' => 10002,
+            ],
+        ];
+
+        $result = $relation->getPageByDeviceId([
+            'device_id' => 10100,	
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'major' => 10001,
+            'minor' => 10002,
+        ], true);
+
+        $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $result['api']);
+        $this->assertEquals($expected, $result['params']);
+
         $relation = Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
-            $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $params[0]);
-            $this->assertEquals([
-                'type' => 1,
-                'device_identifier' => [
-                    'device_id' => 10100,	
-                    'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
-                    'major' => 10001,
-                    'minor' => 10002,
-                ],
-            ], $params[1]);
             return new Collection([
                 'data' => [
                     'relations' => [],
