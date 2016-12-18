@@ -15,16 +15,19 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
-use EasyWeChat\ShakeAround\Material;
+
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\ShakeAround\Material;
 
 class ShakeAroundMaterialTest extends TestCase
 {
     /**
      * Test uploadImage().
+     *
+     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testUploadImage()
     {
@@ -46,8 +49,6 @@ class ShakeAroundMaterialTest extends TestCase
         $result = $material->uploadImage(__DIR__.'/stubs/image.jpg', 'license');
 
         $this->assertEquals('license', $result['type']);
-
-        $this->expectException(InvalidArgumentException::class);
 
         $material->uploadImage(__DIR__.'/stubs/foo.jpg');
     }

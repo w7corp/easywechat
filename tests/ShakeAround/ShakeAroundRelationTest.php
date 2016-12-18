@@ -15,9 +15,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
+
 use EasyWeChat\ShakeAround\Relation;
 use EasyWeChat\Support\Collection;
 
@@ -45,8 +46,8 @@ class ShakeAroundRelationTest extends TestCase
 
         $expected = [
             'device_identifier' => [
-                'device_id' => 10100,	
-                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'device_id' => 10100,
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                 'major' => 10001,
                 'minor' => 10002,
             ],
@@ -54,8 +55,8 @@ class ShakeAroundRelationTest extends TestCase
         ];
 
         $result = $relation->bindPage([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ], [12345, 23456, 334567]);
@@ -75,16 +76,16 @@ class ShakeAroundRelationTest extends TestCase
         $expected = [
             'type' => 1,
             'device_identifier' => [
-                'device_id' => 10100,	
-                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'device_id' => 10100,
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                 'major' => 10001,
                 'minor' => 10002,
             ],
         ];
 
         $result = $relation->getPageByDeviceId([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ], true);
@@ -106,8 +107,8 @@ class ShakeAroundRelationTest extends TestCase
         $expected = [];
 
         $result = $relation->getPageByDeviceId([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ]);
@@ -119,14 +120,14 @@ class ShakeAroundRelationTest extends TestCase
                 'data' => [
                     'relations' => [
                         [
-                            'device_id' => 10100,	
+                            'device_id' => 10100,
                             'major' => 10001,
                             'minor' => 10002,
                             'page_id' => 1234,
                             'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                         ],
                         [
-                            'device_id' => 10100,	
+                            'device_id' => 10100,
                             'major' => 10001,
                             'minor' => 10002,
                             'page_id' => 5678,
@@ -143,8 +144,8 @@ class ShakeAroundRelationTest extends TestCase
         $expected = [1234, 5678];
 
         $result = $relation->getPageByDeviceId([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ]);

@@ -20,9 +20,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue/wechat
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue/wechat
+ * @see       http://overtrue.me
  */
+
 namespace EasyWeChat\Foundation\ServiceProviders;
 
 use EasyWeChat\ShakeAround\ShakeAround;

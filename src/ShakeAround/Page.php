@@ -15,9 +15,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
+
 namespace EasyWeChat\ShakeAround;
 
 use EasyWeChat\Core\AbstractAPI;

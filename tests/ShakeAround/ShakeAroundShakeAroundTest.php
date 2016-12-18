@@ -15,15 +15,16 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
-use EasyWeChat\ShakeAround\ShakeAround;
+
 use EasyWeChat\ShakeAround\Device;
 use EasyWeChat\ShakeAround\Group;
-use EasyWeChat\ShakeAround\Page;
 use EasyWeChat\ShakeAround\Material;
+use EasyWeChat\ShakeAround\Page;
 use EasyWeChat\ShakeAround\Relation;
+use EasyWeChat\ShakeAround\ShakeAround;
 use EasyWeChat\ShakeAround\Stats;
 
 class ShakeAroundShakeAroundTest extends TestCase
@@ -54,7 +55,7 @@ class ShakeAroundShakeAroundTest extends TestCase
             'email' => 'allen05ren@outlook.com',
             'industry_id' => '0101',
             'qualification_cert_urls' => [],
-            'apply_reason' => 'test'
+            'apply_reason' => 'test',
         ];
         $result = $shake_around->register('allen05ren', 13888888888, 'allen05ren@outlook.com', '0101', [], 'test');
         $this->assertStringStartsWith(ShakeAround::API_ACCOUNT_REGISTER, $result['api']);

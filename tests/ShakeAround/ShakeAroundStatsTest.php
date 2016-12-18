@@ -15,9 +15,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
+
 use EasyWeChat\ShakeAround\Stats;
 
 class ShakeAroundStatsTest extends TestCase
@@ -44,8 +45,8 @@ class ShakeAroundStatsTest extends TestCase
 
         $expected = [
             'device_identifier' => [
-                'device_id' => 10100,	
-                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'device_id' => 10100,
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                 'major' => 10001,
                 'minor' => 10002,
             ],
@@ -53,8 +54,8 @@ class ShakeAroundStatsTest extends TestCase
             'end_date' => 1438704000,
         ];
         $result = $stats->deviceSummary([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ], 1438704000, 1438704000);

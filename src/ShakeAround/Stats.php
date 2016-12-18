@@ -15,9 +15,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
+
 namespace EasyWeChat\ShakeAround;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -36,8 +37,8 @@ class Stats extends AbstractAPI
      * Fetch statistics data by device_id.
      *
      * @param array $device_identifier
-     * @param int   $begin_date (Unix timestamp)
-     * @param int   $end_date (Unix timestamp)
+     * @param int   $begin_date        (Unix timestamp)
+     * @param int   $end_date          (Unix timestamp)
      *
      * @return \EasyWeChat\Support\Collection
      */
@@ -75,7 +76,7 @@ class Stats extends AbstractAPI
      *
      * @param int $page_id
      * @param int $begin_date (Unix timestamp)
-     * @param int $end_date (Unix timestamp)
+     * @param int $end_date   (Unix timestamp)
      *
      * @return \EasyWeChat\Support\Collection
      */
@@ -86,6 +87,7 @@ class Stats extends AbstractAPI
             'begin_date' => $begin_date,
             'end_date' => $end_date,
         ];
+
         return $this->parseJSON('json', [self::API_PAGE, $params]);
     }
 

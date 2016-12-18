@@ -15,11 +15,13 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
-use EasyWeChat\ShakeAround\Device;
+
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\ShakeAround\Device;
+
 
 class ShakeAroundDeviceTest extends TestCase
 {
@@ -101,8 +103,8 @@ class ShakeAroundDeviceTest extends TestCase
 
         $expected = [
             'device_identifier' => [
-                'device_id' => 10100,	
-                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'device_id' => 10100,
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                 'major' => 10001,
                 'minor' => 10002,
             ],
@@ -110,8 +112,8 @@ class ShakeAroundDeviceTest extends TestCase
         ];
 
         $result = $device->update([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ], 'allen05ren');
@@ -122,6 +124,8 @@ class ShakeAroundDeviceTest extends TestCase
 
     /**
      * Test bindLocation().
+     *
+     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testBindLocation()
     {
@@ -129,8 +133,8 @@ class ShakeAroundDeviceTest extends TestCase
 
         $expected = [
             'device_identifier' => [
-                'device_id' => 10100,	
-                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'device_id' => 10100,
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                 'major' => 10001,
                 'minor' => 10002,
             ],
@@ -138,8 +142,8 @@ class ShakeAroundDeviceTest extends TestCase
         ];
 
         $result = $device->bindLocation([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ], 1234);
@@ -149,8 +153,8 @@ class ShakeAroundDeviceTest extends TestCase
 
         $expected = [
             'device_identifier' => [
-                'device_id' => 10100,	
-                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'device_id' => 10100,
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                 'major' => 10001,
                 'minor' => 10002,
             ],
@@ -160,19 +164,17 @@ class ShakeAroundDeviceTest extends TestCase
         ];
 
         $result = $device->bindLocation([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ], 1234, 2, 'wxappid');
 
         $this->assertEquals($expected, $result['params']);
 
-        $this->expectException(InvalidArgumentException::class);
-
         $result = $device->bindLocation([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ], 1234, 2);
@@ -188,16 +190,16 @@ class ShakeAroundDeviceTest extends TestCase
         $expected = [
             'type' => 1,
             'device_identifiers' => [
-                'device_id' => 10100,	
-                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+                'device_id' => 10100,
+                'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
                 'major' => 10001,
                 'minor' => 10002,
             ],
         ];
 
         $result = $device->fetchByIds([
-            'device_id' => 10100,	
-            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',	
+            'device_id' => 10100,
+            'uuid' => 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825',
             'major' => 10001,
             'minor' => 10002,
         ]);

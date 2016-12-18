@@ -15,9 +15,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
+
 namespace EasyWeChat\ShakeAround;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -115,13 +116,14 @@ class Device extends AbstractAPI
             'poi_id' => intval($poi_id),
         ];
 
-        if ($type == 2) {
+        if ($type === 2) {
             if (is_null($poi_appid)) {
-                throw new InvalidArgumentException("If value of argument #3 is 2, argument #4 is required.");
+                throw new InvalidArgumentException('If value of argument #3 is 2, argument #4 is required.');
             }
             $params['type'] = 2;
             $params['poi_appid'] = $poi_appid;
         }
+
         return $this->parseJSON('json', [self::API_DEVICE_BINDLOCATION, $params]);
     }
 
@@ -143,7 +145,7 @@ class Device extends AbstractAPI
     }
 
     /**
-     * Pagination to fetch batch of devices
+     * Pagination to fetch batch of devices.
      *
      * @param int $last_seen
      * @param int $count

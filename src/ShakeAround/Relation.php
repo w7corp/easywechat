@@ -15,9 +15,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
+
 namespace EasyWeChat\ShakeAround;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -52,8 +53,8 @@ class Relation extends AbstractAPI
     /**
      * Get page_ids by device_id.
      *
-     * @param array   $device_identifier
-     * @param boolean $raw
+     * @param array $device_identifier
+     * @param bool  $raw
      *
      * @return array|\EasyWeChat\Support\Collection
      */

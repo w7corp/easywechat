@@ -15,9 +15,10 @@
  * @author    allen05ren <allen05ren@outlook.com>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
+
 use EasyWeChat\ShakeAround\Page;
 
 class ShakeAroundPageTest extends TestCase
@@ -114,7 +115,7 @@ class ShakeAroundPageTest extends TestCase
             'page_ids' => [1234, 5678],
         ];
 
-        $result = $page->fetchByIds([1234,5678]);
+        $result = $page->fetchByIds([1234, 5678]);
 
         $this->assertStringStartsWith(Page::API_SEARCH, $result['api']);
         $this->assertEquals($expected, $result['params']);
