@@ -31,7 +31,6 @@ class Relation extends AbstractAPI
     const API_DEVICE_BINDPAGE = 'https://api.weixin.qq.com/shakearound/device/bindpage';
     const API_RELATION_SEARCH = 'https://api.weixin.qq.com/shakearound/relation/search';
 
-
     /**
      * Bind pages for device.
      *

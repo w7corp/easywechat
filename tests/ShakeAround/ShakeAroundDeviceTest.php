@@ -19,9 +19,7 @@
  * @see       http://overtrue.me
  */
 
-use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\ShakeAround\Device;
-
 
 class ShakeAroundDeviceTest extends TestCase
 {
@@ -125,7 +123,7 @@ class ShakeAroundDeviceTest extends TestCase
     /**
      * Test bindLocation().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testBindLocation()
     {

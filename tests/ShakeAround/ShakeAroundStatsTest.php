@@ -18,7 +18,6 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
-
 use EasyWeChat\ShakeAround\Stats;
 
 class ShakeAroundStatsTest extends TestCase

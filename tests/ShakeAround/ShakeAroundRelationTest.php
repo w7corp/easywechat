@@ -18,7 +18,6 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
-
 use EasyWeChat\ShakeAround\Relation;
 use EasyWeChat\Support\Collection;
 
@@ -70,7 +69,6 @@ class ShakeAroundRelationTest extends TestCase
      */
     public function testGetPageByDeviceId()
     {
-
         $relation = $this->getRelation();
 
         $expected = [

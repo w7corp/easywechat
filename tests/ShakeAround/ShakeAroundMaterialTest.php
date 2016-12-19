@@ -18,8 +18,6 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
-
-use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\ShakeAround\Material;
 
 class ShakeAroundMaterialTest extends TestCase
@@ -27,7 +25,7 @@ class ShakeAroundMaterialTest extends TestCase
     /**
      * Test uploadImage().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testUploadImage()
     {

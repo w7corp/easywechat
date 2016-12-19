@@ -18,7 +18,6 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
-
 use EasyWeChat\ShakeAround\Device;
 use EasyWeChat\ShakeAround\Group;
 use EasyWeChat\ShakeAround\Material;
