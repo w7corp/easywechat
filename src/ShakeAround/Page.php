@@ -39,19 +39,19 @@ class Page extends AbstractAPI
      *
      * @param string $title
      * @param string $description
-     * @param string $page_url
-     * @param string $icon_url
+     * @param string $pageUrl
+     * @param string $iconUrl
      * @param string $comment
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function add($title, $description, $page_url, $icon_url, $comment = '')
+    public function add($title, $description, $pageUrl, $iconUrl, $comment = '')
     {
         $params = [
             'title' => $title,
             'description' => $description,
-            'page_url' => $page_url,
-            'icon_url' => $icon_url,
+            'page_url' => $pageUrl,
+            'icon_url' => $iconUrl,
         ];
         if ($comment !== '') {
             $params['comment'] = $comment;
@@ -63,23 +63,23 @@ class Page extends AbstractAPI
     /**
      * update a page info.
      *
-     * @param int    $page_id
+     * @param int    $pageId
      * @param string $title
      * @param string $description
-     * @param string $page_url
-     * @param string $icon_url
+     * @param string $pageUrl
+     * @param string $iconUrl
      * @param string $comment
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function update($page_id, $title, $description, $page_url, $icon_url, $comment = '')
+    public function update($pageId, $title, $description, $pageUrl, $iconUrl, $comment = '')
     {
         $params = [
-            'page_id' => intval($page_id),
+            'page_id' => intval($pageId),
             'title' => $title,
             'description' => $description,
-            'page_url' => $page_url,
-            'icon_url' => $icon_url,
+            'page_url' => $pageUrl,
+            'icon_url' => $iconUrl,
         ];
         if ($comment !== '') {
             $params['comment'] = $comment;
@@ -89,17 +89,17 @@ class Page extends AbstractAPI
     }
 
     /**
-     * Fetch batch of pages by page_ids.
+     * Fetch batch of pages by pageIds.
      *
-     * @param array $page_ids
+     * @param array $pageIds
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function fetchByIds(array $page_ids)
+    public function fetchByIds(array $pageIds)
     {
         $params = [
             'type' => 1,
-            'page_ids' => $page_ids,
+            'page_ids' => $pageIds,
         ];
 
         return $this->parseJSON('json', [self::API_SEARCH, $params]);
@@ -127,14 +127,14 @@ class Page extends AbstractAPI
     /**
      * delete a page.
      *
-     * @param int $page_id
+     * @param int $pageId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function delete($page_id)
+    public function delete($pageId)
     {
         $params = [
-            'page_id' => intval($page_id),
+            'page_id' => intval($pageId),
         ];
 
         return $this->parseJSON('json', [self::API_DELETE, $params]);

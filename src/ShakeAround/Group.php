@@ -128,15 +128,15 @@ class Group extends AbstractAPI
      * Add  one or more devices to a device group.
      *
      * @param int   $groupId
-     * @param array $device_identifiers
+     * @param array $deviceIdentifiers
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function addDevice($groupId, array $device_identifiers)
+    public function addDevice($groupId, array $deviceIdentifiers)
     {
         $params = [
             'group_id' => intval($groupId),
-            'device_identifiers' => $device_identifiers,
+            'device_identifiers' => $deviceIdentifiers,
         ];
 
         return $this->parseJSON('json', [self::API_ADD_DEVICE, $params]);
@@ -146,15 +146,15 @@ class Group extends AbstractAPI
      * Remove one or more devices from a device group.
      *
      * @param int   $groupId
-     * @param array $device_identifiers
+     * @param array $deviceIdentifiers
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function removeDevice($groupId, array $device_identifiers)
+    public function removeDevice($groupId, array $deviceIdentifiers)
     {
         $params = [
             'group_id' => intval($groupId),
-            'device_identifiers' => $device_identifiers,
+            'device_identifiers' => $deviceIdentifiers,
         ];
 
         return $this->parseJSON('json', [self::API_DELETE_DEVICE, $params]);

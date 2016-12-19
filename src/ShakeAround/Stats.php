@@ -34,20 +34,20 @@ class Stats extends AbstractAPI
     const API_PAGE_LIST = 'https://api.weixin.qq.com/shakearound/statistics/pagelist';
 
     /**
-     * Fetch statistics data by device_id.
+     * Fetch statistics data by deviceId.
      *
-     * @param array $device_identifier
-     * @param int   $begin_date        (Unix timestamp)
-     * @param int   $end_date          (Unix timestamp)
+     * @param array $deviceIdentifier
+     * @param int   $beginDate        (Unix timestamp)
+     * @param int   $endDate          (Unix timestamp)
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function deviceSummary(array $device_identifier, $begin_date, $end_date)
+    public function deviceSummary(array $deviceIdentifier, $beginDate, $endDate)
     {
         $params = [
-            'device_identifier' => $device_identifier,
-            'begin_date' => $begin_date,
-            'end_date' => $end_date,
+            'device_identifier' => $deviceIdentifier,
+            'begin_date' => $beginDate,
+            'end_date' => $endDate,
         ];
 
         return $this->parseJSON('json', [self::API_DEVICE, $params]);
@@ -57,35 +57,35 @@ class Stats extends AbstractAPI
      * Fetch all devices statistics data by date.
      *
      * @param int $timestamp
-     * @param int $page_index
+     * @param int $pageIndex
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function batchDeviceSummary($timestamp, $page_index)
+    public function batchDeviceSummary($timestamp, $pageIndex)
     {
         $params = [
             'date' => $timestamp,
-            'page_index' => $page_index,
+            'page_index' => $pageIndex,
         ];
 
         return $this->parseJSON('json', [self::API_DEVICE_LIST, $params]);
     }
 
     /**
-     * Fetch statistics data by page_id.
+     * Fetch statistics data by pageId.
      *
-     * @param int $page_id
-     * @param int $begin_date (Unix timestamp)
-     * @param int $end_date   (Unix timestamp)
+     * @param int $pageId
+     * @param int $beginDate (Unix timestamp)
+     * @param int $endDate   (Unix timestamp)
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function pageSummary($page_id, $begin_date, $end_date)
+    public function pageSummary($pageId, $beginDate, $endDate)
     {
         $params = [
-            'page_id' => $page_id,
-            'begin_date' => $begin_date,
-            'end_date' => $end_date,
+            'page_id' => $pageId,
+            'begin_date' => $beginDate,
+            'end_date' => $endDate,
         ];
 
         return $this->parseJSON('json', [self::API_PAGE, $params]);
@@ -95,15 +95,15 @@ class Stats extends AbstractAPI
      * Fetch all pages statistics data by date.
      *
      * @param int $timestamp
-     * @param int $page_index
+     * @param int $pageIndex
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function batchPageSummary($timestamp, $page_index)
+    public function batchPageSummary($timestamp, $pageIndex)
     {
         $params = [
             'date' => $timestamp,
-            'page_index' => $page_index,
+            'page_index' => $pageIndex,
         ];
 
         return $this->parseJSON('json', [self::API_PAGE_LIST, $params]);

@@ -34,34 +34,34 @@ class Relation extends AbstractAPI
     /**
      * Bind pages for device.
      *
-     * @param array $device_identifier
-     * @param array $page_ids
+     * @param array $deviceIdentifier
+     * @param array $pageIds
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function bindPage(array $device_identifier, array $page_ids)
+    public function bindPage(array $deviceIdentifier, array $pageIds)
     {
         $params = [
-            'device_identifier' => $device_identifier,
-            'page_ids' => $page_ids,
+            'device_identifier' => $deviceIdentifier,
+            'page_ids' => $pageIds,
         ];
 
         return $this->parseJSON('json', [self::API_DEVICE_BINDPAGE, $params]);
     }
 
     /**
-     * Get page_ids by device_id.
+     * Get pageIds by deviceId.
      *
-     * @param array $device_identifier
+     * @param array $deviceIdentifier
      * @param bool  $raw
      *
      * @return array|\EasyWeChat\Support\Collection
      */
-    public function getPageByDeviceId(array $device_identifier, $raw = false)
+    public function getPageByDeviceId(array $deviceIdentifier, $raw = false)
     {
         $params = [
             'type' => 1,
-            'device_identifier' => $device_identifier,
+            'device_identifier' => $deviceIdentifier,
         ];
 
         $result = $this->parseJSON('json', [self::API_RELATION_SEARCH, $params]);
@@ -80,19 +80,19 @@ class Relation extends AbstractAPI
     }
 
     /**
-     * Get devices by page_id.
+     * Get devices by pageId.
      *
-     * @param int $page_id
+     * @param int $pageId
      * @param int $begin
      * @param int $count
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function getDeviceByPageId($page_id, $begin, $count)
+    public function getDeviceByPageId($pageId, $begin, $count)
     {
         $params = [
             'type' => 2,
-            'page_id' => intval($page_id),
+            'page_id' => intval($pageId),
             'begin' => intval($begin),
             'count' => intval($count),
         ];

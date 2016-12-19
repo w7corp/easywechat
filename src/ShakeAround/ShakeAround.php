@@ -80,20 +80,20 @@ class ShakeAround extends AbstractAPI
      * @param string $name
      * @param string $tel
      * @param string $email
-     * @param string $industry_id
-     * @param array  $qualification_cert_urls
+     * @param string $industryId
+     * @param array  $certUrls
      * @param string $reason
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function register($name, $tel, $email, $industry_id, array $qualification_cert_urls, $reason = '')
+    public function register($name, $tel, $email, $industryId, array $certUrls, $reason = '')
     {
         $params = [
             'name' => $name,
             'phone_number' => strval($tel),
             'email' => $email,
-            'industry_id' => $industry_id,
-            'qualification_cert_urls' => $qualification_cert_urls,
+            'industry_id' => $industryId,
+            'qualification_cert_urls' => $certUrls,
         ];
 
         if ($reason !== '') {
@@ -117,18 +117,18 @@ class ShakeAround extends AbstractAPI
      * Get shake info.
      *
      * @param string $ticket
-     * @param int    $need_poi
+     * @param int    $needPoi
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function getShakeInfo($ticket, $need_poi = null)
+    public function getShakeInfo($ticket, $needPoi = null)
     {
         $params = [
             'ticket' => $ticket,
         ];
 
-        if ($need_poi !== null) {
-            $params['need_poi'] = intval($need_poi);
+        if ($needPoi !== null) {
+            $params['need_poi'] = intval($needPoi);
         }
 
         return $this->parseJSON('json', [self::API_GET_SHAKE_INFO, $params]);
