@@ -15,6 +15,7 @@
  * @author    soone <66812590@qq.com>
  * @copyright 2016 soone <66812590@qq.com>
  */
+
 namespace EasyWeChat\Device;
 
 use EasyWeChat\Core\AbstractAPI;

@@ -154,13 +154,19 @@ namespace {
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => json_encode(['foo' => 'bar']), 'headers' => ['content-type' => 'application/json']], $response['body']);
+
+            $this->assertEquals([], $response['body']['query']);
+            $this->assertEquals(json_encode(['foo' => 'bar']), $response['body']['body']);
+            $this->assertEquals(['content-type' => 'application/json'], $response['body']['headers']);
 
             $response = $http->json('http://easywechat.org', ['foo' => 'bar'], JSON_UNESCAPED_UNICODE);
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => json_encode(['foo' => 'bar'], JSON_UNESCAPED_UNICODE), 'headers' => ['content-type' => 'application/json']], $response['body']);
+
+            $this->assertEquals([], $response['body']['query']);
+            $this->assertEquals(json_encode(['foo' => 'bar']), $response['body']['body']);
+            $this->assertEquals(['content-type' => 'application/json'], $response['body']['headers']);
         }
 
         /**
