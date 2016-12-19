@@ -20,7 +20,7 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015
  *
- * @see      https://github.com/overtrue/wechat
+ * @see      https://github.com/overtrue
  * @see      http://overtrue.me
  */
 
@@ -64,6 +64,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Broadcast\Broadcast             $broadcast
  * @property \EasyWeChat\Card\Card                       $card
  * @property \EasyWeChat\Device\Device                   $device
+ * @property \EasyWeChat\ShakeAround\ShakeAround         $shakearound
  */
 class Application extends Container
 {
@@ -91,6 +92,7 @@ class Application extends Container
         ServiceProviders\BroadcastServiceProvider::class,
         ServiceProviders\CardServiceProvider::class,
         ServiceProviders\DeviceServiceProvider::class,
+        ServiceProviders\ShakeAroundServiceProvider::class,
     ];
 
     /**
