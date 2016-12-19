@@ -40,7 +40,7 @@ namespace
         /**
          * Test download().
          *
-         * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+         * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
          */
         public function testDownload()
         {
@@ -68,7 +68,7 @@ namespace
         /**
          * Test upload();.
          *
-         * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+         * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
          */
         public function testUpload()
         {
@@ -90,7 +90,7 @@ namespace
         /**
          * Test download().
          *
-         * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+         * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
          */
         public function testUploadWithInvalidType()
         {

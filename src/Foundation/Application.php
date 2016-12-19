@@ -20,8 +20,8 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015
  *
- * @see       https://github.com/overtrue/wechat
- * @see       http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
 
 namespace EasyWeChat\Foundation;
