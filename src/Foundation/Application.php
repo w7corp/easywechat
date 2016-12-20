@@ -64,10 +64,8 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Broadcast\Broadcast             $broadcast
  * @property \EasyWeChat\Card\Card                       $card
  * @property \EasyWeChat\Device\Device                   $device
-<<<<<<< HEAD
-=======
  * @property \EasyWeChat\ShakeAround\ShakeAround         $shakearound
->>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
+ * @property \EasyWeChat\User\MiniAppUser                $miniappuser
  */
 class Application extends Container
 {
@@ -95,10 +93,8 @@ class Application extends Container
         ServiceProviders\BroadcastServiceProvider::class,
         ServiceProviders\CardServiceProvider::class,
         ServiceProviders\DeviceServiceProvider::class,
-<<<<<<< HEAD
-=======
         ServiceProviders\ShakeAroundServiceProvider::class,
->>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
+        ServiceProviders\MiniAppUserServiceProvider::class,
     ];
 
     /**
