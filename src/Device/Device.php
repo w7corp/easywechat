@@ -15,6 +15,7 @@
  * @author    soone <66812590@qq.com>
  * @copyright 2016 soone <66812590@qq.com>
  */
+
 namespace EasyWeChat\Device;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -53,12 +54,21 @@ class Device extends AbstractAPI
     public function setProductId($productId)
     {
         $this->productId = $productId;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
         return $this;
     }
 
     /**
+<<<<<<< HEAD
      *
      * Send message to device.
+=======
+     * Send message to device.
+     *
+>>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
      * @param int $sceneValue
      *
      * @return \EasyWeChat\Support\Collection
@@ -100,7 +110,11 @@ class Device extends AbstractAPI
     protected function getDeviceList($deviceInfos)
     {
         $res = [];
+<<<<<<< HEAD
         foreach($deviceInfos as $dInfo) {
+=======
+        foreach ($deviceInfos as $dInfo) {
+>>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
             $data = [
                 'id' => $dInfo['deviceId'],
                 'mac' => $dInfo['mac'],

@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Staff;
 
 use EasyWeChat\Message\AbstractMessage;
@@ -79,6 +80,25 @@ class Transformer
                 'msgtype' => 'image',
                 'image' => [
                             'media_id' => $message->get('media_id'),
+                           ],
+               ];
+    }
+
+    /**
+     * Transform music message.
+     *
+     * @return array
+     */
+    public function transformMusic(AbstractMessage $message)
+    {
+        return [
+                'msgtype' => 'music',
+                'music' => [
+                            'title' => $message->get('title'),
+                            'description' => $message->get('description'),
+                            'musicurl' => $message->get('url'),
+                            'hqmusicurl' => $message->get('hq_url'),
+                            'thumb_media_id' => $message->get('thumb_media_id'),
                            ],
                ];
     }

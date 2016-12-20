@@ -1,3 +1,3 @@
 ￥ 750
 ---
-@JellyBool (Laravist.com)[https://github.com/JellyBool]
+[@JellyBool (Laravist.com)](https://github.com/JellyBool)

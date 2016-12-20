@@ -77,7 +77,7 @@ class BroadcastTransformerTest extends TestCase
     /**
      * Test transformVideo().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testTransformVideo()
     {

@@ -118,4 +118,27 @@ class CoreAccessTokenTest extends TestCase
         $this->assertArrayHasKey('foo', $accessToken->getQueryFields());
         $this->assertArrayNotHasKey('access_token', $accessToken->getQueryFields());
     }
+
+    public function testSetToken()
+    {
+        $accessToken = new AccessToken('appId', 'secret');
+
+        $this->assertEquals('secret', $accessToken->getSecret());
+        $this->assertEquals('appId', $accessToken->getAppId());
+
+        $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
+
+        $cache = Mockery::mock(Cache::class, function ($mock) {
+            $mock->shouldReceive('fetch')->andReturn('foo');
+            $mock->shouldReceive('save')->with('easywechat.common.access_token.appId', 'foo', 5700)->andReturnUsing(function ($key, $token, $expire) {
+                return $token;
+            });
+        });
+
+        $accessToken->setCache($cache);
+
+        $accessToken->setToken('foo');
+
+        $this->assertEquals('foo', $accessToken->getToken());
+    }
 }

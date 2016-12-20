@@ -20,9 +20,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015
  *
- * @link      https://github.com/overtrue/wechat
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Foundation;
 
 use Doctrine\Common\Cache\Cache as CacheInterface;
@@ -63,6 +64,10 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Broadcast\Broadcast             $broadcast
  * @property \EasyWeChat\Card\Card                       $card
  * @property \EasyWeChat\Device\Device                   $device
+<<<<<<< HEAD
+=======
+ * @property \EasyWeChat\ShakeAround\ShakeAround         $shakearound
+>>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
  */
 class Application extends Container
 {
@@ -90,6 +95,10 @@ class Application extends Container
         ServiceProviders\BroadcastServiceProvider::class,
         ServiceProviders\CardServiceProvider::class,
         ServiceProviders\DeviceServiceProvider::class,
+<<<<<<< HEAD
+=======
+        ServiceProviders\ShakeAroundServiceProvider::class,
+>>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
     ];
 
     /**

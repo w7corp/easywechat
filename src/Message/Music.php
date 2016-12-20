@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Message;
 
 /**
@@ -52,4 +53,18 @@ class Music extends AbstractMessage
                              'thumb_media_id',
                              'format',
                             ];
+
+    /**
+     * 设置视频封面.
+     *
+     * @param string $mediaId
+     *
+     * @return Video
+     */
+    public function thumb($mediaId)
+    {
+        $this->setAttribute('thumb_media_id', $mediaId);
+
+        return $this;
+    }
 }
