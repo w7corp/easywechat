@@ -20,16 +20,10 @@
  * @author    soone <66812590@qq.com>
  * @copyright 2016
  *
-<<<<<<< HEAD
- * @link      https://github.com/overtrue/wechat
- * @link      http://overtrue.me
- */
-=======
  * @see      https://github.com/overtrue/wechat
  * @see      http://overtrue.me
  */
 
->>>>>>> 35062f10cb8d3a6a94e06e14d0d81f7af335a56a
 namespace EasyWeChat\Foundation\ServiceProviders;
 
 use EasyWeChat\Device\Device;
