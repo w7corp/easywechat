@@ -54,6 +54,7 @@ class Device extends AbstractAPI
     public function setProductId($productId)
     {
         $this->productId = $productId;
+
         return $this;
     }
 
