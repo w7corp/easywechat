@@ -45,7 +45,7 @@ class MiniAppUserServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['miniappuser'] = function ($pimple) {
+        $pimple['mini_app_user'] = function ($pimple) {
             return new MiniAppUser($pimple['config']->get('mini_app'));
         };
     }
