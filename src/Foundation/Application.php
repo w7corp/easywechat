@@ -41,6 +41,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class Application.
  *
+ * @property \EasyWeChat\Core\AccessToken                $access_token
  * @property \EasyWeChat\Server\Guard                    $server
  * @property \EasyWeChat\User\User                       $user
  * @property \EasyWeChat\User\Tag                        $user_tag
