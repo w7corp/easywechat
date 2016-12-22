@@ -68,7 +68,7 @@ class StaffMessageBuilderTest extends TestCase
     /**
      * Test send().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\RuntimeException
+     * @expectedException \EasyWeChat\Core\Exceptions\RuntimeException
      */
     public function testSend()
     {

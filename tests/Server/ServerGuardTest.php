@@ -140,7 +140,7 @@ class ServerGuardTest extends TestCase
     /**
      * Test setMessageHandler().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testSetMessageHandler()
     {
