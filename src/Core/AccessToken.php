@@ -54,7 +54,7 @@ class AccessToken
     /**
      * Cache Key.
      *
-     * @var cacheKey
+     * @var string
      */
     protected $cacheKey;
 

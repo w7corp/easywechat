@@ -96,13 +96,16 @@ class Js extends AbstractAPI
     /**
      * Get jsticket.
      *
+     * @param bool $forceRefresh
+     *
      * @return string
      */
-    public function ticket()
+    public function ticket($forceRefresh = false)
     {
         $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
+        $ticket = $this->getCache()->fetch($key);
 
-        if ($ticket = $this->getCache()->fetch($key)) {
+        if (!$forceRefresh && !empty($ticket)) {
             return $ticket;
         }
 
