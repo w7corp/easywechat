@@ -57,13 +57,14 @@ class Authorizer extends AbstractComponent
      * Get authorizer info.
      *
      * @param $authorizationCode
+     *
      * @return \EasyWeChat\Support\Collection
      */
     public function getAuthInfo($authorizationCode = null)
     {
         $data = [
             'component_appid' => $this->getComponentAppId(),
-            'authorization_code' => $authorizationCode ?: $this->request->get('auth_code')
+            'authorization_code' => $authorizationCode ?: $this->request->get('auth_code'),
         ];
 
         return $this->parseJSON('json', [self::GET_AUTH_INFO, $data]);
@@ -82,7 +83,7 @@ class Authorizer extends AbstractComponent
         $data = [
             'component_appid' => $this->getComponentAppId(),
             'authorizer_appid' => $appId,
-            'authorizer_refresh_token' => $refreshToken
+            'authorizer_refresh_token' => $refreshToken,
         ];
 
         return $this->parseJSON('json', [self::AUTHORIZATION_TOKEN, $data]);
@@ -118,7 +119,7 @@ class Authorizer extends AbstractComponent
         $data = [
             'component_appid' => $this->getComponentAppId(),
             'authorizer_appid' => $authorizerAppId,
-            'option_name' => $optionName
+            'option_name' => $optionName,
         ];
 
         return $this->parseJSON('json', [self::GET_AUTHORIZER_OPTION, $data]);
@@ -139,7 +140,7 @@ class Authorizer extends AbstractComponent
             'component_appid' => $this->getComponentAppId(),
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
-            'option_value' => $optionValue
+            'option_value' => $optionValue,
         ];
 
         return $this->parseJSON('json', [self::SET_AUTHORIZER_OPTION, $data]);

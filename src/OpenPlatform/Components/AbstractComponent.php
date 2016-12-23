@@ -49,7 +49,7 @@ abstract class AbstractComponent extends AbstractAPI
      * AbstractComponent constructor.
      *
      * @param \EasyWeChat\Core\AccessToken $accessToken
-     * @param array $config
+     * @param array                        $config
      * @param $request
      */
     public function __construct($accessToken, array $config, $request = null)

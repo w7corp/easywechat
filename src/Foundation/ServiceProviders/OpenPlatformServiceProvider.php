@@ -22,9 +22,9 @@
 
 namespace EasyWeChat\Foundation\ServiceProviders;
 
-use EasyWeChat\OpenPlatform\Guard;
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\OpenPlatform\AccessToken;
+use EasyWeChat\OpenPlatform\Guard;
 use EasyWeChat\OpenPlatform\OpenPlatform;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -45,7 +45,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
 
-        $isEnableOpenPlatform = (bool)$pimple['config']['open_platform'];
+        $isEnableOpenPlatform = (bool) $pimple['config']['open_platform'];
 
         if ($isEnableOpenPlatform) {
             $pimple['open_platform_access_token'] = function ($pimple) {

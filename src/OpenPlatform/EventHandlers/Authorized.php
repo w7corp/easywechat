@@ -23,6 +23,7 @@
  * @see      https://github.com/overtrue
  * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
 use EasyWeChat\Support\Collection;

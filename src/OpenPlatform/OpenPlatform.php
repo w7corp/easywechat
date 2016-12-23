@@ -30,7 +30,7 @@ use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\Arr;
 
 /**
- * Class OpenPlatform
+ * Class OpenPlatform.
  *
  * @property \EasyWeChat\OpenPlatform\Guard $server
  * @property \EasyWeChat\OpenPlatform\Components\PreAuthCode $pre_auth
@@ -87,7 +87,9 @@ class OpenPlatform
      * Magic get access.
      *
      * @param $name
+     *
      * @return mixed
+     *
      * @throws \Exception
      */
     public function __get($name)

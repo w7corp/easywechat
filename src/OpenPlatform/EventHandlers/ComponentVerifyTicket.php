@@ -26,8 +26,8 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\Support\Collection;
 use EasyWeChat\OpenPlatform\VerifyTicket;
+use EasyWeChat\Support\Collection;
 
 class ComponentVerifyTicket extends EventHandler
 {

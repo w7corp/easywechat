@@ -44,6 +44,7 @@ class Url
      * URL-encodes string.
      *
      * @param $url
+     *
      * @return string
      */
     public static function encode($url)

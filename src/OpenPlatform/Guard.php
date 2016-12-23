@@ -27,8 +27,8 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Support\Arr;
 use EasyWeChat\Server\Guard as ServerGuard;
+use EasyWeChat\Support\Arr;
 
 class Guard extends ServerGuard
 {
@@ -64,9 +64,9 @@ class Guard extends ServerGuard
         }
 
         $callback(
-            call_user_func([new $class, 'forward'], $message)
+            call_user_func([new $class(), 'forward'], $message)
         );
 
-        return call_user_func([new $class, 'handle'], $message);
+        return call_user_func([new $class(), 'handle'], $message);
     }
 }

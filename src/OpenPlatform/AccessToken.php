@@ -32,7 +32,7 @@ use EasyWeChat\Core\Exceptions\HttpException;
 class AccessToken extends WechatAccessToken
 {
     /**
-     * API
+     * API.
      */
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
 
@@ -59,7 +59,7 @@ class AccessToken extends WechatAccessToken
         $data = [
             'component_appid' => $this->appId,
             'component_appsecret' => $this->secret,
-            'component_verify_ticket' => $this->getComponentVerifyTicket()
+            'component_verify_ticket' => $this->getComponentVerifyTicket(),
         ];
 
         $http = $this->getHttp();
@@ -68,7 +68,7 @@ class AccessToken extends WechatAccessToken
 
 
         if (empty($token[$this->tokenJsonKey])) {
-            throw new HttpException('Request ComponentAccessToken fail. response: ' . json_encode($token, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Request ComponentAccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));
         }
 
         return $token;

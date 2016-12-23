@@ -32,7 +32,6 @@ use EasyWeChat\Core\Exceptions\RuntimeException;
 
 class VerifyTicket
 {
-
     /**
      * App ID.
      *
@@ -114,12 +113,11 @@ class VerifyTicket
         $cached = $instance->getCache()->fetch($instance->getCacheKey());
 
         if (empty($cached)) {
-            throw new RuntimeException("Component verify ticket does not exists.");
+            throw new RuntimeException('Component verify ticket does not exists.');
         }
 
         return $cached;
     }
-
 
     /**
      * Set cache.
@@ -134,7 +132,6 @@ class VerifyTicket
 
         return $this;
     }
-
 
     /**
      * Return the cache manager.
@@ -168,7 +165,7 @@ class VerifyTicket
     public function getCacheKey()
     {
         if (is_null($this->cacheKey)) {
-            return $this->prefix . $this->appId;
+            return $this->prefix.$this->appId;
         }
 
         return $this->cacheKey;

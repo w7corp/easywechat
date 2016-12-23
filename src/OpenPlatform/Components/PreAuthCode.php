@@ -39,7 +39,7 @@ class PreAuthCode extends AbstractComponent
     const CREATE_PRE_AUTH_CODE = 'https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode';
 
     /**
-     * Pre auth link
+     * Pre auth link.
      */
     const PRE_AUTH_LINK = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s';
     /**
@@ -94,13 +94,13 @@ class PreAuthCode extends AbstractComponent
     public function getCode()
     {
         $data = [
-            'component_appid' => $this->getAppId()
+            'component_appid' => $this->getAppId(),
         ];
 
         $result = $this->parseJSON('json', [self::CREATE_PRE_AUTH_CODE, $data]);
 
-        if (!Arr::get($result, 'pre_auth_code')) {
-            throw new InvalidArgumentException("Invalid response.");
+        if (empty($result['pre_auth_code'])) {
+            throw new InvalidArgumentException('Invalid response.');
         }
 
         return $result['pre_auth_code'];
