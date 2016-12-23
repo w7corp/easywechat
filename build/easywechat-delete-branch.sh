@@ -44,5 +44,6 @@ delete_branch url
 delete_branch user
 delete_branch broadcast
 delete_branch reply
+delete_branch shake-around
 
 rm -rf ./.tmp

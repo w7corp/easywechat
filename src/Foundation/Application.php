@@ -243,7 +243,12 @@ class Application extends Container
         } elseif ($this['config']['log.handler'] instanceof HandlerInterface) {
             $logger->pushHandler($this['config']['log.handler']);
         } elseif ($logFile = $this['config']['log.file']) {
-            $logger->pushHandler(new StreamHandler($logFile, $this['config']->get('log.level', Logger::WARNING)));
+            $logger->pushHandler(new StreamHandler(
+                $logFile,
+                $this['config']->get('log.level', Logger::WARNING),
+                true,
+                $this['config']->get('log.permission', null))
+            );
         }
 
         Log::setLogger($logger);

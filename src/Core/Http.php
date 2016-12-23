@@ -52,7 +52,11 @@ class Http
      *
      * @var array
      */
-    protected static $defaults = [];
+    protected static $defaults = [
+        'curl' => [
+            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+        ],
+    ];
 
     /**
      * Set guzzle default settings.

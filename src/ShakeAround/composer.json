@@ -1,6 +1,6 @@
 {
-    "name": "easywechat/shakearound",
-    "description": "shakearound module for EasyWeChat SDK.",
+    "name": "easywechat/shake-around",
+    "description": "shakea round module for EasyWeChat SDK.",
     "keywords": ["wechat", "weixin", "SDK", "shakearound", "easywechat"],
     "license": "MIT",
     "authors": [
