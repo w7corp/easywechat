@@ -45,6 +45,20 @@ class Guard extends ServerGuard
     ];
 
     /**
+     * Return for laravel-wechat.
+     *
+     * @return array
+     */
+    public function listServe()
+    {
+        $message = $this->getCollectedMessage();
+
+        return [
+            $message->get('InfoType'), $message
+        ];
+    }
+
+    /**
      * Listen for wechat push event.
      *
      * @param $type
