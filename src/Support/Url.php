@@ -39,4 +39,16 @@ class Url
 
         return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     }
+
+    /**
+     * URL-encodes string.
+     *
+     * @param $url
+     *
+     * @return string
+     */
+    public static function encode($url)
+    {
+        return urlencode($url);
+    }
 }
