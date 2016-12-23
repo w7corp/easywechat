@@ -10,7 +10,7 @@
  */
 
 /**
- * BroadcastServiceProvider.php.
+ * OpenPlatformServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -44,38 +44,34 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $isEnableOpenPlatform = (bool) $pimple['config']['open_platform'];
+        $pimple['open_platform_access_token'] = function ($pimple) {
+            return new AccessToken(
+                $pimple['config']['open_platform']['app_id'],
+                $pimple['config']['open_platform']['secret'],
+                $pimple['cache']
+            );
+        };
 
-        if ($isEnableOpenPlatform) {
-            $pimple['open_platform_access_token'] = function ($pimple) {
-                return new AccessToken(
-                    $pimple['config']['open_platform']['app_id'],
-                    $pimple['config']['open_platform']['secret'],
-                    $pimple['cache']
-                );
-            };
+        $pimple['open_platform_encryptor'] = function ($pimple) {
+            return new Encryptor(
+                $pimple['config']['open_platform']['app_id'],
+                $pimple['config']['open_platform']['token'],
+                $pimple['config']['open_platform']['aes_key']
+            );
+        };
 
-            $pimple['open_platform_encryptor'] = function ($pimple) {
-                return new Encryptor(
-                    $pimple['config']['open_platform']['app_id'],
-                    $pimple['config']['open_platform']['token'],
-                    $pimple['config']['open_platform']['aes_key']
-                );
-            };
+        $pimple['open_platform'] = function ($pimple) {
+            $server = new Guard($pimple['config']['open_platform']['token']);
 
-            $pimple['open_platform'] = function ($pimple) {
-                $server = new Guard($pimple['config']['open_platform']['token']);
+            $server->debug($pimple['config']['debug']);
 
-                $server->debug($pimple['config']['debug']);
+            $server->setEncryptor($pimple['open_platform_encryptor']);
 
-                $server->setEncryptor($pimple['open_platform_encryptor']);
-
-                return new OpenPlatform(
-                    $server,
-                    $pimple['open_platform_access_token'],
-                    $pimple['config']['open_platform']
-                );
-            };
-        }
+            return new OpenPlatform(
+                $server,
+                $pimple['open_platform_access_token'],
+                $pimple['config']['open_platform']
+            );
+        };
     }
 }
