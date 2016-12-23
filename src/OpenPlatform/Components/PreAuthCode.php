@@ -117,6 +117,7 @@ class PreAuthCode extends AbstractComponent
         if (!$this->redirectUri) {
             throw new RuntimeException('You need to provided a redirect uri.');
         }
+
         return $this->redirectUri;
     }
 
