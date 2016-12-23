@@ -37,7 +37,7 @@ class ComponentVerifyTicket extends EventHandler
     public function handle(Collection $message)
     {
         VerifyTicket::cache(
-            $message->AppId, $message->ComponentVerifyTicket
+            $message->get('AppId'), $message->get('ComponentVerifyTicket')
         );
 
         return 'success';
