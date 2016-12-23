@@ -27,7 +27,6 @@
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
 use EasyWeChat\Support\Collection;
-use App\Authorizer;
 
 class Unauthorized extends EventHandler
 {
