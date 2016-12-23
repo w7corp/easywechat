@@ -32,7 +32,6 @@ use EasyWeChat\Support\Arr;
 
 class Guard extends ServerGuard
 {
-
     /**
      * Wechat push event types.
      *

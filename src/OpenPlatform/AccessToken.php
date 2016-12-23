@@ -66,7 +66,6 @@ class AccessToken extends WechatAccessToken
 
         $token = $http->parseJSON($http->json(self::API_TOKEN_GET, $data));
 
-
         if (empty($token[$this->tokenJsonKey])) {
             throw new HttpException('Request ComponentAccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));
         }

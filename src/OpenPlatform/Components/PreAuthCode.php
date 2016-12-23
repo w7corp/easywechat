@@ -28,7 +28,6 @@ namespace EasyWeChat\OpenPlatform\Components;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Exceptions\RuntimeException;
-use EasyWeChat\Support\Arr;
 use EasyWeChat\Support\Url;
 
 class PreAuthCode extends AbstractComponent

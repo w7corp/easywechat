@@ -44,7 +44,6 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-
         $isEnableOpenPlatform = (bool) $pimple['config']['open_platform'];
 
         if ($isEnableOpenPlatform) {
