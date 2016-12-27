@@ -298,7 +298,7 @@ class API extends AbstractAPI
             'bill_type' => $type,
         ];
 
-        return $this->request(self::API_DOWNLOAD_BILL, $params, 'post', [], true)->getBody();
+        return $this->request(self::API_DOWNLOAD_BILL, $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
     }
 
     /**
