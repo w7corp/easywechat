@@ -10,7 +10,7 @@
  */
 
 /**
- * EventHandler.php.
+ * Trait VerifyTicket.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,49 +24,40 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform\EventHandlers;
+namespace EasyWeChat\OpenPlatform\Traits;
 
-use EasyWeChat\OpenPlatform\VerifyTicket;
-use EasyWeChat\Support\Collection;
+use EasyWeChat\OpenPlatform\VerifyTicket as ComponentVerifyTicket;
 
-abstract class EventHandler
+trait VerifyTicket
 {
     /**
-     * Component verify ticket instance.
+     * Verify Ticket.
      *
      * @var \EasyWeChat\OpenPlatform\VerifyTicket
      */
     protected $verifyTicket;
 
     /**
-     * EventHandler constructor.
+     * Set verify ticket instance.
      *
-     * @param VerifyTicket $verifyTicket
+     * @param \EasyWeChat\OpenPlatform\VerifyTicket $verifyTicket
+     *
+     * @return $this
      */
-    public function __construct(VerifyTicket $verifyTicket)
+    public function setVerifyTicket(ComponentVerifyTicket $verifyTicket)
     {
         $this->verifyTicket = $verifyTicket;
+
+        return $this;
     }
 
     /**
-     * Handle event.
+     * Get verify ticket instance.
      *
-     * @param Collection $message
-     *
-     * @return mixed
+     * @return \EasyWeChat\OpenPlatform\VerifyTicket
      */
-    abstract public function handle(Collection $message);
-
-    /**
-     * Forward handle.
-     *
-     * @param Collection $message
-     *
-     * @return Collection
-     */
-    public function forward(Collection $message)
+    public function getVerifyTicket()
     {
-        //
-        return $message;
+        return $this->verifyTicket;
     }
 }

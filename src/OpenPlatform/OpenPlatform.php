@@ -48,7 +48,7 @@ class OpenPlatform
     /**
      * OpenPlatform component access token.
      *
-     * @var string
+     * @var AccessToken
      */
     protected $access_token;
 
@@ -75,11 +75,16 @@ class OpenPlatform
      * @param Guard $server
      * @param $access_token
      * @param array $config
+     * @param $verifyTicket
      */
-    public function __construct(Guard $server, $access_token, $config)
+    public function __construct(Guard $server, $access_token, $config, $verifyTicket)
     {
         $this->server = $server;
+        $this->server->setVerifyTicket($verifyTicket);
+
         $this->access_token = $access_token;
+        $this->access_token->setVerifyTicket($verifyTicket);
+
         $this->config = $config;
     }
 

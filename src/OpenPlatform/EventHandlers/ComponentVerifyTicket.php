@@ -26,7 +26,6 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\OpenPlatform\VerifyTicket;
 use EasyWeChat\Support\Collection;
 
 class ComponentVerifyTicket extends EventHandler
@@ -36,9 +35,7 @@ class ComponentVerifyTicket extends EventHandler
      */
     public function handle(Collection $message)
     {
-        VerifyTicket::cache(
-            $message->get('AppId'), $message->get('ComponentVerifyTicket')
-        );
+        $this->verifyTicket->cache($message);
 
         return 'success';
     }

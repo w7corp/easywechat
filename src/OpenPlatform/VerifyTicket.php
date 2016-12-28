@@ -29,22 +29,16 @@ namespace EasyWeChat\OpenPlatform;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\Exceptions\RuntimeException;
+use EasyWeChat\Support\Collection;
 
 class VerifyTicket
 {
     /**
-     * App ID.
+     * Config.
      *
-     * @var string
+     * @var array
      */
-    private $appId;
-
-    /**
-     * Component verify ticket from wechat server.
-     *
-     * @var string
-     */
-    private $ticket;
+    protected $config;
 
     /**
      * Cache.
@@ -61,6 +55,13 @@ class VerifyTicket
     private $cacheKey;
 
     /**
+     * Component verify ticket xml structure name.
+     *
+     * @var string
+     */
+    protected $ticketXmlName = 'ComponentVerifyTicket';
+
+    /**
      * Cache key prefix.
      *
      * @var string
@@ -70,47 +71,40 @@ class VerifyTicket
     /**
      * VerifyTicket constructor.
      *
-     * @param $appId
-     * @param $ticket
+     * @param array                        $config
      * @param \Doctrine\Common\Cache\Cache $cache
      */
-    public function __construct($appId, $ticket = null, Cache $cache = null)
+    public function __construct($config, Cache $cache = null)
     {
-        $this->appId = $appId;
-        $this->ticket = $ticket;
+        $this->config = $config;
         $this->cache = $cache;
     }
 
     /**
      * Save component verify ticket.
      *
-     * @param $appId
-     * @param $cacheValue
+     * @param Collection $message
      *
      * @return bool
      */
-    public static function cache($appId, $cacheValue)
+    public function cache(Collection $message)
     {
-        $instance = new static($appId, $cacheValue);
-
-        return $instance->getCache()->save(
-            $instance->getCacheKey(), $instance->ticket
+        return $this->getCache()->save(
+            $this->getCacheKey(),
+            $message->get($this->ticketXmlName)
         );
     }
 
     /**
      * Get component verify ticket.
      *
-     * @param $appId
-     *
      * @return string
      *
      * @throws RuntimeException
      */
-    public static function getTicket($appId)
+    public function getTicket()
     {
-        $instance = new static($appId);
-        $cached = $instance->getCache()->fetch($instance->getCacheKey());
+        $cached = $this->getCache()->fetch($this->getCacheKey());
 
         if (empty($cached)) {
             throw new RuntimeException('Component verify ticket does not exists.');
@@ -165,7 +159,7 @@ class VerifyTicket
     public function getCacheKey()
     {
         if (is_null($this->cacheKey)) {
-            return $this->prefix.$this->appId;
+            return $this->prefix.$this->config['app_id'];
         }
 
         return $this->cacheKey;

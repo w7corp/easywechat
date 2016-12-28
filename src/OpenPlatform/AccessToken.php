@@ -28,9 +28,12 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\AccessToken as WechatAccessToken;
 use EasyWeChat\Core\Exceptions\HttpException;
+use EasyWeChat\OpenPlatform\Traits\VerifyTicket;
 
 class AccessToken extends WechatAccessToken
 {
+    use VerifyTicket;
+
     /**
      * API.
      */
@@ -59,7 +62,7 @@ class AccessToken extends WechatAccessToken
         $data = [
             'component_appid' => $this->appId,
             'component_appsecret' => $this->secret,
-            'component_verify_ticket' => $this->getComponentVerifyTicket(),
+            'component_verify_ticket' => $this->verifyTicket->getTicket(),
         ];
 
         $http = $this->getHttp();
@@ -71,15 +74,5 @@ class AccessToken extends WechatAccessToken
         }
 
         return $token;
-    }
-
-    /**
-     * Get component verify ticket.
-     *
-     * @return string
-     */
-    private function getComponentVerifyTicket()
-    {
-        return VerifyTicket::getTicket($this->appId);
     }
 }
