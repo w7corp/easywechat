@@ -41,6 +41,7 @@ class PreAuthCode extends AbstractComponent
      * Pre auth link.
      */
     const PRE_AUTH_LINK = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s';
+
     /**
      * AppId.
      *

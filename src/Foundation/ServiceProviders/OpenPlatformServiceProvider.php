@@ -26,6 +26,7 @@ use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Guard;
 use EasyWeChat\OpenPlatform\OpenPlatform;
+use EasyWeChat\OpenPlatform\VerifyTicket;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -52,6 +53,13 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             );
         };
 
+        $pimple['component_verify_ticket'] = function ($pimple) {
+            return new VerifyTicket(
+                $pimple['config']['open_platform'],
+                $pimple['cache']
+            );
+        };
+
         $pimple['open_platform_encryptor'] = function ($pimple) {
             return new Encryptor(
                 $pimple['config']['open_platform']['app_id'],
@@ -70,7 +78,8 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             return new OpenPlatform(
                 $server,
                 $pimple['open_platform_access_token'],
-                $pimple['config']['open_platform']
+                $pimple['config']['open_platform'],
+                $pimple['component_verify_ticket']
             );
         };
     }
