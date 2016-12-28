@@ -159,7 +159,7 @@ class VerifyTicket
     public function getCacheKey()
     {
         if (is_null($this->cacheKey)) {
-            return $this->prefix . $this->config['app_id'];
+            return $this->prefix.$this->config['app_id'];
         }
 
         return $this->cacheKey;
