@@ -71,7 +71,7 @@ class VerifyTicket
     /**
      * VerifyTicket constructor.
      *
-     * @param array $config
+     * @param array                        $config
      * @param \Doctrine\Common\Cache\Cache $cache
      */
     public function __construct($config, Cache $cache = null)

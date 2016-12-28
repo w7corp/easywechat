@@ -61,7 +61,7 @@ class Guard extends ServerGuard
         call_user_func([new $class($this->verifyTicket), 'handle'], $message);
 
         return [
-            $message->get('InfoType'), $message
+            $message->get('InfoType'), $message,
         ];
     }
 
