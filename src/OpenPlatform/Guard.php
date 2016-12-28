@@ -27,21 +27,24 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\OpenPlatform\Traits\VerifyTicket;
 use EasyWeChat\Server\Guard as ServerGuard;
 use EasyWeChat\Support\Arr;
 
 class Guard extends ServerGuard
 {
+    use VerifyTicket;
+
     /**
      * Wechat push event types.
      *
      * @var array
      */
     protected $eventTypeMappings = [
-        'component_verify_ticket' => EventHandlers\ComponentVerifyTicket::class,
         'authorized' => EventHandlers\Authorized::class,
         'unauthorized' => EventHandlers\Unauthorized::class,
         'updateauthorized' => EventHandlers\UpdateAuthorized::class,
+        'component_verify_ticket' => EventHandlers\ComponentVerifyTicket::class,
     ];
 
     /**
@@ -51,7 +54,11 @@ class Guard extends ServerGuard
      */
     public function listServe()
     {
+        $class = $this->getHandleClass();
+
         $message = $this->getCollectedMessage();
+
+        call_user_func([new $class($this->verifyTicket), 'handle'], $message);
 
         return [
             $message->get('InfoType'), $message
@@ -61,25 +68,44 @@ class Guard extends ServerGuard
     /**
      * Listen for wechat push event.
      *
-     * @param $type
-     * @param callable $callback
+     * @param callable|null $callback
      *
      * @return mixed
      *
      * @throws InvalidArgumentException
      */
-    public function listenFor($type, callable $callback)
+    public function listen($callback = null)
     {
         $message = $this->getCollectedMessage();
+
+        $class = $this->getHandleClass();
+
+        if (is_callable($callback)) {
+            $callback(
+                call_user_func([new $class($this->verifyTicket), 'forward'], $message)
+            );
+        }
+
+        return call_user_func([new $class($this->verifyTicket), 'handle'], $message);
+    }
+
+    /**
+     * Get handler class.
+     *
+     * @return \EasyWeChat\OpenPlatform\EventHandlers\EventHandler
+     *
+     * @throws InvalidArgumentException
+     */
+    private function getHandleClass()
+    {
+        $message = $this->getCollectedMessage();
+
+        $type = $message->get('InfoType');
 
         if (!$class = Arr::get($this->eventTypeMappings, $type)) {
             throw new InvalidArgumentException("Event Info Type \"$type\" does not exists.");
         }
 
-        $callback(
-            call_user_func([new $class(), 'forward'], $message)
-        );
-
-        return call_user_func([new $class(), 'handle'], $message);
+        return $class;
     }
 }

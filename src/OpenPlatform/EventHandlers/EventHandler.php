@@ -26,10 +26,28 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
+use EasyWeChat\OpenPlatform\VerifyTicket;
 use EasyWeChat\Support\Collection;
 
 abstract class EventHandler
 {
+    /**
+     * Component verify ticket instance.
+     *
+     * @var \EasyWeChat\OpenPlatform\VerifyTicket
+     */
+    protected $verifyTicket;
+
+    /**
+     * EventHandler constructor.
+     *
+     * @param VerifyTicket $verifyTicket
+     */
+    public function __construct(VerifyTicket $verifyTicket)
+    {
+        $this->verifyTicket = $verifyTicket;
+    }
+
     /**
      * Handle event.
      *
