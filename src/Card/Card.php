@@ -498,7 +498,9 @@ class Card extends AbstractAPI
         $card[$type] = [];
 
         $cardInfo = [];
-        $cardInfo['base_info'] = $baseInfo;
+        if ($baseInfo) {
+            $cardInfo['base_info'] = $baseInfo;
+        }
 
         $card[$type] = array_merge($cardInfo, $especial);
 
