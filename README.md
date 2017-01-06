@@ -3,7 +3,7 @@
 <img src="https://easywechat.org/logo.svg" alt="EasyWeChat" width="160">
 </a>
 
-<p align="center">📦 It is probably the best SDK for developing Wechat App.</p>
+<p align="center">📦 It is probably the best SDK in the world for developing Wechat App.</p>
 
 <p align="center">
 <a href="https://travis-ci.org/overtrue/wechat"><img src="https://travis-ci.org/overtrue/wechat.svg?branch=master" alt="Build Status"></a>
