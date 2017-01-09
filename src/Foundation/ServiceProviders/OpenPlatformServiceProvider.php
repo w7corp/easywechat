@@ -31,7 +31,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class BroadcastServiceProvider.
+ * Class OpenPlatformServiceProvider.
  */
 class OpenPlatformServiceProvider implements ServiceProviderInterface
 {

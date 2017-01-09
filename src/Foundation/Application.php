@@ -68,6 +68,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\ShakeAround\ShakeAround         $shakearound
  * @property \EasyWeChat\User\MiniAppUser                $mini_app_user
  * @property \EasyWeChat\OpenPlatform\OpenPlatform       $open_platform
+ * @property \EasyWeChat\MiniProgram\MiniProgram         $mini_program
  */
 class Application extends Container
 {
@@ -98,6 +99,7 @@ class Application extends Container
         ServiceProviders\ShakeAroundServiceProvider::class,
         ServiceProviders\MiniAppUserServiceProvider::class,
         ServiceProviders\OpenPlatformServiceProvider::class,
+        ServiceProviders\MiniProgramServiceProvider::class,
     ];
 
     /**
