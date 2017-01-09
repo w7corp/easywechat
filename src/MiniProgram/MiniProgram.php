@@ -49,7 +49,7 @@ class MiniProgram extends AbstractAPI
      * MiniProgram constructor.
      *
      * @param \EasyWeChat\MiniProgram\AccessToken $accessToken
-     * @param array $config
+     * @param array                               $config
      */
     public function __construct($accessToken, $config)
     {
