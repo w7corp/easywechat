@@ -22,8 +22,10 @@
 
 namespace EasyWeChat\Foundation\ServiceProviders;
 
+use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\MiniProgram\AccessToken;
 use EasyWeChat\MiniProgram\MiniProgram;
+use EasyWeChat\MiniProgram\Server\Guard;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -52,10 +54,29 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
             );
         };
 
+        $pimple['mini_program_encryptor'] = function ($pimple) {
+            $config = $pimple['config']->get('mini_program');
+
+            return new Encryptor(
+                $config['app_id'],
+                $config['token'],
+                $config['aes_key']
+            );
+        };
+
         $pimple['mini_program'] = function ($pimple) {
+            $config = $pimple['config']->get('mini_program');
+
+            $server = new Guard($config['token']);
+
+            $server->debug($pimple['config']['debug']);
+
+            $server->setEncryptor($pimple['mini_program_encryptor']);
+
             return new MiniProgram(
+                $server,
                 $pimple['mini_program_access_token'],
-                $pimple['config']->get('mini_program')
+                $config
             );
         };
     }

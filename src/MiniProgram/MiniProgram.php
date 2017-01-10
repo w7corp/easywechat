@@ -26,17 +26,32 @@
 
 namespace EasyWeChat\MiniProgram;
 
-use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\MiniProgram\Material\Temporary;
+use EasyWeChat\MiniProgram\Notice\Notice;
+use EasyWeChat\MiniProgram\QRCode\QRCode;
+use EasyWeChat\MiniProgram\Staff\Staff;
+use EasyWeChat\MiniProgram\User\User;
+use EasyWeChat\Support\Arr;
 
 /**
  * Class MiniProgram.
+ *
+ * @property \EasyWeChat\MiniProgram\Server\Guard $server
+ * @property \EasyWeChat\MiniProgram\User\User $user
+ * @property \EasyWeChat\MiniProgram\Notice\Notice $notice
+ * @property \EasyWeChat\MiniProgram\Staff\Staff $staff
+ * @property \EasyWeChat\MiniProgram\QRCode\QRCode $qrcode
+ * @property \EasyWeChat\MiniProgram\Material\Temporary $material_temporary
  */
-class MiniProgram extends AbstractAPI
+class MiniProgram
 {
     /**
-     * Api.
+     * Access Token.
+     *
+     * @var \EasyWeChat\MiniProgram\AccessToken $accessToken
      */
-    const JSCODE_TO_SESSION = 'https://api.weixin.qq.com/sns/jscode2session';
+    protected $accessToken;
 
     /**
      * Mini program config.
@@ -46,34 +61,60 @@ class MiniProgram extends AbstractAPI
     protected $config;
 
     /**
+     * Guard.
+     *
+     * @var \EasyWeChat\MiniProgram\Server\Guard
+     */
+    protected $server;
+
+    /**
+     * Components.
+     *
+     * @var array
+     */
+    protected $components = [
+        'user' => User::class,
+        'notice' => Notice::class,
+        'staff' => Staff::class,
+        'qrcode' => QRCode::class,
+        'material_temporary' => Temporary::class,
+    ];
+
+    /**
      * MiniProgram constructor.
      *
+     * @param \EasyWeChat\MiniProgram\Server\Guard $server
      * @param \EasyWeChat\MiniProgram\AccessToken $accessToken
-     * @param array                               $config
+     * @param array $config
      */
-    public function __construct($accessToken, $config)
+    public function __construct($server, $accessToken, $config)
     {
-        parent::__construct($accessToken);
+        $this->server = $server;
+
+        $this->accessToken = $accessToken;
 
         $this->config = $config;
     }
 
     /**
-     * JsCode 2 session key.
+     * Magic get access.
      *
-     * @param string $jsCode
+     * @param $name
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
+     *
+     * @throws InvalidArgumentException
      */
-    public function getSessionKey($jsCode)
+    public function __get($name)
     {
-        $params = [
-            'appid' => $this->config['app_id'],
-            'secret' => $this->config['secret'],
-            'js_code' => $jsCode,
-            'grant_type' => 'authorization_code',
-        ];
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
 
-        return $this->parseJSON('GET', [self::JSCODE_TO_SESSION, $params]);
+        if ($class = Arr::get($this->components, $name)) {
+            return new $class($this->accessToken, $this->config);
+        }
+
+        throw new InvalidArgumentException("Property or component \"$name\" does not exists.");
     }
 }

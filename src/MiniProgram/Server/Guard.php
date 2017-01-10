@@ -10,7 +10,7 @@
  */
 
 /**
- * AccessToken.php.
+ * Guard.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,17 +24,10 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\MiniProgram;
+namespace EasyWeChat\MiniProgram\Server;
 
-use EasyWeChat\Core\AccessToken as CoreAccessToken;
+use EasyWeChat\Server\Guard as ServerGuard;
 
-/**
- * Class AccessToken.
- */
-class AccessToken extends CoreAccessToken
+class Guard extends ServerGuard
 {
-    /**
-     * {@inheritdoc}.
-     */
-    protected $prefix = 'easywechat.common.mini.program.access_token.';
 }
