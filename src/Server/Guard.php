@@ -460,7 +460,7 @@ class Guard
     {
         $content = strval($content);
 
-        if(Str::isJson($content)){
+        if (Str::isJson($content)) {
             return Str::json2Array($content);
         }
 

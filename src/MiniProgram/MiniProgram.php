@@ -49,7 +49,7 @@ class MiniProgram
     /**
      * Access Token.
      *
-     * @var \EasyWeChat\MiniProgram\AccessToken $accessToken
+     * @var \EasyWeChat\MiniProgram\AccessToken
      */
     protected $accessToken;
 
@@ -84,8 +84,8 @@ class MiniProgram
      * MiniProgram constructor.
      *
      * @param \EasyWeChat\MiniProgram\Server\Guard $server
-     * @param \EasyWeChat\MiniProgram\AccessToken $accessToken
-     * @param array $config
+     * @param \EasyWeChat\MiniProgram\AccessToken  $accessToken
+     * @param array                                $config
      */
     public function __construct($server, $accessToken, $config)
     {

@@ -37,9 +37,9 @@ class Notice extends BaseNotice
         'touser' => '',
         'template_id' => '',
         'page' => '',
-        'form_id' =>'',
+        'form_id' => '',
         'data' => [],
-        'emphasis_keyword'=>'',
+        'emphasis_keyword' => '',
     ];
 
     /**
@@ -48,7 +48,7 @@ class Notice extends BaseNotice
     protected $defaults = [
         'touser' => '',
         'template_id' => '',
-        'form_id' =>'',
+        'form_id' => '',
         'data' => [],
     ];
 
@@ -66,5 +66,4 @@ class Notice extends BaseNotice
      * Send notice message.
      */
     const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send';
-
 }

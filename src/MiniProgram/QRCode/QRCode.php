@@ -40,6 +40,7 @@ class QRCode extends AbstractMiniProgram
      *
      * @param $path
      * @param int $width
+     *
      * @return \EasyWeChat\Support\Collection
      */
     public function create($path, $width = 430)
