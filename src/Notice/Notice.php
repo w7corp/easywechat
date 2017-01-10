@@ -43,12 +43,33 @@ class Notice extends AbstractAPI
      * @var array
      */
     protected $message = [
-                          'touser' => '',
-                          'template_id' => '',
-                          'url' => '',
-                          'topcolor' => '#FF0000',
-                          'data' => [],
-                         ];
+        'touser' => '',
+        'template_id' => '',
+        'url' => '',
+        'topcolor' => '#FF0000',
+        'data' => [],
+    ];
+
+    /**
+     * Default attributes.
+     *
+     * @var array
+     */
+    protected $defaults = [
+        'touser' => '',
+        'template_id' => '',
+        'url' => '',
+        'topcolor' => '',
+        'data' => [],
+    ];
+
+    /**
+     * Required attributes.
+     *
+     * @var array
+     */
+    protected $required = ['touser', 'template_id'];
+
     /**
      * Message backup.
      *
@@ -152,18 +173,10 @@ class Notice extends AbstractAPI
      */
     public function send($data = [])
     {
-        $params = array_merge([
-                   'touser' => '',
-                   'template_id' => '',
-                   'url' => '',
-                   'topcolor' => '',
-                   'data' => [],
-                  ], $data);
-
-        $required = ['touser', 'template_id'];
+        $params = array_merge($this->defaults, $data);
 
         foreach ($params as $key => $value) {
-            if (in_array($key, $required, true) && empty($value) && empty($this->message[$key])) {
+            if (in_array($key, $this->required, true) && empty($value) && empty($this->message[$key])) {
                 throw new InvalidArgumentException("Attribute '$key' can not be empty!");
             }
 
@@ -174,7 +187,7 @@ class Notice extends AbstractAPI
 
         $this->message = $this->messageBackup;
 
-        return $this->parseJSON('json', [self::API_SEND_NOTICE, $params]);
+        return $this->parseJSON('json', [static::API_SEND_NOTICE, $params]);
     }
 
     /**
@@ -199,6 +212,8 @@ class Notice extends AbstractAPI
                 'link' => 'url',
                 'data' => 'data',
                 'with' => 'data',
+                'formId' => 'form_id',
+                'prepayId' => 'form_id',
                ];
 
         if (0 === stripos($method, 'with') && strlen($method) > 4) {
