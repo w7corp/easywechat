@@ -10,7 +10,7 @@
  */
 
 /**
- * AccessToken.php.
+ * Staff.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,17 +24,16 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\MiniProgram;
+namespace EasyWeChat\MiniProgram\Staff;
 
-use EasyWeChat\Core\AccessToken as CoreAccessToken;
+use EasyWeChat\Staff\Staff as BaseStaff;
 
-/**
- * Class AccessToken.
- */
-class AccessToken extends CoreAccessToken
+class Staff extends BaseStaff
 {
-    /**
-     * {@inheritdoc}.
-     */
-    protected $prefix = 'easywechat.common.mini.program.access_token.';
+    public function __construct()
+    {
+        $accessToken = func_get_args()[0];
+
+        parent::__construct($accessToken);
+    }
 }

@@ -10,7 +10,7 @@
  */
 
 /**
- * AccessToken.php.
+ * AbstractMiniProgram.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,17 +24,29 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\MiniProgram;
+namespace EasyWeChat\MiniProgram\Core;
 
-use EasyWeChat\Core\AccessToken as CoreAccessToken;
+use EasyWeChat\Core\AbstractAPI;
 
-/**
- * Class AccessToken.
- */
-class AccessToken extends CoreAccessToken
+class AbstractMiniProgram extends AbstractAPI
 {
     /**
-     * {@inheritdoc}.
+     * Mini program config.
+     *
+     * @var array
      */
-    protected $prefix = 'easywechat.common.mini.program.access_token.';
+    protected $config;
+
+    /**
+     * AbstractMiniProgram constructor.
+     *
+     * @param \EasyWeChat\MiniProgram\AccessToken $accessToken
+     * @param array                               $config
+     */
+    public function __construct($accessToken, $config)
+    {
+        parent::__construct($accessToken);
+
+        $this->config = $config;
+    }
 }
