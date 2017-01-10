@@ -27,8 +27,10 @@ use EasyWeChat\Material\Temporary as BaseTemporary;
  */
 class Temporary extends BaseTemporary
 {
-    public function __construct($accessToken, $config)
+    public function __construct()
     {
+        $accessToken = func_get_args()[0];
+
         parent::__construct($accessToken);
     }
 }
