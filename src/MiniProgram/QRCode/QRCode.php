@@ -45,6 +45,6 @@ class QRCode extends AbstractMiniProgram
      */
     public function create($path, $width = 430)
     {
-        return $this->parseJSON('POST', [self::API_CREATE_QRCODE, compact('path', 'width')]);
+        return $this->parseJSON('JSON', [self::API_CREATE_QRCODE, compact('path', 'width')]);
     }
 }
