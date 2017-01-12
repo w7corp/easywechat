@@ -53,7 +53,7 @@ class Encryptor extends BaseEncryptor
      */
     public function __construct($sessionKey, $iv)
     {
-        $this->iv = base64_decode($iv);
+        $this->iv = base64_decode($iv, true);
 
         parent::__construct(null, null, $sessionKey);
     }
