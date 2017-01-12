@@ -28,6 +28,7 @@ namespace EasyWeChat\MiniProgram\Encryption;
 
 use EasyWeChat\Encryption\EncryptionException;
 use EasyWeChat\Encryption\Encryptor as BaseEncryptor;
+use EasyWeChat\Support\Collection;
 use Exception as BaseException;
 
 class Encryptor extends BaseEncryptor
@@ -74,7 +75,7 @@ class Encryptor extends BaseEncryptor
      *
      * @param string $encrypted
      *
-     * @return string
+     * @return Collection
      *
      * @throws EncryptionException
      */
@@ -86,9 +87,13 @@ class Encryptor extends BaseEncryptor
 
             $decrypted = openssl_decrypt($ciphertext, 'aes-128-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $this->iv);
 
-            return $this->decode($decrypted);
+            $result = $this->decode($decrypted);
         } catch (BaseException $e) {
             throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);
         }
+
+        $result = json_decode($result, true);
+
+        return new Collection($result);
     }
 }
