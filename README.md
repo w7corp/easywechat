@@ -103,7 +103,7 @@ $server->serve()->send();
 
 ## Contribution
 
-[Contribution Guide](CONTRIBUTING.md)
+[Contribution Guide](.github/CONTRIBUTING.md)
 
 ## License
 
