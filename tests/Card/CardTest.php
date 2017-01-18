@@ -539,7 +539,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->activate($activate);
-        $this->assertStringStartsWith(Card::API_ACTIVATE_CARD, $result['api']);
+        $this->assertStringStartsWith(Card::API_ACTIVATE_MEMBER_CARD, $result['api']);
         $this->assertEquals($activate, $result['params']);
     }
 
@@ -575,7 +575,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->activateUserForm($cardId, $requiredForm, $optionalForm);
-        $this->assertStringStartsWith(Card::API_ACTIVATE_USER_FORM, $result['api']);
+        $this->assertStringStartsWith(Card::API_ACTIVATE_MEMBER_USER_FORM, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
