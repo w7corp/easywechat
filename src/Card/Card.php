@@ -640,6 +640,7 @@ class Card extends AbstractAPI
         if ($cardType === 'general_card') {
             return $this->parseJSON('json', [self::API_ACTIVATE_GENERAL_CARD, $info]);
         }
+
         return $this->parseJSON('json', [self::API_ACTIVATE_MEMBER_CARD, $info]);
     }
 
