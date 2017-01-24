@@ -12,7 +12,11 @@
 namespace {
     use EasyWeChat\Core\Http;
     use GuzzleHttp\Client;
+    use GuzzleHttp\HandlerStack;
+    use GuzzleHttp\Middleware;
+    use GuzzleHttp\Psr7\Request;
     use GuzzleHttp\Psr7\Response;
+    use Psr\Http\Message\RequestInterface;
 
     class CoreHttpTest extends TestCase
     {
@@ -191,6 +195,39 @@ namespace {
             $this->assertEquals('bar', $response['body']['multipart'][0]['contents']);
             $this->assertEquals('hello', $response['body']['multipart'][1]['name']);
             $this->assertEquals('world', $response['body']['multipart'][1]['contents']);
+        }
+
+        public function testUserHandler()
+        {
+            $oldDefaultOptions = Http::getDefaultOptions();
+
+            $statistics = [];
+            Http::setDefaultOptions([
+                'timeout' => 3,
+                'handler' => Middleware::tap(function (RequestInterface $request) use (&$statistics) {
+                    $api = $request->getUri()->getPath();
+                    if (!isset($statistics[$api])) {
+                        $statistics[$api] = 0;
+                    }
+                    $statistics[$api]++;
+                })
+            ]);
+
+            $httpClient = Mockery::mock(Client::class);
+            $httpClient->shouldReceive('request')->withArgs(function ($method, $url, $options) {
+                $request = new Request($method, $url);
+                if (isset($options['handler']) && ($options['handler'] instanceof HandlerStack)) {
+                    $options['handler']($request, $options);
+                }
+                return true;
+            })->andReturn(new Response());
+
+            $http = new Http();
+            $http->setClient($httpClient);
+            $http->request('http://overtrue.me/domain/action', 'GET');
+            $this->assertSame(1, $statistics['/domain/action']);
+
+            Http::setDefaultOptions($oldDefaultOptions);
         }
     }
 }
