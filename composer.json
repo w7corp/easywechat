@@ -30,7 +30,6 @@
         "overtrue/phplint": "dev-master",
         "mockery/mockery": "^1.0@dev"
     },
-    "minimum-stability" : "dev",
     "autoload": {
         "psr-4": {
             "EasyWeChat\\": "src/"
