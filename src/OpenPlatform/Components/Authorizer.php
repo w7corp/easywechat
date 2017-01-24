@@ -46,12 +46,12 @@ class Authorizer extends AbstractComponent
     /**
      * Get authorizer options api.
      */
-    const GET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/ api_get_authorizer_option';
+    const GET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option';
 
     /**
      * Set authorizer options api.
      */
-    const SET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/ api_set_authorizer_option';
+    const SET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/api_set_authorizer_option';
 
     /**
      * Get authorizer info.
