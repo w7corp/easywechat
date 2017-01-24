@@ -209,8 +209,8 @@ namespace {
                     if (!isset($statistics[$api])) {
                         $statistics[$api] = 0;
                     }
-                    $statistics[$api]++;
-                })
+                    ++$statistics[$api];
+                }),
             ]);
 
             $httpClient = Mockery::mock(Client::class);
@@ -219,6 +219,7 @@ namespace {
                 if (isset($options['handler']) && ($options['handler'] instanceof HandlerStack)) {
                     $options['handler']($request, $options);
                 }
+
                 return true;
             })->andReturn(new Response());
 
