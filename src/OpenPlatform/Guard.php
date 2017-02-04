@@ -27,13 +27,13 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\OpenPlatform\Traits\VerifyTicket;
+use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
 use EasyWeChat\Server\Guard as ServerGuard;
 use EasyWeChat\Support\Arr;
 
 class Guard extends ServerGuard
 {
-    use VerifyTicket;
+    use VerifyTicketTrait;
 
     /**
      * Wechat push event types.

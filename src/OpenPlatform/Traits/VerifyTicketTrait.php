@@ -28,7 +28,7 @@ namespace EasyWeChat\OpenPlatform\Traits;
 
 use EasyWeChat\OpenPlatform\VerifyTicket as ComponentVerifyTicket;
 
-trait VerifyTicket
+trait VerifyTicketTrait
 {
     /**
      * Verify Ticket.
