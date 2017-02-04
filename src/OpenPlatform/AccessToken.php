@@ -28,11 +28,11 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\AccessToken as WechatAccessToken;
 use EasyWeChat\Core\Exceptions\HttpException;
-use EasyWeChat\OpenPlatform\Traits\VerifyTicket;
+use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
 
 class AccessToken extends WechatAccessToken
 {
-    use VerifyTicket;
+    use VerifyTicketTrait;
 
     /**
      * API.
