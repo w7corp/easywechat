@@ -30,7 +30,6 @@ use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AccessToken as WechatAccessToken;
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
-use EasyWeChat\OpenPlatform\VerifyTicket;
 
 class AccessToken extends WechatAccessToken
 {
