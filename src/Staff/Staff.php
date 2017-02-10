@@ -15,10 +15,9 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Staff;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -181,10 +180,10 @@ class Staff extends AbstractAPI
     /**
      * Get staff session history.
      *
-     * @param int $startTime
-     * @param int $endTime
-     * @param int $page
-     * @param int $pageSize
+     * @param  int $startTime
+     * @param  int $endTime
+     * @param  int $page
+     * @param  int $pageSize
      *
      * @return \EasyWeChat\Support\Collection
      */
@@ -192,9 +191,9 @@ class Staff extends AbstractAPI
     {
         $params = [
                    'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
-                   'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
+                   'endtime'   => is_numeric($endTime) ? $endTime : strtotime($endTime),
                    'pageindex' => $page,
-                   'pagesize' => $pageSize,
+                   'pagesize'  => $pageSize,
                   ];
 
         return $this->parseJSON('json', [self::API_RECORDS, $params]);

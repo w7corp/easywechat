@@ -93,4 +93,5 @@ class StaffSessionTest extends TestCase
         $this->assertStringStartsWith(Session::API_GET, $response['api']);
         $this->assertSame('mock_openid', $response['params']['openid']);
     }
+
 }
