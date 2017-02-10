@@ -66,7 +66,6 @@ abstract class EventHandler
      */
     public function forward(Collection $message)
     {
-        //
         return $message;
     }
 }

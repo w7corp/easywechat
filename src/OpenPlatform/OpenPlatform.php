@@ -34,6 +34,7 @@ use EasyWeChat\Support\Arr;
  *
  * @property \EasyWeChat\OpenPlatform\Guard $server
  * @property \EasyWeChat\OpenPlatform\Components\PreAuthCode $pre_auth
+ * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
  * @property \EasyWeChat\OpenPlatform\Components\Authorizer $authorizer
  */
 class OpenPlatform
@@ -75,16 +76,11 @@ class OpenPlatform
      * @param Guard $server
      * @param $access_token
      * @param array $config
-     * @param $verifyTicket
      */
-    public function __construct(Guard $server, $access_token, $config, $verifyTicket)
+    public function __construct(Guard $server, $access_token, $config)
     {
         $this->server = $server;
-        $this->server->setVerifyTicket($verifyTicket);
-
         $this->access_token = $access_token;
-        $this->access_token->setVerifyTicket($verifyTicket);
-
         $this->config = $config;
     }
 
