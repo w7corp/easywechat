@@ -10,7 +10,7 @@
  */
 
 /**
- * UrlServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,16 +20,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Material;
 
-use EasyWeChat\Url\Url;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class UrlServiceProvider.
+ * Class ServiceProvider.
  */
-class UrlServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -41,8 +40,15 @@ class UrlServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['url'] = function ($pimple) {
-            return new Url($pimple['access_token']);
+        $pimple['material'] = function ($pimple) {
+            return new Material($pimple['access_token']);
         };
+
+        $temporary = function ($pimple) {
+            return new Temporary($pimple['access_token']);
+        };
+
+        $pimple['material_temporary'] = $temporary;
+        $pimple['material.temporary'] = $temporary;
     }
 }

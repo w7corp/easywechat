@@ -10,7 +10,7 @@
  */
 
 /**
- * ServerServiceProvider.php.
+ * ServiceProvider.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,17 +24,15 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\QRCode;
 
-use EasyWeChat\Encryption\Encryptor;
-use EasyWeChat\Server\Guard;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class ServerServiceProvider.
+ * Class ServiceProvider.
  */
-class ServerServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -46,22 +44,8 @@ class ServerServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['encryptor'] = function ($pimple) {
-            return new Encryptor(
-                $pimple['config']['app_id'],
-                $pimple['config']['token'],
-                $pimple['config']['aes_key']
-            );
-        };
-
-        $pimple['server'] = function ($pimple) {
-            $server = new Guard($pimple['config']['token']);
-
-            $server->debug($pimple['config']['debug']);
-
-            $server->setEncryptor($pimple['encryptor']);
-
-            return $server;
+        $pimple['qrcode'] = function ($pimple) {
+            return new QRCode($pimple['access_token']);
         };
     }
 }

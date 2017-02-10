@@ -10,7 +10,7 @@
  */
 
 /**
- * MaterialServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,17 +20,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Staff;
 
-use EasyWeChat\Material\Material;
-use EasyWeChat\Material\Temporary;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class MaterialServiceProvider.
+ * Class ServiceProvider.
  */
-class MaterialServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -42,15 +40,12 @@ class MaterialServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['material'] = function ($pimple) {
-            return new Material($pimple['access_token']);
+        $pimple['staff'] = function ($pimple) {
+            return new Staff($pimple['access_token']);
         };
 
-        $temporary = function ($pimple) {
-            return new Temporary($pimple['access_token']);
+        $pimple['staff_session'] = $pimple['staff.session'] = function ($pimple) {
+            return new Session($pimple['access_token']);
         };
-
-        $pimple['material_temporary'] = $temporary;
-        $pimple['material.temporary'] = $temporary;
     }
 }

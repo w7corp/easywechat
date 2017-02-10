@@ -10,30 +10,29 @@
  */
 
 /**
- * UserServiceProvider.php.
+ * ServiceProvider.php.
  *
  * Part of Overtrue\WeChat.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    allen05ren <allen05ren@outlook.com>
- * @copyright 2016 overtrue <i@overtrue.me>
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015
  *
- * @see       https://github.com/overtrue/wechat
- * @see       http://overtrue.me
+ * @see      https://github.com/overtrue/wechat
+ * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\POI;
 
-use EasyWeChat\ShakeAround\ShakeAround;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class ShakeAroundServiceProvider.
+ * Class ServiceProvider.
  */
-class ShakeAroundServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -45,8 +44,8 @@ class ShakeAroundServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['shakearound'] = function ($pimple) {
-            return new ShakeAround($pimple['access_token']);
+        $pimple['poi'] = function ($pimple) {
+            return new POI($pimple['access_token']);
         };
     }
 }

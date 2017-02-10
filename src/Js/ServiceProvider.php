@@ -10,7 +10,7 @@
  */
 
 /**
- * BroadcastServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,16 +20,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Js;
 
-use EasyWeChat\Broadcast\Broadcast;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class BroadcastServiceProvider.
+ * Class ServiceProvider.
  */
-class BroadcastServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -41,8 +40,11 @@ class BroadcastServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['broadcast'] = function ($pimple) {
-            return new Broadcast($pimple['access_token']);
+        $pimple['js'] = function ($pimple) {
+            $js = new Js($pimple['access_token']);
+            $js->setCache($pimple['cache']);
+
+            return $js;
         };
     }
 }

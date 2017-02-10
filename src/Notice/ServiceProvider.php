@@ -10,7 +10,7 @@
  */
 
 /**
- * MenuServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,16 +20,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Notice;
 
-use EasyWeChat\Menu\Menu;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class MenuServiceProvider.
+ * Class ServiceProvider.
  */
-class MenuServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -41,8 +40,8 @@ class MenuServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['menu'] = function ($pimple) {
-            return new Menu($pimple['access_token']);
+        $pimple['notice'] = function ($pimple) {
+            return new Notice($pimple['access_token']);
         };
     }
 }
