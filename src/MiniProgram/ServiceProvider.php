@@ -10,7 +10,7 @@
  */
 
 /**
- * MiniProgramServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,19 +20,17 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\MiniProgram;
 
 use EasyWeChat\Encryption\Encryptor;
-use EasyWeChat\MiniProgram\AccessToken;
-use EasyWeChat\MiniProgram\MiniProgram;
 use EasyWeChat\MiniProgram\Server\Guard;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class MiniProgramServiceProvider.
+ * Class ServiceProvider.
  */
-class MiniProgramServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

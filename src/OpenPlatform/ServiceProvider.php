@@ -10,7 +10,7 @@
  */
 
 /**
- * OpenPlatformServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,20 +20,16 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Encryption\Encryptor;
-use EasyWeChat\OpenPlatform\AccessToken;
-use EasyWeChat\OpenPlatform\Guard;
-use EasyWeChat\OpenPlatform\OpenPlatform;
-use EasyWeChat\OpenPlatform\VerifyTicket;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class OpenPlatformServiceProvider.
+ * Class ServiceProvider.
  */
-class OpenPlatformServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

@@ -10,7 +10,7 @@
  */
 
 /**
- * UserServiceProvider.php.
+ * ServiceProvider.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,18 +24,16 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Server;
 
-use EasyWeChat\User\Group;
-use EasyWeChat\User\Tag;
-use EasyWeChat\User\User;
+use EasyWeChat\Encryption\Encryptor;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class UserServiceProvider.
+ * Class ServiceProvider.
  */
-class UserServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -47,22 +45,22 @@ class UserServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['user'] = function ($pimple) {
-            return new User($pimple['access_token']);
+        $pimple['encryptor'] = function ($pimple) {
+            return new Encryptor(
+                $pimple['config']['app_id'],
+                $pimple['config']['token'],
+                $pimple['config']['aes_key']
+            );
         };
 
-        $group = function ($pimple) {
-            return new Group($pimple['access_token']);
+        $pimple['server'] = function ($pimple) {
+            $server = new Guard($pimple['config']['token']);
+
+            $server->debug($pimple['config']['debug']);
+
+            $server->setEncryptor($pimple['encryptor']);
+
+            return $server;
         };
-
-        $tag = function ($pimple) {
-            return new Tag($pimple['access_token']);
-        };
-
-        $pimple['user_group'] = $group;
-        $pimple['user.group'] = $group;
-
-        $pimple['user_tag'] = $tag;
-        $pimple['user.tag'] = $tag;
     }
 }

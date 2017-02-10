@@ -3,37 +3,36 @@
 /*
  * This file is part of the overtrue/wechat.
  *
- * (c) soone <66812590@qq.com>
+ * (c) overtrue <i@overtrue.me>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
 
 /**
- * QRCodeServiceProvider.php.
+ * ServiceProvider.php.
  *
  * Part of Overtrue\WeChat.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    soone <66812590@qq.com>
- * @copyright 2016
+ * @author    overtrue <i@overtrue.me>
+ * @copyright 2015
  *
  * @see      https://github.com/overtrue/wechat
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\User;
 
-use EasyWeChat\Device\Device;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class DeviceServiceProvider.
+ * Class ServiceProvider.
  */
-class DeviceServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -45,8 +44,22 @@ class DeviceServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['device'] = function ($pimple) {
-            return new Device($pimple['access_token'], $pimple['config']->get('device', []));
+        $pimple['user'] = function ($pimple) {
+            return new User($pimple['access_token']);
         };
+
+        $group = function ($pimple) {
+            return new Group($pimple['access_token']);
+        };
+
+        $tag = function ($pimple) {
+            return new Tag($pimple['access_token']);
+        };
+
+        $pimple['user_group'] = $group;
+        $pimple['user.group'] = $group;
+
+        $pimple['user_tag'] = $tag;
+        $pimple['user.tag'] = $tag;
     }
 }

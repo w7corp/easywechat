@@ -10,7 +10,7 @@
  */
 
 /**
- * PaymentServiceProvider.php.
+ * ServiceProvider.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,19 +24,17 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Payment;
 
 use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
-use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\MerchantPay\MerchantPay;
-use EasyWeChat\Payment\Payment;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class PaymentServiceProvider.
+ * Class ServiceProvider.
  */
-class PaymentServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.

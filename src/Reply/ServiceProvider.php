@@ -10,7 +10,7 @@
  */
 
 /**
- * ReplyServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,16 +20,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Reply;
 
-use EasyWeChat\Reply\Reply;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class ReplyServiceProvider.
+ * Class ServiceProvider.
  */
-class ReplyServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
