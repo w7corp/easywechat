@@ -47,6 +47,30 @@ class File
         'image/tiff' => '.tiff',
         'image/jpeg' => '.jpg',
         'application/pdf' => '.pdf',
+
+        // 列举更多的文件 mime, 企业号是支持的,公众平台这边之后万一也更新了呢
+        'application/msword' => '.doc',
+
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => '.docx',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => '.dotx',
+        'application/vnd.ms-word.document.macroEnabled.12' => '.docm',
+        'application/vnd.ms-word.template.macroEnabled.12' => '.dotm',
+
+        'application/vnd.ms-excel' => '.xls',
+
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => '.xlsx',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => '.xltx',
+        'application/vnd.ms-excel.sheet.macroEnabled.12' => '.xlsm',
+        'application/vnd.ms-excel.template.macroEnabled.12' => '.xltm',
+        'application/vnd.ms-excel.addin.macroEnabled.12' => '.xlam',
+        'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => '.xlsb',
+
+        'application/vnd.ms-powerpoint' => '.ppt',
+
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => '.pptx',
+        'application/vnd.openxmlformats-officedocument.presentationml.template' => '.potx',
+        'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => '.ppsx',
+        'application/vnd.ms-powerpoint.addin.macroEnabled.12' => '.ppam',
     ];
 
     /**
