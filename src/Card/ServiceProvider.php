@@ -10,7 +10,7 @@
  */
 
 /**
- * JsServiceProvider.php.
+ * ServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -20,16 +20,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Card;
 
-use EasyWeChat\Js\Js;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class JsServiceProvider.
+ * Class ServiceProvider.
  */
-class JsServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -41,11 +40,11 @@ class JsServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['js'] = function ($pimple) {
-            $js = new Js($pimple['access_token']);
-            $js->setCache($pimple['cache']);
+        $pimple['card'] = function ($pimple) {
+            $card = new Card($pimple['access_token']);
+            $card->setCache($pimple['cache']);
 
-            return $js;
+            return $card;
         };
     }
 }

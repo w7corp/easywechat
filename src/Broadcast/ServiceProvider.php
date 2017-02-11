@@ -10,30 +10,25 @@
  */
 
 /**
- * QRCodeServiceProvider.php.
+ * ServiceProvider.php.
  *
- * Part of Overtrue\WeChat.
+ * This file is part of the wechat.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * (c) overtrue <i@overtrue.me>
  *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015
- *
- * @see      https://github.com/overtrue/wechat
- * @see      http://overtrue.me
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Broadcast;
 
-use EasyWeChat\QRCode\QRCode;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class QRCodeServiceProvider.
+ * Class ServiceProvider.
  */
-class QRCodeServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -45,8 +40,8 @@ class QRCodeServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['qrcode'] = function ($pimple) {
-            return new QRCode($pimple['access_token']);
+        $pimple['broadcast'] = function ($pimple) {
+            return new Broadcast($pimple['access_token']);
         };
     }
 }

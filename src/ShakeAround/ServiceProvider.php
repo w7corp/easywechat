@@ -10,26 +10,29 @@
  */
 
 /**
- * JsServiceProvider.php.
+ * ServiceProvider.php.
  *
- * This file is part of the wechat.
+ * Part of Overtrue\WeChat.
  *
- * (c) overtrue <i@overtrue.me>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
+ * @author    allen05ren <allen05ren@outlook.com>
+ * @copyright 2016 overtrue <i@overtrue.me>
+ *
+ * @see       https://github.com/overtrue/wechat
+ * @see       http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\ShakeAround;
 
-use EasyWeChat\Card\Card;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class JsServiceProvider.
+ * Class ServiceProvider.
  */
-class CardServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
@@ -41,11 +44,8 @@ class CardServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['card'] = function ($pimple) {
-            $card = new Card($pimple['access_token']);
-            $card->setCache($pimple['cache']);
-
-            return $card;
+        $pimple['shakearound'] = function ($pimple) {
+            return new ShakeAround($pimple['access_token']);
         };
     }
 }

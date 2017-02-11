@@ -10,7 +10,7 @@
  */
 
 /**
- * SemanticServiceProvider.php.
+ * ServiceProvider.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,16 +24,15 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation\ServiceProviders;
+namespace EasyWeChat\Semantic;
 
-use EasyWeChat\Semantic\Semantic;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class SemanticServiceProvider.
+ * Class ServiceProvider.
  */
-class SemanticServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * Registers services on the given container.
