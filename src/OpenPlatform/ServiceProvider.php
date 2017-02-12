@@ -41,17 +41,18 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['open_platform_access_token'] = function ($pimple) {
-            return new AccessToken(
-                $pimple['config']['open_platform']['app_id'],
-                $pimple['config']['open_platform']['secret'],
+        $pimple['component_verify_ticket'] = function ($pimple) {
+            return new VerifyTicket(
+                $pimple['config']['open_platform'],
                 $pimple['cache']
             );
         };
 
-        $pimple['component_verify_ticket'] = function ($pimple) {
-            return new VerifyTicket(
-                $pimple['config']['open_platform'],
+        $pimple['open_platform_access_token'] = function ($pimple) {
+            return new AccessToken(
+                $pimple['config']['open_platform']['app_id'],
+                $pimple['config']['open_platform']['secret'],
+                $pimple['component_verify_ticket'],
                 $pimple['cache']
             );
         };
@@ -65,7 +66,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['open_platform'] = function ($pimple) {
-            $server = new Guard($pimple['config']['open_platform']['token']);
+            $server = new Guard($pimple['config']['open_platform']['token'], $pimple['component_verify_ticket']);
 
             $server->debug($pimple['config']['debug']);
 
@@ -74,8 +75,7 @@ class ServiceProvider implements ServiceProviderInterface
             return new OpenPlatform(
                 $server,
                 $pimple['open_platform_access_token'],
-                $pimple['config']['open_platform'],
-                $pimple['component_verify_ticket']
+                $pimple['config']['open_platform']
             );
         };
     }

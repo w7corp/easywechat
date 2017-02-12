@@ -15,10 +15,9 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Support;
 
 use finfo;
@@ -47,8 +46,9 @@ class File
         'image/png' => '.png',
         'image/tiff' => '.tiff',
         'image/jpeg' => '.jpg',
+        'application/pdf' => '.pdf',
 
-                // 列举更多的文件 mime, 企业号是支持的, 公众平台这边之后万一也更新了呢
+        // 列举更多的文件 mime, 企业号是支持的,公众平台这边之后万一也更新了呢
         'application/msword' => '.doc',
 
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => '.docx',
@@ -93,6 +93,7 @@ class File
         '000001ba' => '.mpg',
         '000001b3' => '.mpg',
         '2321414d52' => '.amr',
+        '25504446' => '.pdf',
     ];
 
     /**

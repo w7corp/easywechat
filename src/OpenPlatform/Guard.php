@@ -27,13 +27,14 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\OpenPlatform\Traits\VerifyTicket;
+use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
 use EasyWeChat\Server\Guard as ServerGuard;
 use EasyWeChat\Support\Arr;
+use Symfony\Component\HttpFoundation\Request;
 
 class Guard extends ServerGuard
 {
-    use VerifyTicket;
+    use VerifyTicketTrait;
 
     /**
      * Wechat push event types.
@@ -46,6 +47,20 @@ class Guard extends ServerGuard
         'updateauthorized' => EventHandlers\UpdateAuthorized::class,
         'component_verify_ticket' => EventHandlers\ComponentVerifyTicket::class,
     ];
+
+    /**
+     * Guard constructor.
+     *
+     * @param string       $token
+     * @param VerifyTicket $ticketTrait
+     * @param Request|null $request
+     */
+    public function __construct($token, VerifyTicket $ticketTrait, Request $request = null)
+    {
+        parent::__construct($token, $request);
+
+        $this->setVerifyTicket($ticketTrait);
+    }
 
     /**
      * Return for laravel-wechat.

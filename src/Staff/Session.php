@@ -15,31 +15,33 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @link      https://github.com/overtrue
+ * @link      http://overtrue.me
  */
-
 namespace EasyWeChat\Staff;
 
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Support\Collection;
 
 /**
  * Class Session.
  */
 class Session extends AbstractAPI
 {
+
     const API_CREATE = 'https://api.weixin.qq.com/customservice/kfsession/create';
     const API_CLOSE = 'https://api.weixin.qq.com/customservice/kfsession/close';
     const API_GET = 'https://api.weixin.qq.com/customservice/kfsession/getsession';
     const API_LISTS = 'https://api.weixin.qq.com/customservice/kfsession/getsessionlist';
     const API_WAITERS = 'https://api.weixin.qq.com/customservice/kfsession/getwaitcase';
 
+
     /**
      * List all sessions of $account.
      *
      * @param string $account
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return array
      */
     public function lists($account)
     {
@@ -49,7 +51,7 @@ class Session extends AbstractAPI
     /**
      * List all waiters of $account.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return array
      */
     public function waiters()
     {
@@ -60,9 +62,9 @@ class Session extends AbstractAPI
      * Create a session.
      *
      * @param string $account
-     * @param string $openId
+     * @param string $openid
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return bool
      */
     public function create($account, $openId)
     {
@@ -80,7 +82,7 @@ class Session extends AbstractAPI
      * @param string $account
      * @param string $openId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return bool
      */
     public function close($account, $openId)
     {
@@ -97,7 +99,7 @@ class Session extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return bool
      */
     public function get($openId)
     {

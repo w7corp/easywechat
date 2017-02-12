@@ -26,9 +26,9 @@
 
 namespace EasyWeChat\OpenPlatform\Traits;
 
-use EasyWeChat\OpenPlatform\VerifyTicket as ComponentVerifyTicket;
+use EasyWeChat\OpenPlatform\VerifyTicket;
 
-trait VerifyTicket
+trait VerifyTicketTrait
 {
     /**
      * Verify Ticket.
@@ -44,7 +44,7 @@ trait VerifyTicket
      *
      * @return $this
      */
-    public function setVerifyTicket(ComponentVerifyTicket $verifyTicket)
+    public function setVerifyTicket(VerifyTicket $verifyTicket)
     {
         $this->verifyTicket = $verifyTicket;
 
