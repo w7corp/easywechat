@@ -2,10 +2,6 @@ language: php
 
 php:
   # using major version aliases
-  # aliased to a recent 5.5.x version
-  - 5.5
-  # aliased to a recent 5.6.x version
-  - 5.6
   # aliased to a recent 7.0.x version
   - 7.0
 
