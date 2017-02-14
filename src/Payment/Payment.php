@@ -121,7 +121,7 @@ class Payment
     /**
      * Handle native scan notify.
      * https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
-     * The callback shall return string of prepay_id or throw an exception
+     * The callback shall return string of prepay_id or throw an exception.
      *
      * @param callable $callback
      *
