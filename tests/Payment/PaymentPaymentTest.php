@@ -69,7 +69,9 @@ class PaymentPaymentTest extends TestCase
         $notify->shouldReceive('isValid')->andReturn(false);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
-        $this->setExpectedException(FaultException::class, 'Invalid request payloads.', 400);
+        $this->expectExceptionMessage('Invalid request payloads');
+        $this->expectExceptionCode(400);
+        $this->expectException(FaultException::class);
 
         $payment->handleNotify(function () {
         });

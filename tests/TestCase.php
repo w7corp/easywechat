@@ -1,10 +1,11 @@
 <?php
 
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 /**
  * class TestCase.
  */
-class TestCase extends PHPUnit_Framework_TestCase
+class TestCase extends PHPUnitTestCase
 {
     /**
      * Tear down the test case.

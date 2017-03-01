@@ -92,8 +92,8 @@ class StaffStaffTest extends TestCase
     /**
      * Test delete().
      */
-    public function testDelete()
-    {
+    //public function testDelete()
+    //{
         // 这里 不 TM 测了
         // $staff = $this->getStaff();
 
@@ -101,7 +101,7 @@ class StaffStaffTest extends TestCase
 
         // $this->assertStringStartsWith(Staff::API_DELETE, $response['api']);
         // $this->assertContains('kf_account=anzhengchao@test', $response['api']);
-    }
+    //}
 
     /**
      * Test avatar().
