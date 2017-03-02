@@ -211,6 +211,8 @@ class Card extends AbstractAPI
             'timestamp' => $timestamp,
             'outer_id' => Arr::get($extension, 'outer_id'),
             'balance' => Arr::get($extension, 'balance'),
+            'fixed_begintimestamp' => Arr::get($extension, 'fixed_begintimestamp'),
+            'outer_str' => Arr::get($extension, 'outer_str'),
         ];
         $ext['signature'] = $this->getSignature(
             $this->getAPITicket(),
