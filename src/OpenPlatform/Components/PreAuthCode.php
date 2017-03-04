@@ -18,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    mingyoung <mingyoungcheung@gmail.com>
+ * @author    lixiao <leonlx126@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -43,46 +44,12 @@ class PreAuthCode extends AbstractComponent
     const PRE_AUTH_LINK = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s';
 
     /**
-     * AppId.
-     *
-     * @var string
-     */
-    private $appId;
-
-    /**
      * Redirect Uri.
      *
      * @var string
      */
     protected $redirectUri;
 
-    /**
-     * Get AppId.
-     *
-     * @return string
-     */
-    public function getAppId()
-    {
-        if (is_null($this->appId)) {
-            $this->appId = $this->config['app_id'];
-        }
-
-        return $this->appId;
-    }
-
-    /**
-     * Set AppId.
-     *
-     * @param string $appId
-     *
-     * @return $this
-     */
-    public function setAppId($appId)
-    {
-        $this->appId = $appId;
-
-        return $this;
-    }
 
     /**
      * Get pre auth code.
@@ -144,7 +111,7 @@ class PreAuthCode extends AbstractComponent
     public function getAuthLink()
     {
         return sprintf(self::PRE_AUTH_LINK,
-            $this->config['app_id'],
+            $this->getAppId(),
             $this->getCode(),
             Url::encode($this->getRedirectUri())
         );

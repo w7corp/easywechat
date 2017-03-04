@@ -391,7 +391,7 @@ class Guard
         if (!is_callable($handler)) {
             Log::debug('No handler enabled.');
 
-            return;
+            return null;
         }
 
         Log::debug('Message detail:', $message);

@@ -18,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    mingyoung <mingyoungcheung@gmail.com>
+ * @author    lixiao <leonlx126@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -36,7 +37,7 @@ class Authorizer extends AbstractComponent
     /**
      * Authorization token api.
      */
-    const AUTHORIZATION_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token';
+    const GET_AUTHORIZER_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token';
 
     /**
      * Get authorizer info api.
@@ -54,17 +55,17 @@ class Authorizer extends AbstractComponent
     const SET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/api_set_authorizer_option';
 
     /**
-     * Get authorizer info.
+     * Get authorization info.
      *
-     * @param $authorizationCode
+     * @param $authCode
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function getAuthInfo($authorizationCode = null)
+    public function getAuthorizationInfo($authCode = null)
     {
         $data = [
-            'component_appid' => $this->getComponentAppId(),
-            'authorization_code' => $authorizationCode ?: $this->request->get('auth_code'),
+            'component_appid' => $this->getAppId(),
+            'authorization_code' => $authCode ?: $this->request->get('auth_code'),
         ];
 
         return $this->parseJSON('json', [self::GET_AUTH_INFO, $data]);
@@ -81,12 +82,12 @@ class Authorizer extends AbstractComponent
     public function getAuthorizationToken($appId, $refreshToken)
     {
         $data = [
-            'component_appid' => $this->getComponentAppId(),
+            'component_appid' => $this->getAppId(),
             'authorizer_appid' => $appId,
             'authorizer_refresh_token' => $refreshToken,
         ];
 
-        return $this->parseJSON('json', [self::AUTHORIZATION_TOKEN, $data]);
+        return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $data]);
     }
 
     /**
@@ -99,7 +100,7 @@ class Authorizer extends AbstractComponent
     public function getAuthorizerInfo($authorizerAppId)
     {
         $data = [
-            'component_appid' => $this->getComponentAppId(),
+            'component_appid' => $this->getAppId(),
             'authorizer_appid' => $authorizerAppId,
         ];
 
@@ -117,7 +118,7 @@ class Authorizer extends AbstractComponent
     public function getAuthorizerOption($authorizerAppId, $optionName)
     {
         $data = [
-            'component_appid' => $this->getComponentAppId(),
+            'component_appid' => $this->getAppId(),
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
         ];
@@ -137,7 +138,7 @@ class Authorizer extends AbstractComponent
     public function setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
     {
         $data = [
-            'component_appid' => $this->getComponentAppId(),
+            'component_appid' => $this->getAppId(),
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
             'option_value' => $optionValue,
@@ -146,13 +147,4 @@ class Authorizer extends AbstractComponent
         return $this->parseJSON('json', [self::SET_AUTHORIZER_OPTION, $data]);
     }
 
-    /**
-     * Get component appId.
-     *
-     * @return string
-     */
-    private function getComponentAppId()
-    {
-        return $this->config['app_id'];
-    }
 }

@@ -18,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    mingyoung <mingyoungcheung@gmail.com>
+ * @author    lixiao <leonlx126@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -26,15 +27,8 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\Support\Collection;
-
-class UpdateAuthorized extends EventHandler
+class UpdateAuthorized extends Authorized
 {
-    /**
-     * {@inheritdoc}.
-     */
-    public function handle(Collection $message)
-    {
-        //
-    }
+
+    // Is this necessary to handle differently from Authorized?
 }

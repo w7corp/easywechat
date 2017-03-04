@@ -18,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    mingyoung <mingyoungcheung@gmail.com>
+ * @author    lixiao <leonlx126@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -27,100 +28,93 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
 use EasyWeChat\Server\Guard as ServerGuard;
-use EasyWeChat\Support\Arr;
+use EasyWeChat\Support\Collection;
+use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class Guard extends ServerGuard
 {
-    use VerifyTicketTrait;
+
+    const EVENT_AUTHORIZED              = 'authorized';
+    const EVENT_UNAUTHORIZED            = 'unauthorized';
+    const EVENT_UPDATE_AUTHORIZED       = 'updateauthorized';
+    const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
 
     /**
-     * Wechat push event types.
+     * Container in the scope of the open platform authorization.
      *
-     * @var array
+     * @var Container
      */
-    protected $eventTypeMappings = [
-        'authorized' => EventHandlers\Authorized::class,
-        'unauthorized' => EventHandlers\Unauthorized::class,
-        'updateauthorized' => EventHandlers\UpdateAuthorized::class,
-        'component_verify_ticket' => EventHandlers\ComponentVerifyTicket::class,
-    ];
+    protected $container;
 
     /**
      * Guard constructor.
      *
-     * @param string       $token
-     * @param VerifyTicket $ticketTrait
-     * @param Request|null $request
+     * @param string $token
+     * @param Request $request
      */
-    public function __construct($token, VerifyTicket $ticketTrait, Request $request = null)
+    public function __construct($token, Request $request = null)
     {
         parent::__construct($token, $request);
-
-        $this->setVerifyTicket($ticketTrait);
     }
 
     /**
-     * Return for laravel-wechat.
+     * Sets the container for use of event handlers.
      *
-     * @return array
+     * @param Container $container
+     *
+     * @see getHandler()
      */
-    public function listServe()
+    public function setContainer(Container $container)
     {
-        $class = $this->getHandleClass();
-
-        $message = $this->getCollectedMessage();
-
-        call_user_func([new $class($this->verifyTicket), 'handle'], $message);
-
-        return [
-            $message->get('InfoType'), $message,
-        ];
+        $this->container = $container;
     }
 
     /**
-     * Listen for wechat push event.
-     *
-     * @param callable|null $callback
-     *
-     * @return mixed
-     *
-     * @throws InvalidArgumentException
+     * @inheritdoc
      */
-    public function listen($callback = null)
+    public function serve()
     {
-        $message = $this->getCollectedMessage();
+        $this->handleMessage($this->getMessage());
 
-        $class = $this->getHandleClass();
+        return new Response('success');
+    }
 
-        if (is_callable($callback)) {
-            $callback(
-                call_user_func([new $class($this->verifyTicket), 'forward'], $message)
-            );
+    /**
+     * @inheritdoc
+     */
+    protected function handleMessage($message)
+    {
+        $message = new Collection($message);
+        $handler = $this->getHandler($message->get('InfoType'));
+
+        $result = $handler->handle($message);
+
+        if ($customHandler = $this->getMessageHandler()) {
+            $customHandler($result, $message);
         }
 
-        return call_user_func([new $class($this->verifyTicket), 'handle'], $message);
+        return $result;
     }
 
     /**
-     * Get handler class.
+     * Gets the handler by the info type..
      *
-     * @return \EasyWeChat\OpenPlatform\EventHandlers\EventHandler
+     * @param $type
      *
+     * @return EventHandlers\EventHandler
      * @throws InvalidArgumentException
      */
-    private function getHandleClass()
+    protected function getHandler($type)
     {
-        $message = $this->getCollectedMessage();
+        $handler = $this->container->offsetGet("open_platform_handle_{$type}");
 
-        $type = $message->get('InfoType');
-
-        if (!$class = Arr::get($this->eventTypeMappings, $type)) {
-            throw new InvalidArgumentException("Event Info Type \"$type\" does not exists.");
+        if (! $handler) {
+            throw new InvalidArgumentException("EventHandler \"$type\" does not exists.");
         }
 
-        return $class;
+        return $handler;
     }
 }
