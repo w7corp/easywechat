@@ -83,6 +83,41 @@ class Guard extends ServerGuard
     }
 
     /**
+     * Return for laravel-wechat.
+     *
+     * @return array
+     */
+    public function listServe()
+    {
+        $message = $this->getMessage();
+        $this->handleMessage($message);
+
+        $message = new Collection($message);
+
+        return [
+            $message->get('InfoType'), $message,
+        ];
+    }
+
+    /**
+     * Listen for wechat push event.
+     *
+     * @param callable|null $callback
+     *
+     * @return mixed
+     *
+     * @throws InvalidArgumentException
+     */
+    public function listen($callback = null)
+    {
+        if ($callback) {
+            $this->setMessageHandler($callback);
+        }
+
+        return $this->serve();
+    }
+
+    /**
      * @inheritdoc
      */
     protected function handleMessage($message)
@@ -93,7 +128,7 @@ class Guard extends ServerGuard
         $result = $handler->handle($message);
 
         if ($customHandler = $this->getMessageHandler()) {
-            $customHandler($result, $message);
+            $customHandler($message, $result);
         }
 
         return $result;
