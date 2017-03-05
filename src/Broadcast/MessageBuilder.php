@@ -173,6 +173,8 @@ class MessageBuilder
 
         if (empty($this->msgType)) {
             throw new RuntimeException('Message type not exist.');
+        } elseif ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
+            $this->msgType = 'mpvideo';
         }
 
         if (empty($this->message)) {
