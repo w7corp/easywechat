@@ -101,7 +101,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * Merge data.
      *
-     * @param array $items
+     * @param Collection|array $items
      *
      * @return array
      */

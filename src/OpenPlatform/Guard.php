@@ -127,8 +127,13 @@ class Guard extends ServerGuard
 
         $result = $handler->handle($message);
 
+        // To be compatible with previous version: merges the auth result while
+        // keeping the original message.
+        $message->merge($result);
+        $message = new Collection($message);
+
         if ($customHandler = $this->getMessageHandler()) {
-            $customHandler($message, $result);
+            $customHandler($message);
         }
 
         return $result;
