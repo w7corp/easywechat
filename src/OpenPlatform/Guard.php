@@ -164,8 +164,7 @@ class Guard extends ServerGuard
      */
     protected function getDefaultHandler($type)
     {
-        $handler = $this->container->offsetGet("open_platform_handle_{$type}");
-
+        $handler = $this->container->offsetGet("open_platform.handlers.{$type}");
         if (! $handler) {
             throw new InvalidArgumentException("EventHandler \"$type\" does not exists.");
         }

@@ -58,7 +58,7 @@ class GuardTest extends TestCase
         $server = new OpenPlatformGuardStub('token');
         $server->setContainer($app);
 
-        $app['open_platform_handle_test']
+        $app['open_platform.handlers.test']
             = Mockery::mock(EventHandler::class)
                      ->shouldReceive('handle')
                      ->andReturnUsing(
