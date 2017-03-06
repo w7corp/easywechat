@@ -79,7 +79,7 @@ class OpenPlatformGuardStub extends Guard
 
     public function getHandlerForTest($type)
     {
-        return $this->getHandler($type);
+        return $this->getDefaultHandler($type);
     }
 
     public function handleMessageForTest()

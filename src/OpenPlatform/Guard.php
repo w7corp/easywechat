@@ -65,7 +65,7 @@ class Guard extends ServerGuard
      *
      * @param Container $container
      *
-     * @see getHandler()
+     * @see getDefaultHandler()
      */
     public function setContainer(Container $container)
     {
@@ -134,7 +134,7 @@ class Guard extends ServerGuard
         if (is_array($message)) {
             $message = new Collection($message);
         }
-        $handler = $this->getHandler($message->get('InfoType'));
+        $handler = $this->getDefaultHandler($message->get('InfoType'));
 
         $result = $handler->handle($message);
 
@@ -142,7 +142,7 @@ class Guard extends ServerGuard
         // keeping the original message.
         if (is_array($result) || $result instanceof Collection) {
             $message->merge($result);
-        } else {
+        } else if (!empty($result)) {
             $message->set('result', $result);
         }
 
@@ -154,14 +154,14 @@ class Guard extends ServerGuard
     }
 
     /**
-     * Gets the handler by the info type..
+     * Gets the default handler by the info type.
      *
      * @param $type
      *
      * @return EventHandlers\EventHandler
      * @throws InvalidArgumentException
      */
-    protected function getHandler($type)
+    protected function getDefaultHandler($type)
     {
         $handler = $this->container->offsetGet("open_platform_handle_{$type}");
 
