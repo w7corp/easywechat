@@ -62,7 +62,7 @@ class VerifyTicket {
      *
      * @var string
      */
-    protected $prefix = 'easywechat.common.component_verify_ticket.';
+    protected $prefix = 'easywechat.open_platform.component_verify_ticket.';
 
     /**
      * VerifyTicket constructor.

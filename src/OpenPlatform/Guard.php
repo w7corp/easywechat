@@ -77,6 +77,15 @@ class Guard extends ServerGuard
      */
     public function serve()
     {
+
+        // If sees the `auth_code` query parameter in the url, that is,
+        // authorization is successful and it calls back, meanwhile, an
+        // ` authorized` event, which also includes the auth code, is sent
+        // from WeChat, and that event will be handled.
+        if ($this->request->get('auth_code')) {
+            return new Response('success');
+        }
+
         $this->handleMessage($this->getMessage());
 
         return new Response('success');
@@ -122,15 +131,20 @@ class Guard extends ServerGuard
      */
     protected function handleMessage($message)
     {
-        $message = new Collection($message);
+        if (is_array($message)) {
+            $message = new Collection($message);
+        }
         $handler = $this->getHandler($message->get('InfoType'));
 
         $result = $handler->handle($message);
 
         // To be compatible with previous version: merges the auth result while
         // keeping the original message.
-        $message->merge($result);
-        $message = new Collection($message);
+        if (is_array($result) || $result instanceof Collection) {
+            $message->merge($result);
+        } else {
+            $message->set('result', $result);
+        }
 
         if ($customHandler = $this->getMessageHandler()) {
             $customHandler($message);
