@@ -54,23 +54,23 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['open_platform_verify_ticket'] = function ($pimple) {
+        $pimple['open_platform.verify_ticket'] = function ($pimple) {
             return new VerifyTicket(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['cache']
             );
         };
 
-        $pimple['open_platform_access_token'] = function ($pimple) {
+        $pimple['open_platform.access_token'] = function ($pimple) {
             return new AccessToken(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['config']['open_platform']['secret'],
-                $pimple['open_platform_verify_ticket'],
+                $pimple['open_platform.verify_ticket'],
                 $pimple['cache']
             );
         };
 
-        $pimple['open_platform_encryptor'] = function ($pimple) {
+        $pimple['open_platform.encryptor'] = function ($pimple) {
             return new Encryptor(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['config']['open_platform']['token'],
@@ -85,50 +85,50 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
 
             $server->debug($pimple['config']['debug']);
 
-            $server->setEncryptor($pimple['open_platform_encryptor']);
+            $server->setEncryptor($pimple['open_platform.encryptor']);
             $server->setContainer($pimple);
 
             return new OpenPlatform(
                 $server,
-                $pimple['open_platform_access_token'],
+                $pimple['open_platform.access_token'],
                 $pimple['config']['open_platform']
             );
         };
 
-        $pimple['open_platform_authorizer'] = function ($pimple) {
+        $pimple['open_platform.authorizer'] = function ($pimple) {
             return new Authorizer(
-                $pimple['open_platform_access_token'],
+                $pimple['open_platform.access_token'],
                 $pimple['config']['open_platform']
             );
         };
 
-        $pimple['open_platform_authorization'] = function($pimple) {
+        $pimple['open_platform.authorization'] = function($pimple) {
             return new Authorization(
-                $pimple['open_platform_authorizer'],
+                $pimple['open_platform.authorizer'],
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['cache']
             );
         };
 
-        $pimple['open_platform_authorizer_token'] = function ($pimple) {
+        $pimple['open_platform.authorizer_token'] = function ($pimple) {
             return new AuthorizerToken(
                 $pimple['config']['open_platform']['app_id'],
-                $pimple['open_platform_authorization']
+                $pimple['open_platform.authorization']
             );
         };
 
         // Authorization events handlers.
-        $pimple['open_platform_handle_component_verify_ticket'] = function($pimple) {
-            return new ComponentVerifyTicket($pimple['open_platform_verify_ticket']);
+        $pimple['open_platform.handlers.component_verify_ticket'] = function($pimple) {
+            return new ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
         };
-        $pimple['open_platform_handle_authorized'] = function($pimple) {
-            return new Authorized($pimple['open_platform_authorization']);
+        $pimple['open_platform.handlers.authorized'] = function($pimple) {
+            return new Authorized($pimple['open_platform.authorization']);
         };
-        $pimple['open_platform_handle_updateauthorized'] = function($pimple) {
-            return new UpdateAuthorized($pimple['open_platform_authorization']);
+        $pimple['open_platform.handlers.updateauthorized'] = function($pimple) {
+            return new UpdateAuthorized($pimple['open_platform.authorization']);
         };
-        $pimple['open_platform_handle_unauthorized'] = function($pimple) {
-            return new Unauthorized($pimple['open_platform_authorization']);
+        $pimple['open_platform.handlers.unauthorized'] = function($pimple) {
+            return new Unauthorized($pimple['open_platform.authorization']);
         };
     }
 
