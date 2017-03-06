@@ -47,6 +47,6 @@ class ComponentVerifyTicket implements EventHandler
     {
         $this->getVerifyTicket()->cache($message);
 
-        return 'success';
+        return $message;
     }
 }

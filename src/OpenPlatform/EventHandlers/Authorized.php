@@ -48,6 +48,6 @@ class Authorized implements EventHandler
     public function handle(Collection $message)
     {
         $this->authorization->setFromAuthMessage($message);
-        $this->authorization->handleAuthorization();
+        return $this->authorization->handleAuthorization();
     }
 }

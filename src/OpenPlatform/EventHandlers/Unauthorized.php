@@ -39,5 +39,7 @@ class Unauthorized extends Authorized
         $this->authorization->setFromAuthMessage($message);
         $this->authorization->removeAuthorizerAccessToken();
         $this->authorization->removeAuthorizerRefreshToken();
+
+        return $message;
     }
 }
