@@ -31,7 +31,6 @@ use EasyWeChat\Support\Collection;
 
 class Unauthorized extends Authorized
 {
-
     /**
      * @inheritdoc
      */

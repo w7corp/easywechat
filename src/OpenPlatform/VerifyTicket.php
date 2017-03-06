@@ -32,8 +32,8 @@ use EasyWeChat\Core\Exceptions\RuntimeException;
 use EasyWeChat\OpenPlatform\Traits\Caches;
 use EasyWeChat\Support\Collection;
 
-class VerifyTicket {
-
+class VerifyTicket
+{
     use Caches;
 
     /**
@@ -70,7 +70,8 @@ class VerifyTicket {
      * @param string $appId
      * @param Cache $cache
      */
-    public function __construct($appId, Cache $cache = null) {
+    public function __construct($appId, Cache $cache = null)
+    {
         $this->appId = $appId;
         $this->setCache($cache);
     }
@@ -82,7 +83,8 @@ class VerifyTicket {
      *
      * @return bool
      */
-    public function cache(Collection $message) {
+    public function cache(Collection $message)
+    {
         return $this->set(
             $this->getCacheKey(),
             $message->get($this->ticketXmlName)
@@ -96,7 +98,8 @@ class VerifyTicket {
      *
      * @throws RuntimeException
      */
-    public function getTicket() {
+    public function getTicket()
+    {
         if ($cached = $this->get($this->getCacheKey())) {
             return $cached;
         }
@@ -111,7 +114,8 @@ class VerifyTicket {
      *
      * @return $this
      */
-    public function setCacheKey($cacheKey) {
+    public function setCacheKey($cacheKey)
+    {
         $this->cacheKey = $cacheKey;
 
         return $this;
@@ -122,7 +126,8 @@ class VerifyTicket {
      *
      * @return string $this->cacheKey
      */
-    public function getCacheKey() {
+    public function getCacheKey()
+    {
         if (is_null($this->cacheKey)) {
             return $this->prefix . $this->appId;
         }

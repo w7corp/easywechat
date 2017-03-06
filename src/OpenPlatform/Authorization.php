@@ -24,7 +24,6 @@ use EasyWeChat\Support\Collection;
 
 class Authorization
 {
-
     use Caches;
 
     const CACHE_KEY_ACCESS_TOKEN  = 'easywechat.open_platform.authorizer_access_token';
@@ -98,7 +97,8 @@ class Authorization
      *
      * @param $code
      */
-    public function setAuthCode($code) {
+    public function setAuthCode($code)
+    {
         $this->authCode = $code;
     }
 
@@ -107,7 +107,8 @@ class Authorization
      *
      * @return string
      */
-    public function getAuthCode() {
+    public function getAuthCode()
+    {
         return $this->authCode;
     }
 
@@ -116,7 +117,8 @@ class Authorization
      *
      * @param Collection $message
      */
-    public function setFromAuthMessage(Collection $message) {
+    public function setFromAuthMessage(Collection $message)
+    {
         if ($message->has('AuthorizerAppid')) {
             $this->setAuthorizerAppId($message->get('AuthorizerAppid'));
         }
@@ -253,14 +255,16 @@ class Authorization
     /**
      * Removes the authorizer access token from cache.
      */
-    public function removeAuthorizerAccessToken() {
+    public function removeAuthorizerAccessToken()
+    {
         $this->remove($this->getAuthorizerAccessTokenKey());
     }
 
     /**
      * Removes the authorizer refresh token from cache.
      */
-    public function removeAuthorizerRefreshToken() {
+    public function removeAuthorizerRefreshToken()
+    {
         $this->remove($this->getAuthorizerRefreshTokenKey());
     }
 

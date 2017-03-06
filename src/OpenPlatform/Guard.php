@@ -36,7 +36,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Guard extends ServerGuard
 {
-
     const EVENT_AUTHORIZED              = 'authorized';
     const EVENT_UNAUTHORIZED            = 'unauthorized';
     const EVENT_UPDATE_AUTHORIZED       = 'updateauthorized';
@@ -142,8 +141,10 @@ class Guard extends ServerGuard
         // keeping the original message.
         if (is_array($result) || $result instanceof Collection) {
             $message->merge($result);
-        } else if (!empty($result)) {
-            $message->set('result', $result);
+        } else {
+            if (! empty($result)) {
+                $message->set('result', $result);
+            }
         }
 
         if ($customHandler = $this->getMessageHandler()) {

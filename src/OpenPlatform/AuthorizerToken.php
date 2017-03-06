@@ -40,8 +40,8 @@ use EasyWeChat\Core\AccessToken;
  *
  * @package EasyWeChat\OpenPlatform
  */
-class AuthorizerToken extends AccessToken {
-
+class AuthorizerToken extends AccessToken
+{
     /**
      * Handles authorization.
      *

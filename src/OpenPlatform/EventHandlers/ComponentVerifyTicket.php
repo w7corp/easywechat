@@ -31,8 +31,8 @@ use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
 use EasyWeChat\OpenPlatform\VerifyTicket;
 use EasyWeChat\Support\Collection;
 
-class ComponentVerifyTicket implements EventHandler {
-
+class ComponentVerifyTicket implements EventHandler
+{
     use VerifyTicketTrait;
 
     public function __construct(VerifyTicket $verifyTicket)

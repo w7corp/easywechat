@@ -34,7 +34,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractComponent extends AbstractAPI
 {
-
     /**
      * Config.
      *

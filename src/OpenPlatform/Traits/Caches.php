@@ -19,8 +19,8 @@ namespace EasyWeChat\OpenPlatform\Traits;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
 
-trait Caches {
-
+trait Caches
+{
     /**
      * @var Cache
      */
@@ -92,7 +92,8 @@ trait Caches {
      *
      * @return bool
      */
-    public function remove($key) {
+    public function remove($key)
+    {
         return $this->getCache()->delete($key);
     }
 

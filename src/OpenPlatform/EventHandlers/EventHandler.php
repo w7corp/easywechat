@@ -29,8 +29,8 @@ namespace EasyWeChat\OpenPlatform\EventHandlers;
 
 use EasyWeChat\Support\Collection;
 
-interface EventHandler {
-
+interface EventHandler
+{
     /**
      * Handle event.
      *

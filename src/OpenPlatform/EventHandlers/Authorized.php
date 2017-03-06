@@ -30,8 +30,8 @@ namespace EasyWeChat\OpenPlatform\EventHandlers;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\Support\Collection;
 
-class Authorized implements EventHandler {
-
+class Authorized implements EventHandler
+{
     /**
      * @var Authorization
      */
