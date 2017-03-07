@@ -158,7 +158,7 @@ class Authorization
     public function handleAuthorizerAccessToken()
     {
         $data = $this->authorizer->getAuthorizationToken(
-            $this->appId,
+            $this->getAuthorizerAppId(),
             $this->getAuthorizerRefreshToken()
         );
 

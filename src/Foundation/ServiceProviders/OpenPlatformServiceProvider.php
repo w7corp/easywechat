@@ -88,11 +88,15 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             $server->setEncryptor($pimple['open_platform.encryptor']);
             $server->setContainer($pimple);
 
-            return new OpenPlatform(
+            $platform = new OpenPlatform(
                 $server,
                 $pimple['open_platform.access_token'],
                 $pimple['config']['open_platform']
             );
+
+            $platform->setContainer($pimple);
+
+            return $platform;
         };
 
         $pimple['open_platform.authorizer'] = function ($pimple) {

@@ -74,17 +74,17 @@ class Authorizer extends AbstractComponent
     /**
      * Get authorization token.
      *
-     * @param $appId
-     * @param $refreshToken
+     * @param $authorizerAppId
+     * @param $authorizerRefreshToken
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function getAuthorizationToken($appId, $refreshToken)
+    public function getAuthorizationToken($authorizerAppId, $authorizerRefreshToken)
     {
         $data = [
             'component_appid' => $this->getAppId(),
-            'authorizer_appid' => $appId,
-            'authorizer_refresh_token' => $refreshToken,
+            'authorizer_appid' => $authorizerAppId,
+            'authorizer_refresh_token' => $authorizerRefreshToken,
         ];
 
         return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $data]);

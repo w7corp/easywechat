@@ -26,7 +26,10 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Core\AccessToken;
+// Don't change the alias name please. I met the issue "name already in use"
+// when used in Laravel project, not sure what is causing it, this is quick
+// solution.
+use EasyWeChat\Core\AccessToken as BaseAccessToken;
 
 /**
  * Class AuthorizerToken
@@ -40,7 +43,7 @@ use EasyWeChat\Core\AccessToken;
  *
  * @package EasyWeChat\OpenPlatform
  */
-class AuthorizerToken extends AccessToken
+class AuthorizerToken extends BaseAccessToken
 {
     /**
      * Handles authorization.
