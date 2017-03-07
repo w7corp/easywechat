@@ -73,7 +73,7 @@ class Card
     const CARD_STATUS_VERIFY_FAIL = 'CARD_STATUS_VERIFY_FAIL';   //审核失败
     const CARD_STATUS_VERIFY_OK = 'CARD_STATUS_VERIFY_OK';     //通过审核
     const CARD_STATUS_USER_DELETE = 'CARD_STATUS_USER_DELETE';   //卡券被商户删除
-    const CARD_STATUS_USER_DISPATCH = 'CARD_STATUS_USER_DISPATCH'; //在公众平台投放过的卡券 
+    const CARD_STATUS_USER_DISPATCH = 'CARD_STATUS_USER_DISPATCH'; //在公众平台投放过的卡券
 
     const API_CREATE = 'https://api.weixin.qq.com/card/create';
     const API_DELETE = 'https://api.weixin.qq.com/card/delete';
@@ -95,6 +95,8 @@ class Card
     const API_TESTWHITELIST = 'https://api.weixin.qq.com/card/testwhitelist/set';
     const API_USER_CARD_LIST = 'https://api.weixin.qq.com/card/user/getcardlist';
     const API_LANDINGPAGE_CREATE = 'https://api.weixin.qq.com/card/landingpage/create';
+    const API_CREATE_QRCODE = 'https://api.weixin.qq.com/card/qrcode/create';
+    const API_SHOW_QRCODE = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
     /**
      * constructor.
@@ -701,5 +703,30 @@ class Card
         $params = array_merge($defaultParams, $data);
 
         return $this->http->jsonPost(self::API_LANDINGPAGE_CREATE, $params);
+    }
+
+
+    /**
+     * 创建二维码接口 https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1451025062&token=&lang=zh_CN
+     *
+     * @param array $cards
+     * @return array
+     */
+    public function QRCode(array $cards = [])
+    {
+        return $this->http->jsonPost(self::API_CREATE_QRCODE, $cards);
+    }
+
+
+    /**
+     * 通过ticket换取二维码 链接.
+     *
+     * @param string $ticket
+     *
+     * @return string
+     */
+    public static function getQRCodeUrl($ticket)
+    {
+        return self::API_SHOW_QRCODE . '?ticket=' . $ticket;
     }
 }
