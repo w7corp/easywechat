@@ -725,7 +725,7 @@ class Card
      *
      * @return string
      */
-    public static function getQRCodeUrl($ticket)
+    public function getQRCodeUrl($ticket)
     {
         return self::API_SHOW_QRCODE . '?ticket=' . $ticket;
     }
