@@ -28,6 +28,7 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\Arr;
+use Pimple\Container;
 
 /**
  * Class OpenPlatform.
@@ -35,6 +36,8 @@ use EasyWeChat\Support\Arr;
  * @property \EasyWeChat\OpenPlatform\Guard $server
  * @property \EasyWeChat\OpenPlatform\Components\PreAuthCode $pre_auth
  * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
+ * @property \EasyWeChat\OpenPlatform\AuthorizerToken $authorizer_token;
+ * @property \EasyWeChat\OpenPlatform\Authorization $authorization;
  * @property \EasyWeChat\OpenPlatform\Components\Authorizer $authorizer
  */
 class OpenPlatform
@@ -61,6 +64,13 @@ class OpenPlatform
     protected $config;
 
     /**
+     * Container in the scope of the open platform.
+     *
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Components.
      *
      * @var array
@@ -85,6 +95,16 @@ class OpenPlatform
     }
 
     /**
+     * Sets the container for use of the platform.
+     *
+     * @param Container $container
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    /**
      * Magic get access.
      *
      * @param $name
@@ -101,6 +121,10 @@ class OpenPlatform
 
         if ($class = Arr::get($this->components, $name)) {
             return new $class($this->access_token, $this->config);
+        }
+
+        if ($instance = $this->container->offsetGet("open_platform.{$name}")) {
+            return $instance;
         }
 
         throw new InvalidArgumentException("Property or component \"$name\" does not exists.");

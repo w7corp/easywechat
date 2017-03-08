@@ -18,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    mingyoung <mingyoungcheung@gmail.com>
+ * @author    lixiao <leonlx126@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -28,13 +29,17 @@ namespace EasyWeChat\OpenPlatform\EventHandlers;
 
 use EasyWeChat\Support\Collection;
 
-class Unauthorized extends EventHandler
+class Unauthorized extends Authorized
 {
     /**
-     * {@inheritdoc}.
+     * @inheritdoc
      */
     public function handle(Collection $message)
     {
-        //
+        $this->authorization->setFromAuthMessage($message);
+        $this->authorization->removeAuthorizerAccessToken();
+        $this->authorization->removeAuthorizerRefreshToken();
+
+        return $message;
     }
 }
