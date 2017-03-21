@@ -71,21 +71,6 @@ class AccessToken extends WechatAccessToken
     }
 
     /**
-     * AccessToken constructor.
-     *
-     * @param string       $appId
-     * @param string       $secret
-     * @param Cache        $cache
-     * @param VerifyTicket $verifyTicket
-     */
-    public function __construct($appId, $secret, VerifyTicket $verifyTicket, Cache $cache = null)
-    {
-        parent::__construct($appId, $secret, $cache);
-
-        $this->setVerifyTicket($verifyTicket);
-    }
-
-    /**
      * {@inheritdoc}.
      */
     public function getTokenFromServer()

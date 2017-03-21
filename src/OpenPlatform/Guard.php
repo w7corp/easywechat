@@ -90,20 +90,6 @@ class Guard extends ServerGuard
     }
 
     /**
-     * Guard constructor.
-     *
-     * @param string       $token
-     * @param VerifyTicket $ticketTrait
-     * @param Request|null $request
-     */
-    public function __construct($token, VerifyTicket $ticketTrait, Request $request = null)
-    {
-        parent::__construct($token, $request);
-
-        $this->setVerifyTicket($ticketTrait);
-    }
-
-    /**
      * Return for laravel-wechat.
      *
      * @return array

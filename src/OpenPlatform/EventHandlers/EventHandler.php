@@ -39,16 +39,4 @@ interface EventHandler
      * @return mixed
      */
     public function handle(Collection $message);
-
-    /**
-     * Forward handle.
-     *
-     * @param Collection $message
-     *
-     * @return Collection
-     */
-    public function forward(Collection $message)
-    {
-        return $message;
-    }
 }
