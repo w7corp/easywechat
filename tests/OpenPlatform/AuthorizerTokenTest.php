@@ -5,13 +5,11 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
-
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\AuthorizerToken;
 
 class AuthorizerTokenTest extends TestCase
 {
-
     public function testGetToken()
     {
         $appId = 'appid@123';
@@ -32,7 +30,8 @@ class AuthorizerTokenTest extends TestCase
         $this->assertEquals($newToken, $token);
     }
 
-    public function testGetTokenForced() {
+    public function testGetTokenForced()
+    {
         $appId = 'appid@123';
         $cachedToken = 'token@123';
         $newToken = 'token@456';

@@ -32,7 +32,7 @@ use EasyWeChat\Support\Collection;
 class Unauthorized extends Authorized
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function handle(Collection $message)
     {

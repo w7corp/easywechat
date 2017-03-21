@@ -5,12 +5,11 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
-
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
 
-class AuthorizerTest extends TestCase {
-
+class AuthorizerTest extends TestCase
+{
     /**
      * Authorizer mock.
      *
@@ -21,19 +20,19 @@ class AuthorizerTest extends TestCase {
     public function mockAuthorizer($appId)
     {
         $authorizer = Mockery::mock(
-            Authorizer::class . '[parseJSON]',
+            Authorizer::class.'[parseJSON]',
             [
                 Mockery::mock(AccessToken::class),
                 ['open_platform' => ['app_id' => $appId]],
             ]
         );
 
-        /** @noinspection PhpUnusedParameterInspection */
+        /* @noinspection PhpUnusedParameterInspection */
         $authorizer
             ->shouldReceive('parseJSON')
             ->andReturnUsing(function ($method, $params) {
                 return [
-                    'api'    => $params[0],
+                    'api' => $params[0],
                     'params' => empty($params[1]) ? null : $params[1],
                 ];
             });
@@ -50,7 +49,7 @@ class AuthorizerTest extends TestCase {
         $result = $authorizer->getAuthorizationInfo($code);
 
         $params = [
-            'component_appid'    => $appId,
+            'component_appid' => $appId,
             'authorization_code' => $code,
         ];
         $this->assertStringStartsWith(Authorizer::GET_AUTH_INFO, $result['api']);
@@ -67,8 +66,8 @@ class AuthorizerTest extends TestCase {
         $result = $authorizer->getAuthorizationToken($authorizerAppId, $refreshToken);
 
         $params = [
-            'component_appid'          => $appId,
-            'authorizer_appid'         => $authorizerAppId,
+            'component_appid' => $appId,
+            'authorizer_appid' => $authorizerAppId,
             'authorizer_refresh_token' => $refreshToken,
         ];
         $this->assertStringStartsWith(Authorizer::GET_AUTHORIZER_TOKEN, $result['api']);
@@ -84,7 +83,7 @@ class AuthorizerTest extends TestCase {
         $result = $authorizer->getAuthorizerInfo($authorizerAppId);
 
         $params = [
-            'component_appid'  => $appId,
+            'component_appid' => $appId,
             'authorizer_appid' => $authorizerAppId,
         ];
         $this->assertStringStartsWith(Authorizer::GET_AUTHORIZER_INFO, $result['api']);
@@ -101,15 +100,16 @@ class AuthorizerTest extends TestCase {
         $result = $authorizer->getAuthorizerOption($authorizerAppId, $optionName);
 
         $params = [
-            'component_appid'  => $appId,
+            'component_appid' => $appId,
             'authorizer_appid' => $authorizerAppId,
-            'option_name'      => $optionName,
+            'option_name' => $optionName,
         ];
         $this->assertStringStartsWith(Authorizer::GET_AUTHORIZER_OPTION, $result['api']);
         $this->assertEquals($params, $result['params']);
     }
 
-    public function testSetAuthorizerOption() {
+    public function testSetAuthorizerOption()
+    {
         $appId = 'appid@123';
         $authorizer = $this->mockAuthorizer($appId);
 
@@ -120,7 +120,7 @@ class AuthorizerTest extends TestCase {
             $authorizerAppId, $optionName, $optionValue);
 
         $params = [
-            'component_appid'  => $appId,
+            'component_appid' => $appId,
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
             'option_value' => $optionValue,
@@ -128,5 +128,4 @@ class AuthorizerTest extends TestCase {
         $this->assertStringStartsWith(Authorizer::SET_AUTHORIZER_OPTION, $result['api']);
         $this->assertEquals($params, $result['params']);
     }
-
 }

@@ -50,7 +50,6 @@ class PreAuthCode extends AbstractComponent
      */
     protected $redirectUri;
 
-
     /**
      * Get pre auth code.
      *

@@ -98,7 +98,7 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple['open_platform.authorization'] = function($pimple) {
+        $pimple['open_platform.authorization'] = function ($pimple) {
             return new Authorization(
                 $pimple['open_platform.authorizer'],
                 $pimple['config']['open_platform']['app_id'],
@@ -114,18 +114,17 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         // Authorization events handlers.
-        $pimple['open_platform.handlers.component_verify_ticket'] = function($pimple) {
+        $pimple['open_platform.handlers.component_verify_ticket'] = function ($pimple) {
             return new ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
         };
-        $pimple['open_platform.handlers.authorized'] = function($pimple) {
+        $pimple['open_platform.handlers.authorized'] = function ($pimple) {
             return new Authorized($pimple['open_platform.authorization']);
         };
-        $pimple['open_platform.handlers.updateauthorized'] = function($pimple) {
+        $pimple['open_platform.handlers.updateauthorized'] = function ($pimple) {
             return new UpdateAuthorized($pimple['open_platform.authorization']);
         };
-        $pimple['open_platform.handlers.unauthorized'] = function($pimple) {
+        $pimple['open_platform.handlers.unauthorized'] = function ($pimple) {
             return new Unauthorized($pimple['open_platform.authorization']);
         };
     }
-
 }

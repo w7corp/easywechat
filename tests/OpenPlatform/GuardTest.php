@@ -5,7 +5,6 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
-
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
 use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
@@ -17,15 +16,14 @@ use EasyWeChat\Support\Collection;
 
 class GuardTest extends TestCase
 {
-
     public function testGetHandler()
     {
         $server = $this->make();
 
         $handlers = [
-            Guard::EVENT_AUTHORIZED              => Authorized::class,
-            Guard::EVENT_UNAUTHORIZED            => Unauthorized::class,
-            Guard::EVENT_UPDATE_AUTHORIZED       => UpdateAuthorized::class,
+            Guard::EVENT_AUTHORIZED => Authorized::class,
+            Guard::EVENT_UNAUTHORIZED => Unauthorized::class,
+            Guard::EVENT_UPDATE_AUTHORIZED => UpdateAuthorized::class,
             Guard::EVENT_COMPONENT_VERIFY_TICKET => ComponentVerifyTicket::class,
         ];
 
@@ -46,9 +44,9 @@ class GuardTest extends TestCase
     {
         $config = [
             'open_platform' => [
-                'app_id'  => 'your-app-id',
-                'secret'  => 'your-app-secret',
-                'token'   => 'your-token',
+                'app_id' => 'your-app-id',
+                'secret' => 'your-app-secret',
+                'token' => 'your-token',
                 'aes_key' => 'your-ase-key',
             ],
         ];
@@ -74,7 +72,6 @@ class GuardTest extends TestCase
 
 class OpenPlatformGuardStub extends Guard
 {
-
     public static $message = ['InfoType' => 'test'];
 
     public function getHandlerForTest($type)
@@ -86,5 +83,4 @@ class OpenPlatformGuardStub extends Guard
     {
         return $this->handleMessage(self::$message);
     }
-
 }
