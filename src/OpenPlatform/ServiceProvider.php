@@ -12,12 +12,17 @@
 /**
  * ServiceProvider.php.
  *
- * This file is part of the wechat.
+ * Part of Overtrue\WeChat.
  *
- * (c) mingyoung <mingyoungcheung@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
+ * @author    mingyoung <mingyoungcheung@gmail.com>
+ * @author    lixiao <leonlx126@gmail.com>
+ * @copyright 2016
+ *
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
 
 namespace EasyWeChat\OpenPlatform;
@@ -41,23 +46,23 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['component_verify_ticket'] = function ($pimple) {
+        $pimple['open_platform.verify_ticket'] = function ($pimple) {
             return new VerifyTicket(
-                $pimple['config']['open_platform'],
+                $pimple['config']['open_platform']['app_id'],
                 $pimple['cache']
             );
         };
 
-        $pimple['open_platform_access_token'] = function ($pimple) {
+        $pimple['open_platform.access_token'] = function ($pimple) {
             return new AccessToken(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['config']['open_platform']['secret'],
-                $pimple['component_verify_ticket'],
+                $pimple['open_platform.verify_ticket'],
                 $pimple['cache']
             );
         };
 
-        $pimple['open_platform_encryptor'] = function ($pimple) {
+        $pimple['open_platform.encryptor'] = function ($pimple) {
             return new Encryptor(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['config']['open_platform']['token'],
@@ -66,17 +71,61 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['open_platform'] = function ($pimple) {
-            $server = new Guard($pimple['config']['open_platform']['token'], $pimple['component_verify_ticket']);
+            $server = new Guard(
+                $pimple['config']['open_platform']['token']
+            );
 
             $server->debug($pimple['config']['debug']);
 
-            $server->setEncryptor($pimple['open_platform_encryptor']);
+            $server->setEncryptor($pimple['open_platform.encryptor']);
+            $server->setContainer($pimple);
 
-            return new OpenPlatform(
+            $platform = new OpenPlatform(
                 $server,
-                $pimple['open_platform_access_token'],
+                $pimple['open_platform.access_token'],
+                $pimple['config']['open_platform']
+            );
+
+            $platform->setContainer($pimple);
+
+            return $platform;
+        };
+
+        $pimple['open_platform.authorizer'] = function ($pimple) {
+            return new Authorizer(
+                $pimple['open_platform.access_token'],
                 $pimple['config']['open_platform']
             );
         };
+
+        $pimple['open_platform.authorization'] = function($pimple) {
+            return new Authorization(
+                $pimple['open_platform.authorizer'],
+                $pimple['config']['open_platform']['app_id'],
+                $pimple['cache']
+            );
+        };
+
+        $pimple['open_platform.authorizer_token'] = function ($pimple) {
+            return new AuthorizerToken(
+                $pimple['config']['open_platform']['app_id'],
+                $pimple['open_platform.authorization']
+            );
+        };
+
+        // Authorization events handlers.
+        $pimple['open_platform.handlers.component_verify_ticket'] = function($pimple) {
+            return new ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
+        };
+        $pimple['open_platform.handlers.authorized'] = function($pimple) {
+            return new Authorized($pimple['open_platform.authorization']);
+        };
+        $pimple['open_platform.handlers.updateauthorized'] = function($pimple) {
+            return new UpdateAuthorized($pimple['open_platform.authorization']);
+        };
+        $pimple['open_platform.handlers.unauthorized'] = function($pimple) {
+            return new Unauthorized($pimple['open_platform.authorization']);
+        };
     }
+
 }

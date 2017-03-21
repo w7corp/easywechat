@@ -119,6 +119,37 @@ class PaymentPaymentTest extends TestCase
     }
 
     /**
+     * Test handleNotify().
+     */
+    public function testHandleScanNotify()
+    {
+        $merchant = new Merchant(['key' => 'different_sign_key']);
+        $payment = Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
+        $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><product_id>88888</product_id><openid>o8GeHuLAsgefS_80exEr1cTqekUs</openid></xml>');
+        $notify = Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
+        $notify->shouldReceive('isValid')->andReturn(true);
+        $payment->shouldReceive('getNotify')->andReturn($notify);
+
+        $response = $payment->handleScanNotify(function () {
+            return 'wx201410272009395522657a690389285100';
+        });
+
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertRegExp('#<prepay_id><!\[CDATA\[wx201410272009395522657a690389285100\]\]></prepay_id>#', $response->getContent());
+
+        $response = $payment->handleScanNotify(function () {
+            throw new \Exception('Operation failed', 1048);
+        });
+
+        $this->assertEquals(XML::build([
+            'return_code' => 'SUCCESS',
+            'return_msg' => 1048,
+            'result_code' => 'FAIL',
+            'err_code_des' => 'Operation failed',
+        ]), $response->getContent());
+    }
+
+    /**
      * test configForPayment.
      */
     public function testConfigForPayment()
