@@ -49,17 +49,6 @@ class Guard extends ServerGuard
     protected $container;
 
     /**
-     * Guard constructor.
-     *
-     * @param string $token
-     * @param Request $request
-     */
-    public function __construct($token, Request $request = null)
-    {
-        parent::__construct($token, $request);
-    }
-
-    /**
      * Sets the container for use of event handlers.
      *
      * @param Container $container
@@ -79,13 +68,20 @@ class Guard extends ServerGuard
 
         // If sees the `auth_code` query parameter in the url, that is,
         // authorization is successful and it calls back, meanwhile, an
-        // ` authorized` event, which also includes the auth code, is sent
+        // `authorized` event, which also includes the auth code, is sent
         // from WeChat, and that event will be handled.
         if ($this->request->get('auth_code')) {
             return new Response('success');
         }
 
-        $this->handleMessage($this->getMessage());
+        $message = $this->getMessage();
+
+        $this->handleMessage($message);
+
+        // Handle Messages.
+        if (isset($message['MsgType'])) {
+            return parent::serve();
+        }
 
         return new Response('success');
     }
@@ -133,6 +129,11 @@ class Guard extends ServerGuard
         if (is_array($message)) {
             $message = new Collection($message);
         }
+
+        if ($message->has('MsgType')) {
+            return parent::handleMessage($message->toArray());
+        }
+
         $handler = $this->getDefaultHandler($message->get('InfoType'));
 
         $result = $handler->handle($message);
