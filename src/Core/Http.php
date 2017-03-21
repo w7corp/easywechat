@@ -34,6 +34,12 @@ use Psr\Http\Message\ResponseInterface;
 class Http
 {
     /**
+     * Used to identify handler defined by client code
+     * Maybe useful in the future.
+     */
+    const USER_DEFINED_HANDLER = 'userDefined';
+
+    /**
      * Http client.
      *
      * @var HttpClient
@@ -297,6 +303,10 @@ class Http
 
         foreach ($this->middlewares as $middleware) {
             $stack->push($middleware);
+        }
+
+        if (isset(static::$defaults['handler']) && is_callable(static::$defaults['handler'])) {
+            $stack->push(static::$defaults['handler'], self::USER_DEFINED_HANDLER);
         }
 
         return $stack;

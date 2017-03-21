@@ -18,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    mingyoung <mingyoungcheung@gmail.com>
+ * @author    lixiao <leonlx126@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -27,25 +28,20 @@
 namespace EasyWeChat\OpenPlatform;
 
 use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\Exceptions\RuntimeException;
+use EasyWeChat\OpenPlatform\Traits\Caches;
 use EasyWeChat\Support\Collection;
 
 class VerifyTicket
 {
-    /**
-     * Config.
-     *
-     * @var array
-     */
-    protected $config;
+    use Caches;
 
     /**
-     * Cache.
+     * App Id.
      *
-     * @var Cache
+     * @var string
      */
-    private $cache;
+    protected $appId;
 
     /**
      * Cache Key.
@@ -66,18 +62,18 @@ class VerifyTicket
      *
      * @var string
      */
-    protected $prefix = 'easywechat.common.component_verify_ticket.';
+    protected $prefix = 'easywechat.open_platform.component_verify_ticket.';
 
     /**
      * VerifyTicket constructor.
      *
-     * @param array                        $config
-     * @param \Doctrine\Common\Cache\Cache $cache
+     * @param string $appId
+     * @param Cache $cache
      */
-    public function __construct($config, Cache $cache = null)
+    public function __construct($appId, Cache $cache = null)
     {
-        $this->config = $config;
-        $this->cache = $cache;
+        $this->appId = $appId;
+        $this->setCache($cache);
     }
 
     /**
@@ -89,7 +85,7 @@ class VerifyTicket
      */
     public function cache(Collection $message)
     {
-        return $this->getCache()->save(
+        return $this->set(
             $this->getCacheKey(),
             $message->get($this->ticketXmlName)
         );
@@ -104,37 +100,11 @@ class VerifyTicket
      */
     public function getTicket()
     {
-        $cached = $this->getCache()->fetch($this->getCacheKey());
-
-        if (empty($cached)) {
-            throw new RuntimeException('Component verify ticket does not exists.');
+        if ($cached = $this->get($this->getCacheKey())) {
+            return $cached;
         }
 
-        return $cached;
-    }
-
-    /**
-     * Set cache.
-     *
-     * @param \Doctrine\Common\Cache\Cache $cache
-     *
-     * @return VerifyTicket
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
-
-        return $this;
-    }
-
-    /**
-     * Return the cache manager.
-     *
-     * @return \Doctrine\Common\Cache\Cache
-     */
-    public function getCache()
-    {
-        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
+        throw new RuntimeException('Component verify ticket does not exists.');
     }
 
     /**
@@ -159,7 +129,7 @@ class VerifyTicket
     public function getCacheKey()
     {
         if (is_null($this->cacheKey)) {
-            return $this->prefix.$this->config['app_id'];
+            return $this->prefix . $this->appId;
         }
 
         return $this->cacheKey;
