@@ -59,7 +59,7 @@ abstract class AbstractComponent extends AbstractAPI
      * AbstractComponent constructor.
      *
      * @param AccessToken $accessToken
-     * @param array $config
+     * @param array       $config
      * @param $request
      */
     public function __construct($accessToken, array $config, $request = null)
@@ -73,7 +73,8 @@ abstract class AbstractComponent extends AbstractAPI
      * Get AppId.
      *
      * @return string
-     * @throws Exception When app id is not present.
+     *
+     * @throws Exception when app id is not present
      */
     public function getAppId()
     {
@@ -107,5 +108,4 @@ abstract class AbstractComponent extends AbstractAPI
 
         return $this;
     }
-
 }

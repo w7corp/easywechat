@@ -55,7 +55,7 @@ class PaymentNotifyTest extends TestCase
 
         $this->expectException(FaultException::class);
         $this->expectExceptionMessageRegExp('/Invalid request XML: .*/');
-        
+
         $notify->getNotify();
     }
 }

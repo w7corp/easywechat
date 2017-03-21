@@ -68,7 +68,7 @@ class VerifyTicket
      * VerifyTicket constructor.
      *
      * @param string $appId
-     * @param Cache $cache
+     * @param Cache  $cache
      */
     public function __construct($appId, Cache $cache = null)
     {
@@ -129,7 +129,7 @@ class VerifyTicket
     public function getCacheKey()
     {
         if (is_null($this->cacheKey)) {
-            return $this->prefix . $this->appId;
+            return $this->prefix.$this->appId;
         }
 
         return $this->cacheKey;
