@@ -28,6 +28,13 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Encryption\Encryptor;
+use EasyWeChat\OpenPlatform\Authorization;
+use EasyWeChat\OpenPlatform\AuthorizerToken;
+use EasyWeChat\OpenPlatform\Components\Authorizer;
+use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
+use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
+use EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized;
+use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
