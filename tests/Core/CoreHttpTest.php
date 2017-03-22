@@ -214,14 +214,14 @@ namespace {
             ]);
 
             $httpClient = Mockery::mock(Client::class);
-            $httpClient->shouldReceive('request')->withArgs(function ($method, $url, $options) {
+            $httpClient->shouldReceive('request')->andReturnUsing(function ($method, $url, $options) {
                 $request = new Request($method, $url);
                 if (isset($options['handler']) && ($options['handler'] instanceof HandlerStack)) {
                     $options['handler']($request, $options);
                 }
 
-                return true;
-            })->andReturn(new Response());
+                return new Response();
+            });
 
             $http = new Http();
             $http->setClient($httpClient);
