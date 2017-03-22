@@ -206,12 +206,4 @@ namespace {
     }
 }
 
-namespace EasyWeChat\Support {
-    class Url
-    {
-        public static function current()
-        {
-            return 'http://current.org';
-        }
-    }
-}
+
