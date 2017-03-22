@@ -146,5 +146,4 @@ class Authorizer extends AbstractComponent
 
         return $this->parseJSON('json', [self::SET_AUTHORIZER_OPTION, $data]);
     }
-
 }

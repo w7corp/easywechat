@@ -54,7 +54,7 @@ trait Caches
      * Gets the cached data.
      *
      * @param string $key
-     * @param mixed $default A default value or a callable to return the value.
+     * @param mixed  $default a default value or a callable to return the value
      *
      * @return mixed
      */
@@ -75,8 +75,8 @@ trait Caches
      * Sets the cached data.
      *
      * @param string $key
-     * @param mixed $value
-     * @param int $life Cache life time in seconds.
+     * @param mixed  $value
+     * @param int    $life  cache life time in seconds
      *
      * @return bool
      */
@@ -96,5 +96,4 @@ trait Caches
     {
         return $this->getCache()->delete($key);
     }
-
 }

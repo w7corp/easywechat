@@ -36,9 +36,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Guard extends ServerGuard
 {
-    const EVENT_AUTHORIZED              = 'authorized';
-    const EVENT_UNAUTHORIZED            = 'unauthorized';
-    const EVENT_UPDATE_AUTHORIZED       = 'updateauthorized';
+    const EVENT_AUTHORIZED = 'authorized';
+    const EVENT_UNAUTHORIZED = 'unauthorized';
+    const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
     const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
 
     /**
@@ -61,11 +61,10 @@ class Guard extends ServerGuard
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function serve()
     {
-
         // If sees the `auth_code` query parameter in the url, that is,
         // authorization is successful and it calls back, meanwhile, an
         // `authorized` event, which also includes the auth code, is sent
@@ -122,7 +121,7 @@ class Guard extends ServerGuard
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function handleMessage($message)
     {
@@ -143,7 +142,7 @@ class Guard extends ServerGuard
         if (is_array($result) || $result instanceof Collection) {
             $message->merge($result);
         } else {
-            if (! empty($result)) {
+            if (!empty($result)) {
                 $message->set('result', $result);
             }
         }
@@ -161,12 +160,13 @@ class Guard extends ServerGuard
      * @param $type
      *
      * @return EventHandlers\EventHandler
+     *
      * @throws InvalidArgumentException
      */
     protected function getDefaultHandler($type)
     {
         $handler = $this->container->offsetGet("open_platform.handlers.{$type}");
-        if (! $handler) {
+        if (!$handler) {
             throw new InvalidArgumentException("EventHandler \"$type\" does not exists.");
         }
 

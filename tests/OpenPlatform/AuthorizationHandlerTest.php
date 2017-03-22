@@ -5,14 +5,12 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
-
 use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
 use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
 use EasyWeChat\Support\Collection;
 
 class AuthorizationHandlerTest extends AuthorizationTest
 {
-
     public function testAuthorized()
     {
         $appId = 'appid@123';
@@ -25,11 +23,11 @@ class AuthorizationHandlerTest extends AuthorizationTest
         );
 
         $message = [
-            'AppId'                        => 'open-platform-app-id',
-            'CreateTIme'                   => '1413192760',
-            'InfoType'                     => 'authorized',
-            'AuthorizerAppid'              => 'authorizer-app-id',
-            'AuthorizationCode'            => 'auth-code',
+            'AppId' => 'open-platform-app-id',
+            'CreateTIme' => '1413192760',
+            'InfoType' => 'authorized',
+            'AuthorizerAppid' => 'authorizer-app-id',
+            'AuthorizationCode' => 'auth-code',
             'AuthorizationCodeExpiredTime' => '600',
         ];
         $authorized = new Authorized($authorization);
@@ -58,11 +56,11 @@ class AuthorizationHandlerTest extends AuthorizationTest
 
         // Authorized => saves the tokens.
         $message = [
-            'AppId'                        => 'open-platform-app-id',
-            'CreateTIme'                   => '1413192760',
-            'InfoType'                     => 'authorized',
-            'AuthorizerAppid'              => 'authorizer-app-id',
-            'AuthorizationCode'            => 'auth-code',
+            'AppId' => 'open-platform-app-id',
+            'CreateTIme' => '1413192760',
+            'InfoType' => 'authorized',
+            'AuthorizerAppid' => 'authorizer-app-id',
+            'AuthorizationCode' => 'auth-code',
             'AuthorizationCodeExpiredTime' => '600',
         ];
         $authorized = new Authorized($authorization);
@@ -70,9 +68,9 @@ class AuthorizationHandlerTest extends AuthorizationTest
 
         // Unauthorized => removes the tokens.
         $message = [
-            'AppId'           => 'open-platform-app-id',
-            'CreateTIme'      => '1413192760',
-            'InfoType'        => 'authorized',
+            'AppId' => 'open-platform-app-id',
+            'CreateTIme' => '1413192760',
+            'InfoType' => 'authorized',
             'AuthorizerAppid' => 'authorizer-app-id',
         ];
         $authorized = new Unauthorized($authorization);

@@ -28,14 +28,14 @@
 namespace EasyWeChat\Foundation\ServiceProviders;
 
 use EasyWeChat\Encryption\Encryptor;
+use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\AuthorizerToken;
-use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
 use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
-use EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized;
-use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
 use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
+use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
+use EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized;
 use EasyWeChat\OpenPlatform\Guard;
 use EasyWeChat\OpenPlatform\OpenPlatform;
 use EasyWeChat\OpenPlatform\VerifyTicket;
@@ -106,7 +106,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple['open_platform.authorization'] = function($pimple) {
+        $pimple['open_platform.authorization'] = function ($pimple) {
             return new Authorization(
                 $pimple['open_platform.authorizer'],
                 $pimple['config']['open_platform']['app_id'],
@@ -122,18 +122,17 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         };
 
         // Authorization events handlers.
-        $pimple['open_platform.handlers.component_verify_ticket'] = function($pimple) {
+        $pimple['open_platform.handlers.component_verify_ticket'] = function ($pimple) {
             return new ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
         };
-        $pimple['open_platform.handlers.authorized'] = function($pimple) {
+        $pimple['open_platform.handlers.authorized'] = function ($pimple) {
             return new Authorized($pimple['open_platform.authorization']);
         };
-        $pimple['open_platform.handlers.updateauthorized'] = function($pimple) {
+        $pimple['open_platform.handlers.updateauthorized'] = function ($pimple) {
             return new UpdateAuthorized($pimple['open_platform.authorization']);
         };
-        $pimple['open_platform.handlers.unauthorized'] = function($pimple) {
+        $pimple['open_platform.handlers.unauthorized'] = function ($pimple) {
             return new Unauthorized($pimple['open_platform.authorization']);
         };
     }
-
 }

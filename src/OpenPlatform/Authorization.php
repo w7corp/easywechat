@@ -26,7 +26,7 @@ class Authorization
 {
     use Caches;
 
-    const CACHE_KEY_ACCESS_TOKEN  = 'easywechat.open_platform.authorizer_access_token';
+    const CACHE_KEY_ACCESS_TOKEN = 'easywechat.open_platform.authorizer_access_token';
     const CACHE_KEY_REFRESH_TOKEN = 'easywechat.open_platform.authorizer_refresh_token';
 
     /**
@@ -79,11 +79,12 @@ class Authorization
      * Gets the authorizer app id, or throws if not found.
      *
      * @return string
+     *
      * @throws Exception
      */
     public function getAuthorizerAppId()
     {
-        if (! $this->authorizerAppId) {
+        if (!$this->authorizerAppId) {
             throw new Exception(
                 'Authorizer App Id is not present, you may not make the authorization yet.'
             );
@@ -153,7 +154,7 @@ class Authorization
     /**
      * Handles the authorizer access token: calls the API, saves the token.
      *
-     * @return string The authorizer access token.
+     * @return string the authorizer access token
      */
     public function handleAuthorizerAccessToken()
     {
@@ -202,7 +203,7 @@ class Authorization
     /**
      * Saves the authorizer access token in cache.
      *
-     * @param Collection|array $data Array structure from WeChat API result.
+     * @param Collection|array $data array structure from WeChat API result
      */
     public function saveAuthorizerAccessToken($data)
     {
@@ -226,7 +227,7 @@ class Authorization
     /**
      * Saves the authorizer refresh token in cache.
      *
-     * @param Collection|array $data Array structure from WeChat API result.
+     * @param Collection|array $data array structure from WeChat API result
      */
     public function saveAuthorizerRefreshToken($data)
     {
@@ -239,7 +240,8 @@ class Authorization
      * Gets the authorizer refresh token.
      *
      * @return string
-     * @throws Exception When refresh token is not present.
+     *
+     * @throws Exception when refresh token is not present
      */
     public function getAuthorizerRefreshToken()
     {
@@ -276,8 +278,8 @@ class Authorization
     public function getAuthorizerAccessTokenKey()
     {
         return self::CACHE_KEY_ACCESS_TOKEN
-            . '.' . $this->appId
-            . '.' . $this->getAuthorizerAppId();
+            .'.'.$this->appId
+            .'.'.$this->getAuthorizerAppId();
     }
 
     /**
@@ -288,8 +290,7 @@ class Authorization
     public function getAuthorizerRefreshTokenKey()
     {
         return self::CACHE_KEY_REFRESH_TOKEN
-            . '.' . $this->appId
-            . '.' . $this->getAuthorizerAppId();
+            .'.'.$this->appId
+            .'.'.$this->getAuthorizerAppId();
     }
-
 }

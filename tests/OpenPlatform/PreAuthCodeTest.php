@@ -5,12 +5,11 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
-
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Components\PreAuthCode;
 
-class PreAuthCodeTest extends TestCase {
-
+class PreAuthCodeTest extends TestCase
+{
     /**
      * PreAuthCode mock.
      *
@@ -22,20 +21,20 @@ class PreAuthCodeTest extends TestCase {
     public function mockPreAuth($appId, $code = null)
     {
         $preAuth = Mockery::mock(
-            PreAuthCode::class . '[parseJSON]',
+            PreAuthCode::class.'[parseJSON]',
             [
                 Mockery::mock(AccessToken::class),
                 ['open_platform' => ['app_id' => $appId]],
             ]
         );
 
-        /** @noinspection PhpUnusedParameterInspection */
+        /* @noinspection PhpUnusedParameterInspection */
         $preAuth
             ->shouldReceive('parseJSON')
             ->andReturnUsing(function ($method, $params) use ($code) {
                 return [
-                    'api'           => $params[0],
-                    'params'        => empty($params[1]) ? null : $params[1],
+                    'api' => $params[0],
+                    'params' => empty($params[1]) ? null : $params[1],
                     'pre_auth_code' => $code,
                 ];
             });
