@@ -39,5 +39,4 @@ interface EventHandler
      * @return mixed
      */
     public function handle(Collection $message);
-
 }

@@ -5,14 +5,13 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
-
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
 use EasyWeChat\OpenPlatform\Components\PreAuthCode;
 use EasyWeChat\OpenPlatform\Guard;
 
-class OpenPlatformTest extends TestCase {
-
+class OpenPlatformTest extends TestCase
+{
     public function testOpenPlatform()
     {
         $app = $this->make();
@@ -31,14 +30,13 @@ class OpenPlatformTest extends TestCase {
     {
         $config = [
             'open_platform' => [
-                'app_id'  => 'your-app-id',
-                'secret'  => 'your-app-secret',
-                'token'   => 'your-token',
+                'app_id' => 'your-app-id',
+                'secret' => 'your-app-secret',
+                'token' => 'your-token',
                 'aes_key' => 'your-ase-key',
             ],
         ];
 
         return new Application($config);
     }
-
 }

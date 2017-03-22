@@ -5,14 +5,12 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
-
 use Doctrine\Common\Cache\ArrayCache;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
 
 class AuthorizationTest extends TestCase
 {
-
     public function testGetAuthorizationInfo()
     {
         $appId = 'appid@123';
@@ -141,12 +139,11 @@ class AuthorizationTest extends TestCase
         $stub = $this->stubAuthorizerToken(
             $authorizerAccessToken, $authorizerRefreshToken
         );
-        /** @noinspection PhpUnusedParameterInspection */
+        /* @noinspection PhpUnusedParameterInspection */
         $mockAuthorizer
             ->shouldReceive('getAuthorizationToken')
             ->andReturnUsing(
-                function ($appId, $authorizerRefreshToken)
-                use ($stub) {
+                function ($appId, $authorizerRefreshToken) use ($stub) {
                     return $stub;
                 }
             );
@@ -196,8 +193,8 @@ class AuthorizationTest extends TestCase
     {
         $overrides = [
             'authorization_info' => [
-                'authorizer_appid'         => $authorizerAppId,
-                'authorizer_access_token'  => $authorizerAccessToken,
+                'authorizer_appid' => $authorizerAppId,
+                'authorizer_access_token' => $authorizerAccessToken,
                 'authorizer_refresh_token' => $authorizerRefreshToken,
             ],
         ];
@@ -209,7 +206,7 @@ class AuthorizationTest extends TestCase
                                          $authorizerRefreshToken)
     {
         $overrides = [
-            'authorizer_access_token'  => $authorizerAccessToken,
+            'authorizer_access_token' => $authorizerAccessToken,
             'authorizer_refresh_token' => $authorizerRefreshToken,
         ];
 
@@ -233,14 +230,13 @@ class AuthorizationTest extends TestCase
         $merged = $array1;
 
         foreach ($array2 as $key => &$value) {
-            if (is_array($value) && isset($merged [$key]) && is_array($merged [$key])) {
-                $merged [$key] = $this->overrides($merged [$key], $value);
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->overrides($merged[$key], $value);
             } else {
-                $merged [$key] = $value;
+                $merged[$key] = $value;
             }
         }
 
         return $merged;
     }
-
 }

@@ -5,8 +5,7 @@ namespace EasyWeChat\Support;
 /**
  * Static methods autoloading.
  */
-
-class Url
+class Utils
 {
     public static function current()
     {
