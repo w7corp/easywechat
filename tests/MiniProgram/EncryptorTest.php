@@ -1,7 +1,6 @@
 <?php
 
 use EasyWeChat\MiniProgram\Encryption\Encryptor;
-use EasyWeChat\Support\XML;
 
 class EncryptorTest extends TestCase
 {
@@ -12,7 +11,7 @@ class EncryptorTest extends TestCase
 
     public function testDecrypt()
     {
-        $encryptedData="CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
+        $encryptedData = 'CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
                 QmRzooG2xrDcvSnxIMXFufNstNGTyaGS
                 9uT5geRa0W4oTOb1WT7fJlAC+oNPdbB+
                 3hVbJSRgv+4lGOETKUQz6OYStslQ142d
@@ -28,7 +27,7 @@ class EncryptorTest extends TestCase
                 lqYTopNHR1Vf7XjfhQlVsAJdNiKdYmYV
                 oKlaRv85IfVunYzO0IKXsyl7JCUjCpoG
                 20f0a04COwfneQAGGwd5oa+T8yO5hzuy
-                Db/XcxxmK01EpqOyuxINew==";
+                Db/XcxxmK01EpqOyuxINew==';
 
         $decrypted = $this->getEncryptor()->decryptData($encryptedData);
 
