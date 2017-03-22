@@ -77,7 +77,7 @@ class AuthorizationHandlerTest extends AuthorizationTest
         $authorized->handle(new Collection($message));
 
         $this->assertNull($authorization->getAuthorizerAccessToken());
-        $this->expectException(\EasyWeChat\Core\Exception::class);
+        $this->setExpectedException(\EasyWeChat\Core\Exception::class);
         $this->assertNull($authorization->getAuthorizerRefreshToken());
     }
 }
