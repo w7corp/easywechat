@@ -1,28 +1,49 @@
 <?php
 
-/**
- * class TestCase.
- */
-class TestCase extends PHPUnit_Framework_TestCase
-{
+namespace {
     /**
-     * Tear down the test case.
+     * class TestCase.
      */
-    public function tearDown()
+    class TestCase extends PHPUnit_Framework_TestCase
     {
-        $this->finish();
-        parent::tearDown();
-        if ($container = Mockery::getContainer()) {
-            $this->addToAssertionCount($container->mockery_getExpectationCount());
+        /**
+         * Tear down the test case.
+         */
+        public function tearDown()
+        {
+            $this->finish();
+            parent::tearDown();
+            if ($container = Mockery::getContainer()) {
+                $this->addToAssertionCount($container->mockery_getExpectationCount());
+            }
+            Mockery::close();
         }
-        Mockery::close();
-    }
 
-    /**
-     * Run extra tear down code.
-     */
-    protected function finish()
-    {
-        // call more tear down methods
+        /**
+         * Run extra tear down code.
+         */
+        protected function finish()
+        {
+            // call more tear down methods
+        }
     }
 }
+
+/**
+ * Static methods autoloading.
+ */
+namespace EasyWeChat\Support {
+    class Url
+    {
+        public static function current()
+        {
+            return 'http://current.org';
+        }
+
+        public static function encode($url)
+        {
+            return urlencode($url);
+        }
+    }
+}
+
