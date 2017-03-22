@@ -53,7 +53,9 @@ class PaymentNotifyTest extends TestCase
 
         $notify = new Notify(new Merchant(['key' => 'sign_key']), $request);
 
-        $this->setExpectedExceptionRegExp(FaultException::class, '/Invalid request XML: .*/', 400);
+        $this->expectException(FaultException::class);
+        $this->expectExceptionCode(400);
+        $this->expectExceptionMessageRegExp('/Invalid request XML:.+/');
 
         $notify->getNotify();
     }

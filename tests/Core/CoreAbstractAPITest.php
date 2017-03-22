@@ -89,7 +89,7 @@ class CoreAbstractAPITest extends TestCase
         });
         $api->setHttp($http);
 
-        $this->setExpectedException(\EasyWeChat\Core\Exceptions\HttpException::class, 'Unknown', 24000);
+        $this->expectException(\EasyWeChat\Core\Exceptions\HttpException::class, 'Unknown', 24000);
         $collection = $api->parseJSON('get', ['foo', ['bar']]);
         $this->fail();
     }

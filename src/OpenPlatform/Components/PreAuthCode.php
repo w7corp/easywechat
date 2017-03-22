@@ -112,7 +112,7 @@ class PreAuthCode extends AbstractComponent
         return sprintf(self::PRE_AUTH_LINK,
             $this->getAppId(),
             $this->getCode(),
-            Url::encode($this->getRedirectUri())
+            urlencode($this->getRedirectUri())
         );
     }
 }

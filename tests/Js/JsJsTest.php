@@ -201,7 +201,7 @@ namespace {
             $accessToken = $this->getMockAccessToken();
             $js = new Js($accessToken, $cache);
             $js->setHttp($http);
-            $this->assertEquals('http://current.org', $js->getUrl());
+            $this->assertEquals('http://localhost', $js->getUrl());
         }
     }
 }
