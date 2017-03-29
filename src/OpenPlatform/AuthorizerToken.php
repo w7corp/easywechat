@@ -82,4 +82,14 @@ class AuthorizerToken extends BaseAccessToken
 
         return $cached;
     }
+
+    /**
+     * Get AppId for Authorizer.
+     *
+     * @return string
+     */
+    public function getAppId()
+    {
+        return $this->authorization->getAuthorizerAppId();
+    }
 }
