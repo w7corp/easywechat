@@ -27,6 +27,17 @@ class POIPOITest extends TestCase
     }
 
     /**
+     * Test getCategories().
+     */
+    public function testGetCategories()
+    {
+        $POI = $this->getPOI();
+
+        $response = $POI->getCategories();
+        $this->assertStringStartsWith(POI::API_GET_CATEGORIES, $response['api']);
+    }
+
+    /**
      * Test get().
      */
     public function testGet()
