@@ -18,10 +18,6 @@
 
 </div>
 
-## Supporting EasyWeChat
-
-EasyWeChat 是一个 MIT 协议的开源项目. 它的发展离不开背后的支持者。
-
 <p align="center">
     <b>Special thanks to the generous sponsorship by:</b>
     <br><br>
