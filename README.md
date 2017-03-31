@@ -22,11 +22,19 @@
 
 EasyWeChat 是一个 MIT 协议的开源项目. 它的发展离不开背后的支持者。
 
-特别感谢他们的慷慨赞助:
+<p align="center">
+    <b>Special thanks to the generous sponsorship by:</b>
+    <br><br>
+    <a href="https://www.yousails.com">
+      <img src="https://yousails.com/banners/brand.png" width=350>
+    </a>
+    <br><br>
+    <a href="https://laravist.com">
+      <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
+    </a>
+</p>
 
-<a href="https://laravist.com">
-  <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
-</a>
+
 
 ## Feature
 
