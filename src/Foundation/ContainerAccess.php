@@ -30,8 +30,6 @@ use Pimple\Container;
 
 /**
  * Class ContainerAccess.
- *
- * @package EasyWeChat\Foundation
  */
 abstract class ContainerAccess
 {

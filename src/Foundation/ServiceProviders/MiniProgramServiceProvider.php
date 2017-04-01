@@ -22,15 +22,15 @@
 
 namespace EasyWeChat\Foundation\ServiceProviders;
 
-use EasyWeChat\MiniProgram\Sns\Sns;
 use EasyWeChat\Encryption\Encryptor;
-use EasyWeChat\MiniProgram\Staff\Staff;
 use EasyWeChat\MiniProgram\AccessToken;
+use EasyWeChat\MiniProgram\Material\Temporary;
 use EasyWeChat\MiniProgram\MiniProgram;
-use EasyWeChat\MiniProgram\Server\Guard;
 use EasyWeChat\MiniProgram\Notice\Notice;
 use EasyWeChat\MiniProgram\QRCode\QRCode;
-use EasyWeChat\MiniProgram\Material\Temporary;
+use EasyWeChat\MiniProgram\Server\Guard;
+use EasyWeChat\MiniProgram\Sns\Sns;
+use EasyWeChat\MiniProgram\Staff\Staff;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -65,7 +65,7 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple['mini_program.server'] = function($pimple){
+        $pimple['mini_program.server'] = function ($pimple) {
             $server = new Guard($pimple['config']['mini_program']['token']);
             $server->debug($pimple['config']['debug']);
             $server->setEncryptor($pimple['mini_program.encryptor']);
@@ -85,14 +85,14 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
             return new Temporary($pimple['mini_program.access_token']);
         };
 
-        $pimple['mini_program.sns'] = function($pimple){
+        $pimple['mini_program.sns'] = function ($pimple) {
             return new Sns(
                 $pimple['mini_program.access_token'],
                 $pimple['config']['mini_program']
             );
         };
 
-        $pimple['mini_program.qrcode']=function($pimple){
+        $pimple['mini_program.qrcode'] = function ($pimple) {
             return new QRCode(
                 $pimple['mini_program.access_token'],
                 $pimple['config']['mini_program']

@@ -38,7 +38,6 @@ use EasyWeChat\Foundation\ContainerAccess;
  * @property \EasyWeChat\MiniProgram\QRCode\QRCode $qrcode
  * @property \EasyWeChat\MiniProgram\Material\Temporary $material_temporary
  */
-
 class MiniProgram extends ContainerAccess
 {
     /**
