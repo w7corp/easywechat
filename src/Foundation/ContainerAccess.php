@@ -48,7 +48,7 @@ abstract class ContainerAccess
     protected $container;
 
     /**
-     * MiniProgram constructor.
+     * ContainerAccess constructor.
      *
      * @param \Pimple\Container $container
      */
