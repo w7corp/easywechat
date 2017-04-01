@@ -32,7 +32,7 @@ class MiniProgramServerGuardTest extends TestCase
             'CreateTime' => 1482048670,
             'MsgType' => 'event',
             'Event' => 'user_enter_tempsession',
-            'SessionFrom' => 'sessionFrom'
+            'SessionFrom' => 'sessionFrom',
         ]);
         $xml = '<xml>
                     <ToUserName><![CDATA[toUser]]></ToUserName>
