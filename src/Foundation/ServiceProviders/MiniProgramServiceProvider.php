@@ -22,10 +22,15 @@
 
 namespace EasyWeChat\Foundation\ServiceProviders;
 
+use EasyWeChat\MiniProgram\Sns\Sns;
 use EasyWeChat\Encryption\Encryptor;
+use EasyWeChat\MiniProgram\Staff\Staff;
 use EasyWeChat\MiniProgram\AccessToken;
 use EasyWeChat\MiniProgram\MiniProgram;
 use EasyWeChat\MiniProgram\Server\Guard;
+use EasyWeChat\MiniProgram\Notice\Notice;
+use EasyWeChat\MiniProgram\QRCode\QRCode;
+use EasyWeChat\MiniProgram\Material\Temporary;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -44,40 +49,58 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['mini_program_access_token'] = function ($pimple) {
-            $config = $pimple['config']->get('mini_program');
-
+        $pimple['mini_program.access_token'] = function ($pimple) {
             return new AccessToken(
-                $config['app_id'],
-                $config['secret'],
+                $pimple['config']['mini_program']['app_id'],
+                $pimple['config']['mini_program']['secret'],
                 $pimple['cache']
             );
         };
 
-        $pimple['mini_program_encryptor'] = function ($pimple) {
-            $config = $pimple['config']->get('mini_program');
-
+        $pimple['mini_program.encryptor'] = function ($pimple) {
             return new Encryptor(
-                $config['app_id'],
-                $config['token'],
-                $config['aes_key']
+                $pimple['config']['mini_program']['app_id'],
+                $pimple['config']['mini_program']['token'],
+                $pimple['config']['mini_program']['aes_key']
+            );
+        };
+
+        $pimple['mini_program.server'] = function($pimple){
+            $server = new Guard($pimple['config']['mini_program']['token']);
+            $server->debug($pimple['config']['debug']);
+            $server->setEncryptor($pimple['mini_program.encryptor']);
+
+            return $server;
+        };
+
+        $pimple['mini_program.staff'] = function ($pimple) {
+            return new Staff($pimple['mini_program.access_token']);
+        };
+
+        $pimple['mini_program.notice'] = function ($pimple) {
+            return new Notice($pimple['mini_program.access_token']);
+        };
+
+        $pimple['mini_program.material_temporary'] = function ($pimple) {
+            return new Temporary($pimple['mini_program.access_token']);
+        };
+
+        $pimple['mini_program.sns'] = function($pimple){
+            return new Sns(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+
+        $pimple['mini_program.qrcode']=function($pimple){
+            return new QRCode(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
             );
         };
 
         $pimple['mini_program'] = function ($pimple) {
-            $config = $pimple['config']->get('mini_program');
-
-            $server = new Guard($config['token']);
-
-            $server->debug($pimple['config']['debug']);
-
-            $server->setEncryptor($pimple['mini_program_encryptor']);
-
-            return new MiniProgram(
-                $server,
-                $pimple['mini_program_access_token'],
-                $config
-            );
+            return new MiniProgram($pimple);
         };
     }
 }
