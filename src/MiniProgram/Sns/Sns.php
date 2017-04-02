@@ -24,11 +24,11 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\MiniProgram\User;
+namespace EasyWeChat\MiniProgram\Sns;
 
 use EasyWeChat\MiniProgram\Core\AbstractMiniProgram;
 
-class User extends AbstractMiniProgram
+class Sns extends AbstractMiniProgram
 {
     /**
      * Api.
