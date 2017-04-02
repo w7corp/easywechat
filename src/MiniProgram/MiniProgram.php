@@ -32,7 +32,7 @@ use EasyWeChat\Foundation\ContainerAccess;
  * Class MiniProgram.
  *
  * @property \EasyWeChat\MiniProgram\Server\Guard $server
- * @property \EasyWeChat\MiniProgram\Sns\Sns $user
+ * @property \EasyWeChat\MiniProgram\Sns\Sns $sns
  * @property \EasyWeChat\MiniProgram\Notice\Notice $notice
  * @property \EasyWeChat\MiniProgram\Staff\Staff $staff
  * @property \EasyWeChat\MiniProgram\QRCode\QRCode $qrcode
