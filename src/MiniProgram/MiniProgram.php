@@ -26,7 +26,7 @@
 
 namespace EasyWeChat\MiniProgram;
 
-use EasyWeChat\Foundation\ContainerAccess;
+use EasyWeChat\Support\Traits\PrefixedContainer;
 
 /**
  * Class MiniProgram.
@@ -38,10 +38,7 @@ use EasyWeChat\Foundation\ContainerAccess;
  * @property \EasyWeChat\MiniProgram\QRCode\QRCode $qrcode
  * @property \EasyWeChat\MiniProgram\Material\Temporary $material_temporary
  */
-class MiniProgram extends ContainerAccess
+class MiniProgram
 {
-    /**
-     * {@inheritdoc}.
-     */
-    protected $containerPrefix = 'mini_program.';
+    use PrefixedContainer;
 }

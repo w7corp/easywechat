@@ -10,7 +10,7 @@
  */
 
 /**
- * ContainerAccess.php.
+ * Trait PrefixedContainer.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,22 +24,16 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Foundation;
+namespace EasyWeChat\Support\Traits;
 
+use EasyWeChat\Support\Str;
 use Pimple\Container;
 
 /**
- * Class ContainerAccess.
+ * Trait PrefixedContainer.
  */
-abstract class ContainerAccess
+trait PrefixedContainer
 {
-    /**
-     * Container prefix.
-     *
-     * @var string
-     */
-    protected $containerPrefix;
-
     /**
      * Container.
      *
@@ -68,6 +62,10 @@ abstract class ContainerAccess
      */
     public function __get($key)
     {
-        return $this->container->offsetGet($this->containerPrefix.$key);
+        $className = (new \ReflectionClass($this))->getShortName();
+
+        $name = Str::snake($className).'.'.$key;
+
+        return $this->container->offsetGet($name);
     }
 }
