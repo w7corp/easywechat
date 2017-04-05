@@ -31,7 +31,6 @@ use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Server\Guard as ServerGuard;
 use EasyWeChat\Support\Collection;
 use Pimple\Container;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Guard extends ServerGuard
