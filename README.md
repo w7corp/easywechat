@@ -96,8 +96,10 @@ $server->serve()->send();
 
 ## Documention
 
-- Homepage: http://easywechat.org/
+- Homepage: http://easywechat.org
 - Forum: https://forum.easywechat.org
+- 微信公众平台文档: https://mp.weixin.qq.com/wiki
+- WeChat Official Documentation: http://admin.wechat.com/wiki
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
 
