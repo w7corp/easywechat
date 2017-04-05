@@ -105,4 +105,48 @@ class UserUserTest extends TestCase
         $result = $user->getGroup('openid2');
         $this->assertEquals('openid2', $result['params']['openid']);
     }
+
+    /**
+     * Test blacklist().
+     */
+    public function testBlacklist()
+    {
+        $user = $this->getUser();
+        $result = $user->blacklist();
+
+        $this->assertNull($result['params']['begin_openid']);
+
+        $result = $user->blacklist('black-openid');
+        $this->assertEquals('black-openid', $result['params']['begin_openid']);
+    }
+
+    /**
+     * Test batchBlock().
+     */
+    public function testBatchBlockUser()
+    {
+        $user = $this->getUser();
+
+        $result = $user->batchBlock(['openid1', 'openid2']);
+
+        $expected = ['openid1', 'openid2'];
+
+        $this->assertStringStartsWith(User::API_BATCH_BLACK_LIST, $result['api']);
+        $this->assertEquals($expected, $result['params']['openid_list']);
+    }
+
+    /**
+     * Test batchUnblock().
+     */
+    public function testBatchUnblockUser()
+    {
+        $user = $this->getUser();
+
+        $result = $user->batchUnblock(['openid1', 'openid2']);
+
+        $expected = ['openid1', 'openid2'];
+
+        $this->assertStringStartsWith(User::API_BATCH_UNBLACK_LIST, $result['api']);
+        $this->assertEquals($expected, $result['params']['openid_list']);
+    }
 }
