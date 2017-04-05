@@ -94,7 +94,7 @@ $server->serve()->send();
 
 更多请参考[http://easywechat.org/](http://easywechat.org/)。
 
-## Documention
+## Documentation
 
 - Homepage: http://easywechat.org
 - Forum: https://forum.easywechat.org
