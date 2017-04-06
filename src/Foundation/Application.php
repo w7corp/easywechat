@@ -47,7 +47,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\User\Tag                        $user_tag
  * @property \EasyWeChat\User\Group                      $user_group
  * @property \EasyWeChat\Js\Js                           $js
- * @property \Overtrue\Socialite\SocialiteManager        $oauth
+ * @property \Overtrue\Socialite\Providers\WeChatProvider        $oauth
  * @property \EasyWeChat\Menu\Menu                       $menu
  * @property \EasyWeChat\Notice\Notice                   $notice
  * @property \EasyWeChat\Material\Material               $material
