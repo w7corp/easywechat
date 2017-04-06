@@ -460,8 +460,9 @@ class Guard
     {
         $content = strval($content);
 
-        if (Str::isJson($content)) {
-            return Str::json2Array($content);
+        $arrayable = json_decode($content, true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return $arrayable;
         }
 
         if ($this->isSafeMode()) {
