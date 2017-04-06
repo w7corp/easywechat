@@ -347,16 +347,6 @@ class Guard
     }
 
     /**
-     * Get the collected request message.
-     *
-     * @return Collection
-     */
-    public function getCollectedMessage()
-    {
-        return new Collection($this->getMessage());
-    }
-
-    /**
      * Handle request.
      *
      * @return array
