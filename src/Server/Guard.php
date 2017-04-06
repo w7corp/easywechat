@@ -30,7 +30,6 @@ use EasyWeChat\Message\Raw as RawMessage;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
-use EasyWeChat\Support\Str;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
