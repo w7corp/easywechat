@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\Semantic;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Semantic\Semantic;
+use EasyWeChat\Tests\TestCase;
 
 class SemanticSemanticTest extends TestCase
 {

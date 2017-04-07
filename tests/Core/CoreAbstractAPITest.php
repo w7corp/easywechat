@@ -11,11 +11,11 @@
 
 namespace EasyWeChat\Tests\Core;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Tests\TestCase;
 
 class FooAPI extends AbstractAPI
 {

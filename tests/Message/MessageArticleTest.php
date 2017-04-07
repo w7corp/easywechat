@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Message;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Message\Article;
+use EasyWeChat\Tests\TestCase;
 
 class MessageArticleTest extends TestCase
 {

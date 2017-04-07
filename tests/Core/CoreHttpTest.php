@@ -10,8 +10,8 @@
  */
 
 namespace EasyWeChat\Tests\Core {
-    use EasyWeChat\Tests\TestCase;
     use EasyWeChat\Core\Http;
+    use EasyWeChat\Tests\TestCase;
     use GuzzleHttp\Client;
     use GuzzleHttp\HandlerStack;
     use GuzzleHttp\Middleware;

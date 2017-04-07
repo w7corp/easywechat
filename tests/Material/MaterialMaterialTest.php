@@ -11,10 +11,10 @@
 
 namespace EasyWeChat\Tests\Material;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Material\Material;
 use EasyWeChat\Message\Article;
+use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Psr7\Response;
 
 class MaterialMaterialTest extends TestCase
@@ -22,7 +22,7 @@ class MaterialMaterialTest extends TestCase
     /**
      * Return mock http.
      *
-     * @return \\Mockery\MockInterface
+     * @return \Mockery\MockInterface
      */
     public function getMaterial()
     {

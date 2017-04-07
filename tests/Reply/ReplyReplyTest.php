@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Reply;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Reply\Reply;
+use EasyWeChat\Tests\TestCase;
 
 class ReplyReplyTest extends TestCase
 {

@@ -7,9 +7,9 @@
  */
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\AuthorizerToken;
+use EasyWeChat\Tests\TestCase;
 
 class AuthorizerTokenTest extends TestCase
 {
@@ -46,7 +46,7 @@ class AuthorizerTokenTest extends TestCase
 
     private function make($appId, $cachedToken, $newToken)
     {
-        /** @var Authorization|\\Mockery\MockInterface $mock */
+        /** @var Authorization|\Mockery\MockInterface $mock */
         $mock = \Mockery::mock(Authorization::class);
         $mock->shouldReceive('getAuthorizerAccessToken')
              ->andReturn($cachedToken);

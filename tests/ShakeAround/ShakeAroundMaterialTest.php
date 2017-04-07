@@ -20,8 +20,8 @@
  */
 namespace EasyWeChat\Tests\ShakeAround;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Material;
+use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundMaterialTest extends TestCase
 {

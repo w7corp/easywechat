@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Stats;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Stats\Stats;
+use EasyWeChat\Tests\TestCase;
 
 class StatsStatsTest extends TestCase
 {

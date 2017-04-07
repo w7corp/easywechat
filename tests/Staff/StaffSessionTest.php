@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Staff;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Staff\Session;
+use EasyWeChat\Tests\TestCase;
 
 class StaffSessionTest extends TestCase
 {

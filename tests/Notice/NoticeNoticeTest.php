@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\Notice;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Notice\Notice;
+use EasyWeChat\Tests\TestCase;
 
 class NoticeNoticeTest extends TestCase
 {

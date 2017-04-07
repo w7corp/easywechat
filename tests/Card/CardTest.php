@@ -11,15 +11,15 @@
 
 namespace EasyWeChat\Tests\Card;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Card\Card;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Arr;
+use EasyWeChat\Tests\TestCase;
 
 class CardTest extends TestCase
 {
     /**
-     * @return \\Mockery\MockInterface|Card
+     * @return \Mockery\MockInterface|Card
      */
     public function getCard()
     {

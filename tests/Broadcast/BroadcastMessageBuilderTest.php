@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\Broadcast;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Broadcast\Broadcast;
 use EasyWeChat\Broadcast\MessageBuilder;
+use EasyWeChat\Tests\TestCase;
 
 class BroadcastMessageBuilderTest extends TestCase
 {

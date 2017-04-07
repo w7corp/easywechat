@@ -11,12 +11,12 @@
 
 namespace EasyWeChat\Tests\Payment;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 class PaymentAPITest extends TestCase

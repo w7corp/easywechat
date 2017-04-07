@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\POI;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\POI\POI;
+use EasyWeChat\Tests\TestCase;
 
 class POIPOITest extends TestCase
 {

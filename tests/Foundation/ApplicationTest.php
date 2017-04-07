@@ -11,11 +11,11 @@
 
 namespace EasyWeChat\Tests\Foundation;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Foundation\Config;
+use EasyWeChat\Tests\TestCase;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;

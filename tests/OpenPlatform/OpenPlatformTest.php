@@ -7,11 +7,11 @@
  */
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
 use EasyWeChat\OpenPlatform\Components\PreAuthCode;
 use EasyWeChat\OpenPlatform\Guard;
+use EasyWeChat\Tests\TestCase;
 
 class OpenPlatformTest extends TestCase
 {

@@ -2,8 +2,8 @@
 
 namespace EasyWeChat\Tests\MiniProgram;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\MiniProgram\Encryption\Encryptor;
+use EasyWeChat\Tests\TestCase;
 
 class EncryptorTest extends TestCase
 {

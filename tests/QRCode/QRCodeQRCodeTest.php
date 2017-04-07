@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\QRCode;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\QRCode\QRCode;
+use EasyWeChat\Tests\TestCase;
 
 class QRCodeQRCodeTest extends TestCase
 {

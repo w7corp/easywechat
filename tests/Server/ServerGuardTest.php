@@ -11,11 +11,11 @@
 
 namespace EasyWeChat\Tests\Server;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Message\Raw;
 use EasyWeChat\Server\Guard;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class ServerGuardTest extends TestCase

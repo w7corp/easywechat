@@ -7,7 +7,6 @@
  */
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
 use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
@@ -16,6 +15,7 @@ use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
 use EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized;
 use EasyWeChat\OpenPlatform\Guard;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Tests\TestCase;
 
 class GuardTest extends TestCase
 {

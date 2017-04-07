@@ -11,17 +11,17 @@
 
 namespace EasyWeChat\Tests\Material
 {
-    use EasyWeChat\Tests\TestCase;
+    use \Mockery\Mock;
     use EasyWeChat\Core\Http;
     use EasyWeChat\Material\Temporary;
-    use \Mockery\Mock;
+    use EasyWeChat\Tests\TestCase;
 
     class MaterialTemporaryTest extends TestCase
     {
         /**
          * Return mock http.
          *
-         * @return \\Mockery\MockInterface
+         * @return \Mockery\MockInterface
          */
         public function getHttp($methods)
         {

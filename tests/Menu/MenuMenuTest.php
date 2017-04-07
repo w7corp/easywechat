@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Menu;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Menu\Menu;
+use EasyWeChat\Tests\TestCase;
 
 class MenuMenuTest extends TestCase
 {

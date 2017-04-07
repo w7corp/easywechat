@@ -20,8 +20,8 @@
  */
 namespace EasyWeChat\Tests\ShakeAround;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Page;
+use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundPageTest extends TestCase
 {

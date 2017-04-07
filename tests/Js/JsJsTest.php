@@ -10,9 +10,9 @@
  */
 
 namespace EasyWeChat\Tests\Js {
-    use EasyWeChat\Tests\TestCase;
     use EasyWeChat\Core\Http;
     use EasyWeChat\Js\Js;
+    use EasyWeChat\Tests\TestCase;
 
     class JsJsTest extends TestCase
     {

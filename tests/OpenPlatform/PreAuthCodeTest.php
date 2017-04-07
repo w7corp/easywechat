@@ -7,9 +7,9 @@
  */
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Components\PreAuthCode;
+use EasyWeChat\Tests\TestCase;
 
 class PreAuthCodeTest extends TestCase
 {
@@ -19,7 +19,7 @@ class PreAuthCodeTest extends TestCase
      * @param string $appId
      * @param string $code
      *
-     * @return \\Mockery\MockInterface|PreAuthCode
+     * @return \Mockery\MockInterface|PreAuthCode
      */
     public function mockPreAuth($appId, $code = null)
     {

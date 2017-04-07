@@ -20,7 +20,6 @@
  */
 namespace EasyWeChat\Tests\ShakeAround;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Device;
 use EasyWeChat\ShakeAround\Group;
 use EasyWeChat\ShakeAround\Material;
@@ -28,6 +27,7 @@ use EasyWeChat\ShakeAround\Page;
 use EasyWeChat\ShakeAround\Relation;
 use EasyWeChat\ShakeAround\ShakeAround;
 use EasyWeChat\ShakeAround\Stats;
+use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundShakeAroundTest extends TestCase
 {

@@ -7,9 +7,9 @@
  */
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
+use EasyWeChat\Tests\TestCase;
 
 class AuthorizerTest extends TestCase
 {
@@ -18,7 +18,7 @@ class AuthorizerTest extends TestCase
      *
      * @param $appId
      *
-     * @return \\Mockery\MockInterface|Authorizer
+     * @return \Mockery\MockInterface|Authorizer
      */
     public function mockAuthorizer($appId)
     {

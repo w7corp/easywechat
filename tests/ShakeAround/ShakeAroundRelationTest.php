@@ -20,9 +20,9 @@
  */
 namespace EasyWeChat\Tests\ShakeAround;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Relation;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundRelationTest extends TestCase
 {

@@ -11,10 +11,10 @@
 
 namespace EasyWeChat\Tests\Staff;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Message\Raw;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Staff\MessageBuilder;
+use EasyWeChat\Tests\TestCase;
 
 class StaffMessageBuilderTest extends TestCase
 {

@@ -11,10 +11,10 @@
 
 namespace EasyWeChat\Tests\Payment;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Payment\LuckyMoney\API;
 use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
 use EasyWeChat\Payment\Merchant;
+use EasyWeChat\Tests\TestCase;
 
 class PaymentLuckyMoneyLuckyMoneyTest extends TestCase
 {

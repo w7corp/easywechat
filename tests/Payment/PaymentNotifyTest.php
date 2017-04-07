@@ -2,12 +2,12 @@
 
 namespace EasyWeChat\Tests\Payment;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaymentNotifyTest extends TestCase

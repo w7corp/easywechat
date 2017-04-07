@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Message;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Message\AbstractMessage;
+use EasyWeChat\Tests\TestCase;
 
 class FooMessage extends AbstractMessage
 {

@@ -11,13 +11,13 @@
 
 namespace EasyWeChat\Tests\Payment;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
 use EasyWeChat\Payment\Payment;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
