@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Broadcast;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Broadcast\Broadcast;
 use EasyWeChat\Broadcast\MessageBuilder;
 

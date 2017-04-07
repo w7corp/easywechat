@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Material;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Material\Material;
 use EasyWeChat\Message\Article;
@@ -19,13 +22,13 @@ class MaterialMaterialTest extends TestCase
     /**
      * Return mock http.
      *
-     * @return \Mockery\MockInterface
+     * @return \\Mockery\MockInterface
      */
     public function getMaterial()
     {
-        $accessToken = Mockery::mock('EasyWeChat\Core\AccessToken');
+        $accessToken = \Mockery::mock('EasyWeChat\Core\AccessToken');
         $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-        $material = Mockery::mock('EasyWeChat\Material\Material[parseJSON]', [$accessToken]);
+        $material = \Mockery::mock('EasyWeChat\Material\Material[parseJSON]', [$accessToken]);
         $material->shouldReceive('parseJSON')->andReturnUsing(function () {
             return func_get_args()[1];
         });
@@ -35,7 +38,7 @@ class MaterialMaterialTest extends TestCase
 
     public function getMockAccessToken()
     {
-        $token = Mockery::mock('EasyWeChat\Core\AccessToken[getQueryFields]', ['foo', 'bar']);
+        $token = \Mockery::mock('EasyWeChat\Core\AccessToken[getQueryFields]', ['foo', 'bar']);
         $token->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
 
         return $token;
@@ -162,7 +165,7 @@ class MaterialMaterialTest extends TestCase
     public function testGet()
     {
         $material = $this->getMaterial();
-        $http = Mockery::mock(Http::class.'[json]');
+        $http = \Mockery::mock(Http::class.'[json]');
         $http->shouldReceive('addMiddleware')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return new Response(200, ['Content-Type' => ['text/plain']], json_encode(compact('api', 'params')));
@@ -176,7 +179,7 @@ class MaterialMaterialTest extends TestCase
         $this->assertEquals(['media_id' => 'foo'], $response['params']);
 
         // media
-        $http = Mockery::mock(Http::class.'[json]');
+        $http = \Mockery::mock(Http::class.'[json]');
         $http->shouldReceive('addMiddleware')->andReturn($http);
         $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
             return new Response(200, ['Content-Type' => ['media/video']], 'media content');

@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Staff;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Message\Raw;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Staff\MessageBuilder;
@@ -17,7 +20,7 @@ class StaffMessageBuilderTest extends TestCase
 {
     public function getMessageBuilder()
     {
-        $staff = Mockery::mock('EasyWeChat\Staff\Staff');
+        $staff = \Mockery::mock('EasyWeChat\Staff\Staff');
         $staff->shouldReceive('send')->andReturnUsing(function ($message) {
             return $message;
         });

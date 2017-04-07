@@ -5,6 +5,9 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
+namespace EasyWeChat\Tests\OpenPlatform;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
 use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
@@ -57,7 +60,7 @@ class GuardTest extends TestCase
         $server->setContainer($app);
 
         $app['open_platform.handlers.test']
-            = Mockery::mock(EventHandler::class)
+            = \Mockery::mock(EventHandler::class)
                      ->shouldReceive('handle')
                      ->andReturnUsing(
                          function (Collection $message) {

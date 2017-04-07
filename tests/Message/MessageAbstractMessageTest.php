@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Message;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Message\AbstractMessage;
 
 class FooMessage extends AbstractMessage

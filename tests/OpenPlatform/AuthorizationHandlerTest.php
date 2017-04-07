@@ -5,6 +5,8 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
+namespace EasyWeChat\Tests\OpenPlatform;
+
 use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
 use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
 use EasyWeChat\Support\Collection;

@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Core;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
@@ -29,7 +32,7 @@ class CoreAbstractAPITest extends TestCase
      */
     public function testConstruct()
     {
-        $accessToken = Mockery::mock(AccessToken::class);
+        $accessToken = \Mockery::mock(AccessToken::class);
 
         $api = new FooAPI($accessToken);
         $this->assertEquals($accessToken, $api->getAccessToken());
@@ -37,7 +40,7 @@ class CoreAbstractAPITest extends TestCase
 
     public function testHttpInstance()
     {
-        $accessToken = Mockery::mock(AccessToken::class);
+        $accessToken = \Mockery::mock(AccessToken::class);
 
         $api = new FooAPI($accessToken);
 
@@ -49,7 +52,7 @@ class CoreAbstractAPITest extends TestCase
         $middlewares = $api->getHttp()->getMiddlewares();
         $this->assertCount(3, $middlewares);
 
-        $http = Mockery::mock(Http::class.'[getMiddlewares]', function ($mock) {
+        $http = \Mockery::mock(Http::class.'[getMiddlewares]', function ($mock) {
             $mock->shouldReceive('getMiddlewares')->andReturn([1, 2, 3]);
         });
         $api->setHttp($http);
@@ -58,10 +61,10 @@ class CoreAbstractAPITest extends TestCase
 
     public function testParseJSON()
     {
-        $accessToken = Mockery::mock(AccessToken::class);
+        $accessToken = \Mockery::mock(AccessToken::class);
 
         $api = new FooAPI($accessToken);
-        $http = Mockery::mock(Http::class.'[getMiddlewares,get,parseJSON]', function ($mock) {
+        $http = \Mockery::mock(Http::class.'[getMiddlewares,get,parseJSON]', function ($mock) {
             $mock->shouldReceive('getMiddlewares')->andReturn([1, 2, 3]);
             $mock->shouldReceive('get')->andReturnUsing(function () {
                 return func_get_args();
@@ -78,7 +81,7 @@ class CoreAbstractAPITest extends TestCase
         $this->assertEquals(['foo', ['bar']], $collection->all());
 
         // test error
-        $http = Mockery::mock(Http::class.'[getMiddlewares,get,parseJSON]', function ($mock) {
+        $http = \Mockery::mock(Http::class.'[getMiddlewares,get,parseJSON]', function ($mock) {
             $mock->shouldReceive('getMiddlewares')->andReturn([1, 2, 3]);
             $mock->shouldReceive('get')->andReturnUsing(function () {
                 return func_get_args();

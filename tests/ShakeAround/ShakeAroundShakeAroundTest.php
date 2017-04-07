@@ -18,6 +18,9 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
+namespace EasyWeChat\Tests\ShakeAround;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Device;
 use EasyWeChat\ShakeAround\Group;
 use EasyWeChat\ShakeAround\Material;
@@ -30,7 +33,7 @@ class ShakeAroundShakeAroundTest extends TestCase
 {
     public function getShakeAround()
     {
-        $shake_around = Mockery::mock('EasyWeChat\ShakeAround\ShakeAround[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $shake_around = \Mockery::mock('EasyWeChat\ShakeAround\ShakeAround[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
 
         return $shake_around;
     }

@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Server;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Message\Raw;
 use EasyWeChat\Server\Guard;
@@ -86,7 +89,7 @@ class ServerGuardTest extends TestCase
             return 'hello world!';
         });
 
-        $encryptor = Mockery::mock(Encryptor::class);
+        $encryptor = \Mockery::mock(Encryptor::class);
         $raw = null;
         $encryptor->shouldReceive('encryptMsg')->andReturnUsing(function ($message) use (&$raw) {
             $raw = $message;

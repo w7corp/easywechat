@@ -1,5 +1,8 @@
 <?php
 
+namespace EasyWeChat\Tests\Payment;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;

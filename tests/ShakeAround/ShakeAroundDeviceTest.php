@@ -18,13 +18,16 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
+namespace EasyWeChat\Tests\ShakeAround;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Device;
 
 class ShakeAroundDeviceTest extends TestCase
 {
     public function getDevice()
     {
-        $device = Mockery::mock('EasyWeChat\ShakeAround\Device[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $device = \Mockery::mock('EasyWeChat\ShakeAround\Device[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $device->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

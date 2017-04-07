@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Staff;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Link;
 use EasyWeChat\Message\News;
@@ -24,7 +27,7 @@ class StaffTransformerTest extends TestCase
      */
     public function testTransform()
     {
-        $message = Mockery::mock(Link::class);
+        $message = \Mockery::mock(Link::class);
         $transformer = new Transformer();
 
         $this->assertEquals([], $transformer->transform($message));

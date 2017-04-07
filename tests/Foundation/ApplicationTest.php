@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Foundation;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Foundation\Application;
@@ -79,7 +82,7 @@ class ApplicationTest extends TestCase
 
         $providers = $app->getProviders();
 
-        $app->addProvider(Mockery::mock(ServiceProviderInterface::class));
+        $app->addProvider(\Mockery::mock(ServiceProviderInterface::class));
 
         $this->assertCount(count($providers) + 1, $app->getProviders());
 

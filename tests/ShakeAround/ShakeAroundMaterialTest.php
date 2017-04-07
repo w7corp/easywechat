@@ -18,6 +18,9 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
+namespace EasyWeChat\Tests\ShakeAround;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Material;
 
 class ShakeAroundMaterialTest extends TestCase
@@ -29,7 +32,7 @@ class ShakeAroundMaterialTest extends TestCase
      */
     public function testUploadImage()
     {
-        $material = Mockery::mock('EasyWeChat\ShakeAround\Material[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $material = \Mockery::mock('EasyWeChat\ShakeAround\Material[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $material->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

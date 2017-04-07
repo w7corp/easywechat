@@ -9,13 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Broadcast;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Broadcast\Broadcast;
 
 class BroadcastBroadcastTest extends TestCase
 {
     public function getBroadcast()
     {
-        $broadcast = Mockery::mock('EasyWeChat\Broadcast\Broadcast[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $broadcast = \Mockery::mock('EasyWeChat\Broadcast\Broadcast[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $broadcast->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
@@ -129,7 +132,7 @@ class BroadcastBroadcastTest extends TestCase
 
     public function testAlias()
     {
-        $broadcast = Mockery::mock(Broadcast::class.'[send,preview]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $broadcast = \Mockery::mock(Broadcast::class.'[send,preview]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $broadcast->shouldReceive('send')->andReturnUsing(function ($api, $message, $to) {
             return compact('api', 'message', 'to');
         });

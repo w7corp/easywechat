@@ -1,5 +1,8 @@
 <?php
 
+namespace EasyWeChat\Tests\Encryption;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Support\XML;
 

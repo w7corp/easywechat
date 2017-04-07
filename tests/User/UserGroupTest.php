@@ -9,13 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\User;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\User\Group;
 
 class UserGroupTest extends TestCase
 {
     public function getGroup()
     {
-        $group = Mockery::mock('EasyWeChat\User\Group[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $group = \Mockery::mock('EasyWeChat\User\Group[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $group->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

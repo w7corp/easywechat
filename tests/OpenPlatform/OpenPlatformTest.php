@@ -5,6 +5,9 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
+namespace EasyWeChat\Tests\OpenPlatform;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
 use EasyWeChat\OpenPlatform\Components\PreAuthCode;

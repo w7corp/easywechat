@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Server;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\News;
 use EasyWeChat\Message\Text;

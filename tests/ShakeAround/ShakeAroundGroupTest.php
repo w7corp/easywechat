@@ -18,13 +18,16 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
+namespace EasyWeChat\Tests\ShakeAround;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\ShakeAround\Group;
 
 class ShakeAroundGroupTest extends TestCase
 {
     public function getGroup()
     {
-        $group = Mockery::mock('EasyWeChat\ShakeAround\Group[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $group = \Mockery::mock('EasyWeChat\ShakeAround\Group[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $group->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

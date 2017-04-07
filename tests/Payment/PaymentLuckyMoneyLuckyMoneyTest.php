@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Payment;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Payment\LuckyMoney\API;
 use EasyWeChat\Payment\LuckyMoney\LuckyMoney;
 use EasyWeChat\Payment\Merchant;
@@ -43,12 +46,12 @@ class PaymentLuckyMoneyLuckyMoneyTest extends TestCase
         $this->assertInstanceOf(API::class, $luckyMoney->getAPI());
         $this->assertInstanceOf(Merchant::class, $luckyMoney->getMerchant());
 
-        $api = Mockery::mock(API::class);
+        $api = \Mockery::mock(API::class);
         $luckyMoney->setAPI($api);
         $this->assertEquals($api, $luckyMoney->getAPI());
 
-        $merchant = Mockery::mock(Merchant::class);
-        $api = Mockery::mock(API::class);
+        $merchant = \Mockery::mock(Merchant::class);
+        $api = \Mockery::mock(API::class);
 
         $luckyMoney->setAPI($api);
         $luckyMoney->setMerchant($merchant);

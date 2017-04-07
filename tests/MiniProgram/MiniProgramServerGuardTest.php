@@ -1,5 +1,8 @@
 <?php
 
+namespace EasyWeChat\Tests\MiniProgram;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\MiniProgram\Server\Guard;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;

@@ -9,7 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-namespace {
+namespace EasyWeChat\Tests\Core {
+    use EasyWeChat\Tests\TestCase;
     use EasyWeChat\Core\Http;
     use GuzzleHttp\Client;
     use GuzzleHttp\HandlerStack;
@@ -36,8 +37,8 @@ namespace {
          */
         public function getGuzzleWithResponse($expected = null)
         {
-            $guzzle = Mockery::mock(Client::class);
-            $response = Mockery::mock(Response::class.'[getBody]');
+            $guzzle = \Mockery::mock(Client::class);
+            $response = \Mockery::mock(Response::class.'[getBody]');
 
             $status = 200;
             $headers = ['X-Foo' => 'Bar'];
@@ -98,8 +99,8 @@ namespace {
          */
         public function testGet()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -118,8 +119,8 @@ namespace {
          */
         public function testPost()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -146,8 +147,8 @@ namespace {
          */
         public function testJson()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -178,8 +179,8 @@ namespace {
          */
         public function testUpload()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -213,7 +214,7 @@ namespace {
                 }),
             ]);
 
-            $httpClient = Mockery::mock(Client::class);
+            $httpClient = \Mockery::mock(Client::class);
             $httpClient->shouldReceive('request')->andReturnUsing(function ($method, $url, $options) {
                 $request = new Request($method, $url);
                 if (isset($options['handler']) && ($options['handler'] instanceof HandlerStack)) {
