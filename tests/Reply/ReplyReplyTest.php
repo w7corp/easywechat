@@ -9,13 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Reply;
+
 use EasyWeChat\Reply\Reply;
+use EasyWeChat\Tests\TestCase;
 
 class ReplyReplyTest extends TestCase
 {
     public function getReply()
     {
-        $reply = Mockery::mock('EasyWeChat\Reply\Reply[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $reply = \Mockery::mock('EasyWeChat\Reply\Reply[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $reply->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

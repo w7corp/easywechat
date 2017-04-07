@@ -9,7 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Broadcast;
+
 use EasyWeChat\Broadcast\Transformer;
+use EasyWeChat\Tests\TestCase;
 
 class BroadcastTransformerTest extends TestCase
 {

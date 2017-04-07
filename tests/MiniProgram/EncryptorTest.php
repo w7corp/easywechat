@@ -1,6 +1,9 @@
 <?php
 
+namespace EasyWeChat\Tests\MiniProgram;
+
 use EasyWeChat\MiniProgram\Encryption\Encryptor;
+use EasyWeChat\Tests\TestCase;
 
 class EncryptorTest extends TestCase
 {

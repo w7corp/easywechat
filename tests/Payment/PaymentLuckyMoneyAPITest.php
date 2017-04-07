@@ -9,10 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Payment;
+
 use EasyWeChat\Core\Http;
 use EasyWeChat\Payment\LuckyMoney\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 
 class PaymentLuckyMoneyAPITest extends TestCase
 {
@@ -28,7 +31,7 @@ class PaymentLuckyMoneyAPITest extends TestCase
      */
     public function getAPI()
     {
-        $http = Mockery::mock(Http::class);
+        $http = \Mockery::mock(Http::class);
 
         $http->shouldReceive('request')->andReturnUsing(function ($api, $method, $options) {
             $options['body'] = XML::parse($options['body']);
@@ -44,7 +47,7 @@ class PaymentLuckyMoneyAPITest extends TestCase
                 'key_path' => 'testKeyPath',
             ]);
 
-        $api = Mockery::mock('EasyWeChat\Payment\LuckyMoney\API[getHttp]', [$merchant]);
+        $api = \Mockery::mock('EasyWeChat\Payment\LuckyMoney\API[getHttp]', [$merchant]);
         $api->shouldReceive('getHttp')->andReturn($http);
 
         return $api;
@@ -135,7 +138,7 @@ class PaymentLuckyMoneyAPITest extends TestCase
     public function testMerchantGetterAndSetter()
     {
         $api = $this->getAPI();
-        $merchant = Mockery::mock(Merchant::class);
+        $merchant = \Mockery::mock(Merchant::class);
         $api->setMerchant($merchant);
 
         $this->assertEquals($merchant, $api->getMerchant());

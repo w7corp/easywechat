@@ -5,8 +5,12 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
+
+namespace EasyWeChat\Tests\OpenPlatform;
+
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
+use EasyWeChat\Tests\TestCase;
 
 class AuthorizerTest extends TestCase
 {
@@ -19,10 +23,10 @@ class AuthorizerTest extends TestCase
      */
     public function mockAuthorizer($appId)
     {
-        $authorizer = Mockery::mock(
+        $authorizer = \Mockery::mock(
             Authorizer::class.'[parseJSON]',
             [
-                Mockery::mock(AccessToken::class),
+                \Mockery::mock(AccessToken::class),
                 ['open_platform' => ['app_id' => $appId]],
             ]
         );

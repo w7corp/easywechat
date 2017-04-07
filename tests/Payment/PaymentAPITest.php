@@ -9,11 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Payment;
+
 use EasyWeChat\Core\Http;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
 class PaymentAPITest extends TestCase
@@ -25,7 +28,7 @@ class PaymentAPITest extends TestCase
      */
     public function getAPI()
     {
-        $http = Mockery::mock(Http::class);
+        $http = \Mockery::mock(Http::class);
 
         $http->shouldReceive('request')->andReturnUsing(function ($api, $method, $options) {
             $params = XML::parse($options['body']);
@@ -42,7 +45,7 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
+        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
         $api->shouldReceive('getHttp')->andReturn($http);
 
         return $api;
@@ -182,11 +185,11 @@ class PaymentAPITest extends TestCase
      */
     public function testDownloadBill()
     {
-        $http = Mockery::mock(Http::class);
+        $http = \Mockery::mock(Http::class);
 
         $http->shouldReceive('request')->andReturnUsing(function ($api, $method, $options) {
             $params = XML::parse($options['body']);
-            $response = Mockery::mock(ResponseInterface::class);
+            $response = \Mockery::mock(ResponseInterface::class);
             $response->shouldReceive('getBody')->andReturn(compact('api', 'params'));
 
             return $response;
@@ -201,7 +204,7 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
+        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
         $api->shouldReceive('getHttp')->andReturn($http);
 
         $response = $api->downloadBill('20150901');
@@ -247,7 +250,7 @@ class PaymentAPITest extends TestCase
     public function testMerchantGetterAndSetter()
     {
         $api = $this->getAPI();
-        $merchant = Mockery::mock(Merchant::class);
+        $merchant = \Mockery::mock(Merchant::class);
         $api->setMerchant($merchant);
 
         $this->assertEquals($merchant, $api->getMerchant());

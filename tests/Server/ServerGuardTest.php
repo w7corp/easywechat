@@ -9,10 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Server;
+
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Message\Raw;
 use EasyWeChat\Server\Guard;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class ServerGuardTest extends TestCase
@@ -86,7 +89,7 @@ class ServerGuardTest extends TestCase
             return 'hello world!';
         });
 
-        $encryptor = Mockery::mock(Encryptor::class);
+        $encryptor = \Mockery::mock(Encryptor::class);
         $raw = null;
         $encryptor->shouldReceive('encryptMsg')->andReturnUsing(function ($message) use (&$raw) {
             $raw = $message;

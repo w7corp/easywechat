@@ -5,9 +5,13 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
+
+namespace EasyWeChat\Tests\OpenPlatform;
+
 use Doctrine\Common\Cache\ArrayCache;
 use EasyWeChat\OpenPlatform\VerifyTicket;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Tests\TestCase;
 
 class VerifyTicketTest extends TestCase
 {

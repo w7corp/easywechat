@@ -9,18 +9,21 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Notice;
+
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Notice\Notice;
+use EasyWeChat\Tests\TestCase;
 
 class NoticeNoticeTest extends TestCase
 {
     public function getNotice($mockHttp = false)
     {
         if ($mockHttp) {
-            $accessToken = Mockery::mock('EasyWeChat\Core\AccessToken');
+            $accessToken = \Mockery::mock('EasyWeChat\Core\AccessToken');
             $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
             $notice = new Notice($accessToken);
-            $http = Mockery::mock('EasyWeChat\Core\Http[json]');
+            $http = \Mockery::mock('EasyWeChat\Core\Http[json]');
             $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
                 return json_encode(compact('api', 'params'));
             });
@@ -28,7 +31,7 @@ class NoticeNoticeTest extends TestCase
 
             return $notice;
         }
-        $notice = Mockery::mock('EasyWeChat\Notice\Notice[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $notice = \Mockery::mock('EasyWeChat\Notice\Notice[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $notice->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];
@@ -113,7 +116,7 @@ class NoticeNoticeTest extends TestCase
 
         try {
             $notice->send();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertContains(' can not be empty!', $e->getMessage());
         }
@@ -175,7 +178,7 @@ class NoticeNoticeTest extends TestCase
             'keynote2' => ['39.8元'],
             'keynote3' => ['2014年9月16日', '#888888'],
             'remark' => '欢迎再次购买！',
-            'abc' => new stdClass(),
+            'abc' => new \stdClass(),
         ];
 
         $response = $notice->to('anzhengchao')->color('color1')->template('overtrue')->data($data)->send();

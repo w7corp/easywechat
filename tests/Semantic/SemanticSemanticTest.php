@@ -9,8 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Semantic;
+
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Semantic\Semantic;
+use EasyWeChat\Tests\TestCase;
 
 class SemanticSemanticTest extends TestCase
 {
@@ -19,7 +22,7 @@ class SemanticSemanticTest extends TestCase
      */
     public function testQuery()
     {
-        $semantic = Mockery::mock('EasyWeChat\Semantic\Semantic[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $semantic = \Mockery::mock('EasyWeChat\Semantic\Semantic[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $semantic->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

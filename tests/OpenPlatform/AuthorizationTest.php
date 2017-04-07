@@ -5,9 +5,13 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
+
+namespace EasyWeChat\Tests\OpenPlatform;
+
 use Doctrine\Common\Cache\ArrayCache;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\Components\Authorizer;
+use EasyWeChat\Tests\TestCase;
 
 class AuthorizationTest extends TestCase
 {
@@ -120,7 +124,7 @@ class AuthorizationTest extends TestCase
                           $authorizerRefreshToken = null)
     {
         /** @var Authorizer|\Mockery\MockInterface $mockAuthorizer */
-        $mockAuthorizer = Mockery::mock(Authorizer::class);
+        $mockAuthorizer = \Mockery::mock(Authorizer::class);
 
         $mockAuthorizer
             ->shouldReceive('getAuthorizationInfo')

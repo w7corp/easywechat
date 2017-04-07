@@ -9,12 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Payment;
+
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\API;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
 use EasyWeChat\Payment\Payment;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,9 +66,9 @@ class PaymentPaymentTest extends TestCase
     public function testHandleNotifyWithInvalidRequest()
     {
         $merchant = new Merchant(['key' => 'different_sign_key']);
-        $payment = Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
+        $payment = \Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
         $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><foo>bar</foo></xml>');
-        $notify = Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
+        $notify = \Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
         $notify->shouldReceive('isValid')->andReturn(false);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
@@ -81,9 +84,9 @@ class PaymentPaymentTest extends TestCase
     public function testHandleNotify()
     {
         $merchant = new Merchant(['key' => 'different_sign_key']);
-        $payment = Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
+        $payment = \Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
         $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><foo>bar</foo></xml>');
-        $notify = Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
+        $notify = \Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
         $notify->shouldReceive('isValid')->andReturn(true);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
@@ -122,9 +125,9 @@ class PaymentPaymentTest extends TestCase
     public function testHandleScanNotify()
     {
         $merchant = new Merchant(['key' => 'different_sign_key']);
-        $payment = Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
+        $payment = \Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
         $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><product_id>88888</product_id><openid>o8GeHuLAsgefS_80exEr1cTqekUs</openid></xml>');
-        $notify = Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
+        $notify = \Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
         $notify->shouldReceive('isValid')->andReturn(true);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
@@ -216,9 +219,9 @@ class PaymentPaymentTest extends TestCase
         $this->assertArrayHasKey('nonceStr', $array);
         $this->assertArrayHasKey('addrSign', $array);
 
-        $log = new stdClass();
+        $log = new \stdClass();
         $log->called = false;
-        $accessToken = Mockery::mock(AccessToken::class.'[getToken]', [['access_token' => 'mockToken']]);
+        $accessToken = \Mockery::mock(AccessToken::class.'[getToken]', [['access_token' => 'mockToken']]);
 
         $accessToken->shouldReceive('getToken')->andReturnUsing(function () use ($log) {
             $log->called = true;
@@ -250,12 +253,12 @@ class PaymentPaymentTest extends TestCase
         $this->assertInstanceOf(API::class, $payment->getAPI());
         $this->assertInstanceOf(Merchant::class, $payment->getMerchant());
 
-        $api = Mockery::mock(API::class);
+        $api = \Mockery::mock(API::class);
         $payment->setAPI($api);
         $this->assertEquals($api, $payment->getAPI());
 
-        $merchant = Mockery::mock(Merchant::class);
-        $api = Mockery::mock(API::class);
+        $merchant = \Mockery::mock(Merchant::class);
+        $api = \Mockery::mock(API::class);
 
         $payment->setAPI($api);
         $payment->setMerchant($merchant);
