@@ -30,7 +30,6 @@ use EasyWeChat\Message\Raw as RawMessage;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
-use EasyWeChat\Support\Str;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -348,16 +347,6 @@ class Guard
     }
 
     /**
-     * Get the collected request message.
-     *
-     * @return Collection
-     */
-    public function getCollectedMessage()
-    {
-        return new Collection($this->getMessage());
-    }
-
-    /**
      * Handle request.
      *
      * @return array
@@ -460,8 +449,9 @@ class Guard
     {
         $content = strval($content);
 
-        if (Str::isJson($content)) {
-            return Str::json2Array($content);
+        $arrayable = json_decode($content, true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return $arrayable;
         }
 
         if ($this->isSafeMode()) {
