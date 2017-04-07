@@ -61,6 +61,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Payment\Payment                     $payment
  * @property \EasyWeChat\Payment\LuckyMoney\LuckyMoney       $lucky_money
  * @property \EasyWeChat\Payment\MerchantPay\MerchantPay     $merchant_pay
+ * @property \EasyWeChat\Payment\CashCoupon\CashCoupon       $cash_coupon
  * @property \EasyWeChat\Reply\Reply                         $reply
  * @property \EasyWeChat\Broadcast\Broadcast                 $broadcast
  * @property \EasyWeChat\Card\Card                           $card
