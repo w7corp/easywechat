@@ -19,7 +19,6 @@ use EasyWeChat\Tests\TestCase;
 
 class PaymentCashCouponAPITest extends TestCase
 {
-
     /**
      * Build API instance.
      *

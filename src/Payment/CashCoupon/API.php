@@ -55,7 +55,7 @@ class API extends AbstractAPI
     }
 
     /**
-     * send a cash coupon
+     * send a cash coupon.
      *
      * @param array $params
      *
@@ -69,7 +69,7 @@ class API extends AbstractAPI
     }
 
     /**
-     * query a coupon stock
+     * query a coupon stock.
      *
      * @param array $params
      *
@@ -81,7 +81,7 @@ class API extends AbstractAPI
     }
 
     /**
-     * query a info of coupon
+     * query a info of coupon.
      *
      * @param array $params
      *
