@@ -5,6 +5,7 @@
  *
  * @author lixiao <leonlx126@gmail.com>
  */
+
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\Foundation\Application;

@@ -18,6 +18,7 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
+
 namespace EasyWeChat\Tests\ShakeAround;
 
 use EasyWeChat\ShakeAround\Device;

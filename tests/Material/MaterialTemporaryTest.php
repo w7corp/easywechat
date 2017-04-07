@@ -11,10 +11,10 @@
 
 namespace EasyWeChat\Tests\Material
 {
-    use \Mockery\Mock;
     use EasyWeChat\Core\Http;
     use EasyWeChat\Material\Temporary;
     use EasyWeChat\Tests\TestCase;
+    use Mockery\Mock;
 
     class MaterialTemporaryTest extends TestCase
     {
