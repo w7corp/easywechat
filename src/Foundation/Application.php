@@ -124,12 +124,24 @@ class Application extends Container
 
         Http::setDefaultOptions($this['config']->get('guzzle', ['timeout' => 5.0]));
 
+        $this->logConfiguration($this['config']);
+    }
+
+    /**
+     * Log configuration.
+     *
+     * @param \EasyWeChat\Foundation\Config $config
+     *
+     * @return void
+     */
+    public function logConfiguration(Config $config)
+    {
         $keys = ['app_id', 'secret', 'open_platform.app_id', 'open_platform.secret', 'mini_program.app_id', 'mini_program.secret'];
         foreach ($keys as $key) {
             !$config->has($key) || $config[$key] = '***'.substr($config[$key], -5);
         }
 
-        Log::debug('Current config:', $config);
+        Log::debug('Current config:', $config->toArray());
     }
 
     /**
