@@ -134,7 +134,7 @@ class AuthorizationTest extends TestCase
         );
         /* @noinspection PhpUnusedParameterInspection */
         $mockAuthorizer
-            ->shouldReceive('getAuthorizationToken')
+            ->shouldReceive('getAuthorizerToken')
             ->andReturnUsing(
                 function ($appId, $authorizerRefreshToken) use ($stub) {
                     return $stub;

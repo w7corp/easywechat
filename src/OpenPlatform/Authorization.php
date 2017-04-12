@@ -92,10 +92,14 @@ class Authorization
      * Sets the authorizer app id.
      *
      * @param string $authorizerAppId
+     *
+     * @return $this
      */
     public function setAuthorizerAppId($authorizerAppId)
     {
         $this->authorizerAppId = $authorizerAppId;
+
+        return $this;
     }
 
     /**
@@ -181,7 +185,7 @@ class Authorization
      */
     public function handleAuthorizerAccessToken()
     {
-        $data = $this->api->getAuthorizationToken(
+        $data = $this->api->getAuthorizerToken(
             $this->getAuthorizerAppId(),
             $this->getAuthorizerRefreshToken()
         );
