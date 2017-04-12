@@ -179,23 +179,6 @@ class Authorization
     }
 
     /**
-     * Handles the authorizer access token: calls the API, saves the token.
-     *
-     * @return string the authorizer access token
-     */
-    public function handleAuthorizerAccessToken()
-    {
-        $data = $this->api->getAuthorizerToken(
-            $this->getAuthorizerAppId(),
-            $this->getAuthorizerRefreshToken()
-        );
-
-        $this->setAuthorizerAccessToken($data);
-
-        return $data['authorizer_access_token'];
-    }
-
-    /**
      * Gets the authorization information.
      * Like authorizer app id, access token, refresh token, function scope, etc.
      *
