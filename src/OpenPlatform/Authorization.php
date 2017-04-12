@@ -226,7 +226,7 @@ class Authorization
      */
     public function setAuthorizerAccessToken($token, $expires = 7200)
     {
-        return $this->cache->save($this->getAuthorizerAccessTokenKey(), $token, $expires - 1500);
+        return $this->cache->save($this->getAuthorizerAccessTokenKey(), $token, $expires);
     }
 
     /**
