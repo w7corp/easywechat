@@ -17,7 +17,7 @@ class PrefixedContainerTest extends TestCase
     public function testFetch()
     {
         $app = $this->make([
-            'application.foo' => 'foo@application'
+            'application.foo' => 'foo@application',
         ]);
 
         $this->assertEquals('foo@application', $app->fetch('foo'));
@@ -36,7 +36,7 @@ class PrefixedContainerTest extends TestCase
     public function testMagicGet()
     {
         $app = $this->make([
-            'application.bar' => 'bar@application'
+            'application.bar' => 'bar@application',
         ]);
 
         $this->assertEquals('bar@application', $app->fetch('bar'));

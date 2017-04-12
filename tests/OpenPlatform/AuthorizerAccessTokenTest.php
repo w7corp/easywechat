@@ -55,8 +55,8 @@ class AuthorizerAccessTokenTest extends TestCase
         $mock->shouldReceive('getAuthorizerAccessToken')
              ->andReturn($cachedToken);
         $mock->shouldReceive('getApi')
-             ->andReturn(\Mockery::mock('EasyWeChat\OpenPlatform\Api\BaseApi', function($mock) use ($newToken) {
-                $mock->shouldReceive('getAuthorizerToken')->andReturn(new Collection(['authorizer_access_token' => $newToken, 'expires_in' => 7200]));
+             ->andReturn(\Mockery::mock('EasyWeChat\OpenPlatform\Api\BaseApi', function ($mock) use ($newToken) {
+                 $mock->shouldReceive('getAuthorizerToken')->andReturn(new Collection(['authorizer_access_token' => $newToken, 'expires_in' => 7200]));
              }));
 
         return new AuthorizerAccessToken($appId, $mock);
