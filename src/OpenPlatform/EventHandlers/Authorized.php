@@ -27,19 +27,24 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\OpenPlatform\Authorization;
+use EasyWeChat\OpenPlatform\Daemon;
 use EasyWeChat\Support\Collection;
 
 class Authorized implements EventHandler
 {
     /**
-     * @var Authorization
+     * @var \EasyWeChat\OpenPlatform\Daemon
      */
-    protected $authorization;
+    protected $daemon;
 
-    public function __construct(Authorization $authorization)
+    /**
+     * Constructor.
+     *
+     * @param \EasyWeChat\OpenPlatform\Daemon $daemon
+     */
+    public function __construct(Daemon $daemon)
     {
-        $this->authorization = $authorization;
+        $this->daemon = $daemon;
     }
 
     /**
@@ -47,8 +52,8 @@ class Authorized implements EventHandler
      */
     public function handle(Collection $message)
     {
-        $this->authorization->setFromAuthMessage($message);
+        // $this->daemon->setFromAuthMessage($message);
 
-        return $this->authorization->handleAuthorization();
+        // return $this->daemon->handleAuthorization();
     }
 }
