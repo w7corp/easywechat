@@ -52,6 +52,18 @@ trait PrefixedContainer
     }
 
     /**
+     * Fetches from pimple container.
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function fetch($key)
+    {
+        return $this->$key;
+    }
+
+    /**
      * Gets a parameter or an object from pimple container.
      *
      * Get the `class basename` of the current class.
