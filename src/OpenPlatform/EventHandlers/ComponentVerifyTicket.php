@@ -27,17 +27,26 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
 use EasyWeChat\OpenPlatform\VerifyTicket;
 use EasyWeChat\Support\Collection;
 
 class ComponentVerifyTicket implements EventHandler
 {
-    use VerifyTicketTrait;
+    /**
+     * VerifyTicket.
+     *
+     * @var \EasyWeChat\OpenPlatform\VerifyTicket
+     */
+    protected $verifyTicket;
 
+    /**
+     * Constructor.
+     *
+     * @param \EasyWeChat\OpenPlatform\VerifyTicket $verifyTicket
+     */
     public function __construct(VerifyTicket $verifyTicket)
     {
-        $this->setVerifyTicket($verifyTicket);
+        $this->verifyTicket = $verifyTicket;
     }
 
     /**
@@ -45,8 +54,6 @@ class ComponentVerifyTicket implements EventHandler
      */
     public function handle(Collection $message)
     {
-        $this->getVerifyTicket()->cache($message);
-
-        return $message;
+        $this->verifyTicket->setTicket($message->get('ComponentVerifyTicket'));
     }
 }
