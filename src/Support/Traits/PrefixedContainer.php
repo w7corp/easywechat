@@ -54,15 +54,20 @@ trait PrefixedContainer
     /**
      * Gets a parameter or an object from pimple container.
      *
+     * Get the `class basename` of the current class.
+     * Convert `class basename` to snake-case and concatenation with dot notation.
+     *
+     * E.g. Class 'EasyWechat', $key foo -> 'easy_wechat.foo'
+     *
      * @param string $key The unique identifier for the parameter or object
      *
      * @return mixed The value of the parameter or an object
      *
-     * @throws \InvalidArgumentException if the identifier is not defined
+     * @throws \InvalidArgumentException If the identifier is not defined
      */
     public function __get($key)
     {
-        $className = (new \ReflectionClass($this))->getShortName();
+        $className = basename(str_replace('\\', '/', static::class));
 
         $name = Str::snake($className).'.'.$key;
 
