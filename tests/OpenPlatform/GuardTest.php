@@ -9,13 +9,7 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\Foundation\Application;
-use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
-use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
-use EasyWeChat\OpenPlatform\EventHandlers\EventHandler;
-use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
-use EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized;
 use EasyWeChat\OpenPlatform\Guard;
-use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
 class GuardTest extends TestCase
@@ -25,23 +19,15 @@ class GuardTest extends TestCase
         $server = $this->make();
 
         $handlers = [
-            Guard::EVENT_AUTHORIZED => Authorized::class,
-            Guard::EVENT_UNAUTHORIZED => Unauthorized::class,
-            Guard::EVENT_UPDATE_AUTHORIZED => UpdateAuthorized::class,
-            Guard::EVENT_COMPONENT_VERIFY_TICKET => ComponentVerifyTicket::class,
+            Guard::EVENT_AUTHORIZED => 'EasyWeChat\OpenPlatform\EventHandlers\Authorized',
+            Guard::EVENT_UNAUTHORIZED => 'EasyWeChat\OpenPlatform\EventHandlers\Unauthorized',
+            Guard::EVENT_UPDATE_AUTHORIZED => 'EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized',
+            Guard::EVENT_COMPONENT_VERIFY_TICKET => 'EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket',
         ];
 
         foreach ($handlers as $type => $handler) {
-            $this->assertInstanceOf($handler, $server->getHandlerForTest($type));
+            $this->assertInstanceOf($handler, $server->getHandler($type));
         }
-    }
-
-    public function testHandleMessage()
-    {
-        $server = $this->make();
-        $result = $server->handleMessageForTest();
-
-        $this->assertEquals(OpenPlatformGuardStub::$message, $result);
     }
 
     private function make()
@@ -57,34 +43,6 @@ class GuardTest extends TestCase
 
         $app = new Application($config);
 
-        $server = new OpenPlatformGuardStub('token');
-        $server->setContainer($app);
-
-        $app['open_platform.handlers.test']
-            = \Mockery::mock(EventHandler::class)
-                     ->shouldReceive('handle')
-                     ->andReturnUsing(
-                         function (Collection $message) {
-                             return $message->all();
-                         }
-                     )
-                     ->mock();
-
-        return $server;
-    }
-}
-
-class OpenPlatformGuardStub extends Guard
-{
-    public static $message = ['InfoType' => 'test'];
-
-    public function getHandlerForTest($type)
-    {
-        return $this->getDefaultHandler($type);
-    }
-
-    public function handleMessageForTest()
-    {
-        return $this->handleMessage(self::$message);
+        return $app->open_platform->server;
     }
 }

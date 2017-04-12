@@ -26,107 +26,55 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Support\Arr;
-use Pimple\Container;
+use EasyWeChat\Support\Traits\PrefixedContainer;
 
 /**
  * Class OpenPlatform.
  *
+ * @property \EasyWeChat\OpenPlatform\Api\PreAuthorization $pre_auth
  * @property \EasyWeChat\OpenPlatform\Guard $server
- * @property \EasyWeChat\OpenPlatform\Components\PreAuthCode $pre_auth
  * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
- * @property \EasyWeChat\OpenPlatform\AuthorizerToken $authorizer_token;
- * @property \EasyWeChat\OpenPlatform\Authorization $authorization;
- * @property \EasyWeChat\OpenPlatform\Components\Authorizer $authorizer
+ *
+ * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
+ * @method \EasyWeChat\Support\Collection getAuthorizationToken($authorizerAppId, $authorizerRefreshToken)
+ * @method \EasyWeChat\Support\Collection getAuthorizerInfo($authorizerAppId)
+ * @method \EasyWeChat\Support\Collection getAuthorizerOption($authorizerAppId, $optionName)
+ * @method \EasyWeChat\Support\Collection setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
  */
 class OpenPlatform
 {
-    /**
-     * Server guard.
-     *
-     * @var Guard
-     */
-    protected $server;
+    use PrefixedContainer;
 
     /**
-     * OpenPlatform component access token.
+     * Create an instance of the EasyWeChat for the given authorizer.
      *
-     * @var AccessToken
-     */
-    protected $access_token;
-
-    /**
-     * OpenPlatform config.
+     * @param string $appId        Authorizer AppId
+     * @param string $refreshToken Authorizer refresh-token
      *
-     * @var array
+     * @return \EasyWeChat\Foundation\Application
      */
-    protected $config;
-
-    /**
-     * Container in the scope of the open platform.
-     *
-     * @var Container
-     */
-    protected $container;
-
-    /**
-     * Components.
-     *
-     * @var array
-     */
-    private $components = [
-        'pre_auth' => Components\PreAuthCode::class,
-        'authorizer' => Components\Authorizer::class,
-    ];
-
-    /**
-     * OpenPlatform constructor.
-     *
-     * @param Guard $server
-     * @param $access_token
-     * @param array $config
-     */
-    public function __construct(Guard $server, $access_token, $config)
+    public function createAuthorizer($appId, $refreshToken)
     {
-        $this->server = $server;
-        $this->access_token = $access_token;
-        $this->config = $config;
+        $this->daemon->setAuthorizerAppId($appId);
+        $this->daemon->setAuthorizerRefreshToken($refreshToken);
+
+        $application = $this->app;
+        $application['access_token'] = $this->authorizer_token;
+        $application['oauth'] = $this->oauth;
+
+        return $application;
     }
 
     /**
-     * Sets the container for use of the platform.
+     * Quick access to the base-api.
      *
-     * @param Container $container
-     */
-    public function setContainer(Container $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * Magic get access.
-     *
-     * @param $name
+     * @param string $method
+     * @param array  $args
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
-    public function __get($name)
+    public function __call($method, $args)
     {
-        if (property_exists($this, $name)) {
-            return $this->$name;
-        }
-
-        if ($class = Arr::get($this->components, $name)) {
-            return new $class($this->access_token, $this->config);
-        }
-
-        if ($instance = $this->container->offsetGet("open_platform.{$name}")) {
-            return $instance;
-        }
-
-        throw new InvalidArgumentException("Property or component \"$name\" does not exists.");
+        return call_user_func_array([$this->api, $method], $args);
     }
 }

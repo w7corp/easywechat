@@ -10,27 +10,40 @@ namespace EasyWeChat\Tests\OpenPlatform;
 
 use Doctrine\Common\Cache\ArrayCache;
 use EasyWeChat\OpenPlatform\VerifyTicket;
-use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
 class VerifyTicketTest extends TestCase
 {
     /**
+     * Get VerifyTicket instance.
+     */
+    public function getVerifyTicket($appId)
+    {
+        return new VerifyTicket($appId, new ArrayCache());
+    }
+
+    /**
      * Tests that the verify ticket is properly cached.
      */
-    public function testCache()
+    public function testTicket()
     {
-        $appId = 'foobar';
-        $cache = new ArrayCache();
-        $verifyTicket = new VerifyTicket($appId, $cache);
+        $verifyTicket = $this->getVerifyTicket('foobar');
 
-        $ticket = 'ticket@foobar';
-        $message = new Collection(['ComponentVerifyTicket' => $ticket]);
+        $this->assertTrue($verifyTicket->setTicket('ticket@foobar'));
+        $this->assertEquals('ticket@foobar', $verifyTicket->getTicket());
+    }
 
-        $ok = $verifyTicket->cache($message);
-        $this->assertTrue($ok);
+    /**
+     * Test cache key.
+     */
+    public function testCacheKey()
+    {
+        $verifyTicket = $this->getVerifyTicket('app-id');
 
-        $cached = $verifyTicket->getTicket();
-        $this->assertEquals($ticket, $cached);
+        $this->assertEquals('easywechat.open_platform.component_verify_ticket.app-id', $verifyTicket->getCacheKey());
+
+        $verifyTicket->setCacheKey('cache-key.app-id');
+
+        $this->assertEquals('cache-key.app-id', $verifyTicket->getCacheKey());
     }
 }
