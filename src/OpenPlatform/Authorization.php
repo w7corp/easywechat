@@ -89,6 +89,16 @@ class Authorization
     }
 
     /**
+     * Gets the base api.
+     *
+     * @return \EasyWeChat\OpenPlatform\Api\BaseApi
+     */
+    public function getApi()
+    {
+        return $this->api;
+    }
+
+    /**
      * Sets the authorizer app id.
      *
      * @param string $authorizerAppId
