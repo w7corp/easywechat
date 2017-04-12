@@ -35,6 +35,7 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @property \EasyWeChat\OpenPlatform\Api\PreAuthorization $pre_auth
  * @property \EasyWeChat\OpenPlatform\Guard $server
  * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
+ *
  * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
  * @method \EasyWeChat\Support\Collection getAuthorizerToken($appId, $refreshToken)
  * @method \EasyWeChat\Support\Collection getAuthorizerInfo($authorizerAppId)
