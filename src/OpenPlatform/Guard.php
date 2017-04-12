@@ -27,8 +27,8 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Support\Collection;
 use EasyWeChat\Server\Guard as ServerGuard;
+use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
 use Symfony\Component\HttpFoundation\Response;
 

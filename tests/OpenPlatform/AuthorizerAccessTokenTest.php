@@ -46,8 +46,8 @@ class AuthorizerAccessTokenTest extends TestCase
 
     private function make($appId, $cachedToken, $newToken)
     {
-        /** @var Daemon|\Mockery\MockInterface $mock */
-        $mock = \Mockery::mock('EasyWeChat\OpenPlatform\Daemon');
+        /** @var Authorization|\Mockery\MockInterface $mock */
+        $mock = \Mockery::mock('EasyWeChat\OpenPlatform\Authorization');
         $mock->shouldReceive('getAuthorizerAccessToken')
              ->andReturn($cachedToken);
         $mock->shouldReceive('handleAuthorizerAccessToken')

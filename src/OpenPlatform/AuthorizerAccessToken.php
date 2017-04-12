@@ -36,7 +36,7 @@ use EasyWeChat\Core\AccessToken as BaseAccessToken;
  *
  * AuthorizerAccessToken is responsible for the access token of the authorizer,
  * the complexity is that this access token also requires the refresh token
- * of the authorizer which is acquired by the open platform daemon
+ * of the authorizer which is acquired by the open platform authorization
  * process.
  *
  * This completely overrides the original AccessToken.
@@ -44,21 +44,21 @@ use EasyWeChat\Core\AccessToken as BaseAccessToken;
 class AuthorizerAccessToken extends BaseAccessToken
 {
     /**
-     * @var \EasyWeChat\OpenPlatform\Daemon
+     * @var \EasyWeChat\OpenPlatform\Authorization
      */
-    protected $daemon;
+    protected $authorization;
 
     /**
      * AuthorizerAccessToken constructor.
      *
      * @param string                          $appId
-     * @param \EasyWeChat\OpenPlatform\Daemon $daemon
+     * @param \EasyWeChat\OpenPlatform\Authorization $authorization
      */
-    public function __construct($appId, Daemon $daemon)
+    public function __construct($appId, Authorization $authorization)
     {
         parent::__construct($appId, null);
 
-        $this->daemon = $daemon;
+        $this->authorization = $authorization;
     }
 
     /**
@@ -70,10 +70,10 @@ class AuthorizerAccessToken extends BaseAccessToken
      */
     public function getToken($forceRefresh = false)
     {
-        $cached = $this->daemon->getAuthorizerAccessToken();
+        $cached = $this->authorization->getAuthorizerAccessToken();
 
         if ($forceRefresh || empty($cached)) {
-            return $this->daemon->handleAuthorizerAccessToken();
+            return $this->authorization->handleAuthorizerAccessToken();
         }
 
         return $cached;
@@ -86,6 +86,6 @@ class AuthorizerAccessToken extends BaseAccessToken
      */
     public function getAppId()
     {
-        return $this->daemon->getAuthorizerAppId();
+        return $this->authorization->getAuthorizerAppId();
     }
 }

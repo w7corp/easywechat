@@ -10,7 +10,7 @@
  */
 
 /**
- * Daemon.php.
+ * Authorization.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -32,7 +32,7 @@ use EasyWeChat\Core\Exception;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\Support\Collection;
 
-class Daemon
+class Authorization
 {
     const CACHE_KEY_ACCESS_TOKEN = 'easywechat.open_platform.authorizer_access_token';
     const CACHE_KEY_REFRESH_TOKEN = 'easywechat.open_platform.authorizer_refresh_token';
@@ -73,7 +73,7 @@ class Daemon
     private $authCode;
 
     /**
-     * Daemon Constructor.
+     * Authorization Constructor.
      *
      * Users need not concern the details.
      *

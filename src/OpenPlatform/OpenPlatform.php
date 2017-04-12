@@ -55,8 +55,8 @@ class OpenPlatform
      */
     public function createAuthorizer($appId, $refreshToken)
     {
-        $this->daemon->setAuthorizerAppId($appId);
-        $this->daemon->setAuthorizerRefreshToken($refreshToken);
+        $this->authorization->setAuthorizerAppId($appId);
+        $this->authorization->setAuthorizerRefreshToken($refreshToken);
 
         $application = $this->app;
         $application['access_token'] = $this->authorizer_token;

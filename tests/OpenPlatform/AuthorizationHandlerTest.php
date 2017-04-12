@@ -12,7 +12,7 @@ use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
 use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
 use EasyWeChat\Support\Collection;
 
-class AuthorizationHandlerTest extends DaemonTest
+class AuthorizationHandlerTest extends AuthorizationTest
 {
     public function testAuthorized()
     {

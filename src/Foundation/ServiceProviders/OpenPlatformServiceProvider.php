@@ -27,18 +27,18 @@
 
 namespace EasyWeChat\Foundation\ServiceProviders;
 
-use Overtrue\Socialite\SocialiteManager as Socialite;
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\OpenPlatform\Api\PreAuthorization;
 use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
-use EasyWeChat\OpenPlatform\Daemon;
+use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\EventHandlers;
 use EasyWeChat\OpenPlatform\Guard;
 use EasyWeChat\OpenPlatform\OpenPlatform;
 use EasyWeChat\OpenPlatform\VerifyTicket;
+use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -110,8 +110,8 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple['open_platform.daemon'] = function ($pimple) {
-            return new Daemon(
+        $pimple['open_platform.authorization'] = function ($pimple) {
+            return new Authorization(
                 $pimple['open_platform.api'],
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['cache']
@@ -121,7 +121,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         $pimple['open_platform.authorizer_token'] = function ($pimple) {
             return new AuthorizerAccessToken(
                 $pimple['config']['open_platform']['app_id'],
-                $pimple['open_platform.daemon']
+                $pimple['open_platform.authorization']
             );
         };
 
@@ -130,13 +130,13 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             return new EventHandlers\ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
         };
         $pimple['open_platform.handlers.authorized'] = function ($pimple) {
-            return new EventHandlers\Authorized($pimple['open_platform.daemon']);
+            return new EventHandlers\Authorized($pimple['open_platform.authorization']);
         };
         $pimple['open_platform.handlers.updateauthorized'] = function ($pimple) {
-            return new EventHandlers\UpdateAuthorized($pimple['open_platform.daemon']);
+            return new EventHandlers\UpdateAuthorized($pimple['open_platform.authorization']);
         };
         $pimple['open_platform.handlers.unauthorized'] = function ($pimple) {
-            return new EventHandlers\Unauthorized($pimple['open_platform.daemon']);
+            return new EventHandlers\Unauthorized($pimple['open_platform.authorization']);
         };
 
         $pimple['open_platform.app'] = function ($pimple) {
@@ -149,7 +149,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             $scopes = $pimple['config']->get('open_platform.oauth.scopes', []);
             $socialite = (new Socialite([
                 'wechat_open' => [
-                    'client_id' => $pimple['open_platform.daemon']->getAuthorizerAppId(),
+                    'client_id' => $pimple['open_platform.authorization']->getAuthorizerAppId(),
                     'client_secret' => [
                         $pimple['open_platform.access_token']->getAppId(),
                         $pimple['open_platform.access_token']->getToken(),

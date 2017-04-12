@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test DaemonTest.php.
+ * Test AuthorizationTest.php.
  *
  * @author lixiao <leonlx126@gmail.com>
  */
@@ -9,11 +9,11 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\OpenPlatform\Daemon;
+use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
-class DaemonTest extends TestCase
+class AuthorizationTest extends TestCase
 {
     public function testGetAuthorizationInfo()
     {
@@ -142,7 +142,7 @@ class DaemonTest extends TestCase
             );
 
         $cache = new ArrayCache();
-        $authorization = new Daemon($mockAuthorizer, $appId, $cache);
+        $authorization = new Authorization($mockAuthorizer, $appId, $cache);
         $authorization->setAuthorizerAppId($authorizerAppId);
 
         return $authorization;

@@ -35,8 +35,6 @@ interface EventHandler
      * Handle an incoming event from WeChat server-side.
      *
      * @param \EasyWeChat\Support\Collection $message
-     *
-     * @return void
      */
     public function handle(Collection $message);
 }
