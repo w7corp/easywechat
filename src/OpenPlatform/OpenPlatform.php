@@ -31,6 +31,7 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
 /**
  * Class OpenPlatform.
  *
+ * @property \EasyWeChat\OpenPlatform\Api\BaseApi $api
  * @property \EasyWeChat\OpenPlatform\Api\PreAuthorization $pre_auth
  * @property \EasyWeChat\OpenPlatform\Guard $server
  * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
