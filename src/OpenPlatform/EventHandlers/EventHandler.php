@@ -32,11 +32,11 @@ use EasyWeChat\Support\Collection;
 interface EventHandler
 {
     /**
-     * Handle event.
+     * Handle an incoming event from WeChat server-side.
      *
-     * @param Collection $message
+     * @param \EasyWeChat\Support\Collection $message
      *
-     * @return mixed
+     * @return void
      */
     public function handle(Collection $message);
 }
