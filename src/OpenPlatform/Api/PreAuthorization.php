@@ -10,7 +10,7 @@
  */
 
 /**
- * PreAuthCode.php.
+ * PreAuth.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -25,13 +25,12 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform\Components;
+namespace EasyWeChat\OpenPlatform\Api;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Core\Exceptions\RuntimeException;
-use EasyWeChat\Support\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class PreAuthCode extends AbstractComponent
+class PreAuthorization extends AbstractComponent
 {
     /**
      * Create pre auth code url.
@@ -53,7 +52,7 @@ class PreAuthCode extends AbstractComponent
     /**
      * Get pre auth code.
      *
-     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      *
      * @return string
      */
@@ -73,46 +72,16 @@ class PreAuthCode extends AbstractComponent
     }
 
     /**
-     * Get Redirect url.
+     * Redirect to WeChat PreAuthorization page.
      *
-     * @return string
+     * @param string $url
      *
-     * @throws RuntimeException
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function getRedirectUri()
+    public function redirect($url)
     {
-        if (!$this->redirectUri) {
-            throw new RuntimeException('You need to provided a redirect uri.');
-        }
-
-        return $this->redirectUri;
-    }
-
-    /**
-     * Set redirect uri.
-     *
-     * @param string $uri
-     *
-     * @return $this
-     */
-    public function setRedirectUri($uri)
-    {
-        $this->redirectUri = $uri;
-
-        return $this;
-    }
-
-    /**
-     * Get auth page link.
-     *
-     * @return string
-     */
-    public function getAuthLink()
-    {
-        return sprintf(self::PRE_AUTH_LINK,
-            $this->getAppId(),
-            $this->getCode(),
-            urlencode($this->getRedirectUri())
+        return new RedirectResponse(
+            sprintf(self::PRE_AUTH_LINK, $this->getAppId(), $this->getCode(), urlencode($url))
         );
     }
 }

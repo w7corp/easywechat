@@ -33,10 +33,15 @@ use EasyWeChat\Support\Collection;
 class Authorized implements EventHandler
 {
     /**
-     * @var Authorization
+     * @var \EasyWeChat\OpenPlatform\Authorization
      */
     protected $authorization;
 
+    /**
+     * Constructor.
+     *
+     * @param \EasyWeChat\OpenPlatform\Authorization $authorization
+     */
     public function __construct(Authorization $authorization)
     {
         $this->authorization = $authorization;
@@ -47,8 +52,8 @@ class Authorized implements EventHandler
      */
     public function handle(Collection $message)
     {
-        $this->authorization->setFromAuthMessage($message);
+        // $this->authorization->setFromAuthMessage($message);
 
-        return $this->authorization->handleAuthorization();
+        // return $this->authorization->handleAuthorization();
     }
 }

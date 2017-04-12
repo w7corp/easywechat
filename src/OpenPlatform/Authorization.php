@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 /**
  * Authorization.php.
  *
@@ -8,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    lixiao <leonlx126@gmail.com>
+ * @author    mingyoung <mingyoungcheung@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -18,23 +29,27 @@ namespace EasyWeChat\OpenPlatform;
 
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exception;
-use EasyWeChat\OpenPlatform\Components\Authorizer;
-use EasyWeChat\OpenPlatform\Traits\Caches;
+use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\Support\Collection;
 
 class Authorization
 {
-    use Caches;
-
     const CACHE_KEY_ACCESS_TOKEN = 'easywechat.open_platform.authorizer_access_token';
     const CACHE_KEY_REFRESH_TOKEN = 'easywechat.open_platform.authorizer_refresh_token';
 
     /**
-     * Authorizer API.
+     * Cache.
      *
-     * @var Authorizer
+     * @var \Doctrine\Common\Cache\Cache
      */
-    private $authorizer;
+    protected $cache;
+
+    /**
+     * Base API.
+     *
+     * @var \EasyWeChat\OpenPlatform\Api\BaseApi
+     */
+    private $api;
 
     /**
      * Open Platform App Id, aka, Component App Id.
@@ -57,12 +72,20 @@ class Authorization
      */
     private $authCode;
 
-    public function __construct(Authorizer $authorizer, $appId,
-                                Cache $cache = null)
+    /**
+     * Authorization Constructor.
+     *
+     * Users need not concern the details.
+     *
+     * @param \EasyWeChat\OpenPlatform\Api\BaseApi $api
+     * @param string                               $appId
+     * @param \Doctrine\Common\Cache\Cache         $cache
+     */
+    public function __construct(BaseApi $api, $appId, Cache $cache)
     {
-        $this->authorizer = $authorizer;
+        $this->api = $api;
         $this->appId = $appId;
-        $this->setCache($cache);
+        $this->cache = $cache;
     }
 
     /**
@@ -80,7 +103,7 @@ class Authorization
      *
      * @return string
      *
-     * @throws Exception
+     * @throws \EasyWeChat\Core\Exception
      */
     public function getAuthorizerAppId()
     {
@@ -116,15 +139,15 @@ class Authorization
     /**
      * Sets the auth info from the message of the auth event sent by WeChat.
      *
-     * @param Collection $message
+     * @param \EasyWeChat\Support\Collection $message
      */
     public function setFromAuthMessage(Collection $message)
     {
-        if ($message->has('AuthorizerAppid')) {
-            $this->setAuthorizerAppId($message->get('AuthorizerAppid'));
+        if ($authorizerAppId = $message->get('AuthorizerAppid')) {
+            $this->setAuthorizerAppId($authorizerAppId);
         }
-        if ($message->has('AuthorizationCode')) {
-            $this->setAuthCode($message->get('AuthorizationCode'));
+        if ($authorizationCode = $message->get('AuthorizationCode')) {
+            $this->setAuthCode($authorizationCode);
         }
     }
 
@@ -140,8 +163,8 @@ class Authorization
         $appId = $info['authorization_info']['authorizer_appid'];
         $this->setAuthorizerAppId($appId);
 
-        $this->saveAuthorizerAccessToken($info['authorization_info']);
-        $this->saveAuthorizerRefreshToken($info['authorization_info']);
+        $this->setAuthorizerAccessToken($info['authorization_info']['authorizer_access_token']);
+        $this->setAuthorizerRefreshToken($info['authorization_info']['authorizer_refresh_token']);
 
         $authorizerInfo = $this->getAuthorizerInfo();
         // Duplicated info.
@@ -158,12 +181,12 @@ class Authorization
      */
     public function handleAuthorizerAccessToken()
     {
-        $data = $this->authorizer->getAuthorizationToken(
+        $data = $this->api->getAuthorizationToken(
             $this->getAuthorizerAppId(),
             $this->getAuthorizerRefreshToken()
         );
 
-        $this->saveAuthorizerAccessToken($data);
+        $this->setAuthorizerAccessToken($data);
 
         return $data['authorizer_access_token'];
     }
@@ -172,46 +195,34 @@ class Authorization
      * Gets the authorization information.
      * Like authorizer app id, access token, refresh token, function scope, etc.
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function getAuthorizationInfo()
     {
-        $result = $this->authorizer->getAuthorizationInfo($this->getAuthCode());
-        if (is_array($result)) {
-            $result = new Collection($result);
-        }
-
-        return $result;
+        return $this->api->getAuthorizationInfo($this->getAuthCode());
     }
 
     /**
      * Gets the authorizer information.
      * Like authorizer name, logo, business, etc.
      *
-     * @return Collection
+     * @return \EasyWeChat\Support\Collection
      */
     public function getAuthorizerInfo()
     {
-        $result = $this->authorizer->getAuthorizerInfo($this->getAuthorizerAppId());
-        if (is_array($result)) {
-            $result = new Collection($result);
-        }
-
-        return $result;
+        return $this->api->getAuthorizerInfo($this->getAuthorizerAppId());
     }
 
     /**
      * Saves the authorizer access token in cache.
      *
-     * @param Collection|array $data array structure from WeChat API result
+     * @param string $token
+     *
+     * @return bool TRUE if the entry was successfully stored in the cache, FALSE otherwise
      */
-    public function saveAuthorizerAccessToken($data)
+    public function setAuthorizerAccessToken($token, $expires = 7200)
     {
-        $accessToken = $data['authorizer_access_token'];
-        // Expiration time, -100 to avoid any delay.
-        $expire = $data['expires_in'] - 100;
-
-        $this->set($this->getAuthorizerAccessTokenKey(), $accessToken, $expire);
+        return $this->cache->save($this->getAuthorizerAccessTokenKey(), $token, $expires - 1500);
     }
 
     /**
@@ -221,19 +232,19 @@ class Authorization
      */
     public function getAuthorizerAccessToken()
     {
-        return $this->get($this->getAuthorizerAccessTokenKey());
+        return $this->cache->fetch($this->getAuthorizerAccessTokenKey());
     }
 
     /**
      * Saves the authorizer refresh token in cache.
      *
-     * @param Collection|array $data array structure from WeChat API result
+     * @param string $refreshToken
+     *
+     * @return bool TRUE if the entry was successfully stored in the cache, FALSE otherwise
      */
-    public function saveAuthorizerRefreshToken($data)
+    public function setAuthorizerRefreshToken($refreshToken)
     {
-        $refreshToken = $data['authorizer_refresh_token'];
-
-        $this->set($this->getAuthorizerRefreshTokenKey(), $refreshToken);
+        return $this->cache->save($this->getAuthorizerRefreshTokenKey(), $refreshToken);
     }
 
     /**
@@ -245,7 +256,7 @@ class Authorization
      */
     public function getAuthorizerRefreshToken()
     {
-        if ($token = $this->get($this->getAuthorizerRefreshTokenKey())) {
+        if ($token = $this->cache->fetch($this->getAuthorizerRefreshTokenKey())) {
             return $token;
         }
 
@@ -256,18 +267,24 @@ class Authorization
 
     /**
      * Removes the authorizer access token from cache.
+     *
+     * @return bool TRUE if the cache entry was successfully deleted, FALSE otherwise.
+     *              Deleting a non-existing entry is considered successful
      */
     public function removeAuthorizerAccessToken()
     {
-        $this->remove($this->getAuthorizerAccessTokenKey());
+        return $this->cache->delete($this->getAuthorizerAccessTokenKey());
     }
 
     /**
      * Removes the authorizer refresh token from cache.
+     *
+     * @return bool TRUE if the cache entry was successfully deleted, FALSE otherwise.
+     *              Deleting a non-existing entry is considered successful
      */
     public function removeAuthorizerRefreshToken()
     {
-        $this->remove($this->getAuthorizerRefreshTokenKey());
+        return $this->cache->delete($this->getAuthorizerRefreshTokenKey());
     }
 
     /**
@@ -277,9 +294,7 @@ class Authorization
      */
     public function getAuthorizerAccessTokenKey()
     {
-        return self::CACHE_KEY_ACCESS_TOKEN
-            .'.'.$this->appId
-            .'.'.$this->getAuthorizerAppId();
+        return self::CACHE_KEY_ACCESS_TOKEN.$this->appId.$this->getAuthorizerAppId();
     }
 
     /**
@@ -289,8 +304,6 @@ class Authorization
      */
     public function getAuthorizerRefreshTokenKey()
     {
-        return self::CACHE_KEY_REFRESH_TOKEN
-            .'.'.$this->appId
-            .'.'.$this->getAuthorizerAppId();
+        return self::CACHE_KEY_REFRESH_TOKEN.$this->appId.$this->getAuthorizerAppId();
     }
 }

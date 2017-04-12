@@ -36,10 +36,8 @@ class Unauthorized extends Authorized
      */
     public function handle(Collection $message)
     {
-        $this->authorization->setFromAuthMessage($message);
-        $this->authorization->removeAuthorizerAccessToken();
-        $this->authorization->removeAuthorizerRefreshToken();
-
-        return $message;
+        // $this->authorization->setFromAuthMessage($message);
+        // $this->authorization->removeAuthorizerAccessToken();
+        // $this->authorization->removeAuthorizerRefreshToken();
     }
 }

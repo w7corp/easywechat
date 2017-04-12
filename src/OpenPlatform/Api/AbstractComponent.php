@@ -25,7 +25,7 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform\Components;
+namespace EasyWeChat\OpenPlatform\Api;
 
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\AccessToken;

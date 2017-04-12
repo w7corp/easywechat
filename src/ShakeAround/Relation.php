@@ -69,7 +69,7 @@ class Relation extends AbstractAPI
         if ($raw === true) {
             return $result;
         }
-        $page_ids = array();
+        $page_ids = [];
         if (!empty($result->data['relations'])) {
             foreach ($result->data['relations'] as $item) {
                 $page_ids[] = $item['page_id'];
