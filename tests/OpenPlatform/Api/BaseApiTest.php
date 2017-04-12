@@ -58,10 +58,10 @@ class BaseApiTest extends TestCase
         $this->assertEquals($expected, $result['params']);
     }
 
-    public function testGetAuthorizationToken()
+    public function testGetAuthorizerToken()
     {
         $authorizer = $this->mockAuthorization('appid@123');
-        $result = $authorizer->getAuthorizationToken('appid@456', 'refresh@123');
+        $result = $authorizer->getAuthorizerToken('appid@456', 'refresh@123');
         $expected = [
             'component_appid' => 'appid@123',
             'authorizer_appid' => 'appid@456',

@@ -35,7 +35,7 @@ class BaseApi extends AbstractComponent
     const GET_AUTH_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_query_auth';
 
     /**
-     * Authorization token api.
+     * Get authorizer token api.
      */
     const GET_AUTHORIZER_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token';
 
@@ -72,19 +72,19 @@ class BaseApi extends AbstractComponent
     }
 
     /**
-     * Get authorization token.
+     * Get authorizer token.
      *
-     * @param $authorizerAppId
-     * @param $authorizerRefreshToken
+     * @param $appId
+     * @param $refreshToken
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function getAuthorizationToken($authorizerAppId, $authorizerRefreshToken)
+    public function getAuthorizerToken($appId, $refreshToken)
     {
         $params = [
             'component_appid' => $this->getAppId(),
-            'authorizer_appid' => $authorizerAppId,
-            'authorizer_refresh_token' => $authorizerRefreshToken,
+            'authorizer_appid' => $appId,
+            'authorizer_refresh_token' => $refreshToken,
         ];
 
         return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $params]);
