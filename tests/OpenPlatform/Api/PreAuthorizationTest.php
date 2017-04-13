@@ -8,10 +8,6 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
-use EasyWeChat\OpenPlatform\AccessToken;
-use EasyWeChat\OpenPlatform\Api\PreAuthorization;
-use Mockery as m;
-
 class PreAuthorizationTest extends ApiTest
 {
     public function testGetAppId()

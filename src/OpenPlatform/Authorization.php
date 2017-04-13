@@ -30,7 +30,6 @@ namespace EasyWeChat\OpenPlatform;
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exception;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
-use EasyWeChat\Support\Collection;
 
 class Authorization
 {

@@ -9,8 +9,6 @@
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
 use EasyWeChat\OpenPlatform\Api\BaseApi;
-use Mockery as m;
-use Symfony\Component\HttpFoundation\Request;
 
 class BaseApiTest extends ApiTest
 {

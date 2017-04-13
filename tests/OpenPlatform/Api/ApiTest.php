@@ -24,6 +24,7 @@ class ApiTest extends TestCase
             'secret',
             new ArrayCache()
         );
+
         return $accessToken->setVerifyTicket(m::mock('EasyWeChat\OpenPlatform\VerifyTicket'));
     }
 
@@ -42,7 +43,7 @@ class ApiTest extends TestCase
                         'api' => $params[0],
                         'params' => empty($params[1]) ? null : $params[1],
                     ];
-            });
+                });
 
         return $baseApi;
     }
