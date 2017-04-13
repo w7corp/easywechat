@@ -53,7 +53,7 @@ class OpenPlatform
      *
      * @return \EasyWeChat\Foundation\Application
      */
-    public function createAuthorizer($appId, $refreshToken)
+    public function createAuthorizerApplication($appId, $refreshToken)
     {
         $this->fetch('authorization')
             ->setAuthorizerAppId($appId)
