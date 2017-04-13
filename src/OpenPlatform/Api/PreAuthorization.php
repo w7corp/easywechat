@@ -30,7 +30,7 @@ namespace EasyWeChat\OpenPlatform\Api;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class PreAuthorization extends AbstractComponent
+class PreAuthorization extends AbstractOpenPlatform
 {
     /**
      * Create pre auth code url.

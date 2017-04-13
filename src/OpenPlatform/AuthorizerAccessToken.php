@@ -98,7 +98,7 @@ class AuthorizerAccessToken extends BaseAccessToken
     }
 
     /**
-     * Get AppId for Authorizer.
+     * Return the AuthorizerAppId.
      *
      * @return string
      */

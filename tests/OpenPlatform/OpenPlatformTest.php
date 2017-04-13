@@ -41,9 +41,9 @@ class OpenPlatformTest extends TestCase
         $accessToken = new AccessToken(
             'open-platform-appid@999',
             'open-platform-secret',
-            $verifyTicket,
             $cache
         );
+        $accessToken->setVerifyTicket($verifyTicket);
 
         $app = $this->make();
         $app['open_platform.access_token'] = $accessToken;

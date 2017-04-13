@@ -8,46 +8,15 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
-use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
-use EasyWeChat\Tests\TestCase;
 use Mockery as m;
+use Symfony\Component\HttpFoundation\Request;
 
-class BaseApiTest extends TestCase
+class BaseApiTest extends ApiTest
 {
-    /**
-     * Authorization mock.
-     *
-     * @param string $appId
-     *
-     * @return \Mockery\MockInterface|\EasyWeChat\OpenPlatform\Api\BaseApi
-     */
-    public function mockAuthorization($appId)
-    {
-        $authorization = m::mock(
-            'EasyWeChat\OpenPlatform\Api\BaseApi[parseJSON]',
-            [
-                m::mock(AccessToken::class),
-                ['open_platform' => ['app_id' => $appId]],
-            ]
-        );
-
-        /* @noinspection PhpUnusedParameterInspection */
-        $authorization
-            ->shouldReceive('parseJSON')
-            ->andReturnUsing(function ($method, $params) {
-                return [
-                    'api' => $params[0],
-                    'params' => empty($params[1]) ? null : $params[1],
-                ];
-            });
-
-        return $authorization;
-    }
-
     public function testGetAuthorizationInfo()
     {
-        $authorizer = $this->mockAuthorization('appid@123');
+        $authorizer = $this->mockBaseApi('appid@123');
         $result = $authorizer->getAuthorizationInfo('code@123');
         $expected = [
             'component_appid' => 'appid@123',
@@ -60,7 +29,7 @@ class BaseApiTest extends TestCase
 
     public function testGetAuthorizerToken()
     {
-        $authorizer = $this->mockAuthorization('appid@123');
+        $authorizer = $this->mockBaseApi('appid@123');
         $result = $authorizer->getAuthorizerToken('appid@456', 'refresh@123');
         $expected = [
             'component_appid' => 'appid@123',
@@ -74,7 +43,7 @@ class BaseApiTest extends TestCase
 
     public function testGetAuthorizerInfo()
     {
-        $authorizer = $this->mockAuthorization('appid@123');
+        $authorizer = $this->mockBaseApi('appid@123');
         $result = $authorizer->getAuthorizerInfo('appid@456');
         $expected = [
             'component_appid' => 'appid@123',
@@ -87,7 +56,7 @@ class BaseApiTest extends TestCase
 
     public function testGetAuthorizerOption()
     {
-        $authorizer = $this->mockAuthorization('appid@123');
+        $authorizer = $this->mockBaseApi('appid@123');
         $result = $authorizer->getAuthorizerOption('appid@456', 'option@123');
         $expected = [
             'component_appid' => 'appid@123',
@@ -101,7 +70,7 @@ class BaseApiTest extends TestCase
 
     public function testSetAuthorizerOption()
     {
-        $authorizer = $this->mockAuthorization('appid@123');
+        $authorizer = $this->mockBaseApi('appid@123');
         $result = $authorizer->setAuthorizerOption('appid@456', 'option@123', 'value@123');
         $expected = [
             'component_appid' => 'appid@123',

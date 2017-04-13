@@ -27,7 +27,7 @@
 
 namespace EasyWeChat\OpenPlatform\Api;
 
-class BaseApi extends AbstractComponent
+class BaseApi extends AbstractOpenPlatform
 {
     /**
      * Get auth info api.

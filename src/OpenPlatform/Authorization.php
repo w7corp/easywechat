@@ -68,8 +68,6 @@ class Authorization
     /**
      * Authorization Constructor.
      *
-     * Users need not concern the details.
-     *
      * @param \EasyWeChat\OpenPlatform\Api\BaseApi $api
      * @param string                               $appId
      * @param \Doctrine\Common\Cache\Cache         $cache

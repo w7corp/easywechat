@@ -62,12 +62,14 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['open_platform.access_token'] = function ($pimple) {
-            return new AccessToken(
+            $accessToken = new AccessToken(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['config']['open_platform']['secret'],
-                $pimple['open_platform.verify_ticket'],
                 $pimple['cache']
             );
+            $accessToken->setVerifyTicket($pimple['open_platform.verify_ticket']);
+
+            return $accessToken;
         };
 
         $pimple['open_platform.encryptor'] = function ($pimple) {
@@ -99,14 +101,14 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         $pimple['open_platform.pre_auth'] = $pimple['open_platform.pre_authorization'] = function ($pimple) {
             return new PreAuthorization(
                 $pimple['open_platform.access_token'],
-                $pimple['config']['open_platform']
+                $pimple['request']
             );
         };
 
         $pimple['open_platform.api'] = function ($pimple) {
             return new BaseApi(
                 $pimple['open_platform.access_token'],
-                $pimple['config']['open_platform']
+                $pimple['request']
             );
         };
 
