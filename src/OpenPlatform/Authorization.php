@@ -162,7 +162,7 @@ class Authorization
      *
      * @return string
      *
-     * @throws Exception when refresh token is not present
+     * @throws \EasyWeChat\Core\Exception when refresh token is not present
      */
     public function getAuthorizerRefreshToken()
     {
