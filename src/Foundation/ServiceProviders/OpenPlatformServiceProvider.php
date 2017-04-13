@@ -131,13 +131,13 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         $pimple['open_platform.handlers.component_verify_ticket'] = function ($pimple) {
             return new EventHandlers\ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
         };
-        $pimple['open_platform.handlers.authorized'] = function ($pimple) {
+        $pimple['open_platform.handlers.authorized'] = function () {
             return new EventHandlers\Authorized();
         };
-        $pimple['open_platform.handlers.updateauthorized'] = function ($pimple) {
+        $pimple['open_platform.handlers.updateauthorized'] = function () {
             return new EventHandlers\UpdateAuthorized();
         };
-        $pimple['open_platform.handlers.unauthorized'] = function ($pimple) {
+        $pimple['open_platform.handlers.unauthorized'] = function () {
             return new EventHandlers\Unauthorized();
         };
 
