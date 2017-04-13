@@ -49,21 +49,21 @@ class Authorization
      *
      * @var \EasyWeChat\OpenPlatform\Api\BaseApi
      */
-    private $api;
+    protected $api;
 
     /**
      * Open Platform App Id, aka, Component App Id.
      *
      * @var string
      */
-    private $appId;
+    protected $appId;
 
     /**
      * Authorizer App Id.
      *
      * @var string
      */
-    private $authorizerAppId;
+    protected $authorizerAppId;
 
     /**
      * Authorization Constructor.
