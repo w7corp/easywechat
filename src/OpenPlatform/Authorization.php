@@ -89,13 +89,27 @@ class Authorization
     }
 
     /**
+     * Gets the base api.
+     *
+     * @return \EasyWeChat\OpenPlatform\Api\BaseApi
+     */
+    public function getApi()
+    {
+        return $this->api;
+    }
+
+    /**
      * Sets the authorizer app id.
      *
      * @param string $authorizerAppId
+     *
+     * @return $this
      */
     public function setAuthorizerAppId($authorizerAppId)
     {
         $this->authorizerAppId = $authorizerAppId;
+
+        return $this;
     }
 
     /**
@@ -175,23 +189,6 @@ class Authorization
     }
 
     /**
-     * Handles the authorizer access token: calls the API, saves the token.
-     *
-     * @return string the authorizer access token
-     */
-    public function handleAuthorizerAccessToken()
-    {
-        $data = $this->api->getAuthorizationToken(
-            $this->getAuthorizerAppId(),
-            $this->getAuthorizerRefreshToken()
-        );
-
-        $this->setAuthorizerAccessToken($data);
-
-        return $data['authorizer_access_token'];
-    }
-
-    /**
      * Gets the authorization information.
      * Like authorizer app id, access token, refresh token, function scope, etc.
      *
@@ -222,7 +219,7 @@ class Authorization
      */
     public function setAuthorizerAccessToken($token, $expires = 7200)
     {
-        return $this->cache->save($this->getAuthorizerAccessTokenKey(), $token, $expires - 1500);
+        return $this->cache->save($this->getAuthorizerAccessTokenKey(), $token, $expires);
     }
 
     /**

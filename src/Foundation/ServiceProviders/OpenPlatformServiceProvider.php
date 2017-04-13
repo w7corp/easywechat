@@ -118,7 +118,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple['open_platform.authorizer_token'] = function ($pimple) {
+        $pimple['open_platform.authorizer_access_token'] = function ($pimple) {
             return new AuthorizerAccessToken(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['open_platform.authorization']

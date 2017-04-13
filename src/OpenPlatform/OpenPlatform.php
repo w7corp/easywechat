@@ -31,12 +31,13 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
 /**
  * Class OpenPlatform.
  *
+ * @property \EasyWeChat\OpenPlatform\Api\BaseApi $api
  * @property \EasyWeChat\OpenPlatform\Api\PreAuthorization $pre_auth
  * @property \EasyWeChat\OpenPlatform\Guard $server
  * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
  *
  * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
- * @method \EasyWeChat\Support\Collection getAuthorizationToken($authorizerAppId, $authorizerRefreshToken)
+ * @method \EasyWeChat\Support\Collection getAuthorizerToken($appId, $refreshToken)
  * @method \EasyWeChat\Support\Collection getAuthorizerInfo($authorizerAppId)
  * @method \EasyWeChat\Support\Collection getAuthorizerOption($authorizerAppId, $optionName)
  * @method \EasyWeChat\Support\Collection setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
@@ -55,12 +56,13 @@ class OpenPlatform
      */
     public function createAuthorizer($appId, $refreshToken)
     {
-        $this->authorization->setAuthorizerAppId($appId);
-        $this->authorization->setAuthorizerRefreshToken($refreshToken);
+        $this->fetch('authorization')
+            ->setAuthorizerAppId($appId)
+            ->setAuthorizerRefreshToken($refreshToken);
 
-        $application = $this->app;
-        $application['access_token'] = $this->authorizer_token;
-        $application['oauth'] = $this->oauth;
+        $application = $this->fetch('app');
+        $application['access_token'] = $this->fetch('authorizer_access_token');
+        $application['oauth'] = $this->fetch('oauth');
 
         return $application;
     }

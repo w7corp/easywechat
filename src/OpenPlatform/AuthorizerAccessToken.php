@@ -73,10 +73,28 @@ class AuthorizerAccessToken extends BaseAccessToken
         $cached = $this->authorization->getAuthorizerAccessToken();
 
         if ($forceRefresh || empty($cached)) {
-            return $this->authorization->handleAuthorizerAccessToken();
+            return $this->refreshToken();
         }
 
         return $cached;
+    }
+
+    /**
+     * Refresh authorizer access token.
+     *
+     * @return string
+     */
+    protected function refreshToken()
+    {
+        $token = $this->authorization->getApi()
+            ->getAuthorizerToken(
+                $this->authorization->getAuthorizerAppId(),
+                $this->authorization->getAuthorizerRefreshToken()
+            );
+
+        $this->authorization->setAuthorizerAccessToken($token['authorizer_access_token'], $token['expires_in'] - 1500);
+
+        return $token['authorizer_access_token'];
     }
 
     /**

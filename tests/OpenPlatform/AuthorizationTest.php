@@ -57,24 +57,6 @@ class AuthorizationTest extends TestCase
         $this->assertEquals('refresh@123', $authorization->getAuthorizerRefreshToken());
     }
 
-    public function testHandleAuthorizerAccessToken()
-    {
-        $appId = 'appid@123';
-        $authorizerAppId = 'appid@456';
-        $authorizerAccessToken = 'access@123';
-        $authorizerRefreshToken = 'refresh@123';
-        $authorization = $this->make(
-            $appId, $authorizerAppId,
-            $authorizerAccessToken, $authorizerRefreshToken
-        );
-
-        $stub = $this->stubAuthorizationInfo($authorizerAppId, $authorizerRefreshToken);
-        $authorization->setAuthorizerRefreshToken($stub['authorization_info']);
-
-        $result = $authorization->handleAuthorizerAccessToken();
-        $this->assertEquals($authorizerAccessToken, $result);
-    }
-
     public function testHandleAuthorization()
     {
         $appId = 'appid@123';
@@ -134,7 +116,7 @@ class AuthorizationTest extends TestCase
         );
         /* @noinspection PhpUnusedParameterInspection */
         $mockAuthorizer
-            ->shouldReceive('getAuthorizationToken')
+            ->shouldReceive('getAuthorizerToken')
             ->andReturnUsing(
                 function ($appId, $authorizerRefreshToken) use ($stub) {
                     return $stub;
