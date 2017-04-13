@@ -27,7 +27,7 @@
 
 namespace EasyWeChat\OpenPlatform\Api;
 
-class BaseApi extends AbstractComponent
+class BaseApi extends AbstractOpenPlatform
 {
     /**
      * Get auth info api.
@@ -73,6 +73,10 @@ class BaseApi extends AbstractComponent
 
     /**
      * Get authorizer token.
+     *
+     * It doesn't cache the authorizer-access-token.
+     * So developers should NEVER call this method.
+     * It'll called by: AuthorizerAccessToken::refreshToken()
      *
      * @param $appId
      * @param $refreshToken

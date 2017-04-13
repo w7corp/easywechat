@@ -8,45 +8,8 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
-use EasyWeChat\OpenPlatform\AccessToken;
-use EasyWeChat\OpenPlatform\Api\PreAuthorization;
-use EasyWeChat\Tests\TestCase;
-use Mockery as m;
-
-class PreAuthorizationTest extends TestCase
+class PreAuthorizationTest extends ApiTest
 {
-    /**
-     * PreAuth mock.
-     *
-     * @param string $appId
-     * @param string $code
-     *
-     * @return \Mockery\MockInterface|PreAuth
-     */
-    public function mockPreAuthorization($appId, $code = null)
-    {
-        $preAuth = m::mock(
-            PreAuthorization::class.'[parseJSON]',
-            [
-                m::mock(AccessToken::class),
-                ['open_platform' => ['app_id' => $appId]],
-            ]
-        );
-
-        /* @noinspection PhpUnusedParameterInspection */
-        $preAuth
-            ->shouldReceive('parseJSON')
-            ->andReturnUsing(function ($method, $params) use ($code) {
-                return [
-                    'api' => $params[0],
-                    'params' => empty($params[1]) ? null : $params[1],
-                    'pre_auth_code' => $code,
-                ];
-            });
-
-        return $preAuth;
-    }
-
     public function testGetAppId()
     {
         $this->assertEquals('appid@foobar', $this->mockPreAuthorization('appid@foobar')->getAppId());

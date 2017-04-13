@@ -27,14 +27,12 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\Support\Collection;
-
-interface EventHandler
+abstract class EventHandler
 {
     /**
-     * Handle an incoming event from WeChat server-side.
+     * Handle an incoming event message from WeChat server-side.
      *
      * @param \EasyWeChat\Support\Collection $message
      */
-    public function handle(Collection $message);
+    abstract public function handle($message);
 }

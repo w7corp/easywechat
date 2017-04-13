@@ -41,13 +41,13 @@ class OpenPlatformTest extends TestCase
         $accessToken = new AccessToken(
             'open-platform-appid@999',
             'open-platform-secret',
-            $verifyTicket,
             $cache
         );
+        $accessToken->setVerifyTicket($verifyTicket);
 
         $app = $this->make();
         $app['open_platform.access_token'] = $accessToken;
-        $newApp = $app->open_platform->createAuthorizer('authorizer-appid@999', 'authorizer-refresh-token');
+        $newApp = $app->open_platform->createAuthorizerApplication('authorizer-appid@999', 'authorizer-refresh-token');
 
         $this->assertInstanceOf('EasyWeChat\OpenPlatform\AuthorizerAccessToken', $newApp->access_token);
         $this->assertEquals('authorizer-appid@999', $newApp->access_token->getAppId());

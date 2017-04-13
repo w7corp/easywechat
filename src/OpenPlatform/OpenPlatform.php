@@ -37,7 +37,6 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
  *
  * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
- * @method \EasyWeChat\Support\Collection getAuthorizerToken($appId, $refreshToken)
  * @method \EasyWeChat\Support\Collection getAuthorizerInfo($authorizerAppId)
  * @method \EasyWeChat\Support\Collection getAuthorizerOption($authorizerAppId, $optionName)
  * @method \EasyWeChat\Support\Collection setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
@@ -54,7 +53,7 @@ class OpenPlatform
      *
      * @return \EasyWeChat\Foundation\Application
      */
-    public function createAuthorizer($appId, $refreshToken)
+    public function createAuthorizerApplication($appId, $refreshToken)
     {
         $this->fetch('authorization')
             ->setAuthorizerAppId($appId)

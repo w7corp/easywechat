@@ -30,7 +30,6 @@ namespace EasyWeChat\OpenPlatform;
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exception;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
-use EasyWeChat\Support\Collection;
 
 class Authorization
 {
@@ -49,33 +48,24 @@ class Authorization
      *
      * @var \EasyWeChat\OpenPlatform\Api\BaseApi
      */
-    private $api;
+    protected $api;
 
     /**
      * Open Platform App Id, aka, Component App Id.
      *
      * @var string
      */
-    private $appId;
+    protected $appId;
 
     /**
      * Authorizer App Id.
      *
      * @var string
      */
-    private $authorizerAppId;
-
-    /**
-     * Auth code.
-     *
-     * @var string
-     */
-    private $authCode;
+    protected $authorizerAppId;
 
     /**
      * Authorization Constructor.
-     *
-     * Users need not concern the details.
      *
      * @param \EasyWeChat\OpenPlatform\Api\BaseApi $api
      * @param string                               $appId
@@ -131,86 +121,6 @@ class Authorization
     }
 
     /**
-     * Sets the auth code.
-     *
-     * @param $code
-     */
-    public function setAuthCode($code)
-    {
-        $this->authCode = $code;
-    }
-
-    /**
-     * Gets the auth code.
-     *
-     * @return string
-     */
-    public function getAuthCode()
-    {
-        return $this->authCode;
-    }
-
-    /**
-     * Sets the auth info from the message of the auth event sent by WeChat.
-     *
-     * @param \EasyWeChat\Support\Collection $message
-     */
-    public function setFromAuthMessage(Collection $message)
-    {
-        if ($authorizerAppId = $message->get('AuthorizerAppid')) {
-            $this->setAuthorizerAppId($authorizerAppId);
-        }
-        if ($authorizationCode = $message->get('AuthorizationCode')) {
-            $this->setAuthCode($authorizationCode);
-        }
-    }
-
-    /**
-     * Handles authorization: calls the API, saves the tokens.
-     *
-     * @return Collection
-     */
-    public function handleAuthorization()
-    {
-        $info = $this->getAuthorizationInfo();
-
-        $appId = $info['authorization_info']['authorizer_appid'];
-        $this->setAuthorizerAppId($appId);
-
-        $this->setAuthorizerAccessToken($info['authorization_info']['authorizer_access_token']);
-        $this->setAuthorizerRefreshToken($info['authorization_info']['authorizer_refresh_token']);
-
-        $authorizerInfo = $this->getAuthorizerInfo();
-        // Duplicated info.
-        $authorizerInfo->forget('authorization_info');
-        $info->merge($authorizerInfo->all());
-
-        return $info;
-    }
-
-    /**
-     * Gets the authorization information.
-     * Like authorizer app id, access token, refresh token, function scope, etc.
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    public function getAuthorizationInfo()
-    {
-        return $this->api->getAuthorizationInfo($this->getAuthCode());
-    }
-
-    /**
-     * Gets the authorizer information.
-     * Like authorizer name, logo, business, etc.
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    public function getAuthorizerInfo()
-    {
-        return $this->api->getAuthorizerInfo($this->getAuthorizerAppId());
-    }
-
-    /**
      * Saves the authorizer access token in cache.
      *
      * @param string $token
@@ -249,7 +159,7 @@ class Authorization
      *
      * @return string
      *
-     * @throws Exception when refresh token is not present
+     * @throws \EasyWeChat\Core\Exception when refresh token is not present
      */
     public function getAuthorizerRefreshToken()
     {
