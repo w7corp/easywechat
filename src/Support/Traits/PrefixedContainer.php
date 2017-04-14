@@ -54,13 +54,20 @@ trait PrefixedContainer
     /**
      * Fetches from pimple container.
      *
-     * @param string $key
+     * @param string        $key
+     * @param callable|null $callable
      *
      * @return mixed
      */
-    public function fetch($key)
+    public function fetch($key, callable $callable = null)
     {
-        return $this->$key;
+        $instance = $this->$key;
+
+        if (!is_null($callable)) {
+            $callable($instance);
+        }
+
+        return $instance;
     }
 
     /**
