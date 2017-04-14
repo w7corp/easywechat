@@ -13,7 +13,7 @@ use EasyWeChat\OpenPlatform\Authorizer;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
-class AuthorizationTest extends TestCase
+class AuthorizerTest extends TestCase
 {
     public function testGetApi()
     {
