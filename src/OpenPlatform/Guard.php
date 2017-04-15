@@ -132,8 +132,8 @@ class Guard extends ServerGuard
             Log::notice("No existing handler for '{$infoType}'.");
         }
 
-        if ($customHandler = $this->getMessageHandler()) {
-            $customHandler($message);
+        if ($messageHandler = $this->getMessageHandler()) {
+            call_user_func_array($messageHandler, [$message]);
         }
     }
 }
