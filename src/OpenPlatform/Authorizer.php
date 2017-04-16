@@ -10,7 +10,7 @@
  */
 
 /**
- * Authorization.php.
+ * Authorizer.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -31,7 +31,7 @@ use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exception;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 
-class Authorization
+class Authorizer
 {
     const CACHE_KEY_ACCESS_TOKEN = 'easywechat.open_platform.authorizer_access_token';
     const CACHE_KEY_REFRESH_TOKEN = 'easywechat.open_platform.authorizer_refresh_token';
@@ -51,30 +51,30 @@ class Authorization
     protected $api;
 
     /**
-     * Open Platform App Id, aka, Component App Id.
+     * Authorizer AppId.
      *
      * @var string
      */
     protected $appId;
 
     /**
-     * Authorizer App Id.
+     * OpenPlatform AppId.
      *
      * @var string
      */
-    protected $authorizerAppId;
+    protected $openPlatformAppId;
 
     /**
-     * Authorization Constructor.
+     * Authorizer Constructor.
      *
      * @param \EasyWeChat\OpenPlatform\Api\BaseApi $api
-     * @param string                               $appId
+     * @param string                               $openPlatformAppId OpenPlatform AppId
      * @param \Doctrine\Common\Cache\Cache         $cache
      */
-    public function __construct(BaseApi $api, $appId, Cache $cache)
+    public function __construct(BaseApi $api, $openPlatformAppId, Cache $cache)
     {
         $this->api = $api;
-        $this->appId = $appId;
+        $this->openPlatformAppId = $openPlatformAppId;
         $this->cache = $cache;
     }
 
@@ -91,13 +91,13 @@ class Authorization
     /**
      * Sets the authorizer app id.
      *
-     * @param string $authorizerAppId
+     * @param string $appId
      *
      * @return $this
      */
-    public function setAuthorizerAppId($authorizerAppId)
+    public function setAppId($appId)
     {
-        $this->authorizerAppId = $authorizerAppId;
+        $this->appId = $appId;
 
         return $this;
     }
@@ -109,27 +109,30 @@ class Authorization
      *
      * @throws \EasyWeChat\Core\Exception
      */
-    public function getAuthorizerAppId()
+    public function getAppId()
     {
-        if (!$this->authorizerAppId) {
+        if (!$this->appId) {
             throw new Exception(
-                'Authorizer App Id is not present, you may not make the authorization yet.'
+                'Authorizer App Id is not present, you may not make the authorizer yet.'
             );
         }
 
-        return $this->authorizerAppId;
+        return $this->appId;
     }
 
     /**
      * Saves the authorizer access token in cache.
      *
      * @param string $token
+     * @param int    $expires
      *
-     * @return bool TRUE if the entry was successfully stored in the cache, FALSE otherwise
+     * @return $this
      */
-    public function setAuthorizerAccessToken($token, $expires = 7200)
+    public function setAccessToken($token, $expires = 7200)
     {
-        return $this->cache->save($this->getAuthorizerAccessTokenKey(), $token, $expires);
+        $this->cache->save($this->getAccessTokenCacheKey(), $token, $expires);
+
+        return $this;
     }
 
     /**
@@ -137,9 +140,9 @@ class Authorization
      *
      * @return string
      */
-    public function getAuthorizerAccessToken()
+    public function getAccessToken()
     {
-        return $this->cache->fetch($this->getAuthorizerAccessTokenKey());
+        return $this->cache->fetch($this->getAccessTokenCacheKey());
     }
 
     /**
@@ -147,11 +150,13 @@ class Authorization
      *
      * @param string $refreshToken
      *
-     * @return bool TRUE if the entry was successfully stored in the cache, FALSE otherwise
+     * @return $this
      */
-    public function setAuthorizerRefreshToken($refreshToken)
+    public function setRefreshToken($refreshToken)
     {
-        return $this->cache->save($this->getAuthorizerRefreshTokenKey(), $refreshToken);
+        $this->cache->save($this->getRefreshTokenCacheKey(), $refreshToken);
+
+        return $this;
     }
 
     /**
@@ -161,37 +166,15 @@ class Authorization
      *
      * @throws \EasyWeChat\Core\Exception when refresh token is not present
      */
-    public function getAuthorizerRefreshToken()
+    public function getRefreshToken()
     {
-        if ($token = $this->cache->fetch($this->getAuthorizerRefreshTokenKey())) {
+        if ($token = $this->cache->fetch($this->getRefreshTokenCacheKey())) {
             return $token;
         }
 
         throw new Exception(
-            'Authorizer Refresh Token is not present, you may not make the authorization yet.'
+            'Authorizer Refresh Token is not present, you may not make the authorizer yet.'
         );
-    }
-
-    /**
-     * Removes the authorizer access token from cache.
-     *
-     * @return bool TRUE if the cache entry was successfully deleted, FALSE otherwise.
-     *              Deleting a non-existing entry is considered successful
-     */
-    public function removeAuthorizerAccessToken()
-    {
-        return $this->cache->delete($this->getAuthorizerAccessTokenKey());
-    }
-
-    /**
-     * Removes the authorizer refresh token from cache.
-     *
-     * @return bool TRUE if the cache entry was successfully deleted, FALSE otherwise.
-     *              Deleting a non-existing entry is considered successful
-     */
-    public function removeAuthorizerRefreshToken()
-    {
-        return $this->cache->delete($this->getAuthorizerRefreshTokenKey());
     }
 
     /**
@@ -199,9 +182,9 @@ class Authorization
      *
      * @return string
      */
-    public function getAuthorizerAccessTokenKey()
+    public function getAccessTokenCacheKey()
     {
-        return self::CACHE_KEY_ACCESS_TOKEN.$this->appId.$this->getAuthorizerAppId();
+        return self::CACHE_KEY_ACCESS_TOKEN.$this->appId.$this->getAppId();
     }
 
     /**
@@ -209,8 +192,8 @@ class Authorization
      *
      * @return string
      */
-    public function getAuthorizerRefreshTokenKey()
+    public function getRefreshTokenCacheKey()
     {
-        return self::CACHE_KEY_REFRESH_TOKEN.$this->appId.$this->getAuthorizerAppId();
+        return self::CACHE_KEY_REFRESH_TOKEN.$this->appId.$this->getAppId();
     }
 }

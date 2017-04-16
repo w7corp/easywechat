@@ -55,15 +55,16 @@ class OpenPlatform
      */
     public function createAuthorizerApplication($appId, $refreshToken)
     {
-        $this->fetch('authorization')
-            ->setAuthorizerAppId($appId)
-            ->setAuthorizerRefreshToken($refreshToken);
+        $this->fetch('authorizer', function ($authorizer) use ($appId, $refreshToken) {
+            $authorizer->setAppId($appId);
+            $authorizer->setRefreshToken($refreshToken);
+        });
 
-        $application = $this->fetch('app');
-        $application['access_token'] = $this->fetch('authorizer_access_token');
-        $application['oauth'] = $this->fetch('oauth');
-
-        return $application;
+        return $this->fetch('app', function ($app) {
+            $app['access_token'] = $this->fetch('authorizer_access_token');
+            $app['oauth'] = $this->fetch('oauth');
+            $app['server'] = $this->fetch('server');
+        });
     }
 
     /**

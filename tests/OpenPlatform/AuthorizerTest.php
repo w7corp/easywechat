@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test AuthorizationTest.php.
+ * Test AuthorizerTest.php.
  *
  * @author lixiao <leonlx126@gmail.com>
  */
@@ -9,26 +9,26 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\OpenPlatform\Authorization;
+use EasyWeChat\OpenPlatform\Authorizer;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
-class AuthorizationTest extends TestCase
+class AuthorizerTest extends TestCase
 {
     public function testGetApi()
     {
-        $authorization = $this->make('appid', 'authorizer-appid');
+        $authorizer = $this->make('appid', 'authorizer-appid');
 
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $authorization->getApi());
+        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $authorizer->getApi());
     }
 
     public function testGetAuthorizationInfo()
     {
         $appId = 'appid@123';
         $authorizerAppId = 'appid@456';
-        $authorization = $this->make($appId, $authorizerAppId);
+        $authorizer = $this->make($appId, $authorizerAppId);
 
-        $result = $authorization->getApi()->getAuthorizationInfo();
+        $result = $authorizer->getApi()->getAuthorizationInfo();
         $this->assertEquals($this->stubAuthorizationInfo($authorizerAppId), $result);
     }
 
@@ -36,43 +36,45 @@ class AuthorizationTest extends TestCase
     {
         $appId = 'appid@123';
         $authorizerAppId = 'appid@456';
-        $authorization = $this->make($appId, $authorizerAppId);
+        $authorizer = $this->make($appId, $authorizerAppId);
 
-        $result = $authorization->getApi()->getAuthorizerInfo('appid@123');
+        $result = $authorizer->getApi()->getAuthorizerInfo('appid@123');
         $this->assertEquals($this->stubAuthorizerInfo($authorizerAppId), $result);
     }
 
-    public function testSetAndGetAuthorizerAccessToken()
+    public function testSetAndGetAccessToken()
     {
-        $authorization = $this->make('appid@123', 'authorizer-appid@456');
+        $authorizer = $this->make('appid@123', 'authorizer-appid@456');
         $stub = $this->stubAuthorizationInfo('authorizer-appid@456', 'authorizer-access@123');
 
-        $this->assertTrue(
-            $authorization->setAuthorizerAccessToken($stub['authorization_info']['authorizer_access_token'])
+        $this->assertInstanceOf(
+            'EasyWeChat\OpenPlatform\Authorizer',
+            $authorizer->setAccessToken($stub['authorization_info']['authorizer_access_token'])
         );
-        $this->assertEquals('authorizer-access@123', $authorization->getAuthorizerAccessToken());
+        $this->assertEquals('authorizer-access@123', $authorizer->getAccessToken());
     }
 
-    public function testSetAndGetAuthorizerRefreshToken()
+    public function testSetAndGetRefreshToken()
     {
-        $authorization = $this->make('appid@123', 'appid@456');
+        $authorizer = $this->make('appid@123', 'appid@456');
         $stub = $this->stubAuthorizationInfo('appid@456', 'access@123', 'refresh@123');
 
-        $this->assertTrue(
-            $authorization->setAuthorizerRefreshToken($stub['authorization_info']['authorizer_refresh_token'])
+        $this->assertInstanceOf(
+            'EasyWeChat\OpenPlatform\Authorizer',
+            $authorizer->setRefreshToken($stub['authorization_info']['authorizer_refresh_token'])
         );
-        $this->assertEquals('refresh@123', $authorization->getAuthorizerRefreshToken());
+        $this->assertEquals('refresh@123', $authorizer->getRefreshToken());
     }
 
     /**
-     * Authorization mock.
+     * Authorizer mock.
      *
      * @param string $appId
      * @param string $authorizerAppId
      * @param string $authorizerAccessToken
      * @param string $authorizerRefreshToken
      *
-     * @return Authorization
+     * @return Authorizer
      */
     protected function make($appId, $authorizerAppId,
                           $authorizerAccessToken = null,
@@ -108,10 +110,10 @@ class AuthorizationTest extends TestCase
             );
 
         $cache = new ArrayCache();
-        $authorization = new Authorization($mockAuthorizer, $appId, $cache);
-        $authorization->setAuthorizerAppId($authorizerAppId);
+        $authorizer = new Authorizer($mockAuthorizer, $appId, $cache);
+        $authorizer->setAppId($authorizerAppId);
 
-        return $authorization;
+        return $authorizer;
     }
 
     protected function stubAuthorizationInfo($authorizerAppId,

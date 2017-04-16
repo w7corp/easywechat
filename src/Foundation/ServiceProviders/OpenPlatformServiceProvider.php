@@ -32,7 +32,7 @@ use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\OpenPlatform\Api\PreAuthorization;
-use EasyWeChat\OpenPlatform\Authorization;
+use EasyWeChat\OpenPlatform\Authorizer;
 use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\EventHandlers;
 use EasyWeChat\OpenPlatform\Guard;
@@ -112,8 +112,8 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $pimple['open_platform.authorization'] = function ($pimple) {
-            return new Authorization(
+        $pimple['open_platform.authorizer'] = function ($pimple) {
+            return new Authorizer(
                 $pimple['open_platform.api'],
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['cache']
@@ -123,7 +123,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         $pimple['open_platform.authorizer_access_token'] = function ($pimple) {
             return new AuthorizerAccessToken(
                 $pimple['config']['open_platform']['app_id'],
-                $pimple['open_platform.authorization']
+                $pimple['open_platform.authorizer']
             );
         };
 
@@ -151,7 +151,7 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
             $scopes = $pimple['config']->get('open_platform.oauth.scopes', []);
             $socialite = (new Socialite([
                 'wechat_open' => [
-                    'client_id' => $pimple['open_platform.authorization']->getAuthorizerAppId(),
+                    'client_id' => $pimple['open_platform.authorizer']->getAppId(),
                     'client_secret' => [
                         $pimple['open_platform.access_token']->getAppId(),
                         $pimple['open_platform.access_token']->getToken(),
