@@ -130,4 +130,31 @@ class AccessToken
 
         return $token;
     }
+
+    /**
+     * 刷新Token
+     *
+     * @return string
+     */
+    public function refreshToken()
+    {
+        $appId       = $this->appId;
+        $appSecret   = $this->appSecret;
+        $cache       = $this->cache;
+        $cacheKey    = $this->cacheKey;
+        $apiTokenGet = self::API_TOKEN_GET;
+
+        $params = array(
+            'appid'      => $appId,
+            'secret'     => $appSecret,
+            'grant_type' => 'client_credential',
+        );
+        $http = new Http();
+
+        $token = $http->get($apiTokenGet, $params);
+
+        $cache->set($cacheKey, $token['access_token'], $token['expires_in'] - 1500);
+
+        return $token['access_token'];
+    }
 }
