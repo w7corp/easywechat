@@ -158,15 +158,11 @@ class Transformer
      *
      * @return array
      */
-    public function transformNews($news)
+    public function transformNews(News $news)
     {
         $articles = [];
 
-        if (!is_array($news)) {
-            $news = [$news];
-        }
-
-        foreach ($news as $item) {
+        foreach ($news->all() as $item) {
             $articles[] = [
                            'Title' => $item->get('title'),
                            'Description' => $item->get('description'),
