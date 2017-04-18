@@ -10,7 +10,7 @@
  */
 
 /**
- * AuthorizerToken.php.
+ * AuthorizerAccessToken.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -32,35 +32,32 @@ namespace EasyWeChat\OpenPlatform;
 use EasyWeChat\Core\AccessToken as BaseAccessToken;
 
 /**
- * Class AuthorizerToken.
+ * Class AuthorizerAccessToken.
  *
- * AuthorizerToken is responsible for the access token of the authorizer,
+ * AuthorizerAccessToken is responsible for the access token of the authorizer,
  * the complexity is that this access token also requires the refresh token
- * of the authorizer which is acquired by the open platform authorization
- * process.
+ * of the authorizer which is acquired by the open platform authorizer process.
  *
  * This completely overrides the original AccessToken.
  */
-class AuthorizerToken extends BaseAccessToken
+class AuthorizerAccessToken extends BaseAccessToken
 {
     /**
-     * Handles authorization.
-     *
-     * @var Authorization
+     * @var \EasyWeChat\OpenPlatform\Authorizer
      */
-    protected $authorization;
+    protected $authorizer;
 
     /**
      * AuthorizerAccessToken constructor.
      *
-     * @param string        $appId
-     * @param Authorization $authorization
+     * @param string                              $appId
+     * @param \EasyWeChat\OpenPlatform\Authorizer $authorizer
      */
-    public function __construct($appId, Authorization $authorization)
+    public function __construct($appId, Authorizer $authorizer)
     {
         parent::__construct($appId, null);
 
-        $this->authorization = $authorization;
+        $this->authorizer = $authorizer;
     }
 
     /**
@@ -72,22 +69,40 @@ class AuthorizerToken extends BaseAccessToken
      */
     public function getToken($forceRefresh = false)
     {
-        $cached = $this->authorization->getAuthorizerAccessToken();
+        $cached = $this->authorizer->getAccessToken();
 
         if ($forceRefresh || empty($cached)) {
-            return $this->authorization->handleAuthorizerAccessToken();
+            return $this->refreshToken();
         }
 
         return $cached;
     }
 
     /**
-     * Get AppId for Authorizer.
+     * Refresh authorizer access token.
+     *
+     * @return string
+     */
+    protected function refreshToken()
+    {
+        $token = $this->authorizer->getApi()
+            ->getAuthorizerToken(
+                $this->authorizer->getAppId(),
+                $this->authorizer->getRefreshToken()
+            );
+
+        $this->authorizer->setAccessToken($token['authorizer_access_token'], $token['expires_in'] - 1500);
+
+        return $token['authorizer_access_token'];
+    }
+
+    /**
+     * Return the AuthorizerAppId.
      *
      * @return string
      */
     public function getAppId()
     {
-        return $this->authorization->getAuthorizerAppId();
+        return $this->authorizer->getAppId();
     }
 }

@@ -10,7 +10,7 @@
  */
 
 /**
- * Authorizer.php.
+ * BaseApi.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -25,9 +25,9 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform\Components;
+namespace EasyWeChat\OpenPlatform\Api;
 
-class Authorizer extends AbstractComponent
+class BaseApi extends AbstractOpenPlatform
 {
     /**
      * Get auth info api.
@@ -35,7 +35,7 @@ class Authorizer extends AbstractComponent
     const GET_AUTH_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_query_auth';
 
     /**
-     * Authorization token api.
+     * Get authorizer token api.
      */
     const GET_AUTHORIZER_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token';
 
@@ -63,48 +63,52 @@ class Authorizer extends AbstractComponent
      */
     public function getAuthorizationInfo($authCode = null)
     {
-        $data = [
+        $params = [
             'component_appid' => $this->getAppId(),
             'authorization_code' => $authCode ?: $this->request->get('auth_code'),
         ];
 
-        return $this->parseJSON('json', [self::GET_AUTH_INFO, $data]);
+        return $this->parseJSON('json', [self::GET_AUTH_INFO, $params]);
     }
 
     /**
-     * Get authorization token.
+     * Get authorizer token.
      *
-     * @param $authorizerAppId
-     * @param $authorizerRefreshToken
+     * It doesn't cache the authorizer-access-token.
+     * So developers should NEVER call this method.
+     * It'll called by: AuthorizerAccessToken::refreshToken()
+     *
+     * @param $appId
+     * @param $refreshToken
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function getAuthorizationToken($authorizerAppId, $authorizerRefreshToken)
+    public function getAuthorizerToken($appId, $refreshToken)
     {
-        $data = [
+        $params = [
             'component_appid' => $this->getAppId(),
-            'authorizer_appid' => $authorizerAppId,
-            'authorizer_refresh_token' => $authorizerRefreshToken,
+            'authorizer_appid' => $appId,
+            'authorizer_refresh_token' => $refreshToken,
         ];
 
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $data]);
+        return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $params]);
     }
 
     /**
      * Get authorizer info.
      *
-     * @param $authorizerAppId
+     * @param string $authorizerAppId
      *
      * @return \EasyWeChat\Support\Collection
      */
     public function getAuthorizerInfo($authorizerAppId)
     {
-        $data = [
+        $params = [
             'component_appid' => $this->getAppId(),
             'authorizer_appid' => $authorizerAppId,
         ];
 
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_INFO, $data]);
+        return $this->parseJSON('json', [self::GET_AUTHORIZER_INFO, $params]);
     }
 
     /**
@@ -117,13 +121,13 @@ class Authorizer extends AbstractComponent
      */
     public function getAuthorizerOption($authorizerAppId, $optionName)
     {
-        $data = [
+        $params = [
             'component_appid' => $this->getAppId(),
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
         ];
 
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_OPTION, $data]);
+        return $this->parseJSON('json', [self::GET_AUTHORIZER_OPTION, $params]);
     }
 
     /**
@@ -137,13 +141,13 @@ class Authorizer extends AbstractComponent
      */
     public function setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
     {
-        $data = [
+        $params = [
             'component_appid' => $this->getAppId(),
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
             'option_value' => $optionValue,
         ];
 
-        return $this->parseJSON('json', [self::SET_AUTHORIZER_OPTION, $data]);
+        return $this->parseJSON('json', [self::SET_AUTHORIZER_OPTION, $params]);
     }
 }

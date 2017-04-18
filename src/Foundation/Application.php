@@ -124,11 +124,24 @@ class Application extends Container
 
         Http::setDefaultOptions($this['config']->get('guzzle', ['timeout' => 5.0]));
 
-        foreach (['app_id', 'secret'] as $key) {
-            !isset($config[$key]) || $config[$key] = '***'.substr($config[$key], -5);
+        $this->logConfiguration($config);
+    }
+
+    /**
+     * Log configuration.
+     *
+     * @param array $config
+     */
+    public function logConfiguration($config)
+    {
+        $config = new Config($config);
+
+        $keys = ['app_id', 'secret', 'open_platform.app_id', 'open_platform.secret', 'mini_program.app_id', 'mini_program.secret'];
+        foreach ($keys as $key) {
+            !$config->has($key) || $config[$key] = '***'.substr($config[$key], -5);
         }
 
-        Log::debug('Current config:', $config);
+        Log::debug('Current config:', $config->toArray());
     }
 
     /**

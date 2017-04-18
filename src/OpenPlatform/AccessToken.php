@@ -26,14 +26,17 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use Doctrine\Common\Cache\Cache;
-use EasyWeChat\Core\AccessToken as WechatAccessToken;
+use EasyWeChat\Core\AccessToken as CoreAccessToken;
 use EasyWeChat\Core\Exceptions\HttpException;
-use EasyWeChat\OpenPlatform\Traits\VerifyTicketTrait;
 
-class AccessToken extends WechatAccessToken
+class AccessToken extends CoreAccessToken
 {
-    use VerifyTicketTrait;
+    /**
+     * VerifyTicket.
+     *
+     * @var \EasyWeChat\OpenPlatform\VerifyTicket
+     */
+    protected $verifyTicket;
 
     /**
      * API.
@@ -56,18 +59,17 @@ class AccessToken extends WechatAccessToken
     protected $prefix = 'easywechat.open_platform.component_access_token.';
 
     /**
-     * AccessToken constructor.
+     * Set VerifyTicket.
      *
-     * @param string       $appId
-     * @param string       $secret
-     * @param Cache        $cache
-     * @param VerifyTicket $verifyTicket
+     * @param EasyWeChat\OpenPlatform\VerifyTicket $verifyTicket
+     *
+     * @return $this
      */
-    public function __construct($appId, $secret, VerifyTicket $verifyTicket, Cache $cache = null)
+    public function setVerifyTicket(VerifyTicket $verifyTicket)
     {
-        parent::__construct($appId, $secret, $cache);
+        $this->verifyTicket = $verifyTicket;
 
-        $this->setVerifyTicket($verifyTicket);
+        return $this;
     }
 
     /**

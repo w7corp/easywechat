@@ -27,28 +27,13 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\OpenPlatform\Authorization;
-use EasyWeChat\Support\Collection;
-
-class Authorized implements EventHandler
+class Authorized extends EventHandler
 {
-    /**
-     * @var Authorization
-     */
-    protected $authorization;
-
-    public function __construct(Authorization $authorization)
-    {
-        $this->authorization = $authorization;
-    }
-
     /**
      * {@inheritdoc}.
      */
-    public function handle(Collection $message)
+    public function handle($message)
     {
-        $this->authorization->setFromAuthMessage($message);
-
-        return $this->authorization->handleAuthorization();
+        // Do nothing for the time being.
     }
 }
