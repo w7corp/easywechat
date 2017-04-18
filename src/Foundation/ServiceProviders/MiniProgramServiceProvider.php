@@ -87,7 +87,10 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['mini_program.stats'] = function ($pimple) {
-            return new Stats($pimple['mini_program.access_token']);
+            return new Stats(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
         };
 
         $pimple['mini_program.sns'] = function ($pimple) {
