@@ -31,6 +31,7 @@ use EasyWeChat\MiniProgram\QRCode\QRCode;
 use EasyWeChat\MiniProgram\Server\Guard;
 use EasyWeChat\MiniProgram\Sns\Sns;
 use EasyWeChat\MiniProgram\Staff\Staff;
+use EasyWeChat\MiniProgram\Stats\Stats;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -83,6 +84,13 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
 
         $pimple['mini_program.material_temporary'] = function ($pimple) {
             return new Temporary($pimple['mini_program.access_token']);
+        };
+
+        $pimple['mini_program.stats'] = function ($pimple) {
+            return new Stats(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
         };
 
         $pimple['mini_program.sns'] = function ($pimple) {
