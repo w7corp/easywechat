@@ -45,7 +45,10 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant])->shouldAllowMockingProtectedMethods();
+        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant])
+                 ->shouldAllowMockingProtectedMethods();
+
+        $api->shouldReceive('wrapApi')->passthru();
         $api->shouldReceive('getHttp')->andReturn($http);
 
         return $api;
@@ -204,7 +207,9 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
+        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant])->shouldAllowMockingProtectedMethods();
+
+        $api->shouldReceive('wrapApi')->passthru();
         $api->shouldReceive('getHttp')->andReturn($http);
 
         $response = $api->downloadBill('20150901');
