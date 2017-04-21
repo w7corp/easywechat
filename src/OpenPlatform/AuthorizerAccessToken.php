@@ -72,7 +72,7 @@ class AuthorizerAccessToken extends BaseAccessToken
         $cached = $this->authorizer->getAccessToken();
 
         if ($forceRefresh || empty($cached)) {
-            return $this->refreshToken();
+            return $this->renewAccessToken();
         }
 
         return $cached;
@@ -83,7 +83,7 @@ class AuthorizerAccessToken extends BaseAccessToken
      *
      * @return string
      */
-    protected function refreshToken()
+    protected function renewAccessToken()
     {
         $token = $this->authorizer->getApi()
             ->getAuthorizerToken(
