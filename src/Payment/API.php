@@ -43,7 +43,7 @@ class API extends AbstractAPI
      *
      * @var string
      */
-     protected $sandboxMode = '';
+     protected $prefix = '';
 
 
     const API_ENDPOINT = 'https://api.mch.weixin.qq.com';
@@ -78,11 +78,11 @@ class API extends AbstractAPI
      *
      * @param \EasyWeChat\Payment\Merchant $merchant
      */
-    public function __construct(Merchant $merchant, $isSandboxMode = FALSE)
+    public function __construct(Merchant $merchant, $isSandboxMode = false)
     {
         $this->merchant = $merchant;
-        if ($isSandboxMode == TRUE) {
-            $this->sandboxMode = '/sandbox';
+        if ($isSandboxMode) {
+            $this->prefix = '/sandbox';
         }
     }
 
@@ -95,7 +95,7 @@ class API extends AbstractAPI
      */
     public function pay(Order $order)
     {
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_PAY_ORDER, $order->all());
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_PAY_ORDER, $order->all());
     }
 
     /**
@@ -112,7 +112,7 @@ class API extends AbstractAPI
             $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? get_server_ip() : get_client_ip();
         }
 
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_PREPARE_ORDER, $order->all());
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_PREPARE_ORDER, $order->all());
     }
 
     /**
@@ -129,7 +129,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_QUERY, $params);
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_QUERY, $params);
     }
 
     /**
@@ -157,7 +157,7 @@ class API extends AbstractAPI
             'out_trade_no' => $tradeNo,
         ];
 
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_CLOSE, $params);
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_CLOSE, $params);
     }
 
     /**
@@ -174,7 +174,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->safeRequest(self::API_ENDPOINT . $this->sandboxMode . self::API_REVERSE, $params);
+        return $this->safeRequest(self::API_ENDPOINT . $this->prefix . self::API_REVERSE, $params);
     }
 
     /**
@@ -220,7 +220,7 @@ class API extends AbstractAPI
             'op_user_id' => $opUserId ?: $this->merchant->merchant_id,
         ];
 
-        return $this->safeRequest(self::API_ENDPOINT . $this->sandboxMode . self::API_REFUND, $params);
+        return $this->safeRequest(self::API_ENDPOINT . $this->prefix . self::API_REFUND, $params);
     }
 
     /**
@@ -259,7 +259,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_QUERY_REFUND, $params);
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_QUERY_REFUND, $params);
     }
 
     /**
@@ -313,7 +313,7 @@ class API extends AbstractAPI
             'bill_type' => $type,
         ];
 
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_DOWNLOAD_BILL, $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_DOWNLOAD_BILL, $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
     }
 
     /**
@@ -351,7 +351,7 @@ class API extends AbstractAPI
             'time' => time(),
         ], $other);
 
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_REPORT, $params);
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_REPORT, $params);
     }
 
     /**
@@ -363,7 +363,7 @@ class API extends AbstractAPI
      */
     public function authCodeToOpenId($authCode)
     {
-        return $this->request(self::API_ENDPOINT . $this->sandboxMode . self::API_AUTH_CODE_TO_OPENID, ['auth_code' => $authCode]);
+        return $this->request(self::API_ENDPOINT . $this->prefix . self::API_AUTH_CODE_TO_OPENID, ['auth_code' => $authCode]);
     }
 
     /**
@@ -461,10 +461,10 @@ class API extends AbstractAPI
      */
     public function enableSandbox($mode)
     {
-        if ($mode == TRUE) {
-            $this->sandboxMode = '/sandbox';
+        if ($mode) {
+            $this->prefix = '/sandbox';
         } else {
-            $this->sandboxMode = '';
+            $this->prefix = '';
         }
     }
 }
