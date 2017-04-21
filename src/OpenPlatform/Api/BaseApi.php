@@ -76,7 +76,7 @@ class BaseApi extends AbstractOpenPlatform
      *
      * It doesn't cache the authorizer-access-token.
      * So developers should NEVER call this method.
-     * It'll called by: AuthorizerAccessToken::refreshToken()
+     * It'll called by: AuthorizerAccessToken::renewAccessToken()
      *
      * @param $appId
      * @param $refreshToken
