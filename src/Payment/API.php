@@ -385,6 +385,20 @@ class API extends AbstractAPI
     }
 
     /**
+     * Set sandbox mode.
+     *
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function sandboxMode($enabled = false)
+    {
+        $this->sandboxEnabled = $enabled;
+
+        return $this;
+    }
+
+    /**
      * Make a API request.
      *
      * @param string $api
@@ -451,19 +465,11 @@ class API extends AbstractAPI
     }
 
     /**
-     * Set sandbox mode.
-     *
-     * @param bool $enabled
-     */
-    public function sandboxMode($enabled = false)
-    {
-        $this->sandboxEnabled = $enabled;
-    }
-
-    /**
-     * Wrap sandbox API.
+     * Wrap API.
      *
      * @param string $resource
+     *
+     * @return string
      */
     protected function wrapApi($resource)
     {
