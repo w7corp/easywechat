@@ -57,8 +57,9 @@ class API extends AbstractAPI
     const API_QUERY_REFUND = '/pay/refundquery';
     const API_DOWNLOAD_BILL = '/pay/downloadbill';
     const API_REPORT = '/payitil/report';
-    const API_URL_SHORTEN = '/tools/shorturl';
-    const API_AUTH_CODE_TO_OPENID = '/tools/authcodetoopenid';
+
+    const API_URL_SHORTEN = 'https://api.mch.weixin.qq.com/tools/shorturl';
+    const API_AUTH_CODE_TO_OPENID = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
 
     // order id types.
     const TRANSACTION_ID = 'transaction_id';
@@ -321,7 +322,7 @@ class API extends AbstractAPI
      */
     public function urlShorten($url)
     {
-        return $this->request($this->wrapApi(self::API_URL_SHORTEN), ['long_url' => $url]);
+        return $this->request(self::API_URL_SHORTEN, ['long_url' => $url]);
     }
 
     /**
@@ -359,7 +360,7 @@ class API extends AbstractAPI
      */
     public function authCodeToOpenId($authCode)
     {
-        return $this->request($this->wrapApi(self::API_AUTH_CODE_TO_OPENID), ['auth_code' => $authCode]);
+        return $this->request(self::API_AUTH_CODE_TO_OPENID, ['auth_code' => $authCode]);
     }
 
     /**
