@@ -45,7 +45,7 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant]);
+        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant])->shouldAllowMockingProtectedMethods();
         $api->shouldReceive('getHttp')->andReturn($http);
 
         return $api;

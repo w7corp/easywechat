@@ -465,7 +465,7 @@ class API extends AbstractAPI
      *
      * @param string $resource
      */
-    public function wrapApi($resource)
+    protected function wrapApi($resource)
     {
         return self::API_HOST.($this->sandboxEnabled ? '/sandbox' : '').$resource;
     }
