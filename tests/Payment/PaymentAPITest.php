@@ -254,7 +254,7 @@ class PaymentAPITest extends TestCase
         $this->assertEquals('authcode', $response['params']['auth_code']);
 
         $sandboxPayment = $this->getAPI(true);
-        $response = $api->authCodeToOpenId('authcode');
+        $response = $sandboxPayment->authCodeToOpenId('authcode');
 
         $this->assertEquals('https://api.mch.weixin.qq.com/tools/authcodetoopenid', $response['api']);
         $this->assertEquals('authcode', $response['params']['auth_code']);
