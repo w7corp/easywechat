@@ -63,7 +63,7 @@ class PaymentAPITest extends TestCase
 
         $response = $api->prepare($order);
 
-        $this->assertEquals(API::API_PREPARE_ORDER, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_PREPARE_ORDER, $response['api']);
         $this->assertEquals('wxTestAppId', $response['params']['appid']);
         $this->assertEquals('merchant_default_notify_url', $response['params']['notify_url']);
         $this->assertEquals('testMerchantId', $response['params']['mch_id']);
@@ -82,7 +82,7 @@ class PaymentAPITest extends TestCase
 
         $response = $api->pay($order);
 
-        $this->assertEquals(API::API_PAY_ORDER, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_PAY_ORDER, $response['api']);
         $this->assertEquals('wxTestAppId', $response['params']['appid']);
         $this->assertEquals('testMerchantId', $response['params']['mch_id']);
         $this->assertEquals('bar', $response['params']['foo']);
@@ -96,16 +96,16 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
         $response = $api->query('testTradeNoFoo');
 
-        $this->assertEquals(API::API_QUERY, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_QUERY, $response['api']);
         $this->assertEquals('testTradeNoFoo', $response['params']['out_trade_no']);
 
         $response = $api->query('testTradeNoBar', API::TRANSACTION_ID);
 
-        $this->assertEquals(API::API_QUERY, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_QUERY, $response['api']);
         $this->assertEquals('testTradeNoBar', $response['params']['transaction_id']);
 
         $response = $api->queryByTransactionId('testTransactionId');
-        $this->assertEquals(API::API_QUERY, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_QUERY, $response['api']);
         $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
@@ -117,7 +117,7 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->close('testTradeNo');
-        $this->assertEquals(API::API_CLOSE, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_CLOSE, $response['api']);
         $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
     }
 
@@ -129,11 +129,11 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->reverse('testTradeNo');
-        $this->assertEquals(API::API_REVERSE, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_REVERSE, $response['api']);
         $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
         $response = $api->reverse('testTransactionId', API::TRANSACTION_ID);
-        $this->assertEquals(API::API_REVERSE, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_REVERSE, $response['api']);
         $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
@@ -145,7 +145,7 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->refund('testTradeNo', 'testRefundNo', 100);
-        $this->assertEquals(API::API_REFUND, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_REFUND, $response['api']);
         $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
         $this->assertEquals(100, $response['params']['total_fee']);
         $this->assertEquals(100, $response['params']['refund_fee']);
@@ -172,11 +172,11 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->queryRefund('testTradeNo');
-        $this->assertEquals(API::API_QUERY_REFUND, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_QUERY_REFUND, $response['api']);
         $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
         $response = $api->queryRefund('testTransactionId', API::TRANSACTION_ID);
-        $this->assertEquals(API::API_QUERY_REFUND, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_QUERY_REFUND, $response['api']);
         $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
@@ -208,12 +208,12 @@ class PaymentAPITest extends TestCase
         $api->shouldReceive('getHttp')->andReturn($http);
 
         $response = $api->downloadBill('20150901');
-        $this->assertEquals(API::API_DOWNLOAD_BILL, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_DOWNLOAD_BILL, $response['api']);
         $this->assertEquals('20150901', $response['params']['bill_date']);
         $this->assertEquals(API::BILL_TYPE_ALL, $response['params']['bill_type']);
 
         $response = $api->downloadBill('20150901', API::BILL_TYPE_SUCCESS);
-        $this->assertEquals(API::API_DOWNLOAD_BILL, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_DOWNLOAD_BILL, $response['api']);
         $this->assertEquals('20150901', $response['params']['bill_date']);
         $this->assertEquals(API::BILL_TYPE_SUCCESS, $response['params']['bill_type']);
     }
@@ -227,7 +227,7 @@ class PaymentAPITest extends TestCase
 
         $response = $api->urlShorten('http://easywechat.org');
 
-        $this->assertEquals(API::API_URL_SHORTEN, $response['api']);
+        $this->assertEquals(self::API_ENDPOINT . $this->prefix . API::API_URL_SHORTEN, $response['api']);
         $this->assertEquals('http://easywechat.org', $response['params']['long_url']);
     }
 
@@ -240,7 +240,7 @@ class PaymentAPITest extends TestCase
 
         $response = $api->authCodeToOpenId('authcode');
 
-        $this->assertEquals(API::API_AUTH_CODE_TO_OPENID, $response['api']);
+        $this->assertEqualsself::API_ENDPOINT . $this->prefix . API::API_AUTH_CODE_TO_OPENID, $response['api']);
         $this->assertEquals('authcode', $response['params']['auth_code']);
     }
 
