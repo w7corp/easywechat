@@ -26,7 +26,7 @@ class PaymentAPITest extends TestCase
      *
      * @return API
      */
-    public function getAPI()
+    public function getAPI($sandboxEnabled = false)
     {
         $http = \Mockery::mock(Http::class);
 
@@ -51,7 +51,7 @@ class PaymentAPITest extends TestCase
         $api->shouldReceive('wrapApi')->passthru();
         $api->shouldReceive('getHttp')->andReturn($http);
 
-        return $api;
+        return $api->sandboxMode($sandboxEnabled);
     }
 
     /**
@@ -229,10 +229,15 @@ class PaymentAPITest extends TestCase
     public function testUrlShorten()
     {
         $api = $this->getAPI();
-
         $response = $api->urlShorten('http://easywechat.org');
 
-        $this->assertEquals($api->wrapApi(API::API_URL_SHORTEN), $response['api']);
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
+        $this->assertEquals('http://easywechat.org', $response['params']['long_url']);
+
+        $sandboxPayment = $this->getAPI(true);
+        $response = $sandboxPayment->urlShorten('http://easywechat.org');
+
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
         $this->assertEquals('http://easywechat.org', $response['params']['long_url']);
     }
 
@@ -245,7 +250,13 @@ class PaymentAPITest extends TestCase
 
         $response = $api->authCodeToOpenId('authcode');
 
-        $this->assertEquals($api->wrapApi(API::API_AUTH_CODE_TO_OPENID), $response['api']);
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/authcodetoopenid', $response['api']);
+        $this->assertEquals('authcode', $response['params']['auth_code']);
+
+        $sandboxPayment = $this->getAPI(true);
+        $response = $sandboxPayment->authCodeToOpenId('authcode');
+
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/authcodetoopenid', $response['api']);
         $this->assertEquals('authcode', $response['params']['auth_code']);
     }
 
