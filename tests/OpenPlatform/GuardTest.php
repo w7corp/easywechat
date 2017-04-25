@@ -1,10 +1,14 @@
 <?php
 
-/**
- * Test GuardTest.php.
+/*
+ * This file is part of the overtrue/wechat.
  *
- * @author lixiao <leonlx126@gmail.com>
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
+
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
 use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
