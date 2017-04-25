@@ -9,18 +9,21 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Notice;
+
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Notice\Notice;
+use EasyWeChat\Tests\TestCase;
 
 class NoticeNoticeTest extends TestCase
 {
     public function getNotice($mockHttp = false)
     {
         if ($mockHttp) {
-            $accessToken = Mockery::mock('EasyWeChat\Core\AccessToken');
+            $accessToken = \Mockery::mock('EasyWeChat\Core\AccessToken');
             $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
             $notice = new Notice($accessToken);
-            $http = Mockery::mock('EasyWeChat\Core\Http[json]');
+            $http = \Mockery::mock('EasyWeChat\Core\Http[json]');
             $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
                 return json_encode(compact('api', 'params'));
             });
@@ -28,7 +31,7 @@ class NoticeNoticeTest extends TestCase
 
             return $notice;
         }
-        $notice = Mockery::mock('EasyWeChat\Notice\Notice[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $notice = \Mockery::mock('EasyWeChat\Notice\Notice[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $notice->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];
@@ -113,7 +116,7 @@ class NoticeNoticeTest extends TestCase
 
         try {
             $notice->send();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertContains(' can not be empty!', $e->getMessage());
         }
@@ -123,7 +126,7 @@ class NoticeNoticeTest extends TestCase
         $this->assertStringStartsWith(Notice::API_SEND_NOTICE, $response['api']);
         $this->assertEquals('foo', $response['params']['touser']);
         $this->assertEquals('bar', $response['params']['template_id']);
-        $this->assertEquals('#FF0000', $response['params']['topcolor']);
+        // $this->assertEquals('#FF0000', $response['params']['topcolor']); // 貌似这个删除了 https://github.com/overtrue/wechat/pull/595
         $this->assertEquals([], $response['params']['data']);
 
         $response = $notice->withTo('anzhengchao1')->withTemplateId('test_tpl_id')->withUrl('url')->withColor('color')->send();
@@ -131,14 +134,14 @@ class NoticeNoticeTest extends TestCase
         $this->assertEquals('anzhengchao1', $response['params']['touser']);
         $this->assertEquals('test_tpl_id', $response['params']['template_id']);
         $this->assertEquals('url', $response['params']['url']);
-        $this->assertEquals('color', $response['params']['topcolor']);
+        // $this->assertEquals('color', $response['params']['topcolor']);
 
         $response = $notice->foo('bar')->withReceiver('anzhengchao2')->withTemplate('tpl1')->withLink('link')->andColor('andColor')->send();
 
         $this->assertEquals('anzhengchao2', $response['params']['touser']);
         $this->assertEquals('tpl1', $response['params']['template_id']);
         $this->assertEquals('link', $response['params']['url']);
-        $this->assertEquals('andColor', $response['params']['topcolor']);
+        // $this->assertEquals('andColor', $response['params']['topcolor']);
     }
 
     /**
@@ -158,7 +161,7 @@ class NoticeNoticeTest extends TestCase
         $response = $notice->to('anzhengchao')->color('color1')->template('overtrue')->data($data)->send();
 
         $this->assertEquals('anzhengchao', $response['params']['touser']);
-        $this->assertEquals('color1', $response['params']['topcolor']);
+        // $this->assertEquals('color1', $response['params']['topcolor']);
         $this->assertEquals('overtrue', $response['params']['template_id']);
 
         // format1
@@ -175,7 +178,7 @@ class NoticeNoticeTest extends TestCase
             'keynote2' => ['39.8元'],
             'keynote3' => ['2014年9月16日', '#888888'],
             'remark' => '欢迎再次购买！',
-            'abc' => new stdClass(),
+            'abc' => new \stdClass(),
         ];
 
         $response = $notice->to('anzhengchao')->color('color1')->template('overtrue')->data($data)->send();

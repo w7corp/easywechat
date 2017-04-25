@@ -60,13 +60,6 @@ class Encryptor
     protected $blockSize;
 
     /**
-     * Aes key length.
-     *
-     * @var int
-     */
-    protected $aesKeyLength = 43;
-
-    /**
      * Constructor.
      *
      * @param string $appId
@@ -222,8 +215,8 @@ class Encryptor
             throw new InvalidConfigException("Configuration mission, 'aes_key' is required.");
         }
 
-        if (strlen($this->AESKey) !== $this->aesKeyLength) {
-            throw new InvalidConfigException("The length of 'aes_key' must be {$this->aesKeyLength}.");
+        if (strlen($this->AESKey) !== 43) {
+            throw new InvalidConfigException("The length of 'aes_key' must be 43.");
         }
 
         return base64_decode($this->AESKey.'=', true);

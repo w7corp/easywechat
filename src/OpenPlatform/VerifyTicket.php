@@ -29,12 +29,15 @@ namespace EasyWeChat\OpenPlatform;
 
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exceptions\RuntimeException;
-use EasyWeChat\OpenPlatform\Traits\Caches;
-use EasyWeChat\Support\Collection;
 
 class VerifyTicket
 {
-    use Caches;
+    /**
+     * Cache manager.
+     *
+     * @var \Doctrine\Common\Cache\Cache
+     */
+    protected $cache;
 
     /**
      * App Id.
@@ -51,13 +54,6 @@ class VerifyTicket
     private $cacheKey;
 
     /**
-     * Component verify ticket xml structure name.
-     *
-     * @var string
-     */
-    protected $ticketXmlName = 'ComponentVerifyTicket';
-
-    /**
      * Cache key prefix.
      *
      * @var string
@@ -67,28 +63,30 @@ class VerifyTicket
     /**
      * VerifyTicket constructor.
      *
+<<<<<<< HEAD
      * @param string $appId
      * @param Cache  $cache
+=======
+     * @param string                       $appId
+     * @param \Doctrine\Common\Cache\Cache $cache
+>>>>>>> overtrue-master
      */
-    public function __construct($appId, Cache $cache = null)
+    public function __construct($appId, Cache $cache)
     {
         $this->appId = $appId;
-        $this->setCache($cache);
+        $this->cache = $cache;
     }
 
     /**
-     * Save component verify ticket.
+     * Set component verify ticket to the cache.
      *
-     * @param Collection $message
+     * @param string $ticket
      *
      * @return bool
      */
-    public function cache(Collection $message)
+    public function setTicket($ticket)
     {
-        return $this->set(
-            $this->getCacheKey(),
-            $message->get($this->ticketXmlName)
-        );
+        return $this->cache->save($this->getCacheKey(), $ticket);
     }
 
     /**
@@ -96,11 +94,11 @@ class VerifyTicket
      *
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \EasyWeChat\Core\Exceptions\RuntimeException
      */
     public function getTicket()
     {
-        if ($cached = $this->get($this->getCacheKey())) {
+        if ($cached = $this->cache->fetch($this->getCacheKey())) {
             return $cached;
         }
 

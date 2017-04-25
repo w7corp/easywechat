@@ -9,22 +9,25 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Core;
+
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
+use EasyWeChat\Tests\TestCase;
 
 class CoreAccessTokenTest extends TestCase
 {
     public function testGetToken()
     {
-        $cache = Mockery::mock(Cache::class, function ($mock) {
+        $cache = \Mockery::mock(Cache::class, function ($mock) {
             $mock->shouldReceive('fetch')->andReturn('thisIsACachedToken');
             $mock->shouldReceive('save')->andReturnUsing(function ($key, $token, $expire) {
                 return $token;
             });
         });
 
-        $http = Mockery::mock(Http::class.'[get]', function ($mock) {
+        $http = \Mockery::mock(Http::class.'[get]', function ($mock) {
             $mock->shouldReceive('get')->andReturn(json_encode([
                     'access_token' => 'thisIsATokenFromHttp',
                     'expires_in' => 7200,
@@ -45,10 +48,10 @@ class CoreAccessTokenTest extends TestCase
      */
     public function testNonCachedGetToken()
     {
-        $cacheObj = new stdClass();
+        $cacheObj = new \stdClass();
 
         // non-cached
-        $cache = Mockery::mock(Cache::class, function ($mock) use ($cacheObj) {
+        $cache = \Mockery::mock(Cache::class, function ($mock) use ($cacheObj) {
             $mock->shouldReceive('fetch')->andReturnUsing(function ($cacheKey) {
                 return;
             });
@@ -62,7 +65,7 @@ class CoreAccessTokenTest extends TestCase
             });
         });
 
-        $http = Mockery::mock(Http::class.'[get]', function ($mock) {
+        $http = \Mockery::mock(Http::class.'[get]', function ($mock) {
             $mock->shouldReceive('get')->andReturn(json_encode([
                     'access_token' => 'thisIsATokenFromHttp',
                     'expires_in' => 7200,
@@ -76,7 +79,7 @@ class CoreAccessTokenTest extends TestCase
         $this->assertEquals('thisIsATokenFromHttp', $cacheObj->token);
         $this->assertEquals(5700, $cacheObj->expire);
 
-        $http = Mockery::mock(Http::class.'[get]', function ($mock) {
+        $http = \Mockery::mock(Http::class.'[get]', function ($mock) {
             $mock->shouldReceive('get')->andReturn(json_encode([
                     'foo' => 'bar', // without "access_token"
                 ]));
@@ -85,8 +88,9 @@ class CoreAccessTokenTest extends TestCase
         $accessToken = new AccessToken('appId', 'secret', $cache);
         $accessToken->setHttp($http);
 
-        $this->expectExceptionMessage('Request AccessToken fail. response: {"foo":"bar"}');
         $this->expectException(\EasyWeChat\Core\Exceptions\HttpException::class);
+        $this->expectExceptionMessage('Request AccessToken fail. response: {"foo":"bar"}');
+
         $accessToken->getToken();
         $this->fail();
     }
@@ -100,7 +104,7 @@ class CoreAccessTokenTest extends TestCase
 
         $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
 
-        $cache = Mockery::mock(Cache::class, function ($mock) {
+        $cache = \Mockery::mock(Cache::class, function ($mock) {
             $mock->shouldReceive('fetch')->andReturn('thisIsACachedToken');
             $mock->shouldReceive('save')->andReturnUsing(function ($key, $token, $expire) {
                 return $token;
@@ -129,7 +133,7 @@ class CoreAccessTokenTest extends TestCase
 
         $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
 
-        $cache = Mockery::mock(Cache::class, function ($mock) {
+        $cache = \Mockery::mock(Cache::class, function ($mock) {
             $mock->shouldReceive('fetch')->andReturn('foo');
             $mock->shouldReceive('save')->with('easywechat.common.access_token.appId', 'foo', 5700)->andReturnUsing(function ($key, $token, $expire) {
                 return $token;

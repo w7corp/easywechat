@@ -9,13 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\User;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\User\Tag;
 
 class UserTagTest extends TestCase
 {
     public function getTag()
     {
-        $tag = Mockery::mock('EasyWeChat\User\Tag[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $tag = \Mockery::mock('EasyWeChat\User\Tag[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
 
         return $tag;
     }

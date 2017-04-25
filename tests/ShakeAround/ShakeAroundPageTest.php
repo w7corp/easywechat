@@ -18,13 +18,17 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
+
+namespace EasyWeChat\Tests\ShakeAround;
+
 use EasyWeChat\ShakeAround\Page;
+use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundPageTest extends TestCase
 {
     public function getPage()
     {
-        $page = Mockery::mock('EasyWeChat\ShakeAround\Page[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $page = \Mockery::mock('EasyWeChat\ShakeAround\Page[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $page->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

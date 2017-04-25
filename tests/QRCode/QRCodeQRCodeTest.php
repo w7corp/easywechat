@@ -9,15 +9,18 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\QRCode;
+
 use EasyWeChat\QRCode\QRCode;
+use EasyWeChat\Tests\TestCase;
 
 class QRCodeQRCodeTest extends TestCase
 {
     public function getQRCode()
     {
-        $accessToken = Mockery::mock('EasyWeChat\Core\AccessToken');
+        $accessToken = \Mockery::mock('EasyWeChat\Core\AccessToken');
         $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-        $qrcode = Mockery::mock('EasyWeChat\QRCode\QRCode[parseJSON]', [$accessToken]);
+        $qrcode = \Mockery::mock('EasyWeChat\QRCode\QRCode[parseJSON]', [$accessToken]);
         $qrcode->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
