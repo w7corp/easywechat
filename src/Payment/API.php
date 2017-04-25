@@ -38,16 +38,26 @@ class API extends AbstractAPI
      */
     protected $merchant;
 
+    /**
+     * Sandbox box mode.
+     *
+     * @var bool
+     */
+    protected $sandboxEnabled = false;
+
+    const API_HOST = 'https://api.mch.weixin.qq.com';
+
     // api
-    const API_PAY_ORDER = 'https://api.mch.weixin.qq.com/pay/micropay';
-    const API_PREPARE_ORDER = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-    const API_QUERY = 'https://api.mch.weixin.qq.com/pay/orderquery';
-    const API_CLOSE = 'https://api.mch.weixin.qq.com/pay/closeorder';
-    const API_REVERSE = 'https://api.mch.weixin.qq.com/secapi/pay/reverse';
-    const API_REFUND = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
-    const API_QUERY_REFUND = 'https://api.mch.weixin.qq.com/pay/refundquery';
-    const API_DOWNLOAD_BILL = 'https://api.mch.weixin.qq.com/pay/downloadbill';
-    const API_REPORT = 'https://api.mch.weixin.qq.com/payitil/report';
+    const API_PAY_ORDER = '/pay/micropay';
+    const API_PREPARE_ORDER = '/pay/unifiedorder';
+    const API_QUERY = '/pay/orderquery';
+    const API_CLOSE = '/pay/closeorder';
+    const API_REVERSE = '/secapi/pay/reverse';
+    const API_REFUND = '/secapi/pay/refund';
+    const API_QUERY_REFUND = '/pay/refundquery';
+    const API_DOWNLOAD_BILL = '/pay/downloadbill';
+    const API_REPORT = '/payitil/report';
+
     const API_URL_SHORTEN = 'https://api.mch.weixin.qq.com/tools/shorturl';
     const API_AUTH_CODE_TO_OPENID = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
 
@@ -82,7 +92,7 @@ class API extends AbstractAPI
      */
     public function pay(Order $order)
     {
-        return $this->request(self::API_PAY_ORDER, $order->all());
+        return $this->request($this->wrapApi(self::API_PAY_ORDER), $order->all());
     }
 
     /**
@@ -99,7 +109,7 @@ class API extends AbstractAPI
             $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? get_server_ip() : get_client_ip();
         }
 
-        return $this->request(self::API_PREPARE_ORDER, $order->all());
+        return $this->request($this->wrapApi(self::API_PREPARE_ORDER), $order->all());
     }
 
     /**
@@ -116,7 +126,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->request(self::API_QUERY, $params);
+        return $this->request($this->wrapApi(self::API_QUERY), $params);
     }
 
     /**
@@ -144,7 +154,7 @@ class API extends AbstractAPI
             'out_trade_no' => $tradeNo,
         ];
 
-        return $this->request(self::API_CLOSE, $params);
+        return $this->request($this->wrapApi(self::API_CLOSE), $params);
     }
 
     /**
@@ -161,7 +171,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->safeRequest(self::API_REVERSE, $params);
+        return $this->safeRequest($this->wrapApi(self::API_REVERSE), $params);
     }
 
     /**
@@ -207,7 +217,7 @@ class API extends AbstractAPI
             'op_user_id' => $opUserId ?: $this->merchant->merchant_id,
         ];
 
-        return $this->safeRequest(self::API_REFUND, $params);
+        return $this->safeRequest($this->wrapApi(self::API_REFUND), $params);
     }
 
     /**
@@ -246,7 +256,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->request(self::API_QUERY_REFUND, $params);
+        return $this->request($this->wrapApi(self::API_QUERY_REFUND), $params);
     }
 
     /**
@@ -300,7 +310,7 @@ class API extends AbstractAPI
             'bill_type' => $type,
         ];
 
-        return $this->request(self::API_DOWNLOAD_BILL, $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
+        return $this->request($this->wrapApi(self::API_DOWNLOAD_BILL), $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
     }
 
     /**
@@ -338,7 +348,7 @@ class API extends AbstractAPI
             'time' => time(),
         ], $other);
 
-        return $this->request(self::API_REPORT, $params);
+        return $this->request($this->wrapApi(self::API_REPORT), $params);
     }
 
     /**
@@ -373,6 +383,20 @@ class API extends AbstractAPI
     public function getMerchant()
     {
         return $this->merchant;
+    }
+
+    /**
+     * Set sandbox mode.
+     *
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function sandboxMode($enabled = false)
+    {
+        $this->sandboxEnabled = $enabled;
+
+        return $this;
     }
 
     /**
@@ -439,5 +463,17 @@ class API extends AbstractAPI
         }
 
         return new Collection((array) XML::parse($response));
+    }
+
+    /**
+     * Wrap API.
+     *
+     * @param string $resource
+     *
+     * @return string
+     */
+    protected function wrapApi($resource)
+    {
+        return self::API_HOST.($this->sandboxEnabled ? '/sandbox' : '').$resource;
     }
 }

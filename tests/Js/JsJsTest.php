@@ -9,20 +9,21 @@
  * with this source code in the file LICENSE.
  */
 
-namespace {
+namespace EasyWeChat\Tests\Js {
     use EasyWeChat\Core\Http;
     use EasyWeChat\Js\Js;
+    use EasyWeChat\Tests\TestCase;
 
     class JsJsTest extends TestCase
     {
         public function getMockCache()
         {
-            return Mockery::mock('Doctrine\Common\Cache\Cache');
+            return \Mockery::mock('Doctrine\Common\Cache\Cache');
         }
 
         public function getMockHttp()
         {
-            $http = Mockery::mock(Http::class.'[get]', function ($mock) {
+            $http = \Mockery::mock(Http::class.'[get]', function ($mock) {
                 $mock->shouldReceive('get')->andReturn(json_encode([
                         'access_token' => 'thisIsATokenFromHttp',
                         'expires_in' => 7200,
@@ -34,7 +35,7 @@ namespace {
 
         public function getMockAccessToken()
         {
-            $accessToken = Mockery::mock('EasyWeChat\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
+            $accessToken = \Mockery::mock('EasyWeChat\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
             $accessToken->shouldReceive('getTokenFromServer')->andReturn([
                 'access_token' => 'foobar',
                 'expires_in' => 7200,
@@ -201,17 +202,7 @@ namespace {
             $accessToken = $this->getMockAccessToken();
             $js = new Js($accessToken, $cache);
             $js->setHttp($http);
-            $this->assertEquals('http://current.org', $js->getUrl());
-        }
-    }
-}
-
-namespace EasyWeChat\Support {
-    class Url
-    {
-        public static function current()
-        {
-            return 'http://current.org';
+            $this->assertEquals('http://localhost', $js->getUrl());
         }
     }
 }

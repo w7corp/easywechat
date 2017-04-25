@@ -18,14 +18,18 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
+
+namespace EasyWeChat\Tests\ShakeAround;
+
 use EasyWeChat\ShakeAround\Relation;
 use EasyWeChat\Support\Collection;
+use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundRelationTest extends TestCase
 {
     public function getRelation()
     {
-        $relation = Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $relation = \Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
@@ -91,7 +95,7 @@ class ShakeAroundRelationTest extends TestCase
         $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $result['api']);
         $this->assertEquals($expected, $result['params']);
 
-        $relation = Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $relation = \Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return new Collection([
                 'data' => [
@@ -112,7 +116,7 @@ class ShakeAroundRelationTest extends TestCase
         ]);
         $this->assertEquals($expected, $result);
 
-        $relation = Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $relation = \Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return new Collection([
                 'data' => [

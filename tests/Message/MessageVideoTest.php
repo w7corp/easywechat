@@ -9,7 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Message;
+
 use EasyWeChat\Message\Video;
+use EasyWeChat\Tests\TestCase;
 
 class MessageVideoTest extends TestCase
 {

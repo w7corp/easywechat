@@ -28,11 +28,10 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Encryption\Encryptor;
-use EasyWeChat\OpenPlatform\Components\Authorizer;
-use EasyWeChat\OpenPlatform\EventHandlers\Authorized;
-use EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket;
-use EasyWeChat\OpenPlatform\EventHandlers\Unauthorized;
-use EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized;
+use EasyWeChat\Foundation\Application;
+use EasyWeChat\OpenPlatform\Api\BaseApi;
+use EasyWeChat\OpenPlatform\Api\PreAuthorization;
+use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -59,12 +58,14 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['open_platform.access_token'] = function ($pimple) {
-            return new AccessToken(
+            $accessToken = new AccessToken(
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['config']['open_platform']['secret'],
-                $pimple['open_platform.verify_ticket'],
                 $pimple['cache']
             );
+            $accessToken->setVerifyTicket($pimple['open_platform.verify_ticket']);
+
+            return $accessToken;
         };
 
         $pimple['open_platform.encryptor'] = function ($pimple) {
@@ -76,60 +77,108 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['open_platform'] = function ($pimple) {
-            $server = new Guard(
-                $pimple['config']['open_platform']['token']
-            );
+            return new OpenPlatform($pimple);
+        };
 
+        $pimple['open_platform.server'] = function ($pimple) {
+            $server = new Guard($pimple['config']['open_platform']['token']);
             $server->debug($pimple['config']['debug']);
-
             $server->setEncryptor($pimple['open_platform.encryptor']);
-            $server->setContainer($pimple);
+            $server->setHandlers([
+                Guard::EVENT_AUTHORIZED => $pimple['open_platform.handlers.authorized'],
+                Guard::EVENT_UNAUTHORIZED => $pimple['open_platform.handlers.unauthorized'],
+                Guard::EVENT_UPDATE_AUTHORIZED => $pimple['open_platform.handlers.updateauthorized'],
+                Guard::EVENT_COMPONENT_VERIFY_TICKET => $pimple['open_platform.handlers.component_verify_ticket'],
+            ]);
 
-            $platform = new OpenPlatform(
-                $server,
+            return $server;
+        };
+
+        $pimple['open_platform.pre_auth'] = $pimple['open_platform.pre_authorization'] = function ($pimple) {
+            return new PreAuthorization(
                 $pimple['open_platform.access_token'],
-                $pimple['config']['open_platform']
+                $pimple['request']
             );
+        };
 
-            $platform->setContainer($pimple);
-
-            return $platform;
+        $pimple['open_platform.api'] = function ($pimple) {
+            return new BaseApi(
+                $pimple['open_platform.access_token'],
+                $pimple['request']
+            );
         };
 
         $pimple['open_platform.authorizer'] = function ($pimple) {
             return new Authorizer(
-                $pimple['open_platform.access_token'],
-                $pimple['config']['open_platform']
-            );
-        };
-
-        $pimple['open_platform.authorization'] = function ($pimple) {
-            return new Authorization(
-                $pimple['open_platform.authorizer'],
+                $pimple['open_platform.api'],
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['cache']
             );
         };
 
-        $pimple['open_platform.authorizer_token'] = function ($pimple) {
-            return new AuthorizerToken(
+        $pimple['open_platform.authorizer_access_token'] = function ($pimple) {
+            return new AuthorizerAccessToken(
                 $pimple['config']['open_platform']['app_id'],
-                $pimple['open_platform.authorization']
+                $pimple['open_platform.authorizer']
             );
         };
 
         // Authorization events handlers.
         $pimple['open_platform.handlers.component_verify_ticket'] = function ($pimple) {
-            return new ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
+            return new EventHandlers\ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
         };
-        $pimple['open_platform.handlers.authorized'] = function ($pimple) {
-            return new Authorized($pimple['open_platform.authorization']);
+        $pimple['open_platform.handlers.authorized'] = function () {
+            return new EventHandlers\Authorized();
         };
-        $pimple['open_platform.handlers.updateauthorized'] = function ($pimple) {
-            return new UpdateAuthorized($pimple['open_platform.authorization']);
+        $pimple['open_platform.handlers.updateauthorized'] = function () {
+            return new EventHandlers\UpdateAuthorized();
         };
-        $pimple['open_platform.handlers.unauthorized'] = function ($pimple) {
-            return new Unauthorized($pimple['open_platform.authorization']);
+        $pimple['open_platform.handlers.unauthorized'] = function () {
+            return new EventHandlers\Unauthorized();
         };
+
+        $pimple['open_platform.app'] = function ($pimple) {
+            return new Application($pimple['config']->toArray());
+        };
+
+        // OAuth for OpenPlatform.
+        $pimple['open_platform.oauth'] = function ($pimple) {
+            $callback = $this->prepareCallbackUrl($pimple);
+            $scopes = $pimple['config']->get('open_platform.oauth.scopes', []);
+            $socialite = (new Socialite([
+                'wechat_open' => [
+                    'client_id' => $pimple['open_platform.authorizer']->getAppId(),
+                    'client_secret' => [
+                        $pimple['open_platform.access_token']->getAppId(),
+                        $pimple['open_platform.access_token']->getToken(),
+                    ],
+                    'redirect' => $callback,
+                ],
+            ]))->driver('wechat_open');
+
+            if (!empty($scopes)) {
+                $socialite->scopes($scopes);
+            }
+
+            return $socialite;
+        };
+    }
+
+    /**
+     * Prepare the OAuth callback url for wechat.
+     *
+     * @param Container $pimple
+     *
+     * @return string
+     */
+    private function prepareCallbackUrl($pimple)
+    {
+        $callback = $pimple['config']->get('oauth.callback');
+        if (0 === stripos($callback, 'http')) {
+            return $callback;
+        }
+        $baseUrl = $pimple['request']->getSchemeAndHttpHost();
+
+        return $baseUrl.'/'.ltrim($callback, '/');
     }
 }

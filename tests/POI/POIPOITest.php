@@ -9,13 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\POI;
+
 use EasyWeChat\POI\POI;
+use EasyWeChat\Tests\TestCase;
 
 class POIPOITest extends TestCase
 {
     public function getPOI()
     {
-        $POI = Mockery::mock('EasyWeChat\POI\POI[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $POI = \Mockery::mock('EasyWeChat\POI\POI[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $POI->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
@@ -24,6 +27,17 @@ class POIPOITest extends TestCase
         });
 
         return $POI;
+    }
+
+    /**
+     * Test getCategories().
+     */
+    public function testGetCategories()
+    {
+        $POI = $this->getPOI();
+
+        $response = $POI->getCategories();
+        $this->assertStringStartsWith(POI::API_GET_CATEGORIES, $response['api']);
     }
 
     /**

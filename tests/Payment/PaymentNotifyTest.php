@@ -9,11 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Payment;
+
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaymentNotifyTest extends TestCase
@@ -63,7 +66,8 @@ class PaymentNotifyTest extends TestCase
         $notify = new Notify(new Merchant(['key' => 'sign_key']), $request);
 
         $this->expectException(FaultException::class);
-        $this->expectExceptionMessageRegExp('/Invalid request XML: .*/');
+        $this->expectExceptionMessageRegExp('/Invalid request XML:.+/');
+        $this->expectExceptionCode(400);
 
         $notify->getNotify();
     }

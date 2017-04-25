@@ -9,8 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Encryption;
+
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Support\XML;
+use EasyWeChat\Tests\TestCase;
 
 class EncryptionEncryptorTest extends TestCase
 {
@@ -32,16 +35,16 @@ class EncryptionEncryptorTest extends TestCase
 
     public function testEncryptAndDecrypt()
     {
-        $raw = array(
+        $raw = [
                 'ToUserName' => '测试中文',
                 'FromUserName' => 'gh_7f083739789a',
                 'CreateTime' => '1407743423',
                 'MsgType' => 'video',
-                'Video' => array(
+                'Video' => [
                     'MediaId' => 'eYJ1MbwPRJtOvIEabaxHs7TX2D-HV71s79GUxqdUkjm6Gs2Ed1KF3ulAOA9H1xG0',
                     'Title' => 'testCallBackReplyVideo',
                     'Description' => 'testCallBackReplyVideo',
-                  ), );
+                  ], ];
         $xml = XML::build($raw);
         $encrypted = $this->getEncryptor()->encryptMsg($xml, 'xxxxxx', '1407743423');
         $array = XML::parse($encrypted);

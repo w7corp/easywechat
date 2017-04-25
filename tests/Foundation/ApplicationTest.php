@@ -9,10 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Foundation;
+
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Foundation\Config;
+use EasyWeChat\Tests\TestCase;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,7 +82,7 @@ class ApplicationTest extends TestCase
 
         $providers = $app->getProviders();
 
-        $app->addProvider(Mockery::mock(ServiceProviderInterface::class));
+        $app->addProvider(\Mockery::mock(ServiceProviderInterface::class));
 
         $this->assertCount(count($providers) + 1, $app->getProviders());
 

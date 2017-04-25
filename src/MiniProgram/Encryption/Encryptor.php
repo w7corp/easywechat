@@ -26,6 +26,7 @@
 
 namespace EasyWeChat\MiniProgram\Encryption;
 
+use EasyWeChat\Core\Exceptions\InvalidConfigException;
 use EasyWeChat\Encryption\EncryptionException;
 use EasyWeChat\Encryption\Encryptor as BaseEncryptor;
 use EasyWeChat\Support\Collection;
@@ -33,11 +34,6 @@ use Exception as BaseException;
 
 class Encryptor extends BaseEncryptor
 {
-    /**
-     * {@inheritdoc}.
-     */
-    protected $aesKeyLength = 24;
-
     /**
      * A non-NULL Initialization Vector.
      *
@@ -63,11 +59,13 @@ class Encryptor extends BaseEncryptor
      *
      * @param $encrypted
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function decryptData($encrypted)
     {
-        return $this->decrypt($encrypted);
+        return new Collection(
+            $this->decrypt($encrypted)
+        );
     }
 
     /**
@@ -75,7 +73,7 @@ class Encryptor extends BaseEncryptor
      *
      * @param string $encrypted
      *
-     * @return Collection
+     * @return array
      *
      * @throws EncryptionException
      */
@@ -84,16 +82,33 @@ class Encryptor extends BaseEncryptor
         try {
             $key = $this->getAESKey();
             $ciphertext = base64_decode($encrypted, true);
-
             $decrypted = openssl_decrypt($ciphertext, 'aes-128-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $this->iv);
-
-            $result = $this->decode($decrypted);
         } catch (BaseException $e) {
             throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);
         }
 
-        $result = json_decode($result, true);
+        $result = json_decode($this->decode($decrypted), true);
 
-        return new Collection($result);
+        if (is_null($result)) {
+            throw new EncryptionException('ILLEGAL_BUFFER', EncryptionException::ILLEGAL_BUFFER);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Return AESKey.
+     *
+     * @return string
+     *
+     * @throws InvalidConfigException
+     */
+    protected function getAESKey()
+    {
+        if (empty($this->AESKey)) {
+            throw new InvalidConfigException("Configuration mission, 'aes_key' is required.");
+        }
+
+        return base64_decode($this->AESKey, true);
     }
 }

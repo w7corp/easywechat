@@ -110,7 +110,7 @@ class Card extends AbstractAPI
         $params = [
             'card' => [
                 'card_type' => strtoupper($cardType),
-                strtolower($cardType) => array_merge(['base_info' => $baseInfo], $especial, $advancedInfo),
+                strtolower($cardType) => array_merge(['base_info' => $baseInfo], $especial, ['advanced_info' => $advancedInfo]),
             ],
         ];
 
@@ -862,14 +862,14 @@ class Card extends AbstractAPI
     }
 
     /**
-     * Get Api_ticket token cache key.
+     * Get ApiTicket token cache key.
      *
-     * @return string $this->ticketCacheKey
+     * @return string
      */
     public function getTicketCacheKey()
     {
         if (is_null($this->ticketCacheKey)) {
-            return $this->ticketCachePrefix.$this->appId;
+            return $this->ticketCachePrefix.$this->getAccessToken()->getAppId();
         }
 
         return $this->ticketCacheKey;

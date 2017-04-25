@@ -9,127 +9,198 @@
  * with this source code in the file LICENSE.
  */
 
-use EasyWeChat\OpenPlatform\AccessToken;
-use EasyWeChat\OpenPlatform\Components\Authorizer;
+namespace EasyWeChat\Tests\OpenPlatform;
+
+use Doctrine\Common\Cache\ArrayCache;
+use EasyWeChat\OpenPlatform\Authorizer;
+use EasyWeChat\Support\Collection;
+use EasyWeChat\Tests\TestCase;
 
 class AuthorizerTest extends TestCase
 {
-    /**
-     * Authorizer mock.
-     *
-     * @param $appId
-     *
-     * @return \Mockery\MockInterface|Authorizer
-     */
-    public function mockAuthorizer($appId)
+    public function testGetApi()
     {
-        $authorizer = Mockery::mock(
-            Authorizer::class.'[parseJSON]',
-            [
-                Mockery::mock(AccessToken::class),
-                ['open_platform' => ['app_id' => $appId]],
-            ]
-        );
+        $authorizer = $this->make('appid', 'authorizer-appid');
 
-        /* @noinspection PhpUnusedParameterInspection */
-        $authorizer
-            ->shouldReceive('parseJSON')
-            ->andReturnUsing(function ($method, $params) {
-                return [
-                    'api' => $params[0],
-                    'params' => empty($params[1]) ? null : $params[1],
-                ];
-            });
-
-        return $authorizer;
+        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $authorizer->getApi());
     }
 
     public function testGetAuthorizationInfo()
     {
         $appId = 'appid@123';
-        $authorizer = $this->mockAuthorizer($appId);
-
-        $code = 'code@123';
-        $result = $authorizer->getAuthorizationInfo($code);
-
-        $params = [
-            'component_appid' => $appId,
-            'authorization_code' => $code,
-        ];
-        $this->assertStringStartsWith(Authorizer::GET_AUTH_INFO, $result['api']);
-        $this->assertEquals($params, $result['params']);
-    }
-
-    public function testGetAuthorizationToken()
-    {
-        $appId = 'appid@123';
-        $authorizer = $this->mockAuthorizer($appId);
-
         $authorizerAppId = 'appid@456';
-        $refreshToken = 'refresh@123';
-        $result = $authorizer->getAuthorizationToken($authorizerAppId, $refreshToken);
+        $authorizer = $this->make($appId, $authorizerAppId);
 
-        $params = [
-            'component_appid' => $appId,
-            'authorizer_appid' => $authorizerAppId,
-            'authorizer_refresh_token' => $refreshToken,
-        ];
-        $this->assertStringStartsWith(Authorizer::GET_AUTHORIZER_TOKEN, $result['api']);
-        $this->assertEquals($params, $result['params']);
+        $result = $authorizer->getApi()->getAuthorizationInfo();
+        $this->assertEquals($this->stubAuthorizationInfo($authorizerAppId), $result);
     }
 
     public function testGetAuthorizerInfo()
     {
         $appId = 'appid@123';
-        $authorizer = $this->mockAuthorizer($appId);
-
         $authorizerAppId = 'appid@456';
-        $result = $authorizer->getAuthorizerInfo($authorizerAppId);
+        $authorizer = $this->make($appId, $authorizerAppId);
 
-        $params = [
-            'component_appid' => $appId,
-            'authorizer_appid' => $authorizerAppId,
-        ];
-        $this->assertStringStartsWith(Authorizer::GET_AUTHORIZER_INFO, $result['api']);
-        $this->assertEquals($params, $result['params']);
+        $result = $authorizer->getApi()->getAuthorizerInfo('appid@123');
+        $this->assertEquals($this->stubAuthorizerInfo($authorizerAppId), $result);
     }
 
-    public function testGetAuthorizerOption()
+    public function testSetAndGetAccessToken()
     {
-        $appId = 'appid@123';
-        $authorizer = $this->mockAuthorizer($appId);
+        $authorizer = $this->make('appid@123', 'authorizer-appid@456');
+        $stub = $this->stubAuthorizationInfo('authorizer-appid@456', 'authorizer-access@123');
 
-        $authorizerAppId = 'appid@456';
-        $optionName = 'option@123';
-        $result = $authorizer->getAuthorizerOption($authorizerAppId, $optionName);
-
-        $params = [
-            'component_appid' => $appId,
-            'authorizer_appid' => $authorizerAppId,
-            'option_name' => $optionName,
-        ];
-        $this->assertStringStartsWith(Authorizer::GET_AUTHORIZER_OPTION, $result['api']);
-        $this->assertEquals($params, $result['params']);
+        $this->assertInstanceOf(
+            'EasyWeChat\OpenPlatform\Authorizer',
+            $authorizer->setAccessToken($stub['authorization_info']['authorizer_access_token'])
+        );
+        $this->assertEquals('authorizer-access@123', $authorizer->getAccessToken());
     }
 
-    public function testSetAuthorizerOption()
+    public function testSetAndGetRefreshToken()
     {
-        $appId = 'appid@123';
-        $authorizer = $this->mockAuthorizer($appId);
+        $authorizer = $this->make('appid@123', 'appid@456');
+        $stub = $this->stubAuthorizationInfo('appid@456', 'access@123', 'refresh@123');
 
-        $authorizerAppId = 'appid@456';
-        $optionName = 'option@123';
-        $optionValue = 'value@123';
-        $result = $authorizer->setAuthorizerOption(
-            $authorizerAppId, $optionName, $optionValue);
+        $this->assertInstanceOf(
+            'EasyWeChat\OpenPlatform\Authorizer',
+            $authorizer->setRefreshToken($stub['authorization_info']['authorizer_refresh_token'])
+        );
+        $this->assertEquals('refresh@123', $authorizer->getRefreshToken());
+    }
 
-        $params = [
-            'component_appid' => $appId,
-            'authorizer_appid' => $authorizerAppId,
-            'option_name' => $optionName,
-            'option_value' => $optionValue,
+    /**
+     * Authorizer mock.
+     *
+     * @param string $appId
+     * @param string $authorizerAppId
+     * @param string $authorizerAccessToken
+     * @param string $authorizerRefreshToken
+     *
+     * @return Authorizer
+     */
+    protected function make($appId, $authorizerAppId,
+                          $authorizerAccessToken = null,
+                          $authorizerRefreshToken = null)
+    {
+        /** @var Authorizer|\Mockery\MockInterface $mockAuthorizer */
+        $mockAuthorizer = \Mockery::mock('EasyWeChat\OpenPlatform\Api\BaseApi');
+
+        $mockAuthorizer
+            ->shouldReceive('getAuthorizationInfo')
+            ->andReturn(
+                $this->stubAuthorizationInfo(
+                    $authorizerAppId,
+                    $authorizerAccessToken,
+                    $authorizerRefreshToken
+                )
+            );
+
+        $mockAuthorizer
+            ->shouldReceive('getAuthorizerInfo')
+            ->andReturn($this->stubAuthorizerInfo($authorizerAppId));
+
+        $stub = $this->stubAuthorizerToken(
+            $authorizerAccessToken, $authorizerRefreshToken
+        );
+        /* @noinspection PhpUnusedParameterInspection */
+        $mockAuthorizer
+            ->shouldReceive('getAuthorizerToken')
+            ->andReturnUsing(
+                function ($appId, $authorizerRefreshToken) use ($stub) {
+                    return $stub;
+                }
+            );
+
+        $cache = new ArrayCache();
+        $authorizer = new Authorizer($mockAuthorizer, $appId, $cache);
+        $authorizer->setAppId($authorizerAppId);
+
+        return $authorizer;
+    }
+
+    protected function stubAuthorizationInfo($authorizerAppId,
+                                           $authorizerAccessToken = null,
+                                           $authorizerRefreshToken = null)
+    {
+        $overrides = [
+            'authorization_info' => [
+                'authorizer_appid' => $authorizerAppId,
+            ],
         ];
-        $this->assertStringStartsWith(Authorizer::SET_AUTHORIZER_OPTION, $result['api']);
-        $this->assertEquals($params, $result['params']);
+        if ($authorizerAccessToken) {
+            $overrides['authorization_info']['authorizer_access_token']
+                = $authorizerAccessToken;
+        }
+        if ($authorizerRefreshToken) {
+            $overrides['authorization_info']['authorizer_refresh_token']
+                = $authorizerRefreshToken;
+        }
+
+        return $this->stub('authorization_info', $overrides);
+    }
+
+    protected function stubAuthorizerInfo($authorizerAppId)
+    {
+        $overrides = [
+            'authorization_info' => [
+                'appid' => $authorizerAppId,
+            ],
+        ];
+
+        return $this->stub('authorizer_info', $overrides);
+    }
+
+    protected function stubAuthorizationAll($authorizerAppId,
+                                          $authorizerAccessToken = null,
+                                          $authorizerRefreshToken = null)
+    {
+        $overrides = [
+            'authorization_info' => [
+                'authorizer_appid' => $authorizerAppId,
+                'authorizer_access_token' => $authorizerAccessToken,
+                'authorizer_refresh_token' => $authorizerRefreshToken,
+            ],
+        ];
+
+        return $this->stub('authorization_all', $overrides);
+    }
+
+    protected function stubAuthorizerToken($authorizerAccessToken,
+                                         $authorizerRefreshToken)
+    {
+        $overrides = [
+            'authorizer_access_token' => $authorizerAccessToken,
+            'authorizer_refresh_token' => $authorizerRefreshToken,
+        ];
+
+        return $this->stub('authorizer_token', $overrides);
+    }
+
+    protected function stub($file, $overrides = null)
+    {
+        $json = file_get_contents("tests/OpenPlatform/stubs/{$file}.json");
+        $data = json_decode($json, true);
+
+        if ($overrides) {
+            $data = $this->overrides($data, $overrides);
+        }
+
+        return new Collection($data);
+    }
+
+    protected function overrides(array &$array1, array &$array2)
+    {
+        $merged = $array1;
+
+        foreach ($array2 as $key => &$value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = $this->overrides($merged[$key], $value);
+            } else {
+                $merged[$key] = $value;
+            }
+        }
+
+        return $merged;
     }
 }

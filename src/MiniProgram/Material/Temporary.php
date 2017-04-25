@@ -20,17 +20,11 @@
 
 namespace EasyWeChat\MiniProgram\Material;
 
-use EasyWeChat\Material\Temporary as BaseTemporary;
+use EasyWeChat\Material\Temporary as MaterialTemporary;
 
 /**
  * Class Temporary.
  */
-class Temporary extends BaseTemporary
+class Temporary extends MaterialTemporary
 {
-    public function __construct()
-    {
-        $accessToken = func_get_args()[0];
-
-        parent::__construct($accessToken);
-    }
 }

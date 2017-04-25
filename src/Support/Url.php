@@ -33,22 +33,14 @@ class Url
      */
     public static function current()
     {
+        if (defined('PHPUNIT_RUNNING')) {
+            return 'http://localhost';
+        }
+
         $protocol = (!empty($_SERVER['HTTPS'])
                         && $_SERVER['HTTPS'] !== 'off'
                         || (int) $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
 
         return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-    }
-
-    /**
-     * URL-encodes string.
-     *
-     * @param $url
-     *
-     * @return string
-     */
-    public static function encode($url)
-    {
-        return urlencode($url);
     }
 }
