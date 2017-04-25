@@ -30,5 +30,4 @@ use EasyWeChat\Staff\Staff as BaseStaff;
 
 class Staff extends BaseStaff
 {
-    //
 }

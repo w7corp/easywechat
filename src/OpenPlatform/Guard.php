@@ -49,12 +49,9 @@ class Guard extends ServerGuard
     /**
      * Set handlers.
      *
-<<<<<<< HEAD
      * @param string  $token
      * @param Request $request
-=======
-     * @param array $handlers
->>>>>>> overtrue-master
+     * @param array   $handlers
      */
     public function setHandlers(array $handlers)
     {

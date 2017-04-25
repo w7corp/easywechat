@@ -23,9 +23,7 @@
 namespace EasyWeChat\MiniProgram;
 
 use EasyWeChat\Encryption\Encryptor;
-use EasyWeChat\MiniProgram\AccessToken;
 use EasyWeChat\MiniProgram\Material\Temporary;
-use EasyWeChat\MiniProgram\MiniProgram;
 use EasyWeChat\MiniProgram\Notice\Notice;
 use EasyWeChat\MiniProgram\QRCode\QRCode;
 use EasyWeChat\MiniProgram\Server\Guard;

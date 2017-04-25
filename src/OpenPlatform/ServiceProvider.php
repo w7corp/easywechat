@@ -29,15 +29,8 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\Foundation\Application;
-use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\OpenPlatform\Api\PreAuthorization;
-use EasyWeChat\OpenPlatform\Authorizer;
-use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
-use EasyWeChat\OpenPlatform\EventHandlers;
-use EasyWeChat\OpenPlatform\Guard;
-use EasyWeChat\OpenPlatform\OpenPlatform;
-use EasyWeChat\OpenPlatform\VerifyTicket;
 use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

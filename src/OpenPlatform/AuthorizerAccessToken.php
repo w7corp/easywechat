@@ -32,11 +32,7 @@ namespace EasyWeChat\OpenPlatform;
 use EasyWeChat\Core\AccessToken as BaseAccessToken;
 
 /**
-<<<<<<< HEAD:src/OpenPlatform/AuthorizerToken.php
- * Class AuthorizerToken.
-=======
  * Class AuthorizerAccessToken.
->>>>>>> overtrue-master:src/OpenPlatform/AuthorizerAccessToken.php
  *
  * AuthorizerAccessToken is responsible for the access token of the authorizer,
  * the complexity is that this access token also requires the refresh token
@@ -54,13 +50,10 @@ class AuthorizerAccessToken extends BaseAccessToken
     /**
      * AuthorizerAccessToken constructor.
      *
-<<<<<<< HEAD:src/OpenPlatform/AuthorizerToken.php
-     * @param string        $appId
-     * @param Authorization $authorization
-=======
+     * @param string                              $appId
+     * @param Authorization                       $authorization
      * @param string                              $appId
      * @param \EasyWeChat\OpenPlatform\Authorizer $authorizer
->>>>>>> overtrue-master:src/OpenPlatform/AuthorizerAccessToken.php
      */
     public function __construct($appId, Authorizer $authorizer)
     {
