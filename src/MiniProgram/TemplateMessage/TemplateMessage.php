@@ -10,7 +10,7 @@
  */
 
 /**
- * Notice.php.
+ * TemplateMessage.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,11 +24,11 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\MiniProgram\Notice;
+namespace EasyWeChat\MiniProgram\TemplateMessage;
 
-use EasyWeChat\Notice\Notice as BaseNotice;
+use EasyWeChat\TemplateMessage\TemplateMessage as BaseTemplateMessage;
 
-class Notice extends BaseNotice
+class TemplateMessage extends BaseTemplateMessage
 {
     /**
      * {@inheritdoc}.
@@ -58,7 +58,7 @@ class Notice extends BaseNotice
     protected $required = ['touser', 'template_id', 'form_id'];
 
     /**
-     * Send notice message.
+     * Send template message.
      */
-    const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send';
+    const API_SEND_TEMPLATE_MESSAGE = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send';
 }

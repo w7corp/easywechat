@@ -24,7 +24,7 @@ namespace EasyWeChat\MiniProgram;
 
 use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\MiniProgram\Material\Temporary;
-use EasyWeChat\MiniProgram\Notice\Notice;
+use EasyWeChat\MiniProgram\TemplateMessage\TemplateMessage;
 use EasyWeChat\MiniProgram\QRCode\QRCode;
 use EasyWeChat\MiniProgram\Server\Guard;
 use EasyWeChat\MiniProgram\Sns\Sns;
@@ -76,8 +76,8 @@ class ServiceProvider implements ServiceProviderInterface
             return new CustomerService($pimple['mini_program.access_token']);
         };
 
-        $pimple['mini_program.notice'] = function ($pimple) {
-            return new Notice($pimple['mini_program.access_token']);
+        $pimple['mini_program.template_message'] = function ($pimple) {
+            return new TemplateMessage($pimple['mini_program.access_token']);
         };
 
         $pimple['mini_program.material_temporary'] = function ($pimple) {
