@@ -19,7 +19,7 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Staff;
+namespace EasyWeChat\CustomerService;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use EasyWeChat\Core\Exceptions\RuntimeException;
@@ -54,20 +54,20 @@ class MessageBuilder
     protected $account;
 
     /**
-     * Staff instance.
+     * Customer service instance.
      *
-     * @var \EasyWeChat\Staff\Staff
+     * @var \EasyWeChat\CustomerService\CustomerService
      */
-    protected $staff;
+    protected $customerService;
 
     /**
      * MessageBuilder constructor.
      *
-     * @param \EasyWeChat\Staff\Staff $staff
+     * @param \EasyWeChat\CustomerService\CustomerService $customerService
      */
-    public function __construct(Staff $staff)
+    public function __construct(CustomerService $customerService)
     {
-        $this->staff = $staff;
+        $this->customerService = $customerService;
     }
 
     /**
@@ -148,7 +148,7 @@ class MessageBuilder
             $message = array_merge($message, $content);
         }
 
-        return $this->staff->send($message);
+        return $this->customerService->send($message);
     }
 
     /**

@@ -20,7 +20,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Staff;
+namespace EasyWeChat\CustomerService;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -40,11 +40,11 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['staff'] = function ($pimple) {
-            return new Staff($pimple['access_token']);
+        $pimple['customer_service'] = function ($pimple) {
+            return new CustomerService($pimple['access_token']);
         };
 
-        $pimple['staff_session'] = $pimple['staff.session'] = function ($pimple) {
+        $pimple['customer_service_session'] = $pimple['customer_service.session'] = function ($pimple) {
             return new Session($pimple['access_token']);
         };
     }

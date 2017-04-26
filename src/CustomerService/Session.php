@@ -19,7 +19,7 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Staff;
+namespace EasyWeChat\CustomerService;
 
 use EasyWeChat\Core\AbstractAPI;
 

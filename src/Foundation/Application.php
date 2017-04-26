@@ -49,10 +49,10 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Js\Js                               $js
  * @property \Overtrue\Socialite\Providers\WeChatProvider    $oauth
  * @property \EasyWeChat\Menu\Menu                           $menu
- * @property \EasyWeChat\Notice\Notice                       $notice
+ * @property \EasyWeChat\TemplateMessage\TemplateMessage     $template_message
  * @property \EasyWeChat\Material\Material                   $material
  * @property \EasyWeChat\Material\Temporary                  $material_temporary
- * @property \EasyWeChat\Staff\Staff                         $staff
+ * @property \EasyWeChat\CustomerService\CustomerService     $CustomerService
  * @property \EasyWeChat\Url\Url                             $url
  * @property \EasyWeChat\QRCode\QRCode                       $qrcode
  * @property \EasyWeChat\Semantic\Semantic                   $semantic
@@ -83,9 +83,9 @@ class Application extends Container
         \EasyWeChat\Js\ServiceProvider::class,
         \EasyWeChat\OAuth\ServiceProvider::class,
         \EasyWeChat\Menu\ServiceProvider::class,
-        \EasyWeChat\Notice\ServiceProvider::class,
+        \EasyWeChat\TemplateMessage\ServiceProvider::class,
         \EasyWeChat\Material\ServiceProvider::class,
-        \EasyWeChat\Staff\ServiceProvider::class,
+        \EasyWeChat\CustomerService\ServiceProvider::class,
         \EasyWeChat\Url\ServiceProvider::class,
         \EasyWeChat\QRCode\ServiceProvider::class,
         \EasyWeChat\Semantic\ServiceProvider::class,

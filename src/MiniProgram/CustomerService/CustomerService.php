@@ -10,7 +10,7 @@
  */
 
 /**
- * Staff.php.
+ * CustomerService.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -24,10 +24,10 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\MiniProgram\Staff;
+namespace EasyWeChat\MiniProgram\CustomerService;
 
-use EasyWeChat\Staff\Staff as BaseStaff;
+use EasyWeChat\CustomerService\CustomerService as BaseCustomerService;
 
-class Staff extends BaseStaff
+class CustomerService extends BaseCustomerService
 {
 }

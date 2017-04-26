@@ -9,18 +9,18 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\Staff;
+namespace EasyWeChat\Tests\CustomerService;
 
+use EasyWeChat\CustomerService\Transformer;
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Link;
 use EasyWeChat\Message\News;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Message\Video;
 use EasyWeChat\Message\Voice;
-use EasyWeChat\Staff\Transformer;
 use EasyWeChat\Tests\TestCase;
 
-class StaffTransformerTest extends TestCase
+class TransformerTest extends TestCase
 {
     /**
      * Test transform().

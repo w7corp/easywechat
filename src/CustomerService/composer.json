@@ -1,7 +1,7 @@
 {
-    "name": "easywechat/notice",
-    "description": "notice module for EasyWeChat SDK.",
-    "keywords": ["wechat", "weixin", "SDK", "notice", "easywechat"],
+    "name": "easywechat/customer-service",
+    "description": "customer-service module for EasyWeChat SDK.",
+    "keywords": ["wechat", "weixin", "SDK", "customer-service", "easywechat"],
     "license": "MIT",
     "authors": [
         {
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "EasyWeChat\\Notice\\": "."
+            "EasyWeChat\\CustomerService\\": "."
         }
     },
     "minimum-stability":"dev",
@@ -20,6 +20,7 @@
         "mockery/mockery": "^1.0@dev"
     },
     "require": {
-        "easywechat/core" : "dev-master"
+        "easywechat/core" : "dev-master",
+        "easywechat/message": "dev-master"
     }
 }
