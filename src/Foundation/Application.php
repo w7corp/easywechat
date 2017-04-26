@@ -52,7 +52,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\TemplateMessage\TemplateMessage     $template_message
  * @property \EasyWeChat\Material\Material                   $material
  * @property \EasyWeChat\Material\Temporary                  $material_temporary
- * @property \EasyWeChat\CustomerService\CustomerService     $CustomerService
+ * @property \EasyWeChat\CustomerService\CustomerService     $customer_service
  * @property \EasyWeChat\Url\Url                             $url
  * @property \EasyWeChat\QRCode\QRCode                       $qrcode
  * @property \EasyWeChat\Semantic\Semantic                   $semantic
