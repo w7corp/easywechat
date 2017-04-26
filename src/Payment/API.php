@@ -60,6 +60,7 @@ class API extends AbstractAPI
 
     const API_URL_SHORTEN = 'https://api.mch.weixin.qq.com/tools/shorturl';
     const API_AUTH_CODE_TO_OPENID = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
+    const API_SANDBOX_SIGN_KEY = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
 
     // order id types.
     const TRANSACTION_ID = 'transaction_id';
@@ -474,6 +475,16 @@ class API extends AbstractAPI
      */
     protected function wrapApi($resource)
     {
-        return self::API_HOST.($this->sandboxEnabled ? '/sandbox' : '').$resource;
+        return self::API_HOST.($this->sandboxEnabled ? '/sandboxnew' : '').$resource;
+    }
+
+    /**
+     * Get sandbox sign key
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function getSandboxSignKey()
+    {
+      return $this->request(self::API_SANDBOX_SIGN_KEY, []);
     }
 }
