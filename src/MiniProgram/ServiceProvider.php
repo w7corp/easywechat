@@ -23,13 +23,13 @@
 namespace EasyWeChat\MiniProgram;
 
 use EasyWeChat\Encryption\Encryptor;
+use EasyWeChat\MiniProgram\CustomerService\CustomerService;
 use EasyWeChat\MiniProgram\Material\Temporary;
-use EasyWeChat\MiniProgram\TemplateMessage\TemplateMessage;
 use EasyWeChat\MiniProgram\QRCode\QRCode;
 use EasyWeChat\MiniProgram\Server\Guard;
 use EasyWeChat\MiniProgram\Sns\Sns;
-use EasyWeChat\MiniProgram\CustomerService\CustomerService;
 use EasyWeChat\MiniProgram\Stats\Stats;
+use EasyWeChat\MiniProgram\TemplateMessage\TemplateMessage;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 

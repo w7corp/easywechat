@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\CustomerService;
 
+use EasyWeChat\CustomerService\MessageBuilder;
 use EasyWeChat\Message\Raw;
 use EasyWeChat\Message\Text;
-use EasyWeChat\CustomerService\MessageBuilder;
 use EasyWeChat\Tests\TestCase;
 
 class MessageBuilderTest extends TestCase
