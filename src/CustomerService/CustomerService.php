@@ -10,7 +10,7 @@
  */
 
 /**
- * Staff.php.
+ * CustomerService.php.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -19,15 +19,15 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Staff;
+namespace EasyWeChat\CustomerService;
 
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Support\Collection;
 
 /**
- * Class Staff.
+ * Class CustomerService.
  */
-class Staff extends AbstractAPI
+class CustomerService extends AbstractAPI
 {
     const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
@@ -155,7 +155,7 @@ class Staff extends AbstractAPI
      *
      * @param \EasyWeChat\Message\AbstractMessage|string $message
      *
-     * @return \EasyWeChat\Staff\MessageBuilder
+     * @return \EasyWeChat\CustomerService\MessageBuilder
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */

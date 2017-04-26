@@ -9,20 +9,20 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\Notice;
+namespace EasyWeChat\Tests\TemplateMessage;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
-use EasyWeChat\Notice\Notice;
+use EasyWeChat\TemplateMessage\TemplateMessage;
 use EasyWeChat\Tests\TestCase;
 
-class NoticeNoticeTest extends TestCase
+class TemplateMessageTest extends TestCase
 {
     public function getNotice($mockHttp = false)
     {
         if ($mockHttp) {
             $accessToken = \Mockery::mock('EasyWeChat\Core\AccessToken');
             $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-            $notice = new Notice($accessToken);
+            $notice = new TemplateMessage($accessToken);
             $http = \Mockery::mock('EasyWeChat\Core\Http[json]');
             $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
                 return json_encode(compact('api', 'params'));
@@ -31,7 +31,7 @@ class NoticeNoticeTest extends TestCase
 
             return $notice;
         }
-        $notice = \Mockery::mock('EasyWeChat\Notice\Notice[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $notice = \Mockery::mock('EasyWeChat\TemplateMessage\TemplateMessage[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $notice->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];
@@ -52,7 +52,7 @@ class NoticeNoticeTest extends TestCase
 
         $response = $notice->setIndustry('foo', 'bar');
 
-        $this->assertStringStartsWith(Notice::API_SET_INDUSTRY, $response['api']);
+        $this->assertStringStartsWith(TemplateMessage::API_SET_INDUSTRY, $response['api']);
         $this->assertEquals('foo', $response['params']['industry_id1']);
         $this->assertEquals('bar', $response['params']['industry_id2']);
     }
@@ -66,7 +66,7 @@ class NoticeNoticeTest extends TestCase
 
         $response = $notice->getIndustry();
 
-        $this->assertStringStartsWith(Notice::API_GET_INDUSTRY, $response['api']);
+        $this->assertStringStartsWith(TemplateMessage::API_GET_INDUSTRY, $response['api']);
     }
 
     /**
@@ -78,7 +78,7 @@ class NoticeNoticeTest extends TestCase
 
         $response = $notice->addTemplate('foo');
 
-        $this->assertStringStartsWith(Notice::API_ADD_TEMPLATE, $response['api']);
+        $this->assertStringStartsWith(TemplateMessage::API_ADD_TEMPLATE, $response['api']);
         $this->assertEquals('foo', $response['params']['template_id_short']);
     }
 
@@ -91,7 +91,7 @@ class NoticeNoticeTest extends TestCase
 
         $response = $notice->getPrivateTemplates();
 
-        $this->assertStringStartsWith(Notice::API_GET_ALL_PRIVATE_TEMPLATE, $response['api']);
+        $this->assertStringStartsWith(TemplateMessage::API_GET_ALL_PRIVATE_TEMPLATE, $response['api']);
     }
 
     /**
@@ -103,7 +103,7 @@ class NoticeNoticeTest extends TestCase
 
         $response = $notice->deletePrivateTemplate('foo');
 
-        $this->assertStringStartsWith(Notice::API_DEL_PRIVATE_TEMPLATE, $response['api']);
+        $this->assertStringStartsWith(TemplateMessage::API_DEL_PRIVATE_TEMPLATE, $response['api']);
         $this->assertEquals('foo', $response['params']['template_id']);
     }
 
@@ -123,7 +123,7 @@ class NoticeNoticeTest extends TestCase
 
         $response = $notice->send(['touser' => 'foo', 'template_id' => 'bar']);
 
-        $this->assertStringStartsWith(Notice::API_SEND_NOTICE, $response['api']);
+        $this->assertStringStartsWith(TemplateMessage::API_SEND_TEMPLATE_MESSAGE, $response['api']);
         $this->assertEquals('foo', $response['params']['touser']);
         $this->assertEquals('bar', $response['params']['template_id']);
         // $this->assertEquals('#FF0000', $response['params']['topcolor']); // 貌似这个删除了 https://github.com/overtrue/wechat/pull/595

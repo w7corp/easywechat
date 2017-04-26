@@ -9,23 +9,23 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\Staff;
+namespace EasyWeChat\Tests\CustomerService;
 
 use EasyWeChat\Message\Raw;
 use EasyWeChat\Message\Text;
-use EasyWeChat\Staff\MessageBuilder;
+use EasyWeChat\CustomerService\MessageBuilder;
 use EasyWeChat\Tests\TestCase;
 
-class StaffMessageBuilderTest extends TestCase
+class MessageBuilderTest extends TestCase
 {
     public function getMessageBuilder()
     {
-        $staff = \Mockery::mock('EasyWeChat\Staff\Staff');
-        $staff->shouldReceive('send')->andReturnUsing(function ($message) {
+        $customerService = \Mockery::mock('EasyWeChat\CustomerService\CustomerService');
+        $customerService->shouldReceive('send')->andReturnUsing(function ($message) {
             return $message;
         });
 
-        return new MessageBuilder($staff);
+        return new MessageBuilder($customerService);
     }
 
     /**

@@ -31,13 +31,13 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
 /**
  * Class MiniProgram.
  *
- * @property \EasyWeChat\MiniProgram\Server\Guard $server
  * @property \EasyWeChat\MiniProgram\Sns\Sns $sns
+ * @property \EasyWeChat\MiniProgram\Stats\Stats $stats
+ * @property \EasyWeChat\MiniProgram\Server\Guard $server
  * @property \EasyWeChat\MiniProgram\Notice\Notice $notice
- * @property \EasyWeChat\MiniProgram\Staff\Staff $staff
  * @property \EasyWeChat\MiniProgram\QRCode\QRCode $qrcode
  * @property \EasyWeChat\MiniProgram\Material\Temporary $material_temporary
- * @property \EasyWeChat\MiniProgram\Stats\Stats $stats
+ * @property \EasyWeChat\MiniProgram\CustomerService\CustomerService $customer_service
  */
 class MiniProgram
 {

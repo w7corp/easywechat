@@ -28,7 +28,7 @@ use EasyWeChat\MiniProgram\Notice\Notice;
 use EasyWeChat\MiniProgram\QRCode\QRCode;
 use EasyWeChat\MiniProgram\Server\Guard;
 use EasyWeChat\MiniProgram\Sns\Sns;
-use EasyWeChat\MiniProgram\Staff\Staff;
+use EasyWeChat\MiniProgram\CustomerService\CustomerService;
 use EasyWeChat\MiniProgram\Stats\Stats;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -72,8 +72,8 @@ class ServiceProvider implements ServiceProviderInterface
             return $server;
         };
 
-        $pimple['mini_program.staff'] = function ($pimple) {
-            return new Staff($pimple['mini_program.access_token']);
+        $pimple['mini_program.customer_service'] = function ($pimple) {
+            return new CustomerService($pimple['mini_program.access_token']);
         };
 
         $pimple['mini_program.notice'] = function ($pimple) {

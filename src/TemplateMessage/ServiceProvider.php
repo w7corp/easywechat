@@ -20,7 +20,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Notice;
+namespace EasyWeChat\TemplateMessage;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -40,8 +40,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['notice'] = function ($pimple) {
-            return new Notice($pimple['access_token']);
+        $pimple['template_message'] = function ($pimple) {
+            return new TemplateMessage($pimple['access_token']);
         };
     }
 }

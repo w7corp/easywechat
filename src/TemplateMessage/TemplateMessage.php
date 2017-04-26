@@ -10,7 +10,7 @@
  */
 
 /**
- * Notice.php.
+ * TemplateMessage.php.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -19,16 +19,16 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Notice;
+namespace EasyWeChat\TemplateMessage;
 
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\AccessToken;
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 
 /**
- * Class Notice.
+ * Class TemplateMessage.
  */
-class Notice extends AbstractAPI
+class TemplateMessage extends AbstractAPI
 {
     /**
      * Default color.
@@ -63,7 +63,7 @@ class Notice extends AbstractAPI
      */
     protected $messageBackup;
 
-    const API_SEND_NOTICE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
+    const API_SEND_TEMPLATE_MESSAGE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
     const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
     const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
     const API_GET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/get_industry';
@@ -71,7 +71,7 @@ class Notice extends AbstractAPI
     const API_DEL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/del_private_template';
 
     /**
-     * Notice constructor.
+     * TemplateMessage constructor.
      *
      * @param \EasyWeChat\Core\AccessToken $accessToken
      */
@@ -149,7 +149,7 @@ class Notice extends AbstractAPI
     }
 
     /**
-     * Send a notice message.
+     * Send a template message.
      *
      * @param $data
      *
@@ -173,7 +173,7 @@ class Notice extends AbstractAPI
 
         $this->message = $this->messageBackup;
 
-        return $this->parseJSON('json', [static::API_SEND_NOTICE, $params]);
+        return $this->parseJSON('json', [static::API_SEND_TEMPLATE_MESSAGE, $params]);
     }
 
     /**
@@ -182,7 +182,7 @@ class Notice extends AbstractAPI
      * @param string $method
      * @param array  $args
      *
-     * @return Notice
+     * @return \EasyWeChat\TemplateMessage\TemplateMessage
      */
     public function __call($method, $args)
     {
