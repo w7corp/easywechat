@@ -479,12 +479,12 @@ class API extends AbstractAPI
     }
 
     /**
-     * Get sandbox sign key
+     * Get sandbox sign key.
      *
      * @return \EasyWeChat\Support\Collection
      */
     public function getSandboxSignKey()
     {
-      return $this->request(self::API_SANDBOX_SIGN_KEY, []);
+        return $this->request(self::API_SANDBOX_SIGN_KEY, []);
     }
 }
