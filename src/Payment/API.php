@@ -21,12 +21,12 @@
 
 namespace EasyWeChat\Payment;
 
+use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\Exception;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Psr\Http\Message\ResponseInterface;
-use Doctrine\Common\Cache\FilesystemCache;
 
 /**
  * Class API.
@@ -494,7 +494,6 @@ class API extends AbstractAPI
 
     /**
      * Get sandbox sign key.
-     *
      */
     protected function getSandboxSignKey()
     {
@@ -508,7 +507,7 @@ class API extends AbstractAPI
             // Try to acquire a new sandbox_signkey from WeChat
             try {
                 $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
-                if ($result->return_code == 'SUCCESS') {
+                if ($result->return_code === 'SUCCESS') {
                     $cache->save($cacheKey, $result->sandbox_signkey);
                     $this->sandboxSignKey = $result->sandbox_signkey;
                 } else {
