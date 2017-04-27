@@ -21,8 +21,8 @@
 
 namespace EasyWeChat\Payment;
 
-use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\Exception;
 use EasyWeChat\Support\Collection;
