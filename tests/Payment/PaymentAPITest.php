@@ -45,13 +45,25 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp]', [$merchant])
+        $api = \Mockery::mock('EasyWeChat\Payment\API[getHttp,getCache]', [$merchant])
                  ->shouldAllowMockingProtectedMethods();
 
         $api->shouldReceive('wrapApi')->passthru();
         $api->shouldReceive('getHttp')->andReturn($http);
 
+        if ($sandboxEnabled) {
+            $api->shouldReceive('getCache')->andReturn($this->getMockCache());
+        }
+
         return $api->sandboxMode($sandboxEnabled);
+    }
+
+    public function getMockCache()
+    {
+        $cache = \Mockery::mock(\Doctrine\Common\Cache\Cache::class);
+        $cache->shouldReceive('fetch')->with('sandbox_signkey.testMerchantId')->andReturn('sandbox-signkey');
+
+        return $cache;
     }
 
     /**
@@ -229,6 +241,8 @@ class PaymentAPITest extends TestCase
     public function testUrlShorten()
     {
         $api = $this->getAPI();
+
+
         $response = $api->urlShorten('http://easywechat.org');
 
         $this->assertEquals('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
