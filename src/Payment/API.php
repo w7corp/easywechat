@@ -514,7 +514,6 @@ class API extends AbstractAPI
                     throw new Exception($result->return_msg);
                 }
             } catch (Exception $e) {
-
             }
         }
     }
