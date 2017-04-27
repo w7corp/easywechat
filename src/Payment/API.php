@@ -460,7 +460,7 @@ class API extends AbstractAPI
      */
     protected function generateSign($params)
     {
-        $key = $this->sandboxEnabled ? $this->getSandboxSignKey() : $this->merchant->key;
+        $key = ($this->sandboxEnabled && $this->sandboxSignKey) ? $this->getSandboxSignKey() : $this->merchant->key;
 
         return generate_sign($params, $key, 'md5');
     }
