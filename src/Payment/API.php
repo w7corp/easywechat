@@ -22,9 +22,11 @@
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Core\Exception;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Psr\Http\Message\ResponseInterface;
+use Doctrine\Common\Cache\FilesystemCache;
 
 /**
  * Class API.
@@ -44,6 +46,13 @@ class API extends AbstractAPI
      * @var bool
      */
     protected $sandboxEnabled = false;
+
+    /**
+     * Sandbox sign key.
+     *
+     * @var string
+     */
+    protected $sandboxSignKey;
 
     const API_HOST = 'https://api.mch.weixin.qq.com';
 
@@ -420,7 +429,12 @@ class API extends AbstractAPI
         $params['device_info'] = $this->merchant->device_info;
         $params['nonce_str'] = uniqid();
         $params = array_filter($params);
-        $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
+
+        if ($this->sandboxEnabled && $this->sandboxSignKey) {
+            $params['sign'] = generate_sign($params, $this->sandboxSignKey, 'md5');
+        } else {
+            $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
+        }
 
         $options = array_merge([
             'body' => XML::build($params),
@@ -481,10 +495,28 @@ class API extends AbstractAPI
     /**
      * Get sandbox sign key.
      *
-     * @return \EasyWeChat\Support\Collection
      */
-    public function getSandboxSignKey()
+    protected function getSandboxSignKey()
     {
-        return $this->request(self::API_SANDBOX_SIGN_KEY, []);
+        // Try to get sandbox_signkey from cache
+        $cacheKey = 'sandbox_signkey'.$this->merchant->merchant_id.$this->merchant->sub_merchant_id;
+        /** @var \Doctrine\Common\Cache\Cache $cache */
+        $cache = new FilesystemCache(sys_get_temp_dir());
+        $this->sandboxSignKey = $cache->fetch($cacheKey);
+
+        if (!$this->sandboxSignKey) {
+            // Try to acquire a new sandbox_signkey from WeChat
+            try {
+                $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
+                if ($result->return_code == 'SUCCESS') {
+                    $cache->save($cacheKey, $result->sandbox_signkey);
+                    $this->sandboxSignKey = $result->sandbox_signkey;
+                } else {
+                    throw new Exception($result->return_msg);
+                }
+            } catch (Exception $e) {
+
+            }
+        }
     }
 }
