@@ -242,7 +242,6 @@ class PaymentAPITest extends TestCase
     {
         $api = $this->getAPI();
 
-
         $response = $api->urlShorten('http://easywechat.org');
 
         $this->assertEquals('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
