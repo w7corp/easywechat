@@ -460,7 +460,7 @@ class API extends AbstractAPI
      */
     protected function generateSign($params)
     {
-        $key = ($this->sandboxEnabled && $this->sandboxSignKey) ? $this->sandboxSignKey : $this->merchant->key;
+        $key = $this->sandboxEnabled ? $this->getSandboxSignKey() : $this->merchant->key;
 
         return generate_sign($params, $key, 'md5');
     }
@@ -514,27 +514,37 @@ class API extends AbstractAPI
 
     /**
      * Get sandbox sign key.
+     *
+     * @return string
      */
     protected function getSandboxSignKey()
     {
+        if ($this->sandboxSignKey) {
+            return $this->sandboxSignKey;
+        }
+
         // Try to get sandbox_signkey from cache
-        $cacheKey = 'sandbox_signkey'.$this->merchant->merchant_id.$this->merchant->sub_merchant_id;
+        $cacheKey = 'sandbox_signkey.'.$this->merchant->merchant_id.$this->merchant->sub_merchant_id;
+
         /** @var \Doctrine\Common\Cache\Cache $cache */
         $cache = $this->getCache();
+
         $this->sandboxSignKey = $cache->fetch($cacheKey);
 
         if (!$this->sandboxSignKey) {
             // Try to acquire a new sandbox_signkey from WeChat
             $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
+
             if ($result->return_code === 'SUCCESS') {
                 $cache->save($cacheKey, $result->sandbox_signkey);
-                $this->sandboxSignKey = $result->sandbox_signkey;
 
-                return;
+                return $this->sandboxSignKey = $result->sandbox_signkey;
             }
 
             throw new Exception($result->return_msg);
         }
+
+        return $this->sandboxSignKey;
     }
 
     /**
