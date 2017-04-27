@@ -439,11 +439,7 @@ class API extends AbstractAPI
         $params['nonce_str'] = uniqid();
         $params = array_filter($params);
 
-        if ($this->sandboxEnabled && $this->sandboxSignKey) {
-            $params['sign'] = generate_sign($params, $this->sandboxSignKey, 'md5');
-        } else {
-            $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
-        }
+        $params['sign'] = $this->generateSignKey($params);
 
         $options = array_merge([
             'body' => XML::build($params),
@@ -452,6 +448,20 @@ class API extends AbstractAPI
         $response = $this->getHttp()->request($api, $method, $options);
 
         return $returnResponse ? $response : $this->parseResponse($response);
+    }
+
+    /**
+     * Generate sign key.
+     *
+     * @param array $params
+     *
+     * @return string
+     */
+    protected function generateSignKey($params)
+    {
+        $key = ($this->sandboxEnabled && $this->sandboxSignKey) ? $this->sandboxSignKey : $this->merchant->key;
+
+        return generate_sign($params, $key, 'md5');
     }
 
     /**
