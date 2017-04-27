@@ -22,6 +22,7 @@
 namespace EasyWeChat\Payment;
 
 use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\AbstractAPI;
 use EasyWeChat\Core\Exception;
 use EasyWeChat\Support\Collection;
@@ -524,16 +525,15 @@ class API extends AbstractAPI
 
         if (!$this->sandboxSignKey) {
             // Try to acquire a new sandbox_signkey from WeChat
-            try {
-                $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
-                if ($result->return_code === 'SUCCESS') {
-                    $cache->save($cacheKey, $result->sandbox_signkey);
-                    $this->sandboxSignKey = $result->sandbox_signkey;
-                } else {
-                    throw new Exception($result->return_msg);
-                }
-            } catch (Exception $e) {
+            $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
+            if ($result->return_code === 'SUCCESS') {
+                $cache->save($cacheKey, $result->sandbox_signkey);
+                $this->sandboxSignKey = $result->sandbox_signkey;
+                return;
             }
+
+            throw new Exception($result->return_msg);
+
         }
     }
 
