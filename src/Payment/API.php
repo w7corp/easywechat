@@ -460,7 +460,7 @@ class API extends AbstractAPI
      */
     protected function getSignkey($api)
     {
-        return $this->sandboxEnabled && $api != self::API_SANDBOX_SIGN_KEY ? $this->getSandboxSignKey() : $this->merchant->key;
+        return $this->sandboxEnabled && $api !== self::API_SANDBOX_SIGN_KEY ? $this->getSandboxSignKey() : $this->merchant->key;
     }
 
     /**
