@@ -54,6 +54,13 @@ class API extends AbstractAPI
      */
     protected $sandboxSignKey;
 
+    /**
+     * Cache.
+     *
+     * @var Cache
+     */
+    protected $cache;
+
     const API_HOST = 'https://api.mch.weixin.qq.com';
 
     // api
@@ -87,10 +94,12 @@ class API extends AbstractAPI
      * API constructor.
      *
      * @param \EasyWeChat\Payment\Merchant $merchant
+     * @param \EasyWeChat\Payment\Cache|null $cache
      */
-    public function __construct(Merchant $merchant)
+    public function __construct(Merchant $merchant, Cache $cache = null)
     {
         $this->merchant = $merchant;
+        $this>$cache = $cache;
     }
 
     /**
@@ -500,7 +509,7 @@ class API extends AbstractAPI
         // Try to get sandbox_signkey from cache
         $cacheKey = 'sandbox_signkey'.$this->merchant->merchant_id.$this->merchant->sub_merchant_id;
         /** @var \Doctrine\Common\Cache\Cache $cache */
-        $cache = new FilesystemCache(sys_get_temp_dir());
+        $cache = $this->getCache();
         $this->sandboxSignKey = $cache->fetch($cacheKey);
 
         if (!$this->sandboxSignKey) {
@@ -516,5 +525,15 @@ class API extends AbstractAPI
             } catch (Exception $e) {
             }
         }
+    }
+
+    /**
+     * Return the cache manager.
+     *
+     * @return \Doctrine\Common\Cache\Cache
+     */
+    public function getCache()
+    {
+        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
     }
 }
