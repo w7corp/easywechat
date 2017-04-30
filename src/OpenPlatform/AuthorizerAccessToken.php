@@ -51,8 +51,6 @@ class AuthorizerAccessToken extends BaseAccessToken
      * AuthorizerAccessToken constructor.
      *
      * @param string                              $appId
-     * @param Authorization                       $authorization
-     * @param string                              $appId
      * @param \EasyWeChat\OpenPlatform\Authorizer $authorizer
      */
     public function __construct($appId, Authorizer $authorizer)

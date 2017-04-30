@@ -43,13 +43,6 @@ class PreAuthorization extends AbstractOpenPlatform
     const PRE_AUTH_LINK = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s';
 
     /**
-     * Redirect Uri.
-     *
-     * @var string
-     */
-    protected $redirectUri;
-
-    /**
      * Get pre auth code.
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException

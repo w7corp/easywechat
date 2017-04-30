@@ -22,7 +22,6 @@
 namespace EasyWeChat\Encryption;
 
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
-use EasyWeChat\Core\Exceptions\RuntimeException;
 use EasyWeChat\Support\XML;
 use Exception as BaseException;
 
@@ -65,15 +64,9 @@ class Encryptor
      * @param string $appId
      * @param string $token
      * @param string $AESKey
-     *
-     * @throws RuntimeException
      */
     public function __construct($appId, $token, $AESKey)
     {
-        if (!extension_loaded('openssl')) {
-            throw new RuntimeException("The ext 'openssl' is required.");
-        }
-
         $this->appId = $appId;
         $this->token = $token;
         $this->AESKey = $AESKey;

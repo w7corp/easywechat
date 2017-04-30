@@ -64,8 +64,6 @@ class VerifyTicket
      * VerifyTicket constructor.
      *
      * @param string                       $appId
-     * @param Cache                        $cache
-     * @param string                       $appId
      * @param \Doctrine\Common\Cache\Cache $cache
      */
     public function __construct($appId, Cache $cache)
