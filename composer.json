@@ -34,7 +34,9 @@
         "psr-4": {
             "EasyWeChat\\": "src/"
         },
-        "files": ["src/OfficialAccount/Payment/helpers.php"]
+        "files": [
+            "src/OfficialAccount/Payment/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
