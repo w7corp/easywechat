@@ -534,7 +534,7 @@ class API extends AbstractAPI
             $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
 
             if ($result->return_code === 'SUCCESS') {
-                $cache->save($cacheKey, $result->sandbox_signkey);
+                $cache->save($cacheKey, $result->sandbox_signkey, 24 * 3600);
 
                 return $this->sandboxSignKey = $result->sandbox_signkey;
             }
