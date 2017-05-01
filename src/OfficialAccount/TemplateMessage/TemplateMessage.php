@@ -73,7 +73,7 @@ class TemplateMessage extends AbstractAPI
     /**
      * TemplateMessage constructor.
      *
-     * @param \EasyWeChat\Core\AccessToken $accessToken
+     * @param \EasyWeChat\OfficialAccount\Core\AccessToken $accessToken
      */
     public function __construct(AccessToken $accessToken)
     {
@@ -155,7 +155,7 @@ class TemplateMessage extends AbstractAPI
      *
      * @return \EasyWeChat\Support\Collection
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function send($data = [])
     {
@@ -182,7 +182,7 @@ class TemplateMessage extends AbstractAPI
      * @param string $method
      * @param array  $args
      *
-     * @return \EasyWeChat\TemplateMessage\TemplateMessage
+     * @return \EasyWeChat\OfficialAccount\TemplateMessage\TemplateMessage
      */
     public function __call($method, $args)
     {

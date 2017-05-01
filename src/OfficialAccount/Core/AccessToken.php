@@ -223,7 +223,7 @@ class AccessToken
     /**
      * Get the access token from WeChat server.
      *
-     * @throws \EasyWeChat\Core\Exceptions\HttpException
+     * @throws \EasyWeChat\Exceptions\HttpException
      *
      * @return string
      */
@@ -249,7 +249,7 @@ class AccessToken
     /**
      * Return the http instance.
      *
-     * @return \EasyWeChat\Core\Http
+     * @return \EasyWeChat\OfficialAccount\Core\Http
      */
     public function getHttp()
     {
@@ -259,7 +259,7 @@ class AccessToken
     /**
      * Set the http instance.
      *
-     * @param \EasyWeChat\Core\Http $http
+     * @param \EasyWeChat\OfficialAccount\Core\Http $http
      *
      * @return $this
      */

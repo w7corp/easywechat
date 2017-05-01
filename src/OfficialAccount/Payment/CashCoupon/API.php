@@ -47,7 +47,7 @@ class API extends AbstractAPI
     /**
      * API constructor.
      *
-     * @param \EasyWeChat\Payment\Merchant $merchant
+     * @param \EasyWeChat\OfficialAccount\Payment\Merchant $merchant
      */
     public function __construct(Merchant $merchant)
     {

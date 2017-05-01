@@ -75,7 +75,7 @@ class Temporary extends AbstractAPI
      *
      * @return mixed
      *
-     * @throws \EasyWeChat\Core\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Exceptions\RuntimeException
      */
     public function getStream($mediaId)
     {
@@ -92,7 +92,7 @@ class Temporary extends AbstractAPI
      *
      * @return string
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function upload($type, $path)
     {
@@ -114,7 +114,7 @@ class Temporary extends AbstractAPI
      *
      * @return string
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function uploadImage($path)
     {
@@ -128,7 +128,7 @@ class Temporary extends AbstractAPI
      *
      * @return string
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function uploadVideo($path)
     {
@@ -142,7 +142,7 @@ class Temporary extends AbstractAPI
      *
      * @return string
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function uploadVoice($path)
     {
@@ -156,7 +156,7 @@ class Temporary extends AbstractAPI
      *
      * @return string
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function uploadThumb($path)
     {

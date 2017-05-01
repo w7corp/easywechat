@@ -34,7 +34,7 @@ class Notify
     /**
      * Merchant instance.
      *
-     * @var \EasyWeChat\Payment\Merchant
+     * @var \EasyWeChat\OfficialAccount\Payment\Merchant
      */
     protected $merchant;
 
@@ -81,7 +81,7 @@ class Notify
      *
      * @return \EasyWeChat\Support\Collection
      *
-     * @throws \EasyWeChat\Core\Exceptions\FaultException
+     * @throws \EasyWeChat\Exceptions\FaultException
      */
     public function getNotify()
     {

@@ -154,7 +154,7 @@ class Transformer
     /**
      * Transform news message.
      *
-     * @param array|\EasyWeChat\Message\News $news
+     * @param array|\EasyWeChat\OfficialAccount\Message\News $news
      *
      * @return array
      */

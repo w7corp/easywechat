@@ -94,8 +94,8 @@ class API extends AbstractAPI
     /**
      * API constructor.
      *
-     * @param \EasyWeChat\Payment\Merchant   $merchant
-     * @param \EasyWeChat\Payment\Cache|null $cache
+     * @param \EasyWeChat\OfficialAccount\Payment\Merchant   $merchant
+     * @param \EasyWeChat\OfficialAccount\Payment\Cache|null $cache
      */
     public function __construct(Merchant $merchant, Cache $cache = null)
     {

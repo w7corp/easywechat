@@ -254,7 +254,7 @@ class Http
      *
      * @return mixed
      *
-     * @throws \EasyWeChat\Core\Exceptions\HttpException
+     * @throws \EasyWeChat\Exceptions\HttpException
      */
     public function parseJSON($body)
     {

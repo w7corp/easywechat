@@ -153,11 +153,11 @@ class CustomerService extends AbstractAPI
     /**
      * Get message builder.
      *
-     * @param \EasyWeChat\Message\AbstractMessage|string $message
+     * @param \EasyWeChat\OfficialAccount\Message\AbstractMessage|string $message
      *
-     * @return \EasyWeChat\CustomerService\MessageBuilder
+     * @return \EasyWeChat\OfficialAccount\CustomerService\MessageBuilder
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function message($message)
     {

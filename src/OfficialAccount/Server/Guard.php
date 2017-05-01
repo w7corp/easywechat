@@ -351,8 +351,8 @@ class Guard
      *
      * @return array
      *
-     * @throws \EasyWeChat\Core\Exceptions\RuntimeException
-     * @throws \EasyWeChat\Server\BadRequestException
+     * @throws \EasyWeChat\Exceptions\RuntimeException
+     * @throws \EasyWeChat\OfficialAccount\Server\BadRequestException
      */
     protected function handleRequest()
     {
@@ -440,8 +440,8 @@ class Guard
      *
      * @param string|resource $content
      *
-     * @throws \EasyWeChat\Core\Exceptions\RuntimeException
-     * @throws \EasyWeChat\Encryption\EncryptionException
+     * @throws \EasyWeChat\Exceptions\RuntimeException
+     * @throws \EasyWeChat\OfficialAccount\Encryption\EncryptionException
      *
      * @return array
      */

@@ -36,7 +36,7 @@ class MerchantPay
     /**
      * Merchant instance.
      *
-     * @var \EasyWeChat\Payment\Merchant
+     * @var \EasyWeChat\OfficialAccount\Payment\Merchant
      */
     protected $merchant;
 

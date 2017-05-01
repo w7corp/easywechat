@@ -47,7 +47,7 @@ class Payment
     /**
      * Merchant instance.
      *
-     * @var \EasyWeChat\Payment\Merchant
+     * @var \EasyWeChat\OfficialAccount\Payment\Merchant
      */
     protected $merchant;
 
@@ -294,7 +294,7 @@ class Payment
     /**
      * Return Notify instance.
      *
-     * @return \EasyWeChat\Payment\Notify
+     * @return \EasyWeChat\OfficialAccount\Payment\Notify
      */
     public function getNotify()
     {

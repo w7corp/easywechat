@@ -35,42 +35,42 @@ class ShakeAround extends AbstractAPI
     /**
      * Device instance.
      *
-     * @var \EasyWeChat\ShakeAround\Device
+     * @var \EasyWeChat\OfficialAccount\ShakeAround\Device
      */
     protected $device = null;
 
     /**
      * Group instance.
      *
-     * @var \EasyWeChat\ShakeAround\Group
+     * @var \EasyWeChat\OfficialAccount\ShakeAround\Group
      */
     protected $group = null;
 
     /**
      * Page instance.
      *
-     * @var \EasyWeChat\ShakeAround\Page
+     * @var \EasyWeChat\OfficialAccount\ShakeAround\Page
      */
     protected $page = null;
 
     /**
      * Material instance.
      *
-     * @var \EasyWeChat\ShakeAround\Material
+     * @var \EasyWeChat\OfficialAccount\ShakeAround\Material
      */
     protected $material = null;
 
     /**
      * Relation instance.
      *
-     * @var \EasyWeChat\ShakeAround\Relation
+     * @var \EasyWeChat\OfficialAccount\ShakeAround\Relation
      */
     protected $relation = null;
 
     /**
      * Stats instance.
      *
-     * @var \EasyWeChat\ShakeAround\Stats
+     * @var \EasyWeChat\OfficialAccount\ShakeAround\Stats
      */
     protected $stats = null;
 
@@ -137,7 +137,7 @@ class ShakeAround extends AbstractAPI
     /**
      * Return the device instance.
      *
-     * @return \EasyWeChat\ShakeAround\Device
+     * @return \EasyWeChat\OfficialAccount\ShakeAround\Device
      */
     public function device()
     {
@@ -151,7 +151,7 @@ class ShakeAround extends AbstractAPI
     /**
      * Return the group instance.
      *
-     * @return \EasyWeChat\ShakeAround\Group
+     * @return \EasyWeChat\OfficialAccount\ShakeAround\Group
      */
     public function group()
     {
@@ -165,7 +165,7 @@ class ShakeAround extends AbstractAPI
     /**
      * Return the page instance.
      *
-     * @return \EasyWeChat\ShakeAround\Page
+     * @return \EasyWeChat\OfficialAccount\ShakeAround\Page
      */
     public function page()
     {
@@ -179,7 +179,7 @@ class ShakeAround extends AbstractAPI
     /**
      * Return the material instance.
      *
-     * @return \EasyWeChat\ShakeAround\Material
+     * @return \EasyWeChat\OfficialAccount\ShakeAround\Material
      */
     public function material()
     {
@@ -193,7 +193,7 @@ class ShakeAround extends AbstractAPI
     /**
      * Return the relation instance.
      *
-     * @return \EasyWeChat\ShakeAround\Relation
+     * @return \EasyWeChat\OfficialAccount\ShakeAround\Relation
      */
     public function relation()
     {
@@ -207,7 +207,7 @@ class ShakeAround extends AbstractAPI
     /**
      * Return the stats instance.
      *
-     * @return \EasyWeChat\ShakeAround\Stats
+     * @return \EasyWeChat\OfficialAccount\ShakeAround\Stats
      */
     public function stats()
     {
