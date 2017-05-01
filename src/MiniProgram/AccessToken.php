@@ -26,7 +26,7 @@
 
 namespace EasyWeChat\MiniProgram;
 
-use EasyWeChat\Core\AccessToken as CoreAccessToken;
+use EasyWeChat\OfficialAccount\Core\AccessToken as CoreAccessToken;
 
 /**
  * Class AccessToken.

@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Foundation;
 
-use EasyWeChat\Core\AccessToken;
-use EasyWeChat\Core\Http;
+use EasyWeChat\OfficialAccount\Core\AccessToken;
+use EasyWeChat\OfficialAccount\Core\Http;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Foundation\Config;
 use EasyWeChat\Tests\TestCase;

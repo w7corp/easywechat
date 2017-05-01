@@ -26,7 +26,7 @@
 
 namespace EasyWeChat\MiniProgram\Server;
 
-use EasyWeChat\Server\Guard as ServerGuard;
+use EasyWeChat\OfficialAccount\Server\Guard as ServerGuard;
 
 class Guard extends ServerGuard
 {

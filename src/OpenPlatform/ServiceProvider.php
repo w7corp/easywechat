@@ -27,7 +27,7 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Encryption\Encryptor;
+use EasyWeChat\OfficialAccount\Encryption\Encryptor;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\OpenPlatform\Api\PreAuthorization;

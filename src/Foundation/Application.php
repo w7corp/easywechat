@@ -28,8 +28,8 @@ namespace EasyWeChat\Foundation;
 
 use Doctrine\Common\Cache\Cache as CacheInterface;
 use Doctrine\Common\Cache\FilesystemCache;
-use EasyWeChat\Core\AccessToken;
-use EasyWeChat\Core\Http;
+use EasyWeChat\OfficialAccount\Core\AccessToken;
+use EasyWeChat\OfficialAccount\Core\Http;
 use EasyWeChat\Support\Log;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
@@ -78,25 +78,25 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
-        \EasyWeChat\Server\ServiceProvider::class,
-        \EasyWeChat\User\ServiceProvider::class,
-        \EasyWeChat\Js\ServiceProvider::class,
-        \EasyWeChat\OAuth\ServiceProvider::class,
-        \EasyWeChat\Menu\ServiceProvider::class,
-        \EasyWeChat\TemplateMessage\ServiceProvider::class,
-        \EasyWeChat\Material\ServiceProvider::class,
-        \EasyWeChat\CustomerService\ServiceProvider::class,
-        \EasyWeChat\Url\ServiceProvider::class,
-        \EasyWeChat\QRCode\ServiceProvider::class,
-        \EasyWeChat\Semantic\ServiceProvider::class,
-        \EasyWeChat\Stats\ServiceProvider::class,
-        \EasyWeChat\Payment\ServiceProvider::class,
-        \EasyWeChat\POI\ServiceProvider::class,
-        \EasyWeChat\Reply\ServiceProvider::class,
-        \EasyWeChat\Broadcast\ServiceProvider::class,
-        \EasyWeChat\Card\ServiceProvider::class,
-        \EasyWeChat\Device\ServiceProvider::class,
-        \EasyWeChat\ShakeAround\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Server\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\User\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Js\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\OAuth\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Menu\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\TemplateMessage\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Material\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\CustomerService\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Url\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\QRCode\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Semantic\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Stats\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Payment\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\POI\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Reply\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Broadcast\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Card\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\Device\ServiceProvider::class,
+        \EasyWeChat\OfficialAccount\ShakeAround\ServiceProvider::class,
         \EasyWeChat\OpenPlatform\ServiceProvider::class,
         \EasyWeChat\MiniProgram\ServiceProvider::class,
     ];

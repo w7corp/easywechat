@@ -26,7 +26,7 @@
 
 namespace EasyWeChat\MiniProgram\Core;
 
-use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 
 class AbstractMiniProgram extends AbstractAPI
 {

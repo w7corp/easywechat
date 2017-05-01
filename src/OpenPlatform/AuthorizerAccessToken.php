@@ -29,7 +29,7 @@ namespace EasyWeChat\OpenPlatform;
 // Don't change the alias name please. I met the issue "name already in use"
 // when used in Laravel project, not sure what is causing it, this is quick
 // solution.
-use EasyWeChat\Core\AccessToken as BaseAccessToken;
+use EasyWeChat\OfficialAccount\Core\AccessToken as BaseAccessToken;
 
 /**
  * Class AuthorizerAccessToken.
