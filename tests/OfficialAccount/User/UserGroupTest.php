@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\User;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\OfficialAccount\User\Group;
+use EasyWeChat\Tests\TestCase;
 
 class UserGroupTest extends TestCase
 {

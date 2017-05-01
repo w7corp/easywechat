@@ -27,8 +27,8 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\OfficialAccount\Encryption\Encryptor;
 use EasyWeChat\Foundation\Application;
+use EasyWeChat\OfficialAccount\Encryption\Encryptor;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\OpenPlatform\Api\PreAuthorization;
 use Overtrue\Socialite\SocialiteManager as Socialite;

@@ -21,8 +21,8 @@
 
 namespace EasyWeChat\OfficialAccount\Broadcast;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 use EasyWeChat\Exceptions\HttpException;
+use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 
 /**
  * Class Broadcast.

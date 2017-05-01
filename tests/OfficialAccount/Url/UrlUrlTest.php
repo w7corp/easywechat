@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Url;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\OfficialAccount\Url\Url;
+use EasyWeChat\Tests\TestCase;
 
 class UrlUrlTest extends TestCase
 {

@@ -21,8 +21,8 @@
 
 namespace EasyWeChat\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 
 /**
  * Class Material.

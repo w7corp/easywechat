@@ -21,8 +21,8 @@
 
 namespace EasyWeChat\OfficialAccount\Material;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 use EasyWeChat\OfficialAccount\Message\Article;
 
 /**

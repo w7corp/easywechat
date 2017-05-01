@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\User;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\OfficialAccount\User\Tag;
+use EasyWeChat\Tests\TestCase;
 
 class UserTagTest extends TestCase
 {

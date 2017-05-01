@@ -26,8 +26,8 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\OfficialAccount\Core\AccessToken as CoreAccessToken;
 use EasyWeChat\Exceptions\HttpException;
+use EasyWeChat\OfficialAccount\Core\AccessToken as CoreAccessToken;
 
 class AccessToken extends CoreAccessToken
 {
