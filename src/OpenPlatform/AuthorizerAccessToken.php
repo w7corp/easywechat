@@ -64,7 +64,7 @@ class AuthorizerAccessToken extends BaseAccessToken
     /**
      * {@inheritdoc}.
      */
-    public function getToken( ? bool $forceRefresh = false)
+    public function getToken(? bool $forceRefresh = false)
     {
         $cached = $this->authorizer->getAccessToken();
 
