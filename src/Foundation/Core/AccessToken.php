@@ -86,7 +86,7 @@ abstract class AccessToken
      * @param string      $clientId
      * @param string|null $clientSecret
      */
-    final public function __construct(string $clientId, ? string $clientSecret = null)
+    final public function __construct(string $clientId, string $clientSecret = null)
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
@@ -167,7 +167,7 @@ abstract class AccessToken
      *
      * @return string
      */
-    public function getToken(? bool $forceRefresh = false)
+    public function getToken(bool $forceRefresh = false)
     {
         $cached = $this->getCache()->fetch($this->getCacheKey());
 
@@ -189,7 +189,7 @@ abstract class AccessToken
      *
      * @return $this
      */
-    public function setToken(string $token, ? int $expires = 7200)
+    public function setToken(string $token, int $expires = 7200)
     {
         // XXX: T_T... 7200 - 1500
         $this->getCache()->save($this->getCacheKey(), $token, $expires - 1500);
