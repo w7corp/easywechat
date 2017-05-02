@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php":">=7.0",
+        "php":">=7.1",
         "ext-openssl": "*",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.22",
