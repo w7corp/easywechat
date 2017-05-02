@@ -167,7 +167,7 @@ abstract class AccessToken
      *
      * @return string
      */
-    public function getToken( ? bool $forceRefresh = false)
+    public function getToken(? bool $forceRefresh = false)
     {
         $cached = $this->getCache()->fetch($this->getCacheKey());
 
