@@ -49,11 +49,13 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['mini_program.access_token'] = function ($pimple) {
-            return new AccessToken(
+            $accessToken = new AccessToken(
                 $pimple['config']['mini_program']['app_id'],
-                $pimple['config']['mini_program']['secret'],
-                $pimple['cache']
+                $pimple['config']['mini_program']['secret']
             );
+            $accessToken->setCache($pimple['cache']);
+
+            return $accessToken;
         };
 
         $pimple['mini_program.encryptor'] = function ($pimple) {

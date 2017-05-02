@@ -60,10 +60,10 @@ class ServiceProvider implements ServiceProviderInterface
         $pimple['open_platform.access_token'] = function ($pimple) {
             $accessToken = new AccessToken(
                 $pimple['config']['open_platform']['app_id'],
-                $pimple['config']['open_platform']['secret'],
-                $pimple['cache']
+                $pimple['config']['open_platform']['secret']
             );
-            $accessToken->setVerifyTicket($pimple['open_platform.verify_ticket']);
+            $accessToken->setCache($pimple['cache'])
+                        ->setVerifyTicket($pimple['open_platform.verify_ticket']);
 
             return $accessToken;
         };
@@ -117,10 +117,12 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $pimple['open_platform.authorizer_access_token'] = function ($pimple) {
-            return new AuthorizerAccessToken(
-                $pimple['config']['open_platform']['app_id'],
-                $pimple['open_platform.authorizer']
+            $accessToken = new AuthorizerAccessToken(
+                $pimple['config']['open_platform']['app_id']
             );
+            $accessToken->setAuthorizer($pimple['open_platform.authorizer']);
+
+            return $accessToken;
         };
 
         // Authorization events handlers.

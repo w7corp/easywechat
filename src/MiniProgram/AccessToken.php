@@ -26,15 +26,17 @@
 
 namespace EasyWeChat\MiniProgram;
 
-use EasyWeChat\OfficialAccount\Core\AccessToken as CoreAccessToken;
+use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
 
 /**
  * Class AccessToken.
  */
-class AccessToken extends CoreAccessToken
+class AccessToken extends BaseAccessToken
 {
     /**
      * {@inheritdoc}.
      */
     protected $prefix = 'easywechat.common.mini.program.access_token.';
+
+    const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
 }

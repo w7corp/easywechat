@@ -23,6 +23,7 @@
 namespace EasyWeChat\OfficialAccount\Core;
 
 use EasyWeChat\Exceptions\HttpException;
+use EasyWeChat\Foundation\Core\AccessToken;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
 use GuzzleHttp\Middleware;
@@ -56,7 +57,7 @@ abstract class AbstractAPI
     /**
      * Constructor.
      *
-     * @param \EasyWeChat\OfficialAccount\Core\AccessToken $accessToken
+     * @param \EasyWeChat\Foundation\Core\AccessToken $accessToken
      */
     public function __construct(AccessToken $accessToken)
     {
@@ -108,7 +109,7 @@ abstract class AbstractAPI
     /**
      * Set the request token.
      *
-     * @param \EasyWeChat\OfficialAccount\Core\AccessToken $accessToken
+     * @param \EasyWeChat\Foundation\Core\AccessToken $accessToken
      *
      * @return $this
      */

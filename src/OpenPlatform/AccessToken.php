@@ -26,10 +26,9 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Exceptions\HttpException;
-use EasyWeChat\OfficialAccount\Core\AccessToken as CoreAccessToken;
+use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
 
-class AccessToken extends CoreAccessToken
+class AccessToken extends BaseAccessToken
 {
     /**
      * VerifyTicket.
@@ -72,25 +71,12 @@ class AccessToken extends CoreAccessToken
         return $this;
     }
 
-    /**
-     * {@inheritdoc}.
-     */
-    public function getTokenFromServer()
+    public function requestFields()
     {
-        $data = [
-            'component_appid' => $this->appId,
-            'component_appsecret' => $this->secret,
+        return [
+            'component_appid' => $this->clientId,
+            'component_appsecret' => $this->clientSecret,
             'component_verify_ticket' => $this->verifyTicket->getTicket(),
         ];
-
-        $http = $this->getHttp();
-
-        $token = $http->parseJSON($http->json(self::API_TOKEN_GET, $data));
-
-        if (empty($token[$this->tokenJsonKey])) {
-            throw new HttpException('Request ComponentAccessToken fail. response: '.json_encode($token, JSON_UNESCAPED_UNICODE));
-        }
-
-        return $token;
     }
 }

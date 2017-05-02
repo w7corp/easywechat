@@ -26,10 +26,7 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-// Don't change the alias name please. I met the issue "name already in use"
-// when used in Laravel project, not sure what is causing it, this is quick
-// solution.
-use EasyWeChat\OfficialAccount\Core\AccessToken as BaseAccessToken;
+use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
 
 /**
  * Class AuthorizerAccessToken.
@@ -43,57 +40,54 @@ use EasyWeChat\OfficialAccount\Core\AccessToken as BaseAccessToken;
 class AuthorizerAccessToken extends BaseAccessToken
 {
     /**
+     * {@inheritdoc}.
+     */
+    protected $tokenJsonKey = 'authorizer_access_token';
+
+    /**
      * @var \EasyWeChat\OpenPlatform\Authorizer
      */
     protected $authorizer;
 
     /**
-     * AuthorizerAccessToken constructor.
+     * Set authorizer.
      *
-     * @param string                              $appId
      * @param \EasyWeChat\OpenPlatform\Authorizer $authorizer
      */
-    public function __construct($appId, Authorizer $authorizer)
+    public function setAuthorizer(Authorizer $authorizer)
     {
-        parent::__construct($appId, null);
-
         $this->authorizer = $authorizer;
+
+        return $this;
     }
 
     /**
-     * Get token from WeChat API.
-     *
-     * @param bool $forceRefresh
-     *
-     * @return string
+     * {@inheritdoc}.
      */
-    public function getToken($forceRefresh = false)
+    public function getToken( ? bool $forceRefresh = false)
     {
         $cached = $this->authorizer->getAccessToken();
 
         if ($forceRefresh || empty($cached)) {
-            return $this->renewAccessToken();
+            $result = $this->getTokenFromServer();
+            $this->authorizer->setAccessToken($result[$this->tokenJsonKey], $result['expires_in'] - 1500);
+
+            return $result[$this->tokenJsonKey];
         }
 
         return $cached;
     }
 
     /**
-     * Refresh authorizer access token.
-     *
-     * @return string
+     * {@inheritdoc}.
      */
-    protected function renewAccessToken()
+    public function getTokenFromServer()
     {
-        $token = $this->authorizer->getApi()
+        return $this->authorizer->getApi()
             ->getAuthorizerToken(
                 $this->authorizer->getAppId(),
                 $this->authorizer->getRefreshToken()
             );
-
-        $this->authorizer->setAccessToken($token['authorizer_access_token'], $token['expires_in'] - 1500);
-
-        return $token['authorizer_access_token'];
     }
 
     /**

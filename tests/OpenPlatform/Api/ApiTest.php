@@ -24,9 +24,9 @@ class ApiTest extends TestCase
     {
         $accessToken = new AccessToken(
             $appId,
-            'secret',
-            new ArrayCache()
+            'secret'
         );
+        $accessToken->setCache(new ArrayCache());
 
         return $accessToken->setVerifyTicket(m::mock('EasyWeChat\OpenPlatform\VerifyTicket'));
     }

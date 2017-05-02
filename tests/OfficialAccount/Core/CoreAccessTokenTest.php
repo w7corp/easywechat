@@ -35,7 +35,8 @@ class CoreAccessTokenTest extends TestCase
         });
 
         // cached
-        $accessToken = new AccessToken('appId', 'secret', $cache);
+        $accessToken = new AccessToken('appId', 'secret');
+        $accessToken->setCache($cache);
         $accessToken->setHttp($http);
 
         $this->assertEquals('thisIsACachedToken', $accessToken->getToken());
@@ -72,7 +73,8 @@ class CoreAccessTokenTest extends TestCase
                 ]));
         });
 
-        $accessToken = new AccessToken('appId', 'secret', $cache);
+        $accessToken = new AccessToken('appId', 'secret');
+        $accessToken->setCache($cache);
         $accessToken->setHttp($http);
 
         $this->assertEquals('thisIsATokenFromHttp', $accessToken->getToken());
@@ -85,7 +87,8 @@ class CoreAccessTokenTest extends TestCase
                 ]));
         });
 
-        $accessToken = new AccessToken('appId', 'secret', $cache);
+        $accessToken = new AccessToken('appId', 'secret');
+        $accessToken->setCache($cache);
         $accessToken->setHttp($http);
 
         $this->expectException(\EasyWeChat\Exceptions\HttpException::class);
