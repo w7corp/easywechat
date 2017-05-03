@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\OfficialAccount\Payment\CashCoupon;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\OfficialAccount\Payment\Merchant;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;

@@ -22,7 +22,7 @@
 namespace EasyWeChat\OfficialAccount\ShakeAround;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 
 /**
  * Class Device.

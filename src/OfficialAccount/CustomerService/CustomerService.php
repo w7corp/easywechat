@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\OfficialAccount\CustomerService;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\Support\Collection;
 
 /**

@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 
 /**
  * Class Stats.

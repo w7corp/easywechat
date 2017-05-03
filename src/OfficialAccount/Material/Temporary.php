@@ -22,7 +22,7 @@
 namespace EasyWeChat\OfficialAccount\Material;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\Support\File;
 
 /**

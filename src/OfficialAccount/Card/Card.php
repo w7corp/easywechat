@@ -23,7 +23,7 @@ namespace EasyWeChat\OfficialAccount\Card;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 

@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\OfficialAccount\Semantic;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 
 /**
  * Class Semantic.

@@ -20,11 +20,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OfficialAccount\Core;
+namespace EasyWeChat\Foundation\Core;
 
 use EasyWeChat\Exceptions\HttpException;
-use EasyWeChat\Foundation\Core\AccessToken;
-use EasyWeChat\Foundation\Core\Http;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
 use GuzzleHttp\Middleware;
@@ -47,7 +45,7 @@ abstract class AbstractAPI
     /**
      * The request token.
      *
-     * @var \EasyWeChat\OfficialAccount\Core\AccessToken
+     * @var \EasyWeChat\Foundation\Core\AccessToken
      */
     protected $accessToken;
 
@@ -100,7 +98,7 @@ abstract class AbstractAPI
     /**
      * Return the current accessToken.
      *
-     * @return \EasyWeChat\OfficialAccount\Core\AccessToken
+     * @return \EasyWeChat\Foundation\Core\AccessToken
      */
     public function getAccessToken()
     {

@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\OfficialAccount\Reply;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 
 /**
  * Class Reply.

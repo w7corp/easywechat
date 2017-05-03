@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OfficialAccount\Core;
+namespace EasyWeChat\Tests\Foundation\Core;
 
 use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
-use EasyWeChat\OfficialAccount\Core\AccessToken;
+use EasyWeChat\Foundation\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AccessToken;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 

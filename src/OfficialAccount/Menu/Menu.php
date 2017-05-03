@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\OfficialAccount\Menu;
 
-use EasyWeChat\OfficialAccount\Core\AbstractAPI;
+use EasyWeChat\Foundation\Core\AbstractAPI;
 
 /**
  * Class Menu.
