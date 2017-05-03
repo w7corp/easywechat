@@ -14,7 +14,7 @@ namespace EasyWeChat\Tests\Foundation;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\Foundation\Config;
 use EasyWeChat\OfficialAccount\Core\AccessToken;
-use EasyWeChat\OfficialAccount\Core\Http;
+use EasyWeChat\Foundation\Core\Http;
 use EasyWeChat\Tests\TestCase;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

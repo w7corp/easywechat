@@ -13,7 +13,7 @@ namespace EasyWeChat\Tests\OfficialAccount\Core;
 
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\OfficialAccount\Core\AccessToken;
-use EasyWeChat\OfficialAccount\Core\Http;
+use EasyWeChat\Foundation\Core\Http;
 use EasyWeChat\Tests\TestCase;
 
 class CoreAccessTokenTest extends TestCase

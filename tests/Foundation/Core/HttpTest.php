@@ -9,8 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OfficialAccount\Core {
-    use EasyWeChat\OfficialAccount\Core\Http;
+namespace EasyWeChat\Tests\Foundation\Core {
+    use EasyWeChat\Foundation\Core\Http;
     use EasyWeChat\Tests\TestCase;
     use GuzzleHttp\Client;
     use GuzzleHttp\HandlerStack;
@@ -19,7 +19,7 @@ namespace EasyWeChat\Tests\OfficialAccount\Core {
     use GuzzleHttp\Psr7\Response;
     use Psr\Http\Message\RequestInterface;
 
-    class CoreHttpTest extends TestCase
+    class HttpTest extends TestCase
     {
         public function testConstruct()
         {
@@ -234,7 +234,7 @@ namespace EasyWeChat\Tests\OfficialAccount\Core {
     }
 }
 
-namespace EasyWeChat\OfficialAccount\Core {
+namespace EasyWeChat\Foundation\Core {
     function fopen($file, $mode = 'r')
     {
         return $file;

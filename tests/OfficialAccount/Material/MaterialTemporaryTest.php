@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Material
 {
-    use EasyWeChat\OfficialAccount\Core\Http;
+    use EasyWeChat\Foundation\Core\Http;
     use EasyWeChat\OfficialAccount\Material\Temporary;
     use EasyWeChat\Tests\TestCase;
     use Mockery\Mock;

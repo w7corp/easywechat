@@ -20,7 +20,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OfficialAccount\Core;
+namespace EasyWeChat\Foundation\Core;
 
 use EasyWeChat\Exceptions\HttpException;
 use EasyWeChat\Support\Log;

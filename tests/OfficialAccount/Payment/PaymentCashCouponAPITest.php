@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
-use EasyWeChat\OfficialAccount\Core\Http;
+use EasyWeChat\Foundation\Core\Http;
 use EasyWeChat\OfficialAccount\Payment\CashCoupon\API;
 use EasyWeChat\OfficialAccount\Payment\Merchant;
 use EasyWeChat\Support\XML;

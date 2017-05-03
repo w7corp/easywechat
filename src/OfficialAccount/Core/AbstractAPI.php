@@ -24,6 +24,7 @@ namespace EasyWeChat\OfficialAccount\Core;
 
 use EasyWeChat\Exceptions\HttpException;
 use EasyWeChat\Foundation\Core\AccessToken;
+use EasyWeChat\Foundation\Core\Http;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
 use GuzzleHttp\Middleware;
@@ -39,7 +40,7 @@ abstract class AbstractAPI
     /**
      * Http instance.
      *
-     * @var \EasyWeChat\OfficialAccount\Core\Http
+     * @var \EasyWeChat\Foundation\Core\Http
      */
     protected $http;
 
@@ -67,7 +68,7 @@ abstract class AbstractAPI
     /**
      * Return the http instance.
      *
-     * @return \EasyWeChat\OfficialAccount\Core\Http
+     * @return \EasyWeChat\Foundation\Core\Http
      */
     public function getHttp()
     {
@@ -85,7 +86,7 @@ abstract class AbstractAPI
     /**
      * Set the http instance.
      *
-     * @param \EasyWeChat\OfficialAccount\Core\Http $http
+     * @param \EasyWeChat\Foundation\Core\Http $http
      *
      * @return $this
      */

@@ -23,7 +23,7 @@ class TemplateMessageTest extends TestCase
             $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken');
             $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
             $notice = new TemplateMessage($accessToken);
-            $http = \Mockery::mock('EasyWeChat\OfficialAccount\Core\Http[json]');
+            $http = \Mockery::mock('EasyWeChat\Foundation\Core\Http[json]');
             $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
                 return json_encode(compact('api', 'params'));
             });

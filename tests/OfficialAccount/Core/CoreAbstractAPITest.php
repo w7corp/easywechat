@@ -13,7 +13,7 @@ namespace EasyWeChat\Tests\OfficialAccount\Core;
 
 use EasyWeChat\OfficialAccount\Core\AbstractAPI;
 use EasyWeChat\OfficialAccount\Core\AccessToken;
-use EasyWeChat\OfficialAccount\Core\Http;
+use EasyWeChat\Foundation\Core\Http;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 

@@ -9,7 +9,7 @@ class AccessTokenAtrributesTest extends TestCase
 {
     protected function getMockHttp($tokenJsonKey = 'access_token')
     {
-        return m::mock('EasyWeChat\OfficialAccount\Core\Http[parseJSON,get]', function ($mock) use ($tokenJsonKey) {
+        return m::mock('EasyWeChat\Foundation\Core\Http[parseJSON,get]', function ($mock) use ($tokenJsonKey) {
             $mock->shouldReceive('parseJSON')->andReturnUsing(function ($requests) use ($tokenJsonKey) {
                 return array_merge([
                     $tokenJsonKey => 'thisIsAToken',

@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
 use EasyWeChat\OfficialAccount\Card\Card;
-use EasyWeChat\OfficialAccount\Core\Http;
+use EasyWeChat\Foundation\Core\Http;
 use EasyWeChat\Support\Arr;
 use EasyWeChat\Tests\TestCase;
 

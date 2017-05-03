@@ -24,7 +24,6 @@ namespace EasyWeChat\Foundation\Core;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Exceptions\HttpException;
-use EasyWeChat\OfficialAccount\Core\Http;
 
 abstract class AccessToken
 {
@@ -292,7 +291,7 @@ abstract class AccessToken
     /**
      * Return the http instance.
      *
-     * @return \EasyWeChat\OfficialAccount\Core\Http
+     * @return \EasyWeChat\Foundation\Core\Http
      */
     public function getHttp()
     {
@@ -302,7 +301,7 @@ abstract class AccessToken
     /**
      * Set the http instance.
      *
-     * @param \EasyWeChat\OfficialAccount\Core\Http $http
+     * @param \EasyWeChat\Foundation\Core\Http $http
      *
      * @return $this
      */

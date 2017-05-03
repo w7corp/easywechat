@@ -10,7 +10,7 @@
  */
 
 namespace EasyWeChat\Tests\OfficialAccount\Js {
-    use EasyWeChat\OfficialAccount\Core\Http;
+    use EasyWeChat\Foundation\Core\Http;
     use EasyWeChat\OfficialAccount\Js\Js;
     use EasyWeChat\Tests\TestCase;
 
