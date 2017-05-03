@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-use EasyWeChat\OfficialAccount\Card\Card;
 use EasyWeChat\Foundation\Core\Http;
+use EasyWeChat\OfficialAccount\Card\Card;
 use EasyWeChat\Support\Arr;
 use EasyWeChat\Tests\TestCase;
 

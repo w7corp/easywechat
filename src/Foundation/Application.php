@@ -28,8 +28,8 @@ namespace EasyWeChat\Foundation;
 
 use Doctrine\Common\Cache\Cache as CacheInterface;
 use Doctrine\Common\Cache\FilesystemCache;
-use EasyWeChat\OfficialAccount\Core\AccessToken;
 use EasyWeChat\Foundation\Core\Http;
+use EasyWeChat\OfficialAccount\Core\AccessToken;
 use EasyWeChat\Support\Log;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
