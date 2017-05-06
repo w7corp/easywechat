@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\OpenPlatform\Core\AccessToken;
 use EasyWeChat\OpenPlatform\Api\AbstractOpenPlatform;
+use EasyWeChat\OpenPlatform\Core\AccessToken;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\HttpFoundation\Request;
