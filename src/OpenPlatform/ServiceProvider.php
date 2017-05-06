@@ -28,13 +28,8 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Foundation\Application;
-use EasyWeChat\OfficialAccount\Encryption\Encryptor;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\OpenPlatform\Api\PreAuthorization;
-use EasyWeChat\OpenPlatform\Core\AccessToken;
-use EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken;
-use EasyWeChat\OpenPlatform\Core\VerifyTicket;
-use EasyWeChat\OpenPlatform\Server\Guard;
 use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -54,48 +49,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['open_platform.verify_ticket'] = function ($pimple) {
-            return new VerifyTicket(
-                $pimple['config']['open_platform']['app_id'],
-                $pimple['cache']
-            );
-        };
-
-        $pimple['open_platform.access_token'] = function ($pimple) {
-            $accessToken = new AccessToken(
-                $pimple['config']['open_platform']['app_id'],
-                $pimple['config']['open_platform']['secret']
-            );
-            $accessToken->setCache($pimple['cache'])
-                        ->setVerifyTicket($pimple['open_platform.verify_ticket']);
-
-            return $accessToken;
-        };
-
-        $pimple['open_platform.encryptor'] = function ($pimple) {
-            return new Encryptor(
-                $pimple['config']['open_platform']['app_id'],
-                $pimple['config']['open_platform']['token'],
-                $pimple['config']['open_platform']['aes_key']
-            );
-        };
-
         $pimple['open_platform'] = function ($pimple) {
             return new OpenPlatform($pimple);
-        };
-
-        $pimple['open_platform.server'] = function ($pimple) {
-            $server = new Guard($pimple['config']['open_platform']['token']);
-            $server->debug($pimple['config']['debug']);
-            $server->setEncryptor($pimple['open_platform.encryptor']);
-            $server->setHandlers([
-                Guard::EVENT_AUTHORIZED => $pimple['open_platform.handlers.authorized'],
-                Guard::EVENT_UNAUTHORIZED => $pimple['open_platform.handlers.unauthorized'],
-                Guard::EVENT_UPDATE_AUTHORIZED => $pimple['open_platform.handlers.updateauthorized'],
-                Guard::EVENT_COMPONENT_VERIFY_TICKET => $pimple['open_platform.handlers.component_verify_ticket'],
-            ]);
-
-            return $server;
         };
 
         $pimple['open_platform.pre_auth'] = $pimple['open_platform.pre_authorization'] = function ($pimple) {
@@ -118,15 +73,6 @@ class ServiceProvider implements ServiceProviderInterface
                 $pimple['config']['open_platform']['app_id'],
                 $pimple['cache']
             );
-        };
-
-        $pimple['open_platform.authorizer_access_token'] = function ($pimple) {
-            $accessToken = new AuthorizerAccessToken(
-                $pimple['config']['open_platform']['app_id']
-            );
-            $accessToken->setAuthorizer($pimple['open_platform.authorizer']);
-
-            return $accessToken;
         };
 
         // Authorization events handlers.

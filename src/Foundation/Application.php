@@ -105,6 +105,8 @@ class Application extends Container
          * OpenPlatform Service Providers...
          */
         \EasyWeChat\OpenPlatform\ServiceProvider::class,
+        \EasyWeChat\OpenPlatform\Core\ServiceProvider::class,
+        \EasyWeChat\OpenPlatform\Server\ServiceProvider::class,
 
         /*
          * MiniProgram Service Providers...
