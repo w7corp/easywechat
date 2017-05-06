@@ -24,9 +24,10 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform;
+namespace EasyWeChat\OpenPlatform\Core;
 
 use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
+use EasyWeChat\OpenPlatform\VerifyTicket;
 
 class AccessToken extends BaseAccessToken
 {

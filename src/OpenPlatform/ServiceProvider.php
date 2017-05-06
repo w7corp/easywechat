@@ -31,6 +31,8 @@ use EasyWeChat\Foundation\Application;
 use EasyWeChat\OfficialAccount\Encryption\Encryptor;
 use EasyWeChat\OpenPlatform\Api\BaseApi;
 use EasyWeChat\OpenPlatform\Api\PreAuthorization;
+use EasyWeChat\OpenPlatform\Core\AccessToken;
+use EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken;
 use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

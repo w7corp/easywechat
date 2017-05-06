@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
+use EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 

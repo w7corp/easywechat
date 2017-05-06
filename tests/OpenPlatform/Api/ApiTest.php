@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\OpenPlatform\AccessToken;
+use EasyWeChat\OpenPlatform\Core\AccessToken;
 use EasyWeChat\OpenPlatform\Api\AbstractOpenPlatform;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
