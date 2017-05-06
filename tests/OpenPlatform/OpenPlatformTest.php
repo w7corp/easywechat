@@ -14,7 +14,7 @@ namespace EasyWeChat\Tests\OpenPlatform;
 use Doctrine\Common\Cache\ArrayCache;
 use EasyWeChat\Foundation\Application;
 use EasyWeChat\OpenPlatform\Core\AccessToken;
-use EasyWeChat\OpenPlatform\VerifyTicket;
+use EasyWeChat\OpenPlatform\Core\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
 
@@ -27,7 +27,7 @@ class OpenPlatformTest extends TestCase
         $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $openPlatform->api);
         $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_auth);
         $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_authorization);
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Guard', $openPlatform->server);
+        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Server\Guard', $openPlatform->server);
     }
 
     public function testMakeAuthorizer()

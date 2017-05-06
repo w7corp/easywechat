@@ -56,7 +56,7 @@ class AccessTokenAtrributesTest extends TestCase
     {
         $instance = new \EasyWeChat\OpenPlatform\Core\AccessToken(...$args);
 
-        $verifyTicket = new \EasyWeChat\OpenPlatform\VerifyTicket('appid', new \Doctrine\Common\Cache\ArrayCache());
+        $verifyTicket = new \EasyWeChat\OpenPlatform\Core\VerifyTicket('appid', new \Doctrine\Common\Cache\ArrayCache());
         $verifyTicket->setTicket('ticket@foobar');
 
         return $instance->setHttp($this->getMockHttp('component_access_token'))->setCache($this->getMockCache())->setVerifyTicket($verifyTicket);

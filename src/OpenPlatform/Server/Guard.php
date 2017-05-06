@@ -25,7 +25,7 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform;
+namespace EasyWeChat\OpenPlatform\Server;
 
 use EasyWeChat\OfficialAccount\Server\Guard as ServerGuard;
 use EasyWeChat\Support\Collection;

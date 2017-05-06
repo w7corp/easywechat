@@ -25,10 +25,10 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform;
+namespace EasyWeChat\OpenPlatform\Core;
 
 use Doctrine\Common\Cache\Cache;
-use EasyWeChat\Core\Exceptions\RuntimeException;
+use EasyWeChat\Exceptions\RuntimeException;
 
 class VerifyTicket
 {

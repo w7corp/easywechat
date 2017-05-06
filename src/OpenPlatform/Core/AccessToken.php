@@ -27,14 +27,13 @@
 namespace EasyWeChat\OpenPlatform\Core;
 
 use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
-use EasyWeChat\OpenPlatform\VerifyTicket;
 
 class AccessToken extends BaseAccessToken
 {
     /**
      * VerifyTicket.
      *
-     * @var \EasyWeChat\OpenPlatform\VerifyTicket
+     * @var \EasyWeChat\OpenPlatform\Core\VerifyTicket
      */
     protected $verifyTicket;
 
@@ -61,7 +60,7 @@ class AccessToken extends BaseAccessToken
     /**
      * Set VerifyTicket.
      *
-     * @param EasyWeChat\OpenPlatform\VerifyTicket $verifyTicket
+     * @param EasyWeChat\OpenPlatform\Core\VerifyTicket $verifyTicket
      *
      * @return $this
      */
