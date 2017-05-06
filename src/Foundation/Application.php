@@ -29,7 +29,6 @@ namespace EasyWeChat\Foundation;
 use Doctrine\Common\Cache\Cache as CacheInterface;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Core\AccessToken;
 use EasyWeChat\Support\Log;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
@@ -81,6 +80,7 @@ class Application extends Container
         /*
          * OfficialAccount Service Providers...
          */
+        \EasyWeChat\OfficialAccount\Core\ServiceProvider::class,
         \EasyWeChat\OfficialAccount\Server\ServiceProvider::class,
         \EasyWeChat\OfficialAccount\User\ServiceProvider::class,
         \EasyWeChat\OfficialAccount\Js\ServiceProvider::class,
@@ -251,17 +251,6 @@ class Application extends Container
                 return new FilesystemCache(sys_get_temp_dir());
             };
         }
-
-        $this['access_token'] = function () {
-            $accessToken = new AccessToken(
-                $this['config']['app_id'],
-                $this['config']['secret']
-            );
-
-            $accessToken->setCache($this['cache']);
-
-            return $accessToken;
-        };
     }
 
     /**
