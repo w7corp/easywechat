@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
+use EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
@@ -52,6 +52,6 @@ class AuthorizerAccessTokenTest extends TestCase
                  $mock->shouldReceive('getAuthorizerToken')->andReturn(new Collection(['authorizer_access_token' => $newToken, 'expires_in' => 7200]));
              }));
 
-        return new AuthorizerAccessToken($appId, $mock);
+        return (new AuthorizerAccessToken($appId))->setAuthorizer($mock);
     }
 }

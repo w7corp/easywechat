@@ -27,5 +27,4 @@ use EasyWeChat\Material\Temporary as MaterialTemporary;
  */
 class Temporary extends MaterialTemporary
 {
-    //
 }

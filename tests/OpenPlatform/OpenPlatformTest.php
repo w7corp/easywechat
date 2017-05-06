@@ -13,8 +13,8 @@ namespace EasyWeChat\Tests\OpenPlatform;
 
 use Doctrine\Common\Cache\ArrayCache;
 use EasyWeChat\Foundation\Application;
-use EasyWeChat\OpenPlatform\AccessToken;
-use EasyWeChat\OpenPlatform\VerifyTicket;
+use EasyWeChat\OpenPlatform\Core\AccessToken;
+use EasyWeChat\OpenPlatform\Core\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
 
@@ -27,7 +27,7 @@ class OpenPlatformTest extends TestCase
         $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $openPlatform->api);
         $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_auth);
         $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_authorization);
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Guard', $openPlatform->server);
+        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Server\Guard', $openPlatform->server);
     }
 
     public function testMakeAuthorizer()
@@ -43,16 +43,16 @@ class OpenPlatformTest extends TestCase
         });
         $accessToken = new AccessToken(
             'open-platform-appid@999',
-            'open-platform-secret',
-            $cache
+            'open-platform-secret'
         );
+        $accessToken->setCache($cache);
         $accessToken->setVerifyTicket($verifyTicket);
 
         $app = $this->make();
         $app['open_platform.access_token'] = $accessToken;
         $newApp = $app->open_platform->createAuthorizerApplication('authorizer-appid@999', 'authorizer-refresh-token');
 
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\AuthorizerAccessToken', $newApp->access_token);
+        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken', $newApp->access_token);
         $this->assertEquals('authorizer-appid@999', $newApp->access_token->getAppId());
     }
 

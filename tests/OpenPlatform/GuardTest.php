@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\Foundation\Application;
-use EasyWeChat\OpenPlatform\Guard;
+use EasyWeChat\OpenPlatform\Server\Guard;
 use EasyWeChat\Tests\TestCase;
 
 class GuardTest extends TestCase

@@ -27,21 +27,21 @@
 
 namespace EasyWeChat\OpenPlatform\EventHandlers;
 
-use EasyWeChat\OpenPlatform\VerifyTicket;
+use EasyWeChat\OpenPlatform\Core\VerifyTicket;
 
 class ComponentVerifyTicket extends EventHandler
 {
     /**
      * VerifyTicket.
      *
-     * @var \EasyWeChat\OpenPlatform\VerifyTicket
+     * @var \EasyWeChat\OpenPlatform\Core\VerifyTicket
      */
     protected $verifyTicket;
 
     /**
      * Constructor.
      *
-     * @param \EasyWeChat\OpenPlatform\VerifyTicket $verifyTicket
+     * @param \EasyWeChat\OpenPlatform\Core\VerifyTicket $verifyTicket
      */
     public function __construct(VerifyTicket $verifyTicket)
     {

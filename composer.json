@@ -15,27 +15,27 @@
         }
     ],
     "require": {
-        "php":">=5.5.0",
+        "php":">=7.1",
         "ext-openssl": "*",
         "pimple/pimple": "~3.0",
-        "monolog/monolog": "^1.17",
+        "monolog/monolog": "^1.22",
         "overtrue/socialite": ">=1.0.24",
-        "doctrine/cache": "~1.4",
+        "doctrine/cache": "~1.6",
         "guzzlehttp/guzzle": "~6.2.1",
         "symfony/http-foundation": "~2.6|~2.7|~2.8|~3.0",
         "symfony/psr-http-message-bridge": "~0.3|^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~6.0",
         "overtrue/phplint": "dev-master",
-        "mockery/mockery": "^0.9.9"
+        "mockery/mockery": "^1.0@dev"
     },
     "autoload": {
         "psr-4": {
             "EasyWeChat\\": "src/"
         },
         "files": [
-            "src/Payment/helpers.php"
+            "src/OfficialAccount/Payment/helpers.php"
         ]
     },
     "autoload-dev": {

@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\OpenPlatform\VerifyTicket;
+use EasyWeChat\OpenPlatform\Core\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 
 class VerifyTicketTest extends TestCase

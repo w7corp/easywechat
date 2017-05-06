@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\Support\Traits;
+namespace EasyWeChat\Tests\OfficialAccount\Support\Traits;
 
 use EasyWeChat\Tests\TestCase;
 use Pimple\Container;
