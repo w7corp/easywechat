@@ -78,6 +78,9 @@ class Application extends Container
      * @var array
      */
     protected $providers = [
+        /*
+         * OfficialAccount Service Providers...
+         */
         \EasyWeChat\OfficialAccount\Server\ServiceProvider::class,
         \EasyWeChat\OfficialAccount\User\ServiceProvider::class,
         \EasyWeChat\OfficialAccount\Js\ServiceProvider::class,
@@ -97,8 +100,23 @@ class Application extends Container
         \EasyWeChat\OfficialAccount\Card\ServiceProvider::class,
         \EasyWeChat\OfficialAccount\Device\ServiceProvider::class,
         \EasyWeChat\OfficialAccount\ShakeAround\ServiceProvider::class,
+
+        /*
+         * OpenPlatform Service Providers...
+         */
         \EasyWeChat\OpenPlatform\ServiceProvider::class,
+
+        /*
+         * MiniProgram Service Providers...
+         */
         \EasyWeChat\MiniProgram\ServiceProvider::class,
+        \EasyWeChat\MiniProgram\Sns\ServiceProvider::class,
+        \EasyWeChat\MiniProgram\Stats\ServiceProvider::class,
+        \EasyWeChat\MiniProgram\QRCode\ServiceProvider::class,
+        \EasyWeChat\MiniProgram\Server\ServiceProvider::class,
+        \EasyWeChat\MiniProgram\Material\ServiceProvider::class,
+        \EasyWeChat\MiniProgram\CustomerService\ServiceProvider::class,
+        \EasyWeChat\MiniProgram\TemplateMessage\ServiceProvider::class,
     ];
 
     /**
