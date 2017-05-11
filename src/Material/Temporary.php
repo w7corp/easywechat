@@ -90,7 +90,7 @@ class Temporary extends AbstractAPI
      * @param string $type
      * @param string $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
@@ -112,7 +112,7 @@ class Temporary extends AbstractAPI
      *
      * @param $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
@@ -126,7 +126,7 @@ class Temporary extends AbstractAPI
      *
      * @param $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
@@ -140,7 +140,7 @@ class Temporary extends AbstractAPI
      *
      * @param $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
@@ -154,7 +154,7 @@ class Temporary extends AbstractAPI
      *
      * @param $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
