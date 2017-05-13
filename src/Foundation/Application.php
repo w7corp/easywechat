@@ -99,6 +99,7 @@ class Application extends Container
         ServiceProviders\ShakeAroundServiceProvider::class,
         ServiceProviders\OpenPlatformServiceProvider::class,
         ServiceProviders\MiniProgramServiceProvider::class,
+        ServiceProviders\ClearQuotaServiceProvider::class,
     ];
 
     /**
