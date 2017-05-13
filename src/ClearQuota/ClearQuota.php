@@ -27,14 +27,12 @@ class ClearQuota extends AbstractAPI
 {
     const API_CLEAR = 'https://api.weixin.qq.com/cgi-bin/clear_quota';
 
-    public function clear($appId = '')
+    public function clear()
     {
         // appId defaults to the current appId
-        if (!$appId) {
-            $appId = $this->getAccessToken()->getAppId();
-        }
-
-        $options['appid'] = $appId;
+        $options = [
+            'appid' => $this->getAccessToken()->getAppId()
+        ];
 
         return $this->parseJSON('json', [self::API_CLEAR, $options]);
     }

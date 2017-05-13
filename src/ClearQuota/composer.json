@@ -1,11 +1,11 @@
 {
-    "name": "easywechat/cleared",
-    "description": "cleared module for EasyWeChat SDK.",
+    "name": "easywechat/ClearQuota",
+    "description": "ClearQuota module for EasyWeChat SDK.",
     "keywords": [
         "wechat",
         "weixin",
         "SDK",
-        "cleared",
+        "ClearQuota",
         "easywechat"
     ],
     "license": "MIT",
@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "EasyWeChat\\Broadcast\\": "."
+            "EasyWeChat\\ClearQuota\\": "."
         }
     },
     "minimum-stability": "dev",
