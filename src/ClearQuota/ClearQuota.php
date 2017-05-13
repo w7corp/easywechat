@@ -30,7 +30,7 @@ class ClearQuota extends AbstractAPI
     public function clear($appId = '')
     {
         // appId defaults to the current appId
-        if(!$appId) {
+        if (!$appId) {
             $appId = $this->getAccessToken()->getAppId();
         }
 
