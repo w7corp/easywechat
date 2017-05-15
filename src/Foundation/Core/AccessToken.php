@@ -35,14 +35,14 @@ abstract class AccessToken
      *
      * @var string
      */
-    private $clientId;
+    protected $clientId;
 
     /**
      * Client Secret (AppSecret, CorpSecret).
      *
      * @var string
      */
-    private $clientSecret;
+    protected $clientSecret;
 
     /**
      * Query name.
