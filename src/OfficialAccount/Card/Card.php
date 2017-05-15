@@ -869,7 +869,7 @@ class Card extends AbstractAPI
     public function getTicketCacheKey()
     {
         if (is_null($this->ticketCacheKey)) {
-            return $this->ticketCachePrefix.$this->getAccessToken()->getAppId();
+            return $this->ticketCachePrefix.$this->getAccessToken()->getClientId();
         }
 
         return $this->ticketCacheKey;

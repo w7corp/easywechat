@@ -77,8 +77,8 @@ class AccessToken extends BaseAccessToken
     public function requestFields(): array
     {
         return [
-            'component_appid' => $this->clientId,
-            'component_appsecret' => $this->clientSecret,
+            'component_appid' => $this->getClientId(),
+            'component_appsecret' => $this->getClientSecret(),
             'component_verify_ticket' => $this->verifyTicket->getTicket(),
         ];
     }

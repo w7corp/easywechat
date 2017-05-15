@@ -44,7 +44,7 @@ class Semantic extends AbstractAPI
         $params = [
                    'query' => $keyword,
                    'category' => implode(',', (array) $categories),
-                   'appid' => $this->getAccessToken()->getAppId(),
+                   'appid' => $this->getAccessToken()->getClientId(),
                   ];
 
         return $this->parseJSON('json', [self::API_SEARCH, array_merge($params, $other)]);

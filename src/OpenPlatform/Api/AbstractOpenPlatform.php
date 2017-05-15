@@ -58,8 +58,8 @@ abstract class AbstractOpenPlatform extends AbstractAPI
      *
      * @return string
      */
-    public function getAppId()
+    public function getClientId()
     {
-        return $this->getAccessToken()->getAppId();
+        return $this->getAccessToken()->getClientId();
     }
 }
