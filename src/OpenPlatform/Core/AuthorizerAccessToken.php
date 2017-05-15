@@ -48,7 +48,7 @@ class AuthorizerAccessToken extends BaseAccessToken
     protected $tokenJsonKey = 'authorizer_access_token';
 
     /**
-     * Api instance
+     * Api instance.
      *
      * @var \EasyWeChat\OpenPlatform\Api\BaseApi
      */
