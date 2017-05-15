@@ -18,6 +18,7 @@
  * file that was distributed with this source code.
  *
  * @author    lixiao <leonlx126@gmail.com>
+ * @author    mingyoung <mingyoungcheung@gmail.com>
  * @copyright 2016
  *
  * @see      https://github.com/overtrue
@@ -26,8 +27,9 @@
 
 namespace EasyWeChat\OpenPlatform\Core;
 
+use EasyWeChat\Exceptions\Exception;
 use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
-use EasyWeChat\OpenPlatform\Authorizer;
+use EasyWeChat\OpenPlatform\Api\BaseApi;
 
 /**
  * Class AuthorizerAccessToken.
@@ -46,18 +48,69 @@ class AuthorizerAccessToken extends BaseAccessToken
     protected $tokenJsonKey = 'authorizer_access_token';
 
     /**
+     * Api instance
+     *
+     * @var \EasyWeChat\OpenPlatform\Api\BaseApi
+     */
+    protected $api;
+
+    /**
      * @var \EasyWeChat\OpenPlatform\Authorizer
      */
     protected $authorizer;
 
     /**
-     * Set authorizer.
+     * Authorizer AppId.
      *
-     * @param \EasyWeChat\OpenPlatform\Authorizer $authorizer
+     * @var string
      */
-    public function setAuthorizer(Authorizer $authorizer)
+    protected $appId;
+
+    /**
+     * Authorizer Refresh Token.
+     *
+     * @var string
+     */
+    protected $refreshToken;
+
+    /**
+     * Set the api instance.
+     *
+     * @param \EasyWeChat\OpenPlatform\Api\BaseApi $api
+     *
+     * @return $this
+     */
+    public function setApi(BaseApi $api)
     {
-        $this->authorizer = $authorizer;
+        $this->api = $api;
+
+        return $this;
+    }
+
+    /**
+     * Set the authorizer app id.
+     *
+     * @param string $appId
+     *
+     * @return $this
+     */
+    public function setAppId(string $appId)
+    {
+        $this->appId = $appId;
+
+        return $this;
+    }
+
+    /**
+     * Set the authorizer refresh token.
+     *
+     * @param string $refreshToken
+     *
+     * @return $this
+     */
+    public function setRefreshToken(string $refreshToken)
+    {
+        $this->refreshToken = $refreshToken;
 
         return $this;
     }
@@ -65,39 +118,34 @@ class AuthorizerAccessToken extends BaseAccessToken
     /**
      * {@inheritdoc}.
      */
-    public function getToken(bool $forceRefresh = false): string
+    public function getTokenFromServer()
     {
-        $cached = $this->authorizer->getAccessToken();
+        return $this->api->getAuthorizerToken(
+            $this->appId, $this->refreshToken
+        );
+    }
 
-        if ($forceRefresh || empty($cached)) {
-            $result = $this->getTokenFromServer();
-            $this->authorizer->setAccessToken($result[$this->tokenJsonKey], $result['expires_in'] - 1500);
-
-            return $result[$this->tokenJsonKey];
+    /**
+     * Return the authorizer appId.
+     *
+     * @throws \EasyWeChat\Exceptions\Exception
+     *
+     * @return string
+     */
+    public function getAppId(): string
+    {
+        if (!$this->appId) {
+            throw new Exception('Authorizer App Id is not present, you may not make the authorizer yet.');
         }
 
-        return $cached;
+        return $this->appId;
     }
 
     /**
      * {@inheritdoc}.
      */
-    public function getTokenFromServer()
+    public function getCacheKey(): string
     {
-        return $this->authorizer->getApi()
-            ->getAuthorizerToken(
-                $this->authorizer->getAppId(),
-                $this->authorizer->getRefreshToken()
-            );
-    }
-
-    /**
-     * Return the AuthorizerAppId.
-     *
-     * @return string
-     */
-    public function getAppId()
-    {
-        return $this->authorizer->getAppId();
+        return 'easywechat.open_platform.authorizer_access_token.'.$this->getClientId().$this->appId;
     }
 }

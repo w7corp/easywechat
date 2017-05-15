@@ -172,9 +172,9 @@ abstract class AccessToken
 
         if ($forceRefresh || empty($cached)) {
             $result = $this->getTokenFromServer();
-            $this->setToken($result[$this->tokenJsonKey], $result['expires_in']);
+            $this->setToken($token = $result[$this->tokenJsonKey], $result['expires_in']);
 
-            return $result[$this->tokenJsonKey];
+            return $token;
         }
 
         return $cached;

@@ -14,12 +14,21 @@ namespace EasyWeChat\Tests\OpenPlatform;
 use EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
+use Mockery as m;
 
 class AuthorizerAccessTokenTest extends TestCase
 {
+    public function testGetAppidAndOpenplatformAppid()
+    {
+        $instance = $this->make('appid@123');
+
+        $this->assertEquals('appid@123', $instance->getAppId());
+        $this->assertEquals('open-platform-appid', $instance->getClientId());
+    }
+
     public function testGetToken()
     {
-        $auth = $this->make('appid@123', 'token@123', null);
+        $auth = $this->make('appid@123', 'token@123');
 
         $this->assertEquals('token@123', $auth->getToken());
     }
@@ -38,20 +47,32 @@ class AuthorizerAccessTokenTest extends TestCase
         $this->assertEquals('token@456', $auth->getToken(true));
     }
 
-    private function make($appId, $cachedToken, $newToken)
+    public function testGetCacheKey()
     {
-        /** @var \EasyWeChat\OpenPlatform\Authorizer|\Mockery\MockInterface $mock */
-        $mock = \Mockery::mock('EasyWeChat\OpenPlatform\Authorizer');
-        $mock->shouldReceive('getAppId')->andReturn($appId);
-        $mock->shouldReceive('getRefreshToken')->andReturn($newToken);
-        $mock->shouldReceive('setAccessToken')->andReturn(true);
-        $mock->shouldReceive('getAccessToken')
-             ->andReturn($cachedToken);
-        $mock->shouldReceive('getApi')
-             ->andReturn(\Mockery::mock('EasyWeChat\OpenPlatform\Api\BaseApi', function ($mock) use ($newToken) {
-                 $mock->shouldReceive('getAuthorizerToken')->andReturn(new Collection(['authorizer_access_token' => $newToken, 'expires_in' => 7200]));
-             }));
+        $instance = $this->make('appid@123', 'token@123', 'token@456');
 
-        return (new AuthorizerAccessToken($appId))->setAuthorizer($mock);
+        $this->assertEquals('easywechat.open_platform.authorizer_access_token.open-platform-appidappid@123', $instance->getCacheKey());
+    }
+
+    private function make($appId, $cachedToken = null, $newToken = null)
+    {
+        $cache = m::mock('Doctrine\Common\Cache\Cache', function ($mock) use ($cachedToken) {
+            $mock->shouldReceive('fetch')->andReturn($cachedToken);
+            $mock->shouldReceive('save')->andReturnUsing(function ($key, $token, $expire) {
+                return $token;
+            });
+        });
+
+        $baseApi = m::mock('EasyWeChat\OpenPlatform\Api\BaseApi', function ($mock) use ($newToken) {
+            $mock->shouldReceive('getAuthorizerToken')->andReturn(
+                new Collection(['authorizer_access_token' => $newToken, 'expires_in' => 7200])
+            );
+        });
+
+        return (new AuthorizerAccessToken('open-platform-appid'))
+            ->setApi($baseApi)
+            ->setCache($cache)
+            ->setAppId($appId)
+            ->setRefreshToken('authorizer-refresh-token');
     }
 }

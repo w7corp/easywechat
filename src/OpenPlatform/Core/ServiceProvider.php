@@ -58,7 +58,7 @@ class ServiceProvider implements ServiceProviderInterface
             $accessToken = new AuthorizerAccessToken(
                 $container['config']['open_platform']['app_id']
             );
-            $accessToken->setAuthorizer($container['open_platform.authorizer']);
+            $accessToken->setApi($container['open_platform.api'])->setCache($container['cache']);
 
             return $accessToken;
         };
