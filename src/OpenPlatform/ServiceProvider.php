@@ -93,7 +93,7 @@ class ServiceProvider implements ServiceProviderInterface
                 'wechat_open' => [
                     'client_id' => $pimple['open_platform.authorizer_access_token']->getAppId(),
                     'client_secret' => [
-                        $pimple['open_platform.access_token']->getAppId(),
+                        $pimple['open_platform.access_token']->getClientId(),
                         $pimple['open_platform.access_token']->getToken(),
                     ],
                     'redirect' => $callback,

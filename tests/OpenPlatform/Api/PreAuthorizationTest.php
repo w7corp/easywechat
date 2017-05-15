@@ -13,9 +13,9 @@ namespace EasyWeChat\Tests\OpenPlatform\Api;
 
 class PreAuthorizationTest extends ApiTest
 {
-    public function testGetAppId()
+    public function testGetClientId()
     {
-        $this->assertEquals('appid@foobar', $this->mockPreAuthorization('appid@foobar')->getAppId());
+        $this->assertEquals('appid@foobar', $this->mockPreAuthorization('appid@foobar')->getClientId());
     }
 
     public function testGetCode()

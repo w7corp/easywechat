@@ -96,7 +96,7 @@ abstract class AccessToken
      *
      * @return string
      */
-    public function getClientId(): string
+    final public function getClientId(): string
     {
         return $this->clientId;
     }
@@ -120,7 +120,7 @@ abstract class AccessToken
      *
      * @return string|null
      */
-    public function getClientSecret()
+    final public function getClientSecret()
     {
         return $this->clientSecret;
     }
@@ -137,26 +137,6 @@ abstract class AccessToken
         $this->clientSecret = $clientSecret;
 
         return $this;
-    }
-
-    /**
-     * Return the app id.
-     *
-     * @return string
-     */
-    public function getAppId()
-    {
-        return $this->getClientId();
-    }
-
-    /**
-     * Return the secret.
-     *
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->getClientSecret();
     }
 
     /**

@@ -64,7 +64,7 @@ class BaseApi extends AbstractOpenPlatform
     public function getAuthorizationInfo($authCode = null)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
+            'component_appid' => $this->getClientId(),
             'authorization_code' => $authCode ?: $this->request->get('auth_code'),
         ];
 
@@ -86,7 +86,7 @@ class BaseApi extends AbstractOpenPlatform
     public function getAuthorizerToken($appId, $refreshToken)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
+            'component_appid' => $this->getClientId(),
             'authorizer_appid' => $appId,
             'authorizer_refresh_token' => $refreshToken,
         ];
@@ -104,7 +104,7 @@ class BaseApi extends AbstractOpenPlatform
     public function getAuthorizerInfo($authorizerAppId)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
+            'component_appid' => $this->getClientId(),
             'authorizer_appid' => $authorizerAppId,
         ];
 
@@ -122,7 +122,7 @@ class BaseApi extends AbstractOpenPlatform
     public function getAuthorizerOption($authorizerAppId, $optionName)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
+            'component_appid' => $this->getClientId(),
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
         ];
@@ -142,7 +142,7 @@ class BaseApi extends AbstractOpenPlatform
     public function setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
+            'component_appid' => $this->getClientId(),
             'authorizer_appid' => $authorizerAppId,
             'option_name' => $optionName,
             'option_value' => $optionValue,

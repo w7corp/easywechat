@@ -52,7 +52,7 @@ class PreAuthorization extends AbstractOpenPlatform
     public function getCode()
     {
         $data = [
-            'component_appid' => $this->getAppId(),
+            'component_appid' => $this->getClientId(),
         ];
 
         $result = $this->parseJSON('json', [self::CREATE_PRE_AUTH_CODE, $data]);
@@ -74,7 +74,7 @@ class PreAuthorization extends AbstractOpenPlatform
     public function redirect($url)
     {
         return new RedirectResponse(
-            sprintf(self::PRE_AUTH_LINK, $this->getAppId(), $this->getCode(), urlencode($url))
+            sprintf(self::PRE_AUTH_LINK, $this->getClientId(), $this->getCode(), urlencode($url))
         );
     }
 }

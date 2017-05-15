@@ -102,7 +102,7 @@ class Js extends AbstractAPI
      */
     public function ticket($forceRefresh = false)
     {
-        $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
+        $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getClientId();
         $ticket = $this->getCache()->fetch($key);
 
         if (!$forceRefresh && !empty($ticket)) {
@@ -133,7 +133,7 @@ class Js extends AbstractAPI
         $ticket = $this->ticket();
 
         $sign = [
-                 'appId' => $this->getAccessToken()->getAppId(),
+                 'appId' => $this->getAccessToken()->getClientId(),
                  'nonceStr' => $nonce,
                  'timestamp' => $timestamp,
                  'url' => $url,

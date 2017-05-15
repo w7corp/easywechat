@@ -102,8 +102,8 @@ class CoreAccessTokenTest extends TestCase
     {
         $accessToken = new AccessToken('appId', 'secret');
 
-        $this->assertEquals('secret', $accessToken->getSecret());
-        $this->assertEquals('appId', $accessToken->getAppId());
+        $this->assertEquals('secret', $accessToken->getClientSecret());
+        $this->assertEquals('appId', $accessToken->getClientId());
 
         $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
 
@@ -131,8 +131,8 @@ class CoreAccessTokenTest extends TestCase
     {
         $accessToken = new AccessToken('appId', 'secret');
 
-        $this->assertEquals('secret', $accessToken->getSecret());
-        $this->assertEquals('appId', $accessToken->getAppId());
+        $this->assertEquals('secret', $accessToken->getClientSecret());
+        $this->assertEquals('appId', $accessToken->getClientId());
 
         $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
 

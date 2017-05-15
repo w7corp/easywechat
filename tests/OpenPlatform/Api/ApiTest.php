@@ -70,11 +70,11 @@ class ApiTest extends TestCase
         return $preAuth;
     }
 
-    public function testGetAppId()
+    public function testGetClientId()
     {
         $api = new OpenPlatformApi($this->getAccessToken('app_id'), $this->getRequest());
 
-        $this->assertEquals('app_id', $api->getAppId());
+        $this->assertEquals('app_id', $api->getClientId());
     }
 }
 
