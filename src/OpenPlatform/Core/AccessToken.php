@@ -71,7 +71,10 @@ class AccessToken extends BaseAccessToken
         return $this;
     }
 
-    public function requestFields()
+    /**
+     * {@inheritdoc}.
+     */
+    public function requestFields(): array
     {
         return [
             'component_appid' => $this->clientId,

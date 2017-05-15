@@ -96,7 +96,7 @@ abstract class AccessToken
      *
      * @return string
      */
-    public function getClientId()
+    public function getClientId(): string
     {
         return $this->clientId;
     }
@@ -166,7 +166,7 @@ abstract class AccessToken
      *
      * @return string
      */
-    public function getToken(bool $forceRefresh = false)
+    public function getToken(bool $forceRefresh = false): string
     {
         $cached = $this->getCache()->fetch($this->getCacheKey());
 
@@ -201,7 +201,7 @@ abstract class AccessToken
      *
      * @return array
      */
-    public function requestFields()
+    public function requestFields(): array
     {
         return [
             'appid' => $this->clientId,
@@ -249,7 +249,7 @@ abstract class AccessToken
      *
      * @return string
      */
-    public function getQueryName()
+    public function getQueryName(): string
     {
         return $this->queryName;
     }
@@ -259,7 +259,7 @@ abstract class AccessToken
      *
      * @return array
      */
-    public function getQueryFields()
+    public function getQueryFields(): array
     {
         return [$this->queryName => $this->getToken()];
     }
@@ -345,7 +345,7 @@ abstract class AccessToken
      *
      * @return string
      */
-    public function getCacheKey()
+    public function getCacheKey(): string
     {
         if (is_null($this->cacheKey)) {
             return $this->prefix.$this->clientId;
