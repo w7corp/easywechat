@@ -62,7 +62,7 @@ class Menu extends AbstractAPI
      * @param array $buttons
      * @param array $matchRule
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function add(array $buttons, array $matchRule = [])
     {
@@ -81,7 +81,7 @@ class Menu extends AbstractAPI
      *
      * @param int $menuId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function destroy($menuId = null)
     {
@@ -97,7 +97,7 @@ class Menu extends AbstractAPI
      *
      * @param string $userId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function test($userId)
     {

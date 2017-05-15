@@ -44,7 +44,7 @@ class User extends AbstractAPI
      * @param string $openId
      * @param string $lang
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function get($openId, $lang = 'zh_CN')
     {
@@ -98,7 +98,7 @@ class User extends AbstractAPI
      * @param string $openId
      * @param string $remark
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function remark($openId, $remark)
     {
@@ -115,7 +115,7 @@ class User extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return int
+     * @return \EasyWeChat\Support\Collection
      */
     public function group($openId)
     {
@@ -127,7 +127,7 @@ class User extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function getGroup($openId)
     {

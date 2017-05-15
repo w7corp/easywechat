@@ -35,7 +35,7 @@ class Url extends AbstractAPI
      *
      * @param string $url
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function shorten($url)
     {

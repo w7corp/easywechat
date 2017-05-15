@@ -75,7 +75,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function userSummary($from, $to)
     {
@@ -88,7 +88,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function userCumulate($from, $to)
     {
@@ -101,7 +101,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function articleSummary($from, $to)
     {
@@ -114,7 +114,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function articleTotal($from, $to)
     {
@@ -127,7 +127,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function userReadSummary($from, $to)
     {
@@ -140,7 +140,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function userReadHourly($from, $to)
     {
@@ -153,7 +153,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function userShareSummary($from, $to)
     {
@@ -166,7 +166,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function userShareHourly($from, $to)
     {
@@ -179,7 +179,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function upstreamMessageSummary($from, $to)
     {
@@ -192,7 +192,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function upstreamMessageHourly($from, $to)
     {
@@ -205,7 +205,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function upstreamMessageWeekly($from, $to)
     {
@@ -218,7 +218,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function upstreamMessageMonthly($from, $to)
     {
@@ -231,7 +231,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function upstreamMessageDistSummary($from, $to)
     {
@@ -244,7 +244,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function upstreamMessageDistWeekly($from, $to)
     {
@@ -257,7 +257,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function upstreamMessageDistMonthly($from, $to)
     {
@@ -270,7 +270,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function interfaceSummary($from, $to)
     {
@@ -283,7 +283,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function interfaceSummaryHourly($from, $to)
     {
@@ -297,7 +297,7 @@ class Stats extends AbstractAPI
      * @param string $to
      * @param int    $condSource
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function cardSummary($from, $to, $condSource = 0)
     {
@@ -316,7 +316,7 @@ class Stats extends AbstractAPI
      * @param int    $condSource
      * @param string $cardId
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function freeCardSummary($from, $to, $condSource = 0, $cardId = '')
     {
@@ -335,7 +335,7 @@ class Stats extends AbstractAPI
      * @param string $to
      * @param int    $condSource
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function memberCardSummary($from, $to, $condSource = 0)
     {
@@ -353,7 +353,7 @@ class Stats extends AbstractAPI
      * @param string $from
      * @param string $to
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     protected function query($api, $from, $to, array $ext = [])
     {

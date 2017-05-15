@@ -339,7 +339,7 @@ class Broadcast extends AbstractAPI
      *
      * @param string $msgId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function delete($msgId)
     {
@@ -355,7 +355,7 @@ class Broadcast extends AbstractAPI
      *
      * @param string $msgId
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function status($msgId)
     {
@@ -372,7 +372,7 @@ class Broadcast extends AbstractAPI
      * @param string       $url
      * @param array|string $options
      *
-     * @return array|bool
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws HttpException
      */
