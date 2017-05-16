@@ -45,6 +45,7 @@ class FundamentalAPITest extends TestCase
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];
             }
+
             return ['api' => $params[0]];
         });
 
