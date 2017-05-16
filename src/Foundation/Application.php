@@ -272,8 +272,8 @@ class Application extends Container
     /**
      * Magic call.
      *
-     * @param  string $method
-     * @param  array $args
+     * @param string $method
+     * @param array  $args
      *
      * @return mixed
      *
