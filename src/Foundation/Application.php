@@ -69,6 +69,9 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\ShakeAround\ShakeAround             $shakearound
  * @property \EasyWeChat\OpenPlatform\OpenPlatform           $open_platform
  * @property \EasyWeChat\MiniProgram\MiniProgram             $mini_program
+ *
+ * @method \EasyWeChat\Support\Collection clearQuota()
+ * @method \EasyWeChat\Support\Collection getCallbackIp()
  */
 class Application extends Container
 {
