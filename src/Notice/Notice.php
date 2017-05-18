@@ -81,21 +81,21 @@ class Notice extends AbstractAPI
 
         $this->messageBackup = $this->message;
     }
-    
+
     /**
-     * Set default color
+     * Set default color.
      *
      * @param string $color example: #0f0f0f
      *
-     * @return this
+     * @return $this
      */
     public function defaultColor($color)
     {
         $this->defaultColor = $color;
-        
+
         return $this;
     }
-    
+
     /**
      * Set industry.
      *
