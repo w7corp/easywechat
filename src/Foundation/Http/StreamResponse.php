@@ -15,11 +15,9 @@ class StreamResponse extends Response
 {
     public function save($dist)
     {
-
     }
 
     public function saveAs($dist, $filename)
     {
-
     }
 }
