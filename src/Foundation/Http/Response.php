@@ -23,7 +23,6 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function toJson()
     {
-
     }
 
     /**
@@ -33,7 +32,6 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function toArray()
     {
-
     }
 
     /**
@@ -43,7 +41,6 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function toCollection()
     {
-
     }
 
     /**
@@ -55,7 +52,6 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-
     }
 
     /**
@@ -67,19 +63,16 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-
     }
 
     /**
      * Set the value at the given offset.
      *
      * @param string $offset
-     *
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function offsetSet($offset, $value)
     {
-
     }
 
     /**
@@ -89,6 +82,5 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-
     }
 }
