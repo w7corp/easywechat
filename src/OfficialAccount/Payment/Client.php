@@ -208,8 +208,8 @@ class Client extends AbstractAPI
      *
      * @param string $orderNo
      * @param $refundNo
-     * @param float $totalFee
-     * @param float $refundFee
+     * @param float  $totalFee
+     * @param float  $refundFee
      * @param string $opUserId
      * @param string $type
      * @param string $refundAccount
@@ -243,8 +243,8 @@ class Client extends AbstractAPI
      *
      * @param string $orderNo
      * @param $refundNo
-     * @param float $totalFee
-     * @param float $refundFee
+     * @param float  $totalFee
+     * @param float  $refundFee
      * @param string $opUserId
      * @param string $refundAccount
      *

@@ -642,7 +642,7 @@ class Client extends AbstractAPI
     /**
      * 会员卡接口激活.
      *
-     * @param array $info
+     * @param array  $info
      * @param string $cardType
      *
      * @return \EasyWeChat\Support\Collection
