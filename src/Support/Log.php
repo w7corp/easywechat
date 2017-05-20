@@ -113,7 +113,7 @@ class Log
     {
         $log = new Logger('EasyWeChat');
 
-        if (defined('PHPUNIT_RUNNING')) {
+        if (defined('PHPUNIT_RUNNING') || php_sapi_name() === 'cli') {
             $log->pushHandler(new NullHandler());
         } else {
             $log->pushHandler(new ErrorLogHandler());

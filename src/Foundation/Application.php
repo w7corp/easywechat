@@ -279,4 +279,23 @@ class Application extends Container
 
         Log::setLogger($logger);
     }
+
+    /**
+     * Magic call.
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    public function __call($method, $args)
+    {
+        if (is_callable([$this['fundamental.api'], $method])) {
+            return call_user_func_array([$this['fundamental.api'], $method], $args);
+        }
+
+        throw new \Exception("Call to undefined method {$method}()");
+    }
 }

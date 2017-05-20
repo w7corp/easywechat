@@ -19,7 +19,7 @@
         "ext-openssl": "*",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.22",
-        "overtrue/socialite": ">=1.0.24",
+        "overtrue/socialite": ">=1.0.25",
         "doctrine/cache": "~1.6",
         "guzzlehttp/guzzle": "~6.2.1",
         "symfony/http-foundation": "~2.6|~2.7|~2.8|~3.0",

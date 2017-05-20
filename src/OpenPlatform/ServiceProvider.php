@@ -92,10 +92,7 @@ class ServiceProvider implements ServiceProviderInterface
             $socialite = (new Socialite([
                 'wechat_open' => [
                     'client_id' => $pimple['open_platform.authorizer_access_token']->getAppId(),
-                    'client_secret' => [
-                        $pimple['open_platform.access_token']->getClientId(),
-                        $pimple['open_platform.access_token']->getToken(),
-                    ],
+                    'client_secret' => $pimple['open_platform.access_token'],
                     'redirect' => $callback,
                 ],
             ]))->driver('wechat_open');
