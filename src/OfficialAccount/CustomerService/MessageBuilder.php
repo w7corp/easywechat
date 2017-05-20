@@ -121,7 +121,7 @@ class MessageBuilder
     /**
      * Send the message.
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws RuntimeException
      */

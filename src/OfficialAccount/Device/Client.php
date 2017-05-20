@@ -58,7 +58,9 @@ class Client extends AbstractAPI
     /**
      * Send message to device.
      *
-     * @param int $sceneValue
+     * @param $deviceId
+     * @param $openId
+     * @param $content
      *
      * @return \EasyWeChat\Support\Collection
      */

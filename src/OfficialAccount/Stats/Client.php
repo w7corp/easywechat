@@ -349,6 +349,7 @@ class Client extends AbstractAPI
      * @param string $api
      * @param string $from
      * @param string $to
+     * @param array  $ext
      *
      * @return \EasyWeChat\Support\Collection
      */

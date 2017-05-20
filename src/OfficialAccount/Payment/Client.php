@@ -207,8 +207,9 @@ class Client extends AbstractAPI
      * Make a refund request.
      *
      * @param string $orderNo
-     * @param float  $totalFee
-     * @param float  $refundFee
+     * @param $refundNo
+     * @param float $totalFee
+     * @param float $refundFee
      * @param string $opUserId
      * @param string $type
      * @param string $refundAccount
@@ -241,8 +242,9 @@ class Client extends AbstractAPI
      * Refund by transaction id.
      *
      * @param string $orderNo
-     * @param float  $totalFee
-     * @param float  $refundFee
+     * @param $refundNo
+     * @param float $totalFee
+     * @param float $refundFee
      * @param string $opUserId
      * @param string $refundAccount
      *
@@ -390,6 +392,8 @@ class Client extends AbstractAPI
     public function setMerchant(Merchant $merchant)
     {
         $this->merchant = $merchant;
+
+        return $this;
     }
 
     /**

@@ -77,7 +77,7 @@ class Client extends AbstractAPI
      *
      * @param array $data
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function create(array $data)
     {
@@ -94,7 +94,7 @@ class Client extends AbstractAPI
      * @param int   $poiId
      * @param array $data
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function update($poiId, array $data)
     {
@@ -112,7 +112,7 @@ class Client extends AbstractAPI
      *
      * @param int $poiId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function delete($poiId)
     {

@@ -34,7 +34,7 @@ class Client extends AbstractAPI
      * @param array|string $categories
      * @param array        $other
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function query($keyword, $categories, array $other = [])
     {

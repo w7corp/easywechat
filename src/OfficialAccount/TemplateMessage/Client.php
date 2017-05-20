@@ -193,7 +193,7 @@ class Client extends AbstractAPI
      * @param string $method
      * @param array  $args
      *
-     * @return \EasyWeChat\OfficialAccount\TemplateMessage\TemplateMessage
+     * @return $this
      */
     public function __call($method, $args)
     {

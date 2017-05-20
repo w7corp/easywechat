@@ -222,7 +222,7 @@ class Client extends AbstractAPI
      * @param int    $offset
      * @param int    $count
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function lists($type, $offset = 0, $count = 20)
     {
@@ -238,7 +238,7 @@ class Client extends AbstractAPI
     /**
      * Get stats of materials.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function stats()
     {

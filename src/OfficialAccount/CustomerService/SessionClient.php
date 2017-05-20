@@ -36,7 +36,7 @@ class SessionClient extends AbstractAPI
      *
      * @param string $account
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function lists($account)
     {
@@ -46,7 +46,7 @@ class SessionClient extends AbstractAPI
     /**
      * List all waiters of $account.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function waiters()
     {
@@ -57,9 +57,9 @@ class SessionClient extends AbstractAPI
      * Create a session.
      *
      * @param string $account
-     * @param string $openid
+     * @param string $openId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function create($account, $openId)
     {
@@ -77,7 +77,7 @@ class SessionClient extends AbstractAPI
      * @param string $account
      * @param string $openId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function close($account, $openId)
     {
@@ -94,7 +94,7 @@ class SessionClient extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function get($openId)
     {

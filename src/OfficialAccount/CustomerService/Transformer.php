@@ -57,6 +57,8 @@ class Transformer
     /**
      * Transform text message.
      *
+     * @param AbstractMessage $message
+     *
      * @return array
      */
     public function transformText(AbstractMessage $message)
@@ -72,6 +74,8 @@ class Transformer
     /**
      * Transform image message.
      *
+     * @param AbstractMessage $message
+     *
      * @return array
      */
     public function transformImage(AbstractMessage $message)
@@ -86,6 +90,8 @@ class Transformer
 
     /**
      * Transform music message.
+     *
+     * @param AbstractMessage $message
      *
      * @return array
      */
@@ -106,6 +112,8 @@ class Transformer
     /**
      * Transform video message.
      *
+     * @param AbstractMessage $message
+     *
      * @return array
      */
     public function transformVideo(AbstractMessage $message)
@@ -124,6 +132,8 @@ class Transformer
     /**
      * Transform voice message.
      *
+     * @param AbstractMessage $message
+     *
      * @return array
      */
     public function transformVoice(AbstractMessage $message)
@@ -138,6 +148,8 @@ class Transformer
 
     /**
      * Transform articles message.
+     *
+     * @param $news
      *
      * @return array
      */
@@ -163,6 +175,8 @@ class Transformer
 
     /**
      * Transform material message.
+     *
+     * @param AbstractMessage $message
      *
      * @return array
      */
