@@ -10,7 +10,7 @@
  */
 
 /**
- * Device.php.
+ * OfficialAccount Device Client.
  *
  * @author    soone <66812590@qq.com>
  * @copyright 2016 soone <66812590@qq.com>
@@ -21,10 +21,7 @@ namespace EasyWeChat\OfficialAccount\Device;
 use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\OfficialAccount\Core\AccessToken;
 
-/**
- * Class Device.
- */
-class Device extends AbstractAPI
+class Client extends AbstractAPI
 {
     protected $deviceType;
     protected $productId;
@@ -45,7 +42,7 @@ class Device extends AbstractAPI
 
     public function __construct(AccessToken $accessToken, $config)
     {
-        parent::setAccessToken($accessToken);
+        parent::__construct($accessToken);
         $this->config = $config;
         $this->deviceType = $this->config['device_type'];
         $this->productId = $this->config['product_id'];

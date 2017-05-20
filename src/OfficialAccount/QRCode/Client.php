@@ -10,7 +10,7 @@
  */
 
 /**
- * QRCode.php.
+ * OfficialAccount QRCode Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\QRCode;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class QRCode.
- */
-class QRCode extends AbstractAPI
+class Client extends AbstractAPI
 {
     const DAY = 86400;
     const SCENE_MAX_VALUE = 100000;

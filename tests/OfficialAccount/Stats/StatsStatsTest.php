@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Stats;
 
-use EasyWeChat\OfficialAccount\Stats\Stats;
+use EasyWeChat\OfficialAccount\Stats\Client as Stats;
 use EasyWeChat\Tests\TestCase;
 
 class StatsStatsTest extends TestCase
 {
     public function getStats()
     {
-        $stats = \Mockery::mock('EasyWeChat\OfficialAccount\Stats\Stats[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $stats = \Mockery::mock('EasyWeChat\OfficialAccount\Stats\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $stats->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

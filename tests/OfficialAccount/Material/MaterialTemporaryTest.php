@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Material
 {
     use EasyWeChat\Foundation\Core\Http;
-    use EasyWeChat\OfficialAccount\Material\Temporary;
+    use EasyWeChat\OfficialAccount\Material\TemporaryClient as Temporary;
     use EasyWeChat\Tests\TestCase;
     use Mockery\Mock;
 
@@ -48,7 +48,7 @@ namespace EasyWeChat\Tests\OfficialAccount\Material
             $request = new \stdClass();
             $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken');
             $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-            $temporary = \Mockery::mock('EasyWeChat\OfficialAccount\Material\Temporary[getStream]', [$accessToken]);
+            $temporary = \Mockery::mock('EasyWeChat\OfficialAccount\Material\TemporaryClient[getStream]', [$accessToken]);
             $temporary->shouldReceive('getStream')->andReturnUsing(function ($mediaId) use ($request) {
                 $request->mediaId = $mediaId;
 
@@ -75,7 +75,7 @@ namespace EasyWeChat\Tests\OfficialAccount\Material
         {
             $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken');
             $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-            $temporary = \Mockery::mock('EasyWeChat\OfficialAccount\Material\Temporary[parseJSON]', [$accessToken]);
+            $temporary = \Mockery::mock('EasyWeChat\OfficialAccount\Material\TemporaryClient[parseJSON]', [$accessToken]);
             $temporary->shouldReceive('parseJSON')->andReturnUsing(function () {
                 return func_get_args()[1];
             });

@@ -10,7 +10,7 @@
  */
 
 /**
- * Broadcast.php.
+ * OfficialAccount Broadcast Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -24,10 +24,7 @@ namespace EasyWeChat\OfficialAccount\Broadcast;
 use EasyWeChat\Exceptions\HttpException;
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class Broadcast.
- */
-class Broadcast extends AbstractAPI
+class Client extends AbstractAPI
 {
     const API_SEND_BY_GROUP = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall';
     const API_SEND_BY_OPENID = 'https://api.weixin.qq.com/cgi-bin/message/mass/send';

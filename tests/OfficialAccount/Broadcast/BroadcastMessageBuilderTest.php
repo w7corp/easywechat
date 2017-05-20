@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Broadcast;
 
-use EasyWeChat\OfficialAccount\Broadcast\Broadcast;
+use EasyWeChat\OfficialAccount\Broadcast\Client as Broadcast;
 use EasyWeChat\OfficialAccount\Broadcast\MessageBuilder;
 use EasyWeChat\Tests\TestCase;
 

@@ -10,7 +10,7 @@
  */
 
 /**
- * Temporary.php.
+ * OfficialAccount Temporary Material Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -25,10 +25,7 @@ use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\Support\File;
 
-/**
- * Class Temporary.
- */
-class Temporary extends AbstractAPI
+class TemporaryClient extends AbstractAPI
 {
     /**
      * Allow media type.

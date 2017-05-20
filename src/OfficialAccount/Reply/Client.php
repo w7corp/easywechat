@@ -10,7 +10,7 @@
  */
 
 /**
- * Url.php.
+ * OfficialAccount Reply Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -19,31 +19,21 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OfficialAccount\Url;
+namespace EasyWeChat\OfficialAccount\Reply;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class Url.
- */
-class Url extends AbstractAPI
+class Client extends AbstractAPI
 {
-    const API_SHORTEN_URL = 'https://api.weixin.qq.com/cgi-bin/shorturl';
+    const API_GET_CURRENT_SETTING = 'https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info';
 
     /**
-     * Shorten the url.
-     *
-     * @param string $url
+     * Get current auto reply settings.
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function shorten($url)
+    public function current()
     {
-        $params = [
-                   'action' => 'long2short',
-                   'long_url' => $url,
-                  ];
-
-        return $this->parseJSON('json', [self::API_SHORTEN_URL, $params]);
+        return $this->parseJSON('get', [self::API_GET_CURRENT_SETTING]);
     }
 }

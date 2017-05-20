@@ -10,7 +10,7 @@
  */
 
 /**
- * TemplateMessage.php.
+ * OfficialAccount TemplateMessage Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -25,10 +25,7 @@ use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\OfficialAccount\Core\AccessToken;
 
-/**
- * Class TemplateMessage.
- */
-class TemplateMessage extends AbstractAPI
+class Client extends AbstractAPI
 {
     /**
      * Default color.

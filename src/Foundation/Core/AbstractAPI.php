@@ -60,7 +60,7 @@ abstract class AbstractAPI
      */
     public function __construct(AccessToken $accessToken)
     {
-        $this->setAccessToken($accessToken);
+        $this->accessToken = $accessToken;
     }
 
     /**

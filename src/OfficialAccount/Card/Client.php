@@ -10,7 +10,7 @@
  */
 
 /**
- * Card.php.
+ * OfficialAccount Card Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2016 overtrue <i@overtrue.me>
@@ -27,7 +27,7 @@ use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 
-class Card extends AbstractAPI
+class Client extends AbstractAPI
 {
     /**
      * Cache.
@@ -212,7 +212,7 @@ class Card extends AbstractAPI
      * @param string $cardId
      * @param array  $extension
      *
-     * @return string
+     * @return array
      */
     public function attachExtension($cardId, array $extension = [])
     {
@@ -834,7 +834,7 @@ class Card extends AbstractAPI
     }
 
     /**
-     * Set Api_ticket cache prifix.
+     * Set Api_ticket cache prefix.
      *
      * @param string $prefix
      *
@@ -880,7 +880,7 @@ class Card extends AbstractAPI
      *
      * @param string $url
      *
-     * @return Card
+     * @return Client
      */
     public function setUrl($url)
     {

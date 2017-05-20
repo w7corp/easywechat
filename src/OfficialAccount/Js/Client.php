@@ -10,7 +10,7 @@
  */
 
 /**
- * Js.php.
+ * OfficialAccount Js Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -27,10 +27,7 @@ use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\Support\Str;
 use EasyWeChat\Support\Url as UrlHelper;
 
-/**
- * Class Js.
- */
-class Js extends AbstractAPI
+class Client extends AbstractAPI
 {
     /**
      * Cache.
@@ -163,7 +160,7 @@ class Js extends AbstractAPI
      *
      * @param string $url
      *
-     * @return Js
+     * @return $this
      */
     public function setUrl($url)
     {

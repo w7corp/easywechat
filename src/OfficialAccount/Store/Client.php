@@ -10,7 +10,7 @@
  */
 
 /**
- * Store.php.
+ * OfficialAccount Store Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,9 +23,6 @@ namespace EasyWeChat\OfficialAccount\Store;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class stats.
- */
-class Store extends AbstractAPI
+class Client extends AbstractAPI
 {
 }

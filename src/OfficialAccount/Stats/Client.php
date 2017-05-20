@@ -10,7 +10,7 @@
  */
 
 /**
- * Stats.php.
+ * OfficialAccount Stats Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\Stats;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class stats.
- */
-class Stats extends AbstractAPI
+class Client extends AbstractAPI
 {
     // 获取用户增减数据
     const  API_USER_SUMMARY = 'https://api.weixin.qq.com/datacube/getusersummary';

@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Semantic;
 
 use EasyWeChat\OfficialAccount\Core\AccessToken;
-use EasyWeChat\OfficialAccount\Semantic\Semantic;
+use EasyWeChat\OfficialAccount\Semantic\Client as Semantic;
 use EasyWeChat\Tests\TestCase;
 
 class SemanticSemanticTest extends TestCase
@@ -22,7 +22,7 @@ class SemanticSemanticTest extends TestCase
      */
     public function testQuery()
     {
-        $semantic = \Mockery::mock('EasyWeChat\OfficialAccount\Semantic\Semantic[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $semantic = \Mockery::mock('EasyWeChat\OfficialAccount\Semantic\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $semantic->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

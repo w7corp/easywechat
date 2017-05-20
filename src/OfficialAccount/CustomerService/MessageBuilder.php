@@ -56,16 +56,16 @@ class MessageBuilder
     /**
      * Customer service instance.
      *
-     * @var \EasyWeChat\OfficialAccount\CustomerService\CustomerService
+     * @var \EasyWeChat\OfficialAccount\CustomerService\Client
      */
     protected $customerService;
 
     /**
      * MessageBuilder constructor.
      *
-     * @param \EasyWeChat\OfficialAccount\CustomerService\CustomerService $customerService
+     * @param \EasyWeChat\OfficialAccount\CustomerService\Client $customerService
      */
-    public function __construct(CustomerService $customerService)
+    public function __construct(Client $customerService)
     {
         $this->customerService = $customerService;
     }

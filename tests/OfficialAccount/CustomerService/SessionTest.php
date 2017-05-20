@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\CustomerService;
 
-use EasyWeChat\OfficialAccount\CustomerService\Session;
+use EasyWeChat\OfficialAccount\CustomerService\SessionClient as Session;
 use EasyWeChat\Tests\TestCase;
 
 class SessionTest extends TestCase
 {
     public function getSession()
     {
-        $session = \Mockery::mock('EasyWeChat\OfficialAccount\CustomerService\Session[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $session = \Mockery::mock('EasyWeChat\OfficialAccount\CustomerService\SessionClient[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $session->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

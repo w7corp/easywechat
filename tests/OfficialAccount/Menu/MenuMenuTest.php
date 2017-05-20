@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Menu;
 
-use EasyWeChat\OfficialAccount\Menu\Menu;
+use EasyWeChat\OfficialAccount\Menu\Client as Menu;
 use EasyWeChat\Tests\TestCase;
 
 class MenuMenuTest extends TestCase
 {
     public function getMenu()
     {
-        $menu = \Mockery::mock('EasyWeChat\OfficialAccount\Menu\Menu[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $menu = \Mockery::mock('EasyWeChat\OfficialAccount\Menu\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $menu->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

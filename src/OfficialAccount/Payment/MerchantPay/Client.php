@@ -10,7 +10,7 @@
  */
 
 /**
- * API.php.
+ * MerchantPay Client.
  *
  * @author    AC <alexever@gmail.com>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -27,10 +27,7 @@ use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class API.
- */
-class API extends AbstractAPI
+class Client extends AbstractAPI
 {
     /**
      * Merchant instance.

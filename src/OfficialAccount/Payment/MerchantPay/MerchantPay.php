@@ -75,7 +75,7 @@ class MerchantPay
      *
      * @param API $api
      */
-    public function setAPI(API $api)
+    public function setAPI(Client $api)
     {
         $this->api = $api;
     }
@@ -87,7 +87,7 @@ class MerchantPay
      */
     public function getAPI()
     {
-        return $this->api ?: $this->api = new API($this->getMerchant());
+        return $this->api ?: $this->api = new Client($this->getMerchant());
     }
 
     /**

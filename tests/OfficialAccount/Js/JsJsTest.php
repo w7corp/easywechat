@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Js {
     use EasyWeChat\Foundation\Core\Http;
-    use EasyWeChat\OfficialAccount\Js\Js;
+    use EasyWeChat\OfficialAccount\Js\Client as Js;
     use EasyWeChat\Tests\TestCase;
 
     class JsJsTest extends TestCase

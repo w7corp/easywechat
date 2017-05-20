@@ -41,7 +41,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['template_message'] = function ($pimple) {
-            return new TemplateMessage($pimple['access_token']);
+            return new Client($pimple['access_token']);
         };
     }
 }

@@ -10,7 +10,7 @@
  */
 
 /**
- * Semantic.php.
+ * OfficialAccount Semantic Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\Semantic;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class Semantic.
- */
-class Semantic extends AbstractAPI
+class Client extends AbstractAPI
 {
     const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
 

@@ -41,7 +41,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['card'] = function ($pimple) {
-            $card = new Card($pimple['access_token']);
+            $card = new Client($pimple['access_token']);
             $card->setCache($pimple['cache']);
 
             return $card;

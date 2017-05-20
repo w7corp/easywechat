@@ -41,11 +41,11 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['material'] = function ($pimple) {
-            return new Material($pimple['access_token']);
+            return new Client($pimple['access_token']);
         };
 
         $temporary = function ($pimple) {
-            return new Temporary($pimple['access_token']);
+            return new TemporaryClient($pimple['access_token']);
         };
 
         $pimple['material_temporary'] = $temporary;

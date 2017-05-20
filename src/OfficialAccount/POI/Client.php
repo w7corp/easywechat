@@ -10,7 +10,7 @@
  */
 
 /**
- * POI.php.
+ * OfficialAccount POI Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\POI;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class POI.
- */
-class POI extends AbstractAPI
+class Client extends AbstractAPI
 {
     const API_CREATE = 'http://api.weixin.qq.com/cgi-bin/poi/addpoi';
     const API_GET = 'http://api.weixin.qq.com/cgi-bin/poi/getpoi';

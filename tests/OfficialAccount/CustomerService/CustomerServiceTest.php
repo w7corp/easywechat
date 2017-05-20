@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\CustomerService;
 
-use EasyWeChat\OfficialAccount\CustomerService\CustomerService;
+use EasyWeChat\OfficialAccount\CustomerService\Client as CustomerService;
 use EasyWeChat\Tests\TestCase;
 
 class CustomerServiceTest extends TestCase
 {
     public function getCustomerService()
     {
-        $customerService = \Mockery::mock('EasyWeChat\OfficialAccount\CustomerService\CustomerService[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $customerService = \Mockery::mock('EasyWeChat\OfficialAccount\CustomerService\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $customerService->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

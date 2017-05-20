@@ -27,11 +27,6 @@ use EasyWeChat\Support\XML;
 use Overtrue\Socialite\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Class Payment.
- *
- * @mixin API
- */
 class Payment
 {
     /**
@@ -40,7 +35,7 @@ class Payment
     const SCHEME_PATH = 'weixin://wxpay/bizpayurl';
 
     /**
-     * @var API
+     * @var Client
      */
     protected $api;
 
@@ -306,7 +301,7 @@ class Payment
      *
      * @param API $api
      */
-    public function setAPI(API $api)
+    public function setAPI(Client $api)
     {
         $this->api = $api;
     }
@@ -314,11 +309,11 @@ class Payment
     /**
      * Return API instance.
      *
-     * @return API
+     * @return Client
      */
     public function getAPI()
     {
-        return $this->api ?: $this->api = new API($this->getMerchant());
+        return $this->api ?: $this->api = new Client($this->getMerchant());
     }
 
     /**

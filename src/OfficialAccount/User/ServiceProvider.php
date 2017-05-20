@@ -45,15 +45,15 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['user'] = function ($pimple) {
-            return new User($pimple['access_token']);
+            return new UserClient($pimple['access_token']);
         };
 
         $group = function ($pimple) {
-            return new Group($pimple['access_token']);
+            return new GroupClient($pimple['access_token']);
         };
 
         $tag = function ($pimple) {
-            return new Tag($pimple['access_token']);
+            return new TagClient($pimple['access_token']);
         };
 
         $pimple['user_group'] = $group;

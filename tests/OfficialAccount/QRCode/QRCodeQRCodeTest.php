@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\QRCode;
 
-use EasyWeChat\OfficialAccount\QRCode\QRCode;
+use EasyWeChat\OfficialAccount\QRCode\Client as QRCode;
 use EasyWeChat\Tests\TestCase;
 
 class QRCodeQRCodeTest extends TestCase
@@ -20,7 +20,7 @@ class QRCodeQRCodeTest extends TestCase
     {
         $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken');
         $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-        $qrcode = \Mockery::mock('EasyWeChat\OfficialAccount\QRCode\QRCode[parseJSON]', [$accessToken]);
+        $qrcode = \Mockery::mock('EasyWeChat\OfficialAccount\QRCode\Client[parseJSON]', [$accessToken]);
         $qrcode->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

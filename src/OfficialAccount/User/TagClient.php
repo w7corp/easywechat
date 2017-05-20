@@ -10,7 +10,7 @@
  */
 
 /**
- * Group.php.
+ * OfficialAccount UserTag Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\User;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class Tag.
- */
-class Tag extends AbstractAPI
+class TagClient extends AbstractAPI
 {
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/tags/get';
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/tags/create';

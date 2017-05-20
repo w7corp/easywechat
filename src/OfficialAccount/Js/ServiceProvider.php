@@ -41,7 +41,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['js'] = function ($pimple) {
-            $js = new Js($pimple['access_token']);
+            $js = new Client($pimple['access_token']);
             $js->setCache($pimple['cache']);
 
             return $js;

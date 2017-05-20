@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\TemplateMessage;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
-use EasyWeChat\OfficialAccount\TemplateMessage\TemplateMessage;
+use EasyWeChat\OfficialAccount\TemplateMessage\Client as TemplateMessage;
 use EasyWeChat\Tests\TestCase;
 
 class TemplateMessageTest extends TestCase
@@ -31,7 +31,7 @@ class TemplateMessageTest extends TestCase
 
             return $notice;
         }
-        $notice = \Mockery::mock('EasyWeChat\OfficialAccount\TemplateMessage\TemplateMessage[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $notice = \Mockery::mock('EasyWeChat\OfficialAccount\TemplateMessage\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $notice->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];

@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
 use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Payment\API;
+use EasyWeChat\OfficialAccount\Payment\Client as API;
 use EasyWeChat\OfficialAccount\Payment\Merchant;
 use EasyWeChat\OfficialAccount\Payment\Order;
 use EasyWeChat\Support\XML;
@@ -45,7 +45,7 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = \Mockery::mock('EasyWeChat\OfficialAccount\Payment\API[getHttp,getCache]', [$merchant])
+        $api = \Mockery::mock('EasyWeChat\OfficialAccount\Payment\Client[getHttp,getCache]', [$merchant])
                  ->shouldAllowMockingProtectedMethods();
 
         $api->shouldReceive('wrapApi')->passthru();
@@ -219,7 +219,7 @@ class PaymentAPITest extends TestCase
                 'notify_url' => 'merchant_default_notify_url',
             ]);
 
-        $api = \Mockery::mock('EasyWeChat\OfficialAccount\Payment\API[getHttp]', [$merchant])->shouldAllowMockingProtectedMethods();
+        $api = \Mockery::mock('EasyWeChat\OfficialAccount\Payment\Client[getHttp]', [$merchant])->shouldAllowMockingProtectedMethods();
 
         $api->shouldReceive('wrapApi')->passthru();
         $api->shouldReceive('getHttp')->andReturn($http);

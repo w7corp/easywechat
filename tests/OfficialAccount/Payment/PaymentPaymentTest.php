@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
 use EasyWeChat\Exceptions\FaultException;
-use EasyWeChat\OfficialAccount\Payment\API;
+use EasyWeChat\OfficialAccount\Payment\Client as API;
 use EasyWeChat\OfficialAccount\Payment\Merchant;
 use EasyWeChat\OfficialAccount\Payment\Notify;
 use EasyWeChat\OfficialAccount\Payment\Payment;

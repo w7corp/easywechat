@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\User;
 
-use EasyWeChat\OfficialAccount\User\Group;
+use EasyWeChat\OfficialAccount\User\GroupClient as Group;
 use EasyWeChat\Tests\TestCase;
 
 class UserGroupTest extends TestCase
 {
     public function getGroup()
     {
-        $group = \Mockery::mock('EasyWeChat\OfficialAccount\User\Group[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $group = \Mockery::mock('EasyWeChat\OfficialAccount\User\GroupClient[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $group->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

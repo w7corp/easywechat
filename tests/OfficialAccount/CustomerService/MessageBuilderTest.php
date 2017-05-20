@@ -20,7 +20,7 @@ class MessageBuilderTest extends TestCase
 {
     public function getMessageBuilder()
     {
-        $customerService = \Mockery::mock('EasyWeChat\OfficialAccount\CustomerService\CustomerService');
+        $customerService = \Mockery::mock('EasyWeChat\OfficialAccount\CustomerService\Client');
         $customerService->shouldReceive('send')->andReturnUsing(function ($message) {
             return $message;
         });

@@ -10,7 +10,7 @@
  */
 
 /**
- * Menu.php.
+ * OfficialAccount Menu Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\Menu;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class Menu.
- */
-class Menu extends AbstractAPI
+class Client extends AbstractAPI
 {
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/menu/create';
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/menu/get';

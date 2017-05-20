@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Broadcast;
 
-use EasyWeChat\OfficialAccount\Broadcast\Broadcast;
+use EasyWeChat\OfficialAccount\Broadcast\Client as Broadcast;
 use EasyWeChat\Tests\TestCase;
 
 class BroadcastBroadcastTest extends TestCase
 {
     public function getBroadcast()
     {
-        $broadcast = \Mockery::mock('EasyWeChat\OfficialAccount\Broadcast\Broadcast[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $broadcast = \Mockery::mock('EasyWeChat\OfficialAccount\Broadcast\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
         $broadcast->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

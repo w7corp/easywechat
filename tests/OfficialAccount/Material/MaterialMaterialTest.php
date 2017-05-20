@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Material;
 
 use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Material\Material;
+use EasyWeChat\OfficialAccount\Material\Client as Material;
 use EasyWeChat\OfficialAccount\Message\Article;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Psr7\Response;
@@ -28,7 +28,7 @@ class MaterialMaterialTest extends TestCase
     {
         $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken');
         $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-        $material = \Mockery::mock('EasyWeChat\OfficialAccount\Material\Material[parseJSON]', [$accessToken]);
+        $material = \Mockery::mock('EasyWeChat\OfficialAccount\Material\Client[parseJSON]', [$accessToken]);
         $material->shouldReceive('parseJSON')->andReturnUsing(function () {
             return func_get_args()[1];
         });

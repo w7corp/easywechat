@@ -56,12 +56,12 @@ class MessageBuilder
      * @var array
      */
     private $msgTypes = [
-        Broadcast::MSG_TYPE_TEXT,
-        Broadcast::MSG_TYPE_NEWS,
-        Broadcast::MSG_TYPE_IMAGE,
-        Broadcast::MSG_TYPE_VIDEO,
-        Broadcast::MSG_TYPE_VOICE,
-        Broadcast::MSG_TYPE_CARD,
+        Client::MSG_TYPE_TEXT,
+        Client::MSG_TYPE_NEWS,
+        Client::MSG_TYPE_IMAGE,
+        Client::MSG_TYPE_VIDEO,
+        Client::MSG_TYPE_VOICE,
+        Client::MSG_TYPE_CARD,
     ];
 
     /**
@@ -70,8 +70,8 @@ class MessageBuilder
      * @var array
      */
     private $previewBys = [
-        Broadcast::PREVIEW_BY_OPENID,
-        Broadcast::PREVIEW_BY_NAME,
+        Client::PREVIEW_BY_OPENID,
+        Client::PREVIEW_BY_NAME,
     ];
 
     /**
@@ -140,9 +140,9 @@ class MessageBuilder
         }
 
         // 群发视频消息给用户列表时，视频消息格式需要另外处理，具体见文档
-        if (isset($this->to) && is_array($this->to) && $this->msgType === Broadcast::MSG_TYPE_VIDEO) {
+        if (isset($this->to) && is_array($this->to) && $this->msgType === Client::MSG_TYPE_VIDEO) {
             $this->msgType = 'video';
-        } elseif ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
+        } elseif ($this->msgType === Client::MSG_TYPE_VIDEO) {
             $this->msgType = 'mpvideo';
         }
 
@@ -173,7 +173,7 @@ class MessageBuilder
 
         if (empty($this->msgType)) {
             throw new RuntimeException('Message type not exist.');
-        } elseif ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
+        } elseif ($this->msgType === Client::MSG_TYPE_VIDEO) {
             $this->msgType = 'mpvideo';
         }
 

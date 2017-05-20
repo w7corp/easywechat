@@ -10,7 +10,7 @@
  */
 
 /**
- * Session.php.
+ * OfficialAccount CustomerService Session Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\CustomerService;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class Session.
- */
-class Session extends AbstractAPI
+class SessionClient extends AbstractAPI
 {
     const API_CREATE = 'https://api.weixin.qq.com/customservice/kfsession/create';
     const API_CLOSE = 'https://api.weixin.qq.com/customservice/kfsession/close';

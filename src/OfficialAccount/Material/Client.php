@@ -10,7 +10,7 @@
  */
 
 /**
- * Material.php.
+ * OfficialAccount Material Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -25,10 +25,7 @@ use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\OfficialAccount\Message\Article;
 
-/**
- * Class Material.
- */
-class Material extends AbstractAPI
+class Client extends AbstractAPI
 {
     /**
      * Allow media type.

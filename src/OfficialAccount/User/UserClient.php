@@ -10,7 +10,7 @@
  */
 
 /**
- * User.php.
+ * OfficialAccount User Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -23,10 +23,7 @@ namespace EasyWeChat\OfficialAccount\User;
 
 use EasyWeChat\Foundation\Core\AbstractAPI;
 
-/**
- * Class User.
- */
-class User extends AbstractAPI
+class UserClient extends AbstractAPI
 {
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/user/info';
     const API_BATCH_GET = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget';

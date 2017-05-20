@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
 use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Card\Card;
+use EasyWeChat\OfficialAccount\Card\Client as Card;
 use EasyWeChat\Support\Arr;
 use EasyWeChat\Tests\TestCase;
 
@@ -23,7 +23,7 @@ class CardTest extends TestCase
      */
     public function getCard()
     {
-        $card = \Mockery::mock('EasyWeChat\OfficialAccount\Card\Card[parseJSON]', [$this->getMockAccessToken()]);
+        $card = \Mockery::mock('EasyWeChat\OfficialAccount\Card\Client[parseJSON]', [$this->getMockAccessToken()]);
         $card->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

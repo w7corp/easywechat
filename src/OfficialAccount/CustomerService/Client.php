@@ -10,7 +10,7 @@
  */
 
 /**
- * CustomerService.php.
+ * OfficialAccount CustomerService Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -24,10 +24,7 @@ namespace EasyWeChat\OfficialAccount\CustomerService;
 use EasyWeChat\Foundation\Core\AbstractAPI;
 use EasyWeChat\Support\Collection;
 
-/**
- * Class CustomerService.
- */
-class CustomerService extends AbstractAPI
+class Client extends AbstractAPI
 {
     const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
