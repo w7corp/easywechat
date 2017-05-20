@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Fundamental;
 
-use EasyWeChat\OfficialAccount\Fundamental\Client;
 use EasyWeChat\Tests\TestCase;
 
 class FundamentalAPITest extends TestCase
