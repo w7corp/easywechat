@@ -33,7 +33,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         $container['mini_program.material_temporary'] = function ($container) {
-            return new Temporary($container['mini_program.access_token']);
+            return new TemporaryClient($container['mini_program.access_token']);
         };
     }
 }

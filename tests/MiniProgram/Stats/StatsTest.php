@@ -18,7 +18,7 @@ class StatsTest extends TestCase
 {
     public function getStats()
     {
-        $stats = m::mock('EasyWeChat\MiniProgram\Stats\Stats[parseJSON]', [m::mock('EasyWeChat\MiniProgram\AccessToken'), []]);
+        $stats = m::mock('EasyWeChat\MiniProgram\Stats\Client[parseJSON]', [m::mock('EasyWeChat\MiniProgram\AccessToken'), []]);
         $stats->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

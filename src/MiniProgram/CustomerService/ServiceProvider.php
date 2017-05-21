@@ -33,7 +33,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         $container['mini_program.customer_service'] = function ($container) {
-            return new CustomerService($container['mini_program.access_token']);
+            return new Client($container['mini_program.access_token']);
         };
     }
 }
