@@ -72,7 +72,7 @@ class MediaPress extends AbstractAPI
      *
      * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
-    public function mediaPress()
+    protected function mediaPress()
     {
         if ($this->mediaPress) {
             return $this->mediaPress;
