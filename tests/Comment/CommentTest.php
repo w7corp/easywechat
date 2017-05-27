@@ -9,15 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\MediaPress;
+namespace EasyWeChat\Tests\Comment;
 
 use EasyWeChat\Tests\TestCase;
 
-class MediaPressTest extends TestCase
+class CommentTest extends TestCase
 {
     public function testOpenComment()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->openComment();
+        $result = $this->getComment()->open('xxx123', 0);
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/open', $result['api']);
         $this->assertSame(['msg_data_id' => 'xxx123', 'index' => 0], $result['params']);
@@ -25,7 +25,7 @@ class MediaPressTest extends TestCase
 
     public function testCloseComment()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->closeComment();
+        $result = $this->getComment()->close('xxx123', 0);
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/close', $result['api']);
         $this->assertSame(['msg_data_id' => 'xxx123', 'index' => 0], $result['params']);
@@ -33,7 +33,7 @@ class MediaPressTest extends TestCase
 
     public function testListComment()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->comments(10, 20, 0);
+        $result = $this->getComment()->lists('xxx123', 0, 10, 20, 0);
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/list', $result['api']);
         $this->assertSame([
@@ -47,7 +47,7 @@ class MediaPressTest extends TestCase
 
     public function testMarkElect()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->markElectComment('comment-id');
+        $result = $this->getComment()->markElect('xxx123', 0, 'comment-id');
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/markelect', $result['api']);
         $this->assertSame([
@@ -59,7 +59,7 @@ class MediaPressTest extends TestCase
 
     public function testUnmarkElect()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->unmarkElectComment('comment-id');
+        $result = $this->getComment()->unmarkElect('xxx123', 0, 'comment-id');
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/unmarkelect', $result['api']);
         $this->assertSame([
@@ -71,7 +71,7 @@ class MediaPressTest extends TestCase
 
     public function testDeleteComment()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->deleteComment('comment-id');
+        $result = $this->getComment()->delete('xxx123', 0, 'comment-id');
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/delete', $result['api']);
         $this->assertSame([
@@ -83,7 +83,7 @@ class MediaPressTest extends TestCase
 
     public function testAddReply()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->replyComment('comment-id', 'content...');
+        $result = $this->getComment()->reply('xxx123', 0, 'comment-id', 'content...');
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/reply/add', $result['api']);
         $this->assertSame([
@@ -96,7 +96,7 @@ class MediaPressTest extends TestCase
 
     public function testDeleteReply()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->deleteCommentReply('comment-id');
+        $result = $this->getComment()->deleteReply('xxx123', 0, 'comment-id');
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/reply/delete', $result['api']);
         $this->assertSame([
@@ -106,9 +106,9 @@ class MediaPressTest extends TestCase
         ], $result['params']);
     }
 
-    private function getMediaPress()
+    private function getComment()
     {
-        $press = \Mockery::mock('EasyWeChat\MediaPress\MediaPress[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $press = \Mockery::mock('EasyWeChat\Comment\Comment[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $press->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

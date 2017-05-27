@@ -10,7 +10,7 @@
  */
 
 /**
- * MediaPressServiceProvider.php.
+ * CommentServiceProvider.php.
  *
  * This file is part of the wechat.
  *
@@ -22,19 +22,19 @@
 
 namespace EasyWeChat\Foundation\ServiceProviders;
 
-use EasyWeChat\MediaPress\MediaPress;
+use EasyWeChat\Comment\Comment;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class MediaPressServiceProvider implements ServiceProviderInterface
+class CommentServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}.
      */
     public function register(Container $pimple)
     {
-        $pimple['media_press'] = function ($pimple) {
-            return new MediaPress($pimple['access_token']);
+        $pimple['comment'] = function ($pimple) {
+            return new Comment($pimple['access_token']);
         };
     }
 }
