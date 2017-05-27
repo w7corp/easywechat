@@ -36,7 +36,7 @@ trait ManageCommentReplies
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function reply($commentId, $content)
+    public function replyComment($commentId, $content)
     {
         $params = array_merge($this->mediaPress(), [
             'user_comment_id' => $commentId,
@@ -53,7 +53,7 @@ trait ManageCommentReplies
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function deleteReply($commentId)
+    public function deleteCommentReply($commentId)
     {
         $params = array_merge($this->mediaPress(), [
             'user_comment_id' => $commentId,

@@ -83,7 +83,7 @@ class MediaPressTest extends TestCase
 
     public function testAddReply()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->reply('comment-id', 'content...');
+        $result = $this->getMediaPress()->select('xxx123', 0)->replyComment('comment-id', 'content...');
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/reply/add', $result['api']);
         $this->assertSame([
@@ -96,7 +96,7 @@ class MediaPressTest extends TestCase
 
     public function testDeleteReply()
     {
-        $result = $this->getMediaPress()->select('xxx123', 0)->deleteReply('comment-id');
+        $result = $this->getMediaPress()->select('xxx123', 0)->deleteCommentReply('comment-id');
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/reply/delete', $result['api']);
         $this->assertSame([
