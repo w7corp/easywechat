@@ -66,6 +66,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\Broadcast\Broadcast                 $broadcast
  * @property \EasyWeChat\Card\Card                           $card
  * @property \EasyWeChat\Device\Device                       $device
+ * @property \EasyWeChat\Comment\Comment                     $comment
  * @property \EasyWeChat\ShakeAround\ShakeAround             $shakearound
  * @property \EasyWeChat\OpenPlatform\OpenPlatform           $open_platform
  * @property \EasyWeChat\MiniProgram\MiniProgram             $mini_program
@@ -103,6 +104,7 @@ class Application extends Container
         ServiceProviders\ShakeAroundServiceProvider::class,
         ServiceProviders\OpenPlatformServiceProvider::class,
         ServiceProviders\MiniProgramServiceProvider::class,
+        ServiceProviders\CommentServiceProvider::class,
     ];
 
     /**
