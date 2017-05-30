@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Broadcast;
 
-use EasyWeChat\OfficialAccount\Broadcast\Client as Broadcast;
+use EasyWeChat\Applications\OfficialAccount\Broadcast\Client as Broadcast;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
     public function getBroadcast()
     {
-        $broadcast = \Mockery::mock('EasyWeChat\OfficialAccount\Broadcast\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $broadcast = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Broadcast\Client[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $broadcast->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
@@ -132,7 +132,7 @@ class ClientTest extends TestCase
 
     public function testAlias()
     {
-        $broadcast = \Mockery::mock(Broadcast::class.'[send,preview]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $broadcast = \Mockery::mock(Broadcast::class.'[send,preview]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $broadcast->shouldReceive('send')->andReturnUsing(function ($api, $message, $to) {
             return compact('api', 'message', 'to');
         });

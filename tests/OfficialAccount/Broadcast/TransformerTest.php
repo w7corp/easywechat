@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Broadcast;
 
-use EasyWeChat\OfficialAccount\Broadcast\Transformer;
+use EasyWeChat\Applications\OfficialAccount\Broadcast\Transformer;
 use EasyWeChat\Tests\TestCase;
 
 class TransformerTest extends TestCase

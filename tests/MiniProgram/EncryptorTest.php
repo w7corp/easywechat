@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\MiniProgram;
 
-use EasyWeChat\MiniProgram\Encryption\Encryptor;
+use EasyWeChat\Applications\MiniProgram\Encryption\Encryptor;
 use EasyWeChat\Tests\TestCase;
 
 class EncryptorTest extends TestCase

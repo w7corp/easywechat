@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\User;
 
-use EasyWeChat\OfficialAccount\User\UserClient as User;
+use EasyWeChat\Applications\OfficialAccount\User\UserClient as User;
 use EasyWeChat\Tests\TestCase;
 
 class UserClientTest extends TestCase
 {
     public function getUser()
     {
-        $user = \Mockery::mock('EasyWeChat\OfficialAccount\User\UserClient[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $user = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\User\UserClient[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $user->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

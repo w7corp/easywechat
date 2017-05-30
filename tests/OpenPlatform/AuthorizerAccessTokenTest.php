@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken;
+use EasyWeChat\Applications\OpenPlatform\Core\AuthorizerAccessToken;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
@@ -63,7 +63,7 @@ class AuthorizerAccessTokenTest extends TestCase
             });
         });
 
-        $baseApi = m::mock('EasyWeChat\OpenPlatform\Api\BaseApi', function ($mock) use ($newToken) {
+        $baseApi = m::mock('EasyWeChat\Applications\OpenPlatform\Api\BaseApi', function ($mock) use ($newToken) {
             $mock->shouldReceive('getAuthorizerToken')->andReturn(
                 new Collection(['authorizer_access_token' => $newToken, 'expires_in' => 7200])
             );

@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\User;
 
-use EasyWeChat\OfficialAccount\User\TagClient as Tag;
+use EasyWeChat\Applications\OfficialAccount\User\TagClient as Tag;
 use EasyWeChat\Tests\TestCase;
 
 class UserTagClientTest extends TestCase
 {
     public function getTag()
     {
-        $tag = \Mockery::mock('EasyWeChat\OfficialAccount\User\TagClient[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $tag = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\User\TagClient[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
 
         return $tag;
     }

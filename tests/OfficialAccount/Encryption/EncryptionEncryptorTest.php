@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Encryption;
 
-use EasyWeChat\OfficialAccount\Encryption\Encryptor;
+use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor;
 use EasyWeChat\Support\XML;
 use EasyWeChat\Tests\TestCase;
 

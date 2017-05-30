@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
-use EasyWeChat\OfficialAccount\Payment\LuckyMoney\Client as API;
-use EasyWeChat\OfficialAccount\Payment\LuckyMoney\LuckyMoney;
-use EasyWeChat\OfficialAccount\Payment\Merchant;
+use EasyWeChat\Applications\OfficialAccount\Payment\LuckyMoney\Client as API;
+use EasyWeChat\Applications\OfficialAccount\Payment\LuckyMoney\LuckyMoney;
+use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
 use EasyWeChat\Tests\TestCase;
 
 class LuckyMoneyTest extends TestCase

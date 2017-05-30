@@ -12,10 +12,10 @@
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
 use EasyWeChat\Exceptions\FaultException;
-use EasyWeChat\OfficialAccount\Payment\Client as API;
-use EasyWeChat\OfficialAccount\Payment\Merchant;
-use EasyWeChat\OfficialAccount\Payment\Notify;
-use EasyWeChat\OfficialAccount\Payment\Payment;
+use EasyWeChat\Applications\OfficialAccount\Payment\Client as API;
+use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
+use EasyWeChat\Applications\OfficialAccount\Payment\Notify;
+use EasyWeChat\Applications\OfficialAccount\Payment\Payment;
 use EasyWeChat\Support\XML;
 use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\AccessToken;

@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\ShakeAround\Relation;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
@@ -29,7 +29,7 @@ class RelationTest extends TestCase
 {
     public function getRelation()
     {
-        $relation = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $relation = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
@@ -95,7 +95,7 @@ class RelationTest extends TestCase
         $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $result['api']);
         $this->assertEquals($expected, $result['params']);
 
-        $relation = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $relation = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return new Collection([
                 'data' => [
@@ -116,7 +116,7 @@ class RelationTest extends TestCase
         ]);
         $this->assertEquals($expected, $result);
 
-        $relation = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $relation = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return new Collection([
                 'data' => [

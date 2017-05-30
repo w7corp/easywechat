@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Message;
 
-use EasyWeChat\OfficialAccount\Message\Material;
+use EasyWeChat\Applications\OfficialAccount\Message\Material;
 use EasyWeChat\Tests\TestCase;
 
 class MessageMaterialTest extends TestCase

@@ -21,14 +21,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\ShakeAround\Group;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Group;
 use EasyWeChat\Tests\TestCase;
 
 class GroupTest extends TestCase
 {
     public function getGroup()
     {
-        $group = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Group[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $group = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Group[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $group->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

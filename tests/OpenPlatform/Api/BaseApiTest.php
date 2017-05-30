@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
-use EasyWeChat\OpenPlatform\Api\BaseApi;
+use EasyWeChat\Applications\OpenPlatform\Api\BaseApi;
 
 class BaseApiTest extends ApiTest
 {

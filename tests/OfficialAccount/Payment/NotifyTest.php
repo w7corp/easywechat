@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
 use EasyWeChat\Exceptions\FaultException;
-use EasyWeChat\OfficialAccount\Payment\Merchant;
-use EasyWeChat\OfficialAccount\Payment\Notify;
+use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
+use EasyWeChat\Applications\OfficialAccount\Payment\Notify;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use EasyWeChat\Tests\TestCase;
@@ -30,7 +30,7 @@ class NotifyTest extends TestCase
             'foo' => 'bar',
             'hi' => 'here',
         ];
-        $params['sign'] = \EasyWeChat\OfficialAccount\Payment\generate_sign($params, 'sign_key');
+        $params['sign'] = \EasyWeChat\Applications\OfficialAccount\Payment\generate_sign($params, 'sign_key');
 
         $request = Request::create('/callback', 'POST', [], [], [], [], XML::build($params));
 

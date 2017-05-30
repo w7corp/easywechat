@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Message;
 
-use EasyWeChat\OfficialAccount\Message\Voice;
+use EasyWeChat\Applications\OfficialAccount\Message\Voice;
 use EasyWeChat\Tests\TestCase;
 
 class MessageVoiceTest extends TestCase

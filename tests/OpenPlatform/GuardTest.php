@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\Foundation\Application;
-use EasyWeChat\OpenPlatform\Server\Guard;
+use EasyWeChat\Application;
+use EasyWeChat\Applications\OpenPlatform\Server\Guard;
 use EasyWeChat\Tests\TestCase;
 
 class GuardTest extends TestCase
@@ -22,10 +22,10 @@ class GuardTest extends TestCase
         $server = $this->make();
 
         $handlers = [
-            Guard::EVENT_AUTHORIZED => 'EasyWeChat\OpenPlatform\EventHandlers\Authorized',
-            Guard::EVENT_UNAUTHORIZED => 'EasyWeChat\OpenPlatform\EventHandlers\Unauthorized',
-            Guard::EVENT_UPDATE_AUTHORIZED => 'EasyWeChat\OpenPlatform\EventHandlers\UpdateAuthorized',
-            Guard::EVENT_COMPONENT_VERIFY_TICKET => 'EasyWeChat\OpenPlatform\EventHandlers\ComponentVerifyTicket',
+            Guard::EVENT_AUTHORIZED => 'EasyWeChat\Applications\OpenPlatform\EventHandlers\Authorized',
+            Guard::EVENT_UNAUTHORIZED => 'EasyWeChat\Applications\OpenPlatform\EventHandlers\Unauthorized',
+            Guard::EVENT_UPDATE_AUTHORIZED => 'EasyWeChat\Applications\OpenPlatform\EventHandlers\UpdateAuthorized',
+            Guard::EVENT_COMPONENT_VERIFY_TICKET => 'EasyWeChat\Applications\OpenPlatform\EventHandlers\ComponentVerifyTicket',
         ];
 
         foreach ($handlers as $type => $handler) {

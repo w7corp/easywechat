@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\POI;
 
-use EasyWeChat\OfficialAccount\POI\Client as POI;
+use EasyWeChat\Applications\OfficialAccount\POI\Client as POI;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
     public function getPOI()
     {
-        $POI = \Mockery::mock('EasyWeChat\OfficialAccount\POI\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $POI = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\POI\Client[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $POI->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

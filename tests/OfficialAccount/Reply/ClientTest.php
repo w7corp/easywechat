@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Reply;
 
-use EasyWeChat\OfficialAccount\Reply\Client as Reply;
+use EasyWeChat\Applications\OfficialAccount\Reply\Client as Reply;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
     public function getReply()
     {
-        $reply = \Mockery::mock('EasyWeChat\OfficialAccount\Reply\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $reply = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Reply\Client[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $reply->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

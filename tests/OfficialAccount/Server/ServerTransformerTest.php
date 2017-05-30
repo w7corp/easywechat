@@ -11,13 +11,13 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Server;
 
-use EasyWeChat\OfficialAccount\Message\Image;
-use EasyWeChat\OfficialAccount\Message\News;
-use EasyWeChat\OfficialAccount\Message\Text;
-use EasyWeChat\OfficialAccount\Message\Transfer;
-use EasyWeChat\OfficialAccount\Message\Video;
-use EasyWeChat\OfficialAccount\Message\Voice;
-use EasyWeChat\OfficialAccount\Server\Transformer;
+use EasyWeChat\Applications\OfficialAccount\Message\Image;
+use EasyWeChat\Applications\OfficialAccount\Message\News;
+use EasyWeChat\Applications\OfficialAccount\Message\Text;
+use EasyWeChat\Applications\OfficialAccount\Message\Transfer;
+use EasyWeChat\Applications\OfficialAccount\Message\Video;
+use EasyWeChat\Applications\OfficialAccount\Message\Voice;
+use EasyWeChat\Applications\OfficialAccount\Server\Transformer;
 use EasyWeChat\Tests\TestCase;
 
 class ServerTransformerTest extends TestCase

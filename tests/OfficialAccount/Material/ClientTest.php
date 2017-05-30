@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Material;
 
-use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Material\Client as Material;
-use EasyWeChat\OfficialAccount\Message\Article;
+use EasyWeChat\Applications\Base\Core\Http;
+use EasyWeChat\Applications\OfficialAccount\Material\Client as Material;
+use EasyWeChat\Applications\OfficialAccount\Message\Article;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Psr7\Response;
 
@@ -26,9 +26,9 @@ class ClientTest extends TestCase
      */
     public function getMaterial()
     {
-        $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken');
+        $accessToken = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken');
         $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
-        $material = \Mockery::mock('EasyWeChat\OfficialAccount\Material\Client[parseJSON]', [$accessToken]);
+        $material = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Material\Client[parseJSON]', [$accessToken]);
         $material->shouldReceive('parseJSON')->andReturnUsing(function () {
             return func_get_args()[1];
         });
@@ -38,7 +38,7 @@ class ClientTest extends TestCase
 
     public function getMockAccessToken()
     {
-        $token = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken[getQueryFields]', ['foo', 'bar']);
+        $token = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken[getQueryFields]', ['foo', 'bar']);
         $token->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
 
         return $token;

@@ -10,7 +10,7 @@
  */
 
 namespace EasyWeChat\Tests\Foundation\Core {
-    use EasyWeChat\Foundation\Core\Http;
+    use EasyWeChat\Applications\Base\Core\Http;
     use EasyWeChat\Tests\TestCase;
     use GuzzleHttp\Client;
     use GuzzleHttp\HandlerStack;
@@ -234,7 +234,7 @@ namespace EasyWeChat\Tests\Foundation\Core {
     }
 }
 
-namespace EasyWeChat\Foundation\Core {
+namespace EasyWeChat\Applications\Base\Core {
     function fopen($file, $mode = 'r')
     {
         return $file;

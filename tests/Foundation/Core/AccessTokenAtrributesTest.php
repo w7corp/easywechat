@@ -18,7 +18,7 @@ class AccessTokenAtrributesTest extends TestCase
 {
     protected function getMockHttp($tokenJsonKey = 'access_token')
     {
-        return m::mock('EasyWeChat\Foundation\Core\Http[parseJSON,get]', function ($mock) use ($tokenJsonKey) {
+        return m::mock('EasyWeChat\Applications\Base\Core\Http[parseJSON,get]', function ($mock) use ($tokenJsonKey) {
             $mock->shouldReceive('parseJSON')->andReturnUsing(function ($requests) use ($tokenJsonKey) {
                 return array_merge([
                     $tokenJsonKey => 'thisIsAToken',
@@ -40,23 +40,23 @@ class AccessTokenAtrributesTest extends TestCase
 
     public function getOfficialAccount(...$args)
     {
-        $instance = new \EasyWeChat\OfficialAccount\Core\AccessToken(...$args);
+        $instance = new \EasyWeChat\Applications\OfficialAccount\Core\AccessToken(...$args);
 
         return $instance->setHttp($this->getMockHttp())->setCache($this->getMockCache());
     }
 
     public function getMiniProgram(...$args)
     {
-        $instance = new \EasyWeChat\MiniProgram\AccessToken(...$args);
+        $instance = new \EasyWeChat\Applications\MiniProgram\AccessToken(...$args);
 
         return $instance->setHttp($this->getMockHttp())->setCache($this->getMockCache());
     }
 
     public function getOpenPlatform(...$args)
     {
-        $instance = new \EasyWeChat\OpenPlatform\Core\AccessToken(...$args);
+        $instance = new \EasyWeChat\Applications\OpenPlatform\Core\AccessToken(...$args);
 
-        $verifyTicket = new \EasyWeChat\OpenPlatform\Core\VerifyTicket('appid', new \Doctrine\Common\Cache\ArrayCache());
+        $verifyTicket = new \EasyWeChat\Applications\OpenPlatform\Core\VerifyTicket('appid', new \Doctrine\Common\Cache\ArrayCache());
         $verifyTicket->setTicket('ticket@foobar');
 
         return $instance->setHttp($this->getMockHttp('component_access_token'))->setCache($this->getMockCache())->setVerifyTicket($verifyTicket);

@@ -12,9 +12,9 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\Foundation\Application;
-use EasyWeChat\OpenPlatform\Core\AccessToken;
-use EasyWeChat\OpenPlatform\Core\VerifyTicket;
+use EasyWeChat\Application;
+use EasyWeChat\Applications\OpenPlatform\Core\AccessToken;
+use EasyWeChat\Applications\OpenPlatform\Core\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
 
@@ -24,10 +24,10 @@ class OpenPlatformTest extends TestCase
     {
         $openPlatform = $this->make()->open_platform;
 
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $openPlatform->api);
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_auth);
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_authorization);
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Server\Guard', $openPlatform->server);
+        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\BaseApi', $openPlatform->api);
+        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_auth);
+        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_authorization);
+        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Server\Guard', $openPlatform->server);
     }
 
     public function testMakeAuthorizer()
@@ -52,7 +52,7 @@ class OpenPlatformTest extends TestCase
         $app['open_platform.access_token'] = $accessToken;
         $newApp = $app->open_platform->createAuthorizerApplication('authorizer-appid@999', 'authorizer-refresh-token');
 
-        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Core\AuthorizerAccessToken', $newApp->access_token);
+        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Core\AuthorizerAccessToken', $newApp->access_token);
         $this->assertEquals('authorizer-appid@999', $newApp->access_token->getAppId());
     }
 

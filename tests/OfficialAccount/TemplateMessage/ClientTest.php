@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\TemplateMessage;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
-use EasyWeChat\OfficialAccount\TemplateMessage\Client as TemplateMessage;
+use EasyWeChat\Applications\OfficialAccount\TemplateMessage\Client as TemplateMessage;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -20,10 +20,10 @@ class ClientTest extends TestCase
     public function getNotice($mockHttp = false)
     {
         if ($mockHttp) {
-            $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken');
+            $accessToken = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken');
             $accessToken->shouldReceive('getQueryFields')->andReturn(['access_token' => 'foo']);
             $notice = new TemplateMessage($accessToken);
-            $http = \Mockery::mock('EasyWeChat\Foundation\Core\Http[json]');
+            $http = \Mockery::mock('EasyWeChat\Applications\Base\Core\Http[json]');
             $http->shouldReceive('json')->andReturnUsing(function ($api, $params) {
                 return json_encode(compact('api', 'params'));
             });
@@ -31,7 +31,7 @@ class ClientTest extends TestCase
 
             return $notice;
         }
-        $notice = \Mockery::mock('EasyWeChat\OfficialAccount\TemplateMessage\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $notice = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\TemplateMessage\Client[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $notice->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];

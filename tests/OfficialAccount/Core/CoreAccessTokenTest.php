@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\OfficialAccount\Core;
 
 use Doctrine\Common\Cache\Cache;
-use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Core\AccessToken;
+use EasyWeChat\Applications\Base\Core\Http;
+use EasyWeChat\Applications\OfficialAccount\Core\AccessToken;
 use EasyWeChat\Tests\TestCase;
 
 class CoreAccessTokenTest extends TestCase

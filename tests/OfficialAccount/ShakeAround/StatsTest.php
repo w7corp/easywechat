@@ -21,14 +21,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\ShakeAround\Stats;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Stats;
 use EasyWeChat\Tests\TestCase;
 
 class StatsTest extends TestCase
 {
     public function getStats()
     {
-        $stats = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Stats[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $stats = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Stats[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $stats->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

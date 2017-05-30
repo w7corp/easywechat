@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Message;
 
-use EasyWeChat\OfficialAccount\Message\Video;
+use EasyWeChat\Applications\OfficialAccount\Message\Video;
 use EasyWeChat\Tests\TestCase;
 
 class MessageVideoTest extends TestCase

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Message;
 
-use EasyWeChat\OfficialAccount\Message\Image;
+use EasyWeChat\Applications\OfficialAccount\Message\Image;
 use EasyWeChat\Tests\TestCase;
 
 class MessageImageTest extends TestCase

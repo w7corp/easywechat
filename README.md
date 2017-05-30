@@ -64,7 +64,7 @@ composer require "overtrue/wechat:~3.1" -vvv
 ```php
 <?php
 
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Application;
 
 $options = [
     'debug'     => true,

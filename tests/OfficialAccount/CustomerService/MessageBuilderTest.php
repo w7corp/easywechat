@@ -11,16 +11,16 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\CustomerService;
 
-use EasyWeChat\OfficialAccount\CustomerService\MessageBuilder;
-use EasyWeChat\OfficialAccount\Message\Raw;
-use EasyWeChat\OfficialAccount\Message\Text;
+use EasyWeChat\Applications\OfficialAccount\CustomerService\MessageBuilder;
+use EasyWeChat\Applications\OfficialAccount\Message\Raw;
+use EasyWeChat\Applications\OfficialAccount\Message\Text;
 use EasyWeChat\Tests\TestCase;
 
 class MessageBuilderTest extends TestCase
 {
     public function getMessageBuilder()
     {
-        $customerService = \Mockery::mock('EasyWeChat\OfficialAccount\CustomerService\Client');
+        $customerService = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\CustomerService\Client');
         $customerService->shouldReceive('send')->andReturnUsing(function ($message) {
             return $message;
         });

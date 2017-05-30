@@ -10,8 +10,8 @@
  */
 
 namespace EasyWeChat\Tests\OfficialAccount\Js {
-    use EasyWeChat\Foundation\Core\Http;
-    use EasyWeChat\OfficialAccount\Js\Client as Js;
+    use EasyWeChat\Applications\Base\Core\Http;
+    use EasyWeChat\Applications\OfficialAccount\Js\Client as Js;
     use EasyWeChat\Tests\TestCase;
 
     class ClientTest extends TestCase
@@ -35,7 +35,7 @@ namespace EasyWeChat\Tests\OfficialAccount\Js {
 
         public function getMockAccessToken()
         {
-            $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
+            $accessToken = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
             $accessToken->shouldReceive('getTokenFromServer')->andReturn([
                 'access_token' => 'foobar',
                 'expires_in' => 7200,

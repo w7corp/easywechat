@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Card\Client as Card;
+use EasyWeChat\Applications\Base\Core\Http;
+use EasyWeChat\Applications\OfficialAccount\Card\Client as Card;
 use EasyWeChat\Support\Arr;
 use EasyWeChat\Tests\TestCase;
 
@@ -23,7 +23,7 @@ class ClientTest extends TestCase
      */
     public function getCard()
     {
-        $card = \Mockery::mock('EasyWeChat\OfficialAccount\Card\Client[parseJSON]', [$this->getMockAccessToken()]);
+        $card = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Card\Client[parseJSON]', [$this->getMockAccessToken()]);
         $card->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
@@ -53,7 +53,7 @@ class ClientTest extends TestCase
 
     public function getMockAccessToken()
     {
-        $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
+        $accessToken = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
         $accessToken->shouldReceive('getTokenFromServer')->andReturn([
             'access_token' => 'foobar',
             'expires_in' => 7200,

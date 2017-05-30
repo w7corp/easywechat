@@ -37,14 +37,14 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @return \Mockery\MockInterface|\EasyWeChat\OfficialAccount\Fundamental\Client
+     * @return \Mockery\MockInterface|\EasyWeChat\Applications\OfficialAccount\Fundamental\Client
      */
     private function make()
     {
-        $accessToken = \Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken', function ($mock) {
+        $accessToken = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken', function ($mock) {
             $mock->shouldReceive('getAppId')->andReturn('i-am-app-id');
         });
-        $api = \Mockery::mock('EasyWeChat\OfficialAccount\Fundamental\Client[parseJSON]', [$accessToken]);
+        $api = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Fundamental\Client[parseJSON]', [$accessToken]);
         $api->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];

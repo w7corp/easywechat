@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Url;
 
-use EasyWeChat\OfficialAccount\Url\Client as Url;
+use EasyWeChat\Applications\OfficialAccount\Url\Client as Url;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -21,7 +21,7 @@ class ClientTest extends TestCase
      */
     public function testShorten()
     {
-        $url = \Mockery::mock('EasyWeChat\OfficialAccount\Url\Client[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $url = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Url\Client[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $url->shouldReceive('parseJSON')->andReturnUsing(function () {
             return func_get_args();
         });

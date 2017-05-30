@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Server;
 
-use EasyWeChat\OfficialAccount\Encryption\Encryptor;
-use EasyWeChat\OfficialAccount\Message\Raw;
-use EasyWeChat\OfficialAccount\Server\Guard;
+use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor;
+use EasyWeChat\Applications\OfficialAccount\Message\Raw;
+use EasyWeChat\Applications\OfficialAccount\Server\Guard;
 use EasyWeChat\Support\XML;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;

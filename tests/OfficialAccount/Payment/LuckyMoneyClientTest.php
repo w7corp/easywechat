@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
-use EasyWeChat\Foundation\Core\Http;
-use EasyWeChat\OfficialAccount\Payment\LuckyMoney\Client as API;
-use EasyWeChat\OfficialAccount\Payment\Merchant;
+use EasyWeChat\Applications\Base\Core\Http;
+use EasyWeChat\Applications\OfficialAccount\Payment\LuckyMoney\Client as API;
+use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
 use EasyWeChat\Support\XML;
 use EasyWeChat\Tests\TestCase;
 
@@ -47,7 +47,7 @@ class LuckyMoneyClientTest extends TestCase
                 'key_path' => 'testKeyPath',
             ]);
 
-        $api = \Mockery::mock('EasyWeChat\OfficialAccount\Payment\LuckyMoney\Client[getHttp]', [$merchant]);
+        $api = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Payment\LuckyMoney\Client[getHttp]', [$merchant]);
         $api->shouldReceive('getHttp')->andReturn($http);
 
         return $api;

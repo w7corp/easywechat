@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\OpenPlatform\Api\AbstractOpenPlatform;
-use EasyWeChat\OpenPlatform\Core\AccessToken;
+use EasyWeChat\Applications\OpenPlatform\Api\AbstractOpenPlatform;
+use EasyWeChat\Applications\OpenPlatform\Core\AccessToken;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +28,7 @@ class ApiTest extends TestCase
         );
         $accessToken->setCache(new ArrayCache());
 
-        return $accessToken->setVerifyTicket(m::mock('EasyWeChat\OpenPlatform\Core\VerifyTicket'));
+        return $accessToken->setVerifyTicket(m::mock('EasyWeChat\Applications\OpenPlatform\Core\VerifyTicket'));
     }
 
     protected function getRequest()
@@ -38,7 +38,7 @@ class ApiTest extends TestCase
 
     public function mockBaseApi($appId)
     {
-        $baseApi = m::mock('EasyWeChat\OpenPlatform\Api\BaseApi[parseJSON]', [$this->getAccessToken($appId), $this->getRequest()]);
+        $baseApi = m::mock('EasyWeChat\Applications\OpenPlatform\Api\BaseApi[parseJSON]', [$this->getAccessToken($appId), $this->getRequest()]);
         /* @noinspection PhpUnusedParameterInspection */
         $baseApi->shouldReceive('parseJSON')
                 ->andReturnUsing(function ($method, $params) {
@@ -53,7 +53,7 @@ class ApiTest extends TestCase
 
     protected function mockPreAuthorization($appId, $code = null)
     {
-        $preAuth = m::mock('EasyWeChat\OpenPlatform\Api\PreAuthorization[parseJSON]',
+        $preAuth = m::mock('EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization[parseJSON]',
             [$this->getAccessToken($appId), $this->getRequest()]
         );
         /* @noinspection PhpUnusedParameterInspection */

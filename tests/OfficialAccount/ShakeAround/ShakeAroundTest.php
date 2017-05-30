@@ -21,20 +21,20 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\ShakeAround\Device;
-use EasyWeChat\OfficialAccount\ShakeAround\Group;
-use EasyWeChat\OfficialAccount\ShakeAround\Material;
-use EasyWeChat\OfficialAccount\ShakeAround\Page;
-use EasyWeChat\OfficialAccount\ShakeAround\Relation;
-use EasyWeChat\OfficialAccount\ShakeAround\ShakeAround;
-use EasyWeChat\OfficialAccount\ShakeAround\Stats;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Device;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Group;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Material;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Page;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\ShakeAround;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Stats;
 use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundTest extends TestCase
 {
     public function getShakeAround()
     {
-        $shake_around = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\ShakeAround[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $shake_around = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\ShakeAround[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
 
         return $shake_around;
     }

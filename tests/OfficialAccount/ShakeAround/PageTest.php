@@ -21,14 +21,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\ShakeAround\Page;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Page;
 use EasyWeChat\Tests\TestCase;
 
 class PageTest extends TestCase
 {
     public function getPage()
     {
-        $page = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Page[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $page = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Page[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $page->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

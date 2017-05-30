@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\ShakeAround\Material;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Material;
 use EasyWeChat\Tests\TestCase;
 
 class MaterialTest extends TestCase
@@ -33,7 +33,7 @@ class MaterialTest extends TestCase
      */
     public function testUploadImage()
     {
-        $material = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Material[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $material = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Material[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $material->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

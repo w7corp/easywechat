@@ -21,14 +21,14 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\OfficialAccount\ShakeAround\Device;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\Device;
 use EasyWeChat\Tests\TestCase;
 
 class DeviceTest extends TestCase
 {
     public function getDevice()
     {
-        $device = \Mockery::mock('EasyWeChat\OfficialAccount\ShakeAround\Device[parseJSON]', [\Mockery::mock('EasyWeChat\OfficialAccount\Core\AccessToken')]);
+        $device = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Device[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
         $device->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
