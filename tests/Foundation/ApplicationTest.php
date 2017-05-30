@@ -12,9 +12,9 @@
 namespace EasyWeChat\Tests\Foundation;
 
 use EasyWeChat\Application;
-use EasyWeChat\Config\Repository as Config;
 use EasyWeChat\Applications\Base\Core\Http;
 use EasyWeChat\Applications\OfficialAccount\Core\AccessToken;
+use EasyWeChat\Config\Repository as Config;
 use EasyWeChat\Tests\TestCase;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

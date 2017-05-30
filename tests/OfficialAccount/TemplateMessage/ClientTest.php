@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\TemplateMessage;
 
-use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Applications\OfficialAccount\TemplateMessage\Client as TemplateMessage;
+use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

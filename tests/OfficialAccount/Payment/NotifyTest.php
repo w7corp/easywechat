@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
-use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
 use EasyWeChat\Applications\OfficialAccount\Payment\Notify;
+use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use EasyWeChat\Tests\TestCase;
