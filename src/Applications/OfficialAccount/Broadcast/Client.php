@@ -21,8 +21,8 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Broadcast;
 
-use EasyWeChat\Exceptions\HttpException;
 use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Exceptions\HttpException;
 
 class Client extends AbstractAPI
 {

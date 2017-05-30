@@ -11,11 +11,11 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Payment;
 
-use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Applications\OfficialAccount\Payment\Client as API;
 use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
 use EasyWeChat\Applications\OfficialAccount\Payment\Notify;
 use EasyWeChat\Applications\OfficialAccount\Payment\Payment;
+use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Support\XML;
 use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\AccessToken;

@@ -21,8 +21,8 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Material;
 
-use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\File;
 
 class TemporaryClient extends AbstractAPI

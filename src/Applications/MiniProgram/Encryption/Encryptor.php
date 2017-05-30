@@ -26,9 +26,9 @@
 
 namespace EasyWeChat\Applications\MiniProgram\Encryption;
 
-use EasyWeChat\Exceptions\InvalidConfigException;
 use EasyWeChat\Applications\OfficialAccount\Encryption\EncryptionException;
 use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor as BaseEncryptor;
+use EasyWeChat\Exceptions\InvalidConfigException;
 use EasyWeChat\Support\Collection;
 use Exception as BaseException;
 
