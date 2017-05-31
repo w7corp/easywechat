@@ -101,6 +101,7 @@ class Application extends Container
         \EasyWeChat\Applications\OfficialAccount\Card\ServiceProvider::class,
         \EasyWeChat\Applications\OfficialAccount\Device\ServiceProvider::class,
         \EasyWeChat\Applications\OfficialAccount\ShakeAround\ServiceProvider::class,
+        \EasyWeChat\Applications\OfficialAccount\Comment\ServiceProvider::class,
 
         /*
          * OpenPlatform Service Providers...
