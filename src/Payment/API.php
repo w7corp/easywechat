@@ -120,11 +120,12 @@ class API extends AbstractAPI
      *
      * @param Order $order
      *
+     * @param $notify_url
      * @return \EasyWeChat\Support\Collection
      */
-    public function prepare(Order $order)
+    public function prepare(Order $order, $notify_url = null)
     {
-        $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
+        $notify_url ? $order->notify_url = $notify_url : $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
         if (is_null($order->spbill_create_ip)) {
             $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? get_server_ip() : get_client_ip();
         }
