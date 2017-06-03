@@ -108,6 +108,27 @@ class Application extends Container
     ];
 
     /**
+     * @var array list of installed wechat extensions. Each array element represents a single extension
+     * with the following structure:
+     *
+     * ```php
+     * [
+     *     'name' => 'extension name',
+     *     'version' => 'version number',
+     *     'bootstrap' => 'BootstrapClassName',  // optional, may also be a configuration array
+     * ]
+     * ```
+     *
+     * The "bootstrap" class listed above will be instantiated during the application
+     * [[bootstrap()|bootstrapping process]]. If the class implements [[BootstrapInterface]],
+     * its [[BootstrapInterface::bootstrap()|bootstrap()]] method will be also be called.
+     *
+     * If not set explicitly in the application config, this property will be populated with the contents of
+     * `vendor/overtrue/extensions.php`.
+     */
+    public $extensions;
+
+    /**
      * Application constructor.
      *
      * @param array $config
