@@ -17,7 +17,7 @@
     "require": {
         "php":">=5.5.0",
         "ext-openssl": "*",
-        "xutl/wechat-composer": "dev-master",
+        "xutl/wechat-composer": "~1.0",
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.17",
         "overtrue/socialite": ">=1.0.25",
