@@ -180,7 +180,7 @@ class Application extends Container
      */
     protected function bootstrap()
     {
-        if ($this->extensions === null) {
+        if ($this->extensions === null  && isset($this['config']['vendor'])) {
             $file = $this['config']['vendor'] . '/overtrue/extensions.php';
             $this->extensions = is_file($file) ? include($file) : [];
         }
