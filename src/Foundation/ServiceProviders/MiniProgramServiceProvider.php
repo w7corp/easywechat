@@ -22,8 +22,8 @@
 
 namespace EasyWeChat\Foundation\ServiceProviders;
 
-use EasyWeChat\Encryption\Encryptor;
 use EasyWeChat\MiniProgram\AccessToken;
+use EasyWeChat\MiniProgram\Encryption\Encryptor;
 use EasyWeChat\MiniProgram\Material\Temporary;
 use EasyWeChat\MiniProgram\MiniProgram;
 use EasyWeChat\MiniProgram\Notice\Notice;
