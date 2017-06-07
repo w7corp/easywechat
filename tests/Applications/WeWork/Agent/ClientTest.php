@@ -12,7 +12,6 @@
 namespace EasyWeChat\Tests\Applications\WeWork\Agent;
 
 use EasyWeChat\Tests\TestCase;
-
 use Mockery as m;
 
 class ClientTest extends TestCase
@@ -34,14 +33,14 @@ class ClientTest extends TestCase
     public function testSet()
     {
         $result = $this->getClient()->set($expected = [
-            'agentid' =>  5,
-            'report_location_flag' =>  0,
-            'logo_mediaid' =>  'xxxxx',
-            'name' =>  'NAME',
-            'description' =>  'DESC',
-            'redirect_domain' =>  'xxxxxx',
+            'agentid' => 5,
+            'report_location_flag' => 0,
+            'logo_mediaid' => 'xxxxx',
+            'name' => 'NAME',
+            'description' => 'DESC',
+            'redirect_domain' => 'xxxxxx',
             'isreportenter' => 0,
-            'home_url' => 'http://www.qq.com'
+            'home_url' => 'http://www.qq.com',
         ]);
 
         $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/agent/set', $result[1][0]);
