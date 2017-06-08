@@ -284,6 +284,13 @@ class Encryptor
             throw new EncryptionException('Invalid appId.', EncryptionException::ERROR_INVALID_APPID);
         }
 
+        $dataSet = json_decode($xml, true);
+        if (JSON_ERROR_NONE === json_last_error()) {
+            // For mini-program JSON formats.
+            // Convert to XML if the given string can be decode into a data array.
+            $xml = XML::build($dataSet);
+        }
+
         return $xml;
     }
 
