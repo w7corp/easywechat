@@ -50,7 +50,7 @@ class ServiceProvider implements ServiceProviderInterface
             return $accessToken;
         };
 
-        $pimple['mini_program'] = function ($pimple) {
+        $pimple['mini_program.instance'] = function ($pimple) {
             return new MiniProgram($pimple);
         };
     }

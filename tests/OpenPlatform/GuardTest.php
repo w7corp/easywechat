@@ -46,6 +46,6 @@ class GuardTest extends TestCase
 
         $app = new Application($config);
 
-        return $app->open_platform->server;
+        return $app->offsetGet('open_platform.instance')->server;
     }
 }

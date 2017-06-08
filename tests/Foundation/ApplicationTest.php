@@ -13,7 +13,6 @@ namespace EasyWeChat\Tests\Foundation;
 
 use EasyWeChat\Application;
 use EasyWeChat\Applications\Base\Core\Http;
-use EasyWeChat\Applications\OfficialAccount\Core\AccessToken;
 use EasyWeChat\Config\Repository as Config;
 use EasyWeChat\Tests\TestCase;
 use Pimple\Container;
@@ -36,7 +35,6 @@ class ApplicationTest extends TestCase
             $container = new Container();
             $container->register(new $provider());
             $container['config'] = $app->raw('config');
-            $container['access_token'] = $app->raw('access_token');
             $container['request'] = $app->raw('request');
             $container['cache'] = $app->raw('cache');
 
@@ -100,10 +98,10 @@ class ApplicationTest extends TestCase
 
         $app = new Application($config);
 
-        $this->assertInstanceOf(AccessToken::class, $app['access_token']);
+        $this->assertInstanceOf('EasyWeChat\Applications\OfficialAccount\Core\AccessToken', $app['official_account.access_token']);
 
-        $app['access_token']->setToken('iamtokenhere');
+        $app['official_account.access_token']->setToken('iamtokenhere');
 
-        $this->assertSame('iamtokenhere', $app['access_token']->getToken());
+        $this->assertSame('iamtokenhere', $app['official_account.access_token']->getToken());
     }
 }

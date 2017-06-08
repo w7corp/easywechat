@@ -31,24 +31,16 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['material'] = function ($pimple) {
-            return new Client($pimple['access_token']);
+        $container['official_account.material'] = function ($container) {
+            return new Client($container['official_account.access_token']);
         };
 
-        $temporary = function ($pimple) {
-            return new TemporaryClient($pimple['access_token']);
+        $container['official_account.material_temporary'] = function ($container) {
+            return new TemporaryClient($container['official_account.access_token']);
         };
-
-        $pimple['material_temporary'] = $temporary;
-        $pimple['material.temporary'] = $temporary;
     }
 }

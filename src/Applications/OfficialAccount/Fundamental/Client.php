@@ -35,7 +35,7 @@ class Client extends AbstractAPI
      */
     public function clearQuota()
     {
-        $appid = $this->getAccessToken()->getAppId();
+        $appid = $this->getAccessToken()->getClientId();
 
         return $this->parseJSON('json', [self::API_CLEAR_QUOTA, compact('appid')]);
     }

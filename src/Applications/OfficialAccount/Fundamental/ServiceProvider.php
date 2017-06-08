@@ -20,7 +20,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Fundamental\ServiceProviders;
+namespace EasyWeChat\Applications\OfficialAccount\Fundamental;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -33,10 +33,10 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['fundamental.api'] = function ($pimple) {
-            return new Client($pimple['access_token']);
+        $container['official_account.fundamental_api'] = function ($container) {
+            return new Client($container['official_account.access_token']);
         };
     }
 }

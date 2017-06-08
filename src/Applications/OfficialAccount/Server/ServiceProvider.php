@@ -36,29 +36,24 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['encryptor'] = function ($pimple) {
+        $container['official_account.encryptor'] = function ($container) {
             return new Encryptor(
-                $pimple['config']['app_id'],
-                $pimple['config']['token'],
-                $pimple['config']['aes_key']
+                $container['config']['app_id'],
+                $container['config']['token'],
+                $container['config']['aes_key']
             );
         };
 
-        $pimple['server'] = function ($pimple) {
-            $server = new Guard($pimple['config']['token']);
+        $container['official_account.server'] = function ($container) {
+            $server = new Guard($container['config']['token']);
 
-            $server->debug($pimple['config']['debug']);
+            $server->debug($container['config']['debug']);
 
-            $server->setEncryptor($pimple['encryptor']);
+            $server->setEncryptor($container['official_account.encryptor']);
 
             return $server;
         };

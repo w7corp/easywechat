@@ -40,59 +40,54 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['open_platform'] = function ($pimple) {
-            return new OpenPlatform($pimple);
+        $container['open_platform.instance'] = function ($container) {
+            return new OpenPlatform($container);
         };
 
-        $pimple['open_platform.pre_auth'] = $pimple['open_platform.pre_authorization'] = function ($pimple) {
+        $container['open_platform.pre_auth'] = function ($container) {
             return new PreAuthorization(
-                $pimple['open_platform.access_token'],
-                $pimple['request']
+                $container['open_platform.access_token'],
+                $container['request']
             );
         };
 
-        $pimple['open_platform.api'] = function ($pimple) {
+        $container['open_platform.api'] = function ($container) {
             return new BaseApi(
-                $pimple['open_platform.access_token'],
-                $pimple['request']
+                $container['open_platform.access_token'],
+                $container['request']
             );
         };
 
         // Authorization events handlers.
-        $pimple['open_platform.handlers.component_verify_ticket'] = function ($pimple) {
-            return new EventHandlers\ComponentVerifyTicket($pimple['open_platform.verify_ticket']);
+        $container['open_platform.handlers.component_verify_ticket'] = function ($container) {
+            return new EventHandlers\ComponentVerifyTicket($container['open_platform.verify_ticket']);
         };
-        $pimple['open_platform.handlers.authorized'] = function () {
+        $container['open_platform.handlers.authorized'] = function () {
             return new EventHandlers\Authorized();
         };
-        $pimple['open_platform.handlers.updateauthorized'] = function () {
+        $container['open_platform.handlers.updateauthorized'] = function () {
             return new EventHandlers\UpdateAuthorized();
         };
-        $pimple['open_platform.handlers.unauthorized'] = function () {
+        $container['open_platform.handlers.unauthorized'] = function () {
             return new EventHandlers\Unauthorized();
         };
 
-        $pimple['open_platform.app'] = function ($pimple) {
-            return new Application($pimple['config']->toArray());
+        $container['open_platform.app'] = function ($container) {
+            return new Application($container['config']->toArray());
         };
 
         // OAuth for OpenPlatform.
-        $pimple['open_platform.oauth'] = function ($pimple) {
-            $callback = $this->prepareCallbackUrl($pimple);
-            $scopes = $pimple['config']->get('open_platform.oauth.scopes', []);
+        $container['open_platform.oauth'] = function ($container) {
+            $callback = $this->prepareCallbackUrl($container);
+            $scopes = $container['config']->get('open_platform.oauth.scopes', []);
             $socialite = (new Socialite([
                 'wechat_open' => [
-                    'client_id' => $pimple['open_platform.authorizer_access_token']->getAppId(),
-                    'client_secret' => $pimple['open_platform.access_token'],
+                    'client_id' => $container['open_platform.authorizer_access_token']->getAppId(),
+                    'client_secret' => $container['open_platform.access_token'],
                     'redirect' => $callback,
                 ],
             ]))->driver('wechat_open');
@@ -108,17 +103,17 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * Prepare the OAuth callback url for wechat.
      *
-     * @param Container $pimple
+     * @param Container $container
      *
      * @return string
      */
-    private function prepareCallbackUrl($pimple)
+    private function prepareCallbackUrl($container)
     {
-        $callback = $pimple['config']->get('oauth.callback');
+        $callback = $container['config']->get('oauth.callback');
         if (0 === stripos($callback, 'http')) {
             return $callback;
         }
-        $baseUrl = $pimple['request']->getSchemeAndHttpHost();
+        $baseUrl = $container['request']->getSchemeAndHttpHost();
 
         return $baseUrl.'/'.ltrim($callback, '/');
     }

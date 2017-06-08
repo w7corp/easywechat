@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Fundamental;
 
+use EasyWeChat\Applications\OfficialAccount\Core\AccessToken;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -20,10 +21,10 @@ class ClientTest extends TestCase
      */
     public function testClearQuota()
     {
-        $result = $this->make()->clearQuota();
+        $result = $this->make('wxappid')->clearQuota();
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/clear_quota', $result['api']);
-        $this->assertSame(['appid' => 'i-am-app-id'], $result['params']);
+        $this->assertSame(['appid' => 'wxappid'], $result['params']);
     }
 
     /**
@@ -39,11 +40,9 @@ class ClientTest extends TestCase
     /**
      * @return \Mockery\MockInterface|\EasyWeChat\Applications\OfficialAccount\Fundamental\Client
      */
-    private function make()
+    private function make($appId = 'wxappid')
     {
-        $accessToken = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken', function ($mock) {
-            $mock->shouldReceive('getAppId')->andReturn('i-am-app-id');
-        });
+        $accessToken = new AccessToken($appId);
         $api = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\Fundamental\Client[parseJSON]', [$accessToken]);
         $api->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {

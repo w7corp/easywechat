@@ -35,31 +35,20 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['user'] = function ($pimple) {
-            return new UserClient($pimple['access_token']);
+        $container['official_account.user'] = function ($container) {
+            return new UserClient($container['official_account.access_token']);
         };
 
-        $group = function ($pimple) {
-            return new GroupClient($pimple['access_token']);
+        $container['official_account.user_group'] = function ($container) {
+            return new GroupClient($container['official_account.access_token']);
         };
 
-        $tag = function ($pimple) {
-            return new TagClient($pimple['access_token']);
+        $container['official_account.user_tag'] = function ($container) {
+            return new TagClient($container['official_account.access_token']);
         };
-
-        $pimple['user_group'] = $group;
-        $pimple['user.group'] = $group;
-
-        $pimple['user_tag'] = $tag;
-        $pimple['user.tag'] = $tag;
     }
 }

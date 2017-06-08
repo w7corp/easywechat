@@ -22,11 +22,10 @@ class OpenPlatformTest extends TestCase
 {
     public function testOpenPlatform()
     {
-        $openPlatform = $this->make()->open_platform;
+        $openPlatform = $this->make()->offsetGet('open_platform.instance');
 
         $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\BaseApi', $openPlatform->api);
         $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_auth);
-        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_authorization);
         $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Server\Guard', $openPlatform->server);
     }
 
@@ -50,7 +49,7 @@ class OpenPlatformTest extends TestCase
 
         $app = $this->make();
         $app['open_platform.access_token'] = $accessToken;
-        $newApp = $app->open_platform->createAuthorizerApplication('authorizer-appid@999', 'authorizer-refresh-token');
+        $newApp = $app->offsetGet('open_platform.instance')->createAuthorizerApplication('authorizer-appid@999', 'authorizer-refresh-token');
 
         $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Core\AuthorizerAccessToken', $newApp->access_token);
         $this->assertEquals('authorizer-appid@999', $newApp->access_token->getAppId());

@@ -32,23 +32,18 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['oauth'] = function ($pimple) {
-            $callback = $this->prepareCallbackUrl($pimple);
-            $scopes = $pimple['config']->get('oauth.scopes', []);
+        $container['official_account.oauth'] = function ($container) {
+            $callback = $this->prepareCallbackUrl($container);
+            $scopes = $container['config']->get('oauth.scopes', []);
             $socialite = (new Socialite(
                 [
                     'wechat' => [
-                        'client_id' => $pimple['config']['app_id'],
-                        'client_secret' => $pimple['config']['secret'],
+                        'client_id' => $container['config']['app_id'],
+                        'client_secret' => $container['config']['secret'],
                         'redirect' => $callback,
                     ],
                 ]
@@ -65,17 +60,17 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * Prepare the OAuth callback url for wechat.
      *
-     * @param Container $pimple
+     * @param Container $container
      *
      * @return string
      */
-    private function prepareCallbackUrl($pimple)
+    private function prepareCallbackUrl($container)
     {
-        $callback = $pimple['config']->get('oauth.callback');
+        $callback = $container['config']->get('oauth.callback');
         if (0 === stripos($callback, 'http')) {
             return $callback;
         }
-        $baseUrl = $pimple['request']->getSchemeAndHttpHost();
+        $baseUrl = $container['request']->getSchemeAndHttpHost();
 
         return $baseUrl.'/'.ltrim($callback, '/');
     }

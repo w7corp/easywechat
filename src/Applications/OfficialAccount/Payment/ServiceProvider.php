@@ -38,43 +38,38 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['merchant'] = function ($pimple) {
+        $container['official_account.merchant'] = function ($container) {
             $config = array_merge(
-                ['app_id' => $pimple['config']['app_id']],
-                $pimple['config']->get('payment', [])
+                ['app_id' => $container['config']['app_id']],
+                $container['config']->get('payment', [])
             );
 
             return new Merchant($config);
         };
 
-        $pimple['payment'] = function ($pimple) {
-            $payment = new Payment($pimple['merchant']);
+        $container['official_account.payment'] = function ($container) {
+            $payment = new Payment($container['official_account.merchant']);
             $payment->sandboxMode(
-                (bool) $pimple['config']->get('payment.sandbox_mode')
+                (bool) $container['config']->get('payment.sandbox_mode')
             );
 
             return $payment;
         };
 
-        $pimple['lucky_money'] = function ($pimple) {
-            return new LuckyMoney($pimple['merchant']);
+        $container['official_account.lucky_money'] = function ($container) {
+            return new LuckyMoney($container['official_account.merchant']);
         };
 
-        $pimple['merchant_pay'] = function ($pimple) {
-            return new MerchantPay($pimple['merchant']);
+        $container['official_account.merchant_pay'] = function ($container) {
+            return new MerchantPay($container['official_account.merchant']);
         };
 
-        $pimple['cash_coupon'] = function ($pimple) {
-            return new CashCoupon($pimple['merchant']);
+        $container['official_account.cash_coupon'] = function ($container) {
+            return new CashCoupon($container['official_account.merchant']);
         };
     }
 }

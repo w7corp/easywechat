@@ -36,7 +36,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['access_token'] = function ($container) {
+        $container['official_account.access_token'] = function ($container) {
             $accessToken = new AccessToken(
                 $container['config']['app_id'],
                 $container['config']['secret']

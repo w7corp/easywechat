@@ -35,17 +35,12 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $container)
     {
-        $pimple['shakearound'] = function ($pimple) {
-            return new ShakeAround($pimple['access_token']);
+        $container['official_account.shakearound'] = function ($container) {
+            return new ShakeAround($container['official_account.access_token']);
         };
     }
 }

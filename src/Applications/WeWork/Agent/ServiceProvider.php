@@ -21,8 +21,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['we_work.agent'] = function () {
-            return new Client();
+        $container['we_work.agent'] = function ($container) {
+            return new Client($container['we_work.access_token']);
         };
     }
 }
