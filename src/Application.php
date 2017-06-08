@@ -30,6 +30,7 @@ use Doctrine\Common\Cache\Cache as CacheInterface;
 use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Applications\Base\Core\Http;
 use EasyWeChat\Config\Repository as Config;
+use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Support\Log;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
@@ -39,36 +40,10 @@ use Pimple\Container;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class Application.
- *
- * @property \EasyWeChat\Applications\OfficialAccount\Core\AccessToken                   $access_token
- * @property \EasyWeChat\Applications\OfficialAccount\Server\Guard                       $server
- * @property \EasyWeChat\Applications\OfficialAccount\User\User                          $user
- * @property \EasyWeChat\Applications\OfficialAccount\User\Tag                           $user_tag
- * @property \EasyWeChat\Applications\OfficialAccount\User\Group                         $user_group
- * @property \EasyWeChat\Applications\OfficialAccount\Js\Js                              $js
- * @property \Overtrue\Socialite\Providers\WeChatProvider                   $oauth
- * @property \EasyWeChat\Applications\OfficialAccount\Menu\Menu                          $menu
- * @property \EasyWeChat\Applications\OfficialAccount\TemplateMessage\TemplateMessage    $template_message
- * @property \EasyWeChat\Applications\OfficialAccount\Material\Material                  $material
- * @property \EasyWeChat\Applications\OfficialAccount\Material\Temporary                 $material_temporary
- * @property \EasyWeChat\Applications\OfficialAccount\CustomerService\CustomerService    $customer_service
- * @property \EasyWeChat\Applications\OfficialAccount\Url\Url                            $url
- * @property \EasyWeChat\Applications\OfficialAccount\QRCode\QRCode                      $qrcode
- * @property \EasyWeChat\Applications\OfficialAccount\Semantic\Semantic                  $semantic
- * @property \EasyWeChat\Applications\OfficialAccount\Stats\Stats                        $stats
- * @property \EasyWeChat\Applications\OfficialAccount\Payment\Merchant                   $merchant
- * @property \EasyWeChat\Applications\OfficialAccount\Payment\Payment                    $payment
- * @property \EasyWeChat\Applications\OfficialAccount\Payment\LuckyMoney\LuckyMoney      $lucky_money
- * @property \EasyWeChat\Applications\OfficialAccount\Payment\MerchantPay\MerchantPay    $merchant_pay
- * @property \EasyWeChat\Applications\OfficialAccount\Payment\CashCoupon\CashCoupon      $cash_coupon
- * @property \EasyWeChat\Applications\OfficialAccount\Reply\Reply                        $reply
- * @property \EasyWeChat\Applications\OfficialAccount\Broadcast\Broadcast                $broadcast
- * @property \EasyWeChat\Applications\OfficialAccount\Card\Card                          $card
- * @property \EasyWeChat\Applications\OfficialAccount\Device\Device                      $device
- * @property \EasyWeChat\Applications\OfficialAccount\ShakeAround\ShakeAround            $shakearound
- * @property \EasyWeChat\Applications\OpenPlatform\OpenPlatform                          $open_platform
- * @property \EasyWeChat\Applications\MiniProgram\MiniProgram                            $mini_program
+ * @method static \EasyWeChat\Applications\WeWork\WeWork                    wework(array $config)
+ * @method static \EasyWeChat\Applications\MiniProgram\MiniProgram          miniProgram(array $config)
+ * @method static \EasyWeChat\Applications\OpenPlatform\OpenPlatform        openPlatform(array $config)
+ * @method static \EasyWeChat\Applications\OfficialAccount\OfficialAccount  officialAccount(array $config)
  */
 class Application extends Container
 {
@@ -121,6 +96,14 @@ class Application extends Container
         \EasyWeChat\Applications\MiniProgram\Material\ServiceProvider::class,
         \EasyWeChat\Applications\MiniProgram\CustomerService\ServiceProvider::class,
         \EasyWeChat\Applications\MiniProgram\TemplateMessage\ServiceProvider::class,
+
+        /*
+         * WeWork Service Providers...
+         */
+        \EasyWeChat\Applications\WeWork\Core\ServiceProvider::class,
+        \EasyWeChat\Applications\WeWork\Department\ServiceProvider::class,
+        \EasyWeChat\Applications\WeWork\Attendance\ServiceProvider::class,
+        \EasyWeChat\Applications\WeWork\Agent\ServiceProvider::class,
     ];
 
     /**
@@ -283,21 +266,53 @@ class Application extends Container
     }
 
     /**
-     * Magic call.
+     * Get the instance from the container.
      *
-     * @param string $method
-     * @param array  $args
+     * @param string $name
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
+    public static function make($name, array $arguments)
+    {
+        return (new self($arguments))->offsetGet(
+            self::applicationInstanceKey($name)
+        );
+    }
+
+    /**
+     * Get the application instance key.
+     *
+     * @param string $name
      *
      * @return mixed
      *
-     * @throws \Exception
+     * @throws \EasyWeChat\Exceptions\FaultException
      */
-    public function __call($method, $args)
+    protected static function applicationInstanceKey($name)
     {
-        if (is_callable([$this['fundamental.api'], $method])) {
-            return call_user_func_array([$this['fundamental.api'], $method], $args);
-        }
+        $applications = [
+            'wework' => 'we_work.instance',
+            'miniProgram' => 'mini_program.instance',
+            'openPlatform' => 'open_platform.instance',
+            'officialAccount' => 'official_account.instance',
+        ];
 
-        throw new \Exception("Call to undefined method {$method}()");
+        return $applications[$name] ?? (function () use ($name) {
+            throw new FaultException("No application named '{$name}'");
+        })();
+    }
+
+    /**
+     * Dynamically pass methods to the application.
+     *
+     * @param string $name
+     * @param array $arguments
+     *
+     * @return mixed
+     */
+    public static function __callStatic($name, $arguments)
+    {
+        return self::make($name, ...$arguments);
     }
 }

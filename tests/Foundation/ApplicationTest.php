@@ -104,4 +104,48 @@ class ApplicationTest extends TestCase
 
         $this->assertSame('iamtokenhere', $app['official_account.access_token']->getToken());
     }
+
+    public function testStaticCall()
+    {
+        $weworkInstances = [
+            Application::wework(['client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123', 'debug' => true]),
+            Application::make('wework', ['debug' => true, 'client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123']),
+        ];
+        foreach ($weworkInstances as $instance) {
+            $this->assertInstanceOf('EasyWeChat\Applications\WeWork\WeWork', $instance);
+            $expected = [
+                'debug' => true,
+                'client_id' => 'corpid@123',
+                'client_secret' => 'corpsecret@123',
+            ];
+            $this->assertArraySubset($expected, $instance->fetch('config')->all());
+        }
+
+        $officialAccountInstances = [
+            Application::officialAccount(['appid' => 'appid@456']),
+            Application::make('officialAccount', ['appid' => 'appid@456']),
+        ];
+        foreach ($officialAccountInstances as $instance) {
+            $this->assertInstanceOf('EasyWeChat\Applications\OfficialAccount\OfficialAccount', $instance);
+            $this->assertArraySubset(['appid' => 'appid@456'], $instance->fetch('config')->all());
+        }
+
+        $openPlatformInstances = [
+            Application::openPlatform(['appid' => 'appid@789']),
+            Application::make('openPlatform', ['appid' => 'appid@789']),
+        ];
+        foreach ($openPlatformInstances as $instance) {
+            $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\OpenPlatform', $instance);
+            $this->assertArraySubset(['appid' => 'appid@789'], $instance->fetch('config')->all());
+        }
+
+        $miniProgramInstances = [
+            Application::miniProgram(['appid' => 'appid@890']),
+            Application::make('miniProgram', ['appid' => 'appid@890']),
+        ];
+        foreach ($miniProgramInstances as $instance) {
+            $this->assertInstanceOf('EasyWeChat\Applications\MiniProgram\MiniProgram', $instance);
+            $this->assertArraySubset(['appid' => 'appid@890'], $instance->fetch('config')->all());
+        }
+    }
 }

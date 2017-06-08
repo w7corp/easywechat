@@ -86,6 +86,10 @@ trait PrefixedContainer
      */
     public function __get($key)
     {
+        if ($this->container->offsetExists($key)) {
+            return $this->container->offsetGet($key);
+        }
+
         $className = basename(str_replace('\\', '/', static::class));
 
         $name = Str::snake($className).'.'.$key;
