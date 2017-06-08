@@ -307,7 +307,7 @@ class Application extends Container
      * Dynamically pass methods to the application.
      *
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      *
      * @return mixed
      */
