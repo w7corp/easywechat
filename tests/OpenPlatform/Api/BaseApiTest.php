@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
-use EasyWeChat\Applications\OpenPlatform\Api\BaseApi;
+use EasyWeChat\Applications\OpenPlatform\Api\Client;
 
 class BaseApiTest extends ApiTest
 {
@@ -24,7 +24,7 @@ class BaseApiTest extends ApiTest
             'authorization_code' => 'code@123',
         ];
 
-        $this->assertStringStartsWith(BaseApi::GET_AUTH_INFO, $result['api']);
+        $this->assertStringStartsWith(Client::GET_AUTH_INFO, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -38,7 +38,7 @@ class BaseApiTest extends ApiTest
             'authorizer_refresh_token' => 'refresh@123',
         ];
 
-        $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_TOKEN, $result['api']);
+        $this->assertStringStartsWith(Client::GET_AUTHORIZER_TOKEN, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -51,7 +51,7 @@ class BaseApiTest extends ApiTest
             'authorizer_appid' => 'appid@456',
         ];
 
-        $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_INFO, $result['api']);
+        $this->assertStringStartsWith(Client::GET_AUTHORIZER_INFO, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -65,7 +65,7 @@ class BaseApiTest extends ApiTest
             'option_name' => 'option@123',
         ];
 
-        $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_OPTION, $result['api']);
+        $this->assertStringStartsWith(Client::GET_AUTHORIZER_OPTION, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -80,7 +80,7 @@ class BaseApiTest extends ApiTest
             'option_value' => 'value@123',
         ];
 
-        $this->assertStringStartsWith(BaseApi::SET_AUTHORIZER_OPTION, $result['api']);
+        $this->assertStringStartsWith(Client::SET_AUTHORIZER_OPTION, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 }

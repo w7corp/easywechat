@@ -9,21 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OpenPlatform;
 
 use EasyWeChat\Applications\OpenPlatform;
@@ -32,7 +17,7 @@ use EasyWeChat\Support\ServiceContainer;
 /**
  * Class Application.
  *
- * @property \EasyWeChat\Applications\OpenPlatform\Api\BaseApi $api
+ * @property \EasyWeChat\Applications\OpenPlatform\Api\Client $api
  * @property \EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization $pre_auth
  * @property \EasyWeChat\Applications\OpenPlatform\Guard $server
  * @property \EasyWeChat\Applications\OpenPlatform\AccessToken $access_token
@@ -45,9 +30,11 @@ use EasyWeChat\Support\ServiceContainer;
 class Application extends ServiceContainer
 {
     protected $providers = [
-        OpenPlatform\ServiceProvider::class,
         OpenPlatform\Core\ServiceProvider::class,
+        OpenPlatform\Base\ServiceProvider::class,
         OpenPlatform\Server\ServiceProvider::class,
+        OpenPlatform\Authorizer\ServiceProvider::class,
+        OpenPlatform\PreAuthorization\ServiceProvider::class,
     ];
 
     /**

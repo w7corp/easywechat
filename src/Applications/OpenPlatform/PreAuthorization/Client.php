@@ -9,28 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * PreAuthorization.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @author    lixiao <leonlx126@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
+namespace EasyWeChat\Applications\OpenPlatform\PreAuthorization;
 
-namespace EasyWeChat\Applications\OpenPlatform\Api;
-
-use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class PreAuthorization extends AbstractOpenPlatform
+/**
+ * Class Client.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
+class Client
 {
     /**
      * Create pre auth code url.
@@ -43,25 +31,15 @@ class PreAuthorization extends AbstractOpenPlatform
     const PRE_AUTH_LINK = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s';
 
     /**
-     * Get pre auth code.
-     *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
-     *
-     * @return string
+     * @return mixed
      */
-    public function getCode()
+    public function createCode()
     {
         $data = [
             'component_appid' => $this->getClientId(),
         ];
 
-        $result = $this->parseJSON('json', [self::CREATE_PRE_AUTH_CODE, $data]);
-
-        if (empty($result['pre_auth_code'])) {
-            throw new InvalidArgumentException('Invalid response.');
-        }
-
-        return $result['pre_auth_code'];
+        return $this->parseJSON('json', [self::CREATE_PRE_AUTH_CODE, $data]);
     }
 
     /**

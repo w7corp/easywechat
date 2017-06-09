@@ -24,7 +24,7 @@ class OpenPlatformTest extends TestCase
     {
         $openPlatform = $this->make()->offsetGet('open_platform.instance');
 
-        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\BaseApi', $openPlatform->api);
+        $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\Client', $openPlatform->api);
         $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization', $openPlatform->pre_auth);
         $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Server\Guard', $openPlatform->server);
     }

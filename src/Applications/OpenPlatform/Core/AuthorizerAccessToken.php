@@ -28,7 +28,7 @@
 namespace EasyWeChat\Applications\OpenPlatform\Core;
 
 use EasyWeChat\Applications\Base\Core\AccessToken as BaseAccessToken;
-use EasyWeChat\Applications\OpenPlatform\Api\BaseApi;
+use EasyWeChat\Applications\OpenPlatform\Api\Client;
 use EasyWeChat\Exceptions\Exception;
 
 /**
@@ -50,7 +50,7 @@ class AuthorizerAccessToken extends BaseAccessToken
     /**
      * Api instance.
      *
-     * @var \EasyWeChat\Applications\OpenPlatform\Api\BaseApi
+     * @var \EasyWeChat\Applications\OpenPlatform\Api\Client
      */
     protected $api;
 
@@ -76,11 +76,11 @@ class AuthorizerAccessToken extends BaseAccessToken
     /**
      * Set the api instance.
      *
-     * @param \EasyWeChat\Applications\OpenPlatform\Api\BaseApi $api
+     * @param \EasyWeChat\Applications\OpenPlatform\Api\Client $api
      *
      * @return $this
      */
-    public function setApi(BaseApi $api)
+    public function setApi(Client $api)
     {
         $this->api = $api;
 
