@@ -45,6 +45,19 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
+        $container['open_platform.handlers.component_verify_ticket'] = function ($container) {
+            return new Handlers\ComponentVerifyTicket($container['open_platform.verify_ticket']);
+        };
+        $container['open_platform.handlers.authorized'] = function () {
+            return new Handlers\Authorized();
+        };
+        $container['open_platform.handlers.updateauthorized'] = function () {
+            return new Handlers\UpdateAuthorized();
+        };
+        $container['open_platform.handlers.unauthorized'] = function () {
+            return new Handlers\Unauthorized();
+        };
+
         $container['open_platform.server'] = function ($container) {
             $server = new Guard($container['config']['open_platform']['token']);
             $server->debug($container['config']['debug']);

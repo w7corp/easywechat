@@ -13,7 +13,7 @@ namespace EasyWeChat\Tests\OpenPlatform\EventHandlers;
 
 use Doctrine\Common\Cache\ArrayCache;
 use EasyWeChat\Applications\OpenPlatform\Core\VerifyTicket;
-use EasyWeChat\Applications\OpenPlatform\EventHandlers\ComponentVerifyTicket;
+use EasyWeChat\Applications\OpenPlatform\Server\Handlers\ComponentVerifyTicket;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 

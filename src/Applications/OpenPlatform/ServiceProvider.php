@@ -62,20 +62,6 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        // Authorization events handlers.
-        $container['open_platform.handlers.component_verify_ticket'] = function ($container) {
-            return new EventHandlers\ComponentVerifyTicket($container['open_platform.verify_ticket']);
-        };
-        $container['open_platform.handlers.authorized'] = function () {
-            return new EventHandlers\Authorized();
-        };
-        $container['open_platform.handlers.updateauthorized'] = function () {
-            return new EventHandlers\UpdateAuthorized();
-        };
-        $container['open_platform.handlers.unauthorized'] = function () {
-            return new EventHandlers\Unauthorized();
-        };
-
         $container['open_platform.app'] = function ($container) {
             return new Application($container['config']->toArray());
         };
