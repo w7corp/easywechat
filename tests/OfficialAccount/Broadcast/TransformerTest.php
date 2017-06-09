@@ -23,7 +23,7 @@ class TransformerTest extends TestCase
     {
         $transformer = new Transformer('link', 'http://easywechat.org');
 
-        $this->assertEquals([], $transformer->transform());
+        $this->assertSame([], $transformer->transform());
     }
 
     /**
@@ -40,7 +40,7 @@ class TransformerTest extends TestCase
             'msgtype' => 'text',
         ];
 
-        $this->assertEquals($msg, $transformer->transform());
+        $this->assertSame($msg, $transformer->transform());
     }
 
     /**
@@ -57,7 +57,7 @@ class TransformerTest extends TestCase
             'msgtype' => 'mpnews',
         ];
 
-        $this->assertEquals($msg, $transformer->transform());
+        $this->assertSame($msg, $transformer->transform());
     }
 
     /**
@@ -74,7 +74,7 @@ class TransformerTest extends TestCase
             'msgtype' => 'image',
         ];
 
-        $this->assertEquals($msg, $transformer->transform());
+        $this->assertSame($msg, $transformer->transform());
     }
 
     /**
@@ -95,7 +95,7 @@ class TransformerTest extends TestCase
             'msgtype' => 'video',
         ];
 
-        $this->assertEquals($msg, $transformer->transform());
+        $this->assertSame($msg, $transformer->transform());
 
         // exception
         (new Transformer('video', ['MEDIA_ID', 'TITLE']))->transform();
@@ -115,7 +115,7 @@ class TransformerTest extends TestCase
             'msgtype' => 'mpvideo',
         ];
 
-        $this->assertEquals($msg, $transformer->transform());
+        $this->assertSame($msg, $transformer->transform());
     }
 
     /**
@@ -132,7 +132,7 @@ class TransformerTest extends TestCase
             'msgtype' => 'voice',
         ];
 
-        $this->assertEquals($msg, $transformer->transform());
+        $this->assertSame($msg, $transformer->transform());
     }
 
     /**
@@ -149,6 +149,6 @@ class TransformerTest extends TestCase
             'msgtype' => 'wxcard',
         ];
 
-        $this->assertEquals($msg, $transformer->transform());
+        $this->assertSame($msg, $transformer->transform());
     }
 }

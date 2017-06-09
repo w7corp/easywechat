@@ -97,7 +97,7 @@ class PaymentTest extends TestCase
         });
 
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(XML::build([
+        $this->assertSame(XML::build([
                 'return_code' => 'SUCCESS',
                 'return_msg' => 'OK',
             ]), $response->getContent());
@@ -106,7 +106,7 @@ class PaymentTest extends TestCase
             return 'error_message';
         });
 
-        $this->assertEquals(XML::build([
+        $this->assertSame(XML::build([
                 'return_code' => 'FAIL',
                 'return_msg' => 'error_message',
             ]), $response->getContent());
@@ -115,7 +115,7 @@ class PaymentTest extends TestCase
             return false;
         });
 
-        $this->assertEquals(XML::build([
+        $this->assertSame(XML::build([
                 'return_code' => 'FAIL',
                 'return_msg' => '',
             ]), $response->getContent());
@@ -144,7 +144,7 @@ class PaymentTest extends TestCase
             throw new \Exception('Operation failed', 1048);
         });
 
-        $this->assertEquals(XML::build([
+        $this->assertSame(XML::build([
             'return_code' => 'SUCCESS',
             'return_msg' => 1048,
             'result_code' => 'FAIL',
@@ -162,9 +162,9 @@ class PaymentTest extends TestCase
         $json = $payment->configForPayment('prepayId');
 
         $array = json_decode($json, true);
-        $this->assertEquals('wxTestAppId', $array['appId']);
-        $this->assertEquals('prepay_id=prepayId', $array['package']);
-        $this->assertEquals('MD5', $array['signType']);
+        $this->assertSame('wxTestAppId', $array['appId']);
+        $this->assertSame('prepay_id=prepayId', $array['package']);
+        $this->assertSame('MD5', $array['signType']);
         $this->assertArrayHasKey('timeStamp', $array);
         $this->assertArrayHasKey('nonceStr', $array);
         $this->assertArrayHasKey('paySign', $array);
@@ -179,9 +179,9 @@ class PaymentTest extends TestCase
 
         $config = $payment->configForJSSDKPayment('prepayId');
 
-        $this->assertEquals('wxTestAppId', $config['appId']);
-        $this->assertEquals('prepay_id=prepayId', $config['package']);
-        $this->assertEquals('MD5', $config['signType']);
+        $this->assertSame('wxTestAppId', $config['appId']);
+        $this->assertSame('prepay_id=prepayId', $config['package']);
+        $this->assertSame('MD5', $config['signType']);
         $this->assertArrayHasKey('timestamp', $config);
         $this->assertArrayHasKey('nonceStr', $config);
         $this->assertArrayHasKey('paySign', $config);
@@ -196,9 +196,9 @@ class PaymentTest extends TestCase
 
         $array = $payment->configForAppPayment('prepayId');
 
-        $this->assertEquals('wxTestAppId', $array['appid']);
-        $this->assertEquals('prepayId', $array['prepayid']);
-        $this->assertEquals('Sign=WXPay', $array['package']);
+        $this->assertSame('wxTestAppId', $array['appid']);
+        $this->assertSame('prepayId', $array['prepayid']);
+        $this->assertSame('Sign=WXPay', $array['package']);
         $this->assertArrayHasKey('timestamp', $array);
         $this->assertArrayHasKey('noncestr', $array);
         $this->assertArrayHasKey('sign', $array);
@@ -214,9 +214,9 @@ class PaymentTest extends TestCase
         $json = $payment->configForShareAddress('accessToken');
 
         $array = json_decode($json, true);
-        $this->assertEquals('wxTestAppId', $array['appId']);
-        $this->assertEquals('jsapi_address', $array['scope']);
-        $this->assertEquals('SHA1', $array['signType']);
+        $this->assertSame('wxTestAppId', $array['appId']);
+        $this->assertSame('jsapi_address', $array['scope']);
+        $this->assertSame('SHA1', $array['signType']);
         $this->assertArrayHasKey('timeStamp', $array);
         $this->assertArrayHasKey('nonceStr', $array);
         $this->assertArrayHasKey('addrSign', $array);
@@ -257,14 +257,14 @@ class PaymentTest extends TestCase
 
         $api = \Mockery::mock(API::class);
         $payment->setAPI($api);
-        $this->assertEquals($api, $payment->getAPI());
+        $this->assertSame($api, $payment->getAPI());
 
         $merchant = \Mockery::mock(Merchant::class);
         $api = \Mockery::mock(API::class);
 
         $payment->setAPI($api);
         $payment->setMerchant($merchant);
-        $this->assertEquals($merchant, $payment->getMerchant());
-        $this->assertEquals($merchant, $merchant);
+        $this->assertSame($merchant, $payment->getMerchant());
+        $this->assertSame($merchant, $merchant);
     }
 }

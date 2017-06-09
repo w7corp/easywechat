@@ -64,14 +64,14 @@ class ClientTest extends TestCase
         // normal
         $response = $menu->add($buttons);
         $this->assertStringStartsWith(Menu::API_CREATE, $response['api']);
-        $this->assertEquals($excepted, $response['params']['button']);
+        $this->assertSame($excepted, $response['params']['button']);
 
         // conditional
         $matchRule = ['group_id' => 2, 'province' => '广东'];
         $response = $menu->add($buttons, $matchRule);
         $this->assertStringStartsWith(Menu::API_CONDITIONAL_CREATE, $response['api']);
-        $this->assertEquals($excepted, $response['params']['button']);
-        $this->assertEquals($matchRule, $response['params']['matchrule']);
+        $this->assertSame($excepted, $response['params']['button']);
+        $this->assertSame($matchRule, $response['params']['matchrule']);
     }
 
     /**
@@ -108,7 +108,7 @@ class ClientTest extends TestCase
 
         $response = $menu->destroy(23);
         $this->assertStringStartsWith(Menu::API_CONDITIONAL_DELETE, $response['api']);
-        $this->assertEquals(23, $response['params']['menuid']);
+        $this->assertSame(23, $response['params']['menuid']);
     }
 
     /**
@@ -121,6 +121,6 @@ class ClientTest extends TestCase
         $response = $menu->test(234);
 
         $this->assertStringStartsWith(Menu::API_CONDITIONAL_TEST, $response['api']);
-        $this->assertEquals(234, $response['params']['user_id']);
+        $this->assertSame(234, $response['params']['user_id']);
     }
 }

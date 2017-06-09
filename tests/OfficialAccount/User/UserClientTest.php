@@ -39,8 +39,8 @@ class UserClientTest extends TestCase
         $result = $user->get('openid_fo_overtrue');
 
         $this->assertStringStartsWith(User::API_GET, $result['api']);
-        $this->assertEquals('openid_fo_overtrue', $result['params']['openid']);
-        $this->assertEquals('zh_CN', $result['params']['lang']);
+        $this->assertSame('openid_fo_overtrue', $result['params']['openid']);
+        $this->assertSame('zh_CN', $result['params']['lang']);
     }
 
     /**
@@ -64,7 +64,7 @@ class UserClientTest extends TestCase
         ];
 
         $this->assertStringStartsWith(User::API_BATCH_GET, $result['api']);
-        $this->assertEquals($expected, $result['params']['user_list']);
+        $this->assertSame($expected, $result['params']['user_list']);
     }
 
     /**
@@ -77,7 +77,7 @@ class UserClientTest extends TestCase
         $result = $user->lists('openid1');
 
         $this->assertStringStartsWith(User::API_LIST, $result['api']);
-        $this->assertEquals('openid1', $result['params']['next_openid']);
+        $this->assertSame('openid1', $result['params']['next_openid']);
     }
 
     /**
@@ -90,8 +90,8 @@ class UserClientTest extends TestCase
         $result = $user->remark('openid1', 'easywechat');
 
         $this->assertStringStartsWith(User::API_REMARK, $result['api']);
-        $this->assertEquals('openid1', $result['params']['openid']);
-        $this->assertEquals('easywechat', $result['params']['remark']);
+        $this->assertSame('openid1', $result['params']['openid']);
+        $this->assertSame('easywechat', $result['params']['remark']);
     }
 
     /**
@@ -103,10 +103,10 @@ class UserClientTest extends TestCase
 
         $result = $user->group('openid1');
 
-        $this->assertEquals('openid1', $result['params']['openid']);
+        $this->assertSame('openid1', $result['params']['openid']);
 
         $result = $user->getGroup('openid2');
-        $this->assertEquals('openid2', $result['params']['openid']);
+        $this->assertSame('openid2', $result['params']['openid']);
     }
 
     /**
@@ -120,7 +120,7 @@ class UserClientTest extends TestCase
         $this->assertNull($result['params']['begin_openid']);
 
         $result = $user->blacklist('black-openid');
-        $this->assertEquals('black-openid', $result['params']['begin_openid']);
+        $this->assertSame('black-openid', $result['params']['begin_openid']);
     }
 
     /**
@@ -135,7 +135,7 @@ class UserClientTest extends TestCase
         $expected = ['openid1', 'openid2'];
 
         $this->assertStringStartsWith(User::API_BATCH_BLACK_LIST, $result['api']);
-        $this->assertEquals($expected, $result['params']['openid_list']);
+        $this->assertSame($expected, $result['params']['openid_list']);
     }
 
     /**
@@ -150,6 +150,6 @@ class UserClientTest extends TestCase
         $expected = ['openid1', 'openid2'];
 
         $this->assertStringStartsWith(User::API_BATCH_UNBLACK_LIST, $result['api']);
-        $this->assertEquals($expected, $result['params']['openid_list']);
+        $this->assertSame($expected, $result['params']['openid_list']);
     }
 }

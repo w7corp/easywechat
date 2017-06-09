@@ -37,9 +37,9 @@ class MessageArticleTest extends TestCase
                     'show_cover_pic', 'content', 'content_source_url',
                     ]);
 
-        $this->assertEquals($return, $attributes);
+        $this->assertSame($return, $attributes);
 
-        $this->assertEquals($article->show_cover, $attributes['show_cover_pic']);
-        $this->assertEquals($article->source_url, $attributes['content_source_url']);
+        $this->assertSame($article->show_cover, $attributes['show_cover_pic']);
+        $this->assertSame($article->source_url, $attributes['content_source_url']);
     }
 }

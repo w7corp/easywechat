@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Payment;
 
-use EasyWeChat\Support\Attribute;
+use EasyWeChat\Support\HasAttributes;
 
 /**
  * Class Order.
@@ -44,7 +44,7 @@ use EasyWeChat\Support\Attribute;
  * @property string $sub_openid
  * @property string $auth_code
  */
-class Order extends Attribute
+class Order extends HasAttributes
 {
     const JSAPI = 'JSAPI';
     const NATIVE = 'NATIVE';

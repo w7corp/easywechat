@@ -39,7 +39,7 @@ class UserGroupClientTest extends TestCase
         $result = $group->create('overtrue');
 
         $this->assertStringStartsWith(Group::API_CREATE, $result['api']);
-        $this->assertEquals(['name' => 'overtrue'], $result['params']['group']);
+        $this->assertSame(['name' => 'overtrue'], $result['params']['group']);
     }
 
     /**
@@ -71,7 +71,7 @@ class UserGroupClientTest extends TestCase
         $result = $group->update(12, 'newName');
 
         $this->assertStringStartsWith(Group::API_UPDATE, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -89,7 +89,7 @@ class UserGroupClientTest extends TestCase
         $result = $group->delete(12);
 
         $this->assertStringStartsWith(Group::API_DELETE, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -102,7 +102,7 @@ class UserGroupClientTest extends TestCase
         $result = $group->userGroup('overtrue');
 
         $this->assertStringStartsWith(Group::API_USER_GROUP_ID, $result['api']);
-        $this->assertEquals(['openid' => 'overtrue'], $result['params']);
+        $this->assertSame(['openid' => 'overtrue'], $result['params']);
     }
 
     /**
@@ -120,7 +120,7 @@ class UserGroupClientTest extends TestCase
         $result = $group->moveUser('overtrue', 13);
 
         $this->assertStringStartsWith(Group::API_MEMBER_UPDATE, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -138,6 +138,6 @@ class UserGroupClientTest extends TestCase
         $result = $group->moveUsers(['overtrue', 'foobar'], 13);
 
         $this->assertStringStartsWith(Group::API_MEMBER_BATCH_UPDATE, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 }

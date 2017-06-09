@@ -10,7 +10,7 @@
  */
 
 /**
- * OpenPlatform.php.
+ * Application.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -26,10 +26,11 @@
 
 namespace EasyWeChat\Applications\OpenPlatform;
 
-use EasyWeChat\Support\Traits\PrefixedContainer;
+use EasyWeChat\Applications\OpenPlatform;
+use EasyWeChat\Support\ServiceContainer;
 
 /**
- * Class OpenPlatform.
+ * Class Application.
  *
  * @property \EasyWeChat\Applications\OpenPlatform\Api\BaseApi $api
  * @property \EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization $pre_auth
@@ -41,9 +42,13 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @method \EasyWeChat\Support\Collection getAuthorizerOption($authorizerAppId, $optionName)
  * @method \EasyWeChat\Support\Collection setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
  */
-class OpenPlatform
+class Application extends ServiceContainer
 {
-    use PrefixedContainer;
+    protected $providers = [
+        OpenPlatform\ServiceProvider::class,
+        OpenPlatform\Core\ServiceProvider::class,
+        OpenPlatform\Server\ServiceProvider::class,
+    ];
 
     /**
      * Create an instance of the EasyWeChat for the given authorizer.
@@ -51,7 +56,7 @@ class OpenPlatform
      * @param string $appId        Authorizer AppId
      * @param string $refreshToken Authorizer refresh-token
      *
-     * @return \EasyWeChat\Application
+     * @return \EasyWeChat\Factory
      */
     public function createAuthorizerApplication(string $appId, string $refreshToken)
     {

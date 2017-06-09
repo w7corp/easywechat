@@ -9,45 +9,34 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Attributes.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Support;
 
-use EasyWeChat\Core\Exceptions\InvalidArgumentException;
+use EasyWeChat\Exceptions\InvalidArgumentException;
 
 /**
- * Class Attributes.
+ * Trait Attributes.
  */
-abstract class Attribute extends Collection
+trait HasAttributes
 {
     /**
-     * Attributes alias.
-     *
+     * @var \EasyWeChat\Support\Collection
+     */
+    protected $attributes;
+
+    /**
      * @var array
      */
     protected $aliases = [];
 
     /**
-     * Auto snake attribute name.
-     *
-     * @var bool
-     */
-    protected $snakeable = true;
-
-    /**
-     * Required attributes.
-     *
      * @var array
      */
     protected $requirements = [];
+
+    /**
+     * @var bool
+     */
+    protected $snakeable = true;
 
     /**
      * Constructor.
@@ -56,7 +45,7 @@ abstract class Attribute extends Collection
      */
     public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
+        $this->attributes = new Collection($attributes);
     }
 
     /**
@@ -65,11 +54,11 @@ abstract class Attribute extends Collection
      * @param string $attribute
      * @param string $value
      *
-     * @return Attribute
+     * @return HasAttributes
      */
     public function setAttribute($attribute, $value)
     {
-        $this->set($attribute, $value);
+        $this->attributes->set($attribute, $value);
 
         return $this;
     }
@@ -84,7 +73,7 @@ abstract class Attribute extends Collection
      */
     public function getAttribute($attribute, $default)
     {
-        return $this->get($attribute, $default);
+        return $this->attributes->get($attribute, $default);
     }
 
     /**
@@ -93,9 +82,9 @@ abstract class Attribute extends Collection
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return Attribute
+     * @return HasAttributes
      *
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function with($attribute, $value)
     {
@@ -105,13 +94,13 @@ abstract class Attribute extends Collection
             throw new InvalidArgumentException("Invalid attribute '{$attribute}'.");
         }
 
-        $this->set($attribute, $value);
+        $this->setAttribute($attribute, $value);
 
         return $this;
     }
 
     /**
-     * Attribute validation.
+     * HasAttributes validation.
      *
      * @param string $attribute
      * @param mixed  $value
@@ -128,10 +117,14 @@ abstract class Attribute extends Collection
      *
      * @param string $attribute
      * @param mixed  $value
+     *
+     * @return $this
      */
     public function set($attribute, $value = null)
     {
-        parent::set($this->getRealKey($attribute), $value);
+        $this->setAttribute($this->getRealKey($attribute), $value);
+
+        return $this;
     }
 
     /**
@@ -144,7 +137,19 @@ abstract class Attribute extends Collection
      */
     public function get($attribute, $default = null)
     {
-        return parent::get($this->getRealKey($attribute), $default);
+        return $this->getAttribute($this->getRealKey($attribute), $default);
+    }
+
+    /**
+     * Return all items.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        $this->checkRequiredAttributes();
+
+        return $this->attributes->all();
     }
 
     /**
@@ -153,15 +158,15 @@ abstract class Attribute extends Collection
      * @param string $method
      * @param array  $args
      *
-     * @return Attribute
+     * @return $this
      */
     public function __call($method, $args)
     {
         if (stripos($method, 'with') === 0) {
-            $method = substr($method, 4);
+            return $this->with(substr($method, 4), array_shift($args));
         }
 
-        return $this->with($method, array_shift($args));
+        return call_user_func_array([$this->attributes, $method], $args);
     }
 
     /**
@@ -170,7 +175,7 @@ abstract class Attribute extends Collection
      * @param string $property
      * @param mixed  $value
      *
-     * @return Attribute
+     * @return $this
      */
     public function __set($property, $value)
     {
@@ -186,7 +191,7 @@ abstract class Attribute extends Collection
      */
     public function __isset($key)
     {
-        return parent::__isset($this->getRealKey($key));
+        return isset($this->attributes[$this->getRealKey($key)]);
     }
 
     /**
@@ -208,28 +213,14 @@ abstract class Attribute extends Collection
     /**
      * Check required attributes.
      *
-     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     protected function checkRequiredAttributes()
     {
         foreach ($this->requirements as $attribute) {
-            if (!isset($this->$attribute)) {
-                throw new InvalidArgumentException(" '{$attribute}' cannot be empty.");
+            if (!isset($this->attributes, $attribute)) {
+                throw new InvalidArgumentException("'{$attribute}' cannot be empty.");
             }
         }
-    }
-
-    /**
-     * Return all items.
-     *
-     * @return array
-     *
-     * @throws InvalidArgumentException
-     */
-    public function all()
-    {
-        $this->checkRequiredAttributes();
-
-        return parent::all();
     }
 }

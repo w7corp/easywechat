@@ -23,7 +23,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getClient()->get(1);
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/agent/get', $result[1][0]);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/agent/get', $result[1][0]);
         $this->assertSame(['agentid' => 1], $result[1][1]);
     }
 
@@ -43,7 +43,7 @@ class ClientTest extends TestCase
             'home_url' => 'http://www.qq.com',
         ]);
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/agent/set', $result[1][0]);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/agent/set', $result[1][0]);
         $this->assertSame($expected, $result[1][1]);
     }
 
@@ -54,7 +54,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getClient()->lists();
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/agent/list', $result[1][0]);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/agent/list', $result[1][0]);
     }
 
     /**

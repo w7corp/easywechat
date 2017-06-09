@@ -33,7 +33,7 @@ class MiniProgramServerGuardTest extends TestCase
     {
         $result = $this->getServer(['echostr' => '3804283725124844375'])->serve();
 
-        $this->assertEquals('3804283725124844375', $result->getContent());
+        $this->assertSame('3804283725124844375', $result->getContent());
     }
 
     public function testUserEnterSession()
@@ -58,15 +58,15 @@ class MiniProgramServerGuardTest extends TestCase
         $server = $this->getServer([], $json);
 
         $res = $server->setMessageHandler(function ($message) {
-            $this->assertEquals('user_enter_tempsession', $message->Event);
+            $this->assertSame('user_enter_tempsession', $message->Event);
         })->serve();
-        $this->assertEquals('success', $res->getContent());
+        $this->assertSame('success', $res->getContent());
 
         $server = $this->getServer([], $xml);
 
         $res2 = $server->setMessageHandler(function ($message) {
-            $this->assertEquals('user_enter_tempsession', $message->Event);
+            $this->assertSame('user_enter_tempsession', $message->Event);
         })->serve();
-        $this->assertEquals('success', $res2->getContent());
+        $this->assertSame('success', $res2->getContent());
     }
 }

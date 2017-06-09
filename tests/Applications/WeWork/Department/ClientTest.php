@@ -29,7 +29,7 @@ class ClientTest extends TestCase
         ];
         $result = $this->getClient()->create($data);
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/department/create', $result[1][0]);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/department/create', $result[1][0]);
         $this->assertSame($data, $result[1][1]);
     }
 
@@ -46,7 +46,7 @@ class ClientTest extends TestCase
         ];
         $result = $this->getClient()->update($data);
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/department/update', $result[1][0]);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/department/update', $result[1][0]);
         $this->assertSame($data, $result[1][1]);
     }
 
@@ -57,8 +57,8 @@ class ClientTest extends TestCase
     {
         $result = $this->getClient()->delete(1);
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/department/delete', $result[1][0]);
-        $this->assertEquals(1, $result[1][1]['id']);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/department/delete', $result[1][0]);
+        $this->assertSame(1, $result[1][1]['id']);
     }
 
     /**
@@ -68,12 +68,12 @@ class ClientTest extends TestCase
     {
         $result = $this->getClient()->lists();
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/department/list', $result[1][0]);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/department/list', $result[1][0]);
         $this->assertNull($result[1][1]['id']);
 
         $result = $this->getClient()->lists(1);
 
-        $this->assertEquals(1, $result[1][1]['id']);
+        $this->assertSame(1, $result[1][1]['id']);
     }
 
     /**

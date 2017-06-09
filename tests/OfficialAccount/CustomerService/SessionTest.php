@@ -66,8 +66,8 @@ class SessionTest extends TestCase
         $response = $session->create('anzhengchao@test', 'overtrue_openid');
 
         $this->assertStringStartsWith(Session::API_CREATE, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue_openid', $response['params']['openid']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue_openid', $response['params']['openid']);
     }
 
     /**
@@ -80,8 +80,8 @@ class SessionTest extends TestCase
         $response = $session->close('anzhengchao@test', 'overtrue_openid');
 
         $this->assertStringStartsWith(Session::API_CLOSE, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue_openid', $response['params']['openid']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue_openid', $response['params']['openid']);
     }
 
     /**

@@ -10,7 +10,7 @@
  */
 
 /**
- * OfficialAccount QRCode Client.
+ * Application QRCode Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>

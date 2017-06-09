@@ -23,7 +23,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getClient()->getCheckinData(12, 34, ['zhangsan', 'lisi']);
 
-        $this->assertEquals('https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckindata', $result[1][0]);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckindata', $result[1][0]);
         $this->assertSame([
             'opencheckindatatype' => 3,
             'starttime' => 12,

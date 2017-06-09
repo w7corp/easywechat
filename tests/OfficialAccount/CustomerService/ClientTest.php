@@ -60,8 +60,8 @@ class ClientTest extends TestCase
         $response = $customerService->create('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(CustomerService::API_CREATE, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue', $response['params']['nickname']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue', $response['params']['nickname']);
     }
 
     /**
@@ -74,8 +74,8 @@ class ClientTest extends TestCase
         $response = $customerService->update('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(CustomerService::API_UPDATE, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue', $response['params']['nickname']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue', $response['params']['nickname']);
     }
 
     /**
@@ -88,8 +88,8 @@ class ClientTest extends TestCase
         $response = $customerService->invite('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(CustomerService::API_INVITE_BIND, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue', $response['params']['invite_wx']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue', $response['params']['invite_wx']);
     }
 
     /**
@@ -117,6 +117,6 @@ class ClientTest extends TestCase
 
         $this->assertStringStartsWith(CustomerService::API_AVATAR_UPLOAD, $response['api']);
         $this->assertContains('anzhengchao@test', $response['quires']['kf_account']);
-        $this->assertEquals(['media' => '/foobar/avatar.jpg'], $response['params']);
+        $this->assertSame(['media' => '/foobar/avatar.jpg'], $response['params']);
     }
 }

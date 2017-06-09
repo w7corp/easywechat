@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
-use EasyWeChat\Application;
 use EasyWeChat\Applications\OpenPlatform\Server\Guard;
+use EasyWeChat\Factory;
 use EasyWeChat\Tests\TestCase;
 
 class GuardTest extends TestCase
@@ -44,7 +44,7 @@ class GuardTest extends TestCase
             ],
         ];
 
-        $app = new Application($config);
+        $app = new Factory($config);
 
         return $app->offsetGet('open_platform.instance')->server;
     }

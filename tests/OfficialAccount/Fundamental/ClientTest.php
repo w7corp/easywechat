@@ -23,7 +23,7 @@ class ClientTest extends TestCase
     {
         $result = $this->make('wxappid')->clearQuota();
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/clear_quota', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/clear_quota', $result['api']);
         $this->assertSame(['appid' => 'wxappid'], $result['params']);
     }
 
@@ -34,7 +34,7 @@ class ClientTest extends TestCase
     {
         $result = $this->make()->getCallbackIp();
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/getcallbackip', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/getcallbackip', $result['api']);
     }
 
     /**

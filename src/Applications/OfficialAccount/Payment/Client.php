@@ -10,7 +10,7 @@
  */
 
 /**
- * OfficialAccount Payment Client.
+ * Application Payment Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>

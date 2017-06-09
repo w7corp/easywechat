@@ -10,7 +10,7 @@
  */
 
 /**
- * OfficialAccount Card Client.
+ * Application Card Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2016 overtrue <i@overtrue.me>

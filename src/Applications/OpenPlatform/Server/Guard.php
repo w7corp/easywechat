@@ -92,7 +92,7 @@ class Guard extends ServerGuard
             return parent::serve();
         }
 
-        Log::debug('OpenPlatform Request received:', [
+        Log::debug('Application Request received:', [
             'Method' => $this->request->getMethod(),
             'URI' => $this->request->getRequestUri(),
             'Query' => $this->request->getQueryString(),
@@ -120,7 +120,7 @@ class Guard extends ServerGuard
      */
     protected function handleEventMessage(array $message)
     {
-        Log::debug('OpenPlatform Event Message detail:', $message);
+        Log::debug('Application Event Message detail:', $message);
 
         $message = new Collection($message);
 

@@ -33,13 +33,11 @@ class Url
      */
     public static function current()
     {
-        if (defined('PHPUNIT_RUNNING')) {
-            return 'http://localhost';
-        }
+        $protocol = 'http://';
 
-        $protocol = (!empty($_SERVER['HTTPS'])
-                        && $_SERVER['HTTPS'] !== 'off'
-                        || (int) $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
+        if (!empty($_SERVER['HTTPS']) || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'http') === 'https') {
+            $protocol = 'https://';
+        }
 
         return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     }

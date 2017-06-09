@@ -27,9 +27,9 @@
 
 namespace EasyWeChat\Applications\OpenPlatform;
 
-use EasyWeChat\Application;
 use EasyWeChat\Applications\OpenPlatform\Api\BaseApi;
 use EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization;
+use EasyWeChat\Factory;
 use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -45,7 +45,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         $container['open_platform.instance'] = function ($container) {
-            return new OpenPlatform($container);
+            return new Application($container);
         };
 
         $container['open_platform.pre_auth'] = function ($container) {
@@ -63,10 +63,10 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $container['open_platform.app'] = function ($container) {
-            return new Application($container['config']->toArray());
+            return new Factory($container['config']->toArray());
         };
 
-        // OAuth for OpenPlatform.
+        // OAuth for Application.
         $container['open_platform.oauth'] = function ($container) {
             $callback = $this->prepareCallbackUrl($container);
             $scopes = $container['config']->get('open_platform.oauth.scopes', []);

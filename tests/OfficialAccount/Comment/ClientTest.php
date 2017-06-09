@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->open('xxx123', 0);
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/open', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/open', $result['api']);
         $this->assertSame(['msg_data_id' => 'xxx123', 'index' => 0], $result['params']);
     }
 
@@ -27,7 +27,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->close('xxx123', 0);
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/close', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/close', $result['api']);
         $this->assertSame(['msg_data_id' => 'xxx123', 'index' => 0], $result['params']);
     }
 
@@ -35,7 +35,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->lists('xxx123', 0, 10, 20, 0);
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/list', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/list', $result['api']);
         $this->assertSame([
             'msg_data_id' => 'xxx123',
             'index' => 0,
@@ -49,7 +49,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->markElect('xxx123', 0, 'comment-id');
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/markelect', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/markelect', $result['api']);
         $this->assertSame([
             'msg_data_id' => 'xxx123',
             'index' => 0,
@@ -61,7 +61,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->unmarkElect('xxx123', 0, 'comment-id');
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/unmarkelect', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/unmarkelect', $result['api']);
         $this->assertSame([
             'msg_data_id' => 'xxx123',
             'index' => 0,
@@ -73,7 +73,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->delete('xxx123', 0, 'comment-id');
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/delete', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/delete', $result['api']);
         $this->assertSame([
             'msg_data_id' => 'xxx123',
             'index' => 0,
@@ -85,7 +85,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->reply('xxx123', 0, 'comment-id', 'content...');
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/reply/add', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/reply/add', $result['api']);
         $this->assertSame([
             'msg_data_id' => 'xxx123',
             'index' => 0,
@@ -98,7 +98,7 @@ class ClientTest extends TestCase
     {
         $result = $this->getComment()->deleteReply('xxx123', 0, 'comment-id');
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/comment/reply/delete', $result['api']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/comment/reply/delete', $result['api']);
         $this->assertSame([
             'msg_data_id' => 'xxx123',
             'index' => 0,

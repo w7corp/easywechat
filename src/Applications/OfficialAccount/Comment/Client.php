@@ -10,7 +10,7 @@
  */
 
 /**
- * OfficialAccount Comment Client.
+ * Application Comment Client.
  *
  * Part of Overtrue\WeChat.
  *

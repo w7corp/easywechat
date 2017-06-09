@@ -30,7 +30,7 @@ class TransformerTest extends TestCase
         $message = \Mockery::mock(Link::class);
         $transformer = new Transformer();
 
-        $this->assertEquals([], $transformer->transform($message));
+        $this->assertSame([], $transformer->transform($message));
     }
 
     /**
@@ -43,7 +43,7 @@ class TransformerTest extends TestCase
 
         $transformer = new Transformer();
 
-        $this->assertEquals(['msgtype' => 'text', 'text' => ['content' => 'foo']], $transformer->transform($message));
+        $this->assertSame(['msgtype' => 'text', 'text' => ['content' => 'foo']], $transformer->transform($message));
     }
 
     /**
@@ -56,7 +56,7 @@ class TransformerTest extends TestCase
 
         $transformer = new Transformer();
 
-        $this->assertEquals(['msgtype' => 'image', 'image' => ['media_id' => 'foo']], $transformer->transform($message));
+        $this->assertSame(['msgtype' => 'image', 'image' => ['media_id' => 'foo']], $transformer->transform($message));
     }
 
     /**
@@ -73,11 +73,11 @@ class TransformerTest extends TestCase
         $transformer = new Transformer();
 
         $result = $transformer->transform($message);
-        $this->assertEquals('video', $result['msgtype']);
-        $this->assertEquals('foo', $result['video']['media_id']);
-        $this->assertEquals('hello world', $result['video']['title']);
-        $this->assertEquals('description string.', $result['video']['description']);
-        $this->assertEquals('thumb media id', $result['video']['thumb_media_id']);
+        $this->assertSame('video', $result['msgtype']);
+        $this->assertSame('foo', $result['video']['media_id']);
+        $this->assertSame('hello world', $result['video']['title']);
+        $this->assertSame('description string.', $result['video']['description']);
+        $this->assertSame('thumb media id', $result['video']['thumb_media_id']);
     }
 
     /**
@@ -90,7 +90,7 @@ class TransformerTest extends TestCase
 
         $transformer = new Transformer();
 
-        $this->assertEquals(['msgtype' => 'voice', 'voice' => ['media_id' => 'foo']], $transformer->transform($message));
+        $this->assertSame(['msgtype' => 'voice', 'voice' => ['media_id' => 'foo']], $transformer->transform($message));
     }
 
     /**
@@ -106,9 +106,9 @@ class TransformerTest extends TestCase
                 'description' => 'foobar',
             ]));
 
-        $this->assertEquals('news', $result['msgtype']);
-        $this->assertEquals('overtrue', $result['news']['articles'][0]['title']);
-        $this->assertEquals('foobar', $result['news']['articles'][0]['description']);
+        $this->assertSame('news', $result['msgtype']);
+        $this->assertSame('overtrue', $result['news']['articles'][0]['title']);
+        $this->assertSame('foobar', $result['news']['articles'][0]['description']);
 
         // more
         $news = [
@@ -117,8 +117,8 @@ class TransformerTest extends TestCase
         ];
 
         $result = $transformer->transform($news);
-        $this->assertEquals('news', $result['msgtype']);
-        $this->assertEquals('foo', $result['news']['articles'][0]['title']);
-        $this->assertEquals('bar', $result['news']['articles'][1]['title']);
+        $this->assertSame('news', $result['msgtype']);
+        $this->assertSame('foo', $result['news']['articles'][0]['title']);
+        $this->assertSame('bar', $result['news']['articles'][1]['title']);
     }
 }

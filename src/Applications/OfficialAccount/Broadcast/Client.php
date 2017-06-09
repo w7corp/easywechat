@@ -10,7 +10,7 @@
  */
 
 /**
- * OfficialAccount Broadcast Client.
+ * Application Broadcast Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>

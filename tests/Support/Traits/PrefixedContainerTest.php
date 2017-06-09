@@ -29,7 +29,7 @@ class PrefixedContainerTest extends TestCase
             'application.foo' => 'foo@application',
         ]);
 
-        $this->assertEquals('foo@application', $app->fetch('foo'));
+        $this->assertSame('foo@application', $app->fetch('foo'));
     }
 
     /**
@@ -48,7 +48,7 @@ class PrefixedContainerTest extends TestCase
             'application.bar' => 'bar@application',
         ]);
 
-        $this->assertEquals('bar@application', $app->bar);
+        $this->assertSame('bar@application', $app->bar);
     }
 }
 

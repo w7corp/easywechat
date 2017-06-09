@@ -25,8 +25,8 @@ class MessageVideoTest extends TestCase
 
         $return = $video->media('foobar');
 
-        $this->assertEquals($video, $return);
-        $this->assertEquals('foobar', $return->media_id);
+        $this->assertSame($video, $return);
+        $this->assertSame('foobar', $return->media_id);
     }
 
     /**
@@ -38,7 +38,7 @@ class MessageVideoTest extends TestCase
 
         $return = $video->thumb('thumbFoo');
 
-        $this->assertEquals($video, $return);
-        $this->assertEquals('thumbFoo', $return->thumb_media_id);
+        $this->assertSame($video, $return);
+        $this->assertSame('thumbFoo', $return->thumb_media_id);
     }
 }

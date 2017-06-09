@@ -10,7 +10,7 @@
  */
 
 /**
- * OfficialAccount Device Client.
+ * Application Device Client.
  *
  * @author    soone <66812590@qq.com>
  * @copyright 2016 soone <66812590@qq.com>

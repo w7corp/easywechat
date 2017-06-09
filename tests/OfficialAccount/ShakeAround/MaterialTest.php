@@ -46,11 +46,11 @@ class MaterialTest extends TestCase
 
         $this->assertStringStartsWith(Material::API_MATERIAL_ADD, $result['api']);
         $this->assertContains('stubs/image.jpg', $result['media']);
-        $this->assertEquals('icon', $result['type']);
+        $this->assertSame('icon', $result['type']);
 
         $result = $material->uploadImage(__DIR__.'/stubs/image.jpg', 'license');
 
-        $this->assertEquals('license', $result['type']);
+        $this->assertSame('license', $result['type']);
 
         $material->uploadImage(__DIR__.'/stubs/foo.jpg');
     }

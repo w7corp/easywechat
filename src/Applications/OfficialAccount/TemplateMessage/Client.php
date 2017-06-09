@@ -10,7 +10,7 @@
  */
 
 /**
- * OfficialAccount TemplateMessage Client.
+ * Application TemplateMessage Client.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -174,7 +174,7 @@ class Client extends AbstractAPI
 
         foreach ($params as $key => $value) {
             if (in_array($key, $this->required, true) && empty($value) && empty($this->message[$key])) {
-                throw new InvalidArgumentException("Attribute '$key' can not be empty!");
+                throw new InvalidArgumentException("HasAttributes '$key' can not be empty!");
             }
 
             $params[$key] = empty($value) ? $this->message[$key] : $value;

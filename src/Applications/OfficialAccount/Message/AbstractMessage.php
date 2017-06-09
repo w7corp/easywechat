@@ -21,12 +21,12 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Message;
 
-use EasyWeChat\Support\Attribute;
+use EasyWeChat\Support\HasAttributes;
 
 /**
  * Class AbstractMessage.
  */
-abstract class AbstractMessage extends Attribute
+abstract class AbstractMessage extends HasAttributes
 {
     /**
      * Message type.

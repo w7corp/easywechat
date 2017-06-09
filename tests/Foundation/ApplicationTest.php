@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\Foundation;
 
-use EasyWeChat\Application;
 use EasyWeChat\Applications\Base\Core\Http;
 use EasyWeChat\Config\Repository as Config;
+use EasyWeChat\Factory;
 use EasyWeChat\Tests\TestCase;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -26,7 +26,7 @@ class ApplicationTest extends TestCase
      */
     public function testConstructor()
     {
-        $app = new Application(['foo' => 'bar']);
+        $app = new Factory(['foo' => 'bar']);
 
         $this->assertInstanceOf(Config::class, $app['config']);
 
@@ -39,7 +39,7 @@ class ApplicationTest extends TestCase
             $container['cache'] = $app->raw('cache');
 
             foreach ($container->keys() as $providerName) {
-                $this->assertEquals($container->raw($providerName), $app->raw($providerName));
+                $this->assertSame($container->raw($providerName), $app->raw($providerName));
             }
 
             unset($container);
@@ -48,14 +48,14 @@ class ApplicationTest extends TestCase
 
     public function testHttpDefaultOptions()
     {
-        $app = new Application([]);
+        $app = new Factory([]);
 
-        $this->assertEquals(['timeout' => 5.0], Http::getDefaultOptions());
+        $this->assertSame(['timeout' => 5.0], Http::getDefaultOptions());
 
         $config = ['guzzle' => ['timeout' => 6]];
-        $app = new Application($config);
+        $app = new Factory($config);
 
-        $this->assertEquals($config['guzzle'], Http::getDefaultOptions());
+        $this->assertSame($config['guzzle'], Http::getDefaultOptions());
     }
 
     /**
@@ -63,12 +63,12 @@ class ApplicationTest extends TestCase
      */
     public function testMagicMethod()
     {
-        $app = new Application(['foo' => 'bar']);
+        $app = new Factory(['foo' => 'bar']);
 
         $app->foo = 'bar';
 
         // getter setter
-        $this->assertEquals('bar', $app->foo);
+        $this->assertSame('bar', $app->foo);
     }
 
     /**
@@ -76,7 +76,7 @@ class ApplicationTest extends TestCase
      */
     public function testProviders()
     {
-        $app = new Application(['foo' => 'bar']);
+        $app = new Factory(['foo' => 'bar']);
 
         $providers = $app->getProviders();
 
@@ -96,7 +96,7 @@ class ApplicationTest extends TestCase
             'secret' => 'bar',
         ];
 
-        $app = new Application($config);
+        $app = new Factory($config);
 
         $this->assertInstanceOf('EasyWeChat\Applications\OfficialAccount\Core\AccessToken', $app['official_account.access_token']);
 
@@ -108,11 +108,11 @@ class ApplicationTest extends TestCase
     public function testStaticCall()
     {
         $weworkInstances = [
-            Application::weWork(['client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123', 'debug' => true]),
-            Application::make('weWork', ['debug' => true, 'client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123']),
+            Factory::weWork(['client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123', 'debug' => true]),
+            Factory::make('weWork', ['debug' => true, 'client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123']),
         ];
         foreach ($weworkInstances as $instance) {
-            $this->assertInstanceOf('EasyWeChat\Applications\WeWork\WeWork', $instance);
+            $this->assertInstanceOf('EasyWeChat\Applications\WeWork\Application', $instance);
             $expected = [
                 'debug' => true,
                 'client_id' => 'corpid@123',
@@ -122,26 +122,26 @@ class ApplicationTest extends TestCase
         }
 
         $officialAccountInstances = [
-            Application::officialAccount(['appid' => 'appid@456']),
-            Application::make('officialAccount', ['appid' => 'appid@456']),
+            Factory::officialAccount(['appid' => 'appid@456']),
+            Factory::make('officialAccount', ['appid' => 'appid@456']),
         ];
         foreach ($officialAccountInstances as $instance) {
-            $this->assertInstanceOf('EasyWeChat\Applications\OfficialAccount\OfficialAccount', $instance);
+            $this->assertInstanceOf('EasyWeChat\Applications\OfficialAccount\Application', $instance);
             $this->assertArraySubset(['appid' => 'appid@456'], $instance->fetch('config')->all());
         }
 
         $openPlatformInstances = [
-            Application::openPlatform(['appid' => 'appid@789']),
-            Application::make('openPlatform', ['appid' => 'appid@789']),
+            Factory::openPlatform(['appid' => 'appid@789']),
+            Factory::make('openPlatform', ['appid' => 'appid@789']),
         ];
         foreach ($openPlatformInstances as $instance) {
-            $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\OpenPlatform', $instance);
+            $this->assertInstanceOf('EasyWeChat\Applications\OpenPlatform\Application', $instance);
             $this->assertArraySubset(['appid' => 'appid@789'], $instance->fetch('config')->all());
         }
 
         $miniProgramInstances = [
-            Application::miniProgram(['appid' => 'appid@890']),
-            Application::make('miniProgram', ['appid' => 'appid@890']),
+            Factory::miniProgram(['appid' => 'appid@890']),
+            Factory::make('miniProgram', ['appid' => 'appid@890']),
         ];
         foreach ($miniProgramInstances as $instance) {
             $this->assertInstanceOf('EasyWeChat\Applications\MiniProgram\MiniProgram', $instance);

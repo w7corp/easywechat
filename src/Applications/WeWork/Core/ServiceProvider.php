@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\WeWork\Core;
 
-use EasyWeChat\Applications\WeWork\WeWork;
+use EasyWeChat\Applications\WeWork\Application;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -23,7 +23,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         $container['we_work.instance'] = function ($container) {
-            return new WeWork($container);
+            return new Application($container);
         };
 
         $container['we_work.access_token'] = function ($container) {

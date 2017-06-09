@@ -66,18 +66,18 @@ class AccessTokenAtrributesTest extends TestCase
     {
         $officialAccount = $this->getOfficialAccount('app-id', 'app-secret');
 
-        $this->assertEquals('app-id', $officialAccount->getClientId());
-        $this->assertEquals('app-secret', $officialAccount->getClientSecret());
+        $this->assertSame('app-id', $officialAccount->getClientId());
+        $this->assertSame('app-secret', $officialAccount->getClientSecret());
 
         $miniProgram = $this->getMiniProgram('mini-app-id', 'mini-secret');
 
-        $this->assertEquals('mini-app-id', $miniProgram->getClientId());
-        $this->assertEquals('mini-secret', $miniProgram->getClientSecret());
+        $this->assertSame('mini-app-id', $miniProgram->getClientId());
+        $this->assertSame('mini-secret', $miniProgram->getClientSecret());
 
         $openPlatform = $this->getOpenPlatform('open-app-id', 'open-secret');
 
-        $this->assertEquals('open-app-id', $openPlatform->getClientId());
-        $this->assertEquals('open-secret', $openPlatform->getClientSecret());
+        $this->assertSame('open-app-id', $openPlatform->getClientId());
+        $this->assertSame('open-secret', $openPlatform->getClientSecret());
     }
 
     public function testGetQueryName()
@@ -86,9 +86,9 @@ class AccessTokenAtrributesTest extends TestCase
         $miniProgram = $this->getMiniProgram('mini-app-id', 'mini-secret');
         $openPlatform = $this->getOpenPlatform('open-app-id', 'open-secret');
 
-        $this->assertEquals('access_token', $officialAccount->getQueryName());
-        $this->assertEquals('access_token', $miniProgram->getQueryName());
-        $this->assertEquals('component_access_token', $openPlatform->getQueryName());
+        $this->assertSame('access_token', $officialAccount->getQueryName());
+        $this->assertSame('access_token', $miniProgram->getQueryName());
+        $this->assertSame('component_access_token', $openPlatform->getQueryName());
     }
 
     public function testGetQueryFields()
@@ -108,9 +108,9 @@ class AccessTokenAtrributesTest extends TestCase
         $miniProgram = $this->getMiniProgram('mini-app-id', 'mini-secret');
         $openPlatform = $this->getOpenPlatform('open-app-id', 'open-secret');
 
-        $this->assertEquals('easywechat.common.access_token.app-id', $officialAccount->getCacheKey());
-        $this->assertEquals('easywechat.common.mini.program.access_token.mini-app-id', $miniProgram->getCacheKey());
-        $this->assertEquals('easywechat.open_platform.component_access_token.open-app-id', $openPlatform->getCacheKey());
+        $this->assertSame('easywechat.common.access_token.app-id', $officialAccount->getCacheKey());
+        $this->assertSame('easywechat.common.mini.program.access_token.mini-app-id', $miniProgram->getCacheKey());
+        $this->assertSame('easywechat.open_platform.component_access_token.open-app-id', $openPlatform->getCacheKey());
     }
 
     public function testGetTokenFromServer()
@@ -119,7 +119,7 @@ class AccessTokenAtrributesTest extends TestCase
         $miniProgramResult = $this->getMiniProgram('mini-app-id', 'mini-secret')->getTokenFromServer();
         $openPlatformResult = $this->getOpenPlatform('open-app-id', 'open-secret')->getTokenFromServer();
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/token', $officialAccountResult['endpoint']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/token', $officialAccountResult['endpoint']);
         $this->assertSame([
                 'appid' => 'app-id',
                 'secret' => 'app-secret',
@@ -127,7 +127,7 @@ class AccessTokenAtrributesTest extends TestCase
             ], $officialAccountResult['params']
         );
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/token', $miniProgramResult['endpoint']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/token', $miniProgramResult['endpoint']);
         $this->assertSame([
                 'appid' => 'mini-app-id',
                 'secret' => 'mini-secret',
@@ -135,7 +135,7 @@ class AccessTokenAtrributesTest extends TestCase
             ], $miniProgramResult['params']
         );
 
-        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/component/api_component_token', $openPlatformResult['endpoint']);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/component/api_component_token', $openPlatformResult['endpoint']);
         $this->assertSame([
                 'component_appid' => 'open-app-id',
                 'component_appsecret' => 'open-secret',

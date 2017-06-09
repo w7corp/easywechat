@@ -22,36 +22,36 @@ class AuthorizerAccessTokenTest extends TestCase
     {
         $instance = $this->make('appid@123');
 
-        $this->assertEquals('appid@123', $instance->getAppId());
-        $this->assertEquals('open-platform-appid', $instance->getClientId());
+        $this->assertSame('appid@123', $instance->getAppId());
+        $this->assertSame('open-platform-appid', $instance->getClientId());
     }
 
     public function testGetToken()
     {
         $auth = $this->make('appid@123', 'token@123');
 
-        $this->assertEquals('token@123', $auth->getToken());
+        $this->assertSame('token@123', $auth->getToken());
     }
 
     public function testGetTokenExpired()
     {
         $auth = $this->make('appid@123', null, 'token@456');
 
-        $this->assertEquals('token@456', $auth->getToken());
+        $this->assertSame('token@456', $auth->getToken());
     }
 
     public function testGetTokenForced()
     {
         $auth = $this->make('appid@123', 'token@123', 'token@456');
 
-        $this->assertEquals('token@456', $auth->getToken(true));
+        $this->assertSame('token@456', $auth->getToken(true));
     }
 
     public function testGetCacheKey()
     {
         $instance = $this->make('appid@123', 'token@123', 'token@456');
 
-        $this->assertEquals('easywechat.open_platform.authorizer_access_token.open-platform-appidappid@123', $instance->getCacheKey());
+        $this->assertSame('easywechat.open_platform.authorizer_access_token.open-platform-appidappid@123', $instance->getCacheKey());
     }
 
     private function make($appId, $cachedToken = null, $newToken = null)

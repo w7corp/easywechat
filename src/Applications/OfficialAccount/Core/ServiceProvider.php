@@ -26,7 +26,7 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Core;
 
-use EasyWeChat\Applications\OfficialAccount\OfficialAccount;
+use EasyWeChat\Applications\OfficialAccount\Application;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -38,7 +38,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $container)
     {
         $container['official_account.instance'] = function ($container) {
-            return new OfficialAccount($container);
+            return new Application($container);
         };
 
         $container['official_account.access_token'] = function ($container) {

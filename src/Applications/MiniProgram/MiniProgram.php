@@ -9,27 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * MiniProgram.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\MiniProgram;
 
-use EasyWeChat\Support\Traits\PrefixedContainer;
+use EasyWeChat\Support\ServiceContainer;
 
 /**
  * Class MiniProgram.
+ *
+ * @author    mingyoung <mingyoungcheung@gmail.com>
  *
  * @property \EasyWeChat\Applications\MiniProgram\Sns\Sns $sns
  * @property \EasyWeChat\Applications\MiniProgram\Stats\Stats $stats
@@ -39,7 +26,16 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @property \EasyWeChat\Applications\MiniProgram\Material\Temporary $material_temporary
  * @property \EasyWeChat\Applications\MiniProgram\CustomerService\CustomerService $customer_service
  */
-class MiniProgram
+class MiniProgram extends ServiceContainer
 {
-    use PrefixedContainer;
+    protected $providers = [
+        \EasyWeChat\Applications\MiniProgram\ServiceProvider::class,
+        \EasyWeChat\Applications\MiniProgram\Sns\ServiceProvider::class,
+        \EasyWeChat\Applications\MiniProgram\Stats\ServiceProvider::class,
+        \EasyWeChat\Applications\MiniProgram\QRCode\ServiceProvider::class,
+        \EasyWeChat\Applications\MiniProgram\Server\ServiceProvider::class,
+        \EasyWeChat\Applications\MiniProgram\Material\ServiceProvider::class,
+        \EasyWeChat\Applications\MiniProgram\CustomerService\ServiceProvider::class,
+        \EasyWeChat\Applications\MiniProgram\TemplateMessage\ServiceProvider::class,
+    ];
 }

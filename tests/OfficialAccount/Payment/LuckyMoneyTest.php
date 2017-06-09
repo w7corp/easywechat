@@ -48,14 +48,14 @@ class LuckyMoneyTest extends TestCase
 
         $api = \Mockery::mock(API::class);
         $luckyMoney->setAPI($api);
-        $this->assertEquals($api, $luckyMoney->getAPI());
+        $this->assertSame($api, $luckyMoney->getAPI());
 
         $merchant = \Mockery::mock(Merchant::class);
         $api = \Mockery::mock(API::class);
 
         $luckyMoney->setAPI($api);
         $luckyMoney->setMerchant($merchant);
-        $this->assertEquals($merchant, $luckyMoney->getMerchant());
-        $this->assertEquals($merchant, $merchant);
+        $this->assertSame($merchant, $luckyMoney->getMerchant());
+        $this->assertSame($merchant, $merchant);
     }
 }

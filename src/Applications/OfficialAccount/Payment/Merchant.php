@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Payment;
 
-use EasyWeChat\Support\Attribute;
+use EasyWeChat\Support\HasAttributes;
 
 /**
  * Class Merchant.
@@ -36,7 +36,7 @@ use EasyWeChat\Support\Attribute;
  * @property string $fee_type
  * @property string $device_info
  */
-class Merchant extends Attribute
+class Merchant extends HasAttributes
 {
     /**
      * @var array
