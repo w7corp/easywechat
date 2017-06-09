@@ -108,8 +108,8 @@ class ApplicationTest extends TestCase
     public function testStaticCall()
     {
         $weworkInstances = [
-            Application::wework(['client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123', 'debug' => true]),
-            Application::make('wework', ['debug' => true, 'client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123']),
+            Application::weWork(['client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123', 'debug' => true]),
+            Application::make('weWork', ['debug' => true, 'client_id' => 'corpid@123', 'client_secret' => 'corpsecret@123']),
         ];
         foreach ($weworkInstances as $instance) {
             $this->assertInstanceOf('EasyWeChat\Applications\WeWork\WeWork', $instance);

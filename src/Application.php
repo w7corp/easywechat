@@ -292,7 +292,7 @@ class Application extends Container
     protected static function applicationInstanceKey($name)
     {
         $applications = [
-            'wework' => 'we_work.instance',
+            'weWork' => 'we_work.instance',
             'miniProgram' => 'mini_program.instance',
             'openPlatform' => 'open_platform.instance',
             'officialAccount' => 'official_account.instance',
