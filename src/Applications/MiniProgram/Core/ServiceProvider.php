@@ -9,34 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * ServiceProvider.php.
- *
- * This file is part of the wechat.
- *
- * (c) mingyoung <mingyoungcheung@gmail.com>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
-namespace EasyWeChat\Applications\MiniProgram;
+namespace EasyWeChat\Applications\MiniProgram\Core;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-/**
- * Class ServiceProvider.
- */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $pimple A container instance
+     * {@inheritdoc}.
      */
     public function register(Container $pimple)
     {
@@ -48,10 +29,6 @@ class ServiceProvider implements ServiceProviderInterface
             $accessToken->setCache($pimple['cache']);
 
             return $accessToken;
-        };
-
-        $pimple['mini_program.instance'] = function ($pimple) {
-            return new MiniProgram($pimple);
         };
     }
 }

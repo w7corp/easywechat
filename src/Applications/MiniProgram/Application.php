@@ -11,10 +11,11 @@
 
 namespace EasyWeChat\Applications\MiniProgram;
 
+use EasyWeChat\Applications\MiniProgram;
 use EasyWeChat\Support\ServiceContainer;
 
 /**
- * Class MiniProgram.
+ * Class Application.
  *
  * @author    mingyoung <mingyoungcheung@gmail.com>
  *
@@ -26,16 +27,16 @@ use EasyWeChat\Support\ServiceContainer;
  * @property \EasyWeChat\Applications\MiniProgram\Material\Temporary $material_temporary
  * @property \EasyWeChat\Applications\MiniProgram\CustomerService\CustomerService $customer_service
  */
-class MiniProgram extends ServiceContainer
+class Application extends ServiceContainer
 {
     protected $providers = [
-        \EasyWeChat\Applications\MiniProgram\ServiceProvider::class,
-        \EasyWeChat\Applications\MiniProgram\Sns\ServiceProvider::class,
-        \EasyWeChat\Applications\MiniProgram\Stats\ServiceProvider::class,
-        \EasyWeChat\Applications\MiniProgram\QRCode\ServiceProvider::class,
-        \EasyWeChat\Applications\MiniProgram\Server\ServiceProvider::class,
-        \EasyWeChat\Applications\MiniProgram\Material\ServiceProvider::class,
-        \EasyWeChat\Applications\MiniProgram\CustomerService\ServiceProvider::class,
-        \EasyWeChat\Applications\MiniProgram\TemplateMessage\ServiceProvider::class,
+        MiniProgram\Core\ServiceProvider::class,
+        MiniProgram\Sns\ServiceProvider::class,
+        MiniProgram\Stats\ServiceProvider::class,
+        MiniProgram\QRCode\ServiceProvider::class,
+        MiniProgram\Server\ServiceProvider::class,
+        MiniProgram\Material\ServiceProvider::class,
+        MiniProgram\CustomerService\ServiceProvider::class,
+        MiniProgram\TemplateMessage\ServiceProvider::class,
     ];
 }
