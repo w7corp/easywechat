@@ -9,53 +9,35 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Http.php.
- *
- * This file is part of the wechat-components.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+namespace EasyWeChat\Support;
 
-namespace EasyWeChat\Applications\Base\Core;
-
-use EasyWeChat\Exceptions\HttpException;
-use EasyWeChat\Support\Log;
-use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Class Http.
+ * Trait HasHttpRequests.
+ *
+ * @author overtrue <i@overtrue.me>
  */
-class Http
+trait HasHttpRequests
 {
     /**
-     * Used to identify handler defined by client code
-     * Maybe useful in the future.
+     * @var \GuzzleHttp\Client
      */
-    const USER_DEFINED_HANDLER = 'userDefined';
+    protected $httpClient;
 
     /**
-     * Http client.
-     *
-     * @var HttpClient
-     */
-    protected $client;
-
-    /**
-     * The middlewares.
-     *
      * @var array
      */
     protected $middlewares = [];
 
     /**
-     * Guzzle client default settings.
-     *
+     * @var \GuzzleHttp\HandlerStack
+     */
+    protected $handlerStack;
+
+    /**
      * @var array
      */
     protected static $defaults = [
@@ -116,24 +98,24 @@ class Http
         return $this->request($url, 'POST', [$key => $options]);
     }
 
-     /**
-      * JSON request.
-      *
-      * @param string       $url
-      * @param string|array $options
-      * @param array $queries
-      * @param int          $encodeOption
-      *
-      * @return ResponseInterface
-      *
-      * @throws HttpException
-      */
-     public function json($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE, $queries = [])
-     {
-         is_array($options) && $options = json_encode($options, $encodeOption);
+    /**
+     * JSON request.
+     *
+     * @param string       $url
+     * @param string|array $options
+     * @param array        $query
+     * @param int          $encodeOption
+     *
+     * @return ResponseInterface
+     *
+     * @throws HttpException
+     */
+    public function postJson($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE, $query = [])
+    {
+        is_array($options) && $options = json_encode($options, $encodeOption);
 
-         return $this->request($url, 'POST', ['query' => $queries, 'body' => $options, 'headers' => ['content-type' => 'application/json']]);
-     }
+        return $this->request($url, 'POST', ['query' => $query, 'body' => $options, 'headers' => ['content-type' => 'application/json']]);
+    }
 
     /**
      * Upload file.
@@ -141,12 +123,11 @@ class Http
      * @param string $url
      * @param array  $files
      * @param array  $form
+     * @param array  $query
      *
-     * @return ResponseInterface
-     *
-     * @throws HttpException
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function upload($url, array $files = [], array $form = [], array $queries = [])
+    public function upload($url, array $files = [], array $form = [], array $query = [])
     {
         $multipart = [];
 
@@ -161,19 +142,19 @@ class Http
             $multipart[] = compact('name', 'contents');
         }
 
-        return $this->request($url, 'POST', ['query' => $queries, 'multipart' => $multipart]);
+        return $this->request($url, 'POST', ['query' => $query, 'multipart' => $multipart]);
     }
 
     /**
      * Set GuzzleHttp\Client.
      *
-     * @param \GuzzleHttp\Client $client
+     * @param \GuzzleHttp\Client $httpClient
      *
      * @return Http
      */
-    public function setClient(HttpClient $client)
+    public function setHttpClient(Client $httpClient)
     {
-        $this->client = $client;
+        $this->httpClient = $httpClient;
 
         return $this;
     }
@@ -183,13 +164,13 @@ class Http
      *
      * @return \GuzzleHttp\Client
      */
-    public function getClient()
+    public function getHttpClient()
     {
-        if (!($this->client instanceof HttpClient)) {
-            $this->client = new HttpClient();
+        if (!($this->httpClient instanceof Client)) {
+            $this->httpClient = new Client();
         }
 
-        return $this->client;
+        return $this->httpClient;
     }
 
     /**
@@ -211,7 +192,7 @@ class Http
      *
      * @return array
      */
-    public function getMiddlewares()
+    public function getMiddlewares(): array
     {
         return $this->middlewares;
     }
@@ -235,9 +216,9 @@ class Http
 
         Log::debug('Client Request:', compact('url', 'method', 'options'));
 
-        $options['handler'] = $this->getHandler();
+        $options['handler'] = $this->getHandlerStack();
 
-        $response = $this->getClient()->request($method, $url, $options);
+        $response = $this->getHttpClient()->request($method, $url, $options);
 
         Log::debug('API response:', [
             'Status' => $response->getStatusCode(),
@@ -262,7 +243,6 @@ class Http
             $body = $body->getBody();
         }
 
-        // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
         $body = $this->fuckTheWeChatInvalidJSON($body);
 
         if (empty($body)) {
@@ -281,6 +261,38 @@ class Http
     }
 
     /**
+     * @param \GuzzleHttp\HandlerStack $handlerStack
+     *
+     * @return $this
+     */
+    public function setHandlerStack(HandlerStack $handlerStack)
+    {
+        $this->handlerStack = $handlerStack;
+
+        return $this;
+    }
+
+    /**
+     * Build a handler stack.
+     *
+     * @return \GuzzleHttp\HandlerStack
+     */
+    public function getHandlerStack()
+    {
+        if ($this->handlerStack) {
+            return $this->handlerStack;
+        }
+
+        $this->handlerStack = HandlerStack::create();
+
+        foreach ($this->middlewares as $middleware) {
+            $this->handlerStack->push($middleware);
+        }
+
+        return $this->handlerStack;
+    }
+
+    /**
      * Filter the invalid JSON string.
      *
      * @param \Psr\Http\Message\StreamInterface|string $invalidJSON
@@ -290,25 +302,5 @@ class Http
     protected function fuckTheWeChatInvalidJSON($invalidJSON)
     {
         return preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', trim($invalidJSON));
-    }
-
-    /**
-     * Build a handler.
-     *
-     * @return HandlerStack
-     */
-    protected function getHandler()
-    {
-        $stack = HandlerStack::create();
-
-        foreach ($this->middlewares as $middleware) {
-            $stack->push($middleware);
-        }
-
-        if (isset(static::$defaults['handler']) && is_callable(static::$defaults['handler'])) {
-            $stack->push(static::$defaults['handler'], self::USER_DEFINED_HANDLER);
-        }
-
-        return $stack;
     }
 }
