@@ -249,7 +249,7 @@ abstract class AccessToken
      *
      * @param \Doctrine\Common\Cache\Cache $cache
      *
-     * @return AccessToken
+     * @return $this
      */
     public function setCache(Cache $cache)
     {

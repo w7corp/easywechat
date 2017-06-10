@@ -9,38 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * AuthorizerAccessToken.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    lixiao <leonlx126@gmail.com>
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OpenPlatform\Core;
+namespace EasyWeChat\Applications\OpenPlatform\Authorizer;
 
 use EasyWeChat\Applications\Base\Core\AccessToken as BaseAccessToken;
-use EasyWeChat\Applications\OpenPlatform\Api\Client;
+use EasyWeChat\Applications\OpenPlatform\Base\Client;
 use EasyWeChat\Exceptions\Exception;
 
-/**
- * Class AuthorizerAccessToken.
- *
- * AuthorizerAccessToken is responsible for the access token of the authorizer,
- * the complexity is that this access token also requires the refresh token
- * of the authorizer which is acquired by the open platform authorizer process.
- *
- * This completely overrides the original AccessToken.
- */
-class AuthorizerAccessToken extends BaseAccessToken
+class AccessToken extends BaseAccessToken
 {
     /**
      * {@inheritdoc}.

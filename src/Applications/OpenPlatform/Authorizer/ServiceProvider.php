@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\Authorizer;
 
-use EasyWeChat\Factory;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -22,8 +21,13 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['open_platform.app'] = function ($container) {
-            return new Factory($container['config']->toArray());
+        $container['open_platform.authorizer_access_token'] = function ($container) {
+            $accessToken = new AccessToken(
+                $container['config']['open_platform']['app_id']
+            );
+            $accessToken->setApi($container['open_platform.api'])->setCache($container['cache']);
+
+            return $accessToken;
         };
 
         $container['open_platform.oauth'] = function ($container) {

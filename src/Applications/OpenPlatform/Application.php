@@ -11,21 +11,21 @@
 
 namespace EasyWeChat\Applications\OpenPlatform;
 
+use EasyWeChat\Applications\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\Applications\OpenPlatform;
 use EasyWeChat\Support\ServiceContainer;
 
 /**
  * Class Application.
  *
- * @property \EasyWeChat\Applications\OpenPlatform\Api\Client $api
- * @property \EasyWeChat\Applications\OpenPlatform\Api\PreAuthorization $pre_auth
- * @property \EasyWeChat\Applications\OpenPlatform\Guard $server
- * @property \EasyWeChat\Applications\OpenPlatform\AccessToken $access_token
+ * @property \EasyWeChat\Applications\OpenPlatform\Server\Guard $server
+ * @property \EasyWeChat\Applications\OpenPlatform\Core\AccessToken $access_token
+ * @property \EasyWeChat\Applications\OpenPlatform\PreAuthorization\Client $pre_authorization
  *
- * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
- * @method \EasyWeChat\Support\Collection getAuthorizerInfo($authorizerAppId)
- * @method \EasyWeChat\Support\Collection getAuthorizerOption($authorizerAppId, $optionName)
- * @method \EasyWeChat\Support\Collection setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
+ * @method \EasyWeChat\Support\Collection|array getAuthorizationInfo(string $authCode = null)
+ * @method \EasyWeChat\Support\Collection|array getAuthorizerInfo(string $authorizerAppId)
+ * @method \EasyWeChat\Support\Collection|array getAuthorizerOption(string $authorizerAppId, string $optionName)
+ * @method \EasyWeChat\Support\Collection|array setAuthorizerOption(string $authorizerAppId, string $optionName, string $optionValue)
  */
 class Application extends ServiceContainer
 {
@@ -38,25 +38,22 @@ class Application extends ServiceContainer
     ];
 
     /**
-     * Create an instance of the EasyWeChat for the given authorizer.
+     * Create an instance of OfficialAccount.
      *
-     * @param string $appId        Authorizer AppId
-     * @param string $refreshToken Authorizer refresh-token
+     * @param string $appId
+     * @param string $refreshToken
      *
-     * @return \EasyWeChat\Factory
+     * @return \EasyWeChat\Applications\officialAccount\Application
      */
-    public function createAuthorizerApplication(string $appId, string $refreshToken)
+    public function createOfficialAccount(string $appId, string $refreshToken)
     {
-        $this->fetch('authorizer_access_token', function ($accessToken) use ($appId, $refreshToken) {
-            $accessToken->setAppId($appId);
-            $accessToken->setRefreshToken($refreshToken);
-        });
+        $instance = new OfficialAccount([/** todo */]);
 
-        return $this->fetch('app', function ($app) {
-            $app['access_token'] = $this->fetch('authorizer_access_token');
-            $app['oauth'] = $this->fetch('oauth');
-            $app['server'] = $this->fetch('server');
-        });
+        $instance['oauth'] = $this->offsetGet('open_platform.oauth');
+        $instance['server'] = $this->offsetGet('open_platform.server');
+        $instance['access_token'] = $this->offsetGet('open_platform.authorizer_access_token')->setAppId($appId)->setRefreshToken($refreshToken);
+
+        return $instance;
     }
 
     /**
