@@ -47,7 +47,7 @@ class Application extends ServiceContainer
      */
     public function createOfficialAccount(string $appId, string $refreshToken)
     {
-        $instance = new OfficialAccount([/** todo */]);
+        $instance = new OfficialAccount([/* todo */]);
 
         $instance['oauth'] = $this->offsetGet('open_platform.oauth');
         $instance['server'] = $this->offsetGet('open_platform.server');
