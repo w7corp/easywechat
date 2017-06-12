@@ -9,17 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Js Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Js;
+namespace EasyWeChat\Applications\OfficialAccount\Jssdk;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\FilesystemCache;
@@ -27,6 +17,11 @@ use EasyWeChat\Applications\Base\Core\AbstractAPI;
 use EasyWeChat\Support\Str;
 use EasyWeChat\Support\Url as UrlHelper;
 
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class Client extends AbstractAPI
 {
     /**
