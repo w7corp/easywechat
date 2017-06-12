@@ -9,20 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Stats Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Stats;
+namespace EasyWeChat\Applications\OfficialAccount\Datacube;
 
 use EasyWeChat\Applications\Base\Core\AbstractAPI;
 
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class Client extends AbstractAPI
 {
     // 获取用户增减数据
