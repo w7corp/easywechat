@@ -9,20 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Reply Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Reply;
+namespace EasyWeChat\Applications\OfficialAccount\AutoReply;
 
 use EasyWeChat\Applications\Base\Core\AbstractAPI;
 
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class Client extends AbstractAPI
 {
     const API_GET_CURRENT_SETTING = 'https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info';
