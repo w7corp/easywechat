@@ -32,9 +32,9 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['mini_program.stats'] = function ($container) {
+        $container['stats'] = function ($container) {
             return new Client(
-                $container['mini_program.access_token'],
+                $container['access_token'],
                 $container['config']['mini_program']
             );
         };

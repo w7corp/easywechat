@@ -35,12 +35,12 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.material'] = function ($container) {
-            return new Client($container['official_account.access_token']);
+        $container['material'] = function ($container) {
+            return new Client($container['access_token']);
         };
 
-        $container['official_account.material_temporary'] = function ($container) {
-            return new TemporaryClient($container['official_account.access_token']);
+        $container['material_temporary'] = function ($container) {
+            return new TemporaryClient($container['access_token']);
         };
     }
 }

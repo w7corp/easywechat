@@ -33,7 +33,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['mini_program.encryptor'] = function ($container) {
+        $container['encryptor'] = function ($container) {
             return new Encryptor(
                 $container['config']['mini_program']['app_id'],
                 $container['config']['mini_program']['token'],
@@ -41,10 +41,10 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $container['mini_program.server'] = function ($container) {
+        $container['server'] = function ($container) {
             $server = new Guard($container['config']['mini_program']['token']);
             $server->debug($container['config']['debug']);
-            $server->setEncryptor($container['mini_program.encryptor']);
+            $server->setEncryptor($container['encryptor']);
 
             return $server;
         };

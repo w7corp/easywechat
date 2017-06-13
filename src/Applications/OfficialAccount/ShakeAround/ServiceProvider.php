@@ -39,8 +39,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.shakearound'] = function ($container) {
-            return new ShakeAround($container['official_account.access_token']);
+        $container['shakearound'] = function ($container) {
+            return new ShakeAround($container['access_token']);
         };
     }
 }

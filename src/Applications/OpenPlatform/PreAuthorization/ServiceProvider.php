@@ -21,7 +21,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['open_platform.pre_authorization'] = function ($container) {
+        $container['pre_authorization'] = function ($container) {
             return new Client();
         };
     }

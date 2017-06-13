@@ -32,8 +32,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.comment'] = function ($container) {
-            return new Client($container['official_account.access_token']);
+        $container['comment'] = function ($container) {
+            return new Client($container['access_token']);
         };
     }
 }

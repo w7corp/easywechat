@@ -79,6 +79,6 @@ class AccessToken extends BaseAccessToken
      */
     public function getCacheKey(): string
     {
-        return 'easywechat.open_platform.authorizer_access_token.'.$this->getClientId().$this->appId;
+        return 'easywechat.authorizer_access_token.'.$this->getClientId().$this->appId;
     }
 }

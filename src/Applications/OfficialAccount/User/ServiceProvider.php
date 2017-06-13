@@ -39,16 +39,16 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.user'] = function ($container) {
-            return new UserClient($container['official_account.access_token']);
+        $container['user'] = function ($container) {
+            return new UserClient($container['access_token']);
         };
 
-        $container['official_account.user_group'] = function ($container) {
-            return new GroupClient($container['official_account.access_token']);
+        $container['user_group'] = function ($container) {
+            return new GroupClient($container['access_token']);
         };
 
-        $container['official_account.user_tag'] = function ($container) {
-            return new TagClient($container['official_account.access_token']);
+        $container['user_tag'] = function ($container) {
+            return new TagClient($container['access_token']);
         };
     }
 }

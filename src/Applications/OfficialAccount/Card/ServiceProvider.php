@@ -35,8 +35,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.card'] = function ($container) {
-            $card = new Client($container['official_account.access_token']);
+        $container['card'] = function ($container) {
+            $card = new Client($container['access_token']);
             $card->setCache($container['cache']);
 
             return $card;

@@ -32,9 +32,9 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['mini_program.qrcode'] = function ($container) {
+        $container['qrcode'] = function ($container) {
             return new Client(
-                $container['mini_program.access_token'],
+                $container['access_token'],
                 $container['config']['mini_program']
             );
         };

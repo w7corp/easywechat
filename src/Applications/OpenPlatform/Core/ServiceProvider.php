@@ -21,19 +21,19 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['open_platform.verify_ticket'] = function ($container) {
+        $container['verify_ticket'] = function ($container) {
             return new VerifyTicket(
                 $container['config']['open_platform']['app_id'],
                 $container['cache']
             );
         };
 
-        $container['open_platform.access_token'] = function ($container) {
+        $container['access_token'] = function ($container) {
             $accessToken = new AccessToken(
                 $container['config']['open_platform']['app_id'],
                 $container['config']['open_platform']['secret']
             );
-            $accessToken->setCache($container['cache'])->setVerifyTicket($container['open_platform.verify_ticket']);
+            $accessToken->setCache($container['cache'])->setVerifyTicket($container['verify_ticket']);
 
             return $accessToken;
         };

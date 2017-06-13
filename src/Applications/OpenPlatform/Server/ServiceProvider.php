@@ -27,7 +27,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['open_platform.encryptor'] = function ($container) {
+        $container['encryptor'] = function ($container) {
             return new Encryptor(
                 $container['config']['client_id'],
                 $container['config']['token'],
@@ -35,20 +35,20 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $container['open_platform.handlers'] = function ($container) {
+        $container['handlers'] = function ($container) {
             return [
                 Guard::EVENT_AUTHORIZED => new Handlers\Authorized(),
                 Guard::EVENT_UNAUTHORIZED => new Handlers\Unauthorized(),
                 Guard::EVENT_UPDATE_AUTHORIZED => new Handlers\UpdateAuthorized(),
-                Guard::EVENT_COMPONENT_VERIFY_TICKET => new Handlers\ComponentVerifyTicket($container['open_platform.verify_ticket']),
+                Guard::EVENT_COMPONENT_VERIFY_TICKET => new Handlers\ComponentVerifyTicket($container['verify_ticket']),
             ];
         };
 
-        $container['open_platform.server'] = function ($container) {
+        $container['server'] = function ($container) {
             $server = new Guard($container['config']['token']);
             $server->debug($container['config']['debug']);
-            $server->setEncryptor($container['open_platform.encryptor']);
-            $server->setHandlers($container['open_platform.handlers']);
+            $server->setEncryptor($container['encryptor']);
+            $server->setHandlers($container['handlers']);
 
             return $server;
         };

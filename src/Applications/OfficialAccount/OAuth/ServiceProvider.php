@@ -36,7 +36,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.oauth'] = function ($container) {
+        $container['oauth'] = function ($container) {
             $callback = $this->prepareCallbackUrl($container);
             $scopes = $container['config']->get('oauth.scopes', []);
             $socialite = (new Socialite(

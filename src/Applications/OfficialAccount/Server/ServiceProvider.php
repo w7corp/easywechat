@@ -40,7 +40,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.encryptor'] = function ($container) {
+        $container['encryptor'] = function ($container) {
             return new Encryptor(
                 $container['config']['app_id'],
                 $container['config']['token'],
@@ -48,12 +48,12 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $container['official_account.server'] = function ($container) {
+        $container['server'] = function ($container) {
             $server = new Guard($container['config']['token']);
 
             $server->debug($container['config']['debug']);
 
-            $server->setEncryptor($container['official_account.encryptor']);
+            $server->setEncryptor($container['encryptor']);
 
             return $server;
         };

@@ -26,8 +26,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.datacube'] = function ($container) {
-            return new Client($container['official_account.access_token']);
+        $container['datacube'] = function ($container) {
+            return new Client($container['access_token']);
         };
     }
 }

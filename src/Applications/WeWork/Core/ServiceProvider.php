@@ -22,11 +22,11 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['we_work.instance'] = function ($container) {
+        $container['instance'] = function ($container) {
             return new Application($container);
         };
 
-        $container['we_work.access_token'] = function ($container) {
+        $container['access_token'] = function ($container) {
             return new AccessToken($container['config']['corp_id']);
         };
     }

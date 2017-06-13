@@ -21,8 +21,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['open_platform.base'] = function ($container) {
-            return new Client($container['open_platform.access_token']);
+        $container['base'] = function ($container) {
+            return new Client($container['access_token']);
         };
     }
 }

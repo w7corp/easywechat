@@ -42,7 +42,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['official_account.merchant'] = function ($container) {
+        $container['merchant'] = function ($container) {
             $config = array_merge(
                 ['app_id' => $container['config']['app_id']],
                 $container['config']->get('payment', [])
@@ -51,8 +51,8 @@ class ServiceProvider implements ServiceProviderInterface
             return new Merchant($config);
         };
 
-        $container['official_account.payment'] = function ($container) {
-            $payment = new Payment($container['official_account.merchant']);
+        $container['payment'] = function ($container) {
+            $payment = new Payment($container['merchant']);
             $payment->sandboxMode(
                 (bool) $container['config']->get('payment.sandbox_mode')
             );
@@ -60,16 +60,16 @@ class ServiceProvider implements ServiceProviderInterface
             return $payment;
         };
 
-        $container['official_account.lucky_money'] = function ($container) {
-            return new LuckyMoney($container['official_account.merchant']);
+        $container['lucky_money'] = function ($container) {
+            return new LuckyMoney($container['merchant']);
         };
 
-        $container['official_account.merchant_pay'] = function ($container) {
-            return new MerchantPay($container['official_account.merchant']);
+        $container['merchant_pay'] = function ($container) {
+            return new MerchantPay($container['merchant']);
         };
 
-        $container['official_account.cash_coupon'] = function ($container) {
-            return new CashCoupon($container['official_account.merchant']);
+        $container['cash_coupon'] = function ($container) {
+            return new CashCoupon($container['merchant']);
         };
     }
 }
