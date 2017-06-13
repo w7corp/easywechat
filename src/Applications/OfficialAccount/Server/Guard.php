@@ -145,27 +145,19 @@ class Guard
             'Content' => $this->request->getContent(),
         ]);
 
-        $this->validate($this->token);
-
-        if ($str = $this->request->get('echostr')) {
-            Log::debug("Output 'echostr' is '$str'.");
-
-            return new Response($str);
-        }
-
-        $result = $this->handleRequest();
-
-        $response = $this->buildResponse($result['to'], $result['from'], $result['response']);
+        $response = $this->validate($this->token)->resolve();
 
         Log::debug('Server response created:', compact('response'));
 
-        return new Response($response);
+        return $response;
     }
 
     /**
      * Validation request params.
      *
      * @param string $token
+     *
+     * @return $this
      *
      * @throws FaultException
      */
@@ -180,6 +172,28 @@ class Guard
         if (!$this->debug && $this->request->get('signature') !== $this->signature($params)) {
             throw new FaultException('Invalid request signature.', 400);
         }
+
+        return $this;
+    }
+
+    /**
+     * Resolve server request and return the response.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function resolve()
+    {
+        if ($str = $this->request->get('echostr')) {
+            Log::debug("Output 'echostr' is '$str'.");
+
+            return new Response($str);
+        }
+
+        $result = $this->handleRequest();
+
+        return new Response(
+            $this->buildResponse($result['to'], $result['from'], $result['response'])
+        );
     }
 
     /**

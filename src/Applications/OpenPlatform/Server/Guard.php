@@ -9,30 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Guard.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @author    lixiao <leonlx126@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OpenPlatform\Server;
 
-use EasyWeChat\Applications\OfficialAccount\Server\Guard as ServerGuard;
+use EasyWeChat\Applications\OfficialAccount\Server\Guard as BaseGuard;
 use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\Log;
 use Symfony\Component\HttpFoundation\Response;
 
-class Guard extends ServerGuard
+class Guard extends BaseGuard
 {
     const EVENT_AUTHORIZED = 'authorized';
     const EVENT_UNAUTHORIZED = 'unauthorized';
@@ -59,81 +42,20 @@ class Guard extends ServerGuard
     }
 
     /**
-     * Get handlers.
-     *
-     * @return \EasyWeChat\Support\Collection
+     * {@inheritdoc}.
      */
-    public function getHandlers()
+    protected function resolve()
     {
-        return $this->handlers;
-    }
+        $message = new Collection($this->getMessage());
 
-    /**
-     * Get handler.
-     *
-     * @param string $type
-     *
-     * @return \EasyWeChat\Applications\OpenPlatform\EventHandlers\EventHandler|null
-     */
-    public function getHandler($type)
-    {
-        return $this->handlers->get($type);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function serve()
-    {
-        $message = $this->getMessage();
-
-        // Handle Messages.
-        if (isset($message['MsgType'])) {
-            return parent::serve();
+        if ($handler = $this->handlers->get($message->get('InfoType'))) {
+            $handler->handle($message);
         }
 
-        Log::debug('Application Request received:', [
-            'Method' => $this->request->getMethod(),
-            'URI' => $this->request->getRequestUri(),
-            'Query' => $this->request->getQueryString(),
-            'Protocal' => $this->request->server->get('SERVER_PROTOCOL'),
-            'Content' => $this->request->getContent(),
-        ]);
-
-        // If sees the `auth_code` query parameter in the url, that is,
-        // authorization is successful and it calls back, meanwhile, an
-        // `authorized` event, which also includes the auth code, is sent
-        // from WeChat, and that event will be handled.
-        if ($this->request->get('auth_code')) {
-            return new Response(self::SUCCESS_EMPTY_RESPONSE);
+        if ($customHandler = $this->getMessageHandler()) {
+            call_user_func_array($customHandler, [$message]);
         }
-
-        $this->handleEventMessage($message);
 
         return new Response(self::SUCCESS_EMPTY_RESPONSE);
-    }
-
-    /**
-     * Handle event message.
-     *
-     * @param array $message
-     */
-    protected function handleEventMessage(array $message)
-    {
-        Log::debug('Application Event Message detail:', $message);
-
-        $message = new Collection($message);
-
-        $infoType = $message->get('InfoType');
-
-        if ($handler = $this->getHandler($infoType)) {
-            $handler->handle($message);
-        } else {
-            Log::notice("No existing handler for '{$infoType}'.");
-        }
-
-        if ($messageHandler = $this->getMessageHandler()) {
-            call_user_func_array($messageHandler, [$message]);
-        }
     }
 }
