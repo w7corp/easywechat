@@ -12,7 +12,6 @@
 namespace EasyWeChat\Applications\OfficialAccount;
 
 use EasyWeChat\Applications\OfficialAccount;
-use EasyWeChat\Applications\OpenPlatform\Authorizer\AccessToken as AuthorizerAccessToken;
 use EasyWeChat\Support\ServiceContainer;
 
 /*
@@ -75,9 +74,12 @@ class Application extends ServiceContainer
     {
         $instance = new self();
 
-        $instance['official_account.oauth'] = function () {};
-        $instance['official_account.server'] = function () {};
-        $instance['official_account.access_token'] = function () use ($clientId, $componentClientId, $refreshToken) {};
+        $instance['official_account.oauth'] = function () {
+        };
+        $instance['official_account.server'] = function () {
+        };
+        $instance['official_account.access_token'] = function () use ($clientId, $componentClientId, $refreshToken) {
+        };
 
         return $instance;
     }
