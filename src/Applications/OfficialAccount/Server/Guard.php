@@ -449,9 +449,11 @@ class Guard
     {
         $content = strval($content);
 
-        $arrayable = json_decode($content, true);
-        if (json_last_error() === JSON_ERROR_NONE) {
-            return $arrayable;
+        $dataSet = json_decode($content, true);
+        if (JSON_ERROR_NONE === json_last_error()) {
+            // For mini-program JSON formats.
+            // Convert to XML if the given string can be decode into a data array.
+            $content = XML::build($dataSet);
         }
 
         if ($this->isSafeMode()) {

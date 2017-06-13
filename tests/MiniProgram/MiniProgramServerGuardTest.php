@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\MiniProgram;
 
-use EasyWeChat\Applications\MiniProgram\Server\Guard;
-use EasyWeChat\Support\XML;
+use EasyWeChat\MiniProgram\Encryption\Encryptor;
+use EasyWeChat\MiniProgram\Server\Guard;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,12 +21,16 @@ class MiniProgramServerGuardTest extends TestCase
     public function getServer($queries = [], $content = null)
     {
         $queries = array_merge([
-            'signature' => 'b4d6a65981dd51a8d6d022364500e4430fe5e577',
-            'timestamp' => '1490925589',
-            'nonce' => '1854495049',
+            'signature' => 'cdfbda2936babf735d1b07a5995d3b9968445a9f',
+            'timestamp' => '1496847943',
+            'nonce' => '1801816940',
         ], $queries);
 
-        return new Guard('Mi5u8if', new Request($queries, [], [], [], [], [], $content));
+        $guard = new Guard('MMAA6n6V5g8GkKUUirtJFDCiPFvjXTuA', new Request($queries, [], [], [], [], [], $content));
+        $encryptor = new Encryptor('wx94c788233e761510', 'MMAA6n6V5g8GkKUUirtJFDCiPFvjXTuA', 'FE7ZQktQ0kTlxI0gYAMtbO2OuooCHzKmhCDbSGMwpAW');
+        $guard->setEncryptor($encryptor);
+
+        return $guard;
     }
 
     public function testValidateRequest()
@@ -36,37 +40,20 @@ class MiniProgramServerGuardTest extends TestCase
         $this->assertSame('3804283725124844375', $result->getContent());
     }
 
-    public function testUserEnterSession()
+    public function testDecryptMsg()
     {
-        $json = json_encode([
-            'ToUserName' => 'toUser',
-            'FromUserName' => 'fromUser',
-            'CreateTime' => 1482048670,
-            'MsgType' => 'event',
-            'Event' => 'user_enter_tempsession',
-            'SessionFrom' => 'sessionFrom',
-        ]);
-        $xml = '<xml>
-                    <ToUserName><![CDATA[toUser]]></ToUserName>
-                    <FromUserName><![CDATA[fromUser]]></FromUserName>
-                    <CreateTime>1482048670</CreateTime>
-                    <MsgType><![CDATA[event]]></MsgType>
-                    <Event><![CDATA[user_enter_tempsession]]></Event>
-                    <SessionFrom><![CDATA[sessionFrom]]></SessionFrom>
-                </xml>';
+        $json = '{"ToUserName":"gh_8f8e866d31ea","Encrypt":"mSHmxAtI0rrRAQBMA8s5q3oLBhbygmwEkY60MWCVf7Nlp9emfwDTSa20Phk9qdvFbfn8izKcehqQGBOn+7MBp8L/PMGHK8Rc/KESOu+ITB8JYTAgp6yL6Ld+tURg9JLR+qfNmYawUmmO+undQbYLh0XSylKJzSPNhzjCFtijBUZqXJZmrMjISkRHzTG+mLu6p6PMHqqMIig15BqT3yk7/m8aBTmtaMNpMGKQTNoUFwu2AV1kxUZvm9VTtdFXA+EU0VSekgyWsQgspisR5+eTuiCC0GXAaSKmL4bCDi2FNtI="}';
+        $server = $this->getServer([
+            'encrypt_type' => 'aes',
+            'msg_signature' => '885573aacfe510e21a433c8e6cc54325544aa452',
+        ], $json);
 
-        $server = $this->getServer([], $json);
-
-        $res = $server->setMessageHandler(function ($message) {
-            $this->assertSame('user_enter_tempsession', $message->Event);
+        $result = $server->setMessageHandler(function ($message) {
+            $this->assertEquals('gh_8f8e866d31ea', $message->ToUserName);
+            $this->assertEquals('oCdsX0cP7_xE_49eP4zUnC1CtmzU', $message->FromUserName);
+            $this->assertEquals('1496847943', $message->CreateTime);
+            $this->assertEquals('user_enter_tempsession', $message->Event);
         })->serve();
-        $this->assertSame('success', $res->getContent());
-
-        $server = $this->getServer([], $xml);
-
-        $res2 = $server->setMessageHandler(function ($message) {
-            $this->assertSame('user_enter_tempsession', $message->Event);
-        })->serve();
-        $this->assertSame('success', $res2->getContent());
+        $this->assertEquals('success', $result->getContent());
     }
 }

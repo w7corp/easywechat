@@ -46,20 +46,20 @@ class Music extends AbstractMessage
      * @var array
      */
     protected $properties = [
-                             'title',
-                             'description',
-                             'url',
-                             'hq_url',
-                             'thumb_media_id',
-                             'format',
-                            ];
+        'title',
+        'description',
+        'url',
+        'hq_url',
+        'thumb_media_id',
+        'format',
+    ];
 
     /**
-     * 设置视频封面.
+     * 设置音乐封面.
      *
      * @param string $mediaId
      *
-     * @return Video
+     * @return $this
      */
     public function thumb($mediaId)
     {
