@@ -11,35 +11,21 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\Authorizer;
 
-use EasyWeChat\Applications\Base\Core\AccessToken as BaseAccessToken;
-use EasyWeChat\Applications\OpenPlatform\Base\Client;
-use EasyWeChat\Exceptions\Exception;
+use EasyWeChat\Applications\Base\AccessToken as BaseAccessToken;
 
 class AccessToken extends BaseAccessToken
 {
     /**
      * {@inheritdoc}.
      */
-    protected $tokenJsonKey = 'authorizer_access_token';
+    protected $jsonKey = 'authorizer_access_token';
 
     /**
-     * Api instance.
-     *
-     * @var \EasyWeChat\Applications\OpenPlatform\Api\Client
-     */
-    protected $api;
-
-    /**
-     * @var \EasyWeChat\Applications\OpenPlatform\Authorizer
-     */
-    protected $authorizer;
-
-    /**
-     * Authorizer AppId.
+     * Component ClientId.
      *
      * @var string
      */
-    protected $appId;
+    protected $componentClientId;
 
     /**
      * Authorizer Refresh Token.
@@ -49,29 +35,13 @@ class AccessToken extends BaseAccessToken
     protected $refreshToken;
 
     /**
-     * Set the api instance.
+     * Set the component ClientId.
      *
-     * @param \EasyWeChat\Applications\OpenPlatform\Api\Client $api
-     *
-     * @return $this
+     * @param string $value
      */
-    public function setApi(Client $api)
+    public function setComponentClientId(string $value)
     {
-        $this->api = $api;
-
-        return $this;
-    }
-
-    /**
-     * Set the authorizer app id.
-     *
-     * @param string $appId
-     *
-     * @return $this
-     */
-    public function setAppId(string $appId)
-    {
-        $this->appId = $appId;
+        $this->componentClientId = $value;
 
         return $this;
     }
@@ -79,13 +49,13 @@ class AccessToken extends BaseAccessToken
     /**
      * Set the authorizer refresh token.
      *
-     * @param string $refreshToken
+     * @param string $value
      *
      * @return $this
      */
-    public function setRefreshToken(string $refreshToken)
+    public function setRefreshToken(string $value)
     {
-        $this->refreshToken = $refreshToken;
+        $this->refreshToken = $value;
 
         return $this;
     }
@@ -95,25 +65,13 @@ class AccessToken extends BaseAccessToken
      */
     public function getTokenFromServer()
     {
-        return $this->api->getAuthorizerToken(
-            $this->appId, $this->refreshToken
-        );
-    }
+        $params = [
+            'component_appid' => $this->componentClientId,
+            'authorizer_appid' => $this->clientId,
+            'authorizer_refresh_token' => $this->refreshToken,
+        ];
 
-    /**
-     * Return the authorizer appId.
-     *
-     * @throws \EasyWeChat\Exceptions\Exception
-     *
-     * @return string
-     */
-    public function getAppId(): string
-    {
-        if (!$this->appId) {
-            throw new Exception('Authorizer App Id is not present, you may not make the authorizer yet.');
-        }
-
-        return $this->appId;
+        return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token', $params]);
     }
 
     /**

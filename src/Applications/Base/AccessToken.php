@@ -9,26 +9,20 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * AccessToken.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
+namespace EasyWeChat\Applications\Base;
 
-namespace EasyWeChat\Applications\Base\Core;
-
-use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Exceptions\HttpException;
+use EasyWeChat\Support;
 
-abstract class AccessToken
+/**
+ * Class AccessToken.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class AccessToken
 {
-    // use HasHttpRequests;
-    // use Concerns\InteractsWithCache;
+    use Support\HasHttpRequests,
+        Support\InteractsWithCache;
 
     /**
      * Client Id (AppId, CorpId).
@@ -56,28 +50,7 @@ abstract class AccessToken
      *
      * @var string
      */
-    protected $tokenJsonKey = 'access_token';
-
-    /**
-     * Cache.
-     *
-     * @var Cache
-     */
-    protected $cache;
-
-    /**
-     * Cache Key.
-     *
-     * @var string
-     */
-    protected $cacheKey;
-
-    /**
-     * Cache key prefix.
-     *
-     * @var string
-     */
-    protected $prefix;
+    protected $jsonKey = 'access_token';
 
     /**
      * Constructor.
@@ -140,43 +113,6 @@ abstract class AccessToken
     }
 
     /**
-     * Get token from cache.
-     *
-     * @param bool $forceRefresh
-     *
-     * @return string
-     */
-    public function getToken(bool $forceRefresh = false): string
-    {
-        $cached = $this->getCache()->fetch($this->getCacheKey());
-
-        if ($forceRefresh || empty($cached)) {
-            $result = $this->getTokenFromServer();
-            $this->setToken($token = $result[$this->tokenJsonKey], $result['expires_in']);
-
-            return $token;
-        }
-
-        return $cached;
-    }
-
-    /**
-     * 设置自定义 token.
-     *
-     * @param string $token
-     * @param int    $expires
-     *
-     * @return $this
-     */
-    public function setToken(string $token, int $expires = 7200)
-    {
-        // XXX: T_T... 7200 - 1500
-        $this->getCache()->save($this->getCacheKey(), $token, $expires - 1500);
-
-        return $this;
-    }
-
-    /**
      * Return the API request form fields.
      *
      * @return array
@@ -191,6 +127,43 @@ abstract class AccessToken
     }
 
     /**
+     * Get token from cache.
+     *
+     * @param bool $forceRefresh
+     *
+     * @return string
+     */
+    public function getToken(bool $forceRefresh = false): string
+    {
+        $cached = $this->getCache()->get($this->getCacheKey());
+
+        if ($forceRefresh || is_null($cached)) {
+            $result = $this->getTokenFromServer();
+            $this->setToken($token = $result[$this->jsonKey], $result['expires_in']);
+
+            return $token;
+        }
+
+        return $cached;
+    }
+
+    /**
+     * Set token.
+     *
+     * @param string $token
+     * @param int    $expires
+     *
+     * @return $this
+     */
+    public function setToken(string $token, int $expires = 7200)
+    {
+        // XXX: T_T... 7200 - 1500
+        $this->getCache()->set($this->getCacheKey(), $token, $expires - 1500);
+
+        return $this;
+    }
+
+    /**
      * Get the access token from WeChat server.
      *
      * @throws \EasyWeChat\Exceptions\HttpException
@@ -199,12 +172,10 @@ abstract class AccessToken
      */
     public function getTokenFromServer()
     {
-        $http = $this->getHttp();
+        $result = $this->parseJSON($this->get(static::API_TOKEN_GET, $this->requestFields()));
 
-        $result = $http->parseJSON($http->get(static::API_TOKEN_GET, $this->requestFields()));
-
-        if (empty($result[$this->tokenJsonKey])) {
-            throw new HttpException('Request AccessToken fail. response: '.json_encode($result, JSON_UNESCAPED_UNICODE));
+        if (empty($result[$this->jsonKey])) {
+            throw new HttpException('Request AccessToken fail. Response: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
         return $result;
@@ -242,54 +213,6 @@ abstract class AccessToken
     public function getQueryFields(): array
     {
         return [$this->queryName => $this->getToken()];
-    }
-
-    /**
-     * Set cache instance.
-     *
-     * @param \Doctrine\Common\Cache\Cache $cache
-     *
-     * @return $this
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
-
-        return $this;
-    }
-
-    /**
-     * Return the cache manager.
-     *
-     * @return \Doctrine\Common\Cache\Cache
-     */
-    public function getCache()
-    {
-        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
-    }
-
-    /**
-     * Return the http instance.
-     *
-     * @return \EasyWeChat\Applications\Base\Core\Http
-     */
-    public function getHttp()
-    {
-        return $this->http ?: $this->http = new Http();
-    }
-
-    /**
-     * Set the http instance.
-     *
-     * @param \EasyWeChat\Applications\Base\Core\Http $http
-     *
-     * @return $this
-     */
-    public function setHttp(Http $http)
-    {
-        $this->http = $http;
-
-        return $this;
     }
 
     /**

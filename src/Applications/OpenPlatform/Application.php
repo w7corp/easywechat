@@ -33,27 +33,20 @@ class Application extends ServiceContainer
         OpenPlatform\Core\ServiceProvider::class,
         OpenPlatform\Base\ServiceProvider::class,
         OpenPlatform\Server\ServiceProvider::class,
-        OpenPlatform\Authorizer\ServiceProvider::class,
         OpenPlatform\PreAuthorization\ServiceProvider::class,
     ];
 
     /**
      * Create an instance of OfficialAccount.
      *
-     * @param string $appId
+     * @param string $clientId
      * @param string $refreshToken
      *
-     * @return \EasyWeChat\Applications\officialAccount\Application
+     * @return \EasyWeChat\Applications\OfficialAccount\Application
      */
-    public function createOfficialAccount(string $appId, string $refreshToken)
+    public function createOfficialAccount(string $clientId, string $refreshToken): OfficialAccount
     {
-        $instance = new OfficialAccount([/* todo */]);
-
-        $instance['oauth'] = $this->offsetGet('open_platform.oauth');
-        $instance['server'] = $this->offsetGet('open_platform.server');
-        $instance['access_token'] = $this->offsetGet('open_platform.authorizer_access_token')->setAppId($appId)->setRefreshToken($refreshToken);
-
-        return $instance;
+        return OfficialAccount::createFromOpenPlatform($this->config->client_id, $clientId, $refreshToken);
     }
 
     /**

@@ -12,9 +12,12 @@
 namespace EasyWeChat\Applications\OfficialAccount;
 
 use EasyWeChat\Applications\OfficialAccount;
+use EasyWeChat\Applications\OpenPlatform\Authorizer\AccessToken as AuthorizerAccessToken;
 use EasyWeChat\Support\ServiceContainer;
 
 /*
+ * Class Application.
+ *
  * @property \EasyWeChat\Applications\Application\Core\AccessToken                   $access_token
  * @property \EasyWeChat\Applications\Application\Server\Guard                       $server
  * @property \EasyWeChat\Applications\Application\User\User                          $user
@@ -67,4 +70,15 @@ class Application extends ServiceContainer
         OfficialAccount\ShakeAround\ServiceProvider::class,
         OfficialAccount\Comment\ServiceProvider::class,
     ];
+
+    public static function createFromOpenPlatform(string $componentClientId, string $clientId, string $refreshToken)
+    {
+        $instance = new self();
+
+        $instance['official_account.oauth'] = function () {};
+        $instance['official_account.server'] = function () {};
+        $instance['official_account.access_token'] = function () use ($clientId, $componentClientId, $refreshToken) {};
+
+        return $instance;
+    }
 }
