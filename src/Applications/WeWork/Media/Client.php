@@ -88,7 +88,7 @@ class Client
      * Upload media.
      *
      * @param string $type
-     * @param mixed $media
+     * @param mixed  $media
      *
      * @return mixed
      */
