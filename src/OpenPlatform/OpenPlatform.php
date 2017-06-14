@@ -40,6 +40,7 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @method \EasyWeChat\Support\Collection getAuthorizerInfo($authorizerAppId)
  * @method \EasyWeChat\Support\Collection getAuthorizerOption($authorizerAppId, $optionName)
  * @method \EasyWeChat\Support\Collection setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
+ * @method \EasyWeChat\Support\Collection getAuthorizerList($offset = 0, $count = 500)
  */
 class OpenPlatform
 {
