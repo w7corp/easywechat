@@ -27,6 +27,7 @@ class Application extends ServiceContainer
         WeWork\Menu\ServiceProvider::class,
         WeWork\User\ServiceProvider::class,
         WeWork\Agent\ServiceProvider::class,
+        WeWork\Media\ServiceProvider::class,
         WeWork\Message\ServiceProvider::class,
         WeWork\Department\ServiceProvider::class,
     ];
