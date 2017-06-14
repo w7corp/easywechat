@@ -12,8 +12,9 @@
 namespace EasyWeChat\Support;
 
 use EasyWeChat\Config\Repository as Config;
-use EasyWeChat\Support\Log;
-use Monolog\Handler\{HandlerInterface, NullHandler, StreamHandler};
+use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\NullHandler;
+use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
 

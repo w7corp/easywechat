@@ -12,7 +12,8 @@
 namespace EasyWeChat\Applications\Base;
 
 use EasyWeChat\Exceptions\HttpException;
-use EasyWeChat\Support\{HasHttpRequests, InteractsWithCache};
+use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Support\InteractsWithCache;
 
 /**
  * Class AccessToken.
