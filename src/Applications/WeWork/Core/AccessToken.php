@@ -9,31 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * AccessToken.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2017
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\WeWork\Core;
 
-use EasyWeChat\Applications\Base\Core\AccessToken as BaseAccessToken;
+use EasyWeChat\Applications\Base\AccessToken as BaseAccessToken;
 
 class AccessToken extends BaseAccessToken
 {
     /**
      * {@inheritdoc}.
      */
-    protected $prefix = 'easywechat.common.enterprise.access_token.';
+    protected $prefix = 'easywechat.wework.access_token.';
 
     // API
     const API_TOKEN_GET = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken';
@@ -54,6 +39,6 @@ class AccessToken extends BaseAccessToken
      */
     public function getCacheKey(): string
     {
-        return $this->prefix.$this->clientId.$this->clientSecret;
+        return $this->prefix.md5($this->clientId.'easywechat.wework'.$this->clientSecret);
     }
 }

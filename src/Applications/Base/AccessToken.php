@@ -12,17 +12,16 @@
 namespace EasyWeChat\Applications\Base;
 
 use EasyWeChat\Exceptions\HttpException;
-use EasyWeChat\Support;
+use EasyWeChat\Support\{HasHttpRequests, InteractsWithCache};
 
 /**
  * Class AccessToken.
  *
  * @author overtrue <i@overtrue.me>
  */
-class AccessToken
+abstract class AccessToken
 {
-    use Support\HasHttpRequests,
-        Support\InteractsWithCache;
+    use HasHttpRequests, InteractsWithCache;
 
     /**
      * Client Id (AppId, CorpId).
@@ -34,7 +33,7 @@ class AccessToken
     /**
      * Client Secret (AppSecret, CorpSecret).
      *
-     * @var string
+     * @var string|null
      */
     protected $clientSecret;
 
@@ -51,6 +50,18 @@ class AccessToken
      * @var string
      */
     protected $jsonKey = 'access_token';
+
+    /**
+     * @var string|null
+     */
+    protected $cacheKey = null;
+
+    /**
+     * Cache prefix.
+     *
+     * @var string
+     */
+    protected $prefix;
 
     /**
      * Constructor.
@@ -93,7 +104,7 @@ class AccessToken
      *
      * @return string|null
      */
-    final public function getClientSecret()
+    final public function getClientSecret(): ?string
     {
         return $this->clientSecret;
     }
@@ -172,7 +183,9 @@ class AccessToken
      */
     public function getTokenFromServer()
     {
-        $result = $this->parseJSON($this->get(static::API_TOKEN_GET, $this->requestFields()));
+        $result = $this->parseJSON(
+            $this->get(static::API_TOKEN_GET, $this->requestFields())
+        );
 
         if (empty($result[$this->jsonKey])) {
             throw new HttpException('Request AccessToken fail. Response: '.json_encode($result, JSON_UNESCAPED_UNICODE));

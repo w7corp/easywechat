@@ -12,7 +12,8 @@
 namespace EasyWeChat\Applications\OfficialAccount;
 
 use EasyWeChat\Applications\OfficialAccount;
-use EasyWeChat\Applications\OpenPlatform\Authorizer\AccessToken as AuthorizerAccessToken;
+use EasyWeChat\Applications\OfficialAccount\OpenPlatform\Authorizer\AccessToken as AuthorizerAccessToken;
+use EasyWeChat\Config\Repository as Config;
 use EasyWeChat\Support\ServiceContainer;
 
 /*
@@ -71,13 +72,36 @@ class Application extends ServiceContainer
         OfficialAccount\Comment\ServiceProvider::class,
     ];
 
-    public static function createFromOpenPlatform(string $componentClientId, string $clientId, string $refreshToken)
+    /**
+     * Create an instance.
+     *
+     * @param \EasyWeChat\Config\Repository $config
+     * @param string                        $clientId
+     * @param string                        $refreshToken
+     *
+     * @return \EasyWeChat\Applications\OfficialAccount\Application
+     */
+    public static function createFromOpenPlatform(Config $config, string $clientId, string $refreshToken): Application
     {
-        $instance = new self();
+        $componentClientId = $config['app_id'];
 
-        $instance['official_account.oauth'] = function () {};
-        $instance['official_account.server'] = function () {};
-        $instance['official_account.access_token'] = function () use ($clientId, $componentClientId, $refreshToken) {};
+        $config['app_id'] = $clientId;
+        $config['secret'] = null;
+
+        $instance = new self($config);
+
+        /**
+         * Override services.
+         */
+        $instance['oauth'] = function () {
+            // todo
+        };
+        $instance['access_token'] = function () use ($clientId, $componentClientId, $refreshToken) {
+            $accessToken = new AuthorizerAccessToken($clientId);
+            $accessToken->setComponentClientId($componentClientId)->setRefreshToken($refreshToken);
+
+            return $accessToken;
+        };
 
         return $instance;
     }

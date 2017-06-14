@@ -46,7 +46,7 @@ class Application extends ServiceContainer
      */
     public function createOfficialAccount(string $clientId, string $refreshToken): OfficialAccount
     {
-        return OfficialAccount::createFromOpenPlatform($this->config->client_id, $clientId, $refreshToken);
+        return OfficialAccount::createFromOpenPlatform($this['config'], $clientId, $refreshToken);
     }
 
     /**

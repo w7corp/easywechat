@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\Core;
 
-use EasyWeChat\Applications\Base\Core\AccessToken as BaseAccessToken;
+use EasyWeChat\Applications\Base\AccessToken as BaseAccessToken;
 
 class AccessToken extends BaseAccessToken
 {
@@ -40,7 +40,7 @@ class AccessToken extends BaseAccessToken
     /**
      * {@inheritdoc}.
      */
-    protected $prefix = 'easywechat.component_access_token.';
+    protected $prefix = 'easywechat.open_platform.component_access_token.';
 
     /**
      * Set VerifyTicket.

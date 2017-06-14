@@ -11,20 +11,15 @@
 
 namespace EasyWeChat;
 
-use EasyWeChat\Config\Repository as Config;
-use EasyWeChat\Support\Log;
-use Monolog\Handler\HandlerInterface;
-use Monolog\Handler\NullHandler;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-
 /**
- * @method static \EasyWeChat\Applications\WeWork\Application                    weWork(array $config)
- * @method static \EasyWeChat\Applications\MiniProgram\MiniProgram          miniProgram(array $config)
- * @method static \EasyWeChat\Applications\OpenPlatform\Application        openPlatform(array $config)
- * @method static \EasyWeChat\Applications\OfficialAccount\Application  officialAccount(array $config)
+ * Class Factory.
+ *
+ * @method static \EasyWeChat\Applications\WeWork\Application             weWork(array $config)
+ * @method static \EasyWeChat\Applications\MiniProgram\Application        miniProgram(array $config)
+ * @method static \EasyWeChat\Applications\OpenPlatform\Application       openPlatform(array $config)
+ * @method static \EasyWeChat\Applications\OfficialAccount\Application    officialAccount(array $config)
  */
-class Factory extends Container
+class Factory
 {
     /**
      * @param string                              $application
@@ -34,10 +29,6 @@ class Factory extends Container
      */
     public static function make($application, $config)
     {
-        if (!($config instanceof Config)) {
-            $config = new Config($config);
-        }
-
         return new $application($config);
     }
 
@@ -52,32 +43,5 @@ class Factory extends Container
     public static function __callStatic($name, $arguments)
     {
         return self::make($name, ...$arguments);
-    }
-
-    /**
-     * Initialize logger.
-     */
-    private function initializeLogger()
-    {
-        if (Log::hasLogger()) {
-            return;
-        }
-
-        $logger = new Logger('easywechat');
-
-        if (!$this['config']['debug'] || defined('PHPUNIT_RUNNING')) {
-            $logger->pushHandler(new NullHandler());
-        } elseif ($this['config']['log.handler'] instanceof HandlerInterface) {
-            $logger->pushHandler($this['config']['log.handler']);
-        } elseif ($logFile = $this['config']['log.file']) {
-            $logger->pushHandler(new StreamHandler(
-                    $logFile,
-                    $this['config']->get('log.level', Logger::WARNING),
-                    true,
-                    $this['config']->get('log.permission', null))
-            );
-        }
-
-        Log::setLogger($logger);
     }
 }

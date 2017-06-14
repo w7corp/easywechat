@@ -9,79 +9,45 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * VerifyTicket.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @author    lixiao <leonlx126@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OpenPlatform\Core;
 
-use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Exceptions\RuntimeException;
+use EasyWeChat\Support\InteractsWithCache;
 
 class VerifyTicket
 {
-    /**
-     * Cache manager.
-     *
-     * @var \Doctrine\Common\Cache\Cache
-     */
-    protected $cache;
+    use InteractsWithCache;
 
     /**
-     * App Id.
-     *
      * @var string
      */
-    protected $appId;
+    protected $clientId;
 
     /**
-     * Cache Key.
-     *
      * @var string
      */
-    private $cacheKey;
-
-    /**
-     * Cache key prefix.
-     *
-     * @var string
-     */
-    protected $prefix = 'easywechat.component_verify_ticket.';
+    protected $cacheKey;
 
     /**
      * VerifyTicket constructor.
      *
-     * @param string                       $appId
-     * @param \Doctrine\Common\Cache\Cache $cache
+     * @param string $clientId
      */
-    public function __construct($appId, Cache $cache)
+    public function __construct(string $clientId)
     {
-        $this->appId = $appId;
-        $this->cache = $cache;
+        $this->clientId = $clientId;
     }
 
     /**
-     * Set component verify ticket to the cache.
+     * Set component verify ticket.
      *
      * @param string $ticket
      *
      * @return bool
      */
-    public function setTicket($ticket)
+    public function setTicket(string $ticket)
     {
-        return $this->cache->save($this->getCacheKey(), $ticket);
+        return $this->getCache()->set($this->getCacheKey(), $ticket);
     }
 
     /**
@@ -89,11 +55,11 @@ class VerifyTicket
      *
      * @return string
      *
-     * @throws \EasyWeChat\Core\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Exceptions\RuntimeException
      */
     public function getTicket()
     {
-        if ($cached = $this->cache->fetch($this->getCacheKey())) {
+        if ($cached = $this->getCache()->get($this->getCacheKey())) {
             return $cached;
         }
 
@@ -107,7 +73,7 @@ class VerifyTicket
      *
      * @return $this
      */
-    public function setCacheKey($cacheKey)
+    public function setCacheKey(string $cacheKey)
     {
         $this->cacheKey = $cacheKey;
 
@@ -117,12 +83,12 @@ class VerifyTicket
     /**
      * Get component verify ticket cache key.
      *
-     * @return string $this->cacheKey
+     * @return string
      */
-    public function getCacheKey()
+    public function getCacheKey(): string
     {
         if (is_null($this->cacheKey)) {
-            return $this->prefix.$this->appId;
+            return 'easywechat.open_platform.component_verify_ticket.'.$this->clientId;
         }
 
         return $this->cacheKey;

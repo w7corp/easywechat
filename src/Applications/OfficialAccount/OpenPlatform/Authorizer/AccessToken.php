@@ -9,12 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OpenPlatform\Authorizer;
+namespace EasyWeChat\Applications\OfficialAccount\OpenPlatform\Authorizer;
 
 use EasyWeChat\Applications\Base\AccessToken as BaseAccessToken;
+use EasyWeChat\Support\HasHttpRequests;
 
 class AccessToken extends BaseAccessToken
 {
+    use HasHttpRequests;
+
     /**
      * {@inheritdoc}.
      */
@@ -37,11 +40,13 @@ class AccessToken extends BaseAccessToken
     /**
      * Set the component ClientId.
      *
-     * @param string $value
+     * @param string $clientId
+     *
+     * @return $this
      */
-    public function setComponentClientId(string $value)
+    public function setComponentClientId(string $clientId)
     {
-        $this->componentClientId = $value;
+        $this->componentClientId = $clientId;
 
         return $this;
     }
@@ -49,13 +54,13 @@ class AccessToken extends BaseAccessToken
     /**
      * Set the authorizer refresh token.
      *
-     * @param string $value
+     * @param string $refreshToken
      *
      * @return $this
      */
-    public function setRefreshToken(string $value)
+    public function setRefreshToken(string $refreshToken)
     {
-        $this->refreshToken = $value;
+        $this->refreshToken = $refreshToken;
 
         return $this;
     }
@@ -71,7 +76,9 @@ class AccessToken extends BaseAccessToken
             'authorizer_refresh_token' => $this->refreshToken,
         ];
 
-        return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token', $params]);
+        return $this->parseJSON(
+            $this->postJson('https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token', $params)
+        );
     }
 
     /**
@@ -79,6 +86,6 @@ class AccessToken extends BaseAccessToken
      */
     public function getCacheKey(): string
     {
-        return 'easywechat.authorizer_access_token.'.$this->getClientId().$this->appId;
+        return 'easywechat.authorizer_access_token.'.$this->componentClientId.$this->getClientId();
     }
 }

@@ -9,22 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * AccessToken.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Core;
 
-use EasyWeChat\Applications\Base\Core\AccessToken as BaseAccessToken;
+use EasyWeChat\Applications\Base\AccessToken as BaseAccessToken;
 
 /**
  * Class AccessToken.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class AccessToken extends BaseAccessToken
 {
