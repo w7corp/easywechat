@@ -22,12 +22,12 @@ use EasyWeChat\Support\ServiceContainer;
 class Application extends ServiceContainer
 {
     protected $providers = [
+        WeWork\OA\ServiceProvider::class,
         WeWork\Core\ServiceProvider::class,
         WeWork\Menu\ServiceProvider::class,
         WeWork\User\ServiceProvider::class,
         WeWork\Agent\ServiceProvider::class,
         WeWork\Message\ServiceProvider::class,
-        WeWork\Attendance\ServiceProvider::class,
         WeWork\Department\ServiceProvider::class,
     ];
 }

@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\WeWork\Attendance;
+namespace EasyWeChat\Applications\WeWork\OA;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -21,8 +21,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $container)
     {
-        $container['attendance'] = function ($container) {
-            return new Client($container['access_token']);
+        $container['oa'] = function () {
+            return new Client();
         };
     }
 }
