@@ -9,20 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * FaultException.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Exceptions;
 
 /**
  * Class FaultException.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class FaultException extends Exception
 {
