@@ -70,6 +70,7 @@ class Application extends ServiceContainer
         OfficialAccount\Device\ServiceProvider::class,
         OfficialAccount\ShakeAround\ServiceProvider::class,
         OfficialAccount\Comment\ServiceProvider::class,
+        OfficialAccount\Invoice\ServiceProvider::class,
     ];
 
     /**
