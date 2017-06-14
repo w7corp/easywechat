@@ -90,7 +90,7 @@ class Application extends ServiceContainer
 
         $instance = new self($config);
 
-        /**
+        /*
          * Override services.
          */
         $instance['oauth'] = function () {
