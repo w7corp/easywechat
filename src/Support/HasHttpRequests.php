@@ -51,7 +51,7 @@ trait HasHttpRequests
      *
      * @param array $defaults
      */
-    public static function setDefaultOptions($defaults = [])
+    public static function setDefaultOptions($defaults = []): void
     {
         self::$defaults = $defaults;
     }
@@ -61,88 +61,9 @@ trait HasHttpRequests
      *
      * @return array
      */
-    public static function getDefaultOptions()
+    public static function getDefaultOptions(): array
     {
         return self::$defaults;
-    }
-
-    /**
-     * GET request.
-     *
-     * @param string $url
-     * @param array  $options
-     *
-     * @return ResponseInterface
-     *
-     * @throws HttpException
-     */
-    public function get($url, array $options = [])
-    {
-        return $this->request($url, 'GET', ['query' => $options]);
-    }
-
-    /**
-     * POST request.
-     *
-     * @param string       $url
-     * @param array|string $options
-     *
-     * @return ResponseInterface
-     *
-     * @throws HttpException
-     */
-    public function post($url, $options = [])
-    {
-        $key = is_array($options) ? 'form_params' : 'body';
-
-        return $this->request($url, 'POST', [$key => $options]);
-    }
-
-    /**
-     * JSON request.
-     *
-     * @param string       $url
-     * @param string|array $options
-     * @param array        $query
-     * @param int          $encodeOption
-     *
-     * @return ResponseInterface
-     *
-     * @throws HttpException
-     */
-    public function postJson($url, $options = [], $encodeOption = JSON_UNESCAPED_UNICODE, $query = [])
-    {
-        is_array($options) && $options = json_encode($options, $encodeOption);
-
-        return $this->request($url, 'POST', ['query' => $query, 'body' => $options, 'headers' => ['content-type' => 'application/json']]);
-    }
-
-    /**
-     * Upload file.
-     *
-     * @param string $url
-     * @param array  $files
-     * @param array  $form
-     * @param array  $query
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function upload($url, array $files = [], array $form = [], array $query = [])
-    {
-        $multipart = [];
-
-        foreach ($files as $name => $path) {
-            $multipart[] = [
-                'name' => $name,
-                'contents' => fopen($path, 'r'),
-            ];
-        }
-
-        foreach ($form as $name => $contents) {
-            $multipart[] = compact('name', 'contents');
-        }
-
-        return $this->request($url, 'POST', ['query' => $query, 'multipart' => $multipart]);
     }
 
     /**
@@ -164,7 +85,7 @@ trait HasHttpRequests
      *
      * @return \GuzzleHttp\Client
      */
-    public function getHttpClient()
+    public function getHttpClient(): Client
     {
         if (!($this->httpClient instanceof Client)) {
             $this->httpClient = new Client();
@@ -176,13 +97,18 @@ trait HasHttpRequests
     /**
      * Add a middleware.
      *
-     * @param callable $middleware
+     * @param callable    $middleware
+     * @param null|string $name
      *
      * @return $this
      */
-    public function addMiddleware(callable $middleware)
+    public function pushMiddleware(callable $middleware, ?string $name = null)
     {
-        array_push($this->middlewares, $middleware);
+        if ($name) {
+            $this->middlewares[$name] = $middleware;
+        } else {
+            array_push($this->middlewares, $middleware);
+        }
 
         return $this;
     }
@@ -204,60 +130,15 @@ trait HasHttpRequests
      * @param string $method
      * @param array  $options
      *
-     * @return ResponseInterface
-     *
-     * @throws HttpException
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function request($url, $method = 'GET', $options = [])
+    public function request($url, $method = 'GET', $options = []): ResponseInterface
     {
         $method = strtoupper($method);
 
-        $options = array_merge(self::$defaults, $options);
+        $options = array_merge(self::$defaults, $options, ['handler' => $this->getHandlerStack()]);
 
-        Log::debug('Client Request:', compact('url', 'method', 'options'));
-
-        $options['handler'] = $this->getHandlerStack();
-
-        $response = $this->getHttpClient()->request($method, $url, $options);
-
-        Log::debug('API response:', [
-            'Status' => $response->getStatusCode(),
-            'Reason' => $response->getReasonPhrase(),
-            'Headers' => $response->getHeaders(),
-            'Body' => strval($response->getBody()),
-        ]);
-
-        return $response;
-    }
-
-    /**
-     * @param \Psr\Http\Message\ResponseInterface|string $body
-     *
-     * @return mixed
-     *
-     * @throws \EasyWeChat\Exceptions\HttpException
-     */
-    public function parseJSON($body)
-    {
-        if ($body instanceof ResponseInterface) {
-            $body = $body->getBody();
-        }
-
-        $body = $this->fuckTheWeChatInvalidJSON($body);
-
-        if (empty($body)) {
-            return false;
-        }
-
-        $contents = json_decode($body, true);
-
-        Log::debug('API response decoded:', compact('contents'));
-
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new HttpException('Failed to parse JSON: '.json_last_error_msg());
-        }
-
-        return $contents;
+        return $this->getHttpClient()->request($method, $url, $options);
     }
 
     /**
@@ -277,7 +158,7 @@ trait HasHttpRequests
      *
      * @return \GuzzleHttp\HandlerStack
      */
-    public function getHandlerStack()
+    public function getHandlerStack(): HandlerStack
     {
         if ($this->handlerStack) {
             return $this->handlerStack;
@@ -285,22 +166,10 @@ trait HasHttpRequests
 
         $this->handlerStack = HandlerStack::create();
 
-        foreach ($this->middlewares as $middleware) {
-            $this->handlerStack->push($middleware);
+        foreach ($this->middlewares as $name => $middleware) {
+            $this->handlerStack->push($middleware, $name);
         }
 
         return $this->handlerStack;
-    }
-
-    /**
-     * Filter the invalid JSON string.
-     *
-     * @param \Psr\Http\Message\StreamInterface|string $invalidJSON
-     *
-     * @return string
-     */
-    protected function fuckTheWeChatInvalidJSON($invalidJSON)
-    {
-        return preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', trim($invalidJSON));
     }
 }
