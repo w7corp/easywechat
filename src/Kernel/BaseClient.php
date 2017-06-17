@@ -178,6 +178,7 @@ class BaseClient
                 if (class_exists($type)) {
                     return new $type($response);
                 }
+
                 return $body;
         }
     }
@@ -257,7 +258,7 @@ class BaseClient
             if ($retries < $this->app->config->get('http_retries', 1) && $response && $body = $response->getBody()) {
                 // Retry on server errors
                 $response = json_decode($body, true);
-                if (!empty($response['errcode']) && in_array($response['errcode'], ['40001', '42001'])) {
+                if (!empty($response['errcode']) && in_array($response['errcode'], ['40001', '42001'], true)) {
                     $this->accessToken->refresh(true);
 
                     $request = $request->withUri($uri = $request->getUri()->withQuery($this->accessToken->getQuery()));
