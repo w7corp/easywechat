@@ -11,6 +11,8 @@
 
 namespace EasyWeChat\Applications\Payment\Pay;
 
+use EasyWeChat\Applications\Payment\Traits\HandleNotify;
+use EasyWeChat\Applications\Payment\Traits\JssdkHelpers;
 use EasyWeChat\Exceptions\Exception;
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support\Collection;
@@ -24,7 +26,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Client extends BaseClient
 {
-    use GenerateConfiguration, HandleNotify, Helpers;
+    use JssdkHelpers, HandleNotify;
 
     /**
      * Sandbox box mode.

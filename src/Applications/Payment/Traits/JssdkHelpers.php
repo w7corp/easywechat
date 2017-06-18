@@ -9,14 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\Payment\Pay;
+namespace EasyWeChat\Applications\Payment\Traits;
 
 /**
- * Trait GenerateConfiguration.
+ * Trait JssdkHelpers.
  *
  * @author overtrue <i@overtrue.me>
  */
-trait GenerateConfiguration
+trait JssdkHelpers
 {
     /**
      * [WeixinJSBridge] Generate js config for payment.

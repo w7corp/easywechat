@@ -16,8 +16,7 @@ use EasyWeChat\Kernel\ServiceContainer;
 class Application extends ServiceContainer
 {
     protected $providers = [
-        Pay\ServiceProvider::class,
-        Tools\ServiceProvider::class,
+        ServiceProvider::class,
     ];
 
     /**

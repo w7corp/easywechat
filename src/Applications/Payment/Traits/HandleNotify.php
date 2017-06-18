@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\Payment\Pay;
+namespace EasyWeChat\Applications\Payment\Traits;
 
 /**
  * Trait HandleNotify.
