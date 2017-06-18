@@ -18,4 +18,21 @@ namespace EasyWeChat\Exceptions;
  */
 class HttpException extends Exception
 {
+    /**
+     * @var array
+     */
+    public $response;
+
+    /**
+     * HttpException constructor.
+     *
+     * @param string $message
+     * @param int    $response
+     */
+    public function __construct($message, $response = null, $code = null)
+    {
+        parent::__construct($message, $code);
+
+        $this->response = $response;
+    }
 }
