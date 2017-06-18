@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Applications\WeWork\Auth;
 
-
 use EasyWeChat\Applications\WeWork\Application;
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
