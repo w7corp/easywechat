@@ -236,7 +236,7 @@ class BaseClient
      */
     protected function logMiddleware()
     {
-        $formatter = new MessageFormatter($this->app['config']['log.http_template'] ?? MessageFormatter::DEBUG);
+        $formatter = new MessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
 
         return Middleware::log(Log::getLogger(), $formatter);
     }
@@ -254,7 +254,7 @@ class BaseClient
             ?ResponseInterface $response = null
         ) {
             // Limit the number of retries to 2
-            if ($retries < $this->app->config->get('http_retries', 1) && $response && $body = $response->getBody()) {
+            if ($retries < $this->app->config->get('http.retries', 1) && $response && $body = $response->getBody()) {
                 // Retry on server errors
                 $response = json_decode($body, true);
                 if (!empty($response['errcode']) && in_array($response['errcode'], ['40001', '42001'], true)) {
@@ -267,7 +267,7 @@ class BaseClient
 
             return false;
         }, function ($retries) {
-            return $retries * abs($this->app->config->get('http_retry_delay', 0));
+            return $retries * abs($this->app->config->get('http.retry_delay', 0));
         });
     }
 }
