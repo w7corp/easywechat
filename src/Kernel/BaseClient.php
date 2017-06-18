@@ -267,7 +267,7 @@ class BaseClient
 
             return false;
         }, function ($retries) {
-            return $retries * abs($this->app->config->get('http.retry_delay', 0));
+            return $retries * abs($this->app->config->get('http.retry_delay', 500));
         });
     }
 }
