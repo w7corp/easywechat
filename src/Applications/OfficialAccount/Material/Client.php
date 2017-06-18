@@ -22,8 +22,8 @@
 namespace EasyWeChat\Applications\OfficialAccount\Material;
 
 use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Messages\Article;
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Messages\Article;
 
 class Client extends AbstractAPI
 {

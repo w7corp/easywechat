@@ -22,12 +22,12 @@
 namespace EasyWeChat\Applications\OfficialAccount\Server;
 
 use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor;
-use EasyWeChat\Messages\Message;
-use EasyWeChat\Messages\Raw as RawMessage;
-use EasyWeChat\Messages\Text;
 use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Exceptions\RuntimeException;
+use EasyWeChat\Messages\Message;
+use EasyWeChat\Messages\Raw as RawMessage;
+use EasyWeChat\Messages\Text;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\Log;
 use EasyWeChat\Support\XML;
@@ -404,8 +404,8 @@ class Guard
     /**
      * Build reply XML.
      *
-     * @param string          $to
-     * @param string          $from
+     * @param string  $to
+     * @param string  $from
      * @param Message $message
      *
      * @return string

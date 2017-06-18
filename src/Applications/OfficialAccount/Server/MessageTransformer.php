@@ -16,7 +16,7 @@ use EasyWeChat\Messages\News;
 use EasyWeChat\Messages\Text;
 
 /**
- * Class MessageTransformer
+ * Class MessageTransformer.
  *
  * @author overtrue <i@overtrue.me>
  */
