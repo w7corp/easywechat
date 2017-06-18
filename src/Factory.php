@@ -11,6 +11,8 @@
 
 namespace EasyWeChat;
 
+use EasyWeChat\Support\Str;
+
 /**
  * Class Factory.
  *
@@ -22,8 +24,8 @@ namespace EasyWeChat;
 class Factory
 {
     /**
-     * @param string                              $application
-     * @param array|\EasyWeChat\Config\Repository $config
+     * @param string                          $application
+     * @param array|\EasyWeChat\Config\Config $config
      *
      * @return \EasyWeChat\Support\ServiceContainer
      */
@@ -42,6 +44,9 @@ class Factory
      */
     public static function __callStatic($name, $arguments)
     {
+        $namespace = Str::studly($name);
+        $name = "\\EasyWeChat\\Applications\\{$namespace}\\Application";
+
         return self::make($name, ...$arguments);
     }
 }
