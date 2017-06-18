@@ -21,11 +21,11 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
+use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Exceptions\RuntimeException;
 use EasyWeChat\Messages\Message;
 use EasyWeChat\Messages\Raw as RawMessage;
 use EasyWeChat\Messages\Text;
-use EasyWeChat\Exceptions\InvalidArgumentException;
-use EasyWeChat\Exceptions\RuntimeException;
 
 /**
  * Class MessageBuilder.
