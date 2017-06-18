@@ -35,7 +35,7 @@
             "EasyWeChat\\": "src/"
         },
         "files": [
-            "src/Applications/OfficialAccount/Payment/helpers.php"
+            "src/Support/helpers.php"
         ]
     },
     "autoload-dev": {
