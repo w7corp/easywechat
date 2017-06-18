@@ -144,7 +144,7 @@ class MessageBuilder
     protected function setRecipients($ids, string $key): MessageBuilder
     {
         if (is_array($ids)) {
-            $ids = join('|', $ids);
+            $ids = implode('|', $ids);
         }
 
         $this->to = [$key => $ids];
