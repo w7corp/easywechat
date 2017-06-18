@@ -16,11 +16,11 @@ use EasyWeChat\Messages\News;
 use EasyWeChat\Messages\Text;
 
 /**
- * Class Transformer
+ * Class MessageTransformer
  *
  * @author overtrue <i@overtrue.me>
  */
-class Transformer
+class MessageTransformer
 {
     /**
      * transform message to XML.

@@ -32,7 +32,6 @@ class File extends Message
      */
     protected $properties = [
         'media_id',
-        'safe',
     ];
 
     /**

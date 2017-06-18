@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Broadcast;
 
-use EasyWeChat\Applications\OfficialAccount\Broadcast\Transformer;
+use EasyWeChat\Applications\OfficialAccount\Broadcast\MessageTransformer;
 use EasyWeChat\Tests\TestCase;
 
 class TransformerTest extends TestCase
@@ -21,7 +21,7 @@ class TransformerTest extends TestCase
      */
     public function testTransform()
     {
-        $transformer = new Transformer('link', 'http://easywechat.org');
+        $transformer = new MessageTransformer('link', 'http://easywechat.org');
 
         $this->assertSame([], $transformer->transform());
     }
@@ -31,7 +31,7 @@ class TransformerTest extends TestCase
      */
     public function testTransformText()
     {
-        $transformer = new Transformer('text', 'CONTENT');
+        $transformer = new MessageTransformer('text', 'CONTENT');
 
         $msg = [
             'text' => [
@@ -48,7 +48,7 @@ class TransformerTest extends TestCase
      */
     public function testTransformNews()
     {
-        $transformer = new Transformer('news', 'MEDIA_ID');
+        $transformer = new MessageTransformer('news', 'MEDIA_ID');
 
         $msg = [
             'mpnews' => [
@@ -65,7 +65,7 @@ class TransformerTest extends TestCase
      */
     public function testTransformImage()
     {
-        $transformer = new Transformer('image', 'MEDIA_ID');
+        $transformer = new MessageTransformer('image', 'MEDIA_ID');
 
         $msg = [
             'image' => [
@@ -84,7 +84,7 @@ class TransformerTest extends TestCase
      */
     public function testTransformVideo()
     {
-        $transformer = new Transformer('video', ['MEDIA_ID', 'TITLE', 'DESCRIPTION']);
+        $transformer = new MessageTransformer('video', ['MEDIA_ID', 'TITLE', 'DESCRIPTION']);
 
         $msg = [
             'video' => [
@@ -98,7 +98,7 @@ class TransformerTest extends TestCase
         $this->assertSame($msg, $transformer->transform());
 
         // exception
-        (new Transformer('video', ['MEDIA_ID', 'TITLE']))->transform();
+        (new MessageTransformer('video', ['MEDIA_ID', 'TITLE']))->transform();
     }
 
     /**
@@ -106,7 +106,7 @@ class TransformerTest extends TestCase
      */
     public function testTransformMpvideo()
     {
-        $transformer = new Transformer('mpvideo', 'MEDIA_ID');
+        $transformer = new MessageTransformer('mpvideo', 'MEDIA_ID');
 
         $msg = [
             'mpvideo' => [
@@ -123,7 +123,7 @@ class TransformerTest extends TestCase
      */
     public function testTransformVoice()
     {
-        $transformer = new Transformer('voice', 'MEDIA_ID');
+        $transformer = new MessageTransformer('voice', 'MEDIA_ID');
 
         $msg = [
             'voice' => [
@@ -140,7 +140,7 @@ class TransformerTest extends TestCase
      */
     public function testTransformCard()
     {
-        $transformer = new Transformer('card', 'CARD_ID');
+        $transformer = new MessageTransformer('card', 'CARD_ID');
 
         $msg = [
             'wxcard' => [

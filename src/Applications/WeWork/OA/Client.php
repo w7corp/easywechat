@@ -11,22 +11,20 @@
 
 namespace EasyWeChat\Applications\WeWork\OA;
 
-use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
-    use HasHttpRequests;
-
     /**
      * Get the checkin data.
      *
-     * @param int   $start
-     * @param int   $end
+     * @param int   $startTime
+     * @param int   $endTime
      * @param array $userList
      * @param int   $type
      *
@@ -41,7 +39,7 @@ class Client
             'useridlist' => $userList,
         ];
 
-        return $this->parseJSON($this->postJson('checkin/getcheckindata', $params));
+        return $this->httpPostJson('checkin/getcheckindata', $params);
     }
 
     /**
@@ -61,6 +59,6 @@ class Client
             'next_spnum' => $nextNumber,
         ];
 
-        return $this->parseJSON($this->postJson('corp/getapprovaldata', $params));
+        return $this->httpPostJson('corp/getapprovaldata', $params);
     }
 }

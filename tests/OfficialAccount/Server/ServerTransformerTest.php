@@ -17,7 +17,7 @@ use EasyWeChat\Applications\OfficialAccount\Message\Text;
 use EasyWeChat\Applications\OfficialAccount\Message\Transfer;
 use EasyWeChat\Applications\OfficialAccount\Message\Video;
 use EasyWeChat\Applications\OfficialAccount\Message\Voice;
-use EasyWeChat\Applications\OfficialAccount\Server\Transformer;
+use EasyWeChat\Applications\OfficialAccount\Server\MessageTransformer;
 use EasyWeChat\Tests\TestCase;
 
 class ServerTransformerTest extends TestCase
@@ -27,7 +27,7 @@ class ServerTransformerTest extends TestCase
      */
     public function testTransformText()
     {
-        $transformer = new Transformer();
+        $transformer = new MessageTransformer();
 
         $message = new Text(['content' => 'foo']);
 
@@ -41,7 +41,7 @@ class ServerTransformerTest extends TestCase
      */
     public function testTransformImage()
     {
-        $transformer = new Transformer();
+        $transformer = new MessageTransformer();
 
         $message = new Image(['media_id' => 'bar']);
 
@@ -53,7 +53,7 @@ class ServerTransformerTest extends TestCase
      */
     public function testTransformVideo()
     {
-        $transformer = new Transformer();
+        $transformer = new MessageTransformer();
 
         $message = new Video(['title' => 'overtrue']);
 
@@ -70,7 +70,7 @@ class ServerTransformerTest extends TestCase
      */
     public function testTransformVoice()
     {
-        $transformer = new Transformer();
+        $transformer = new MessageTransformer();
 
         $message = new Voice(['media_id' => 'bar']);
 
@@ -82,7 +82,7 @@ class ServerTransformerTest extends TestCase
      */
     public function testTransformTransfer()
     {
-        $transformer = new Transformer();
+        $transformer = new MessageTransformer();
 
         $message = new Transfer(['account' => 'foo@bar.com']);
 
@@ -94,7 +94,7 @@ class ServerTransformerTest extends TestCase
      */
     public function testTransformNews()
     {
-        $transformer = new Transformer();
+        $transformer = new MessageTransformer();
 
         // one
         $result = $transformer->transform(new News([

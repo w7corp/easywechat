@@ -10,7 +10,7 @@
  */
 
 /**
- * Transformer.php.
+ * MessageTransformer.phpmer.php.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -26,7 +26,7 @@ use EasyWeChat\Messages\News;
 use EasyWeChat\Messages\Text;
 
 /**
- * Class Transformer.
+ * Class MessageTransformer.
  */
 class Transformer
 {

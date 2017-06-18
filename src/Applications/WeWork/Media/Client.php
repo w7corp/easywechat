@@ -94,6 +94,6 @@ class Client extends BaseClient
             'media' => $path,
         ];
 
-        return $this->upload('media/upload', $files, [], compact('type'));
+        return $this->httpUpload('media/upload', $files, [], compact('type'));
     }
 }

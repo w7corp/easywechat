@@ -146,7 +146,7 @@ class MessageBuilder
             $this->msgType = 'mpvideo';
         }
 
-        $content = (new Transformer($this->msgType, $this->message))->transform();
+        $content = (new MessageTransformer($this->msgType, $this->message))->transform();
 
         $group = isset($this->to) ? $this->to : null;
 
@@ -185,7 +185,7 @@ class MessageBuilder
             throw new RuntimeException('No to.');
         }
 
-        $content = (new Transformer($this->msgType, $this->message))->transform();
+        $content = (new MessageTransformer($this->msgType, $this->message))->transform();
 
         $message = array_merge($this->buildTo($this->to, $by), $content);
 

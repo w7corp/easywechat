@@ -20,6 +20,20 @@ abstract class Message
 {
     use HasAttributes;
 
+    const TEXT = 2;
+    const IMAGE = 4;
+    const VOICE = 8;
+    const VIDEO = 16;
+    const SHORT_VIDEO = 32;
+    const LOCATION = 64;
+    const LINK = 128;
+    const DEVICE_EVENT = 256;
+    const DEVICE_TEXT = 512;
+    const FILE = 1024;
+    const TEXT_CARD = 2048;
+    const EVENT = 1048576;
+    const ALL = 1049598;
+
     /**
      * Messages type.
      *

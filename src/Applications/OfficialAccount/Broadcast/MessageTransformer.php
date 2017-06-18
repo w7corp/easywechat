@@ -10,7 +10,7 @@
  */
 
 /**
- * Transformer.php.
+ * MessageTransformer.phpmer.php.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -24,9 +24,9 @@ namespace EasyWeChat\Applications\OfficialAccount\Broadcast;
 use EasyWeChat\Exceptions\InvalidArgumentException;
 
 /**
- * Class Transformer.
+ * Class MessageTransformer.
  */
-class Transformer
+class MessageTransformer
 {
     /**
      * Messages type.
@@ -43,7 +43,7 @@ class Transformer
     protected $message;
 
     /**
-     * Transformer constructor.
+     * MessageTransformer constructor.
      *
      * @param $msgType
      * @param $message

@@ -44,18 +44,6 @@ class Guard
      */
     const SUCCESS_EMPTY_RESPONSE = 'success';
 
-    const TEXT_MSG = 2;
-    const IMAGE_MSG = 4;
-    const VOICE_MSG = 8;
-    const VIDEO_MSG = 16;
-    const SHORT_VIDEO_MSG = 32;
-    const LOCATION_MSG = 64;
-    const LINK_MSG = 128;
-    const DEVICE_EVENT_MSG = 256;
-    const DEVICE_TEXT_MSG = 512;
-    const EVENT_MSG = 1048576;
-    const ALL_MSG = 1049598;
-
     /**
      * @var Request
      */
@@ -85,16 +73,17 @@ class Guard
      * @var array
      */
     protected $messageTypeMapping = [
-        'text' => 2,
-        'image' => 4,
-        'voice' => 8,
-        'video' => 16,
-        'shortvideo' => 32,
-        'location' => 64,
-        'link' => 128,
-        'device_event' => 256,
-        'device_text' => 512,
-        'event' => 1048576,
+        'text' => Message::TEXT,
+        'image' => Message::IMAGE,
+        'voice' => Message::VOICE,
+        'video' => Message::VIDEO,
+        'shortvideo' => Message::SHORT_VIDEO,
+        'location' => Message::LOCATION,
+        'link' => Message::LINK,
+        'device_event' => Message::DEVICE_EVENT,
+        'device_text' => Message::DEVICE_TEXT,
+        'event' => Message::EVENT,
+        'file' => Message::FILE,
     ];
 
     /**
@@ -331,7 +320,7 @@ class Guard
     {
         if (is_array($message)) {
             foreach ($message as $element) {
-                if (!is_subclass_of($element, Message::class)) {
+                if (!($element instanceof Message)) {
                     return false;
                 }
             }
@@ -339,7 +328,7 @@ class Guard
             return true;
         }
 
-        return is_subclass_of($message, Message::class);
+        return $message instanceof Message;
     }
 
     /**
@@ -430,7 +419,7 @@ class Guard
             'MsgType' => is_array($message) ? current($message)->getType() : $message->getType(),
         ];
 
-        $transformer = new Transformer();
+        $transformer = new MessageTransformer();
 
         return XML::build(array_merge($base, $transformer->transform($message)));
     }
