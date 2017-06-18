@@ -18,5 +18,5 @@ namespace EasyWeChat\Applications\WeWork\Message;
  */
 class Client
 {
-    const API_SEND_MESSAGE = 'https://qyapi.weixin.qq.com/cgi-bin/message/send';
+    const API_SEND_MESSAGE = 'message/send';
 }

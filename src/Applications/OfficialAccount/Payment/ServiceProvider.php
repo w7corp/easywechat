@@ -40,9 +40,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['merchant'] = function ($container) {
+        $app['merchant'] = function ($container) {
             $config = array_merge(
                 ['app_id' => $container['config']['app_id']],
                 $container['config']->get('payment', [])
@@ -51,7 +51,7 @@ class ServiceProvider implements ServiceProviderInterface
             return new Merchant($config);
         };
 
-        $container['payment'] = function ($container) {
+        $app['payment'] = function ($container) {
             $payment = new Payment($container['merchant']);
             $payment->sandboxMode(
                 (bool) $container['config']->get('payment.sandbox_mode')
@@ -60,15 +60,15 @@ class ServiceProvider implements ServiceProviderInterface
             return $payment;
         };
 
-        $container['lucky_money'] = function ($container) {
+        $app['lucky_money'] = function ($container) {
             return new LuckyMoney($container['merchant']);
         };
 
-        $container['merchant_pay'] = function ($container) {
+        $app['merchant_pay'] = function ($container) {
             return new MerchantPay($container['merchant']);
         };
 
-        $container['cash_coupon'] = function ($container) {
+        $app['cash_coupon'] = function ($container) {
             return new CashCoupon($container['merchant']);
         };
     }

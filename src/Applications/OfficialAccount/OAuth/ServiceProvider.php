@@ -34,9 +34,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['oauth'] = function ($container) {
+        $app['oauth'] = function ($container) {
             $callback = $this->prepareCallbackUrl($container);
             $scopes = $container['config']->get('oauth.scopes', []);
             $socialite = (new Socialite(

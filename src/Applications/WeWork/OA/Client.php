@@ -41,7 +41,7 @@ class Client
             'useridlist' => $userList,
         ];
 
-        return $this->parseJSON($this->postJson('https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckindata', $params));
+        return $this->parseJSON($this->postJson('checkin/getcheckindata', $params));
     }
 
     /**
@@ -61,6 +61,6 @@ class Client
             'next_spnum' => $nextNumber,
         ];
 
-        return $this->parseJSON($this->postJson('https://qyapi.weixin.qq.com/cgi-bin/corp/getapprovaldata', $params));
+        return $this->parseJSON($this->postJson('corp/getapprovaldata', $params));
     }
 }

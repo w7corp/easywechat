@@ -37,9 +37,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['shakearound'] = function ($container) {
+        $app['shakearound'] = function ($container) {
             return new ShakeAround($container['access_token']);
         };
     }

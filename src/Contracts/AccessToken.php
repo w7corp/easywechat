@@ -11,6 +11,8 @@
 
 namespace EasyWeChat\Contracts;
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * Interface AccessToken.
  *
@@ -19,14 +21,20 @@ namespace EasyWeChat\Contracts;
 interface AccessToken
 {
     /**
-     * @param bool $force
-     *
-     * @return bool
-     */
-    public function refresh(bool $force = false): bool;
-
-    /**
      * @return array
      */
-    public function getQuery(): array;
+    public function getToken(): array;
+
+    /**
+     * @return \EasyWeChat\Contracts\AccessToken
+     */
+    public function refresh(): AccessToken;
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface $request
+     * @param array                              $requestOptions
+     *
+     * @return array
+     */
+    public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface;
 }

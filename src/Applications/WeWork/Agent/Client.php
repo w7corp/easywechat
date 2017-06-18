@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Applications\WeWork\Agent;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * This is WeWork Agent Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client extends AbstractAPI
+class Client extends BaseClient
 {
     /**
      * Get agent.
@@ -33,7 +33,7 @@ class Client extends AbstractAPI
             'agentid' => $agentId,
         ];
 
-        return $this->parseJSON('get', ['https://qyapi.weixin.qq.com/cgi-bin/agent/get', $params]);
+        return $this->httpGet('agent/get', $params);
     }
 
     /**
@@ -45,7 +45,7 @@ class Client extends AbstractAPI
      */
     public function set(array $attributes)
     {
-        return $this->parseJSON('json', ['https://qyapi.weixin.qq.com/cgi-bin/agent/set', $attributes]);
+        return $this->httpPostJson('agent/set', $attributes);
     }
 
     /**
@@ -55,6 +55,6 @@ class Client extends AbstractAPI
      */
     public function lists()
     {
-        return $this->parseJSON('get', ['https://qyapi.weixin.qq.com/cgi-bin/agent/list']);
+        return $this->httpGet('agent/list');
     }
 }

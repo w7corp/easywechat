@@ -19,9 +19,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['media'] = function () {
+        $app['media'] = function () {
             return new Client();
         };
     }

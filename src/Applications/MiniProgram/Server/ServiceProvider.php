@@ -31,9 +31,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['encryptor'] = function ($container) {
+        $app['encryptor'] = function ($container) {
             return new Encryptor(
                 $container['config']['mini_program']['app_id'],
                 $container['config']['mini_program']['token'],
@@ -41,7 +41,7 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $container['server'] = function ($container) {
+        $app['server'] = function ($container) {
             $server = new Guard($container['config']['mini_program']['token']);
             $server->debug($container['config']['debug']);
             $server->setEncryptor($container['encryptor']);

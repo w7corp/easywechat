@@ -24,9 +24,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['jssdk'] = function ($container) {
+        $app['jssdk'] = function ($container) {
             $jssdk = new Client($container['access_token']);
             $jssdk->setCache($container['cache']);
 

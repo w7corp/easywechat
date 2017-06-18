@@ -25,9 +25,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['encryptor'] = function ($container) {
+        $app['encryptor'] = function ($container) {
             return new Encryptor(
                 $container['config']['client_id'],
                 $container['config']['token'],
@@ -35,7 +35,7 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $container['handlers'] = function ($container) {
+        $app['handlers'] = function ($container) {
             return [
                 Guard::EVENT_AUTHORIZED => new Handlers\Authorized(),
                 Guard::EVENT_UNAUTHORIZED => new Handlers\Unauthorized(),
@@ -44,7 +44,7 @@ class ServiceProvider implements ServiceProviderInterface
             ];
         };
 
-        $container['server'] = function ($container) {
+        $app['server'] = function ($container) {
             $server = new Guard($container['config']['token']);
             $server->debug($container['config']['debug']);
             $server->setEncryptor($container['encryptor']);

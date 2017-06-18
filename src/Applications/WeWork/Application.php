@@ -12,7 +12,7 @@
 namespace EasyWeChat\Applications\WeWork;
 
 use EasyWeChat\Applications\WeWork;
-use EasyWeChat\Support\ServiceContainer;
+use EasyWeChat\Kernel\ServiceContainer;
 
 /**
  * Application.
@@ -23,12 +23,23 @@ class Application extends ServiceContainer
 {
     protected $providers = [
         WeWork\OA\ServiceProvider::class,
-        WeWork\Core\ServiceProvider::class,
+        WeWork\Auth\ServiceProvider::class,
         WeWork\Menu\ServiceProvider::class,
         WeWork\User\ServiceProvider::class,
         WeWork\Agent\ServiceProvider::class,
         WeWork\Media\ServiceProvider::class,
         WeWork\Message\ServiceProvider::class,
         WeWork\Department\ServiceProvider::class,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $defaultConfig = [
+        // http://docs.guzzlephp.org/en/stable/request-options.html
+        'http' => [
+            'timeout' => 5.0,
+            'base_uri' => 'https://qyapi.weixin.qq.com/cgi-bin/',
+        ],
     ];
 }

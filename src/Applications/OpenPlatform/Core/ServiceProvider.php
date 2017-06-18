@@ -19,13 +19,13 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['verify_ticket'] = function ($container) {
+        $app['verify_ticket'] = function ($container) {
             return new VerifyTicket($container['config']['app_id']);
         };
 
-        $container['access_token'] = function ($container) {
+        $app['access_token'] = function ($container) {
             $accessToken = new AccessToken($container['config']['app_id'], $container['config']['secret']);
             $accessToken->setVerifyTicket($container['verify_ticket']);
 

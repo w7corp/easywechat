@@ -11,17 +11,15 @@
 
 namespace EasyWeChat\Applications\WeWork\Menu;
 
+use EasyWeChat\Kernel\BaseClient;
+
 /**
  * Class Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
-    use HasHttpRequests {
-        get as httpGet;
-    }
-
     /**
      * Get menu.
      *
@@ -31,9 +29,7 @@ class Client
      */
     public function get($agentId)
     {
-        return $this->parseJSON(
-            $this->httpGet('https://qyapi.weixin.qq.com/cgi-bin/menu/get', ['agentid' => $agentId])
-        );
+        return $this->httpGet('menu/get', ['agentid' => $agentId]);
     }
 
     /**
@@ -46,9 +42,7 @@ class Client
      */
     public function create($agentId, array $data)
     {
-        return $this->parseJSON(
-            $this->postJson('https://qyapi.weixin.qq.com/cgi-bin/menu/create', $data, JSON_UNESCAPED_UNICODE, ['agentid' => $agentId])
-        );
+        return $this->httpPostJson('menu/create', $data, ['agentid' => $agentId]);
     }
 
     /**
@@ -60,8 +54,6 @@ class Client
      */
     public function delete($agentId)
     {
-        return $this->parseJSON(
-            $this->httpGet('https://qyapi.weixin.qq.com/cgi-bin/menu/delete', ['agentid' => $agentId])
-        );
+        return $this->httpGet('menu/delete', ['agentid' => $agentId]);
     }
 }

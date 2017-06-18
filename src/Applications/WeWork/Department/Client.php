@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Applications\WeWork\Department;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * This is WeWork Department Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client extends AbstractAPI
+class Client extends BaseClient
 {
     /**
      * Create a department.
@@ -29,7 +29,7 @@ class Client extends AbstractAPI
      */
     public function create(array $data)
     {
-        return $this->parseJSON('json', ['https://qyapi.weixin.qq.com/cgi-bin/department/create', $data]);
+        return $this->httpPostJson('department/create', $data);
     }
 
     /**
@@ -41,7 +41,7 @@ class Client extends AbstractAPI
      */
     public function update(array $data)
     {
-        return $this->parseJSON('json', ['https://qyapi.weixin.qq.com/cgi-bin/department/update', $data]);
+        return $this->httpPostJson('department/update', $data);
     }
 
     /**
@@ -53,7 +53,7 @@ class Client extends AbstractAPI
      */
     public function delete(int $id)
     {
-        return $this->parseJSON('get', ['https://qyapi.weixin.qq.com/cgi-bin/department/delete', compact('id')]);
+        return $this->httpGet('department/delete', compact('id'));
     }
 
     /**
@@ -65,6 +65,6 @@ class Client extends AbstractAPI
      */
     public function lists(int $id = null)
     {
-        return $this->parseJSON('get', ['https://qyapi.weixin.qq.com/cgi-bin/department/list', compact('id')]);
+        return $this->httpGet('department/list', compact('id'));
     }
 }

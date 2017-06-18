@@ -11,19 +11,15 @@
 
 namespace EasyWeChat\Applications\WeWork\Media;
 
-use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
-    use HasHttpRequests {
-        get as httpGet;
-    }
-
     /**
      * Get media.
      *
@@ -33,7 +29,7 @@ class Client
      */
     public function get($mediaId)
     {
-        $this->parseJSON($this->httpGet('https://qyapi.weixin.qq.com/cgi-bin/media/get', ['media_id' => $mediaId]));
+        return $this->httpGet('media/get', ['media_id' => $mediaId]);
     }
 
     /**
@@ -88,7 +84,7 @@ class Client
      * Upload media.
      *
      * @param string $type
-     * @param mixed  $media
+     * @param string $path
      *
      * @return mixed
      */
@@ -98,8 +94,6 @@ class Client
             'media' => $path,
         ];
 
-        return $this->parseJSON(
-            $this->upload('https://qyapi.weixin.qq.com/cgi-bin/media/upload', $files, [], compact('type'))
-        );
+        return $this->upload('media/upload', $files, [], compact('type'));
     }
 }

@@ -13,7 +13,7 @@ namespace EasyWeChat\Applications\OfficialAccount;
 
 use EasyWeChat\Applications\OfficialAccount;
 use EasyWeChat\Applications\OfficialAccount\OpenPlatform\Authorizer\AccessToken as AuthorizerAccessToken;
-use EasyWeChat\Config\Repository as Config;
+use EasyWeChat\Config\Config as Config;
 use EasyWeChat\Support\ServiceContainer;
 
 /*
@@ -76,9 +76,9 @@ class Application extends ServiceContainer
     /**
      * Create an instance.
      *
-     * @param \EasyWeChat\Config\Repository $config
-     * @param string                        $clientId
-     * @param string                        $refreshToken
+     * @param \EasyWeChat\Config\Config $config
+     * @param string                    $clientId
+     * @param string                    $refreshToken
      *
      * @return \EasyWeChat\Applications\OfficialAccount\Application
      */

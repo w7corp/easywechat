@@ -33,9 +33,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['card'] = function ($container) {
+        $app['card'] = function ($container) {
             $card = new Client($container['access_token']);
             $card->setCache($container['cache']);
 

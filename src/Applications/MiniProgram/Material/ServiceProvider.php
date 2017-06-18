@@ -30,9 +30,9 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['material_temporary'] = function ($container) {
+        $app['material_temporary'] = function ($container) {
             return new TemporaryClient($container['access_token']);
         };
     }

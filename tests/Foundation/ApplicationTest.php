@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\Foundation;
 
 use EasyWeChat\Applications\Base\Core\Http;
-use EasyWeChat\Config\Repository as Config;
+use EasyWeChat\Config\Config as Config;
 use EasyWeChat\Factory;
 use EasyWeChat\Tests\TestCase;
 use Pimple\Container;

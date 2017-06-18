@@ -14,8 +14,10 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Contracts\AccessToken;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Support\Log;
+use GuzzleHttp\Client;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Promise\Promise;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -48,7 +50,7 @@ class BaseClient
     public function __construct(Container $app, AccessToken $accessToken = null)
     {
         $this->app = $app;
-        $this->accessToken = $accessToken;
+        $this->accessToken = $accessToken ?? $this->app['access_token'];
         $this->registerHttpMiddlewares();
     }
 
@@ -60,7 +62,7 @@ class BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function get(string $url, array $query = [])
+    public function httpGet(string $url, array $query = [])
     {
         return $this->request($url, 'GET', ['query' => $query]);
     }
@@ -73,7 +75,7 @@ class BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function post(string $url, array $data = [])
+    public function httpPost(string $url, array $data = [])
     {
         $key = is_array($data) ? 'form_params' : 'body';
 
@@ -89,7 +91,7 @@ class BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function postJson(string $url, array $data = [], array $query = [])
+    public function httpPostJson(string $url, array $data = [], array $query = [])
     {
         return $this->request($url, 'POST', ['query' => $query, 'json' => $data]);
     }
@@ -104,7 +106,7 @@ class BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function upload(string $url, array $files = [], array $form = [], array $query = [])
+    public function httpUpload(string $url, array $files = [], array $form = [], array $query = [])
     {
         $multipart = [];
 
@@ -158,27 +160,40 @@ class BaseClient
     }
 
     /**
+     * Return GuzzleHttp\Client instance.
+     *
+     * @return \GuzzleHttp\Client
+     */
+    public function getHttpClient(): Client
+    {
+        if (!($this->httpClient instanceof Client)) {
+            $this->httpClient = $this->app['http_client'] ?? new Client();
+        }
+
+        return $this->httpClient;
+    }
+
+    /**
      * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return \EasyWeChat\Support\Collection|array|object|string
      */
     protected function resolveResponse(ResponseInterface $response)
     {
-        $body = $response->getBody()->getContents();
-
         switch ($type = $this->app->config->get('response_type', 'array')) {
             case 'collection':
-                return new Collection(json_decode($body, true));
+                return new Collection(json_decode($response->getBody(), true));
             case 'array':
-                return json_decode($body, true);
+                return json_decode($response->getBody(), true);
             case 'object':
-                return json_decode($body);
+                return json_decode($response->getBody());
             case 'raw':
             default:
+                $response->getBody()->rewind();
                 if (class_exists($type)) {
                     return new $type($response);
                 }
-                return $body;
+                return $response;
         }
     }
 
@@ -187,12 +202,12 @@ class BaseClient
      */
     protected function registerHttpMiddlewares()
     {
-        // log
-        $this->pushMiddleware($this->logMiddleware(), 'log');
         // retry
         $this->pushMiddleware($this->retryMiddleware(), 'retry');
         // access token
         $this->pushMiddleware($this->accessTokenMiddleware(), 'access_token');
+        // log
+        $this->pushMiddleware($this->logMiddleware(), 'log');
     }
 
     /**
@@ -205,7 +220,7 @@ class BaseClient
         return function (callable $handler) {
             return function (RequestInterface $request, array $options) use ($handler) {
                 if ($this->accessToken) {
-                    $request = $request->withUri($uri = $request->getUri()->withQuery($this->accessToken->getQuery()));
+                    $request = $this->accessToken->applyToRequest($request, $options);
                 }
 
                 return $handler($request, $options);
@@ -220,25 +235,9 @@ class BaseClient
      */
     protected function logMiddleware()
     {
-        return Middleware::tap(function (RequestInterface $request, $options) {
-            Log::debug('Request', [
-                    'method' => $request->getMethod(),
-                    'headers' => $request->getHeaders(),
-                    'uri' => $request->getUri(),
-                    'options' => $options,
-                ]);
-        }, function (RequestInterface $request, array $options, Promise $responsePromise) {
-            $responsePromise->then(function (ResponseInterface $response) use ($request, $options) {
-                Log::debug('Response', [
-                    'method' => $request->getMethod(),
-                    'uri' => $request->getUri(),
-                    'status' => $response->getStatusCode(),
-                    'reason_phrase' => $response->getReasonPhrase(),
-                    'headers' => $response->getHeaders(),
-                    'body' => $response->getBody(),
-                ]);
-            });
-        });
+        $formatter = new MessageFormatter($this->app['config']['log.http_template'] ?? MessageFormatter::DEBUG);
+
+        return Middleware::log(Log::getLogger(), $formatter);
     }
 
     /**
@@ -258,12 +257,8 @@ class BaseClient
                 // Retry on server errors
                 $response = json_decode($body, true);
                 if (!empty($response['errcode']) && in_array($response['errcode'], ['40001', '42001'])) {
-                    $this->accessToken->refresh(true);
-
-                    $request = $request->withUri($uri = $request->getUri()->withQuery($this->accessToken->getQuery()));
-
-                    Log::debug('Retrying', compact('token', 'uri'));
-
+                    $this->accessToken->refresh();
+                    Log::debug('Retrying with refreshed access token.');
                     return true;
                 }
             }

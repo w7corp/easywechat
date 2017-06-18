@@ -9,20 +9,25 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\WeWork\Core;
+namespace EasyWeChat\Applications\WeWork\Auth;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * Class ServiceProvider
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $container)
+    public function register(Container $app)
     {
-        $container['access_token'] = function ($container) {
-            return new AccessToken($container['config']['corp_id'], $container['config']['secret']);
+        $app['access_token'] = function ($app) {
+            return new AccessToken($app);
         };
     }
 }

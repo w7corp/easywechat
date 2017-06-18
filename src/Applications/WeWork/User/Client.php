@@ -11,29 +11,25 @@
 
 namespace EasyWeChat\Applications\WeWork\User;
 
-use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
-    use HasHttpRequests {
-        get as httpGet;
-    }
-
     /**
      * Create a user.
      *
      * @param array $data
      *
-     * @return TODO
+     * @return array
      */
     public function create(array $data)
     {
-        return $this->parseJSON($this->post('https://qyapi.weixin.qq.com/cgi-bin/user/create', $data));
+        return $this->httpPost('user/create', $data);
     }
 
     /**
@@ -41,11 +37,11 @@ class Client
      *
      * @param array $data
      *
-     * @return TODO
+     * @return array
      */
     public function update(array $data)
     {
-        return $this->parseJSON($this->post('https://qyapi.weixin.qq.com/cgi-bin/user/update', $data));
+        return $this->httpPost('user/update', $data);
     }
 
     /**
@@ -53,11 +49,11 @@ class Client
      *
      * @param string $userId
      *
-     * @return TODO
+     * @return array
      */
     public function delete($userId)
     {
-        return $this->parseJSON($this->httpGet('https://qyapi.weixin.qq.com/cgi-bin/user/delete', ['userid' => $userId]));
+        return $this->httpGet('user/delete', ['userid' => $userId]);
     }
 
     /**
@@ -65,11 +61,11 @@ class Client
      *
      * @param array $userIds
      *
-     * @return TODO
+     * @return array
      */
     public function batchDelete(array $userIds)
     {
-        return $this->parseJSON($this->post('https://qyapi.weixin.qq.com/cgi-bin/user/batchdelete', ['useridlist' => $userIds]));
+        return $this->httpPost('user/batchdelete', ['useridlist' => $userIds]);
     }
 
     /**
@@ -77,11 +73,11 @@ class Client
      *
      * @param string $userId
      *
-     * @return TODO
+     * @return array
      */
     public function get($userId)
     {
-        return $this->parseJSON($this->httpGet('https://qyapi.weixin.qq.com/cgi-bin/user/get', ['userid' => $userId]));
+        return $this->httpGet('user/get', ['userid' => $userId]);
     }
 
     /**
@@ -91,12 +87,12 @@ class Client
      * @param int $fetchChild
      * @param int $status
      *
-     * @return TODO
+     * @return array
      */
     public function simpleLists(int $departmentId, int $fetchChild = 1, int $status = 4)
     {
         return $this->getLists(
-            'https://qyapi.weixin.qq.com/cgi-bin/user/simplelist',
+            'user/simplelist',
             $departmentId, $fetchChild, $status
         );
     }
@@ -108,12 +104,12 @@ class Client
      * @param int $fetchChild
      * @param int $status
      *
-     * @return TODO
+     * @return array
      */
     public function lists(int $departmentId, int $fetchChild = 1, int $status = 4)
     {
         return $this->getLists(
-            'https://qyapi.weixin.qq.com/cgi-bin/user/list',
+            'user/list',
             $departmentId, $fetchChild, $status
         );
     }
@@ -126,7 +122,7 @@ class Client
      * @param int    $fetchChild
      * @param int    $status
      *
-     * @return TODO
+     * @return array
      */
     protected function getLists(string $endpoint, int $departmentId, int $fetchChild, int $status)
     {
@@ -136,6 +132,6 @@ class Client
             'status' => $status,
         ];
 
-        return $this->parseJSON($this->httpGet($endpoint, $params));
+        return $this->httpGet($endpoint, $params);
     }
 }
