@@ -9,21 +9,23 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
- * Class DeviceText.
+ * Class Text.
  *
- * @property string $content
+ * @property string $title
+ * @property string $description
+ * @property string $url
  */
-class DeviceText extends AbstractMessage
+class TextCard extends Message
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */
-    protected $type = 'device_text';
+    protected $type = 'textcard';
 
     /**
      * Properties.
@@ -31,10 +33,8 @@ class DeviceText extends AbstractMessage
      * @var array
      */
     protected $properties = [
-        'device_type',
-        'device_id',
-        'content',
-        'session_id',
-        'open_id',
+        'title',
+        'description',
+        'url',
     ];
 }

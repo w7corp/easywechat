@@ -29,7 +29,7 @@ use EasyWeChat\Exceptions\InvalidArgumentException;
 class Transformer
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */

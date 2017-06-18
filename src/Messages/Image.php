@@ -19,17 +19,17 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class Image.
  *
  * @property string $media_id
  */
-class Image extends AbstractMessage
+class Image extends Message
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */

@@ -9,17 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Video.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class Video.
@@ -30,10 +20,10 @@ namespace EasyWeChat\Applications\OfficialAccount\Message;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends AbstractMessage
+class Video extends Message
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */
@@ -45,11 +35,11 @@ class Video extends AbstractMessage
      * @var array
      */
     protected $properties = [
-                             'title',
-                             'description',
-                             'media_id',
-                             'thumb_media_id',
-                            ];
+        'title',
+        'description',
+        'media_id',
+        'thumb_media_id',
+    ];
 
     /**
      * 设置视频消息.

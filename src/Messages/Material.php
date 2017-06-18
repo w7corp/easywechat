@@ -9,22 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Material.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class Material.
  */
-class Material extends AbstractMessage
+class Material extends Message
 {
     /**
      * Properties.
@@ -42,6 +32,6 @@ class Material extends AbstractMessage
     public function __construct($type, $mediaId)
     {
         $this->set('media_id', $mediaId);
-        $this->type = $type;
+        $this->setType($type);
     }
 }

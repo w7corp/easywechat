@@ -9,17 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * ShortVideo.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class ShortVideo.
@@ -32,7 +22,7 @@ namespace EasyWeChat\Applications\OfficialAccount\Message;
 class ShortVideo extends Video
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */

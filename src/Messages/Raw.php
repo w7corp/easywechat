@@ -9,22 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Raw.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class Raw.
  */
-class Raw extends AbstractMessage
+class Raw extends Message
 {
     /**
      * @var string

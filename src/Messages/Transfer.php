@@ -9,17 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Transfer.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class Transfer.
@@ -27,10 +17,10 @@ namespace EasyWeChat\Applications\OfficialAccount\Message;
  * @property string $to
  * @property string $account
  */
-class Transfer extends AbstractMessage
+class Transfer extends Message
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */
@@ -42,6 +32,6 @@ class Transfer extends AbstractMessage
      * @var array
      */
     protected $properties = [
-                             'account',
-                            ];
+        'account',
+    ];
 }

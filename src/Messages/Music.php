@@ -9,17 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Music.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class Music.
@@ -31,10 +21,10 @@ namespace EasyWeChat\Applications\OfficialAccount\Message;
  * @property string $thumb_media_id
  * @property string $format
  */
-class Music extends AbstractMessage
+class Music extends Message
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */

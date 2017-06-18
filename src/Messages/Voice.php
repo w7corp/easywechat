@@ -9,21 +9,21 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
- * Class DeviceEvent.
+ * Class Voice.
  *
  * @property string $media_id
  */
-class DeviceEvent extends AbstractMessage
+class Voice extends Message
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */
-    protected $type = 'device_event';
+    protected $type = 'voice';
 
     /**
      * Properties.
@@ -31,10 +31,21 @@ class DeviceEvent extends AbstractMessage
      * @var array
      */
     protected $properties = [
-        'device_type',
-        'device_id',
-        'content',
-        'session_id',
-        'open_id',
+        'media_id',
+        'recognition',
     ];
+
+    /**
+     * Set media id.
+     *
+     * @param string $mediaId
+     *
+     * @return Voice
+     */
+    public function media($mediaId)
+    {
+        $this->setAttribute('media_id', $mediaId);
+
+        return $this;
+    }
 }

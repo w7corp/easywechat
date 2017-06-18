@@ -22,9 +22,9 @@
 namespace EasyWeChat\Applications\OfficialAccount\Server;
 
 use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor;
-use EasyWeChat\Applications\OfficialAccount\Message\AbstractMessage;
-use EasyWeChat\Applications\OfficialAccount\Message\Raw as RawMessage;
-use EasyWeChat\Applications\OfficialAccount\Message\Text;
+use EasyWeChat\Messages\Message;
+use EasyWeChat\Messages\Raw as RawMessage;
+use EasyWeChat\Messages\Text;
 use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Exceptions\RuntimeException;
@@ -303,13 +303,13 @@ class Guard
 
         if (!$this->isMessage($message)) {
             $messageType = gettype($message);
-            throw new InvalidArgumentException("Invalid Message type .'{$messageType}'");
+            throw new InvalidArgumentException("Invalid Messages type .'{$messageType}'");
         }
 
         $response = $this->buildReply($to, $from, $message);
 
         if ($this->isSafeMode()) {
-            Log::debug('Message safe mode is enable.');
+            Log::debug('Messages safe mode is enable.');
             $response = $this->encryptor->encryptMsg(
                 $response,
                 $this->request->get('nonce'),
@@ -331,7 +331,7 @@ class Guard
     {
         if (is_array($message)) {
             foreach ($message as $element) {
-                if (!is_subclass_of($element, AbstractMessage::class)) {
+                if (!is_subclass_of($element, Message::class)) {
                     return false;
                 }
             }
@@ -339,7 +339,7 @@ class Guard
             return true;
         }
 
-        return is_subclass_of($message, AbstractMessage::class);
+        return is_subclass_of($message, Message::class);
     }
 
     /**
@@ -397,7 +397,7 @@ class Guard
             return null;
         }
 
-        Log::debug('Message detail:', $message);
+        Log::debug('Messages detail:', $message);
 
         $message = new Collection($message);
 
@@ -417,7 +417,7 @@ class Guard
      *
      * @param string          $to
      * @param string          $from
-     * @param AbstractMessage $message
+     * @param Message $message
      *
      * @return string
      */

@@ -150,7 +150,7 @@ class Client extends AbstractAPI
     /**
      * Get message builder.
      *
-     * @param \EasyWeChat\Applications\OfficialAccount\Message\AbstractMessage|string $message
+     * @param \EasyWeChat\Messages\Message|string $message
      *
      * @return \EasyWeChat\Applications\OfficialAccount\CustomerService\MessageBuilder
      *

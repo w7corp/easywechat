@@ -30,28 +30,28 @@ use EasyWeChat\Exceptions\RuntimeException;
 class MessageBuilder
 {
     /**
-     * Message target user or group.
+     * Messages target user or group.
      *
      * @var mixed
      */
     protected $to;
 
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */
     protected $msgType;
 
     /**
-     * Message.
+     * Messages.
      *
      * @var mixed
      */
     protected $message;
 
     /**
-     * Message types.
+     * Messages types.
      *
      * @var array
      */
@@ -172,7 +172,7 @@ class MessageBuilder
         }
 
         if (empty($this->msgType)) {
-            throw new RuntimeException('Message type not exist.');
+            throw new RuntimeException('Messages type not exist.');
         } elseif ($this->msgType === Client::MSG_TYPE_VIDEO) {
             $this->msgType = 'mpvideo';
         }

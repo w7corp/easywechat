@@ -9,25 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * News.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 /**
  * Class News.
  */
-class News extends AbstractMessage
+class News extends Message
 {
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */
@@ -39,11 +29,12 @@ class News extends AbstractMessage
      * @var array
      */
     protected $properties = [
-                                'title',
-                                'description',
-                                'url',
-                                'image',
-                            ];
+        'title',
+        'description',
+        'url',
+        'image',
+    ];
+
     /**
      * Aliases of attribute.
      *

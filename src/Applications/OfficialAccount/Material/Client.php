@@ -22,7 +22,7 @@
 namespace EasyWeChat\Applications\OfficialAccount\Material;
 
 use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Applications\OfficialAccount\Message\Article;
+use EasyWeChat\Messages\Article;
 use EasyWeChat\Exceptions\InvalidArgumentException;
 
 class Client extends AbstractAPI

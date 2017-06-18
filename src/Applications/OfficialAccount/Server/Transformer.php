@@ -9,31 +9,23 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Transformer.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Server;
 
-use EasyWeChat\Applications\OfficialAccount\Message\AbstractMessage;
-use EasyWeChat\Applications\OfficialAccount\Message\News;
-use EasyWeChat\Applications\OfficialAccount\Message\Text;
+use EasyWeChat\Messages\Message;
+use EasyWeChat\Messages\News;
+use EasyWeChat\Messages\Text;
 
 /**
- * Class Transformer.
+ * Class Transformer
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class Transformer
 {
     /**
      * transform message to XML.
      *
-     * @param array|string|AbstractMessage $message
+     * @param array|string|Message $message
      *
      * @return array
      */
@@ -49,7 +41,7 @@ class Transformer
             $class = get_class($message);
         }
 
-        $handle = 'transform'.substr($class, strlen('EasyWeChat\Applications\OfficialAccount\Message\\'));
+        $handle = 'transform'.substr($class, strlen('EasyWeChat\Messages\\'));
 
         return method_exists($this, $handle) ? $this->$handle($message) : [];
     }
@@ -57,43 +49,49 @@ class Transformer
     /**
      * Transform text message.
      *
+     * @param \EasyWeChat\Messages\Message $message
+     *
      * @return array
      */
-    public function transformText(AbstractMessage $message)
+    public function transformText(Message $message)
     {
         return [
-                'Content' => $message->get('content'),
-               ];
+            'Content' => $message->get('content'),
+        ];
     }
 
     /**
      * Transform image message.
      *
+     * @param \EasyWeChat\Messages\Message $message
+     *
      * @return array
      */
-    public function transformImage(AbstractMessage $message)
+    public function transformImage(Message $message)
     {
         return [
-                'Image' => [
-                            'MediaId' => $message->get('media_id'),
-                           ],
-               ];
+            'Image' => [
+                'MediaId' => $message->get('media_id'),
+            ],
+        ];
     }
 
     /**
      * Transform video message.
      *
+     * @param \EasyWeChat\Messages\Message $message
+     *
      * @return array
      */
-    public function transformVideo(AbstractMessage $message)
+    public function transformVideo(Message $message)
     {
         $response = [
-                     'Video' => [
-                                 'MediaId' => $message->get('media_id'),
-                                 'Title' => $message->get('title'),
-                                 'Description' => $message->get('description'),
-                                ],
-                    ];
+            'Video' => [
+                'MediaId' => $message->get('media_id'),
+                'Title' => $message->get('title'),
+                'Description' => $message->get('description'),
+            ],
+        ];
 
         return $response;
     }
@@ -101,19 +99,21 @@ class Transformer
     /**
      * Transform music message.
      *
+     * @param \EasyWeChat\Messages\Message $message
+     *
      * @return array
      */
-    public function transformMusic(AbstractMessage $message)
+    public function transformMusic(Message $message)
     {
         $response = [
-                        'Music' => [
-                            'Title' => $message->get('title'),
-                            'Description' => $message->get('description'),
-                            'MusicUrl' => $message->get('url'),
-                            'HQMusicUrl' => $message->get('hq_url'),
-                            'ThumbMediaId' => $message->get('thumb_media_id'),
-                        ],
-                    ];
+            'Music' => [
+                'Title' => $message->get('title'),
+                'Description' => $message->get('description'),
+                'MusicUrl' => $message->get('url'),
+                'HQMusicUrl' => $message->get('hq_url'),
+                'ThumbMediaId' => $message->get('thumb_media_id'),
+            ],
+        ];
 
         return $response;
     }
@@ -121,31 +121,35 @@ class Transformer
     /**
      * Transform voice message.
      *
+     * @param \EasyWeChat\Messages\Message $message
+     *
      * @return array
      */
-    public function transformVoice(AbstractMessage $message)
+    public function transformVoice(Message $message)
     {
         return [
-                'Voice' => [
-                            'MediaId' => $message->get('media_id'),
-                           ],
-               ];
+            'Voice' => [
+                'MediaId' => $message->get('media_id'),
+            ],
+        ];
     }
 
     /**
      * Transform transfer message.
      *
+     * @param \EasyWeChat\Messages\Message $message
+     *
      * @return array
      */
-    public function transformTransfer(AbstractMessage $message)
+    public function transformTransfer(Message $message)
     {
         $response = [];
 
         // 指定客服
         if ($message->get('account')) {
             $response['TransInfo'] = [
-                                      'KfAccount' => $message->get('account'),
-                                     ];
+                'KfAccount' => $message->get('account'),
+            ];
         }
 
         return $response;
@@ -154,7 +158,7 @@ class Transformer
     /**
      * Transform news message.
      *
-     * @param array|\EasyWeChat\Applications\OfficialAccount\Message\News $news
+     * @param array|\EasyWeChat\Messages\News $news
      *
      * @return array
      */
@@ -168,27 +172,32 @@ class Transformer
 
         foreach ($news as $item) {
             $articles[] = [
-                           'Title' => $item->get('title'),
-                           'Description' => $item->get('description'),
-                           'Url' => $item->get('url'),
-                           'PicUrl' => $item->get('pic_url'),
-                          ];
+                'Title' => $item->get('title'),
+                'Description' => $item->get('description'),
+                'Url' => $item->get('url'),
+                'PicUrl' => $item->get('pic_url'),
+            ];
         }
 
         return [
-                'ArticleCount' => count($articles),
-                'Articles' => $articles,
-               ];
+            'ArticleCount' => count($articles),
+            'Articles' => $articles,
+        ];
     }
 
-    public function transformDeviceText(AbstractMessage $message)
+    /**
+     * @param \EasyWeChat\Messages\Message $message
+     *
+     * @return array
+     */
+    public function transformDeviceText(Message $message)
     {
         $response = [
-                        'DeviceType' => $message->get('device_type'),
-                        'DeviceID' => $message->get('device_id'),
-                        'SessionID' => $message->get('session_id'),
-                        'Content' => base64_encode($message->get('content')),
-                    ];
+            'DeviceType' => $message->get('device_type'),
+            'DeviceID' => $message->get('device_id'),
+            'SessionID' => $message->get('session_id'),
+            'Content' => base64_encode($message->get('content')),
+        ];
 
         return $response;
     }

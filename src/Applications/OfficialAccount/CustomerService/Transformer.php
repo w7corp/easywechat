@@ -21,9 +21,9 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
-use EasyWeChat\Applications\OfficialAccount\Message\AbstractMessage;
-use EasyWeChat\Applications\OfficialAccount\Message\News;
-use EasyWeChat\Applications\OfficialAccount\Message\Text;
+use EasyWeChat\Messages\Message;
+use EasyWeChat\Messages\News;
+use EasyWeChat\Messages\Text;
 
 /**
  * Class Transformer.
@@ -33,7 +33,7 @@ class Transformer
     /**
      * transform message to XML.
      *
-     * @param array|string|AbstractMessage $message
+     * @param array|string|Message $message
      *
      * @return array
      */
@@ -49,7 +49,7 @@ class Transformer
             $class = get_class($message);
         }
 
-        $handle = 'transform'.substr($class, strlen('EasyWeChat\Applications\OfficialAccount\Message\\'));
+        $handle = 'transform'.substr($class, strlen('EasyWeChat\Messages\\'));
 
         return method_exists($this, $handle) ? $this->$handle($message) : [];
     }
@@ -57,11 +57,11 @@ class Transformer
     /**
      * Transform text message.
      *
-     * @param AbstractMessage $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformText(AbstractMessage $message)
+    public function transformText(Message $message)
     {
         return [
                 'msgtype' => 'text',
@@ -74,11 +74,11 @@ class Transformer
     /**
      * Transform image message.
      *
-     * @param AbstractMessage $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformImage(AbstractMessage $message)
+    public function transformImage(Message $message)
     {
         return [
                 'msgtype' => 'image',
@@ -91,11 +91,11 @@ class Transformer
     /**
      * Transform music message.
      *
-     * @param AbstractMessage $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformMusic(AbstractMessage $message)
+    public function transformMusic(Message $message)
     {
         return [
                 'msgtype' => 'music',
@@ -112,11 +112,11 @@ class Transformer
     /**
      * Transform video message.
      *
-     * @param AbstractMessage $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformVideo(AbstractMessage $message)
+    public function transformVideo(Message $message)
     {
         return [
                 'msgtype' => 'video',
@@ -132,11 +132,11 @@ class Transformer
     /**
      * Transform voice message.
      *
-     * @param AbstractMessage $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformVoice(AbstractMessage $message)
+    public function transformVoice(Message $message)
     {
         return [
                 'msgtype' => 'voice',
@@ -176,11 +176,11 @@ class Transformer
     /**
      * Transform material message.
      *
-     * @param AbstractMessage $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformMaterial(AbstractMessage $message)
+    public function transformMaterial(Message $message)
     {
         $type = $message->getType();
 

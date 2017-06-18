@@ -21,9 +21,9 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
-use EasyWeChat\Applications\OfficialAccount\Message\AbstractMessage;
-use EasyWeChat\Applications\OfficialAccount\Message\Raw as RawMessage;
-use EasyWeChat\Applications\OfficialAccount\Message\Text;
+use EasyWeChat\Messages\Message;
+use EasyWeChat\Messages\Raw as RawMessage;
+use EasyWeChat\Messages\Text;
 use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Exceptions\RuntimeException;
 
@@ -33,21 +33,21 @@ use EasyWeChat\Exceptions\RuntimeException;
 class MessageBuilder
 {
     /**
-     * Message to send.
+     * Messages to send.
      *
-     * @var \EasyWeChat\Applications\OfficialAccount\Message\AbstractMessage;
+     * @var \EasyWeChat\Messagess\Message;
      */
     protected $message;
 
     /**
-     * Message target user open id.
+     * Messages target user open id.
      *
      * @var string
      */
     protected $to;
 
     /**
-     * Message sender staff id.
+     * Messages sender staff id.
      *
      * @var string
      */
@@ -73,7 +73,7 @@ class MessageBuilder
     /**
      * Set message to send.
      *
-     * @param string|AbstractMessage $message
+     * @param string|Message $message
      *
      * @return MessageBuilder
      *

@@ -9,55 +9,47 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * AbstractMessage.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
-namespace EasyWeChat\Applications\OfficialAccount\Message;
+namespace EasyWeChat\Messages;
 
 use EasyWeChat\Support\HasAttributes;
 
 /**
- * Class AbstractMessage.
+ * Class Messages.
  */
-abstract class AbstractMessage extends HasAttributes
+abstract class Message
 {
+    use HasAttributes;
+
     /**
-     * Message type.
+     * Messages type.
      *
      * @var string
      */
     protected $type;
 
     /**
-     * Message id.
+     * Messages id.
      *
      * @var int
      */
     protected $id;
 
     /**
-     * Message target user open id.
+     * Messages target user open id.
      *
      * @var string
      */
     protected $to;
 
     /**
-     * Message sender open id.
+     * Messages sender open id.
      *
      * @var string
      */
     protected $from;
 
     /**
-     * Message attributes.
+     * Messages attributes.
      *
      * @var array
      */
@@ -71,6 +63,14 @@ abstract class AbstractMessage extends HasAttributes
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type)
+    {
+        $this->type = $type;
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class AbstractMessage extends HasAttributes
      * @param string $property
      * @param mixed  $value
      *
-     * @return AbstractMessage
+     * @return Message
      */
     public function __set($property, $value)
     {
