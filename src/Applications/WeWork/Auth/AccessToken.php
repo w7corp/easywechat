@@ -37,6 +37,11 @@ class AccessToken extends BaseAccessToken
     protected $secret;
 
     /**
+     * @var int
+     */
+    protected $safeSeconds = 0;
+
+    /**
      * AccessToken constructor.
      *
      * @param \EasyWeChat\Applications\WeWork\Application $app

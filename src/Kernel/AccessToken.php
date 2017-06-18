@@ -38,6 +38,16 @@ abstract class AccessToken implements AccessTokenInterface
     protected $token;
 
     /**
+     * @var int
+     */
+    protected $safeSeconds = 500;
+
+    /**
+     * @var string
+     */
+    protected $tokenKey = 'access_token';
+
+    /**
      * @var string
      */
     protected $cachePrefix = 'easywechat.access_token.';
@@ -68,7 +78,7 @@ abstract class AccessToken implements AccessTokenInterface
 
         $token = $this->requestToken($this->getCredential());
 
-        $this->setToken($token['access_token'], $token['expires_in'] ?? 7200);
+        $this->setToken($token[$this->tokenKey], $token['expires_in'] ?? 7200);
 
         return $token;
     }
@@ -82,9 +92,9 @@ abstract class AccessToken implements AccessTokenInterface
     public function setToken(string $token, int $lifetime = 7200): AccessToken
     {
         $this->getCache()->set($this->getCacheKey(), [
-            'access_token' => $token,
+            $this->tokenKey => $token,
             'expires_in' => $lifetime,
-        ], $lifetime - 500);
+        ], $lifetime - $this->safeSeconds);
 
         return $this;
     }
@@ -116,7 +126,7 @@ abstract class AccessToken implements AccessTokenInterface
 
         $token = json_decode($token->getBody()->getContents(), true);
 
-        if (empty($token['access_token'])) {
+        if (empty($token[$this->tokenKey])) {
             throw new HttpException('Request AccessToken fail: '.json_encode($token, JSON_UNESCAPED_UNICODE));
         }
 
@@ -152,7 +162,7 @@ abstract class AccessToken implements AccessTokenInterface
      */
     protected function getQuery(): array
     {
-        return ['access_token' => $this->getToken()['access_token']];
+        return [$this->tokenKey => $this->getToken()[$this->tokenKey]];
     }
 
     /**
