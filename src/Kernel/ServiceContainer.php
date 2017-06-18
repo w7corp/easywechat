@@ -142,7 +142,7 @@ class ServiceContainer extends Container
      */
     private function registerHttpClient()
     {
-        $this['http_client'] = function($app){
+        $this['http_client'] = function ($app) {
             return new Client($app['config']->get('http', []));
         };
 

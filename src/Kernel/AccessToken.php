@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Kernel;
 
@@ -10,9 +18,8 @@ use EasyWeChat\Support\InteractsWithCache;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
 
-
 /**
- * Class AccessToken
+ * Class AccessToken.
  *
  * @author overtrue <i@overtrue.me>
  */
@@ -76,7 +83,7 @@ abstract class AccessToken implements AccessTokenInterface
     {
         $this->getCache()->set($this->getCacheKey(), [
             'access_token' => $token,
-            'expires_in' => $lifetime
+            'expires_in' => $lifetime,
         ], $lifetime - 500);
 
         return $this;
@@ -110,7 +117,7 @@ abstract class AccessToken implements AccessTokenInterface
         $token = json_decode($token->getBody()->getContents(), true);
 
         if (empty($token['access_token'])) {
-            throw new HttpException('Request AccessToken fail: '. json_encode($token, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Request AccessToken fail: '.json_encode($token, JSON_UNESCAPED_UNICODE));
         }
 
         return $token;
