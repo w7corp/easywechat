@@ -138,7 +138,10 @@ trait HasHttpRequests
 
         $options = array_merge(self::$defaults, $options, ['handler' => $this->getHandlerStack()]);
 
-        return $this->getHttpClient()->request($method, $url, $options);
+        $response = $this->getHttpClient()->request($method, $url, $options);
+        $response->getBody()->rewind();
+
+        return $response;
     }
 
     /**
