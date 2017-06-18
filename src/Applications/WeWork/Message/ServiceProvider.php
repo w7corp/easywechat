@@ -24,5 +24,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['message'] = function ($app) {
             return new Client($app);
         };
+
+        $app['messenger'] = function ($app) {
+            return new MessageBuilder($app['message']);
+        };
     }
 }

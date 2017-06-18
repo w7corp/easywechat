@@ -12,6 +12,9 @@
 namespace EasyWeChat\Applications\WeWork\Message;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Messages\Message;
+use EasyWeChat\Messages\News;
+use EasyWeChat\Messages\Text;
 
 /**
  * Class MessageTransformer.
@@ -19,41 +22,25 @@ use EasyWeChat\Exceptions\InvalidArgumentException;
 class MessageTransformer
 {
     /**
-     * Messages type.
-     *
-     * @var string
-     */
-    protected $msgType;
-
-    /**
-     * message.
-     *
-     * @var mixed
-     */
-    protected $message;
-
-    /**
-     * MessageTransformer constructor.
-     *
-     * @param $msgType
-     * @param $message
-     */
-    public function __construct($msgType, $message)
-    {
-        $this->msgType = $msgType;
-        $this->message = $message;
-    }
-
-    /**
-     * Transform message.
+     * @param \EasyWeChat\Messages\Message $message
      *
      * @return array
      */
-    public function transform()
+    public function transform(Message $message)
     {
-        $handle = sprintf('transform%s', ucfirst($this->msgType));
+        if (is_array($message)) {
+            $class = News::class;
+        } else {
+            if (is_string($message)) {
+                $message = new Text(['content' => $message]);
+            }
 
-        return method_exists($this, $handle) ? $this->$handle($this->message) : [];
+            $class = get_class($message);
+        }
+
+        $handle = 'transform'.substr($class, strlen('EasyWeChat\Messages\\'));
+
+        return method_exists($this, $handle) ? $this->$handle($message) : [];
     }
 
     /**
@@ -175,7 +162,7 @@ class MessageTransformer
             'file' => [
                 'media_id' => $message->get('media_id'),
             ],
-            'msgtype' => 'voice',
+            'msgtype' => 'file',
         ];
     }
 

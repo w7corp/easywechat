@@ -100,7 +100,7 @@ abstract class Message
             return $this->$property;
         }
 
-        return parent::__get($property);
+        return $this->getAttribute($property);
     }
 
     /**
@@ -116,7 +116,7 @@ abstract class Message
         if (property_exists($this, $property)) {
             $this->$property = $value;
         } else {
-            parent::__set($property, $value);
+            $this->setAttribute($property, $value);
         }
 
         return $this;

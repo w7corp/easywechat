@@ -11,12 +11,35 @@
 
 namespace EasyWeChat\Applications\WeWork\Message;
 
+use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Messages\Message;
+
 /**
  * Class Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
     const API_SEND_MESSAGE = 'message/send';
+
+    /**
+     * @param \EasyWeChat\Messages\Message $message
+     *
+     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     */
+    public function message(Message $message)
+    {
+        return (new MessageBuilder())->message($message);
+    }
+
+    /**
+     * @param array $message
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function send(array $message)
+    {
+        return $this->httpPostJson('message/send', $message);
+    }
 }
