@@ -39,13 +39,15 @@ trait HasAttributes
     protected $snakeable = true;
 
     /**
-     * Constructor.
+     * Set Attributes.
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = [])
+    public function setAttributes(array $attributes = [])
     {
         $this->attributes = new Collection($attributes);
+
+        return $this;
     }
 
     /**
@@ -167,6 +169,18 @@ trait HasAttributes
         }
 
         return call_user_func_array([$this->attributes, $method], $args);
+    }
+
+    /**
+     * Magic get.
+     *
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        return $this->get($property);
     }
 
     /**
