@@ -13,6 +13,23 @@ namespace EasyWeChat\Applications\Payment;
 
 use EasyWeChat\Kernel\ServiceContainer;
 
+/**
+ * Class Application.
+ *
+ * @property \EasyWeChat\Applications\Payment\Coupon\Client $coupon
+ * @property \EasyWeChat\Applications\Payment\Redpack\Client $redpack
+ * @property \EasyWeChat\Applications\Payment\Transfer\Client $transfer
+ *
+ * @method \EasyWeChat\Applications\Payment\Client sandboxMode(bool $enabled = false)
+ * @method string scheme(string $productId)
+ * @method mixed pay(\EasyWeChat\Applications\Payment\Order $order)
+ * @method mixed prepare(\EasyWeChat\Applications\Payment\Order $order)
+ * @method mixed query(string $orderNo)
+ * @method mixed queryByTransactionId(string $transactionId)
+ * @method mixed close(string $tradeNo)
+ * @method mixed reverse(string $orderNo)
+ * @method mixed reverseByTransactionId(string $transactionId)
+ */
 class Application extends ServiceContainer
 {
     protected $providers = [
