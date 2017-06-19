@@ -26,6 +26,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @method \EasyWeChat\Support\Collection|array getAuthorizerInfo(string $authorizerAppId)
  * @method \EasyWeChat\Support\Collection|array getAuthorizerOption(string $authorizerAppId, string $optionName)
  * @method \EasyWeChat\Support\Collection|array setAuthorizerOption(string $authorizerAppId, string $optionName, string $optionValue)
+ * @method \EasyWeChat\Support\Collection|array getAuthorizerList($offset = 0, $count = 500)
  */
 class Application extends ServiceContainer
 {

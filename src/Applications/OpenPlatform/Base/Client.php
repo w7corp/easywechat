@@ -112,4 +112,23 @@ class Client
 
         return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_set_authorizer_option', $params]);
     }
+
+    /**
+     * Get authorizer list.
+     *
+     * @param int $offset
+     * @param int $count
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function getAuthorizerList($offset = 0, $count = 500)
+    {
+        $params = [
+            'component_appid' => $this->getAppId(),
+            'offset' => $offset,
+            'count' => $count,
+        ];
+
+        return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_list', $params]);
+    }
 }
