@@ -110,7 +110,7 @@ trait WorksInSandbox
         if ($result['return_code'] === 'SUCCESS') {
             $this->getCache()->set($this->getCacheKey(), $sandboxSignKey = $result['sandbox_signkey'], 24 * 3600);
 
-            return $this->sandboxSignKey = $sandboxSignKey;
+            return $sandboxSignKey;
         }
 
         throw new InvalidArgumentException($result['return_msg']);

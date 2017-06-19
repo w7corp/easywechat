@@ -11,6 +11,9 @@
 
 namespace EasyWeChat\Applications\Payment\Traits;
 
+use EasyWeChat\Support;
+use Overtrue\Socialite\AccessTokenInterface;
+
 /**
  * Trait JssdkHelpers.
  *
@@ -36,14 +39,14 @@ trait JssdkHelpers
     public function configForPayment($prepayId, $json = true)
     {
         $params = [
-            'appId' => $this->merchant->app_id,
+            'appId' => $this->app['merchant']->app_id,
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
             'package' => "prepay_id=$prepayId",
             'signType' => 'MD5',
         ];
 
-        $params['paySign'] = generate_sign($params, $this->merchant->key, 'md5');
+        $params['paySign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
 
         return $json ? json_encode($params) : $params;
     }
@@ -79,15 +82,15 @@ trait JssdkHelpers
     public function configForAppPayment($prepayId)
     {
         $params = [
-            'appid' => $this->merchant->app_id,
-            'partnerid' => $this->merchant->merchant_id,
+            'appid' => $this->app['merchant']->app_id,
+            'partnerid' => $this->app['merchant']->merchant_id,
             'prepayid' => $prepayId,
             'noncestr' => uniqid(),
             'timestamp' => time(),
             'package' => 'Sign=WXPay',
         ];
 
-        $params['sign'] = generate_sign($params, $this->merchant->key);
+        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key);
 
         return $params;
     }
@@ -107,7 +110,7 @@ trait JssdkHelpers
         }
 
         $params = [
-            'appId' => $this->merchant->app_id,
+            'appId' => $this->app['merchant']->app_id,
             'scope' => 'jsapi_address',
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
@@ -116,7 +119,7 @@ trait JssdkHelpers
 
         $signParams = [
             'appid' => $params['appId'],
-            'url' => UrlHelper::current(),
+            'url' => Support\Url::current(),
             'timestamp' => $params['timeStamp'],
             'noncestr' => $params['nonceStr'],
             'accesstoken' => strval($accessToken),

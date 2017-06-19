@@ -11,6 +11,11 @@
 
 namespace EasyWeChat\Applications\Payment\Traits;
 
+use EasyWeChat\Applications\Payment\Notify;
+use EasyWeChat\Exceptions\FaultException;
+use EasyWeChat\Support;
+use Symfony\Component\HttpFoundation\Response;
+
 /**
  * Trait HandleNotify.
  *
@@ -24,6 +29,8 @@ trait HandleNotify
      * @param callable $callback
      *
      * @return Response
+     *
+     * @throws \EasyWeChat\Exceptions\FaultException
      */
     public function handleNotify(callable $callback)
     {
@@ -50,7 +57,7 @@ trait HandleNotify
             ];
         }
 
-        return new Response(XML::build($response));
+        return new Response(Support\XML::build($response));
     }
 
     /**
@@ -61,6 +68,8 @@ trait HandleNotify
      * @param callable $callback
      *
      * @return Response
+     *
+     * @throws \EasyWeChat\Exceptions\FaultException
      */
     public function handleScanNotify(callable $callback)
     {
@@ -76,13 +85,13 @@ trait HandleNotify
             $prepayId = call_user_func_array($callback, [$notify->get('product_id'), $notify->get('openid'), $notify]);
             $response = [
                 'return_code' => 'SUCCESS',
-                'appid' => $this->merchant->app_id,
-                'mch_id' => $this->merchant->merchant_id,
+                'appid' => $this->app['merchant']->app_id,
+                'mch_id' => $this->app['merchant']->merchant_id,
                 'nonce_str' => uniqid(),
                 'prepay_id' => strval($prepayId),
                 'result_code' => 'SUCCESS',
             ];
-            $response['sign'] = generate_sign($response, $this->merchant->key);
+            $response['sign'] = Support\generate_sign($response, $this->app['merchant']->key);
         } catch (\Exception $e) {
             $response = [
                 'return_code' => 'SUCCESS',
@@ -92,16 +101,16 @@ trait HandleNotify
             ];
         }
 
-        return new Response(XML::build($response));
+        return new Response(Support\XML::build($response));
     }
 
     /**
      * Return Notify instance.
      *
-     * @return \EasyWeChat\Applications\OfficialAccount\Payment\Notify
+     * @return \EasyWeChat\Applications\Payment\Notify
      */
     public function getNotify()
     {
-        return new Notify($this->merchant);
+        return new Notify($this->app['merchant']);
     }
 }
