@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OpenPlatform\Core;
+namespace EasyWeChat\Applications\OpenPlatform\Auth;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -21,15 +21,12 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['verify_ticket'] = function ($container) {
-            return new VerifyTicket($container['config']['app_id']);
+        $app['verify_ticket'] = function ($app) {
+            return new VerifyTicket($app['config']['app_id']);
         };
 
-        $app['access_token'] = function ($container) {
-            $accessToken = new AccessToken($container['config']['app_id'], $container['config']['secret']);
-            $accessToken->setVerifyTicket($container['verify_ticket']);
-
-            return $accessToken;
+        $app['access_token'] = function ($app) {
+            return new AccessToken($app);
         };
     }
 }

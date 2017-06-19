@@ -19,7 +19,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * Class Application.
  *
  * @property \EasyWeChat\Applications\OpenPlatform\Server\Guard $server
- * @property \EasyWeChat\Applications\OpenPlatform\Core\AccessToken $access_token
+ * @property \EasyWeChat\Applications\OpenPlatform\Auth\AccessToken $access_token
  * @property \EasyWeChat\Applications\OpenPlatform\PreAuthorization\Client $pre_authorization
  *
  * @method \EasyWeChat\Support\Collection|array getAuthorizationInfo(string $authCode = null)
@@ -31,10 +31,17 @@ use EasyWeChat\Kernel\ServiceContainer;
 class Application extends ServiceContainer
 {
     protected $providers = [
-        OpenPlatform\Core\ServiceProvider::class,
+        OpenPlatform\Auth\ServiceProvider::class,
         OpenPlatform\Base\ServiceProvider::class,
         OpenPlatform\Server\ServiceProvider::class,
         OpenPlatform\PreAuthorization\ServiceProvider::class,
+    ];
+
+    protected $defaultConfig = [
+        'http' => [
+            'timeout' => 5.0,
+            'base_uri' => 'https://api.weixin.qq.com/cgi-bin/component/',
+        ],
     ];
 
     /**
@@ -51,6 +58,7 @@ class Application extends ServiceContainer
         $config->merge([
             'component_app_id' => $this['config']['app_id'],
             'app_id' => $appId,
+            'secret' => null,
             'refresh_token' => $refreshToken,
         ]);
 
@@ -67,6 +75,6 @@ class Application extends ServiceContainer
      */
     public function __call($method, $args)
     {
-        return call_user_func_array([$this->api, $method], $args);
+        return call_user_func_array([$this['base'], $method], $args);
     }
 }

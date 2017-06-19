@@ -18,6 +18,7 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ServiceContainer.
@@ -39,7 +40,7 @@ class ServiceContainer extends Container
     /**
      * Constructor.
      *
-     * @param array|\EasyWeChat\Config\Config $config
+     * @param array|\EasyWeChat\Kernel\Config $config
      */
     public function __construct($config)
     {
@@ -51,6 +52,7 @@ class ServiceContainer extends Container
 
         $this->registerProviders()
                 ->registerLogger()
+                ->registerRequest()
                 ->registerHttpClient();
     }
 
@@ -59,7 +61,7 @@ class ServiceContainer extends Container
      *
      * @param string $provider
      *
-     * @return Factory
+     * @return $this
      */
     public function addProvider($provider)
     {
@@ -102,6 +104,20 @@ class ServiceContainer extends Container
         foreach ($this->providers as $provider) {
             $this->register(new $provider());
         }
+
+        return $this;
+    }
+
+    /**
+     * Register request.
+     *
+     * @return $this
+     */
+    protected function registerRequest()
+    {
+        $this['request'] = function () {
+            return Request::createFromGlobals();
+        };
 
         return $this;
     }

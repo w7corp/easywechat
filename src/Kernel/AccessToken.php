@@ -28,7 +28,7 @@ abstract class AccessToken implements AccessTokenInterface
     use HasHttpRequests, InteractsWithCache;
 
     /**
-     * @var \EasyWeChat\Applications\WeWork\Application
+     * @var \Pimple\Container
      */
     protected $app;
 
@@ -65,9 +65,9 @@ abstract class AccessToken implements AccessTokenInterface
     /**
      * @param bool $refresh
      *
-     * @return mixed|\Psr\Http\Message\ResponseInterface
+     * @return array
      */
-    public function getToken($refresh = false): array
+    public function getToken(bool $refresh = false): array
     {
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();

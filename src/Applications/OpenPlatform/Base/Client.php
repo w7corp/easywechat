@@ -11,49 +11,30 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\Base;
 
-use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
-    use HasHttpRequests;
-
-    /**
-     * @var string
-     */
-    protected $clientId;
-
-    /**
-     * Constructor.
-     *
-     * @param string $clientId
-     */
-    public function __construct(string $clientId)
-    {
-        $this->clientId = $clientId;
-    }
-
     /**
      * Get authorization info.
      *
      * @param string|null $authCode
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getAuthorizationInfo(string $authCode = null)
     {
         $params = [
-            'component_appid' => $this->clientId,
-            'authorization_code' => $authCode ?: $this->request->get('auth_code'),
+            'component_appid' => $this->app['config']['app_id'],
+            'authorization_code' => $authCode ?? $this->app['request']->get('auth_code'),
         ];
 
-        return $this->parseJSON(
-            $this->postJson('https://api.weixin.qq.com/cgi-bin/component/api_query_auth', $params)
-        );
+        return $this->httpPostJson('api_query_auth', $params);
     }
 
     /**
@@ -61,56 +42,56 @@ class Client
      *
      * @param string $appId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getAuthorizerInfo(string $appId)
     {
         $params = [
-            'component_appid' => $this->clientId,
+            'component_appid' => $this->app['config']['app_id'],
             'authorizer_appid' => $appId,
         ];
 
-        return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info', $params]);
+        return $this->httpPostJson('api_get_authorizer_info', $params);
     }
 
     /**
      * Get options.
      *
      * @param string $appId
-     * @param string $key
+     * @param string $name
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
-    public function getAuthorizerOption(string $appId, string $key)
+    public function getAuthorizerOption(string $appId, string $name)
     {
         $params = [
-            'component_appid' => $this->clientId,
+            'component_appid' => $this->app['config']['app_id'],
             'authorizer_appid' => $appId,
-            'option_name' => $key,
+            'option_name' => $name,
         ];
 
-        return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option', $params]);
+        return $this->httpPostJson('api_get_authorizer_option', $params);
     }
 
     /**
      * Set authorizer option.
      *
      * @param string $appId
-     * @param string $key
+     * @param string $name
      * @param string $value
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
-    public function setAuthorizerOption(string $appId, string $key, string $value)
+    public function setAuthorizerOption(string $appId, string $name, string $value)
     {
         $params = [
-            'component_appid' => $this->clientId,
+            'component_appid' => $this->app['config']['app_id'],
             'authorizer_appid' => $appId,
-            'option_name' => $key,
+            'option_name' => $name,
             'option_value' => $value,
         ];
 
-        return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_set_authorizer_option', $params]);
+        return $this->httpPostJson('api_set_authorizer_option', $params);
     }
 
     /**
@@ -119,16 +100,16 @@ class Client
      * @param int $offset
      * @param int $count
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getAuthorizerList($offset = 0, $count = 500)
     {
         $params = [
-            'component_appid' => $this->getAppId(),
+            'component_appid' => $this->app['config']['app_id'],
             'offset' => $offset,
             'count' => $count,
         ];
 
-        return $this->parseJSON('json', ['https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_list', $params]);
+        return $this->httpPostJson('api_get_authorizer_list', $params);
     }
 }

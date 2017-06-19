@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\PreAuthorization;
 
-use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Kernel\BaseClient;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -19,25 +19,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
-    use HasHttpRequests;
-
-    /**
-     * @var string
-     */
-    protected $componentClientId;
-
-    /**
-     * Client Constructor.
-     *
-     * @param string $clientId
-     */
-    public function __construct(string $clientId)
-    {
-        $this->componentClientId = $clientId;
-    }
-
     /**
      * Create PreAuthorization code.
      *
@@ -46,12 +29,10 @@ class Client
     public function createCode()
     {
         $params = [
-            'component_appid' => $this->componentClientId,
+            'component_appid' => $this->app['config']['app_id'],
         ];
 
-        return $this->parseJSON(
-            $this->postJson('https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode', $params)
-        );
+        return $this->httpPostJson('api_create_preauthcode', $params);
     }
 
     /**
@@ -66,7 +47,7 @@ class Client
         $result = $this->createCode();
         $url = sprintf(
             'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s',
-            $this->clientId, $result['auth_code'], urlencode($to)
+            $this->app['config']['app_id'], $result['auth_code'], urlencode($to)
         );
 
         return new RedirectResponse($url);

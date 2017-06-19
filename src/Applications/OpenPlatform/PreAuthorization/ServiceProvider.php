@@ -21,8 +21,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['pre_authorization'] = function ($container) {
-            return new Client($container['config']['app_id']);
+        $app['pre_authorization'] = function ($app) {
+            return new Client($app);
         };
     }
 }
