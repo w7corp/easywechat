@@ -9,15 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\Payment\Pay;
+namespace EasyWeChat\Applications\Payment;
 
 use EasyWeChat\Applications\Payment\Traits\HandleNotify;
 use EasyWeChat\Applications\Payment\Traits\JssdkHelpers;
 use EasyWeChat\Exceptions\Exception;
-use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Support\Collection;
+use EasyWeChat\Support;
+use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Support\InteractsWithCache;
 use EasyWeChat\Support\XML;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Client.
@@ -27,6 +27,10 @@ use Psr\Http\Message\ResponseInterface;
 class Client extends BaseClient
 {
     use JssdkHelpers, HandleNotify;
+    use InteractsWithCache;
+    use HasHttpRequests {
+        request as httpRequest;
+    }
 
     /**
      * Sandbox box mode.
@@ -41,13 +45,6 @@ class Client extends BaseClient
      * @var string
      */
     protected $sandboxSignKey;
-
-    /**
-     * Cache.
-     *
-     * @var Cache
-     */
-    protected $cache;
 
     const API_HOST = 'https://api.mch.weixin.qq.com';
 
@@ -109,7 +106,7 @@ class Client extends BaseClient
             'product_id' => $productId,
         ];
 
-        $params['sign'] = $this->generateSign($params, $this->app['merchant']->key, 'md5');
+        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
 
         return 'weixin://wxpay/bizpayurl?'.http_build_query($params);
     }
@@ -123,7 +120,7 @@ class Client extends BaseClient
      */
     public function pay(Order $order)
     {
-        return $this->payRequest($this->wrapApi(self::API_PAY_ORDER), $order->all());
+        return $this->request($this->wrapApi(self::API_PAY_ORDER), $order->all());
     }
 
     /**
@@ -137,10 +134,10 @@ class Client extends BaseClient
     {
         $order->notify_url = $order->get('notify_url', $this->app['merchant']->notify_url);
         if (is_null($order->spbill_create_ip)) {
-            $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? $this->getServerIp() : $this->getClientIp();
+            $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? Support\get_server_ip() : Support\get_client_ip();
         }
 
-        return $this->payRequest($this->wrapApi(self::API_PREPARE_ORDER), $order->all());
+        return $this->request($this->wrapApi(self::API_PREPARE_ORDER), $order->all());
     }
 
     /**
@@ -157,7 +154,7 @@ class Client extends BaseClient
             $type => $orderNo,
         ];
 
-        return $this->payRequest($this->wrapApi(self::API_QUERY), $params);
+        return $this->request($this->wrapApi(self::API_QUERY), $params);
     }
 
     /**
@@ -185,7 +182,7 @@ class Client extends BaseClient
             'out_trade_no' => $tradeNo,
         ];
 
-        return $this->payRequest($this->wrapApi(self::API_CLOSE), $params);
+        return $this->request($this->wrapApi(self::API_CLOSE), $params);
     }
 
     /**
@@ -244,9 +241,9 @@ class Client extends BaseClient
             'out_refund_no' => $refundNo,
             'total_fee' => $totalFee,
             'refund_fee' => $refundFee ?: $totalFee,
-            'refund_fee_type' => $this->merchant->fee_type,
+            'refund_fee_type' => $this->app['merchant']->fee_type,
             'refund_account' => $refundAccount,
-            'op_user_id' => $opUserId ?: $this->merchant->merchant_id,
+            'op_user_id' => $opUserId ?: $this->app['merchant']->merchant_id,
         ];
 
         return $this->safeRequest($this->wrapApi(self::API_REFUND), $params);
@@ -289,7 +286,7 @@ class Client extends BaseClient
             $type => $orderNo,
         ];
 
-        return $this->payRequest($this->wrapApi(self::API_QUERY_REFUND), $params);
+        return $this->request($this->wrapApi(self::API_QUERY_REFUND), $params);
     }
 
     /**
@@ -343,7 +340,7 @@ class Client extends BaseClient
             'bill_type' => $type,
         ];
 
-        return $this->payRequest($this->wrapApi(self::API_DOWNLOAD_BILL), $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
+        return $this->request($this->wrapApi(self::API_DOWNLOAD_BILL), $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
     }
 
     /**
@@ -355,7 +352,7 @@ class Client extends BaseClient
      */
     public function urlShorten($url)
     {
-        return $this->payRequest(self::API_URL_SHORTEN, ['long_url' => $url]);
+        return $this->request(self::API_URL_SHORTEN, ['long_url' => $url]);
     }
 
     /**
@@ -377,11 +374,11 @@ class Client extends BaseClient
             'return_code' => $returnCode,
             'return_msg' => null,
             'result_code' => $resultCode,
-            'user_ip' => get_client_ip(),
+            'user_ip' => Support\get_client_ip(),
             'time' => time(),
         ], $other);
 
-        return $this->payRequest($this->wrapApi(self::API_REPORT), $params);
+        return $this->request($this->wrapApi(self::API_REPORT), $params);
     }
 
     /**
@@ -393,7 +390,7 @@ class Client extends BaseClient
      */
     public function authCodeToOpenId($authCode)
     {
-        return $this->payRequest(self::API_AUTH_CODE_TO_OPENID, ['auth_code' => $authCode]);
+        return $this->request(self::API_AUTH_CODE_TO_OPENID, ['auth_code' => $authCode]);
     }
 
     /**
@@ -407,7 +404,7 @@ class Client extends BaseClient
      *
      * @return \EasyWeChat\Support\Collection|\Psr\Http\Message\ResponseInterface
      */
-    protected function payRequest($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
+    protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
         $params = array_merge($params, $this->app['merchant']->only(['sub_appid', 'sub_mch_id']));
 
@@ -416,15 +413,14 @@ class Client extends BaseClient
         $params['device_info'] = $this->app['merchant']->device_info;
         $params['nonce_str'] = uniqid();
         $params = array_filter($params);
-        $params['sign'] = $this->generateSign($params, $this->getSignkey($api), 'md5');
+        $params['sign'] = Support\generate_sign($params, $this->getSignKey($api), 'md5');
 
         $options = array_merge([
             'body' => XML::build($params),
         ], $options);
-// print_r($options);die;
 
-        $response = $this->request($api, $method, $options, true);
-// var_dump($response->getBody()->getContents());
+        $response = $this->httpRequest($api, $method, $options);
+
         return $returnResponse ? $response : $this->parseResponse($response);
     }
 
@@ -435,7 +431,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    protected function getSignkey($api)
+    protected function getSignKey($api)
     {
         return $this->sandboxEnabled && $api !== self::API_SANDBOX_SIGN_KEY ? $this->getSandboxSignKey() : $this->app['merchant']->key;
     }
@@ -452,27 +448,11 @@ class Client extends BaseClient
     protected function safeRequest($api, array $params, $method = 'post')
     {
         $options = [
-            'cert' => $this->merchant->get('cert_path'),
-            'ssl_key' => $this->merchant->get('key_path'),
+            'cert' => $this->app['merchant']->get('cert_path'),
+            'ssl_key' => $this->app['merchant']->get('key_path'),
         ];
 
-        return $this->payRequest($api, $params, $method, $options);
-    }
-
-    /**
-     * Parse Response XML to array.
-     *
-     * @param ResponseInterface $response
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    protected function parseResponse($response)
-    {
-        if ($response instanceof ResponseInterface) {
-            $response = $response->getBody();
-        }
-
-        return new Collection((array) XML::parse($response));
+        return $this->request($api, $params, $method, $options);
     }
 
     /**
@@ -491,6 +471,8 @@ class Client extends BaseClient
      * Get sandbox sign key.
      *
      * @return string
+     *
+     * @throws Exception
      */
     protected function getSandboxSignKey()
     {
@@ -498,37 +480,21 @@ class Client extends BaseClient
             return $this->sandboxSignKey;
         }
 
-        // Try to get sandbox_signkey from cache
-        $cacheKey = 'sandbox_signkey.'.$this->merchant->merchant_id.$this->merchant->sub_merchant_id;
-
-        /** @var \Doctrine\Common\Cache\Cache $cache */
         $cache = $this->getCache();
+        $cacheKey = 'easywechat.payment.sandbox.'.$this->app['merchant']->merchant_id;
 
-        $this->sandboxSignKey = $cache->fetch($cacheKey);
-
-        if (!$this->sandboxSignKey) {
-            // Try to acquire a new sandbox_signkey from WeChat
-            $result = $this->payRequest(self::API_SANDBOX_SIGN_KEY, []);
+        if (!$this->sandboxSignKey = $cache->get($cacheKey)) {
+            $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
 
             if ($result->return_code === 'SUCCESS') {
-                $cache->save($cacheKey, $result->sandbox_signkey, 24 * 3600);
+                $cache->set($cacheKey, $key = $result->sandbox_signkey, 24 * 3600);
 
-                return $this->sandboxSignKey = $result->sandbox_signkey;
+                return $this->sandboxSignKey = $key;
             }
 
             throw new Exception($result->return_msg);
         }
 
         return $this->sandboxSignKey;
-    }
-
-    /**
-     * Return the cache manager.
-     *
-     * @return \Doctrine\Common\Cache\Cache
-     */
-    public function getCache()
-    {
-        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
     }
 }

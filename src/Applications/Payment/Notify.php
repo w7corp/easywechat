@@ -9,9 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Payment;
+namespace EasyWeChat\Applications\Payment;
 
 use EasyWeChat\Exceptions\FaultException;
+use EasyWeChat\Support;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class Notify
     /**
      * Merchant instance.
      *
-     * @var \EasyWeChat\Applications\OfficialAccount\Payment\Merchant
+     * @var \EasyWeChat\Applications\Payment\Merchant
      */
     protected $merchant;
 
@@ -63,7 +64,7 @@ class Notify
      */
     public function isValid()
     {
-        $localSign = generate_sign($this->getNotify()->except('sign')->all(), $this->merchant->key, 'md5');
+        $localSign = Support\generate_sign($this->getNotify()->except('sign')->all(), $this->merchant->key, 'md5');
 
         return $localSign === $this->getNotify()->get('sign');
     }

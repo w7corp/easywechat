@@ -9,32 +9,21 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Applications\Payment\Redpack;
+
+use EasyWeChat\Applications\Payment\BaseClient;
+use EasyWeChat\Support;
+
 /**
- * LuckyMoney Client.
+ * Class Client.
  *
- * @author    tianyong90 <412039588@qq.com>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @author tianyong90 <412039588@qq.com>
  */
-
-namespace EasyWeChat\Applications\OfficialAccount\Payment\LuckyMoney;
-
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
-use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\XML;
-use Psr\Http\Message\ResponseInterface;
-
-class Client extends AbstractAPI
+class Client extends BaseClient
 {
-    /**
-     * Merchant instance.
-     *
-     * @var Merchant
-     */
-    protected $merchant;
+    use Support\HasHttpRequests {
+        request as httpRequest;
+    }
 
     // api
     const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
@@ -53,17 +42,7 @@ class Client extends AbstractAPI
     const RISK_IGN_FREQ_DAY_LMT = 'IGN_FREQ_DAY_LMT';
 
     /**
-     * API constructor.
-     *
-     * @param \EasyWeChat\Applications\OfficialAccount\Payment\Merchant $merchant
-     */
-    public function __construct(Merchant $merchant)
-    {
-        $this->merchant = $merchant;
-    }
-
-    /**
-     * Prepare luckymoney.
+     * Prepare shake-around redpack.
      *
      * @param array $params
      *
@@ -71,7 +50,7 @@ class Client extends AbstractAPI
      */
     public function prepare(array $params)
     {
-        $params['wxappid'] = $this->merchant->app_id;
+        $params['wxappid'] = $this->app['merchant']->app_id;
 
         // XXX: PLEASE DON'T CHANGE THE FOLLOWING LINES.
         $params['auth_mchid'] = '1000052601';
@@ -83,7 +62,7 @@ class Client extends AbstractAPI
     }
 
     /**
-     * Query luckymoney.
+     * Query redpack.
      *
      * @param string $mchBillNo
      *
@@ -92,7 +71,7 @@ class Client extends AbstractAPI
     public function query($mchBillNo)
     {
         $params = [
-            'appid' => $this->merchant->app_id,
+            'appid' => $this->app['merchant']->app_id,
             'mch_billno' => $mchBillNo,
             'bill_type' => 'MCHT',
         ];
@@ -101,7 +80,7 @@ class Client extends AbstractAPI
     }
 
     /**
-     * Send LuckyMoney.
+     * Send redpack.
      *
      * @param array  $params
      * @param string $type
@@ -112,7 +91,7 @@ class Client extends AbstractAPI
     {
         $api = ($type === self::TYPE_NORMAL) ? self::API_SEND : self::API_SEND_GROUP;
 
-        $params['wxappid'] = $this->merchant->app_id;
+        $params['wxappid'] = $this->app['merchant']->app_id;
         //如果类型为分裂红则去掉client_ip参数,否则签名会出错
         if ($type === self::TYPE_GROUP) {
             unset($params['client_ip']);
@@ -122,7 +101,7 @@ class Client extends AbstractAPI
     }
 
     /**
-     * Send normal LuckyMoney.
+     * Send normal redpack.
      *
      * @param array $params
      *
@@ -131,13 +110,13 @@ class Client extends AbstractAPI
     public function sendNormal($params)
     {
         $params['total_num'] = 1;
-        $params['client_ip'] = !empty($params['client_ip']) ? $params['client_ip'] : getenv('SERVER_ADDR');
+        $params['client_ip'] = $params['client_ip'] ?? Support\get_server_ip();
 
         return $this->send($params, self::TYPE_NORMAL);
     }
 
     /**
-     * Send group luckymoney.
+     * Send group redpack.
      *
      * @param array $params
      *
@@ -148,28 +127,6 @@ class Client extends AbstractAPI
         $params['amt_type'] = 'ALL_RAND';
 
         return $this->send($params, self::TYPE_GROUP);
-    }
-
-    /**
-     * Merchant setter.
-     *
-     * @param Merchant $merchant
-     *
-     * @return $this
-     */
-    public function setMerchant(Merchant $merchant)
-    {
-        $this->merchant = $merchant;
-    }
-
-    /**
-     * Merchant getter.
-     *
-     * @return Merchant
-     */
-    public function getMerchant()
-    {
-        return $this->merchant;
     }
 
     /**
@@ -184,32 +141,17 @@ class Client extends AbstractAPI
     protected function request($api, array $params, $method = 'post')
     {
         $params = array_filter($params);
-        $params['mch_id'] = $this->merchant->merchant_id;
+
+        $params['mch_id'] = $this->app['merchant']->merchant_id;
         $params['nonce_str'] = uniqid();
-        $params['sign'] = \EasyWeChat\Applications\OfficialAccount\Payment\generate_sign($params, $this->merchant->key, 'md5');
+        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
 
         $options = [
-            'body' => XML::build($params),
-            'cert' => $this->merchant->get('cert_path'),
-            'ssl_key' => $this->merchant->get('key_path'),
+            'body' => Support\XML::build($params),
+            'cert' => $this->app['merchant']->get('cert_path'),
+            'ssl_key' => $this->app['merchant']->get('key_path'),
         ];
 
-        return $this->parseResponse($this->getHttp()->request($api, $method, $options));
-    }
-
-    /**
-     * Parse Response XML to array.
-     *
-     * @param \Psr\Http\Message\ResponseInterface|string $response
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    protected function parseResponse($response)
-    {
-        if ($response instanceof ResponseInterface) {
-            $response = $response->getBody();
-        }
-
-        return new Collection((array) XML::parse($response));
+        return $this->parseResponse($this->httpRequest($api, $method, $options));
     }
 }

@@ -27,6 +27,6 @@ class Application extends ServiceContainer
      */
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this['pay'], $name], $arguments);
+        return call_user_func_array([$this['payment'], $name], $arguments);
     }
 }

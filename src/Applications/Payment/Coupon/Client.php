@@ -9,47 +9,26 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Applications\Payment\Coupon;
+
+use EasyWeChat\Applications\Payment\BaseClient;
+use EasyWeChat\Support;
+
 /**
- * CashCoupon Client.
+ * Class Client.
  *
- * @author    tianyong90 <412039588@qq.com>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @author tianyong90 <412039588@qq.com>
  */
-
-namespace EasyWeChat\Applications\OfficialAccount\Payment\CashCoupon;
-
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Applications\OfficialAccount\Payment\Merchant;
-use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\XML;
-use Psr\Http\Message\ResponseInterface;
-
-class Client extends AbstractAPI
+class Client extends BaseClient
 {
-    /**
-     * Merchant instance.
-     *
-     * @var Merchant
-     */
-    protected $merchant;
+    use Support\HasHttpRequests {
+        request as httpRequest;
+    }
 
     // api
     const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
     const API_QUERY_STOCK = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock';
     const API_QUERY = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/querycouponsinfo';
-
-    /**
-     * API constructor.
-     *
-     * @param \EasyWeChat\Applications\OfficialAccount\Payment\Merchant $merchant
-     */
-    public function __construct(Merchant $merchant)
-    {
-        $this->merchant = $merchant;
-    }
 
     /**
      * send a cash coupon.
@@ -90,28 +69,6 @@ class Client extends AbstractAPI
     }
 
     /**
-     * Merchant setter.
-     *
-     * @param Merchant $merchant
-     *
-     * @return $this
-     */
-    public function setMerchant(Merchant $merchant)
-    {
-        $this->merchant = $merchant;
-    }
-
-    /**
-     * Merchant getter.
-     *
-     * @return Merchant
-     */
-    public function getMerchant()
-    {
-        return $this->merchant;
-    }
-
-    /**
      * Make a API request.
      *
      * @param string $api
@@ -123,33 +80,17 @@ class Client extends AbstractAPI
     protected function request($api, array $params, $method = 'post')
     {
         $params = array_filter($params);
-        $params['mch_id'] = $this->merchant->merchant_id;
-        $params['appid'] = $this->merchant->app_id;
+        $params['mch_id'] = $this->app['merchant']->merchant_id;
+        $params['appid'] = $this->app['merchant']->app_id;
         $params['nonce_str'] = uniqid();
-        $params['sign'] = \EasyWeChat\Applications\OfficialAccount\Payment\generate_sign($params, $this->merchant->key, 'md5');
+        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
 
         $options = [
-            'body' => XML::build($params),
-            'cert' => $this->merchant->get('cert_path'),
-            'ssl_key' => $this->merchant->get('key_path'),
+            'body' => Support\XML::build($params),
+            'cert' => $this->app['merchant']->get('cert_path'),
+            'ssl_key' => $this->app['merchant']->get('key_path'),
         ];
 
-        return $this->parseResponse($this->getHttp()->request($api, $method, $options));
-    }
-
-    /**
-     * Parse Response XML to array.
-     *
-     * @param \Psr\Http\Message\ResponseInterface|string $response
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    protected function parseResponse($response)
-    {
-        if ($response instanceof ResponseInterface) {
-            $response = $response->getBody();
-        }
-
-        return new Collection((array) XML::parse($response));
+        return $this->parseResponse($this->httpRequest($api, $method, $options));
     }
 }
