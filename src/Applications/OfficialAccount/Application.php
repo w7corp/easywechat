@@ -12,9 +12,7 @@
 namespace EasyWeChat\Applications\OfficialAccount;
 
 use EasyWeChat\Applications\OfficialAccount;
-use EasyWeChat\Applications\OfficialAccount\OpenPlatform\Authorizer\AccessToken as AuthorizerAccessToken;
-use EasyWeChat\Config\Config as Config;
-use EasyWeChat\Support\ServiceContainer;
+use EasyWeChat\Kernel\ServiceContainer;
 
 /*
  * Class Application.
@@ -35,11 +33,6 @@ use EasyWeChat\Support\ServiceContainer;
  * @property \EasyWeChat\Applications\Application\QRCode\QRCode                      $qrcode
  * @property \EasyWeChat\Applications\Application\Semantic\Semantic                  $semantic
  * @property \EasyWeChat\Applications\Application\Stats\Stats                        $stats
- * @property \EasyWeChat\Applications\Application\Payment\Merchant                   $merchant
- * @property \EasyWeChat\Applications\Application\Payment\Payment                    $payment
- * @property \EasyWeChat\Applications\Application\Payment\LuckyMoney\LuckyMoney      $lucky_money
- * @property \EasyWeChat\Applications\Application\Payment\MerchantPay\MerchantPay    $merchant_pay
- * @property \EasyWeChat\Applications\Application\Payment\CashCoupon\CashCoupon      $cash_coupon
  * @property \EasyWeChat\Applications\Application\Reply\Reply                        $reply
  * @property \EasyWeChat\Applications\Application\Broadcast\Broadcast                $broadcast
  * @property \EasyWeChat\Applications\Application\Card\Card                          $card
@@ -49,10 +42,10 @@ use EasyWeChat\Support\ServiceContainer;
 class Application extends ServiceContainer
 {
     protected $providers = [
-        OfficialAccount\Core\ServiceProvider::class,
+        OfficialAccount\Auth\ServiceProvider::class,
         OfficialAccount\Server\ServiceProvider::class,
         OfficialAccount\User\ServiceProvider::class,
-        OfficialAccount\Js\ServiceProvider::class,
+        OfficialAccount\Jssdk\ServiceProvider::class,
         OfficialAccount\OAuth\ServiceProvider::class,
         OfficialAccount\Menu\ServiceProvider::class,
         OfficialAccount\TemplateMessage\ServiceProvider::class,
@@ -61,10 +54,9 @@ class Application extends ServiceContainer
         OfficialAccount\Url\ServiceProvider::class,
         OfficialAccount\QRCode\ServiceProvider::class,
         OfficialAccount\Semantic\ServiceProvider::class,
-        OfficialAccount\Stats\ServiceProvider::class,
-        OfficialAccount\Payment\ServiceProvider::class,
+        OfficialAccount\DataCube\ServiceProvider::class,
         OfficialAccount\POI\ServiceProvider::class,
-        OfficialAccount\Reply\ServiceProvider::class,
+        OfficialAccount\AutoReply\ServiceProvider::class,
         OfficialAccount\Broadcast\ServiceProvider::class,
         OfficialAccount\Card\ServiceProvider::class,
         OfficialAccount\Device\ServiceProvider::class,
@@ -73,35 +65,27 @@ class Application extends ServiceContainer
         OfficialAccount\Invoice\ServiceProvider::class,
     ];
 
+    protected $defaultConfig = [
+        'http' => [
+            'timeout' => 5.0,
+            'base_uri' => 'https://api.weixin.qq.com/',
+        ],
+    ];
+
     /**
      * Create an instance.
      *
-     * @param \EasyWeChat\Config\Config $config
-     * @param string                    $clientId
-     * @param string                    $refreshToken
+     * @param array|\EasyWeChat\Kernel\Config $config
      *
      * @return \EasyWeChat\Applications\OfficialAccount\Application
      */
-    public static function createFromOpenPlatform(Config $config, string $clientId, string $refreshToken): Application
+    public static function createFromOpenPlatform($config): Application
     {
-        $componentClientId = $config['app_id'];
-
-        $config['app_id'] = $clientId;
-        $config['secret'] = null;
-
         $instance = new self($config);
 
-        /*
-         * Override services.
-         */
-        $instance['oauth'] = function () {
-            // todo
-        };
-        $instance['access_token'] = function () use ($clientId, $componentClientId, $refreshToken) {
-            $accessToken = new AuthorizerAccessToken($clientId);
-            $accessToken->setComponentClientId($componentClientId)->setRefreshToken($refreshToken);
-
-            return $accessToken;
+        /* Override services. */
+        $instance['access_token'] = function ($app) {
+            return new OpenPlatform\Authorizer\AccessToken($app);
         };
 
         return $instance;

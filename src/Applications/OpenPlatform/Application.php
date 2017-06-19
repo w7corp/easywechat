@@ -13,7 +13,7 @@ namespace EasyWeChat\Applications\OpenPlatform;
 
 use EasyWeChat\Applications\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\Applications\OpenPlatform;
-use EasyWeChat\Support\ServiceContainer;
+use EasyWeChat\Kernel\ServiceContainer;
 
 /**
  * Class Application.
@@ -39,14 +39,21 @@ class Application extends ServiceContainer
     /**
      * Create an instance of OfficialAccount.
      *
-     * @param string $clientId
+     * @param string $appId
      * @param string $refreshToken
      *
      * @return \EasyWeChat\Applications\OfficialAccount\Application
      */
-    public function createOfficialAccount(string $clientId, string $refreshToken): OfficialAccount
+    public function createOfficialAccount(string $appId, string $refreshToken): OfficialAccount
     {
-        return OfficialAccount::createFromOpenPlatform($this['config'], $clientId, $refreshToken);
+        $config = $this['config'];
+        $config->merge([
+            'component_app_id' => $this['config']['app_id'],
+            'app_id' => $appId,
+            'refresh_token' => $refreshToken,
+        ]);
+
+        return OfficialAccount::createFromOpenPlatform($config);
     }
 
     /**

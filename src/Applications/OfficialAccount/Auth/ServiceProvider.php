@@ -24,7 +24,7 @@
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Core;
+namespace EasyWeChat\Applications\OfficialAccount\Auth;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -36,15 +36,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['access_token'] = function ($container) {
-            $accessToken = new AccessToken(
-                $container['config']['app_id'],
-                $container['config']['secret']
-            );
-
-            $accessToken->setCache($container['cache']);
-
-            return $accessToken;
+        $app['access_token'] = function ($app) {
+            return new AccessToken($app);
         };
     }
 }
