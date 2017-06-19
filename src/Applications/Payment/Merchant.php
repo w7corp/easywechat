@@ -71,7 +71,7 @@ class Merchant
     {
         $this->setAttributes($attributes);
 
-        $this->setAliases([
+        $this->aliases = [
             'app_id' => 'appid',
             'key' => 'mch_key',
             'merchant_id' => 'mch_id',
@@ -79,7 +79,7 @@ class Merchant
             'sub_merchant_id' => 'sub_mch_id',
             'cert_path' => 'sslcert_path',
             'key_path' => 'sslkey_path',
-        ]);
+        ];
 
         $this->with('fee_type', 'CNY');
     }

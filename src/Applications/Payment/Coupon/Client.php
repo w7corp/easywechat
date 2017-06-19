@@ -91,6 +91,6 @@ class Client extends BaseClient
             'ssl_key' => $this->app['merchant']->get('key_path'),
         ];
 
-        return $this->parseResponse($this->httpRequest($api, $method, $options));
+        return $this->resolveResponse($this->httpRequest($api, $method, $options));
     }
 }

@@ -34,18 +34,29 @@ class BaseClient
     }
 
     /**
-     * Parse Response XML to array.
+     * Resolve Response.
      *
-     * @param \Psr\Http\Message\ResponseInterface|string $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
-    protected function parseResponse($response)
+    protected function resolveResponse(ResponseInterface $response)
     {
-        if ($response instanceof ResponseInterface) {
-            $response = $response->getBody();
-        }
+        switch ($type = $this->app['config']->get('response_type', 'array')) {
+            case 'collection':
+                return new Collection((array) XML::parse($response->getBody()));
+            case 'array':
+                return (array) XML::parse($response->getBody());
+            case 'object':
+                return (object) XML::parse($response->getBody());
+            case 'raw':
+            default:
+                $response->getBody()->rewind();
+                if (class_exists($type)) {
+                    return new $type($response);
+                }
 
-        return new Collection((array) XML::parse($response));
+                return (string) $response->getBody();
+        }
     }
 }

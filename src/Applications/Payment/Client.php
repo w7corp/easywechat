@@ -421,7 +421,7 @@ class Client extends BaseClient
 
         $response = $this->httpRequest($api, $method, $options);
 
-        return $returnResponse ? $response : $this->parseResponse($response);
+        return $returnResponse ? $response : $this->resolveResponse($response);
     }
 
     /**
