@@ -13,10 +13,9 @@ namespace EasyWeChat\Applications\Payment;
 
 use EasyWeChat\Applications\Payment\Traits\HandleNotify;
 use EasyWeChat\Applications\Payment\Traits\JssdkHelpers;
-use EasyWeChat\Exceptions\Exception;
+use EasyWeChat\Applications\Payment\Traits\WorksInSandbox;
 use EasyWeChat\Support;
 use EasyWeChat\Support\HasHttpRequests;
-use EasyWeChat\Support\InteractsWithCache;
 use EasyWeChat\Support\XML;
 
 /**
@@ -26,42 +25,8 @@ use EasyWeChat\Support\XML;
  */
 class Client extends BaseClient
 {
-    use JssdkHelpers, HandleNotify;
-    use InteractsWithCache;
-    use HasHttpRequests {
-        request as httpRequest;
-    }
-
-    /**
-     * Sandbox box mode.
-     *
-     * @var bool
-     */
-    protected $sandboxEnabled = false;
-
-    /**
-     * Sandbox sign key.
-     *
-     * @var string
-     */
-    protected $sandboxSignKey;
-
-    const API_HOST = 'https://api.mch.weixin.qq.com';
-
-    // api
-    const API_PAY_ORDER = '/pay/micropay';
-    const API_PREPARE_ORDER = '/pay/unifiedorder';
-    const API_QUERY = '/pay/orderquery';
-    const API_CLOSE = '/pay/closeorder';
-    const API_REVERSE = '/secapi/pay/reverse';
-    const API_REFUND = '/secapi/pay/refund';
-    const API_QUERY_REFUND = '/pay/refundquery';
-    const API_DOWNLOAD_BILL = '/pay/downloadbill';
-    const API_REPORT = '/payitil/report';
-
-    const API_URL_SHORTEN = 'https://api.mch.weixin.qq.com/tools/shorturl';
-    const API_AUTH_CODE_TO_OPENID = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
-    const API_SANDBOX_SIGN_KEY = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
+    use WorksInSandbox, JssdkHelpers, HandleNotify;
+    use HasHttpRequests { request as httpRequest; }
 
     // order id types.
     const TRANSACTION_ID = 'transaction_id';
@@ -74,20 +39,6 @@ class Client extends BaseClient
     const BILL_TYPE_SUCCESS = 'SUCCESS';
     const BILL_TYPE_REFUND = 'REFUND';
     const BILL_TYPE_REVOKED = 'REVOKED';
-
-    /**
-     * Set sandbox mode.
-     *
-     * @param bool $enabled
-     *
-     * @return $this
-     */
-    public function sandboxMode(bool $enabled = false)
-    {
-        $this->sandboxEnabled = $enabled;
-
-        return $this;
-    }
 
     /**
      * Build payment scheme for product.
@@ -120,7 +71,7 @@ class Client extends BaseClient
      */
     public function pay(Order $order)
     {
-        return $this->request($this->wrapApi(self::API_PAY_ORDER), $order->all());
+        return $this->request($this->wrapApi('pay/micropay'), $order->all());
     }
 
     /**
@@ -137,7 +88,7 @@ class Client extends BaseClient
             $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? Support\get_server_ip() : Support\get_client_ip();
         }
 
-        return $this->request($this->wrapApi(self::API_PREPARE_ORDER), $order->all());
+        return $this->request($this->wrapApi('pay/unifiedorder'), $order->all());
     }
 
     /**
@@ -154,7 +105,7 @@ class Client extends BaseClient
             $type => $orderNo,
         ];
 
-        return $this->request($this->wrapApi(self::API_QUERY), $params);
+        return $this->request($this->wrapApi('pay/orderquery'), $params);
     }
 
     /**
@@ -182,7 +133,7 @@ class Client extends BaseClient
             'out_trade_no' => $tradeNo,
         ];
 
-        return $this->request($this->wrapApi(self::API_CLOSE), $params);
+        return $this->request($this->wrapApi('pay/closeorder'), $params);
     }
 
     /**
@@ -199,7 +150,7 @@ class Client extends BaseClient
             $type => $orderNo,
         ];
 
-        return $this->safeRequest($this->wrapApi(self::API_REVERSE), $params);
+        return $this->safeRequest($this->wrapApi('secapi/pay/reverse'), $params);
     }
 
     /**
@@ -246,7 +197,7 @@ class Client extends BaseClient
             'op_user_id' => $opUserId ?: $this->app['merchant']->merchant_id,
         ];
 
-        return $this->safeRequest($this->wrapApi(self::API_REFUND), $params);
+        return $this->safeRequest($this->wrapApi('secapi/pay/refund'), $params);
     }
 
     /**
@@ -286,7 +237,7 @@ class Client extends BaseClient
             $type => $orderNo,
         ];
 
-        return $this->request($this->wrapApi(self::API_QUERY_REFUND), $params);
+        return $this->request($this->wrapApi('pay/refundquery'), $params);
     }
 
     /**
@@ -340,7 +291,7 @@ class Client extends BaseClient
             'bill_type' => $type,
         ];
 
-        return $this->request($this->wrapApi(self::API_DOWNLOAD_BILL), $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
+        return $this->request($this->wrapApi('pay/downloadbill'), $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
     }
 
     /**
@@ -352,7 +303,7 @@ class Client extends BaseClient
      */
     public function urlShorten($url)
     {
-        return $this->request(self::API_URL_SHORTEN, ['long_url' => $url]);
+        return $this->request('https://api.mch.weixin.qq.com/tools/shorturl', ['long_url' => $url]);
     }
 
     /**
@@ -378,7 +329,7 @@ class Client extends BaseClient
             'time' => time(),
         ], $other);
 
-        return $this->request($this->wrapApi(self::API_REPORT), $params);
+        return $this->request($this->wrapApi('payitil/report'), $params);
     }
 
     /**
@@ -390,7 +341,7 @@ class Client extends BaseClient
      */
     public function authCodeToOpenId($authCode)
     {
-        return $this->request(self::API_AUTH_CODE_TO_OPENID, ['auth_code' => $authCode]);
+        return $this->request('https://api.mch.weixin.qq.com/tools/authcodetoopenid', ['auth_code' => $authCode]);
     }
 
     /**
@@ -425,18 +376,6 @@ class Client extends BaseClient
     }
 
     /**
-     * Return key to sign.
-     *
-     * @param string $api
-     *
-     * @return string
-     */
-    protected function getSignKey($api)
-    {
-        return $this->sandboxEnabled && $api !== self::API_SANDBOX_SIGN_KEY ? $this->getSandboxSignKey() : $this->app['merchant']->key;
-    }
-
-    /**
      * Request with SSL.
      *
      * @param string $api
@@ -453,48 +392,5 @@ class Client extends BaseClient
         ];
 
         return $this->request($api, $params, $method, $options);
-    }
-
-    /**
-     * Wrap API.
-     *
-     * @param string $resource
-     *
-     * @return string
-     */
-    protected function wrapApi($resource)
-    {
-        return self::API_HOST.($this->sandboxEnabled ? '/sandboxnew' : '').$resource;
-    }
-
-    /**
-     * Get sandbox sign key.
-     *
-     * @return string
-     *
-     * @throws Exception
-     */
-    protected function getSandboxSignKey()
-    {
-        if ($this->sandboxSignKey) {
-            return $this->sandboxSignKey;
-        }
-
-        $cache = $this->getCache();
-        $cacheKey = 'easywechat.payment.sandbox.'.$this->app['merchant']->merchant_id;
-
-        if (!$this->sandboxSignKey = $cache->get($cacheKey)) {
-            $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
-
-            if ($result->return_code === 'SUCCESS') {
-                $cache->set($cacheKey, $key = $result->sandbox_signkey, 24 * 3600);
-
-                return $this->sandboxSignKey = $key;
-            }
-
-            throw new Exception($result->return_msg);
-        }
-
-        return $this->sandboxSignKey;
     }
 }
