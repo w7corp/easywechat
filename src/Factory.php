@@ -17,6 +17,7 @@ use EasyWeChat\Support\Str;
  * Class Factory.
  *
  * @method static \EasyWeChat\Applications\WeWork\Application             weWork(array $config)
+ * @method static \EasyWeChat\Applications\Payment\Application            payment(array $config)
  * @method static \EasyWeChat\Applications\MiniProgram\Application        miniProgram(array $config)
  * @method static \EasyWeChat\Applications\OpenPlatform\Application       openPlatform(array $config)
  * @method static \EasyWeChat\Applications\OfficialAccount\Application    officialAccount(array $config)
@@ -29,8 +30,11 @@ class Factory
      *
      * @return \EasyWeChat\Support\ServiceContainer
      */
-    public static function make($application, $config)
+    public static function make($name, $config)
     {
+        $namespace = Str::studly($name);
+        $application = "\\EasyWeChat\\Applications\\{$namespace}\\Application";
+
         return new $application($config);
     }
 
@@ -44,9 +48,6 @@ class Factory
      */
     public static function __callStatic($name, $arguments)
     {
-        $namespace = Str::studly($name);
-        $name = "\\EasyWeChat\\Applications\\{$namespace}\\Application";
-
         return self::make($name, ...$arguments);
     }
 }
