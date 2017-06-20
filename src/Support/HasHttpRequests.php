@@ -71,7 +71,7 @@ trait HasHttpRequests
      *
      * @param \GuzzleHttp\Client $httpClient
      *
-     * @return Http
+     * @return $this
      */
     public function setHttpClient(Client $httpClient)
     {

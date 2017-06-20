@@ -118,8 +118,6 @@ abstract class AccessToken implements AccessTokenInterface
      */
     public function requestToken(array $credentials): array
     {
-        $this->setHttpClient($this->app['http_client']);
-
         $result = json_decode($this->sendRequest($credentials)->getBody()->getContents(), true);
 
         if (empty($result[$this->tokenKey])) {
@@ -139,10 +137,11 @@ abstract class AccessToken implements AccessTokenInterface
     private function sendRequest(array $credentials)
     {
         $method = $this->requestMethod ?? 'GET';
-
-        return $this->request($this->endpointToGetToken, $method, [
+        $options = [
             ($method === 'GET') ? 'query' : 'json' => $credentials,
-        ]);
+        ];
+
+        return $this->setHttpClient($this->app['http_client'])->request($this->endpointToGetToken, $method, $options);
     }
 
     /**
