@@ -120,17 +120,29 @@ abstract class AccessToken implements AccessTokenInterface
     {
         $this->setHttpClient($this->app['http_client']);
 
-        $token = $this->request($this->endpointToGetToken, 'GET', [
-            'query' => $credentials,
-        ]);
+        $result = json_decode($this->sendRequest($credentials)->getBody()->getContents(), true);
 
-        $token = json_decode($token->getBody()->getContents(), true);
-
-        if (empty($token[$this->tokenKey])) {
-            throw new HttpException('Request AccessToken fail: '.json_encode($token, JSON_UNESCAPED_UNICODE));
+        if (empty($result[$this->tokenKey])) {
+            throw new HttpException('Request AccessToken fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
-        return $token;
+        return $result;
+    }
+
+    /**
+     * Send http request.
+     *
+     * @param array $credentials
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    private function sendRequest(array $credentials)
+    {
+        $method = $this->requestMethod ?? 'GET';
+
+        return $this->request($this->endpointToGetToken, $method, [
+            ($method === 'GET') ? 'query' : 'json' => $credentials,
+        ]);
     }
 
     /**
