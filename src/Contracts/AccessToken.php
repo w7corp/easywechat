@@ -34,7 +34,7 @@ interface AccessToken
      * @param \Psr\Http\Message\RequestInterface $request
      * @param array                              $requestOptions
      *
-     * @return array
+     * @return \Psr\Http\Message\RequestInterface
      */
     public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface;
 }

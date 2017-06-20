@@ -17,6 +17,7 @@ use EasyWeChat\Support\HasHttpRequests;
 use EasyWeChat\Support\InteractsWithCache;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class AccessToken.
@@ -25,7 +26,7 @@ use Psr\Http\Message\RequestInterface;
  */
 abstract class AccessToken implements AccessTokenInterface
 {
-    use HasHttpRequests, InteractsWithCache;
+    use HasHttpRequests, InteractsWithCache { getCache as getCacheInstance; }
 
     /**
      * @var \Pimple\Container
@@ -63,6 +64,18 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
+     * @return \Psr\SimpleCache\CacheInterface
+     */
+    public function getCache()
+    {
+        if (!$this->cache && isset($this->app['cache']) && $this->app['cache'] instanceof CacheInterface) {
+            $this->setCache($this->app['cache']);
+        }
+
+        return $this->getCacheInstance();
+    }
+
+    /**
      * @param bool $refresh
      *
      * @return array
@@ -76,7 +89,7 @@ abstract class AccessToken implements AccessTokenInterface
             return $cache->get($cacheKey);
         }
 
-        $token = $this->requestToken($this->getCredential());
+        $token = $this->requestToken($this->getCredentials());
 
         $this->setToken($token[$this->tokenKey], $token['expires_in'] ?? 7200);
 
@@ -163,7 +176,7 @@ abstract class AccessToken implements AccessTokenInterface
      */
     protected function getCacheKey()
     {
-        return $this->cachePrefix.md5(json_encode($this->getCredential()));
+        return $this->cachePrefix.md5(json_encode($this->getCredentials()));
     }
 
     /**
@@ -181,5 +194,5 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @return array
      */
-    abstract protected function getCredential(): array;
+    abstract protected function getCredentials(): array;
 }

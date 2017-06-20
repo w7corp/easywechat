@@ -58,7 +58,7 @@ class AccessToken extends BaseAccessToken
      *
      * @return array
      */
-    protected function getCredential(): array
+    protected function getCredentials(): array
     {
         return [
             'corpid' => $this->corpId,

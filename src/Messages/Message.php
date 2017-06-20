@@ -70,6 +70,16 @@ abstract class Message
     protected $properties = [];
 
     /**
+     * Message constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->setAttributes($attributes);
+    }
+
+    /**
      * Return type name message.
      *
      * @return string

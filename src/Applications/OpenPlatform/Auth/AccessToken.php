@@ -21,7 +21,7 @@ class AccessToken extends BaseAccessToken
 
     protected $endpointToGetToken = 'api_component_token';
 
-    protected function getCredential(): array
+    protected function getCredentials(): array
     {
         return [
             'component_appid' => $this->app['config']['app_id'],

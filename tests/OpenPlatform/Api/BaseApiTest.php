@@ -95,6 +95,6 @@ class BaseApiTest extends ApiTest
         ];
 
         $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_LIST, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 }

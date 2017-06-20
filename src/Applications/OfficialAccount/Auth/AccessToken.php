@@ -22,7 +22,7 @@ class AccessToken extends BaseAccessToken
 {
     protected $endpointToGetToken = 'cgi-bin/token';
 
-    protected function getCredential(): array
+    protected function getCredentials(): array
     {
         return [
             'grant_type' => 'client_credential',
