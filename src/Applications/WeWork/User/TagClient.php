@@ -20,37 +20,97 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class TagClient extends BaseClient
 {
-    public function create(string $tagName, int $tagId = null)
+    /**
+     * Create tag.
+     *
+     * @param string $tagName
+     * @param null   $tagId
+     *
+     * @return mixed
+     */
+    public function create(string $tagName, $tagId = null)
     {
-        return $this->post('tag/create', ['tagname' => $tagName, 'tagid' => $tagId]);
+        $params = [
+            'tagname' => $tagName,
+            'tagid' => $tagId,
+        ];
+
+        return $this->httpPostJson('tag/create', $params);
     }
 
-    public function update(int $tagId, string $tagName)
+    /**
+     * Update tag.
+     *
+     * @param int    $tagId
+     * @param string $tagName
+     *
+     * @return mixed
+     */
+    public function update($tagId, string $tagName)
     {
-        return $this->post('tag/update', ['tagid' => $tagId, 'tagname' => $tagName]);
+        $params = [
+            'tagid' => $tagId,
+            'tagname' => $tagName,
+        ];
+
+        return $this->httpPostJson('tag/update', $params);
     }
 
+    /**
+     * Delete tag.
+     *
+     * @param int $tagId
+     *
+     * @return mixed
+     */
     public function delete(int $tagId)
     {
-        return parent::get('tag/delete', ['tagid' => $tagId]);
+        return $this->httpGet('tag/delete', ['tagid' => $tagId]);
     }
 
-    public function get(int $tagId)
+    /**
+     * @param int $tagId
+     *
+     * @return mixed
+     */
+    public function get($tagId)
     {
-        return parent::get('tag/get', ['tagid' => $tagId]);
+        return $this->httpGet('tag/get', ['tagid' => $tagId]);
     }
 
-    public function addUsers(int $tagId, array $userList = [], array $partyList = [])
+    /**
+     * @param int   $tagId
+     * @param array $userList
+     * @param array $partyList
+     *
+     * @return mixed
+     */
+    public function addUsers($tagId, array $userList = [], array $partyList = [])
     {
         return $this->addOrDeleteUsers('tag/addtagusers', $tagId, $userList, $partyList);
     }
 
-    public function deleteUsers(int $tagId, array $userList = [], array $partyList = [])
+    /**
+     * @param $tagId
+     * @param array $userList
+     * @param array $partyList
+     *
+     * @return mixed
+     */
+    public function deleteUsers($tagId, array $userList = [], array $partyList = [])
     {
         return $this->addOrDeleteUsers('tag/deltagusers', $tagId, $userList, $partyList);
     }
 
-    protected function addOrDeleteUsers($endpoint, int $tagId, array $userList = [], array $partyList = [])
+    /**
+     * @param $endpoint
+     * @param $tagId
+     * @param array $userList
+     * @param array $partyList
+     *
+     * @return mixed
+     */
+    protected function addOrDeleteUsers($endpoint, $tagId, array $userList, array $partyList)
     {
         $data = [
             'tagid' => $tagId,
@@ -58,11 +118,14 @@ class TagClient extends BaseClient
             'partylist' => $partyList,
         ];
 
-        return $this->post($endpoint, $data);
+        return $this->httpPostJson($endpoint, $data);
     }
 
+    /**
+     * @return mixed
+     */
     public function lists()
     {
-        return parent::get('tag/list');
+        return $this->httpGet('tag/list');
     }
 }

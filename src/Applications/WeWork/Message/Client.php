@@ -21,8 +21,6 @@ use EasyWeChat\Messages\Message;
  */
 class Client extends BaseClient
 {
-    const API_SEND_MESSAGE = 'message/send';
-
     /**
      * @param \EasyWeChat\Messages\Message $message
      *

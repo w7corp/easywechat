@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @param array $data
      *
-     * @return array
+     * @return mixed
      */
     public function create(array $data)
     {
@@ -37,7 +37,7 @@ class Client extends BaseClient
      *
      * @param array $data
      *
-     * @return array
+     * @return mixed
      */
     public function update(array $data)
     {
@@ -49,7 +49,7 @@ class Client extends BaseClient
      *
      * @param string $userId
      *
-     * @return array
+     * @return mixed
      */
     public function delete($userId)
     {
@@ -61,7 +61,7 @@ class Client extends BaseClient
      *
      * @param array $userIds
      *
-     * @return array
+     * @return mixed
      */
     public function batchDelete(array $userIds)
     {
@@ -73,7 +73,7 @@ class Client extends BaseClient
      *
      * @param string $userId
      *
-     * @return array
+     * @return mixed
      */
     public function get($userId)
     {
@@ -87,7 +87,7 @@ class Client extends BaseClient
      * @param int $fetchChild
      * @param int $status
      *
-     * @return array
+     * @return mixed
      */
     public function simpleLists(int $departmentId, int $fetchChild = 1, int $status = 4)
     {
@@ -104,7 +104,7 @@ class Client extends BaseClient
      * @param int $fetchChild
      * @param int $status
      *
-     * @return array
+     * @return mixed
      */
     public function lists(int $departmentId, int $fetchChild = 1, int $status = 4)
     {
@@ -122,7 +122,7 @@ class Client extends BaseClient
      * @param int    $fetchChild
      * @param int    $status
      *
-     * @return array
+     * @return mixed
      */
     protected function getLists(string $endpoint, int $departmentId, int $fetchChild, int $status)
     {
