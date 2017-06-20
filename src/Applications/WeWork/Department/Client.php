@@ -51,7 +51,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function delete(int $id)
+    public function delete($id)
     {
         return $this->httpGet('department/delete', compact('id'));
     }
@@ -63,7 +63,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function lists(int $id = null)
+    public function lists($id = null)
     {
         return $this->httpGet('department/list', compact('id'));
     }
