@@ -11,47 +11,19 @@
 
 namespace EasyWeChat\Applications\WeWork\Auth;
 
-use EasyWeChat\Applications\WeWork\Application;
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
 class AccessToken extends BaseAccessToken
 {
-    /**
-     * {@inheritdoc}.
-     */
-    protected $prefix = 'easywechat.wework.access_token.';
-
     /**
      * @var string
      */
     protected $endpointToGetToken = 'gettoken';
 
     /**
-     * @var string
-     */
-    protected $corpId;
-
-    /**
-     * @var string
-     */
-    protected $secret;
-
-    /**
      * @var int
      */
     protected $safeSeconds = 0;
-
-    /**
-     * AccessToken constructor.
-     *
-     * @param \EasyWeChat\Applications\WeWork\Application $app
-     */
-    public function __construct(Application $app)
-    {
-        parent::__construct($app);
-        $this->corpId = $app['config']->get('corp_id');
-        $this->secret = $app['config']->get('secret');
-    }
 
     /**
      * Credential for get token.
@@ -61,8 +33,8 @@ class AccessToken extends BaseAccessToken
     protected function getCredentials(): array
     {
         return [
-            'corpid' => $this->corpId,
-            'corpsecret' => $this->secret,
+            'corpid' => $this->app['config']['corp_id'],
+            'corpsecret' => $this->app['config']['secret'],
         ];
     }
 }
