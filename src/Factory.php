@@ -25,10 +25,10 @@ use EasyWeChat\Support\Str;
 class Factory
 {
     /**
-     * @param string                          $application
-     * @param array|\EasyWeChat\Config\Config $config
+     * @param string                          $name
+     * @param array|\EasyWeChat\Kernel\Config $config
      *
-     * @return \EasyWeChat\Support\ServiceContainer
+     * @return \EasyWeChat\Kernel\ServiceContainer
      */
     public static function make($name, $config)
     {

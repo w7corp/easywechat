@@ -26,13 +26,13 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function createCode()
+    public function createCode($returnRaw = false)
     {
         $params = [
             'component_appid' => $this->app['config']['app_id'],
         ];
 
-        return $this->httpPostJson('api_create_preauthcode', $params);
+        return $this->request('api_create_preauthcode', 'POST', ['json' => $params], $returnRaw);
     }
 
     /**
@@ -44,10 +44,11 @@ class Client extends BaseClient
      */
     public function redirect(string $to)
     {
-        $result = $this->createCode();
+        $result = json_decode($this->createCode(true)->getBody(), true);
+
         $url = sprintf(
             'https://mp.weixin.qq.com/cgi-bin/componentloginpage?component_appid=%s&pre_auth_code=%s&redirect_uri=%s',
-            $this->app['config']['app_id'], $result['auth_code'], urlencode($to)
+            $this->app['config']['app_id'], $result['pre_auth_code'], urlencode($to)
         );
 
         return new RedirectResponse($url);

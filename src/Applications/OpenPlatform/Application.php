@@ -22,11 +22,11 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\Applications\OpenPlatform\Auth\AccessToken $access_token
  * @property \EasyWeChat\Applications\OpenPlatform\PreAuthorization\Client $pre_authorization
  *
- * @method \EasyWeChat\Support\Collection|array getAuthorizationInfo(string $authCode = null)
- * @method \EasyWeChat\Support\Collection|array getAuthorizerInfo(string $authorizerAppId)
- * @method \EasyWeChat\Support\Collection|array getAuthorizerOption(string $authorizerAppId, string $optionName)
- * @method \EasyWeChat\Support\Collection|array setAuthorizerOption(string $authorizerAppId, string $optionName, string $optionValue)
- * @method \EasyWeChat\Support\Collection|array getAuthorizerList($offset = 0, $count = 500)
+ * @method mixed getAuthorizationInfo(string $authCode = null)
+ * @method mixed getAuthorizerInfo(string $appId)
+ * @method mixed getAuthorizerOption(string $appId, string $name)
+ * @method mixed setAuthorizerOption(string $appId, string $name, string $value)
+ * @method mixed getAuthorizerList(int $offset = 0, int $count = 500)
  */
 class Application extends ServiceContainer
 {
@@ -62,7 +62,7 @@ class Application extends ServiceContainer
             'refresh_token' => $refreshToken,
         ]);
 
-        return OfficialAccount::createFromOpenPlatform($config);
+        return OfficialAccount::createFromOpenPlatform($config->toArray());
     }
 
     /**

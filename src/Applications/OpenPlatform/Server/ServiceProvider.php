@@ -27,28 +27,25 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['encryptor'] = function ($container) {
+        $app['encryptor'] = function ($app) {
             return new Encryptor(
-                $container['config']['client_id'],
-                $container['config']['token'],
-                $container['config']['aes_key']
+                $app['config']['app_id'],
+                $app['config']['token'],
+                $app['config']['aes_key']
             );
         };
 
-        $app['handlers'] = function ($container) {
-            return [
+        $app['server'] = function ($app) {
+            $server = new Guard($app['config']['token']);
+            $server->debug($app['config']['debug']);
+            $server->setEncryptor($app['encryptor']);
+            $handlers = [
                 Guard::EVENT_AUTHORIZED => new Handlers\Authorized(),
                 Guard::EVENT_UNAUTHORIZED => new Handlers\Unauthorized(),
                 Guard::EVENT_UPDATE_AUTHORIZED => new Handlers\UpdateAuthorized(),
-                Guard::EVENT_COMPONENT_VERIFY_TICKET => new Handlers\ComponentVerifyTicket($container['verify_ticket']),
+                Guard::EVENT_COMPONENT_VERIFY_TICKET => new Handlers\ComponentVerifyTicket($app['verify_ticket']),
             ];
-        };
-
-        $app['server'] = function ($container) {
-            $server = new Guard($container['config']['token']);
-            $server->debug($container['config']['debug']);
-            $server->setEncryptor($container['encryptor']);
-            $server->setHandlers($container['handlers']);
+            $server->setHandlers($handlers);
 
             return $server;
         };

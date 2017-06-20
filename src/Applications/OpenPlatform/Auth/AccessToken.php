@@ -15,6 +15,8 @@ use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
 class AccessToken extends BaseAccessToken
 {
+    protected $requestMethod = 'POST';
+
     protected $tokenKey = 'component_access_token';
 
     protected $endpointToGetToken = 'api_component_token';
