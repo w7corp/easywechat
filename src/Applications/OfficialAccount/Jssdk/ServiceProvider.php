@@ -26,11 +26,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['jssdk'] = function ($container) {
-            $jssdk = new Client($container['access_token']);
-            $jssdk->setCache($container['cache']);
-
-            return $jssdk;
+        $app['jssdk'] = function ($app) {
+            return new Client($app);
         };
     }
 }

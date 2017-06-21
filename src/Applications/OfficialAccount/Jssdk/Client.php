@@ -11,25 +11,18 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Jssdk;
 
-use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\FilesystemCache;
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Support\Str;
-use EasyWeChat\Support\Url as UrlHelper;
+use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Support;
+use EasyWeChat\Support\InteractsWithCache;
 
 /**
  * Class Client.
  *
  * @author overtrue <i@overtrue.me>
  */
-class Client extends AbstractAPI
+class Client extends BaseClient
 {
-    /**
-     * Cache.
-     *
-     * @var Cache
-     */
-    protected $cache;
+    use InteractsWithCache;
 
     /**
      * Current URI.
@@ -63,9 +56,9 @@ class Client extends AbstractAPI
         $signPackage = $this->signature();
 
         $base = [
-                 'debug' => $debug,
-                 'beta' => $beta,
-                ];
+            'debug' => $debug,
+            'beta' => $beta,
+        ];
         $config = array_merge($base, $signPackage, ['jsApiList' => $APIs]);
 
         return $json ? json_encode($config) : $config;
@@ -88,24 +81,24 @@ class Client extends AbstractAPI
     /**
      * Get jsticket.
      *
-     * @param bool $forceRefresh
+     * @param bool $fresh
      *
      * @return string
      */
-    public function ticket($forceRefresh = false)
+    public function ticket(bool $fresh = false)
     {
-        $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getClientId();
-        $ticket = $this->getCache()->fetch($key);
+        $key = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
+        $ticket = $this->getCache()->get($key);
 
-        if (!$forceRefresh && !empty($ticket)) {
+        if (!$fresh && !is_null($ticket)) {
             return $ticket;
         }
 
-        $result = $this->parseJSON('get', [self::API_TICKET, ['type' => 'jsapi']]);
+        $result = $this->httpGet(self::API_TICKET, ['type' => 'jsapi']);
 
-        $this->getCache()->save($key, $result['ticket'], $result['expires_in'] - 500);
+        $this->getCache()->set($key, $ticket = $result['ticket'], $result['expires_in'] - 500);
 
-        return $result['ticket'];
+        return $ticket;
     }
 
     /**
@@ -119,20 +112,17 @@ class Client extends AbstractAPI
      */
     public function signature($url = null, $nonce = null, $timestamp = null)
     {
-        $url = $url ? $url : $this->getUrl();
-        $nonce = $nonce ? $nonce : Str::quickRandom(10);
-        $timestamp = $timestamp ? $timestamp : time();
-        $ticket = $this->ticket();
+        $url = $url ?: $this->getUrl();
+        $nonce = $nonce ?: Support\Str::quickRandom(10);
+        $timestamp = $timestamp ?: time();
 
-        $sign = [
-                 'appId' => $this->getAccessToken()->getClientId(),
-                 'nonceStr' => $nonce,
-                 'timestamp' => $timestamp,
-                 'url' => $url,
-                 'signature' => $this->getSignature($ticket, $nonce, $timestamp, $url),
-                ];
-
-        return $sign;
+        return [
+            'appId' => $this->app['config']['app_id'],
+            'nonceStr' => $nonce,
+            'timestamp' => $timestamp,
+            'url' => $url,
+            'signature' => $this->getSignature($this->ticket(), $nonce, $timestamp, $url),
+        ];
     }
 
     /**
@@ -175,30 +165,6 @@ class Client extends AbstractAPI
             return $this->url;
         }
 
-        return UrlHelper::current();
-    }
-
-    /**
-     * Set cache manager.
-     *
-     * @param \Doctrine\Common\Cache\Cache $cache
-     *
-     * @return $this
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
-
-        return $this;
-    }
-
-    /**
-     * Return cache manager.
-     *
-     * @return \Doctrine\Common\Cache\Cache
-     */
-    public function getCache()
-    {
-        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
+        return Support\Url::current();
     }
 }
