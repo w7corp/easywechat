@@ -153,6 +153,9 @@ abstract class AccessToken implements AccessTokenInterface
         $options = [
             ($method === 'GET') ? 'query' : 'json' => $credentials,
         ];
+        if (method_exists($this, 'appendQuery')) {
+            $options['query'] = $this->appendQuery();
+        }
 
         return $this->setHttpClient($this->app['http_client'])->request($this->endpointToGetToken, $method, $options);
     }
@@ -186,7 +189,7 @@ abstract class AccessToken implements AccessTokenInterface
      */
     protected function getQuery(): array
     {
-        return [$this->tokenKey => $this->getToken()[$this->tokenKey]];
+        return [$this->queryName ?? $this->tokenKey => $this->getToken()[$this->tokenKey]];
     }
 
     /**
