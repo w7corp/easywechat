@@ -61,27 +61,7 @@ class Application extends ServiceContainer
             'refresh_token' => $refreshToken,
         ]);
 
-        return $this->flush(
-            new OfficialAccount($config)
-        );
-    }
-
-    /**
-     * @param \EasyWeChat\Applications\OfficialAccount\Application $instance
-     *
-     * @return \EasyWeChat\Applications\OfficialAccount\Application
-     */
-    protected function flush(OfficialAccount $instance)
-    {
-        /* Override AccessToken instance. */
-        $instance['access_token'] = function ($app) {
-            return new Authorizer\AccessToken($app, $this['access_token']);
-        };
-
-        /* Cover the appid variable. */
-        $instance['encryptor']->setAppId($this['config']['app_id']);
-
-        return $instance;
+        return (new OfficialAccount($config))->register(new Authorizer\ServiceProvider($this));
     }
 
     /**

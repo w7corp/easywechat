@@ -13,7 +13,6 @@ namespace EasyWeChat\Applications\OpenPlatform\Authorizer;
 
 use EasyWeChat\Applications\OpenPlatform\Auth\AccessToken as OpenPlatformAccessToken;
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
-use Pimple\Container;
 
 class AccessToken extends BaseAccessToken
 {
@@ -37,16 +36,15 @@ class AccessToken extends BaseAccessToken
     protected $openPlatformAccessToken;
 
     /**
-     * AccessToken constructor.
-     *
-     * @param \Pimple\Container                                      $app
      * @param \EasyWeChat\Applications\OpenPlatform\Auth\AccessToken $accessToken
+     *
+     * @return $this
      */
-    public function __construct(Container $app, OpenPlatformAccessToken $accessToken)
+    public function setOpenPlatformAccessToken(OpenPlatformAccessToken $accessToken)
     {
-        parent::__construct($app);
-
         $this->openPlatformAccessToken = $accessToken;
+
+        return $this;
     }
 
     /**

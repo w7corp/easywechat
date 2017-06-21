@@ -74,20 +74,6 @@ class Encryptor
     }
 
     /**
-     * Set AppId.
-     *
-     * @param string $appId
-     *
-     * @return $this
-     */
-    public function setAppId($appId)
-    {
-        $this->appId = $appId;
-
-        return $this;
-    }
-
-    /**
      * Encrypt the message and return XML.
      *
      * @param string $xml
