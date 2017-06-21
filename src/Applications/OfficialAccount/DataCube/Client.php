@@ -309,14 +309,10 @@ class Client extends BaseClient
      */
     protected function query($api, $from, $to, array $ext = [])
     {
-        $params = [
+        $params = array_merge([
             'begin_date' => $from,
             'end_date' => $to,
-        ];
-
-        if (!empty($ext)) {
-            $params = array_merge($params, $ext);
-        }
+        ], $ext);
 
         return $this->httpPostJson($api, $params);
     }
