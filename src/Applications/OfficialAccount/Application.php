@@ -71,23 +71,4 @@ class Application extends ServiceContainer
             'base_uri' => 'https://api.weixin.qq.com/',
         ],
     ];
-
-    /**
-     * Create an instance.
-     *
-     * @param array|\EasyWeChat\Kernel\Config $config
-     *
-     * @return \EasyWeChat\Applications\OfficialAccount\Application
-     */
-    public static function createFromOpenPlatform($config): Application
-    {
-        $instance = new self($config);
-
-        /* Override services. */
-        $instance['access_token'] = function ($app) {
-            return new OpenPlatform\Authorizer\AccessToken($app);
-        };
-
-        return $instance;
-    }
 }
