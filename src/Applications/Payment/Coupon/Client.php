@@ -43,7 +43,7 @@ class Client extends BaseClient
      */
     public function queryStock(array $params)
     {
-        return $this->safeRequest('mmpaymkttransfers/query_coupon_stock', $params);
+        return $this->request('mmpaymkttransfers/query_coupon_stock', $params);
     }
 
     /**
@@ -55,7 +55,7 @@ class Client extends BaseClient
      */
     public function query(array $params)
     {
-        return $this->safeRequest('mmpaymkttransfers/querycouponsinfo', $params);
+        return $this->request('mmpaymkttransfers/querycouponsinfo', $params);
     }
 
     /**
