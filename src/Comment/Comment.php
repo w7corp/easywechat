@@ -42,162 +42,162 @@ class Comment extends AbstractAPI
     /**
      * Open article comment.
      *
-     * @param int $dataId
-     * @param int $index
+     * @param string $msgId
+     * @param int    $index
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function open($dataId, $index = null)
+    public function open($msgId, $index)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
         ];
 
-        return $this->parseJSON('post', [self::API_OPEN_COMMENT, $params]);
+        return $this->parseJSON('json', [self::API_OPEN_COMMENT, $params]);
     }
 
     /**
      * Close comment.
      *
-     * @param int $dataId
-     * @param int $index
+     * @param string $msgId
+     * @param int    $index
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function close($dataId, $index = null)
+    public function close($msgId, $index)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
         ];
 
-        return $this->parseJSON('post', [self::API_CLOSE_COMMENT, $params]);
+        return $this->parseJSON('json', [self::API_CLOSE_COMMENT, $params]);
     }
 
     /**
      * Get article comments.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $begin
-     * @param int $count
-     * @param int $type
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $begin
+     * @param int    $count
+     * @param int    $type
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function lists($dataId, $index, $begin, $count, $type = 0)
+    public function lists($msgId, $index, $begin, $count, $type = 0)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'begin' => $begin,
             'count' => $count,
             'type' => $type,
         ];
 
-        return $this->parseJSON('post', [self::API_LIST_COMMENT, $params]);
+        return $this->parseJSON('json', [self::API_LIST_COMMENT, $params]);
     }
 
     /**
      * Mark elect comment.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function markElect($dataId, $index, $commentId)
+    public function markElect($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_MARK_ELECT, $params]);
+        return $this->parseJSON('json', [self::API_MARK_ELECT, $params]);
     }
 
     /**
      * Unmark elect comment.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function unmarkElect($dataId, $index, $commentId)
+    public function unmarkElect($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_UNMARK_ELECT, $params]);
+        return $this->parseJSON('json', [self::API_UNMARK_ELECT, $params]);
     }
 
     /**
      * Delete comment.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function delete($dataId, $index, $commentId)
+    public function delete($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_DELETE_COMMENT, $params]);
+        return $this->parseJSON('json', [self::API_DELETE_COMMENT, $params]);
     }
 
     /**
      * Reply to a comment.
      *
-     * @param int    $dataId
+     * @param string $msgId
      * @param int    $index
      * @param int    $commentId
      * @param string $content
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function reply($dataId, $index, $commentId, $content)
+    public function reply($msgId, $index, $commentId, $content)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
             'content' => $content,
         ];
 
-        return $this->parseJSON('post', [self::API_REPLY_COMMENT, $params]);
+        return $this->parseJSON('json', [self::API_REPLY_COMMENT, $params]);
     }
 
     /**
      * Delete a reply.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function deleteReply($dataId, $index, $commentId)
+    public function deleteReply($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_DELETE_REPLY, $params]);
+        return $this->parseJSON('json', [self::API_DELETE_REPLY, $params]);
     }
 }
