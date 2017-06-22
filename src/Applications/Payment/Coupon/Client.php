@@ -12,7 +12,6 @@
 namespace EasyWeChat\Applications\Payment\Coupon;
 
 use EasyWeChat\Applications\Payment\BaseClient;
-use EasyWeChat\Support;
 
 /**
  * Class Client.
@@ -21,15 +20,6 @@ use EasyWeChat\Support;
  */
 class Client extends BaseClient
 {
-    use Support\HasHttpRequests {
-        request as httpRequest;
-    }
-
-    // api
-    const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
-    const API_QUERY_STOCK = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock';
-    const API_QUERY = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/querycouponsinfo';
-
     /**
      * send a cash coupon.
      *
@@ -41,7 +31,7 @@ class Client extends BaseClient
     {
         $params['openid_count'] = 1;
 
-        return $this->request(self::API_SEND, $params);
+        return $this->safeRequest('mmpaymkttransfers/send_coupon', $params);
     }
 
     /**
@@ -53,7 +43,7 @@ class Client extends BaseClient
      */
     public function queryStock(array $params)
     {
-        return $this->request(self::API_QUERY_STOCK, $params);
+        return $this->safeRequest('mmpaymkttransfers/query_coupon_stock', $params);
     }
 
     /**
@@ -65,32 +55,17 @@ class Client extends BaseClient
      */
     public function query(array $params)
     {
-        return $this->request(self::API_QUERY, $params);
+        return $this->safeRequest('mmpaymkttransfers/querycouponsinfo', $params);
     }
 
     /**
-     * Make a API request.
-     *
-     * @param string $api
-     * @param array  $params
-     * @param string $method
-     *
-     * @return \EasyWeChat\Support\Collection
+     * {@inheritdoc}.
      */
-    protected function request($api, array $params, $method = 'post')
+    protected function extra(): array
     {
-        $params = array_filter($params);
-        $params['mch_id'] = $this->app['merchant']->merchant_id;
-        $params['appid'] = $this->app['merchant']->app_id;
-        $params['nonce_str'] = uniqid();
-        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
-
-        $options = [
-            'body' => Support\XML::build($params),
-            'cert' => $this->app['merchant']->get('cert_path'),
-            'ssl_key' => $this->app['merchant']->get('key_path'),
+        return [
+            'mch_id' => $this->app['merchant']->merchant_id,
+            'appid' => $this->app['merchant']->app_id,
         ];
-
-        return $this->resolveResponse($this->httpRequest($api, $method, $options));
     }
 }

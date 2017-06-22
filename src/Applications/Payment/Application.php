@@ -36,6 +36,13 @@ class Application extends ServiceContainer
         ServiceProvider::class,
     ];
 
+    protected $defaultConfig = [
+        'http' => [
+            'timeout' => 5.0,
+            'base_uri' => 'https://api.mch.weixin.qq.com/',
+        ],
+    ];
+
     /**
      * @param string $name
      * @param array  $arguments

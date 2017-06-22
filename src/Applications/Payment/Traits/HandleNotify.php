@@ -14,6 +14,7 @@ namespace EasyWeChat\Applications\Payment\Traits;
 use EasyWeChat\Applications\Payment\Notify;
 use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Support;
+use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -28,7 +29,7 @@ trait HandleNotify
      *
      * @param callable $callback
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \EasyWeChat\Exceptions\FaultException
      */
@@ -67,7 +68,7 @@ trait HandleNotify
      *
      * @param callable $callback
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \EasyWeChat\Exceptions\FaultException
      */
@@ -92,12 +93,12 @@ trait HandleNotify
                 'result_code' => 'SUCCESS',
             ];
             $response['sign'] = Support\generate_sign($response, $this->app['merchant']->key);
-        } catch (\Exception $e) {
+        } catch (Exception $exception) {
             $response = [
                 'return_code' => 'SUCCESS',
-                'return_msg' => $e->getCode(),
+                'return_msg' => $exception->getCode(),
                 'result_code' => 'FAIL',
-                'err_code_des' => $e->getMessage(),
+                'err_code_des' => $exception->getMessage(),
             ];
         }
 

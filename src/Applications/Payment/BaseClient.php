@@ -11,13 +11,14 @@
 
 namespace EasyWeChat\Applications\Payment;
 
-use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\XML;
+use EasyWeChat\Support;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 
-class BaseClient
+abstract class BaseClient
 {
+    use Support\HasHttpRequests { request as httpRequest; }
+
     /**
      * @var \Pimple\Container
      */
@@ -31,6 +32,63 @@ class BaseClient
     public function __construct(Container $app)
     {
         $this->app = $app;
+
+        $this->setHttpClient($this->app['http_client']);
+    }
+
+    /**
+     * Extra request params.
+     *
+     * @return array
+     */
+    abstract protected function extra(): array;
+
+    /**
+     * Make a API request.
+     *
+     * @param string $api
+     * @param array  $params
+     * @param string $method
+     * @param array  $options
+     * @param bool   $returnResponse
+     *
+     * @return \EasyWeChat\Support\Collection|\Psr\Http\Message\ResponseInterface
+     */
+    protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
+    {
+        $params = array_merge($params, $this->extra());
+        $params['nonce_str'] = uniqid();
+        $params = array_filter($params);
+
+        $key = method_exists($this, 'getSignKey') ? $this->getSignKey($api) : $this->app['merchant']->key;
+        $params['sign'] = Support\generate_sign($params, $key, 'md5');
+
+        $options = array_merge([
+            'body' => Support\XML::build($params),
+        ], $options);
+
+        $response = $this->httpRequest($api, $method, $options);
+
+        return $returnResponse ? $response : $this->resolveResponse($response);
+    }
+
+    /**
+     * Request with SSL.
+     *
+     * @param string $api
+     * @param array  $params
+     * @param string $method
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    protected function safeRequest($api, array $params, $method = 'post')
+    {
+        $options = [
+            'cert' => $this->app['merchant']->get('cert_path'),
+            'ssl_key' => $this->app['merchant']->get('key_path'),
+        ];
+
+        return $this->request($api, $params, $method, $options);
     }
 
     /**
@@ -44,11 +102,13 @@ class BaseClient
     {
         switch ($type = $this->app['config']->get('response_type', 'array')) {
             case 'collection':
-                return new Collection((array) XML::parse($response->getBody()));
+                return new Support\Collection(
+                    (array) Support\XML::parse($response->getBody())
+                );
             case 'array':
-                return (array) XML::parse($response->getBody());
+                return (array) Support\XML::parse($response->getBody());
             case 'object':
-                return (object) XML::parse($response->getBody());
+                return (object) Support\XML::parse($response->getBody());
             case 'raw':
             default:
                 $response->getBody()->rewind();

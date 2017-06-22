@@ -15,8 +15,6 @@ use EasyWeChat\Applications\Payment\Traits\HandleNotify;
 use EasyWeChat\Applications\Payment\Traits\JssdkHelpers;
 use EasyWeChat\Applications\Payment\Traits\WorksInSandbox;
 use EasyWeChat\Support;
-use EasyWeChat\Support\HasHttpRequests;
-use EasyWeChat\Support\XML;
 
 /**
  * Class Client.
@@ -26,7 +24,6 @@ use EasyWeChat\Support\XML;
 class Client extends BaseClient
 {
     use WorksInSandbox, JssdkHelpers, HandleNotify;
-    use HasHttpRequests { request as httpRequest; }
 
     // order id types.
     const TRANSACTION_ID = 'transaction_id';
@@ -84,6 +81,7 @@ class Client extends BaseClient
     public function prepare(Order $order)
     {
         $order->notify_url = $order->get('notify_url', $this->app['merchant']->notify_url);
+
         if (is_null($order->spbill_create_ip)) {
             $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? Support\get_server_ip() : Support\get_client_ip();
         }
@@ -345,52 +343,16 @@ class Client extends BaseClient
     }
 
     /**
-     * Make a API request.
-     *
-     * @param string $api
-     * @param array  $params
-     * @param string $method
-     * @param array  $options
-     * @param bool   $returnResponse
-     *
-     * @return \EasyWeChat\Support\Collection|\Psr\Http\Message\ResponseInterface
+     * {@inheritdoc}.
      */
-    protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
+    protected function extra(): array
     {
-        $params = array_merge($params, $this->app['merchant']->only(['sub_appid', 'sub_mch_id']));
-
-        $params['appid'] = $this->app['merchant']->app_id;
-        $params['mch_id'] = $this->app['merchant']->merchant_id;
-        $params['device_info'] = $this->app['merchant']->device_info;
-        $params['nonce_str'] = uniqid();
-        $params = array_filter($params);
-        $params['sign'] = Support\generate_sign($params, $this->getSignKey($api), 'md5');
-
-        $options = array_merge([
-            'body' => XML::build($params),
-        ], $options);
-
-        $response = $this->httpRequest($api, $method, $options);
-
-        return $returnResponse ? $response : $this->resolveResponse($response);
-    }
-
-    /**
-     * Request with SSL.
-     *
-     * @param string $api
-     * @param array  $params
-     * @param string $method
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    protected function safeRequest($api, array $params, $method = 'post')
-    {
-        $options = [
-            'cert' => $this->app['merchant']->get('cert_path'),
-            'ssl_key' => $this->app['merchant']->get('key_path'),
-        ];
-
-        return $this->request($api, $params, $method, $options);
+        return array_merge($this->app['merchant']->only(['sub_appid', 'sub_mch_id']),
+            [
+                'appid' => $this->app['merchant']->app_id,
+                'mch_id' => $this->app['merchant']->merchant_id,
+                'device_info' => $this->app['merchant']->device_info,
+            ]
+        );
     }
 }

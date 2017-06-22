@@ -24,19 +24,19 @@ trait WorksInSandbox
      *
      * @var bool
      */
-    protected $sandboxEnabled = false;
+    protected $inSandbox = false;
 
     /**
      * Sandbox sign key.
      *
      * @var string
      */
-    protected $sandboxSignKey;
+    protected $signKey;
 
     /**
      * @var string
      */
-    protected $sandboxSignKeyEndpoint = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
+    protected $signKeyEndpoint = 'sandboxnew/pay/getsignkey';
 
     /**
      * Set sandbox mode.
@@ -47,7 +47,7 @@ trait WorksInSandbox
      */
     public function sandboxMode(bool $enabled = false)
     {
-        $this->sandboxEnabled = $enabled;
+        $this->inSandbox = $enabled;
 
         return $this;
     }
@@ -61,7 +61,7 @@ trait WorksInSandbox
      */
     protected function wrapApi($resource)
     {
-        return 'https://api.mch.weixin.qq.com/'.($this->sandboxEnabled ? 'sandboxnew/' : '').$resource;
+        return $this->inSandbox ? "sandboxnew/{$resource}" : $resource;
     }
 
     /**
@@ -73,7 +73,11 @@ trait WorksInSandbox
      */
     protected function getSignKey($api)
     {
-        return $this->sandboxEnabled && $api !== $this->sandboxSignKeyEndpoint ? $this->getSandboxSignKey() : $this->app['merchant']->key;
+        if (!$this->inSandbox || $api === $this->signKeyEndpoint) {
+            return $this->app['merchant']->key;
+        }
+
+        return $this->getSandboxSignKey();
     }
 
     /**
@@ -83,34 +87,28 @@ trait WorksInSandbox
      */
     protected function getSandboxSignKey()
     {
-        if ($this->sandboxSignKey) {
-            return $this->sandboxSignKey;
+        if ($this->signKey || $this->signKey = $this->getCache()->get($this->getCacheKey())) {
+            return $this->signKey;
         }
 
-        if (!$this->sandboxSignKey = $this->getCache()->get($this->getCacheKey())) {
-            $response = $this->request($this->sandboxSignKeyEndpoint, [], 'post', [], true);
-
-            $result = (array) XML::parse($response->getBody());
-
-            $this->sandboxSignKey = $this->getSignKeyFromResponse($result);
-        }
-
-        return $this->sandboxSignKey;
+        return $this->signKey = $this->getSignKeyFromServer();
     }
 
     /**
-     * @param array $result
-     *
      * @return string
      *
      * @throws InvalidArgumentException
      */
-    private function getSignKeyFromResponse(array $result)
+    protected function getSignKeyFromServer()
     {
-        if ($result['return_code'] === 'SUCCESS') {
-            $this->getCache()->set($this->getCacheKey(), $sandboxSignKey = $result['sandbox_signkey'], 24 * 3600);
+        $result = (array) XML::parse(
+            $this->request($this->signKeyEndpoint, [], 'post', [], true)->getBody()
+        );
 
-            return $sandboxSignKey;
+        if ($result['return_code'] === 'SUCCESS') {
+            $this->getCache()->set($this->getCacheKey(), $signKey = $result['sandbox_signkey'], 24 * 3600);
+
+            return $signKey;
         }
 
         throw new InvalidArgumentException($result['return_msg']);

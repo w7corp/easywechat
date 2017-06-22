@@ -12,7 +12,6 @@
 namespace EasyWeChat\Applications\Payment\Transfer;
 
 use EasyWeChat\Applications\Payment\BaseClient;
-use EasyWeChat\Support;
 
 /**
  * Class Client.
@@ -21,14 +20,6 @@ use EasyWeChat\Support;
  */
 class Client extends BaseClient
 {
-    use Support\HasHttpRequests {
-        request as httpRequest;
-    }
-
-    // api
-    const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers';
-    const API_QUERY = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gettransferinfo';
-
     /**
      * Query MerchantPay.
      *
@@ -46,7 +37,7 @@ class Client extends BaseClient
             'partner_trade_no' => $mchBillNo,
         ];
 
-        return $this->request(self::API_QUERY, $params);
+        return $this->safeRequest('mmpaymkttransfers/gettransferinfo', $params);
     }
 
     /**
@@ -61,30 +52,14 @@ class Client extends BaseClient
         $params['mchid'] = $this->app['merchant']->merchant_id;
         $params['mch_appid'] = $this->app['merchant']->app_id;
 
-        return $this->request(self::API_SEND, $params);
+        return $this->safeRequest('mmpaymkttransfers/promotion/transfers', $params);
     }
 
     /**
-     * Make a API request.
-     *
-     * @param string $api
-     * @param array  $params
-     * @param string $method
-     *
-     * @return \EasyWeChat\Support\Collection
+     * {@inheritdoc}.
      */
-    protected function request($api, array $params, $method = 'post')
+    protected function extra(): array
     {
-        $params = array_filter($params);
-        $params['nonce_str'] = uniqid();
-        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
-
-        $options = [
-            'body' => Support\XML::build($params),
-            'cert' => $this->app['merchant']->get('cert_path'),
-            'ssl_key' => $this->app['merchant']->get('key_path'),
-        ];
-
-        return $this->resolveResponse($this->httpRequest($api, $method, $options));
+        return [];
     }
 }

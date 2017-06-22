@@ -21,16 +21,6 @@ use EasyWeChat\Support;
  */
 class Client extends BaseClient
 {
-    use Support\HasHttpRequests {
-        request as httpRequest;
-    }
-
-    // api
-    const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
-    const API_SEND_GROUP = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack';
-    const API_QUERY = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo';
-    const API_PREPARE = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/hbpreorder';
-
     // LuckyMoney type
     const TYPE_NORMAL = 'NORMAL';
     const TYPE_GROUP = 'GROUP';
@@ -58,7 +48,7 @@ class Client extends BaseClient
 
         $params['amt_type'] = 'ALL_RAND';
 
-        return $this->request(self::API_PREPARE, $params);
+        return $this->safeRequest('mmpaymkttransfers/hbpreorder', $params);
     }
 
     /**
@@ -76,7 +66,7 @@ class Client extends BaseClient
             'bill_type' => 'MCHT',
         ];
 
-        return $this->request(self::API_QUERY, $params);
+        return $this->safeRequest('mmpaymkttransfers/gethbinfo', $params);
     }
 
     /**
@@ -89,15 +79,16 @@ class Client extends BaseClient
      */
     public function send(array $params, $type = self::TYPE_NORMAL)
     {
-        $api = ($type === self::TYPE_NORMAL) ? self::API_SEND : self::API_SEND_GROUP;
-
         $params['wxappid'] = $this->app['merchant']->app_id;
         //如果类型为分裂红则去掉client_ip参数,否则签名会出错
         if ($type === self::TYPE_GROUP) {
             unset($params['client_ip']);
         }
 
-        return $this->request($api, $params);
+        return $this->safeRequest(
+            ($type === self::TYPE_NORMAL) ? 'mmpaymkttransfers/sendredpack' : 'mmpaymkttransfers/sendgroupredpack',
+            $params
+        );
     }
 
     /**
@@ -130,28 +121,12 @@ class Client extends BaseClient
     }
 
     /**
-     * Make a API request.
-     *
-     * @param string $api
-     * @param array  $params
-     * @param string $method
-     *
-     * @return \EasyWeChat\Support\Collection
+     * {@inheritdoc}.
      */
-    protected function request($api, array $params, $method = 'post')
+    protected function extra(): array
     {
-        $params = array_filter($params);
-
-        $params['mch_id'] = $this->app['merchant']->merchant_id;
-        $params['nonce_str'] = uniqid();
-        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
-
-        $options = [
-            'body' => Support\XML::build($params),
-            'cert' => $this->app['merchant']->get('cert_path'),
-            'ssl_key' => $this->app['merchant']->get('key_path'),
+        return [
+            'mch_id' => $this->app['merchant']->merchant_id,
         ];
-
-        return $this->resolveResponse($this->httpRequest($api, $method, $options));
     }
 }

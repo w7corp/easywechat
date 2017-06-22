@@ -46,32 +46,12 @@ class Order
     const MICROPAY = 'MICROPAY';
     const MWEB = 'MWEB';
 
-    // protected $attributes = [
-    //     'body',
-    //     'detail',
-    //     'attach',
-    //     'out_trade_no',
-    //     'fee_type',
-    //     'total_fee',
-    //     'spbill_create_ip',
-    //     'time_start',
-    //     'time_expire',
-    //     'goods_tag',
-    //     'notify_url',
-    //     'trade_type',
-    //     'product_id',
-    //     'limit_pay',
-    //     'openid',
-    //     'sub_openid',
-    //     'auth_code',
-    // ];
-
     /**
      * Constructor.
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes)
+    public function __construct(array $attributes = [])
     {
         $this->setAttributes($attributes);
     }
