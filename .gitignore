@@ -6,3 +6,4 @@ sftp-config.json
 /coverage
 /.split
 /composer.lock
+.php_cs.cache
