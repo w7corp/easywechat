@@ -83,4 +83,18 @@ class BaseApiTest extends ApiTest
         $this->assertStringStartsWith(BaseApi::SET_AUTHORIZER_OPTION, $result['api']);
         $this->assertEquals($expected, $result['params']);
     }
+
+    public function testGetAuthorizerList()
+    {
+        $authorizer = $this->mockBaseApi('appid@123');
+        $result = $authorizer->getAuthorizerList();
+        $expected = [
+            'component_appid' => 'appid@123',
+            'offset' => 0,
+            'count' => 500,
+        ];
+
+        $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_LIST, $result['api']);
+        $this->assertEquals($expected, $result['params']);
+    }
 }
