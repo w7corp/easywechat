@@ -9,16 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * MessageBuilder.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
@@ -29,13 +19,15 @@ use EasyWeChat\Messages\Text;
 
 /**
  * Class MessageBuilder.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class MessageBuilder
 {
     /**
      * Messages to send.
      *
-     * @var \EasyWeChat\Messagess\Message;
+     * @var \EasyWeChat\Messages\Message;
      */
     protected $message;
 

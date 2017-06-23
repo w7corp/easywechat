@@ -9,21 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application CustomerService Session Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class SessionClient extends AbstractAPI
+/**
+ * Class SessionClient.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class SessionClient extends BaseClient
 {
     const API_CREATE = 'https://api.weixin.qq.com/customservice/kfsession/create';
     const API_CLOSE = 'https://api.weixin.qq.com/customservice/kfsession/close';
@@ -36,21 +31,21 @@ class SessionClient extends AbstractAPI
      *
      * @param string $account
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function lists($account)
     {
-        return $this->parseJSON('get', [self::API_LISTS, ['kf_account' => $account]]);
+        return $this->httpGet(self::API_LISTS, ['kf_account' => $account]);
     }
 
     /**
      * List all waiters of $account.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function waiters()
     {
-        return $this->parseJSON('get', [self::API_WAITERS]);
+        return $this->httpGet(self::API_WAITERS);
     }
 
     /**
@@ -59,16 +54,16 @@ class SessionClient extends AbstractAPI
      * @param string $account
      * @param string $openId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function create($account, $openId)
     {
         $params = [
-                   'kf_account' => $account,
-                   'openid' => $openId,
-                  ];
+            'kf_account' => $account,
+            'openid' => $openId,
+        ];
 
-        return $this->parseJSON('json', [self::API_CREATE, $params]);
+        return $this->httpPostJson(self::API_CREATE, $params);
     }
 
     /**
@@ -77,16 +72,16 @@ class SessionClient extends AbstractAPI
      * @param string $account
      * @param string $openId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function close($account, $openId)
     {
         $params = [
-                   'kf_account' => $account,
-                   'openid' => $openId,
-                  ];
+            'kf_account' => $account,
+            'openid' => $openId,
+        ];
 
-        return $this->parseJSON('json', [self::API_CLOSE, $params]);
+        return $this->httpPostJson(self::API_CLOSE, $params);
     }
 
     /**
@@ -94,10 +89,10 @@ class SessionClient extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function get($openId)
     {
-        return $this->parseJSON('get', [self::API_GET, ['openid' => $openId]]);
+        return $this->httpGet(self::API_GET, ['openid' => $openId]);
     }
 }

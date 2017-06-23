@@ -9,45 +9,41 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Device Client.
- *
- * @author    soone <66812590@qq.com>
- * @copyright 2016 soone <66812590@qq.com>
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Device;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Applications\OfficialAccount\Core\AccessToken;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author soone <66812590@qq.com>
+ */
+class Client extends BaseClient
 {
-    protected $deviceType;
+    /**
+     * @var string
+     */
     protected $productId;
-    protected $config;
 
-    const API_TRANS_MSG = 'https://api.weixin.qq.com/device/transmsg';
-    const API_CREATE = 'https://api.weixin.qq.com/device/create_qrcode';
-    const API_DEV_STAT = 'https://api.weixin.qq.com/device/get_stat';
-    const API_DEV_AUTH = 'https://api.weixin.qq.com/device/authorize_device';
-    const API_DEV_GET_QRCODE = 'https://api.weixin.qq.com/device/getqrcode';
-    const API_DEV_VERIFY_QRCODE = 'https://api.weixin.qq.com/device/verify_qrcode';
-    const API_DEV_BIND = 'https://api.weixin.qq.com/device/bind';
-    const API_DEV_UNBIND = 'https://api.weixin.qq.com/device/unbind';
-    const API_DEV_COMPEL_BIND = 'https://api.weixin.qq.com/device/compel_bind';
-    const API_DEV_COMPEL_UNBIND = 'https://api.weixin.qq.com/device/compel_unbind';
-    const API_DEV_GET_OPENID = 'https://api.weixin.qq.com/device/get_openid';
-    const API_USER_DEV_BIND = 'https://api.weixin.qq.com/device/get_bind_device';
-
-    public function __construct(AccessToken $accessToken, $config)
+    /**
+     * Client constructor.
+     *
+     * @param \Pimple\Container $app
+     */
+    public function __construct($app)
     {
-        parent::__construct($accessToken);
-        $this->config = $config;
-        $this->deviceType = $this->config['device_type'];
-        $this->productId = $this->config['product_id'];
+        parent::__construct($app);
+
+        $this->productId = $this->app['config']['product_id'];
     }
 
+    /**
+     * Set product id.
+     *
+     * @param string $productId
+     *
+     * @return $this
+     */
     public function setProductId($productId)
     {
         $this->productId = $productId;
@@ -62,20 +58,27 @@ class Client extends AbstractAPI
      * @param $openId
      * @param $content
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function sendToDevice($deviceId, $openId, $content)
     {
         $params = [
-            'device_type' => $this->deviceType,
+            'device_type' => $this->app['config']['device_type'],
             'device_id' => $deviceId,
             'open_id' => $openId,
             'content' => base64_decode($content, true),
         ];
 
-        return $this->parseJSON('json', [self::API_TRANS_MSG, $params]);
+        return $this->httpPostJson('device/transmsg', $params);
     }
 
+    /**
+     * Get device qrcode.
+     *
+     * @param array $deviceIds
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function getDeviceQrcode(array $deviceIds)
     {
         $params = [
@@ -83,55 +86,74 @@ class Client extends AbstractAPI
             'device_id_list' => $deviceIds,
         ];
 
-        return $this->parseJSON('json', [self::API_CREATE, $params]);
+        return $this->httpPostJson('device/create_qrcode', $params);
     }
 
-    public function authorizeDevice(array $deviceInfos, $opType = 0)
+    /**
+     * @param array $deviceList
+     * @param int   $opType
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function authorizeDevice(array $deviceList, $opType = 0)
     {
         $params = [
-            'device_num' => count($deviceInfos),
-            'device_list' => $this->getDeviceList($deviceInfos),
+            'device_num' => count($deviceList),
+            'device_list' => $this->getDeviceList($deviceList),
             'op_type' => $opType,
             'product_id' => $this->productId,
         ];
 
-        return $this->parseJSON('json', [self::API_DEV_AUTH, $params]);
+        return $this->httpPostJson('device/authorize_device', $params);
     }
 
-    protected function getDeviceList($deviceInfos)
+    /**
+     * @param array $deviceList
+     *
+     * @return array
+     */
+    protected function getDeviceList($deviceList)
     {
-        $res = [];
-        foreach ($deviceInfos as $dInfo) {
-            $data = [
-                'id' => $dInfo['deviceId'],
-                'mac' => $dInfo['mac'],
-                'connect_protocol' => $this->config['connect_protocol'],
-                'auth_key' => $this->config['auth_key'],
-                'close_strategy' => $this->config['close_strategy'],
-                'conn_strategy' => $this->config['conn_strategy'],
-                'crypt_method' => $this->config['crypt_method'],
-                'auth_ver' => $this->config['auth_ver'],
-                'manu_mac_pos' => $this->config['manu_mac_pos'],
-                'ser_mac_pos' => $this->config['ser_mac_pos'],
+        return array_map(function ($info) {
+            $item = [
+                'id' => $info['deviceId'],
+                'mac' => $info['mac'],
+                'connect_protocol' => $this->app['config']['connect_protocol'],
+                'auth_key' => $this->app['config']['auth_key'],
+                'close_strategy' => $this->app['config']['close_strategy'],
+                'conn_strategy' => $this->app['config']['conn_strategy'],
+                'crypt_method' => $this->app['config']['crypt_method'],
+                'auth_ver' => $this->app['config']['auth_ver'],
+                'manu_mac_pos' => $this->app['config']['manu_mac_pos'],
+                'ser_mac_pos' => $this->app['config']['ser_mac_pos'],
             ];
+            if ($protocol = $this->app['config']['ble_simple_protocol']) {
+                $item['ble_simple_protocol'] = $protocol;
+            }
 
-            !empty($this->config['ble_simple_protocol']) ? $data['ble_simple_protocol'] = $this->config['ble_simple_protocol'] : '';
-
-            $res[] = $data;
-        }
-
-        return $res;
+            return $item;
+        }, $deviceList);
     }
 
+    /**
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function createDeviceId()
     {
         $params = [
             'product_id' => $this->productId,
         ];
 
-        return $this->parseJSON('get', [self::API_DEV_GET_QRCODE, $params]);
+        return $this->httpGet('device/getqrcode', $params);
     }
 
+    /**
+     * @param string $openId
+     * @param string $deviceId
+     * @param string $ticket
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function bind($openId, $deviceId, $ticket)
     {
         $params = [
@@ -140,9 +162,16 @@ class Client extends AbstractAPI
             'openid' => $openId,
         ];
 
-        return $this->parseJSON('json', [self::API_DEV_BIND, $params]);
+        return $this->httpPostJson('device/bind', $params);
     }
 
+    /**
+     * @param string $openId
+     * @param string $deviceId
+     * @param string $ticket
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function unbind($openId, $deviceId, $ticket)
     {
         $params = [
@@ -151,9 +180,15 @@ class Client extends AbstractAPI
             'openid' => $openId,
         ];
 
-        return $this->parseJSON('json', [self::API_DEV_UNBIND, $params]);
+        return $this->httpPostJson('device/unbind', $params);
     }
 
+    /**
+     * @param string $openId
+     * @param string $deviceId
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function compelBind($openId, $deviceId)
     {
         $params = [
@@ -161,9 +196,15 @@ class Client extends AbstractAPI
             'openid' => $openId,
         ];
 
-        return $this->parseJSON('json', [self::API_DEV_COMPEL_BIND, $params]);
+        return $this->httpPostJson('device/compel_bind', $params);
     }
 
+    /**
+     * @param string $openId
+     * @param string $deviceId
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function compelUnbind($openId, $deviceId)
     {
         $params = [
@@ -171,43 +212,63 @@ class Client extends AbstractAPI
             'openid' => $openId,
         ];
 
-        return $this->parseJSON('json', [self::API_DEV_COMPEL_UNBIND, $params]);
+        return $this->httpPostJson('device/compel_unbind', $params);
     }
 
+    /**
+     * @param string $deviceId
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function getDeviceStatus($deviceId)
     {
         $params = [
             'device_id' => $deviceId,
         ];
 
-        return $this->parseJSON('get', [self::API_DEV_STAT, $params]);
+        return $this->httpGet('device/get_stat', $params);
     }
 
+    /**
+     * @param string $ticket
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function verifyQrcode($ticket)
     {
         $params = [
             'ticket' => $ticket,
         ];
 
-        return $this->parseJSON('post', [self::API_DEV_VERIFY_QRCODE, $params]);
+        return $this->httpPost('device/verify_qrcode', $params);
     }
 
+    /**
+     * @param string $deviceId
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function getOpenid($deviceId)
     {
         $params = [
-            'device_type' => $this->deviceType,
+            'device_type' => $this->app['config']['device_type'],
             'device_id' => $deviceId,
         ];
 
-        return $this->parseJSON('get', [self::API_DEV_GET_OPENID, $params]);
+        return $this->httpGet('device/get_openid', $params);
     }
 
+    /**
+     * @param string $openid
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function getDeviceidByOpenid($openid)
     {
         $params = [
             'openid' => $openid,
         ];
 
-        return $this->parseJSON('get', [self::API_USER_DEV_BIND, $params]);
+        return $this->httpGet('device/get_bind_device', $params);
     }
 }

@@ -9,44 +9,38 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Fundamental Client.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2017
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Fundamental;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
+class Client extends BaseClient
 {
-    const API_CLEAR_QUOTA = 'https://api.weixin.qq.com/cgi-bin/clear_quota';
-    const API_CALLBACK_IP = 'https://api.weixin.qq.com/cgi-bin/getcallbackip';
-
     /**
      * Clear quota.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function clearQuota()
     {
-        $appid = $this->getAccessToken()->getClientId();
+        $params = [
+            'appid' => $this->app['config']['app_id'],
+        ];
 
-        return $this->parseJSON('json', [self::API_CLEAR_QUOTA, compact('appid')]);
+        return $this->httpPostJson('cgi-bin/clear_quota', $params);
     }
 
     /**
      * Get wechat callback ip.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getCallbackIp()
     {
-        return $this->parseJSON('get', [self::API_CALLBACK_IP]);
+        return $this->httpGet('cgi-bin/getcallbackip');
     }
 }

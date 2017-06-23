@@ -50,7 +50,7 @@ class Client extends BaseClient
      */
     public function add(array $buttons, array $matchRule = [])
     {
-        if (!empty($matchRule)) {
+        if ($matchRule) {
             return $this->httpPostJson('cgi-bin/menu/addconditional', [
                 'button' => $buttons,
                 'matchrule' => $matchRule,
@@ -69,11 +69,11 @@ class Client extends BaseClient
      */
     public function destroy($menuId = null)
     {
-        if (!is_null($menuId)) {
-            return $this->httpPostJson('cgi-bin/menu/delconditional', ['menuid' => $menuId]);
+        if (is_null($menuId)) {
+            return $this->httpGet('cgi-bin/menu/delete');
         }
 
-        return $this->httpGet('cgi-bin/menu/delete');
+        return $this->httpPostJson('cgi-bin/menu/delconditional', ['menuid' => $menuId]);
     }
 
     /**

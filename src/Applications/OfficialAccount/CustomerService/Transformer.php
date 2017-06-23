@@ -9,16 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * MessageTransformer.phpmer.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
 use EasyWeChat\Messages\Message;
@@ -27,6 +17,8 @@ use EasyWeChat\Messages\Text;
 
 /**
  * Class MessageTransformer.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class Transformer
 {
@@ -64,11 +56,11 @@ class Transformer
     public function transformText(Message $message)
     {
         return [
-                'msgtype' => 'text',
-                'text' => [
-                           'content' => $message->get('content'),
-                          ],
-               ];
+            'msgtype' => 'text',
+            'text' => [
+                'content' => $message->get('content'),
+            ],
+        ];
     }
 
     /**
@@ -81,11 +73,11 @@ class Transformer
     public function transformImage(Message $message)
     {
         return [
-                'msgtype' => 'image',
-                'image' => [
-                            'media_id' => $message->get('media_id'),
-                           ],
-               ];
+            'msgtype' => 'image',
+            'image' => [
+                'media_id' => $message->get('media_id'),
+            ],
+        ];
     }
 
     /**
@@ -98,15 +90,15 @@ class Transformer
     public function transformMusic(Message $message)
     {
         return [
-                'msgtype' => 'music',
-                'music' => [
-                            'title' => $message->get('title'),
-                            'description' => $message->get('description'),
-                            'musicurl' => $message->get('url'),
-                            'hqmusicurl' => $message->get('hq_url'),
-                            'thumb_media_id' => $message->get('thumb_media_id'),
-                           ],
-               ];
+            'msgtype' => 'music',
+            'music' => [
+                'title' => $message->get('title'),
+                'description' => $message->get('description'),
+                'musicurl' => $message->get('url'),
+                'hqmusicurl' => $message->get('hq_url'),
+                'thumb_media_id' => $message->get('thumb_media_id'),
+            ],
+        ];
     }
 
     /**
@@ -119,14 +111,14 @@ class Transformer
     public function transformVideo(Message $message)
     {
         return [
-                'msgtype' => 'video',
-                'video' => [
-                            'title' => $message->get('title'),
-                            'media_id' => $message->get('media_id'),
-                            'description' => $message->get('description'),
-                            'thumb_media_id' => $message->get('thumb_media_id'),
-                           ],
-               ];
+            'msgtype' => 'video',
+            'video' => [
+                'title' => $message->get('title'),
+                'media_id' => $message->get('media_id'),
+                'description' => $message->get('description'),
+                'thumb_media_id' => $message->get('thumb_media_id'),
+            ],
+        ];
     }
 
     /**
@@ -139,11 +131,11 @@ class Transformer
     public function transformVoice(Message $message)
     {
         return [
-                'msgtype' => 'voice',
-                'voice' => [
-                            'media_id' => $message->get('media_id'),
-                           ],
-               ];
+            'msgtype' => 'voice',
+            'voice' => [
+                'media_id' => $message->get('media_id'),
+            ],
+        ];
     }
 
     /**
@@ -163,11 +155,11 @@ class Transformer
 
         foreach ($news as $item) {
             $articles[] = [
-                           'title' => $item->get('title'),
-                           'description' => $item->get('description'),
-                           'url' => $item->get('url'),
-                           'picurl' => $item->get('pic_url'),
-                          ];
+                'title' => $item->get('title'),
+                'description' => $item->get('description'),
+                'url' => $item->get('url'),
+                'picurl' => $item->get('pic_url'),
+            ];
         }
 
         return ['msgtype' => 'news', 'news' => ['articles' => $articles]];
@@ -185,10 +177,10 @@ class Transformer
         $type = $message->getType();
 
         return [
-                'msgtype' => $type,
-                $type => [
-                            'media_id' => $message->get('media_id'),
-                           ],
-               ];
+            'msgtype' => $type,
+            $type => [
+                'media_id' => $message->get('media_id'),
+            ],
+        ];
     }
 }

@@ -9,22 +9,17 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application CustomerService Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support\Collection;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
     const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
     const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
@@ -39,21 +34,21 @@ class Client extends AbstractAPI
     /**
      * List all staffs.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function lists()
     {
-        return $this->parseJSON('get', [self::API_LISTS]);
+        return $this->httpGet(self::API_LISTS);
     }
 
     /**
      * List all online staffs.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function onlines()
     {
-        return $this->parseJSON('get', [self::API_ONLINE]);
+        return $this->httpGet(self::API_ONLINE);
     }
 
     /**
@@ -62,16 +57,16 @@ class Client extends AbstractAPI
      * @param string $account
      * @param string $nickname
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function create($account, $nickname)
     {
         $params = [
-                   'kf_account' => $account,
-                   'nickname' => $nickname,
-                  ];
+            'kf_account' => $account,
+            'nickname' => $nickname,
+        ];
 
-        return $this->parseJSON('json', [self::API_CREATE, $params]);
+        return $this->httpPostJson(self::API_CREATE, $params);
     }
 
     /**
@@ -80,16 +75,16 @@ class Client extends AbstractAPI
      * @param string $account
      * @param string $nickname
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function update($account, $nickname)
     {
         $params = [
-                   'kf_account' => $account,
-                   'nickname' => $nickname,
-                  ];
+            'kf_account' => $account,
+            'nickname' => $nickname,
+        ];
 
-        return $this->parseJSON('json', [self::API_UPDATE, $params]);
+        return $this->httpPostJson(self::API_UPDATE, $params);
     }
 
     /**
@@ -122,16 +117,16 @@ class Client extends AbstractAPI
      * @param string $account
      * @param string $wechatId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function invite($account, $wechatId)
     {
         $params = [
-                   'kf_account' => $account,
-                   'invite_wx' => $wechatId,
-                  ];
+            'kf_account' => $account,
+            'invite_wx' => $wechatId,
+        ];
 
-        return $this->parseJSON('json', [self::API_INVITE_BIND, $params]);
+        return $this->httpPostJson(self::API_INVITE_BIND, $params);
     }
 
     /**
@@ -140,11 +135,11 @@ class Client extends AbstractAPI
      * @param string $account
      * @param string $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function avatar($account, $path)
     {
-        return $this->parseJSON('upload', [self::API_AVATAR_UPLOAD, ['media' => $path], [], ['kf_account' => $account]]);
+        return $this->httpUpload(self::API_AVATAR_UPLOAD, ['media' => $path], [], ['kf_account' => $account]);
     }
 
     /**
@@ -168,11 +163,11 @@ class Client extends AbstractAPI
      *
      * @param string|array $message
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function send($message)
     {
-        return $this->parseJSON('json', [self::API_MESSAGE_SEND, $message]);
+        return $this->httpPostJson(self::API_MESSAGE_SEND, $message);
     }
 
     /**
@@ -183,17 +178,17 @@ class Client extends AbstractAPI
      * @param int $page
      * @param int $pageSize
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function records($startTime, $endTime, $page = 1, $pageSize = 10)
     {
         $params = [
-                   'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
-                   'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
-                   'pageindex' => $page,
-                   'pagesize' => $pageSize,
-                  ];
+            'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
+            'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
+            'pageindex' => $page,
+            'pagesize' => $pageSize,
+        ];
 
-        return $this->parseJSON('json', [self::API_RECORDS, $params]);
+        return $this->httpPostJson(self::API_RECORDS, $params);
     }
 }

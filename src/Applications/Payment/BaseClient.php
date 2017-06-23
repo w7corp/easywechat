@@ -56,7 +56,7 @@ abstract class BaseClient
      */
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
-        $params = array_merge($params, $this->extra());
+        $params = array_merge($this->extra(), $params);
         $params['nonce_str'] = uniqid();
         $params = array_filter($params);
 

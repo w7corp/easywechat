@@ -11,17 +11,15 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Invoice;
 
-use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Client
+class Client extends BaseClient
 {
-    use HasHttpRequests;
-
     /**
      * Get invoice link.
      *
@@ -31,9 +29,7 @@ class Client
      */
     public function getUserTitleUrl(array $data)
     {
-        return $this->parseJSON(
-            $this->postJson('https://api.weixin.qq.com/card/invoice/biz/getusertitleurl', $data)
-        );
+        return $this->httpPostJson('card/invoice/biz/getusertitleurl', $data);
     }
 
     /**
@@ -45,9 +41,7 @@ class Client
      */
     public function getSelectTitleUrl(string $attach)
     {
-        return $this->parseJSON(
-            $this->postJson('https://api.weixin.qq.com/card/invoice/biz/getselecttitleurl', compact('attach'))
-        );
+        return $this->httpPostJson('card/invoice/biz/getselecttitleurl', compact('attach'));
     }
 
     /**
@@ -59,8 +53,6 @@ class Client
      */
     public function scanTitle($text)
     {
-        return $this->parseJSON(
-            $this->postJson('https://api.weixin.qq.com/card/invoice/biz/scantitle', ['scan_text' => $text])
-        );
+        return $this->httpPostJson('card/invoice/biz/scantitle', ['scan_text' => $text]);
     }
 }

@@ -37,29 +37,18 @@ class Client extends BaseClient
     const TICKET_CACHE_PREFIX = 'overtrue.wechat.jsapi_ticket.';
 
     /**
-     * Api of ticket.
-     */
-    const API_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
-
-    /**
      * Get config json for jsapi.
      *
-     * @param array $APIs
+     * @param array $jsApiList
      * @param bool  $debug
      * @param bool  $beta
      * @param bool  $json
      *
      * @return array|string
      */
-    public function config(array $APIs, $debug = false, $beta = false, $json = true)
+    public function config(array $jsApiList, $debug = false, $beta = false, $json = true)
     {
-        $signPackage = $this->signature();
-
-        $base = [
-            'debug' => $debug,
-            'beta' => $beta,
-        ];
-        $config = array_merge($base, $signPackage, ['jsApiList' => $APIs]);
+        $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->signature());
 
         return $json ? json_encode($config) : $config;
     }
@@ -81,22 +70,20 @@ class Client extends BaseClient
     /**
      * Get jsticket.
      *
-     * @param bool $fresh
+     * @param bool $refresh
      *
      * @return string
      */
-    public function ticket(bool $fresh = false)
+    public function ticket(bool $refresh = false)
     {
-        $key = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
-        $ticket = $this->getCache()->get($key);
+        $cacheKey = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
 
-        if (!$fresh && !is_null($ticket)) {
-            return $ticket;
+        if (!$refresh && $this->getCache()->has($cacheKey)) {
+            return $this->getCache()->get($cacheKey);
         }
 
-        $result = $this->httpGet(self::API_TICKET, ['type' => 'jsapi']);
-
-        $this->getCache()->set($key, $ticket = $result['ticket'], $result['expires_in'] - 500);
+        $result = $this->httpGet('cgi-bin/ticket/getticket', ['type' => 'jsapi']);
+        $this->getCache()->set($cacheKey, $ticket = $result['ticket'], $result['expires_in'] - 500);
 
         return $ticket;
     }

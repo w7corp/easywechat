@@ -9,29 +9,17 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Broadcast Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Broadcast;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Exceptions\HttpException;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
-    const API_SEND_BY_GROUP = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall';
-    const API_SEND_BY_OPENID = 'https://api.weixin.qq.com/cgi-bin/message/mass/send';
-    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete';
-    const API_PREVIEW = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview';
-    const API_GET = 'http://api.weixin.qq.com/cgi-bin/message/mass/get';
-
     const PREVIEW_BY_OPENID = 'touser';
     const PREVIEW_BY_NAME = 'towxname';
 
@@ -55,9 +43,9 @@ class Client extends AbstractAPI
     {
         $message = (new MessageBuilder())->msgType($msgType)->message($message)->to($to)->build();
 
-        $api = is_array($to) ? self::API_SEND_BY_OPENID : self::API_SEND_BY_GROUP;
+        $api = is_array($to) ? 'cgi-bin/message/mass/send' : 'cgi-bin/message/mass/sendall';
 
-        return $this->post($api, $message);
+        return $this->httpPostJson($api, $message);
     }
 
     /**
@@ -152,7 +140,7 @@ class Client extends AbstractAPI
     {
         $message = (new MessageBuilder())->msgType($msgType)->message($message)->to($to)->buildPreview($by);
 
-        return $this->post(self::API_PREVIEW, $message);
+        return $this->httpPostJson('cgi-bin/message/mass/preview', $message);
     }
 
     /**
@@ -336,7 +324,7 @@ class Client extends AbstractAPI
      *
      * @param string $msgId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function delete($msgId)
     {
@@ -344,7 +332,7 @@ class Client extends AbstractAPI
             'msg_id' => $msgId,
         ];
 
-        return $this->post(self::API_DELETE, $options);
+        return $this->httpPostJson('cgi-bin/message/mass/delete', $options);
     }
 
     /**
@@ -352,7 +340,7 @@ class Client extends AbstractAPI
      *
      * @param string $msgId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function status($msgId)
     {
@@ -360,21 +348,6 @@ class Client extends AbstractAPI
             'msg_id' => $msgId,
         ];
 
-        return $this->post(self::API_GET, $options);
-    }
-
-    /**
-     * post request.
-     *
-     * @param string       $url
-     * @param array|string $options
-     *
-     * @return \EasyWeChat\Support\Collection
-     *
-     * @throws HttpException
-     */
-    private function post($url, $options)
-    {
-        return $this->parseJSON('json', [$url, $options]);
+        return $this->httpPostJson('cgi-bin/message/mass/get', $options);
     }
 }

@@ -11,24 +11,22 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\AutoReply;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
  *
  * @author overtrue <i@overtrue.me>
  */
-class Client extends AbstractAPI
+class Client extends BaseClient
 {
-    const API_GET_CURRENT_SETTING = 'https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info';
-
     /**
      * Get current auto reply settings.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function current()
     {
-        return $this->parseJSON('get', [self::API_GET_CURRENT_SETTING]);
+        return $this->httpGet('cgi-bin/get_current_autoreply_info');
     }
 }

@@ -9,32 +9,26 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Card Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2016 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Card;
 
-use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Cache\FilesystemCache;
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support\Arr;
+use EasyWeChat\Support\InteractsWithCache;
 use Psr\Http\Message\ResponseInterface;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
+    use InteractsWithCache;
+
     /**
-     * Cache.
-     *
-     * @var Cache
+     * @var string
      */
-    protected $cache;
+    protected $url;
 
     /**
      * Ticket cache key.
@@ -88,11 +82,11 @@ class Client extends AbstractAPI
     /**
      * 获取卡券颜色.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getColors()
     {
-        return $this->parseJSON('get', [self::API_GET_COLORS]);
+        return $this->httpGet(self::API_GET_COLORS);
     }
 
     /**
@@ -103,7 +97,7 @@ class Client extends AbstractAPI
      * @param array  $especial
      * @param array  $advancedInfo
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function create($cardType = 'member_card', array $baseInfo = [], array $especial = [], array $advancedInfo = [])
     {
@@ -114,7 +108,7 @@ class Client extends AbstractAPI
             ],
         ];
 
-        return $this->parseJSON('json', [self::API_CREATE_CARD, $params]);
+        return $this->httpPostJson(self::API_CREATE_CARD, $params);
     }
 
     /**
@@ -122,11 +116,11 @@ class Client extends AbstractAPI
      *
      * @param array $cards
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function QRCode(array $cards = [])
     {
-        return $this->parseJSON('json', [self::API_CREATE_QRCODE, $cards]);
+        return $this->httpPostJson(self::API_CREATE_QRCODE, $cards);
     }
 
     /**
@@ -179,14 +173,14 @@ class Client extends AbstractAPI
     {
         $key = $this->getTicketCacheKey();
 
-        $ticket = $this->getCache()->fetch($key);
+        $ticket = $this->getCache()->get($key);
 
         if (!$ticket || $refresh) {
-            $result = $this->parseJSON('get', [self::API_GET_CARD_TICKET, ['type' => 'wx_card']]);
+            $result = $this->httpGet(self::API_GET_CARD_TICKET, ['type' => 'wx_card']);
 
-            $this->getCache()->save($key, $result['ticket'], $result['expires_in'] - 500);
+            $this->getCache()->set($key, $ticket = $result['ticket'], $result['expires_in'] - 500);
 
-            return $result['ticket'];
+            return $ticket;
         }
 
         return $ticket;
@@ -264,7 +258,7 @@ class Client extends AbstractAPI
      *                          SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
      * @param array  $cardList
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList)
     {
@@ -276,7 +270,7 @@ class Client extends AbstractAPI
             'card_list' => $cardList,
         ];
 
-        return $this->parseJSON('json', [self::API_CREATE_LANDING_PAGE, $params]);
+        return $this->httpPostJson(self::API_CREATE_LANDING_PAGE, $params);
     }
 
     /**
@@ -285,7 +279,7 @@ class Client extends AbstractAPI
      * @param string $cardId
      * @param array  $code
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function deposit($cardId, $code)
     {
@@ -294,7 +288,7 @@ class Client extends AbstractAPI
             'code' => $code,
         ];
 
-        return $this->parseJSON('json', [self::API_DEPOSIT_CODE, $params]);
+        return $this->httpPostJson(self::API_DEPOSIT_CODE, $params);
     }
 
     /**
@@ -302,7 +296,7 @@ class Client extends AbstractAPI
      *
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getDepositedCount($cardId)
     {
@@ -310,7 +304,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_GET_DEPOSIT_COUNT, $params]);
+        return $this->httpPostJson(self::API_GET_DEPOSIT_COUNT, $params);
     }
 
     /**
@@ -319,7 +313,7 @@ class Client extends AbstractAPI
      * @param string $cardId
      * @param array  $code
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function checkCode($cardId, $code)
     {
@@ -328,7 +322,7 @@ class Client extends AbstractAPI
             'code' => $code,
         ];
 
-        return $this->parseJSON('json', [self::API_CHECK_CODE, $params]);
+        return $this->httpPostJson(self::API_CHECK_CODE, $params);
     }
 
     /**
@@ -338,7 +332,7 @@ class Client extends AbstractAPI
      * @param bool   $checkConsume
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getCode($code, $checkConsume, $cardId)
     {
@@ -348,7 +342,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_GET_CODE, $params]);
+        return $this->httpPostJson(self::API_GET_CODE, $params);
     }
 
     /**
@@ -357,7 +351,7 @@ class Client extends AbstractAPI
      * @param string $code
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function consume($code, $cardId = null)
     {
@@ -373,7 +367,7 @@ class Client extends AbstractAPI
             $params['card_id'] = $cardId;
         }
 
-        return $this->parseJSON('json', [self::API_CONSUME_CARD, $params]);
+        return $this->httpPostJson(self::API_CONSUME_CARD, $params);
     }
 
     /**
@@ -381,7 +375,7 @@ class Client extends AbstractAPI
      *
      * @param string $encryptedCode
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function decryptCode($encryptedCode)
     {
@@ -389,7 +383,7 @@ class Client extends AbstractAPI
             'encrypt_code' => $encryptedCode,
         ];
 
-        return $this->parseJSON('json', [self::API_DECRYPT_CODE, $params]);
+        return $this->httpPostJson(self::API_DECRYPT_CODE, $params);
     }
 
     /**
@@ -397,7 +391,7 @@ class Client extends AbstractAPI
      *
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getHtml($cardId)
     {
@@ -405,7 +399,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_GET_HTML, $params]);
+        return $this->httpPostJson(self::API_GET_HTML, $params);
     }
 
     /**
@@ -413,7 +407,7 @@ class Client extends AbstractAPI
      *
      * @param array $openids
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function setTestWhitelist($openids)
     {
@@ -421,7 +415,7 @@ class Client extends AbstractAPI
             'openid' => $openids,
         ];
 
-        return $this->parseJSON('json', [self::API_SET_TEST_WHITE_LIST, $params]);
+        return $this->httpPostJson(self::API_SET_TEST_WHITE_LIST, $params);
     }
 
     /**
@@ -429,7 +423,7 @@ class Client extends AbstractAPI
      *
      * @param array $usernames
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function setTestWhitelistByUsername($usernames)
     {
@@ -437,7 +431,7 @@ class Client extends AbstractAPI
             'username' => $usernames,
         ];
 
-        return $this->parseJSON('json', [self::API_SET_TEST_WHITE_LIST, $params]);
+        return $this->httpPostJson(self::API_SET_TEST_WHITE_LIST, $params);
     }
 
     /**
@@ -446,7 +440,7 @@ class Client extends AbstractAPI
      * @param string $openid
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getUserCards($openid, $cardId = '')
     {
@@ -455,7 +449,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_GET_CARD_LIST, $params]);
+        return $this->httpPostJson(self::API_GET_CARD_LIST, $params);
     }
 
     /**
@@ -463,7 +457,7 @@ class Client extends AbstractAPI
      *
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getCard($cardId)
     {
@@ -471,7 +465,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_GET_CARD, $params]);
+        return $this->httpPostJson(self::API_GET_CARD, $params);
     }
 
     /**
@@ -481,7 +475,7 @@ class Client extends AbstractAPI
      * @param int    $count
      * @param string $statusList
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function lists($offset = 0, $count = 10, $statusList = 'CARD_STATUS_VERIFY_OK')
     {
@@ -491,7 +485,7 @@ class Client extends AbstractAPI
             'status_list' => $statusList,
         ];
 
-        return $this->parseJSON('json', [self::API_LIST_CARD, $params]);
+        return $this->httpPostJson(self::API_LIST_CARD, $params);
     }
 
     /**
@@ -502,7 +496,7 @@ class Client extends AbstractAPI
      * @param array  $baseInfo
      * @param array  $especial
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function update($cardId, $type, $baseInfo = [], $especial = [])
     {
@@ -517,7 +511,7 @@ class Client extends AbstractAPI
 
         $card[$type] = array_merge($cardInfo, $especial);
 
-        return $this->parseJSON('json', [self::API_UPDATE_CARD, $card]);
+        return $this->httpPostJson(self::API_UPDATE_CARD, $card);
     }
 
     /**
@@ -527,7 +521,7 @@ class Client extends AbstractAPI
      * @param string $cardId
      * @param bool   $isOpen
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function setPayCell($cardId, $isOpen = true)
     {
@@ -536,7 +530,7 @@ class Client extends AbstractAPI
             'is_open' => $isOpen,
         ];
 
-        return $this->parseJSON('json', [self::API_SET_PAY_CELL, $params]);
+        return $this->httpPostJson(self::API_SET_PAY_CELL, $params);
     }
 
     /**
@@ -572,7 +566,7 @@ class Client extends AbstractAPI
      * @param int    $amount
      * @param string $action
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     protected function updateStock($cardId, $amount, $action = 'increase')
     {
@@ -582,7 +576,7 @@ class Client extends AbstractAPI
             $key => abs($amount),
         ];
 
-        return $this->parseJSON('json', [self::API_MODIFY_STOCK, $params]);
+        return $this->httpPostJson(self::API_MODIFY_STOCK, $params);
     }
 
     /**
@@ -592,7 +586,7 @@ class Client extends AbstractAPI
      * @param string $newCode
      * @param array  $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function updateCode($code, $newCode, $cardId = [])
     {
@@ -602,7 +596,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_UPDATE_CODE, $params]);
+        return $this->httpPostJson(self::API_UPDATE_CODE, $params);
     }
 
     /**
@@ -610,7 +604,7 @@ class Client extends AbstractAPI
      *
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function delete($cardId)
     {
@@ -618,7 +612,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_DELETE_CARD, $params]);
+        return $this->httpPostJson(self::API_DELETE_CARD, $params);
     }
 
     /**
@@ -627,7 +621,7 @@ class Client extends AbstractAPI
      * @param string $code
      * @param string $cardId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function disable($code, $cardId = '')
     {
@@ -636,7 +630,7 @@ class Client extends AbstractAPI
             'card_id' => $cardId,
         ];
 
-        return $this->parseJSON('json', [self::API_DISABLE_CARD, $params]);
+        return $this->httpPostJson(self::API_DISABLE_CARD, $params);
     }
 
     /**
@@ -645,15 +639,15 @@ class Client extends AbstractAPI
      * @param array  $info
      * @param string $cardType
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function activate($info = [], $cardType = 'member_card')
     {
         if ($cardType === 'general_card') {
-            return $this->parseJSON('json', [self::API_ACTIVATE_GENERAL_CARD, $info]);
+            return $this->httpPostJson(self::API_ACTIVATE_GENERAL_CARD, $info);
         }
 
-        return $this->parseJSON('json', [self::API_ACTIVATE_MEMBER_CARD, $info]);
+        return $this->httpPostJson(self::API_ACTIVATE_MEMBER_CARD, $info);
     }
 
     /**
@@ -663,13 +657,13 @@ class Client extends AbstractAPI
      * @param array  $requiredForm
      * @param array  $optionalForm
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function activateUserForm($cardId, array $requiredForm = [], array $optionalForm = [])
     {
         $params = array_merge(['card_id' => $cardId], $requiredForm, $optionalForm);
 
-        return $this->parseJSON('json', [self::API_ACTIVATE_MEMBER_USER_FORM, $params]);
+        return $this->httpPostJson(self::API_ACTIVATE_MEMBER_USER_FORM, $params);
     }
 
     /**
@@ -678,7 +672,7 @@ class Client extends AbstractAPI
      * @param string $cardId
      * @param string $code
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getMemberCardUser($cardId, $code)
     {
@@ -687,7 +681,7 @@ class Client extends AbstractAPI
             'code' => $code,
         ];
 
-        return $this->parseJSON('json', [self::API_GET_MEMBER_USER_INFO, $params]);
+        return $this->httpPostJson(self::API_GET_MEMBER_USER_INFO, $params);
     }
 
     /**
@@ -695,11 +689,11 @@ class Client extends AbstractAPI
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function updateMemberCardUser(array $params = [])
     {
-        return $this->parseJSON('json', [self::API_UPDATE_MEMBER_CARD_USER, $params]);
+        return $this->httpPostJson(self::API_UPDATE_MEMBER_CARD_USER, $params);
     }
 
     /**
@@ -707,11 +701,11 @@ class Client extends AbstractAPI
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function updateGeneralCardUser(array $params = [])
     {
-        return $this->parseJSON('json', [self::API_UPDATE_GENERAL_CARD_USER, $params]);
+        return $this->httpPostJson(self::API_UPDATE_GENERAL_CARD_USER, $params);
     }
 
     /**
@@ -719,7 +713,7 @@ class Client extends AbstractAPI
      *
      * @param array $info
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function createSubMerchant(array $info = [])
     {
@@ -737,7 +731,7 @@ class Client extends AbstractAPI
             ]),
         ];
 
-        return $this->parseJSON('json', [self::API_CREATE_SUB_MERCHANT, $params]);
+        return $this->httpPostJson(self::API_CREATE_SUB_MERCHANT, $params);
     }
 
     /**
@@ -746,7 +740,7 @@ class Client extends AbstractAPI
      * @param int   $merchantId
      * @param array $info
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function updateSubMerchant($merchantId, array $info = [])
     {
@@ -765,7 +759,7 @@ class Client extends AbstractAPI
                 ])),
         ];
 
-        return $this->parseJSON('json', [self::API_UPDATE_SUB_MERCHANT, $params]);
+        return $this->httpPostJson(self::API_UPDATE_SUB_MERCHANT, $params);
     }
 
     /**
@@ -773,11 +767,11 @@ class Client extends AbstractAPI
      *
      * @param int $merchantId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getSubMerchant($merchantId)
     {
-        return $this->parseJSON('json', [self::API_GET_SUB_MERCHANT, ['merchant_id' => $merchantId]]);
+        return $this->httpPostJson(self::API_GET_SUB_MERCHANT, ['merchant_id' => $merchantId]);
     }
 
     /**
@@ -787,7 +781,7 @@ class Client extends AbstractAPI
      * @param int    $limit
      * @param string $status
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function listSubMerchants($beginId = 0, $limit = 50, $status = 'CHECKING')
     {
@@ -797,41 +791,17 @@ class Client extends AbstractAPI
             'status' => $status,
         ];
 
-        return $this->parseJSON('json', [self::API_LIST_SUB_MERCHANT, $params]);
+        return $this->httpPostJson(self::API_LIST_SUB_MERCHANT, $params);
     }
 
     /**
      * 卡券开放类目查询接口.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return mixed
      */
     public function getCategories()
     {
-        return $this->parseJSON('get', [self::API_GET_CATEGORIES]);
-    }
-
-    /**
-     * Set cache manager.
-     *
-     * @param \Doctrine\Common\Cache\Cache $cache
-     *
-     * @return $this
-     */
-    public function setCache(Cache $cache)
-    {
-        $this->cache = $cache;
-
-        return $this;
-    }
-
-    /**
-     * Return cache manager.
-     *
-     * @return \Doctrine\Common\Cache\Cache
-     */
-    public function getCache()
-    {
-        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
+        return $this->httpGet(self::API_GET_CATEGORIES);
     }
 
     /**
