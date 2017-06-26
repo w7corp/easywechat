@@ -9,23 +9,18 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Temporary Material Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Material;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support\File;
 
-class TemporaryClient extends AbstractAPI
+/**
+ * Class TemporaryClient.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class TemporaryClient extends BaseClient
 {
     /**
      * Allow media type.
@@ -33,9 +28,6 @@ class TemporaryClient extends AbstractAPI
      * @var array
      */
     protected $allowTypes = ['image', 'voice', 'video', 'thumb'];
-
-    const API_GET = 'https://api.weixin.qq.com/cgi-bin/media/get';
-    const API_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/media/upload';
 
     /**
      * Download temporary material.
@@ -76,32 +68,13 @@ class TemporaryClient extends AbstractAPI
      */
     public function getStream($mediaId)
     {
-        $response = $this->getHttp()->get(self::API_GET, ['media_id' => $mediaId]);
+        $response = $this->requestRaw('cgi-bin/media/get', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ]);
 
         return $response->getBody();
-    }
-
-    /**
-     * Upload temporary material.
-     *
-     * @param string $type
-     * @param string $path
-     *
-     * @return \EasyWeChat\Support\Collection
-     *
-     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
-     */
-    public function upload($type, $path)
-    {
-        if (!file_exists($path) || !is_readable($path)) {
-            throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
-        }
-
-        if (!in_array($type, $this->allowTypes, true)) {
-            throw new InvalidArgumentException("Unsupported media type: '{$type}'");
-        }
-
-        return $this->parseJSON('upload', [self::API_UPLOAD, ['media' => $path], [], ['type' => $type]]);
     }
 
     /**
@@ -109,7 +82,7 @@ class TemporaryClient extends AbstractAPI
      *
      * @param $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
@@ -123,7 +96,7 @@ class TemporaryClient extends AbstractAPI
      *
      * @param $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
@@ -133,11 +106,9 @@ class TemporaryClient extends AbstractAPI
     }
 
     /**
-     * Upload voice.
+     * @param string $path
      *
-     * @param $path
-     *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
@@ -147,16 +118,37 @@ class TemporaryClient extends AbstractAPI
     }
 
     /**
-     * Upload thumb.
-     *
      * @param $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function uploadThumb($path)
     {
         return $this->upload('thumb', $path);
+    }
+
+    /**
+     * Upload temporary material.
+     *
+     * @param string $type
+     * @param string $path
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
+     */
+    public function upload($type, $path)
+    {
+        if (!file_exists($path) || !is_readable($path)) {
+            throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
+        }
+
+        if (!in_array($type, $this->allowTypes, true)) {
+            throw new InvalidArgumentException("Unsupported media type: '{$type}'");
+        }
+
+        return $this->httpUpload('cgi-bin/media/upload', ['media' => $path], ['type' => $type]);
     }
 }

@@ -42,6 +42,8 @@ trait HasAttributes
      * Set Attributes.
      *
      * @param array $attributes
+     *
+     * @return $this
      */
     public function setAttributes(array $attributes = [])
     {

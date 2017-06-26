@@ -9,21 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * ServiceProvider.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015
- *
- * @see      https://github.com/overtrue/wechat
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\User;
 
 use Pimple\Container;
@@ -40,15 +25,11 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['user'] = function ($container) {
-            return new UserClient($container['access_token']);
-        };
-
-        $app['user_group'] = function ($container) {
-            return new GroupClient($container['access_token']);
+            return new UserClient($container);
         };
 
         $app['user_tag'] = function ($container) {
-            return new TagClient($container['access_token']);
+            return new TagClient($container);
         };
     }
 }

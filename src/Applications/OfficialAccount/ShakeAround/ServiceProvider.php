@@ -9,21 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * ServiceProvider.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    allen05ren <allen05ren@outlook.com>
- * @copyright 2016 overtrue <i@overtrue.me>
- *
- * @see       https://github.com/overtrue/wechat
- * @see       http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\ShakeAround;
 
 use Pimple\Container;
@@ -40,7 +25,23 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['shakearound'] = function ($container) {
-            return new ShakeAround($container['access_token']);
+            return new Client($container);
+        };
+
+        $app['shakearound_device'] = function ($container) {
+            return new DeviceClient($container);
+        };
+
+        $app['shakearound_page'] = function ($container) {
+            return new PageClient($container);
+        };
+
+        $app['shakearound_group'] = function ($container) {
+            return new GroupClient($container);
+        };
+
+        $app['shakearound_stats'] = function ($container) {
+            return new DeviceClient($container);
         };
     }
 }

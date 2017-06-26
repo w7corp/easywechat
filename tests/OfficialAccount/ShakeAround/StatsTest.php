@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Stats;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\StatsClient;
 use EasyWeChat\Tests\TestCase;
 
 class StatsTest extends TestCase
@@ -63,7 +63,7 @@ class StatsTest extends TestCase
             'minor' => 10002,
         ], 1438704000, 1438704000);
 
-        $this->assertStringStartsWith(Stats::API_DEVICE, $result['api']);
+        $this->assertStringStartsWith(StatsClient::API_DEVICE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -81,7 +81,7 @@ class StatsTest extends TestCase
 
         $result = $stats->batchDeviceSummary(1438704000, 1);
 
-        $this->assertStringStartsWith(Stats::API_DEVICE_LIST, $result['api']);
+        $this->assertStringStartsWith(StatsClient::API_DEVICE_LIST, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -100,7 +100,7 @@ class StatsTest extends TestCase
 
         $result = $stats->pageSummary(1234, 1438704000, 1438704000);
 
-        $this->assertStringStartsWith(Stats::API_PAGE, $result['api']);
+        $this->assertStringStartsWith(StatsClient::API_PAGE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -118,7 +118,7 @@ class StatsTest extends TestCase
 
         $result = $stats->batchPageSummary(1425139200, 1);
 
-        $this->assertStringStartsWith(Stats::API_PAGE_LIST, $result['api']);
+        $this->assertStringStartsWith(StatsClient::API_PAGE_LIST, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 }

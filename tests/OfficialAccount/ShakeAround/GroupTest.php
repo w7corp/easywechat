@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Group;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\GroupClient;
 use EasyWeChat\Tests\TestCase;
 
 class GroupTest extends TestCase
@@ -52,7 +52,7 @@ class GroupTest extends TestCase
 
         $result = $group->add('overtrue');
 
-        $this->assertStringStartsWith(Group::API_ADD, $result['api']);
+        $this->assertStringStartsWith(GroupClient::API_ADD, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -70,7 +70,7 @@ class GroupTest extends TestCase
 
         $result = $group->update(12345678, 'allen05ren');
 
-        $this->assertStringStartsWith(Group::API_UPDATE, $result['api']);
+        $this->assertStringStartsWith(GroupClient::API_UPDATE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -87,7 +87,7 @@ class GroupTest extends TestCase
 
         $result = $group->delete(12345678);
 
-        $this->assertStringStartsWith(Group::API_DELETE, $result['api']);
+        $this->assertStringStartsWith(GroupClient::API_DELETE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -105,7 +105,7 @@ class GroupTest extends TestCase
 
         $result = $group->lists(0, 10);
 
-        $this->assertStringStartsWith(Group::API_GET_LIST, $result['api']);
+        $this->assertStringStartsWith(GroupClient::API_GET_LIST, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -124,7 +124,7 @@ class GroupTest extends TestCase
 
         $result = $group->getDetails(12345678, 0, 10);
 
-        $this->assertStringStartsWith(Group::API_GET_DETAIL, $result['api']);
+        $this->assertStringStartsWith(GroupClient::API_GET_DETAIL, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -152,7 +152,7 @@ class GroupTest extends TestCase
             'minor' => 10002,
         ]);
 
-        $this->assertStringStartsWith(Group::API_ADD_DEVICE, $result['api']);
+        $this->assertStringStartsWith(GroupClient::API_ADD_DEVICE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -180,7 +180,7 @@ class GroupTest extends TestCase
             'minor' => 10002,
         ]);
 
-        $this->assertStringStartsWith(Group::API_DELETE_DEVICE, $result['api']);
+        $this->assertStringStartsWith(GroupClient::API_DELETE_DEVICE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 }

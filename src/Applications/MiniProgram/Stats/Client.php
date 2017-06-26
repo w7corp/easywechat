@@ -9,48 +9,28 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * MiniProgram Stats Client.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2017
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\MiniProgram\Stats;
 
-use EasyWeChat\Applications\MiniProgram\Core\AbstractMiniProgram;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractMiniProgram
+/**
+ * Class Client.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
+class Client extends BaseClient
 {
-    const SUMMARY_TREND = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailysummarytrend';
-    const DAILY_VISIT_TREND = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend';
-    const WEEKLY_VISIT_TREND = 'https://api.weixin.qq.com/datacube/getweanalysisappidweeklyvisittrend';
-    const MONTHLY_VISIT_TREND = 'https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyvisittrend';
-    const VISIT_DISTRIBUTION = 'https://api.weixin.qq.com/datacube/getweanalysisappidvisitdistribution';
-    const DAILY_RETAIN_INFO = 'https://api.weixin.qq.com/datacube/getweanalysisappiddailyretaininfo';
-    const WEEKLY_RETAIN_INFO = 'https://api.weixin.qq.com/datacube/getweanalysisappidweeklyretaininfo';
-    const MONTHLY_RETAIN_INFO = 'https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyretaininfo';
-    const VISIT_PAGE = 'https://api.weixin.qq.com/datacube/getweanalysisappidvisitpage';
-
     /**
      * Get summary trend.
      *
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function summaryTrend($from, $to)
     {
-        return $this->query(self::SUMMARY_TREND, $from, $to);
+        return $this->query('datacube/getweanalysisappiddailysummarytrend', $from, $to);
     }
 
     /**
@@ -59,11 +39,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function dailyVisitTrend($from, $to)
     {
-        return $this->query(self::DAILY_VISIT_TREND, $from, $to);
+        return $this->query('datacube/getweanalysisappiddailyvisittrend', $from, $to);
     }
 
     /**
@@ -72,11 +52,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function weeklyVisitTrend($from, $to)
     {
-        return $this->query(self::WEEKLY_VISIT_TREND, $from, $to);
+        return $this->query('datacube/getweanalysisappidweeklyvisittrend', $from, $to);
     }
 
     /**
@@ -85,11 +65,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function monthlyVisitTrend($from, $to)
     {
-        return $this->query(self::MONTHLY_VISIT_TREND, $from, $to);
+        return $this->query('datacube/getweanalysisappidmonthlyvisittrend', $from, $to);
     }
 
     /**
@@ -98,11 +78,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function visitDistribution($from, $to)
     {
-        return $this->query(self::VISIT_DISTRIBUTION, $from, $to);
+        return $this->query('datacube/getweanalysisappidvisitdistribution', $from, $to);
     }
 
     /**
@@ -111,11 +91,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function dailyRetainInfo($from, $to)
     {
-        return $this->query(self::DAILY_RETAIN_INFO, $from, $to);
+        return $this->query('datacube/getweanalysisappiddailyretaininfo', $from, $to);
     }
 
     /**
@@ -124,11 +104,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function weeklyRetainInfo($from, $to)
     {
-        return $this->query(self::WEEKLY_RETAIN_INFO, $from, $to);
+        return $this->query('datacube/getweanalysisappidweeklyretaininfo', $from, $to);
     }
 
     /**
@@ -137,11 +117,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function montylyRetainInfo($from, $to)
     {
-        return $this->query(self::MONTHLY_RETAIN_INFO, $from, $to);
+        return $this->query('datacube/getweanalysisappidmonthlyretaininfo', $from, $to);
     }
 
     /**
@@ -150,11 +130,11 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function visitPage($from, $to)
     {
-        return $this->query(self::VISIT_PAGE, $from, $to);
+        return $this->query('datacube/getweanalysisappidvisitpage', $from, $to);
     }
 
     /**
@@ -163,7 +143,7 @@ class Client extends AbstractMiniProgram
      * @param string $from
      * @param string $to
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     protected function query($api, $from, $to)
     {
@@ -172,6 +152,6 @@ class Client extends AbstractMiniProgram
             'end_date' => $to,
         ];
 
-        return $this->parseJSON('json', [$api, $params]);
+        return $this->httpPostJson($api, $params);
     }
 }

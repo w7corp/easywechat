@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Page;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\PageClient;
 use EasyWeChat\Tests\TestCase;
 
 class PageTest extends TestCase
@@ -55,7 +55,7 @@ class PageTest extends TestCase
 
         $result = $page->add('主标题', '副标题', 'https://zb.weixin.qq.com', 'http://3gimg.qq.com/shake_nearby/dy/icon');
 
-        $this->assertStringStartsWith(Page::API_ADD, $result['api']);
+        $this->assertStringStartsWith(PageClient::API_ADD, $result['api']);
         $this->assertSame($expected, $result['params']);
 
         $expected = [
@@ -88,7 +88,7 @@ class PageTest extends TestCase
 
         $result = $page->update(1234, '主标题', '副标题', 'https://zb.weixin.qq.com', 'http://3gimg.qq.com/shake_nearby/dy/icon');
 
-        $this->assertStringStartsWith(Page::API_UPDATE, $result['api']);
+        $this->assertStringStartsWith(PageClient::API_UPDATE, $result['api']);
         $this->assertSame($expected, $result['params']);
 
         $expected = [
@@ -102,7 +102,7 @@ class PageTest extends TestCase
 
         $result = $page->update(1234, '主标题', '副标题', 'https://zb.weixin.qq.com', 'http://3gimg.qq.com/shake_nearby/dy/icon', '数据示例');
 
-        $this->assertStringStartsWith(Page::API_UPDATE, $result['api']);
+        $this->assertStringStartsWith(PageClient::API_UPDATE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -120,7 +120,7 @@ class PageTest extends TestCase
 
         $result = $page->fetchByIds([1234, 5678]);
 
-        $this->assertStringStartsWith(Page::API_SEARCH, $result['api']);
+        $this->assertStringStartsWith(PageClient::API_SEARCH, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -139,7 +139,7 @@ class PageTest extends TestCase
 
         $result = $page->pagination(0, 10);
 
-        $this->assertStringStartsWith(Page::API_SEARCH, $result['api']);
+        $this->assertStringStartsWith(PageClient::API_SEARCH, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -156,7 +156,7 @@ class PageTest extends TestCase
 
         $result = $page->delete(1234);
 
-        $this->assertStringStartsWith(Page::API_DELETE, $result['api']);
+        $this->assertStringStartsWith(PageClient::API_DELETE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 }

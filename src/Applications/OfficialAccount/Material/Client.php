@@ -9,23 +9,18 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Material Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Material;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Messages\Article;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
     /**
      * Allow media type.
@@ -48,7 +43,7 @@ class Client extends AbstractAPI
      *
      * @param string $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function uploadImage($path)
     {
@@ -60,7 +55,7 @@ class Client extends AbstractAPI
      *
      * @param string $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function uploadVoice($path)
     {
@@ -72,7 +67,7 @@ class Client extends AbstractAPI
      *
      * @param string $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function uploadThumb($path)
     {
@@ -86,7 +81,7 @@ class Client extends AbstractAPI
      * @param string $title
      * @param string $description
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function uploadVideo($path, $title, $description)
     {
@@ -106,7 +101,7 @@ class Client extends AbstractAPI
      *
      * @param array|Article $articles
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function uploadArticle($articles)
     {
@@ -125,7 +120,7 @@ class Client extends AbstractAPI
             return $article;
         }, $articles)];
 
-        return $this->parseJSON('json', [self::API_NEWS_UPLOAD, $params]);
+        return $this->httpPostJson('cgi-bin/material/add_news', $params);
     }
 
     /**
@@ -135,7 +130,7 @@ class Client extends AbstractAPI
      * @param array  $article
      * @param int    $index
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function updateArticle($mediaId, $article, $index = 0)
     {
@@ -145,7 +140,7 @@ class Client extends AbstractAPI
             'articles' => isset($article['title']) ? $article : (isset($article[$index]) ? $article[$index] : []),
         ];
 
-        return $this->parseJSON('json', [self::API_NEWS_UPDATE, $params]);
+        return $this->httpPostJson('cgi-bin/material/update_news', $params);
     }
 
     /**
@@ -153,7 +148,7 @@ class Client extends AbstractAPI
      *
      * @param string $path
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function uploadArticleImage($path)
     {
@@ -169,7 +164,7 @@ class Client extends AbstractAPI
      */
     public function get($mediaId)
     {
-        $response = $this->getHttp()->json(self::API_GET, ['media_id' => $mediaId]);
+        $response = $this->httpGet('cgi-bin/material/get_material', ['media_id' => $mediaId]);
 
         foreach ($response->getHeader('Content-Type') as $mime) {
             if (preg_match('/(image|video|audio)/i', $mime)) {
@@ -194,11 +189,11 @@ class Client extends AbstractAPI
      *
      * @param string $mediaId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function delete($mediaId)
     {
-        return $this->parseJSON('json', [self::API_DELETE, ['media_id' => $mediaId]]);
+        return $this->httpPostJson('cgi-bin/material/del_material', ['media_id' => $mediaId]);
     }
 
     /**
@@ -222,7 +217,7 @@ class Client extends AbstractAPI
      * @param int    $offset
      * @param int    $count
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function lists($type, $offset = 0, $count = 20)
     {
@@ -232,17 +227,17 @@ class Client extends AbstractAPI
             'count' => min(20, $count),
         ];
 
-        return $this->parseJSON('json', [self::API_LISTS, $params]);
+        return $this->httpPostJson('cgi-bin/material/batchget_material', $params);
     }
 
     /**
      * Get stats of materials.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function stats()
     {
-        return $this->parseJSON('get', [self::API_STATS]);
+        return $this->httpGet('cgi-bin/material/get_materialcount');
     }
 
     /**
@@ -252,7 +247,7 @@ class Client extends AbstractAPI
      * @param string $path
      * @param array  $form
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws InvalidArgumentException
      */
@@ -264,7 +259,7 @@ class Client extends AbstractAPI
 
         $form['type'] = $type;
 
-        return $this->parseJSON('upload', [$this->getAPIByType($type), ['media' => $path], $form]);
+        return $this->httpUpload($this->getAPIByType($type), ['media' => $path], $form);
     }
 
     /**
@@ -278,10 +273,10 @@ class Client extends AbstractAPI
     {
         switch ($type) {
             case 'news_image':
-                $api = self::API_NEWS_IMAGE_UPLOAD;
+                $api = 'cgi-bin/media/uploadimg';
                 break;
             default:
-                $api = self::API_UPLOAD;
+                $api = 'cgi-bin/material/add_material';
         }
 
         return $api;

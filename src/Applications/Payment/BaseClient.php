@@ -52,7 +52,7 @@ abstract class BaseClient
      * @param array  $options
      * @param bool   $returnResponse
      *
-     * @return \EasyWeChat\Support\Collection|\Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string|\Psr\Http\Message\ResponseInterface
      */
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
@@ -79,7 +79,7 @@ abstract class BaseClient
      * @param array  $params
      * @param string $method
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     protected function safeRequest($api, array $params, $method = 'post')
     {

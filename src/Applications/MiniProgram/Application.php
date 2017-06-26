@@ -30,7 +30,7 @@ use EasyWeChat\Support\ServiceContainer;
 class Application extends ServiceContainer
 {
     protected $providers = [
-        MiniProgram\Core\ServiceProvider::class,
+        MiniProgram\Auth\ServiceProvider::class,
         MiniProgram\Sns\ServiceProvider::class,
         MiniProgram\Stats\ServiceProvider::class,
         MiniProgram\QRCode\ServiceProvider::class,

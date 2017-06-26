@@ -15,12 +15,24 @@ use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
 class AccessToken extends BaseAccessToken
 {
+    /**
+     * @var string
+     */
     protected $requestMethod = 'POST';
 
+    /**
+     * @var string
+     */
     protected $tokenKey = 'component_access_token';
 
+    /**
+     * @var string
+     */
     protected $endpointToGetToken = 'api_component_token';
 
+    /**
+     * @return array
+     */
     protected function getCredentials(): array
     {
         return [

@@ -9,23 +9,17 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application TemplateMessage Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\TemplateMessage;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
-use EasyWeChat\Applications\OfficialAccount\Core\AccessToken;
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
     /**
      * Default color.
@@ -54,32 +48,6 @@ class Client extends AbstractAPI
     protected $required = ['touser', 'template_id'];
 
     /**
-     * Message backup.
-     *
-     * @var array
-     */
-    protected $messageBackup;
-
-    const API_SEND_TEMPLATE_MESSAGE = 'https://api.weixin.qq.com/cgi-bin/message/template/send';
-    const API_SET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/api_set_industry';
-    const API_ADD_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/api_add_template';
-    const API_GET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/get_industry';
-    const API_GET_ALL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/get_all_private_template';
-    const API_DEL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/del_private_template';
-
-    /**
-     * TemplateMessage constructor.
-     *
-     * @param \EasyWeChat\Applications\OfficialAccount\Core\AccessToken $accessToken
-     */
-    public function __construct(AccessToken $accessToken)
-    {
-        parent::__construct($accessToken);
-
-        $this->messageBackup = $this->message;
-    }
-
-    /**
      * Set default color.
      *
      * @param string $color example: #0f0f0f
@@ -99,7 +67,7 @@ class Client extends AbstractAPI
      * @param int $industryOne
      * @param int $industryTwo
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function setIndustry($industryOne, $industryTwo)
     {
@@ -108,17 +76,17 @@ class Client extends AbstractAPI
                    'industry_id2' => $industryTwo,
                   ];
 
-        return $this->parseJSON('json', [self::API_SET_INDUSTRY, $params]);
+        return $this->httpPostJson('cgi-bin/template/api_set_industry', $params);
     }
 
     /**
      * Get industry.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function getIndustry()
     {
-        return $this->parseJSON('json', [self::API_GET_INDUSTRY]);
+        return $this->httpPostJson('cgi-bin/template/get_industry');
     }
 
     /**
@@ -126,23 +94,23 @@ class Client extends AbstractAPI
      *
      * @param string $shortId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function addTemplate($shortId)
     {
         $params = ['template_id_short' => $shortId];
 
-        return $this->parseJSON('json', [self::API_ADD_TEMPLATE, $params]);
+        return $this->httpPostJson('cgi-bin/template/api_add_template', $params);
     }
 
     /**
      * Get private templates.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function getPrivateTemplates()
     {
-        return $this->parseJSON('json', [self::API_GET_ALL_PRIVATE_TEMPLATE]);
+        return $this->httpPostJson('cgi-bin/template/get_all_private_template');
     }
 
     /**
@@ -150,13 +118,13 @@ class Client extends AbstractAPI
      *
      * @param string $templateId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function deletePrivateTemplate($templateId)
     {
         $params = ['template_id' => $templateId];
 
-        return $this->parseJSON('json', [self::API_DEL_PRIVATE_TEMPLATE, $params]);
+        return $this->httpPostJson('cgi-bin/template/del_private_template', $params);
     }
 
     /**
@@ -164,17 +132,33 @@ class Client extends AbstractAPI
      *
      * @param $data
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function send($data = [])
     {
+        $params = $this->formatMessage($data);
+
+        $this->restoreMessage();
+
+        return $this->httpPostJson('cgi-bin/message/template/send', $params);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     *
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
+     */
+    protected function formatMessage(array $data = [])
+    {
         $params = array_merge($this->message, $data);
 
         foreach ($params as $key => $value) {
             if (in_array($key, $this->required, true) && empty($value) && empty($this->message[$key])) {
-                throw new InvalidArgumentException("HasAttributes '$key' can not be empty!");
+                throw new InvalidArgumentException("Attribute '$key' can not be empty!");
             }
 
             $params[$key] = empty($value) ? $this->message[$key] : $value;
@@ -182,9 +166,7 @@ class Client extends AbstractAPI
 
         $params['data'] = $this->formatData($params['data']);
 
-        $this->message = $this->messageBackup;
-
-        return $this->parseJSON('json', [static::API_SEND_TEMPLATE_MESSAGE, $params]);
+        return $params;
     }
 
     /**
@@ -224,6 +206,11 @@ class Client extends AbstractAPI
         }
 
         return $this;
+    }
+
+    protected function restoreMessage()
+    {
+        $this->message = (new ReflectionClass(__CLASS__))->getDefaultProperties()['message'];
     }
 
     /**

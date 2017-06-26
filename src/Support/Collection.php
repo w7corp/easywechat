@@ -9,16 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Collection.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Support;
 
 use ArrayAccess;
@@ -337,7 +327,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     }
 
     /**
-     * Unsets an data by key.
+     * Unset an data by key.
      *
      * @param string $key
      */

@@ -9,16 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Encryptor.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Encryption;
 
 use EasyWeChat\Exceptions\InvalidConfigException;
@@ -27,6 +17,8 @@ use Exception as BaseException;
 
 /**
  * Class Encryptor.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class Encryptor
 {

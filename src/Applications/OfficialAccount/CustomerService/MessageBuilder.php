@@ -113,7 +113,7 @@ class MessageBuilder
     /**
      * Send the message.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws RuntimeException
      */

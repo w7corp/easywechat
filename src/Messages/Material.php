@@ -12,7 +12,7 @@
 namespace EasyWeChat\Messages;
 
 /**
- * Class Material.
+ * Class MaterialClient.
  */
 class Material extends Message
 {
@@ -24,7 +24,7 @@ class Material extends Message
     protected $properties = ['media_id'];
 
     /**
-     * Material constructor.
+     * MaterialClient constructor.
      *
      * @param string $mediaId
      * @param string $type

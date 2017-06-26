@@ -21,13 +21,13 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Device;
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Group;
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Material;
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Page;
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\DeviceClient;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\GroupClient;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\MaterialClient;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\PageClient;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\RelationClient;
 use EasyWeChat\Applications\OfficialAccount\ShakeAround\ShakeAround;
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Stats;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\StatsClient;
 use EasyWeChat\Tests\TestCase;
 
 class ShakeAroundTest extends TestCase
@@ -134,7 +134,7 @@ class ShakeAroundTest extends TestCase
 
         $result = $shake_around->device();
 
-        $this->assertInstanceOf(Device::class, $result);
+        $this->assertInstanceOf(DeviceClient::class, $result);
     }
 
     /**
@@ -146,7 +146,7 @@ class ShakeAroundTest extends TestCase
 
         $result = $shake_around->group();
 
-        $this->assertInstanceOf(Group::class, $result);
+        $this->assertInstanceOf(GroupClient::class, $result);
     }
 
     /**
@@ -158,7 +158,7 @@ class ShakeAroundTest extends TestCase
 
         $result = $shake_around->page();
 
-        $this->assertInstanceOf(Page::class, $result);
+        $this->assertInstanceOf(PageClient::class, $result);
     }
 
     /**
@@ -170,7 +170,7 @@ class ShakeAroundTest extends TestCase
 
         $result = $shake_around->material();
 
-        $this->assertInstanceOf(Material::class, $result);
+        $this->assertInstanceOf(MaterialClient::class, $result);
     }
 
     /**
@@ -182,7 +182,7 @@ class ShakeAroundTest extends TestCase
 
         $result = $shake_around->relation();
 
-        $this->assertInstanceOf(Relation::class, $result);
+        $this->assertInstanceOf(RelationClient::class, $result);
     }
 
     /**
@@ -194,6 +194,6 @@ class ShakeAroundTest extends TestCase
 
         $result = $shake_around->stats();
 
-        $this->assertInstanceOf(Stats::class, $result);
+        $this->assertInstanceOf(StatsClient::class, $result);
     }
 }

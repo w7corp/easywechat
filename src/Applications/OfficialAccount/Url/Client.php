@@ -9,30 +9,23 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Url Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Url;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
-    const API_SHORTEN_URL = 'https://api.weixin.qq.com/cgi-bin/shorturl';
-
     /**
      * Shorten the url.
      *
      * @param string $url
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function shorten($url)
     {
@@ -41,6 +34,6 @@ class Client extends AbstractAPI
                    'long_url' => $url,
                   ];
 
-        return $this->parseJSON('json', [self::API_SHORTEN_URL, $params]);
+        return $this->httpPostJson('cgi-bin/shorturl', $params);
     }
 }

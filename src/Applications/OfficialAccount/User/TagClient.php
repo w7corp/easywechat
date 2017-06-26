@@ -9,37 +9,23 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application UserTag Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\User;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class TagClient extends AbstractAPI
+/**
+ * Class TagClient.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class TagClient extends BaseClient
 {
-    const API_GET = 'https://api.weixin.qq.com/cgi-bin/tags/get';
-    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/tags/create';
-    const API_UPDATE = 'https://api.weixin.qq.com/cgi-bin/tags/update';
-    const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/tags/delete';
-    const API_USER_TAGS = 'https://api.weixin.qq.com/cgi-bin/tags/getidlist';
-    const API_MEMBER_BATCH_TAG = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging';
-    const API_MEMBER_BATCH_UNTAG = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging';
-    const API_USERS_OF_TAG = 'https://api.weixin.qq.com/cgi-bin/user/tag/get';
-
     /**
      * Create tag.
      *
      * @param string $name
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function create($name)
     {
@@ -47,17 +33,17 @@ class TagClient extends AbstractAPI
                    'tag' => ['name' => $name],
                   ];
 
-        return $this->parseJSON('json', [self::API_CREATE, $params]);
+        return $this->httpPostJson('cgi-bin/tags/create', $params);
     }
 
     /**
      * List all tags.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function lists()
     {
-        return $this->parseJSON('get', [self::API_GET]);
+        return $this->httpGet('cgi-bin/tags/get');
     }
 
     /**
@@ -66,7 +52,7 @@ class TagClient extends AbstractAPI
      * @param int    $tagId
      * @param string $name
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function update($tagId, $name)
     {
@@ -77,7 +63,7 @@ class TagClient extends AbstractAPI
                               ],
                   ];
 
-        return $this->parseJSON('json', [self::API_UPDATE, $params]);
+        return $this->httpPostJson('cgi-bin/tags/update', $params);
     }
 
     /**
@@ -85,7 +71,7 @@ class TagClient extends AbstractAPI
      *
      * @param int $tagId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function delete($tagId)
     {
@@ -93,7 +79,7 @@ class TagClient extends AbstractAPI
                    'tag' => ['id' => $tagId],
                   ];
 
-        return $this->parseJSON('json', [self::API_DELETE, $params]);
+        return $this->httpPostJson('cgi-bin/tags/delete', $params);
     }
 
     /**
@@ -101,13 +87,13 @@ class TagClient extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function userTags($openId)
     {
         $params = ['openid' => $openId];
 
-        return $this->parseJSON('json', [self::API_USER_TAGS, $params]);
+        return $this->httpPostJson('cgi-bin/tags/getidlist', $params);
     }
 
     /**
@@ -116,13 +102,13 @@ class TagClient extends AbstractAPI
      * @param string $tagId
      * @param string $nextOpenId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function usersOfTag($tagId, $nextOpenId = '')
     {
         $params = ['tagid' => $tagId, 'next_openid' => $nextOpenId];
 
-        return $this->parseJSON('json', [self::API_USERS_OF_TAG, $params]);
+        return $this->httpPostJson('cgi-bin/user/tag/get', $params);
     }
 
     /**
@@ -131,7 +117,7 @@ class TagClient extends AbstractAPI
      * @param array $openIds
      * @param int   $tagId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function batchTagUsers(array $openIds, $tagId)
     {
@@ -140,7 +126,7 @@ class TagClient extends AbstractAPI
                    'tagid' => $tagId,
                   ];
 
-        return $this->parseJSON('json', [self::API_MEMBER_BATCH_TAG, $params]);
+        return $this->httpPostJson('cgi-bin/tags/members/batchtagging', $params);
     }
 
     /**
@@ -149,7 +135,7 @@ class TagClient extends AbstractAPI
      * @param array $openIds
      * @param int   $tagId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function batchUntagUsers(array $openIds, $tagId)
     {
@@ -158,6 +144,6 @@ class TagClient extends AbstractAPI
                    'tagid' => $tagId,
                   ];
 
-        return $this->parseJSON('json', [self::API_MEMBER_BATCH_UNTAG, $params]);
+        return $this->httpPostJson('cgi-bin/tags/members/batchuntagging', $params);
     }
 }

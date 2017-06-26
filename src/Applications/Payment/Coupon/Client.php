@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function send(array $params)
     {
@@ -39,7 +39,7 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function queryStock(array $params)
     {
@@ -51,7 +51,7 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function query(array $params)
     {

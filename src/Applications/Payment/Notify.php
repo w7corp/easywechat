@@ -72,7 +72,7 @@ class Notify
     /**
      * Return the notify body from request.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Exceptions\FaultException
      */
@@ -83,9 +83,7 @@ class Notify
         }
         try {
             $xml = XML::parse(strval($this->request->getContent()));
-        } catch (\Throwable $t) {
-            throw new FaultException('Invalid request XML: '.$t->getMessage(), 400);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new FaultException('Invalid request XML: '.$e->getMessage(), 400);
         }
 

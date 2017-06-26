@@ -9,25 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * MiniProgram TemplateMessage Client.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\MiniProgram\TemplateMessage;
 
 use EasyWeChat\Applications\OfficialAccount\TemplateMessage\Client as BaseClient;
 
+/**
+ * Class Client.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class Client extends BaseClient
 {
     /**
@@ -58,7 +48,20 @@ class Client extends BaseClient
     protected $required = ['touser', 'template_id', 'form_id'];
 
     /**
-     * Send template message.
+     * Send a template message.
+     *
+     * @param $data
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
-    const API_SEND_TEMPLATE_MESSAGE = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send';
+    public function send($data = [])
+    {
+        $params = $this->formatMessage($data);
+
+        $this->restoreMessage();
+
+        return $this->httpPostJson('cgi-bin/message/wxopen/template/send', $params);
+    }
 }

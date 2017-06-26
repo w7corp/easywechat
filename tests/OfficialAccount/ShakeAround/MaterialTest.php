@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Material;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\MaterialClient;
 use EasyWeChat\Tests\TestCase;
 
 class MaterialTest extends TestCase
@@ -44,7 +44,7 @@ class MaterialTest extends TestCase
 
         $result = $material->uploadImage(__DIR__.'/stubs/image.jpg');
 
-        $this->assertStringStartsWith(Material::API_MATERIAL_ADD, $result['api']);
+        $this->assertStringStartsWith(MaterialClient::API_MATERIAL_ADD, $result['api']);
         $this->assertContains('stubs/image.jpg', $result['media']);
         $this->assertSame('icon', $result['type']);
 

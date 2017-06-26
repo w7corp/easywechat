@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Device;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\DeviceClient;
 use EasyWeChat\Tests\TestCase;
 
 class DeviceTest extends TestCase
@@ -53,7 +53,7 @@ class DeviceTest extends TestCase
 
         $result = $device->apply(3, 'test');
 
-        $this->assertStringStartsWith(Device::API_DEVICE_APPLYID, $result['api']);
+        $this->assertStringStartsWith(DeviceClient::API_DEVICE_APPLYID, $result['api']);
         $this->assertSame($expected, $result['params']);
 
         $expected = [
@@ -91,7 +91,7 @@ class DeviceTest extends TestCase
 
         $result = $device->getStatus(12345678);
 
-        $this->assertStringStartsWith(Device::API_DEVICE_APPLYSTATUS, $result['api']);
+        $this->assertStringStartsWith(DeviceClient::API_DEVICE_APPLYSTATUS, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -119,7 +119,7 @@ class DeviceTest extends TestCase
             'minor' => 10002,
         ], 'allen05ren');
 
-        $this->assertStringStartsWith(Device::API_DEVICE_UPDATE, $result['api']);
+        $this->assertStringStartsWith(DeviceClient::API_DEVICE_UPDATE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -149,7 +149,7 @@ class DeviceTest extends TestCase
             'minor' => 10002,
         ], 1234);
 
-        $this->assertStringStartsWith(Device::API_DEVICE_BINDLOCATION, $result['api']);
+        $this->assertStringStartsWith(DeviceClient::API_DEVICE_BINDLOCATION, $result['api']);
         $this->assertSame($expected, $result['params']);
 
         $expected = [
@@ -205,7 +205,7 @@ class DeviceTest extends TestCase
             'minor' => 10002,
         ]);
 
-        $this->assertStringStartsWith(Device::API_DEVICE_SEARCH, $result['api']);
+        $this->assertStringStartsWith(DeviceClient::API_DEVICE_SEARCH, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -224,7 +224,7 @@ class DeviceTest extends TestCase
 
         $result = $device->pagination(0, 10);
 
-        $this->assertStringStartsWith(Device::API_DEVICE_SEARCH, $result['api']);
+        $this->assertStringStartsWith(DeviceClient::API_DEVICE_SEARCH, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -244,7 +244,7 @@ class DeviceTest extends TestCase
 
         $result = $device->fetchByApplyId(12345678, 0, 10);
 
-        $this->assertStringStartsWith(Device::API_DEVICE_SEARCH, $result['api']);
+        $this->assertStringStartsWith(DeviceClient::API_DEVICE_SEARCH, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 }

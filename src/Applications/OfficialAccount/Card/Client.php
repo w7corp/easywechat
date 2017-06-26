@@ -539,7 +539,7 @@ class Client extends BaseClient
      * @param string $cardId
      * @param int    $amount
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function increaseStock($cardId, $amount)
     {
@@ -552,7 +552,7 @@ class Client extends BaseClient
      * @param string $cardId
      * @param int    $amount
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function reduceStock($cardId, $amount)
     {

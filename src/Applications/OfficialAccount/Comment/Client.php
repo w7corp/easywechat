@@ -9,43 +9,24 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Comment Client.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2017
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Comment;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
-    const API_OPEN_COMMENT = 'https://api.weixin.qq.com/cgi-bin/comment/open';
-    const API_CLOSE_COMMENT = 'https://api.weixin.qq.com/cgi-bin/comment/close';
-    const API_LIST_COMMENT = 'https://api.weixin.qq.com/cgi-bin/comment/list';
-    const API_MARK_ELECT = 'https://api.weixin.qq.com/cgi-bin/comment/markelect';
-    const API_UNMARK_ELECT = 'https://api.weixin.qq.com/cgi-bin/comment/unmarkelect';
-    const API_DELETE_COMMENT = 'https://api.weixin.qq.com/cgi-bin/comment/delete';
-    const API_REPLY_COMMENT = 'https://api.weixin.qq.com/cgi-bin/comment/reply/add';
-    const API_DELETE_REPLY = 'https://api.weixin.qq.com/cgi-bin/comment/reply/delete';
-
     /**
      * Open article comment.
      *
      * @param int $dataId
      * @param int $index
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function open($dataId, $index = null)
     {
@@ -54,7 +35,7 @@ class Client extends AbstractAPI
             'index' => $index,
         ];
 
-        return $this->parseJSON('post', [self::API_OPEN_COMMENT, $params]);
+        return $this->httpPost('cgi-bin/comment/open', $params);
     }
 
     /**
@@ -63,7 +44,7 @@ class Client extends AbstractAPI
      * @param int $dataId
      * @param int $index
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function close($dataId, $index = null)
     {
@@ -72,7 +53,7 @@ class Client extends AbstractAPI
             'index' => $index,
         ];
 
-        return $this->parseJSON('post', [self::API_CLOSE_COMMENT, $params]);
+        return $this->httpPost('cgi-bin/comment/close', $params);
     }
 
     /**
@@ -84,7 +65,7 @@ class Client extends AbstractAPI
      * @param int $count
      * @param int $type
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function lists($dataId, $index, $begin, $count, $type = 0)
     {
@@ -96,7 +77,7 @@ class Client extends AbstractAPI
             'type' => $type,
         ];
 
-        return $this->parseJSON('post', [self::API_LIST_COMMENT, $params]);
+        return $this->httpPost('cgi-bin/comment/list', $params);
     }
 
     /**
@@ -106,7 +87,7 @@ class Client extends AbstractAPI
      * @param int $index
      * @param int $commentId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function markElect($dataId, $index, $commentId)
     {
@@ -116,7 +97,7 @@ class Client extends AbstractAPI
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_MARK_ELECT, $params]);
+        return $this->httpPost('cgi-bin/comment/markelect', $params);
     }
 
     /**
@@ -126,7 +107,7 @@ class Client extends AbstractAPI
      * @param int $index
      * @param int $commentId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function unmarkElect($dataId, $index, $commentId)
     {
@@ -136,7 +117,7 @@ class Client extends AbstractAPI
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_UNMARK_ELECT, $params]);
+        return $this->httpPost('cgi-bin/comment/unmarkelect', $params);
     }
 
     /**
@@ -146,7 +127,7 @@ class Client extends AbstractAPI
      * @param int $index
      * @param int $commentId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function delete($dataId, $index, $commentId)
     {
@@ -156,7 +137,7 @@ class Client extends AbstractAPI
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_DELETE_COMMENT, $params]);
+        return $this->httpPost('cgi-bin/comment/delete', $params);
     }
 
     /**
@@ -167,7 +148,7 @@ class Client extends AbstractAPI
      * @param int    $commentId
      * @param string $content
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function reply($dataId, $index, $commentId, $content)
     {
@@ -178,7 +159,7 @@ class Client extends AbstractAPI
             'content' => $content,
         ];
 
-        return $this->parseJSON('post', [self::API_REPLY_COMMENT, $params]);
+        return $this->httpPost('cgi-bin/comment/reply/add', $params);
     }
 
     /**
@@ -188,7 +169,7 @@ class Client extends AbstractAPI
      * @param int $index
      * @param int $commentId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function deleteReply($dataId, $index, $commentId)
     {
@@ -198,6 +179,6 @@ class Client extends AbstractAPI
             'user_comment_id' => $commentId,
         ];
 
-        return $this->parseJSON('post', [self::API_DELETE_REPLY, $params]);
+        return $this->httpPost('cgi-bin/comment/reply/delete', $params);
     }
 }

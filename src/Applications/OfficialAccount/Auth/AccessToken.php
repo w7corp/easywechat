@@ -20,8 +20,14 @@ use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
  */
 class AccessToken extends BaseAccessToken
 {
+    /**
+     * @var string
+     */
     protected $endpointToGetToken = 'cgi-bin/token';
 
+    /**
+     * @return array
+     */
     protected function getCredentials(): array
     {
         return [

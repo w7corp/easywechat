@@ -160,6 +160,18 @@ class BaseClient
     }
 
     /**
+     * @param string $url
+     * @param string $method
+     * @param array  $options
+     *
+     * @return array|\EasyWeChat\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function requestRaw(string $url, string $method = 'GET', array $options = [])
+    {
+        return $this->request($url, $method = 'GET', $options = [], true);
+    }
+
+    /**
      * Return GuzzleHttp\Client instance.
      *
      * @return \GuzzleHttp\Client

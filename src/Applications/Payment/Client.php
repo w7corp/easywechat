@@ -64,7 +64,7 @@ class Client extends BaseClient
      *
      * @param Order $order
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function pay(Order $order)
     {
@@ -76,7 +76,7 @@ class Client extends BaseClient
      *
      * @param Order $order
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function prepare(Order $order)
     {
@@ -95,7 +95,7 @@ class Client extends BaseClient
      * @param string $orderNo
      * @param string $type
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function query($orderNo, $type = self::OUT_TRADE_NO)
     {
@@ -111,7 +111,7 @@ class Client extends BaseClient
      *
      * @param string $transactionId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function queryByTransactionId($transactionId)
     {
@@ -123,7 +123,7 @@ class Client extends BaseClient
      *
      * @param $tradeNo
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function close($tradeNo)
     {
@@ -140,7 +140,7 @@ class Client extends BaseClient
      * @param string $orderNo
      * @param string $type
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function reverse($orderNo, $type = self::OUT_TRADE_NO)
     {
@@ -156,7 +156,7 @@ class Client extends BaseClient
      *
      * @param int $transactionId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function reverseByTransactionId($transactionId)
     {
@@ -174,7 +174,7 @@ class Client extends BaseClient
      * @param string $type
      * @param string $refundAccount
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function refund(
         $orderNo,
@@ -208,7 +208,7 @@ class Client extends BaseClient
      * @param string $opUserId
      * @param string $refundAccount
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function refundByTransactionId(
         $orderNo,
@@ -227,7 +227,7 @@ class Client extends BaseClient
      * @param string $orderNo
      * @param string $type
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function queryRefund($orderNo, $type = self::OUT_TRADE_NO)
     {
@@ -243,7 +243,7 @@ class Client extends BaseClient
      *
      * @param string $refundNo
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function queryRefundByRefundNo($refundNo)
     {
@@ -255,7 +255,7 @@ class Client extends BaseClient
      *
      * @param string $transactionId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function queryRefundByTransactionId($transactionId)
     {
@@ -267,7 +267,7 @@ class Client extends BaseClient
      *
      * @param string $refundId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function queryRefundByRefundId($refundId)
     {
@@ -297,7 +297,7 @@ class Client extends BaseClient
      *
      * @param string $url
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function urlShorten($url)
     {
@@ -313,7 +313,7 @@ class Client extends BaseClient
      * @param string $returnCode
      * @param array  $other         ex: err_code,err_code_des,out_trade_no,user_ip...
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function report($api, $timeConsuming, $resultCode, $returnCode, array $other = [])
     {
@@ -335,7 +335,7 @@ class Client extends BaseClient
      *
      * @param string $authCode
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function authCodeToOpenId($authCode)
     {

@@ -9,27 +9,17 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Encryptor.php.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\MiniProgram\Encryption;
 
 use EasyWeChat\Encryption\EncryptionException;
 use EasyWeChat\Encryption\Encryptor as BaseEncryptor;
 use Exception;
 
+/**
+ * Class Encryptor.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class Encryptor extends BaseEncryptor
 {
     /**

@@ -9,21 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application QRCode Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\QRCode;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+class Client extends BaseClient
 {
     const DAY = 86400;
     const SCENE_MAX_VALUE = 100000;
@@ -32,15 +22,12 @@ class Client extends AbstractAPI
     const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';
 
-    const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
-    const API_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
-
     /**
      * Create forever.
      *
      * @param int $sceneValue
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function forever($sceneValue)
     {
@@ -63,7 +50,7 @@ class Client extends AbstractAPI
      * @param string $sceneId
      * @param null   $expireSeconds
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function temporary($sceneId, $expireSeconds = null)
     {
@@ -85,7 +72,7 @@ class Client extends AbstractAPI
      *    "is_unique_code": false , "outer_id" : 1
      *  }
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function card($card)
     {
@@ -101,7 +88,7 @@ class Client extends AbstractAPI
      */
     public function url($ticket)
     {
-        return self::API_SHOW."?ticket={$ticket}";
+        return sprintf('cgi-bin/showqrcode?ticket=%s', $ticket);
     }
 
     /**
@@ -112,7 +99,7 @@ class Client extends AbstractAPI
      * @param bool   $temporary
      * @param int    $expireSeconds
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     protected function create($actionName, $actionInfo, $temporary = true, $expireSeconds = null)
     {
@@ -127,6 +114,6 @@ class Client extends AbstractAPI
             $params['expire_seconds'] = min($expireSeconds, 30 * self::DAY);
         }
 
-        return $this->parseJSON('json', [self::API_CREATE, $params]);
+        return $this->httpPostJson('cgi-bin/qrcode/create', $params);
     }
 }

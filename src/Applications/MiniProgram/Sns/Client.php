@@ -9,38 +9,23 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * MiniProgram Sns Client.
- *
- * Part of Overtrue\WeChat.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @copyright 2016
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\MiniProgram\Sns;
 
-use EasyWeChat\Applications\MiniProgram\Core\AbstractMiniProgram;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractMiniProgram
+/**
+ * Class Client.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
+class Client extends BaseClient
 {
-    /**
-     * Api.
-     */
-    const JSCODE_TO_SESSION = 'https://api.weixin.qq.com/sns/jscode2session';
-
     /**
      * JsCode 2 session key.
      *
      * @param string $jsCode
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function getSessionKey($jsCode)
     {
@@ -51,6 +36,6 @@ class Client extends AbstractMiniProgram
             'grant_type' => 'authorization_code',
         ];
 
-        return $this->parseJSON('GET', [self::JSCODE_TO_SESSION, $params]);
+        return $this->httpGet('sns/jscode2session', $params);
     }
 }

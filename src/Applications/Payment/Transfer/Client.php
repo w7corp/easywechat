@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @param string $mchBillNo
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
      * @notice mch_id when query, but mchid when send
      */
@@ -45,7 +45,7 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function send(array $params)
     {

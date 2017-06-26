@@ -70,3 +70,19 @@ function get_server_ip()
 
     return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
 }
+
+/**
+ * Return current url.
+ *
+ * @return string
+ */
+function current_url()
+{
+    $protocol = 'http://';
+
+    if (!empty($_SERVER['HTTPS']) || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'http') === 'https') {
+        $protocol = 'https://';
+    }
+
+    return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+}

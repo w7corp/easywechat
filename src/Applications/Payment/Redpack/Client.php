@@ -36,7 +36,7 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function prepare(array $params)
     {
@@ -56,7 +56,7 @@ class Client extends BaseClient
      *
      * @param string $mchBillNo
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function query($mchBillNo)
     {
@@ -75,7 +75,7 @@ class Client extends BaseClient
      * @param array  $params
      * @param string $type
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function send(array $params, $type = self::TYPE_NORMAL)
     {
@@ -96,7 +96,7 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendNormal($params)
     {
@@ -111,7 +111,7 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendGroup($params)
     {

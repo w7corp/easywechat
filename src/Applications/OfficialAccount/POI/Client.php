@@ -9,16 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application POI Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\POI;
 
 use EasyWeChat\Applications\Base\Core\AbstractAPI;
@@ -35,7 +25,7 @@ class Client extends AbstractAPI
     /**
      * Get POI supported categories.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function getCategories()
     {
@@ -47,7 +37,7 @@ class Client extends AbstractAPI
      *
      * @param int $poiId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function get($poiId)
     {
@@ -60,7 +50,7 @@ class Client extends AbstractAPI
      * @param int $offset
      * @param int $limit
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function lists($offset = 0, $limit = 10)
     {
@@ -77,7 +67,7 @@ class Client extends AbstractAPI
      *
      * @param array $data
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function create(array $data)
     {
@@ -94,7 +84,7 @@ class Client extends AbstractAPI
      * @param int   $poiId
      * @param array $data
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function update($poiId, array $data)
     {
@@ -112,7 +102,7 @@ class Client extends AbstractAPI
      *
      * @param int $poiId
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function delete($poiId)
     {

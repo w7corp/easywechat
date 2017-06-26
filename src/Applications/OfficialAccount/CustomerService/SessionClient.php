@@ -20,12 +20,6 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class SessionClient extends BaseClient
 {
-    const API_CREATE = 'https://api.weixin.qq.com/customservice/kfsession/create';
-    const API_CLOSE = 'https://api.weixin.qq.com/customservice/kfsession/close';
-    const API_GET = 'https://api.weixin.qq.com/customservice/kfsession/getsession';
-    const API_LISTS = 'https://api.weixin.qq.com/customservice/kfsession/getsessionlist';
-    const API_WAITERS = 'https://api.weixin.qq.com/customservice/kfsession/getwaitcase';
-
     /**
      * List all sessions of $account.
      *
@@ -35,7 +29,7 @@ class SessionClient extends BaseClient
      */
     public function lists($account)
     {
-        return $this->httpGet(self::API_LISTS, ['kf_account' => $account]);
+        return $this->httpGet('customservice/kfsession/getsessionlist', ['kf_account' => $account]);
     }
 
     /**
@@ -45,7 +39,7 @@ class SessionClient extends BaseClient
      */
     public function waiters()
     {
-        return $this->httpGet(self::API_WAITERS);
+        return $this->httpGet('customservice/kfsession/getwaitcase');
     }
 
     /**
@@ -63,7 +57,7 @@ class SessionClient extends BaseClient
             'openid' => $openId,
         ];
 
-        return $this->httpPostJson(self::API_CREATE, $params);
+        return $this->httpPostJson('customservice/kfsession/create', $params);
     }
 
     /**
@@ -81,7 +75,7 @@ class SessionClient extends BaseClient
             'openid' => $openId,
         ];
 
-        return $this->httpPostJson(self::API_CLOSE, $params);
+        return $this->httpPostJson('customservice/kfsession/close', $params);
     }
 
     /**
@@ -93,6 +87,6 @@ class SessionClient extends BaseClient
      */
     public function get($openId)
     {
-        return $this->httpGet(self::API_GET, ['openid' => $openId]);
+        return $this->httpGet('customservice/kfsession/getsession', ['openid' => $openId]);
     }
 }

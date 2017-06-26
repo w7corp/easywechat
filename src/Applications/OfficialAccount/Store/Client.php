@@ -9,20 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Store Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Store;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
 }

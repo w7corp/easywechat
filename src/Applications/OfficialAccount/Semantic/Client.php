@@ -9,24 +9,17 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Application Semantic Client.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\OfficialAccount\Semantic;
 
-use EasyWeChat\Applications\Base\Core\AbstractAPI;
+use EasyWeChat\Kernel\BaseClient;
 
-class Client extends AbstractAPI
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Client extends BaseClient
 {
-    const API_SEARCH = 'https://api.weixin.qq.com/semantic/semproxy/search';
-
     /**
      * Get the semantic content of giving string.
      *
@@ -34,16 +27,16 @@ class Client extends AbstractAPI
      * @param array|string $categories
      * @param array        $other
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function query($keyword, $categories, array $other = [])
     {
         $params = [
                    'query' => $keyword,
                    'category' => implode(',', (array) $categories),
-                   'appid' => $this->getAccessToken()->getClientId(),
+                   'appid' => $this->app->config['app_id'],
                   ];
 
-        return $this->parseJSON('json', [self::API_SEARCH, array_merge($params, $other)]);
+        return $this->httpPostJson('semantic/semproxy/search', array_merge($params, $other));
     }
 }

@@ -12,7 +12,6 @@
 namespace EasyWeChat\Applications\OfficialAccount\CustomerService;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Support\Collection;
 
 /**
  * Class Client.
@@ -21,16 +20,6 @@ use EasyWeChat\Support\Collection;
  */
 class Client extends BaseClient
 {
-    const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
-    const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
-    const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
-    const API_UPDATE = 'https://api.weixin.qq.com/customservice/kfaccount/update';
-    const API_CREATE = 'https://api.weixin.qq.com/customservice/kfaccount/add';
-    const API_INVITE_BIND = 'https://api.weixin.qq.com/customservice/kfaccount/inviteworker';
-    const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
-    const API_AVATAR_UPLOAD = 'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
-    const API_RECORDS = 'https://api.weixin.qq.com/customservice/msgrecord/getrecord';
-
     /**
      * List all staffs.
      *
@@ -38,7 +27,7 @@ class Client extends BaseClient
      */
     public function lists()
     {
-        return $this->httpGet(self::API_LISTS);
+        return $this->httpGet('cgi-bin/customservice/getkflist');
     }
 
     /**
@@ -48,7 +37,7 @@ class Client extends BaseClient
      */
     public function onlines()
     {
-        return $this->httpGet(self::API_ONLINE);
+        return $this->httpGet('cgi-bin/customservice/getonlinekflist');
     }
 
     /**
@@ -66,7 +55,7 @@ class Client extends BaseClient
             'nickname' => $nickname,
         ];
 
-        return $this->httpPostJson(self::API_CREATE, $params);
+        return $this->httpPostJson('customservice/kfaccount/add', $params);
     }
 
     /**
@@ -84,7 +73,7 @@ class Client extends BaseClient
             'nickname' => $nickname,
         ];
 
-        return $this->httpPostJson(self::API_UPDATE, $params);
+        return $this->httpPostJson('customservice/kfaccount/update', $params);
     }
 
     /**
@@ -92,23 +81,13 @@ class Client extends BaseClient
      *
      * @param string $account
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function delete($account)
     {
-        // XXX: 微信那帮搞技术的都 TM 是 SB，url上的文本居然不 TM urlencode,
-        // 这里客服账号因为有 @ 符，而微信不接收urlencode的账号。。
-        // 简直是日了...
-        // #222
-        // PS: 如果你是微信做接口的，奉劝你们，尊重技术，不会别乱搞，笨不是你们的错，你们出来坑人就是大错特错。
-        $accessTokenField = sprintf('%s=%s', $this->accessToken->getQueryName(), $this->accessToken->getToken());
-        $url = sprintf(self::API_DELETE.'?%s&kf_account=%s', $accessTokenField, $account);
+        $url = sprintf('customservice/kfaccount/del?kf_account=%s', $account);
 
-        $contents = $this->getHttp()->parseJSON(file_get_contents($url));
-
-        $this->checkAndThrow($contents);
-
-        return new Collection($contents);
+        return $this->httpGet($url);
     }
 
     /**
@@ -126,7 +105,7 @@ class Client extends BaseClient
             'invite_wx' => $wechatId,
         ];
 
-        return $this->httpPostJson(self::API_INVITE_BIND, $params);
+        return $this->httpPostJson('customservice/kfaccount/inviteworker', $params);
     }
 
     /**
@@ -139,7 +118,7 @@ class Client extends BaseClient
      */
     public function avatar($account, $path)
     {
-        return $this->httpUpload(self::API_AVATAR_UPLOAD, ['media' => $path], [], ['kf_account' => $account]);
+        return $this->httpUpload('customservice/kfaccount/uploadheadimg', ['media' => $path], [], ['kf_account' => $account]);
     }
 
     /**
@@ -167,7 +146,7 @@ class Client extends BaseClient
      */
     public function send($message)
     {
-        return $this->httpPostJson(self::API_MESSAGE_SEND, $message);
+        return $this->httpPostJson('cgi-bin/message/custom/send', $message);
     }
 
     /**
@@ -189,6 +168,6 @@ class Client extends BaseClient
             'pagesize' => $pageSize,
         ];
 
-        return $this->httpPostJson(self::API_RECORDS, $params);
+        return $this->httpPostJson('customservice/msgrecord/getrecord', $params);
     }
 }

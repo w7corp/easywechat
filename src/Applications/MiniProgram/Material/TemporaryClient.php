@@ -9,15 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * MiniProgram Temporary Client.
- *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Applications\MiniProgram\Material;
 
 use EasyWeChat\Applications\OfficialAccount\Material\TemporaryClient as BaseTemporaryClient;

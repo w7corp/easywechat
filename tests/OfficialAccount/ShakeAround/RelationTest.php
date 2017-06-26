@@ -21,7 +21,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\ShakeAround;
 
-use EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation;
+use EasyWeChat\Applications\OfficialAccount\ShakeAround\RelationClient;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 
@@ -64,7 +64,7 @@ class RelationTest extends TestCase
             'minor' => 10002,
         ], [12345, 23456, 334567]);
 
-        $this->assertStringStartsWith(Relation::API_DEVICE_BINDPAGE, $result['api']);
+        $this->assertStringStartsWith(RelationClient::API_DEVICE_BINDPAGE, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 
@@ -92,7 +92,7 @@ class RelationTest extends TestCase
             'minor' => 10002,
         ], true);
 
-        $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $result['api']);
+        $this->assertStringStartsWith(RelationClient::API_RELATION_SEARCH, $result['api']);
         $this->assertSame($expected, $result['params']);
 
         $relation = \Mockery::mock('EasyWeChat\Applications\OfficialAccount\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Applications\OfficialAccount\Core\AccessToken')]);
@@ -171,7 +171,7 @@ class RelationTest extends TestCase
 
         $result = $relation->getDeviceByPageId(1234, 0, 10);
 
-        $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $result['api']);
+        $this->assertStringStartsWith(RelationClient::API_RELATION_SEARCH, $result['api']);
         $this->assertSame($expected, $result['params']);
     }
 }
