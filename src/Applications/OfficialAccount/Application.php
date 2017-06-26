@@ -17,27 +17,26 @@ use EasyWeChat\Kernel\ServiceContainer;
 /*
  * Class Application.
  *
- * @property \EasyWeChat\Applications\Application\Core\AccessToken                   $access_token
- * @property \EasyWeChat\Applications\Application\Server\Guard                       $server
- * @property \EasyWeChat\Applications\Application\User\User                          $user
- * @property \EasyWeChat\Applications\Application\User\Tag                           $user_tag
- * @property \EasyWeChat\Applications\Application\User\GroupClient                         $user_group
- * @property \EasyWeChat\Applications\Application\Js\Js                              $js
+ * @property \EasyWeChat\Applications\OfficialAccount\Auth\AccessToken                   $access_token
+ * @property \EasyWeChat\Applications\OfficialAccount\Server\Guard                       $server
+ * @property \EasyWeChat\Applications\OfficialAccount\User\UserClient                    $user
+ * @property \EasyWeChat\Applications\OfficialAccount\User\TagClient                     $user_tag
+ * @property \EasyWeChat\Applications\OfficialAccount\User\GroupClient                   $user_group
  * @property \Overtrue\Socialite\Providers\WeChatProvider                                $oauth
- * @property \EasyWeChat\Applications\Application\Menu\Menu                          $menu
- * @property \EasyWeChat\Applications\Application\TemplateMessage\TemplateMessage    $template_message
- * @property \EasyWeChat\Applications\Application\MaterialClient\MaterialClient                  $material
- * @property \EasyWeChat\Applications\Application\MaterialClient\Temporary                 $material_temporary
- * @property \EasyWeChat\Applications\Application\CustomerService\CustomerService    $customer_service
- * @property \EasyWeChat\Applications\Application\Url\Url                            $url
- * @property \EasyWeChat\Applications\Application\QRCode\QRCode                      $qrcode
- * @property \EasyWeChat\Applications\Application\Semantic\Semantic                  $semantic
- * @property \EasyWeChat\Applications\Application\StatsClient\StatsClient                        $stats
- * @property \EasyWeChat\Applications\Application\Reply\Reply                        $reply
- * @property \EasyWeChat\Applications\Application\Broadcasting\Broadcasting                $broadcast
- * @property \EasyWeChat\Applications\Application\Card\Card                          $card
- * @property \EasyWeChat\Applications\Application\DeviceClient\DeviceClient                      $device
- * @property \EasyWeChat\Applications\Application\ShakeAround\ShakeAround            $shakearound
+ * @property \EasyWeChat\Applications\OfficialAccount\Menu\Client                        $menu
+ * @property \EasyWeChat\Applications\OfficialAccount\TemplateMessage\Client             $template_message
+ * @property \EasyWeChat\Applications\OfficialAccount\MaterialClient\MaterialClient      $material
+ * @property \EasyWeChat\Applications\OfficialAccount\MaterialClient\TemporaryClient     $material_temporary
+ * @property \EasyWeChat\Applications\OfficialAccount\CustomerService\Client             $customer_service
+ * @property \EasyWeChat\Applications\OfficialAccount\Url\Client                         $url
+ * @property \EasyWeChat\Applications\OfficialAccount\QRCode\Client                      $qrcode
+ * @property \EasyWeChat\Applications\OfficialAccount\Semantic\Client                    $semantic
+ * @property \EasyWeChat\Applications\OfficialAccount\DataCube\Client                    $stats
+ * @property \EasyWeChat\Applications\OfficialAccount\Reply\Client                       $reply
+ * @property \EasyWeChat\Applications\OfficialAccount\Broadcasting\Client                $broadcast
+ * @property \EasyWeChat\Applications\OfficialAccount\Card\Client                        $card
+ * @property \EasyWeChat\Applications\OfficialAccount\Device\Client                      $device
+ * @property \EasyWeChat\Applications\OfficialAccount\ShakeAround\Client                 $shsake_around
  */
 class Application extends ServiceContainer
 {
@@ -60,7 +59,7 @@ class Application extends ServiceContainer
         OfficialAccount\DataCube\ServiceProvider::class,
         OfficialAccount\POI\ServiceProvider::class,
         OfficialAccount\AutoReply\ServiceProvider::class,
-        OfficialAccount\Broadcast\ServiceProvider::class,
+        OfficialAccount\Broadcasting\ServiceProvider::class,
         OfficialAccount\Card\ServiceProvider::class,
         OfficialAccount\Device\ServiceProvider::class,
         OfficialAccount\ShakeAround\ServiceProvider::class,
@@ -68,6 +67,9 @@ class Application extends ServiceContainer
         OfficialAccount\Invoice\ServiceProvider::class,
     ];
 
+    /**
+     * @var array
+     */
     protected $defaultConfig = [
         'http' => [
             'timeout' => 5.0,
