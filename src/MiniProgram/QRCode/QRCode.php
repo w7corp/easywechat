@@ -44,7 +44,7 @@ class QRCode extends AbstractMiniProgram
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getWXACode($path, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
+    public function getAppCode($path, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
     {
         $params = [
             'path' => $path,
@@ -66,7 +66,7 @@ class QRCode extends AbstractMiniProgram
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getWXACodeUnlimit($scene, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
+    public function getAppCodeUnlimit($scene, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
     {
         $params = [
             'scene' => $scene,
