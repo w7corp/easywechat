@@ -168,7 +168,7 @@ class BaseClient
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {
-        return $this->request($url, $method = 'GET', $options = [], true);
+        return $this->request($url, $method, $options, true);
     }
 
     /**
