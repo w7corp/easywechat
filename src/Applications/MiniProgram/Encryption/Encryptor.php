@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Applications\MiniProgram\Encryption;
 
-use EasyWeChat\Encryption\EncryptionException;
-use EasyWeChat\Encryption\Encryptor as BaseEncryptor;
+use EasyWeChat\Applications\OfficialAccount\Encryption\EncryptionException;
+use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor as BaseEncryptor;
 use Exception;
 
 /**
@@ -30,6 +30,8 @@ class Encryptor extends BaseEncryptor
      * @param string $encrypted
      *
      * @return array
+     *
+     * @throws EncryptionException
      */
     public function decryptData($sessionKey, $iv, $encrypted)
     {

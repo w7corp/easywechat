@@ -21,8 +21,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['template_message'] = function ($container) {
-            return new Client($container['access_token']);
+        $app['template_message'] = function ($app) {
+            return new Client($app);
         };
     }
 }

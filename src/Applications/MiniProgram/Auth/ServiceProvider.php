@@ -19,16 +19,10 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * {@inheritdoc}.
      */
-    public function register(Container $pimple)
+    public function register(Container $app)
     {
-        $pimple['access_token'] = function ($pimple) {
-            $accessToken = new AccessToken(
-                $pimple['config']['mini_program']['app_id'],
-                $pimple['config']['mini_program']['secret']
-            );
-            $accessToken->setCache($pimple['cache']);
-
-            return $accessToken;
+        $app['access_token'] = function ($app) {
+            return new AccessToken($app);
         };
     }
 }

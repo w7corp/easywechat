@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\MiniProgram\Auth;
 
-use EasyWeChat\Applications\Base\AccessToken as BaseAccessToken;
+use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
 /**
  * Class AccessToken.
@@ -20,10 +20,17 @@ use EasyWeChat\Applications\Base\AccessToken as BaseAccessToken;
  */
 class AccessToken extends BaseAccessToken
 {
-    /**
-     * {@inheritdoc}.
-     */
-    protected $prefix = 'easywechat.mini_program.access_token.';
+    protected $endpointToGetToken = 'cgi-bin/token';
 
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCredentials(): array
+    {
+        return [
+            'grant_type' => 'client_credential',
+            'appid' => $this->app['config']['app_id'],
+            'secret' => $this->app['config']['secret'],
+        ];
+    }
 }

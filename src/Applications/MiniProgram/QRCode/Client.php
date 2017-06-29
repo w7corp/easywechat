@@ -87,6 +87,6 @@ class Client extends BaseClient
      */
     protected function getStream($endpoint, $params)
     {
-        return $this->getHttp()->json($endpoint, $params)->getBody();
+        return $this->requestRaw($endpoint, 'POST', ['json' => $params])->getBody();
     }
 }

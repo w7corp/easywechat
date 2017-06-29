@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\MiniProgram\Stats;
+namespace EasyWeChat\Applications\MiniProgram\DataCube;
 
 use EasyWeChat\Kernel\BaseClient;
 

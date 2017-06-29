@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\MiniProgram\Stats;
+namespace EasyWeChat\Applications\MiniProgram\DataCube;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -21,11 +21,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['stats'] = function ($container) {
-            return new Client(
-                $container['access_token'],
-                $container['config']['mini_program']
-            );
+        $app['data_cube'] = function ($app) {
+            return new Client($app);
         };
     }
 }

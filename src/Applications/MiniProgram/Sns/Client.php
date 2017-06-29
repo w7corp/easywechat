@@ -30,8 +30,8 @@ class Client extends BaseClient
     public function getSessionKey($jsCode)
     {
         $params = [
-            'appid' => $this->config['app_id'],
-            'secret' => $this->config['secret'],
+            'appid' => $this->app['config']['app_id'],
+            'secret' => $this->app['config']['secret'],
             'js_code' => $jsCode,
             'grant_type' => 'authorization_code',
         ];
