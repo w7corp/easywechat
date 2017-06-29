@@ -21,15 +21,72 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Create mini program qrcode.
+     * Get AppCode.
+     *
+     * @param string $path
+     * @param int    $width
+     * @param bool   $autoColor
+     * @param array  $lineColor
+     *
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function getAppCode($path, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
+    {
+        $params = [
+            'path' => $path,
+            'width' => $width,
+            'auto_color' => $autoColor,
+            'line_color' => $lineColor,
+        ];
+
+        return $this->getStream('wxa/getwxacode', $params);
+    }
+
+    /**
+     * Get AppCode unlimit.
+     *
+     * @param string $scene
+     * @param int    $width
+     * @param bool   $autoColor
+     * @param array  $lineColor
+     *
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function getAppCodeUnlimit($scene, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
+    {
+        $params = [
+            'scene' => $scene,
+            'width' => $width,
+            'auto_color' => $autoColor,
+            'line_color' => $lineColor,
+        ];
+
+        return $this->getStream('wxa/getwxacodeunlimit', $params);
+    }
+
+    /**
+     * Create QRCode.
      *
      * @param string $path
      * @param int    $width
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
+     * @return \Psr\Http\Message\StreamInterface
      */
-    public function create($path, $width = 430)
+    public function createQRCode($path, $width = 430)
     {
-        return $this->httpPostJson('cgi-bin/wxaapp/createwxaqrcode', compact('path', 'width'));
+        return $this->getStream('cgi-bin/wxaapp/createwxaqrcode', compact('path', 'width'));
+    }
+
+    /**
+     * Get stream.
+     *
+     * @param string $endpoint
+     * @param array  $params
+     *
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    protected function getStream($endpoint, $params)
+    {
+        return $this->getHttp()->json($endpoint, $params)->getBody();
     }
 }

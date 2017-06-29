@@ -132,9 +132,7 @@ class MessageBuilder
         }
 
         // 群发视频消息给用户列表时，视频消息格式需要另外处理，具体见文档
-        if (isset($this->to) && is_array($this->to) && $this->msgType === Client::MSG_TYPE_VIDEO) {
-            $this->msgType = 'video';
-        } elseif ($this->msgType === Client::MSG_TYPE_VIDEO) {
+        if ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
             $this->msgType = 'mpvideo';
         }
 

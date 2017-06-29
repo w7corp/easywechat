@@ -30,7 +30,11 @@
     </a>
 </p>
 
+<p align="center">
+<img width="400" src="http://wx1.sinaimg.cn/mw690/82b94fb4gy1fgwafq32r0j20nw0nwter.jpg">
+</p>
 
+<p align="center">关注我的公众号我们一起聊聊代码怎么样？</p>
 
 ## Feature
 

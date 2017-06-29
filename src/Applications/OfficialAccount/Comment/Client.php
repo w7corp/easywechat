@@ -23,162 +23,162 @@ class Client extends BaseClient
     /**
      * Open article comment.
      *
-     * @param int $dataId
-     * @param int $index
+     * @param string $msgId
+     * @param int    $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function open($dataId, $index = null)
+    public function open($msgId, $index)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
         ];
 
-        return $this->httpPost('cgi-bin/comment/open', $params);
+        return $this->httpPostJson('cgi-bin/comment/open', $params);
     }
 
     /**
      * Close comment.
      *
-     * @param int $dataId
-     * @param int $index
+     * @param string $msgId
+     * @param int    $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function close($dataId, $index = null)
+    public function close($msgId, $index)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
         ];
 
-        return $this->httpPost('cgi-bin/comment/close', $params);
+        return $this->httpPostJson('cgi-bin/comment/close', $params);
     }
 
     /**
      * Get article comments.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $begin
-     * @param int $count
-     * @param int $type
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $begin
+     * @param int    $count
+     * @param int    $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function lists($dataId, $index, $begin, $count, $type = 0)
+    public function lists($msgId, $index, $begin, $count, $type = 0)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'begin' => $begin,
             'count' => $count,
             'type' => $type,
         ];
 
-        return $this->httpPost('cgi-bin/comment/list', $params);
+        return $this->httpPostJson('cgi-bin/comment/list', $params);
     }
 
     /**
      * Mark elect comment.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function markElect($dataId, $index, $commentId)
+    public function markElect($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->httpPost('cgi-bin/comment/markelect', $params);
+        return $this->httpPostJson('cgi-bin/comment/markelect', $params);
     }
 
     /**
      * Unmark elect comment.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function unmarkElect($dataId, $index, $commentId)
+    public function unmarkElect($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->httpPost('cgi-bin/comment/unmarkelect', $params);
+        return $this->httpPostJson('cgi-bin/comment/unmarkelect', $params);
     }
 
     /**
      * Delete comment.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function delete($dataId, $index, $commentId)
+    public function delete($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->httpPost('cgi-bin/comment/delete', $params);
+        return $this->httpPostJson('cgi-bin/comment/delete', $params);
     }
 
     /**
      * Reply to a comment.
      *
-     * @param int    $dataId
+     * @param string $msgId
      * @param int    $index
      * @param int    $commentId
      * @param string $content
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function reply($dataId, $index, $commentId, $content)
+    public function reply($msgId, $index, $commentId, $content)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
             'content' => $content,
         ];
 
-        return $this->httpPost('cgi-bin/comment/reply/add', $params);
+        return $this->httpPostJson('cgi-bin/comment/reply/add', $params);
     }
 
     /**
      * Delete a reply.
      *
-     * @param int $dataId
-     * @param int $index
-     * @param int $commentId
+     * @param string $msgId
+     * @param int    $index
+     * @param int    $commentId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function deleteReply($dataId, $index, $commentId)
+    public function deleteReply($msgId, $index, $commentId)
     {
         $params = [
-            'msg_data_id' => $dataId,
+            'msg_data_id' => $msgId,
             'index' => $index,
             'user_comment_id' => $commentId,
         ];
 
-        return $this->httpPost('cgi-bin/comment/reply/delete', $params);
+        return $this->httpPostJson('cgi-bin/comment/reply/delete', $params);
     }
 }
