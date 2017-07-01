@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Js;
 
 use Doctrine\Common\Cache\Cache;
@@ -95,13 +96,16 @@ class Js extends AbstractAPI
     /**
      * Get jsticket.
      *
+     * @param bool $forceRefresh
+     *
      * @return string
      */
-    public function ticket()
+    public function ticket($forceRefresh = false)
     {
         $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
+        $ticket = $this->getCache()->fetch($key);
 
-        if ($ticket = $this->getCache()->fetch($key)) {
+        if (!$forceRefresh && !empty($ticket)) {
             return $ticket;
         }
 

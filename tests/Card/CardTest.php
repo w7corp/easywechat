@@ -9,9 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Card;
+
 use EasyWeChat\Card\Card;
 use EasyWeChat\Core\Http;
 use EasyWeChat\Support\Arr;
+use EasyWeChat\Tests\TestCase;
 
 class CardTest extends TestCase
 {
@@ -20,7 +23,7 @@ class CardTest extends TestCase
      */
     public function getCard()
     {
-        $card = Mockery::mock('EasyWeChat\Card\Card[parseJSON]', [$this->getMockAccessToken()]);
+        $card = \Mockery::mock('EasyWeChat\Card\Card[parseJSON]', [$this->getMockAccessToken()]);
         $card->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],
@@ -33,12 +36,12 @@ class CardTest extends TestCase
 
     public function getMockCache()
     {
-        return Mockery::mock('Doctrine\Common\Cache\Cache');
+        return \Mockery::mock('Doctrine\Common\Cache\Cache');
     }
 
     public function getMockHttp()
     {
-        $http = Mockery::mock(Http::class.'[get]', function ($mock) {
+        $http = \Mockery::mock(Http::class.'[get]', function ($mock) {
             $mock->shouldReceive('get')->andReturn(json_encode([
                 'access_token' => 'thisIsATokenFromHttp',
                 'expires_in' => 7200,
@@ -50,7 +53,7 @@ class CardTest extends TestCase
 
     public function getMockAccessToken()
     {
-        $accessToken = Mockery::mock('EasyWeChat\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
+        $accessToken = \Mockery::mock('EasyWeChat\Core\AccessToken[getTokenFromServer]', ['foo', 'bar']);
         $accessToken->shouldReceive('getTokenFromServer')->andReturn([
             'access_token' => 'foobar',
             'expires_in' => 7200,
@@ -539,7 +542,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->activate($activate);
-        $this->assertStringStartsWith(Card::API_ACTIVATE_CARD, $result['api']);
+        $this->assertStringStartsWith(Card::API_ACTIVATE_MEMBER_CARD, $result['api']);
         $this->assertEquals($activate, $result['params']);
     }
 
@@ -575,7 +578,7 @@ class CardTest extends TestCase
         ];
 
         $result = $card->activateUserForm($cardId, $requiredForm, $optionalForm);
-        $this->assertStringStartsWith(Card::API_ACTIVATE_USER_FORM, $result['api']);
+        $this->assertStringStartsWith(Card::API_ACTIVATE_MEMBER_USER_FORM, $result['api']);
         $this->assertEquals($cardId, $result['params']['card_id']);
     }
 

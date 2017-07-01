@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the EasyWeChat.
+ * This file is part of the overtrue/wechat.
  *
  * (c) overtrue <i@overtrue.me>
  *
@@ -9,7 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Broadcast;
+
 use EasyWeChat\Broadcast\Transformer;
+use EasyWeChat\Tests\TestCase;
 
 class BroadcastTransformerTest extends TestCase
 {
@@ -77,7 +80,7 @@ class BroadcastTransformerTest extends TestCase
     /**
      * Test transformVideo().
      *
-     * @expectedException EasyWeChat\Core\Exceptions\InvalidArgumentException
+     * @expectedException \EasyWeChat\Core\Exceptions\InvalidArgumentException
      */
     public function testTransformVideo()
     {

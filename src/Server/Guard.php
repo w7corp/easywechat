@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Server;
 
 use EasyWeChat\Core\Exceptions\FaultException;
@@ -50,8 +51,10 @@ class Guard
     const SHORT_VIDEO_MSG = 32;
     const LOCATION_MSG = 64;
     const LINK_MSG = 128;
+    const DEVICE_EVENT_MSG = 256;
+    const DEVICE_TEXT_MSG = 512;
     const EVENT_MSG = 1048576;
-    const ALL_MSG = 1048830;
+    const ALL_MSG = 1049598;
 
     /**
      * @var Request
@@ -89,6 +92,8 @@ class Guard
         'shortvideo' => 32,
         'location' => 64,
         'link' => 128,
+        'device_event' => 256,
+        'device_text' => 512,
         'event' => 1048576,
     ];
 
@@ -368,14 +373,14 @@ class Guard
      *
      * @return mixed
      */
-    protected function handleMessage($message)
+    protected function handleMessage(array $message)
     {
         $handler = $this->messageHandler;
 
         if (!is_callable($handler)) {
             Log::debug('No handler enabled.');
 
-            return;
+            return null;
         }
 
         Log::debug('Message detail:', $message);
@@ -443,6 +448,13 @@ class Guard
     protected function parseMessageFromRequest($content)
     {
         $content = strval($content);
+
+        $dataSet = json_decode($content, true);
+        if (JSON_ERROR_NONE === json_last_error()) {
+            // For mini-program JSON formats.
+            // Convert to XML if the given string can be decode into a data array.
+            $content = XML::build($dataSet);
+        }
 
         if ($this->isSafeMode()) {
             if (!$this->encryptor) {

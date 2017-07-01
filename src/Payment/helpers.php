@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Payment;
 
 /**
@@ -49,7 +50,7 @@ function get_client_ip()
         $ip = $_SERVER['REMOTE_ADDR'];
     } else {
         // for php-cli(phpunit etc.)
-        $ip = gethostbyname(gethostname());
+        $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
     }
 
     return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
@@ -68,7 +69,7 @@ function get_server_ip()
         $ip = gethostbyname($_SERVER['SERVER_NAME']);
     } else {
         // for php-cli(phpunit etc.)
-        $ip = gethostbyname(gethostname());
+        $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
     }
 
     return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';

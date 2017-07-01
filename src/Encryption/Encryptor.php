@@ -15,13 +15,13 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Encryption;
 
 use EasyWeChat\Core\Exceptions\InvalidConfigException;
-use EasyWeChat\Core\Exceptions\RuntimeException;
 use EasyWeChat\Support\XML;
 use Exception as BaseException;
 
@@ -64,15 +64,9 @@ class Encryptor
      * @param string $appId
      * @param string $token
      * @param string $AESKey
-     *
-     * @throws RuntimeException
      */
     public function __construct($appId, $token, $AESKey)
     {
-        if (!extension_loaded('openssl')) {
-            throw new RuntimeException("The ext 'openssl' is required.");
-        }
-
         $this->appId = $appId;
         $this->token = $token;
         $this->AESKey = $AESKey;
@@ -288,6 +282,13 @@ class Encryptor
 
         if ($fromAppId !== $appId) {
             throw new EncryptionException('Invalid appId.', EncryptionException::ERROR_INVALID_APPID);
+        }
+
+        $dataSet = json_decode($xml, true);
+        if (JSON_ERROR_NONE === json_last_error()) {
+            // For mini-program JSON formats.
+            // Convert to XML if the given string can be decode into a data array.
+            $xml = XML::build($dataSet);
         }
 
         return $xml;

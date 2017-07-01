@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Support;
 
 use finfo;
@@ -46,6 +47,30 @@ class File
         'image/png' => '.png',
         'image/tiff' => '.tiff',
         'image/jpeg' => '.jpg',
+
+                // 列举更多的文件 mime, 企业号是支持的, 公众平台这边之后万一也更新了呢
+        'application/msword' => '.doc',
+
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => '.docx',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => '.dotx',
+        'application/vnd.ms-word.document.macroEnabled.12' => '.docm',
+        'application/vnd.ms-word.template.macroEnabled.12' => '.dotm',
+
+        'application/vnd.ms-excel' => '.xls',
+
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => '.xlsx',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => '.xltx',
+        'application/vnd.ms-excel.sheet.macroEnabled.12' => '.xlsm',
+        'application/vnd.ms-excel.template.macroEnabled.12' => '.xltm',
+        'application/vnd.ms-excel.addin.macroEnabled.12' => '.xlam',
+        'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => '.xlsb',
+
+        'application/vnd.ms-powerpoint' => '.ppt',
+
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => '.pptx',
+        'application/vnd.openxmlformats-officedocument.presentationml.template' => '.potx',
+        'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => '.ppsx',
+        'application/vnd.ms-powerpoint.addin.macroEnabled.12' => '.ppam',
     ];
 
     /**
@@ -79,7 +104,7 @@ class File
      */
     public static function getStreamExt($stream)
     {
-        if (is_dir(pathinfo($stream, PATHINFO_DIRNAME)) && is_readable($stream)) {
+        if (is_file(pathinfo($stream, PATHINFO_DIRNAME)) && is_readable($stream)) {
             $stream = file_get_contents($stream);
         }
 

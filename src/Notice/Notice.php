@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Notice;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -42,12 +43,19 @@ class Notice extends AbstractAPI
      * @var array
      */
     protected $message = [
-                          'touser' => '',
-                          'template_id' => '',
-                          'url' => '',
-                          'topcolor' => '#FF0000',
-                          'data' => [],
-                         ];
+        'touser' => '',
+        'template_id' => '',
+        'url' => '',
+        'data' => [],
+    ];
+
+    /**
+     * Required attributes.
+     *
+     * @var array
+     */
+    protected $required = ['touser', 'template_id'];
+
     /**
      * Message backup.
      *
@@ -72,6 +80,20 @@ class Notice extends AbstractAPI
         parent::__construct($accessToken);
 
         $this->messageBackup = $this->message;
+    }
+
+    /**
+     * Set default color.
+     *
+     * @param string $color example: #0f0f0f
+     *
+     * @return $this
+     */
+    public function defaultColor($color)
+    {
+        $this->defaultColor = $color;
+
+        return $this;
     }
 
     /**
@@ -151,18 +173,10 @@ class Notice extends AbstractAPI
      */
     public function send($data = [])
     {
-        $params = array_merge([
-                   'touser' => '',
-                   'template_id' => '',
-                   'url' => '',
-                   'topcolor' => '',
-                   'data' => [],
-                  ], $data);
-
-        $required = ['touser', 'template_id'];
+        $params = array_merge($this->message, $data);
 
         foreach ($params as $key => $value) {
-            if (in_array($key, $required, true) && empty($value) && empty($this->message[$key])) {
+            if (in_array($key, $this->required, true) && empty($value) && empty($this->message[$key])) {
                 throw new InvalidArgumentException("Attribute '$key' can not be empty!");
             }
 
@@ -173,7 +187,7 @@ class Notice extends AbstractAPI
 
         $this->message = $this->messageBackup;
 
-        return $this->parseJSON('json', [self::API_SEND_NOTICE, $params]);
+        return $this->parseJSON('json', [static::API_SEND_NOTICE, $params]);
     }
 
     /**
@@ -192,12 +206,12 @@ class Notice extends AbstractAPI
                 'uses' => 'template_id',
                 'to' => 'touser',
                 'receiver' => 'touser',
-                'color' => 'topcolor',
-                'topColor' => 'topcolor',
                 'url' => 'url',
                 'link' => 'url',
                 'data' => 'data',
                 'with' => 'data',
+                'formId' => 'form_id',
+                'prepayId' => 'form_id',
                ];
 
         if (0 === stripos($method, 'with') && strlen($method) > 4) {

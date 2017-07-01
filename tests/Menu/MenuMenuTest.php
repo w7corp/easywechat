@@ -9,13 +9,16 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Menu;
+
 use EasyWeChat\Menu\Menu;
+use EasyWeChat\Tests\TestCase;
 
 class MenuMenuTest extends TestCase
 {
     public function getMenu()
     {
-        $menu = Mockery::mock('EasyWeChat\Menu\Menu[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $menu = \Mockery::mock('EasyWeChat\Menu\Menu[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $menu->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
             return [
                 'api' => $params[0],

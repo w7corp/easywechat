@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 HEADS="master"
-TAGS="3.0.20"
+TAGS="3.1.8"
 
 split()
 {
@@ -54,4 +54,5 @@ split support       src/Support:git@github.com:easywechat/support.git $HEADS $TA
 split url           src/Url:git@github.com:easywechat/url.git $HEADS $TAGS
 split user          src/User:git@github.com:easywechat/user.git $HEADS $TAGS
 split broadcast     src/Broadcast:git@github.com:easywechat/broadcast.git $HEADS $TAGS
-split reply     src/Reply:git@github.com:easywechat/reply.git $HEADS $TAGS
+split reply         src/Reply:git@github.com:easywechat/reply.git $HEADS $TAGS
+split shake-around   src/ShakeAround:git@github.com:easywechat/shake-around.git $HEADS $TAGS

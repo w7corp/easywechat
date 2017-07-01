@@ -9,10 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace {
+namespace EasyWeChat\Tests\Core {
     use EasyWeChat\Core\Http;
+    use EasyWeChat\Tests\TestCase;
     use GuzzleHttp\Client;
+    use GuzzleHttp\HandlerStack;
+    use GuzzleHttp\Middleware;
+    use GuzzleHttp\Psr7\Request;
     use GuzzleHttp\Psr7\Response;
+    use Psr\Http\Message\RequestInterface;
 
     class CoreHttpTest extends TestCase
     {
@@ -32,8 +37,8 @@ namespace {
          */
         public function getGuzzleWithResponse($expected = null)
         {
-            $guzzle = Mockery::mock(Client::class);
-            $response = Mockery::mock(Response::class.'[getBody]');
+            $guzzle = \Mockery::mock(Client::class);
+            $response = \Mockery::mock(Response::class.'[getBody]');
 
             $status = 200;
             $headers = ['X-Foo' => 'Bar'];
@@ -94,8 +99,8 @@ namespace {
          */
         public function testGet()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -114,8 +119,8 @@ namespace {
          */
         public function testPost()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -142,8 +147,8 @@ namespace {
          */
         public function testJson()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -154,13 +159,19 @@ namespace {
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => json_encode(['foo' => 'bar']), 'headers' => ['content-type' => 'application/json']], $response['body']);
+
+            $this->assertEquals([], $response['body']['query']);
+            $this->assertEquals(json_encode(['foo' => 'bar']), $response['body']['body']);
+            $this->assertEquals(['content-type' => 'application/json'], $response['body']['headers']);
 
             $response = $http->json('http://easywechat.org', ['foo' => 'bar'], JSON_UNESCAPED_UNICODE);
 
             $this->assertEquals('http://easywechat.org', $response['url']);
             $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => json_encode(['foo' => 'bar'], JSON_UNESCAPED_UNICODE), 'headers' => ['content-type' => 'application/json']], $response['body']);
+
+            $this->assertEquals([], $response['body']['query']);
+            $this->assertEquals(json_encode(['foo' => 'bar']), $response['body']['body']);
+            $this->assertEquals(['content-type' => 'application/json'], $response['body']['headers']);
         }
 
         /**
@@ -168,8 +179,8 @@ namespace {
          */
         public function testUpload()
         {
-            $guzzle = Mockery::mock(Client::class);
-            $http = Mockery::mock(Http::class.'[request]');
+            $guzzle = \Mockery::mock(Client::class);
+            $http = \Mockery::mock(Http::class.'[request]');
             $http->setClient($guzzle);
 
             $http->shouldReceive('request')->andReturnUsing(function ($url, $method, $body) {
@@ -185,6 +196,40 @@ namespace {
             $this->assertEquals('bar', $response['body']['multipart'][0]['contents']);
             $this->assertEquals('hello', $response['body']['multipart'][1]['name']);
             $this->assertEquals('world', $response['body']['multipart'][1]['contents']);
+        }
+
+        public function testUserHandler()
+        {
+            $oldDefaultOptions = Http::getDefaultOptions();
+
+            $statistics = [];
+            Http::setDefaultOptions([
+                'timeout' => 3,
+                'handler' => Middleware::tap(function (RequestInterface $request) use (&$statistics) {
+                    $api = $request->getUri()->getPath();
+                    if (!isset($statistics[$api])) {
+                        $statistics[$api] = 0;
+                    }
+                    ++$statistics[$api];
+                }),
+            ]);
+
+            $httpClient = \Mockery::mock(Client::class);
+            $httpClient->shouldReceive('request')->andReturnUsing(function ($method, $url, $options) {
+                $request = new Request($method, $url);
+                if (isset($options['handler']) && ($options['handler'] instanceof HandlerStack)) {
+                    $options['handler']($request, $options);
+                }
+
+                return new Response();
+            });
+
+            $http = new Http();
+            $http->setClient($httpClient);
+            $http->request('http://overtrue.me/domain/action', 'GET');
+            $this->assertSame(1, $statistics['/domain/action']);
+
+            Http::setDefaultOptions($oldDefaultOptions);
         }
     }
 }

@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\User;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -40,7 +41,7 @@ class Group extends AbstractAPI
      *
      * @param string $name
      *
-     * @return int
+     * @return \EasyWeChat\Support\Collection
      */
     public function create($name)
     {
@@ -54,7 +55,7 @@ class Group extends AbstractAPI
     /**
      * List all groups.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function lists()
     {
@@ -67,7 +68,7 @@ class Group extends AbstractAPI
      * @param int    $groupId
      * @param string $name
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function update($groupId, $name)
     {
@@ -86,7 +87,7 @@ class Group extends AbstractAPI
      *
      * @param int $groupId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function delete($groupId)
     {
@@ -102,7 +103,7 @@ class Group extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return int
+     * @return \EasyWeChat\Support\Collection
      */
     public function userGroup($openId)
     {
@@ -117,7 +118,7 @@ class Group extends AbstractAPI
      * @param string $openId
      * @param int    $groupId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function moveUser($openId, $groupId)
     {
@@ -135,7 +136,7 @@ class Group extends AbstractAPI
      * @param array $openIds
      * @param int   $groupId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function moveUsers(array $openIds, $groupId)
     {

@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Encryption;
 
 use EasyWeChat\Core\Exception as CoreException;
@@ -38,4 +39,5 @@ class EncryptionException extends CoreException
     const ERROR_BASE64_ENCODE = -40009; // Base64 encoding failed
     const ERROR_BASE64_DECODE = -40010; // Base64 decoding failed
     const ERROR_XML_BUILD = -40011; // XML build failed
+    const ILLEGAL_BUFFER = -41003; // Illegal buffer
 }

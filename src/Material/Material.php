@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Material;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -50,7 +51,7 @@ class Material extends AbstractAPI
      *
      * @param string $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function uploadImage($path)
     {
@@ -62,7 +63,7 @@ class Material extends AbstractAPI
      *
      * @param string $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function uploadVoice($path)
     {
@@ -74,7 +75,7 @@ class Material extends AbstractAPI
      *
      * @param string $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function uploadThumb($path)
     {
@@ -88,7 +89,7 @@ class Material extends AbstractAPI
      * @param string $title
      * @param string $description
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function uploadVideo($path, $title, $description)
     {
@@ -108,7 +109,7 @@ class Material extends AbstractAPI
      *
      * @param array|Article $articles
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function uploadArticle($articles)
     {
@@ -137,7 +138,7 @@ class Material extends AbstractAPI
      * @param array  $article
      * @param int    $index
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function updateArticle($mediaId, $article, $index = 0)
     {
@@ -155,7 +156,7 @@ class Material extends AbstractAPI
      *
      * @param string $path
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function uploadArticleImage($path)
     {
@@ -196,7 +197,7 @@ class Material extends AbstractAPI
      *
      * @param string $mediaId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function delete($mediaId)
     {
@@ -254,7 +255,7 @@ class Material extends AbstractAPI
      * @param string $path
      * @param array  $form
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      *
      * @throws InvalidArgumentException
      */

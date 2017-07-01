@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Url;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -34,7 +35,7 @@ class Url extends AbstractAPI
      *
      * @param string $url
      *
-     * @return string
+     * @return \EasyWeChat\Support\Collection
      */
     public function shorten($url)
     {

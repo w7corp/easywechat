@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\User;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -33,6 +34,9 @@ class User extends AbstractAPI
     const API_GROUP = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
     const API_REMARK = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
     const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
+    const API_GET_BLACK_LIST = 'https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist';
+    const API_BATCH_BLACK_LIST = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist';
+    const API_BATCH_UNBLACK_LIST = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchunblacklist';
 
     /**
      * Fetch a user by open id.
@@ -40,7 +44,7 @@ class User extends AbstractAPI
      * @param string $openId
      * @param string $lang
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function get($openId, $lang = 'zh_CN')
     {
@@ -94,7 +98,7 @@ class User extends AbstractAPI
      * @param string $openId
      * @param string $remark
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function remark($openId, $remark)
     {
@@ -111,7 +115,7 @@ class User extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return int
+     * @return \EasyWeChat\Support\Collection
      */
     public function group($openId)
     {
@@ -123,12 +127,54 @@ class User extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function getGroup($openId)
     {
         $params = ['openid' => $openId];
 
         return $this->parseJSON('json', [self::API_GROUP, $params]);
+    }
+
+    /**
+     * Get black list.
+     *
+     * @param string|null $beginOpenid
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function blacklist($beginOpenid = null)
+    {
+        $params = ['begin_openid' => $beginOpenid];
+
+        return $this->parseJSON('json', [self::API_GET_BLACK_LIST, $params]);
+    }
+
+    /**
+     * Batch block user.
+     *
+     * @param array $openidList
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function batchBlock(array $openidList)
+    {
+        $params = ['openid_list' => $openidList];
+
+        return $this->parseJSON('json', [self::API_BATCH_BLACK_LIST, $params]);
+    }
+
+    /**
+     * Batch unblock user.
+     *
+     * @param array $openidList
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function batchUnblock(array $openidList)
+    {
+        $params = ['openid_list' => $openidList];
+
+        return $this->parseJSON('json', [self::API_BATCH_UNBLACK_LIST, $params]);
     }
 }

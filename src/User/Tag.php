@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\User;
 
 use EasyWeChat\Core\AbstractAPI;
@@ -41,7 +42,7 @@ class Tag extends AbstractAPI
      *
      * @param string $name
      *
-     * @return int
+     * @return \EasyWeChat\Support\Collection
      */
     public function create($name)
     {
@@ -55,7 +56,7 @@ class Tag extends AbstractAPI
     /**
      * List all tags.
      *
-     * @return array
+     * @return \EasyWeChat\Support\Collection
      */
     public function lists()
     {
@@ -68,7 +69,7 @@ class Tag extends AbstractAPI
      * @param int    $tagId
      * @param string $name
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function update($tagId, $name)
     {
@@ -87,7 +88,7 @@ class Tag extends AbstractAPI
      *
      * @param int $tagId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function delete($tagId)
     {
@@ -103,7 +104,7 @@ class Tag extends AbstractAPI
      *
      * @param string $openId
      *
-     * @return int
+     * @return \EasyWeChat\Support\Collection
      */
     public function userTags($openId)
     {
@@ -118,7 +119,7 @@ class Tag extends AbstractAPI
      * @param string $tagId
      * @param string $nextOpenId
      *
-     * @return int
+     * @return \EasyWeChat\Support\Collection
      */
     public function usersOfTag($tagId, $nextOpenId = '')
     {
@@ -133,7 +134,7 @@ class Tag extends AbstractAPI
      * @param array $openIds
      * @param int   $tagId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function batchTagUsers(array $openIds, $tagId)
     {
@@ -151,7 +152,7 @@ class Tag extends AbstractAPI
      * @param array $openIds
      * @param int   $tagId
      *
-     * @return bool
+     * @return \EasyWeChat\Support\Collection
      */
     public function batchUntagUsers(array $openIds, $tagId)
     {

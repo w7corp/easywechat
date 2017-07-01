@@ -15,12 +15,16 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Payment;
 
+use Doctrine\Common\Cache\Cache;
+use Doctrine\Common\Cache\FilesystemCache;
 use EasyWeChat\Core\AbstractAPI;
+use EasyWeChat\Core\Exception;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
 use Psr\Http\Message\ResponseInterface;
@@ -37,18 +41,43 @@ class API extends AbstractAPI
      */
     protected $merchant;
 
+    /**
+     * Sandbox box mode.
+     *
+     * @var bool
+     */
+    protected $sandboxEnabled = false;
+
+    /**
+     * Sandbox sign key.
+     *
+     * @var string
+     */
+    protected $sandboxSignKey;
+
+    /**
+     * Cache.
+     *
+     * @var Cache
+     */
+    protected $cache;
+
+    const API_HOST = 'https://api.mch.weixin.qq.com';
+
     // api
-    const API_PAY_ORDER = 'https://api.mch.weixin.qq.com/pay/micropay';
-    const API_PREPARE_ORDER = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-    const API_QUERY = 'https://api.mch.weixin.qq.com/pay/orderquery';
-    const API_CLOSE = 'https://api.mch.weixin.qq.com/pay/closeorder';
-    const API_REVERSE = 'https://api.mch.weixin.qq.com/secapi/pay/reverse';
-    const API_REFUND = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
-    const API_QUERY_REFUND = 'https://api.mch.weixin.qq.com/pay/refundquery';
-    const API_DOWNLOAD_BILL = 'https://api.mch.weixin.qq.com/pay/downloadbill';
-    const API_REPORT = 'https://api.mch.weixin.qq.com/payitil/report';
+    const API_PAY_ORDER = '/pay/micropay';
+    const API_PREPARE_ORDER = '/pay/unifiedorder';
+    const API_QUERY = '/pay/orderquery';
+    const API_CLOSE = '/pay/closeorder';
+    const API_REVERSE = '/secapi/pay/reverse';
+    const API_REFUND = '/secapi/pay/refund';
+    const API_QUERY_REFUND = '/pay/refundquery';
+    const API_DOWNLOAD_BILL = '/pay/downloadbill';
+    const API_REPORT = '/payitil/report';
+
     const API_URL_SHORTEN = 'https://api.mch.weixin.qq.com/tools/shorturl';
     const API_AUTH_CODE_TO_OPENID = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
+    const API_SANDBOX_SIGN_KEY = 'https://api.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
 
     // order id types.
     const TRANSACTION_ID = 'transaction_id';
@@ -65,11 +94,13 @@ class API extends AbstractAPI
     /**
      * API constructor.
      *
-     * @param \EasyWeChat\Payment\Merchant $merchant
+     * @param \EasyWeChat\Payment\Merchant   $merchant
+     * @param \EasyWeChat\Payment\Cache|null $cache
      */
-    public function __construct(Merchant $merchant)
+    public function __construct(Merchant $merchant, Cache $cache = null)
     {
         $this->merchant = $merchant;
+        $this->cache = $cache;
     }
 
     /**
@@ -81,7 +112,7 @@ class API extends AbstractAPI
      */
     public function pay(Order $order)
     {
-        return $this->request(self::API_PAY_ORDER, $order->all());
+        return $this->request($this->wrapApi(self::API_PAY_ORDER), $order->all());
     }
 
     /**
@@ -94,9 +125,11 @@ class API extends AbstractAPI
     public function prepare(Order $order)
     {
         $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
-        $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? get_server_ip() : get_client_ip();
+        if (is_null($order->spbill_create_ip)) {
+            $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? get_server_ip() : get_client_ip();
+        }
 
-        return $this->request(self::API_PREPARE_ORDER, $order->all());
+        return $this->request($this->wrapApi(self::API_PREPARE_ORDER), $order->all());
     }
 
     /**
@@ -113,7 +146,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->request(self::API_QUERY, $params);
+        return $this->request($this->wrapApi(self::API_QUERY), $params);
     }
 
     /**
@@ -141,7 +174,7 @@ class API extends AbstractAPI
             'out_trade_no' => $tradeNo,
         ];
 
-        return $this->request(self::API_CLOSE, $params);
+        return $this->request($this->wrapApi(self::API_CLOSE), $params);
     }
 
     /**
@@ -158,7 +191,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->safeRequest(self::API_REVERSE, $params);
+        return $this->safeRequest($this->wrapApi(self::API_REVERSE), $params);
     }
 
     /**
@@ -177,6 +210,7 @@ class API extends AbstractAPI
      * Make a refund request.
      *
      * @param string $orderNo
+     * @param string $refundNo
      * @param float  $totalFee
      * @param float  $refundFee
      * @param string $opUserId
@@ -204,13 +238,14 @@ class API extends AbstractAPI
             'op_user_id' => $opUserId ?: $this->merchant->merchant_id,
         ];
 
-        return $this->safeRequest(self::API_REFUND, $params);
+        return $this->safeRequest($this->wrapApi(self::API_REFUND), $params);
     }
 
     /**
      * Refund by transaction id.
      *
      * @param string $orderNo
+     * @param string $refundNo
      * @param float  $totalFee
      * @param float  $refundFee
      * @param string $opUserId
@@ -243,7 +278,7 @@ class API extends AbstractAPI
             $type => $orderNo,
         ];
 
-        return $this->request(self::API_QUERY_REFUND, $params);
+        return $this->request($this->wrapApi(self::API_QUERY_REFUND), $params);
     }
 
     /**
@@ -297,7 +332,7 @@ class API extends AbstractAPI
             'bill_type' => $type,
         ];
 
-        return $this->request(self::API_DOWNLOAD_BILL, $params, 'post', [], true)->getBody();
+        return $this->request($this->wrapApi(self::API_DOWNLOAD_BILL), $params, 'post', [\GuzzleHttp\RequestOptions::STREAM => true], true)->getBody();
     }
 
     /**
@@ -335,7 +370,7 @@ class API extends AbstractAPI
             'time' => time(),
         ], $other);
 
-        return $this->request(self::API_REPORT, $params);
+        return $this->request($this->wrapApi(self::API_REPORT), $params);
     }
 
     /**
@@ -373,6 +408,20 @@ class API extends AbstractAPI
     }
 
     /**
+     * Set sandbox mode.
+     *
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function sandboxMode($enabled = false)
+    {
+        $this->sandboxEnabled = $enabled;
+
+        return $this;
+    }
+
+    /**
      * Make a API request.
      *
      * @param string $api
@@ -392,7 +441,8 @@ class API extends AbstractAPI
         $params['device_info'] = $this->merchant->device_info;
         $params['nonce_str'] = uniqid();
         $params = array_filter($params);
-        $params['sign'] = generate_sign($params, $this->merchant->key, 'md5');
+
+        $params['sign'] = generate_sign($params, $this->getSignkey($api), 'md5');
 
         $options = array_merge([
             'body' => XML::build($params),
@@ -401,6 +451,18 @@ class API extends AbstractAPI
         $response = $this->getHttp()->request($api, $method, $options);
 
         return $returnResponse ? $response : $this->parseResponse($response);
+    }
+
+    /**
+     * Return key to sign.
+     *
+     * @param string $api
+     *
+     * @return string
+     */
+    protected function getSignkey($api)
+    {
+        return $this->sandboxEnabled && $api !== self::API_SANDBOX_SIGN_KEY ? $this->getSandboxSignKey() : $this->merchant->key;
     }
 
     /**
@@ -436,5 +498,62 @@ class API extends AbstractAPI
         }
 
         return new Collection((array) XML::parse($response));
+    }
+
+    /**
+     * Wrap API.
+     *
+     * @param string $resource
+     *
+     * @return string
+     */
+    protected function wrapApi($resource)
+    {
+        return self::API_HOST.($this->sandboxEnabled ? '/sandboxnew' : '').$resource;
+    }
+
+    /**
+     * Get sandbox sign key.
+     *
+     * @return string
+     */
+    protected function getSandboxSignKey()
+    {
+        if ($this->sandboxSignKey) {
+            return $this->sandboxSignKey;
+        }
+
+        // Try to get sandbox_signkey from cache
+        $cacheKey = 'sandbox_signkey.'.$this->merchant->merchant_id.$this->merchant->sub_merchant_id;
+
+        /** @var \Doctrine\Common\Cache\Cache $cache */
+        $cache = $this->getCache();
+
+        $this->sandboxSignKey = $cache->fetch($cacheKey);
+
+        if (!$this->sandboxSignKey) {
+            // Try to acquire a new sandbox_signkey from WeChat
+            $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
+
+            if ($result->return_code === 'SUCCESS') {
+                $cache->save($cacheKey, $result->sandbox_signkey, 24 * 3600);
+
+                return $this->sandboxSignKey = $result->sandbox_signkey;
+            }
+
+            throw new Exception($result->return_msg);
+        }
+
+        return $this->sandboxSignKey;
+    }
+
+    /**
+     * Return the cache manager.
+     *
+     * @return \Doctrine\Common\Cache\Cache
+     */
+    public function getCache()
+    {
+        return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
     }
 }

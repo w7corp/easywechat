@@ -9,6 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
+namespace EasyWeChat\Tests\Url;
+
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Url\Url;
 
 class UrlUrlTest extends TestCase
@@ -18,7 +21,7 @@ class UrlUrlTest extends TestCase
      */
     public function testShorten()
     {
-        $url = Mockery::mock('EasyWeChat\Url\Url[parseJSON]', [Mockery::mock('EasyWeChat\Core\AccessToken')]);
+        $url = \Mockery::mock('EasyWeChat\Url\Url[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $url->shouldReceive('parseJSON')->andReturnUsing(function () {
             return func_get_args();
         });

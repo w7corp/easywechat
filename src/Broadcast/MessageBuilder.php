@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Broadcast;
 
 use EasyWeChat\Core\Exceptions\InvalidArgumentException;
@@ -139,9 +140,7 @@ class MessageBuilder
         }
 
         // 群发视频消息给用户列表时，视频消息格式需要另外处理，具体见文档
-        if (isset($this->to) && is_array($this->to) && $this->msgType === Broadcast::MSG_TYPE_VIDEO) {
-            $this->msgType = 'video';
-        } elseif ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
+        if ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
             $this->msgType = 'mpvideo';
         }
 
@@ -172,6 +171,8 @@ class MessageBuilder
 
         if (empty($this->msgType)) {
             throw new RuntimeException('Message type not exist.');
+        } elseif ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
+            $this->msgType = 'mpvideo';
         }
 
         if (empty($this->message)) {

@@ -15,9 +15,10 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2016 overtrue <i@overtrue.me>
  *
- * @link      https://github.com/overtrue
- * @link      http://overtrue.me
+ * @see      https://github.com/overtrue
+ * @see      http://overtrue.me
  */
+
 namespace EasyWeChat\Card;
 
 use Doctrine\Common\Cache\Cache;
@@ -36,9 +37,18 @@ class Card extends AbstractAPI
     protected $cache;
 
     /**
-     * Ticket cache prefix.
+     * Ticket cache key.
+     *
+     * @var string
      */
-    const TICKET_CACHE_PREFIX = 'overtrue.wechat.card_api_ticket.';
+    protected $ticketCacheKey;
+
+    /**
+     * Ticket cache prefix.
+     *
+     * @var string
+     */
+    protected $ticketCachePrefix = 'overtrue.wechat.card_api_ticket.';
 
     const API_GET_COLORS = 'https://api.weixin.qq.com/card/getcolors';
     const API_CREATE_CARD = 'https://api.weixin.qq.com/card/create';
@@ -63,8 +73,8 @@ class Card extends AbstractAPI
     const API_UPDATE_CODE = 'https://api.weixin.qq.com/card/code/update';
     const API_DELETE_CARD = 'https://api.weixin.qq.com/card/delete';
     const API_DISABLE_CARD = 'https://api.weixin.qq.com/card/code/unavailable';
-    const API_ACTIVATE_CARD = 'https://api.weixin.qq.com/card/membercard/activate';
-    const API_ACTIVATE_USER_FORM = 'https://api.weixin.qq.com/card/membercard/activateuserform/set';
+    const API_ACTIVATE_MEMBER_CARD = 'https://api.weixin.qq.com/card/membercard/activate';
+    const API_ACTIVATE_MEMBER_USER_FORM = 'https://api.weixin.qq.com/card/membercard/activateuserform/set';
     const API_GET_MEMBER_USER_INFO = 'https://api.weixin.qq.com/card/membercard/userinfo/get';
     const API_UPDATE_MEMBER_CARD_USER = 'https://api.weixin.qq.com/card/membercard/updateuser';
     const API_CREATE_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/submit';
@@ -72,6 +82,8 @@ class Card extends AbstractAPI
     const API_GET_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/get';
     const API_LIST_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/batchget';
     const API_GET_CATEGORIES = 'https://api.weixin.qq.com/card/getapplyprotocol';
+    const API_ACTIVATE_GENERAL_CARD = 'https://api.weixin.qq.com/card/generalcard/activate';
+    const API_UPDATE_GENERAL_CARD_USER = 'https://api.weixin.qq.com/card/generalcard/updateuser';
 
     /**
      * 获取卡券颜色.
@@ -98,7 +110,7 @@ class Card extends AbstractAPI
         $params = [
             'card' => [
                 'card_type' => strtoupper($cardType),
-                strtolower($cardType) => array_merge(['base_info' => $baseInfo], $especial, $advancedInfo),
+                strtolower($cardType) => array_merge(['base_info' => $baseInfo], $especial, ['advanced_info' => $advancedInfo]),
             ],
         ];
 
@@ -165,7 +177,7 @@ class Card extends AbstractAPI
      */
     public function getAPITicket($refresh = false)
     {
-        $key = self::TICKET_CACHE_PREFIX.$this->getAccessToken()->getAppId();
+        $key = $this->getTicketCacheKey();
 
         $ticket = $this->getCache()->fetch($key);
 
@@ -499,7 +511,9 @@ class Card extends AbstractAPI
         $card[$type] = [];
 
         $cardInfo = [];
-        $cardInfo['base_info'] = $baseInfo;
+        if ($baseInfo) {
+            $cardInfo['base_info'] = $baseInfo;
+        }
 
         $card[$type] = array_merge($cardInfo, $especial);
 
@@ -632,9 +646,13 @@ class Card extends AbstractAPI
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function activate($info = [])
+    public function activate($info = [], $cardType = 'member_card')
     {
-        return $this->parseJSON('json', [self::API_ACTIVATE_CARD, $info]);
+        if ($cardType === 'general_card') {
+            return $this->parseJSON('json', [self::API_ACTIVATE_GENERAL_CARD, $info]);
+        }
+
+        return $this->parseJSON('json', [self::API_ACTIVATE_MEMBER_CARD, $info]);
     }
 
     /**
@@ -650,7 +668,7 @@ class Card extends AbstractAPI
     {
         $params = array_merge(['card_id' => $cardId], $requiredForm, $optionalForm);
 
-        return $this->parseJSON('json', [self::API_ACTIVATE_USER_FORM, $params]);
+        return $this->parseJSON('json', [self::API_ACTIVATE_MEMBER_USER_FORM, $params]);
     }
 
     /**
@@ -681,6 +699,18 @@ class Card extends AbstractAPI
     public function updateMemberCardUser(array $params = [])
     {
         return $this->parseJSON('json', [self::API_UPDATE_MEMBER_CARD_USER, $params]);
+    }
+
+    /**
+     * 更新通用员信息.
+     *
+     * @param array $params
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function updateGeneralCardUser(array $params = [])
+    {
+        return $this->parseJSON('json', [self::API_UPDATE_GENERAL_CARD_USER, $params]);
     }
 
     /**
@@ -801,6 +831,48 @@ class Card extends AbstractAPI
     public function getCache()
     {
         return $this->cache ?: $this->cache = new FilesystemCache(sys_get_temp_dir());
+    }
+
+    /**
+     * Set Api_ticket cache prifix.
+     *
+     * @param string $prefix
+     *
+     * @return $this
+     */
+    public function setTicketCachePrefix($prefix)
+    {
+        $this->ticketCachePrefix = $prefix;
+
+        return $this;
+    }
+
+    /**
+     * Set Api_ticket cache key.
+     *
+     * @param string $cacheKey
+     *
+     * @return $this
+     */
+    public function setTicketCacheKey($cacheKey)
+    {
+        $this->ticketCacheKey = $cacheKey;
+
+        return $this;
+    }
+
+    /**
+     * Get ApiTicket token cache key.
+     *
+     * @return string
+     */
+    public function getTicketCacheKey()
+    {
+        if (is_null($this->ticketCacheKey)) {
+            return $this->ticketCachePrefix.$this->getAccessToken()->getAppId();
+        }
+
+        return $this->ticketCacheKey;
     }
 
     /**
