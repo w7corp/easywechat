@@ -25,12 +25,12 @@ use EasyWeChat\Support\Str;
 class Factory
 {
     /**
-     * @param string                          $name
-     * @param array|\EasyWeChat\Kernel\Config $config
+     * @param string $name
+     * @param array  $config
      *
      * @return \EasyWeChat\Kernel\ServiceContainer
      */
-    public static function make($name, $config)
+    public static function make($name, array $config)
     {
         $namespace = Str::studly($name);
         $application = "\\EasyWeChat\\Applications\\{$namespace}\\Application";

@@ -40,15 +40,17 @@ class ServiceContainer extends Container
     /**
      * Constructor.
      *
-     * @param array|\EasyWeChat\Kernel\Config $config
+     * @param array $config
      */
-    public function __construct($config)
+    public function __construct(array $config)
     {
         parent::__construct();
 
-        $config = array_replace_recursive($config, $this->defaultConfig);
-
-        $this['config'] = ($config instanceof Config) ? $config : new Config($config);
+        $this['config'] = function () use ($config) {
+            return new Config(
+                array_replace_recursive($config, $this->defaultConfig)
+            );
+        };
 
         $this->registerProviders()
                 ->registerLogger()
