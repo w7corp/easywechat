@@ -206,17 +206,17 @@ class Staff extends AbstractAPI
      *
      * @param int $startTime
      * @param int $endTime
-     * @param int $msgid
+     * @param int $msgId
      * @param int $number
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function msglist($startTime, $endTime, $msgid = 1, $number = 10000)
+    public function messages($startTime, $endTime, $msgId = 1, $number = 10000)
     {
         $params = [
                    'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
                    'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
-                   'msgid' => $msgid,
+                   'msgid' => $msgId,
                    'number' => $number,
                   ];
 
