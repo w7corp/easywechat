@@ -200,7 +200,7 @@ class Staff extends AbstractAPI
 
         return $this->parseJSON('json', [self::API_RECORDS, $params]);
     }
-    
+
     /**
      * 获取聊天记录.
      *
