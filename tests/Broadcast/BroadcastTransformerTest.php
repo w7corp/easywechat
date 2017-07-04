@@ -87,12 +87,12 @@ class BroadcastTransformerTest extends TestCase
         $transformer = new Transformer('video', ['MEDIA_ID', 'TITLE', 'DESCRIPTION']);
 
         $msg = [
-            'video' => [
+            'mpvideo' => [
                 'media_id' => 'MEDIA_ID',
                 'title' => 'TITLE',
                 'description' => 'DESCRIPTION',
             ],
-            'msgtype' => 'video',
+            'msgtype' => 'mpvideo',
         ];
 
         $this->assertEquals($msg, $transformer->transform());

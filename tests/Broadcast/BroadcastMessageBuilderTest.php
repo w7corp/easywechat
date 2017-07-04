@@ -102,12 +102,10 @@ class BroadcastMessageBuilderTest extends TestCase
                 'OPENID2',
                 'OPENID3',
             ],
-            'video' => [
+            'mpvideo' => [
                 'media_id' => 'MEDIA_ID',
-                'title' => 'TITLE',
-                'description' => 'DESCRIPTION',
             ],
-            'msgtype' => 'video',
+            'msgtype' => 'mpvideo',
         ];
         $this->assertEquals($message, $messageBuilder->build());
 
