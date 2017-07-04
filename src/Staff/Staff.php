@@ -38,6 +38,7 @@ class Staff extends AbstractAPI
     const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
     const API_AVATAR_UPLOAD = 'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
     const API_RECORDS = 'https://api.weixin.qq.com/customservice/msgrecord/getrecord';
+    const API_MSG_LIST = 'https://api.weixin.qq.com/customservice/msgrecord/getmsglist';
 
     /**
      * List all staffs.
@@ -198,5 +199,27 @@ class Staff extends AbstractAPI
                   ];
 
         return $this->parseJSON('json', [self::API_RECORDS, $params]);
+    }
+    
+    /**
+     * 获取聊天记录.
+     *
+     * @param int $startTime
+     * @param int $endTime
+     * @param int $msgid
+     * @param int $number
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function msglist($startTime, $endTime, $msgid = 1, $number = 10000)
+    {
+        $params = [
+                   'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
+                   'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
+                   'msgid' => $msgid,
+                   'number' => $number,
+                  ];
+
+        return $this->parseJSON('json', [self::API_MSG_LIST, $params]);
     }
 }
