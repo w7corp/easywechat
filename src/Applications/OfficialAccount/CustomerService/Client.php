@@ -150,7 +150,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Get staff session history.
+     * Get session history.
      *
      * @param int $startTime
      * @param int $endTime
@@ -169,5 +169,27 @@ class Client extends BaseClient
         ];
 
         return $this->httpPostJson('customservice/msgrecord/getrecord', $params);
+    }
+
+    /**
+     * Get messages history.
+     *
+     * @param int $startTime
+     * @param int $endTime
+     * @param int $msgId
+     * @param int $number
+     *
+     * @return mixed
+     */
+    public function messages($startTime, $endTime, $msgId = 1, $number = 10000)
+    {
+        $params = [
+            'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
+            'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
+            'msgid' => $msgId,
+            'number' => $number,
+        ];
+
+        return $this->httpPostJson('customservice/msgrecord/getmsglist', $params);
     }
 }
