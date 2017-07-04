@@ -242,11 +242,11 @@ class Application extends Container
         }
 
         $this['access_token'] = function () {
-            return (new AccessToken(
+            return new AccessToken(
                 $this['config']['app_id'],
                 $this['config']['secret'],
                 $this['cache']
-            ))->autoRefresh($this['config']->get('access_token_auto_refresh', true));
+            );
         };
     }
 
