@@ -86,6 +86,11 @@ class AccessToken
      */
     protected $prefix = 'easywechat.common.access_token.';
 
+    /**
+     * @var bool
+     */
+    protected $autoRefresh = true;
+
     // API
     const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/token';
 
@@ -310,5 +315,17 @@ class AccessToken
         }
 
         return $this->cacheKey;
+    }
+
+    /**
+     * @param bool $enabled
+     *
+     * @return $this
+     */
+    public function autoRefresh($enabled = true)
+    {
+        $this->autoRefresh = $enabled;
+
+        return $this;
     }
 }
