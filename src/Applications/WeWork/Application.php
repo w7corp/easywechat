@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Applications\WeWork;
 
+use EasyWeChat\Applications\Jssdk\Application as JssdkApplication;
 use EasyWeChat\Applications\WeWork;
 use EasyWeChat\Kernel\ServiceContainer;
 
@@ -42,4 +43,11 @@ class Application extends ServiceContainer
             'base_uri' => 'https://qyapi.weixin.qq.com/cgi-bin/',
         ],
     ];
+
+    protected function afterRegistered()
+    {
+        $this['jssdk'] = function () {
+            return (new JssdkApplication($this['config']->toArray()))->jssdk;
+        };
+    }
 }

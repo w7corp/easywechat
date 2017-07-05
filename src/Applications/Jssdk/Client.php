@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Jssdk;
+namespace EasyWeChat\Applications\Jssdk;
 
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support;
@@ -46,7 +46,7 @@ class Client extends BaseClient
      *
      * @return array|string
      */
-    public function config(array $jsApiList, $debug = false, $beta = false, $json = true)
+    public function buildConfig(array $jsApiList, $debug = false, $beta = false, $json = true)
     {
         $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->signature());
 
@@ -56,15 +56,15 @@ class Client extends BaseClient
     /**
      * Return jsapi config as a PHP array.
      *
-     * @param array $APIs
+     * @param array $apis
      * @param bool  $debug
      * @param bool  $beta
      *
      * @return array
      */
-    public function getConfigArray(array $APIs, $debug = false, $beta = false)
+    public function getConfigArray(array $apis, $debug = false, $beta = false)
     {
-        return $this->config($APIs, $debug, $beta, false);
+        return $this->buildConfig($apis, $debug, $beta, false);
     }
 
     /**
@@ -74,7 +74,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function ticket(bool $refresh = false)
+    public function getTicket(bool $refresh = false)
     {
         $cacheKey = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
 
@@ -97,7 +97,7 @@ class Client extends BaseClient
      *
      * @return array
      */
-    public function signature($url = null, $nonce = null, $timestamp = null)
+    protected function signature($url = null, $nonce = null, $timestamp = null)
     {
         $url = $url ?: $this->getUrl();
         $nonce = $nonce ?: Support\Str::quickRandom(10);
@@ -108,7 +108,7 @@ class Client extends BaseClient
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'url' => $url,
-            'signature' => $this->getSignature($this->ticket(), $nonce, $timestamp, $url),
+            'signature' => $this->getTicketSignature($this->getTicket(), $nonce, $timestamp, $url),
         ];
     }
 
@@ -122,7 +122,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getSignature($ticket, $nonce, $timestamp, $url)
+    public function getTicketSignature($ticket, $nonce, $timestamp, $url)
     {
         return sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}");
     }

@@ -52,10 +52,12 @@ class ServiceContainer extends Container
             );
         };
 
-        $this->registerProviders()
+        $this->beforeRegistered()
+                ->registerProviders()
                 ->registerLogger()
                 ->registerRequest()
-                ->registerHttpClient();
+                ->registerHttpClient()
+                ->afterRegistered();
     }
 
     /**
@@ -188,5 +190,13 @@ class ServiceContainer extends Container
     public function __set($id, $value)
     {
         $this->offsetSet($id, $value);
+    }
+
+    protected function afterRegistered()
+    {
+    }
+
+    protected function beforeRegistered()
+    {
     }
 }

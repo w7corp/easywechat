@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Applications\OfficialAccount;
 
+use EasyWeChat\Applications\Jssdk\Application as JssdkApplication;
 use EasyWeChat\Applications\OfficialAccount;
 use EasyWeChat\Kernel\ServiceContainer;
 
@@ -47,7 +48,6 @@ class Application extends ServiceContainer
         OfficialAccount\Auth\ServiceProvider::class,
         OfficialAccount\Server\ServiceProvider::class,
         OfficialAccount\User\ServiceProvider::class,
-        OfficialAccount\Jssdk\ServiceProvider::class,
         OfficialAccount\OAuth\ServiceProvider::class,
         OfficialAccount\Menu\ServiceProvider::class,
         OfficialAccount\TemplateMessage\ServiceProvider::class,
@@ -76,4 +76,11 @@ class Application extends ServiceContainer
             'base_uri' => 'https://api.weixin.qq.com/',
         ],
     ];
+
+    public function afterRegistered()
+    {
+        $this['jssdk'] = function () {
+            return (new JssdkApplication($this['config']->toArray()))->jssdk;
+        };
+    }
 }
