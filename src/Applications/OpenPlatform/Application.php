@@ -34,7 +34,6 @@ class Application extends ServiceContainer
         OpenPlatform\Auth\ServiceProvider::class,
         OpenPlatform\Base\ServiceProvider::class,
         OpenPlatform\Server\ServiceProvider::class,
-        OpenPlatform\PreAuthorization\ServiceProvider::class,
     ];
 
     protected $defaultConfig = [

@@ -112,4 +112,18 @@ class Client extends BaseClient
 
         return $this->httpPostJson('api_get_authorizer_list', $params);
     }
+
+    /**
+     * Create pre-authorization code.
+     *
+     * @return mixed
+     */
+    public function createPreAuthorizationCode()
+    {
+        $params = [
+            'component_appid' => $this->app['config']['app_id'],
+        ];
+
+        return $this->httpPostJson('api_create_preauthcode', $params);
+    }
 }
