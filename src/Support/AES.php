@@ -68,7 +68,7 @@ class AES implements Encryption
         if (!is_string($key)) {
             throw new \InvalidArgumentException('Key must be a string');
         }
-        if (!in_array(strlen($key), [16, 24, 32])) {
+        if (!in_array(strlen($key), [16, 24, 32], true)) {
             throw new \InvalidArgumentException('Key length must be 16, 24, or 32 bytes; got key len ('.strlen($key).')');
         }
 
@@ -87,7 +87,7 @@ class AES implements Encryption
         if (!is_string($iv)) {
             throw new \InvalidArgumentException('IV must be a string');
         }
-        if (strlen($iv) != 16) {
+        if (strlen($iv) !== 16) {
             throw new \InvalidArgumentException('IV length must be 16 bytes');
         }
         $this->iv = $iv;
