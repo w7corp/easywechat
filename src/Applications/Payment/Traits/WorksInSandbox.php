@@ -102,7 +102,7 @@ trait WorksInSandbox
     protected function getSignKeyFromServer()
     {
         $result = (array) XML::parse(
-            $this->request($this->signKeyEndpoint, [], 'post', [], true)->getBody()
+            $this->requestRaw($this->signKeyEndpoint)->getBody()
         );
 
         if ($result['return_code'] === 'SUCCESS') {

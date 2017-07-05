@@ -73,6 +73,21 @@ abstract class BaseClient
     }
 
     /**
+     * Make a request and return raw response.
+     *
+     * @param string $api
+     * @param array  $params
+     * @param string $method
+     * @param array  $options
+     *
+     * @return array|Support\Collection|object|ResponseInterface|string
+     */
+    protected function requestRaw($api, array $params, $method = 'post', array $options = [])
+    {
+        return $this->request($api, $params, $method, $options, true);
+    }
+
+    /**
      * Request with SSL.
      *
      * @param string $api
