@@ -11,8 +11,7 @@
 
 namespace EasyWeChat\Applications\MiniProgram\Encryption;
 
-use EasyWeChat\Applications\OfficialAccount\Encryption\EncryptionException;
-use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor as BaseEncryptor;
+use EasyWeChat\Kernel\Encryptor as BaseEncryptor;
 use Exception;
 
 /**
@@ -41,11 +40,11 @@ class Encryptor extends BaseEncryptor
                 OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, base64_decode($iv, true)
             );
         } catch (Exception $e) {
-            throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);
+            throw new EncryptionException($e->getMessage(), BaseEncryptor::ERROR_DECRYPT_AES);
         }
 
         if (is_null($result = json_decode($this->decode($decrypted), true))) {
-            throw new EncryptionException('ILLEGAL_BUFFER', EncryptionException::ILLEGAL_BUFFER);
+            throw new EncryptionException('ILLEGAL_BUFFER', BaseEncryptor::ILLEGAL_BUFFER);
         }
 
         return $result;
