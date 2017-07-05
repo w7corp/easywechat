@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Support;
 
-/**
+/*
  * helpers.
  *
  * @author overtrue <i@overtrue.me>
@@ -85,4 +85,16 @@ function current_url()
     }
 
     return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+}
+
+/**
+ * Return random string.
+ *
+ * @param string $length
+ *
+ * @return string
+ */
+function str_random($length)
+{
+    return Str::random($length);
 }

@@ -11,10 +11,9 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Server;
 
-use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor;
+use EasyWeChat\Applications\OfficialAccount\Application;
 use EasyWeChat\Exceptions\FaultException;
 use EasyWeChat\Exceptions\InvalidArgumentException;
-use EasyWeChat\Exceptions\RuntimeException;
 use EasyWeChat\Messages\Message;
 use EasyWeChat\Messages\Raw as RawMessage;
 use EasyWeChat\Messages\Text;
@@ -40,16 +39,6 @@ class Guard
      * @var Request
      */
     protected $request;
-
-    /**
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var Encryptor
-     */
-    protected $encryptor;
 
     /**
      * @var string|callable
@@ -84,29 +73,20 @@ class Guard
     protected $debug = false;
 
     /**
-     * Constructor.
-     *
-     * @param string  $token
-     * @param Request $request
+     * @var \EasyWeChat\Applications\OfficialAccount\Application
      */
-    public function __construct($token, Request $request = null)
-    {
-        $this->token = $token;
-        $this->request = $request ?: Request::createFromGlobals();
-    }
+    protected $app;
 
     /**
-     * Enable/Disable debug mode.
+     * Constructor.
      *
-     * @param bool $debug
-     *
-     * @return $this
+     * @param \EasyWeChat\Applications\OfficialAccount\Application $app
+     * @param \Symfony\Component\HttpFoundation\Request            $request
      */
-    public function debug($debug = true)
+    public function __construct(Application $app, Request $request = null)
     {
-        $this->debug = $debug;
-
-        return $this;
+        $this->app = $app;
+        $this->request = $request ?: Request::createFromGlobals();
     }
 
     /**
@@ -126,7 +106,7 @@ class Guard
             'Content' => $this->request->getContent(),
         ]);
 
-        $response = $this->validate($this->token)->resolve();
+        $response = $this->validate($this->app['config']['token'])->resolve();
 
         Log::debug('Server response created:', compact('response'));
 
@@ -153,6 +133,20 @@ class Guard
         if (!$this->debug && $this->request->get('signature') !== $this->signature($params)) {
             throw new FaultException('Invalid request signature.', 400);
         }
+
+        return $this;
+    }
+
+    /**
+     * Enable/Disable debug mode.
+     *
+     * @param bool $debug
+     *
+     * @return $this
+     */
+    public function debug($debug = true)
+    {
+        $this->debug = $debug;
 
         return $this;
     }
@@ -234,30 +228,6 @@ class Guard
     }
 
     /**
-     * Set Encryptor.
-     *
-     * @param Encryptor $encryptor
-     *
-     * @return Guard
-     */
-    public function setEncryptor(Encryptor $encryptor)
-    {
-        $this->encryptor = $encryptor;
-
-        return $this;
-    }
-
-    /**
-     * Return the encryptor instance.
-     *
-     * @return Encryptor
-     */
-    public function getEncryptor()
-    {
-        return $this->encryptor;
-    }
-
-    /**
      * Build response.
      *
      * @param $to
@@ -291,7 +261,7 @@ class Guard
 
         if ($this->isSafeMode()) {
             Log::debug('Messages safe mode is enable.');
-            $response = $this->encryptor->encryptMsg(
+            $response = $this->app['encryptor']->encrypt(
                 $response,
                 $this->request->get('nonce'),
                 $this->request->get('timestamp')
@@ -444,19 +414,8 @@ class Guard
     {
         $content = strval($content);
 
-        $dataSet = json_decode($content, true);
-        if (JSON_ERROR_NONE === json_last_error()) {
-            // For mini-program JSON formats.
-            // Convert to XML if the given string can be decode into a data array.
-            $content = XML::build($dataSet);
-        }
-
         if ($this->isSafeMode()) {
-            if (!$this->encryptor) {
-                throw new RuntimeException('Safe mode Encryptor is necessary, please use Guard::setEncryptor(Encryptor $encryptor) set the encryptor instance.');
-            }
-
-            $message = $this->encryptor->decryptMsg(
+            $message = $this->app['encryptor']->decrypt(
                 $this->request->get('msg_signature'),
                 $this->request->get('nonce'),
                 $this->request->get('timestamp'),
@@ -474,7 +433,7 @@ class Guard
      *
      * @return bool
      */
-    private function isSafeMode()
+    protected function isSafeMode()
     {
         return $this->request->get('encrypt_type') && $this->request->get('encrypt_type') === 'aes';
     }

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\OfficialAccount\Server;
 
-use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor;
+use EasyWeChat\Kernel\Encryptor;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -39,8 +39,6 @@ class ServiceProvider implements ServiceProviderInterface
             $server = new Guard($container['config']['token']);
 
             $server->debug($container['config']['debug']);
-
-            $server->setEncryptor($container['encryptor']);
 
             return $server;
         };
