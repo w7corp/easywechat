@@ -81,7 +81,15 @@ class Temporary extends AbstractAPI
     {
         $response = $this->getHttp()->get(self::API_GET, ['media_id' => $mediaId]);
 
-        return $response->getBody();
+        $body = $response->getBody();
+
+        $json = json_decode($body, true);
+
+        if (JSON_ERROR_NONE === json_last_error()) {
+            $this->checkAndThrow($json);
+        }
+
+        return $body;
     }
 
     /**
