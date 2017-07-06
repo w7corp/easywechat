@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\Jssdk;
+namespace EasyWeChat\Applications\BaseService\Jssdk;
 
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support;

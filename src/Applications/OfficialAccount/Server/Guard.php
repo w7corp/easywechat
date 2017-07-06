@@ -12,7 +12,7 @@
 namespace EasyWeChat\Applications\OfficialAccount\Server;
 
 use EasyWeChat\Applications\OfficialAccount\Application;
-use EasyWeChat\Exceptions\FaultException;
+use EasyWeChat\Exceptions\Exception;
 use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Messages\Message;
 use EasyWeChat\Messages\Raw as RawMessage;
@@ -120,7 +120,7 @@ class Guard
      *
      * @return $this
      *
-     * @throws FaultException
+     * @throws Exception
      */
     public function validate($token)
     {
@@ -131,7 +131,7 @@ class Guard
         ];
 
         if (!$this->debug && $this->request->get('signature') !== $this->signature($params)) {
-            throw new FaultException('Invalid request signature.', 400);
+            throw new Exception('Invalid request signature.', 400);
         }
 
         return $this;

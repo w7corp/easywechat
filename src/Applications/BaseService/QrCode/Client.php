@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\QRCode;
+namespace EasyWeChat\Applications\BaseService\QrCode;
 
 use EasyWeChat\Kernel\BaseClient;
 
@@ -65,7 +65,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Create QRCode for card.
+     * Create QrCode for card.
      *
      * @param array $card
      *
@@ -97,7 +97,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Create a QRCode.
+     * Create a QrCode.
      *
      * @param string $actionName
      * @param array  $actionInfo
@@ -111,9 +111,9 @@ class Client extends BaseClient
         $expireSeconds !== null || $expireSeconds = 7 * self::DAY;
 
         $params = [
-                   'action_name' => $actionName,
-                   'action_info' => ['scene' => $actionInfo],
-                  ];
+            'action_name' => $actionName,
+            'action_info' => ['scene' => $actionInfo],
+        ];
 
         if ($temporary) {
             $params['expire_seconds'] = min($expireSeconds, 30 * self::DAY);

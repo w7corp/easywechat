@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\WeWork\Message;
+namespace EasyWeChat\Applications\MiniProgram\AppCode;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -26,12 +26,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['message'] = function ($app) {
+        $app['app_code'] = function ($app) {
             return new Client($app);
-        };
-
-        $app['messenger'] = function ($app) {
-            return new Messenger($app['message']);
         };
     }
 }

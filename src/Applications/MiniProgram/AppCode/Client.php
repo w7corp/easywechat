@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\MiniProgram\QRCode;
+namespace EasyWeChat\Applications\MiniProgram\AppCode;
 
 use EasyWeChat\Kernel\BaseClient;
 
@@ -65,7 +65,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Create QRCode.
+     * Create QrCode.
      *
      * @param string $path
      * @param int    $width

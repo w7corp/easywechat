@@ -48,7 +48,7 @@ class ClientTest extends TestCase
         $this->assertSame(QRCode::SCENE_QR_FOREVER_STR, $params['action_name']);
         $this->assertSame(['scene_str' => 0], $params['action_info']['scene']);
 
-        // > QRCode::SCENE_MAX_VALUE
+        // > QrCode::SCENE_MAX_VALUE
         $params = $qrcode->forever(QRCode::SCENE_MAX_VALUE)['params'];
         $this->assertSame(QRCode::SCENE_QR_FOREVER_STR, $params['action_name']);
         $this->assertSame(['scene_str' => QRCode::SCENE_MAX_VALUE], $params['action_info']['scene']);

@@ -24,11 +24,11 @@ class Client extends BaseClient
     /**
      * @param \EasyWeChat\Messages\Message $message
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      */
     public function message(Message $message)
     {
-        return (new MessageBuilder())->message($message);
+        return (new Messenger())->message($message);
     }
 
     /**

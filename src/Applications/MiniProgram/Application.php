@@ -11,45 +11,33 @@
 
 namespace EasyWeChat\Applications\MiniProgram;
 
-use EasyWeChat\Applications\MiniProgram;
+use EasyWeChat\Applications\BaseService\Application as BaseService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
  * Class Application.
  *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- *
- * @property \EasyWeChat\Applications\MiniProgram\Sns\Client $sns
- * @property \EasyWeChat\Applications\MiniProgram\DataCube\Client $data_cube
- * @property \EasyWeChat\Applications\MiniProgram\Server\Guard $server
- * @property \EasyWeChat\Applications\MiniProgram\TemplateMessage\Client $template_message
- * @property \EasyWeChat\Applications\MiniProgram\QRCode\Client $qrcode
- * @property \EasyWeChat\Applications\MiniProgram\Material\TemporaryClient $material_temporary
- * @property \EasyWeChat\Applications\MiniProgram\CustomerService\Client $customer_service
+ * @author mingyoung <mingyoungcheung@gmail.com>
  */
 class Application extends ServiceContainer
 {
     /**
-     * {@inheritdoc}
+     * @var array
      */
     protected $providers = [
-        MiniProgram\Auth\ServiceProvider::class,
-        MiniProgram\CustomerService\ServiceProvider::class,
-        MiniProgram\DataCube\ServiceProvider::class,
-        MiniProgram\Material\ServiceProvider::class,
-        MiniProgram\QRCode\ServiceProvider::class,
-        MiniProgram\Sns\ServiceProvider::class,
-        MiniProgram\Server\ServiceProvider::class,
-        MiniProgram\TemplateMessage\ServiceProvider::class,
+        Auth\ServiceProvider::class,
+        CustomerService\ServiceProvider::class,
+        DataCube\ServiceProvider::class,
+        AppCode\ServiceProvider::class,
+        Sns\ServiceProvider::class,
+        Server\ServiceProvider::class,
+        TemplateMessage\ServiceProvider::class,
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    protected $defaultConfig = [
-        'http' => [
-            'timeout' => 5.0,
-            'base_uri' => 'https://api.weixin.qq.com/',
-        ],
-    ];
+    public function afterRegistered()
+    {
+        $this['media'] = function () {
+            return (new BaseService($this['config']->toArray()))->media;
+        };
+    }
 }

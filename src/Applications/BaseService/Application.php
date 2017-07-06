@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\Jssdk;
+namespace EasyWeChat\Applications\BaseService;
 
 use EasyWeChat\Kernel\ServiceContainer;
 
@@ -17,9 +17,23 @@ use EasyWeChat\Kernel\ServiceContainer;
  * Class Application.
  *
  * @author overtrue <i@overtrue.me>
+ *
+ * @property \EasyWeChat\Applications\BaseService\Jssdk\Client  $jssdk
+ * @property \EasyWeChat\Applications\BaseService\Media\Client  $media
+ * @property \EasyWeChat\Applications\BaseService\QrCode\Client $qrcode
+ * @property \EasyWeChat\Applications\BaseService\Url\Client    $url
  */
 class Application extends ServiceContainer
 {
+    /**
+     * @var array
+     */
+    protected $providers = [
+        Jssdk\ServiceProvider::class,
+        QrCode\ServiceProvider::class,
+        Media\ServiceProvider::class,
+    ];
+
     /**
      * @var array
      */
@@ -30,25 +44,4 @@ class Application extends ServiceContainer
             'base_uri' => 'https://api.weixin.qq.com/',
         ],
     ];
-
-    /**
-     * Register Jssdk API client.
-     */
-    protected function afterRegistered()
-    {
-        $this['client'] = function ($app) {
-            return new Client($app);
-        };
-    }
-
-    /**
-     * @param string $method
-     * @param array  $args
-     *
-     * @return mixed
-     */
-    public function __call($method, $args)
-    {
-        return $this['client'](...$args);
-    }
 }

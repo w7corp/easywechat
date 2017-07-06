@@ -83,7 +83,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function QRCode(array $cards = [])
+    public function createQrCode(array $cards = [])
     {
         return $this->httpPostJson('card/qrcode/create', $cards);
     }
@@ -95,7 +95,7 @@ class Client extends BaseClient
      *
      * @return array
      */
-    public function showQRCode($ticket = null)
+    public function showQrCode($ticket = null)
     {
         $baseUri = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
         $params = [
@@ -123,7 +123,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getQRCodeUrl($ticket)
+    public function getQrCodeUrl($ticket)
     {
         return sprintf('https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', $ticket);
     }

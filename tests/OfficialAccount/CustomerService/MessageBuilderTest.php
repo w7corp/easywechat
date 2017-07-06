@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\CustomerService;
 
-use EasyWeChat\Applications\OfficialAccount\CustomerService\MessageBuilder;
+use EasyWeChat\Applications\OfficialAccount\CustomerService\Messenger;
 use EasyWeChat\Applications\OfficialAccount\Message\Raw;
 use EasyWeChat\Applications\OfficialAccount\Message\Text;
 use EasyWeChat\Tests\TestCase;
@@ -25,7 +25,7 @@ class MessageBuilderTest extends TestCase
             return $message;
         });
 
-        return new MessageBuilder($customerService);
+        return new Messenger($customerService);
     }
 
     /**

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\Payment;
 
-use EasyWeChat\Exceptions\FaultException;
+use EasyWeChat\Exceptions\Exception;
 use EasyWeChat\Support;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\XML;
@@ -74,7 +74,7 @@ class Notify
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      *
-     * @throws \EasyWeChat\Exceptions\FaultException
+     * @throws \EasyWeChat\Exceptions\Exception
      */
     public function getNotify()
     {
@@ -84,11 +84,11 @@ class Notify
         try {
             $xml = XML::parse(strval($this->request->getContent()));
         } catch (\Throwable $e) {
-            throw new FaultException('Invalid request XML: '.$e->getMessage(), 400);
+            throw new Exception('Invalid request XML: '.$e->getMessage(), 400);
         }
 
         if (!is_array($xml) || empty($xml)) {
-            throw new FaultException('Invalid request XML.', 400);
+            throw new Exception('Invalid request XML.', 400);
         }
 
         return $this->notify = new Collection($xml);

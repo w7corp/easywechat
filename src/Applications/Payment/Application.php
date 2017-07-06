@@ -16,8 +16,8 @@ use EasyWeChat\Kernel\ServiceContainer;
 /**
  * Class Application.
  *
- * @property \EasyWeChat\Applications\Payment\Coupon\Client $coupon
- * @property \EasyWeChat\Applications\Payment\Redpack\Client $redpack
+ * @property \EasyWeChat\Applications\Payment\Coupon\Client   $coupon
+ * @property \EasyWeChat\Applications\Payment\Redpack\Client  $redpack
  * @property \EasyWeChat\Applications\Payment\Transfer\Client $transfer
  *
  * @method \EasyWeChat\Applications\Payment\Client sandboxMode(bool $enabled = false)
@@ -44,7 +44,6 @@ class Application extends ServiceContainer
      */
     protected $defaultConfig = [
         'http' => [
-            'timeout' => 5.0,
             'base_uri' => 'https://api.mch.weixin.qq.com/',
         ],
     ];

@@ -12,15 +12,13 @@
 namespace EasyWeChat\Applications\OpenPlatform;
 
 use EasyWeChat\Applications\OfficialAccount\Application as OfficialAccount;
-use EasyWeChat\Applications\OpenPlatform;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
  * Class Application.
  *
- * @property \EasyWeChat\Applications\OpenPlatform\Server\Guard $server
+ * @property \EasyWeChat\Applications\OpenPlatform\Server\Guard     $server
  * @property \EasyWeChat\Applications\OpenPlatform\Auth\AccessToken $access_token
- * @property \EasyWeChat\Applications\OpenPlatform\PreAuthorization\Client $pre_authorization
  *
  * @method mixed getAuthorizationInfo(string $authCode = null)
  * @method mixed getAuthorizerInfo(string $appId)
@@ -34,9 +32,9 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        OpenPlatform\Auth\ServiceProvider::class,
-        OpenPlatform\Base\ServiceProvider::class,
-        OpenPlatform\Server\ServiceProvider::class,
+        Auth\ServiceProvider::class,
+        Base\ServiceProvider::class,
+        Server\ServiceProvider::class,
     ];
 
     /**

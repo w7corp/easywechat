@@ -126,13 +126,13 @@ class Client extends BaseClient
      *
      * @param \EasyWeChat\Messages\Message|string $message
      *
-     * @return \EasyWeChat\Applications\OfficialAccount\CustomerService\MessageBuilder
+     * @return \EasyWeChat\Applications\OfficialAccount\CustomerService\Messenger
      *
      * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
     public function message($message)
     {
-        $messageBuilder = new MessageBuilder($this);
+        $messageBuilder = new Messenger($this);
 
         return $messageBuilder->message($message);
     }
