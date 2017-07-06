@@ -37,7 +37,7 @@ class Client extends BaseClient
      * @param mixed  $message message
      * @param mixed  $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function send($msgType, $message, $to = null)
     {
@@ -54,7 +54,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param mixed $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendText($message, $to = null)
     {
@@ -67,7 +67,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param mixed $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendNews($message, $to = null)
     {
@@ -80,7 +80,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param mixed $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendVoice($message, $to = null)
     {
@@ -93,7 +93,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param mixed $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendImage($message, $to = null)
     {
@@ -106,7 +106,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param mixed $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendVideo($message, $to = null)
     {
@@ -119,7 +119,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param mixed $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function sendCard($message, $to = null)
     {
@@ -134,7 +134,7 @@ class Client extends BaseClient
      * @param string $to
      * @param string $by
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function preview($msgType, $message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -150,7 +150,7 @@ class Client extends BaseClient
      * @param string $to
      * @param string $by
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewText($message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -164,7 +164,7 @@ class Client extends BaseClient
      * @param string $to
      * @param string $by
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewNews($message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -178,7 +178,7 @@ class Client extends BaseClient
      * @param string $to
      * @param string $by
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewVoice($message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -192,7 +192,7 @@ class Client extends BaseClient
      * @param string $to
      * @param string $by
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewImage($message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -206,7 +206,7 @@ class Client extends BaseClient
      * @param string $to
      * @param string $by
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewVideo($message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -220,7 +220,7 @@ class Client extends BaseClient
      * @param string $to
      * @param string $by
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewCard($message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -234,7 +234,7 @@ class Client extends BaseClient
      * @param mixed  $message message
      * @param $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewByName($msgType, $message, $to)
     {
@@ -247,7 +247,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewTextByName($message, $to)
     {
@@ -260,7 +260,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewNewsByName($message, $to)
     {
@@ -273,7 +273,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewVoiceByName($message, $to)
     {
@@ -286,7 +286,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewImageByName($message, $to)
     {
@@ -299,7 +299,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewVideoByName($message, $to)
     {
@@ -312,7 +312,7 @@ class Client extends BaseClient
      * @param mixed $message message
      * @param $to
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function previewCardByName($message, $to)
     {
@@ -324,7 +324,7 @@ class Client extends BaseClient
      *
      * @param string $msgId
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function delete($msgId)
     {
@@ -340,7 +340,7 @@ class Client extends BaseClient
      *
      * @param string $msgId
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function status($msgId)
     {

@@ -63,20 +63,20 @@ class Client extends BaseClient
      * Get shake info.
      *
      * @param string $ticket
-     * @param int    $needPoi
+     * @param bool   $needPoi
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
-    public function getShakeInfo($ticket, $needPoi = null)
+    public function getShakeInfo($ticket, bool $needPoi = false)
     {
         $params = [
             'ticket' => $ticket,
         ];
 
-        if ($needPoi !== null) {
-            $params['need_poi'] = intval($needPoi);
+        if ($needPoi) {
+            $params['need_poi'] = 1;
         }
 
-        return $this->httpGet('shakearound/user/getshakeinfo');
+        return $this->httpGet('shakearound/user/getshakeinfo', $params);
     }
 }

@@ -26,24 +26,24 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['shakearound'] = function ($container) {
-            return new Client($container);
+        $app['shake_around'] = function ($app) {
+            return new Client($app);
         };
 
-        $app['shakearound_device'] = function ($container) {
-            return new DeviceClient($container);
+        $app['shake_around_device'] = function ($app) {
+            return new DeviceClient($app);
         };
 
-        $app['shakearound_page'] = function ($container) {
-            return new PageClient($container);
+        $app['shake_around_page'] = function ($app) {
+            return new PageClient($app);
         };
 
-        $app['shakearound_group'] = function ($container) {
-            return new GroupClient($container);
+        $app['shake_around_group'] = function ($app) {
+            return new GroupClient($app);
         };
 
-        $app['shakearound_stats'] = function ($container) {
-            return new DeviceClient($container);
+        $app['shake_around_stats'] = function ($app) {
+            return new StatsClient($app);
         };
     }
 }

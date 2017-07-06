@@ -23,7 +23,7 @@ class Client extends BaseClient
     /**
      * Get current auto reply settings.
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
      */
     public function current()
     {
