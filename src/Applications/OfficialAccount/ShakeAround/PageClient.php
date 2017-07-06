@@ -16,7 +16,7 @@ use EasyWeChat\Kernel\BaseClient;
 /**
  * Class PageClient.
  *
- * @author    allen05ren <allen05ren@outlook.com>
+ * @author allen05ren <allen05ren@outlook.com>
  */
 class PageClient extends BaseClient
 {

@@ -9,10 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\WeWork\Encryption;
+namespace EasyWeChat\Applications\OpenPlatform\Server;
 
-use EasyWeChat\Applications\OfficialAccount\Encryption\Encryptor as BaseEncryptor;
+use EasyWeChat\Kernel\Encryptor as BaseEncryptor;
 
+/**
+ * Class Encryptor.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class Encryptor extends BaseEncryptor
 {
 }

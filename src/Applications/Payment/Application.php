@@ -32,10 +32,16 @@ use EasyWeChat\Kernel\ServiceContainer;
  */
 class Application extends ServiceContainer
 {
+    /**
+     * @var array
+     */
     protected $providers = [
         ServiceProvider::class,
     ];
 
+    /**
+     * @var array
+     */
     protected $defaultConfig = [
         'http' => [
             'timeout' => 5.0,

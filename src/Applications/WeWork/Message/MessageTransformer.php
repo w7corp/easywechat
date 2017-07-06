@@ -18,6 +18,8 @@ use EasyWeChat\Messages\Text;
 
 /**
  * Class MessageTransformer.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class MessageTransformer
 {

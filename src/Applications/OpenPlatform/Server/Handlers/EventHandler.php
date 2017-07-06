@@ -11,6 +11,11 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\Server\Handlers;
 
+/**
+ * Class EventHandler.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 abstract class EventHandler
 {
     /**

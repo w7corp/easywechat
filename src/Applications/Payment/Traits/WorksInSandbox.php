@@ -15,6 +15,11 @@ use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Support\InteractsWithCache;
 use EasyWeChat\Support\XML;
 
+/**
+ * Trait WorksInSandbox.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 trait WorksInSandbox
 {
     use InteractsWithCache;
@@ -117,7 +122,7 @@ trait WorksInSandbox
     /**
      * @return string
      */
-    private function getCacheKey()
+    protected function getCacheKey()
     {
         return 'easywechat.payment.sandbox.'.$this->app['merchant']->merchant_id;
     }

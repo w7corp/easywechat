@@ -15,6 +15,11 @@ use EasyWeChat\Applications\OfficialAccount\Server\Guard as BaseGuard;
 use EasyWeChat\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class Guard.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class Guard extends BaseGuard
 {
     const EVENT_AUTHORIZED = 'authorized';
@@ -33,6 +38,8 @@ class Guard extends BaseGuard
      * Set handlers.
      *
      * @param array $handlers
+     *
+     * @return $this
      */
     public function setHandlers(array $handlers)
     {

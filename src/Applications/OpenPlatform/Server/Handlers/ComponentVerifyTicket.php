@@ -13,6 +13,11 @@ namespace EasyWeChat\Applications\OpenPlatform\Server\Handlers;
 
 use EasyWeChat\Applications\OpenPlatform\Auth\VerifyTicket;
 
+/**
+ * Class ComponentVerifyTicket.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class ComponentVerifyTicket extends EventHandler
 {
     /**

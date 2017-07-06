@@ -9,17 +9,18 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\Payment\Traits;
+namespace EasyWeChat\Applications\Payment\Jssdk;
 
+use EasyWeChat\Applications\Jssdk\Client as JssdkClient;
 use EasyWeChat\Support;
 use Overtrue\Socialite\AccessTokenInterface;
 
 /**
- * Trait JssdkHelpers.
+ * Class Client.
  *
  * @author overtrue <i@overtrue.me>
  */
-trait JssdkHelpers
+class Client extends JssdkClient
 {
     /**
      * [WeixinJSBridge] Generate js config for payment.

@@ -14,10 +14,21 @@ namespace EasyWeChat\Applications\OpenPlatform\Authorizer;
 use EasyWeChat\Applications\OpenPlatform\Auth\AccessToken as OpenPlatformAccessToken;
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
+/**
+ * Class AccessToken.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class AccessToken extends BaseAccessToken
 {
+    /**
+     * @var string
+     */
     protected $requestMethod = 'POST';
 
+    /**
+     * @var string
+     */
     protected $queryName = 'access_token';
 
     /**

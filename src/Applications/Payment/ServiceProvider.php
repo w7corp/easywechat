@@ -50,5 +50,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['transfer'] = function ($app) {
             return new Transfer\Client($app);
         };
+
+        $app['jssdk'] = function ($app) {
+            return new Jssdk\Client($app);
+        };
     }
 }

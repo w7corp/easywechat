@@ -17,6 +17,8 @@ use Pimple\ServiceProviderInterface;
 
 /**
  * Class ServiceProvider.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -27,7 +29,7 @@ class ServiceProvider implements ServiceProviderInterface
     {
         $app['oauth'] = function ($container) {
             $callback = $this->prepareCallbackUrl($container);
-            $scopes = $container['config']->get('oauth.scopes', []);
+            $scopes = (array) $container['config']->get('oauth.scopes', []);
             $socialite = (new Socialite(
                 [
                     'wechat' => [

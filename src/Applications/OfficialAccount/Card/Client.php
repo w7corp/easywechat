@@ -42,42 +42,7 @@ class Client extends BaseClient
      *
      * @var string
      */
-    protected $ticketCachePrefix = 'overtrue.wechat.card_api_ticket.';
-
-    const API_GET_COLORS = 'https://api.weixin.qq.com/card/getcolors';
-    const API_CREATE_CARD = 'https://api.weixin.qq.com/card/create';
-    const API_CREATE_QRCODE = 'https://api.weixin.qq.com/card/qrcode/create';
-    const API_SHOW_QRCODE = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
-    const API_GET_CARD_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
-    const API_CREATE_LANDING_PAGE = 'https://api.weixin.qq.com/card/landingpage/create';
-    const API_DEPOSIT_CODE = 'https://api.weixin.qq.com/card/code/deposit';
-    const API_GET_DEPOSIT_COUNT = 'https://api.weixin.qq.com/card/code/getdepositcount';
-    const API_CHECK_CODE = 'https://api.weixin.qq.com/card/code/checkcode';
-    const API_GET_HTML = 'https://api.weixin.qq.com/card/mpnews/gethtml';
-    const API_SET_TEST_WHITE_LIST = 'https://api.weixin.qq.com/card/testwhitelist/set';
-    const API_GET_CODE = 'https://api.weixin.qq.com/card/code/get';
-    const API_CONSUME_CARD = 'https://api.weixin.qq.com/card/code/consume';
-    const API_DECRYPT_CODE = 'https://api.weixin.qq.com/card/code/decrypt';
-    const API_GET_CARD_LIST = 'https://api.weixin.qq.com/card/user/getcardlist';
-    const API_GET_CARD = 'https://api.weixin.qq.com/card/get';
-    const API_LIST_CARD = 'https://api.weixin.qq.com/card/batchget';
-    const API_UPDATE_CARD = 'https://api.weixin.qq.com/card/update';
-    const API_SET_PAY_CELL = 'https://api.weixin.qq.com/card/paycell/set';
-    const API_MODIFY_STOCK = 'https://api.weixin.qq.com/card/modifystock';
-    const API_UPDATE_CODE = 'https://api.weixin.qq.com/card/code/update';
-    const API_DELETE_CARD = 'https://api.weixin.qq.com/card/delete';
-    const API_DISABLE_CARD = 'https://api.weixin.qq.com/card/code/unavailable';
-    const API_ACTIVATE_MEMBER_CARD = 'https://api.weixin.qq.com/card/membercard/activate';
-    const API_ACTIVATE_MEMBER_USER_FORM = 'https://api.weixin.qq.com/card/membercard/activateuserform/set';
-    const API_GET_MEMBER_USER_INFO = 'https://api.weixin.qq.com/card/membercard/userinfo/get';
-    const API_UPDATE_MEMBER_CARD_USER = 'https://api.weixin.qq.com/card/membercard/updateuser';
-    const API_CREATE_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/submit';
-    const API_UPDATE_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/update';
-    const API_GET_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/get';
-    const API_LIST_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/batchget';
-    const API_GET_CATEGORIES = 'https://api.weixin.qq.com/card/getapplyprotocol';
-    const API_ACTIVATE_GENERAL_CARD = 'https://api.weixin.qq.com/card/generalcard/activate';
-    const API_UPDATE_GENERAL_CARD_USER = 'https://api.weixin.qq.com/card/generalcard/updateuser';
+    protected $ticketCachePrefix = 'easywechat.card_api_ticket.';
 
     /**
      * 获取卡券颜色.
@@ -86,7 +51,7 @@ class Client extends BaseClient
      */
     public function getColors()
     {
-        return $this->httpGet(self::API_GET_COLORS);
+        return $this->httpGet('card/getcolors');
     }
 
     /**
@@ -108,7 +73,7 @@ class Client extends BaseClient
             ],
         ];
 
-        return $this->httpPostJson(self::API_CREATE_CARD, $params);
+        return $this->httpPostJson('card/create', $params);
     }
 
     /**
@@ -120,7 +85,7 @@ class Client extends BaseClient
      */
     public function QRCode(array $cards = [])
     {
-        return $this->httpPostJson(self::API_CREATE_QRCODE, $cards);
+        return $this->httpPostJson('card/qrcode/create', $cards);
     }
 
     /**
@@ -132,6 +97,7 @@ class Client extends BaseClient
      */
     public function showQRCode($ticket = null)
     {
+        $baseUri = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
         $params = [
             'ticket' => $ticket,
         ];
@@ -139,14 +105,14 @@ class Client extends BaseClient
         $http = $this->getHttp();
 
         /** @var ResponseInterface $response */
-        $response = $http->get(self::API_SHOW_QRCODE, $params);
+        $response = $http->get($baseUri, $params);
 
         return [
             'status' => $response->getStatusCode(),
             'reason' => $response->getReasonPhrase(),
             'headers' => $response->getHeaders(),
             'body' => strval($response->getBody()),
-            'url' => self::API_SHOW_QRCODE.'?'.http_build_query($params),
+            'url' => $baseUri.'?'.http_build_query($params),
         ];
     }
 
@@ -159,7 +125,7 @@ class Client extends BaseClient
      */
     public function getQRCodeUrl($ticket)
     {
-        return self::API_SHOW_QRCODE.'?ticket='.$ticket;
+        return sprintf('https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', $ticket);
     }
 
     /**
@@ -176,7 +142,7 @@ class Client extends BaseClient
         $ticket = $this->getCache()->get($key);
 
         if (!$ticket || $refresh) {
-            $result = $this->httpGet(self::API_GET_CARD_TICKET, ['type' => 'wx_card']);
+            $result = $this->httpGet('cgi-bin/ticket/getticket', ['type' => 'wx_card']);
 
             $this->getCache()->set($key, $ticket = $result['ticket'], $result['expires_in'] - 500);
 
@@ -270,7 +236,7 @@ class Client extends BaseClient
             'card_list' => $cardList,
         ];
 
-        return $this->httpPostJson(self::API_CREATE_LANDING_PAGE, $params);
+        return $this->httpPostJson('card/landingpage/create', $params);
     }
 
     /**
@@ -288,7 +254,7 @@ class Client extends BaseClient
             'code' => $code,
         ];
 
-        return $this->httpPostJson(self::API_DEPOSIT_CODE, $params);
+        return $this->httpPostJson('card/code/deposit', $params);
     }
 
     /**
@@ -304,7 +270,7 @@ class Client extends BaseClient
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_GET_DEPOSIT_COUNT, $params);
+        return $this->httpPostJson('card/code/getdepositcount', $params);
     }
 
     /**
@@ -322,7 +288,7 @@ class Client extends BaseClient
             'code' => $code,
         ];
 
-        return $this->httpPostJson(self::API_CHECK_CODE, $params);
+        return $this->httpPostJson('card/code/checkcode', $params);
     }
 
     /**
@@ -342,7 +308,7 @@ class Client extends BaseClient
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_GET_CODE, $params);
+        return $this->httpPostJson('card/code/get', $params);
     }
 
     /**
@@ -367,7 +333,7 @@ class Client extends BaseClient
             $params['card_id'] = $cardId;
         }
 
-        return $this->httpPostJson(self::API_CONSUME_CARD, $params);
+        return $this->httpPostJson('card/code/consume', $params);
     }
 
     /**
@@ -383,7 +349,7 @@ class Client extends BaseClient
             'encrypt_code' => $encryptedCode,
         ];
 
-        return $this->httpPostJson(self::API_DECRYPT_CODE, $params);
+        return $this->httpPostJson('card/code/decrypt', $params);
     }
 
     /**
@@ -399,7 +365,7 @@ class Client extends BaseClient
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_GET_HTML, $params);
+        return $this->httpPostJson('card/mpnews/gethtml', $params);
     }
 
     /**
@@ -415,7 +381,7 @@ class Client extends BaseClient
             'openid' => $openids,
         ];
 
-        return $this->httpPostJson(self::API_SET_TEST_WHITE_LIST, $params);
+        return $this->httpPostJson('card/testwhitelist/set', $params);
     }
 
     /**
@@ -431,7 +397,7 @@ class Client extends BaseClient
             'username' => $usernames,
         ];
 
-        return $this->httpPostJson(self::API_SET_TEST_WHITE_LIST, $params);
+        return $this->httpPostJson('card/testwhitelist/set', $params);
     }
 
     /**
@@ -449,7 +415,7 @@ class Client extends BaseClient
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_GET_CARD_LIST, $params);
+        return $this->httpPostJson('card/user/getcardlist', $params);
     }
 
     /**
@@ -459,13 +425,13 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getCard($cardId)
+    public function get($cardId)
     {
         $params = [
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_GET_CARD, $params);
+        return $this->httpPostJson('card/get', $params);
     }
 
     /**
@@ -485,7 +451,7 @@ class Client extends BaseClient
             'status_list' => $statusList,
         ];
 
-        return $this->httpPostJson(self::API_LIST_CARD, $params);
+        return $this->httpPostJson('card/batchget', $params);
     }
 
     /**
@@ -511,7 +477,7 @@ class Client extends BaseClient
 
         $card[$type] = array_merge($cardInfo, $especial);
 
-        return $this->httpPostJson(self::API_UPDATE_CARD, $card);
+        return $this->httpPostJson('card/update', $card);
     }
 
     /**
@@ -530,7 +496,7 @@ class Client extends BaseClient
             'is_open' => $isOpen,
         ];
 
-        return $this->httpPostJson(self::API_SET_PAY_CELL, $params);
+        return $this->httpPostJson('card/paycell/set', $params);
     }
 
     /**
@@ -576,7 +542,7 @@ class Client extends BaseClient
             $key => abs($amount),
         ];
 
-        return $this->httpPostJson(self::API_MODIFY_STOCK, $params);
+        return $this->httpPostJson('card/modifystock', $params);
     }
 
     /**
@@ -596,7 +562,7 @@ class Client extends BaseClient
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_UPDATE_CODE, $params);
+        return $this->httpPostJson('card/code/update', $params);
     }
 
     /**
@@ -612,7 +578,7 @@ class Client extends BaseClient
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_DELETE_CARD, $params);
+        return $this->httpPostJson('card/delete', $params);
     }
 
     /**
@@ -630,7 +596,7 @@ class Client extends BaseClient
             'card_id' => $cardId,
         ];
 
-        return $this->httpPostJson(self::API_DISABLE_CARD, $params);
+        return $this->httpPostJson('card/code/unavailable', $params);
     }
 
     /**
@@ -644,10 +610,10 @@ class Client extends BaseClient
     public function activate($info = [], $cardType = 'member_card')
     {
         if ($cardType === 'general_card') {
-            return $this->httpPostJson(self::API_ACTIVATE_GENERAL_CARD, $info);
+            return $this->httpPostJson('card/generalcard/activate', $info);
         }
 
-        return $this->httpPostJson(self::API_ACTIVATE_MEMBER_CARD, $info);
+        return $this->httpPostJson('card/membercard/activate', $info);
     }
 
     /**
@@ -663,7 +629,7 @@ class Client extends BaseClient
     {
         $params = array_merge(['card_id' => $cardId], $requiredForm, $optionalForm);
 
-        return $this->httpPostJson(self::API_ACTIVATE_MEMBER_USER_FORM, $params);
+        return $this->httpPostJson('card/membercard/activateuserform/set', $params);
     }
 
     /**
@@ -681,7 +647,7 @@ class Client extends BaseClient
             'code' => $code,
         ];
 
-        return $this->httpPostJson(self::API_GET_MEMBER_USER_INFO, $params);
+        return $this->httpPostJson('card/membercard/userinfo/get', $params);
     }
 
     /**
@@ -693,7 +659,7 @@ class Client extends BaseClient
      */
     public function updateMemberCardUser(array $params = [])
     {
-        return $this->httpPostJson(self::API_UPDATE_MEMBER_CARD_USER, $params);
+        return $this->httpPostJson('card/membercard/updateuser', $params);
     }
 
     /**
@@ -705,7 +671,7 @@ class Client extends BaseClient
      */
     public function updateGeneralCardUser(array $params = [])
     {
-        return $this->httpPostJson(self::API_UPDATE_GENERAL_CARD_USER, $params);
+        return $this->httpPostJson('card/generalcard/updateuser', $params);
     }
 
     /**
@@ -731,7 +697,7 @@ class Client extends BaseClient
             ]),
         ];
 
-        return $this->httpPostJson(self::API_CREATE_SUB_MERCHANT, $params);
+        return $this->httpPostJson('card/submerchant/submit', $params);
     }
 
     /**
@@ -759,7 +725,7 @@ class Client extends BaseClient
                 ])),
         ];
 
-        return $this->httpPostJson(self::API_UPDATE_SUB_MERCHANT, $params);
+        return $this->httpPostJson('card/submerchant/update', $params);
     }
 
     /**
@@ -771,7 +737,7 @@ class Client extends BaseClient
      */
     public function getSubMerchant($merchantId)
     {
-        return $this->httpPostJson(self::API_GET_SUB_MERCHANT, ['merchant_id' => $merchantId]);
+        return $this->httpPostJson('card/submerchant/get', ['merchant_id' => $merchantId]);
     }
 
     /**
@@ -791,7 +757,7 @@ class Client extends BaseClient
             'status' => $status,
         ];
 
-        return $this->httpPostJson(self::API_LIST_SUB_MERCHANT, $params);
+        return $this->httpPostJson('card/submerchant/batchget', $params);
     }
 
     /**
@@ -801,7 +767,7 @@ class Client extends BaseClient
      */
     public function getCategories()
     {
-        return $this->httpGet(self::API_GET_CATEGORIES);
+        return $this->httpGet('card/getapplyprotocol');
     }
 
     /**

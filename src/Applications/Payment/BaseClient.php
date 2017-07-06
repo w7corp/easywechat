@@ -15,6 +15,11 @@ use EasyWeChat\Support;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Class BaseClient.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 abstract class BaseClient
 {
     use Support\HasHttpRequests { request as httpRequest; }

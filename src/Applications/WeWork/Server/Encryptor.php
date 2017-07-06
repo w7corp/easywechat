@@ -9,13 +9,15 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Device;
+namespace EasyWeChat\Applications\WeWork\Encryption;
 
-use EasyWeChat\Exceptions\Exception as CoreException;
+use EasyWeChat\Kernel\Encryptor as BaseEncryptor;
 
 /**
- * Class DeviceHttpException.
+ * Class Encryptor.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class DeviceHttpException extends CoreException
+class Encryptor extends BaseEncryptor
 {
 }

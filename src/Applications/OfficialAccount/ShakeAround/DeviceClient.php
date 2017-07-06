@@ -17,7 +17,7 @@ use EasyWeChat\Kernel\BaseClient;
 /**
  * Class DeviceClient.
  *
- * @author    allen05ren <allen05ren@outlook.com>
+ * @author allen05ren <allen05ren@outlook.com>
  */
 class DeviceClient extends BaseClient
 {

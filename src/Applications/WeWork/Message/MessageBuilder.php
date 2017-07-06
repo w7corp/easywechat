@@ -19,6 +19,8 @@ use EasyWeChat\Messages\Text;
 
 /**
  * Class MessageBuilder.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class MessageBuilder
 {

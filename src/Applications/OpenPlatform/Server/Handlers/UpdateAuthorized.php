@@ -11,6 +11,11 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\Server\Handlers;
 
+/**
+ * Class UpdateAuthorized.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class UpdateAuthorized extends EventHandler
 {
     /**

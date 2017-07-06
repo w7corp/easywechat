@@ -14,6 +14,11 @@ namespace EasyWeChat\Applications\WeWork\User;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * Class ServiceProvider.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -25,7 +30,7 @@ class ServiceProvider implements ServiceProviderInterface
             return new Client($app);
         };
 
-        $app['tag_user'] = function ($app) {
+        $app['user_tag'] = function ($app) {
             return new TagClient($app);
         };
     }

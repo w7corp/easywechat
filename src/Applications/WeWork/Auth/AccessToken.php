@@ -13,6 +13,11 @@ namespace EasyWeChat\Applications\WeWork\Auth;
 
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
+/**
+ * Class AccessToken.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class AccessToken extends BaseAccessToken
 {
     /**

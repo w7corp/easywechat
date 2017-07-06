@@ -30,12 +30,18 @@ use EasyWeChat\Kernel\ServiceContainer;
  */
 class Application extends ServiceContainer
 {
+    /**
+     * @var array
+     */
     protected $providers = [
         OpenPlatform\Auth\ServiceProvider::class,
         OpenPlatform\Base\ServiceProvider::class,
         OpenPlatform\Server\ServiceProvider::class,
     ];
 
+    /**
+     * @var array
+     */
     protected $defaultConfig = [
         'http' => [
             'timeout' => 5.0,

@@ -11,6 +11,11 @@
 
 namespace EasyWeChat\Applications\OpenPlatform\Server\Handlers;
 
+/**
+ * Class Unauthorized.
+ *
+ * @author mingyoung <mingyoungcheung@gmail.com>
+ */
 class Unauthorized extends EventHandler
 {
     /**

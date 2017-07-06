@@ -140,10 +140,11 @@ class Client extends BaseClient
     /**
      * Unify query.
      *
+     * @param string $api
      * @param string $from
      * @param string $to
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     protected function query($api, $from, $to)
     {

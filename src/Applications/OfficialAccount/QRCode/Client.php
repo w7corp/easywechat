@@ -13,6 +13,11 @@ namespace EasyWeChat\Applications\OfficialAccount\QRCode;
 
 use EasyWeChat\Kernel\BaseClient;
 
+/**
+ * Class Client.
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class Client extends BaseClient
 {
     const DAY = 86400;
@@ -54,7 +59,7 @@ class Client extends BaseClient
      */
     public function temporary($sceneId, $expireSeconds = null)
     {
-        $scene = ['scene_id' => intval($sceneId)];
+        $scene = ['scene_id' => $sceneId];
 
         return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
     }

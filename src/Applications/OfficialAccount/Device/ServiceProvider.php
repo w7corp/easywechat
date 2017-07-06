@@ -16,6 +16,8 @@ use Pimple\ServiceProviderInterface;
 
 /**
  * Class ServiceProvider.
+ *
+ * @author soone <66812590@qq.com
  */
 class ServiceProvider implements ServiceProviderInterface
 {
