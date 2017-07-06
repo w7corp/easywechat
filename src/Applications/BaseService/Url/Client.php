@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Url;
+namespace EasyWeChat\Applications\BaseService\Url;
 
 use EasyWeChat\Kernel\BaseClient;
 
@@ -30,9 +30,9 @@ class Client extends BaseClient
     public function shorten($url)
     {
         $params = [
-                   'action' => 'long2short',
-                   'long_url' => $url,
-                  ];
+            'action' => 'long2short',
+            'long_url' => $url,
+        ];
 
         return $this->httpPostJson('cgi-bin/shorturl', $params);
     }

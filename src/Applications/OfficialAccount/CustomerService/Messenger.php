@@ -18,11 +18,11 @@ use EasyWeChat\Messages\Raw as RawMessage;
 use EasyWeChat\Messages\Text;
 
 /**
- * Class MessageBuilder.
+ * Class Messenger.
  *
  * @author overtrue <i@overtrue.me>
  */
-class MessageBuilder
+class Messenger
 {
     /**
      * Messages to send.
@@ -53,7 +53,7 @@ class MessageBuilder
     protected $customerService;
 
     /**
-     * MessageBuilder constructor.
+     * Messenger constructor.
      *
      * @param \EasyWeChat\Applications\OfficialAccount\CustomerService\Client $customerService
      */
@@ -67,7 +67,7 @@ class MessageBuilder
      *
      * @param string|Message $message
      *
-     * @return MessageBuilder
+     * @return Messenger
      *
      * @throws InvalidArgumentException
      */
@@ -87,7 +87,7 @@ class MessageBuilder
      *
      * @param string $account
      *
-     * @return MessageBuilder
+     * @return Messenger
      */
     public function by($account)
     {
@@ -101,7 +101,7 @@ class MessageBuilder
      *
      * @param string $openId
      *
-     * @return MessageBuilder
+     * @return Messenger
      */
     public function to($openId)
     {

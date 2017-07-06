@@ -11,33 +11,35 @@
 
 namespace EasyWeChat\Applications\OfficialAccount;
 
-use EasyWeChat\Applications\Jssdk\Application as JssdkApplication;
-use EasyWeChat\Applications\OfficialAccount;
+use EasyWeChat\Applications\BaseService\Application as BaseService;
 use EasyWeChat\Kernel\ServiceContainer;
 
-/*
+/**
  * Class Application.
  *
- * @property \EasyWeChat\Applications\OfficialAccount\Auth\AccessToken                   $access_token
- * @property \EasyWeChat\Applications\OfficialAccount\Server\Guard                       $server
- * @property \EasyWeChat\Applications\OfficialAccount\User\UserClient                    $user
- * @property \EasyWeChat\Applications\OfficialAccount\User\TagClient                     $user_tag
- * @property \EasyWeChat\Applications\OfficialAccount\User\GroupClient                   $user_group
- * @property \Overtrue\Socialite\Providers\WeChatProvider                                $oauth
- * @property \EasyWeChat\Applications\OfficialAccount\Menu\Client                        $menu
- * @property \EasyWeChat\Applications\OfficialAccount\TemplateMessage\Client             $template_message
- * @property \EasyWeChat\Applications\OfficialAccount\MaterialClient\MaterialClient      $material
- * @property \EasyWeChat\Applications\OfficialAccount\MaterialClient\TemporaryClient     $material_temporary
- * @property \EasyWeChat\Applications\OfficialAccount\CustomerService\Client             $customer_service
- * @property \EasyWeChat\Applications\OfficialAccount\Url\Client                         $url
- * @property \EasyWeChat\Applications\OfficialAccount\QRCode\Client                      $qrcode
- * @property \EasyWeChat\Applications\OfficialAccount\Semantic\Client                    $semantic
- * @property \EasyWeChat\Applications\OfficialAccount\DataCube\Client                    $stats
- * @property \EasyWeChat\Applications\OfficialAccount\Reply\Client                       $reply
- * @property \EasyWeChat\Applications\OfficialAccount\Broadcasting\Client                $broadcast
- * @property \EasyWeChat\Applications\OfficialAccount\Card\Client                        $card
- * @property \EasyWeChat\Applications\OfficialAccount\Device\Client                      $device
- * @property \EasyWeChat\Applications\OfficialAccount\ShakeAround\Client                 $shsake_around
+ * @author overtrue <i@overtrue.me>
+ *
+ * @property \EasyWeChat\Applications\BaseService\Media\Client               $media
+ * @property \EasyWeChat\Applications\BaseService\Url\Client                 $url
+ * @property \EasyWeChat\Applications\BaseService\QrCode\Client              $qrcode
+ * @property \EasyWeChat\Applications\BaseService\Jssdk\Client               $jssdk
+ * @property \EasyWeChat\Applications\OfficialAccount\Auth\AccessToken       $access_token
+ * @property \EasyWeChat\Applications\OfficialAccount\Server\Guard           $server
+ * @property \EasyWeChat\Applications\OfficialAccount\User\UserClient        $user
+ * @property \EasyWeChat\Applications\OfficialAccount\User\TagClient         $user_tag
+ * @property \EasyWeChat\Applications\OfficialAccount\User\GroupClient       $user_group
+ * @property \Overtrue\Socialite\Providers\WeChatProvider                    $oauth
+ * @property \EasyWeChat\Applications\OfficialAccount\Menu\Client            $menu
+ * @property \EasyWeChat\Applications\OfficialAccount\TemplateMessage\Client $template_message
+ * @property \EasyWeChat\Applications\OfficialAccount\Material\Client        $material
+ * @property \EasyWeChat\Applications\OfficialAccount\CustomerService\Client $customer_service
+ * @property \EasyWeChat\Applications\OfficialAccount\Semantic\Client        $semantic
+ * @property \EasyWeChat\Applications\OfficialAccount\DataCube\Client        $stats
+ * @property \EasyWeChat\Applications\OfficialAccount\AutoReply\Client       $auto_reply
+ * @property \EasyWeChat\Applications\OfficialAccount\Broadcasting\Client    $broadcasting
+ * @property \EasyWeChat\Applications\OfficialAccount\Card\Client            $card
+ * @property \EasyWeChat\Applications\OfficialAccount\Device\Client          $device
+ * @property \EasyWeChat\Applications\OfficialAccount\ShakeAround\Client     $shake_around
  */
 class Application extends ServiceContainer
 {
@@ -45,42 +47,39 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        OfficialAccount\Auth\ServiceProvider::class,
-        OfficialAccount\Server\ServiceProvider::class,
-        OfficialAccount\User\ServiceProvider::class,
-        OfficialAccount\OAuth\ServiceProvider::class,
-        OfficialAccount\Menu\ServiceProvider::class,
-        OfficialAccount\TemplateMessage\ServiceProvider::class,
-        OfficialAccount\Material\ServiceProvider::class,
-        OfficialAccount\CustomerService\ServiceProvider::class,
-        OfficialAccount\Url\ServiceProvider::class,
-        OfficialAccount\QRCode\ServiceProvider::class,
-        OfficialAccount\Semantic\ServiceProvider::class,
-        OfficialAccount\DataCube\ServiceProvider::class,
-        OfficialAccount\POI\ServiceProvider::class,
-        OfficialAccount\AutoReply\ServiceProvider::class,
-        OfficialAccount\Broadcasting\ServiceProvider::class,
-        OfficialAccount\Card\ServiceProvider::class,
-        OfficialAccount\Device\ServiceProvider::class,
-        OfficialAccount\ShakeAround\ServiceProvider::class,
-        OfficialAccount\Comment\ServiceProvider::class,
-        OfficialAccount\Invoice\ServiceProvider::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $defaultConfig = [
-        'http' => [
-            'timeout' => 5.0,
-            'base_uri' => 'https://api.weixin.qq.com/',
-        ],
+        Auth\ServiceProvider::class,
+        Server\ServiceProvider::class,
+        User\ServiceProvider::class,
+        OAuth\ServiceProvider::class,
+        Menu\ServiceProvider::class,
+        TemplateMessage\ServiceProvider::class,
+        Material\ServiceProvider::class,
+        CustomerService\ServiceProvider::class,
+        Semantic\ServiceProvider::class,
+        DataCube\ServiceProvider::class,
+        POI\ServiceProvider::class,
+        AutoReply\ServiceProvider::class,
+        Broadcasting\ServiceProvider::class,
+        Card\ServiceProvider::class,
+        Device\ServiceProvider::class,
+        ShakeAround\ServiceProvider::class,
+        Comment\ServiceProvider::class,
+        Invoice\ServiceProvider::class,
     ];
 
     public function afterRegistered()
     {
         $this['jssdk'] = function () {
-            return (new JssdkApplication($this['config']->toArray()))->jssdk;
+            return (new BaseService($this['config']->toArray()))->jssdk;
+        };
+        $this['url'] = function () {
+            return (new BaseService($this['config']->toArray()))->url;
+        };
+        $this['qrcode'] = function () {
+            return (new BaseService($this['config']->toArray()))->qrcode;
+        };
+        $this['media'] = function () {
+            return (new BaseService($this['config']->toArray()))->media;
         };
     }
 }

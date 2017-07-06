@@ -12,7 +12,7 @@
 namespace EasyWeChat\Applications\Payment\Traits;
 
 use EasyWeChat\Applications\Payment\Notify;
-use EasyWeChat\Exceptions\FaultException;
+use EasyWeChat\Exceptions\Exception;
 use EasyWeChat\Support;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,14 +31,14 @@ trait HandleNotify
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @throws \EasyWeChat\Exceptions\FaultException
+     * @throws \EasyWeChat\Exceptions\Exception
      */
     public function handleNotify(callable $callback)
     {
         $notify = $this->getNotify();
 
         if (!$notify->isValid()) {
-            throw new FaultException('Invalid request payloads.', 400);
+            throw new Exception('Invalid request payloads.', 400);
         }
 
         $notify = $notify->getNotify();
@@ -70,14 +70,14 @@ trait HandleNotify
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @throws \EasyWeChat\Exceptions\FaultException
+     * @throws \EasyWeChat\Exceptions\Exception
      */
     public function handleScanNotify(callable $callback)
     {
         $notify = $this->getNotify();
 
         if (!$notify->isValid()) {
-            throw new FaultException('Invalid request payloads.', 400);
+            throw new Exception('Invalid request payloads.', 400);
         }
 
         $notify = $notify->getNotify();

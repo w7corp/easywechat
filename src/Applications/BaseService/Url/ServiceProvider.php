@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\QRCode;
+namespace EasyWeChat\Applications\BaseService\Url;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -24,8 +24,8 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['qrcode'] = function ($container) {
-            return new Client($container['access_token']);
+        $app['url'] = function ($container) {
+            return new Client($container);
         };
     }
 }

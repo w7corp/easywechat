@@ -18,11 +18,11 @@ use EasyWeChat\Messages\Raw as RawMessage;
 use EasyWeChat\Messages\Text;
 
 /**
- * Class MessageBuilder.
+ * Class Messenger.
  *
  * @author overtrue <i@overtrue.me>
  */
-class MessageBuilder
+class Messenger
 {
     /**
      * @var \EasyWeChat\Messages\Message;
@@ -50,7 +50,7 @@ class MessageBuilder
     protected $client;
 
     /**
-     * MessageBuilder constructor.
+     * Messenger constructor.
      *
      * @param \EasyWeChat\Applications\WeWork\Message\Client $client
      */
@@ -64,7 +64,7 @@ class MessageBuilder
      *
      * @param string|Message $message
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      *
      * @throws \EasyWeChat\Exceptions\InvalidArgumentException
      */
@@ -86,7 +86,7 @@ class MessageBuilder
     /**
      * @param int $agentId
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      */
     public function ofAgent(int $agentId)
     {
@@ -98,7 +98,7 @@ class MessageBuilder
     /**
      * @param array|string $userIds
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      */
     public function toUser($userIds)
     {
@@ -108,7 +108,7 @@ class MessageBuilder
     /**
      * @param array|string $partyIds
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      */
     public function toParty($partyIds)
     {
@@ -118,7 +118,7 @@ class MessageBuilder
     /**
      * @param array|string $tagIds
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      */
     public function toTag($tagIds)
     {
@@ -128,7 +128,7 @@ class MessageBuilder
     /**
      * Keep secret.
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      */
     public function secretive()
     {
@@ -141,9 +141,9 @@ class MessageBuilder
      * @param array|string $ids
      * @param string       $key
      *
-     * @return \EasyWeChat\Applications\WeWork\Message\MessageBuilder
+     * @return \EasyWeChat\Applications\WeWork\Message\Messenger
      */
-    protected function setRecipients($ids, string $key): MessageBuilder
+    protected function setRecipients($ids, string $key): Messenger
     {
         if (is_array($ids)) {
             $ids = implode('|', $ids);

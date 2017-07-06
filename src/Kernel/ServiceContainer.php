@@ -38,6 +38,17 @@ class ServiceContainer extends Container
     protected $defaultConfig = [];
 
     /**
+     * @var array
+     */
+    protected $globalConfig = [
+        // http://docs.guzzlephp.org/en/stable/request-options.html
+        'http' => [
+            'timeout' => 5.0,
+            'base_uri' => 'https://api.weixin.qq.com/',
+        ],
+    ];
+
+    /**
      * Constructor.
      *
      * @param array $config
@@ -48,7 +59,7 @@ class ServiceContainer extends Container
 
         $this['config'] = function () use ($config) {
             return new Config(
-                array_replace_recursive($config, $this->defaultConfig)
+                array_replace_recursive($this->globalConfig, $this->defaultConfig, $config)
             );
         };
 
@@ -160,7 +171,7 @@ class ServiceContainer extends Container
     /**
      * @return $this
      */
-    private function registerHttpClient()
+    protected function registerHttpClient()
     {
         $this['http_client'] = function ($app) {
             return new Client($app['config']->get('http', []));

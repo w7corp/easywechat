@@ -9,18 +9,18 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Applications\OfficialAccount\Material;
+namespace EasyWeChat\Applications\BaseService\Media;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support\File;
 
 /**
- * Class TemporaryClient.
+ * Class Client.
  *
  * @author overtrue <i@overtrue.me>
  */
-class TemporaryClient extends BaseClient
+class Client extends BaseClient
 {
     /**
      * Allow media type.
@@ -28,54 +28,6 @@ class TemporaryClient extends BaseClient
      * @var array
      */
     protected $allowTypes = ['image', 'voice', 'video', 'thumb'];
-
-    /**
-     * Download temporary material.
-     *
-     * @param string $mediaId
-     * @param string $directory
-     * @param string $filename
-     *
-     * @return string
-     *
-     * @throws InvalidArgumentException
-     */
-    public function download($mediaId, $directory, $filename = '')
-    {
-        if (!is_dir($directory) || !is_writable($directory)) {
-            throw new InvalidArgumentException("Directory does not exist or is not writable: '$directory'.");
-        }
-
-        $filename = $filename ?: $mediaId;
-
-        $stream = $this->getStream($mediaId);
-
-        $filename .= File::getStreamExt($stream);
-
-        file_put_contents($directory.'/'.$filename, $stream);
-
-        return $filename;
-    }
-
-    /**
-     * Fetch item from WeChat server.
-     *
-     * @param string $mediaId
-     *
-     * @return mixed
-     *
-     * @throws \EasyWeChat\Exceptions\RuntimeException
-     */
-    public function getStream($mediaId)
-    {
-        $response = $this->requestRaw('cgi-bin/media/get', 'GET', [
-            'query' => [
-                'media_id' => $mediaId,
-            ],
-        ]);
-
-        return $response->getBody();
-    }
 
     /**
      * Upload image.
@@ -150,5 +102,53 @@ class TemporaryClient extends BaseClient
         }
 
         return $this->httpUpload('cgi-bin/media/upload', ['media' => $path], ['type' => $type]);
+    }
+
+    /**
+     * Download temporary material.
+     *
+     * @param string $mediaId
+     * @param string $directory
+     * @param string $filename
+     *
+     * @return string
+     *
+     * @throws InvalidArgumentException
+     */
+    public function download($mediaId, $directory, $filename = '')
+    {
+        if (!is_dir($directory) || !is_writable($directory)) {
+            throw new InvalidArgumentException("Directory does not exist or is not writable: '$directory'.");
+        }
+
+        $filename = $filename ?: $mediaId;
+
+        $stream = $this->getStream($mediaId);
+
+        $filename .= File::getStreamExt($stream);
+
+        file_put_contents($directory.'/'.$filename, $stream);
+
+        return $filename;
+    }
+
+    /**
+     * Fetch item from WeChat server.
+     *
+     * @param string $mediaId
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Exceptions\RuntimeException
+     */
+    public function getStream($mediaId)
+    {
+        $response = $this->requestRaw('cgi-bin/media/get', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ]);
+
+        return $response->getBody();
     }
 }

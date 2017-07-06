@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\Payment\Jssdk;
 
-use EasyWeChat\Applications\Jssdk\Client as JssdkClient;
+use EasyWeChat\Applications\BaseService\Client as JssdkClient;
 use EasyWeChat\Support;
 use Overtrue\Socialite\AccessTokenInterface;
 

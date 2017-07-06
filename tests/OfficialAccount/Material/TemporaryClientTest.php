@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OfficialAccount\Material
 {
     use EasyWeChat\Applications\Base\Core\Http;
-    use EasyWeChat\Applications\OfficialAccount\Material\TemporaryClient as Temporary;
+    use EasyWeChat\Applications\OfficialAccount\Material\Client as Temporary;
     use EasyWeChat\Tests\TestCase;
     use Mockery\Mock;
 
