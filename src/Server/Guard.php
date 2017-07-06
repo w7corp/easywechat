@@ -450,7 +450,7 @@ class Guard
         $content = strval($content);
 
         $dataSet = json_decode($content, true);
-        if (JSON_ERROR_NONE === json_last_error()) {
+        if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
             // For mini-program JSON formats.
             // Convert to XML if the given string can be decode into a data array.
             $content = XML::build($dataSet);
