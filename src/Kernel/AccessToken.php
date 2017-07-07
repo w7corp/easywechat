@@ -13,8 +13,8 @@ namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Exceptions\HttpException;
-use EasyWeChat\Support\HasHttpRequests;
-use EasyWeChat\Support\InteractsWithCache;
+use EasyWeChat\Kernel\Traits\HasAttributes;
+use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
 use Psr\SimpleCache\CacheInterface;
@@ -26,7 +26,7 @@ use Psr\SimpleCache\CacheInterface;
  */
 abstract class AccessToken implements AccessTokenInterface
 {
-    use HasHttpRequests, InteractsWithCache { getCache as getCacheInstance; }
+    use HasAttributes, InteractsWithCache { getCache as getCacheInstance; }
 
     /**
      * @var \Pimple\Container

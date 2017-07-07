@@ -12,9 +12,7 @@
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Contracts\AccessToken;
-use EasyWeChat\Http\Response;
-use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\HasHttpRequests;
+use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\Support\Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\MessageFormatter;
@@ -30,7 +28,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class BaseClient
 {
-    use HasHttpRequests { request as doRequest; }
+    use HasHttpRequests { request as performRequest; }
 
     /**
      * @var \Pimple\Container
@@ -160,9 +158,9 @@ class BaseClient
      */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
-        $response = $this->doRequest($url, $method, $options, $returnRaw);
+        $response = $this->performRequest($url, $method, $options, $returnRaw);
 
-        return $returnRaw ? $response : $this->resolveResponse($response);
+        return $returnRaw ? $response : $this->resolveResponse($response, $this->app->config->get('response_type', 'array'));
     }
 
     /**
@@ -189,31 +187,6 @@ class BaseClient
         }
 
         return $this->httpClient;
-    }
-
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     *
-     * @return \EasyWeChat\Support\Collection|array|object|string
-     */
-    protected function resolveResponse(ResponseInterface $response)
-    {
-        switch ($type = $this->app->config->get('response_type', 'array')) {
-            case 'collection':
-                return new Collection(json_decode($response->getBody(), true));
-            case 'array':
-                return json_decode($response->getBody(), true);
-            case 'object':
-                return json_decode($response->getBody());
-            case 'raw':
-            default:
-                $response->getBody()->rewind();
-                if (class_exists($type)) {
-                    return new $type($response);
-                }
-
-                return Response::buildFromGuzzleResponse($response);
-        }
     }
 
     /**

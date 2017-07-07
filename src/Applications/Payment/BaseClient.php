@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Applications\Payment;
 
+use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\Support;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
@@ -22,7 +23,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class BaseClient
 {
-    use Support\HasHttpRequests { request as httpRequest; }
+    use HasHttpRequests { request as performRequest; }
 
     /**
      * @var \Pimple\Container
@@ -72,9 +73,9 @@ abstract class BaseClient
             'body' => Support\XML::build($params),
         ], $options);
 
-        $response = $this->httpRequest($api, $method, $options);
+        $response = $this->performRequest($api, $method, $options);
 
-        return $returnResponse ? $response : $this->resolveResponse($response);
+        return $returnResponse ? $response : $this->resolveResponse($response, $this->app->config->get('response_type', 'array'));
     }
 
     /**
@@ -109,34 +110,5 @@ abstract class BaseClient
         ];
 
         return $this->request($api, $params, $method, $options);
-    }
-
-    /**
-     * Resolve Response.
-     *
-     * @param \Psr\Http\Message\ResponseInterface $response
-     *
-     * @return mixed
-     */
-    protected function resolveResponse(ResponseInterface $response)
-    {
-        switch ($type = $this->app['config']->get('response_type', 'array')) {
-            case 'collection':
-                return new Support\Collection(
-                    (array) Support\XML::parse($response->getBody())
-                );
-            case 'array':
-                return (array) Support\XML::parse($response->getBody());
-            case 'object':
-                return (object) Support\XML::parse($response->getBody());
-            case 'raw':
-            default:
-                $response->getBody()->rewind();
-                if (class_exists($type)) {
-                    return new $type($response);
-                }
-
-                return (string) $response->getBody();
-        }
     }
 }

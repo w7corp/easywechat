@@ -12,7 +12,7 @@
 namespace EasyWeChat\Applications\OpenPlatform\Auth;
 
 use EasyWeChat\Exceptions\RuntimeException;
-use EasyWeChat\Support\InteractsWithCache;
+use EasyWeChat\Kernel\Traits\InteractsWithCache;
 
 /**
  * Class VerifyTicket.
