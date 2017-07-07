@@ -57,18 +57,16 @@ class ServiceContainer extends Container
     {
         parent::__construct();
 
-        $this['config'] = function () use ($config) {
-            return new Config(
-                array_replace_recursive($this->globalConfig, $this->defaultConfig, $config)
-            );
-        };
+        $this->registerConfig($config);
 
-        $this->beforeRegistered()
-                ->registerProviders()
-                ->registerLogger()
-                ->registerRequest()
-                ->registerHttpClient()
-                ->afterRegistered();
+        $this->beforeRegistered();
+
+        $this->registerProviders()
+            ->registerLogger()
+            ->registerRequest()
+            ->registerHttpClient();
+
+        $this->afterRegistered();
     }
 
     /**
@@ -107,6 +105,24 @@ class ServiceContainer extends Container
     public function getProviders()
     {
         return $this->providers;
+    }
+
+    /**
+     * Register config.
+     *
+     * @param array $config
+     *
+     * @return $this
+     */
+    protected function registerConfig(array $config)
+    {
+        $this['config'] = function () use ($config) {
+            return new Config(
+                array_replace_recursive($this->globalConfig, $this->defaultConfig, $config)
+            );
+        };
+
+        return $this;
     }
 
     /**
@@ -180,6 +196,14 @@ class ServiceContainer extends Container
         return $this;
     }
 
+    protected function afterRegistered()
+    {
+    }
+
+    protected function beforeRegistered()
+    {
+    }
+
     /**
      * Magic get access.
      *
@@ -201,13 +225,5 @@ class ServiceContainer extends Container
     public function __set($id, $value)
     {
         $this->offsetSet($id, $value);
-    }
-
-    protected function afterRegistered()
-    {
-    }
-
-    protected function beforeRegistered()
-    {
     }
 }
