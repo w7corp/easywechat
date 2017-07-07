@@ -138,6 +138,10 @@ trait HasHttpRequests
 
         $options = array_merge(self::$defaults, $options, ['handler' => $this->getHandlerStack()]);
 
+        if (!empty($this->baseUri)) {
+            $options['base_uri'] = $this->baseUri;
+        }
+
         $response = $this->getHttpClient()->request($method, $url, $options);
         $response->getBody()->rewind();
 

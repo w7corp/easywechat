@@ -12,8 +12,10 @@
 namespace EasyWeChat\Applications\BaseService\Media;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Http\StreamResponse;
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Support\File;
+use EasyWeChat\Support\Log;
 
 /**
  * Class Client.
@@ -22,6 +24,11 @@ use EasyWeChat\Support\File;
  */
 class Client extends BaseClient
 {
+    /**
+     * @var string
+     */
+    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
+
     /**
      * Allow media type.
      *
@@ -101,7 +108,7 @@ class Client extends BaseClient
             throw new InvalidArgumentException("Unsupported media type: '{$type}'");
         }
 
-        return $this->httpUpload('cgi-bin/media/upload', ['media' => $path], ['type' => $type]);
+        return $this->httpUpload('media/upload', ['media' => $path], ['type' => $type]);
     }
 
     /**
@@ -123,11 +130,7 @@ class Client extends BaseClient
 
         $filename = $filename ?: $mediaId;
 
-        $stream = $this->getStream($mediaId);
-
-        $filename .= File::getStreamExt($stream);
-
-        file_put_contents($directory.'/'.$filename, $stream);
+        $this->getStream($mediaId)->saveAs($directory, $filename);
 
         return $filename;
     }
@@ -137,18 +140,23 @@ class Client extends BaseClient
      *
      * @param string $mediaId
      *
-     * @return mixed
+     * @return \EasyWeChat\Http\StreamResponse
      *
      * @throws \EasyWeChat\Exceptions\RuntimeException
      */
     public function getStream($mediaId)
     {
-        $response = $this->requestRaw('cgi-bin/media/get', 'GET', [
+        $response = $this->requestRaw('media/get', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
             ],
         ]);
 
-        return $response->getBody();
+        if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
+            Log::error('Fail to get media contents.', $response->toArray());
+            return $response->toArray();
+        }
+
+        return StreamResponse::buildFromGuzzleResponse($response);
     }
 }

@@ -25,6 +25,11 @@ class Client extends BaseClient
     use InteractsWithCache;
 
     /**
+     * @var string
+     */
+    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
+
+    /**
      * Current URI.
      *
      * @var string
@@ -82,7 +87,7 @@ class Client extends BaseClient
             return $this->getCache()->get($cacheKey);
         }
 
-        $result = $this->httpGet('cgi-bin/ticket/getticket', ['type' => 'jsapi']);
+        $result = $this->httpGet('ticket/getticket', ['type' => 'jsapi']);
         $this->getCache()->set($cacheKey, $ticket = $result['ticket'], $result['expires_in'] - 500);
 
         return $ticket;

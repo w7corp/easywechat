@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Contracts\AccessToken;
+use EasyWeChat\Http\Response;
 use EasyWeChat\Support\Collection;
 use EasyWeChat\Support\HasHttpRequests;
 use EasyWeChat\Support\Log;
@@ -40,6 +41,11 @@ class BaseClient
      * @var \EasyWeChat\Contracts\AccessToken
      */
     protected $accessToken;
+
+    /**
+     * @var
+     */
+    protected $baseUri;
 
     /**
      * BaseClient constructor.
@@ -154,7 +160,7 @@ class BaseClient
      */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
-        $response = call_user_func_array([$this, 'doRequest'], func_get_args());
+        $response = $this->doRequest($url, $method, $options, $returnRaw);
 
         return $returnRaw ? $response : $this->resolveResponse($response);
     }
@@ -206,7 +212,7 @@ class BaseClient
                     return new $type($response);
                 }
 
-                return $response;
+                return Response::buildFromGuzzleResponse($response);
         }
     }
 

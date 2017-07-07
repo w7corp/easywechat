@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Applications\MiniProgram;
 
-use EasyWeChat\Applications\BaseService\Application as BaseService;
+use EasyWeChat\Applications\BaseService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -32,12 +32,7 @@ class Application extends ServiceContainer
         Sns\ServiceProvider::class,
         Server\ServiceProvider::class,
         TemplateMessage\ServiceProvider::class,
+        // Base services
+        BaseService\Media\ServiceProvider::class,
     ];
-
-    public function afterRegistered()
-    {
-        $this['media'] = function () {
-            return (new BaseService($this['config']->toArray()))->media;
-        };
-    }
 }

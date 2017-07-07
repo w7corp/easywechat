@@ -11,11 +11,32 @@
 
 namespace EasyWeChat\Http;
 
-use ArrayAccess;
+use EasyWeChat\Support\Collection;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
-class Response extends GuzzleResponse implements ArrayAccess
+/**
+ * Class Response
+ *
+ * @author overtrue <i@overtrue.me>
+ */
+class Response extends GuzzleResponse
 {
+    /**
+     * @param \GuzzleHttp\Psr7\Response $response
+     *
+     * @return static
+     */
+    public static function buildFromGuzzleResponse(GuzzleResponse $response)
+    {
+        return new static(
+            $response->getStatusCode(),
+            $response->getHeaders(),
+            $response->getBody(),
+            $response->getProtocolVersion(),
+            $response->getReasonPhrase()
+        );
+    }
+
     /**
      * Build to json.
      *
@@ -23,6 +44,9 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function toJson()
     {
+        $this->getBody()->rewind();
+
+        return json_encode($this->getBody()->getContents());
     }
 
     /**
@@ -32,6 +56,15 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function toArray()
     {
+        $this->getBody()->rewind();
+
+        $array = json_encode($this->getBody()->getContents(), true);
+
+        if (JSON_ERROR_NONE === json_last_error()) {
+            return $array;
+        }
+
+        return [];
     }
 
     /**
@@ -41,46 +74,15 @@ class Response extends GuzzleResponse implements ArrayAccess
      */
     public function toCollection()
     {
+        return new Collection($this->toArray());
     }
 
     /**
-     * Determine if the given offset exists.
-     *
-     * @param string $offset
-     *
-     * @return bool
+     * @return bool|string
      */
-    public function offsetExists($offset)
+    public function __toString()
     {
-    }
-
-    /**
-     * Get the value at the given offset.
-     *
-     * @param string $offset
-     *
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-    }
-
-    /**
-     * Set the value at the given offset.
-     *
-     * @param string $offset
-     * @param mixed  $value
-     */
-    public function offsetSet($offset, $value)
-    {
-    }
-
-    /**
-     * Remove the value at the given offset.
-     *
-     * @param string $offset
-     */
-    public function offsetUnset($offset)
-    {
+        $this->getBody()->rewind();
+        return $this->getBody()->getContents();
     }
 }

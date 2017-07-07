@@ -20,6 +20,11 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class Client extends BaseClient
 {
+    /**
+     * @var string
+     */
+    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
+
     const DAY = 86400;
     const SCENE_MAX_VALUE = 100000;
     const SCENE_QR_CARD = 'QR_CARD';
@@ -93,7 +98,7 @@ class Client extends BaseClient
      */
     public function url($ticket)
     {
-        return sprintf('cgi-bin/showqrcode?ticket=%s', $ticket);
+        return sprintf('showqrcode?ticket=%s', $ticket);
     }
 
     /**
@@ -119,6 +124,6 @@ class Client extends BaseClient
             $params['expire_seconds'] = min($expireSeconds, 30 * self::DAY);
         }
 
-        return $this->httpPostJson('cgi-bin/qrcode/create', $params);
+        return $this->httpPostJson('qrcode/create', $params);
     }
 }

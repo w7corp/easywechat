@@ -11,7 +11,8 @@
 
 namespace EasyWeChat\Applications\OfficialAccount;
 
-use EasyWeChat\Applications\BaseService\Application as BaseService;
+use EasyWeChat\Applications\BaseService;
+use EasyWeChat\Applications\BaseService\QrCode\ServiceProvider;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -65,21 +66,10 @@ class Application extends ServiceContainer
         ShakeAround\ServiceProvider::class,
         Comment\ServiceProvider::class,
         Invoice\ServiceProvider::class,
+        // Base services
+        BaseService\QrCode\ServiceProvider::class,
+        BaseService\Media\ServiceProvider::class,
+        BaseService\Url\ServiceProvider::class,
+        BaseService\Jssdk\ServiceProvider::class,
     ];
-
-    public function afterRegistered()
-    {
-        $this['jssdk'] = function () {
-            return (new BaseService($this['config']->toArray()))->jssdk;
-        };
-        $this['url'] = function () {
-            return (new BaseService($this['config']->toArray()))->url;
-        };
-        $this['qrcode'] = function () {
-            return (new BaseService($this['config']->toArray()))->qrcode;
-        };
-        $this['media'] = function () {
-            return (new BaseService($this['config']->toArray()))->media;
-        };
-    }
 }

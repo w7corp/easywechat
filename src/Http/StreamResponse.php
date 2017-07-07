@@ -11,13 +11,54 @@
 
 namespace EasyWeChat\Http;
 
+use EasyWeChat\Support\File;
+
+/**
+ * Class StreamResponse
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class StreamResponse extends Response
 {
-    public function save($dist)
+    /**
+     * @param string $directory
+     * @param string $filename
+     *
+     * @return bool|int
+     */
+    public function save(string $directory, string $filename = '')
     {
+        $this->getBody()->rewind();
+
+        $directory = rtrim($directory, '/');
+
+        if (!is_writable($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $contents = $this->getBody()->getContents();
+
+        if (empty($filename)) {
+            $filename = md5($contents);
+        }
+
+        if (empty(pathinfo($filename, PATHINFO_EXTENSION))) {
+            $filename .= File::getStreamExt($this->getBody());
+        }
+
+        file_put_contents($directory.'/'.$filename, $contents);
+
+        return $filename;
     }
 
-    public function saveAs($dist, $filename)
+    /**
+     * @param string $directory
+     * @param string $filename
+     *
+     * @return bool|int
+     */
+    public function saveAs(string $directory, string $filename)
     {
+        return $this->save($directory, $filename);
     }
 }

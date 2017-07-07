@@ -13,6 +13,11 @@ namespace EasyWeChat\Http;
 
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
 
+/**
+ * Class Request
+ *
+ * @author overtrue <i@overtrue.me>
+ */
 class Request extends GuzzleRequest
 {
 }
