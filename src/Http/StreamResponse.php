@@ -14,7 +14,7 @@ namespace EasyWeChat\Http;
 use EasyWeChat\Support\File;
 
 /**
- * Class StreamResponse
+ * Class StreamResponse.
  *
  * @author overtrue <i@overtrue.me>
  */

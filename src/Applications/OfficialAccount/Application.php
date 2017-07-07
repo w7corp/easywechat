@@ -12,7 +12,6 @@
 namespace EasyWeChat\Applications\OfficialAccount;
 
 use EasyWeChat\Applications\BaseService;
-use EasyWeChat\Applications\BaseService\QrCode\ServiceProvider;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**

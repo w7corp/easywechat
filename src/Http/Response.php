@@ -15,7 +15,7 @@ use EasyWeChat\Support\Collection;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 /**
- * Class Response
+ * Class Response.
  *
  * @author overtrue <i@overtrue.me>
  */
@@ -83,6 +83,7 @@ class Response extends GuzzleResponse
     public function __toString()
     {
         $this->getBody()->rewind();
+
         return $this->getBody()->getContents();
     }
 }
