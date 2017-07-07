@@ -154,6 +154,7 @@ class Client extends BaseClient
 
         if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
             Log::error('Fail to get media contents.', $response->toArray());
+
             return $response->toArray();
         }
 
