@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Http\Response;
-use EasyWeChat\Support\Collection;
+use EasyWeChat\Kernel\Http\Response;
+use EasyWeChat\Kernel\Support\Collection;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
@@ -186,7 +186,7 @@ trait HasHttpRequests
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param string                              $type
      *
-     * @return array|\EasyWeChat\Support\Collection|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
      */
     protected function resolveResponse(ResponseInterface $response, string $type)
     {

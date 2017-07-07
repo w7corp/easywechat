@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Contracts\AccessToken;
+use EasyWeChat\Kernel\Contracts\AccessToken;
+use EasyWeChat\Kernel\Support\Log;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
-use EasyWeChat\Support\Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
@@ -36,7 +36,7 @@ class BaseClient
     protected $app;
 
     /**
-     * @var \EasyWeChat\Contracts\AccessToken
+     * @var \EasyWeChat\Kernel\Contracts\AccessToken
      */
     protected $accessToken;
 
@@ -48,8 +48,8 @@ class BaseClient
     /**
      * BaseClient constructor.
      *
-     * @param \Pimple\Container                      $app
-     * @param \EasyWeChat\Contracts\AccessToken|null $accessToken
+     * @param \Pimple\Container                             $app
+     * @param \EasyWeChat\Kernel\Contracts\AccessToken|null $accessToken
      */
     public function __construct(Container $app, AccessToken $accessToken = null)
     {
@@ -137,7 +137,7 @@ class BaseClient
     }
 
     /**
-     * @param \EasyWeChat\Contracts\AccessToken $accessToken
+     * @param \EasyWeChat\Kernel\Contracts\AccessToken $accessToken
      *
      * @return $this
      */
@@ -154,7 +154,7 @@ class BaseClient
      * @param array  $options
      * @param bool   $returnRaw
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Support\Collection|array|object|string
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
@@ -168,7 +168,7 @@ class BaseClient
      * @param string $method
      * @param array  $options
      *
-     * @return array|\EasyWeChat\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Support\Log;
+use EasyWeChat\Kernel\Support\Log;
 use GuzzleHttp\Client;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;

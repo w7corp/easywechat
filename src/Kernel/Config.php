@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Support\Collection;
+use EasyWeChat\Kernel\Support\Collection;
 
 /**
  * Class Config.

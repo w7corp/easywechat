@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
 /**
  * Trait Attributes.
@@ -19,7 +19,7 @@ use EasyWeChat\Exceptions\InvalidArgumentException;
 trait HasAttributes
 {
     /**
-     * @var \EasyWeChat\Support\Collection
+     * @var \EasyWeChat\Kernel\Support\Collection
      */
     protected $attributes;
 
@@ -88,7 +88,7 @@ trait HasAttributes
      *
      * @return HasAttributes
      *
-     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function with($attribute, $value)
     {
@@ -229,7 +229,7 @@ trait HasAttributes
     /**
      * Check required attributes.
      *
-     * @throws \EasyWeChat\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function checkRequiredAttributes()
     {
