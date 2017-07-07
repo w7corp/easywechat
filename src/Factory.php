@@ -11,16 +11,15 @@
 
 namespace EasyWeChat;
 
-use EasyWeChat\Support\Str;
-
 /**
  * Class Factory.
  *
- * @method static \EasyWeChat\Applications\WeWork\Application             weWork(array $config)
- * @method static \EasyWeChat\Applications\Payment\Application            payment(array $config)
- * @method static \EasyWeChat\Applications\MiniProgram\Application        miniProgram(array $config)
- * @method static \EasyWeChat\Applications\OpenPlatform\Application       openPlatform(array $config)
- * @method static \EasyWeChat\Applications\OfficialAccount\Application    officialAccount(array $config)
+ * @method static \EasyWeChat\WeWork\Application             weWork(array $config)
+ * @method static \EasyWeChat\Payment\Application            payment(array $config)
+ * @method static \EasyWeChat\MiniProgram\Application        miniProgram(array $config)
+ * @method static \EasyWeChat\OpenPlatform\Application       openPlatform(array $config)
+ * @method static \EasyWeChat\OfficialAccount\Application    officialAccount(array $config)
+ * @method static \EasyWeChat\BaseService\Application        baseService(array $config)
  */
 class Factory
 {
@@ -32,8 +31,8 @@ class Factory
      */
     public static function make($name, array $config)
     {
-        $namespace = Str::studly($name);
-        $application = "\\EasyWeChat\\Applications\\{$namespace}\\Application";
+        $namespace = Kernel\Support\Str::studly($name);
+        $application = "\\EasyWeChat\\{$namespace}\\Application";
 
         return new $application($config);
     }

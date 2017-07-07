@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Contracts\AccessToken as AccessTokenInterface;
-use EasyWeChat\Exceptions\HttpException;
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use Pimple\Container;
@@ -113,7 +113,7 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @return \EasyWeChat\Contracts\AccessToken
+     * @return \EasyWeChat\Kernel\Contracts\AccessToken
      */
     public function refresh(): AccessTokenInterface
     {
@@ -127,7 +127,7 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @return array
      *
-     * @throws \EasyWeChat\Exceptions\HttpException
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      */
     public function requestToken(array $credentials): array
     {

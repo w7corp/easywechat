@@ -11,12 +11,12 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Exceptions\InvalidConfigException;
-use EasyWeChat\Exceptions\RuntimeException;
-use EasyWeChat\Support\AES;
-use EasyWeChat\Support\XML;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\Support\AES;
+use EasyWeChat\Kernel\Support\XML;
 use Throwable;
-use function EasyWeChat\Support\str_random;
+use function EasyWeChat\Kernel\Support\str_random;
 
 /**
  * Class Encryptor.
@@ -55,7 +55,7 @@ class Encryptor
     /**
      * AES key.
      *
-     * @var \EasyWeChat\Support\AES
+     * @var \EasyWeChat\Kernel\Support\AES
      */
     protected $aes;
 
@@ -73,7 +73,7 @@ class Encryptor
      * @param string $token
      * @param string $aesKey
      *
-     * @throws \EasyWeChat\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function __construct($appId, $token, $aesKey)
     {
@@ -101,7 +101,7 @@ class Encryptor
      *
      * @return string
      *
-     * @throws \EasyWeChat\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function encrypt($xml, $nonce = null, $timestamp = null)
     {
@@ -137,7 +137,7 @@ class Encryptor
      *
      * @return array
      *
-     * @throws \EasyWeChat\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function decrypt($msgSignature, $nonce, $timestamp, $postXML)
     {
@@ -188,7 +188,7 @@ class Encryptor
      *
      * @return string
      *
-     * @throws \EasyWeChat\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function pkcs7Pad(string $text, int $blockSize)
     {
