@@ -12,8 +12,8 @@
 namespace EasyWeChat\Applications\BaseService\Jssdk;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use EasyWeChat\Support;
-use EasyWeChat\Support\InteractsWithCache;
 
 /**
  * Class Client.

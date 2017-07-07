@@ -12,7 +12,7 @@
 namespace EasyWeChat\Applications\Payment\Traits;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
-use EasyWeChat\Support\InteractsWithCache;
+use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use EasyWeChat\Support\XML;
 
 /**

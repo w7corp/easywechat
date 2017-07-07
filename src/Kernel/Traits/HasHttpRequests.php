@@ -9,8 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Support;
+namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Http\Response;
+use EasyWeChat\Support\Collection;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
@@ -178,5 +180,31 @@ trait HasHttpRequests
         }
 
         return $this->handlerStack;
+    }
+
+    /**
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param string                              $type
+     *
+     * @return array|\EasyWeChat\Support\Collection|object|string
+     */
+    protected function resolveResponse(ResponseInterface $response, string $type)
+    {
+        switch ($type) {
+            case 'collection':
+                return new Collection(json_decode($response->getBody(), true));
+            case 'array':
+                return json_decode($response->getBody(), true);
+            case 'object':
+                return json_decode($response->getBody());
+            case 'raw':
+            default:
+                $response->getBody()->rewind();
+                if (class_exists($type)) {
+                    return new $type($response);
+                }
+
+                return Response::buildFromGuzzleResponse($response);
+        }
     }
 }

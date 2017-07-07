@@ -12,8 +12,8 @@
 namespace EasyWeChat\Applications\OfficialAccount\Card;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use EasyWeChat\Support\Arr;
-use EasyWeChat\Support\InteractsWithCache;
 use Psr\Http\Message\ResponseInterface;
 
 /**

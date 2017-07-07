@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Support;
+namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Exceptions\InvalidArgumentException;
 
