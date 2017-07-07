@@ -39,6 +39,7 @@ class Stats extends AbstractMiniProgram
     const WEEKLY_RETAIN_INFO = 'https://api.weixin.qq.com/datacube/getweanalysisappidweeklyretaininfo';
     const MONTHLY_RETAIN_INFO = 'https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyretaininfo';
     const VISIT_PAGE = 'https://api.weixin.qq.com/datacube/getweanalysisappidvisitpage';
+    const USER_PORTRAIT = 'https://api.weixin.qq.com/datacube/getweanalysisappiduserportrait';
 
     /**
      * Get summary trend.
@@ -157,6 +158,19 @@ class Stats extends AbstractMiniProgram
         return $this->query(self::VISIT_PAGE, $from, $to);
     }
 
+    /**
+     * Get user portrait.
+     *
+     * @param string $from
+     * @param string $to
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function userPortrait($from, $to)
+    {
+        return $this->query(self::USER_PORTRAIT, $from, $to);
+    }
+    
     /**
      * Unify query.
      *
