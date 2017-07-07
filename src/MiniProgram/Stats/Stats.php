@@ -170,7 +170,7 @@ class Stats extends AbstractMiniProgram
     {
         return $this->query(self::USER_PORTRAIT, $from, $to);
     }
-    
+
     /**
      * Unify query.
      *
