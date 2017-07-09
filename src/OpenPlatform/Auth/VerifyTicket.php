@@ -29,11 +29,6 @@ class VerifyTicket
     protected $appId;
 
     /**
-     * @var string
-     */
-    protected $cacheKey;
-
-    /**
      * Constructor.
      *
      * @param string $appId
@@ -41,7 +36,6 @@ class VerifyTicket
     public function __construct(string $appId)
     {
         $this->appId = $appId;
-        $this->cacheKey = 'easywechat.open_platform.component_verify_ticket.'.$this->appId;
     }
 
     /**
@@ -49,11 +43,13 @@ class VerifyTicket
      *
      * @param string $ticket
      *
-     * @return bool
+     * @return $this
      */
     public function setTicket(string $ticket)
     {
-        return $this->getCache()->set($this->cacheKey, $ticket);
+        $this->getCache()->set($this->getCacheKey(), $ticket);
+
+        return $this;
     }
 
     /**
@@ -65,10 +61,20 @@ class VerifyTicket
      */
     public function getTicket()
     {
-        if ($cached = $this->getCache()->get($this->cacheKey)) {
+        if ($cached = $this->getCache()->get($this->getCacheKey())) {
             return $cached;
         }
 
         throw new RuntimeException('Credential "component_verify_ticket" does not exist in cache.');
+    }
+
+    /**
+     * Get cache key.
+     *
+     * @return string
+     */
+    protected function getCacheKey()
+    {
+        return 'easywechat.open_platform.component_verify_ticket.'.$this->appId;
     }
 }

@@ -21,7 +21,7 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * JsCode 2 session key.
+     * Get session key.
      *
      * @param string $jsCode
      *

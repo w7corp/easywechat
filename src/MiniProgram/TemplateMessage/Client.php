@@ -50,7 +50,7 @@ class Client extends BaseClient
     /**
      * Send a template message.
      *
-     * @param $data
+     * @param array $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

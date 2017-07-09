@@ -26,7 +26,6 @@ class Application extends ServiceContainer
      */
     protected $providers = [
         Auth\ServiceProvider::class,
-        CustomerService\ServiceProvider::class,
         DataCube\ServiceProvider::class,
         AppCode\ServiceProvider::class,
         Sns\ServiceProvider::class,

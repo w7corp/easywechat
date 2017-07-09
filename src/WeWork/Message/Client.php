@@ -12,7 +12,7 @@
 namespace EasyWeChat\WeWork\Message;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Messages\Message;
+use EasyWeChat\Kernel\Messages\Message;
 
 /**
  * Class Client.
@@ -22,13 +22,13 @@ use EasyWeChat\Messages\Message;
 class Client extends BaseClient
 {
     /**
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return \EasyWeChat\WeWork\Message\Messenger
      */
     public function message(Message $message)
     {
-        return (new Messenger())->message($message);
+        return (new Messenger($this))->message($message);
     }
 
     /**

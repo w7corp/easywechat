@@ -72,7 +72,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function createQRCode($path, $width = 430)
+    public function createQrCode($path, $width = 430)
     {
         return $this->getStream('cgi-bin/wxaapp/createwxaqrcode', compact('path', 'width'));
     }

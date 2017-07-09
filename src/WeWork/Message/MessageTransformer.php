@@ -12,9 +12,9 @@
 namespace EasyWeChat\WeWork\Message;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Messages\Message;
-use EasyWeChat\Messages\News;
-use EasyWeChat\Messages\Text;
+use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\Text;
 
 /**
  * Class MessageTransformer.
@@ -24,7 +24,7 @@ use EasyWeChat\Messages\Text;
 class MessageTransformer
 {
     /**
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -48,7 +48,7 @@ class MessageTransformer
     /**
      * Transform text message.
      *
-     * @param string $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -65,7 +65,7 @@ class MessageTransformer
     /**
      * Transform news message.
      *
-     * @param string $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -82,7 +82,7 @@ class MessageTransformer
     /**
      * Transform image message.
      *
-     * @param string $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -99,13 +99,13 @@ class MessageTransformer
     /**
      * Transform video message.
      *
-     * @param array $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      *
      * @throws InvalidArgumentException
      */
-    public function transformVideo(array $message)
+    public function transformVideo($message)
     {
         return [
             'video' => [
@@ -120,7 +120,7 @@ class MessageTransformer
     /**
      * Transform mpvideo message.
      *
-     * @param string $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -137,7 +137,7 @@ class MessageTransformer
     /**
      * Transform voice message.
      *
-     * @param string $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -154,7 +154,7 @@ class MessageTransformer
     /**
      * Transform voice message.
      *
-     * @param string $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -171,7 +171,7 @@ class MessageTransformer
     /**
      * Transform card message.
      *
-     * @param $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */

@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\OpenPlatform\Authorizer;
 
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\OpenPlatform\Application;
-use EasyWeChat\OpenPlatform\Encryption\Encryptor;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
