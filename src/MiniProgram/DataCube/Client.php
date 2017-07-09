@@ -138,6 +138,19 @@ class Client extends BaseClient
     }
 
     /**
+     * Get user portrait.
+     *
+     * @param string $from
+     * @param string $to
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function userPortrait($from, $to)
+    {
+        return $this->query('datacube/getweanalysisappiduserportrait', $from, $to);
+    }
+
+    /**
      * Unify query.
      *
      * @param string $api

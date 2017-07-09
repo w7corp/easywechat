@@ -133,6 +133,9 @@ class MessageBuilder
 
         // 群发视频消息给用户列表时，视频消息格式需要另外处理，具体见文档
         if ($this->msgType === Broadcast::MSG_TYPE_VIDEO) {
+            if (is_array($this->message)) {
+                $this->message = array_shift($this->message);
+            }
             $this->msgType = 'mpvideo';
         }
 
@@ -162,8 +165,11 @@ class MessageBuilder
         }
 
         if (empty($this->msgType)) {
-            throw new RuntimeException('Messages type not exist.');
+            throw new RuntimeException('Message type not exist.');
         } elseif ($this->msgType === Client::MSG_TYPE_VIDEO) {
+            if (is_array($this->message)) {
+                $this->message = array_shift($this->message);
+            }
             $this->msgType = 'mpvideo';
         }
 

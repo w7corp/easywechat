@@ -87,12 +87,12 @@ class TransformerTest extends TestCase
         $transformer = new MessageTransformer('video', ['MEDIA_ID', 'TITLE', 'DESCRIPTION']);
 
         $msg = [
-            'video' => [
+            'mpvideo' => [
                 'media_id' => 'MEDIA_ID',
                 'title' => 'TITLE',
                 'description' => 'DESCRIPTION',
             ],
-            'msgtype' => 'video',
+            'msgtype' => 'mpvideo',
         ];
 
         $this->assertSame($msg, $transformer->transform());
