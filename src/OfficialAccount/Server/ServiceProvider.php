@@ -27,18 +27,18 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['encryptor'] = function ($container) {
+        $app['encryptor'] = function ($app) {
             return new Encryptor(
-                $container['config']['app_id'],
-                $container['config']['token'],
-                $container['config']['aes_key']
+                $app['config']['app_id'],
+                $app['config']['token'],
+                $app['config']['aes_key']
             );
         };
 
-        $app['server'] = function ($container) {
-            $server = new Guard($container['config']['token']);
+        $app['server'] = function ($app) {
+            $server = new Guard($app['config']['token']);
 
-            $server->debug($container['config']['debug']);
+            $server->debug($app['config']['debug']);
 
             return $server;
         };

@@ -27,8 +27,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\Server\Guard           $server
  * @property \EasyWeChat\OfficialAccount\User\UserClient        $user
  * @property \EasyWeChat\OfficialAccount\User\TagClient         $user_tag
- * @property \EasyWeChat\OfficialAccount\User\GroupClient       $user_group
- * @property \Overtrue\Socialite\Providers\WeChatProvider                    $oauth
+ * @property \Overtrue\Socialite\Providers\WeChatProvider       $oauth
  * @property \EasyWeChat\OfficialAccount\Menu\Client            $menu
  * @property \EasyWeChat\OfficialAccount\TemplateMessage\Client $template_message
  * @property \EasyWeChat\OfficialAccount\Material\Client        $material

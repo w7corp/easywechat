@@ -13,9 +13,9 @@ namespace EasyWeChat\OfficialAccount\CustomerService;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\Messages\Message;
-use EasyWeChat\Messages\Raw as RawMessage;
-use EasyWeChat\Messages\Text;
+use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\Kernel\Messages\Raw as RawMessage;
+use EasyWeChat\Kernel\Messages\Text;
 
 /**
  * Class Messenger.
@@ -27,7 +27,7 @@ class Messenger
     /**
      * Messages to send.
      *
-     * @var \EasyWeChat\Messages\Message;
+     * @var \EasyWeChat\Kernel\Messages\Message;
      */
     protected $message;
 
@@ -155,5 +155,7 @@ class Messenger
         if (property_exists($this, $property)) {
             return $this->$property;
         }
+
+        return null;
     }
 }

@@ -24,12 +24,12 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['user'] = function ($container) {
-            return new UserClient($container);
+        $app['user'] = function ($app) {
+            return new UserClient($app);
         };
 
-        $app['user_tag'] = function ($container) {
-            return new TagClient($container);
+        $app['user_tag'] = function ($app) {
+            return new TagClient($app);
         };
     }
 }

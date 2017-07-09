@@ -124,7 +124,7 @@ class Client extends BaseClient
     /**
      * Get message builder.
      *
-     * @param \EasyWeChat\Messages\Message|string $message
+     * @param \EasyWeChat\Kernel\Messages\Message|string $message
      *
      * @return \EasyWeChat\OfficialAccount\CustomerService\Messenger
      *

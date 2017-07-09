@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\OfficialAccount\CustomerService;
 
-use EasyWeChat\Messages\Message;
-use EasyWeChat\Messages\News;
-use EasyWeChat\Messages\Text;
+use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\Text;
 
 /**
  * Class MessageTransformer.

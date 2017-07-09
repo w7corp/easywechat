@@ -13,12 +13,12 @@ namespace EasyWeChat\OfficialAccount\Server;
 
 use EasyWeChat\Kernel\Exceptions\Exception;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\Kernel\Messages\Raw as RawMessage;
+use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Support\Log;
 use EasyWeChat\Kernel\Support\XML;
-use EasyWeChat\Messages\Message;
-use EasyWeChat\Messages\Raw as RawMessage;
-use EasyWeChat\Messages\Text;
 use EasyWeChat\OfficialAccount\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

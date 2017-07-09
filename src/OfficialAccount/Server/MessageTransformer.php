@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\OfficialAccount\Server;
 
-use EasyWeChat\Messages\Message;
-use EasyWeChat\Messages\News;
-use EasyWeChat\Messages\Text;
+use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\Text;
 
 /**
  * Class MessageTransformer.
@@ -49,7 +49,7 @@ class MessageTransformer
     /**
      * Transform text message.
      *
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -63,7 +63,7 @@ class MessageTransformer
     /**
      * Transform image message.
      *
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -79,33 +79,31 @@ class MessageTransformer
     /**
      * Transform video message.
      *
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
     public function transformVideo(Message $message)
     {
-        $response = [
+        return [
             'Video' => [
                 'MediaId' => $message->get('media_id'),
                 'Title' => $message->get('title'),
                 'Description' => $message->get('description'),
             ],
         ];
-
-        return $response;
     }
 
     /**
      * Transform music message.
      *
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
     public function transformMusic(Message $message)
     {
-        $response = [
+        return [
             'Music' => [
                 'Title' => $message->get('title'),
                 'Description' => $message->get('description'),
@@ -114,14 +112,12 @@ class MessageTransformer
                 'ThumbMediaId' => $message->get('thumb_media_id'),
             ],
         ];
-
-        return $response;
     }
 
     /**
      * Transform voice message.
      *
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -137,7 +133,7 @@ class MessageTransformer
     /**
      * Transform transfer message.
      *
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
@@ -158,7 +154,7 @@ class MessageTransformer
     /**
      * Transform news message.
      *
-     * @param array|\EasyWeChat\Messages\News $news
+     * @param array|\EasyWeChat\Kernel\Messages\News $news
      *
      * @return array
      */
@@ -186,19 +182,17 @@ class MessageTransformer
     }
 
     /**
-     * @param \EasyWeChat\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Messages\Message $message
      *
      * @return array
      */
     public function transformDeviceText(Message $message)
     {
-        $response = [
+        return [
             'DeviceType' => $message->get('device_type'),
             'DeviceID' => $message->get('device_id'),
             'SessionID' => $message->get('session_id'),
             'Content' => base64_encode($message->get('content')),
         ];
-
-        return $response;
     }
 }

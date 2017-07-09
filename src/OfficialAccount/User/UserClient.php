@@ -31,9 +31,9 @@ class UserClient extends BaseClient
     public function get($openId, $lang = 'zh_CN')
     {
         $params = [
-                   'openid' => $openId,
-                   'lang' => $lang,
-                  ];
+            'openid' => $openId,
+            'lang' => $lang,
+        ];
 
         return $this->httpGet('cgi-bin/user/info', $params);
     }
@@ -52,9 +52,9 @@ class UserClient extends BaseClient
 
         $params['user_list'] = array_map(function ($openId) use ($lang) {
             return [
-                    'openid' => $openId,
-                    'lang' => $lang,
-                    ];
+                'openid' => $openId,
+                'lang' => $lang,
+            ];
         }, $openIds);
 
         return $this->httpPostJson('cgi-bin/user/info/batchget', $params);
@@ -85,9 +85,9 @@ class UserClient extends BaseClient
     public function remark($openId, $remark)
     {
         $params = [
-                   'openid' => $openId,
-                   'remark' => $remark,
-                  ];
+            'openid' => $openId,
+            'remark' => $remark,
+        ];
 
         return $this->httpPostJson('cgi-bin/user/info/updateremark', $params);
     }

@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @param array $data
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function getUserTitleUrl(array $data)
     {
@@ -37,7 +37,7 @@ class Client extends BaseClient
      *
      * @param string $attach
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function getSelectTitleUrl(string $attach)
     {
@@ -49,7 +49,7 @@ class Client extends BaseClient
      *
      * @param string $text
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function scanTitle($text)
     {

@@ -14,7 +14,6 @@ namespace EasyWeChat\OfficialAccount\Card;
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Client.
@@ -102,10 +101,7 @@ class Client extends BaseClient
             'ticket' => $ticket,
         ];
 
-        $http = $this->getHttp();
-
-        /** @var ResponseInterface $response */
-        $response = $http->get($baseUri, $params);
+        $response = $this->requestRaw($baseUri, 'GET', $params);
 
         return [
             'status' => $response->getStatusCode(),

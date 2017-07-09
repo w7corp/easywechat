@@ -32,16 +32,6 @@ class Application extends ServiceContainer
         Jssdk\ServiceProvider::class,
         QrCode\ServiceProvider::class,
         Media\ServiceProvider::class,
-    ];
-
-    /**
-     * @var array
-     */
-    protected $defaultConfig = [
-        // http://docs.guzzlephp.org/en/stable/request-options.html
-        'http' => [
-            'timeout' => 5.0,
-            'base_uri' => 'https://api.weixin.qq.com/',
-        ],
+        Url\ServiceProvider::class,
     ];
 }

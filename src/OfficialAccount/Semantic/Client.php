@@ -34,7 +34,7 @@ class Client extends BaseClient
         $params = [
             'query' => $keyword,
             'category' => implode(',', (array) $categories),
-            'appid' => $this->app->config['app_id'],
+            'appid' => $this->app['config']['app_id'],
         ];
 
         return $this->httpPostJson('semantic/semproxy/search', array_merge($params, $other));

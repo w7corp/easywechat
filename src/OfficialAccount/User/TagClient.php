@@ -30,8 +30,8 @@ class TagClient extends BaseClient
     public function create($name)
     {
         $params = [
-                   'tag' => ['name' => $name],
-                  ];
+            'tag' => ['name' => $name],
+        ];
 
         return $this->httpPostJson('cgi-bin/tags/create', $params);
     }
@@ -57,11 +57,11 @@ class TagClient extends BaseClient
     public function update($tagId, $name)
     {
         $params = [
-                   'tag' => [
-                               'id' => $tagId,
-                               'name' => $name,
-                              ],
-                  ];
+            'tag' => [
+                'id' => $tagId,
+                'name' => $name,
+            ],
+        ];
 
         return $this->httpPostJson('cgi-bin/tags/update', $params);
     }
@@ -76,8 +76,8 @@ class TagClient extends BaseClient
     public function delete($tagId)
     {
         $params = [
-                   'tag' => ['id' => $tagId],
-                  ];
+            'tag' => ['id' => $tagId],
+        ];
 
         return $this->httpPostJson('cgi-bin/tags/delete', $params);
     }
@@ -106,7 +106,10 @@ class TagClient extends BaseClient
      */
     public function usersOfTag($tagId, $nextOpenId = '')
     {
-        $params = ['tagid' => $tagId, 'next_openid' => $nextOpenId];
+        $params = [
+            'tagid' => $tagId,
+            'next_openid' => $nextOpenId,
+        ];
 
         return $this->httpPostJson('cgi-bin/user/tag/get', $params);
     }
@@ -122,9 +125,9 @@ class TagClient extends BaseClient
     public function batchTagUsers(array $openIds, $tagId)
     {
         $params = [
-                   'openid_list' => $openIds,
-                   'tagid' => $tagId,
-                  ];
+            'openid_list' => $openIds,
+            'tagid' => $tagId,
+        ];
 
         return $this->httpPostJson('cgi-bin/tags/members/batchtagging', $params);
     }
@@ -140,9 +143,9 @@ class TagClient extends BaseClient
     public function batchUntagUsers(array $openIds, $tagId)
     {
         $params = [
-                   'openid_list' => $openIds,
-                   'tagid' => $tagId,
-                  ];
+            'openid_list' => $openIds,
+            'tagid' => $tagId,
+        ];
 
         return $this->httpPostJson('cgi-bin/tags/members/batchuntagging', $params);
     }

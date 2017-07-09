@@ -13,7 +13,7 @@ namespace EasyWeChat\OfficialAccount\Material;
 
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Messages\Article;
+use EasyWeChat\Kernel\Messages\Article;
 
 /**
  * Class Client.
@@ -264,12 +264,9 @@ class Client extends BaseClient
     {
         switch ($type) {
             case 'news_image':
-                $api = 'cgi-bin/media/uploadimg';
-                break;
+                return 'cgi-bin/media/uploadimg';
             default:
-                $api = 'cgi-bin/material/add_material';
+                return 'cgi-bin/material/add_material';
         }
-
-        return $api;
     }
 }

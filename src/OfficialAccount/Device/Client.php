@@ -263,7 +263,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getDeviceidByOpenid($openid)
+    public function getDeviceIdByOpenid($openid)
     {
         $params = [
             'openid' => $openid,

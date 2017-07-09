@@ -23,7 +23,7 @@ class Client extends BaseClient
     /**
      * Clear quota.
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function clearQuota()
     {
@@ -37,7 +37,7 @@ class Client extends BaseClient
     /**
      * Get wechat callback ip.
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function getCallbackIp()
     {

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Kernel\Messages;
 
-use EasyWeChat\Kernel\Support\HasAttributes;
+use EasyWeChat\Kernel\Traits\HasAttributes;
 
 /**
  * Class Messages.

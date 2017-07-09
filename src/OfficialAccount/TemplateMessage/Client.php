@@ -13,6 +13,7 @@ namespace EasyWeChat\OfficialAccount\TemplateMessage;
 
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use ReflectionClass;
 
 /**
  * Class Client.
@@ -72,9 +73,9 @@ class Client extends BaseClient
     public function setIndustry($industryOne, $industryTwo)
     {
         $params = [
-                   'industry_id1' => $industryOne,
-                   'industry_id2' => $industryTwo,
-                  ];
+            'industry_id1' => $industryOne,
+            'industry_id2' => $industryTwo,
+        ];
 
         return $this->httpPostJson('cgi-bin/template/api_set_industry', $params);
     }
@@ -180,18 +181,18 @@ class Client extends BaseClient
     public function __call($method, $args)
     {
         $map = [
-                'template' => 'template_id',
-                'templateId' => 'template_id',
-                'uses' => 'template_id',
-                'to' => 'touser',
-                'receiver' => 'touser',
-                'url' => 'url',
-                'link' => 'url',
-                'data' => 'data',
-                'with' => 'data',
-                'formId' => 'form_id',
-                'prepayId' => 'form_id',
-               ];
+            'template' => 'template_id',
+            'templateId' => 'template_id',
+            'uses' => 'template_id',
+            'to' => 'touser',
+            'receiver' => 'touser',
+            'url' => 'url',
+            'link' => 'url',
+            'data' => 'data',
+            'with' => 'data',
+            'formId' => 'form_id',
+            'prepayId' => 'form_id',
+        ];
 
         if (0 === stripos($method, 'with') && strlen($method) > 4) {
             $method = lcfirst(substr($method, 4));
