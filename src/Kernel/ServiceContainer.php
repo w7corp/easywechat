@@ -24,6 +24,8 @@ use Symfony\Component\HttpFoundation\Request;
  * Class ServiceContainer.
  *
  * @author overtrue <i@overtrue.me>
+ *
+ * @property \EasyWeChat\Kernel\Config $config
  */
 class ServiceContainer extends Container
 {

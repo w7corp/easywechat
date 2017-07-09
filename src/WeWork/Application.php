@@ -27,6 +27,8 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\WeWork\Menu\Client       $menu
  * @property \EasyWeChat\WeWork\Message\Client    $message
  * @property \EasyWeChat\WeWork\Message\Messenger $messenger
+ *
+ * @method mixed getCallbackIp()
  */
 class Application extends ServiceContainer
 {
@@ -36,6 +38,7 @@ class Application extends ServiceContainer
     protected $providers = [
         OA\ServiceProvider::class,
         Auth\ServiceProvider::class,
+        Base\ServiceProvider::class,
         Menu\ServiceProvider::class,
         User\ServiceProvider::class,
         Agent\ServiceProvider::class,
@@ -59,5 +62,16 @@ class Application extends ServiceContainer
         $this['jssdk'] = function () {
             return (new BaseService($this['config']->toArray()))->jssdk;
         };
+    }
+
+    /**
+     * @param string $method
+     * @param array  $arguments
+     *
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        return $this['base']->$method(...$arguments);
     }
 }

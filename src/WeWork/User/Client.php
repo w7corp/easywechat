@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @param array $data
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function create(array $data)
     {
@@ -37,7 +37,7 @@ class Client extends BaseClient
      *
      * @param array $data
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function update(array $data)
     {
@@ -49,7 +49,7 @@ class Client extends BaseClient
      *
      * @param string $userId
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function delete($userId)
     {
@@ -61,7 +61,7 @@ class Client extends BaseClient
      *
      * @param array $userIds
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function batchDelete(array $userIds)
     {
@@ -73,7 +73,7 @@ class Client extends BaseClient
      *
      * @param string $userId
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function get($userId)
     {
@@ -81,57 +81,86 @@ class Client extends BaseClient
     }
 
     /**
-     * DESC.
+     * Get simple user list.
      *
-     * @param int $departmentId
-     * @param int $fetchChild
-     * @param int $status
+     * @param int  $departmentId
+     * @param bool $fetchChild
      *
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function simpleLists(int $departmentId, int $fetchChild = 1, int $status = 4)
-    {
-        return $this->getLists(
-            'user/simplelist',
-            $departmentId, $fetchChild, $status
-        );
-    }
-
-    /**
-     * DESC.
-     *
-     * @param int $departmentId
-     * @param int $fetchChild
-     * @param int $status
-     *
-     * @return mixed
-     */
-    public function lists(int $departmentId, int $fetchChild = 1, int $status = 4)
-    {
-        return $this->getLists(
-            'user/list',
-            $departmentId, $fetchChild, $status
-        );
-    }
-
-    /**
-     * Get user lists.
-     *
-     * @param string $endpoint
-     * @param int    $departmentId
-     * @param int    $fetchChild
-     * @param int    $status
-     *
-     * @return mixed
-     */
-    protected function getLists(string $endpoint, int $departmentId, int $fetchChild, int $status)
+    public function simpleLists(int $departmentId, bool $fetchChild = false)
     {
         $params = [
             'department_id' => $departmentId,
-            'fetch_child' => $fetchChild,
-            'status' => $status,
+            'fetch_child' => (int) $fetchChild,
         ];
 
-        return $this->httpGet($endpoint, $params);
+        return $this->httpGet('user/simplelist', $params);
+    }
+
+    /**
+     * Get user list.
+     *
+     * @param int  $departmentId
+     * @param bool $fetchChild
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function lists(int $departmentId, bool $fetchChild = false)
+    {
+        $params = [
+            'department_id' => $departmentId,
+            'fetch_child' => (int) $fetchChild,
+        ];
+
+        return $this->httpGet('user/list', $params);
+    }
+
+    /**
+     * Convert userId to openId.
+     *
+     * @param string   $userId
+     * @param int|null $agentId
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function userIdToOpenId($userId, $agentId = null)
+    {
+        $params = [
+            'userid' => $userId,
+            'agentid' => $agentId,
+        ];
+
+        return $this->httpPostJson('user/convert_to_openid', $params);
+    }
+
+    /**
+     * Convert openId to userId.
+     *
+     * @param string $openId
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function openIdToUserId($openId)
+    {
+        $params = [
+            'openid' => $openId,
+        ];
+
+        return $this->httpPostJson('user/convert_to_userid', $params);
+    }
+
+    /**
+     * @param string $userId
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function authSucceed($userId)
+    {
+        $params = [
+            'userid' => $userId,
+        ];
+
+        return $this->httpGet('user/authsucc', $params);
     }
 }
