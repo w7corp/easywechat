@@ -183,4 +183,24 @@ class Transformer
             ],
         ];
     }
+
+    /**
+     * Transform card message.
+     *
+     * @param Message $message
+     *
+     * @return array
+     */
+    public function transformCard(Message $message)
+    {
+        $type = $message->getType();
+
+        return [
+            'msgtype' => $type,
+            $type => [
+                'card_id' => $message->get('card_id'),
+            ],
+        ];
+    }
+
 }
