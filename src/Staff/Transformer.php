@@ -183,7 +183,7 @@ class Transformer
      *
      * @return array
      */
-    public function transformMaterial(AbstractMessage $message)
+    public function transformCard(AbstractMessage $message)
     {
         $type = $message->getType();
 

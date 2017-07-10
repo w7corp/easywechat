@@ -10,7 +10,7 @@
  */
 
 /**
- * WxCard.php.
+ * Card.php.
  *
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
@@ -22,9 +22,9 @@
 namespace EasyWeChat\Message;
 
 /**
- * Class WxCard.
+ * Class Card.
  */
-class WxCard extends AbstractMessage
+class Card extends AbstractMessage
 {
     /**
      * Message type.
