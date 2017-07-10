@@ -26,7 +26,6 @@ namespace EasyWeChat\Kernel\Messages;
  */
 class Card extends Message
 {
-
     /**
      * Message type.
      *
