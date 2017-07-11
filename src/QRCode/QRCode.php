@@ -30,8 +30,10 @@ class QRCode extends AbstractAPI
 {
     const DAY = 86400;
     const SCENE_MAX_VALUE = 100000;
+    const SCENE_TEMPORARY_MAX_VALUE = 1 << 32;
     const SCENE_QR_CARD = 'QR_CARD';
     const SCENE_QR_TEMPORARY = 'QR_SCENE';
+    const SCENE_QR_TEMPORARY_STR = 'QR_STR_SCENE';
     const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';
 
@@ -63,16 +65,24 @@ class QRCode extends AbstractAPI
     /**
      * Create temporary.
      *
-     * @param string $sceneId
+     * @param string $sceneValue
      * @param null   $expireSeconds
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function temporary($sceneId, $expireSeconds = null)
+    public function temporary($sceneValue, $expireSeconds = null)
     {
-        $scene = ['scene_id' => intval($sceneId)];
+        if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < self::SCENE_TEMPORARY_MAX_VALUE) {
+            $type = self::SCENE_QR_TEMPORARY;
+            $sceneKey = 'scene_id';
+        } else {
+            $type = self::SCENE_QR_TEMPORARY_STR;
+            $sceneKey = 'scene_str';
+        }
 
-        return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
+        $scene = [$sceneKey => $sceneValue];
+
+        return $this->create($type, $scene, true, $expireSeconds);
     }
 
     /**
