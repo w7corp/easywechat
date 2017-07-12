@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Support\Collection;
 
 /**
  * Trait Attributes.

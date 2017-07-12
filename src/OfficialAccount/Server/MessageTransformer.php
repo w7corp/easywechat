@@ -41,7 +41,7 @@ class MessageTransformer
             $class = get_class($message);
         }
 
-        $handle = 'transform'.substr($class, strlen('EasyWeChat\Messages\\'));
+        $handle = 'transform'.substr($class, strlen('EasyWeChat\Kernel\Messages\\'));
 
         return method_exists($this, $handle) ? $this->$handle($message) : [];
     }
