@@ -32,7 +32,7 @@ class Messenger
     /**
      * @var array
      */
-    protected $to = [];
+    protected $to = ['touser' => '@all'];
 
     /**
      * @var int
