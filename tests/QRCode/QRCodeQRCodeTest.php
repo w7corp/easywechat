@@ -71,8 +71,8 @@ class QRCodeQRCodeTest extends TestCase
 
         // $senceId = 'str'
         $params = $qrcode->temporary('str')['params'];
-        $this->assertEquals(QRCode::SCENE_QR_TEMPORARY, $params['action_name']);
-        $this->assertEquals(['scene_id' => 0], $params['action_info']['scene']);
+        $this->assertEquals(QRCode::SCENE_QR_TEMPORARY_STR, $params['action_name']);
+        $this->assertEquals(['scene_str' => 'str'], $params['action_info']['scene']);
 
         // $senceId = 1
         $params = $qrcode->temporary(1)['params'];
