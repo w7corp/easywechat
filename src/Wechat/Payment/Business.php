@@ -32,11 +32,12 @@ use Overtrue\Wechat\Utils\MagicAttributes;
 class Business extends MagicAttributes
 {
     /**
-     * 有效的参数.
+     * 有效的参数. 
+	 * shipfi : 去除appSecret参数强制性
      * 
      * @var array
      */
-    protected $valids = array('appid', 'appsecret', 'mch_id', 'mch_key');
+    protected $valids = array('appid', 'mch_id', 'mch_key');
 
     /**
      * 商户证书 cert.
