@@ -12,6 +12,8 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\MiniProgram\Application as MiniProgram;
+use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 
 /**
  * Class Application.
@@ -24,12 +26,9 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @method mixed getAuthorizerOption(string $appId, string $name)
  * @method mixed setAuthorizerOption(string $appId, string $name, string $value)
  * @method mixed getAuthorizerList(int $offset = 0, int $count = 500)
- * @method \EasyWeChat\OfficialAccount\Application createOfficialAccount(string $appId, string $refreshToken)
  */
 class Application extends ServiceContainer
 {
-    use CreatesAuthorizer;
-
     /**
      * @var array
      */
@@ -50,6 +49,51 @@ class Application extends ServiceContainer
     ];
 
     /**
+     * Creates the officialAccount application.
+     *
+     * @param string $appId
+     * @param string $refreshToken
+     *
+     * @return \EasyWeChat\OfficialAccount\Application
+     */
+    public function officialAccount(string $appId, string $refreshToken): OfficialAccount
+    {
+        return (new OfficialAccount($this->authorizerConfig($appId, $refreshToken)))->register(new Authorizer\ServiceProvider($this));
+    }
+
+    /**
+     * Creates the miniProgram application.
+     *
+     * @param string $appId
+     * @param string $refreshToken
+     *
+     * @return \EasyWeChat\MiniProgram\Application
+     */
+    public function miniProgram(string $appId, string $refreshToken): MiniProgram
+    {
+        return (new MiniProgram($this->authorizerConfig($appId, $refreshToken)))->register(new Authorizer\ServiceProvider($this));
+    }
+
+    /**
+     * @param string $appId
+     * @param string $refreshToken
+     *
+     * @return array
+     */
+    protected function authorizerConfig(string $appId, string $refreshToken): array
+    {
+        return [
+            'open_platform' => [
+                'app_id' => $this['config']['app_id'],
+                'token' => $this['config']['token'],
+                'aes_key' => $this['config']['aes_key'],
+            ],
+            'app_id' => $appId,
+            'refresh_token' => $refreshToken,
+        ];
+    }
+
+    /**
      * Quick access to the base-api.
      *
      * @param string $method
@@ -59,12 +103,6 @@ class Application extends ServiceContainer
      */
     public function __call($method, $args)
     {
-        if (stripos($method, 'create') === 0) {
-            $namespace = substr($method, 6);
-
-            return $this->createAuthorizer("\\EasyWeChat\\{$namespace}\\Application", ...$args);
-        }
-
         return call_user_func_array([$this['base'], $method], $args);
     }
 }
