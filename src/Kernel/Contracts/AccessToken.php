@@ -14,7 +14,7 @@ namespace EasyWeChat\Kernel\Contracts;
 use Psr\Http\Message\RequestInterface;
 
 /**
- * Interface AccessToken.
+ * Interface AuthorizerAccessToken.
  *
  * @author overtrue <i@overtrue.me>
  */

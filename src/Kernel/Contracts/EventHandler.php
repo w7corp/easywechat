@@ -9,19 +9,19 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\Server\Handlers;
+namespace EasyWeChat\Kernel\Contracts;
 
 /**
  * Class EventHandler.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-abstract class EventHandler
+interface EventHandler
 {
     /**
      * Handle an incoming event message from WeChat server-side.
      *
      * @param \EasyWeChat\Kernel\Support\Collection $message
      */
-    abstract public function handle($message);
+    public function handle($message);
 }

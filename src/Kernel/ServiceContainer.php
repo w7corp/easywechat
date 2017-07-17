@@ -54,10 +54,11 @@ class ServiceContainer extends Container
      * Constructor.
      *
      * @param array $config
+     * @param array $prepends
      */
-    public function __construct(array $config)
+    public function __construct(array $config, array $prepends = [])
     {
-        parent::__construct();
+        parent::__construct($prepends);
 
         $this->registerConfig($config);
 

@@ -14,7 +14,7 @@ namespace EasyWeChat\OfficialAccount\Auth;
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
 /**
- * Class AccessToken.
+ * Class AuthorizerAccessToken.
  *
  * @author overtrue <i@overtrue.me>
  */

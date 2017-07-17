@@ -27,7 +27,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getAuthorizationInfo(string $authCode = null)
+    public function handleAuthorize(string $authCode = null)
     {
         $params = [
             'component_appid' => $this->app['config']['app_id'],
@@ -44,7 +44,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getAuthorizerInfo(string $appId)
+    public function getAuthorizer(string $appId)
     {
         $params = [
             'component_appid' => $this->app['config']['app_id'],
@@ -102,7 +102,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getAuthorizerList($offset = 0, $count = 500)
+    public function getAuthorizers($offset = 0, $count = 500)
     {
         $params = [
             'component_appid' => $this->app['config']['app_id'],

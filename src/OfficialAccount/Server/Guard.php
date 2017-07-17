@@ -305,7 +305,7 @@ class Guard
         $message = $this->parseMessageFromRequest($this->request->getContent(false));
 
         if (!is_array($message) || empty($message)) {
-            throw new BadRequestException('Invalid request.');
+            throw new BadRequestException('No message received.');
         }
 
         return $message;

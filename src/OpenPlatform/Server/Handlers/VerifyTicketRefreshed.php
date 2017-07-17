@@ -11,30 +11,29 @@
 
 namespace EasyWeChat\OpenPlatform\Server\Handlers;
 
+use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Auth\VerifyTicket;
 
 /**
- * Class ComponentVerifyTicket.
+ * Class VerifyTicket.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class ComponentVerifyTicket extends EventHandler
+class VerifyTicketRefreshed extends EventHandler
 {
     /**
-     * VerifyTicket.
-     *
      * @var \EasyWeChat\OpenPlatform\Auth\VerifyTicket
      */
-    protected $verifyTicket;
+    protected $app;
 
     /**
      * Constructor.
      *
-     * @param \EasyWeChat\OpenPlatform\Auth\VerifyTicket $verifyTicket
+     * @param \EasyWeChat\OpenPlatform\Application $app
      */
-    public function __construct(VerifyTicket $verifyTicket)
+    public function __construct(Application $app)
     {
-        $this->verifyTicket = $verifyTicket;
+        $this->app = $app;
     }
 
     /**
@@ -42,6 +41,6 @@ class ComponentVerifyTicket extends EventHandler
      */
     public function handle($message)
     {
-        $this->verifyTicket->setTicket($message->get('ComponentVerifyTicket'));
+        $this->app['verify_ticket']->setTicket($message->get('ComponentVerifyTicket'));
     }
 }

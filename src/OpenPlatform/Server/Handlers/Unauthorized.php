@@ -11,12 +11,14 @@
 
 namespace EasyWeChat\OpenPlatform\Server\Handlers;
 
+use EasyWeChat\Kernel\Contracts\EventHandler;
+
 /**
  * Class Unauthorized.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Unauthorized extends EventHandler
+class Unauthorized implements EventHandler
 {
     /**
      * {@inheritdoc}.

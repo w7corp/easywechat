@@ -14,12 +14,15 @@ namespace EasyWeChat\MiniProgram\Auth;
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
 /**
- * Class AccessToken.
+ * Class AuthorizerAccessToken.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
 class AccessToken extends BaseAccessToken
 {
+    /**
+     * @var string
+     */
     protected $endpointToGetToken = 'cgi-bin/token';
 
     /**

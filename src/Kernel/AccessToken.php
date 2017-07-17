@@ -21,13 +21,18 @@ use Psr\Http\Message\RequestInterface;
 use Psr\SimpleCache\CacheInterface;
 
 /**
- * Class AccessToken.
+ * Class AuthorizerAccessToken.
  *
  * @author overtrue <i@overtrue.me>
  */
 abstract class AccessToken implements AccessTokenInterface
 {
     use HasHttpRequests, HasAttributes, InteractsWithCache { getCache as getCacheInstance; }
+
+    /**
+     * @var string
+     */
+    protected $requestMethod = 'GET';
 
     /**
      * @var \Pimple\Container
@@ -55,7 +60,7 @@ abstract class AccessToken implements AccessTokenInterface
     protected $cachePrefix = 'easywechat.access_token.';
 
     /**
-     * AccessToken constructor.
+     * AuthorizerAccessToken constructor.
      *
      * @param \Pimple\Container $app
      */
@@ -135,7 +140,7 @@ abstract class AccessToken implements AccessTokenInterface
         $result = json_decode($this->sendRequest($credentials)->getBody()->getContents(), true);
 
         if (empty($result[$this->tokenKey])) {
-            throw new HttpException('Request AccessToken fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Request AuthorizerAccessToken fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
         return $result;
@@ -150,15 +155,14 @@ abstract class AccessToken implements AccessTokenInterface
      */
     private function sendRequest(array $credentials)
     {
-        $method = $this->requestMethod ?? 'GET';
         $options = [
-            ($method === 'GET') ? 'query' : 'json' => $credentials,
+            ($this->requestMethod === 'GET') ? 'query' : 'json' => $credentials,
         ];
         if (method_exists($this, 'appendQuery')) {
             $options['query'] = $this->appendQuery();
         }
 
-        return $this->setHttpClient($this->app['http_client'])->request($this->endpointToGetToken, $method, $options);
+        return $this->setHttpClient($this->app['http_client'])->request($this->endpointToGetToken, $this->requestMethod, $options);
     }
 
     /**

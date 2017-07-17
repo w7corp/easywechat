@@ -31,11 +31,13 @@ class VerifyTicket
     /**
      * Constructor.
      *
-     * @param string $appId
+     * @param string      $appId
+     * @param string|null $ticket
      */
-    public function __construct(string $appId)
+    public function __construct(string $appId, string $ticket = null)
     {
         $this->appId = $appId;
+        $this->setTicket($ticket);
     }
 
     /**

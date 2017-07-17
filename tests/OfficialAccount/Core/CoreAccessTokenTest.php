@@ -91,7 +91,7 @@ class CoreAccessTokenTest extends TestCase
         $accessToken->setHttp($http);
 
         $this->expectException(\EasyWeChat\Exceptions\HttpException::class);
-        $this->expectExceptionMessage('Request AccessToken fail. response: {"foo":"bar"}');
+        $this->expectExceptionMessage('Request AuthorizerAccessToken fail. response: {"foo":"bar"}');
 
         $accessToken->getToken();
         $this->fail();

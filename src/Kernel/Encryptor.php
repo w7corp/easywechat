@@ -81,7 +81,7 @@ class Encryptor
         $this->token = $token;
 
         if (empty($aesKey)) {
-            throw new InvalidConfigException("Configuration mission, 'aes_key' is required.");
+            throw new InvalidConfigException("Mission config 'aes_key'.");
         }
 
         if (strlen($aesKey) !== 43) {

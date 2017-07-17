@@ -27,7 +27,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['encryptor'] = function ($app) {
+        !isset($app['encryptor']) && $app['encryptor'] = function ($app) {
             return new Encryptor(
                 $app['config']['app_id'],
                 $app['config']['token'],
@@ -35,12 +35,8 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $app['server'] = function ($app) {
-            $server = new Guard($app['config']['token']);
-
-            $server->debug($app['config']['debug']);
-
-            return $server;
+        !isset($app['server']) && $app['server'] = function ($app) {
+            return (new Guard($app))->debug($app['config']['debug']);
         };
     }
 }

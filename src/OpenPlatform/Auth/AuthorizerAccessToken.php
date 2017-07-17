@@ -9,27 +9,22 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\Authorizer;
+namespace EasyWeChat\OpenPlatform\Auth;
 
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 use EasyWeChat\OpenPlatform\Auth\AccessToken as OpenPlatformAccessToken;
 
 /**
- * Class AccessToken.
+ * Class AuthorizerAccessToken.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class AccessToken extends BaseAccessToken
+class AuthorizerAccessToken extends BaseAccessToken
 {
     /**
      * @var string
      */
     protected $requestMethod = 'POST';
-
-    /**
-     * @var string
-     */
-    protected $queryName = 'access_token';
 
     /**
      * {@inheritdoc}.
@@ -75,7 +70,7 @@ class AccessToken extends BaseAccessToken
      *
      * @return array
      */
-    protected function appendQuery(): array
+    protected function getQuery(): array
     {
         return [
             'component_access_token' => $this->openPlatformAccessToken->getToken()['component_access_token'],
