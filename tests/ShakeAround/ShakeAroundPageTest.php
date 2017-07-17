@@ -56,7 +56,7 @@ class ShakeAroundPageTest extends TestCase
         $result = $page->add('主标题', '副标题', 'https://zb.weixin.qq.com', 'http://3gimg.qq.com/shake_nearby/dy/icon');
 
         $this->assertStringStartsWith(Page::API_ADD, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
 
         $expected = [
             'title' => '主标题',
@@ -68,7 +68,7 @@ class ShakeAroundPageTest extends TestCase
 
         $result = $page->add('主标题', '副标题', 'https://zb.weixin.qq.com', 'http://3gimg.qq.com/shake_nearby/dy/icon', '数据示例');
 
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -89,7 +89,7 @@ class ShakeAroundPageTest extends TestCase
         $result = $page->update(1234, '主标题', '副标题', 'https://zb.weixin.qq.com', 'http://3gimg.qq.com/shake_nearby/dy/icon');
 
         $this->assertStringStartsWith(Page::API_UPDATE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
 
         $expected = [
             'page_id' => 1234,
@@ -103,7 +103,7 @@ class ShakeAroundPageTest extends TestCase
         $result = $page->update(1234, '主标题', '副标题', 'https://zb.weixin.qq.com', 'http://3gimg.qq.com/shake_nearby/dy/icon', '数据示例');
 
         $this->assertStringStartsWith(Page::API_UPDATE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -121,7 +121,7 @@ class ShakeAroundPageTest extends TestCase
         $result = $page->fetchByIds([1234, 5678]);
 
         $this->assertStringStartsWith(Page::API_SEARCH, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -140,7 +140,7 @@ class ShakeAroundPageTest extends TestCase
         $result = $page->pagination(0, 10);
 
         $this->assertStringStartsWith(Page::API_SEARCH, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -157,6 +157,6 @@ class ShakeAroundPageTest extends TestCase
         $result = $page->delete(1234);
 
         $this->assertStringStartsWith(Page::API_DELETE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 }

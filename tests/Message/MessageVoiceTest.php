@@ -25,7 +25,7 @@ class MessageVoiceTest extends TestCase
 
         $return = $voice->media('foobar');
 
-        $this->assertSame($voice, $return);
-        $this->assertSame('foobar', $return->media_id);
+        $this->assertEquals($voice, $return);
+        $this->assertEquals('foobar', $return->media_id);
     }
 }

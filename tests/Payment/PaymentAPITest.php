@@ -78,11 +78,11 @@ class PaymentAPITest extends TestCase
 
         $response = $api->prepare($order);
 
-        $this->assertSame($api->wrapApi(API::API_PREPARE_ORDER), $response['api']);
-        $this->assertSame('wxTestAppId', $response['params']['appid']);
-        $this->assertSame('merchant_default_notify_url', $response['params']['notify_url']);
-        $this->assertSame('testMerchantId', $response['params']['mch_id']);
-        $this->assertSame('bar', $response['params']['foo']);
+        $this->assertEquals($api->wrapApi(API::API_PREPARE_ORDER), $response['api']);
+        $this->assertEquals('wxTestAppId', $response['params']['appid']);
+        $this->assertEquals('merchant_default_notify_url', $response['params']['notify_url']);
+        $this->assertEquals('testMerchantId', $response['params']['mch_id']);
+        $this->assertEquals('bar', $response['params']['foo']);
     }
 
     /**
@@ -97,10 +97,10 @@ class PaymentAPITest extends TestCase
 
         $response = $api->pay($order);
 
-        $this->assertSame($api->wrapApi(API::API_PAY_ORDER), $response['api']);
-        $this->assertSame('wxTestAppId', $response['params']['appid']);
-        $this->assertSame('testMerchantId', $response['params']['mch_id']);
-        $this->assertSame('bar', $response['params']['foo']);
+        $this->assertEquals($api->wrapApi(API::API_PAY_ORDER), $response['api']);
+        $this->assertEquals('wxTestAppId', $response['params']['appid']);
+        $this->assertEquals('testMerchantId', $response['params']['mch_id']);
+        $this->assertEquals('bar', $response['params']['foo']);
     }
 
     /**
@@ -111,17 +111,17 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
         $response = $api->query('testTradeNoFoo');
 
-        $this->assertSame($api->wrapApi(API::API_QUERY), $response['api']);
-        $this->assertSame('testTradeNoFoo', $response['params']['out_trade_no']);
+        $this->assertEquals($api->wrapApi(API::API_QUERY), $response['api']);
+        $this->assertEquals('testTradeNoFoo', $response['params']['out_trade_no']);
 
         $response = $api->query('testTradeNoBar', API::TRANSACTION_ID);
 
-        $this->assertSame($api->wrapApi(API::API_QUERY), $response['api']);
-        $this->assertSame('testTradeNoBar', $response['params']['transaction_id']);
+        $this->assertEquals($api->wrapApi(API::API_QUERY), $response['api']);
+        $this->assertEquals('testTradeNoBar', $response['params']['transaction_id']);
 
         $response = $api->queryByTransactionId('testTransactionId');
-        $this->assertSame($api->wrapApi(API::API_QUERY), $response['api']);
-        $this->assertSame('testTransactionId', $response['params']['transaction_id']);
+        $this->assertEquals($api->wrapApi(API::API_QUERY), $response['api']);
+        $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
     /**
@@ -132,8 +132,8 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->close('testTradeNo');
-        $this->assertSame($api->wrapApi(API::API_CLOSE), $response['api']);
-        $this->assertSame('testTradeNo', $response['params']['out_trade_no']);
+        $this->assertEquals($api->wrapApi(API::API_CLOSE), $response['api']);
+        $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
     }
 
     /**
@@ -144,12 +144,12 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->reverse('testTradeNo');
-        $this->assertSame($api->wrapApi(API::API_REVERSE), $response['api']);
-        $this->assertSame('testTradeNo', $response['params']['out_trade_no']);
+        $this->assertEquals($api->wrapApi(API::API_REVERSE), $response['api']);
+        $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
         $response = $api->reverse('testTransactionId', API::TRANSACTION_ID);
-        $this->assertSame($api->wrapApi(API::API_REVERSE), $response['api']);
-        $this->assertSame('testTransactionId', $response['params']['transaction_id']);
+        $this->assertEquals($api->wrapApi(API::API_REVERSE), $response['api']);
+        $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
     /**
@@ -160,23 +160,23 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->refund('testTradeNo', 'testRefundNo', 100);
-        $this->assertSame($api->wrapApi(API::API_REFUND), $response['api']);
-        $this->assertSame('testRefundNo', $response['params']['out_refund_no']);
-        $this->assertSame(100, $response['params']['total_fee']);
-        $this->assertSame(100, $response['params']['refund_fee']);
-        $this->assertSame('CNY', $response['params']['refund_fee_type']);
-        $this->assertSame('testMerchantId', $response['params']['op_user_id']);
-        $this->assertSame('testTradeNo', $response['params']['out_trade_no']);
+        $this->assertEquals($api->wrapApi(API::API_REFUND), $response['api']);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
+        $this->assertEquals(100, $response['params']['total_fee']);
+        $this->assertEquals(100, $response['params']['refund_fee']);
+        $this->assertEquals('CNY', $response['params']['refund_fee_type']);
+        $this->assertEquals('testMerchantId', $response['params']['op_user_id']);
+        $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
         $response = $api->refund('testTradeNo', 'testRefundNo', 100, 50);
-        $this->assertSame('testRefundNo', $response['params']['out_refund_no']);
-        $this->assertSame(100, $response['params']['total_fee']);
-        $this->assertSame(50, $response['params']['refund_fee']);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
+        $this->assertEquals(100, $response['params']['total_fee']);
+        $this->assertEquals(50, $response['params']['refund_fee']);
 
         $response = $api->refund('testTradeNo', 'testRefundNo', 100, 50);
-        $this->assertSame('testRefundNo', $response['params']['out_refund_no']);
-        $this->assertSame(100, $response['params']['total_fee']);
-        $this->assertSame(50, $response['params']['refund_fee']);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
+        $this->assertEquals(100, $response['params']['total_fee']);
+        $this->assertEquals(50, $response['params']['refund_fee']);
     }
 
     /**
@@ -187,12 +187,12 @@ class PaymentAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->queryRefund('testTradeNo');
-        $this->assertSame($api->wrapApi(API::API_QUERY_REFUND), $response['api']);
-        $this->assertSame('testTradeNo', $response['params']['out_trade_no']);
+        $this->assertEquals($api->wrapApi(API::API_QUERY_REFUND), $response['api']);
+        $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
 
         $response = $api->queryRefund('testTransactionId', API::TRANSACTION_ID);
-        $this->assertSame($api->wrapApi(API::API_QUERY_REFUND), $response['api']);
-        $this->assertSame('testTransactionId', $response['params']['transaction_id']);
+        $this->assertEquals($api->wrapApi(API::API_QUERY_REFUND), $response['api']);
+        $this->assertEquals('testTransactionId', $response['params']['transaction_id']);
     }
 
     /**
@@ -225,14 +225,14 @@ class PaymentAPITest extends TestCase
         $api->shouldReceive('getHttp')->andReturn($http);
 
         $response = $api->downloadBill('20150901');
-        $this->assertSame($api->wrapApi(API::API_DOWNLOAD_BILL), $response['api']);
-        $this->assertSame('20150901', $response['params']['bill_date']);
-        $this->assertSame(API::BILL_TYPE_ALL, $response['params']['bill_type']);
+        $this->assertEquals($api->wrapApi(API::API_DOWNLOAD_BILL), $response['api']);
+        $this->assertEquals('20150901', $response['params']['bill_date']);
+        $this->assertEquals(API::BILL_TYPE_ALL, $response['params']['bill_type']);
 
         $response = $api->downloadBill('20150901', API::BILL_TYPE_SUCCESS);
-        $this->assertSame($api->wrapApi(API::API_DOWNLOAD_BILL), $response['api']);
-        $this->assertSame('20150901', $response['params']['bill_date']);
-        $this->assertSame(API::BILL_TYPE_SUCCESS, $response['params']['bill_type']);
+        $this->assertEquals($api->wrapApi(API::API_DOWNLOAD_BILL), $response['api']);
+        $this->assertEquals('20150901', $response['params']['bill_date']);
+        $this->assertEquals(API::BILL_TYPE_SUCCESS, $response['params']['bill_type']);
     }
 
     /**
@@ -244,14 +244,14 @@ class PaymentAPITest extends TestCase
 
         $response = $api->urlShorten('http://easywechat.org');
 
-        $this->assertSame('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
-        $this->assertSame('http://easywechat.org', $response['params']['long_url']);
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
+        $this->assertEquals('http://easywechat.org', $response['params']['long_url']);
 
         $sandboxPayment = $this->getAPI(true);
         $response = $sandboxPayment->urlShorten('http://easywechat.org');
 
-        $this->assertSame('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
-        $this->assertSame('http://easywechat.org', $response['params']['long_url']);
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/shorturl', $response['api']);
+        $this->assertEquals('http://easywechat.org', $response['params']['long_url']);
     }
 
     /**
@@ -263,14 +263,14 @@ class PaymentAPITest extends TestCase
 
         $response = $api->authCodeToOpenId('authcode');
 
-        $this->assertSame('https://api.mch.weixin.qq.com/tools/authcodetoopenid', $response['api']);
-        $this->assertSame('authcode', $response['params']['auth_code']);
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/authcodetoopenid', $response['api']);
+        $this->assertEquals('authcode', $response['params']['auth_code']);
 
         $sandboxPayment = $this->getAPI(true);
         $response = $sandboxPayment->authCodeToOpenId('authcode');
 
-        $this->assertSame('https://api.mch.weixin.qq.com/tools/authcodetoopenid', $response['api']);
-        $this->assertSame('authcode', $response['params']['auth_code']);
+        $this->assertEquals('https://api.mch.weixin.qq.com/tools/authcodetoopenid', $response['api']);
+        $this->assertEquals('authcode', $response['params']['auth_code']);
     }
 
     /**
@@ -282,6 +282,6 @@ class PaymentAPITest extends TestCase
         $merchant = \Mockery::mock(Merchant::class);
         $api->setMerchant($merchant);
 
-        $this->assertSame($merchant, $api->getMerchant());
+        $this->assertEquals($merchant, $api->getMerchant());
     }
 }

@@ -28,17 +28,17 @@ class MessageAbstractMessageTest extends TestCase
     {
         $foo = new FooMessage(['foo' => 'overtrue']);
 
-        $this->assertSame('overtrue', $foo->foo);
+        $this->assertEquals('overtrue', $foo->foo);
 
         // normal
         $foo->foo = 'hello';
         $foo->bar = 'barbar';
-        $this->assertSame('hello', $foo->foo);
-        $this->assertSame('barbar', $foo->bar);
+        $this->assertEquals('hello', $foo->foo);
+        $this->assertEquals('barbar', $foo->bar);
 
         // property
         $foo->id = 6;
-        $this->assertSame(6, $foo->id);
+        $this->assertEquals(6, $foo->id);
 
         // non-exists
         $foo->nonExists = 'hello';

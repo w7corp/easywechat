@@ -40,7 +40,7 @@ class StaffSessionTest extends TestCase
         $response = $session->lists('foo');
 
         $this->assertStringStartsWith(Session::API_LISTS, $response['api']);
-        $this->assertSame('foo', $response['params']['kf_account']);
+        $this->assertEquals('foo', $response['params']['kf_account']);
     }
 
     /**
@@ -66,8 +66,8 @@ class StaffSessionTest extends TestCase
         $response = $session->create('anzhengchao@test', 'overtrue_openid');
 
         $this->assertStringStartsWith(Session::API_CREATE, $response['api']);
-        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertSame('overtrue_openid', $response['params']['openid']);
+        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertEquals('overtrue_openid', $response['params']['openid']);
     }
 
     /**
@@ -80,8 +80,8 @@ class StaffSessionTest extends TestCase
         $response = $session->close('anzhengchao@test', 'overtrue_openid');
 
         $this->assertStringStartsWith(Session::API_CLOSE, $response['api']);
-        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertSame('overtrue_openid', $response['params']['openid']);
+        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertEquals('overtrue_openid', $response['params']['openid']);
     }
 
     /**
@@ -94,6 +94,6 @@ class StaffSessionTest extends TestCase
         $response = $session->get('mock_openid');
 
         $this->assertStringStartsWith(Session::API_GET, $response['api']);
-        $this->assertSame('mock_openid', $response['params']['openid']);
+        $this->assertEquals('mock_openid', $response['params']['openid']);
     }
 }

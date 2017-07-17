@@ -35,7 +35,7 @@ class CoreAbstractAPITest extends TestCase
         $accessToken = \Mockery::mock(AccessToken::class);
 
         $api = new FooAPI($accessToken);
-        $this->assertSame($accessToken, $api->getAccessToken());
+        $this->assertEquals($accessToken, $api->getAccessToken());
     }
 
     public function testHttpInstance()
@@ -56,7 +56,7 @@ class CoreAbstractAPITest extends TestCase
             $mock->shouldReceive('getMiddlewares')->andReturn([1, 2, 3]);
         });
         $api->setHttp($http);
-        $this->assertSame($http, $api->getHttp());
+        $this->assertEquals($http, $api->getHttp());
     }
 
     public function testParseJSON()
@@ -78,7 +78,7 @@ class CoreAbstractAPITest extends TestCase
         $collection = $api->parseJSON('get', ['foo', ['bar']]);
 
         $this->assertInstanceOf(Collection::class, $collection);
-        $this->assertSame(['foo', ['bar']], $collection->all());
+        $this->assertEquals(['foo', ['bar']], $collection->all());
 
         // test error
         $http = \Mockery::mock(Http::class.'[getMiddlewares,get,parseJSON]', function ($mock) {

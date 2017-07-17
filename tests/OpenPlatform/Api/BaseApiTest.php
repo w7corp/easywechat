@@ -25,7 +25,7 @@ class BaseApiTest extends ApiTest
         ];
 
         $this->assertStringStartsWith(BaseApi::GET_AUTH_INFO, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     public function testGetAuthorizerToken()
@@ -39,7 +39,7 @@ class BaseApiTest extends ApiTest
         ];
 
         $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_TOKEN, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     public function testGetAuthorizerInfo()
@@ -52,7 +52,7 @@ class BaseApiTest extends ApiTest
         ];
 
         $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_INFO, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     public function testGetAuthorizerOption()
@@ -66,7 +66,7 @@ class BaseApiTest extends ApiTest
         ];
 
         $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_OPTION, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     public function testSetAuthorizerOption()
@@ -81,7 +81,7 @@ class BaseApiTest extends ApiTest
         ];
 
         $this->assertStringStartsWith(BaseApi::SET_AUTHORIZER_OPTION, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     public function testGetAuthorizerList()
@@ -95,6 +95,6 @@ class BaseApiTest extends ApiTest
         ];
 
         $this->assertStringStartsWith(BaseApi::GET_AUTHORIZER_LIST, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 }

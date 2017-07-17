@@ -71,7 +71,7 @@ namespace EasyWeChat\Tests\Js {
 
             $config = $js->config(['startRecord', 'uploadImage'], true, true, false);
 
-            $this->assertSame(['startRecord', 'uploadImage'], $config['jsApiList']);
+            $this->assertEquals(['startRecord', 'uploadImage'], $config['jsApiList']);
         }
 
         /**
@@ -90,7 +90,7 @@ namespace EasyWeChat\Tests\Js {
 
             $config = $js->getConfigArray(['startRecord', 'uploadImage']);
 
-            $this->assertSame(['startRecord', 'uploadImage'], $config['jsApiList']);
+            $this->assertEquals(['startRecord', 'uploadImage'], $config['jsApiList']);
         }
 
         /**
@@ -108,7 +108,7 @@ namespace EasyWeChat\Tests\Js {
             $js->setHttp($http);
             $js->setUrl('http://easywechat.org');
 
-            $this->assertSame('foo', $js->ticket());
+            $this->assertEquals('foo', $js->ticket());
 
             $http = $this->getMockHttp();
             $cache = $this->getMockCache();
@@ -125,7 +125,7 @@ namespace EasyWeChat\Tests\Js {
             $js->setCache($cache);
             $js->setHttp($http);
 
-            $this->assertSame('overtrue.ticket', $js->ticket());
+            $this->assertEquals('overtrue.ticket', $js->ticket());
         }
 
         /**
@@ -144,23 +144,23 @@ namespace EasyWeChat\Tests\Js {
 
             $signaturePack = $js->signature();
 
-            $this->assertSame('http://easywechat.org', $signaturePack['url']);
-            $this->assertSame('foo', $signaturePack['appId']);
+            $this->assertEquals('http://easywechat.org', $signaturePack['url']);
+            $this->assertEquals('foo', $signaturePack['appId']);
             $this->assertArrayHasKey('signature', $signaturePack);
             $this->assertArrayHasKey('nonceStr', $signaturePack);
             $this->assertArrayHasKey('timestamp', $signaturePack);
 
             $signaturePack = $js->signature('http://overtrue.me');
-            $this->assertSame('http://overtrue.me', $signaturePack['url']);
+            $this->assertEquals('http://overtrue.me', $signaturePack['url']);
 
             $signaturePack = $js->signature('http://overtrue.me', 'foobar');
-            $this->assertSame('http://overtrue.me', $signaturePack['url']);
-            $this->assertSame('foobar', $signaturePack['nonceStr']);
+            $this->assertEquals('http://overtrue.me', $signaturePack['url']);
+            $this->assertEquals('foobar', $signaturePack['nonceStr']);
 
             $signaturePack = $js->signature('http://overtrue.me', 'foobar', 1234578902);
-            $this->assertSame('http://overtrue.me', $signaturePack['url']);
-            $this->assertSame('foobar', $signaturePack['nonceStr']);
-            $this->assertSame('1234578902', $signaturePack['timestamp']);
+            $this->assertEquals('http://overtrue.me', $signaturePack['url']);
+            $this->assertEquals('foobar', $signaturePack['nonceStr']);
+            $this->assertEquals('1234578902', $signaturePack['timestamp']);
         }
 
         /**
@@ -182,7 +182,7 @@ namespace EasyWeChat\Tests\Js {
             $url = 'http://easywechat.org';
             $expect = sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}");
 
-            $this->assertSame($expect, $js->getSignature($ticket, $nonce, $timestamp, $url));
+            $this->assertEquals($expect, $js->getSignature($ticket, $nonce, $timestamp, $url));
         }
 
         /**
@@ -198,11 +198,11 @@ namespace EasyWeChat\Tests\Js {
             $js->setHttp($http);
             $js->setUrl('http://easywechat.org');
 
-            $this->assertSame('http://easywechat.org', $js->getUrl());
+            $this->assertEquals('http://easywechat.org', $js->getUrl());
             $accessToken = $this->getMockAccessToken();
             $js = new Js($accessToken, $cache);
             $js->setHttp($http);
-            $this->assertSame('http://localhost', $js->getUrl());
+            $this->assertEquals('http://localhost', $js->getUrl());
         }
     }
 }

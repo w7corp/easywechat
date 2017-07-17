@@ -21,21 +21,21 @@ class AuthorizerAccessTokenTest extends TestCase
     {
         $auth = $this->make('appid@123', 'token@123', null);
 
-        $this->assertSame('token@123', $auth->getToken());
+        $this->assertEquals('token@123', $auth->getToken());
     }
 
     public function testGetTokenExpired()
     {
         $auth = $this->make('appid@123', null, 'token@456');
 
-        $this->assertSame('token@456', $auth->getToken());
+        $this->assertEquals('token@456', $auth->getToken());
     }
 
     public function testGetTokenForced()
     {
         $auth = $this->make('appid@123', 'token@123', 'token@456');
 
-        $this->assertSame('token@456', $auth->getToken(true));
+        $this->assertEquals('token@456', $auth->getToken(true));
     }
 
     private function make($appId, $cachedToken, $newToken)

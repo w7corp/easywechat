@@ -21,8 +21,8 @@ class FundamentalAPITest extends TestCase
     {
         $result = $this->make()->clearQuota();
 
-        $this->assertSame('https://api.weixin.qq.com/cgi-bin/clear_quota', $result['api']);
-        $this->assertSame(['appid' => 'i-am-app-id'], $result['params']);
+        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/clear_quota', $result['api']);
+        $this->assertEquals(['appid' => 'i-am-app-id'], $result['params']);
     }
 
     /**
@@ -32,7 +32,7 @@ class FundamentalAPITest extends TestCase
     {
         $result = $this->make()->getCallbackIp();
 
-        $this->assertSame('https://api.weixin.qq.com/cgi-bin/getcallbackip', $result['api']);
+        $this->assertEquals('https://api.weixin.qq.com/cgi-bin/getcallbackip', $result['api']);
     }
 
     private function make()

@@ -33,7 +33,7 @@ class EncryptorTest extends TestCase
 
         $decrypted = $this->getEncryptor()->decryptData('tiihtNczf5v6AKRyjwEUhQ==', 'r7BXXKkLb8qrSNn05n0qiA==', $encryptedData);
 
-        $this->assertSame('oGZUI0egBJY1zhBYw2KhdUfwVJJE', $decrypted['openId']);
-        $this->assertSame('ocMvos6NjeKLIBqg5Mr9QjxrP1FA', $decrypted['unionId']);
+        $this->assertEquals('oGZUI0egBJY1zhBYw2KhdUfwVJJE', $decrypted['openId']);
+        $this->assertEquals('ocMvos6NjeKLIBqg5Mr9QjxrP1FA', $decrypted['unionId']);
     }
 }

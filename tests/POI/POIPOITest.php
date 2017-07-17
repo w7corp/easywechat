@@ -49,7 +49,7 @@ class POIPOITest extends TestCase
 
         $response = $POI->get('foo');
         $this->assertStringStartsWith(POI::API_GET, $response['api']);
-        $this->assertSame('foo', $response['params']['poi_id']);
+        $this->assertEquals('foo', $response['params']['poi_id']);
     }
 
     /**
@@ -65,8 +65,8 @@ class POIPOITest extends TestCase
         $this->assertArrayHasKey('limit', $response['params']);
 
         $response = $POI->lists(10, 30);
-        $this->assertSame(10, $response['params']['begin']);
-        $this->assertSame(30, $response['params']['limit']);
+        $this->assertEquals(10, $response['params']['begin']);
+        $this->assertEquals(30, $response['params']['limit']);
     }
 
     /**
@@ -80,7 +80,7 @@ class POIPOITest extends TestCase
 
         $response = $POI->create($data);
         $this->assertStringStartsWith(POI::API_CREATE, $response['api']);
-        $this->assertSame(['business' => ['base_info' => $data]], $response['params']);
+        $this->assertEquals(['business' => ['base_info' => $data]], $response['params']);
     }
 
     /**
@@ -92,7 +92,7 @@ class POIPOITest extends TestCase
 
         $response = $POI->update('foo', ['foo' => 'bar']);
         $this->assertStringStartsWith(POI::API_UPDATE, $response['api']);
-        $this->assertSame(['business' => ['base_info' => ['poi_id' => 'foo', 'foo' => 'bar']]], $response['params']);
+        $this->assertEquals(['business' => ['base_info' => ['poi_id' => 'foo', 'foo' => 'bar']]], $response['params']);
     }
 
     /**
@@ -104,6 +104,6 @@ class POIPOITest extends TestCase
 
         $response = $POI->delete('foo');
         $this->assertStringStartsWith(POI::API_DELETE, $response['api']);
-        $this->assertSame('foo', $response['params']['poi_id']);
+        $this->assertEquals('foo', $response['params']['poi_id']);
     }
 }

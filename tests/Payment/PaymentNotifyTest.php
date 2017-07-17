@@ -53,7 +53,7 @@ class PaymentNotifyTest extends TestCase
         $notify = new Notify(new Merchant(['key' => 'sign_key']), $request);
 
         $this->assertInstanceOf(Collection::class, $notify->getNotify());
-        $this->assertSame('bar', $notify->getNotify()->foo);
+        $this->assertEquals('bar', $notify->getNotify()->foo);
     }
 
     /**

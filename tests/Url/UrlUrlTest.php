@@ -29,7 +29,7 @@ class UrlUrlTest extends TestCase
         $response = $url->shorten('http://easywechat.org');
 
         $this->assertStringStartsWith(Url::API_SHORTEN_URL, $response[1][0]);
-        $this->assertSame('long2short', $response[1][1]['action']);
-        $this->assertSame('http://easywechat.org', $response[1][1]['long_url']);
+        $this->assertEquals('long2short', $response[1][1]['action']);
+        $this->assertEquals('http://easywechat.org', $response[1][1]['long_url']);
     }
 }

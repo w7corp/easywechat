@@ -40,18 +40,18 @@ class QRCodeQRCodeTest extends TestCase
 
         // normal
         $params = $qrcode->forever(5)['params'];
-        $this->assertSame(QRCode::SCENE_QR_FOREVER, $params['action_name']);
-        $this->assertSame(['scene_id' => 5], $params['action_info']['scene']);
+        $this->assertEquals(QRCode::SCENE_QR_FOREVER, $params['action_name']);
+        $this->assertEquals(['scene_id' => 5], $params['action_info']['scene']);
 
         // <= 0
         $params = $qrcode->forever(0)['params'];
-        $this->assertSame(QRCode::SCENE_QR_FOREVER_STR, $params['action_name']);
-        $this->assertSame(['scene_str' => 0], $params['action_info']['scene']);
+        $this->assertEquals(QRCode::SCENE_QR_FOREVER_STR, $params['action_name']);
+        $this->assertEquals(['scene_str' => 0], $params['action_info']['scene']);
 
         // > QRCode::SCENE_MAX_VALUE
         $params = $qrcode->forever(QRCode::SCENE_MAX_VALUE)['params'];
-        $this->assertSame(QRCode::SCENE_QR_FOREVER_STR, $params['action_name']);
-        $this->assertSame(['scene_str' => QRCode::SCENE_MAX_VALUE], $params['action_info']['scene']);
+        $this->assertEquals(QRCode::SCENE_QR_FOREVER_STR, $params['action_name']);
+        $this->assertEquals(['scene_str' => QRCode::SCENE_MAX_VALUE], $params['action_info']['scene']);
     }
 
     /**
@@ -63,21 +63,21 @@ class QRCodeQRCodeTest extends TestCase
 
         // empty expire_seconds
         $params = $qrcode->temporary(5)['params'];
-        $this->assertSame(QRCode::DAY * 7, $params['expire_seconds']);
+        $this->assertEquals(QRCode::DAY * 7, $params['expire_seconds']);
 
         // expire_seconds = 2400
         $params = $qrcode->temporary(5, 2400)['params'];
-        $this->assertSame(2400, $params['expire_seconds']);
+        $this->assertEquals(2400, $params['expire_seconds']);
 
         // $senceId = 'str'
         $params = $qrcode->temporary('str')['params'];
-        $this->assertSame(QRCode::SCENE_QR_TEMPORARY_STR, $params['action_name']);
-        $this->assertSame(['scene_str' => 'str'], $params['action_info']['scene']);
+        $this->assertEquals(QRCode::SCENE_QR_TEMPORARY_STR, $params['action_name']);
+        $this->assertEquals(['scene_str' => 'str'], $params['action_info']['scene']);
 
         // $senceId = 1
         $params = $qrcode->temporary(1)['params'];
-        $this->assertSame(QRCode::SCENE_QR_TEMPORARY, $params['action_name']);
-        $this->assertSame(['scene_id' => 1], $params['action_info']['scene']);
+        $this->assertEquals(QRCode::SCENE_QR_TEMPORARY, $params['action_name']);
+        $this->assertEquals(['scene_id' => 1], $params['action_info']['scene']);
     }
 
     /**
@@ -89,8 +89,8 @@ class QRCodeQRCodeTest extends TestCase
 
         // $card = ['foo' => 'bar']
         $params = $qrcode->card(['foo' => 'bar'])['params'];
-        $this->assertSame(QRCode::SCENE_QR_CARD, $params['action_name']);
-        $this->assertSame(['card' => ['foo' => 'bar']], $params['action_info']['scene']);
+        $this->assertEquals(QRCode::SCENE_QR_CARD, $params['action_name']);
+        $this->assertEquals(['card' => ['foo' => 'bar']], $params['action_info']['scene']);
     }
 
     /**
@@ -102,6 +102,6 @@ class QRCodeQRCodeTest extends TestCase
 
         $ticket = 'foo';
 
-        $this->assertSame(QRCode::API_SHOW."?ticket={$ticket}", $qrcode->url($ticket));
+        $this->assertEquals(QRCode::API_SHOW."?ticket={$ticket}", $qrcode->url($ticket));
     }
 }

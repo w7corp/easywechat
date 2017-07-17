@@ -31,6 +31,6 @@ class ComponentVerifyTicketTest extends TestCase
         ]);
         $handler->handle($message);
 
-        $this->assertSame('ticket@123123', $verifyTicket->getTicket());
+        $this->assertEquals('ticket@123123', $verifyTicket->getTicket());
     }
 }

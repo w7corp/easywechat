@@ -41,7 +41,7 @@ class ApplicationTest extends TestCase
             $container['cache'] = $app->raw('cache');
 
             foreach ($container->keys() as $providerName) {
-                $this->assertSame($container->raw($providerName), $app->raw($providerName));
+                $this->assertEquals($container->raw($providerName), $app->raw($providerName));
             }
 
             unset($container);
@@ -52,12 +52,12 @@ class ApplicationTest extends TestCase
     {
         $app = new Application([]);
 
-        $this->assertSame(['timeout' => 5.0], Http::getDefaultOptions());
+        $this->assertEquals(['timeout' => 5.0], Http::getDefaultOptions());
 
         $config = ['guzzle' => ['timeout' => 6]];
         $app = new Application($config);
 
-        $this->assertSame($config['guzzle'], Http::getDefaultOptions());
+        $this->assertEquals($config['guzzle'], Http::getDefaultOptions());
     }
 
     /**
@@ -70,7 +70,7 @@ class ApplicationTest extends TestCase
         $app->foo = 'bar';
 
         // getter setter
-        $this->assertSame('bar', $app->foo);
+        $this->assertEquals('bar', $app->foo);
     }
 
     /**
@@ -88,7 +88,7 @@ class ApplicationTest extends TestCase
 
         $app->setProviders(['foo', 'bar']);
 
-        $this->assertSame(['foo', 'bar'], $app->getProviders());
+        $this->assertEquals(['foo', 'bar'], $app->getProviders());
     }
 
     public function testSetCustomAccessToken()
@@ -104,6 +104,6 @@ class ApplicationTest extends TestCase
 
         $app['access_token']->setToken('iamtokenhere');
 
-        $this->assertSame('iamtokenhere', $app['access_token']->getToken());
+        $this->assertEquals('iamtokenhere', $app['access_token']->getToken());
     }
 }

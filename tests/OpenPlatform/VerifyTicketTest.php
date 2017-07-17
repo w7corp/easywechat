@@ -33,7 +33,7 @@ class VerifyTicketTest extends TestCase
         $verifyTicket = $this->getVerifyTicket('foobar');
 
         $this->assertTrue($verifyTicket->setTicket('ticket@foobar'));
-        $this->assertSame('ticket@foobar', $verifyTicket->getTicket());
+        $this->assertEquals('ticket@foobar', $verifyTicket->getTicket());
     }
 
     /**
@@ -43,10 +43,10 @@ class VerifyTicketTest extends TestCase
     {
         $verifyTicket = $this->getVerifyTicket('app-id');
 
-        $this->assertSame('easywechat.open_platform.component_verify_ticket.app-id', $verifyTicket->getCacheKey());
+        $this->assertEquals('easywechat.open_platform.component_verify_ticket.app-id', $verifyTicket->getCacheKey());
 
         $verifyTicket->setCacheKey('cache-key.app-id');
 
-        $this->assertSame('cache-key.app-id', $verifyTicket->getCacheKey());
+        $this->assertEquals('cache-key.app-id', $verifyTicket->getCacheKey());
     }
 }

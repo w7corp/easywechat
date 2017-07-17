@@ -37,7 +37,7 @@ class StaffMessageBuilderTest extends TestCase
 
         $response = $MessageBuilder->message('hello');
 
-        $this->assertSame($MessageBuilder, $response);
+        $this->assertEquals($MessageBuilder, $response);
         $this->assertInstanceOf(Text::class, $MessageBuilder->message);
     }
 
@@ -50,8 +50,8 @@ class StaffMessageBuilderTest extends TestCase
 
         $response = $MessageBuilder->by('hello');
 
-        $this->assertSame($MessageBuilder, $response);
-        $this->assertSame('hello', $MessageBuilder->account);
+        $this->assertEquals($MessageBuilder, $response);
+        $this->assertEquals('hello', $MessageBuilder->account);
         $this->assertNull($MessageBuilder->by);
     }
 
@@ -64,8 +64,8 @@ class StaffMessageBuilderTest extends TestCase
 
         $response = $MessageBuilder->to('overtrue');
 
-        $this->assertSame($MessageBuilder, $response);
-        $this->assertSame('overtrue', $MessageBuilder->to);
+        $this->assertEquals($MessageBuilder, $response);
+        $this->assertEquals('overtrue', $MessageBuilder->to);
     }
 
     /**
@@ -79,10 +79,10 @@ class StaffMessageBuilderTest extends TestCase
 
         $response = $MessageBuilder->message('hello')->by('overtrue')->to('easywechat')->send();
 
-        $this->assertSame('text', $response['msgtype']);
-        $this->assertSame('hello', $response['text']['content']);
-        $this->assertSame('overtrue', $response['customservice']['kf_account']);
-        $this->assertSame('easywechat', $response['touser']);
+        $this->assertEquals('text', $response['msgtype']);
+        $this->assertEquals('hello', $response['text']['content']);
+        $this->assertEquals('overtrue', $response['customservice']['kf_account']);
+        $this->assertEquals('easywechat', $response['touser']);
 
         // exception
         $MessageBuilder = $this->getMessageBuilder();
@@ -106,6 +106,6 @@ class StaffMessageBuilderTest extends TestCase
         $message = new Raw($string);
         $response = $MessageBuilder->message($message)->send();
 
-        $this->assertSame($string, $response);
+        $this->assertEquals($string, $response);
     }
 }

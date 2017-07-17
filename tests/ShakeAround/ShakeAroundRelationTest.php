@@ -65,7 +65,7 @@ class ShakeAroundRelationTest extends TestCase
         ], [12345, 23456, 334567]);
 
         $this->assertStringStartsWith(Relation::API_DEVICE_BINDPAGE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -93,7 +93,7 @@ class ShakeAroundRelationTest extends TestCase
         ], true);
 
         $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
 
         $relation = \Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
@@ -114,7 +114,7 @@ class ShakeAroundRelationTest extends TestCase
             'major' => 10001,
             'minor' => 10002,
         ]);
-        $this->assertSame($expected, $result);
+        $this->assertEquals($expected, $result);
 
         $relation = \Mockery::mock('EasyWeChat\ShakeAround\Relation[parseJSON]', [\Mockery::mock('EasyWeChat\Core\AccessToken')]);
         $relation->shouldReceive('parseJSON')->andReturnUsing(function ($method, $params) {
@@ -152,7 +152,7 @@ class ShakeAroundRelationTest extends TestCase
             'minor' => 10002,
         ]);
 
-        $this->assertSame($expected, $result);
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -172,6 +172,6 @@ class ShakeAroundRelationTest extends TestCase
         $result = $relation->getDeviceByPageId(1234, 0, 10);
 
         $this->assertStringStartsWith(Relation::API_RELATION_SEARCH, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 }

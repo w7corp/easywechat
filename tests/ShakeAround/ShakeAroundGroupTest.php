@@ -53,7 +53,7 @@ class ShakeAroundGroupTest extends TestCase
         $result = $group->add('overtrue');
 
         $this->assertStringStartsWith(Group::API_ADD, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -71,7 +71,7 @@ class ShakeAroundGroupTest extends TestCase
         $result = $group->update(12345678, 'allen05ren');
 
         $this->assertStringStartsWith(Group::API_UPDATE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -88,7 +88,7 @@ class ShakeAroundGroupTest extends TestCase
         $result = $group->delete(12345678);
 
         $this->assertStringStartsWith(Group::API_DELETE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -106,7 +106,7 @@ class ShakeAroundGroupTest extends TestCase
         $result = $group->lists(0, 10);
 
         $this->assertStringStartsWith(Group::API_GET_LIST, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -125,7 +125,7 @@ class ShakeAroundGroupTest extends TestCase
         $result = $group->getDetails(12345678, 0, 10);
 
         $this->assertStringStartsWith(Group::API_GET_DETAIL, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -153,7 +153,7 @@ class ShakeAroundGroupTest extends TestCase
         ]);
 
         $this->assertStringStartsWith(Group::API_ADD_DEVICE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 
     /**
@@ -181,6 +181,6 @@ class ShakeAroundGroupTest extends TestCase
         ]);
 
         $this->assertStringStartsWith(Group::API_DELETE_DEVICE, $result['api']);
-        $this->assertSame($expected, $result['params']);
+        $this->assertEquals($expected, $result['params']);
     }
 }

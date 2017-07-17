@@ -31,9 +31,9 @@ class ServerTransformerTest extends TestCase
 
         $message = new Text(['content' => 'foo']);
 
-        $this->assertSame(['Content' => 'foo'], $transformer->transform($message));
+        $this->assertEquals(['Content' => 'foo'], $transformer->transform($message));
 
-        $this->assertSame(['Content' => 'Text message.'], $transformer->transform('Text message.'));
+        $this->assertEquals(['Content' => 'Text message.'], $transformer->transform('Text message.'));
     }
 
     /**
@@ -45,7 +45,7 @@ class ServerTransformerTest extends TestCase
 
         $message = new Image(['media_id' => 'bar']);
 
-        $this->assertSame('bar', $transformer->transform($message)['Image']['MediaId']);
+        $this->assertEquals('bar', $transformer->transform($message)['Image']['MediaId']);
     }
 
     /**
@@ -59,7 +59,7 @@ class ServerTransformerTest extends TestCase
 
         $result = $transformer->transform($message);
 
-        $this->assertSame('overtrue', $result['Video']['Title']);
+        $this->assertEquals('overtrue', $result['Video']['Title']);
         $this->assertArrayHasKey('Description', $result['Video']);
         $this->assertArrayHasKey('MediaId', $result['Video']);
         $this->assertArrayNotHasKey('ThumbMediaId', $result['Video']);
@@ -74,7 +74,7 @@ class ServerTransformerTest extends TestCase
 
         $message = new Voice(['media_id' => 'bar']);
 
-        $this->assertSame('bar', $transformer->transform($message)['Voice']['MediaId']);
+        $this->assertEquals('bar', $transformer->transform($message)['Voice']['MediaId']);
     }
 
     /**
@@ -86,7 +86,7 @@ class ServerTransformerTest extends TestCase
 
         $message = new Transfer(['account' => 'foo@bar.com']);
 
-        $this->assertSame('foo@bar.com', $transformer->transform($message)['TransInfo']['KfAccount']);
+        $this->assertEquals('foo@bar.com', $transformer->transform($message)['TransInfo']['KfAccount']);
     }
 
     /**
@@ -102,9 +102,9 @@ class ServerTransformerTest extends TestCase
                 'description' => 'foobar',
             ]));
 
-        $this->assertSame(1, $result['ArticleCount']);
-        $this->assertSame(1, count($result['Articles']));
-        $this->assertSame('foobar', $result['Articles'][0]['Description']);
+        $this->assertEquals(1, $result['ArticleCount']);
+        $this->assertEquals(1, count($result['Articles']));
+        $this->assertEquals('foobar', $result['Articles'][0]['Description']);
         $this->assertArrayHasKey('Url', $result['Articles'][0]);
         $this->assertArrayNotHasKey('Author', $result['Articles'][0]);
 
@@ -122,10 +122,10 @@ class ServerTransformerTest extends TestCase
 
         $result = $transformer->transform($articles);
 
-        $this->assertSame(2, $result['ArticleCount']);
-        $this->assertSame(2, count($result['Articles']));
-        $this->assertSame('foobar', $result['Articles'][0]['Description']);
-        $this->assertSame('bar', $result['Articles'][1]['Description']);
+        $this->assertEquals(2, $result['ArticleCount']);
+        $this->assertEquals(2, count($result['Articles']));
+        $this->assertEquals('foobar', $result['Articles'][0]['Description']);
+        $this->assertEquals('bar', $result['Articles'][1]['Description']);
         $this->assertArrayHasKey('Url', $result['Articles'][0]);
         $this->assertArrayNotHasKey('Author', $result['Articles'][0]);
     }

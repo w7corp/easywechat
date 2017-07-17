@@ -57,10 +57,10 @@ namespace EasyWeChat\Tests\Material
 
             $response = $temporary->download('foo', __DIR__);
 
-            $this->assertSame('foo', $request->mediaId);
-            $this->assertSame('foo.jpg', $response);
-            $this->assertSame(__DIR__.'/foo.jpg', $GLOBALS['temporary_download_filename']);
-            $this->assertSame($request, $GLOBALS['temporary_download_content']);
+            $this->assertEquals('foo', $request->mediaId);
+            $this->assertEquals('foo.jpg', $response);
+            $this->assertEquals(__DIR__.'/foo.jpg', $GLOBALS['temporary_download_filename']);
+            $this->assertEquals($request, $GLOBALS['temporary_download_content']);
 
             // exception path not exists.
             $response = $temporary->download('foo', '/this-is-are-non-exists-path');
@@ -83,7 +83,7 @@ namespace EasyWeChat\Tests\Material
             $result = $temporary->upload('image', __DIR__.'/stubs/image.jpg');
 
             $this->assertStringStartsWith(Temporary::API_UPLOAD, $result[0]);
-            $this->assertSame(['media' => __DIR__.'/stubs/image.jpg'], $result[1]);
+            $this->assertEquals(['media' => __DIR__.'/stubs/image.jpg'], $result[1]);
 
             $temporary->upload('image', '/this-is-are-non-exists-path/foo.jpg'); // exception,invalid path
         }
@@ -111,10 +111,10 @@ namespace EasyWeChat\Tests\Material
                 return [$type, $path];
             });
 
-            $this->assertSame(['image', '/foobar'], $temporary->uploadImage('/foobar'));
-            $this->assertSame(['video', '/foobar'], $temporary->uploadVideo('/foobar'));
-            $this->assertSame(['voice', '/foobar'], $temporary->uploadVoice('/foobar'));
-            $this->assertSame(['thumb', '/foobar'], $temporary->uploadThumb('/foobar'));
+            $this->assertEquals(['image', '/foobar'], $temporary->uploadImage('/foobar'));
+            $this->assertEquals(['video', '/foobar'], $temporary->uploadVideo('/foobar'));
+            $this->assertEquals(['voice', '/foobar'], $temporary->uploadVoice('/foobar'));
+            $this->assertEquals(['thumb', '/foobar'], $temporary->uploadThumb('/foobar'));
         }
     }
 }

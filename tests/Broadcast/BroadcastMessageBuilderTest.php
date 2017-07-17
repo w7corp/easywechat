@@ -28,8 +28,8 @@ class BroadcastMessageBuilderTest extends TestCase
 
         $response = $messageBuilder->msgType(Broadcast::MSG_TYPE_TEXT);
 
-        $this->assertSame($messageBuilder, $response);
-        $this->assertSame(Broadcast::MSG_TYPE_TEXT, $messageBuilder->msgType);
+        $this->assertEquals($messageBuilder, $response);
+        $this->assertEquals(Broadcast::MSG_TYPE_TEXT, $messageBuilder->msgType);
 
         // exception
         $messageBuilder->msgType('link');
@@ -44,8 +44,8 @@ class BroadcastMessageBuilderTest extends TestCase
 
         $response = $messageBuilder->message('CONTENT');
 
-        $this->assertSame($messageBuilder, $response);
-        $this->assertSame('CONTENT', $messageBuilder->message);
+        $this->assertEquals($messageBuilder, $response);
+        $this->assertEquals('CONTENT', $messageBuilder->message);
     }
 
     /**
@@ -57,8 +57,8 @@ class BroadcastMessageBuilderTest extends TestCase
 
         $response = $messageBuilder->to('GROUP');
 
-        $this->assertSame($messageBuilder, $response);
-        $this->assertSame('GROUP', $messageBuilder->to);
+        $this->assertEquals($messageBuilder, $response);
+        $this->assertEquals('GROUP', $messageBuilder->to);
     }
 
     /**
@@ -79,7 +79,7 @@ class BroadcastMessageBuilderTest extends TestCase
             ],
             'msgtype' => 'text',
         ];
-        $this->assertSame($message, $messageBuilder->build());
+        $this->assertEquals($message, $messageBuilder->build());
 
         $messageBuilder = new MessageBuilder();
         $messageBuilder->msgType(Broadcast::MSG_TYPE_VIDEO)->message('MEDIA_ID');
@@ -92,7 +92,7 @@ class BroadcastMessageBuilderTest extends TestCase
             ],
             'msgtype' => 'mpvideo',
         ];
-        $this->assertSame($message, $messageBuilder->build());
+        $this->assertEquals($message, $messageBuilder->build());
 
         $messageBuilder = new MessageBuilder();
         $messageBuilder->msgType(Broadcast::MSG_TYPE_VIDEO)->message(['MEDIA_ID', 'TITLE', 'DESCRIPTION'])->to(['OPENID1', 'OPENID2', 'OPENID3']);
@@ -107,7 +107,7 @@ class BroadcastMessageBuilderTest extends TestCase
             ],
             'msgtype' => 'mpvideo',
         ];
-        $this->assertSame($message, $messageBuilder->build());
+        $this->assertEquals($message, $messageBuilder->build());
 
         // exception
         $messageBuilder = new MessageBuilder();
@@ -131,7 +131,7 @@ class BroadcastMessageBuilderTest extends TestCase
             ],
             'msgtype' => 'text',
         ];
-        $this->assertSame($message, $messageBuilder->buildPreview(Broadcast::PREVIEW_BY_OPENID));
+        $this->assertEquals($message, $messageBuilder->buildPreview(Broadcast::PREVIEW_BY_OPENID));
 
         $messageBuilder = new MessageBuilder();
         $messageBuilder->msgType(Broadcast::MSG_TYPE_TEXT)->message('CONTENT')->to('WXH');
@@ -142,7 +142,7 @@ class BroadcastMessageBuilderTest extends TestCase
             ],
             'msgtype' => 'text',
         ];
-        $this->assertSame($message, $messageBuilder->buildPreview(Broadcast::PREVIEW_BY_NAME));
+        $this->assertEquals($message, $messageBuilder->buildPreview(Broadcast::PREVIEW_BY_NAME));
 
         // exception
         $messageBuilder = new MessageBuilder();

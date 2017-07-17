@@ -127,8 +127,8 @@ class CardTest extends TestCase
 
         $result = $card->create($cardType, $baseInfo, $especial);
         $this->assertStringStartsWith(Card::API_CREATE_CARD, $result['api']);
-        $this->assertSame($cardType, $result['params']['card']['card_type']);
-        $this->assertSame($baseInfo, $result['params']['card'][$type]['base_info']);
+        $this->assertEquals($cardType, $result['params']['card']['card_type']);
+        $this->assertEquals($baseInfo, $result['params']['card'][$type]['base_info']);
     }
 
     //创建二维码
@@ -163,7 +163,7 @@ class CardTest extends TestCase
 
         $result = $card->QRCode($cards);
         $this->assertStringStartsWith(Card::API_CREATE_QRCODE, $result['api']);
-        $this->assertSame($cards, $result['params']);
+        $this->assertEquals($cards, $result['params']);
     }
 
     //ticket 换取二维码图片
@@ -247,11 +247,11 @@ class CardTest extends TestCase
 
         $result = $card->createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList);
         $this->assertStringStartsWith(Card::API_CREATE_LANDING_PAGE, $result['api']);
-        $this->assertSame($banner, $result['params']['banner']);
-        $this->assertSame($pageTitle, $result['params']['page_title']);
-        $this->assertSame($canShare, $result['params']['can_share']);
-        $this->assertSame($scene, $result['params']['scene']);
-        $this->assertSame($cardList, $result['params']['card_list']);
+        $this->assertEquals($banner, $result['params']['banner']);
+        $this->assertEquals($pageTitle, $result['params']['page_title']);
+        $this->assertEquals($canShare, $result['params']['can_share']);
+        $this->assertEquals($scene, $result['params']['scene']);
+        $this->assertEquals($cardList, $result['params']['card_list']);
     }
 
     //导入code接口
@@ -264,8 +264,8 @@ class CardTest extends TestCase
 
         $result = $card->deposit($cardId, $code);
         $this->assertStringStartsWith(Card::API_DEPOSIT_CODE, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
     }
 
     //查询导入code数目
@@ -277,7 +277,7 @@ class CardTest extends TestCase
 
         $result = $card->getDepositedCount($cardId);
         $this->assertStringStartsWith(Card::API_GET_DEPOSIT_COUNT, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //核查code接口
@@ -290,8 +290,8 @@ class CardTest extends TestCase
 
         $result = $card->checkCode($cardId, $code);
         $this->assertStringStartsWith(Card::API_CHECK_CODE, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
     }
 
     //图文消息群发卡券
@@ -303,7 +303,7 @@ class CardTest extends TestCase
 
         $result = $card->getHtml($cardId);
         $this->assertStringStartsWith(Card::API_GET_HTML, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //设置测试白名单
@@ -317,11 +317,11 @@ class CardTest extends TestCase
         // openids
         $result = $card->setTestWhitelist($openids);
         $this->assertStringStartsWith(Card::API_SET_TEST_WHITE_LIST, $result['api']);
-        $this->assertSame($openids, $result['params']['openid']);
+        $this->assertEquals($openids, $result['params']['openid']);
         // usernames
         $result = $card->setTestWhitelistByUsername($usernames);
         $this->assertStringStartsWith(Card::API_SET_TEST_WHITE_LIST, $result['api']);
-        $this->assertSame($usernames, $result['params']['username']);
+        $this->assertEquals($usernames, $result['params']['username']);
     }
 
     //查询Code接口
@@ -335,9 +335,9 @@ class CardTest extends TestCase
 
         $result = $card->getCode($code, $checkConsume, $cardId);
         $this->assertStringStartsWith(Card::API_GET_CODE, $result['api']);
-        $this->assertSame($code, $result['params']['code']);
-        $this->assertSame($checkConsume, $result['params']['check_consume']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertEquals($checkConsume, $result['params']['check_consume']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //核销Code接口
@@ -350,24 +350,24 @@ class CardTest extends TestCase
 
         $result = $card->consume($cardId, $code);
         $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
 
         // test cardId
         $result = $card->consume($code);
         $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
-        $this->assertSame($code, $result['params']['code']);
+        $this->assertEquals($code, $result['params']['code']);
         $this->assertArrayNotHasKey('card_id', $result['params']);
 
         $result = $card->consume($cardId, $code);
         $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
-        $this->assertSame($code, $result['params']['code']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
 
         $result = $card->consume($code, $cardId);
         $this->assertStringStartsWith(Card::API_CONSUME_CARD, $result['api']);
-        $this->assertSame($code, $result['params']['code']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //Code解码接口
@@ -379,7 +379,7 @@ class CardTest extends TestCase
 
         $result = $card->decryptCode($encryptedCode);
         $this->assertStringStartsWith(Card::API_DECRYPT_CODE, $result['api']);
-        $this->assertSame($encryptedCode, $result['params']['encrypt_code']);
+        $this->assertEquals($encryptedCode, $result['params']['encrypt_code']);
     }
 
     //获取用户已领取卡券接口
@@ -392,8 +392,8 @@ class CardTest extends TestCase
 
         $result = $card->getUserCards($openid, $cardId);
         $this->assertStringStartsWith(Card::API_GET_CARD_LIST, $result['api']);
-        $this->assertSame($openid, $result['params']['openid']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($openid, $result['params']['openid']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //查看卡券详情
@@ -405,7 +405,7 @@ class CardTest extends TestCase
         $result = $card->getCard($cardId);
 
         $this->assertStringStartsWith(Card::API_GET_CARD, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //批量查询卡列表
@@ -419,9 +419,9 @@ class CardTest extends TestCase
 
         $result = $card->lists($offset, $count, $statusList);
         $this->assertStringStartsWith(Card::API_LIST_CARD, $result['api']);
-        $this->assertSame($offset, $result['params']['offset']);
-        $this->assertSame($count, $result['params']['count']);
-        $this->assertSame($statusList, $result['params']['status_list']);
+        $this->assertEquals($offset, $result['params']['offset']);
+        $this->assertEquals($count, $result['params']['count']);
+        $this->assertEquals($statusList, $result['params']['status_list']);
     }
 
     //更改卡券信息接口 and 设置跟随推荐接口
@@ -445,8 +445,8 @@ class CardTest extends TestCase
 
         $result = $card->update($cardId, $type, $baseInfo);
         $this->assertStringStartsWith(Card::API_UPDATE_CARD, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame($baseInfo, $result['params'][$type]['base_info']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals($baseInfo, $result['params'][$type]['base_info']);
     }
 
     //设置微信买单接口
@@ -459,8 +459,8 @@ class CardTest extends TestCase
 
         $result = $card->setPayCell($cardId, $isOpen);
         $this->assertStringStartsWith(Card::API_SET_PAY_CELL, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame($isOpen, $result['params']['is_open']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals($isOpen, $result['params']['is_open']);
     }
 
     //修改库存接口
@@ -472,12 +472,12 @@ class CardTest extends TestCase
         $result = $card->increaseStock($cardId, 100);
 
         $this->assertStringStartsWith(Card::API_MODIFY_STOCK, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame(100, $result['params']['increase_stock_value']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals(100, $result['params']['increase_stock_value']);
         $result = $card->reduceStock($cardId, 100);
         $this->assertStringStartsWith(Card::API_MODIFY_STOCK, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame(100, $result['params']['reduce_stock_value']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals(100, $result['params']['reduce_stock_value']);
     }
 
     //更改Code接口
@@ -493,9 +493,9 @@ class CardTest extends TestCase
 
         $result = $card->updateCode($code, $newCode, $cardId);
         $this->assertStringStartsWith(Card::API_UPDATE_CODE, $result['api']);
-        $this->assertSame($code, $result['params']['code']);
-        $this->assertSame($newCode, $result['params']['new_code']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertEquals($newCode, $result['params']['new_code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //删除卡券接口
@@ -507,7 +507,7 @@ class CardTest extends TestCase
 
         $result = $card->delete($cardId);
         $this->assertStringStartsWith(Card::API_DELETE_CARD, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //设置卡券失效
@@ -520,8 +520,8 @@ class CardTest extends TestCase
 
         $result = $card->disable($code, $cardId);
         $this->assertStringStartsWith(Card::API_DISABLE_CARD, $result['api']);
-        $this->assertSame($code, $result['params']['code']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //会员卡接口激活
@@ -543,7 +543,7 @@ class CardTest extends TestCase
 
         $result = $card->activate($activate);
         $this->assertStringStartsWith(Card::API_ACTIVATE_MEMBER_CARD, $result['api']);
-        $this->assertSame($activate, $result['params']);
+        $this->assertEquals($activate, $result['params']);
     }
 
     //设置开卡字段接口
@@ -579,7 +579,7 @@ class CardTest extends TestCase
 
         $result = $card->activateUserForm($cardId, $requiredForm, $optionalForm);
         $this->assertStringStartsWith(Card::API_ACTIVATE_MEMBER_USER_FORM, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
     }
 
     //拉取会员信息接口
@@ -592,8 +592,8 @@ class CardTest extends TestCase
 
         $result = $card->getMemberCardUser($cardId, $code);
         $this->assertStringStartsWith(Card::API_GET_MEMBER_USER_INFO, $result['api']);
-        $this->assertSame($cardId, $result['params']['card_id']);
-        $this->assertSame($code, $result['params']['code']);
+        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertEquals($code, $result['params']['code']);
     }
 
     //更新会员信息
@@ -615,7 +615,7 @@ class CardTest extends TestCase
 
         $result = $card->updateMemberCardUser($updateUser);
         $this->assertStringStartsWith(Card::API_UPDATE_MEMBER_CARD_USER, $result['api']);
-        $this->assertSame($updateUser, $result['params']);
+        $this->assertEquals($updateUser, $result['params']);
     }
 
     //添加子商户
@@ -637,7 +637,7 @@ class CardTest extends TestCase
 
         $result = $card->createSubMerchant($info);
         $this->assertStringStartsWith(Card::API_CREATE_SUB_MERCHANT, $result['api']);
-        $this->assertSame($info, $result['params']['info']);
+        $this->assertEquals($info, $result['params']['info']);
     }
 
     //添加子商户
@@ -659,8 +659,8 @@ class CardTest extends TestCase
 
         $result = $card->updateSubMerchant('12', $info);
         $this->assertStringStartsWith(Card::API_UPDATE_SUB_MERCHANT, $result['api']);
-        $this->assertSame(12, $result['params']['info']['merchant_id']);
-        $this->assertSame($info, Arr::except($result['params']['info'], 'merchant_id'));
+        $this->assertEquals(12, $result['params']['info']['merchant_id']);
+        $this->assertEquals($info, Arr::except($result['params']['info'], 'merchant_id'));
     }
 
     //卡券开放类目查询接口

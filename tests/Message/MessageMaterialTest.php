@@ -23,7 +23,7 @@ class MessageMaterialTest extends TestCase
     {
         $material = new Material('text', 'mediaId');
 
-        $this->assertSame('text', $material->type);
-        $this->assertSame('mediaId', $material->media_id);
+        $this->assertEquals('text', $material->type);
+        $this->assertEquals('mediaId', $material->media_id);
     }
 }

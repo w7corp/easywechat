@@ -57,11 +57,11 @@ class ServerGuardTest extends TestCase
                 'echostr' => 'foobar',
             ]);
 
-        $this->assertSame('foobar', $server->serve()->getContent());
+        $this->assertEquals('foobar', $server->serve()->getContent());
 
         $server = $this->getServer();
 
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $server->serve()->getContent());
+        $this->assertEquals(Guard::SUCCESS_EMPTY_RESPONSE, $server->serve()->getContent());
     }
 
     /**
@@ -108,7 +108,7 @@ class ServerGuardTest extends TestCase
 
         $response = $server->serve()->getContent();
 
-        $this->assertSame(base64_encode($raw), $response);
+        $this->assertEquals(base64_encode($raw), $response);
     }
 
     /**
@@ -125,7 +125,7 @@ class ServerGuardTest extends TestCase
             ]);
         $logEvent = null;
         $response = $server->serve();
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
+        $this->assertEquals(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
 
         //with listener
         $server->setMessageHandler(function ($event) use (&$logEvent) {
@@ -136,7 +136,7 @@ class ServerGuardTest extends TestCase
 
         $response = $server->serve();
 
-        $this->assertSame('subscribe', $logEvent->get('Event'));
+        $this->assertEquals('subscribe', $logEvent->get('Event'));
         $this->assertContains('subscribe', $response->getContent());
     }
 
@@ -153,11 +153,11 @@ class ServerGuardTest extends TestCase
         };
         $server->setMessageHandler($closure);
 
-        $this->assertSame($closure, $server->getMessageHandler());
+        $this->assertEquals($closure, $server->getMessageHandler());
 
         $server->setMessageHandler('Foo::bar');
 
-        $this->assertSame('Foo::bar', $server->getMessageHandler());
+        $this->assertEquals('Foo::bar', $server->getMessageHandler());
 
         $server->setMessageHandler('foo'); // invalid
     }
@@ -200,7 +200,7 @@ class ServerGuardTest extends TestCase
             ]);
         $logger = null;
         $response = $server->serve();
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
+        $this->assertEquals(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
 
         //with all
         $server->setMessageHandler(function ($message) use (&$logger) {
@@ -211,7 +211,7 @@ class ServerGuardTest extends TestCase
 
         $response = $server->serve();
 
-        $this->assertSame('hello', $logger->get('Content'));
+        $this->assertEquals('hello', $logger->get('Content'));
         $this->assertContains('hello', $response->getContent());
 
         //with image
@@ -222,7 +222,7 @@ class ServerGuardTest extends TestCase
         }, Guard::ALL_MSG);
 
         $response = $server->serve();
-        $this->assertSame('hello', $logger->get('Content'));
+        $this->assertEquals('hello', $logger->get('Content'));
         $this->assertContains('hello', $response->getContent());
 
         //with text
@@ -233,7 +233,7 @@ class ServerGuardTest extends TestCase
         }, Guard::TEXT_MSG);
 
         $response = $server->serve();
-        $this->assertSame('hello', $logger->get('Content'));
+        $this->assertEquals('hello', $logger->get('Content'));
         $this->assertContains('hello', $response->getContent());
 
         //with image
@@ -244,7 +244,7 @@ class ServerGuardTest extends TestCase
         }, Guard::IMAGE_MSG);
 
         $response = $server->serve();
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
+        $this->assertEquals(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
 
         // except image
         $server->setMessageHandler(function ($message) use (&$logger) {
@@ -254,7 +254,7 @@ class ServerGuardTest extends TestCase
         }, Guard::ALL_MSG & ~Guard::TEXT_MSG);
 
         $response = $server->serve();
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
+        $this->assertEquals(Guard::SUCCESS_EMPTY_RESPONSE, $response->getContent());
     }
 }
 

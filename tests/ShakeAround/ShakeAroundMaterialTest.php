@@ -46,11 +46,11 @@ class ShakeAroundMaterialTest extends TestCase
 
         $this->assertStringStartsWith(Material::API_MATERIAL_ADD, $result['api']);
         $this->assertContains('stubs/image.jpg', $result['media']);
-        $this->assertSame('icon', $result['type']);
+        $this->assertEquals('icon', $result['type']);
 
         $result = $material->uploadImage(__DIR__.'/stubs/image.jpg', 'license');
 
-        $this->assertSame('license', $result['type']);
+        $this->assertEquals('license', $result['type']);
 
         $material->uploadImage(__DIR__.'/stubs/foo.jpg');
     }

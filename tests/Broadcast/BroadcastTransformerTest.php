@@ -23,7 +23,7 @@ class BroadcastTransformerTest extends TestCase
     {
         $transformer = new Transformer('link', 'http://easywechat.org');
 
-        $this->assertSame([], $transformer->transform());
+        $this->assertEquals([], $transformer->transform());
     }
 
     /**
@@ -40,7 +40,7 @@ class BroadcastTransformerTest extends TestCase
             'msgtype' => 'text',
         ];
 
-        $this->assertSame($msg, $transformer->transform());
+        $this->assertEquals($msg, $transformer->transform());
     }
 
     /**
@@ -57,7 +57,7 @@ class BroadcastTransformerTest extends TestCase
             'msgtype' => 'mpnews',
         ];
 
-        $this->assertSame($msg, $transformer->transform());
+        $this->assertEquals($msg, $transformer->transform());
     }
 
     /**
@@ -74,7 +74,7 @@ class BroadcastTransformerTest extends TestCase
             'msgtype' => 'image',
         ];
 
-        $this->assertSame($msg, $transformer->transform());
+        $this->assertEquals($msg, $transformer->transform());
     }
 
     /**
@@ -95,7 +95,7 @@ class BroadcastTransformerTest extends TestCase
             'msgtype' => 'mpvideo',
         ];
 
-        $this->assertSame($msg, $transformer->transform());
+        $this->assertEquals($msg, $transformer->transform());
 
         // exception
         (new Transformer('video', ['MEDIA_ID', 'TITLE']))->transform();
@@ -115,7 +115,7 @@ class BroadcastTransformerTest extends TestCase
             'msgtype' => 'mpvideo',
         ];
 
-        $this->assertSame($msg, $transformer->transform());
+        $this->assertEquals($msg, $transformer->transform());
     }
 
     /**
@@ -132,7 +132,7 @@ class BroadcastTransformerTest extends TestCase
             'msgtype' => 'voice',
         ];
 
-        $this->assertSame($msg, $transformer->transform());
+        $this->assertEquals($msg, $transformer->transform());
     }
 
     /**
@@ -149,6 +149,6 @@ class BroadcastTransformerTest extends TestCase
             'msgtype' => 'wxcard',
         ];
 
-        $this->assertSame($msg, $transformer->transform());
+        $this->assertEquals($msg, $transformer->transform());
     }
 }

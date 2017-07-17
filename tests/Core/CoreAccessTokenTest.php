@@ -38,9 +38,9 @@ class CoreAccessTokenTest extends TestCase
         $accessToken = new AccessToken('appId', 'secret', $cache);
         $accessToken->setHttp($http);
 
-        $this->assertSame('thisIsACachedToken', $accessToken->getToken());
+        $this->assertEquals('thisIsACachedToken', $accessToken->getToken());
         // forceRefresh
-        $this->assertSame('thisIsATokenFromHttp', $accessToken->getToken(true));
+        $this->assertEquals('thisIsATokenFromHttp', $accessToken->getToken(true));
     }
 
     /**
@@ -74,9 +74,9 @@ class CoreAccessTokenTest extends TestCase
         $accessToken = new AccessToken('appId', 'secret', $cache);
         $accessToken->setHttp($http);
 
-        $this->assertSame('thisIsATokenFromHttp', $accessToken->getToken());
-        $this->assertSame('thisIsATokenFromHttp', $cacheObj->token);
-        $this->assertSame(5700, $cacheObj->expire);
+        $this->assertEquals('thisIsATokenFromHttp', $accessToken->getToken());
+        $this->assertEquals('thisIsATokenFromHttp', $cacheObj->token);
+        $this->assertEquals(5700, $cacheObj->expire);
 
         $http = \Mockery::mock(Http::class.'[get]', function ($mock) {
             $mock->shouldReceive('get')->andReturn(json_encode([
@@ -96,8 +96,8 @@ class CoreAccessTokenTest extends TestCase
     {
         $accessToken = new AccessToken('appId', 'secret');
 
-        $this->assertSame('secret', $accessToken->getSecret());
-        $this->assertSame('appId', $accessToken->getAppId());
+        $this->assertEquals('secret', $accessToken->getSecret());
+        $this->assertEquals('appId', $accessToken->getAppId());
 
         $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
 
@@ -109,14 +109,14 @@ class CoreAccessTokenTest extends TestCase
         });
 
         $accessToken->setCache($cache);
-        $this->assertSame($cache, $accessToken->getCache());
+        $this->assertEquals($cache, $accessToken->getCache());
 
-        $this->assertSame('access_token', $accessToken->getQueryName());
+        $this->assertEquals('access_token', $accessToken->getQueryName());
         $this->assertArrayHasKey('access_token', $accessToken->getQueryFields());
 
         $accessToken->setQueryName('foo');
 
-        $this->assertSame('foo', $accessToken->getQueryName());
+        $this->assertEquals('foo', $accessToken->getQueryName());
         $this->assertArrayHasKey('foo', $accessToken->getQueryFields());
         $this->assertArrayNotHasKey('access_token', $accessToken->getQueryFields());
     }
@@ -125,8 +125,8 @@ class CoreAccessTokenTest extends TestCase
     {
         $accessToken = new AccessToken('appId', 'secret');
 
-        $this->assertSame('secret', $accessToken->getSecret());
-        $this->assertSame('appId', $accessToken->getAppId());
+        $this->assertEquals('secret', $accessToken->getSecret());
+        $this->assertEquals('appId', $accessToken->getAppId());
 
         $this->assertInstanceOf(\Doctrine\Common\Cache\FilesystemCache::class, $accessToken->getCache());
 
@@ -141,6 +141,6 @@ class CoreAccessTokenTest extends TestCase
 
         $accessToken->setToken('foo');
 
-        $this->assertSame('foo', $accessToken->getToken());
+        $this->assertEquals('foo', $accessToken->getToken());
     }
 }
