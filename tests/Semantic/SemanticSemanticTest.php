@@ -39,8 +39,8 @@ class SemanticSemanticTest extends TestCase
             ];
 
         $this->assertStringStartsWith(Semantic::API_SEARCH, $semantic->query('foo', 'bar')['api']);
-        $this->assertEquals($expect, $semantic->query('foo', 'bar')['params']);
-        $this->assertEquals($expect, $semantic->query('foo', ['bar'])['params']);
+        $this->assertSame($expect, $semantic->query('foo', 'bar')['params']);
+        $this->assertSame($expect, $semantic->query('foo', ['bar'])['params']);
 
         $expect = [
                 'query' => 'foo',
@@ -48,7 +48,7 @@ class SemanticSemanticTest extends TestCase
                 'appid' => 'overtrue',
             ];
 
-        $this->assertEquals($expect, $semantic->query('foo', ['bar', 'baz'])['params']);
+        $this->assertSame($expect, $semantic->query('foo', ['bar', 'baz'])['params']);
 
         $expect = [
                 'query' => 'foo',
@@ -57,6 +57,6 @@ class SemanticSemanticTest extends TestCase
                 'foo' => 'bar',
             ];
 
-        $this->assertEquals($expect, $semantic->query('foo', ['bar', 'baz'], ['foo' => 'bar'])['params']);
+        $this->assertSame($expect, $semantic->query('foo', ['bar', 'baz'], ['foo' => 'bar'])['params']);
     }
 }

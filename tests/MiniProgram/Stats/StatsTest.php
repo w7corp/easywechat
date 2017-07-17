@@ -37,8 +37,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->summaryTrend('20170313', '20170313');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappiddailysummarytrend', $result['api']);
-        $this->assertEquals(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappiddailysummarytrend', $result['api']);
+        $this->assertSame(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
     }
 
     /**
@@ -49,8 +49,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->dailyVisitTrend('20170313', '20170313');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend', $result['api']);
-        $this->assertEquals(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend', $result['api']);
+        $this->assertSame(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
     }
 
     /**
@@ -61,8 +61,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->weeklyVisitTrend('20170306', '20170312');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappidweeklyvisittrend', $result['api']);
-        $this->assertEquals(['begin_date' => '20170306', 'end_date' => '20170312'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappidweeklyvisittrend', $result['api']);
+        $this->assertSame(['begin_date' => '20170306', 'end_date' => '20170312'], $result['params']);
     }
 
     /**
@@ -73,8 +73,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->monthlyVisitTrend('20170201', '20170228');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyvisittrend', $result['api']);
-        $this->assertEquals(['begin_date' => '20170201', 'end_date' => '20170228'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyvisittrend', $result['api']);
+        $this->assertSame(['begin_date' => '20170201', 'end_date' => '20170228'], $result['params']);
     }
 
     /**
@@ -85,8 +85,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->visitDistribution('20170313', '20170313');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappidvisitdistribution', $result['api']);
-        $this->assertEquals(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappidvisitdistribution', $result['api']);
+        $this->assertSame(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
     }
 
     /**
@@ -97,8 +97,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->dailyRetainInfo('20170313', '20170313');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappiddailyretaininfo', $result['api']);
-        $this->assertEquals(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappiddailyretaininfo', $result['api']);
+        $this->assertSame(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
     }
 
     /**
@@ -109,8 +109,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->weeklyRetainInfo('20170306', '20170312');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappidweeklyretaininfo', $result['api']);
-        $this->assertEquals(['begin_date' => '20170306', 'end_date' => '20170312'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappidweeklyretaininfo', $result['api']);
+        $this->assertSame(['begin_date' => '20170306', 'end_date' => '20170312'], $result['params']);
     }
 
     /**
@@ -121,8 +121,8 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->montylyRetainInfo('20170201', '20170228');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyretaininfo', $result['api']);
-        $this->assertEquals(['begin_date' => '20170201', 'end_date' => '20170228'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappidmonthlyretaininfo', $result['api']);
+        $this->assertSame(['begin_date' => '20170201', 'end_date' => '20170228'], $result['params']);
     }
 
     /**
@@ -133,7 +133,7 @@ class StatsTest extends TestCase
         $stats = $this->getStats();
         $result = $stats->visitPage('20170313', '20170313');
 
-        $this->assertEquals('https://api.weixin.qq.com/datacube/getweanalysisappidvisitpage', $result['api']);
-        $this->assertEquals(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
+        $this->assertSame('https://api.weixin.qq.com/datacube/getweanalysisappidvisitpage', $result['api']);
+        $this->assertSame(['begin_date' => '20170313', 'end_date' => '20170313'], $result['params']);
     }
 }

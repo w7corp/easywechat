@@ -37,8 +37,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->userSummary(1, 2);
-        $this->assertEquals(Stats::API_USER_SUMMARY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_USER_SUMMARY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -49,8 +49,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->userCumulate(1, 2);
-        $this->assertEquals(Stats::API_USER_CUMULATE, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_USER_CUMULATE, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -61,8 +61,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->articleSummary(1, 2);
-        $this->assertEquals(Stats::API_ARTICLE_SUMMARY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_ARTICLE_SUMMARY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -73,8 +73,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->articleTotal(1, 2);
-        $this->assertEquals(Stats::API_ARTICLE_TOTAL, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_ARTICLE_TOTAL, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -85,8 +85,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->userReadSummary(1, 2);
-        $this->assertEquals(Stats::API_USER_READ_SUMMARY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_USER_READ_SUMMARY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -97,8 +97,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->userReadHourly(1, 2);
-        $this->assertEquals(Stats::API_USER_READ_HOURLY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_USER_READ_HOURLY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -109,8 +109,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->userShareSummary(1, 2);
-        $this->assertEquals(Stats::API_USER_SHARE_SUMMARY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_USER_SHARE_SUMMARY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -121,8 +121,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->userShareHourly(1, 2);
-        $this->assertEquals(Stats::API_USER_SHARE_HOURLY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_USER_SHARE_HOURLY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -133,8 +133,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->upstreamMessageSummary(1, 2);
-        $this->assertEquals(Stats::API_UPSTREAM_MSG_SUMMARY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_UPSTREAM_MSG_SUMMARY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -145,8 +145,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->upstreamMessageHourly(1, 2);
-        $this->assertEquals(Stats::API_UPSTREAM_MSG_HOURLY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_UPSTREAM_MSG_HOURLY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -157,8 +157,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->upstreamMessageWeekly(1, 2);
-        $this->assertEquals(Stats::API_UPSTREAM_MSG_WEEKLY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_UPSTREAM_MSG_WEEKLY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -169,8 +169,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->upstreamMessageMonthly(1, 2);
-        $this->assertEquals(Stats::API_UPSTREAM_MSG_MONTHLY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_UPSTREAM_MSG_MONTHLY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -181,8 +181,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->upstreamMessageDistSummary(1, 2);
-        $this->assertEquals(Stats::API_UPSTREAM_MSG_DIST_SUMMARY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_UPSTREAM_MSG_DIST_SUMMARY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -193,8 +193,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->upstreamMessageDistWeekly(1, 2);
-        $this->assertEquals(Stats::API_UPSTREAM_MSG_DIST_WEEKLY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_UPSTREAM_MSG_DIST_WEEKLY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -205,8 +205,8 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->upstreamMessageDistMonthly(1, 2);
-        $this->assertEquals(Stats::API_UPSTREAM_MSG_DIST_MONTHLY, $result['api']);
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(Stats::API_UPSTREAM_MSG_DIST_MONTHLY, $result['api']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -217,9 +217,9 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->interfaceSummary(1, 2);
-        $this->assertEquals(Stats::API_INTERFACE_SUMMARY, $result['api']);
+        $this->assertSame(Stats::API_INTERFACE_SUMMARY, $result['api']);
 
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     /**
@@ -230,9 +230,9 @@ class StatsStatsTest extends TestCase
         $stats = $this->getStats();
 
         $result = $stats->interfaceSummaryHourly(1, 2);
-        $this->assertEquals(Stats::API_INTERFACE_SUMMARY_HOURLY, $result['api']);
+        $this->assertSame(Stats::API_INTERFACE_SUMMARY_HOURLY, $result['api']);
 
-        $this->assertEquals(['begin_date' => 1, 'end_date' => 2], $result['params']);
+        $this->assertSame(['begin_date' => 1, 'end_date' => 2], $result['params']);
     }
 
     //拉取卡券概况数据接口.
@@ -246,9 +246,9 @@ class StatsStatsTest extends TestCase
 
         $result = $stats->cardSummary($beginDate, $endDate, $condSource);
         $this->assertStringStartsWith(Stats::API_CARD_SUMMARY, $result['api']);
-        $this->assertEquals($beginDate, $result['params']['begin_date']);
-        $this->assertEquals($endDate, $result['params']['end_date']);
-        $this->assertEquals($condSource, $result['params']['cond_source']);
+        $this->assertSame($beginDate, $result['params']['begin_date']);
+        $this->assertSame($endDate, $result['params']['end_date']);
+        $this->assertSame($condSource, $result['params']['cond_source']);
     }
 
     //获取免费券数据接口.
@@ -263,10 +263,10 @@ class StatsStatsTest extends TestCase
 
         $result = $stats->freeCardSummary($beginDate, $endDate, $condSource, $cardId);
         $this->assertStringStartsWith(Stats::API_FREE_CARD_SUMMARY, $result['api']);
-        $this->assertEquals($beginDate, $result['params']['begin_date']);
-        $this->assertEquals($endDate, $result['params']['end_date']);
-        $this->assertEquals($condSource, $result['params']['cond_source']);
-        $this->assertEquals($cardId, $result['params']['card_id']);
+        $this->assertSame($beginDate, $result['params']['begin_date']);
+        $this->assertSame($endDate, $result['params']['end_date']);
+        $this->assertSame($condSource, $result['params']['cond_source']);
+        $this->assertSame($cardId, $result['params']['card_id']);
     }
 
     //拉取会员卡数据接口.
@@ -280,8 +280,8 @@ class StatsStatsTest extends TestCase
 
         $result = $stats->memberCardSummary($beginDate, $endDate, $condSource);
         $this->assertStringStartsWith(Stats::API_MEMBER_CARD_SUMMARY, $result['api']);
-        $this->assertEquals($beginDate, $result['params']['begin_date']);
-        $this->assertEquals($endDate, $result['params']['end_date']);
-        $this->assertEquals($condSource, $result['params']['cond_source']);
+        $this->assertSame($beginDate, $result['params']['begin_date']);
+        $this->assertSame($endDate, $result['params']['end_date']);
+        $this->assertSame($condSource, $result['params']['cond_source']);
     }
 }

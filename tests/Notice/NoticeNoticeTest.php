@@ -35,9 +35,9 @@ class NoticeNoticeTest extends TestCase
         $notice->shouldReceive('parseJSON')->andReturnUsing(function ($api, $params) {
             if (isset($params[1])) {
                 return ['api' => $params[0], 'params' => $params[1]];
-            } else {
-                return ['api' => $params[0]];
             }
+
+            return ['api' => $params[0]];
         });
 
         return $notice;
@@ -53,8 +53,8 @@ class NoticeNoticeTest extends TestCase
         $response = $notice->setIndustry('foo', 'bar');
 
         $this->assertStringStartsWith(Notice::API_SET_INDUSTRY, $response['api']);
-        $this->assertEquals('foo', $response['params']['industry_id1']);
-        $this->assertEquals('bar', $response['params']['industry_id2']);
+        $this->assertSame('foo', $response['params']['industry_id1']);
+        $this->assertSame('bar', $response['params']['industry_id2']);
     }
 
     /**
@@ -79,7 +79,7 @@ class NoticeNoticeTest extends TestCase
         $response = $notice->addTemplate('foo');
 
         $this->assertStringStartsWith(Notice::API_ADD_TEMPLATE, $response['api']);
-        $this->assertEquals('foo', $response['params']['template_id_short']);
+        $this->assertSame('foo', $response['params']['template_id_short']);
     }
 
     /**
@@ -104,7 +104,7 @@ class NoticeNoticeTest extends TestCase
         $response = $notice->deletePrivateTemplate('foo');
 
         $this->assertStringStartsWith(Notice::API_DEL_PRIVATE_TEMPLATE, $response['api']);
-        $this->assertEquals('foo', $response['params']['template_id']);
+        $this->assertSame('foo', $response['params']['template_id']);
     }
 
     /**
@@ -124,23 +124,23 @@ class NoticeNoticeTest extends TestCase
         $response = $notice->send(['touser' => 'foo', 'template_id' => 'bar']);
 
         $this->assertStringStartsWith(Notice::API_SEND_NOTICE, $response['api']);
-        $this->assertEquals('foo', $response['params']['touser']);
-        $this->assertEquals('bar', $response['params']['template_id']);
+        $this->assertSame('foo', $response['params']['touser']);
+        $this->assertSame('bar', $response['params']['template_id']);
         // $this->assertEquals('#FF0000', $response['params']['topcolor']); // 貌似这个删除了 https://github.com/overtrue/wechat/pull/595
-        $this->assertEquals([], $response['params']['data']);
+        $this->assertSame([], $response['params']['data']);
 
         $response = $notice->withTo('anzhengchao1')->withTemplateId('test_tpl_id')->withUrl('url')->withColor('color')->send();
 
-        $this->assertEquals('anzhengchao1', $response['params']['touser']);
-        $this->assertEquals('test_tpl_id', $response['params']['template_id']);
-        $this->assertEquals('url', $response['params']['url']);
+        $this->assertSame('anzhengchao1', $response['params']['touser']);
+        $this->assertSame('test_tpl_id', $response['params']['template_id']);
+        $this->assertSame('url', $response['params']['url']);
         // $this->assertEquals('color', $response['params']['topcolor']);
 
         $response = $notice->foo('bar')->withReceiver('anzhengchao2')->withTemplate('tpl1')->withLink('link')->andColor('andColor')->send();
 
-        $this->assertEquals('anzhengchao2', $response['params']['touser']);
-        $this->assertEquals('tpl1', $response['params']['template_id']);
-        $this->assertEquals('link', $response['params']['url']);
+        $this->assertSame('anzhengchao2', $response['params']['touser']);
+        $this->assertSame('tpl1', $response['params']['template_id']);
+        $this->assertSame('link', $response['params']['url']);
         // $this->assertEquals('andColor', $response['params']['topcolor']);
     }
 
@@ -160,16 +160,16 @@ class NoticeNoticeTest extends TestCase
         ];
         $response = $notice->to('anzhengchao')->color('color1')->template('overtrue')->data($data)->send();
 
-        $this->assertEquals('anzhengchao', $response['params']['touser']);
+        $this->assertSame('anzhengchao', $response['params']['touser']);
         // $this->assertEquals('color1', $response['params']['topcolor']);
-        $this->assertEquals('overtrue', $response['params']['template_id']);
+        $this->assertSame('overtrue', $response['params']['template_id']);
 
         // format1
-        $this->assertEquals(['value' => '恭喜你购买成功！', 'color' => '#173177'], $response['params']['data']['first']);
-        $this->assertEquals(['value' => '巧克力', 'color' => '#173177'], $response['params']['data']['keynote1']);
-        $this->assertEquals(['value' => '39.8元', 'color' => '#173177'], $response['params']['data']['keynote2']);
-        $this->assertEquals(['value' => '2014年9月16日', 'color' => '#173177'], $response['params']['data']['keynote3']);
-        $this->assertEquals(['value' => '欢迎再次购买！', 'color' => '#173177'], $response['params']['data']['remark']);
+        $this->assertSame(['value' => '恭喜你购买成功！', 'color' => '#173177'], $response['params']['data']['first']);
+        $this->assertSame(['value' => '巧克力', 'color' => '#173177'], $response['params']['data']['keynote1']);
+        $this->assertSame(['value' => '39.8元', 'color' => '#173177'], $response['params']['data']['keynote2']);
+        $this->assertSame(['value' => '2014年9月16日', 'color' => '#173177'], $response['params']['data']['keynote3']);
+        $this->assertSame(['value' => '欢迎再次购买！', 'color' => '#173177'], $response['params']['data']['remark']);
 
         // format2
         $data = [
@@ -183,12 +183,12 @@ class NoticeNoticeTest extends TestCase
 
         $response = $notice->to('anzhengchao')->color('color1')->template('overtrue')->data($data)->send();
 
-        $this->assertEquals(['value' => '恭喜你购买成功！', 'color' => '#555555'], $response['params']['data']['first']);
-        $this->assertEquals(['value' => '巧克力', 'color' => '#336699'], $response['params']['data']['keynote1']);
-        $this->assertEquals(['value' => '39.8元', 'color' => '#173177'], $response['params']['data']['keynote2']);
-        $this->assertEquals(['value' => '2014年9月16日', 'color' => '#888888'], $response['params']['data']['keynote3']);
-        $this->assertEquals(['value' => '欢迎再次购买！', 'color' => '#173177'], $response['params']['data']['remark']);
-        $this->assertEquals(['value' => 'error data item.', 'color' => '#173177'], $response['params']['data']['abc']);
+        $this->assertSame(['value' => '恭喜你购买成功！', 'color' => '#555555'], $response['params']['data']['first']);
+        $this->assertSame(['value' => '巧克力', 'color' => '#336699'], $response['params']['data']['keynote1']);
+        $this->assertSame(['value' => '39.8元', 'color' => '#173177'], $response['params']['data']['keynote2']);
+        $this->assertSame(['value' => '2014年9月16日', 'color' => '#888888'], $response['params']['data']['keynote3']);
+        $this->assertSame(['value' => '欢迎再次购买！', 'color' => '#173177'], $response['params']['data']['remark']);
+        $this->assertSame(['value' => 'error data item.', 'color' => '#173177'], $response['params']['data']['abc']);
 
         // format3
         $data = [
@@ -200,10 +200,10 @@ class NoticeNoticeTest extends TestCase
         ];
         $response = $notice->to('anzhengchao')->color('color1')->template('overtrue')->data($data)->send();
 
-        $this->assertEquals(['value' => '恭喜你购买成功！', 'color' => '#555555'], $response['params']['data']['first']);
-        $this->assertEquals(['value' => '巧克力', 'color' => '#336699'], $response['params']['data']['keynote1']);
-        $this->assertEquals(['value' => '39.8元', 'color' => '#FF0000'], $response['params']['data']['keynote2']);
-        $this->assertEquals(['value' => '2014年9月16日', 'color' => '#888888'], $response['params']['data']['keynote3']);
-        $this->assertEquals(['value' => '欢迎再次购买！', 'color' => '#5599FF'], $response['params']['data']['remark']);
+        $this->assertSame(['value' => '恭喜你购买成功！', 'color' => '#555555'], $response['params']['data']['first']);
+        $this->assertSame(['value' => '巧克力', 'color' => '#336699'], $response['params']['data']['keynote1']);
+        $this->assertSame(['value' => '39.8元', 'color' => '#FF0000'], $response['params']['data']['keynote2']);
+        $this->assertSame(['value' => '2014年9月16日', 'color' => '#888888'], $response['params']['data']['keynote3']);
+        $this->assertSame(['value' => '欢迎再次购买！', 'color' => '#5599FF'], $response['params']['data']['remark']);
     }
 }

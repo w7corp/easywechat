@@ -74,7 +74,7 @@ class ApiTest extends TestCase
     {
         $api = new OpenPlatformApi($this->getAccessToken('app_id'), $this->getRequest());
 
-        $this->assertEquals('app_id', $api->getAppId());
+        $this->assertSame('app_id', $api->getAppId());
     }
 }
 

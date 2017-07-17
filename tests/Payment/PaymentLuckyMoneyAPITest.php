@@ -62,16 +62,16 @@ class PaymentLuckyMoneyAPITest extends TestCase
 
         $response = $api->prepare(['foo' => 'bar']);
 
-        $this->assertEquals(API::API_PREPARE, $response['api']);
-        $this->assertEquals('wxTestAppId', $response['options']['body']['wxappid']);
-        $this->assertEquals('testMerchantId', $response['options']['body']['mch_id']);
+        $this->assertSame(API::API_PREPARE, $response['api']);
+        $this->assertSame('wxTestAppId', $response['options']['body']['wxappid']);
+        $this->assertSame('testMerchantId', $response['options']['body']['mch_id']);
 
-        $this->assertEquals('1000052601', $response['options']['body']['auth_mchid']);
-        $this->assertEquals('wxbf42bd79c4391863', $response['options']['body']['auth_appid']);
+        $this->assertSame('1000052601', $response['options']['body']['auth_mchid']);
+        $this->assertSame('wxbf42bd79c4391863', $response['options']['body']['auth_appid']);
 
-        $this->assertEquals('ALL_RAND', $response['options']['body']['amt_type']);
+        $this->assertSame('ALL_RAND', $response['options']['body']['amt_type']);
 
-        $this->assertEquals('bar', $response['options']['body']['foo']);
+        $this->assertSame('bar', $response['options']['body']['foo']);
     }
 
     /**
@@ -82,8 +82,8 @@ class PaymentLuckyMoneyAPITest extends TestCase
         $api = $this->getAPI();
         $response = $api->query('testTradeNoFoo');
 
-        $this->assertEquals(API::API_QUERY, $response['api']);
-        $this->assertEquals('testTradeNoFoo', $response['options']['body']['mch_billno']);
+        $this->assertSame(API::API_QUERY, $response['api']);
+        $this->assertSame('testTradeNoFoo', $response['options']['body']['mch_billno']);
     }
 
     /**
@@ -94,16 +94,16 @@ class PaymentLuckyMoneyAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->send(['foo' => 'bar'], API::TYPE_NORMAL);
-        $this->assertEquals(API::API_SEND, $response['api']);
-        $this->assertEquals('bar', $response['options']['body']['foo']);
+        $this->assertSame(API::API_SEND, $response['api']);
+        $this->assertSame('bar', $response['options']['body']['foo']);
 
-        $this->assertEquals('wxTestAppId', $response['options']['body']['wxappid']);
+        $this->assertSame('wxTestAppId', $response['options']['body']['wxappid']);
 
         $response = $api->send(['foo' => 'bar'], API::TYPE_GROUP);
-        $this->assertEquals(API::API_SEND_GROUP, $response['api']);
-        $this->assertEquals('bar', $response['options']['body']['foo']);
+        $this->assertSame(API::API_SEND_GROUP, $response['api']);
+        $this->assertSame('bar', $response['options']['body']['foo']);
 
-        $this->assertEquals('wxTestAppId', $response['options']['body']['wxappid']);
+        $this->assertSame('wxTestAppId', $response['options']['body']['wxappid']);
     }
 
     /**
@@ -114,10 +114,10 @@ class PaymentLuckyMoneyAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->sendNormal(['foo' => 'bar']);
-        $this->assertEquals(API::API_SEND, $response['api']);
-        $this->assertEquals('bar', $response['options']['body']['foo']);
+        $this->assertSame(API::API_SEND, $response['api']);
+        $this->assertSame('bar', $response['options']['body']['foo']);
 
-        $this->assertEquals(1, $response['options']['body']['total_num']);
+        $this->assertSame(1, $response['options']['body']['total_num']);
     }
 
     /**
@@ -128,8 +128,8 @@ class PaymentLuckyMoneyAPITest extends TestCase
         $api = $this->getAPI();
 
         $response = $api->sendGroup(['foo' => 'bar']);
-        $this->assertEquals(API::API_SEND_GROUP, $response['api']);
-        $this->assertEquals('bar', $response['options']['body']['foo']);
+        $this->assertSame(API::API_SEND_GROUP, $response['api']);
+        $this->assertSame('bar', $response['options']['body']['foo']);
     }
 
     /**
@@ -141,6 +141,6 @@ class PaymentLuckyMoneyAPITest extends TestCase
         $merchant = \Mockery::mock(Merchant::class);
         $api->setMerchant($merchant);
 
-        $this->assertEquals($merchant, $api->getMerchant());
+        $this->assertSame($merchant, $api->getMerchant());
     }
 }

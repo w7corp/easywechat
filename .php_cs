@@ -1,5 +1,4 @@
 <?php
-
 $header = <<<EOF
 This file is part of the overtrue/wechat.
 
@@ -9,20 +8,21 @@ This source file is subject to the MIT license that is bundled
 with this source code in the file LICENSE.
 EOF;
 
-Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
-
-return Symfony\CS\Config\Config::create()
-    // use default SYMFONY_LEVEL and extra fixers:
-    ->fixers(array(
-        'header_comment',
-        'short_array_syntax',
-        'ordered_use',
-        'php_unit_construct',
-        'strict',
-        'strict_param',
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules(array(
+        '@Symfony' => true,
+        'header_comment' => array('header' => $header),
+        'array_syntax' => array('syntax' => 'short'),
+        'ordered_imports' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'php_unit_construct' => true,
+        'php_unit_strict' => true,
     ))
-    ->finder(
-        Symfony\CS\Finder\DefaultFinder::create()
-            ->in(__DIR__.'/src')
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->exclude('vendor')
+            ->in(__DIR__)
     )
 ;

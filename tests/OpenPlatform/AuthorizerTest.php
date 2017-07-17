@@ -32,7 +32,7 @@ class AuthorizerTest extends TestCase
         $authorizer = $this->make($appId, $authorizerAppId);
 
         $result = $authorizer->getApi()->getAuthorizationInfo();
-        $this->assertEquals($this->stubAuthorizationInfo($authorizerAppId), $result);
+        $this->assertSame($this->stubAuthorizationInfo($authorizerAppId), $result);
     }
 
     public function testGetAuthorizerInfo()
@@ -42,7 +42,7 @@ class AuthorizerTest extends TestCase
         $authorizer = $this->make($appId, $authorizerAppId);
 
         $result = $authorizer->getApi()->getAuthorizerInfo('appid@123');
-        $this->assertEquals($this->stubAuthorizerInfo($authorizerAppId), $result);
+        $this->assertSame($this->stubAuthorizerInfo($authorizerAppId), $result);
     }
 
     public function testSetAndGetAccessToken()
@@ -54,7 +54,7 @@ class AuthorizerTest extends TestCase
             'EasyWeChat\OpenPlatform\Authorizer',
             $authorizer->setAccessToken($stub['authorization_info']['authorizer_access_token'])
         );
-        $this->assertEquals('authorizer-access@123', $authorizer->getAccessToken());
+        $this->assertSame('authorizer-access@123', $authorizer->getAccessToken());
     }
 
     public function testSetAndGetRefreshToken()
@@ -66,7 +66,7 @@ class AuthorizerTest extends TestCase
             'EasyWeChat\OpenPlatform\Authorizer',
             $authorizer->setRefreshToken($stub['authorization_info']['authorizer_refresh_token'])
         );
-        $this->assertEquals('refresh@123', $authorizer->getRefreshToken());
+        $this->assertSame('refresh@123', $authorizer->getRefreshToken());
     }
 
     /**

@@ -25,7 +25,7 @@ class MessageImageTest extends TestCase
 
         $return = $image->media('foobar');
 
-        $this->assertEquals($image, $return);
-        $this->assertEquals('foobar', $return->media_id);
+        $this->assertSame($image, $return);
+        $this->assertSame('foobar', $return->media_id);
     }
 }

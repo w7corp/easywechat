@@ -62,7 +62,7 @@ class ShakeAroundShakeAroundTest extends TestCase
         ];
         $result = $shake_around->register('allen05ren', 13888888888, 'allen05ren@outlook.com', '0101', [], 'test');
         $this->assertStringStartsWith(ShakeAround::API_ACCOUNT_REGISTER, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
 
         $expected = [
             'name' => 'allen05ren',
@@ -73,7 +73,7 @@ class ShakeAroundShakeAroundTest extends TestCase
         ];
 
         $result = $shake_around->register('allen05ren', 13888888888, 'allen05ren@outlook.com', '0101', []);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -96,7 +96,7 @@ class ShakeAroundShakeAroundTest extends TestCase
         $result = $shake_around->getShakeInfo('6ab3d8465166598a5f4e8c1b44f44645');
 
         $this->assertStringStartsWith(ShakeAround::API_GET_SHAKE_INFO, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
 
         $expected = [
             'ticket' => '6ab3d8465166598a5f4e8c1b44f44645',
@@ -105,7 +105,7 @@ class ShakeAroundShakeAroundTest extends TestCase
 
         $result = $shake_around->getShakeInfo('6ab3d8465166598a5f4e8c1b44f44645', 1);
 
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**

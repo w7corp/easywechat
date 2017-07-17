@@ -60,8 +60,8 @@ class StaffStaffTest extends TestCase
         $response = $staff->create('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(Staff::API_CREATE, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue', $response['params']['nickname']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue', $response['params']['nickname']);
     }
 
     /**
@@ -74,8 +74,8 @@ class StaffStaffTest extends TestCase
         $response = $staff->update('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(Staff::API_UPDATE, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue', $response['params']['nickname']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue', $response['params']['nickname']);
     }
 
     /**
@@ -88,8 +88,8 @@ class StaffStaffTest extends TestCase
         $response = $staff->invite('anzhengchao@test', 'overtrue');
 
         $this->assertStringStartsWith(Staff::API_INVITE_BIND, $response['api']);
-        $this->assertEquals('anzhengchao@test', $response['params']['kf_account']);
-        $this->assertEquals('overtrue', $response['params']['invite_wx']);
+        $this->assertSame('anzhengchao@test', $response['params']['kf_account']);
+        $this->assertSame('overtrue', $response['params']['invite_wx']);
     }
 
     /**
@@ -117,6 +117,6 @@ class StaffStaffTest extends TestCase
 
         $this->assertStringStartsWith(Staff::API_AVATAR_UPLOAD, $response['api']);
         $this->assertContains('anzhengchao@test', $response['quires']['kf_account']);
-        $this->assertEquals(['media' => '/foobar/avatar.jpg'], $response['params']);
+        $this->assertSame(['media' => '/foobar/avatar.jpg'], $response['params']);
     }
 }

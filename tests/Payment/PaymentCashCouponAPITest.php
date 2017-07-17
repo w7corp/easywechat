@@ -57,11 +57,11 @@ class PaymentCashCouponAPITest extends TestCase
 
         $response = $api->send(['foo' => 'bar']);
 
-        $this->assertEquals(API::API_SEND, $response['api']);
-        $this->assertEquals('wxTestAppId', $response['options']['body']['appid']);
-        $this->assertEquals('testMerchantId', $response['options']['body']['mch_id']);
+        $this->assertSame(API::API_SEND, $response['api']);
+        $this->assertSame('wxTestAppId', $response['options']['body']['appid']);
+        $this->assertSame('testMerchantId', $response['options']['body']['mch_id']);
 
-        $this->assertEquals('bar', $response['options']['body']['foo']);
+        $this->assertSame('bar', $response['options']['body']['foo']);
     }
 
     public function testQueryStock()
@@ -70,11 +70,11 @@ class PaymentCashCouponAPITest extends TestCase
 
         $response = $api->queryStock(['coupon_stock_id' => '1234']);
 
-        $this->assertEquals(API::API_QUERY_STOCK, $response['api']);
-        $this->assertEquals('wxTestAppId', $response['options']['body']['appid']);
-        $this->assertEquals('testMerchantId', $response['options']['body']['mch_id']);
+        $this->assertSame(API::API_QUERY_STOCK, $response['api']);
+        $this->assertSame('wxTestAppId', $response['options']['body']['appid']);
+        $this->assertSame('testMerchantId', $response['options']['body']['mch_id']);
 
-        $this->assertEquals('1234', $response['options']['body']['coupon_stock_id']);
+        $this->assertSame('1234', $response['options']['body']['coupon_stock_id']);
     }
 
     public function testQuery()
@@ -83,10 +83,10 @@ class PaymentCashCouponAPITest extends TestCase
 
         $response = $api->query(['foo' => 'bar']);
 
-        $this->assertEquals(API::API_QUERY, $response['api']);
-        $this->assertEquals('wxTestAppId', $response['options']['body']['appid']);
-        $this->assertEquals('testMerchantId', $response['options']['body']['mch_id']);
+        $this->assertSame(API::API_QUERY, $response['api']);
+        $this->assertSame('wxTestAppId', $response['options']['body']['appid']);
+        $this->assertSame('testMerchantId', $response['options']['body']['mch_id']);
 
-        $this->assertEquals('bar', $response['options']['body']['foo']);
+        $this->assertSame('bar', $response['options']['body']['foo']);
     }
 }

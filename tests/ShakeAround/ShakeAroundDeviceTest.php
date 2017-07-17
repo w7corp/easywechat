@@ -54,7 +54,7 @@ class ShakeAroundDeviceTest extends TestCase
         $result = $device->apply(3, 'test');
 
         $this->assertStringStartsWith(Device::API_DEVICE_APPLYID, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
 
         $expected = [
             'quantity' => 3,
@@ -64,7 +64,7 @@ class ShakeAroundDeviceTest extends TestCase
 
         $result = $device->apply(3, 'test', 'allen05ren');
 
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
 
         $expected = [
             'quantity' => 3,
@@ -75,7 +75,7 @@ class ShakeAroundDeviceTest extends TestCase
 
         $result = $device->apply(3, 'test', 'allen05ren', 1234);
 
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -92,7 +92,7 @@ class ShakeAroundDeviceTest extends TestCase
         $result = $device->getStatus(12345678);
 
         $this->assertStringStartsWith(Device::API_DEVICE_APPLYSTATUS, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -120,7 +120,7 @@ class ShakeAroundDeviceTest extends TestCase
         ], 'allen05ren');
 
         $this->assertStringStartsWith(Device::API_DEVICE_UPDATE, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -150,7 +150,7 @@ class ShakeAroundDeviceTest extends TestCase
         ], 1234);
 
         $this->assertStringStartsWith(Device::API_DEVICE_BINDLOCATION, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
 
         $expected = [
             'device_identifier' => [
@@ -171,7 +171,7 @@ class ShakeAroundDeviceTest extends TestCase
             'minor' => 10002,
         ], 1234, 2, 'wxappid');
 
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
 
         $result = $device->bindLocation([
             'device_id' => 10100,
@@ -206,7 +206,7 @@ class ShakeAroundDeviceTest extends TestCase
         ]);
 
         $this->assertStringStartsWith(Device::API_DEVICE_SEARCH, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -225,7 +225,7 @@ class ShakeAroundDeviceTest extends TestCase
         $result = $device->pagination(0, 10);
 
         $this->assertStringStartsWith(Device::API_DEVICE_SEARCH, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 
     /**
@@ -245,6 +245,6 @@ class ShakeAroundDeviceTest extends TestCase
         $result = $device->fetchByApplyId(12345678, 0, 10);
 
         $this->assertStringStartsWith(Device::API_DEVICE_SEARCH, $result['api']);
-        $this->assertEquals($expected, $result['params']);
+        $this->assertSame($expected, $result['params']);
     }
 }

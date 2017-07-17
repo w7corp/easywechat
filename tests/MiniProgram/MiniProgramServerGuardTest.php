@@ -37,7 +37,7 @@ class MiniProgramServerGuardTest extends TestCase
     {
         $result = $this->getServer(['echostr' => '3804283725124844375'])->serve();
 
-        $this->assertEquals('3804283725124844375', $result->getContent());
+        $this->assertSame('3804283725124844375', $result->getContent());
     }
 
     public function testDecryptMsg()
@@ -49,11 +49,11 @@ class MiniProgramServerGuardTest extends TestCase
         ], $json);
 
         $result = $server->setMessageHandler(function ($message) {
-            $this->assertEquals('gh_8f8e866d31ea', $message->ToUserName);
-            $this->assertEquals('oCdsX0cP7_xE_49eP4zUnC1CtmzU', $message->FromUserName);
-            $this->assertEquals('1496847943', $message->CreateTime);
-            $this->assertEquals('user_enter_tempsession', $message->Event);
+            $this->assertSame('gh_8f8e866d31ea', $message->ToUserName);
+            $this->assertSame('oCdsX0cP7_xE_49eP4zUnC1CtmzU', $message->FromUserName);
+            $this->assertSame('1496847943', $message->CreateTime);
+            $this->assertSame('user_enter_tempsession', $message->Event);
         })->serve();
-        $this->assertEquals('success', $result->getContent());
+        $this->assertSame('success', $result->getContent());
     }
 }

@@ -58,18 +58,18 @@ namespace EasyWeChat\Tests\Core {
         {
             $http = new Http();
             $http->setClient($this->getGuzzleWithResponse(json_encode(['errcode' => '0', 'errmsg' => 'ok'])));
-            $this->assertEquals(['errcode' => '0', 'errmsg' => 'ok'], json_decode($http->request('http://overtrue.me', 'GET')->getBody(), true));
+            $this->assertSame(['errcode' => '0', 'errmsg' => 'ok'], json_decode($http->request('http://overtrue.me', 'GET')->getBody(), true));
 
             $http->setClient($this->getGuzzleWithResponse(json_encode(['foo' => 'bar'])));
 
             $response = $http->request('http://overtrue.me', 'GET');
 
-            $this->assertEquals(json_encode(['foo' => 'bar']), $response->getBody());
+            $this->assertSame(json_encode(['foo' => 'bar']), $response->getBody());
 
             $http->setClient($this->getGuzzleWithResponse('non-json content'));
             $response = $http->request('http://overtrue.me', 'GET');
 
-            $this->assertEquals('non-json content', $response->getBody());
+            $this->assertSame('non-json content', $response->getBody());
         }
 
         /**
@@ -87,11 +87,11 @@ namespace EasyWeChat\Tests\Core {
             }
 
             $http->setClient($this->getGuzzleWithResponse('{"foo":"bar"}'));
-            $this->assertEquals(['foo' => 'bar'], $http->parseJSON($http->request('http://overtrue.me', 'GET')));
+            $this->assertSame(['foo' => 'bar'], $http->parseJSON($http->request('http://overtrue.me', 'GET')));
 
             $http = new Http();
             $http->setClient($this->getGuzzleWithResponse(''));
-            $this->assertEquals(null, $http->parseJSON($http->request('http://overtrue.me', 'GET')));
+            $this->assertSame(null, $http->parseJSON($http->request('http://overtrue.me', 'GET')));
         }
 
         /**
@@ -109,9 +109,9 @@ namespace EasyWeChat\Tests\Core {
 
             $response = $http->get('http://easywechat.org', ['foo' => 'bar']);
 
-            $this->assertEquals('http://easywechat.org', $response['url']);
-            $this->assertEquals('GET', $response['method']);
-            $this->assertEquals(['query' => ['foo' => 'bar']], $response['body']);
+            $this->assertSame('http://easywechat.org', $response['url']);
+            $this->assertSame('GET', $response['method']);
+            $this->assertSame(['query' => ['foo' => 'bar']], $response['body']);
         }
 
         /**
@@ -130,16 +130,16 @@ namespace EasyWeChat\Tests\Core {
             // array
             $response = $http->post('http://easywechat.org', ['foo' => 'bar']);
 
-            $this->assertEquals('http://easywechat.org', $response['url']);
-            $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['form_params' => ['foo' => 'bar']], $response['body']);
+            $this->assertSame('http://easywechat.org', $response['url']);
+            $this->assertSame('POST', $response['method']);
+            $this->assertSame(['form_params' => ['foo' => 'bar']], $response['body']);
 
             // string
             $response = $http->post('http://easywechat.org', 'hello here.');
 
-            $this->assertEquals('http://easywechat.org', $response['url']);
-            $this->assertEquals('POST', $response['method']);
-            $this->assertEquals(['body' => 'hello here.'], $response['body']);
+            $this->assertSame('http://easywechat.org', $response['url']);
+            $this->assertSame('POST', $response['method']);
+            $this->assertSame(['body' => 'hello here.'], $response['body']);
         }
 
         /**
@@ -157,21 +157,21 @@ namespace EasyWeChat\Tests\Core {
 
             $response = $http->json('http://easywechat.org', ['foo' => 'bar']);
 
-            $this->assertEquals('http://easywechat.org', $response['url']);
-            $this->assertEquals('POST', $response['method']);
+            $this->assertSame('http://easywechat.org', $response['url']);
+            $this->assertSame('POST', $response['method']);
 
-            $this->assertEquals([], $response['body']['query']);
-            $this->assertEquals(json_encode(['foo' => 'bar']), $response['body']['body']);
-            $this->assertEquals(['content-type' => 'application/json'], $response['body']['headers']);
+            $this->assertSame([], $response['body']['query']);
+            $this->assertSame(json_encode(['foo' => 'bar']), $response['body']['body']);
+            $this->assertSame(['content-type' => 'application/json'], $response['body']['headers']);
 
             $response = $http->json('http://easywechat.org', ['foo' => 'bar'], JSON_UNESCAPED_UNICODE);
 
-            $this->assertEquals('http://easywechat.org', $response['url']);
-            $this->assertEquals('POST', $response['method']);
+            $this->assertSame('http://easywechat.org', $response['url']);
+            $this->assertSame('POST', $response['method']);
 
-            $this->assertEquals([], $response['body']['query']);
-            $this->assertEquals(json_encode(['foo' => 'bar']), $response['body']['body']);
-            $this->assertEquals(['content-type' => 'application/json'], $response['body']['headers']);
+            $this->assertSame([], $response['body']['query']);
+            $this->assertSame(json_encode(['foo' => 'bar']), $response['body']['body']);
+            $this->assertSame(['content-type' => 'application/json'], $response['body']['headers']);
         }
 
         /**
@@ -189,13 +189,13 @@ namespace EasyWeChat\Tests\Core {
 
             $response = $http->upload('http://easywechat.org', ['foo' => 'bar', 'hello' => 'world'], ['overtrue' => 'easywechat']);
 
-            $this->assertEquals('http://easywechat.org', $response['url']);
-            $this->assertEquals('POST', $response['method']);
+            $this->assertSame('http://easywechat.org', $response['url']);
+            $this->assertSame('POST', $response['method']);
             $this->assertContains(['name' => 'overtrue', 'contents' => 'easywechat'], $response['body']['multipart']);
-            $this->assertEquals('foo', $response['body']['multipart'][0]['name']);
-            $this->assertEquals('bar', $response['body']['multipart'][0]['contents']);
-            $this->assertEquals('hello', $response['body']['multipart'][1]['name']);
-            $this->assertEquals('world', $response['body']['multipart'][1]['contents']);
+            $this->assertSame('foo', $response['body']['multipart'][0]['name']);
+            $this->assertSame('bar', $response['body']['multipart'][0]['contents']);
+            $this->assertSame('hello', $response['body']['multipart'][1]['name']);
+            $this->assertSame('world', $response['body']['multipart'][1]['contents']);
         }
 
         public function testUserHandler()
