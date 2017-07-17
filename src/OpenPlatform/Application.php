@@ -83,11 +83,6 @@ class Application extends ServiceContainer
     protected function authorizerConfig(string $appId, string $refreshToken): array
     {
         return [
-            'open_platform' => [
-                'app_id' => $this['config']['app_id'],
-                'token' => $this['config']['token'],
-                'aes_key' => $this['config']['aes_key'],
-            ],
             'app_id' => $appId,
             'refresh_token' => $refreshToken,
         ];

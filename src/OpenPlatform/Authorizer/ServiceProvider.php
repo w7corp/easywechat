@@ -52,11 +52,11 @@ class ServiceProvider implements ServiceProviderInterface
             return $accessToken;
         };
 
-        $app['encryptor'] = function ($app) {
+        $app['encryptor'] = function () {
             return new Encryptor(
-                $app['config']['component_app_id'],
-                $app['config']['token'],
-                $app['config']['aes_key']
+                $this->application['config']['app_id'],
+                $this->application['config']['token'],
+                $this->application['config']['aes_key']
             );
         };
     }
