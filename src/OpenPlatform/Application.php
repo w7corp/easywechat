@@ -97,7 +97,7 @@ class Application extends ServiceContainer
     {
         return self::COMPONENT_LOGIN_PAGE.'?'.http_build_query([
                 'component_appid' => $this['config']['app_id'],
-                'pre_auth_code' => $this->createPreAuthorizationCode(),
+                'pre_auth_code' => $this->createPreAuthorizationCode()['pre_auth_code'],
                 'redirect_uri' => $callbackUrl,
             ]);
     }
