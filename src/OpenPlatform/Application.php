@@ -40,6 +40,7 @@ class Application extends ServiceContainer
     protected $providers = [
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
+        Server\ServiceProvider::class,
     ];
 
     /**
