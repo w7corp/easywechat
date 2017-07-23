@@ -41,7 +41,6 @@ class Client extends BaseClient
      */
     protected $required = ['touser', 'template_id'];
 
-
     /**
      * Set industry.
      *
