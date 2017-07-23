@@ -30,7 +30,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getCheckinData(int $startTime, int $endTime, array $userList, int $type = 3)
+    public function getCheckinRecords(int $startTime, int $endTime, array $userList, int $type = 3)
     {
         $params = [
             'opencheckindatatype' => $type,
@@ -51,7 +51,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getApprovalData(int $startTime, int $endTime, $nextNumber)
+    public function getApprovalRecords(int $startTime, int $endTime, $nextNumber)
     {
         $params = [
             'starttime' => $startTime,

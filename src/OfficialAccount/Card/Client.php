@@ -131,7 +131,7 @@ class Client extends BaseClient
      *
      * @return string $apiTicket
      */
-    public function getAPITicket($refresh = false)
+    public function getTicket($refresh = false)
     {
         $key = $this->getTicketCacheKey();
 
@@ -183,7 +183,7 @@ class Client extends BaseClient
             'outer_str' => Arr::get($extension, 'outer_str'),
         ];
         $ext['signature'] = $this->getSignature(
-            $this->getAPITicket(),
+            $this->getTicket(),
             $timestamp,
             $cardId,
             $ext['code'],

@@ -37,7 +37,7 @@ class Client extends JssdkClient
      *
      * @return string|array
      */
-    public function configForPayment($prepayId, $json = true)
+    public function bridgeConfig($prepayId, $json = true)
     {
         $params = [
             'appId' => $this->app['merchant']->app_id,
@@ -63,7 +63,7 @@ class Client extends JssdkClient
      *
      * @return array|string
      */
-    public function configForJSSDKPayment($prepayId)
+    public function sdkConfig($prepayId)
     {
         $config = $this->configForPayment($prepayId, false);
 
@@ -80,7 +80,7 @@ class Client extends JssdkClient
      *
      * @return array
      */
-    public function configForAppPayment($prepayId)
+    public function appConfig($prepayId)
     {
         $params = [
             'appid' => $this->app['merchant']->app_id,
@@ -104,7 +104,7 @@ class Client extends JssdkClient
      *
      * @return string|array
      */
-    public function configForShareAddress($accessToken, $json = true)
+    public function shareAddressConfig($accessToken, $json = true)
     {
         if ($accessToken instanceof AccessTokenInterface) {
             $accessToken = $accessToken->getToken();

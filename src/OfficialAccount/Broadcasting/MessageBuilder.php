@@ -195,7 +195,7 @@ class MessageBuilder
      *
      * @return array
      */
-    private function buildGroup($group)
+    protected function buildGroup($group)
     {
         if (is_null($group)) {
             $group = [
@@ -227,7 +227,7 @@ class MessageBuilder
      *
      * @return array
      */
-    private function buildTo($to, $by)
+    protected function buildTo($to, $by)
     {
         return [
             $by => $to,
@@ -246,7 +246,5 @@ class MessageBuilder
         if (property_exists($this, $property)) {
             return $this->$property;
         }
-
-        return null;
     }
 }

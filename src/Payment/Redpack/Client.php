@@ -123,7 +123,7 @@ class Client extends BaseClient
     /**
      * {@inheritdoc}.
      */
-    protected function extra(): array
+    protected function prepends(): array
     {
         return [
             'mch_id' => $this->app['merchant']->merchant_id,

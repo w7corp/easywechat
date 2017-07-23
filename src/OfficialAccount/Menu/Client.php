@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function all()
+    public function lists()
     {
         return $this->httpGet('cgi-bin/menu/get');
     }
@@ -48,7 +48,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function add(array $buttons, array $matchRule = [])
+    public function create(array $buttons, array $matchRule = [])
     {
         if ($matchRule) {
             return $this->httpPostJson('cgi-bin/menu/addconditional', [
@@ -67,7 +67,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function destroy($menuId = null)
+    public function delete($menuId = null)
     {
         if (is_null($menuId)) {
             return $this->httpGet('cgi-bin/menu/delete');
@@ -83,7 +83,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function test($userId)
+    public function match($userId)
     {
         return $this->httpPostJson('cgi-bin/menu/trymatch', ['user_id' => $userId]);
     }

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\WeWork;
 
-use EasyWeChat\BaseService\Application as BaseService;
+use EasyWeChat\BaseService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -27,6 +27,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\WeWork\Menu\Client       $menu
  * @property \EasyWeChat\WeWork\Message\Client    $message
  * @property \EasyWeChat\WeWork\Message\Messenger $messenger
+ * @property \EasyWeChat\BaseService\Jssdk\Client $jssdk
  *
  * @method mixed getCallbackIp()
  */
@@ -45,6 +46,9 @@ class Application extends ServiceContainer
         Media\ServiceProvider::class,
         Message\ServiceProvider::class,
         Department\ServiceProvider::class,
+
+        // base services
+        BaseService\Jssdk\ServiceProvider::class,
     ];
 
     /**
@@ -56,13 +60,6 @@ class Application extends ServiceContainer
             'base_uri' => 'https://qyapi.weixin.qq.com/cgi-bin/',
         ],
     ];
-
-    protected function afterRegistered()
-    {
-        $this['jssdk'] = function () {
-            return (new BaseService($this['config']->toArray()))->jssdk;
-        };
-    }
 
     /**
      * @param string $method

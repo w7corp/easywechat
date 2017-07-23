@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Payment;
 
+use EasyWeChat\BaseService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -19,6 +20,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\Payment\Coupon\Client   $coupon
  * @property \EasyWeChat\Payment\Redpack\Client  $redpack
  * @property \EasyWeChat\Payment\Transfer\Client $transfer
+ * @property \EasyWeChat\Payment\Jssdk\Client    $jssdk
  *
  * @method \EasyWeChat\Payment\Client sandboxMode(bool $enabled = false)
  * @method string scheme(string $productId)
@@ -36,6 +38,7 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
+        BaseService\Url\ServiceProvider::class,
         ServiceProvider::class,
     ];
 

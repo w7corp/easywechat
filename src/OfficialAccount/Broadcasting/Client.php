@@ -39,7 +39,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function send($msgType, $message, $to = null)
+    public function send(string $msgType, $message, $to = null)
     {
         $message = (new MessageBuilder())->msgType($msgType)->message($message)->to($to)->build();
 

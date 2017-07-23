@@ -39,7 +39,7 @@ class Notify
     protected $request;
 
     /**
-     * Payment notify (extract from XML).
+     * Payment notify (prependsct from XML).
      *
      * @var Collection
      */
