@@ -59,7 +59,7 @@ class Client extends BaseClient
      * Create temporary QR code.
      *
      * @param string|int $sceneValue
-     * @param int|null       $expireSeconds
+     * @param int|null   $expireSeconds
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */

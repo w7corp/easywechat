@@ -18,7 +18,6 @@ class FactoryTest extends TestCase
 {
     public function testStaticCall()
     {
-
         $weWork = Factory::weWork([
             'client_id' => 'corpid@123',
             'client_secret' => 'corpsecret@123',
@@ -42,7 +41,6 @@ class FactoryTest extends TestCase
         $this->assertArraySubset($expected, $weWork['config']->all());
         $this->assertArraySubset($expected, $weWorkFromMake['config']->all());
 
-        ;
         $this->assertInstanceOf(
             \EasyWeChat\OfficialAccount\Application::class,
             Factory::officialAccount(['appid' => 'appid@456'])
