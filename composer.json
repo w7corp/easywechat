@@ -20,7 +20,7 @@
         "pimple/pimple": "~3.0",
         "monolog/monolog": "^1.22",
         "overtrue/socialite": ">=1.0.25",
-        "guzzlehttp/guzzle": "~6.2.1",
+        "guzzlehttp/guzzle": "~6.2",
         "symfony/http-foundation": "~2.6|~2.7|~2.8|~3.0",
         "symfony/psr-http-message-bridge": "~0.3|^1.0",
         "symfony/cache": "^3.3"
