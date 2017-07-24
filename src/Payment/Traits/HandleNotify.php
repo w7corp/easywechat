@@ -65,7 +65,7 @@ trait HandleNotify
      *
      * The callback shall return string of prepay_id or throw an exception.
      *
-     * @link https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
+     * @see https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
      *
      * @param callable $callback
      *

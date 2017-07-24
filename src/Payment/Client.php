@@ -169,12 +169,12 @@ class Client extends BaseClient
      * @param string $orderNo
      * @param string $refundNo
      * @param float  $totalFee
-     *
      * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function refund($orderNo, $refundNo, $totalFee, $optional = []) {
+    public function refund($orderNo, $refundNo, $totalFee, $optional = [])
+    {
         $params = array_merge([
             self::TRANSACTION_ID => $orderNo,
             'out_refund_no' => $refundNo,
@@ -198,7 +198,8 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function refundByTransactionId($orderNo, $refundNo, $totalFee, $optional = []) {
+    public function refundByTransactionId($orderNo, $refundNo, $totalFee, $optional = [])
+    {
         return $this->refund($orderNo, $refundNo, $totalFee, $optional);
     }
 
