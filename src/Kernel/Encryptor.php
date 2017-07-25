@@ -91,7 +91,7 @@ class Encryptor
                 throw new InvalidConfigException("The length of 'aes_key' must be 43.");
             }
             $this->aes = $this->createDefaultAes($aesKeyOrAes);
-        } else if ($aesKeyOrAes instanceof AES) {
+        } elseif ($aesKeyOrAes instanceof AES) {
             $this->aes = $aesKeyOrAes;
         } else {
             throw new Exception('The $aesKeyOrAes must be a string or an instance of \EasyWeChat\Kernel\Support\AES.');
@@ -229,7 +229,7 @@ class Encryptor
      */
     protected function createDefaultAes(string $aesKey): AES
     {
-        $aesKey = base64_decode($aesKey . '=', true);
+        $aesKey = base64_decode($aesKey.'=', true);
 
         $aes = new AES($aesKey);
         $aes->setIv(substr($aesKey, 0, 16));
