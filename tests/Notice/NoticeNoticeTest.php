@@ -176,9 +176,9 @@ class NoticeNoticeTest extends TestCase
             'data' => [
                 'content' => [
                     'value' => 'VALUE',
-                    'color' => '#f02600'
-                ]
-            ]
+                    'color' => '#f02600',
+                ],
+            ],
         ]);
 
         $this->assertEquals('https://api.weixin.qq.com/cgi-bin/message/template/subscribe', $response['api']);
@@ -192,7 +192,7 @@ class NoticeNoticeTest extends TestCase
             'content' => [
                 'value' => 'VALUE',
                 'color' => '#f02600',
-            ]
+            ],
         ], $response['params']['data']);
     }
 
