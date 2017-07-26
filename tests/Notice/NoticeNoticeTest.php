@@ -144,30 +144,33 @@ class NoticeNoticeTest extends TestCase
         // $this->assertEquals('andColor', $response['params']['topcolor']);
     }
 
-    public function testSendSubscribe()
+    /**
+     * Test sendSubscription().
+     */
+    public function testSendSubscription()
     {
         $notice = $this->getNotice(true);
 
         try {
-            $notice->sendSubscribe();
+            $notice->sendSubscription();
         } catch (\Exception $e) {
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertContains(' can not be empty!', $e->getMessage());
         }
 
-        $response = $notice->withTo('foo')->withTemplateId('bar')->withUrl('url')->withColor('color')->sendSubscribe();
+        $response = $notice->withTo('foo')->withTemplateId('bar')->withUrl('url')->withColor('color')->sendSubscription();
 
         $this->assertEquals('foo', $response['params']['touser']);
         $this->assertEquals('bar', $response['params']['template_id']);
         $this->assertEquals('url', $response['params']['url']);
 
-        $response = $notice->foo('bar')->withReceiver('foo-bar')->withTemplate('tpl1')->withLink('link')->andColor('andColor')->sendSubscribe();
+        $response = $notice->foo('bar')->withReceiver('foo-bar')->withTemplate('tpl1')->withLink('link')->andColor('andColor')->sendSubscription();
 
         $this->assertEquals('foo-bar', $response['params']['touser']);
         $this->assertEquals('tpl1', $response['params']['template_id']);
         $this->assertEquals('link', $response['params']['url']);
 
-        $response = $notice->sendSubscribe([
+        $response = $notice->sendSubscription([
             'touser' => 'foo',
             'template_id' => 'bar',
             'url' => 'https://easywechat.org',

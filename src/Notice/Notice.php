@@ -69,7 +69,7 @@ class Notice extends AbstractAPI
     const API_GET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/get_industry';
     const API_GET_ALL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/get_all_private_template';
     const API_DEL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/del_private_template';
-    const API_TEMPLATE_MESSAGE_SUBSCRIBE = 'https://api.weixin.qq.com/cgi-bin/message/template/subscribe';
+    const API_SEND_SUBSCRIPTION = 'https://api.weixin.qq.com/cgi-bin/message/template/subscribe';
 
     /**
      * Notice constructor.
@@ -178,15 +178,15 @@ class Notice extends AbstractAPI
     }
 
     /**
-     * Send subscribe message.
+     * Send template-message for subscription.
      *
      * @param array $data
      *
      * @return \EasyWeChat\Support\Collection
      */
-    public function sendSubscribe(array $data = [])
+    public function sendSubscription(array $data = [])
     {
-        return $this->parseJSON('json', [static::API_TEMPLATE_MESSAGE_SUBSCRIBE, $this->validParams($data)]);
+        return $this->parseJSON('json', [static::API_SEND_SUBSCRIPTION, $this->validParams($data)]);
     }
 
     /**
