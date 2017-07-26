@@ -69,6 +69,7 @@ class Notice extends AbstractAPI
     const API_GET_INDUSTRY = 'https://api.weixin.qq.com/cgi-bin/template/get_industry';
     const API_GET_ALL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/get_all_private_template';
     const API_DEL_PRIVATE_TEMPLATE = 'https://api.weixin.qq.com/cgi-bin/template/del_private_template';
+    const API_TEMPLATE_MESSAGE_SUBSCRIBE = 'https://api.weixin.qq.com/cgi-bin/message/template/subscribe';
 
     /**
      * Notice constructor.
@@ -173,6 +174,28 @@ class Notice extends AbstractAPI
      */
     public function send($data = [])
     {
+        return $this->parseJSON('json', [static::API_SEND_NOTICE, $this->validParams($data)]);
+    }
+
+    /**
+     * Send subscribe message.
+     *
+     * @param array $data
+     *
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function sendSubscribe(array $data = [])
+    {
+        return $this->parseJSON('json', [static::API_TEMPLATE_MESSAGE_SUBSCRIBE, $this->validParams($data)]);
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function validParams(array $data = [])
+    {
         $params = array_merge($this->message, $data);
 
         foreach ($params as $key => $value) {
@@ -187,7 +210,7 @@ class Notice extends AbstractAPI
 
         $this->message = $this->messageBackup;
 
-        return $this->parseJSON('json', [static::API_SEND_NOTICE, $params]);
+        return $params;
     }
 
     /**
