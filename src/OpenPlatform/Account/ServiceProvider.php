@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\OpenPlatform\Account;
 
+use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 
 /**
  * Class ServiceProvider.

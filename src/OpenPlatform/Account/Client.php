@@ -26,9 +26,9 @@ class Client extends BaseClient
     protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/open/';
 
     /**
-     * 创建开放平台帐号并绑定公众号/小程序
+     * 创建开放平台帐号并绑定公众号/小程序.
      *
-     * @param  string $appId 授权公众号或小程序的appid
+     * @param string $appId 授权公众号或小程序的appid
      *
      * @return mixed
      */
@@ -42,10 +42,10 @@ class Client extends BaseClient
     }
 
     /**
-     * 将公众号/小程序绑定到开放平台帐号下
+     * 将公众号/小程序绑定到开放平台帐号下.
      *
-     * @param  string $appId     授权公众号或小程序的appid
-     * @param  string $openAppId 开放平台帐号appid
+     * @param string $appId     授权公众号或小程序的appid
+     * @param string $openAppId 开放平台帐号appid
      *
      * @return mixed
      */
@@ -60,10 +60,10 @@ class Client extends BaseClient
     }
 
     /**
-     * 将公众号/小程序从开放平台帐号下解绑
+     * 将公众号/小程序从开放平台帐号下解绑.
      *
-     * @param  string $appId     授权公众号或小程序的appid
-     * @param  string $openAppId 开放平台帐号appid
+     * @param string $appId     授权公众号或小程序的appid
+     * @param string $openAppId 开放平台帐号appid
      *
      * @return mixed
      */
@@ -78,9 +78,9 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取公众号/小程序所绑定的开放平台帐号
+     * 获取公众号/小程序所绑定的开放平台帐号.
      *
-     * @param  string $appId 授权公众号或小程序的appid
+     * @param string $appId 授权公众号或小程序的appid
      *
      * @return mixed
      */
