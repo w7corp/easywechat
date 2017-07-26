@@ -27,7 +27,7 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function add($name)
+    public function create($name)
     {
         $params = [
             'group_name' => $name,
@@ -97,7 +97,7 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getDetail($groupId, $begin, $count)
+    public function get($groupId, $begin, $count)
     {
         $params = [
             'group_id' => intval($groupId),

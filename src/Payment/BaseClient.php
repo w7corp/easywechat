@@ -21,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author overtrue <i@overtrue.me>
  */
-abstract class BaseClient
+class BaseClient
 {
     use HasHttpRequests { request as performRequest; }
 
@@ -47,7 +47,10 @@ abstract class BaseClient
      *
      * @return array
      */
-    abstract protected function extra(): array;
+    protected function prepends()
+    {
+        return [];
+    }
 
     /**
      * Make a API request.
@@ -58,11 +61,11 @@ abstract class BaseClient
      * @param array  $options
      * @param bool   $returnResponse
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string|\Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
-        $params = array_merge($this->extra(), $params);
+        $params = array_merge($this->prepends(), $params);
         $params['nonce_str'] = uniqid();
         $params = array_filter($params);
 

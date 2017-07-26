@@ -15,11 +15,11 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 
 /**
- * Class MessageBuilder.
+ * Class Messenger.
  *
  * @author overtrue <i@overtrue.me>
  */
-class MessageBuilder
+class Messenger
 {
     /**
      * Messages target user or group.
@@ -71,7 +71,7 @@ class MessageBuilder
      *
      * @param string $msgType
      *
-     * @return MessageBuilder
+     * @return Messenger
      *
      * @throws InvalidArgumentException
      */
@@ -91,7 +91,7 @@ class MessageBuilder
      *
      * @param string|array $message
      *
-     * @return MessageBuilder
+     * @return Messenger
      */
     public function message($message)
     {
@@ -105,7 +105,7 @@ class MessageBuilder
      *
      * @param mixed $to
      *
-     * @return MessageBuilder
+     * @return Messenger
      */
     public function to($to)
     {
@@ -195,7 +195,7 @@ class MessageBuilder
      *
      * @return array
      */
-    private function buildGroup($group)
+    protected function buildGroup($group)
     {
         if (is_null($group)) {
             $group = [
@@ -227,7 +227,7 @@ class MessageBuilder
      *
      * @return array
      */
-    private function buildTo($to, $by)
+    protected function buildTo($to, $by)
     {
         return [
             $by => $to,
@@ -246,7 +246,5 @@ class MessageBuilder
         if (property_exists($this, $property)) {
             return $this->$property;
         }
-
-        return null;
     }
 }

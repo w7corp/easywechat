@@ -54,12 +54,4 @@ class Client extends BaseClient
 
         return $this->safeRequest('mmpaymkttransfers/promotion/transfers', $params);
     }
-
-    /**
-     * {@inheritdoc}.
-     */
-    protected function extra(): array
-    {
-        return [];
-    }
 }

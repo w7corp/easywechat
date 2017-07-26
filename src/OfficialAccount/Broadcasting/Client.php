@@ -30,6 +30,11 @@ class Client extends BaseClient
     const MSG_TYPE_VIDEO = 'video'; // 视频
     const MSG_TYPE_CARD = 'card'; // 卡券
 
+    public function message($message)
+    {
+        return (new Messenger())->message($message);
+    }
+
     /**
      * Send a message.
      *
@@ -39,9 +44,9 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function send($msgType, $message, $to = null)
+    public function send(string $msgType, $message, $to = null)
     {
-        $message = (new MessageBuilder())->msgType($msgType)->message($message)->to($to)->build();
+        $message = (new Messenger())->msgType($msgType)->message($message)->to($to)->build();
 
         $api = is_array($to) ? 'cgi-bin/message/mass/send' : 'cgi-bin/message/mass/sendall';
 
@@ -138,7 +143,7 @@ class Client extends BaseClient
      */
     public function preview($msgType, $message, $to, $by = self::PREVIEW_BY_OPENID)
     {
-        $message = (new MessageBuilder())->msgType($msgType)->message($message)->to($to)->buildPreview($by);
+        $message = (new Messenger())->msgType($msgType)->message($message)->to($to)->buildPreview($by);
 
         return $this->httpPostJson('cgi-bin/message/mass/preview', $message);
     }

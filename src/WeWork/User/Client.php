@@ -88,7 +88,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function simpleLists(int $departmentId, bool $fetchChild = false)
+    public function getDepartmentUsers(int $departmentId, bool $fetchChild = false)
     {
         $params = [
             'department_id' => $departmentId,
@@ -106,7 +106,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists(int $departmentId, bool $fetchChild = false)
+    public function getDepartmentUsersWithDetail(int $departmentId, bool $fetchChild = false)
     {
         $params = [
             'department_id' => $departmentId,
@@ -155,7 +155,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function authSucceed($userId)
+    public function accept($userId)
     {
         $params = [
             'userid' => $userId,

@@ -29,6 +29,7 @@ use EasyWeChat\OpenPlatform\Server\Handlers;
  * @method mixed getAuthorizerOption(string $appId, string $name)
  * @method mixed setAuthorizerOption(string $appId, string $name, string $value)
  * @method mixed getAuthorizers(int $offset = 0, int $count = 500)
+ * @method \EasyWeChat\Kernel\Support\Collection createPreAuthorizationCode()
  */
 class Application extends ServiceContainer
 {
@@ -40,6 +41,7 @@ class Application extends ServiceContainer
     protected $providers = [
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
+        Server\ServiceProvider::class,
     ];
 
     /**

@@ -86,7 +86,7 @@ class StatsClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchPageSummary($timestamp, $pageIndex)
+    public function pagesSummary($timestamp, $pageIndex)
     {
         $params = [
             'date' => $timestamp,

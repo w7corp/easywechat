@@ -23,13 +23,6 @@ use ReflectionClass;
 class Client extends BaseClient
 {
     /**
-     * Default color.
-     *
-     * @var string
-     */
-    protected $defaultColor = '#173177';
-
-    /**
      * Attributes.
      *
      * @var array
@@ -47,20 +40,6 @@ class Client extends BaseClient
      * @var array
      */
     protected $required = ['touser', 'template_id'];
-
-    /**
-     * Set default color.
-     *
-     * @param string $color example: #0f0f0f
-     *
-     * @return $this
-     */
-    public function defaultColor($color)
-    {
-        $this->defaultColor = $color;
-
-        return $this;
-    }
 
     /**
      * Set industry.
@@ -165,8 +144,6 @@ class Client extends BaseClient
             $params[$key] = empty($value) ? $this->message[$key] : $value;
         }
 
-        $params['data'] = $this->formatData($params['data']);
-
         return $params;
     }
 
@@ -209,47 +186,11 @@ class Client extends BaseClient
         return $this;
     }
 
+    /**
+     * Restore message.
+     */
     protected function restoreMessage()
     {
         $this->message = (new ReflectionClass(__CLASS__))->getDefaultProperties()['message'];
-    }
-
-    /**
-     * Format template data.
-     *
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function formatData($data)
-    {
-        $return = [];
-
-        foreach ($data as $key => $item) {
-            if (is_scalar($item)) {
-                $value = $item;
-                $color = $this->defaultColor;
-            } elseif (is_array($item) && !empty($item)) {
-                if (isset($item['value'])) {
-                    $value = strval($item['value']);
-                    $color = empty($item['color']) ? $this->defaultColor : strval($item['color']);
-                } elseif (count($item) < 2) {
-                    $value = array_shift($item);
-                    $color = $this->defaultColor;
-                } else {
-                    list($value, $color) = $item;
-                }
-            } else {
-                $value = 'error data item.';
-                $color = $this->defaultColor;
-            }
-
-            $return[$key] = [
-                'value' => $value,
-                'color' => $color,
-            ];
-        }
-
-        return $return;
     }
 }

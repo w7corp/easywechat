@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Kernel;
 
+use EasyWeChat\Kernel\Exceptions\Exception;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\AES;
@@ -69,27 +70,32 @@ class Encryptor
     /**
      * Constructor.
      *
-     * @param string $appId
-     * @param string $token
-     * @param string $aesKey
+     * @param string                                $appId
+     * @param string                                $token
+     * @param \EasyWeChat\Kernel\Support\AES|string $aesKeyOrAes
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function __construct($appId, $token, $aesKey)
+    public function __construct(string $appId, string $token, $aesKeyOrAes)
     {
         $this->appId = $appId;
         $this->token = $token;
 
-        if (empty($aesKey)) {
-            throw new InvalidConfigException("Mission config 'aes_key'.");
-        }
+        if (is_string($aesKeyOrAes)) {
+            if (empty($aesKeyOrAes)) {
+                throw new InvalidConfigException("Mission config 'aes_key'.");
+            }
 
-        if (strlen($aesKey) !== 43) {
-            throw new InvalidConfigException("The length of 'aes_key' must be 43.");
+            if (strlen($aesKeyOrAes) !== 43) {
+                throw new InvalidConfigException("The length of 'aes_key' must be 43.");
+            }
+            $this->aes = $this->createDefaultAes($aesKeyOrAes);
+        } else if ($aesKeyOrAes instanceof AES) {
+            $this->aes = $aesKeyOrAes;
+        } else {
+            throw new Exception('The $aesKeyOrAes must be a string or an instance of \EasyWeChat\Kernel\Support\AES.');
         }
-
-        $this->aes = new AES(base64_decode($aesKey.'=', true));
-        $this->aes->setIv(substr($aesKey, 0, 16));
     }
 
     /**
@@ -103,10 +109,10 @@ class Encryptor
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function encrypt($xml, $nonce = null, $timestamp = null)
+    public function encrypt($xml, $nonce = null, $timestamp = null): string
     {
         try {
-            $xml = $this->pkcs7Pad(str_random(16).pack('N', strlen($xml)).$xml.$this->appId);
+            $xml = $this->pkcs7Pad(str_random(16).pack('N', strlen($xml)).$xml.$this->appId, $this->blockSize);
 
             $encrypted = base64_encode($this->aes->encrypt($xml));
         } catch (Throwable $e) {
@@ -139,7 +145,7 @@ class Encryptor
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function decrypt($msgSignature, $nonce, $timestamp, $postXML)
+    public function decrypt($msgSignature, $nonce, $timestamp, $postXML): array
     {
         try {
             $array = XML::parse($postXML);
@@ -172,7 +178,7 @@ class Encryptor
      *
      * @throws self
      */
-    public function signature()
+    public function signature(): string
     {
         $array = func_get_args();
         sort($array, SORT_STRING);
@@ -190,7 +196,7 @@ class Encryptor
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function pkcs7Pad(string $text, int $blockSize)
+    public function pkcs7Pad(string $text, int $blockSize): string
     {
         if ($blockSize > 256) {
             throw new RuntimeException('$blockSize may not be more than 256');
@@ -208,11 +214,26 @@ class Encryptor
      *
      * @return bool|string
      */
-    public function pkcs7Unpad(string $text)
+    public function pkcs7Unpad(string $text): string
     {
         $padChar = substr($text, -1);
         $padLength = ord($padChar);
 
         return substr($text, 0, -$padLength);
+    }
+
+    /**
+     * @param string $aesKey
+     *
+     * @return \EasyWeChat\Kernel\Support\AES
+     */
+    protected function createDefaultAes(string $aesKey): AES
+    {
+        $aesKey = base64_decode($aesKey . '=', true);
+
+        $aes = new AES($aesKey);
+        $aes->setIv(substr($aesKey, 0, 16));
+
+        return $aes;
     }
 }

@@ -1,8 +1,7 @@
 language: php
 
 php:
-  # using major version aliases
-  # aliased to a recent 7.1.x version
+  - 7.0
   - 7.1
 
 before_script:

@@ -29,19 +29,20 @@ class Client extends BaseClient
     const SCENE_MAX_VALUE = 100000;
     const SCENE_QR_CARD = 'QR_CARD';
     const SCENE_QR_TEMPORARY = 'QR_SCENE';
+    const SCENE_QR_TEMPORARY_STR = 'QR_STR_SCENE';
     const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';
 
     /**
-     * Create forever.
+     * Create forever QR code.
      *
-     * @param int $sceneValue
+     * @param string|int $sceneValue
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function forever($sceneValue)
     {
-        if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < self::SCENE_MAX_VALUE) {
+        if ($this->isIntegerSceneValue($sceneValue)) {
             $type = self::SCENE_QR_FOREVER;
             $sceneKey = 'scene_id';
         } else {
@@ -55,18 +56,26 @@ class Client extends BaseClient
     }
 
     /**
-     * Create temporary.
+     * Create temporary QR code.
      *
-     * @param string $sceneId
-     * @param null   $expireSeconds
+     * @param string|int $sceneValue
+     * @param int|null   $expireSeconds
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function temporary($sceneId, $expireSeconds = null)
+    public function temporary($sceneValue, $expireSeconds = null)
     {
-        $scene = ['scene_id' => $sceneId];
+        if ($this->isIntegerSceneValue($sceneValue)) {
+            $type = self::SCENE_QR_TEMPORARY;
+            $sceneKey = 'scene_id';
+        } else {
+            $type = self::SCENE_QR_TEMPORARY_STR;
+            $sceneKey = 'scene_str';
+        }
 
-        return $this->create(self::SCENE_QR_TEMPORARY, $scene, true, $expireSeconds);
+        $scene = [$sceneKey => $sceneValue];
+
+        return $this->create($type, $scene, true, $expireSeconds);
     }
 
     /**
@@ -98,7 +107,7 @@ class Client extends BaseClient
      */
     public function url($ticket)
     {
-        return sprintf('showqrcode?ticket=%s', $ticket);
+        return sprintf($this->baseUri.'showqrcode?ticket=%s', $ticket);
     }
 
     /**
@@ -125,5 +134,15 @@ class Client extends BaseClient
         }
 
         return $this->httpPostJson('qrcode/create', $params);
+    }
+
+    /**
+     * @param int|string $sceneValue
+     *
+     * @return bool
+     */
+    protected function isIntegerSceneValue($sceneValue): bool
+    {
+        return is_int($sceneValue) && $sceneValue > 0 && $sceneValue < self::SCENE_MAX_VALUE;
     }
 }

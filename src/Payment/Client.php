@@ -167,33 +167,23 @@ class Client extends BaseClient
      * Make a refund request.
      *
      * @param string $orderNo
-     * @param $refundNo
+     * @param string $refundNo
      * @param float  $totalFee
-     * @param float  $refundFee
-     * @param string $opUserId
-     * @param string $type
-     * @param string $refundAccount
+     * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function refund(
-        $orderNo,
-        $refundNo,
-        $totalFee,
-        $refundFee = null,
-        $opUserId = null,
-        $type = self::OUT_TRADE_NO,
-        $refundAccount = 'REFUND_SOURCE_UNSETTLED_FUNDS'
-        ) {
-        $params = [
-            $type => $orderNo,
+    public function refund($orderNo, $refundNo, $totalFee, $optional = [])
+    {
+        $params = array_merge([
+            self::TRANSACTION_ID => $orderNo,
             'out_refund_no' => $refundNo,
             'total_fee' => $totalFee,
-            'refund_fee' => $refundFee ?: $totalFee,
+            'refund_fee' => $totalFee,
             'refund_fee_type' => $this->app['merchant']->fee_type,
-            'refund_account' => $refundAccount,
-            'op_user_id' => $opUserId ?: $this->app['merchant']->merchant_id,
-        ];
+            'refund_account' => 'REFUND_SOURCE_UNSETTLED_FUNDS',
+            'op_user_id' => $this->app['merchant']->merchant_id,
+        ], $optional);
 
         return $this->safeRequest($this->wrapApi('secapi/pay/refund'), $params);
     }
@@ -202,23 +192,15 @@ class Client extends BaseClient
      * Refund by transaction id.
      *
      * @param string $orderNo
-     * @param $refundNo
+     * @param string $refundNo
      * @param float  $totalFee
-     * @param float  $refundFee
-     * @param string $opUserId
-     * @param string $refundAccount
+     * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function refundByTransactionId(
-        $orderNo,
-        $refundNo,
-        $totalFee,
-        $refundFee = null,
-        $opUserId = null,
-        $refundAccount = 'REFUND_SOURCE_UNSETTLED_FUNDS'
-        ) {
-        return $this->refund($orderNo, $refundNo, $totalFee, $refundFee, $opUserId, self::TRANSACTION_ID, $refundAccount);
+    public function refundByTransactionId($orderNo, $refundNo, $totalFee, $optional = [])
+    {
+        return $this->refund($orderNo, $refundNo, $totalFee, $optional);
     }
 
     /**
@@ -293,29 +275,17 @@ class Client extends BaseClient
     }
 
     /**
-     * Convert long url to short url.
-     *
-     * @param string $url
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function urlShorten($url)
-    {
-        return $this->request('https://api.mch.weixin.qq.com/tools/shorturl', ['long_url' => $url]);
-    }
-
-    /**
      * Report API status to WeChat.
      *
      * @param string $api
      * @param int    $timeConsuming
      * @param string $resultCode
      * @param string $returnCode
-     * @param array  $other         ex: err_code,err_code_des,out_trade_no,user_ip...
+     * @param array  $optional      ex: err_code, err_code_des, out_trade_no, user_ip...
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function report($api, $timeConsuming, $resultCode, $returnCode, array $other = [])
+    public function report($api, $timeConsuming, $resultCode, $returnCode, array $optional = [])
     {
         $params = array_merge([
             'interface_url' => $api,
@@ -325,7 +295,7 @@ class Client extends BaseClient
             'result_code' => $resultCode,
             'user_ip' => Support\get_client_ip(),
             'time' => time(),
-        ], $other);
+        ], $optional);
 
         return $this->request($this->wrapApi('payitil/report'), $params);
     }
@@ -345,7 +315,7 @@ class Client extends BaseClient
     /**
      * {@inheritdoc}.
      */
-    protected function extra(): array
+    protected function prepends(): array
     {
         return array_merge($this->app['merchant']->only(['sub_appid', 'sub_mch_id']),
             [

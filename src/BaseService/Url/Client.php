@@ -32,7 +32,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function shorten($url)
+    public function shorten(string $url)
     {
         $params = [
             'action' => 'long2short',

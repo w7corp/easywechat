@@ -42,6 +42,7 @@ class AES implements Encryption
 
     public function __construct($key)
     {
+        $this->setKey($key);
     }
 
     /**
@@ -49,7 +50,7 @@ class AES implements Encryption
      */
     public function encrypt(string $text): string
     {
-        return openssl_encrypt($text, $this->mode, $this->getKey(), $this->option, $this->getIv());
+        return openssl_encrypt($text, $this->mode, $this->getKey(), $this->option | OPENSSL_NO_PADDING, $this->getIv());
     }
 
     /**
@@ -57,7 +58,7 @@ class AES implements Encryption
      */
     public function decrypt(string $cipherText): string
     {
-        return openssl_decrypt($cipherText, $this->mode, $this->getKey(), $this->option, $this->getIv());
+        return openssl_decrypt($cipherText, $this->mode, $this->getKey(), $this->option | OPENSSL_NO_PADDING, $this->getIv());
     }
 
     /**
@@ -90,6 +91,7 @@ class AES implements Encryption
         if (strlen($iv) !== 16) {
             throw new \InvalidArgumentException('IV length must be 16 bytes');
         }
+
         $this->iv = $iv;
     }
 

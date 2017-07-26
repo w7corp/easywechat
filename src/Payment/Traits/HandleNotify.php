@@ -12,10 +12,9 @@
 namespace EasyWeChat\Payment\Traits;
 
 use EasyWeChat\Kernel\Exceptions\Exception;
+use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Notify;
-use Exception;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Trait HandleNotify.
@@ -29,9 +28,9 @@ trait HandleNotify
      *
      * @param callable $callback
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \EasyWeChat\Kernel\Http\Response
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \Exception
      */
     public function handleNotify(callable $callback)
     {
@@ -63,12 +62,14 @@ trait HandleNotify
 
     /**
      * Handle native scan notify.
-     * https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
+     *
      * The callback shall return string of prepay_id or throw an exception.
+     *
+     * @see https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
      *
      * @param callable $callback
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \EasyWeChat\Kernel\Http\Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */

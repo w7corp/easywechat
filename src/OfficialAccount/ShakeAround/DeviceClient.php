@@ -120,25 +120,25 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function fetchByIds(array $deviceIdentifiers)
+    public function getByIds(array $deviceIdentifiers)
     {
         $params = [
             'type' => 1,
             'device_identifiers' => $deviceIdentifiers,
         ];
 
-        return $this->fetch($params);
+        return $this->search($params);
     }
 
     /**
-     * Pagination to fetch batch of devices.
+     * Pagination to get batch of devices.
      *
      * @param int $lastSeen
      * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function pagination($lastSeen, $count)
+    public function paginate($lastSeen, $count)
     {
         $params = [
             'type' => 2,
@@ -146,7 +146,7 @@ class DeviceClient extends BaseClient
             'count' => intval($count),
         ];
 
-        return $this->fetch($params);
+        return $this->search($params);
     }
 
     /**
@@ -158,7 +158,7 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function fetchByApplyId($applyId, $lastSeen, $count)
+    public function getByApplyId($applyId, $lastSeen, $count)
     {
         $params = [
             'type' => 3,
@@ -167,7 +167,7 @@ class DeviceClient extends BaseClient
             'count' => intval($count),
         ];
 
-        return $this->fetch($params);
+        return $this->search($params);
     }
 
     /**
@@ -177,7 +177,7 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    private function fetch($params)
+    protected function search($params)
     {
         return $this->httpPostJson('shakearound/device/search', $params);
     }

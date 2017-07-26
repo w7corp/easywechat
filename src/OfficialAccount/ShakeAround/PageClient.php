@@ -31,7 +31,7 @@ class PageClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function add($title, $description, $pageUrl, $iconUrl, $comment = '')
+    public function create($title, $description, $pageUrl, $iconUrl, $comment = '')
     {
         $params = [
             'title' => $title,
@@ -81,7 +81,7 @@ class PageClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function fetchByIds(array $pageIds)
+    public function getByIds(array $pageIds)
     {
         $params = [
             'type' => 1,
@@ -92,14 +92,14 @@ class PageClient extends BaseClient
     }
 
     /**
-     * Pagination to fetch batch of pages.
+     * Pagination to get batch of pages.
      *
      * @param int $begin
      * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function pagination($begin, $count)
+    public function paginate($begin, $count)
     {
         $params = [
             'type' => 2,
