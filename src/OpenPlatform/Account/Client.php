@@ -32,7 +32,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function createAccount(string $appId)
+    public function create(string $appId)
     {
         $params = [
             'appid' => $appId,
