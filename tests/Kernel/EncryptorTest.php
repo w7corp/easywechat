@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\Kernel;
-
 
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
@@ -10,10 +17,8 @@ use EasyWeChat\Kernel\Support\AES;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Tests\TestCase;
 
-
 class EncryptorTest extends TestCase
 {
-
     public function getEncryptor()
     {
         return new Encryptor('wxb11529c136998cb6', 'pamtest', 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
@@ -41,8 +46,6 @@ class EncryptorTest extends TestCase
         } catch (\Exception $e) {
             $this->assertSame('The $aesKeyOrAes must be a string or an instance of \EasyWeChat\Kernel\Support\AES.', $e->getMessage());
         }
-
-
     }
 
     public function testDecrypt()
