@@ -37,7 +37,10 @@ class VerifyTicket
     public function __construct(string $appId, string $ticket = null)
     {
         $this->appId = $appId;
-        $this->setTicket($ticket);
+
+        if (!is_null($ticket)) {
+            $this->setTicket($ticket);
+        }
     }
 
     /**

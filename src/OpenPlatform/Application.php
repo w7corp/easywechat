@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
+use EasyWeChat\OpenPlatform\Authorizer\Account\Client;
 use EasyWeChat\OpenPlatform\Server\Guard;
 use EasyWeChat\OpenPlatform\Server\Handlers;
 
@@ -39,7 +40,6 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        Account\ServiceProvider::class,
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
         Server\ServiceProvider::class,
@@ -138,6 +138,10 @@ class Application extends ServiceContainer
                 ];
 
                 return $server->setHandlers($handlers);
+            },
+
+            'account' => function ($app) {
+                return new Client($app);
             },
         ];
     }
