@@ -42,14 +42,13 @@ class Client extends BaseClient
      */
     public function forever($sceneValue)
     {
-        if ($this->isIntegerSceneValue($sceneValue)) {
+        if (is_int($sceneValue) && $sceneValue > 0 && $sceneValue < self::SCENE_MAX_VALUE) {
             $type = self::SCENE_QR_FOREVER;
             $sceneKey = 'scene_id';
         } else {
             $type = self::SCENE_QR_FOREVER_STR;
             $sceneKey = 'scene_str';
         }
-
         $scene = [$sceneKey => $sceneValue];
 
         return $this->create($type, $scene, false);
@@ -65,14 +64,13 @@ class Client extends BaseClient
      */
     public function temporary($sceneValue, $expireSeconds = null)
     {
-        if ($this->isIntegerSceneValue($sceneValue)) {
+        if (is_int($sceneValue) && $sceneValue > 0) {
             $type = self::SCENE_QR_TEMPORARY;
             $sceneKey = 'scene_id';
         } else {
             $type = self::SCENE_QR_TEMPORARY_STR;
             $sceneKey = 'scene_str';
         }
-
         $scene = [$sceneKey => $sceneValue];
 
         return $this->create($type, $scene, true, $expireSeconds);
@@ -134,15 +132,5 @@ class Client extends BaseClient
         }
 
         return $this->httpPostJson('qrcode/create', $params);
-    }
-
-    /**
-     * @param int|string $sceneValue
-     *
-     * @return bool
-     */
-    protected function isIntegerSceneValue($sceneValue): bool
-    {
-        return is_int($sceneValue) && $sceneValue > 0 && $sceneValue < self::SCENE_MAX_VALUE;
     }
 }
