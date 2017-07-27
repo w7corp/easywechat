@@ -39,6 +39,7 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
+        Account\ServiceProvider::class,
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
         Server\ServiceProvider::class,
