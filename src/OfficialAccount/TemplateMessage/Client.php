@@ -126,6 +126,24 @@ class Client extends BaseClient
     }
 
     /**
+     * Send template-message for subscription.
+     *
+     * @param array $data
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function sendSubscription(array $data = [])
+    {
+        $params = $this->formatMessage($data);
+
+        $this->restoreMessage();
+
+        return $this->httpPostJson('cgi-bin/message/template/subscribe', $params);
+    }
+
+    /**
      * @param array $data
      *
      * @return array
