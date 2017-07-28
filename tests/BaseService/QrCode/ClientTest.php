@@ -16,7 +16,7 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function testForver()
+    public function testForever()
     {
         $client = $this->mockApiClient(Client::class, 'create');
 
