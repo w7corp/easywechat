@@ -229,7 +229,7 @@ class BaseClient
     {
         $formatter = new MessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
 
-        return Middleware::log(Log::getLogger(), $formatter);
+        return Middleware::log($this->app['logger'], $formatter);
     }
 
     /**
@@ -250,7 +250,7 @@ class BaseClient
                 $response = json_decode($body, true);
                 if (!empty($response['errcode']) && in_array($response['errcode'], ['40001', '42001'], true)) {
                     $this->accessToken->refresh();
-                    Log::debug('Retrying with refreshed access token.');
+                    $this->app['logger']->debug('Retrying with refreshed access token.');
 
                     return true;
                 }

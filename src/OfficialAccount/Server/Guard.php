@@ -98,7 +98,7 @@ class Guard
      */
     public function serve()
     {
-        Log::debug('Request received:', [
+        $this->app['logger']->debug('Request received:', [
             'Method' => $this->request->getMethod(),
             'URI' => $this->request->getRequestUri(),
             'Query' => $this->request->getQueryString(),
@@ -108,7 +108,7 @@ class Guard
 
         $response = $this->validate($this->app['config']['token'])->resolve();
 
-        Log::debug('Server response created:', compact('response'));
+        $this->app['logger']->debug('Server response created:', compact('response'));
 
         return $response;
     }
@@ -159,7 +159,7 @@ class Guard
     protected function resolve()
     {
         if ($str = $this->request->get('echostr')) {
-            Log::debug("Output 'echostr' is '$str'.");
+            $this->app['logger']->debug("Output 'echostr' is '$str'.");
 
             return new Response($str);
         }
@@ -260,7 +260,7 @@ class Guard
         $response = $this->buildReply($to, $from, $message);
 
         if ($this->isSafeMode()) {
-            Log::debug('Messages safe mode is enable.');
+            $this->app['logger']->debug('Messages safe mode is enable.');
             $response = $this->app['encryptor']->encrypt(
                 $response,
                 $this->request->get('nonce'),
@@ -343,12 +343,12 @@ class Guard
         $handler = $this->messageHandler;
 
         if (!is_callable($handler)) {
-            Log::debug('No handler enabled.');
+            $this->app['logger']->debug('No handler enabled.');
 
             return null;
         }
 
-        Log::debug('Messages detail:', $message);
+        $this->app['logger']->debug('Messages detail:', $message);
 
         $message = new Collection($message);
 
