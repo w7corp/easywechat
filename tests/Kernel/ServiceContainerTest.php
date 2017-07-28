@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\Kernel;
 
@@ -8,7 +16,6 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Client;
 use Monolog\Handler\ErrorLogHandler;
-use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
@@ -63,7 +70,6 @@ class ServiceContainerTest extends TestCase
         $this->assertCount(1, $container['logger']->getHandlers());
         $this->assertInstanceOf(ErrorLogHandler::class, $container['logger']->getHandlers()[0]);
 
-
         // log with handler
         $container = new ServiceContainer([
             'log' => [
@@ -92,7 +98,7 @@ class ServiceContainerTest extends TestCase
 class DummyContainerForProviderTest extends ServiceContainer
 {
     protected $providers = [
-        FooServiceProvider::class
+        FooServiceProvider::class,
     ];
 }
 
@@ -100,7 +106,7 @@ class FooServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {
-        $pimple['foo'] = function(){
+        $pimple['foo'] = function () {
             return 'foo';
         };
     }

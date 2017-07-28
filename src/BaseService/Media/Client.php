@@ -14,7 +14,6 @@ namespace EasyWeChat\BaseService\Media;
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Http\StreamResponse;
-use EasyWeChat\Kernel\Support\Log;
 
 /**
  * Class Client.
