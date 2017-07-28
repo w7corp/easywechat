@@ -1,17 +1,23 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\BaseService\Media;
 
-
 use EasyWeChat\BaseService\Media\Client;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\Kernel\Http\Response;
+use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use Monolog\Logger;
-
 
 class ClientTest extends TestCase
 {

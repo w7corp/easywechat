@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\BaseService\QrCode;
 
@@ -14,13 +22,13 @@ class ClientTest extends TestCase
 
         // int
         $client->expects()->create(Client::SCENE_QR_FOREVER, [
-            'scene_id' => 99999
+            'scene_id' => 99999,
         ], false)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->forever(99999));
 
         // string
         $client->expects()->create(Client::SCENE_QR_FOREVER_STR, [
-            'scene_str' => 'foo'
+            'scene_str' => 'foo',
         ], false)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->forever('foo'));
     }
@@ -31,13 +39,13 @@ class ClientTest extends TestCase
 
         // int
         $client->expects()->create(Client::SCENE_QR_TEMPORARY, [
-            'scene_id' => 99999
+            'scene_id' => 99999,
         ], true, null)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->temporary(99999));
 
         // string
         $client->expects()->create(Client::SCENE_QR_TEMPORARY_STR, [
-            'scene_str' => 'foo'
+            'scene_str' => 'foo',
         ], true, 7200)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->temporary('foo', 7200));
     }
@@ -45,12 +53,12 @@ class ClientTest extends TestCase
     public function testCard()
     {
         $card = [
-            "card_id" => "pFS7Fjg8kV1IdDz01r4SQwMkuCKc",
-            "code" => "198374613512",
-            "openid" => "oFS7Fjl0WsZ9AMZqrI80nbIq8xrA",
-            "expire_seconds" => "1800",
-            "is_unique_code" => false,
-            "outer_id" => 1
+            'card_id' => 'pFS7Fjg8kV1IdDz01r4SQwMkuCKc',
+            'code' => '198374613512',
+            'openid' => 'oFS7Fjl0WsZ9AMZqrI80nbIq8xrA',
+            'expire_seconds' => '1800',
+            'is_unique_code' => false,
+            'outer_id' => 1,
         ];
         $client = $this->mockApiClient(Client::class, 'create');
         $client->expects()->create(Client::SCENE_QR_CARD, ['card' => $card])->andReturn('mock-result')->once();
