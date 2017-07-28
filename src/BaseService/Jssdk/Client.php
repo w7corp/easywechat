@@ -88,9 +88,9 @@ class Client extends BaseClient
         }
 
         $result = $this->httpGet('ticket/getticket', ['type' => 'jsapi']);
-        $this->getCache()->set($cacheKey, $ticket = $result['ticket'], $result['expires_in'] - 500);
+        $this->getCache()->set($cacheKey, $result['ticket'], $result['expires_in'] - 500);
 
-        return $ticket;
+        return $result;
     }
 
     /**
@@ -113,7 +113,7 @@ class Client extends BaseClient
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'url' => $url,
-            'signature' => $this->getTicketSignature($this->getTicket(), $nonce, $timestamp, $url),
+            'signature' => $this->getTicketSignature($this->getTicket()['ticket'], $nonce, $timestamp, $url),
         ];
     }
 
