@@ -1,13 +1,19 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\BaseService\Jssdk;
-
 
 use EasyWeChat\BaseService\Jssdk\Client;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
-
 
 class ClientTest extends TestCase
 {
@@ -145,7 +151,7 @@ class ClientTest extends TestCase
     public function testUrlSetterAndGetter()
     {
         $client = $this->mockApiClient(Client::class);
-        $_SERVER['HTTP_HOST']  = 'easywechat.com';
+        $_SERVER['HTTP_HOST'] = 'easywechat.com';
         $_SERVER['REQUEST_URI'] = '/foo/bar?appid=1234';
 
         $this->assertSame('http://easywechat.com/foo/bar?appid=1234', $client->getUrl());
