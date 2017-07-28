@@ -13,11 +13,13 @@ namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\SimpleCache\CacheInterface;
 
 /**
@@ -30,14 +32,19 @@ abstract class AccessToken implements AccessTokenInterface
     use HasHttpRequests, HasAttributes, InteractsWithCache { getCache as getCacheInstance; }
 
     /**
+     * @var \Pimple\Container
+     */
+    protected $app;
+
+    /**
      * @var string
      */
     protected $requestMethod = 'GET';
 
     /**
-     * @var \Pimple\Container
+     * @var string
      */
-    protected $app;
+    protected $endpointToGetToken;
 
     /**
      * @var array
@@ -79,6 +86,14 @@ abstract class AccessToken implements AccessTokenInterface
         }
 
         return $this->getCacheInstance();
+    }
+
+    /**
+     * @return array
+     */
+    public function getRefreshedToken(): array
+    {
+        return $this->getToken(true);
     }
 
     /**
@@ -140,29 +155,10 @@ abstract class AccessToken implements AccessTokenInterface
         $result = json_decode($this->sendRequest($credentials)->getBody()->getContents(), true);
 
         if (empty($result[$this->tokenKey])) {
-            throw new HttpException('Request AuthorizerAccessToken fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
         }
 
         return $result;
-    }
-
-    /**
-     * Send http request.
-     *
-     * @param array $credentials
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    private function sendRequest(array $credentials)
-    {
-        $options = [
-            ($this->requestMethod === 'GET') ? 'query' : 'json' => $credentials,
-        ];
-        if (method_exists($this, 'appendQuery')) {
-            $options['query'] = $this->appendQuery();
-        }
-
-        return $this->setHttpClient($this->app['http_client'])->request($this->endpointToGetToken, $this->requestMethod, $options);
     }
 
     /**
@@ -177,6 +173,22 @@ abstract class AccessToken implements AccessTokenInterface
         $query = http_build_query(array_merge($this->getQuery(), $query));
 
         return $request->withUri($request->getUri()->withQuery($query));
+    }
+
+    /**
+     * Send http request.
+     *
+     * @param array $credentials
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function sendRequest(array $credentials): ResponseInterface
+    {
+        $options = [
+            ($this->requestMethod === 'GET') ? 'query' : 'json' => $credentials,
+        ];
+
+        return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
     }
 
     /**
@@ -195,6 +207,20 @@ abstract class AccessToken implements AccessTokenInterface
     protected function getQuery(): array
     {
         return [$this->queryName ?? $this->tokenKey => $this->getToken()[$this->tokenKey]];
+    }
+
+    /**
+     * @return mixed|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getEndpoint(): string
+    {
+        if (empty($this->endpointToGetToken)) {
+            throw new InvalidArgumentException('No endpoint for access token request.');
+        }
+
+        return $this->endpointToGetToken;
     }
 
     /**

@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Support\Log;
 use GuzzleHttp\Client;
+use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
@@ -56,7 +56,7 @@ class ServiceContainer extends Container
      * @param array $config
      * @param array $prepends
      */
-    public function __construct(array $config, array $prepends = [])
+    public function __construct(array $config = [], array $prepends = [])
     {
         parent::__construct($prepends);
 
@@ -70,34 +70,6 @@ class ServiceContainer extends Container
             ->registerHttpClient();
 
         $this->afterRegistered();
-    }
-
-    /**
-     * Add a provider.
-     *
-     * @param string $provider
-     *
-     * @return $this
-     */
-    public function addProvider($provider)
-    {
-        array_push($this->providers, $provider);
-
-        return $this;
-    }
-
-    /**
-     * Set providers.
-     *
-     * @param array $providers
-     */
-    public function setProviders(array $providers)
-    {
-        $this->providers = [];
-
-        foreach ($providers as $provider) {
-            $this->addProvider($provider);
-        }
     }
 
     /**
@@ -163,26 +135,22 @@ class ServiceContainer extends Container
      */
     protected function registerLogger()
     {
-        if (Log::hasLogger()) {
-            return $this;
-        }
+        $logger = new Logger(str_replace('\\', '.', strtolower(get_class($this))));
 
-        $logger = new Logger('easywechat');
-
-        if (!$this['config']['debug'] || defined('PHPUNIT_RUNNING') || php_sapi_name() === 'cli') {
-            $logger->pushHandler(new NullHandler());
-        } elseif ($this['config']['log.handler'] instanceof HandlerInterface) {
-            $logger->pushHandler($this['config']['log.handler']);
-        } elseif ($logFile = $this['config']['log.file']) {
+        if ($logFile = $this['config']['log.file']) {
             $logger->pushHandler(new StreamHandler(
                     $logFile,
                     $this['config']->get('log.level', Logger::WARNING),
                     true,
                     $this['config']->get('log.permission', null))
             );
+        } elseif ($this['config']['log.handler'] instanceof HandlerInterface) {
+            $logger->pushHandler($this['config']['log.handler']);
+        } else {
+            $logger->pushHandler(new ErrorLogHandler());
         }
 
-        Log::setLogger($logger);
+        $this['logger'] = $logger;
 
         return $this;
     }
