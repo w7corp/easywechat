@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment;
 
-use EasyWeChat\Kernel\Support\HasAttributes;
+use EasyWeChat\Kernel\Traits\HasAttributes;
 
 /**
  * Class Order.
