@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Contracts\AccessToken;
+use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support\Log;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
@@ -55,7 +56,6 @@ class BaseClient
     {
         $this->app = $app;
         $this->accessToken = $accessToken ?? $this->app['access_token'];
-        $this->registerHttpMiddlewares();
     }
 
     /**
@@ -158,6 +158,10 @@ class BaseClient
      */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
+        if (empty($this->middlewares)) {
+            $this->registerHttpMiddlewares();
+        }
+
         $response = $this->performRequest($url, $method, $options, $returnRaw);
 
         return $returnRaw ? $response : $this->resolveResponse($response, $this->app->config->get('response_type', 'array'));
@@ -172,7 +176,7 @@ class BaseClient
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {
-        return $this->request($url, $method, $options, true);
+        return Response::buildFromGuzzleResponse($this->request($url, $method, $options, true));
     }
 
     /**

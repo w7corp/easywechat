@@ -22,6 +22,17 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 class Response extends GuzzleResponse
 {
     /**
+     * @return bool|string
+     */
+    public function getBodyContents()
+    {
+        $this->getBody()->rewind();
+        $contents = $this->getBody()->getContents();
+        $this->getBody()->rewind();
+
+        return $contents;
+    }
+    /**
      * @param \GuzzleHttp\Psr7\Response $response
      *
      * @return static
@@ -44,9 +55,7 @@ class Response extends GuzzleResponse
      */
     public function toJson()
     {
-        $this->getBody()->rewind();
-
-        return json_encode($this->getBody()->getContents());
+        return json_encode($this->getBodyContents());
     }
 
     /**
@@ -56,9 +65,7 @@ class Response extends GuzzleResponse
      */
     public function toArray()
     {
-        $this->getBody()->rewind();
-
-        $array = json_encode($this->getBody()->getContents(), true);
+        $array = json_decode($this->getBodyContents(), true);
 
         if (JSON_ERROR_NONE === json_last_error()) {
             return $array;
@@ -82,8 +89,6 @@ class Response extends GuzzleResponse
      */
     public function __toString()
     {
-        $this->getBody()->rewind();
-
-        return $this->getBody()->getContents();
+        return $this->getBodyContents();
     }
 }

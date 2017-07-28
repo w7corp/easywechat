@@ -99,11 +99,11 @@ class Client extends BaseClient
     public function upload($type, $path)
     {
         if (!file_exists($path) || !is_readable($path)) {
-            throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
+            throw new InvalidArgumentException(sprintf("File does not exist, or the file is unreadable: '%s'", $path));
         }
 
         if (!in_array($type, $this->allowTypes, true)) {
-            throw new InvalidArgumentException("Unsupported media type: '{$type}'");
+            throw new InvalidArgumentException(sprintf("Unsupported media type: '%s'", $type));
         }
 
         return $this->httpUpload('media/upload', ['media' => $path], ['type' => $type]);
@@ -152,8 +152,6 @@ class Client extends BaseClient
 
         if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
             $this->app['logger']->error('Fail to get media contents.', $response->toArray());
-
-            return $response->toArray();
         }
 
         return StreamResponse::buildFromGuzzleResponse($response);
