@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\Kernel;
 
@@ -11,7 +19,6 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Promise\Promise;
 use GuzzleHttp\RetryMiddleware;
 use Monolog\Logger;
 
@@ -19,11 +26,11 @@ class BaseClientTest extends TestCase
 {
     public function makeClient($methods = [], ServiceContainer $app = null, AccessToken $accessToken = null)
     {
-        $methods = join(',', (array) $methods);
+        $methods = implode(',', (array) $methods);
 
         return \Mockery::mock(BaseClient::class."[{$methods}]", [
             $app ?? \Mockery::mock(ServiceContainer::class),
-            $accessToken ?? \Mockery::mock(AccessToken::class)
+            $accessToken ?? \Mockery::mock(AccessToken::class),
         ]);
     }
 
@@ -66,15 +73,16 @@ class BaseClientTest extends TestCase
             'media' => $path,
         ];
         $form = [
-            'type' => 'image'
+            'type' => 'image',
         ];
         $query = ['appid' => 1234];
-        $client->expects()->request($url, 'POST', \Mockery::on(function($params) use ($query, $path) {
+        $client->expects()->request($url, 'POST', \Mockery::on(function ($params) use ($query, $path) {
             $this->assertArrayHasKey('query', $params);
             $this->assertArrayHasKey('multipart', $params);
             $this->assertSame($query, $params['query']);
             $this->assertSame('media', $params['multipart'][0]['name']);
             $this->assertInternalType('resource', $params['multipart'][0]['contents']);
+
             return true;
         }))->andReturn('mock-result')->once();
 
@@ -146,9 +154,15 @@ class BaseClientTest extends TestCase
         $client = $this->makeClient(['retryMiddleware', 'accessTokenMiddleware', 'logMiddleware', 'pushMiddleware'])
                         ->shouldAllowMockingProtectedMethods()
                         ->shouldDeferMissing();
-        $retryMiddleware = function() { return 'retry'; };
-        $logMiddleware = function() { return 'log'; };
-        $accessTokenMiddleware = function() { return 'access_token'; };
+        $retryMiddleware = function () {
+            return 'retry';
+        };
+        $logMiddleware = function () {
+            return 'log';
+        };
+        $accessTokenMiddleware = function () {
+            return 'access_token';
+        };
         $client->expects()->retryMiddleware()->andReturn($retryMiddleware)->once();
         $client->expects()->accessTokenMiddleware()->andReturn($accessTokenMiddleware)->once();
         $client->expects()->logMiddleware()->andReturn($logMiddleware)->once();
@@ -173,7 +187,7 @@ class BaseClientTest extends TestCase
         $options = ['foo' => 'bar'];
         $accessToken->expects()->applyToRequest($request, $options)->andReturn($request)->once();
 
-        $middleware = $func(function($request, $options){
+        $middleware = $func(function ($request, $options) {
             return compact('request', 'options');
         });
         $result = $middleware($request, $options);
@@ -209,7 +223,6 @@ class BaseClientTest extends TestCase
 
         $func = $client->retryMiddleware();
 
-
         // default once with right response
         $logger->expects()->debug('Retrying with refreshed access token.')->once();
         $accessToken->expects()->refresh()->once();
@@ -240,7 +253,6 @@ class BaseClientTest extends TestCase
 
         $this->assertSame(200, $response->getStatusCode());
         $this->assertSame('{"errcode":42001}', $response->getBody()->getContents());
-
 
         // default once with configured retries
         $app['config']['http'] = ['retries' => 0];
@@ -274,7 +286,7 @@ class BaseClientTest extends TestCase
         ]);
         $handler = $func($handler);
         $c = new Client(['handler' => $handler]);
-        $s =  microtime(true);
+        $s = microtime(true);
         $p = $c->sendAsync(new Request('GET', 'http://easywechat.com'), []);
         $response = $p->wait();
 
