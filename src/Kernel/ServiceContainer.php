@@ -14,7 +14,6 @@ namespace EasyWeChat\Kernel;
 use GuzzleHttp\Client;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\HandlerInterface;
-use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Pimple\Container;
