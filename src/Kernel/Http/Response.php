@@ -32,6 +32,7 @@ class Response extends GuzzleResponse
 
         return $contents;
     }
+
     /**
      * @param \GuzzleHttp\Psr7\Response $response
      *
