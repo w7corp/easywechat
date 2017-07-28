@@ -120,7 +120,7 @@ class ServiceContainer extends Container
      */
     protected function registerRequest()
     {
-        $this['request'] = function () {
+        isset($this['request']) || $this['request'] = function () {
             return Request::createFromGlobals();
         };
 
@@ -159,7 +159,7 @@ class ServiceContainer extends Container
      */
     protected function registerHttpClient()
     {
-        $this['http_client'] = function ($app) {
+        isset($this['http_client']) || $this['http_client'] = function ($app) {
             return new Client($app['config']->get('http', []));
         };
 

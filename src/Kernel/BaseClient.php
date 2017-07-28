@@ -74,16 +74,14 @@ class BaseClient
     /**
      * POST request.
      *
-     * @param string       $url
-     * @param array|string $data
+     * @param string $url
+     * @param array  $data
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function httpPost(string $url, array $data = [])
     {
-        $key = is_array($data) ? 'form_params' : 'body';
-
-        return $this->request($url, 'POST', [$key => $data]);
+        return $this->request($url, 'POST', ['form_params' => $data]);
     }
 
     /**
@@ -246,13 +244,14 @@ class BaseClient
         return Middleware::retry(function (
             $retries,
             RequestInterface $request,
-            ?ResponseInterface $response = null
+            ResponseInterface $response = null
         ) {
             // Limit the number of retries to 2
             if ($retries < $this->app->config->get('http.retries', 1) && $response && $body = $response->getBody()) {
                 // Retry on server errors
                 $response = json_decode($body, true);
-                if (!empty($response['errcode']) && in_array($response['errcode'], ['40001', '42001'], true)) {
+
+                if (!empty($response['errcode']) && in_array(abs($response['errcode']), [40001, 42001], true)) {
                     $this->accessToken->refresh();
                     $this->app['logger']->debug('Retrying with refreshed access token.');
 
@@ -262,7 +261,7 @@ class BaseClient
 
             return false;
         }, function ($retries) {
-            return $retries * abs($this->app->config->get('http.retry_delay', 500));
+            return abs($this->app->config->get('http.retry_delay', 500));
         });
     }
 }
