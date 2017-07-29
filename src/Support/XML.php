@@ -37,6 +37,7 @@ class XML
      */
     public static function parse($xml)
     {
+        $xml = preg_replace('~\s*(<([^-->]*)>[^<]*<!--\2-->|<[^>]*>)\s*~', '$1', $xml);
         return self::normalize(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS));
     }
 
