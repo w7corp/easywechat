@@ -75,17 +75,20 @@ class ClientTest extends TestCase
         $this->assertSame($ticket, $client->getTicket());
 
         // no refresh and no cached
+        $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
+
         $cache->expects()->has($cacheKey)->andReturn(false);
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket['ticket'], $ticket['expires_in'] - 500)->once();
-        $client->expects()->httpGet('ticket/getticket', ['type' => 'jsapi'])->andReturn($ticket)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
+        $client->expects()->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+
         $this->assertSame($ticket, $client->getTicket());
 
         // with refresh and cached
         $cache->expects()->has('mock-cache-key')->never();
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket['ticket'], $ticket['expires_in'] - 500)->once();
-        $client->expects()->httpGet('ticket/getticket', ['type' => 'jsapi'])->andReturn($ticket)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
+        $client->expects()->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket(true));
     }

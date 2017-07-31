@@ -77,9 +77,9 @@ class Client extends BaseClient
      *
      * @param bool $refresh
      *
-     * @return string
+     * @return array
      */
-    public function getTicket(bool $refresh = false)
+    public function getTicket(bool $refresh = false): array
     {
         $cacheKey = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
 
@@ -87,8 +87,12 @@ class Client extends BaseClient
             return $this->getCache()->get($cacheKey);
         }
 
-        $result = $this->httpGet('ticket/getticket', ['type' => 'jsapi']);
-        $this->getCache()->set($cacheKey, $result['ticket'], $result['expires_in'] - 500);
+        $result = $this->resolveResponse(
+            $this->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']]),
+            'array'
+        );
+
+        $this->getCache()->set($cacheKey, $result, $result['expires_in'] - 500);
 
         return $result;
     }
