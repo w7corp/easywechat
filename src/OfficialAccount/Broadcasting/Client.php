@@ -12,6 +12,12 @@
 namespace EasyWeChat\OfficialAccount\Broadcasting;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Contracts\MessageInterface;
+use EasyWeChat\Kernel\Messages\Card;
+use EasyWeChat\Kernel\Messages\Image;
+use EasyWeChat\Kernel\Messages\Media;
+use EasyWeChat\Kernel\Messages\Text;
+use EasyWeChat\Kernel\Support\Arr;
 
 /**
  * Class Client.
@@ -23,305 +29,30 @@ class Client extends BaseClient
     const PREVIEW_BY_OPENID = 'touser';
     const PREVIEW_BY_NAME = 'towxname';
 
-    const MSG_TYPE_TEXT = 'text'; // 文本
-    const MSG_TYPE_NEWS = 'news'; // 图文
-    const MSG_TYPE_VOICE = 'voice'; // 语音
-    const MSG_TYPE_IMAGE = 'image'; // 图片
-    const MSG_TYPE_VIDEO = 'video'; // 视频
-    const MSG_TYPE_CARD = 'card'; // 卡券
-
-    public function message($message)
-    {
-        return (new Messenger())->message($message);
-    }
-
     /**
      * Send a message.
      *
-     * @param string $msgType message type
-     * @param mixed  $message message
-     * @param mixed  $to
+     * @param array $message
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function send(string $msgType, $message, $to = null)
+    public function send(array $message)
     {
-        $message = (new Messenger())->msgType($msgType)->message($message)->to($to)->build();
-
-        $api = is_array($to) ? 'cgi-bin/message/mass/send' : 'cgi-bin/message/mass/sendall';
+        $api = Arr::get($message, 'filter.is_to_all') ? 'cgi-bin/message/mass/sendall' : 'cgi-bin/message/mass/send';
 
         return $this->httpPostJson($api, $message);
     }
 
     /**
-     * Send a text message.
-     *
-     * @param mixed $message message
-     * @param mixed $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function sendText($message, $to = null)
-    {
-        return $this->send(self::MSG_TYPE_TEXT, $message, $to);
-    }
-
-    /**
-     * Send a news message.
-     *
-     * @param mixed $message message
-     * @param mixed $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function sendNews($message, $to = null)
-    {
-        return $this->send(self::MSG_TYPE_NEWS, $message, $to);
-    }
-
-    /**
-     * Send a voice message.
-     *
-     * @param mixed $message message
-     * @param mixed $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function sendVoice($message, $to = null)
-    {
-        return $this->send(self::MSG_TYPE_VOICE, $message, $to);
-    }
-
-    /**
-     * Send a image message.
-     *
-     * @param mixed $message message
-     * @param mixed $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function sendImage($message, $to = null)
-    {
-        return $this->send(self::MSG_TYPE_IMAGE, $message, $to);
-    }
-
-    /**
-     * Send a video message.
-     *
-     * @param mixed $message message
-     * @param mixed $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function sendVideo($message, $to = null)
-    {
-        return $this->send(self::MSG_TYPE_VIDEO, $message, $to);
-    }
-
-    /**
-     * Send a card message.
-     *
-     * @param mixed $message message
-     * @param mixed $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function sendCard($message, $to = null)
-    {
-        return $this->send(self::MSG_TYPE_CARD, $message, $to);
-    }
-
-    /**
      * Preview a message.
      *
-     * @param string $msgType message type
-     * @param mixed  $message message
-     * @param string $to
-     * @param string $by
+     * @param array $message
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function preview($msgType, $message, $to, $by = self::PREVIEW_BY_OPENID)
+    public function preview(array $message)
     {
-        $message = (new Messenger())->msgType($msgType)->message($message)->to($to)->buildPreview($by);
-
         return $this->httpPostJson('cgi-bin/message/mass/preview', $message);
-    }
-
-    /**
-     * Preview a text message.
-     *
-     * @param mixed  $message message
-     * @param string $to
-     * @param string $by
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewText($message, $to, $by = self::PREVIEW_BY_OPENID)
-    {
-        return $this->preview(self::MSG_TYPE_TEXT, $message, $to, $by);
-    }
-
-    /**
-     * Preview a news message.
-     *
-     * @param mixed  $message message
-     * @param string $to
-     * @param string $by
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewNews($message, $to, $by = self::PREVIEW_BY_OPENID)
-    {
-        return $this->preview(self::MSG_TYPE_NEWS, $message, $to, $by);
-    }
-
-    /**
-     * Preview a voice message.
-     *
-     * @param mixed  $message message
-     * @param string $to
-     * @param string $by
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewVoice($message, $to, $by = self::PREVIEW_BY_OPENID)
-    {
-        return $this->preview(self::MSG_TYPE_VOICE, $message, $to, $by);
-    }
-
-    /**
-     * Preview a image message.
-     *
-     * @param mixed  $message message
-     * @param string $to
-     * @param string $by
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewImage($message, $to, $by = self::PREVIEW_BY_OPENID)
-    {
-        return $this->preview(self::MSG_TYPE_IMAGE, $message, $to, $by);
-    }
-
-    /**
-     * Preview a video message.
-     *
-     * @param mixed  $message message
-     * @param string $to
-     * @param string $by
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewVideo($message, $to, $by = self::PREVIEW_BY_OPENID)
-    {
-        return $this->preview(self::MSG_TYPE_VIDEO, $message, $to, $by);
-    }
-
-    /**
-     * Preview a card message.
-     *
-     * @param mixed  $message message
-     * @param string $to
-     * @param string $by
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewCard($message, $to, $by = self::PREVIEW_BY_OPENID)
-    {
-        return $this->preview(self::MSG_TYPE_CARD, $message, $to, $by);
-    }
-
-    /**
-     * Preview a message by name.
-     *
-     * @param string $msgType message type
-     * @param mixed  $message message
-     * @param $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewByName($msgType, $message, $to)
-    {
-        return $this->preview($msgType, $message, $to, self::PREVIEW_BY_NAME);
-    }
-
-    /**
-     * Preview a text message by name.
-     *
-     * @param mixed $message message
-     * @param $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewTextByName($message, $to)
-    {
-        return $this->preview(self::MSG_TYPE_TEXT, $message, $to, self::PREVIEW_BY_NAME);
-    }
-
-    /**
-     * Preview a news message by name.
-     *
-     * @param mixed $message message
-     * @param $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewNewsByName($message, $to)
-    {
-        return $this->preview(self::MSG_TYPE_NEWS, $message, $to, self::PREVIEW_BY_NAME);
-    }
-
-    /**
-     * Preview a voice message by name.
-     *
-     * @param mixed $message message
-     * @param $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewVoiceByName($message, $to)
-    {
-        return $this->preview(self::MSG_TYPE_VOICE, $message, $to, self::PREVIEW_BY_NAME);
-    }
-
-    /**
-     * Preview a image message by name.
-     *
-     * @param mixed $message message
-     * @param $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewImageByName($message, $to)
-    {
-        return $this->preview(self::MSG_TYPE_IMAGE, $message, $to, self::PREVIEW_BY_NAME);
-    }
-
-    /**
-     * Preview a video message by name.
-     *
-     * @param mixed $message message
-     * @param $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewVideoByName($message, $to)
-    {
-        return $this->preview(self::MSG_TYPE_VIDEO, $message, $to, self::PREVIEW_BY_NAME);
-    }
-
-    /**
-     * Preview a card message by name.
-     *
-     * @param mixed $message message
-     * @param $to
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function previewCardByName($message, $to)
-    {
-        return $this->preview(self::MSG_TYPE_CARD, $message, $to, self::PREVIEW_BY_NAME);
     }
 
     /**
@@ -331,7 +62,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function delete($msgId)
+    public function delete(string $msgId)
     {
         $options = [
             'msg_id' => $msgId,
@@ -347,12 +78,201 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function status($msgId)
+    public function status(string $msgId)
     {
         $options = [
             'msg_id' => $msgId,
         ];
 
         return $this->httpPostJson('cgi-bin/message/mass/get', $options);
+    }
+
+    /**
+     * Send a text message.
+     *
+     * @param string $message
+     * @param mixed  $to
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function sendText(string $message, $to = null)
+    {
+        return $this->sendMessage(new Text($message), $to);
+    }
+
+    /**
+     * Send a news message.
+     *
+     * @param string $mediaId
+     * @param mixed  $to
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function sendNews(string $mediaId, $to = null)
+    {
+        return $this->sendMessage(new Media('mpnews', $mediaId), $to);
+    }
+
+    /**
+     * Send a voice message.
+     *
+     * @param string $mediaId
+     * @param mixed  $to
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function sendVoice(string $mediaId, $to = null)
+    {
+        return $this->sendMessage(new Media('voice', $mediaId), $to);
+    }
+
+    /**
+     * Send a image message.
+     *
+     * @param mixed $mediaId
+     * @param mixed $to
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function sendImage(string $mediaId, $to = null)
+    {
+        return $this->sendMessage(new Image($mediaId), $to);
+    }
+
+    /**
+     * Send a video message.
+     *
+     * @param string $mediaId
+     * @param mixed  $to
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function sendVideo(string $mediaId, $to = null)
+    {
+        return $this->sendMessage(new Media('mpvideo', $mediaId), $to);
+    }
+
+    /**
+     * Send a card message.
+     *
+     * @param string $cardId
+     * @param mixed  $to
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function sendCard(string $cardId, $to = null)
+    {
+        return $this->sendMessage(new Card($cardId), $to);
+    }
+
+    /**
+     * Preview a text message.
+     *
+     * @param mixed  $message message
+     * @param string $to
+     * @param string $by
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function previewText(string $message, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->previewMessage(new Text($message), $to, $by);
+    }
+
+    /**
+     * Preview a news message.
+     *
+     * @param mixed  $mediaId message
+     * @param string $to
+     * @param string $by
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function previewNews(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->previewMessage(new Media('mpnews', $mediaId), $to, $by);
+    }
+
+    /**
+     * Preview a voice message.
+     *
+     * @param mixed  $mediaId message
+     * @param string $to
+     * @param string $by
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function previewVoice(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->previewMessage(new Media('voice', $mediaId), $to, $by);
+    }
+
+    /**
+     * Preview a image message.
+     *
+     * @param mixed  $mediaId message
+     * @param string $to
+     * @param string $by
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function previewImage(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->previewMessage(new Media('image', $mediaId), $to, $by);
+    }
+
+    /**
+     * Preview a video message.
+     *
+     * @param mixed  $mediaId message
+     * @param string $to
+     * @param string $by
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function previewVideo(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->previewMessage(new Media('mpvideo', $mediaId), $to, $by);
+    }
+
+    /**
+     * Preview a card message.
+     *
+     * @param mixed  $cardId message
+     * @param string $to
+     * @param string $by
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function previewCard(string $cardId, $to, $by = self::PREVIEW_BY_OPENID)
+    {
+        return $this->previewMessage(new Card($cardId), $to, $by);
+    }
+
+    /**
+     * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
+     * @param null                                          $to
+     * @param string                                        $by
+     *
+     * @return mixed
+     */
+    public function previewMessage(MessageInterface $message, $to = null, $by = self::PREVIEW_BY_OPENID)
+    {
+        $message = (new MessageBuilder())->message($message)->to($to)->buildForPreview($by);
+
+        return $this->preview($message);
+    }
+
+    /**
+     * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
+     * @param null                                          $to
+     *
+     * @return mixed
+     */
+    public function sendMessage(MessageInterface $message, $to = null)
+    {
+        $message = (new MessageBuilder())->message($message)->to($to)->build();
+
+        return $this->send($message);
     }
 }

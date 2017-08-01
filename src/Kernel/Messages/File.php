@@ -19,18 +19,7 @@ namespace EasyWeChat\Kernel\Messages;
 class File extends Media
 {
     /**
-     * Messages type.
-     *
      * @var string
      */
     protected $type = 'file';
-
-    /**
-     * Properties.
-     *
-     * @var array
-     */
-    protected $properties = [
-        'media_id',
-    ];
 }

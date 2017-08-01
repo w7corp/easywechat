@@ -31,4 +31,14 @@ class Text extends Message
      * @var array
      */
     protected $properties = ['content'];
+
+    /**
+     * Text constructor.
+     *
+     * @param string $content
+     */
+    public function __construct(string $content)
+    {
+        parent::__construct(compact('content'));
+    }
 }

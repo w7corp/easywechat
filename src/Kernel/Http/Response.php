@@ -36,7 +36,7 @@ class Response extends GuzzleResponse
     /**
      * @param \GuzzleHttp\Psr7\Response $response
      *
-     * @return static
+     * @return \EasyWeChat\Kernel\Http\Response
      */
     public static function buildFromGuzzleResponse(GuzzleResponse $response)
     {
@@ -83,6 +83,14 @@ class Response extends GuzzleResponse
     public function toCollection()
     {
         return new Collection($this->toArray());
+    }
+
+    /**
+     * @return object
+     */
+    public function toObject()
+    {
+        return json_decode($this->getBodyContents());
     }
 
     /**

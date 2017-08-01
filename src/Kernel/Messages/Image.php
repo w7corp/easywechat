@@ -24,11 +24,4 @@ class Image extends Media
      * @var string
      */
     protected $type = 'image';
-
-    /**
-     * Properties.
-     *
-     * @var array
-     */
-    protected $properties = ['media_id'];
 }

@@ -190,13 +190,15 @@ trait HasHttpRequests
      */
     protected function resolveResponse(ResponseInterface $response, string $type)
     {
+        $response = Response::buildFromGuzzleResponse($response);
+
         switch ($type) {
             case 'collection':
-                return new Collection(json_decode($response->getBody(), true));
+                return $response->toCollection();
             case 'array':
-                return json_decode($response->getBody(), true);
+                return $response->toArray();
             case 'object':
-                return json_decode($response->getBody());
+                return $response->toObject();
             case 'raw':
             default:
                 $response->getBody()->rewind();
@@ -204,7 +206,24 @@ trait HasHttpRequests
                     return new $type($response);
                 }
 
-                return Response::buildFromGuzzleResponse($response);
+                return $response;
         }
+    }
+
+    /**
+     * @param mixed  $response
+     * @param string $type
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
+     */
+    protected function transformResponseToType($response, string $type)
+    {
+        if ($response instanceof ResponseInterface) {
+            $response = Response::buildFromGuzzleResponse($response);
+        } elseif (($response instanceof Collection) || is_array($response) || is_object($response)) {
+            $response = new Response(200, [], json_encode($response));
+        }
+
+        return $this->resolveResponse($response, $type);
     }
 }

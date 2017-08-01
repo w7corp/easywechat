@@ -110,6 +110,41 @@ class Client extends BaseClient
     }
 
     /**
+     * @param string $path
+     * @param string $title
+     * @param string $description
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function uploadVideoForBroadcasting(string $path, string $title, string $description)
+    {
+        $response = $this->uploadVideo($path);
+        $arrayResponse = $this->transformResponseToType($response, 'array');
+
+        if (!empty($arrayResponse['media_id'])) {
+            return $this->createVideoForBroadcasting($arrayResponse['media_id'], $title, $description);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param string $mediaId
+     * @param string $title
+     * @param string $description
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function createVideoForBroadcasting(string $mediaId, string $title, string $description)
+    {
+        return $this->httpPostJson('media/uploadvideo', [
+            'media_id' => $mediaId,
+            'title' => $title,
+            'description' => $description,
+        ]);
+    }
+
+    /**
      * Download temporary material.
      *
      * @param string $mediaId

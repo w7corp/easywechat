@@ -18,7 +18,7 @@ use EasyWeChat\Kernel\Messages\Raw as RawMessage;
 use EasyWeChat\Kernel\Messages\Text;
 
 /**
- * Class Messenger.
+ * Class MessageBuilder.
  *
  * @author overtrue <i@overtrue.me>
  */
@@ -53,7 +53,7 @@ class Messenger
     protected $customerService;
 
     /**
-     * Messenger constructor.
+     * MessageBuilder constructor.
      *
      * @param \EasyWeChat\OfficialAccount\CustomerService\Client $customerService
      */

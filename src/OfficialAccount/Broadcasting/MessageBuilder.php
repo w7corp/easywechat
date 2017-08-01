@@ -11,37 +11,48 @@
 
 namespace EasyWeChat\OfficialAccount\Broadcasting;
 
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\OfficialAccount\Application;
 
 /**
- * Class Messenger.
+ * Class MessageBuilder.
  *
  * @author overtrue <i@overtrue.me>
  */
-class Messenger
+class MessageBuilder
 {
     /**
-     * Messages target user or group.
-     *
      * @var mixed
      */
     protected $to;
 
     /**
-     * Messages.
-     *
      * @var Message
      */
     protected $message;
+
+    /**
+     * @var \EasyWeChat\OfficialAccount\Application
+     */
+    protected $app;
+
+    /**
+     * MessageBuilder constructor.
+     *
+     * @param \EasyWeChat\OfficialAccount\Application $app
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
 
     /**
      * Set message.
      *
      * @param array|\EasyWeChat\Kernel\Messages\Message $message
      *
-     * @return \EasyWeChat\OfficialAccount\Broadcasting\Messenger
+     * @return \EasyWeChat\OfficialAccount\Broadcasting\MessageBuilder
      */
     public function message(Message $message)
     {
@@ -55,7 +66,7 @@ class Messenger
      *
      * @param mixed $to
      *
-     * @return Messenger
+     * @return MessageBuilder
      */
     public function to($to)
     {
@@ -67,11 +78,13 @@ class Messenger
     /**
      * Build message.
      *
+     * @param array $prepends
+     *
      * @return bool
      *
-     * @throws RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function build()
+    public function build(array $prepends = [])
     {
         if (empty($this->msgType)) {
             throw new RuntimeException('message type not exist.');
@@ -81,29 +94,15 @@ class Messenger
             throw new RuntimeException('No message content to send.');
         }
 
-        $content = (new MessageTransformer($this->message))->transform();
+        $content = $this->message->transformForJsonRequest();
 
-        $group = isset($this->to) ? $this->to : null;
+        if (empty($prepends)) {
+            $prepends = $this->buildGroup($this->to);
+        }
 
-        $message = array_merge($this->buildGroup($group), $content);
+        $message = array_merge($prepends, $content);
 
         return $message;
-    }
-
-    /**
-     * @return array
-     */
-    public function previewByOpenId()
-    {
-        return $this->buildPreview(Client::PREVIEW_BY_OPENID);
-    }
-
-    /**
-     * @return array
-     */
-    public function previewByName()
-    {
-        return $this->buildPreview(Client::PREVIEW_BY_NAME);
     }
 
     /**
@@ -112,25 +111,10 @@ class Messenger
      * @param string $by
      *
      * @return array
-     *
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
      */
-    protected function buildPreview($by)
+    public function buildForPreview($by)
     {
-        if (empty($this->message)) {
-            throw new RuntimeException('No message content to send.');
-        }
-
-        if (empty($this->to)) {
-            throw new RuntimeException('No to.');
-        }
-
-        $content = (new MessageTransformer($this->message))->transform();
-
-        $message = array_merge($this->buildTo($this->to, $by), $content);
-
-        return $message;
+        return $this->build($this->buildTo($this->to, $by));
     }
 
     /**
@@ -162,21 +146,6 @@ class Messenger
         }
 
         return $group;
-    }
-
-    /**
-     * Build to.
-     *
-     * @param string $to
-     * @param string $by
-     *
-     * @return array
-     */
-    protected function buildTo($to, $by)
-    {
-        return [
-            $by => $to,
-        ];
     }
 
     /**
