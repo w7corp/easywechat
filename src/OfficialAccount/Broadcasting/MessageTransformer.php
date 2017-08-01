@@ -20,7 +20,7 @@ use EasyWeChat\Kernel\Messages\Text;
  *
  * @author overtrue <i@overtrue.me>
  */
-class Transformer
+class MessageTransformer
 {
     /**
      * transform message to XML.
