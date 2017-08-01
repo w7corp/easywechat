@@ -11,12 +11,14 @@
 
 namespace EasyWeChat\Kernel\Messages;
 
+use EasyWeChat\Kernel\Contracts\MessageInterface;
+use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 
 /**
  * Class Messages.
  */
-abstract class Message
+abstract class Message implements MessageInterface
 {
     use HasAttributes;
 
@@ -31,43 +33,44 @@ abstract class Message
     const DEVICE_TEXT = 512;
     const FILE = 1024;
     const TEXT_CARD = 2048;
+    const TRANSFER = 4096;
     const EVENT = 1048576;
     const ALL = 1049598;
 
     /**
-     * Messages type.
-     *
      * @var string
      */
     protected $type;
 
     /**
-     * Messages id.
-     *
      * @var int
      */
     protected $id;
 
     /**
-     * Messages target user open id.
-     *
      * @var string
      */
     protected $to;
 
     /**
-     * Messages sender open id.
-     *
      * @var string
      */
     protected $from;
 
     /**
-     * Messages attributes.
-     *
      * @var array
      */
     protected $properties = [];
+
+    /**
+     * @var array
+     */
+    protected $jsonAlias = [];
+
+    /**
+     * @var array
+     */
+    protected $xmlAlias = [];
 
     /**
      * Message constructor.
@@ -84,7 +87,7 @@ abstract class Message
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -130,5 +133,56 @@ abstract class Message
         }
 
         return $this;
+    }
+
+    /**
+     * @param array $appends
+     *
+     * @return array
+     */
+    public function transformForJsonRequest(array $appends = []): array
+    {
+        $data = array_merge(['msgtype' => $this->getType()], $appends);
+
+        $data = $this->propertiesToArray($data, $this->jsonAlias);
+
+        return $data;
+    }
+
+    /**
+     * @param array $appends
+     * @param bool  $returnAsArray
+     *
+     * @return string
+     */
+    public function transformToXml(array $appends = [], bool $returnAsArray = false): string
+    {
+        $data = array_merge(['MsgType' => $this->getType()], $appends);
+
+        $data = $this->propertiesToArray($data, $this->xmlAlias);
+
+        return $returnAsArray ? $data : XML::build($data);
+    }
+
+    /**
+     * @param array $data
+     * @param array $aliases
+     *
+     * @return array|mixed
+     */
+    protected function propertiesToArray(array $data, array $aliases = []): array
+    {
+        $this->checkRequiredAttributes();
+
+        foreach ($this->attributes as $property => $value) {
+            if (is_null($value) && !$this->isRequired($property)) {
+                continue;
+            }
+            $alias = array_search($property, $aliases, true);
+
+            $data[$alias ?: $property] = $this->get($property);
+        }
+
+        return $data;
     }
 }

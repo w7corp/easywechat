@@ -34,18 +34,4 @@ class Voice extends Message
         'media_id',
         'recognition',
     ];
-
-    /**
-     * Set media id.
-     *
-     * @param string $mediaId
-     *
-     * @return Voice
-     */
-    public function media($mediaId)
-    {
-        $this->setAttribute('media_id', $mediaId);
-
-        return $this;
-    }
 }

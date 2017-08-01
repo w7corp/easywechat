@@ -41,12 +41,12 @@ class Card extends Message
     protected $properties = ['card_id'];
 
     /**
-     * Material constructor.
+     * Media constructor.
      *
      * @param string $cardId
      */
-    public function __construct($cardId)
+    public function __construct(string $cardId)
     {
-        $this->set('card_id', $cardId);
+        parent::__construct(['card_id' => $cardId]);
     }
 }

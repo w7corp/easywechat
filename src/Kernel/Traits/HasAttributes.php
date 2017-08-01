@@ -76,9 +76,19 @@ trait HasAttributes
      *
      * @return mixed
      */
-    public function getAttribute($attribute, $default)
+    public function getAttribute($attribute, $default = null)
     {
         return $this->attributes->get($attribute, $default);
+    }
+
+    /**
+     * @param string $attribute
+     *
+     * @return bool
+     */
+    public function isRequired($attribute)
+    {
+        return in_array($attribute, $this->requirements);
     }
 
     /**
@@ -125,7 +135,7 @@ trait HasAttributes
      *
      * @return $this
      */
-    public function set($attribute, $value = null)
+    public function set($attribute, $value)
     {
         $this->setAttribute($this->getRealKey($attribute), $value);
 
@@ -235,8 +245,8 @@ trait HasAttributes
     protected function checkRequiredAttributes()
     {
         foreach ($this->requirements as $attribute) {
-            if (!isset($this->attributes, $attribute)) {
-                throw new InvalidArgumentException("'{$attribute}' cannot be empty.");
+            if (is_null($this->get($attribute))) {
+                throw new InvalidArgumentException(sprintf('"%s" cannot be empty.', $attribute));
             }
         }
     }

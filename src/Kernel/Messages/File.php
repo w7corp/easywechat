@@ -16,7 +16,7 @@ namespace EasyWeChat\Kernel\Messages;
  *
  * @property string $media_id
  */
-class File extends Message
+class File extends Media
 {
     /**
      * Messages type.
@@ -33,18 +33,4 @@ class File extends Message
     protected $properties = [
         'media_id',
     ];
-
-    /**
-     * Set media_id.
-     *
-     * @param string $mediaId
-     *
-     * @return \EasyWeChat\Kernel\Messages\File
-     */
-    public function file($mediaId)
-    {
-        $this->setAttribute('media_id', $mediaId);
-
-        return $this;
-    }
 }

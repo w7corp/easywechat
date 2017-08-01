@@ -40,7 +40,7 @@ class News extends Message
      *
      * @var array
      */
-    protected $aliases = [
-        'image' => 'pic_url',
+    protected $jsonAlias = [
+        'pic_url' => 'image',
     ];
 }

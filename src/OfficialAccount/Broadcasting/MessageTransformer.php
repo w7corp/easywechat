@@ -11,178 +11,142 @@
 
 namespace EasyWeChat\OfficialAccount\Broadcasting;
 
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\Text;
 
 /**
  * Class MessageTransformer.
  *
  * @author overtrue <i@overtrue.me>
  */
-class MessageTransformer
+class Transformer
 {
     /**
-     * Messages type.
+     * transform message to XML.
      *
-     * @var string
-     */
-    protected $msgType;
-
-    /**
-     * message.
-     *
-     * @var mixed
-     */
-    protected $message;
-
-    /**
-     * MessageTransformer constructor.
-     *
-     * @param $msgType
-     * @param $message
-     */
-    public function __construct($msgType, $message)
-    {
-        $this->msgType = $msgType;
-
-        $this->message = $message;
-    }
-
-    /**
-     * Transform message.
+     * @param array|string|Message $message
      *
      * @return array
      */
-    public function transform()
+    public function transform($message)
     {
-        $handle = sprintf('transform%s', ucfirst($this->msgType));
+        if (is_array($message)) {
+            $class = News::class;
+        } else {
+            if (is_string($message)) {
+                $message = new Text(['content' => $message]);
+            }
 
-        return method_exists($this, $handle) ? $this->$handle($this->message) : [];
+            $class = get_class($message);
+        }
+
+        $handle = 'transform'.substr($class, strlen('EasyWeChat\Kernel\Messages\\'));
+
+        return method_exists($this, $handle) ? $this->$handle($message) : [];
     }
 
     /**
      * Transform text message.
      *
-     * @param string $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformText($message)
+    public function transformText(Message $message)
     {
         return [
-            'text' => [
-                'content' => $message,
-            ],
             'msgtype' => 'text',
-        ];
-    }
-
-    /**
-     * Transform news message.
-     *
-     * @param string $message
-     *
-     * @return array
-     */
-    public function transformNews($message)
-    {
-        return [
-            'mpnews' => [
-                'media_id' => $message,
+            'text' => [
+                'content' => $message->get('content'),
             ],
-            'msgtype' => 'mpnews',
         ];
     }
 
     /**
      * Transform image message.
      *
-     * @param string $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformImage($message)
+    public function transformImage(Message $message)
     {
         return [
-            'image' => [
-                'media_id' => $message,
-            ],
             'msgtype' => 'image',
+            'image' => [
+                'media_id' => $message->get('media_id'),
+            ],
         ];
     }
 
     /**
      * Transform video message.
      *
-     * @param array $message
-     *
-     * @return array
-     *
-     * @throws InvalidArgumentException
-     */
-    public function transformVideo(array $message)
-    {
-        if (3 !== count($message)) {
-            throw new InvalidArgumentException('send message to openids, the message must be three arguments.');
-        }
-
-        return [
-            'mpvideo' => [
-                'media_id' => $message[0],
-                'title' => $message[1],
-                'description' => $message[2],
-            ],
-            'msgtype' => 'mpvideo',
-        ];
-    }
-
-    /**
-     * Transform mpvideo message.
-     *
-     * @param string $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformMpvideo($message)
+    public function transformVideo(Message $message)
     {
         return [
-            'mpvideo' => [
-                'media_id' => $message,
-            ],
             'msgtype' => 'mpvideo',
+            'mpvideo' => [
+                'media_id' => $message->get('media_id'),
+                'title' => $message->get('title'),
+                'description' => $message->get('description'),
+            ],
         ];
     }
 
     /**
      * Transform voice message.
      *
-     * @param string $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformVoice($message)
+    public function transformVoice(Message $message)
     {
         return [
-            'voice' => [
-                'media_id' => $message,
-            ],
             'msgtype' => 'voice',
+            'voice' => [
+                'media_id' => $message->get('media_id'),
+            ],
+        ];
+    }
+
+    /**
+     * Transform articles message.
+     *
+     * @param \EasyWeChat\Kernel\Messages\Message $message
+     *
+     * @return array
+     */
+    public function transformNews(Message $message)
+    {
+        return [
+            'msgtype' => 'mpnews',
+            'mpnews' => [
+                'media_id' => $message->get('media_id'),
+            ],
         ];
     }
 
     /**
      * Transform card message.
      *
-     * @param $message
+     * @param Message $message
      *
      * @return array
      */
-    public function transformCard($message)
+    public function transformCard(Message $message)
     {
         return [
-            'wxcard' => [
-                'card_id' => $message,
-            ],
             'msgtype' => 'wxcard',
+            'wxcard' => [
+                'card_id' => $message->get('card_id'),
+            ],
         ];
     }
 }

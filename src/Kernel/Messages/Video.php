@@ -20,7 +20,7 @@ namespace EasyWeChat\Kernel\Messages;
  * @property string $description
  * @property string $thumb_media_id
  */
-class Video extends Message
+class Video extends Media
 {
     /**
      * Messages type.
@@ -40,32 +40,4 @@ class Video extends Message
         'media_id',
         'thumb_media_id',
     ];
-
-    /**
-     * 设置视频消息.
-     *
-     * @param string $mediaId
-     *
-     * @return Video
-     */
-    public function media($mediaId)
-    {
-        $this->setAttribute('media_id', $mediaId);
-
-        return $this;
-    }
-
-    /**
-     * 设置视频封面.
-     *
-     * @param string $mediaId
-     *
-     * @return Video
-     */
-    public function thumb($mediaId)
-    {
-        $this->setAttribute('thumb_media_id', $mediaId);
-
-        return $this;
-    }
 }

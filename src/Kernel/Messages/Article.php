@@ -17,6 +17,11 @@ namespace EasyWeChat\Kernel\Messages;
 class Article extends Message
 {
     /**
+     * @var string
+     */
+    protected $type = 'mpnews';
+
+    /**
      * Properties.
      *
      * @var array
@@ -36,8 +41,19 @@ class Article extends Message
      *
      * @var array
      */
-    protected $aliases = [
-        'source_url' => 'content_source_url',
-        'show_cover' => 'show_cover_pic',
+    protected $jsonAlias = [
+        'content_source_url' => 'source_url',
+        'show_cover_pic' => 'show_cover',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $requirements = [
+        'thumb_media_id',
+        'title',
+        'content',
+        'source_url',
+        'show_cover',
     ];
 }

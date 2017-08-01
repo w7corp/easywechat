@@ -43,18 +43,4 @@ class Music extends Message
         'thumb_media_id',
         'format',
     ];
-
-    /**
-     * 设置音乐封面.
-     *
-     * @param string $mediaId
-     *
-     * @return $this
-     */
-    public function thumb($mediaId)
-    {
-        $this->setAttribute('thumb_media_id', $mediaId);
-
-        return $this;
-    }
 }

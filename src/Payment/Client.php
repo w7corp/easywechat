@@ -13,7 +13,6 @@ namespace EasyWeChat\Payment;
 
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Traits\HandleNotify;
-use EasyWeChat\Payment\Traits\JssdkHelpers;
 use EasyWeChat\Payment\Traits\WorksInSandbox;
 
 /**
@@ -23,7 +22,7 @@ use EasyWeChat\Payment\Traits\WorksInSandbox;
  */
 class Client extends BaseClient
 {
-    use WorksInSandbox, JssdkHelpers, HandleNotify;
+    use WorksInSandbox, HandleNotify;
 
     // order id types.
     const TRANSACTION_ID = 'transaction_id';
