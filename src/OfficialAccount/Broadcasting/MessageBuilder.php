@@ -13,7 +13,6 @@ namespace EasyWeChat\OfficialAccount\Broadcasting;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Message;
-use EasyWeChat\OfficialAccount\Application;
 
 /**
  * Class MessageBuilder.
