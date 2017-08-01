@@ -88,7 +88,7 @@ trait HasAttributes
      */
     public function isRequired($attribute)
     {
-        return in_array($attribute, $this->requirements);
+        return in_array($attribute, $this->requirements, true);
     }
 
     /**
