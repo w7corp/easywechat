@@ -33,21 +33,6 @@ class MessageBuilder
     protected $message;
 
     /**
-     * @var \EasyWeChat\OfficialAccount\Application
-     */
-    protected $app;
-
-    /**
-     * MessageBuilder constructor.
-     *
-     * @param \EasyWeChat\OfficialAccount\Application $app
-     */
-    public function __construct(Application $app)
-    {
-        $this->app = $app;
-    }
-
-    /**
      * Set message.
      *
      * @param array|\EasyWeChat\Kernel\Messages\Message $message
