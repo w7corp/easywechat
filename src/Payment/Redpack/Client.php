@@ -21,7 +21,7 @@ use EasyWeChat\Payment\BaseClient;
  */
 class Client extends BaseClient
 {
-    // LuckyMoney type
+    // Redpack type
     const TYPE_NORMAL = 'NORMAL';
     const TYPE_GROUP = 'GROUP';
 
