@@ -33,7 +33,7 @@ class StreamResponse extends Response
         $directory = rtrim($directory, '/');
 
         if (!is_writable($directory)) {
-            mkdir($directory, 0755, true);
+            mkdir($directory, 0755, true); // @codeCoverageIgnore
         }
 
         $contents = $this->getBody()->getContents();
