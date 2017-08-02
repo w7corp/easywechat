@@ -20,7 +20,7 @@ use EasyWeChat\OpenPlatform\Auth\VerifyTicket;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class VerifyTicketRefreshed implements EventHandlerInterface
+class VerifyTicketRefreshedInterface implements EventHandlerInterface
 {
     /**
      * @var \EasyWeChat\OpenPlatform\Auth\VerifyTicket
