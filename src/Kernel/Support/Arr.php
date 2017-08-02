@@ -17,18 +17,6 @@ namespace EasyWeChat\Kernel\Support;
 class Arr
 {
     /**
-     * Determine whether the given value is array accessible.
-     *
-     * @param mixed $value
-     *
-     * @return bool
-     */
-    public static function accessible(array $value)
-    {
-        return is_array($value) || $value instanceof ArrayAccess;
-    }
-
-    /**
      * Add an element to an array using "dot" notation if it doesn't exist.
      *
      * @param array  $array
@@ -44,30 +32,6 @@ class Arr
         }
 
         return $array;
-    }
-
-    /**
-     * Collapse an array of arrays into a single array.
-     *
-     * @param array $array
-     *
-     * @return array
-     */
-    public static function collapse(array $array)
-    {
-        $results = [];
-
-        foreach ($array as $values) {
-            if ($values instanceof Collection) {
-                $values = $values->all();
-            } elseif (!is_array($values)) {
-                continue;
-            }
-
-            $results = array_merge($results, $values);
-        }
-
-        return $results;
     }
 
     /**
@@ -158,10 +122,6 @@ class Arr
      */
     public static function exists(array $array, $key)
     {
-        if ($array instanceof ArrayAccess) {
-            return $array->offsetExists($key);
-        }
-
         return array_key_exists($key, $array);
     }
 
@@ -290,10 +250,6 @@ class Arr
      */
     public static function get(array $array, $key, $default = null)
     {
-        if (!static::accessible($array)) {
-            return $default;
-        }
-
         if (is_null($key)) {
             return $array;
         }
@@ -303,7 +259,7 @@ class Arr
         }
 
         foreach (explode('.', $key) as $segment) {
-            if (static::accessible($array) && static::exists($array, $segment)) {
+            if (static::exists($array, $segment)) {
                 $array = $array[$segment];
             } else {
                 return $default;
@@ -345,7 +301,7 @@ class Arr
             }
 
             foreach (explode('.', $key) as $segment) {
-                if (static::accessible($subKeyArray) && static::exists($subKeyArray, $segment)) {
+                if (static::exists($subKeyArray, $segment)) {
                     $subKeyArray = $subKeyArray[$segment];
                 } else {
                     return false;
@@ -383,23 +339,6 @@ class Arr
     public static function only(array $array, $keys)
     {
         return array_intersect_key($array, array_flip((array) $keys));
-    }
-
-    /**
-     * Explode the "value" and "key" arguments passed to "pluck".
-     *
-     * @param string|array      $value
-     * @param string|array|null $key
-     *
-     * @return array
-     */
-    protected static function explodePluckParameters($value, $key)
-    {
-        $value = is_string($value) ? explode('.', $value) : $value;
-
-        $key = is_null($key) || is_array($key) ? $key : explode('.', $key);
-
-        return [$value, $key];
     }
 
     /**
@@ -441,7 +380,7 @@ class Arr
     }
 
     /**
-     * Get a random value from an array.
+     * Get a 1 value from an array.
      *
      * @param array    $array
      * @param int|null $amount
@@ -452,12 +391,6 @@ class Arr
      */
     public static function random(array $array, int $amount = null)
     {
-        if (($requested = $amount ?: 1) > ($count = count($array))) {
-            throw new InvalidArgumentException(
-                "You requested {$requested} items, but there are only {$count} items in the array."
-            );
-        }
-
         if (is_null($amount)) {
             return $array[array_rand($array)];
         }
@@ -484,12 +417,8 @@ class Arr
      *
      * @return array
      */
-    public static function set(array &$array, $key, $value)
+    public static function set(array &$array, string $key, $value)
     {
-        if (is_null($key)) {
-            return $array = $value;
-        }
-
         $keys = explode('.', $key);
 
         while (count($keys) > 1) {
@@ -506,30 +435,6 @@ class Arr
         }
 
         $array[array_shift($keys)] = $value;
-
-        return $array;
-    }
-
-    /**
-     * Recursively sort an array by keys and values.
-     *
-     * @param array $array
-     *
-     * @return array
-     */
-    public static function sortRecursive(array  $array)
-    {
-        foreach ($array as &$value) {
-            if (is_array($value)) {
-                $value = static::sortRecursive($value);
-            }
-        }
-
-        if (static::isAssoc($array)) {
-            ksort($array);
-        } else {
-            sort($array);
-        }
 
         return $array;
     }

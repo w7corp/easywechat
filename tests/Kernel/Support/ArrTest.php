@@ -18,23 +18,10 @@ use stdClass;
 
 class ArrTest extends TestCase
 {
-    public function testAccessible()
-    {
-        $this->assertTrue(Arr::accessible([]));
-        $this->assertTrue(Arr::accessible([1, 2]));
-        $this->assertTrue(Arr::accessible(['a' => 1, 'b' => 2]));
-    }
-
     public function testAdd()
     {
         $array = Arr::add(['name' => 'EasyWeChat'], 'price', 100);
         $this->assertSame(['name' => 'EasyWeChat', 'price' => 100], $array);
-    }
-
-    public function testCollapse()
-    {
-        $data = [['foo', 'bar'], ['baz']];
-        $this->assertSame(['foo', 'bar', 'baz'], Arr::collapse($data));
     }
 
     public function testCrossJoin()
@@ -121,6 +108,12 @@ class ArrTest extends TestCase
         });
         $this->assertSame(200, $value);
         $this->assertSame(100, Arr::first($array));
+
+        $this->assertSame('default', Arr::first([], null, 'default'));
+
+        $this->assertSame('default', Arr::first([], function () {
+            return false;
+        }, 'default'));
     }
 
     public function testLast()
@@ -285,7 +278,8 @@ class ArrTest extends TestCase
     {
         $array = ['products' => ['item' => ['price' => 100]]];
         Arr::set($array, 'products.item.price', 200);
-        $this->assertSame(['products' => ['item' => ['price' => 200]]], $array);
+        Arr::set($array, 'goods.item.price', 200);
+        $this->assertSame(['products' => ['item' => ['price' => 200]], 'goods' => ['item' => ['price' => 200]]], $array);
     }
 
     public function testWhere()
@@ -294,7 +288,7 @@ class ArrTest extends TestCase
         $array = Arr::where($array, function ($value, $key) {
             return is_string($value);
         });
-        $this->assertSame([1 => 200, 3 => 400], $array);
+        $this->assertSame([1 => '200', 3 => '400'], $array);
     }
 
     public function testWhereKey()

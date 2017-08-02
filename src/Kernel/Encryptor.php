@@ -111,8 +111,8 @@ class Encryptor
                 substr($this->aesKey, 0, 16),
                 OPENSSL_NO_PADDING
             ));
-        } catch (Throwable $e) {
-            throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
+        } catch (Throwable $e) { // @codeCoverageIgnore
+            throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES); // @codeCoverageIgnore
         }
 
         !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
@@ -145,8 +145,8 @@ class Encryptor
     {
         try {
             $array = XML::parse($postXML);
-        } catch (Throwable $e) {
-            throw new RuntimeException('Invalid xml.', self::ERROR_PARSE_XML);
+        } catch (Throwable $e) { // @codeCoverageIgnore
+            throw new RuntimeException('Invalid xml.', self::ERROR_PARSE_XML); // @codeCoverageIgnore
         }
 
         $signature = $this->signature($this->token, $timestamp, $nonce, $array['Encrypt']);
