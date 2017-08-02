@@ -13,17 +13,16 @@ namespace EasyWeChat\OpenPlatform\Server\Handlers;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\OpenPlatform\Application;
-use EasyWeChat\OpenPlatform\Auth\VerifyTicket;
 
 /**
- * Class VerifyTicket.
+ * Class VerifyTicketRefreshed.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
 class VerifyTicketRefreshed implements EventHandlerInterface
 {
     /**
-     * @var \EasyWeChat\OpenPlatform\Auth\VerifyTicket
+     * @var \EasyWeChat\OpenPlatform\Application
      */
     protected $app;
 

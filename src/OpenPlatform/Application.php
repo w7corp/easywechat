@@ -11,13 +11,12 @@
 
 namespace EasyWeChat\OpenPlatform;
 
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\Account\Client;
-use EasyWeChat\OpenPlatform\Server\Guard;
-use EasyWeChat\OpenPlatform\Server\Handlers;
 
 /**
  * Class Application.
@@ -58,13 +57,13 @@ class Application extends ServiceContainer
     /**
      * Creates the officialAccount application.
      *
-     * @param string                                              $appId
-     * @param string                                              $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken $accessToken
+     * @param string                                                   $appId
+     * @param string                                                   $refreshToken
+     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
      *
      * @return OfficialAccount
      */
-    public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken): OfficialAccount
+    public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): OfficialAccount
     {
         return new OfficialAccount([
             'app_id' => $appId,
@@ -75,13 +74,13 @@ class Application extends ServiceContainer
     /**
      * Creates the miniProgram application.
      *
-     * @param string                                              $appId
-     * @param string                                              $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken $accessToken
+     * @param string                                                   $appId
+     * @param string                                                   $refreshToken
+     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
      *
      * @return MiniProgram
      */
-    public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken): MiniProgram
+    public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): MiniProgram
     {
         return new MiniProgram([
             'app_id' => $appId,
@@ -96,7 +95,7 @@ class Application extends ServiceContainer
      *
      * @return string
      */
-    public function getRedirectUrl(string $callbackUrl)
+    public function getRedirectUrl(string $callbackUrl): string
     {
         return self::COMPONENT_LOGIN_PAGE.'?'.http_build_query([
                 'component_appid' => $this['config']['app_id'],
@@ -110,35 +109,14 @@ class Application extends ServiceContainer
      *
      * @return array
      */
-    protected function getReplaceServices(AuthorizerAccessToken $accessToken)
+    protected function getReplaceServices(AuthorizerAccessToken $accessToken = null)
     {
         return [
             'access_token' => $accessToken ?? function ($app) {
-                $accessToken = new AuthorizerAccessToken($app);
-                $accessToken->setOpenPlatformAccessToken($this['access_token']);
-
-                return $accessToken;
+                return new AuthorizerAccessToken($app, $this);
             },
 
-            'encryptor' => function () {
-                return new Encryptor(
-                    $this['config']['app_id'],
-                    $this['config']['token'],
-                    $this['config']['aes_key']
-                );
-            },
-
-            'server' => function ($app) {
-                $server = (new Guard($app))->debug($app['config']['debug']);
-                $handlers = [
-                    Guard::EVENT_AUTHORIZED => new Handlers\Authorized($app),
-                    Guard::EVENT_UNAUTHORIZED => new Handlers\Unauthorized($app),
-                    Guard::EVENT_UPDATE_AUTHORIZED => new Handlers\UpdateAuthorized($app),
-                    Guard::EVENT_COMPONENT_VERIFY_TICKET => new Handlers\VerifyTicketRefreshed($app),
-                ];
-
-                return $server->setHandlers($handlers);
-            },
+            'encryptor' => $this['encryptor'],
 
             'account' => function ($app) {
                 return new Client($app);

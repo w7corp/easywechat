@@ -14,7 +14,7 @@ namespace EasyWeChat\OpenPlatform\Auth;
 use EasyWeChat\Kernel\AccessTokenIInterface as BaseAccessToken;
 
 /**
- * Class AuthorizerAccessToken.
+ * Class AccessToken.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */

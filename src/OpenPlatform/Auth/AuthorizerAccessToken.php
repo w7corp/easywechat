@@ -12,7 +12,8 @@
 namespace EasyWeChat\OpenPlatform\Auth;
 
 use EasyWeChat\Kernel\AccessTokenIInterface as BaseAccessToken;
-use EasyWeChat\OpenPlatform\Auth\AccessToken as OpenPlatformAccessToken;
+use EasyWeChat\OpenPlatform\Application;
+use Pimple\Container;
 
 /**
  * Class AuthorizerAccessToken.
@@ -27,30 +28,30 @@ class AuthorizerAccessToken extends BaseAccessToken
     protected $requestMethod = 'POST';
 
     /**
+     * @var string
+     */
+    protected $queryName = 'access_token';
+
+    /**
      * {@inheritdoc}.
      */
     protected $tokenKey = 'authorizer_access_token';
 
     /**
-     * @var string
+     * @var \EasyWeChat\OpenPlatform\Application
      */
-    protected $endpointToGetToken = 'cgi-bin/component/api_authorizer_token';
+    protected $openPlatform;
 
     /**
-     * @var \EasyWeChat\OpenPlatform\Auth\AccessToken
-     */
-    protected $openPlatformAccessToken;
-
-    /**
-     * @param \EasyWeChat\OpenPlatform\Auth\AccessToken $accessToken
+     * AuthorizerAccessToken constructor.
      *
-     * @return $this
+     * @param \Pimple\Container                    $app
+     * @param \EasyWeChat\OpenPlatform\Application $openPlatform
      */
-    public function setOpenPlatformAccessToken(OpenPlatformAccessToken $accessToken)
+    public function __construct(Container $app, Application $openPlatform)
     {
-        $this->openPlatformAccessToken = $accessToken;
-
-        return $this;
+        parent::__construct($app);
+        $this->openPlatform = $openPlatform;
     }
 
     /**
@@ -59,21 +60,19 @@ class AuthorizerAccessToken extends BaseAccessToken
     protected function getCredentials(): array
     {
         return [
-            'component_appid' => $this->app['config']['component_app_id'],
+            'component_appid' => $this->openPlatform['config']['app_id'],
             'authorizer_appid' => $this->app['config']['app_id'],
             'authorizer_refresh_token' => $this->app['config']['refresh_token'],
         ];
     }
 
     /**
-     * Append queries to the current request endpoint for open-platform authorizer.
-     *
-     * @return array
+     * @return string
      */
-    protected function getQuery(): array
+    public function getEndpoint(): string
     {
-        return [
-            'component_access_token' => $this->openPlatformAccessToken->getToken()['component_access_token'],
-        ];
+        return 'cgi-bin/component/api_authorizer_token?'.http_build_query([
+            'component_access_token' => $this->openPlatform->access_token->getToken()['component_access_token'],
+        ]);
     }
 }
