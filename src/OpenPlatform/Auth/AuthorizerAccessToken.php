@@ -11,14 +11,9 @@
 
 namespace EasyWeChat\OpenPlatform\Auth;
 
-<<<<<<< HEAD
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
-use EasyWeChat\OpenPlatform\Auth\AccessToken as OpenPlatformAccessToken;
-=======
-use EasyWeChat\Kernel\AccessTokenIInterface as BaseAccessToken;
 use EasyWeChat\OpenPlatform\Application;
 use Pimple\Container;
->>>>>>> de2287c5150c0401516289ed84857b46665a4731
 
 /**
  * Class AuthorizerAccessToken.
