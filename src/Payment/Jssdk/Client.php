@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment\Jssdk;
 
-use EasyWeChat\BaseService\Client as JssdkClient;
+use EasyWeChat\BaseService\Jssdk\Client as JssdkClient;
 use EasyWeChat\Kernel\Support;
 use Overtrue\Socialite\AccessTokenInterface;
 
@@ -120,7 +120,7 @@ class Client extends JssdkClient
 
         $signParams = [
             'appid' => $params['appId'],
-            'url' => Support\Url::current(),
+            'url' => Support\current_url(),
             'timestamp' => $params['timeStamp'],
             'noncestr' => $params['nonceStr'],
             'accesstoken' => strval($accessToken),
