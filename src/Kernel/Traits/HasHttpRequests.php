@@ -54,7 +54,7 @@ trait HasHttpRequests
      *
      * @param array $defaults
      */
-    public static function setDefaultOptions($defaults = []): void
+    public static function setDefaultOptions($defaults = [])
     {
         self::$defaults = $defaults;
     }
