@@ -39,7 +39,7 @@ class AESTest extends TestCase
     {
         try {
             $result = AES::validateKey(str_repeat('x', $length));
-            if (in_array($length, [16, 24, 32])) {
+            if (in_array($length, [16, 24, 32], true)) {
                 $this->assertNull($result);
             } else {
                 $this->fail('No expected exception thrown.');
