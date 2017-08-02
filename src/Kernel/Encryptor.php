@@ -31,7 +31,7 @@ class Encryptor
     const ERROR_CALC_SIGNATURE = -40003; // Calculating the signature failed
     const ERROR_INVALID_AES_KEY = -40004; // Invalid AESKey
     const ERROR_INVALID_APP_ID = -40005; // Check AppID failed
-    const ERROR_ENCRYPT_AES = -40006; // AES Encryption failed
+    const ERROR_ENCRYPT_AES = -40006; // AES EncryptionInterface failed
     const ERROR_DECRYPT_AES = -40007; // AES decryption failed
     const ERROR_INVALID_XML = -40008; // Invalid XML
     const ERROR_BASE64_ENCODE = -40009; // Base64 encoding failed

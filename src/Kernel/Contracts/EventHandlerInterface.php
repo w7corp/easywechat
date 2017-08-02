@@ -12,11 +12,11 @@
 namespace EasyWeChat\Kernel\Contracts;
 
 /**
- * Class EventHandler.
+ * Class EventHandlerInterface.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-interface EventHandler
+interface EventHandlerInterface
 {
     /**
      * Handle an incoming event message from WeChat server-side.

@@ -11,9 +11,8 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Contracts\AccessToken;
+use EasyWeChat\Kernel\Contracts\AccessTokenIInterface;
 use EasyWeChat\Kernel\Http\Response;
-use EasyWeChat\Kernel\Support\Log;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
 use GuzzleHttp\MessageFormatter;
@@ -37,7 +36,7 @@ class BaseClient
     protected $app;
 
     /**
-     * @var \EasyWeChat\Kernel\Contracts\AccessToken
+     * @var \EasyWeChat\Kernel\Contracts\AccessTokenIInterface
      */
     protected $accessToken;
 
@@ -49,10 +48,10 @@ class BaseClient
     /**
      * BaseClient constructor.
      *
-     * @param \Pimple\Container                             $app
-     * @param \EasyWeChat\Kernel\Contracts\AccessToken|null $accessToken
+     * @param \Pimple\Container                                       $app
+     * @param \EasyWeChat\Kernel\Contracts\AccessTokenIInterface|null $accessToken
      */
-    public function __construct(Container $app, AccessToken $accessToken = null)
+    public function __construct(Container $app, AccessTokenIInterface $accessToken = null)
     {
         $this->app = $app;
         $this->accessToken = $accessToken ?? $this->app['access_token'];
@@ -135,11 +134,11 @@ class BaseClient
     }
 
     /**
-     * @param \EasyWeChat\Kernel\Contracts\AccessToken $accessToken
+     * @param \EasyWeChat\Kernel\Contracts\AccessTokenIInterface $accessToken
      *
      * @return $this
      */
-    public function setAccessToken(AccessToken $accessToken)
+    public function setAccessToken(AccessTokenIInterface $accessToken)
     {
         $this->accessToken = $accessToken;
 
@@ -260,7 +259,7 @@ class BaseClient
             }
 
             return false;
-        }, function ($retries) {
+        }, function () {
             return abs($this->app->config->get('http.retry_delay', 500));
         });
     }

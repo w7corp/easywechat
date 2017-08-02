@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests;
 
-use EasyWeChat\Kernel\AccessToken;
+use EasyWeChat\Kernel\AccessTokenIInterface;
 use EasyWeChat\Kernel\ServiceContainer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
@@ -38,7 +38,7 @@ class TestCase extends BaseTestCase
 
         $client = \Mockery::mock($name."[{$methods}]", [
                 $app ?? \Mockery::mock(ServiceContainer::class),
-                \Mockery::mock(AccessToken::class), ]
+                \Mockery::mock(AccessTokenIInterface::class), ]
         )->shouldAllowMockingProtectedMethods();
         $client->allows()->registerHttpMiddlewares()->andReturnNull();
 

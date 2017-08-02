@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\AccessTokenIInterface as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Traits\HasAttributes;
@@ -27,7 +27,7 @@ use Psr\SimpleCache\CacheInterface;
  *
  * @author overtrue <i@overtrue.me>
  */
-abstract class AccessToken implements AccessTokenInterface
+abstract class AccessTokenIInterface implements AccessTokenInterface
 {
     use HasHttpRequests, HasAttributes, InteractsWithCache { getCache as getCacheInstance; }
 
@@ -121,9 +121,9 @@ abstract class AccessToken implements AccessTokenInterface
      * @param string $token
      * @param int    $lifetime
      *
-     * @return \EasyWeChat\Kernel\AccessToken
+     * @return \EasyWeChat\Kernel\AccessTokenIInterface
      */
-    public function setToken(string $token, int $lifetime = 7200): AccessToken
+    public function setToken(string $token, int $lifetime = 7200): AccessTokenIInterface
     {
         $this->getCache()->set($this->getCacheKey(), [
             $this->tokenKey => $token,
@@ -134,7 +134,7 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @return \EasyWeChat\Kernel\Contracts\AccessToken
+     * @return \EasyWeChat\Kernel\Contracts\AccessTokenIInterface
      */
     public function refresh(): AccessTokenInterface
     {

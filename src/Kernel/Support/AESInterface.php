@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\Kernel\Support;
 
-use EasyWeChat\Kernel\Contracts\Encryption;
+use EasyWeChat\Kernel\Contracts\EncryptionInterface;
 
 /**
  * Class AES.
  *
  * @author overtrue <i@overtrue.me>
  */
-class AES implements Encryption
+class AES implements EncryptionInterface
 {
     /**
      * @var string

@@ -11,17 +11,17 @@
 
 namespace EasyWeChat\OpenPlatform\Server\Handlers;
 
-use EasyWeChat\Kernel\Contracts\EventHandler;
+use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 
 /**
- * Class UpdateAuthorized.
+ * Class Authorized.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class UpdateAuthorized implements EventHandler
+class Authorized implements EventHandlerInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritdoc}.
      */
     public function handle($message)
     {

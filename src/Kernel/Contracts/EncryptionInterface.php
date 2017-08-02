@@ -12,11 +12,11 @@
 namespace EasyWeChat\Kernel\Contracts;
 
 /**
- * Interface Encryption.
+ * Interface EncryptionInterface.
  *
  * @author overtrue <i@overtrue.me>
  */
-interface Encryption
+interface EncryptionInterface
 {
     /**
      * Encrypt $data.

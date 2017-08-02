@@ -56,7 +56,7 @@ class Response extends GuzzleResponse
      */
     public function toJson()
     {
-        return json_encode($this->getBodyContents());
+        return json_encode($this->toArray());
     }
 
     /**

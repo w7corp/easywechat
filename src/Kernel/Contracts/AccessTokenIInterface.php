@@ -18,7 +18,7 @@ use Psr\Http\Message\RequestInterface;
  *
  * @author overtrue <i@overtrue.me>
  */
-interface AccessToken
+interface AccessTokenIInterface
 {
     /**
      * @return array
@@ -26,9 +26,9 @@ interface AccessToken
     public function getToken(): array;
 
     /**
-     * @return \EasyWeChat\Kernel\Contracts\AccessToken
+     * @return \EasyWeChat\Kernel\Contracts\AccessTokenIInterface
      */
-    public function refresh(): AccessToken;
+    public function refresh(): AccessTokenIInterface;
 
     /**
      * @param \Psr\Http\Message\RequestInterface $request
