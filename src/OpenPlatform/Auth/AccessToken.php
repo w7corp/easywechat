@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\OpenPlatform\Auth;
 
-use EasyWeChat\Kernel\AccessTokenIInterface as BaseAccessToken;
+use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
 /**
  * Class AuthorizerAccessToken.

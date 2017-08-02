@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\ServiceContainer;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 
@@ -33,7 +34,16 @@ trait InteractsWithCache
      */
     public function getCache()
     {
-        return $this->cache ?? $this->cache = $this->createDefaultCache();
+        if ($this->cache) {
+            return $this->cache;
+        }
+
+        if (isset($this->app) && $this->app instanceof ServiceContainer
+            && isset($this->app['cache']) && $this->app['cache'] instanceof CacheInterface) {
+            return $this->cache = $this->app['cache'];
+        }
+
+        return $this->cache = $this->createDefaultCache();
     }
 
     /**

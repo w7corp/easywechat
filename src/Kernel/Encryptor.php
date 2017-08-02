@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Exceptions\Exception;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\AES;
@@ -54,11 +53,9 @@ class Encryptor
     protected $token;
 
     /**
-     * AES key.
-     *
-     * @var \EasyWeChat\Kernel\Support\AES
+     * @var string
      */
-    protected $aes;
+    protected $aesKey;
 
     /**
      * Block size.
@@ -70,32 +67,26 @@ class Encryptor
     /**
      * Constructor.
      *
-     * @param string                                $appId
-     * @param string                                $token
-     * @param \EasyWeChat\Kernel\Support\AES|string $aesKeyOrAes
+     * @param string $appId
+     * @param string $token
+     * @param string $aesKey
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function __construct(string $appId, string $token, $aesKeyOrAes)
+    public function __construct(string $appId, string $token, $aesKey)
     {
         $this->appId = $appId;
         $this->token = $token;
 
-        if (is_string($aesKeyOrAes)) {
-            if (empty($aesKeyOrAes)) {
-                throw new InvalidConfigException("Mission config 'aes_key'.");
-            }
-
-            if (strlen($aesKeyOrAes) !== 43) {
-                throw new InvalidConfigException("The length of 'aes_key' must be 43.");
-            }
-            $this->aes = $this->createDefaultAes($aesKeyOrAes);
-        } elseif ($aesKeyOrAes instanceof AES) {
-            $this->aes = $aesKeyOrAes;
-        } else {
-            throw new Exception('The $aesKeyOrAes must be a string or an instance of \EasyWeChat\Kernel\Support\AES.');
+        if (empty($aesKey)) {
+            throw new InvalidConfigException("Mission config 'aes_key'.");
         }
+
+        if (strlen($aesKey) !== 43) {
+            throw new InvalidConfigException("The length of 'aes_key' must be 43.");
+        }
+        $this->aesKey = base64_decode($aesKey.'=', true);
     }
 
     /**
@@ -114,7 +105,12 @@ class Encryptor
         try {
             $xml = $this->pkcs7Pad(str_random(16).pack('N', strlen($xml)).$xml.$this->appId, $this->blockSize);
 
-            $encrypted = base64_encode($this->aes->encrypt($xml));
+            $encrypted = base64_encode(AES::encrypt(
+                $xml,
+                $this->aesKey,
+                substr($this->aesKey, 0, 16),
+                OPENSSL_NO_PADDING
+            ));
         } catch (Throwable $e) {
             throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
@@ -159,7 +155,12 @@ class Encryptor
             throw new RuntimeException('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        $decrypted = $this->aes->decrypt(base64_decode($array['Encrypt'], true));
+        $decrypted = AES::decrypt(
+            base64_decode($array['Encrypt'], true),
+            $this->aesKey,
+            substr($this->aesKey, 0, 16),
+            OPENSSL_NO_PADDING
+        );
         $result = $this->pkcs7Unpad($decrypted, $this->blockSize);
         $content = substr($result, 16, strlen($result));
         $xmlLen = unpack('N', substr($content, 0, 4))[1];
@@ -220,20 +221,5 @@ class Encryptor
         $padLength = ord($padChar);
 
         return substr($text, 0, -$padLength);
-    }
-
-    /**
-     * @param string $aesKey
-     *
-     * @return \EasyWeChat\Kernel\Support\AES
-     */
-    protected function createDefaultAes(string $aesKey): AES
-    {
-        $aesKey = base64_decode($aesKey.'=', true);
-
-        $aes = new AES($aesKey);
-        $aes->setIv(substr($aesKey, 0, 16));
-
-        return $aes;
     }
 }

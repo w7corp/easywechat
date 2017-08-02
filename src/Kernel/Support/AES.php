@@ -11,60 +11,59 @@
 
 namespace EasyWeChat\Kernel\Support;
 
-use EasyWeChat\Kernel\Contracts\EncryptionInterface;
-
 /**
  * Class AES.
  *
  * @author overtrue <i@overtrue.me>
  */
-class AES implements EncryptionInterface
+class AES
 {
     /**
-     * @var string
+     * @param string $text
+     * @param string $key
+     * @param string $iv
+     * @param int    $option
+     *
+     * @return string
      */
-    protected $key;
-
-    /**
-     * @var string
-     */
-    protected $iv;
-
-    /**
-     * @var string
-     */
-    protected $mode = '';
-
-    /**
-     * @var array
-     */
-    protected $option;
-
-    public function __construct($key)
+    public static function encrypt(string $text, string $key, string $iv, int $option = OPENSSL_RAW_DATA): string
     {
-        $this->setKey($key);
+        self::validateKey($key);
+        self::validateIv($iv);
+
+        return openssl_encrypt($text, self::getMode($key), $key, $option, $iv);
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $cipherText
+     * @param string $key
+     * @param string $iv
+     * @param int    $option
+     *
+     * @return string
      */
-    public function encrypt(string $text): string
+    public static function decrypt(string $cipherText, string $key, string $iv, int $option = OPENSSL_RAW_DATA): string
     {
-        return openssl_encrypt($text, $this->mode, $this->getKey(), $this->option | OPENSSL_NO_PADDING, $this->getIv());
+        self::validateKey($key);
+        self::validateIv($iv);
+
+        return openssl_decrypt($cipherText, self::getMode($key), $key, $option, $iv);
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return string
      */
-    public function decrypt(string $cipherText): string
+    public static function getMode($key)
     {
-        return openssl_decrypt($cipherText, $this->mode, $this->getKey(), $this->option | OPENSSL_NO_PADDING, $this->getIv());
+        return 'aes-'.(8 * strlen($key)).'-cbc';
     }
 
     /**
      * @param string $key
      */
-    public function setKey(string $key)
+    public static function validateKey(string $key)
     {
         if (!is_string($key)) {
             throw new \InvalidArgumentException('Key must be a string');
@@ -72,10 +71,6 @@ class AES implements EncryptionInterface
         if (!in_array(strlen($key), [16, 24, 32], true)) {
             throw new \InvalidArgumentException('Key length must be 16, 24, or 32 bytes; got key len ('.strlen($key).')');
         }
-
-        $this->key = $key;
-        $this->mode = 'aes-'.(8 * strlen($key)).'-cbc';
-        $this->option = defined('OPENSSL_RAW_DATA') ? OPENSSL_RAW_DATA : true;
     }
 
     /**
@@ -83,7 +78,7 @@ class AES implements EncryptionInterface
      *
      * @throws \InvalidArgumentException
      */
-    public function setIv($iv)
+    public static function validateIv($iv)
     {
         if (!is_string($iv)) {
             throw new \InvalidArgumentException('IV must be a string');
@@ -91,35 +86,5 @@ class AES implements EncryptionInterface
         if (strlen($iv) !== 16) {
             throw new \InvalidArgumentException('IV length must be 16 bytes');
         }
-
-        $this->iv = $iv;
-    }
-
-    /**
-     * @throws \LogicException
-     *
-     * @return string
-     */
-    public function getIv()
-    {
-        if (!isset($this->iv)) {
-            throw new \LogicException('The iv is not set, call setIv() prior to usage');
-        }
-
-        return $this->iv;
-    }
-
-    /**
-     * @throws \LogicException
-     *
-     * @return string
-     */
-    public function getKey()
-    {
-        if (!isset($this->key)) {
-            throw new \LogicException('The key is not set, call setKey() prior to usage');
-        }
-
-        return $this->key;
     }
 }

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Contracts\AccessTokenIInterface;
+use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
@@ -36,7 +36,7 @@ class BaseClient
     protected $app;
 
     /**
-     * @var \EasyWeChat\Kernel\Contracts\AccessTokenIInterface
+     * @var \EasyWeChat\Kernel\Contracts\AccessToken
      */
     protected $accessToken;
 
@@ -48,10 +48,10 @@ class BaseClient
     /**
      * BaseClient constructor.
      *
-     * @param \Pimple\Container                                       $app
-     * @param \EasyWeChat\Kernel\Contracts\AccessTokenIInterface|null $accessToken
+     * @param \Pimple\Container                                      $app
+     * @param \EasyWeChat\Kernel\Contracts\AccessTokenInterface|null $accessToken
      */
-    public function __construct(Container $app, AccessTokenIInterface $accessToken = null)
+    public function __construct(Container $app, AccessTokenInterface $accessToken = null)
     {
         $this->app = $app;
         $this->accessToken = $accessToken ?? $this->app['access_token'];
@@ -126,19 +126,19 @@ class BaseClient
     }
 
     /**
-     * @return mixed
+     * @return AccessTokenInterface
      */
-    public function getAccessToken()
+    public function getAccessToken(): AccessTokenInterface
     {
         return $this->accessToken;
     }
 
     /**
-     * @param \EasyWeChat\Kernel\Contracts\AccessTokenIInterface $accessToken
+     * @param \EasyWeChat\Kernel\Contracts\AccessTokenInterface $accessToken
      *
      * @return $this
      */
-    public function setAccessToken(AccessTokenIInterface $accessToken)
+    public function setAccessToken(AccessTokenInterface $accessToken)
     {
         $this->accessToken = $accessToken;
 

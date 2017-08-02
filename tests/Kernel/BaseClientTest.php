@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\Kernel;
 
-use EasyWeChat\Kernel\AccessTokenIInterface;
+use EasyWeChat\Kernel\AccessToken;
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Http\Request;
 use EasyWeChat\Kernel\Http\Response;
@@ -24,13 +24,13 @@ use Monolog\Logger;
 
 class BaseClientTest extends TestCase
 {
-    public function makeClient($methods = [], ServiceContainer $app = null, AccessTokenIInterface $accessToken = null)
+    public function makeClient($methods = [], ServiceContainer $app = null, AccessToken $accessToken = null)
     {
         $methods = implode(',', (array) $methods);
 
         return \Mockery::mock(BaseClient::class."[{$methods}]", [
             $app ?? \Mockery::mock(ServiceContainer::class),
-            $accessToken ?? \Mockery::mock(AccessTokenIInterface::class),
+            $accessToken ?? \Mockery::mock(AccessToken::class),
         ]);
     }
 
@@ -92,9 +92,9 @@ class BaseClientTest extends TestCase
     public function testAccessToken()
     {
         $client = $this->makeClient();
-        $this->assertInstanceOf(AccessTokenIInterface::class, $client->getAccessToken());
+        $this->assertInstanceOf(AccessToken::class, $client->getAccessToken());
 
-        $accessToken = \Mockery::mock(AccessTokenIInterface::class);
+        $accessToken = \Mockery::mock(AccessToken::class);
         $client->setAccessToken($accessToken);
 
         $this->assertSame($accessToken, $client->getAccessToken());
@@ -176,7 +176,7 @@ class BaseClientTest extends TestCase
     public function testAccessTokenMiddleware()
     {
         $app = new ServiceContainer([]);
-        $accessToken = \Mockery::mock(AccessTokenIInterface::class.'[applyToRequest]', [$app]);
+        $accessToken = \Mockery::mock(AccessToken::class.'[applyToRequest]', [$app]);
         $client = $this->makeClient(['accessTokenMiddleware'], $app, $accessToken)
             ->shouldAllowMockingProtectedMethods()
             ->shouldDeferMissing();
@@ -216,7 +216,7 @@ class BaseClientTest extends TestCase
         // no retries configured
         $app = new ServiceContainer([]);
         $app['logger'] = $logger = \Mockery::mock(Logger::class, ['easywechat']);
-        $accessToken = \Mockery::mock(AccessTokenIInterface::class, [$app]);
+        $accessToken = \Mockery::mock(AccessToken::class, [$app]);
         $client = $this->makeClient(['retryMiddleware'], $app, $accessToken)
             ->shouldAllowMockingProtectedMethods()
             ->shouldDeferMissing();
