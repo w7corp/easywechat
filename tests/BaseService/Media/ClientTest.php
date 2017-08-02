@@ -79,6 +79,40 @@ class ClientTest extends TestCase
         }
     }
 
+    public function testUploadVideoForBroadcasting()
+    {
+        $path = '/path/to/video.mp4';
+        $client = $this->mockApiClient(Client::class, ['uploadVideo', 'transformResponseToType', 'createVideoForBroadcasting']);
+        $client->allows()->uploadVideo($path)->andReturn('mock-response');
+
+        // no media_id
+        $client->expects()->transformResponseToType('mock-response', 'array')->andReturn(['foo' => 'bar'])->once();
+        $client->shouldNotReceive('createVideoForBroadcasting');
+
+        $client->uploadVideoForBroadcasting($path, 'title', 'description');
+
+        // return media_id
+        $client->expects()->transformResponseToType('mock-response', 'array')->andReturn(['media_id' => 'mock-media-id'])->once();
+        $client->expects()->createVideoForBroadcasting('mock-media-id', 'title', 'description')->once();
+
+        $client->uploadVideoForBroadcasting($path, 'title', 'description');
+    }
+
+    public function testCreateVideoForBroadcasting()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $mediaId = 'mock-media-id';
+        $title = 'mock-title';
+        $description = 'mock-description';
+        $client->expects()->httpPostJson('media/uploadvideo', [
+            'media_id' => $mediaId,
+            'title' => $title,
+            'description' => $description,
+        ])->andReturn('mock-response')->once();
+
+        $this->assertSame('mock-response', $client->createVideoForBroadcasting($mediaId, $title, $description));
+    }
+
     public function testDownload()
     {
         $client = $this->mockApiClient(Client::class, ['getStream']);

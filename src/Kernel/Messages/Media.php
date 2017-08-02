@@ -28,7 +28,7 @@ class Media extends Message implements MediaInterface
     /**
      * @var array
      */
-    protected $requirements = [
+    protected $required = [
         'media_id',
     ];
 

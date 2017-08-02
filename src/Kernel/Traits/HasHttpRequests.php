@@ -14,6 +14,7 @@ namespace EasyWeChat\Kernel\Traits;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support\Collection;
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
 use Psr\Http\Message\ResponseInterface;
 
@@ -71,11 +72,11 @@ trait HasHttpRequests
     /**
      * Set GuzzleHttp\Client.
      *
-     * @param \GuzzleHttp\Client $httpClient
+     * @param \GuzzleHttp\ClientInterface $httpClient
      *
      * @return $this
      */
-    public function setHttpClient(Client $httpClient)
+    public function setHttpClient(ClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
 
@@ -89,7 +90,7 @@ trait HasHttpRequests
      */
     public function getHttpClient(): Client
     {
-        if (!($this->httpClient instanceof Client)) {
+        if (!($this->httpClient instanceof ClientInterface)) {
             $this->httpClient = new Client();
         }
 

@@ -148,17 +148,17 @@ class DummyMessageForMessageTest extends Message
         'required_id',
     ];
 
-    protected $jsonAlias = [
+    protected $jsonAliases = [
         'foo_id' => 'foo',
         'bar_name' => 'bar',
     ];
 
-    protected $xmlAlias = [
+    protected $xmlAliases = [
         'Foo' => 'foo',
         'Bar' => 'bar',
     ];
 
-    protected $requirements = [
+    protected $required = [
         'media_id', 'required_id',
     ];
 }

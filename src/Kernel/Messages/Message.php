@@ -65,12 +65,12 @@ abstract class Message implements MessageInterface
     /**
      * @var array
      */
-    protected $jsonAlias = [];
+    protected $jsonAliases = [];
 
     /**
      * @var array
      */
-    protected $xmlAlias = [];
+    protected $xmlAliases = [];
 
     /**
      * Message constructor.
@@ -144,7 +144,7 @@ abstract class Message implements MessageInterface
     {
         $data = array_merge(['msgtype' => $this->getType()], $appends);
 
-        $data = $this->propertiesToArray($data, $this->jsonAlias);
+        $data = $this->propertiesToArray($data, $this->jsonAliases);
 
         return $data;
     }
@@ -159,7 +159,7 @@ abstract class Message implements MessageInterface
     {
         $data = array_merge(['MsgType' => $this->getType()], $appends);
 
-        $data = $this->propertiesToArray($data, $this->xmlAlias);
+        $data = $this->propertiesToArray($data, $this->xmlAliases);
 
         return $returnAsArray ? $data : XML::build($data);
     }

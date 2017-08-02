@@ -41,7 +41,7 @@ class Article extends Message
      *
      * @var array
      */
-    protected $jsonAlias = [
+    protected $jsonAliases = [
         'content_source_url' => 'source_url',
         'show_cover_pic' => 'show_cover',
     ];
@@ -49,7 +49,7 @@ class Article extends Message
     /**
      * @var array
      */
-    protected $requirements = [
+    protected $required = [
         'thumb_media_id',
         'title',
         'content',

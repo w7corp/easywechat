@@ -13,6 +13,7 @@ namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Collection;
+use EasyWeChat\Kernel\Support\Str;
 
 /**
  * Trait Attributes.
@@ -23,16 +24,6 @@ trait HasAttributes
      * @var \EasyWeChat\Kernel\Support\Collection
      */
     protected $attributes;
-
-    /**
-     * @var array
-     */
-    protected $aliases = [];
-
-    /**
-     * @var array
-     */
-    protected $requirements = [];
 
     /**
      * @var bool
@@ -88,7 +79,15 @@ trait HasAttributes
      */
     public function isRequired($attribute)
     {
-        return in_array($attribute, $this->requirements, true);
+        return in_array($attribute, $this->getRequired(), true);
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getRequired()
+    {
+        return property_exists($this, 'required') ? $this->required : [];
     }
 
     /**
@@ -105,26 +104,9 @@ trait HasAttributes
     {
         $this->snakeable && $attribute = Str::snake($attribute);
 
-        if (!$this->validate($attribute, $value)) {
-            throw new InvalidArgumentException("Invalid attribute '{$attribute}'.");
-        }
-
         $this->setAttribute($attribute, $value);
 
         return $this;
-    }
-
-    /**
-     * HasAttributes validation.
-     *
-     * @param string $attribute
-     * @param mixed  $value
-     *
-     * @return bool
-     */
-    protected function validate($attribute, $value)
-    {
-        return true;
     }
 
     /**
@@ -137,7 +119,7 @@ trait HasAttributes
      */
     public function set($attribute, $value)
     {
-        $this->setAttribute($this->getRealKey($attribute), $value);
+        $this->setAttribute($attribute, $value);
 
         return $this;
     }
@@ -152,7 +134,7 @@ trait HasAttributes
      */
     public function get($attribute, $default = null)
     {
-        return $this->getAttribute($this->getRealKey($attribute), $default);
+        return $this->getAttribute($attribute, $default);
     }
 
     /**
@@ -218,23 +200,7 @@ trait HasAttributes
      */
     public function __isset($key)
     {
-        return isset($this->attributes[$this->getRealKey($key)]);
-    }
-
-    /**
-     * Return the raw name of attribute.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    protected function getRealKey($key)
-    {
-        if ($alias = array_search($key, $this->aliases, true)) {
-            $key = $alias;
-        }
-
-        return $key;
+        return isset($this->attributes[$key]);
     }
 
     /**
@@ -244,7 +210,7 @@ trait HasAttributes
      */
     protected function checkRequiredAttributes()
     {
-        foreach ($this->requirements as $attribute) {
+        foreach ($this->getRequired() as $attribute) {
             if (is_null($this->get($attribute))) {
                 throw new InvalidArgumentException(sprintf('"%s" cannot be empty.', $attribute));
             }
