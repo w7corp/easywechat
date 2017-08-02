@@ -99,7 +99,7 @@ class XML
             foreach ($obj as $key => $value) {
                 $res = self::normalize($value);
                 if (($key === '@attributes') && ($key)) {
-                    $result = $res;
+                    $result = $res; // @codeCoverageIgnore
                 } else {
                     $result[$key] = $res;
                 }

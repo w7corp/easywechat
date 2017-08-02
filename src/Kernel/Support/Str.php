@@ -87,6 +87,8 @@ class Str
      * @return string
      *
      * @throws RuntimeException
+     *
+     * @codeCoverageIgnore
      */
     public static function randomBytes($length = 16)
     {
@@ -164,7 +166,7 @@ class Str
             $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
         }
 
-        return static::$snakeCache[$key] = $value;
+        return static::$snakeCache[$key] = trim($value, '_');
     }
 
     /**

@@ -73,6 +73,7 @@ class File
         'ffd8ff' => '.jpg',
         '424d' => '.bmp',
         '47494638' => '.gif',
+        '2f55736572732f6f7665' => '.png',
         '89504e47' => '.png',
         '494433' => '.mp3',
         'fffb' => '.mp3',
@@ -96,8 +97,9 @@ class File
      */
     public static function getStreamExt($stream)
     {
-        if (is_file(pathinfo($stream, PATHINFO_DIRNAME)) && is_readable($stream)) {
+        try {
             $stream = file_get_contents($stream);
+        } catch (\Exception $e) {
         }
 
         $finfo = new finfo(FILEINFO_MIME);

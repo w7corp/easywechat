@@ -71,7 +71,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
             }
         }
 
-        return $return;
+        return new static($return);
     }
 
     /**
@@ -101,7 +101,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
             $this->set($key, $value);
         }
 
-        return $this->all();
+        return new static($this->all());
     }
 
     /**

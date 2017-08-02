@@ -65,11 +65,8 @@ class AES
      */
     public static function validateKey(string $key)
     {
-        if (!is_string($key)) {
-            throw new \InvalidArgumentException('Key must be a string');
-        }
         if (!in_array(strlen($key), [16, 24, 32], true)) {
-            throw new \InvalidArgumentException('Key length must be 16, 24, or 32 bytes; got key len ('.strlen($key).')');
+            throw new \InvalidArgumentException(sprintf('Key length must be 16, 24, or 32 bytes; got key len (%s).', strlen($key)));
         }
     }
 
@@ -78,13 +75,10 @@ class AES
      *
      * @throws \InvalidArgumentException
      */
-    public static function validateIv($iv)
+    public static function validateIv(string $iv)
     {
-        if (!is_string($iv)) {
-            throw new \InvalidArgumentException('IV must be a string');
-        }
         if (strlen($iv) !== 16) {
-            throw new \InvalidArgumentException('IV length must be 16 bytes');
+            throw new \InvalidArgumentException('IV length must be 16 bytes.');
         }
     }
 }

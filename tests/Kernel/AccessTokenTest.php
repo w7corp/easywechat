@@ -36,7 +36,6 @@ class AccessTokenTest extends TestCase
             return $cache;
         };
         $token = mock(AccessToken::class.'[setCache]', [$app]);
-        $token->expects()->setCache($cache)->once();
 
         $this->assertInstanceOf(CacheInterface::class, $token->getCache());
     }
