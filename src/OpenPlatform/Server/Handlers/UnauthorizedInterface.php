@@ -18,7 +18,7 @@ use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Unauthorized implements EventHandlerInterface
+class UnauthorizedInterface implements EventHandlerInterface
 {
     /**
      * {@inheritdoc}.
