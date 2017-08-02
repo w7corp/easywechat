@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\Kernel\Traits;
-
 
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support\Collection;
@@ -11,7 +18,6 @@ use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
-
 
 class HasHttpRequestsTest extends TestCase
 {
@@ -43,9 +49,12 @@ class HasHttpRequestsTest extends TestCase
         $cls = \Mockery::mock(HasHttpRequests::class);
         $this->assertEmpty($cls->getMiddlewares());
 
-        $fn1 = function() {};
-        $fn2 = function() {};
-        $fn3 = function() {};
+        $fn1 = function () {
+        };
+        $fn2 = function () {
+        };
+        $fn3 = function () {
+        };
 
         $cls->pushMiddleware($fn1, 'fn1');
         $cls->pushMiddleware($fn2, 'fn2');
@@ -92,12 +101,13 @@ class HasHttpRequestsTest extends TestCase
     public function testHandlerStack()
     {
         $cls = \Mockery::mock(HasHttpRequests::class);
-        $fn1 = function() {};
+        $fn1 = function () {
+        };
         $cls->pushMiddleware($fn1, 'fn1');
 
         $handlerStack = $cls->getHandlerStack();
         $this->assertInstanceOf(HandlerStack::class, $handlerStack);
-        $this->assertContains('Name: \'fn1\', Function: callable', (string)$handlerStack);
+        $this->assertContains('Name: \'fn1\', Function: callable', (string) $handlerStack);
 
         $handlerStack2 = \Mockery::mock(HandlerStack::class);
         $cls->setHandlerStack($handlerStack2);
@@ -166,10 +176,9 @@ class DummyResponseClassForHasHttpRequestTest
     }
 }
 
-
 class DummnyClassForHasHttpRequestTest
 {
     use HasHttpRequests;
-    
+
     protected $baseUri = 'http://easywechat.com';
 }
