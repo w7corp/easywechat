@@ -105,7 +105,7 @@ class Guard
             'Content' => $this->request->getContent(),
         ]);
 
-        $response = $this->validate($this->app['config']['token'])->resolve();
+        $response = $this->validate($this->app['encryptor']->getToken())->resolve();
 
         $this->app['logger']->debug('Server response created:', compact('response'));
 
