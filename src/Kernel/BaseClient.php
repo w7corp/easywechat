@@ -36,7 +36,7 @@ class BaseClient
     protected $app;
 
     /**
-     * @var \EasyWeChat\Kernel\Contracts\AccessToken
+     * @var \EasyWeChat\Kernel\Contracts\AccessTokenInterface
      */
     protected $accessToken;
 
