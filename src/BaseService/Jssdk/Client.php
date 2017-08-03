@@ -73,13 +73,14 @@ class Client extends BaseClient
     }
 
     /**
-     * Get jsticket.
+     * Get js ticket.
      *
-     * @param bool $refresh
+     * @param bool   $refresh
+     * @param string $type
      *
      * @return array
      */
-    public function getTicket(bool $refresh = false): array
+    public function getTicket(bool $refresh = false, $type = 'jsapi'): array
     {
         $cacheKey = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
 
@@ -88,7 +89,7 @@ class Client extends BaseClient
         }
 
         $result = $this->resolveResponse(
-            $this->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']]),
+            $this->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => $type]]),
             'array'
         );
 

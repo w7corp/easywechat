@@ -110,7 +110,7 @@ class Client extends BaseClient
      */
     public function sendNews(string $mediaId, $to = null)
     {
-        return $this->sendMessage(new Media('mpnews', $mediaId), $to);
+        return $this->sendMessage(new Media($mediaId, 'mpnews'), $to);
     }
 
     /**
@@ -123,7 +123,7 @@ class Client extends BaseClient
      */
     public function sendVoice(string $mediaId, $to = null)
     {
-        return $this->sendMessage(new Media('voice', $mediaId), $to);
+        return $this->sendMessage(new Media($mediaId, 'voice'), $to);
     }
 
     /**
@@ -149,7 +149,7 @@ class Client extends BaseClient
      */
     public function sendVideo(string $mediaId, $to = null)
     {
-        return $this->sendMessage(new Media('mpvideo', $mediaId), $to);
+        return $this->sendMessage(new Media($mediaId, 'mpvideo'), $to);
     }
 
     /**
@@ -190,7 +190,7 @@ class Client extends BaseClient
      */
     public function previewNews(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
-        return $this->previewMessage(new Media('mpnews', $mediaId), $to, $by);
+        return $this->previewMessage(new Media($mediaId, 'mpnews'), $to, $by);
     }
 
     /**
@@ -204,7 +204,7 @@ class Client extends BaseClient
      */
     public function previewVoice(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
-        return $this->previewMessage(new Media('voice', $mediaId), $to, $by);
+        return $this->previewMessage(new Media($mediaId, 'voice'), $to, $by);
     }
 
     /**
@@ -218,7 +218,7 @@ class Client extends BaseClient
      */
     public function previewImage(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
-        return $this->previewMessage(new Media('image', $mediaId), $to, $by);
+        return $this->previewMessage(new Image($mediaId), $to, $by);
     }
 
     /**
@@ -232,7 +232,7 @@ class Client extends BaseClient
      */
     public function previewVideo(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
-        return $this->previewMessage(new Media('mpvideo', $mediaId), $to, $by);
+        return $this->previewMessage(new Media($mediaId, 'mpvideo'), $to, $by);
     }
 
     /**

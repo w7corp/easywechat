@@ -35,15 +35,15 @@ class Media extends Message implements MediaInterface
     /**
      * MaterialClient constructor.
      *
-     * @param string $type
      * @param string $mediaId
+     * @param string $type
      * @param array  $attributes
      */
-    public function __construct(string $type, string $mediaId, array $attributes = [])
+    public function __construct(string $mediaId, $type = null, array $attributes = [])
     {
         parent::__construct(array_merge(['media_id' => $mediaId], $attributes));
 
-        $this->setType($type);
+        !empty($type) && $this->setType($type);
     }
 
     /**

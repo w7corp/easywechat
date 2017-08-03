@@ -57,10 +57,12 @@ class MessageTest extends TestCase
         $this->assertSame([
             'msgtype' => 'dummy',
             'append_id' => 'ap_id',
-            'media_id' => '12345',
-            'foo_id' => 'f',
-            'bar_name' => 'b',
-            'required_id' => 'r',
+            'dummy' => [
+                'media_id' => '12345',
+                'foo_id' => 'f',
+                'bar_name' => 'b',
+                'required_id' => 'r',
+            ],
         ], $message->transformForJsonRequest(['append_id' => 'ap_id']));
 
         // optional
@@ -75,11 +77,13 @@ class MessageTest extends TestCase
         $this->assertSame([
             'msgtype' => 'dummy',
             'append_id' => 'ap_id',
-            'media_id' => '12345',
-            'title' => 'the title',
-            'foo_id' => 'f',
-            'bar_name' => 'b',
-            'required_id' => 'r',
+            'dummy' => [
+                'media_id' => '12345',
+                'title' => 'the title',
+                'foo_id' => 'f',
+                'bar_name' => 'b',
+                'required_id' => 'r',
+            ],
         ], $message->transformForJsonRequest(['append_id' => 'ap_id']));
     }
 

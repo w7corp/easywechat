@@ -63,7 +63,7 @@ class BaseClient
      * @param string $url
      * @param array  $query
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function httpGet(string $url, array $query = [])
     {
@@ -76,7 +76,7 @@ class BaseClient
      * @param string $url
      * @param array  $data
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function httpPost(string $url, array $data = [])
     {
@@ -90,7 +90,7 @@ class BaseClient
      * @param string|array $data
      * @param array        $query
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function httpPostJson(string $url, array $data = [], array $query = [])
     {
@@ -105,7 +105,7 @@ class BaseClient
      * @param array  $form
      * @param array  $query
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = [])
     {
@@ -169,7 +169,7 @@ class BaseClient
      * @param string $method
      * @param array  $options
      *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @return ResponseInterface
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {

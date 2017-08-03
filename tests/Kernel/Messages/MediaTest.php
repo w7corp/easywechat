@@ -19,7 +19,7 @@ class MediaTest extends TestCase
 {
     public function testGetMediaId()
     {
-        $media = new Media('image', 'mock-media-id', ['title' => 'mock-title']);
+        $media = new Media('mock-media-id', 'image', ['title' => 'mock-title']);
         $this->assertInstanceOf(MediaInterface::class, $media);
         $this->assertSame('image', $media->getType());
         $this->assertSame('mock-media-id', $media->getMediaId());

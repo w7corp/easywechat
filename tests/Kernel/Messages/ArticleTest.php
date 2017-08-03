@@ -32,13 +32,15 @@ class ArticleTest extends TestCase
         $this->assertSame('mpnews', $article->getType());
         $this->assertSame([
             'msgtype' => 'mpnews',
-            'thumb_media_id' => 'mock-thumb_media_id',
-            'author' => 'mock-author',
-            'title' => 'mock-title',
-            'content' => 'mock-content',
-            'digest' => 'mock-digest',
-            'content_source_url' => 'mock-source_url',
-            'show_cover_pic' => 'mock-show_cover',
+            'mpnews' => [
+                'thumb_media_id' => 'mock-thumb_media_id',
+                'author' => 'mock-author',
+                'title' => 'mock-title',
+                'content' => 'mock-content',
+                'digest' => 'mock-digest',
+                'content_source_url' => 'mock-source_url',
+                'show_cover_pic' => 'mock-show_cover',
+            ],
         ], $article->transformForJsonRequest());
     }
 }

@@ -70,10 +70,6 @@ class MessageBuilder
      */
     public function build(array $prepends = [])
     {
-        if (empty($this->msgType)) {
-            throw new RuntimeException('message type not exist.');
-        }
-
         if (empty($this->message)) {
             throw new RuntimeException('No message content to send.');
         }
@@ -98,7 +94,7 @@ class MessageBuilder
      */
     public function buildForPreview($by)
     {
-        return $this->build($this->buildTo($this->to, $by));
+        return $this->build([$by => $this->to]);
     }
 
     /**
@@ -130,19 +126,5 @@ class MessageBuilder
         }
 
         return $group;
-    }
-
-    /**
-     * Return property.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
     }
 }

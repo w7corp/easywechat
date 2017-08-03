@@ -142,9 +142,10 @@ abstract class Message implements MessageInterface
      */
     public function transformForJsonRequest(array $appends = []): array
     {
-        $data = array_merge(['msgtype' => $this->getType()], $appends);
+        $messageType = $this->getType();
+        $data = array_merge(['msgtype' => $messageType], $appends);
 
-        $data = $this->propertiesToArray($data, $this->jsonAliases);
+        $data[$messageType] = array_merge($data[$messageType] ?? [], $this->propertiesToArray([], $this->jsonAliases));
 
         return $data;
     }
