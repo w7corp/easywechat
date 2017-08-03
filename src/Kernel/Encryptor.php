@@ -90,6 +90,16 @@ class Encryptor
     }
 
     /**
+     * Get the app token.
+     *
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
      * Encrypt the message and return XML.
      *
      * @param string $xml
