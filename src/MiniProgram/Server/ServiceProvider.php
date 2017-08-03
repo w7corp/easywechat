@@ -31,11 +31,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         !isset($app['server']) && $app['server'] = function ($app) {
-            $server = new Guard($app['config']['token']);
-            $server->debug($app['config']['debug']);
-            $server->setEncryptor($app['encryptor']);
-
-            return $server;
+            return (new Guard($app))->debug($app['config']['debug']);
         };
     }
 }

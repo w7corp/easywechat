@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
@@ -61,7 +60,7 @@ class Application extends ServiceContainer
      * @param string                                                   $refreshToken
      * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
      *
-     * @return OfficialAccount
+     * @return \EasyWeChat\OfficialAccount\Application
      */
     public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): OfficialAccount
     {
@@ -78,7 +77,7 @@ class Application extends ServiceContainer
      * @param string                                                   $refreshToken
      * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
      *
-     * @return MiniProgram
+     * @return \EasyWeChat\MiniProgram\Application
      */
     public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): MiniProgram
     {
@@ -105,11 +104,11 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param AuthorizerAccessToken $accessToken
+     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
      *
      * @return array
      */
-    protected function getReplaceServices(AuthorizerAccessToken $accessToken = null)
+    protected function getReplaceServices(AuthorizerAccessToken $accessToken = null): array
     {
         return [
             'access_token' => $accessToken ?? function ($app) {
@@ -125,7 +124,7 @@ class Application extends ServiceContainer
     }
 
     /**
-     * Quick access to the base-api.
+     * Handle dynamic calls.
      *
      * @param string $method
      * @param array  $args

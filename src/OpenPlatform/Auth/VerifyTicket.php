@@ -64,7 +64,7 @@ class VerifyTicket
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function getTicket()
+    public function getTicket(): string
     {
         if ($cached = $this->getCache()->get($this->getCacheKey())) {
             return $cached;
@@ -78,7 +78,7 @@ class VerifyTicket
      *
      * @return string
      */
-    protected function getCacheKey()
+    protected function getCacheKey(): string
     {
         return 'easywechat.open_platform.component_verify_ticket.'.$this->appId;
     }
