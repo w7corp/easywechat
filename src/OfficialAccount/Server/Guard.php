@@ -248,7 +248,7 @@ class Guard
         }
 
         if (is_string($message) || is_numeric($message)) {
-            $message = new Text(['content' => $message]);
+            $message = new Text($message);
         }
 
         if (!$this->isMessage($message)) {
