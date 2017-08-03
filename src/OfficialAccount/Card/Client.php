@@ -12,7 +12,6 @@
 namespace EasyWeChat\OfficialAccount\Card;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
 
 /**
@@ -48,9 +47,19 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getColors()
+    public function colors()
     {
         return $this->httpGet('card/getcolors');
+    }
+
+    /**
+     * 卡券开放类目查询接口.
+     *
+     * @return mixed
+     */
+    public function categories()
+    {
+        return $this->httpGet('card/getapplyprotocol');
     }
 
     /**
@@ -73,345 +82,6 @@ class Client extends BaseClient
         ];
 
         return $this->httpPostJson('card/create', $params);
-    }
-
-    /**
-     * 创建二维码.
-     *
-     * @param array $cards
-     *
-     * @return mixed
-     */
-    public function createQrCode(array $cards = [])
-    {
-        return $this->httpPostJson('card/qrcode/create', $cards);
-    }
-
-    /**
-     * ticket 换取二维码图片.
-     *
-     * @param string $ticket
-     *
-     * @return array
-     */
-    public function showQrCode($ticket = null)
-    {
-        $baseUri = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
-        $params = [
-            'ticket' => $ticket,
-        ];
-
-        $response = $this->requestRaw($baseUri, 'GET', $params);
-
-        return [
-            'status' => $response->getStatusCode(),
-            'reason' => $response->getReasonPhrase(),
-            'headers' => $response->getHeaders(),
-            'body' => strval($response->getBody()),
-            'url' => $baseUri.'?'.http_build_query($params),
-        ];
-    }
-
-    /**
-     * 通过ticket换取二维码 链接.
-     *
-     * @param string $ticket
-     *
-     * @return string
-     */
-    public function getQrCodeUrl($ticket)
-    {
-        return sprintf('https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', $ticket);
-    }
-
-    /**
-     * 获取 卡券 Api_ticket.
-     *
-     * @param bool $refresh 是否强制刷新
-     *
-     * @return string $apiTicket
-     */
-    public function getTicket($refresh = false)
-    {
-        $key = $this->getTicketCacheKey();
-
-        $ticket = $this->getCache()->get($key);
-
-        if (!$ticket || $refresh) {
-            $result = $this->httpGet('cgi-bin/ticket/getticket', ['type' => 'wx_card']);
-
-            $this->getCache()->set($key, $ticket = $result['ticket'], $result['expires_in'] - 500);
-
-            return $ticket;
-        }
-
-        return $ticket;
-    }
-
-    /**
-     * 微信卡券：JSAPI 卡券发放.
-     *
-     * @param array $cards
-     *
-     * @return string
-     */
-    public function jsConfigForAssign(array $cards)
-    {
-        return json_encode(array_map(function ($card) {
-            return $this->attachExtension($card['card_id'], $card);
-        }, $cards));
-    }
-
-    /**
-     * 生成 js添加到卡包 需要的 card_list 项.
-     *
-     * @param string $cardId
-     * @param array  $extension
-     *
-     * @return array
-     */
-    public function attachExtension($cardId, array $extension = [])
-    {
-        $timestamp = time();
-        $ext = [
-            'code' => Arr::get($extension, 'code'),
-            'openid' => Arr::get($extension, 'openid', Arr::get($extension, 'open_id')),
-            'timestamp' => $timestamp,
-            'outer_id' => Arr::get($extension, 'outer_id'),
-            'balance' => Arr::get($extension, 'balance'),
-            'fixed_begintimestamp' => Arr::get($extension, 'fixed_begintimestamp'),
-            'outer_str' => Arr::get($extension, 'outer_str'),
-        ];
-        $ext['signature'] = $this->getSignature(
-            $this->getTicket(),
-            $timestamp,
-            $cardId,
-            $ext['code'],
-            $ext['openid'],
-            $ext['balance']
-        );
-
-        return [
-            'cardId' => $cardId,
-            'cardExt' => json_encode($ext),
-        ];
-    }
-
-    /**
-     * 生成签名.
-     *
-     * @return string
-     */
-    public function getSignature()
-    {
-        $params = func_get_args();
-        sort($params, SORT_STRING);
-
-        return sha1(implode($params));
-    }
-
-    /**
-     * 创建货架接口.
-     *
-     * @param string $banner
-     * @param string $pageTitle
-     * @param bool   $canShare
-     * @param string $scene     [SCENE_NEAR_BY 附近,SCENE_MENU 自定义菜单,SCENE_QRCODE 二维码,SCENE_ARTICLE 公众号文章,
-     *                          SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
-     * @param array  $cardList
-     *
-     * @return mixed
-     */
-    public function createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList)
-    {
-        $params = [
-            'banner' => $banner,
-            'page_title' => $pageTitle,
-            'can_share' => $canShare,
-            'scene' => $scene,
-            'card_list' => $cardList,
-        ];
-
-        return $this->httpPostJson('card/landingpage/create', $params);
-    }
-
-    /**
-     * 导入code接口.
-     *
-     * @param string $cardId
-     * @param array  $code
-     *
-     * @return mixed
-     */
-    public function deposit($cardId, $code)
-    {
-        $params = [
-            'card_id' => $cardId,
-            'code' => $code,
-        ];
-
-        return $this->httpPostJson('card/code/deposit', $params);
-    }
-
-    /**
-     * 查询导入code数目.
-     *
-     * @param string $cardId
-     *
-     * @return mixed
-     */
-    public function getDepositedCount($cardId)
-    {
-        $params = [
-            'card_id' => $cardId,
-        ];
-
-        return $this->httpPostJson('card/code/getdepositcount', $params);
-    }
-
-    /**
-     * 核查code接口.
-     *
-     * @param string $cardId
-     * @param array  $code
-     *
-     * @return mixed
-     */
-    public function checkCode($cardId, $code)
-    {
-        $params = [
-            'card_id' => $cardId,
-            'code' => $code,
-        ];
-
-        return $this->httpPostJson('card/code/checkcode', $params);
-    }
-
-    /**
-     * 查询Code接口.
-     *
-     * @param string $code
-     * @param bool   $checkConsume
-     * @param string $cardId
-     *
-     * @return mixed
-     */
-    public function getCode($code, $checkConsume, $cardId)
-    {
-        $params = [
-            'code' => $code,
-            'check_consume' => $checkConsume,
-            'card_id' => $cardId,
-        ];
-
-        return $this->httpPostJson('card/code/get', $params);
-    }
-
-    /**
-     * 核销Code接口.
-     *
-     * @param string $code
-     * @param string $cardId
-     *
-     * @return mixed
-     */
-    public function consume($code, $cardId = null)
-    {
-        if (strlen($code) === 28 && $cardId && strlen($cardId) !== 28) {
-            list($code, $cardId) = [$cardId, $code];
-        }
-
-        $params = [
-            'code' => $code,
-        ];
-
-        if ($cardId) {
-            $params['card_id'] = $cardId;
-        }
-
-        return $this->httpPostJson('card/code/consume', $params);
-    }
-
-    /**
-     * Code解码接口.
-     *
-     * @param string $encryptedCode
-     *
-     * @return mixed
-     */
-    public function decryptCode($encryptedCode)
-    {
-        $params = [
-            'encrypt_code' => $encryptedCode,
-        ];
-
-        return $this->httpPostJson('card/code/decrypt', $params);
-    }
-
-    /**
-     * 图文消息群发卡券.
-     *
-     * @param string $cardId
-     *
-     * @return mixed
-     */
-    public function getHtml($cardId)
-    {
-        $params = [
-            'card_id' => $cardId,
-        ];
-
-        return $this->httpPostJson('card/mpnews/gethtml', $params);
-    }
-
-    /**
-     * 设置测试白名单.
-     *
-     * @param array $openids
-     *
-     * @return mixed
-     */
-    public function setTestWhitelist($openids)
-    {
-        $params = [
-            'openid' => $openids,
-        ];
-
-        return $this->httpPostJson('card/testwhitelist/set', $params);
-    }
-
-    /**
-     * 设置测试白名单(by username).
-     *
-     * @param array $usernames
-     *
-     * @return mixed
-     */
-    public function setTestWhitelistByUsername($usernames)
-    {
-        $params = [
-            'username' => $usernames,
-        ];
-
-        return $this->httpPostJson('card/testwhitelist/set', $params);
-    }
-
-    /**
-     * 获取用户已领取卡券接口.
-     *
-     * @param string $openid
-     * @param string $cardId
-     *
-     * @return mixed
-     */
-    public function getUserCards($openid, $cardId = '')
-    {
-        $params = [
-            'openid' => $openid,
-            'card_id' => $cardId,
-        ];
-
-        return $this->httpPostJson('card/user/getcardlist', $params);
     }
 
     /**
@@ -474,6 +144,162 @@ class Client extends BaseClient
         $card[$type] = array_merge($cardInfo, $especial);
 
         return $this->httpPostJson('card/update', $card);
+    }
+
+    /**
+     * 删除卡券接口.
+     *
+     * @param string $cardId
+     *
+     * @return mixed
+     */
+    public function delete($cardId)
+    {
+        $params = [
+            'card_id' => $cardId,
+        ];
+
+        return $this->httpPostJson('card/delete', $params);
+    }
+
+    /**
+     * 创建二维码.
+     *
+     * @param array $cards
+     *
+     * @return mixed
+     */
+    public function createQrCode(array $cards = [])
+    {
+        return $this->httpPostJson('card/qrcode/create', $cards);
+    }
+
+    /**
+     * ticket 换取二维码图片.
+     *
+     * @param string $ticket
+     *
+     * @return array
+     */
+    public function getQrCode($ticket = null)
+    {
+        $baseUri = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+        $params = [
+            'ticket' => $ticket,
+        ];
+
+        $response = $this->requestRaw($baseUri, 'GET', $params);
+
+        return [
+            'status' => $response->getStatusCode(),
+            'reason' => $response->getReasonPhrase(),
+            'headers' => $response->getHeaders(),
+            'body' => strval($response->getBody()),
+            'url' => $baseUri.'?'.http_build_query($params),
+        ];
+    }
+
+    /**
+     * 通过ticket换取二维码 链接.
+     *
+     * @param string $ticket
+     *
+     * @return string
+     */
+    public function getQrCodeUrl($ticket)
+    {
+        return sprintf('https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', $ticket);
+    }
+
+    /**
+     * 创建货架接口.
+     *
+     * @param string $banner
+     * @param string $pageTitle
+     * @param bool   $canShare
+     * @param string $scene     [SCENE_NEAR_BY 附近,SCENE_MENU 自定义菜单,SCENE_QRCODE 二维码,SCENE_ARTICLE 公众号文章,
+     *                          SCENE_H5 h5页面,SCENE_IVR 自动回复,SCENE_CARD_CUSTOM_CELL 卡券自定义cell]
+     * @param array  $cardList
+     *
+     * @return mixed
+     */
+    public function createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList)
+    {
+        $params = [
+            'banner' => $banner,
+            'page_title' => $pageTitle,
+            'can_share' => $canShare,
+            'scene' => $scene,
+            'card_list' => $cardList,
+        ];
+
+        return $this->httpPostJson('card/landingpage/create', $params);
+    }
+
+    /**
+     * 图文消息群发卡券.
+     *
+     * @param string $cardId
+     *
+     * @return mixed
+     */
+    public function getHtml($cardId)
+    {
+        $params = [
+            'card_id' => $cardId,
+        ];
+
+        return $this->httpPostJson('card/mpnews/gethtml', $params);
+    }
+
+    /**
+     * 设置测试白名单.
+     *
+     * @param array $openids
+     *
+     * @return mixed
+     */
+    public function setTestWhitelist($openids)
+    {
+        $params = [
+            'openid' => $openids,
+        ];
+
+        return $this->httpPostJson('card/testwhitelist/set', $params);
+    }
+
+    /**
+     * 设置测试白名单(by username).
+     *
+     * @param array $usernames
+     *
+     * @return mixed
+     */
+    public function setTestWhitelistByName(array $usernames)
+    {
+        $params = [
+            'username' => $usernames,
+        ];
+
+        return $this->httpPostJson('card/testwhitelist/set', $params);
+    }
+
+    /**
+     * 获取用户已领取卡券接口.
+     *
+     * @param string $openid
+     * @param string $cardId
+     *
+     * @return mixed
+     */
+    public function getUserCards($openid, $cardId = '')
+    {
+        $params = [
+            'openid' => $openid,
+            'card_id' => $cardId,
+        ];
+
+        return $this->httpPostJson('card/user/getcardlist', $params);
     }
 
     /**
@@ -542,283 +368,14 @@ class Client extends BaseClient
     }
 
     /**
-     * 更改Code接口.
-     *
-     * @param string $code
-     * @param string $newCode
-     * @param array  $cardId
-     *
-     * @return mixed
-     */
-    public function updateCode($code, $newCode, $cardId = [])
-    {
-        $params = [
-            'code' => $code,
-            'new_code' => $newCode,
-            'card_id' => $cardId,
-        ];
-
-        return $this->httpPostJson('card/code/update', $params);
-    }
-
-    /**
-     * 删除卡券接口.
-     *
-     * @param string $cardId
-     *
-     * @return mixed
-     */
-    public function delete($cardId)
-    {
-        $params = [
-            'card_id' => $cardId,
-        ];
-
-        return $this->httpPostJson('card/delete', $params);
-    }
-
-    /**
-     * 设置卡券失效.
-     *
-     * @param string $code
-     * @param string $cardId
-     *
-     * @return mixed
-     */
-    public function disable($code, $cardId = '')
-    {
-        $params = [
-            'code' => $code,
-            'card_id' => $cardId,
-        ];
-
-        return $this->httpPostJson('card/code/unavailable', $params);
-    }
-
-    /**
-     * 会员卡接口激活.
-     *
-     * @param array  $info
-     * @param string $cardType
-     *
-     * @return mixed
-     */
-    public function activate($info = [], $cardType = 'member_card')
-    {
-        if ($cardType === 'general_card') {
-            return $this->httpPostJson('card/generalcard/activate', $info);
-        }
-
-        return $this->httpPostJson('card/membercard/activate', $info);
-    }
-
-    /**
-     * 设置开卡字段接口.
-     *
-     * @param string $cardId
-     * @param array  $requiredForm
-     * @param array  $optionalForm
-     *
-     * @return mixed
-     */
-    public function activateUserForm($cardId, array $requiredForm = [], array $optionalForm = [])
-    {
-        $params = array_merge(['card_id' => $cardId], $requiredForm, $optionalForm);
-
-        return $this->httpPostJson('card/membercard/activateuserform/set', $params);
-    }
-
-    /**
-     * 拉取会员信息接口.
-     *
-     * @param string $cardId
-     * @param string $code
-     *
-     * @return mixed
-     */
-    public function getMemberCardUser($cardId, $code)
-    {
-        $params = [
-            'card_id' => $cardId,
-            'code' => $code,
-        ];
-
-        return $this->httpPostJson('card/membercard/userinfo/get', $params);
-    }
-
-    /**
-     * 更新会员信息.
-     *
-     * @param array $params
-     *
-     * @return mixed
-     */
-    public function updateMemberCardUser(array $params = [])
-    {
-        return $this->httpPostJson('card/membercard/updateuser', $params);
-    }
-
-    /**
      * 更新通用员信息.
      *
      * @param array $params
      *
      * @return mixed
      */
-    public function updateGeneralCardUser(array $params = [])
+    public function updateCardUser(array $params = [])
     {
         return $this->httpPostJson('card/generalcard/updateuser', $params);
-    }
-
-    /**
-     * 添加子商户.
-     *
-     * @param array $info
-     *
-     * @return mixed
-     */
-    public function createSubMerchant(array $info = [])
-    {
-        $params = [
-            'info' => Arr::only($info, [
-                'brand_name',
-                'logo_url',
-                'protocol',
-                'end_time',
-                'primary_category_id',
-                'secondary_category_id',
-                'agreement_media_id',
-                'operator_media_id',
-                'app_id',
-            ]),
-        ];
-
-        return $this->httpPostJson('card/submerchant/submit', $params);
-    }
-
-    /**
-     * 更新子商户.
-     *
-     * @param int   $merchantId
-     * @param array $info
-     *
-     * @return mixed
-     */
-    public function updateSubMerchant($merchantId, array $info = [])
-    {
-        $params = [
-            'info' => array_merge(['merchant_id' => $merchantId],
-                Arr::only($info, [
-                    'brand_name',
-                    'logo_url',
-                    'protocol',
-                    'end_time',
-                    'primary_category_id',
-                    'secondary_category_id',
-                    'agreement_media_id',
-                    'operator_media_id',
-                    'app_id',
-                ])),
-        ];
-
-        return $this->httpPostJson('card/submerchant/update', $params);
-    }
-
-    /**
-     * 获取子商户信息.
-     *
-     * @param int $merchantId
-     *
-     * @return mixed
-     */
-    public function getSubMerchant($merchantId)
-    {
-        return $this->httpPostJson('card/submerchant/get', ['merchant_id' => $merchantId]);
-    }
-
-    /**
-     * 批量获取子商户信息.
-     *
-     * @param int    $beginId
-     * @param int    $limit
-     * @param string $status
-     *
-     * @return mixed
-     */
-    public function listSubMerchants($beginId = 0, $limit = 50, $status = 'CHECKING')
-    {
-        $params = [
-            'begin_id' => $beginId,
-            'limit' => $limit,
-            'status' => $status,
-        ];
-
-        return $this->httpPostJson('card/submerchant/batchget', $params);
-    }
-
-    /**
-     * 卡券开放类目查询接口.
-     *
-     * @return mixed
-     */
-    public function getCategories()
-    {
-        return $this->httpGet('card/getapplyprotocol');
-    }
-
-    /**
-     * Set Api_ticket cache prefix.
-     *
-     * @param string $prefix
-     *
-     * @return $this
-     */
-    public function setTicketCachePrefix($prefix)
-    {
-        $this->ticketCachePrefix = $prefix;
-
-        return $this;
-    }
-
-    /**
-     * Set Api_ticket cache key.
-     *
-     * @param string $cacheKey
-     *
-     * @return $this
-     */
-    public function setTicketCacheKey($cacheKey)
-    {
-        $this->ticketCacheKey = $cacheKey;
-
-        return $this;
-    }
-
-    /**
-     * Get ApiTicket token cache key.
-     *
-     * @return string
-     */
-    public function getTicketCacheKey()
-    {
-        if (is_null($this->ticketCacheKey)) {
-            return $this->ticketCachePrefix.$this->getAccessToken()->getClientId();
-        }
-
-        return $this->ticketCacheKey;
-    }
-
-    /**
-     * Set current url.
-     *
-     * @param string $url
-     *
-     * @return Client
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
     }
 }
