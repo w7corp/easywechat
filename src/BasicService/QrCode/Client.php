@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\BaseService\QrCode;
+namespace EasyWeChat\BasicService\QrCode;
 
 use EasyWeChat\Kernel\BaseClient;
 

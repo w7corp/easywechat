@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\BaseService\Jssdk;
+namespace EasyWeChat\Tests\BasicService\Jssdk;
 
-use EasyWeChat\BaseService\Jssdk\Client;
+use EasyWeChat\BasicService\Jssdk\Client;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 

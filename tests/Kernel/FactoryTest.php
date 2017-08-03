@@ -62,8 +62,8 @@ class FactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            \EasyWeChat\BaseService\Application::class,
-            Factory::baseService(['appid' => 'appid@789'])
+            \EasyWeChat\BasicService\Application::class,
+            Factory::basicService(['appid' => 'appid@789'])
         );
     }
 }

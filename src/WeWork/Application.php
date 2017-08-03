@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\WeWork;
 
-use EasyWeChat\BaseService;
+use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -19,15 +19,15 @@ use EasyWeChat\Kernel\ServiceContainer;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  *
- * @property \EasyWeChat\WeWork\OA\Client         $oa
- * @property \EasyWeChat\WeWork\Auth\AccessToken  $access_token
- * @property \EasyWeChat\WeWork\Agent\Client      $agent
- * @property \EasyWeChat\WeWork\Department\Client $department
- * @property \EasyWeChat\WeWork\Media\Client      $media
- * @property \EasyWeChat\WeWork\Menu\Client       $menu
- * @property \EasyWeChat\WeWork\Message\Client    $message
- * @property \EasyWeChat\WeWork\Message\Messenger $messenger
- * @property \EasyWeChat\BaseService\Jssdk\Client $jssdk
+ * @property \EasyWeChat\WeWork\OA\Client          $oa
+ * @property \EasyWeChat\WeWork\Auth\AccessToken   $access_token
+ * @property \EasyWeChat\WeWork\Agent\Client       $agent
+ * @property \EasyWeChat\WeWork\Department\Client  $department
+ * @property \EasyWeChat\WeWork\Media\Client       $media
+ * @property \EasyWeChat\WeWork\Menu\Client        $menu
+ * @property \EasyWeChat\WeWork\Message\Client     $message
+ * @property \EasyWeChat\WeWork\Message\Messenger  $messenger
+ * @property \EasyWeChat\BasicService\Jssdk\Client $jssdk
  *
  * @method mixed getCallbackIp()
  */
@@ -48,7 +48,7 @@ class Application extends ServiceContainer
         Department\ServiceProvider::class,
 
         // base services
-        BaseService\Jssdk\ServiceProvider::class,
+        BasicService\Jssdk\ServiceProvider::class,
     ];
 
     /**

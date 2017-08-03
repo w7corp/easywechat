@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-use EasyWeChat\BaseService\Jssdk\Client;
+use EasyWeChat\BasicService\Jssdk\Client;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OfficialAccount\Card\JssdkClient;
 use EasyWeChat\Tests\TestCase;

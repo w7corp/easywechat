@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment;
 
-use EasyWeChat\BaseService;
+use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -38,7 +38,7 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
-        BaseService\Url\ServiceProvider::class,
+        BasicService\Url\ServiceProvider::class,
         ServiceProvider::class,
     ];
 

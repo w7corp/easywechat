@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\BaseService\Media;
+namespace EasyWeChat\Tests\BasicService\Media;
 
-use EasyWeChat\BaseService\Media\Client;
+use EasyWeChat\BasicService\Media\Client;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Http\StreamResponse;

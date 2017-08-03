@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\BaseService;
+namespace EasyWeChat\BasicService;
 
 use EasyWeChat\Kernel\ServiceContainer;
 
@@ -18,10 +18,10 @@ use EasyWeChat\Kernel\ServiceContainer;
  *
  * @author overtrue <i@overtrue.me>
  *
- * @property \EasyWeChat\BaseService\Jssdk\Client  $jssdk
- * @property \EasyWeChat\BaseService\Media\Client  $media
- * @property \EasyWeChat\BaseService\QrCode\Client $qrcode
- * @property \EasyWeChat\BaseService\Url\Client    $url
+ * @property \EasyWeChat\BasicService\Jssdk\Client  $jssdk
+ * @property \EasyWeChat\BasicService\Media\Client  $media
+ * @property \EasyWeChat\BasicService\QrCode\Client $qrcode
+ * @property \EasyWeChat\BasicService\Url\Client    $url
  */
 class Application extends ServiceContainer
 {
