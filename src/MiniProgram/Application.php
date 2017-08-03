@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\MiniProgram;
 
-use EasyWeChat\BaseService;
+use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -32,6 +32,6 @@ class Application extends ServiceContainer
         Server\ServiceProvider::class,
         TemplateMessage\ServiceProvider::class,
         // Base services
-        BaseService\Media\ServiceProvider::class,
+        BasicService\Media\ServiceProvider::class,
     ];
 }

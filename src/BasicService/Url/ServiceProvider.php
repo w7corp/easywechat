@@ -9,15 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\BaseService\Jssdk;
+namespace EasyWeChat\BasicService\Url;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
  * Class ServiceProvider.
- *
- * @author overtrue <i@overtrue.me>
  */
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -26,7 +24,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['jssdk'] = function ($app) {
+        $app['url'] = function ($app) {
             return new Client($app);
         };
     }

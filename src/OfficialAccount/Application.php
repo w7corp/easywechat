@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\OfficialAccount;
 
-use EasyWeChat\BaseService;
+use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -19,10 +19,10 @@ use EasyWeChat\Kernel\ServiceContainer;
  *
  * @author overtrue <i@overtrue.me>
  *
- * @property \EasyWeChat\BaseService\Media\Client               $media
- * @property \EasyWeChat\BaseService\Url\Client                 $url
- * @property \EasyWeChat\BaseService\QrCode\Client              $qrcode
- * @property \EasyWeChat\BaseService\Jssdk\Client               $jssdk
+ * @property \EasyWeChat\BasicService\Media\Client              $media
+ * @property \EasyWeChat\BasicService\Url\Client                $url
+ * @property \EasyWeChat\BasicService\QrCode\Client             $qrcode
+ * @property \EasyWeChat\BasicService\Jssdk\Client              $jssdk
  * @property \EasyWeChat\OfficialAccount\Auth\AccessToken       $access_token
  * @property \EasyWeChat\OfficialAccount\Server\Guard           $server
  * @property \EasyWeChat\OfficialAccount\User\UserClient        $user
@@ -65,9 +65,9 @@ class Application extends ServiceContainer
         Comment\ServiceProvider::class,
         Invoice\ServiceProvider::class,
         // Base services
-        BaseService\QrCode\ServiceProvider::class,
-        BaseService\Media\ServiceProvider::class,
-        BaseService\Url\ServiceProvider::class,
-        BaseService\Jssdk\ServiceProvider::class,
+        BasicService\QrCode\ServiceProvider::class,
+        BasicService\Media\ServiceProvider::class,
+        BasicService\Url\ServiceProvider::class,
+        BasicService\Jssdk\ServiceProvider::class,
     ];
 }

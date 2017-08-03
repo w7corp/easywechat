@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\BaseService\Url;
+namespace EasyWeChat\Tests\BasicService\Url;
 
-use EasyWeChat\BaseService\Url\Client;
+use EasyWeChat\BasicService\Url\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

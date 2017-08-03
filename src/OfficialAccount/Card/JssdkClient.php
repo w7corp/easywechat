@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\OfficialAccount\Card;
 
-use EasyWeChat\BaseService\Jssdk\Client as Jssdk;
+use EasyWeChat\BasicService\Jssdk\Client as Jssdk;
 use EasyWeChat\Kernel\Support\Arr;
 
 /**
