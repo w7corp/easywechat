@@ -115,9 +115,9 @@ class Client extends BaseClient
     /**
      * Update article.
      *
-     * @param string $mediaId
-     * @param array|Article  $article
-     * @param int    $index
+     * @param string        $mediaId
+     * @param array|Article $article
+     * @param int           $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */

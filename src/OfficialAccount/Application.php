@@ -63,7 +63,6 @@ class Application extends ServiceContainer
         Device\ServiceProvider::class,
         ShakeAround\ServiceProvider::class,
         Comment\ServiceProvider::class,
-        Invoice\ServiceProvider::class,
         // Base services
         BasicService\QrCode\ServiceProvider::class,
         BasicService\Media\ServiceProvider::class,

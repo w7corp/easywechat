@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\OfficialAccount\User;
 
-
 use EasyWeChat\OfficialAccount\User\TagClient;
 use EasyWeChat\Tests\TestCase;
-
 
 class TagClientTest extends TestCase
 {

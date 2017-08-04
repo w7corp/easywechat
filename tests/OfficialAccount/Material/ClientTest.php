@@ -1,8 +1,15 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\OfficialAccount\Material;
-
 
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Http\StreamResponse;
@@ -10,7 +17,6 @@ use EasyWeChat\Kernel\Messages\Article;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OfficialAccount\Material\Client;
 use EasyWeChat\Tests\TestCase;
-
 
 class ClientTest extends TestCase
 {
@@ -152,14 +158,14 @@ class ClientTest extends TestCase
 
         // stream response
         $response = new Response(200, ['Content-Type' => ['image/jpeg']], 'mock-content');
-        $client->expects()->requestRaw('cgi-bin/material/get_material','GET',  ['query' => ['media_id' => 'mock-media-id']])
+        $client->expects()->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => 'mock-media-id']])
                     ->andReturn($response)->once();
 
         $this->assertInstanceOf(StreamResponse::class, $client->get('mock-media-id'));
 
         // json response
         $response = new Response(200, ['Content-Type' => ['application/json']], '{"title": "mock-title"}');
-        $client->expects()->requestRaw('cgi-bin/material/get_material','GET',  ['query' => ['media_id' => 'mock-media-id']])
+        $client->expects()->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => 'mock-media-id']])
                     ->andReturn($response)->once();
 
         $result = $client->get('mock-media-id');

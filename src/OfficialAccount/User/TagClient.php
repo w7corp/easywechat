@@ -99,7 +99,7 @@ class TagClient extends BaseClient
     /**
      * Get users from a tag.
      *
-     * @param int $tagId
+     * @param int    $tagId
      * @param string $nextOpenId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string

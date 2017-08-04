@@ -1,13 +1,19 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\OfficialAccount\Device;
-
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OfficialAccount\Device\Client;
 use EasyWeChat\Tests\TestCase;
-
 
 class ClientTest extends TestCase
 {
@@ -16,6 +22,7 @@ class ClientTest extends TestCase
         $app = new ServiceContainer(array_merge([
             'device_type' => 'mock-type',
         ], $config));
+
         return $this->mockApiClient(Client::class, [], $app);
     }
 

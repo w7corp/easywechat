@@ -54,7 +54,7 @@ class UserClient extends BaseClient
                     'openid' => $openId,
                     'lang' => $lang,
                 ];
-            }, $openIds)
+            }, $openIds),
         ]);
     }
 

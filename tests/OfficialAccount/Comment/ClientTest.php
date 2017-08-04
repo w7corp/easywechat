@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\OfficialAccount\Comment;
 
-
 use EasyWeChat\OfficialAccount\Comment\Client;
 use EasyWeChat\Tests\TestCase;
-
 
 class ClientTest extends TestCase
 {
@@ -16,7 +22,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/comment/open', [
             'msg_data_id' => 'mock-id',
-            'index' => 1
+            'index' => 1,
         ])->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->open('mock-id', 1));
@@ -28,7 +34,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/comment/close', [
             'msg_data_id' => 'mock-id',
-            'index' => 2
+            'index' => 2,
         ])->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->close('mock-id', 2));

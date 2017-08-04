@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\OfficialAccount\POI;
 
-
 use EasyWeChat\OfficialAccount\POI\Client;
 use EasyWeChat\Tests\TestCase;
-
 
 class ClientTest extends TestCase
 {
@@ -40,13 +46,13 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/poi/getpoilist', [
             'begin' => 0,
-            'limit' => 10
+            'limit' => 10,
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->lists());
 
         $client->expects()->httpPostJson('cgi-bin/poi/getpoilist', [
             'begin' => 1,
-            'limit' => 20
+            'limit' => 20,
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->lists(1, 20));
     }
@@ -58,7 +64,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/poi/addpoi', [
             'business' => [
                 'base_info' => ['foo' => 'bar'],
-            ]
+            ],
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
@@ -71,7 +77,6 @@ class ClientTest extends TestCase
         $this->assertSame('mock-id', $client->createAndGetId(['foo' => 'bar']));
     }
 
-
     public function testUpdate()
     {
         $client = $this->mockApiClient(Client::class);
@@ -80,9 +85,9 @@ class ClientTest extends TestCase
             'business' => [
                 'base_info' => [
                     'foo' => 'bar',
-                    'poi_id' => 246
+                    'poi_id' => 246,
                 ],
-            ]
+            ],
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->update(246, ['foo' => 'bar']));
     }
