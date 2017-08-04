@@ -83,7 +83,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function match($userId)
+    public function match(string $userId)
     {
         return $this->httpPostJson('cgi-bin/menu/trymatch', ['user_id' => $userId]);
     }
