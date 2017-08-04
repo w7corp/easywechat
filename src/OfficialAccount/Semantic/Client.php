@@ -29,11 +29,11 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function query($keyword, $categories, array $other = [])
+    public function query(string $keyword, array $categories, array $other = [])
     {
         $params = [
             'query' => $keyword,
-            'category' => implode(',', (array) $categories),
+            'category' => $categories,
             'appid' => $this->app['config']['app_id'],
         ];
 
