@@ -16,57 +16,26 @@ use EasyWeChat\Kernel\BaseClient;
 /**
  * Class Client.
  *
+ * @see http://iot.weixin.qq.com/wiki/new/index.html
+ *
  * @author soone <66812590@qq.com>
  */
 class Client extends BaseClient
 {
     /**
-     * @var string
+     * @param string $deviceId
+     * @param string $openId
+     * @param string $content
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    protected $productId;
-
-    /**
-     * Client constructor.
-     *
-     * @param \Pimple\Container $app
-     */
-    public function __construct($app)
-    {
-        parent::__construct($app);
-
-        $this->productId = $this->app['config']['product_id'];
-    }
-
-    /**
-     * Set product id.
-     *
-     * @param string $productId
-     *
-     * @return $this
-     */
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-
-        return $this;
-    }
-
-    /**
-     * Send message to device.
-     *
-     * @param $deviceId
-     * @param $openId
-     * @param $content
-     *
-     * @return mixed
-     */
-    public function sendToDevice($deviceId, $openId, $content)
+    public function message(string $deviceId, string $openId, string $content)
     {
         $params = [
             'device_type' => $this->app['config']['device_type'],
             'device_id' => $deviceId,
             'open_id' => $openId,
-            'content' => base64_decode($content, true),
+            'content' => base64_encode($content),
         ];
 
         return $this->httpPostJson('device/transmsg', $params);
@@ -79,7 +48,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getDeviceQrcode(array $deviceIds)
+    public function qrCode(array $deviceIds)
     {
         $params = [
             'device_num' => count($deviceIds),
@@ -90,29 +59,30 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $deviceList
-     * @param int   $opType
+     * @param array  $devices
+     * @param string $productId
+     * @param int    $opType
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function authorizeDevice(array $deviceList, $opType = 0)
+    public function authorize(array $devices, string $productId, int $opType = 0)
     {
         $params = [
-            'device_num' => count($deviceList),
-            'device_list' => $this->getDeviceList($deviceList),
+            'device_num' => count($devices),
+            'device_list' => $this->formatDevices($devices),
             'op_type' => $opType,
-            'product_id' => $this->productId,
+            'product_id' => $productId,
         ];
 
         return $this->httpPostJson('device/authorize_device', $params);
     }
 
     /**
-     * @param array $deviceList
+     * @param array $devices
      *
      * @return array
      */
-    protected function getDeviceList($deviceList)
+    protected function formatDevices(array $devices)
     {
         return array_map(function ($info) {
             $item = [
@@ -132,16 +102,20 @@ class Client extends BaseClient
             }
 
             return $item;
-        }, $deviceList);
+        }, $devices);
     }
 
     /**
+     * 获取 device id 和二维码
+     *
+     * @param string $productId
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function createDeviceId()
+    public function createId(string $productId)
     {
         $params = [
-            'product_id' => $this->productId,
+            'product_id' => $productId,
         ];
 
         return $this->httpGet('device/getqrcode', $params);
@@ -154,7 +128,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function bind($openId, $deviceId, $ticket)
+    public function bind(string $openId, string $deviceId, string $ticket)
     {
         $params = [
             'ticket' => $ticket,
@@ -172,7 +146,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function unbind($openId, $deviceId, $ticket)
+    public function unbind(string $openId, string $deviceId, string $ticket)
     {
         $params = [
             'ticket' => $ticket,
@@ -189,7 +163,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function compelBind($openId, $deviceId)
+    public function forceBind(string $openId, string $deviceId)
     {
         $params = [
             'device_id' => $deviceId,
@@ -205,7 +179,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function compelUnbind($openId, $deviceId)
+    public function forceUnbind(string $openId, string $deviceId)
     {
         $params = [
             'device_id' => $deviceId,
@@ -220,7 +194,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getDeviceStatus($deviceId)
+    public function status(string $deviceId)
     {
         $params = [
             'device_id' => $deviceId,
@@ -234,7 +208,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function verifyQrcode($ticket)
+    public function verify(string $ticket)
     {
         $params = [
             'ticket' => $ticket,
@@ -248,7 +222,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getOpenid($deviceId)
+    public function openid(string $deviceId)
     {
         $params = [
             'device_type' => $this->app['config']['device_type'],
@@ -263,7 +237,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getDeviceIdByOpenid($openid)
+    public function listByOpenid(string $openid)
     {
         $params = [
             'openid' => $openid,
