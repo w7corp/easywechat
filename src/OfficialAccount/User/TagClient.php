@@ -27,7 +27,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function create($name)
+    public function create(string $name)
     {
         $params = [
             'tag' => ['name' => $name],
@@ -54,7 +54,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function update($tagId, $name)
+    public function update(int $tagId, string $name)
     {
         $params = [
             'tag' => [
@@ -73,7 +73,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function delete($tagId)
+    public function delete(int $tagId)
     {
         $params = [
             'tag' => ['id' => $tagId],
@@ -89,7 +89,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function userTags($openId)
+    public function userTags(string $openId)
     {
         $params = ['openid' => $openId];
 
@@ -99,12 +99,12 @@ class TagClient extends BaseClient
     /**
      * Get users from a tag.
      *
-     * @param string $tagId
+     * @param int $tagId
      * @param string $nextOpenId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function usersOfTag($tagId, $nextOpenId = '')
+    public function usersOfTag(int $tagId, string $nextOpenId = '')
     {
         $params = [
             'tagid' => $tagId,
@@ -122,7 +122,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchTagUsers(array $openIds, $tagId)
+    public function batchTagUsers(array $openIds, int $tagId)
     {
         $params = [
             'openid_list' => $openIds,
@@ -140,7 +140,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchUntagUsers(array $openIds, $tagId)
+    public function batchUntagUsers(array $openIds, int $tagId)
     {
         $params = [
             'openid_list' => $openIds,

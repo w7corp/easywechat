@@ -28,7 +28,7 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function get($openId, $lang = 'zh_CN')
+    public function get(string $openId, string $lang = 'zh_CN')
     {
         $params = [
             'openid' => $openId,
@@ -46,18 +46,16 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchGet(array $openIds, $lang = 'zh_CN')
+    public function batchGet(array $openIds, string $lang = 'zh_CN')
     {
-        $params = [];
-
-        $params['user_list'] = array_map(function ($openId) use ($lang) {
-            return [
-                'openid' => $openId,
-                'lang' => $lang,
-            ];
-        }, $openIds);
-
-        return $this->httpPostJson('cgi-bin/user/info/batchget', $params);
+        return $this->httpPostJson('cgi-bin/user/info/batchget', [
+            'user_list' => array_map(function ($openId) use ($lang) {
+                return [
+                    'openid' => $openId,
+                    'lang' => $lang,
+                ];
+            }, $openIds)
+        ]);
     }
 
     /**
@@ -67,7 +65,7 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists($nextOpenId = null)
+    public function lists(string $nextOpenId = null)
     {
         $params = ['next_openid' => $nextOpenId];
 
@@ -82,7 +80,7 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function remark($openId, $remark)
+    public function remark(string $openId, string $remark)
     {
         $params = [
             'openid' => $openId,
@@ -99,7 +97,7 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function blacklist($beginOpenid = null)
+    public function blacklist(string $beginOpenid = null)
     {
         $params = ['begin_openid' => $beginOpenid];
 
