@@ -16,6 +16,7 @@ use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\Account\Client;
+use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
 
 /**
  * Class Application.
@@ -64,10 +65,16 @@ class Application extends ServiceContainer
      */
     public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): OfficialAccount
     {
-        return new OfficialAccount([
+        $officialAccount = new OfficialAccount([
             'app_id' => $appId,
             'refresh_token' => $refreshToken,
         ], $this->getReplaceServices($accessToken));
+
+        $officialAccount->extend('oauth', function ($socialite) {
+            return $socialite->component(new ComponentDelegate($this));
+        });
+
+        return $officialAccount;
     }
 
     /**
