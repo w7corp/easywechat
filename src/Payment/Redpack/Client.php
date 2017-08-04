@@ -80,15 +80,15 @@ class Client extends BaseClient
     public function send(array $params, $type = self::TYPE_NORMAL)
     {
         $params['wxappid'] = $this->app['merchant']->app_id;
-        //如果类型为分裂红则去掉client_ip参数,否则签名会出错
+        $endpoint = 'mmpaymkttransfers/sendredpack';
+
+        // 如果类型为分裂红则去掉 client_ip 参数，否则签名会出错
         if ($type === self::TYPE_GROUP) {
+            $endpoint = 'mmpaymkttransfers/sendgroupredpack';
             unset($params['client_ip']);
         }
 
-        return $this->safeRequest(
-            ($type === self::TYPE_NORMAL) ? 'mmpaymkttransfers/sendredpack' : 'mmpaymkttransfers/sendgroupredpack',
-            $params
-        );
+        return $this->safeRequest($endpoint, $params);
     }
 
     /**

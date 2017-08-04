@@ -41,6 +41,7 @@ class Application extends ServiceContainer
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
         Menu\ServiceProvider::class,
+        OAuth\ServiceProvider::class,
         User\ServiceProvider::class,
         Agent\ServiceProvider::class,
         Media\ServiceProvider::class,

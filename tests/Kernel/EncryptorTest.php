@@ -93,4 +93,9 @@ class EncryptorTest extends TestCase
         $this->expectExceptionMessage('$blockSize may not be more than 256');
         $this->getEncryptor()->pkcs7Pad('xxx', 257);
     }
+
+    public function testGetToken()
+    {
+        $this->assertSame('pamtest', $this->getEncryptor()->getToken());
+    }
 }

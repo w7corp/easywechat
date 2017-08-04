@@ -27,18 +27,16 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['oauth'] = function ($container) {
-            $callback = $this->prepareCallbackUrl($container);
-            $scopes = (array) $container['config']->get('oauth.scopes', []);
-            $socialite = (new Socialite(
-                [
-                    'wechat' => [
-                        'client_id' => $container['config']['app_id'],
-                        'client_secret' => $container['config']['secret'],
-                        'redirect' => $callback,
-                    ],
-                ]
-            ))->driver('wechat');
+        $app['oauth'] = function ($app) {
+            $socialite = (new Socialite([
+                'wechat' => [
+                    'client_id' => $app['config']['app_id'],
+                    'client_secret' => $app['config']['secret'],
+                    'redirect' => $this->prepareCallbackUrl($app),
+                ],
+            ]))->driver('wechat');
+
+            $scopes = (array) $app['config']->get('oauth.scopes', []);
 
             if (!empty($scopes)) {
                 $socialite->scopes($scopes);
@@ -51,17 +49,17 @@ class ServiceProvider implements ServiceProviderInterface
     /**
      * Prepare the OAuth callback url for wechat.
      *
-     * @param Container $container
+     * @param Container $app
      *
      * @return string
      */
-    private function prepareCallbackUrl($container)
+    private function prepareCallbackUrl($app)
     {
-        $callback = $container['config']->get('oauth.callback');
+        $callback = $app['config']->get('oauth.callback');
         if (0 === stripos($callback, 'http')) {
             return $callback;
         }
-        $baseUrl = $container['request']->getSchemeAndHttpHost();
+        $baseUrl = $app['request']->getSchemeAndHttpHost();
 
         return $baseUrl.'/'.ltrim($callback, '/');
     }

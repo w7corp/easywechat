@@ -105,7 +105,7 @@ class Guard
             'Content' => $this->request->getContent(),
         ]);
 
-        $response = $this->validate($this->app['config']['token'])->resolve();
+        $response = $this->validate($this->app['encryptor']->getToken())->resolve();
 
         $this->app['logger']->debug('Server response created:', compact('response'));
 
@@ -248,7 +248,7 @@ class Guard
         }
 
         if (is_string($message) || is_numeric($message)) {
-            $message = new Text(['content' => $message]);
+            $message = new Text((string) $message);
         }
 
         if (!$this->isMessage($message)) {
