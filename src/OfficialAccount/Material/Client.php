@@ -13,6 +13,7 @@ namespace EasyWeChat\OfficialAccount\Material;
 
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\Kernel\Messages\Article;
 
 /**
@@ -36,7 +37,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function uploadImage($path)
+    public function uploadImage(string $path)
     {
         return $this->uploadMedia('image', $path);
     }
@@ -48,7 +49,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function uploadVoice($path)
+    public function uploadVoice(string $path)
     {
         return $this->uploadMedia('voice', $path);
     }
@@ -60,7 +61,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function uploadThumb($path)
+    public function uploadThumb(string $path)
     {
         return $this->uploadMedia('thumb', $path);
     }
@@ -74,7 +75,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function uploadVideo($path, $title, $description)
+    public function uploadVideo(string $path, string $title, string $description)
     {
         $params = [
             'description' => json_encode(
@@ -96,16 +97,13 @@ class Client extends BaseClient
      */
     public function uploadArticle($articles)
     {
-        if (!empty($articles['title']) || $articles instanceof Article) {
+        if ($articles instanceof Article || !empty($articles['title'])) {
             $articles = [$articles];
         }
 
         $params = ['articles' => array_map(function ($article) {
             if ($article instanceof Article) {
-                return $article->only([
-                    'title', 'thumb_media_id', 'author', 'digest',
-                    'show_cover_pic', 'content', 'content_source_url',
-                    ]);
+                return $article->transformForJsonRequestWithoutType();
             }
 
             return $article;
@@ -118,13 +116,17 @@ class Client extends BaseClient
      * Update article.
      *
      * @param string $mediaId
-     * @param array  $article
+     * @param array|Article  $article
      * @param int    $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function updateArticle($mediaId, $article, $index = 0)
+    public function updateArticle(string $mediaId, $article, int $index = 0)
     {
+        if ($article instanceof Article) {
+            $article = $article->transformForJsonRequestWithoutType();
+        }
+
         $params = [
             'media_id' => $mediaId,
             'index' => $index,
@@ -141,7 +143,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function uploadArticleImage($path)
+    public function uploadArticleImage(string $path)
     {
         return $this->uploadMedia('news_image', $path);
     }
@@ -153,26 +155,15 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function get($mediaId)
+    public function get(string $mediaId)
     {
-        $response = $this->httpGet('cgi-bin/material/get_material', ['media_id' => $mediaId]);
+        $response = $this->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => $mediaId]]);
 
-        foreach ($response->getHeader('Content-Type') as $mime) {
-            if (preg_match('/(image|video|audio)/i', $mime)) {
-                return $response->getBody();
-            }
+        if (preg_match('/(image|video|audio)/i', $response->getHeaderLine('Content-Type'))) {
+            return StreamResponse::buildFromGuzzleResponse($response);
         }
 
-        $json = $this->getHttp()->parseJSON($response);
-
-        // XXX: 微信开发这帮混蛋，尼玛文件二进制输出不带header，简直日了!!!
-        if (!$json) {
-            return $response->getBody();
-        }
-
-        $this->checkAndThrow($json);
-
-        return $json;
+        return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
     }
 
     /**
@@ -182,7 +173,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function delete($mediaId)
+    public function delete(string $mediaId)
     {
         return $this->httpPostJson('cgi-bin/material/del_material', ['media_id' => $mediaId]);
     }
@@ -210,7 +201,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists($type, $offset = 0, $count = 20)
+    public function lists(string $type, int $offset = 0, int $count = 20)
     {
         $params = [
             'type' => $type,
@@ -242,10 +233,10 @@ class Client extends BaseClient
      *
      * @throws InvalidArgumentException
      */
-    protected function uploadMedia($type, $path, array $form = [])
+    protected function uploadMedia(string $type, string $path, array $form = [])
     {
         if (!file_exists($path) || !is_readable($path)) {
-            throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
+            throw new InvalidArgumentException(sprintf('File does not exist, or the file is unreadable: "%s"', $path));
         }
 
         $form['type'] = $type;
@@ -260,7 +251,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getApiByType($type)
+    public function getApiByType(string $type)
     {
         switch ($type) {
             case 'news_image':
