@@ -261,7 +261,7 @@ class Client extends BaseClient
      * @param string $date
      * @param string $type
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\StreamInterface
      */
     public function downloadBill($date, $type = self::BILL_TYPE_ALL)
     {
@@ -316,7 +316,7 @@ class Client extends BaseClient
      */
     protected function prepends(): array
     {
-        return array_merge($this->app['merchant']->only(['sub_appid', 'sub_mch_id']),
+        return array_merge((array) $this->app['merchant']->only(['sub_appid', 'sub_mch_id']),
             [
                 'appid' => $this->app['merchant']->app_id,
                 'mch_id' => $this->app['merchant']->merchant_id,
