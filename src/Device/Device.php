@@ -71,7 +71,7 @@ class Device extends AbstractAPI
             'device_type' => $this->deviceType,
             'device_id' => $deviceId,
             'open_id' => $openId,
-            'content' => base64_decode($content, true),
+            'content' => base64_encode($content),
         ];
 
         return $this->parseJSON('json', [self::API_TRANS_MSG, $params]);
