@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getCategories()
+    public function categories()
     {
         return $this->httpGet('cgi-bin/poi/getwxcategory');
     }
@@ -37,7 +37,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function get($poiId)
+    public function get(int $poiId)
     {
         return $this->httpPostJson('cgi-bin/poi/getpoi', ['poi_id' => $poiId]);
     }
@@ -50,7 +50,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists($offset = 0, $limit = 10)
+    public function lists(int $offset = 0, int $limit = 10)
     {
         $params = [
             'begin' => $offset,
@@ -63,15 +63,15 @@ class Client extends BaseClient
     /**
      * Create a POI.
      *
-     * @param array $data
+     * @param array $baseInfo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function create(array $data)
+    public function create(array $baseInfo)
     {
         $params = [
             'business' => [
-                'base_info' => $data,
+                'base_info' => $baseInfo,
             ],
         ];
 
@@ -79,28 +79,28 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $data
+     * @param array $databaseInfo
      *
      * @return int
      */
-    public function createAndGetId(array $data)
+    public function createAndGetId(array $databaseInfo)
     {
-        return $this->create($data)['poi_id'];
+        return $this->create($databaseInfo)['poi_id'];
     }
 
     /**
      * Update a POI.
      *
      * @param int   $poiId
-     * @param array $data
+     * @param array $baseInfo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function update($poiId, array $data)
+    public function update(int $poiId, array $baseInfo)
     {
         $params = [
             'business' => [
-                'base_info' => array_merge($data, ['poi_id' => $poiId]),
+                'base_info' => array_merge($baseInfo, ['poi_id' => $poiId]),
             ],
         ];
 
@@ -114,7 +114,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function delete($poiId)
+    public function delete(int $poiId)
     {
         return $this->httpPostJson('cgi-bin/poi/delpoi', ['poi_id' => $poiId]);
     }
