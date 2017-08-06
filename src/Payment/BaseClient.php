@@ -13,7 +13,6 @@ namespace EasyWeChat\Payment;
 
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
-use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -26,16 +25,16 @@ class BaseClient
     use HasHttpRequests { request as performRequest; }
 
     /**
-     * @var \Pimple\Container
+     * @var \EasyWeChat\Payment\Application
      */
     protected $app;
 
     /**
      * Constructor.
      *
-     * @param \Pimple\Container $app
+     * @param \EasyWeChat\Payment\Application $app
      */
-    public function __construct(Container $app)
+    public function __construct(Application $app)
     {
         $this->app = $app;
 
