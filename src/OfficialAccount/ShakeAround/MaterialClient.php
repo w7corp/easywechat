@@ -31,10 +31,10 @@ class MaterialClient extends BaseClient
      *
      * @throws InvalidArgumentException
      */
-    public function uploadImage($path, $type = 'icon')
+    public function uploadImage(string $path, string $type = 'icon')
     {
         if (!file_exists($path) || !is_readable($path)) {
-            throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
+            throw new InvalidArgumentException(sprintf('File does not exist, or the file is unreadable: "%s"', $path));
         }
 
         return $this->httpUpload('shakearound/material/add', ['media' => $path], [], ['type' => strtolower($type)]);

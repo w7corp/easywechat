@@ -21,32 +21,13 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Register shake around.
+     * @param array $data
      *
-     * @param string $name
-     * @param string $tel
-     * @param string $email
-     * @param string $industryId
-     * @param array  $certUrls
-     * @param string $reason
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function register($name, $tel, $email, $industryId, array $certUrls, $reason = '')
+    public function register($data)
     {
-        $params = [
-            'name' => $name,
-            'phone_number' => strval($tel),
-            'email' => $email,
-            'industry_id' => $industryId,
-            'qualification_cert_urls' => $certUrls,
-        ];
-
-        if ($reason !== '') {
-            $params['apply_reason'] = $reason;
-        }
-
-        return $this->httpPostJson('shakearound/account/register', $params);
+        return $this->httpPostJson('shakearound/account/register', $data);
     }
 
     /**
@@ -54,7 +35,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getStatus()
+    public function status()
     {
         return $this->httpGet('shakearound/account/auditstatus');
     }
@@ -67,7 +48,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getShakeInfo($ticket, bool $needPoi = false)
+    public function user(string $ticket, bool $needPoi = false)
     {
         $params = [
             'ticket' => $ticket,
@@ -78,5 +59,15 @@ class Client extends BaseClient
         }
 
         return $this->httpGet('shakearound/user/getshakeinfo', $params);
+    }
+
+    /**
+     * @param string $ticket
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function userWithPoi(string $ticket)
+    {
+        return $this->user($ticket, true);
     }
 }

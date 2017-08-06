@@ -22,31 +22,13 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 class DeviceClient extends BaseClient
 {
     /**
-     * Apply device ids.
+     * @param array $data
      *
-     * @param int    $quantity
-     * @param string $reason
-     * @param string $comment
-     * @param int    $poiId
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function apply($quantity, $reason, $comment = '', $poiId = null)
+    public function apply(array $data)
     {
-        $params = [
-            'quantity' => intval($quantity),
-            'apply_reason' => $reason,
-        ];
-
-        if (!empty($comment)) {
-            $params['comment'] = $comment;
-        }
-
-        if (!is_null($poiId)) {
-            $params['poi_id'] = intval($poiId);
-        }
-
-        return $this->httpPostJson('shakearound/device/applyid', $params);
+        return $this->httpPostJson('shakearound/device/applyid', $data);
     }
 
     /**
@@ -56,10 +38,10 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getStatus($applyId)
+    public function status(int $applyId)
     {
         $params = [
-            'apply_id' => intval($applyId),
+            'apply_id' => $applyId,
         ];
 
         return $this->httpPostJson('shakearound/device/applystatus', $params);
@@ -73,7 +55,7 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function update(array $deviceIdentifier, $comment)
+    public function update(array $deviceIdentifier, string $comment)
     {
         $params = [
             'device_identifier' => $deviceIdentifier,
@@ -86,29 +68,38 @@ class DeviceClient extends BaseClient
     /**
      * Bind location for device.
      *
-     * @param array  $deviceIdentifier
-     * @param int    $poiId
-     * @param int    $type
-     * @param string $poiAppId
+     * @param array $deviceIdentifier
+     * @param int   $poiId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws InvalidArgumentException
      */
-    public function bindLocation(array $deviceIdentifier, $poiId, $type = 1, $poiAppId = null)
+    public function bindPoi(array $deviceIdentifier, int $poiId)
     {
         $params = [
             'device_identifier' => $deviceIdentifier,
-            'poi_id' => intval($poiId),
+            'poi_id' => $poiId,
         ];
 
-        if ($type === 2) {
-            if (is_null($poiAppId)) {
-                throw new InvalidArgumentException('If value of argument #3 is 2, argument #4 is required.');
-            }
-            $params['type'] = 2;
-            $params['poi_appid'] = $poiAppId;
-        }
+        return $this->httpPostJson('shakearound/device/bindlocation', $params);
+    }
+
+    /**
+     * @param array  $deviceIdentifier
+     * @param int    $poiId
+     * @param string $appId
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function bindThirdPoi(array $deviceIdentifier, int $poiId, string $appId)
+    {
+        $params = [
+            'device_identifier' => $deviceIdentifier,
+            'poi_id' => $poiId,
+            'type' => 2,
+            'poi_appid' => $appId,
+        ];
 
         return $this->httpPostJson('shakearound/device/bindlocation', $params);
     }
@@ -120,7 +111,7 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getByIds(array $deviceIdentifiers)
+    public function listByIds(array $deviceIdentifiers)
     {
         $params = [
             'type' => 1,
@@ -133,17 +124,17 @@ class DeviceClient extends BaseClient
     /**
      * Pagination to get batch of devices.
      *
-     * @param int $lastSeen
+     * @param int $lastId
      * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function paginate($lastSeen, $count)
+    public function lists(int $lastId, int $count)
     {
         $params = [
             'type' => 2,
-            'last_seen' => intval($lastSeen),
-            'count' => intval($count),
+            'last_seen' => $lastId,
+            'count' => $count,
         ];
 
         return $this->search($params);
@@ -153,18 +144,18 @@ class DeviceClient extends BaseClient
      * Fetch batch of devices by applyId.
      *
      * @param int $applyId
-     * @param int $lastSeen
+     * @param int $lastId
      * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getByApplyId($applyId, $lastSeen, $count)
+    public function listByApplyId(int $applyId, int $lastId, int $count)
     {
         $params = [
             'type' => 3,
-            'apply_id' => intval($applyId),
-            'last_seen' => intval($lastSeen),
-            'count' => intval($count),
+            'apply_id' => $applyId,
+            'last_seen' => $lastId,
+            'count' => $count,
         ];
 
         return $this->search($params);
@@ -177,7 +168,7 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    protected function search($params)
+    public function search(array $params)
     {
         return $this->httpPostJson('shakearound/device/search', $params);
     }

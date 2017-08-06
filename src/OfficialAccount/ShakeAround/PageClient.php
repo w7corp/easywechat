@@ -21,57 +21,24 @@ use EasyWeChat\Kernel\BaseClient;
 class PageClient extends BaseClient
 {
     /**
-     * Add a page.
+     * @param array $data
      *
-     * @param string $title
-     * @param string $description
-     * @param string $pageUrl
-     * @param string $iconUrl
-     * @param string $comment
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function create($title, $description, $pageUrl, $iconUrl, $comment = '')
+    public function create(array $data)
     {
-        $params = [
-            'title' => $title,
-            'description' => $description,
-            'page_url' => $pageUrl,
-            'icon_url' => $iconUrl,
-        ];
-        if ($comment !== '') {
-            $params['comment'] = $comment;
-        }
-
-        return $this->httpPostJson('shakearound/page/add', $params);
+        return $this->httpPostJson('shakearound/page/add', $data);
     }
 
     /**
-     * update a page info.
+     * @param int   $pageId
+     * @param array $data
      *
-     * @param int    $pageId
-     * @param string $title
-     * @param string $description
-     * @param string $pageUrl
-     * @param string $iconUrl
-     * @param string $comment
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function update($pageId, $title, $description, $pageUrl, $iconUrl, $comment = '')
+    public function update(int $pageId, array $data)
     {
-        $params = [
-            'page_id' => intval($pageId),
-            'title' => $title,
-            'description' => $description,
-            'page_url' => $pageUrl,
-            'icon_url' => $iconUrl,
-        ];
-        if ($comment !== '') {
-            $params['comment'] = $comment;
-        }
-
-        return $this->httpPostJson('shakearound/page/update', $params);
+        return $this->httpPostJson('shakearound/page/update', array_merge(['page_id' => $pageId], $data));
     }
 
     /**
@@ -81,7 +48,7 @@ class PageClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getByIds(array $pageIds)
+    public function listByIds(array $pageIds)
     {
         $params = [
             'type' => 1,
@@ -99,12 +66,12 @@ class PageClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function paginate($begin, $count)
+    public function lists(int $begin, int $count)
     {
         $params = [
             'type' => 2,
-            'begin' => intval($begin),
-            'count' => intval($count),
+            'begin' => $begin,
+            'count' => $count,
         ];
 
         return $this->httpPostJson('shakearound/page/search', $params);
@@ -117,10 +84,10 @@ class PageClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function delete($pageId)
+    public function delete(int $pageId)
     {
         $params = [
-            'page_id' => intval($pageId),
+            'page_id' => $pageId,
         ];
 
         return $this->httpPostJson('shakearound/page/delete', $params);

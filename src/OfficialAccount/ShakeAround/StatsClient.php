@@ -24,17 +24,17 @@ class StatsClient extends BaseClient
      * Fetch statistics data by deviceId.
      *
      * @param array $deviceIdentifier
-     * @param int   $beginDate        (Unix timestamp)
-     * @param int   $endDate          (Unix timestamp)
+     * @param int   $beginTime        (Unix timestamp)
+     * @param int   $endTime          (Unix timestamp)
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function deviceSummary(array $deviceIdentifier, $beginDate, $endDate)
+    public function deviceSummary(array $deviceIdentifier, int $beginTime, int $endTime)
     {
         $params = [
             'device_identifier' => $deviceIdentifier,
-            'begin_date' => $beginDate,
-            'end_date' => $endDate,
+            'begin_date' => $beginTime,
+            'end_date' => $endTime,
         ];
 
         return $this->httpPostJson('shakearound/statistics/device', $params);
@@ -48,7 +48,7 @@ class StatsClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchDeviceSummary($timestamp, $pageIndex)
+    public function devicesSummary(int $timestamp, int $pageIndex)
     {
         $params = [
             'date' => $timestamp,
@@ -62,17 +62,17 @@ class StatsClient extends BaseClient
      * Fetch statistics data by pageId.
      *
      * @param int $pageId
-     * @param int $beginDate (Unix timestamp)
-     * @param int $endDate   (Unix timestamp)
+     * @param int $beginTime (Unix timestamp)
+     * @param int $endTime   (Unix timestamp)
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function pageSummary($pageId, $beginDate, $endDate)
+    public function pageSummary(int $pageId, int $beginTime, int $endTime)
     {
         $params = [
             'page_id' => $pageId,
-            'begin_date' => $beginDate,
-            'end_date' => $endDate,
+            'begin_date' => $beginTime,
+            'end_date' => $endTime,
         ];
 
         return $this->httpPostJson('shakearound/statistics/page', $params);
@@ -86,13 +86,13 @@ class StatsClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function pagesSummary($timestamp, $pageIndex)
+    public function pagesSummary(int $timestamp, int $pageIndex)
     {
         $params = [
             'date' => $timestamp,
             'page_index' => $pageIndex,
         ];
 
-        return $this->httpPostJson('shakearound/statistics/patelist', $params);
+        return $this->httpPostJson('shakearound/statistics/pagelist', $params);
     }
 }

@@ -27,7 +27,7 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function create($name)
+    public function create(string $name)
     {
         $params = [
             'group_name' => $name,
@@ -44,10 +44,10 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function update($groupId, $name)
+    public function update(int $groupId, string $name)
     {
         $params = [
-            'group_id' => intval($groupId),
+            'group_id' => $groupId,
             'group_name' => $name,
         ];
 
@@ -61,10 +61,10 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function delete($groupId)
+    public function delete(int $groupId)
     {
         $params = [
-            'group_id' => intval($groupId),
+            'group_id' => $groupId,
         ];
 
         return $this->httpPostJson('shakearound/device/group/delete', $params);
@@ -78,11 +78,11 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists($begin, $count)
+    public function lists(int $begin, int $count)
     {
         $params = [
-            'begin' => intval($begin),
-            'count' => intval($count),
+            'begin' => $begin,
+            'count' => $count,
         ];
 
         return $this->httpPostJson('shakearound/device/group/getlist', $params);
@@ -97,12 +97,12 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function get($groupId, $begin, $count)
+    public function get(int $groupId, int $begin, int $count)
     {
         $params = [
-            'group_id' => intval($groupId),
-            'begin' => intval($begin),
-            'count' => intval($count),
+            'group_id' => $groupId,
+            'begin' => $begin,
+            'count' => $count,
         ];
 
         return $this->httpPostJson('shakearound/device/group/getdetail', $params);
@@ -116,10 +116,10 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function addDevice($groupId, array $deviceIdentifiers)
+    public function addDevices(int $groupId, array $deviceIdentifiers)
     {
         $params = [
-            'group_id' => intval($groupId),
+            'group_id' => $groupId,
             'device_identifiers' => $deviceIdentifiers,
         ];
 
@@ -134,10 +134,10 @@ class GroupClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function removeDevice($groupId, array $deviceIdentifiers)
+    public function removeDevices(int $groupId, array $deviceIdentifiers)
     {
         $params = [
-            'group_id' => intval($groupId),
+            'group_id' => $groupId,
             'device_identifiers' => $deviceIdentifiers,
         ];
 
