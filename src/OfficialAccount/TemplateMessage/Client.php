@@ -156,52 +156,13 @@ class Client extends BaseClient
 
         foreach ($params as $key => $value) {
             if (in_array($key, $this->required, true) && empty($value) && empty($this->message[$key])) {
-                throw new InvalidArgumentException("Attribute '$key' can not be empty!");
+                throw new InvalidArgumentException(sprintf('Attribute "%s" can not be empty!', $key));
             }
 
             $params[$key] = empty($value) ? $this->message[$key] : $value;
         }
 
         return $params;
-    }
-
-    /**
-     * Magic access..
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return $this
-     */
-    public function __call($method, $args)
-    {
-        $map = [
-            'template' => 'template_id',
-            'templateId' => 'template_id',
-            'uses' => 'template_id',
-            'to' => 'touser',
-            'receiver' => 'touser',
-            'url' => 'url',
-            'link' => 'url',
-            'data' => 'data',
-            'with' => 'data',
-            'formId' => 'form_id',
-            'prepayId' => 'form_id',
-        ];
-
-        if (0 === stripos($method, 'with') && strlen($method) > 4) {
-            $method = lcfirst(substr($method, 4));
-        }
-
-        if (0 === stripos($method, 'and')) {
-            $method = lcfirst(substr($method, 3));
-        }
-
-        if (isset($map[$method])) {
-            $this->message[$map[$method]] = array_shift($args);
-        }
-
-        return $this;
     }
 
     /**

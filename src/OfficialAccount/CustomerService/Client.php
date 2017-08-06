@@ -35,7 +35,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function onlines()
+    public function online()
     {
         return $this->httpGet('cgi-bin/customservice/getonlinekflist');
     }
@@ -48,7 +48,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function create($account, $nickname)
+    public function create(string $account, string $nickname)
     {
         $params = [
             'kf_account' => $account,
@@ -66,7 +66,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function update($account, $nickname)
+    public function update(string $account, string $nickname)
     {
         $params = [
             'kf_account' => $account,
@@ -83,7 +83,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function delete($account)
+    public function delete(string $account)
     {
         $url = sprintf('customservice/kfaccount/del?kf_account=%s', $account);
 
@@ -98,7 +98,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function invite($account, $wechatId)
+    public function invite(string $account, string $wechatId)
     {
         $params = [
             'kf_account' => $account,
@@ -116,7 +116,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function avatar($account, $path)
+    public function setAvatar(string $account, string $path)
     {
         return $this->httpUpload('customservice/kfaccount/uploadheadimg', ['media' => $path], [], ['kf_account' => $account]);
     }
@@ -144,31 +144,9 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function send($message)
+    public function send(array $message)
     {
         return $this->httpPostJson('cgi-bin/message/custom/send', $message);
-    }
-
-    /**
-     * Get session history.
-     *
-     * @param int $startTime
-     * @param int $endTime
-     * @param int $page
-     * @param int $pageSize
-     *
-     * @return mixed
-     */
-    public function records($startTime, $endTime, $page = 1, $pageSize = 10)
-    {
-        $params = [
-            'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),
-            'endtime' => is_numeric($endTime) ? $endTime : strtotime($endTime),
-            'pageindex' => $page,
-            'pagesize' => $pageSize,
-        ];
-
-        return $this->httpPostJson('customservice/msgrecord/getrecord', $params);
     }
 
     /**

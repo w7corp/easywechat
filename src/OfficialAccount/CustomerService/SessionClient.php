@@ -27,17 +27,17 @@ class SessionClient extends BaseClient
      *
      * @return mixed
      */
-    public function lists($account)
+    public function lists(string $account)
     {
         return $this->httpGet('customservice/kfsession/getsessionlist', ['kf_account' => $account]);
     }
 
     /**
-     * List all waiters of $account.
+     * List all the people waiting.
      *
      * @return mixed
      */
-    public function waiters()
+    public function waiting()
     {
         return $this->httpGet('customservice/kfsession/getwaitcase');
     }
@@ -46,15 +46,15 @@ class SessionClient extends BaseClient
      * Create a session.
      *
      * @param string $account
-     * @param string $openId
+     * @param string $openid
      *
      * @return mixed
      */
-    public function create($account, $openId)
+    public function create(string $account, string $openid)
     {
         $params = [
             'kf_account' => $account,
-            'openid' => $openId,
+            'openid' => $openid,
         ];
 
         return $this->httpPostJson('customservice/kfsession/create', $params);
@@ -64,15 +64,15 @@ class SessionClient extends BaseClient
      * Close a session.
      *
      * @param string $account
-     * @param string $openId
+     * @param string $openid
      *
      * @return mixed
      */
-    public function close($account, $openId)
+    public function close(string $account, string $openid)
     {
         $params = [
             'kf_account' => $account,
-            'openid' => $openId,
+            'openid' => $openid,
         ];
 
         return $this->httpPostJson('customservice/kfsession/close', $params);
@@ -81,12 +81,12 @@ class SessionClient extends BaseClient
     /**
      * Get a session.
      *
-     * @param string $openId
+     * @param string $openid
      *
      * @return mixed
      */
-    public function get($openId)
+    public function get(string $openid)
     {
-        return $this->httpGet('customservice/kfsession/getsession', ['openid' => $openId]);
+        return $this->httpGet('customservice/kfsession/getsession', ['openid' => $openid]);
     }
 }

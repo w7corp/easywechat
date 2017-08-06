@@ -23,15 +23,15 @@ class UserClient extends BaseClient
     /**
      * Fetch a user by open id.
      *
-     * @param string $openId
+     * @param string $openid
      * @param string $lang
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function get(string $openId, string $lang = 'zh_CN')
+    public function get(string $openid, string $lang = 'zh_CN')
     {
         $params = [
-            'openid' => $openId,
+            'openid' => $openid,
             'lang' => $lang,
         ];
 
@@ -41,20 +41,20 @@ class UserClient extends BaseClient
     /**
      * Batch get users.
      *
-     * @param array  $openIds
+     * @param array  $openids
      * @param string $lang
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchGet(array $openIds, string $lang = 'zh_CN')
+    public function batchGet(array $openids, string $lang = 'zh_CN')
     {
         return $this->httpPostJson('cgi-bin/user/info/batchget', [
-            'user_list' => array_map(function ($openId) use ($lang) {
+            'user_list' => array_map(function ($openid) use ($lang) {
                 return [
-                    'openid' => $openId,
+                    'openid' => $openid,
                     'lang' => $lang,
                 ];
-            }, $openIds),
+            }, $openids),
         ]);
     }
 
@@ -75,15 +75,15 @@ class UserClient extends BaseClient
     /**
      * Set user remark.
      *
-     * @param string $openId
+     * @param string $openid
      * @param string $remark
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function remark(string $openId, string $remark)
+    public function remark(string $openid, string $remark)
     {
         $params = [
-            'openid' => $openId,
+            'openid' => $openid,
             'remark' => $remark,
         ];
 

@@ -117,7 +117,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Convert userId to openId.
+     * Convert userId to openid.
      *
      * @param string   $userId
      * @param int|null $agentId
@@ -135,16 +135,16 @@ class Client extends BaseClient
     }
 
     /**
-     * Convert openId to userId.
+     * Convert openid to userId.
      *
-     * @param string $openId
+     * @param string $openid
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function openIdToUserId($openId)
+    public function openidToUserId($openid)
     {
         $params = [
-            'openid' => $openId,
+            'openid' => $openid,
         ];
 
         return $this->httpPostJson('user/convert_to_userid', $params);

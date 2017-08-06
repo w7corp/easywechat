@@ -50,16 +50,16 @@ class Messenger
      *
      * @var \EasyWeChat\OfficialAccount\CustomerService\Client
      */
-    protected $customerService;
+    protected $client;
 
     /**
      * MessageBuilder constructor.
      *
-     * @param \EasyWeChat\OfficialAccount\CustomerService\Client $customerService
+     * @param \EasyWeChat\OfficialAccount\CustomerService\Client $client
      */
-    public function __construct(Client $customerService)
+    public function __construct(Client $client)
     {
-        $this->customerService = $customerService;
+        $this->client = $client;
     }
 
     /**
@@ -74,7 +74,7 @@ class Messenger
     public function message($message)
     {
         if (is_string($message)) {
-            $message = new Text(['content' => $message]);
+            $message = new Text($message);
         }
 
         $this->message = $message;
@@ -99,13 +99,13 @@ class Messenger
     /**
      * Set target user open id.
      *
-     * @param string $openId
+     * @param string $openid
      *
      * @return Messenger
      */
-    public function to($openId)
+    public function to($openid)
     {
-        $this->to = $openId;
+        $this->to = $openid;
 
         return $this;
     }
@@ -123,24 +123,19 @@ class Messenger
             throw new RuntimeException('No message to send.');
         }
 
-        $transformer = new Transformer();
-
         if ($this->message instanceof RawMessage) {
-            $message = $this->message->get('content');
+            $message = json_decode($this->message->get('content'), true);
         } else {
-            $content = $transformer->transform($this->message);
-            $message = [
+            $prepends = [
                 'touser' => $this->to,
             ];
-
             if ($this->account) {
-                $message['customservice'] = ['kf_account' => $this->account];
+                $prepends['customservice'] = ['kf_account' => $this->account];
             }
-
-            $message = array_merge($message, $content);
+            $message = $this->message->transformForJsonRequest($prepends);
         }
 
-        return $this->customerService->send($message);
+        return $this->client->send($message);
     }
 
     /**

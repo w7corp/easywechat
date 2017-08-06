@@ -24,17 +24,17 @@ class Client extends BaseClient
 {
     /**
      * @param string $deviceId
-     * @param string $openId
+     * @param string $openid
      * @param string $content
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function message(string $deviceId, string $openId, string $content)
+    public function message(string $deviceId, string $openid, string $content)
     {
         $params = [
             'device_type' => $this->app['config']['device_type'],
             'device_id' => $deviceId,
-            'open_id' => $openId,
+            'open_id' => $openid,
             'content' => base64_encode($content),
         ];
 
@@ -122,68 +122,68 @@ class Client extends BaseClient
     }
 
     /**
-     * @param string $openId
+     * @param string $openid
      * @param string $deviceId
      * @param string $ticket
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function bind(string $openId, string $deviceId, string $ticket)
+    public function bind(string $openid, string $deviceId, string $ticket)
     {
         $params = [
             'ticket' => $ticket,
             'device_id' => $deviceId,
-            'openid' => $openId,
+            'openid' => $openid,
         ];
 
         return $this->httpPostJson('device/bind', $params);
     }
 
     /**
-     * @param string $openId
+     * @param string $openid
      * @param string $deviceId
      * @param string $ticket
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function unbind(string $openId, string $deviceId, string $ticket)
+    public function unbind(string $openid, string $deviceId, string $ticket)
     {
         $params = [
             'ticket' => $ticket,
             'device_id' => $deviceId,
-            'openid' => $openId,
+            'openid' => $openid,
         ];
 
         return $this->httpPostJson('device/unbind', $params);
     }
 
     /**
-     * @param string $openId
+     * @param string $openid
      * @param string $deviceId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function forceBind(string $openId, string $deviceId)
+    public function forceBind(string $openid, string $deviceId)
     {
         $params = [
             'device_id' => $deviceId,
-            'openid' => $openId,
+            'openid' => $openid,
         ];
 
         return $this->httpPostJson('device/compel_bind', $params);
     }
 
     /**
-     * @param string $openId
+     * @param string $openid
      * @param string $deviceId
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function forceUnbind(string $openId, string $deviceId)
+    public function forceUnbind(string $openid, string $deviceId)
     {
         $params = [
             'device_id' => $deviceId,
-            'openid' => $openId,
+            'openid' => $openid,
         ];
 
         return $this->httpPostJson('device/compel_unbind', $params);

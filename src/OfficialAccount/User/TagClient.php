@@ -85,13 +85,13 @@ class TagClient extends BaseClient
     /**
      * Get user tags.
      *
-     * @param string $openId
+     * @param string $openid
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function userTags(string $openId)
+    public function userTags(string $openid)
     {
-        $params = ['openid' => $openId];
+        $params = ['openid' => $openid];
 
         return $this->httpPostJson('cgi-bin/tags/getidlist', $params);
     }
@@ -117,15 +117,15 @@ class TagClient extends BaseClient
     /**
      * Batch tag users.
      *
-     * @param array $openIds
+     * @param array $openids
      * @param int   $tagId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchTagUsers(array $openIds, int $tagId)
+    public function batchTagUsers(array $openids, int $tagId)
     {
         $params = [
-            'openid_list' => $openIds,
+            'openid_list' => $openids,
             'tagid' => $tagId,
         ];
 
@@ -135,15 +135,15 @@ class TagClient extends BaseClient
     /**
      * Untag users from a tag.
      *
-     * @param array $openIds
+     * @param array $openids
      * @param int   $tagId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchUntagUsers(array $openIds, int $tagId)
+    public function batchUntagUsers(array $openids, int $tagId)
     {
         $params = [
-            'openid_list' => $openIds,
+            'openid_list' => $openids,
             'tagid' => $tagId,
         ];
 

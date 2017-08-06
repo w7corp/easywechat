@@ -19,26 +19,26 @@ use EasyWeChat\Kernel\ServiceContainer;
  *
  * @author overtrue <i@overtrue.me>
  *
- * @property \EasyWeChat\BasicService\Media\Client              $media
- * @property \EasyWeChat\BasicService\Url\Client                $url
- * @property \EasyWeChat\BasicService\QrCode\Client             $qrcode
- * @property \EasyWeChat\BasicService\Jssdk\Client              $jssdk
- * @property \EasyWeChat\OfficialAccount\Auth\AccessToken       $access_token
- * @property \EasyWeChat\OfficialAccount\Server\Guard           $server
- * @property \EasyWeChat\OfficialAccount\User\UserClient        $user
- * @property \EasyWeChat\OfficialAccount\User\TagClient         $user_tag
- * @property \Overtrue\Socialite\Providers\WeChatProvider       $oauth
- * @property \EasyWeChat\OfficialAccount\Menu\Client            $menu
- * @property \EasyWeChat\OfficialAccount\TemplateMessage\Client $template_message
- * @property \EasyWeChat\OfficialAccount\Material\Client        $material
- * @property \EasyWeChat\OfficialAccount\CustomerService\Client $customer_service
- * @property \EasyWeChat\OfficialAccount\Semantic\Client        $semantic
- * @property \EasyWeChat\OfficialAccount\DataCube\Client        $stats
- * @property \EasyWeChat\OfficialAccount\AutoReply\Client       $auto_reply
- * @property \EasyWeChat\OfficialAccount\Broadcasting\Client    $broadcasting
- * @property \EasyWeChat\OfficialAccount\Card\Client            $card
- * @property \EasyWeChat\OfficialAccount\Device\Client          $device
- * @property \EasyWeChat\OfficialAccount\ShakeAround\Client     $shake_around
+ * @property \EasyWeChat\BasicService\Media\Client               $media
+ * @property \EasyWeChat\BasicService\Url\Client                 $url
+ * @property \EasyWeChat\BasicService\QrCode\Client              $qrcode
+ * @property \EasyWeChat\BasicService\Jssdk\Client               $jssdk
+ * @property \EasyWeChat\OfficialAccount\Auth\AccessToken        $access_token
+ * @property \EasyWeChat\OfficialAccount\Server\Guard            $server
+ * @property \EasyWeChat\OfficialAccount\User\UserClient         $user
+ * @property \EasyWeChat\OfficialAccount\User\TagClient          $user_tag
+ * @property \Overtrue\Socialite\Providers\WeChatProvider        $oauth
+ * @property \EasyWeChat\OfficialAccount\Menu\Client             $menu
+ * @property \EasyWeChat\OfficialAccount\TemplateMessage\Client  $template_message
+ * @property \EasyWeChat\OfficialAccount\Material\Client         $material
+ * @property \EasyWeChat\OfficialAccount\CustomerService\Client  $customer_service
+ * @property \EasyWeChat\OfficialAccount\Semantic\Client         $semantic
+ * @property \EasyWeChat\OfficialAccount\DataCube\Client         $data_cube
+ * @property \EasyWeChat\OfficialAccount\AutoReply\Client        $auto_reply
+ * @property \EasyWeChat\OfficialAccount\Broadcasting\Client     $broadcasting
+ * @property \EasyWeChat\OfficialAccount\Card\Card               $card
+ * @property \EasyWeChat\OfficialAccount\Device\Client           $device
+ * @property \EasyWeChat\OfficialAccount\ShakeAround\ShakeAround $shake_around
  */
 class Application extends ServiceContainer
 {
