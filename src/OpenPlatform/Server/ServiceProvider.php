@@ -28,15 +28,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app['server'] = function ($app) {
-            $server = (new Guard($app))->debug($app['config']['debug']);
-            $handlers = [
-                Guard::EVENT_AUTHORIZED => new Handlers\Authorized($app),
-                Guard::EVENT_UNAUTHORIZED => new Handlers\Unauthorized($app),
-                Guard::EVENT_UPDATE_AUTHORIZED => new Handlers\UpdateAuthorized($app),
-                Guard::EVENT_COMPONENT_VERIFY_TICKET => new Handlers\VerifyTicketRefreshed($app),
-            ];
-
-            return $server->setHandlers($handlers);
+            return (new Guard($app))->debug($app['config']['debug']);
         };
     }
 }

@@ -11,14 +11,14 @@
 
 namespace EasyWeChat\OfficialAccount\Server;
 
-use EasyWeChat\Kernel\Exceptions\Exception;
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Messages\Message;
 use EasyWeChat\Kernel\Messages\Raw as RawMessage;
 use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\Kernel\ServiceContainer;
-use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Support\XML;
+use EasyWeChat\Kernel\Traits\Observable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,6 +29,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Guard
 {
+    use Observable;
+
     /**
      * Empty string.
      */
@@ -40,19 +42,9 @@ class Guard
     protected $request;
 
     /**
-     * @var string|callable
-     */
-    protected $messageHandler;
-
-    /**
-     * @var int
-     */
-    protected $messageFilter;
-
-    /**
      * @var array
      */
-    protected $messageTypeMapping = [
+    const MESSAGE_TYPE_MAPPING = [
         'text' => Message::TEXT,
         'image' => Message::IMAGE,
         'voice' => Message::VOICE,
@@ -72,7 +64,7 @@ class Guard
     protected $debug = false;
 
     /**
-     * @var \EasyWeChat\OfficialAccount\Application
+     * @var \EasyWeChat\Kernel\ServiceContainer
      */
     protected $app;
 
@@ -113,15 +105,13 @@ class Guard
     }
 
     /**
-     * Validation request params.
-     *
      * @param string $token
      *
      * @return $this
      *
-     * @throws Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
-    public function validate($token)
+    public function validate(string $token)
     {
         $params = [
             $token,
@@ -130,7 +120,7 @@ class Guard
         ];
 
         if (!$this->debug && $this->request->get('signature') !== $this->signature($params)) {
-            throw new Exception('Invalid request signature.', 400);
+            throw new BadRequestException('Invalid request signature.', 400);
         }
 
         return $this;
@@ -143,63 +133,11 @@ class Guard
      *
      * @return $this
      */
-    public function debug($debug = true)
+    public function debug(bool $debug = true)
     {
         $this->debug = $debug;
 
         return $this;
-    }
-
-    /**
-     * Resolve server request and return the response.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function resolve()
-    {
-        if ($str = $this->request->get('echostr')) {
-            $this->app['logger']->debug("Output 'echostr' is '$str'.");
-
-            return new Response($str);
-        }
-
-        $result = $this->handleRequest();
-
-        return new Response(
-            $this->buildResponse($result['to'], $result['from'], $result['response'])
-        );
-    }
-
-    /**
-     * Add a event listener.
-     *
-     * @param callable $callback
-     * @param int      $option
-     *
-     * @return Guard
-     *
-     * @throws InvalidArgumentException
-     */
-    public function setMessageHandler($callback = null, $option = self::ALL_MSG)
-    {
-        if (!is_callable($callback)) {
-            throw new InvalidArgumentException('Argument #2 is not callable.');
-        }
-
-        $this->messageHandler = $callback;
-        $this->messageFilter = $option;
-
-        return $this;
-    }
-
-    /**
-     * Return the message listener.
-     *
-     * @return string
-     */
-    public function getMessageHandler()
-    {
-        return $this->messageHandler;
     }
 
     /**
@@ -227,17 +165,53 @@ class Guard
     }
 
     /**
-     * Build response.
+     * Get request message.
      *
-     * @param $to
-     * @param $from
-     * @param mixed $message
+     * @return array
      *
-     * @return string
+     * @throws BadRequestException
+     */
+    public function getMessage()
+    {
+        $message = $this->parseMessageFromRequest($this->request->getContent(false));
+
+        if (!is_array($message) || empty($message)) {
+            throw new BadRequestException('No message received.');
+        }
+
+        return $message;
+    }
+
+    /**
+     * Resolve server request and return the response.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function resolve()
+    {
+        if ($str = $this->request->get('echostr')) {
+            $this->app['logger']->debug("Output 'echostr' is '$str'.");
+
+            return new Response($str);
+        }
+
+        $result = $this->handleRequest();
+
+        return new Response(
+            $this->buildResponse($result['to'], $result['from'], $result['response'])
+        );
+    }
+
+    /**
+     * @param string                                                   $to
+     * @param string                                                   $from
+     * @param \EasyWeChat\Kernel\Contracts\MessageInterface|string|int $message
+     *
+     * @return mixed|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    protected function buildResponse($to, $from, $message)
+    public function buildResponse(string $to, string $from, $message)
     {
         if (empty($message) || $message === self::SUCCESS_EMPTY_RESPONSE) {
             return self::SUCCESS_EMPTY_RESPONSE;
@@ -293,24 +267,6 @@ class Guard
     }
 
     /**
-     * Get request message.
-     *
-     * @return array
-     *
-     * @throws BadRequestException
-     */
-    public function getMessage()
-    {
-        $message = $this->parseMessageFromRequest($this->request->getContent(false));
-
-        if (!is_array($message) || empty($message)) {
-            throw new BadRequestException('No message received.');
-        }
-
-        return $message;
-    }
-
-    /**
      * Handle request.
      *
      * @return array
@@ -318,10 +274,11 @@ class Guard
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \EasyWeChat\OfficialAccount\Server\BadRequestException
      */
-    protected function handleRequest()
+    protected function handleRequest(): array
     {
         $message = $this->getMessage();
-        $response = $this->handleMessage($message);
+
+        $response = $this->dispatch(self::MESSAGE_TYPE_MAPPING[$message['MsgType'] ?? 'text']);
 
         return [
             'to' => $message['FromUserName'],
@@ -331,81 +288,42 @@ class Guard
     }
 
     /**
-     * Handle message.
-     *
-     * @param array $message
-     *
-     * @return mixed
-     */
-    protected function handleMessage(array $message)
-    {
-        $handler = $this->messageHandler;
-
-        if (!is_callable($handler)) {
-            $this->app['logger']->debug('No handler enabled.');
-
-            return null;
-        }
-
-        $this->app['logger']->debug('Messages detail:', $message);
-
-        $message = new Collection($message);
-
-        $type = $this->messageTypeMapping[$message->get('MsgType')];
-
-        $response = null;
-
-        if ($this->messageFilter & $type) {
-            $response = call_user_func_array($handler, [$message]);
-        }
-
-        return $response;
-    }
-
-    /**
      * Build reply XML.
      *
-     * @param string  $to
-     * @param string  $from
-     * @param Message $message
+     * @param string                                                     $to
+     * @param string                                                     $from
+     * @param \EasyWeChat\Kernel\Contracts\MessageInterface|string|array $message
      *
      * @return string
      */
-    protected function buildReply($to, $from, $message)
+    protected function buildReply(string $to, string $from, $message): string
     {
-        $base = [
+        $prepends = [
             'ToUserName' => $to,
             'FromUserName' => $from,
             'CreateTime' => time(),
             'MsgType' => is_array($message) ? current($message)->getType() : $message->getType(),
         ];
 
-        $transformer = new MessageTransformer();
-
-        return XML::build(array_merge($base, $transformer->transform($message)));
+        return $message->transformToXml($prepends);
     }
 
     /**
-     * Get signature.
-     *
-     * @param array $request
+     * @param array $params
      *
      * @return string
      */
-    protected function signature($request)
+    protected function signature(array $params)
     {
-        sort($request, SORT_STRING);
+        sort($params, SORT_STRING);
 
-        return sha1(implode($request));
+        return sha1(implode($params));
     }
 
     /**
      * Parse message array from raw php input.
      *
      * @param string|resource $content
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \EasyWeChat\OfficialAccount\Encryption\EncryptionException
      *
      * @return array
      */
@@ -414,6 +332,7 @@ class Guard
         $content = strval($content);
 
         $dataSet = json_decode($content, true);
+
         if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
             // For mini-program JSON formats.
             // Convert to XML if the given string can be decode into a data array.
@@ -439,7 +358,7 @@ class Guard
      *
      * @return bool
      */
-    protected function isSafeMode()
+    protected function isSafeMode(): bool
     {
         return $this->request->get('encrypt_type') && $this->request->get('encrypt_type') === 'aes';
     }

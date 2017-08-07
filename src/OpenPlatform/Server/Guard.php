@@ -12,8 +12,12 @@
 namespace EasyWeChat\OpenPlatform\Server;
 
 use EasyWeChat\Kernel\Support\Collection;
+use EasyWeChat\Kernel\Traits\Observable;
 use EasyWeChat\OfficialAccount\Server\Guard as BaseGuard;
-use Symfony\Component\HttpFoundation\Response;
+use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
+use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
+use EasyWeChat\OpenPlatform\Server\Handlers\UpdateAuthorized;
+use EasyWeChat\OpenPlatform\Server\Handlers\VerifyTicketRefreshed;
 
 /**
  * Class Guard.
@@ -22,47 +26,34 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Guard extends BaseGuard
 {
+    use Observable;
+
     const EVENT_AUTHORIZED = 'authorized';
     const EVENT_UNAUTHORIZED = 'unauthorized';
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
     const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
 
     /**
-     * Event handlers.
-     *
-     * @var \EasyWeChat\Kernel\Support\Collection
-     */
-    protected $handlers;
-
-    /**
-     * Set handlers.
-     *
-     * @param array $handlers
-     *
-     * @return $this
-     */
-    public function setHandlers(array $handlers)
-    {
-        $this->handlers = new Collection($handlers);
-
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}.
      */
-    protected function resolve()
+    protected function handleRequest(): array
     {
+        $this->registerHandlers();
+
         $message = new Collection($this->getMessage());
 
-        if ($handler = $this->handlers->get($message->get('InfoType'))) {
-            $handler->handle($message);
-        }
+        return [
+            'to' => $message['FromUserName'],
+            'from' => $message['ToUserName'],
+            'response' => $this->dispatch($message->get('InfoType'), $message->toArray()),
+        ];
+    }
 
-        if ($customHandler = $this->getMessageHandler()) {
-            call_user_func_array($customHandler, [$message]);
-        }
-
-        return new Response(self::SUCCESS_EMPTY_RESPONSE);
+    protected function registerHandlers(): void
+    {
+        $this->on(self::EVENT_AUTHORIZED, Authorized::class);
+        $this->on(self::EVENT_UNAUTHORIZED, Unauthorized::class);
+        $this->on(self::EVENT_UPDATE_AUTHORIZED, UpdateAuthorized::class);
+        $this->on(self::EVENT_COMPONENT_VERIFY_TICKET, VerifyTicketRefreshed::class);
     }
 }

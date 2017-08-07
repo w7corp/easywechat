@@ -23,7 +23,7 @@ class Authorized implements EventHandlerInterface
     /**
      * {@inheritdoc}.
      */
-    public function handle($message)
+    public function handle(array $payload = [])
     {
         // Do nothing for the time being.
     }

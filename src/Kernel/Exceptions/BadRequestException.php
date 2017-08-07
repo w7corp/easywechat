@@ -9,9 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OfficialAccount\Server;
-
-use EasyWeChat\Kernel\Exceptions\Exception;
+namespace EasyWeChat\Kernel\Exceptions;
 
 /**
  * Class BadRequestException.

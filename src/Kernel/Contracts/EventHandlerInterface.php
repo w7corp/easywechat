@@ -19,9 +19,7 @@ namespace EasyWeChat\Kernel\Contracts;
 interface EventHandlerInterface
 {
     /**
-     * Handle an incoming event message from WeChat server-side.
-     *
-     * @param \EasyWeChat\Kernel\Support\Collection $message
+     * @param array $payload
      */
-    public function handle($message);
+    public function handle(array $payload = []);
 }

@@ -134,6 +134,10 @@ class ServiceContainer extends Container
      */
     protected function registerLogger()
     {
+        if (isset($this['logger'])) {
+            return $this;
+        }
+
         $logger = new Logger(str_replace('\\', '.', strtolower(get_class($this))));
 
         if ($logFile = $this['config']['log.file']) {
