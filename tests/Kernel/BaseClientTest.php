@@ -13,13 +13,12 @@ namespace EasyWeChat\Tests\Kernel;
 
 use EasyWeChat\Kernel\AccessToken;
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Kernel\Http\Request;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\RetryMiddleware;
+use GuzzleHttp\Psr7\Request;
 use Monolog\Logger;
 
 class BaseClientTest extends TestCase

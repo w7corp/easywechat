@@ -28,7 +28,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app['server'] = function ($app) {
-            return (new Guard($app))->debug($app['config']['debug']);
+            return new Guard($app);
         };
     }
 }

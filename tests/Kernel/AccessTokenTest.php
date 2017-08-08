@@ -14,10 +14,10 @@ namespace EasyWeChat\Tests\Kernel;
 use EasyWeChat\Kernel\AccessToken;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Http\Request;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\SimpleCache\CacheInterface;
 

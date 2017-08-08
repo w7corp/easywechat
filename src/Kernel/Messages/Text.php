@@ -33,6 +33,13 @@ class Text extends Message
     protected $properties = ['content'];
 
     /**
+     * @var array
+     */
+    protected $xmlAliases = [
+        'Content' => 'content',
+    ];
+
+    /**
      * Text constructor.
      *
      * @param string $content
