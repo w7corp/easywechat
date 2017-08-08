@@ -100,7 +100,7 @@ trait Observable
         $result = null;
 
         foreach ($this->handlers as $condition => $handlers) {
-            if ($condition === '*' || ($condition & $event) == $event) {
+            if ($condition === '*' || ($condition & $event) === $event) {
                 foreach ($handlers as $handler) {
                     $response = $this->callHandler($handler, $payload);
 
@@ -170,7 +170,7 @@ trait Observable
                 throw new InvalidArgumentException(sprintf('Class "%s" not exists.', $handler));
             }
 
-            if (!in_array(EventHandlerInterface::class, (new \ReflectionClass($handler))->getInterfaceNames())) {
+            if (!in_array(EventHandlerInterface::class, (new \ReflectionClass($handler))->getInterfaceNames(), true)) {
                 throw new InvalidArgumentException(sprintf('Class "%s" not an instance of "%s".', $handler, EventHandlerInterface::class));
             }
 
