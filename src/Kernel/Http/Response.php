@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel\Http;
 
 use EasyWeChat\Kernel\Support\Collection;
+use EasyWeChat\Kernel\Support\XML;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
 /**
@@ -66,6 +67,12 @@ class Response extends GuzzleResponse
      */
     public function toArray()
     {
+        $content = $this->getBodyContents();
+
+        if (false !== stripos($this->getHeaderLine('Content-Type'), 'xml')) {
+            return XML::parse($content);
+        }
+
         $array = json_decode($this->getBodyContents(), true);
 
         if (JSON_ERROR_NONE === json_last_error()) {

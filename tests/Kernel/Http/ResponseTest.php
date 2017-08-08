@@ -32,6 +32,15 @@ class ResponseTest extends TestCase
         $this->assertSame(['name' => 'easywechat'], $response->toCollection()->all());
     }
 
+    public function testXMLContents()
+    {
+        $response = new Response(200, ['Content-Type' => ['application/xml']], '<xml><foo>foo</foo><bar>bar</bar></xml>');
+        $this->assertSame(['foo' => 'foo', 'bar' => 'bar'], $response->toArray());
+
+        $response = new Response(200, ['Content-Type' => ['text/xml']], '<xml><foo>foo</foo><bar>bar</bar></xml>');
+        $this->assertSame(['foo' => 'foo', 'bar' => 'bar'], $response->toArray());
+    }
+
     public function testInvalidArrayableContents()
     {
         $response = new Response(200, [], 'not json string');
