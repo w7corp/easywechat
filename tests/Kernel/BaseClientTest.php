@@ -25,7 +25,7 @@ class BaseClientTest extends TestCase
 {
     public function makeClient($methods = [], ServiceContainer $app = null, AccessToken $accessToken = null)
     {
-        $methods = implode(',', (array) $methods);
+        $methods = implode(',', (array)$methods);
 
         return \Mockery::mock(BaseClient::class."[{$methods}]", [
             $app ?? \Mockery::mock(ServiceContainer::class),
@@ -106,7 +106,7 @@ class BaseClientTest extends TestCase
             'response_type' => 'array',
         ]);
         $client = $this->makeClient(['registerHttpMiddlewares', 'performRequest'], $app)
-                        ->shouldAllowMockingProtectedMethods();
+            ->shouldAllowMockingProtectedMethods();
 
         // default value
         $client->expects()->registerHttpMiddlewares()->once();
@@ -151,8 +151,8 @@ class BaseClientTest extends TestCase
     public function testRegisterMiddlewares()
     {
         $client = $this->makeClient(['retryMiddleware', 'accessTokenMiddleware', 'logMiddleware', 'pushMiddleware'])
-                        ->shouldAllowMockingProtectedMethods()
-                        ->shouldDeferMissing();
+            ->shouldAllowMockingProtectedMethods()
+            ->shouldDeferMissing();
         $retryMiddleware = function () {
             return 'retry';
         };

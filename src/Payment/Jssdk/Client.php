@@ -61,11 +61,11 @@ class Client extends JssdkClient
      *
      * @param string $prepayId
      *
-     * @return array|string
+     * @return array
      */
     public function sdkConfig($prepayId)
     {
-        $config = $this->configForPayment($prepayId, false);
+        $config = $this->bridgeConfig($prepayId, false);
 
         $config['timestamp'] = $config['timeStamp'];
         unset($config['timeStamp']);
