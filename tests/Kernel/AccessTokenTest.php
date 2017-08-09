@@ -31,11 +31,11 @@ class AccessTokenTest extends TestCase
         $this->assertInstanceOf(CacheInterface::class, $token->getCache());
 
         // prepended cache instance
-        $cache = mock(CacheInterface::class);
+        $cache = \Mockery::mock(CacheInterface::class);
         $app['cache'] = function () use ($cache) {
             return $cache;
         };
-        $token = mock(AccessToken::class.'[setCache]', [$app]);
+        $token = \Mockery::mock(AccessToken::class.'[setCache]', [$app]);
 
         $this->assertInstanceOf(CacheInterface::class, $token->getCache());
     }
