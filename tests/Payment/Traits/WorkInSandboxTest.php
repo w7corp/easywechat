@@ -13,16 +13,16 @@ namespace EasyWeChat\Tests\Payment\Traits;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\XML;
+use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Traits\WorksInSandbox;
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Payment\Application;
 
 class WorkInSandboxTest extends TestCase
 {
     public function testSandboxMode()
     {
         $app = new Application();
-        $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class."[sadboxMode]", [$app])
+        $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[sadboxMode]', [$app])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
@@ -37,7 +37,7 @@ class WorkInSandboxTest extends TestCase
     public function testWrapApi()
     {
         $app = new Application();
-        $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class."[sandboxMode, wrapApi]", [$app])
+        $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[sandboxMode, wrapApi]', [$app])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
@@ -132,7 +132,6 @@ class WorkInSandboxTest extends TestCase
 
         try {
             $mock->getSignKeyFromServer();
-
         } catch (\Exception $e) {
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertSame('failure msg', $e->getMessage());

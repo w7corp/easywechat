@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\Payment\Redpack;
 
+use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Redpack\Client;
-use EasyWeChat\Kernel\Support;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -57,7 +57,6 @@ class ClientTest extends TestCase
 
         $client->expects()->safeRequest('mmpaymkttransfers/gethbinfo', $params)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->query($mchBillNo));
-
     }
 
     public function testSend()

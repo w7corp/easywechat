@@ -25,7 +25,7 @@ class BaseClientTest extends TestCase
 {
     public function makeClient($methods = [], ServiceContainer $app = null, AccessToken $accessToken = null)
     {
-        $methods = implode(',', (array)$methods);
+        $methods = implode(',', (array) $methods);
 
         return \Mockery::mock(BaseClient::class."[{$methods}]", [
             $app ?? \Mockery::mock(ServiceContainer::class),

@@ -11,11 +11,11 @@
 
 namespace EasyWeChat\Tests\Payment;
 
+use EasyWeChat\Kernel\Http\Response;
+use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\BaseClient;
-use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Kernel\Support;
 
 class BaseClientTest extends TestCase
 {
@@ -52,7 +52,6 @@ class BaseClientTest extends TestCase
 
             return true;
         }))->times(3)->andReturn($mockResponse);
-
 
         $client->expects()->resolveResponse()
             ->with($mockResponse, \Mockery::any())
