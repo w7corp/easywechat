@@ -59,6 +59,7 @@ class HandleNotiryTest extends TestCase
      * @param $notify
      *
      * @return string
+     *
      * @throws \Exception
      */
     public function handleScanNotifyCallback($produceId, $openid, $notify)

@@ -11,10 +11,10 @@
 
 namespace EasyWeChat\Tests\Payment;
 
+use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Client;
 use EasyWeChat\Payment\Order;
-use EasyWeChat\Kernel\Support;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -36,7 +36,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['pay', 'wrapApi'], $app)->makePartial();
 
         // mock order
-        $order = \Mockery::mock(Order::class."[all]")->shouldAllowMockingProtectedMethods()->makePartial();
+        $order = \Mockery::mock(Order::class.'[all]')->shouldAllowMockingProtectedMethods()->makePartial();
 
         $client->expects()->request($client->wrapApi('pay/micropay'), $order->all())->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->pay($order));

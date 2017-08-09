@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\Payment\Jssdk;
 
 use EasyWeChat\Payment\Application;
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Payment\Jssdk\Client;
+use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\AccessToken;
 
 class ClientTest extends TestCase
