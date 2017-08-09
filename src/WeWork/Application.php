@@ -28,6 +28,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\WeWork\Message\Client     $message
  * @property \EasyWeChat\WeWork\Message\Messenger  $messenger
  * @property \EasyWeChat\BasicService\Jssdk\Client $jssdk
+ * @property \Overtrue\Socialite\ProviderInterface $oauth
  *
  * @method mixed getCallbackIp()
  */

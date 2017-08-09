@@ -14,7 +14,6 @@ namespace EasyWeChat\WeWork\Message;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Message;
-use EasyWeChat\Kernel\Messages\Raw as RawMessage;
 use EasyWeChat\Kernel\Messages\Text;
 
 /**
@@ -70,8 +69,8 @@ class Messenger
      */
     public function message($message)
     {
-        if (is_string($message)) {
-            $message = new Text(['content' => $message]);
+        if (is_string($message) || is_numeric($message)) {
+            $message = new Text($message);
         }
 
         if (!($message instanceof Message)) {
@@ -171,20 +170,14 @@ class Messenger
             throw new RuntimeException('No message to send.');
         }
 
-        if (empty($this->to)) {
-            throw new RuntimeException('Unspecified message recipients.');
+        if (empty($this->agentId)) {
+            throw new RuntimeException('No agentid specified.');
         }
 
-        $transformer = new MessageTransformer();
-
-        if ($this->message instanceof RawMessage) {
-            $message = $this->message->get('content');
-        } else {
-            $message = array_merge([
-                'agentid' => $this->agentId,
-                'safe' => intval($this->secretive),
-            ], $this->to, $transformer->transform($this->message));
-        }
+        $message = $this->message->transformForJsonRequest(array_merge([
+            'agentid' => $this->agentId,
+            'safe' => intval($this->secretive),
+        ], $this->to));
 
         return $this->client->send($message);
     }
@@ -192,9 +185,11 @@ class Messenger
     /**
      * Return property.
      *
-     * @param $property
+     * @param string $property
      *
      * @return mixed
+     *
+     * @throws InvalidArgumentException
      */
     public function __get($property)
     {
@@ -202,6 +197,6 @@ class Messenger
             return $this->$property;
         }
 
-        return null;
+        throw new InvalidArgumentException(sprintf('No property named "%s"', $property));
     }
 }

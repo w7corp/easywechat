@@ -27,7 +27,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function get($agentId)
+    public function get(int $agentId)
     {
         $params = [
             'agentid' => $agentId,
@@ -39,13 +39,14 @@ class Client extends BaseClient
     /**
      * Set agent.
      *
+     * @param int   $agentId
      * @param array $attributes
      *
      * @return mixed
      */
-    public function set(array $attributes)
+    public function set(int $agentId, array $attributes)
     {
-        return $this->httpPostJson('agent/set', $attributes);
+        return $this->httpPostJson('agent/set', array_merge(['agentid' => $agentId], $attributes));
     }
 
     /**
@@ -53,7 +54,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function lists()
+    public function list()
     {
         return $this->httpGet('agent/list');
     }

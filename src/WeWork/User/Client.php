@@ -35,24 +35,29 @@ class Client extends BaseClient
     /**
      * Update an exist user.
      *
-     * @param array $data
+     * @param string $id
+     * @param array  $data
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function update(array $data)
+    public function update(string $id, array $data)
     {
-        return $this->httpPost('user/update', $data);
+        return $this->httpPost('user/update', array_merge(['userid' => $id], $data));
     }
 
     /**
      * Delete a user.
      *
-     * @param string $userId
+     * @param string|array $userId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function delete($userId)
     {
+        if (is_array($userId)) {
+            return $this->batchDelete($userId);
+        }
+
         return $this->httpGet('user/delete', ['userid' => $userId]);
     }
 
@@ -75,7 +80,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function get($userId)
+    public function get(string $userId)
     {
         return $this->httpGet('user/get', ['userid' => $userId]);
     }
@@ -106,7 +111,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getDepartmentUsersWithDetail(int $departmentId, bool $fetchChild = false)
+    public function getDetailedDepartmentUsers(int $departmentId, bool $fetchChild = false)
     {
         $params = [
             'department_id' => $departmentId,
@@ -124,7 +129,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function userIdToOpenId($userId, $agentId = null)
+    public function userIdToOpenid(string $userId, int $agentId = null)
     {
         $params = [
             'userid' => $userId,
@@ -141,7 +146,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function openidToUserId($openid)
+    public function openidToUserId(string $openid)
     {
         $params = [
             'openid' => $openid,
@@ -155,7 +160,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function accept($userId)
+    public function accept(string $userId)
     {
         $params = [
             'userid' => $userId,

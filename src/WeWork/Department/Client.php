@@ -35,13 +35,14 @@ class Client extends BaseClient
     /**
      * Update a department.
      *
+     * @param int   $id
      * @param array $data
      *
      * @return mixed
      */
-    public function update(array $data)
+    public function update(int $id, array $data)
     {
-        return $this->httpPostJson('department/update', $data);
+        return $this->httpPostJson('department/update', array_merge(compact('id'), $data));
     }
 
     /**
@@ -63,7 +64,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function lists($id = null)
+    public function list($id = null)
     {
         return $this->httpGet('department/list', compact('id'));
     }

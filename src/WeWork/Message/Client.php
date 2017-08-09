@@ -22,11 +22,11 @@ use EasyWeChat\Kernel\Messages\Message;
 class Client extends BaseClient
 {
     /**
-     * @param \EasyWeChat\Kernel\Messages\Message $message
+     * @param string|\EasyWeChat\Kernel\Messages\Message $message
      *
      * @return \EasyWeChat\WeWork\Message\Messenger
      */
-    public function message(Message $message)
+    public function message($message)
     {
         return (new Messenger($this))->message($message);
     }

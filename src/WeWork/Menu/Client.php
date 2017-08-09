@@ -27,7 +27,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function get($agentId)
+    public function get(int $agentId)
     {
         return $this->httpGet('menu/get', ['agentid' => $agentId]);
     }
@@ -40,7 +40,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function create($agentId, array $data)
+    public function create(int $agentId, array $data)
     {
         return $this->httpPostJson('menu/create', $data, ['agentid' => $agentId]);
     }
@@ -52,7 +52,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function delete($agentId)
+    public function delete(int $agentId)
     {
         return $this->httpGet('menu/delete', ['agentid' => $agentId]);
     }

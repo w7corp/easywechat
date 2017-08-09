@@ -23,12 +23,12 @@ class TagClient extends BaseClient
     /**
      * Create tag.
      *
-     * @param string $tagName
-     * @param null   $tagId
+     * @param string   $tagName
+     * @param int|null $tagId
      *
      * @return mixed
      */
-    public function create(string $tagName, $tagId = null)
+    public function create(string $tagName, int $tagId = null)
     {
         $params = [
             'tagname' => $tagName,
@@ -46,7 +46,7 @@ class TagClient extends BaseClient
      *
      * @return mixed
      */
-    public function update($tagId, string $tagName)
+    public function update(int $tagId, string $tagName)
     {
         $params = [
             'tagid' => $tagId,
@@ -73,7 +73,7 @@ class TagClient extends BaseClient
      *
      * @return mixed
      */
-    public function get($tagId)
+    public function get(int $tagId)
     {
         return $this->httpGet('tag/get', ['tagid' => $tagId]);
     }
@@ -85,9 +85,9 @@ class TagClient extends BaseClient
      *
      * @return mixed
      */
-    public function addUsers($tagId, array $userList = [], array $partyList = [])
+    public function tagUsers(int $tagId, array $userList = [], array $partyList = [])
     {
-        return $this->addOrDeleteUsers('tag/addtagusers', $tagId, $userList, $partyList);
+        return $this->tagOrUntagUsers('tag/addtagusers', $tagId, $userList, $partyList);
     }
 
     /**
@@ -97,9 +97,9 @@ class TagClient extends BaseClient
      *
      * @return mixed
      */
-    public function deleteUsers($tagId, array $userList = [], array $partyList = [])
+    public function untagUsers(int $tagId, array $userList = [], array $partyList = [])
     {
-        return $this->addOrDeleteUsers('tag/deltagusers', $tagId, $userList, $partyList);
+        return $this->tagOrUntagUsers('tag/deltagusers', $tagId, $userList, $partyList);
     }
 
     /**
@@ -110,7 +110,7 @@ class TagClient extends BaseClient
      *
      * @return mixed
      */
-    protected function addOrDeleteUsers($endpoint, $tagId, array $userList, array $partyList)
+    protected function tagOrUntagUsers(string $endpoint, int $tagId, array $userList, array $partyList)
     {
         $data = [
             'tagid' => $tagId,
@@ -124,7 +124,7 @@ class TagClient extends BaseClient
     /**
      * @return mixed
      */
-    public function lists()
+    public function list()
     {
         return $this->httpGet('tag/list');
     }

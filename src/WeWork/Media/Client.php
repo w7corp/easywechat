@@ -27,7 +27,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function get($mediaId)
+    public function get(string $mediaId)
     {
         return $this->httpGet('media/get', ['media_id' => $mediaId]);
     }
@@ -41,7 +41,7 @@ class Client extends BaseClient
      */
     public function uploadImage(string $path)
     {
-        return $this->uploadMedia('image', $path);
+        return $this->upload('image', $path);
     }
 
     /**
@@ -53,7 +53,7 @@ class Client extends BaseClient
      */
     public function uploadVoice(string $path)
     {
-        return $this->uploadMedia('voice', $path);
+        return $this->upload('voice', $path);
     }
 
     /**
@@ -65,7 +65,7 @@ class Client extends BaseClient
      */
     public function uploadVideo(string $path)
     {
-        return $this->uploadMedia('video', $path);
+        return $this->upload('video', $path);
     }
 
     /**
@@ -77,7 +77,7 @@ class Client extends BaseClient
      */
     public function uploadFile(string $path)
     {
-        return $this->uploadMedia('file', $path);
+        return $this->upload('file', $path);
     }
 
     /**
@@ -88,7 +88,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    protected function uploadMedia(string $type, string $path)
+    public function upload(string $type, string $path)
     {
         $files = [
             'media' => $path,
