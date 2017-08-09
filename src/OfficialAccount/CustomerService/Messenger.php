@@ -89,11 +89,21 @@ class Messenger
      *
      * @return Messenger
      */
-    public function by($account)
+    public function by(string $account)
     {
         $this->account = $account;
 
         return $this;
+    }
+
+    /**
+     * @param string $account
+     *
+     * @return Messenger
+     */
+    public function from(string $account)
+    {
+        return $this->by($account);
     }
 
     /**

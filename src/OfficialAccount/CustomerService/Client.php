@@ -159,7 +159,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function messages($startTime, $endTime, $msgId = 1, $number = 10000)
+    public function messages($startTime, $endTime, int $msgId = 1, int $number = 10000)
     {
         $params = [
             'starttime' => is_numeric($startTime) ? $startTime : strtotime($startTime),

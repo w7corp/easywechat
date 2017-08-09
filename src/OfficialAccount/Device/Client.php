@@ -69,40 +69,12 @@ class Client extends BaseClient
     {
         $params = [
             'device_num' => count($devices),
-            'device_list' => $this->formatDevices($devices),
+            'device_list' => $devices,
             'op_type' => $opType,
             'product_id' => $productId,
         ];
 
         return $this->httpPostJson('device/authorize_device', $params);
-    }
-
-    /**
-     * @param array $devices
-     *
-     * @return array
-     */
-    protected function formatDevices(array $devices)
-    {
-        return array_map(function ($info) {
-            $item = [
-                'id' => $info['deviceId'],
-                'mac' => $info['mac'],
-                'connect_protocol' => $this->app['config']['connect_protocol'],
-                'auth_key' => $this->app['config']['auth_key'],
-                'close_strategy' => $this->app['config']['close_strategy'],
-                'conn_strategy' => $this->app['config']['conn_strategy'],
-                'crypt_method' => $this->app['config']['crypt_method'],
-                'auth_ver' => $this->app['config']['auth_ver'],
-                'manu_mac_pos' => $this->app['config']['manu_mac_pos'],
-                'ser_mac_pos' => $this->app['config']['ser_mac_pos'],
-            ];
-            if ($protocol = $this->app['config']['ble_simple_protocol']) {
-                $item['ble_simple_protocol'] = $protocol;
-            }
-
-            return $item;
-        }, $devices);
     }
 
     /**
