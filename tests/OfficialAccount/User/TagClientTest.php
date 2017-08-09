@@ -27,13 +27,13 @@ class TagClientTest extends TestCase
         $this->assertSame('mock-result', $client->create('粉丝'));
     }
 
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(TagClient::class);
 
         $client->expects()->httpGet('cgi-bin/tags/get')->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists());
+        $this->assertSame('mock-result', $client->list());
     }
 
     public function testUpdate()

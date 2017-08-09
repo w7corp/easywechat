@@ -66,7 +66,7 @@ class PageClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists(int $begin, int $count)
+    public function list(int $begin, int $count)
     {
         $params = [
             'type' => 2,

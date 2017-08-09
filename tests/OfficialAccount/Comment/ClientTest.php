@@ -40,7 +40,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->close('mock-id', 2));
     }
 
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -52,7 +52,7 @@ class ClientTest extends TestCase
             'type' => 1,
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists('mock-id', 3, 0, 20, 1));
+        $this->assertSame('mock-result', $client->list('mock-id', 3, 0, 20, 1));
     }
 
     public function testMarkElect()

@@ -129,7 +129,7 @@ class DeviceClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists(int $lastId, int $count)
+    public function list(int $lastId, int $count)
     {
         $params = [
             'type' => 2,

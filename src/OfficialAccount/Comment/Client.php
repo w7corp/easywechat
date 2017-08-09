@@ -67,7 +67,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists(string $msgId, int $index, int $begin, int $count, int $type = 0)
+    public function list(string $msgId, int $index, int $begin, int $count, int $type = 0)
     {
         $params = [
             'msg_data_id' => $msgId,

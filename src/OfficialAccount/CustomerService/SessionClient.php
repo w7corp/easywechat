@@ -27,7 +27,7 @@ class SessionClient extends BaseClient
      *
      * @return mixed
      */
-    public function lists(string $account)
+    public function list(string $account)
     {
         return $this->httpGet('customservice/kfsession/getsessionlist', ['kf_account' => $account]);
     }

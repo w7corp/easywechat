@@ -72,7 +72,7 @@ class SubMerchantClientTest extends TestCase
         $this->assertSame('mock-result', $client->get('mock-merchant-id'));
     }
 
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(SubMerchantClient::class);
 
@@ -82,7 +82,7 @@ class SubMerchantClientTest extends TestCase
             'status' => 'CHECKING',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists());
+        $this->assertSame('mock-result', $client->list());
 
         $client->expects()->httpPostJson('card/submerchant/batchget', [
             'begin_id' => 10,
@@ -90,6 +90,6 @@ class SubMerchantClientTest extends TestCase
             'status' => 'CHECKED',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists(10, 20, 'CHECKED'));
+        $this->assertSame('mock-result', $client->list(10, 20, 'CHECKED'));
     }
 }

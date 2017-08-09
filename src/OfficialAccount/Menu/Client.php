@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function lists()
+    public function list()
     {
         return $this->httpGet('cgi-bin/menu/get');
     }
