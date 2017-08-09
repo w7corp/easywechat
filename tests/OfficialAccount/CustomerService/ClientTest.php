@@ -17,13 +17,13 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpGet('cgi-bin/customservice/getkflist')->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists());
+        $this->assertSame('mock-result', $client->list());
     }
 
     public function testOnline()

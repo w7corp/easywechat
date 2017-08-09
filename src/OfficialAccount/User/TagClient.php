@@ -41,7 +41,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists()
+    public function list()
     {
         return $this->httpGet('cgi-bin/tags/get');
     }

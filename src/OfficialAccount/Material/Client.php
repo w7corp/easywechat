@@ -201,7 +201,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists(string $type, int $offset = 0, int $count = 20)
+    public function list(string $type, int $offset = 0, int $count = 20)
     {
         $params = [
             'type' => $type,

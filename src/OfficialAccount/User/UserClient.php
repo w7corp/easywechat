@@ -65,7 +65,7 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists(string $nextOpenId = null)
+    public function list(string $nextOpenId = null)
     {
         $params = ['next_openid' => $nextOpenId];
 

@@ -93,7 +93,7 @@ class DeviceClientTest extends TestCase
         $this->assertSame('mock-result', $client->listByIds([['device_id' => 10011], ['device_id' => 10012]]));
     }
 
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(DeviceClient::class);
 
@@ -103,7 +103,7 @@ class DeviceClientTest extends TestCase
             'count' => 20,
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists(45, 20));
+        $this->assertSame('mock-result', $client->list(45, 20));
     }
 
     public function testListByApplyId()

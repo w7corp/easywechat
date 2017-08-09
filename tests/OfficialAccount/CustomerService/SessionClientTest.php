@@ -16,7 +16,7 @@ use EasyWeChat\Tests\TestCase;
 
 class SessionClientTest extends TestCase
 {
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(SessionClient::class);
 
@@ -24,7 +24,7 @@ class SessionClientTest extends TestCase
             'kf_account' => 'overtrue@test',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists('overtrue@test'));
+        $this->assertSame('mock-result', $client->list('overtrue@test'));
     }
 
     public function testWaiting()

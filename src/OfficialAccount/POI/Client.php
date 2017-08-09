@@ -50,7 +50,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function lists(int $offset = 0, int $limit = 10)
+    public function list(int $offset = 0, int $limit = 10)
     {
         $params = [
             'begin' => $offset,

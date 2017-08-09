@@ -168,29 +168,29 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->delete('mock-card-id'));
     }
 
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 0, 'count' => 10, 'status_list' => 'CARD_STATUS_VERIFY_OK'])
             ->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists());
+        $this->assertSame('mock-result', $client->list());
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 1, 'count' => 10, 'status_list' => 'CARD_STATUS_VERIFY_OK'])
             ->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists(1));
+        $this->assertSame('mock-result', $client->list(1));
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 1, 'count' => 10, 'status_list' => 'CARD_STATUS_VERIFY_OK'])
             ->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists(1, 10));
+        $this->assertSame('mock-result', $client->list(1, 10));
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 1, 'count' => 10, 'status_list' => 'CUSTOM'])
             ->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists(1, 10, 'CUSTOM'));
+        $this->assertSame('mock-result', $client->list(1, 10, 'CUSTOM'));
     }
 
     public function testUpdate()

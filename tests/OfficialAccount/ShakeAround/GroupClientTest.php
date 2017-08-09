@@ -48,7 +48,7 @@ class GroupClientTest extends TestCase
         $this->assertSame('mock-result', $client->delete(11));
     }
 
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(GroupClient::class);
 
@@ -57,7 +57,7 @@ class GroupClientTest extends TestCase
             'count' => 50,
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists(11, 50));
+        $this->assertSame('mock-result', $client->list(11, 50));
     }
 
     public function testGet()

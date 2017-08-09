@@ -49,7 +49,7 @@ class PageClientTest extends TestCase
         $this->assertSame('mock-result', $client->listByIds([1, 2, 5]));
     }
 
-    public function testLists()
+    public function testList()
     {
         $client = $this->mockApiClient(PageClient::class);
 
@@ -59,7 +59,7 @@ class PageClientTest extends TestCase
             'count' => 20,
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->lists(3, 20));
+        $this->assertSame('mock-result', $client->list(3, 20));
     }
 
     public function testDelete()
