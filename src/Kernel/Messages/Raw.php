@@ -37,4 +37,15 @@ class Raw extends Message
     {
         parent::__construct(['content' => strval($content)]);
     }
+
+    /**
+     * @param array $appends
+     * @param bool  $withType
+     *
+     * @return array
+     */
+    public function transformForJsonRequest(array $appends = [], $withType = true): array
+    {
+        return json_decode($this->content, true) ?? [];
+    }
 }

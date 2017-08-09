@@ -147,6 +147,7 @@ abstract class Message implements MessageInterface
 
     /**
      * @param array $appends
+     * @param bool  $withType
      *
      * @return array
      */

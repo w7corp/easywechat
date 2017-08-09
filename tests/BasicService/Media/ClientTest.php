@@ -29,7 +29,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->uploadImage('/foo/bar/image.jpg'));
     }
 
-    public function testVideoImage()
+    public function testUploadVideo()
     {
         $client = $this->mockApiClient(Client::class, ['upload']);
         $client->expects()->upload('video', '/foo/bar/video.mp4')->andReturn('mock-result');
@@ -37,7 +37,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->uploadVideo('/foo/bar/video.mp4'));
     }
 
-    public function testVoiceImage()
+    public function testUploadVoice()
     {
         $client = $this->mockApiClient(Client::class, ['upload']);
         $client->expects()->upload('voice', '/foo/bar/voice.mp3')->andReturn('mock-result');
@@ -45,7 +45,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->uploadVoice('/foo/bar/voice.mp3'));
     }
 
-    public function testThumbImage()
+    public function testUploadThumb()
     {
         $client = $this->mockApiClient(Client::class, ['upload']);
         $client->expects()->upload('thumb', '/foo/bar/thumb.jpg')->andReturn('mock-result');

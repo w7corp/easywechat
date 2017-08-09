@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OfficialAccount\Fundamental;
+namespace EasyWeChat\OfficialAccount\Base;
 
 use EasyWeChat\Kernel\BaseClient;
 

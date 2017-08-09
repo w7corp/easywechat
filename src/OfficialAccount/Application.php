@@ -27,7 +27,6 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\Server\Guard            $server
  * @property \EasyWeChat\OfficialAccount\User\UserClient         $user
  * @property \EasyWeChat\OfficialAccount\User\TagClient          $user_tag
- * @property \Overtrue\Socialite\Providers\WeChatProvider        $oauth
  * @property \EasyWeChat\OfficialAccount\Menu\Client             $menu
  * @property \EasyWeChat\OfficialAccount\TemplateMessage\Client  $template_message
  * @property \EasyWeChat\OfficialAccount\Material\Client         $material
@@ -39,6 +38,8 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\Card\Card               $card
  * @property \EasyWeChat\OfficialAccount\Device\Client           $device
  * @property \EasyWeChat\OfficialAccount\ShakeAround\ShakeAround $shake_around
+ * @property \EasyWeChat\OfficialAccount\Base\Client             $base
+ * @property \Overtrue\Socialite\Providers\WeChatProvider        $oauth
  */
 class Application extends ServiceContainer
 {
@@ -63,6 +64,7 @@ class Application extends ServiceContainer
         Device\ServiceProvider::class,
         ShakeAround\ServiceProvider::class,
         Comment\ServiceProvider::class,
+        Base\ServiceProvider::class,
         // Base services
         BasicService\QrCode\ServiceProvider::class,
         BasicService\Media\ServiceProvider::class,

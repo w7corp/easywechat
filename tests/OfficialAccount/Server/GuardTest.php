@@ -223,13 +223,16 @@ class GuardTest extends TestCase
             'CONTENT_TYPE' => ['application/xml'],
         ], '<xml><name>foo</name></xml>');
         $encryptor = \Mockery::mock(Encryptor::class);
-        $xml = (new Text('hello world!'))->transformToXml([
-           'ToUserName' => 'overtrue',
-           'FromUserName' => 'easywechat',
-           'MsgType' => 'text',
-            'CreateTime' => $time,
-        ]);
-        $encryptor->allows()->encrypt($xml, $nonce, $time)->andReturn('mock-encrypted-response');
+        $encryptor->allows()->encrypt(\Mockery::on(function ($xml) {
+            $array = XML::parse($xml);
+            $this->assertSame('overtrue', $array['ToUserName']);
+            $this->assertSame('easywechat', $array['FromUserName']);
+            $this->assertSame('text', $array['MsgType']);
+            $this->assertTrue($array['CreateTime'] >= time());
+            $this->assertSame('hello world!', $array['Content']);
+
+            return true;
+        }), $nonce, $time)->andReturn('mock-encrypted-response');
         $app = new ServiceContainer([], [
             'logger' => $logger,
             'request' => $request,
