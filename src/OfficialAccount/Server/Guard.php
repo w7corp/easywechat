@@ -99,7 +99,7 @@ class Guard
      */
     public function validate(string $token)
     {
-        if ($this->app['request']->getRealMethod() == 'GET' && $this->app['request']->get('echostr')) {
+        if ($this->app['request']->getRealMethod() === 'GET' && $this->app['request']->get('echostr')) {
             return $this;
         }
 
