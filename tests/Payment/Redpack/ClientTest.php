@@ -18,33 +18,49 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
+    /**
+     * Make Application.
+     *
+     * @param array $config
+     */
+    private function makeApp($config = [])
+    {
+        return new Application(array_merge([
+            'app_id' => 'wx123456',
+            'merchant_id' => 'foo-mcherant-id',
+            'key' => 'foo-mcherant-key',
+            'sub_appid' => 'foo-sub-appid',
+            'sub_mch_id' => 'foo-sub-mch-id',
+        ], $config));
+    }
+
     public function testPrepare()
     {
-        $app = new Application([
-            'app_id' => 'wx123456',
-        ]);
+        $app = $this->makeApp();
+
         $client = $this->mockApiClient(Client::class, ['prepare', 'safeRequest'], $app)->makePartial();
 
         $params = [
             'foo' => 'bar',
         ];
 
-        $paramsForSafeRequest = array_merge($params, [
-            'wxappid' => $app['merchant']->app_id,
-            'auth_mchid' => '1000052601',
-            'auth_appid' => 'wxbf42bd79c4391863',
-            'amt_type' => 'ALL_RAND',
-        ]);
+        $client->expects()->safeRequest('mmpaymkttransfers/hbpreorder', \Mockery::on(function ($paramsForSafeRequest) use ($app, $params) {
+            $this->assertSame($paramsForSafeRequest['foo'], $params['foo']);
+            $this->assertSame($paramsForSafeRequest['wxappid'], $app['merchant']->app_id);
+            $this->assertSame($paramsForSafeRequest['auth_mchid'], '1000052601');
+            $this->assertSame($paramsForSafeRequest['auth_appid'], 'wxbf42bd79c4391863');
+            $this->assertSame($paramsForSafeRequest['amt_type'], 'ALL_RAND');
 
-        $client->expects()->safeRequest('mmpaymkttransfers/hbpreorder', $paramsForSafeRequest)->andReturn('mock-result')->once();
+            return true;
+        }))->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->prepare($params));
     }
 
     public function testQuery()
     {
-        $app = new Application([
-            'app_id' => 'wx123456',
-        ]);
+        $app = $this->makeApp();
+
         $client = $this->mockApiClient(Client::class, ['query', 'safeRequest'], $app)->makePartial();
 
         $mchBillNo = '123456';
@@ -55,15 +71,15 @@ class ClientTest extends TestCase
             'bill_type' => 'MCHT',
         ];
 
-        $client->expects()->safeRequest('mmpaymkttransfers/gethbinfo', $params)->andReturn('mock-result')->once();
+        $client->expects()->safeRequest('mmpaymkttransfers/gethbinfo', $params)->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->query($mchBillNo));
     }
 
     public function testSend()
     {
-        $app = new Application([
-            'app_id' => 'wx123456',
-        ]);
+        $app = $this->makeApp();
+
         $client = $this->mockApiClient(Client::class, ['send', 'safeRequest'], $app)->makePartial();
 
         $params = [
@@ -75,26 +91,22 @@ class ClientTest extends TestCase
         ]);
 
         // type === 'NORMAL'
-        $type = Client::TYPE_NORMAL;
-        $endpoint = 'mmpaymkttransfers/sendredpack';
+        $client->expects()->safeRequest('mmpaymkttransfers/sendredpack', $paramsForSafeRequest)->andReturn('mock-result-normal');
 
-        $client->expects()->safeRequest($endpoint, $paramsForSafeRequest)->andReturn('mock-result-normal')->once();
-
-        $this->assertSame('mock-result-normal', $client->send($params, $type));
+        $this->assertSame('mock-result-normal', $client->send($params, Client::TYPE_NORMAL));
 
         // type === 'GROUP'
-        $type = Client::TYPE_GROUP;
-        $endpoint = 'mmpaymkttransfers/sendgroupredpack';
         unset($paramsForSafeRequest['client_ip']);
 
-        $client->expects()->safeRequest($endpoint, $paramsForSafeRequest)->andReturn('mock-result-group')->once();
+        $client->expects()->safeRequest('mmpaymkttransfers/sendgroupredpack', $paramsForSafeRequest)->andReturn('mock-result-group');
 
-        $this->assertSame('mock-result-group', $client->send($params, $type));
+        $this->assertSame('mock-result-group', $client->send($params, Client::TYPE_GROUP));
     }
 
     public function testSendNormal()
     {
-        $app = new Application();
+        $app = $this->makeApp();
+
         $client = $this->mockApiClient(Client::class, ['send', 'sendNormal'], $app)->makePartial();
 
         $params = [];
@@ -104,32 +116,31 @@ class ClientTest extends TestCase
             'client_ip' => $params['client_ip'] ?? Support\get_server_ip(),
         ];
 
-        $client->expects()->send(array_merge($params, $paramsDefault), Client::TYPE_NORMAL)->andReturn('mock-result')->once();
+        $client->expects()->send(array_merge($params, $paramsDefault), Client::TYPE_NORMAL)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->sendNormal($params));
     }
 
     public function testSendGroup()
     {
-        $app = new Application();
+        $app = $this->makeApp();
+
         $client = $this->mockApiClient(Client::class, ['send', 'sendGroup'], $app)->makePartial();
 
-        $params = [];
+        $params = ['foo' => 'bar'];
 
-        $client->expects()->send(array_merge($params, ['amt_type' => 'ALL_RAND']), Client::TYPE_GROUP)->andReturn('mock-result')->once();
+        $client->expects()->send(array_merge($params, ['amt_type' => 'ALL_RAND']), Client::TYPE_GROUP)->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->sendGroup($params));
     }
 
     public function testPrepends()
     {
-        $app = new Application([
-            'app_id' => '123456',
-            'merchant_id' => 'foo-merchant-id',
-        ]);
+        $app = $this->makeApp();
 
         $client = $this->mockApiClient(Client::class, 'prepends', $app)->makePartial();
 
         $this->assertNotEmpty($client->prepends());
         $this->assertArrayHasKey('mch_id', $client->prepends());
-        $this->assertSame('foo-merchant-id', $client->prepends()['mch_id']);
+        $this->assertSame($app['merchant']->merchant_id, $client->prepends()['mch_id']);
     }
 }

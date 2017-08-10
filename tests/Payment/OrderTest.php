@@ -18,19 +18,12 @@ class OrderTest extends TestCase
 {
     public function testErrorParams()
     {
-        try {
-            new Order('');
-            $this->fail('No exception thrown.');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(\TypeError::class, $e);
-        }
+        $this->expectException(\Throwable::class);
 
-        try {
-            new Order(1);
-            $this->fail('No exception thrown.');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(\TypeError::class, $e);
-        }
+        // test whether a Expection is thrown when the $attribute is not an array
+        new Order(\Mockery::on(function ($attributes) {
+            return !is_array($attributes);
+        }));
     }
 
     public function testAttributes()
@@ -38,5 +31,6 @@ class OrderTest extends TestCase
         $order = new Order(['foo' => 'bar']);
 
         $this->assertSame('bar', $order->foo);
+        $this->assertNull($order->baz);
     }
 }

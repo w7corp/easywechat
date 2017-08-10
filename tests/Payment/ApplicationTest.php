@@ -19,7 +19,10 @@ class ApplicationTest extends TestCase
 {
     public function testMagicCall()
     {
-        $app = new Application();
+        $app = new Application([
+            'app_id' =>'wx123456',
+            'merchant_id' => 'foo-merchant-id',
+        ]);
 
         $this->assertInstanceOf(Client::class, $app->sandboxMode(true));
 

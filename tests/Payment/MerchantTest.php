@@ -18,19 +18,12 @@ class MerchantTest extends TestCase
 {
     public function testErrorParams()
     {
-        try {
-            new Merchant('');
-            $this->fail('No exception thrown.');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(\TypeError::class, $e);
-        }
+        $this->expectException(\Throwable::class);
 
-        try {
-            new Merchant(1);
-            $this->fail('No exception thrown.');
-        } catch (\Throwable $e) {
-            $this->assertInstanceOf(\TypeError::class, $e);
-        }
+        // test whether a Expection is thrown when the $attribute is not an array
+        new Merchant(\Mockery::on(function ($attributes) {
+            return !is_array($attributes);
+        }));
     }
 
     public function testAttributes()
@@ -38,5 +31,6 @@ class MerchantTest extends TestCase
         $merchant = new Merchant(['foo' => 'bar']);
 
         $this->assertSame('bar', $merchant->foo);
+        $this->assertNull($merchant->baz);
     }
 }

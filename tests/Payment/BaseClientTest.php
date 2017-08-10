@@ -22,8 +22,10 @@ class BaseClientTest extends TestCase
     public function testPrepends()
     {
         $app = new Application();
-        $client = $this->mockApiClient(BaseClient::class, 'prepends', $app)->makePartial();
 
+        $client = $this->mockApiClient(BaseClient::class, 'prepends', $app)->shouldDeferMissing();
+
+        // assert result of prepends()
         $this->assertEmpty($client->prepends());
         $this->assertSame([], $client->prepends());
     }
@@ -31,11 +33,12 @@ class BaseClientTest extends TestCase
     public function testRequest()
     {
         $app = new Application();
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'resolveResponse', 'prepends', 'getSignKey'], $app)->makePartial();
+
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'resolveResponse', 'prepends', 'getSignKey'], $app)->shouldDeferMissing();
 
         $api = 'http://easywechat.org';
         $params = ['foo' => 'bar'];
-        $method = 'post';
+        $method = \Mockery::anyOf(['get', 'post']);
         $options = ['foo' => 'bar'];
 
         $mockResponse = new Response(200, [], 'response-content');
@@ -55,7 +58,6 @@ class BaseClientTest extends TestCase
 
         $client->expects()->resolveResponse()
             ->with($mockResponse, \Mockery::any())
-            ->once()
             ->andReturn(['foo' => 'mock-bar']);
 
         // $returnResponse = false
@@ -69,14 +71,15 @@ class BaseClientTest extends TestCase
     public function testRequestRaw()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(BaseClient::class, ['request', 'requestRaw'], $app)->makePartial();
 
         $api = 'http://easywechat.org';
         $params = ['foo' => 'bar'];
-        $method = 'post';
+        $method = \Mockery::anyOf(['get', 'post']);
         $options = [];
 
-        $client->expects()->request($api, $params, $method, $options, true)->andReturn('mock-result')->once();
+        $client->expects()->request($api, $params, $method, $options, true)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->requestRaw($api, $params, $method, $options));
     }
@@ -88,18 +91,19 @@ class BaseClientTest extends TestCase
             'cert_path' => 'foo',
             'key_path' => 'bar',
         ]);
-        $client = $this->mockApiClient(BaseClient::class, ['request', 'safeRequest'], $app)->makePartial();
+
+        $client = $this->mockApiClient(BaseClient::class, ['safeRequest'], $app)->makePartial();
 
         $api = 'http://easywechat.org';
         $params = ['foo' => 'bar'];
-        $method = 'post';
+        $method = \Mockery::anyOf(['get', 'post']);
 
-        $options = [
-            'cert' => $app['merchant']->get('cert_path'),
-            'ssl_key' => $app['merchant']->get('key_path'),
-        ];
+        $client->expects()->request($api, $params, $method, \Mockery::on(function ($options) use ($app) {
+            $this->assertSame($options['cert'], $app['merchant']->get('cert_path'));
+            $this->assertSame($options['ssl_key'], $app['merchant']->get('key_path'));
 
-        $client->expects()->request($api, $params, $method, $options)->andReturn('mock-result')->once();
+            return true;
+        }))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->safeRequest($api, $params, $method));
     }

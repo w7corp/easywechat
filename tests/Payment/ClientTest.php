@@ -22,6 +22,7 @@ class ClientTest extends TestCase
     public function testSchema()
     {
         $app = new Application();
+
         $mock = $this->mockApiClient(Client::class, 'scheme', $app)->makePartial();
 
         $productId = '1';
@@ -33,12 +34,13 @@ class ClientTest extends TestCase
     public function testPay()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['pay', 'wrapApi'], $app)->makePartial();
 
         // mock order
-        $order = \Mockery::mock(Order::class.'[all]')->shouldAllowMockingProtectedMethods()->makePartial();
+        $order = \Mockery::mock(Order::class.'[all]')->shouldDeferMissing();
 
-        $client->expects()->request($client->wrapApi('pay/micropay'), $order->all())->andReturn('mock-result')->once();
+        $client->expects()->request($client->wrapApi('pay/micropay'), $order->all())->andReturn('mock-result');
         $this->assertSame('mock-result', $client->pay($order));
     }
 
@@ -57,19 +59,19 @@ class ClientTest extends TestCase
 
         // $order->spbill_create_ip is null and trade_type === Order::NATIVE
         $order->set('trade_type', Order::NATIVE);
-        $client->expects()->request($client->wrapApi('pay/unifiedorder'), array_merge($order->all(), ['spbill_create_ip' => Support\get_server_ip()]))->once()->andReturn('mock-result');
+        $client->expects()->request($client->wrapApi('pay/unifiedorder'), array_merge($order->all(), ['spbill_create_ip' => Support\get_server_ip()]))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->prepare($order));
 
         // $order->spbill_create_ip is null and trade_type !== Order::NATIVE
         $order->set('trade_type', Order::JSAPI);
-        $client->expects()->request($client->wrapApi('pay/unifiedorder'), array_merge($order->all(), ['spbill_create_ip' => Support\get_client_ip()]))->once()->andReturn('mock-result');
+        $client->expects()->request($client->wrapApi('pay/unifiedorder'), array_merge($order->all(), ['spbill_create_ip' => Support\get_client_ip()]))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->prepare($order));
 
         // $order->spbill_create_ip is not null.
         $order->set('spbill_create_ip', '192.168.0.1');
-        $client->expects()->request($client->wrapApi('pay/unifiedorder'), $order->all())->once()->andReturn('mock-result');
+        $client->expects()->request($client->wrapApi('pay/unifiedorder'), $order->all())->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->prepare($order));
     }
@@ -77,67 +79,72 @@ class ClientTest extends TestCase
     public function testQuery()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, 'query', $app)->makePartial();
 
         $orderNo = 'foo';
         $type = 'bar';
 
         // default type
-        $client->expects()->request($client->wrapApi('pay/orderquery'), [Client::OUT_TRADE_NO => $orderNo])->andReturn('mock-result')->once();
+        $client->expects()->request($client->wrapApi('pay/orderquery'), [Client::OUT_TRADE_NO => $orderNo])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->query($orderNo));
 
         // pass a type parameter
-        $client->expects()->request($client->wrapApi('pay/orderquery'), [$type => $orderNo])->andReturn('mock-result')->once();
+        $client->expects()->request($client->wrapApi('pay/orderquery'), [$type => $orderNo])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->query($orderNo, $type));
     }
 
     public function testQueryByTransactionId()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['query', 'queryByTransactionId'], $app)->makePartial();
 
         $transactionId = 'foo';
 
-        $client->expects()->query($transactionId, Client::TRANSACTION_ID)->andReturn('mock-result')->once();
+        $client->expects()->query($transactionId, Client::TRANSACTION_ID)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->queryByTransactionId($transactionId));
     }
 
     public function testClose()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, 'close', $app)->makePartial();
 
         $tradeNo = 'foo';
 
-        $client->expects()->request($client->wrapApi('pay/closeorder'), ['out_trade_no' => $tradeNo])->andReturn('mock-result')->once();
+        $client->expects()->request($client->wrapApi('pay/closeorder'), ['out_trade_no' => $tradeNo])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->close($tradeNo));
     }
 
     public function testReverse()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['reverse', 'safeRequest'], $app)->makePartial();
 
         $orderNo = 'foo';
 
         // default type === 'out_trade_no'
-        $client->expects()->safeRequest($client->wrapApi('secapi/pay/reverse'), [Client::OUT_TRADE_NO => $orderNo])->andReturn('mock-result-out-trade-no')->once();
+        $client->expects()->safeRequest($client->wrapApi('secapi/pay/reverse'), [Client::OUT_TRADE_NO => $orderNo])->andReturn('mock-result-out-trade-no');
         $this->assertSame('mock-result-out-trade-no', $client->reverse($orderNo));
 
         // pass a type parameter
         $type = Client::TRANSACTION_ID;
-        $client->expects()->safeRequest($client->wrapApi('secapi/pay/reverse'), [$type => $orderNo])->andReturn('mock-result-with-type')->once();
+        $client->expects()->safeRequest($client->wrapApi('secapi/pay/reverse'), [$type => $orderNo])->andReturn('mock-result-with-type');
         $this->assertSame('mock-result-with-type', $client->reverse($orderNo, $type));
     }
 
     public function testReverseByTransactionId()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['reverse', 'reverseByTransactionId'], $app)->makePartial();
 
         $transactionId = 'foo';
 
-        $client->expects()->reverse($transactionId, Client::TRANSACTION_ID)->andReturn('mock-result')->once();
+        $client->expects()->reverse($transactionId, Client::TRANSACTION_ID)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->reverseByTransactionId($transactionId));
     }
@@ -148,6 +155,7 @@ class ClientTest extends TestCase
             'app_id' => 'wx123456',
             'merchant_id' => 'foo-merchant-id',
         ]);
+
         $client = $this->mockApiClient(Client::class, ['refund', 'safeRequest'], $app)->makePartial();
 
         $orderNo = 'foo';
@@ -165,7 +173,7 @@ class ClientTest extends TestCase
             'op_user_id' => $app['merchant']->merchant_id,
         ], $optional);
 
-        $client->expects()->safeRequest($client->wrapApi('secapi/pay/refund'), $params)->andReturn('mock-result')->once();
+        $client->expects()->safeRequest($client->wrapApi('secapi/pay/refund'), $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->refund($orderNo, $refundNo, $totalFee, $optional));
     }
@@ -173,6 +181,7 @@ class ClientTest extends TestCase
     public function testRefundByTransactionId()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['refund', 'refundByTransactionId'], $app)->makePartial();
 
         $orderNo = 'foo';
@@ -180,7 +189,7 @@ class ClientTest extends TestCase
         $totalFee = 1;
         $optional = [];
 
-        $client->expects()->refund($orderNo, $refundNo, $totalFee, $optional)->andReturn('mock-result')->once();
+        $client->expects()->refund($orderNo, $refundNo, $totalFee, $optional)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->refundByTransactionId($orderNo, $refundNo, $totalFee, $optional));
     }
@@ -188,62 +197,71 @@ class ClientTest extends TestCase
     public function testQueryRefund()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, 'queryRefund', $app)->makePartial();
 
         $orderNo = 'foo';
         $type = 'bar';
 
         // default type
-        $client->expects()->request($client->wrapApi('pay/refundquery'), [Client::OUT_TRADE_NO => $orderNo])->andReturn('mock-result')->once();
+        $client->expects()->request($client->wrapApi('pay/refundquery'), [Client::OUT_TRADE_NO => $orderNo])->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->queryRefund($orderNo));
 
         // pass a type parameter
-        $client->expects()->request($client->wrapApi('pay/refundquery'), [$type => $orderNo])->andReturn('mock-result')->once();
+        $client->expects()->request($client->wrapApi('pay/refundquery'), [$type => $orderNo])->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->queryRefund($orderNo, $type));
     }
 
     public function testQueryRefundByRefundNo()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['queryRefund', 'queryRefundByRefundNo'], $app)->makePartial();
 
         $refundNo = 'foo';
 
-        $client->expects()->queryRefund($refundNo, Client::OUT_REFUND_NO)->andReturn('mock-result')->once();
+        $client->expects()->queryRefund($refundNo, Client::OUT_REFUND_NO)->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->queryRefundByRefundNo($refundNo));
     }
 
     public function testQueryRefundByTransactionId()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['queryRefund', 'queryRefundByTransactionId'], $app)->makePartial();
 
         $transactionId = 'foo';
 
-        $client->expects()->queryRefund($transactionId, Client::TRANSACTION_ID)->andReturn('mock-result')->once();
+        $client->expects()->queryRefund($transactionId, Client::TRANSACTION_ID)->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->queryRefundByTransactionId($transactionId));
     }
 
     public function testQueryRefundByRefundId()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['queryRefund', 'queryRefundByRefundId'], $app)->makePartial();
 
         $refundId = 'foo';
 
-        $client->expects()->queryRefund($refundId, Client::REFUND_ID)->andReturn('mock-result')->once();
+        $client->expects()->queryRefund($refundId, Client::REFUND_ID)->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->queryRefundByRefundId($refundId));
     }
 
     public function testDownloadBill()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, ['downloadBill', 'getBody'], $app)->makePartial();
 
         $data = 'foo';
 
         $client->shouldReceive('request->getBody')
-            ->once()
             ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->downloadBill($data));
@@ -252,6 +270,7 @@ class ClientTest extends TestCase
     public function testReport()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, 'report', $app)->makePartial();
 
         $api = 'foo';
@@ -270,7 +289,7 @@ class ClientTest extends TestCase
             'time' => time(),
         ], $optional);
 
-        $client->expects()->request($client->wrapApi('payitil/report'), $params)->andReturn('mock-result')->once();
+        $client->expects()->request($client->wrapApi('payitil/report'), $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->report($api, $timeConsuming, $resultCode, $returnCode, $optional));
     }
@@ -278,11 +297,13 @@ class ClientTest extends TestCase
     public function testAuthCodeToOpenId()
     {
         $app = new Application();
+
         $client = $this->mockApiClient(Client::class, 'authCodeToOpenId', $app)->makePartial();
 
         $authCode = 'foo';
 
-        $client->expects()->request('https://api.mch.weixin.qq.com/tools/authcodetoopenid', ['auth_code' => $authCode])->andReturn('mock-result')->once();
+        $client->expects()->request('https://api.mch.weixin.qq.com/tools/authcodetoopenid', ['auth_code' => $authCode])->andReturn('mock-result');
+
         $this->assertSame('mock-result', $client->authCodeToOpenId($authCode));
     }
 
