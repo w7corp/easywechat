@@ -162,7 +162,43 @@ class Client extends BaseClient
             $params[$key] = empty($value) ? $this->message[$key] : $value;
         }
 
+        $params['data'] = $this->formatData($params['data'] ?? []);
+
         return $params;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return array
+     */
+    protected function formatData(array $data)
+    {
+        $formatted = [];
+
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                if (isset($value['value'])) {
+                    $formatted[$key] = $value;
+                    continue;
+                }
+
+                if (count($value) >= 2) {
+                    $value = [
+                        'value' => $value[0],
+                        'color' => $value[1],
+                    ];
+                }
+            } else {
+                $value = [
+                    'value' => strval($value),
+                ];
+            }
+
+            $formatted[$key] = $value;
+        }
+
+        return $formatted;
     }
 
     /**

@@ -91,6 +91,23 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id']));
     }
 
+    public function testFormatData()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+
+        $this->assertSame([
+            'foo' => ['value' => 'string'],
+            'bar' => ['value' => 'content', 'color' => '#F00'],
+            'baz' => ['value' => 'hello', 'color' => '#550038'],
+            'zoo' => ['value' => 'hello'],
+        ], $client->formatData([
+            'foo' => 'string',
+            'bar' => ['content', '#F00'],
+            'baz' => ['value' => 'hello', 'color' => '#550038'],
+            'zoo' => ['value' => 'hello'],
+        ]));
+    }
+
     public function testSendSubscription()
     {
         $client = $this->mockApiClient(Client::class)->makePartial();
@@ -117,7 +134,7 @@ class ClientTest extends TestCase
                 'scene' => 1000,
                 'title' => 'title',
                 'data' => [
-                    'content' => 'VALUE',
+                    'content' => ['value' => 'VALUE'],
                 ],
         ])->andReturn('mock-result')->once();
 
