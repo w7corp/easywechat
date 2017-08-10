@@ -39,7 +39,7 @@ class Client extends BaseClient
      */
     public function uploadImage(string $path)
     {
-        return $this->uploadMedia('image', $path);
+        return $this->upload('image', $path);
     }
 
     /**
@@ -51,7 +51,7 @@ class Client extends BaseClient
      */
     public function uploadVoice(string $path)
     {
-        return $this->uploadMedia('voice', $path);
+        return $this->upload('voice', $path);
     }
 
     /**
@@ -63,7 +63,7 @@ class Client extends BaseClient
      */
     public function uploadThumb(string $path)
     {
-        return $this->uploadMedia('thumb', $path);
+        return $this->upload('thumb', $path);
     }
 
     /**
@@ -85,7 +85,7 @@ class Client extends BaseClient
                 ], JSON_UNESCAPED_UNICODE),
         ];
 
-        return $this->uploadMedia('video', $path, $params);
+        return $this->upload('video', $path, $params);
     }
 
     /**
@@ -145,7 +145,7 @@ class Client extends BaseClient
      */
     public function uploadArticleImage(string $path)
     {
-        return $this->uploadMedia('news_image', $path);
+        return $this->upload('news_image', $path);
     }
 
     /**
@@ -233,7 +233,7 @@ class Client extends BaseClient
      *
      * @throws InvalidArgumentException
      */
-    protected function uploadMedia(string $type, string $path, array $form = [])
+    public function upload(string $type, string $path, array $form = [])
     {
         if (!file_exists($path) || !is_readable($path)) {
             throw new InvalidArgumentException(sprintf('File does not exist, or the file is unreadable: "%s"', $path));

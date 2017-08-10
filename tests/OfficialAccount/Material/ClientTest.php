@@ -22,36 +22,36 @@ class ClientTest extends TestCase
 {
     public function testUploadImage()
     {
-        $client = $this->mockApiClient(Client::class, ['uploadMedia']);
+        $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->uploadMedia('image', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('image', '/path/to/media')->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->uploadImage('/path/to/media'));
     }
 
     public function testUploadVoice()
     {
-        $client = $this->mockApiClient(Client::class, ['uploadMedia']);
+        $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->uploadMedia('voice', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('voice', '/path/to/media')->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->uploadVoice('/path/to/media'));
     }
 
     public function testUploadThumb()
     {
-        $client = $this->mockApiClient(Client::class, ['uploadMedia']);
+        $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->uploadMedia('thumb', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('thumb', '/path/to/media')->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->uploadThumb('/path/to/media'));
     }
 
     public function testUploadVideo()
     {
-        $client = $this->mockApiClient(Client::class, ['uploadMedia']);
+        $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->uploadMedia('video', '/path/to/media', [
+        $client->expects()->upload('video', '/path/to/media', [
             'description' => json_encode([
                'title' => 'mock-title',
                 'introduction' => 'mock-introduction',
@@ -145,9 +145,9 @@ class ClientTest extends TestCase
 
     public function testUploadArticleImage()
     {
-        $client = $this->mockApiClient(Client::class, ['uploadMedia']);
+        $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->uploadMedia('news_image', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('news_image', '/path/to/media')->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->uploadArticleImage('/path/to/media'));
     }
@@ -218,14 +218,14 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->stats());
     }
 
-    public function testUploadMedia()
+    public function testupload()
     {
         $client = $this->mockApiClient(Client::class)->makePartial();
 
         // invalid path
         $path = '/this/is/a/not/exists/image.jpg';
         try {
-            $client->uploadMedia('image', $path);
+            $client->upload('image', $path);
             $this->fail('Failed to assert exception thrown.');
         } catch (\Exception $e) {
             $this->assertSame(sprintf('File does not exist, or the file is unreadable: "%s"', $path), $e->getMessage());
@@ -235,11 +235,11 @@ class ClientTest extends TestCase
         $path = STUBS_ROOT.'/files/image.jpg';
         $client->expects()->httpUpload('cgi-bin/material/add_material', ['media' => $path], ['foo' => 'bar', 'type' => 'image'])
                     ->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->uploadMedia('image', $path, ['foo' => 'bar']));
+        $this->assertSame('mock-result', $client->upload('image', $path, ['foo' => 'bar']));
 
         // real path with news image
         $client->expects()->httpUpload('cgi-bin/media/uploadimg', ['media' => $path], ['foo' => 'bar', 'type' => 'news_image'])
             ->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->uploadMedia('news_image', $path, ['foo' => 'bar']));
+        $this->assertSame('mock-result', $client->upload('news_image', $path, ['foo' => 'bar']));
     }
 }
