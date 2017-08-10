@@ -11,13 +11,13 @@
 
 namespace EasyWeChat\Tests\Payment;
 
+use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
-use EasyWeChat\Kernel\Support;
 
 class NotifyTest extends TestCase
 {

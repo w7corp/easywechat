@@ -20,7 +20,7 @@ class ApplicationTest extends TestCase
     public function testMagicCall()
     {
         $app = new Application([
-            'app_id' =>'wx123456',
+            'app_id' => 'wx123456',
             'merchant_id' => 'foo-merchant-id',
         ]);
 
