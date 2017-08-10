@@ -17,6 +17,7 @@ use EasyWeChat\Payment\Merchant;
 use EasyWeChat\Payment\Notify;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use EasyWeChat\Kernel\Support;
 
 class NotifyTest extends TestCase
 {
@@ -29,15 +30,27 @@ class NotifyTest extends TestCase
 
         $notify = \Mockery::mock(Notify::class.'[getNotify, isValid]', [$merchant])->makePartial();
 
-        $mockResult = new Collection([
+        // build a collection vith invalid sign
+        $mockInvalidResult = new Collection([
             'foo' => 'bar',
             'bax' => 123,
             'sign' => 'barsign',
         ]);
 
-        $notify->expects()->getNotify()->andReturn($mockResult)->twice();
+        $notify->expects()->getNotify()->andReturn($mockInvalidResult)->twice();
 
         $this->assertFalse($notify->isValid());
+
+        // build a collection vith valid sign
+        $mockValidResult = new Collection([
+            'foo' => 'bar',
+            'bax' => 123,
+            'sign' => Support\generate_sign(['foo' => 'bar', 'bax' => 123], $merchant->key, 'md5'),
+        ]);
+
+        $notify->expects()->getNotify()->andReturn($mockValidResult)->twice();
+
+        $this->assertTrue($notify->isValid());
     }
 
     public function testGetNotify()

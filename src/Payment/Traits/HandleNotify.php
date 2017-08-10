@@ -111,7 +111,7 @@ trait HandleNotify
      *
      * @return \EasyWeChat\Payment\Notify
      */
-    public function getNotify()
+    public function getNotify(): Notify
     {
         return new Notify($this->app['merchant']);
     }

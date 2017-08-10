@@ -19,13 +19,32 @@ use EasyWeChat\Tests\TestCase;
 
 class WorkInSandboxTest extends TestCase
 {
+    /**
+     * Make Application.
+     *
+     * @param array $config
+     */
+    private function makeApp($config = [])
+    {
+        return new Application(array_merge([
+            'merchant' => [
+                'id' => 'foo',
+                'merchant_id' => 'bar',
+                'sub_appid' => 'foo_sub_appid',
+                'sub_mch_id' => 'foo_sub_mch_id',
+            ],
+        ], $config));
+    }
+
     public function testSandboxMode()
     {
-        $app = new Application();
+        $app = $this->makeApp();
+
         $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[sadboxMode]', [$app])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
+        // assert instance type
         $this->assertInstanceOf(DummnyClassForWorksInSandboxTest::class, $mock->sandboxMode());
         $this->assertInstanceOf(DummnyClassForWorksInSandboxTest::class, $mock->sandboxMode(true));
 
@@ -36,55 +55,50 @@ class WorkInSandboxTest extends TestCase
 
     public function testWrapApi()
     {
-        $app = new Application();
+        $app = $this->makeApp();
+
         $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[sandboxMode, wrapApi]', [$app])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
         $this->assertSame('foo', $mock->wrapApi('foo'));
         $this->assertSame('foo', $mock->sandboxMode()->wrapApi('foo'));
+
+        // assert return value when it's in sandbox mode.
         $this->assertSame('sandboxnew/foo', $mock->sandboxMode(true)->wrapApi('foo'));
     }
 
     public function testGetSignKey()
     {
-        $app = new Application([
-            'app_id' => '123456',
-            'merchant_id' => 'foo-merchant-id',
-            'key' => 'key123456',
-        ]);
+        $app = $this->makeApp();
 
         $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[getSignKey, getSandboxSignKey]', [$app])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
-        $mock->expects()->getSandboxSignKey()->andReturn('mock-sign-key')->once();
+        $mock->expects()->getSandboxSignKey()->andReturn('mock-sign-key');
 
         // inSandbox === false
-        $this->assertSame($mock->app['merchant']->key, $mock->sandboxMode(false)->getSignKey('foo'));
+        $this->assertSame($app['merchant']->key, $mock->sandboxMode(false)->getSignKey('foo'));
 
         // inSandbox === true
         $this->assertSame('mock-sign-key', $mock->sandboxMode(true)->getSignKey('foo'));
 
         // $api === $this->signKeyEndpoint
-        $this->assertSame($mock->app['merchant']->key, $mock->sandboxMode(false)->getSignKey('sandboxnew/pay/getsignkey'));
+        $this->assertSame($app['merchant']->key, $mock->sandboxMode(false)->getSignKey('sandboxnew/pay/getsignkey'));
     }
 
     public function testGetSandboxSignKey()
     {
-        $app = new Application([
-            'app_id' => '123456',
-            'merchant_id' => 'foo-merchant-id',
-            'key' => 'key123456',
-        ]);
+        $app = $this->makeApp();
 
         $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[getSandboxSignKey, getSignKeyFromServer, getCache]', [$app])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
-        $mock->expects()->getSignKeyFromServer()->andReturn('mock-signkey')->once();
+        $mock->expects()->getSignKeyFromServer()->andReturn('mock-signkey');
 
-        // clear cache.
+        // Important! clear cache firstly.
         $mock->getCache()->clear();
 
         $this->assertSame('mock-signkey', $mock->getSandboxSignKey());
@@ -101,11 +115,7 @@ class WorkInSandboxTest extends TestCase
 
     public function testGetSignKeyFromServer()
     {
-        $app = new Application([
-            'app_id' => '123456',
-            'merchant_id' => 'foo-merchant-id',
-            'key' => 'key123456',
-        ]);
+        $app = $this->makeApp();
 
         $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[requestRaw, getSignKeyFromServer]', [$app])
             ->shouldAllowMockingProtectedMethods()
@@ -130,6 +140,7 @@ class WorkInSandboxTest extends TestCase
 
         $this->assertSame('bar_signkey', $mock->getSignKeyFromServer());
 
+        // when return_code !== 'SUCCESS', an Exception should be thrown.
         try {
             $mock->getSignKeyFromServer();
         } catch (\Exception $e) {
@@ -140,17 +151,13 @@ class WorkInSandboxTest extends TestCase
 
     public function testGetCacheKey()
     {
-        $app = new Application([
-            'app_id' => '123456',
-            'merchant_id' => 'foo-merchant-id',
-            'key' => 'key123456',
-        ]);
+        $app = $this->makeApp();
 
         $mock = \Mockery::mock(DummnyClassForWorksInSandboxTest::class.'[getCacheKey]', [$app])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
 
-        $this->assertStringStartsWith('easywechat.payment.sandbox.', $mock->getCacheKey());
+        $this->assertSame('easywechat.payment.sandbox.'.$app['merchant']->merchant_id, $mock->getCacheKey());
     }
 }
 

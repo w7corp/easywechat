@@ -29,12 +29,11 @@ class HandleNotiryTest extends TestCase
     private function makeApp($config = [])
     {
         return new Application(array_merge([
-            'merchant' => [
-                'id' => 'foo',
-                'merchant_id' => 'bar',
-                'sub_appid' => 'foo_sub_appid',
-                'sub_mch_id' => 'foo_sub_mch_id',
-            ],
+            'app_id' => 'wx123456',
+            'merchant_id' => 'foo-mcherant-id',
+            'key' => 'foo-mcherant-key',
+            'sub_appid' => 'foo-sub-appid',
+            'sub_mch_id' => 'foo-sub-mch-id',
         ], $config));
     }
 
