@@ -67,7 +67,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function delete($menuId = null)
+    public function delete(int $menuId = null)
     {
         if (is_null($menuId)) {
             return $this->httpGet('cgi-bin/menu/delete');

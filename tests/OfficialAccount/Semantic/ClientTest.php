@@ -23,11 +23,11 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('semantic/semproxy/search', [
             'query' => 'keywords',
-            'category' => ['foo', 'bar'],
+            'category' => 'foo,bar',
             'appid' => '123456',
             'name' => 'easywechat',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->query('keywords', ['foo', 'bar'], ['name' => 'easywechat']));
+        $this->assertSame('mock-result', $client->query('keywords', 'foo,bar', ['name' => 'easywechat']));
     }
 }

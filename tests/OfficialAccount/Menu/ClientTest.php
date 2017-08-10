@@ -59,8 +59,8 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->delete());
 
         // without match rule
-        $client->expects()->httpPostJson('cgi-bin/menu/delconditional', ['menuid' => 'mock-id'])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->delete('mock-id'));
+        $client->expects()->httpPostJson('cgi-bin/menu/delconditional', ['menuid' => 20181723])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->delete(20181723));
     }
 
     public function testMatch()

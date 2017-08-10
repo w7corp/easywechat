@@ -91,7 +91,7 @@ class TagClientTest extends TestCase
         $this->assertSame('mock-result', $client->usersOfTag(45, 'mock-openid'));
     }
 
-    public function testBatchTagUsers()
+    public function testTagUsers()
     {
         $client = $this->mockApiClient(TagClient::class);
 
@@ -99,10 +99,10 @@ class TagClientTest extends TestCase
             'openid_list' => ['openid1', 'openid2'],
             'tagid' => 45,
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->batchTagUsers(['openid1', 'openid2'], 45));
+        $this->assertSame('mock-result', $client->tagUsers(['openid1', 'openid2'], 45));
     }
 
-    public function testBatchUntagUsers()
+    public function testUntagUsers()
     {
         $client = $this->mockApiClient(TagClient::class);
 
@@ -110,6 +110,6 @@ class TagClientTest extends TestCase
             'openid_list' => ['openid1', 'openid2'],
             'tagid' => 45,
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->batchUntagUsers(['openid1', 'openid2'], 45));
+        $this->assertSame('mock-result', $client->untagUsers(['openid1', 'openid2'], 45));
     }
 }

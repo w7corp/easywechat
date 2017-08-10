@@ -23,13 +23,13 @@ class Client extends BaseClient
     /**
      * Get the semantic content of giving string.
      *
-     * @param string       $keyword
-     * @param array|string $categories
-     * @param array        $other
+     * @param string $keyword
+     * @param string $categories
+     * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function query(string $keyword, array $categories, array $other = [])
+    public function query(string $keyword, string $categories, array $optional = [])
     {
         $params = [
             'query' => $keyword,
@@ -37,6 +37,6 @@ class Client extends BaseClient
             'appid' => $this->app['config']['app_id'],
         ];
 
-        return $this->httpPostJson('semantic/semproxy/search', array_merge($params, $other));
+        return $this->httpPostJson('semantic/semproxy/search', array_merge($params, $optional));
     }
 }

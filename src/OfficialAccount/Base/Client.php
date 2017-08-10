@@ -39,7 +39,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getCallbackIp()
+    public function getValidIps()
     {
         return $this->httpGet('cgi-bin/getcallbackip');
     }

@@ -33,7 +33,7 @@ class UserClientTest extends TestCase
         $this->assertSame('mock-result', $client->get('mock-openid', 'en'));
     }
 
-    public function testBatchGet()
+    public function testSelect()
     {
         $client = $this->mockApiClient(UserClient::class);
 
@@ -49,7 +49,7 @@ class UserClientTest extends TestCase
                 ],
             ],
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->batchGet(['mock-openid1', 'mock-openid2']));
+        $this->assertSame('mock-result', $client->select(['mock-openid1', 'mock-openid2']));
 
         $client->expects()->httpPostJson('cgi-bin/user/info/batchget', [
             'user_list' => [
@@ -63,7 +63,7 @@ class UserClientTest extends TestCase
                 ],
             ],
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->batchGet(['mock-openid1', 'mock-openid2'], 'en'));
+        $this->assertSame('mock-result', $client->select(['mock-openid1', 'mock-openid2'], 'en'));
     }
 
     public function testList()
@@ -99,23 +99,33 @@ class UserClientTest extends TestCase
         $this->assertSame('mock-result', $client->blacklist('mock-openid'));
     }
 
-    public function testBatchBlock()
+    public function testBlock()
     {
         $client = $this->mockApiClient(UserClient::class);
 
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchblacklist', [
+            'openid_list' => ['mock-openid1'],
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->block('mock-openid1'));
+
+        $client->expects()->httpPostJson('cgi-bin/tags/members/batchblacklist', [
             'openid_list' => ['mock-openid1', 'mock-openid2'],
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->batchBlock(['mock-openid1', 'mock-openid2']));
+        $this->assertSame('mock-result', $client->block(['mock-openid1', 'mock-openid2']));
     }
 
-    public function testBatchUnblock()
+    public function testUnblock()
     {
         $client = $this->mockApiClient(UserClient::class);
 
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchunblacklist', [
+            'openid_list' => ['mock-openid1'],
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->unblock('mock-openid1'));
+
+        $client->expects()->httpPostJson('cgi-bin/tags/members/batchunblacklist', [
             'openid_list' => ['mock-openid1', 'mock-openid2'],
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->batchUnblock(['mock-openid1', 'mock-openid2']));
+        $this->assertSame('mock-result', $client->unblock(['mock-openid1', 'mock-openid2']));
     }
 }

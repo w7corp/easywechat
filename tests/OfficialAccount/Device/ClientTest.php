@@ -160,61 +160,40 @@ class ClientTest extends TestCase
 
     public function testAuthorize()
     {
-        $config = [
-            'connect_protocol' => 'mock-connect_protocol',
-            'auth_key' => 'mock-auth_key',
-            'close_strategy' => 'mock-close_strategy',
-            'conn_strategy' => 'mock-conn_strategy',
-            'crypt_method' => 'mock-crypt_method',
-            'auth_ver' => 'mock-auth_ver',
-            'manu_mac_pos' => 'mock-manu_mac_pos',
-            'ser_mac_pos' => 'mock-ser_mac_pos',
-            'ble_simple_protocol' => 'mock-ble_simple_protocol',
-        ];
-
         $devices = [
-            [
-                'deviceId' => 'mock-id1',
-                'mac' => 'mock-mac',
-            ],
-            [
-                'deviceId' => 'mock-id2',
-                'mac' => 'mock-mac',
-            ],
-        ];
-        $formatted = [
             [
                 'id' => 'mock-id1',
                 'mac' => 'mock-mac',
-                'connect_protocol' => $config['connect_protocol'],
-                'auth_key' => $config['auth_key'],
-                'close_strategy' => $config['close_strategy'],
-                'conn_strategy' => $config['conn_strategy'],
-                'crypt_method' => $config['crypt_method'],
-                'auth_ver' => $config['auth_ver'],
-                'manu_mac_pos' => $config['manu_mac_pos'],
-                'ser_mac_pos' => $config['ser_mac_pos'],
-                'ble_simple_protocol' => $config['ble_simple_protocol'],
+                'connect_protocol' => 'mock-connect_protocol',
+                'auth_key' => 'mock-auth_key',
+                'close_strategy' => 'mock-close_strategy',
+                'conn_strategy' => 'mock-conn_strategy',
+                'crypt_method' => 'mock-crypt_method',
+                'auth_ver' => 'mock-auth_ver',
+                'manu_mac_pos' => 'mock-manu_mac_pos',
+                'ser_mac_pos' => 'mock-ser_mac_pos',
+                'ble_simple_protocol' => 'mock-ble_simple_protocol',
             ],
             [
                 'id' => 'mock-id2',
                 'mac' => 'mock-mac',
-                'connect_protocol' => $config['connect_protocol'],
-                'auth_key' => $config['auth_key'],
-                'close_strategy' => $config['close_strategy'],
-                'conn_strategy' => $config['conn_strategy'],
-                'crypt_method' => $config['crypt_method'],
-                'auth_ver' => $config['auth_ver'],
-                'manu_mac_pos' => $config['manu_mac_pos'],
-                'ser_mac_pos' => $config['ser_mac_pos'],
-                'ble_simple_protocol' => $config['ble_simple_protocol'],
+                'connect_protocol' => 'mock-connect_protocol',
+                'auth_key' => 'mock-auth_key',
+                'close_strategy' => 'mock-close_strategy',
+                'conn_strategy' => 'mock-conn_strategy',
+                'crypt_method' => 'mock-crypt_method',
+                'auth_ver' => 'mock-auth_ver',
+                'manu_mac_pos' => 'mock-manu_mac_pos',
+                'ser_mac_pos' => 'mock-ser_mac_pos',
+                'ble_simple_protocol' => 'mock-ble_simple_protocol',
             ],
         ];
-        $client = $this->getClient($config);
+
+        $client = $this->getClient();
 
         $client->expects()->httpPostJson('device/authorize_device', [
             'device_num' => 2,
-            'device_list' => $formatted,
+            'device_list' => $devices,
             'op_type' => 0,
             'product_id' => 'mock-pid',
         ])->andReturn('mock-result')->once();

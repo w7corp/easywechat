@@ -122,7 +122,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchTagUsers(array $openids, int $tagId)
+    public function tagUsers(array $openids, int $tagId)
     {
         $params = [
             'openid_list' => $openids,
@@ -140,7 +140,7 @@ class TagClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchUntagUsers(array $openids, int $tagId)
+    public function untagUsers(array $openids, int $tagId)
     {
         $params = [
             'openid_list' => $openids,

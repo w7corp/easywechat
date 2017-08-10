@@ -43,7 +43,7 @@ class MessengerTest extends TestCase
         $messenger->message('text message.')->to('mock-openid');
         $messenger->send();
 
-        // with by
+        // with from
         $client->expects()->send([
             'touser' => 'mock-openid',
             'msgtype' => 'text',
@@ -53,7 +53,7 @@ class MessengerTest extends TestCase
             'text' => ['content' => 'text message.'],
         ]);
         $messenger = new Messenger($client);
-        $messenger->message('text message.')->to('mock-openid')->by('overtrue@test');
+        $messenger->message('text message.')->to('mock-openid')->from('overtrue@test');
         $messenger->send();
 
         // property access

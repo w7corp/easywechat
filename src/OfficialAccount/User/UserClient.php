@@ -46,7 +46,7 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchGet(array $openids, string $lang = 'zh_CN')
+    public function select(array $openids, string $lang = 'zh_CN')
     {
         return $this->httpPostJson('cgi-bin/user/info/batchget', [
             'user_list' => array_map(function ($openid) use ($lang) {
@@ -107,13 +107,13 @@ class UserClient extends BaseClient
     /**
      * Batch block user.
      *
-     * @param array $openidList
+     * @param array|string $openidList
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchBlock(array $openidList)
+    public function block($openidList)
     {
-        $params = ['openid_list' => $openidList];
+        $params = ['openid_list' => (array) $openidList];
 
         return $this->httpPostJson('cgi-bin/tags/members/batchblacklist', $params);
     }
@@ -125,9 +125,9 @@ class UserClient extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function batchUnblock(array $openidList)
+    public function unblock($openidList)
     {
-        $params = ['openid_list' => $openidList];
+        $params = ['openid_list' => (array) $openidList];
 
         return $this->httpPostJson('cgi-bin/tags/members/batchunblacklist', $params);
     }
