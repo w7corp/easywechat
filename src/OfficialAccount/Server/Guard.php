@@ -83,7 +83,7 @@ class Guard
             'content' => $this->app['request']->getContent(),
         ]);
 
-        $response = $this->validate($this->app['config']['token'])->resolve();
+        $response = $this->validate($this->app['config']['token'] ?? '')->resolve();
 
         $this->app['logger']->debug('Server response created:', ['content' => $response->getContent()]);
 
@@ -99,6 +99,10 @@ class Guard
      */
     public function validate(string $token)
     {
+        if ($this->app['request']->getRealMethod() == 'GET' && $this->app['request']->get('echostr')) {
+            return $this;
+        }
+
         $params = [
             $token,
             $this->app['request']->get('timestamp'),

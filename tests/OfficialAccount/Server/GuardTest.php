@@ -41,12 +41,10 @@ class GuardTest extends TestCase
         $request = Request::create('/path/to/resource?foo=bar', 'POST', ['foo' => 'bar'], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
         ], '<xml><name>foo</name></xml>');
-        $encryptor = \Mockery::mock(Encryptor::class);
-        $encryptor->allows()->getToken()->andReturn('mock-token');
-        $app = new ServiceContainer([], [
+
+        $app = new ServiceContainer(['token' => 'mock-token'], [
             'logger' => $logger,
             'request' => $request,
-            'encryptor' => $encryptor,
         ]);
 
         $guard = \Mockery::mock(Guard::class.'[validate,resolve]', [$app])->shouldAllowMockingProtectedMethods();
@@ -147,6 +145,8 @@ class GuardTest extends TestCase
             'logger' => $logger,
         ]);
         $guard = \Mockery::mock(Guard::class, [$app])->shouldAllowMockingProtectedMethods()->makePartial();
+
+        $this->assertSame($guard, $guard->validate(''));
 
         $this->assertInstanceOf(Response::class, $guard->resolve());
         $this->assertSame('foo', $guard->resolve()->getContent());

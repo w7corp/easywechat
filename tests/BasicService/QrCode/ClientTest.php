@@ -50,21 +50,6 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->temporary('foo', 7200));
     }
 
-    public function testCard()
-    {
-        $card = [
-            'card_id' => 'pFS7Fjg8kV1IdDz01r4SQwMkuCKc',
-            'code' => '198374613512',
-            'openid' => 'oFS7Fjl0WsZ9AMZqrI80nbIq8xrA',
-            'expire_seconds' => '1800',
-            'is_unique_code' => false,
-            'outer_id' => 1,
-        ];
-        $client = $this->mockApiClient(Client::class, 'create');
-        $client->expects()->create(Client::SCENE_QR_CARD, ['card' => $card])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->card($card));
-    }
-
     public function testUrl()
     {
         $client = $this->mockApiClient(Client::class, 'create');
