@@ -66,6 +66,7 @@ class GuardTest extends TestCase
         sort($params, SORT_STRING);
         $signature = sha1(implode($params));
 
+        // with signature
         $request = Request::create('/path/to/resource?foo=bar', 'POST', [
             'timestamp' => $time,
             'nonce' => $nonce,
@@ -79,12 +80,58 @@ class GuardTest extends TestCase
         ]);
         $guard = new Guard($app);
         $this->assertSame($guard, $guard->validate('mock-token'));
+    }
+
+    public function testValidateWithInvalidSignature()
+    {
+        $time = time();
+        $nonce = 'foobar';
+        $params = [
+            'mock-token',
+            $time,
+            $nonce,
+        ];
+        sort($params, SORT_STRING);
+        $signature = sha1(implode($params));
+
+        // with signature
+        $request = Request::create('/path/to/resource?foo=bar', 'POST', [
+            'timestamp' => $time,
+            'nonce' => $nonce,
+            'signature' => $signature.'xxxx', // invalid signature
+        ], [], [], [
+            'CONTENT_TYPE' => ['application/xml'],
+        ], '<xml><name>foo</name></xml>');
+
+        $app = new ServiceContainer([], [
+            'request' => $request,
+        ]);
+        $guard = new Guard($app);
 
         $this->expectException(BadRequestException::class);
         $this->expectExceptionMessage('Invalid request signature.');
         $this->expectExceptionCode(400);
+        $guard->validate('mock-token');
+    }
 
-        $guard->validate('mock-the-different-token');
+    public function testValidateWithoutSignature()
+    {
+        $time = time();
+        $nonce = 'foobar';
+
+        // without signature
+        $request = Request::create('/path/to/resource?foo=bar', 'POST', [
+            'timestamp' => $time,
+            'nonce' => $nonce,
+        ], [], [], [
+            'CONTENT_TYPE' => ['application/xml'],
+        ], '<xml><name>foo</name></xml>');
+
+        $app = new ServiceContainer([], [
+            'request' => $request,
+        ]);
+        $guard = new Guard($app);
+        $this->assertSame($guard, $guard->validate('mock-token'));
     }
 
     public function testGetMessage()
