@@ -77,26 +77,6 @@ class Client extends BaseClient
     }
 
     /**
-     * Create QrCode for card.
-     *
-     * @param array $card
-     *
-     * {
-     *    "card_id": "pFS7Fjg8kV1IdDz01r4SQwMkuCKc",
-     *    "code": "198374613512",
-     *    "openid": "oFS7Fjl0WsZ9AMZqrI80nbIq8xrA",
-     *    "expire_seconds": "1800"，
-     *    "is_unique_code": false , "outer_id" : 1
-     *  }
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function card($card)
-    {
-        return $this->create(self::SCENE_QR_CARD, ['card' => $card]);
-    }
-
-    /**
      * Return url for ticket.
      *
      * @param string $ticket
