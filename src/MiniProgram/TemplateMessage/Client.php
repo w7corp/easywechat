@@ -20,6 +20,8 @@ use EasyWeChat\OfficialAccount\TemplateMessage\Client as BaseClient;
  */
 class Client extends BaseClient
 {
+    const API_SEND = 'cgi-bin/message/wxopen/template/send';
+
     /**
      * {@inheritdoc}.
      */
@@ -35,33 +37,5 @@ class Client extends BaseClient
     /**
      * {@inheritdoc}.
      */
-    protected $defaults = [
-        'touser' => '',
-        'template_id' => '',
-        'form_id' => '',
-        'data' => [],
-    ];
-
-    /**
-     * {@inheritdoc}.
-     */
     protected $required = ['touser', 'template_id', 'form_id'];
-
-    /**
-     * Send a template message.
-     *
-     * @param array $data
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function send($data = [])
-    {
-        $params = $this->formatMessage($data);
-
-        $this->restoreMessage();
-
-        return $this->httpPostJson('cgi-bin/message/wxopen/template/send', $params);
-    }
 }

@@ -9,10 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\MiniProgram\Encryption;
+namespace EasyWeChat\MiniProgram;
 
 use EasyWeChat\Kernel\Encryptor as BaseEncryptor;
-use Exception;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\Support\AES;
 
 /**
  * Class Encryptor.
@@ -34,19 +35,20 @@ class Encryptor extends BaseEncryptor
      */
     public function decryptData($sessionKey, $iv, $encrypted)
     {
-        try {
-            $decrypted = openssl_decrypt(
-                base64_decode($encrypted, true), 'aes-128-cbc', base64_decode($sessionKey, true),
-                OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, base64_decode($iv, true)
-            );
-        } catch (Exception $e) {
-            throw new EncryptionException($e->getMessage(), BaseEncryptor::ERROR_DECRYPT_AES);
+        $decrypted = AES::decrypt(
+            base64_decode($encrypted, true),
+            base64_decode($sessionKey, true),
+            base64_decode($iv, true),
+            OPENSSL_NO_PADDING
+        );
+
+        $result = $this->pkcs7Unpad($decrypted, $this->blockSize);
+        $content = json_decode($result, true);
+
+        if ($content['watermark']['appid'] !== $this->appId) {
+            throw new RuntimeException('Invalid appId.', static::ERROR_INVALID_APP_ID);
         }
 
-        if (is_null($result = json_decode($this->decode($decrypted), true))) {
-            throw new EncryptionException('ILLEGAL_BUFFER', BaseEncryptor::ILLEGAL_BUFFER);
-        }
-
-        return $result;
+        return $content;
     }
 }
