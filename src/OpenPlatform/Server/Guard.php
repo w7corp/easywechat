@@ -46,7 +46,7 @@ class Guard extends BaseGuard
         return new Response(static::SUCCESS_EMPTY_RESPONSE);
     }
 
-    protected function registerHandlers(): void
+    protected function registerHandlers()
     {
         $this->on(self::EVENT_AUTHORIZED, Authorized::class);
         $this->on(self::EVENT_UNAUTHORIZED, Unauthorized::class);
