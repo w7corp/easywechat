@@ -11,15 +11,16 @@
 
 namespace EasyWeChat;
 
+use EasyWeChat\WeWork\AgentFactory;
+
 /**
  * Class Factory.
  *
- * @method static \EasyWeChat\WeWork\Application             weWork(array $config)
  * @method static \EasyWeChat\Payment\Application            payment(array $config)
  * @method static \EasyWeChat\MiniProgram\Application        miniProgram(array $config)
  * @method static \EasyWeChat\OpenPlatform\Application       openPlatform(array $config)
  * @method static \EasyWeChat\OfficialAccount\Application    officialAccount(array $config)
- * @method static \EasyWeChat\BasicService\Application        basicService(array $config)
+ * @method static \EasyWeChat\BasicService\Application       basicService(array $config)
  */
 class Factory
 {
@@ -34,7 +35,21 @@ class Factory
         $namespace = Kernel\Support\Str::studly($name);
         $application = "\\EasyWeChat\\{$namespace}\\Application";
 
+        if ($namespace === 'WeWork') {
+            return self::weWork($config);
+        }
+
         return new $application($config);
+    }
+
+    /**
+     * @param array $config
+     *
+     * @return AgentFactory
+     */
+    public static function weWork(array $config)
+    {
+        return new AgentFactory($config);
     }
 
     /**

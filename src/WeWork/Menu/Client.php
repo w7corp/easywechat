@@ -23,37 +23,32 @@ class Client extends BaseClient
     /**
      * Get menu.
      *
-     * @param int $agentId
-     *
      * @return mixed
      */
-    public function get(int $agentId)
+    public function get()
     {
-        return $this->httpGet('menu/get', ['agentid' => $agentId]);
+        return $this->httpGet('menu/get', ['agentid' => $this->app['config']['agent_id']]);
     }
 
     /**
      * Create menu for the given agent.
      *
-     * @param int   $agentId
      * @param array $data
      *
      * @return mixed
      */
-    public function create(int $agentId, array $data)
+    public function create(array $data)
     {
-        return $this->httpPostJson('menu/create', $data, ['agentid' => $agentId]);
+        return $this->httpPostJson('menu/create', $data, ['agentid' => $this->app['config']['agent_id']]);
     }
 
     /**
      * Delete menu.
      *
-     * @param int $agentId
-     *
      * @return mixed
      */
-    public function delete(int $agentId)
+    public function delete()
     {
-        return $this->httpGet('menu/delete', ['agentid' => $agentId]);
+        return $this->httpGet('menu/delete', ['agentid' => $this->app['config']['agent_id']]);
     }
 }

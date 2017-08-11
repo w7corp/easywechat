@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\WeWork\Agent;
 
+use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\WeWork\Agent\Client;
 
@@ -18,19 +19,19 @@ class ClientTest extends TestCase
 {
     public function testGet()
     {
-        $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('agent/get', ['agentid' => 2011928])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->get(2011928));
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['agent_id' => 203874]));
+        $client->expects()->httpGet('agent/get', ['agentid' => 203874])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->get());
     }
 
     public function testSet()
     {
-        $client = $this->mockApiClient(Client::class);
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['agent_id' => 203874]));
         $client->expects()->httpPostJson('agent/set', [
-            'agentid' => 2011928,
+            'agentid' => 203874,
             'foo' => 'bar',
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->set(2011928, ['foo' => 'bar']));
+        $this->assertSame('mock-result', $client->set(['foo' => 'bar']));
     }
 
     public function testList()

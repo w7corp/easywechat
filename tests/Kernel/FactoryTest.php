@@ -18,28 +18,22 @@ class FactoryTest extends TestCase
 {
     public function testStaticCall()
     {
-        $weWork = Factory::weWork([
-            'client_id' => 'corpid@123',
-            'client_secret' => 'corpsecret@123',
-            'debug' => true,
+        $officialAccount = Factory::officialAccount([
+            'app_id' => 'corpid@123',
         ]);
 
-        $weWorkFromMake = Factory::make('weWork', [
-            'debug' => true,
-            'client_id' => 'corpid@123',
-            'client_secret' => 'corpsecret@123',
+        $officialAccountFromMake = Factory::make('officialAccount', [
+            'app_id' => 'corpid@123',
         ]);
 
-        $this->assertInstanceOf(\EasyWeChat\WeWork\Application::class, $weWork);
-        $this->assertInstanceOf(\EasyWeChat\WeWork\Application::class, $weWorkFromMake);
+        $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Application::class, $officialAccount);
+        $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Application::class, $officialAccountFromMake);
 
         $expected = [
-            'debug' => true,
-            'client_id' => 'corpid@123',
-            'client_secret' => 'corpsecret@123',
+            'app_id' => 'corpid@123',
         ];
-        $this->assertArraySubset($expected, $weWork['config']->all());
-        $this->assertArraySubset($expected, $weWorkFromMake['config']->all());
+        $this->assertArraySubset($expected, $officialAccount['config']->all());
+        $this->assertArraySubset($expected, $officialAccountFromMake['config']->all());
 
         $this->assertInstanceOf(
             \EasyWeChat\OfficialAccount\Application::class,
