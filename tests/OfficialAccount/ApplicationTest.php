@@ -25,7 +25,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\BasicService\QrCode\Client::class, $app->qrcode);
         $this->assertInstanceOf(\EasyWeChat\BasicService\Jssdk\Client::class, $app->jssdk);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Auth\AccessToken::class, $app->access_token);
-        $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Server\Guard::class, $app->server);
+        $this->assertInstanceOf(\EasyWeChat\Kernel\ServerGuard::class, $app->server);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\User\UserClient::class, $app->user);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\User\TagClient::class, $app->user_tag);
         $this->assertInstanceOf(\Overtrue\Socialite\Providers\WeChatProvider::class, $app->oauth);

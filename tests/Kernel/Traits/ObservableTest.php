@@ -13,6 +13,8 @@ namespace EasyWeChat\Tests\Kernel\Traits;
 
 use Closure;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
+use EasyWeChat\Kernel\Decorators\FinallyResult;
+use EasyWeChat\Kernel\Decorators\TerminateResult;
 use EasyWeChat\Kernel\Exceptions\Exception;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Traits\Observable;
@@ -169,7 +171,7 @@ class ObservableTest extends TestCase
             'code' => -204,
             'message' => 'handler2 exception thrown.',
             'file' => __FILE__,
-            'line' => 166,
+            'line' => 168,
         ])->once();
         $app = new ServiceContainer([], [
             'logger' => $logger,
@@ -182,12 +184,53 @@ class ObservableTest extends TestCase
         $handler2->expects()->handle(['foo' => 'bar'])->andThrow($exception)->once();
 
         $handler3 = \Mockery::mock(EventHandlerInterface::class);
-        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-2')->once();
+        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-3')->once();
 
         $c->push($handler1);
         $c->push($handler2);
         $c->push($handler3);
-        $this->assertSame('mock-response-2', $c->notify('foo', ['foo' => 'bar']));
+        $this->assertSame('mock-response-3', $c->notify('foo', ['foo' => 'bar']));
+    }
+
+    public function testTerminateResultHandler()
+    {
+        $c = new DummyClassForObservableTest();
+        $handler1 = \Mockery::mock(EventHandlerInterface::class);
+        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(new TerminateResult('mock-terminate-response'))->once();
+
+        $handler2 = \Mockery::mock(EventHandlerInterface::class);
+        $handler2->expects()->handle(['foo' => 'bar'])->andThrow(new Exception('foo'))->never();
+
+        $handler3 = \Mockery::mock(EventHandlerInterface::class);
+        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-3')->never();
+
+        $c->push($handler1);
+        $c->push($handler2);
+        $c->push($handler3);
+        $this->assertSame('mock-terminate-response', $c->notify('foo', ['foo' => 'bar']));
+    }
+
+    public function testFinallyResultHandler()
+    {
+        $c = new DummyClassForObservableTest();
+
+        $handler0 = \Mockery::mock(EventHandlerInterface::class);
+        $handler0->expects()->handle(['foo' => 'bar'])->andReturn('mock-first-response')->once();
+
+        $handler1 = \Mockery::mock(EventHandlerInterface::class);
+        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(new FinallyResult('mock-finally-response'))->once();
+
+        $handler2 = \Mockery::mock(EventHandlerInterface::class);
+        $handler2->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-2')->once();
+
+        $handler3 = \Mockery::mock(EventHandlerInterface::class);
+        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-3')->once();
+
+        $c->push($handler0);
+        $c->push($handler1);
+        $c->push($handler2);
+        $c->push($handler3);
+        $this->assertSame('mock-finally-response', $c->notify('foo', ['foo' => 'bar']));
     }
 
     public function testMakeClosure()

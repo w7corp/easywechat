@@ -9,26 +9,30 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OfficialAccount\Server;
+namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Messages\Message;
 use EasyWeChat\Kernel\Messages\Raw as RawMessage;
 use EasyWeChat\Kernel\Messages\Text;
-use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Kernel\Traits\Observable;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class Guard.
+ * Class ServerGuard.
  *
  * @author overtrue <i@overtrue.me>
  */
-class Guard
+class ServerGuard
 {
     use Observable;
+
+    /**
+     * @var bool
+     */
+    protected $alwaysValidate = false;
 
     /**
      * Empty string.
@@ -83,7 +87,7 @@ class Guard
             'content' => $this->app['request']->getContent(),
         ]);
 
-        $response = $this->validate($this->app['config']['token'] ?? '')->resolve();
+        $response = $this->validate()->resolve();
 
         $this->app['logger']->debug('Server response created:', ['content' => $response->getContent()]);
 
@@ -91,24 +95,18 @@ class Guard
     }
 
     /**
-     * @param string $token
-     *
      * @return $this
      *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
-    public function validate(string $token)
+    public function validate()
     {
-        if (!$this->app['request']->get('signature')) {
-            return $this;
-        }
-
-        if ($this->app['request']->getRealMethod() === 'GET' && $this->app['request']->get('echostr')) {
+        if (!$this->isSafeMode()) {
             return $this;
         }
 
         $params = [
-            $token,
+            $this->app['config']['token'],
             $this->app['request']->get('timestamp'),
             $this->app['request']->get('nonce'),
         ];
@@ -129,10 +127,21 @@ class Guard
      */
     public function getMessage()
     {
-        $message = $this->parseMessageFromRequest($this->app['request']->getContent(false));
+        $message = $this->parseMessage($this->app['request']->getContent(false));
 
-        if (!is_array($message) || empty($message)) {
+        if (!is_array($message) || empty($message['MsgType'])) {
             throw new BadRequestException('No message received.');
+        }
+
+        if ($this->isSafeMode() && !empty($message['Encrypt'])) {
+            $message = $this->app['encryptor']->decrypt(
+                $message['Encrypt'],
+                $message['MsgSignature'],
+                $message['Nonce'],
+                $message['TimeStamp']
+            );
+
+            return XML::parse($message);
         }
 
         return $message;
@@ -145,16 +154,12 @@ class Guard
      */
     protected function resolve(): Response
     {
-        if ($str = $this->app['request']->get('echostr')) {
-            $this->app['logger']->debug("Output 'echostr' is '$str'.");
-
-            return new Response($str);
-        }
-
         $result = $this->handleRequest();
 
         return new Response(
-            $this->buildResponse($result['to'], $result['from'], $result['response'])
+            $this->buildResponse($result['to'], $result['from'], $result['response']),
+            200,
+            ['Content-Type' => 'application/xml']
         );
     }
 
@@ -185,18 +190,7 @@ class Guard
             throw new InvalidArgumentException(sprintf('Invalid Messages type "%s".', gettype($message)));
         }
 
-        $response = $this->buildReply($to, $from, $message);
-
-        if ($this->isSafeMode()) {
-            $this->app['logger']->debug('Messages safe mode is enabled.');
-            $response = $this->app['encryptor']->encrypt(
-                $response,
-                $this->app['request']->get('nonce'),
-                $this->app['request']->get('timestamp')
-            );
-        }
-
-        return $response;
+        return $this->buildReply($to, $from, $message);
     }
 
     /**
@@ -236,8 +230,8 @@ class Guard
         $response = $this->dispatch(self::MESSAGE_TYPE_MAPPING[$message['MsgType'] ?? 'text'], $message);
 
         return [
-            'to' => $message['FromUserName'],
-            'from' => $message['ToUserName'],
+            'to' => $message['FromUserName'] ?? '',
+            'from' => $message['ToUserName'] ?? '',
             'response' => $response,
         ];
     }
@@ -260,7 +254,14 @@ class Guard
             'MsgType' => is_array($message) ? current($message)->getType() : $message->getType(),
         ];
 
-        return $message->transformToXml($prepends);
+        $response = $message->transformToXml($prepends);
+
+        if ($this->isSafeMode()) {
+            $this->app['logger']->debug('Messages safe mode is enabled.');
+            $response = $this->app['encryptor']->encrypt($response);
+        }
+
+        return $response;
     }
 
     /**
@@ -284,31 +285,22 @@ class Guard
      *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
-    protected function parseMessageFromRequest($content)
+    protected function parseMessage($content)
     {
-        $content = strval($content);
-
         try {
-            // For mini-program JSON formats.
-            // Convert to XML if the given string can be decode into a data array.
-            $dataSet = json_decode($content, true);
-
-            if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
-                $content = XML::build($dataSet);
-            }
-
-            if ($this->isSafeMode()) {
-                $message = $this->app['encryptor']->decrypt(
-                    $this->app['request']->get('msg_signature'),
-                    $this->app['request']->get('nonce'),
-                    $this->app['request']->get('timestamp'),
-                    $content
-                );
+            if (stripos($content, '<') === 0) {
+                $content = XML::parse($content);
             } else {
-                $message = XML::parse($content);
+                // For mini-program JSON formats.
+                // Convert to XML if the given string can be decode into a data array.
+                $dataSet = json_decode($content, true);
+
+                if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
+                    $content = $dataSet;
+                }
             }
 
-            return $message;
+            return (array) $content;
         } catch (\Exception $e) {
             throw new BadRequestException(sprintf('Invalid message content:(%s) %s', $e->getCode(), $e->getMessage()), $e->getCode());
         }
@@ -321,6 +313,10 @@ class Guard
      */
     protected function isSafeMode(): bool
     {
-        return $this->app['request']->get('encrypt_type') === 'aes';
+        if ($this->alwaysValidate) {
+            return true;
+        }
+
+        return $this->app['request']->get('signature') && $this->app['request']->get('encrypt_type') === 'aes';
     }
 }

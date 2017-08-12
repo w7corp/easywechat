@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OfficialAccount\Server;
+namespace EasyWeChat\Tests\Kernel\Server;
 
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
@@ -17,14 +17,14 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Messages\Image;
 use EasyWeChat\Kernel\Messages\Raw;
 use EasyWeChat\Kernel\Messages\Text;
+use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support\XML;
-use EasyWeChat\OfficialAccount\Server\Guard;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GuardTest extends TestCase
+class ServerGuardTest extends TestCase
 {
     public function testServe()
     {
@@ -47,8 +47,8 @@ class GuardTest extends TestCase
             'request' => $request,
         ]);
 
-        $guard = \Mockery::mock(Guard::class.'[validate,resolve]', [$app])->shouldAllowMockingProtectedMethods();
-        $guard->expects()->validate('mock-token')->andReturnSelf()->once();
+        $guard = \Mockery::mock(ServerGuard::class.'[validate,resolve]', [$app])->shouldAllowMockingProtectedMethods();
+        $guard->expects()->validate()->andReturnSelf()->once();
         $guard->expects()->resolve()->andReturn($response)->once();
 
         $this->assertSame($response, $guard->serve());
@@ -71,15 +71,18 @@ class GuardTest extends TestCase
             'timestamp' => $time,
             'nonce' => $nonce,
             'signature' => $signature,
+            'encrypt_type' => 'aes',
         ], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
         ], '<xml><name>foo</name></xml>');
 
-        $app = new ServiceContainer([], [
+        $app = new ServiceContainer([
+            'token' => 'mock-token',
+        ], [
             'request' => $request,
         ]);
-        $guard = new Guard($app);
-        $this->assertSame($guard, $guard->validate('mock-token'));
+        $guard = new ServerGuard($app);
+        $this->assertSame($guard, $guard->validate());
     }
 
     public function testValidateWithInvalidSignature()
@@ -98,6 +101,7 @@ class GuardTest extends TestCase
         $request = Request::create('/path/to/resource?foo=bar', 'POST', [
             'timestamp' => $time,
             'nonce' => $nonce,
+            'encrypt_type' => 'aes',
             'signature' => $signature.'xxxx', // invalid signature
         ], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
@@ -106,12 +110,12 @@ class GuardTest extends TestCase
         $app = new ServiceContainer([], [
             'request' => $request,
         ]);
-        $guard = new Guard($app);
+        $guard = new ServerGuard($app);
 
         $this->expectException(BadRequestException::class);
         $this->expectExceptionMessage('Invalid request signature.');
         $this->expectExceptionCode(400);
-        $guard->validate('mock-token');
+        $guard->validate();
     }
 
     public function testValidateWithoutSignature()
@@ -130,21 +134,58 @@ class GuardTest extends TestCase
         $app = new ServiceContainer([], [
             'request' => $request,
         ]);
-        $guard = new Guard($app);
-        $this->assertSame($guard, $guard->validate('mock-token'));
+        $guard = new ServerGuard($app);
+        $this->assertSame($guard, $guard->validate());
     }
 
     public function testGetMessage()
     {
         $request = Request::create('/path/to/resource?foo=bar', 'POST', [], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
-        ], '<xml><name>foo</name></xml>');
+        ], '<xml><Content>foo</Content><MsgType>text</MsgType></xml>');
 
         $app = new ServiceContainer([], [
             'request' => $request,
         ]);
-        $guard = new Guard($app);
-        $this->assertSame(['name' => 'foo'], $guard->getMessage());
+        $guard = new ServerGuard($app);
+        $this->assertSame(['Content' => 'foo', 'MsgType' => 'text'], $guard->getMessage());
+    }
+
+    public function testGetMessageInSafeMode()
+    {
+        $time = time();
+        $nonce = 'foobar';
+        $params = [
+            'mock-token',
+            $time,
+            $nonce,
+        ];
+        sort($params, SORT_STRING);
+        $signature = sha1(implode($params));
+        $request = Request::create('/path/to/resource?foo=bar', 'POST', [
+            'nonce' => $nonce,
+            'timestamp' => $time,
+            'signature' => $signature,
+            'encrypt_type' => 'aes',
+        ], [], [], [
+            'CONTENT_TYPE' => ['application/xml'],
+        ], '<xml>
+                    <Encrypt>encrypted content</Encrypt>
+                    <MsgType>text</MsgType>
+                    <Nonce>mock-msg-nonce</Nonce>
+                    <MsgSignature>mock-msg-signature</MsgSignature>
+                    <TimeStamp>1402223334</TimeStamp>
+                   </xml>');
+        $encryptor = \Mockery::mock(Encryptor::class);
+        $encryptor->allows()->decrypt('encrypted content', 'mock-msg-signature', 'mock-msg-nonce', 1402223334)
+            ->andReturn(XML::build(['foo' => 'bar']));
+
+        $app = new ServiceContainer([], [
+            'request' => $request,
+            'encryptor' => $encryptor,
+        ]);
+        $guard = new ServerGuard($app);
+        $this->assertSame(['foo' => 'bar'], $guard->getMessage());
     }
 
     public function testGetMessageWithInvalidContent()
@@ -156,10 +197,10 @@ class GuardTest extends TestCase
         $app = new ServiceContainer([], [
             'request' => $request,
         ]);
-        $guard = new Guard($app);
+        $guard = new ServerGuard($app);
 
         $this->expectException(BadRequestException::class);
-        $this->expectExceptionMessage('Invalid message content:(2) simplexml_load_string(): Entity: line 1: parser error : Start tag expected, \'<\' not found');
+        $this->expectExceptionMessage('No message received.');
 
         $guard->getMessage();
     }
@@ -173,30 +214,12 @@ class GuardTest extends TestCase
         $app = new ServiceContainer([], [
             'request' => $request,
         ]);
-        $guard = new Guard($app);
+        $guard = new ServerGuard($app);
 
         $this->expectException(BadRequestException::class);
         $this->expectExceptionMessage('No message received.');
 
         $guard->getMessage();
-    }
-
-    public function testResolveWithEchoStr()
-    {
-        $logger = \Mockery::mock('stdClass');
-        $logger->expects()->debug("Output 'echostr' is 'foo'.")->twice();
-        $request = Request::create('/path/to/resource?echostr=foo');
-
-        $app = new ServiceContainer([], [
-            'request' => $request,
-            'logger' => $logger,
-        ]);
-        $guard = \Mockery::mock(Guard::class, [$app])->shouldAllowMockingProtectedMethods()->makePartial();
-
-        $this->assertSame($guard, $guard->validate(''));
-
-        $this->assertInstanceOf(Response::class, $guard->resolve());
-        $this->assertSame('foo', $guard->resolve()->getContent());
     }
 
     public function testResolve()
@@ -208,7 +231,7 @@ class GuardTest extends TestCase
         $app = new ServiceContainer([], [
             'request' => $request,
         ]);
-        $guard = \Mockery::mock(Guard::class.'[handleRequest,buildResponse]', [$app])->shouldAllowMockingProtectedMethods()->makePartial();
+        $guard = \Mockery::mock(ServerGuard::class.'[handleRequest,buildResponse]', [$app])->shouldAllowMockingProtectedMethods()->makePartial();
 
         $guard->expects()->handleRequest()->andReturn([
             'to' => 'overtrue',
@@ -222,16 +245,16 @@ class GuardTest extends TestCase
 
     public function testBuildResponse()
     {
-        $guard = new Guard(new ServiceContainer());
+        $guard = new ServerGuard(new ServiceContainer());
 
         // empty
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', ''));
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', null));
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', 0));
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', []));
+        $this->assertSame(ServerGuard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', ''));
+        $this->assertSame(ServerGuard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', null));
+        $this->assertSame(ServerGuard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', 0));
+        $this->assertSame(ServerGuard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', []));
 
         // 'success'
-        $this->assertSame(Guard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', Guard::SUCCESS_EMPTY_RESPONSE));
+        $this->assertSame(ServerGuard::SUCCESS_EMPTY_RESPONSE, $guard->buildResponse('overtrue', 'easywechat', ServerGuard::SUCCESS_EMPTY_RESPONSE));
 
         // raw message
         $message = new Raw('<xml><foo>bar</foo></xml>');
@@ -260,15 +283,23 @@ class GuardTest extends TestCase
         // safe mode
         $time = time();
         $nonce = 'foobar';
+        $params = [
+            'mock-token',
+            $time,
+            $nonce,
+        ];
+        sort($params, SORT_STRING);
+        $signature = sha1(implode($params));
         $logger = \Mockery::mock('stdClass');
         $logger->expects()->debug('Messages safe mode is enabled.')->once();
         $request = Request::create('/path/to/resource?foo=bar', 'POST', [
             'timestamp' => $time,
             'nonce' => $nonce,
+            'signature' => $signature,
             'encrypt_type' => 'aes',
         ], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
-        ], '<xml><name>foo</name></xml>');
+        ], '<xml><Content>foo</Content><MsgType>text</MsgType></xml>');
         $encryptor = \Mockery::mock(Encryptor::class);
         $encryptor->allows()->encrypt(\Mockery::on(function ($xml) {
             $array = XML::parse($xml);
@@ -279,20 +310,20 @@ class GuardTest extends TestCase
             $this->assertSame('hello world!', $array['Content']);
 
             return true;
-        }), $nonce, $time)->andReturn('mock-encrypted-response');
+        }))->andReturn('mock-encrypted-response');
         $app = new ServiceContainer([], [
             'logger' => $logger,
             'request' => $request,
             'encryptor' => $encryptor,
         ]);
 
-        $guard = new Guard($app);
+        $guard = new ServerGuard($app);
         $this->assertSame('mock-encrypted-response', $guard->buildResponse('overtrue', 'easywechat', 'hello world!'));
     }
 
     public function testIsMessage()
     {
-        $guard = \Mockery::mock(Guard::class, [new ServiceContainer()])->makePartial();
+        $guard = \Mockery::mock(ServerGuard::class, [new ServiceContainer()])->makePartial();
 
         $this->assertFalse($guard->isMessage(new \stdClass()));
         $this->assertTrue($guard->isMessage(new Text('hello')));
@@ -304,7 +335,7 @@ class GuardTest extends TestCase
 
     public function testHandleRequest()
     {
-        $guard = \Mockery::mock(Guard::class, [new ServiceContainer()])->makePartial();
+        $guard = \Mockery::mock(ServerGuard::class, [new ServiceContainer()])->makePartial();
 
         // no message type
         $message = [
@@ -312,7 +343,7 @@ class GuardTest extends TestCase
             'ToUserName' => 'easywechat',
         ];
         $guard->expects()->getMessage()->andReturn($message)->once();
-        $guard->expects()->dispatch(Guard::MESSAGE_TYPE_MAPPING['text'], $message)->andReturn('mock-response')->once();
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['text'], $message)->andReturn('mock-response')->once();
         $this->assertSame([
             'to' => 'overtrue',
             'from' => 'easywechat',
@@ -326,7 +357,7 @@ class GuardTest extends TestCase
             'MsgType' => 'image',
         ];
         $guard->expects()->getMessage()->andReturn($message)->once();
-        $guard->expects()->dispatch(Guard::MESSAGE_TYPE_MAPPING['image'], $message)->andReturn('mock-response')->once();
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['image'], $message)->andReturn('mock-response')->once();
         $this->assertSame([
             'to' => 'overtrue',
             'from' => 'easywechat',
@@ -334,37 +365,26 @@ class GuardTest extends TestCase
         ], $guard->handleRequest());
     }
 
-    public function testParseMessageFromRequestWithSafeMode()
+    public function testParseMessageWithSafeMode()
     {
         $timestamp = time();
-        $nonce = 'foobar';
-        $encryptor = new Encryptor('appId', 'mock-token', 'ilrEHky7P9VoudWoQpGKv4nDaWaXTv6N60Yy8oQYxXL');
         $xml = (new Text('hello world!'))->transformToXml([
             'ToUserName' => 'overtrue',
             'FromUserName' => 'easywechat',
             'MsgType' => 'text',
             'CreateTime' => $timestamp,
         ]);
-        $decrypted = $encryptor->encrypt($xml, $nonce, $timestamp);
 
-        $xmlParsed = XML::parse($decrypted);
-
-        $request = Request::create('/path/to/resource?foo=bar', 'POST', [
-            'timestamp' => $timestamp,
-            'nonce' => $nonce,
-            'encrypt_type' => 'aes',
-            'msg_signature' => $xmlParsed['MsgSignature'],
-        ]);
+        $request = Request::create('/path/to/resource?foo=bar', 'POST', []);
 
         $app = new ServiceContainer([
             'app_id' => 'appId',
             'token' => 'mock-token',
         ], [
             'request' => $request,
-            'encryptor' => $encryptor,
         ]);
 
-        $guard = \Mockery::mock(Guard::class, [$app])->makePartial();
+        $guard = \Mockery::mock(ServerGuard::class, [$app])->makePartial();
 
         $this->assertSame([
             'MsgType' => 'text',
@@ -372,7 +392,7 @@ class GuardTest extends TestCase
             'FromUserName' => 'easywechat',
             'CreateTime' => strval($timestamp),
             'Content' => 'hello world!',
-        ], $guard->parseMessageFromRequest($decrypted));
+        ], $guard->parseMessage($xml));
 
         // json format
         $this->assertSame([
@@ -381,6 +401,44 @@ class GuardTest extends TestCase
             'FromUserName' => 'easywechat',
             'CreateTime' => strval($timestamp),
             'Content' => 'hello world!',
-        ], $guard->parseMessageFromRequest(json_encode($xmlParsed)));
+        ], $guard->parseMessage(json_encode(XML::parse($xml))));
     }
+
+    public function testParseMessageWithInvalidContent()
+    {
+        $request = Request::create('/path/to/resource?foo=bar', 'POST', []);
+        $app = new ServiceContainer([
+            'app_id' => 'appId',
+            'token' => 'mock-token',
+        ], [
+            'request' => $request,
+        ]);
+
+        $guard = \Mockery::mock(ServerGuard::class, [$app])->makePartial();
+
+        $this->expectException(BadRequestException::class);
+        $this->expectExceptionMessage('Invalid message content:(2) simplexml_load_string(): Entity: line 1: parser error : Couldn\'t find end of Start Tag hello line 1');
+
+        $guard->parseMessage('<hello');
+    }
+
+    public function testIsSafeMode()
+    {
+        $request = Request::create('/path/to/resource?foo=bar', 'POST', []);
+        $app = new ServiceContainer([
+            'app_id' => 'appId',
+            'token' => 'mock-token',
+        ], [
+            'request' => $request,
+        ]);
+
+        $guard = \Mockery::mock(DummyClassForServerGuardTest::class, [$app])->makePartial();
+
+        $this->assertTrue($guard->isSafeMode());
+    }
+}
+
+class DummyClassForServerGuardTest extends ServerGuard
+{
+    protected $alwaysValidate = true;
 }

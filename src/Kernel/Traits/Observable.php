@@ -13,6 +13,8 @@ namespace EasyWeChat\Kernel\Traits;
 
 use Closure;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
+use EasyWeChat\Kernel\Decorators\FinallyResult;
+use EasyWeChat\Kernel\Decorators\TerminateResult;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 
@@ -104,22 +106,21 @@ trait Observable
                 foreach ($handlers as $handler) {
                     $response = $this->callHandler($handler, $payload);
 
-                    if (true === $response) {
-                        continue;
-                    }
-
-                    if (false === $response) {
-                        break;
-                    }
-
-                    if (!empty($response)) {
-                        $result = $response;
+                    switch (true) {
+                        case $response instanceof TerminateResult:
+                            return $response->content;
+                        case true === $response:
+                            continue 2;
+                        case false === $response:
+                            break 2;
+                        case !empty($response) && !($result instanceof FinallyResult):
+                            $result = $response;
                     }
                 }
             }
         }
 
-        return $result;
+        return $result instanceof FinallyResult ? $result->content : $result;
     }
 
     /**

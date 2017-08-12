@@ -142,44 +142,38 @@ class Encryptor
     /**
      * Decrypt message.
      *
+     * @param string $content
      * @param string $msgSignature
      * @param string $nonce
      * @param string $timestamp
-     * @param string $postXML
      *
-     * @return array
+     * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function decrypt($msgSignature, $nonce, $timestamp, $postXML): array
+    public function decrypt($content, $msgSignature, $nonce, $timestamp): string
     {
-        try {
-            $array = XML::parse($postXML);
-        } catch (Throwable $e) { // @codeCoverageIgnore
-            throw new RuntimeException('Invalid xml.', self::ERROR_PARSE_XML); // @codeCoverageIgnore
-        }
-
-        $signature = $this->signature($this->token, $timestamp, $nonce, $array['Encrypt']);
+        $signature = $this->signature($this->token, $timestamp, $nonce, $content);
 
         if ($signature !== $msgSignature) {
             throw new RuntimeException('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
         $decrypted = AES::decrypt(
-            base64_decode($array['Encrypt'], true),
+            base64_decode($content, true),
             $this->aesKey,
             substr($this->aesKey, 0, 16),
             OPENSSL_NO_PADDING
         );
         $result = $this->pkcs7Unpad($decrypted, $this->blockSize);
         $content = substr($result, 16, strlen($result));
-        $xmlLen = unpack('N', substr($content, 0, 4))[1];
+        $contentLen = unpack('N', substr($content, 0, 4))[1];
 
-        if (trim(substr($content, $xmlLen + 4)) !== $this->appId) {
+        if (trim(substr($content, $contentLen + 4)) !== $this->appId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
         }
 
-        return XML::parse(substr($content, 4, $xmlLen));
+        return substr($content, 4, $contentLen);
     }
 
     /**

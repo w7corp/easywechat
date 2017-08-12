@@ -43,7 +43,9 @@ class EncryptorTest extends TestCase
     public function testDecrypt()
     {
         $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
-        $decrypted = $this->getEncryptor()->decrypt('4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676', $encrypted);
+        $encrypt = XML::parse($encrypted);
+        $decrypted = XML::parse($this->getEncryptor()->decrypt($encrypt['Encrypt'], '4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676'));
+
         $this->assertSame('asdasdasd', $decrypted['ToUserName']);
         $this->assertSame('asdasdasdsadasd', $decrypted['FromUserName']);
         $this->assertSame('1234567898', $decrypted['CreateTime']);
@@ -54,7 +56,8 @@ class EncryptorTest extends TestCase
     {
         $this->expectExceptionMessage('Invalid Signature.');
         $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
-        $this->getEncryptor()->decrypt('invalid-signature', '260774613', '1458300676', $encrypted);
+        $encrypt = XML::parse($encrypted);
+        $this->getEncryptor()->decrypt($encrypt['Encrypt'], 'invalid-signature', '260774613', '1458300676');
     }
 
     public function testDecryptWithErrorAppId()
@@ -62,7 +65,8 @@ class EncryptorTest extends TestCase
         $this->expectExceptionMessage('Invalid appId.');
         $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
         $encryptor = new Encryptor('invalid appid', 'pamtest', 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
-        $encryptor->decrypt('4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676', $encrypted);
+        $encrypt = XML::parse($encrypted);
+        $encryptor->decrypt($encrypt['Encrypt'], '4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676');
     }
 
     public function testEncryptAndDecrypt()
@@ -84,7 +88,7 @@ class EncryptorTest extends TestCase
         $this->assertSame('xxxxxx', $array['Nonce']);
         $this->assertNotEmpty($array['Encrypt']);
         $this->assertNotEmpty($array['MsgSignature']);
-        $this->assertSame($raw, $this->getEncryptor()->decrypt($array['MsgSignature'], $array['Nonce'], $array['TimeStamp'], $encrypted));
+        $this->assertSame($raw, XML::parse($this->getEncryptor()->decrypt($array['Encrypt'], $array['MsgSignature'], $array['Nonce'], $array['TimeStamp'])));
     }
 
     public function testPkcs7padWithToolongBlockSize()
