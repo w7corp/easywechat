@@ -22,6 +22,8 @@ use ReflectionClass;
  */
 class Client extends BaseClient
 {
+    const API_SEND = 'cgi-bin/message/template/send';
+
     /**
      * Attributes.
      *
@@ -122,7 +124,7 @@ class Client extends BaseClient
 
         $this->restoreMessage();
 
-        return $this->httpPostJson('cgi-bin/message/template/send', $params);
+        return $this->httpPostJson(static::API_SEND, $params);
     }
 
     /**
