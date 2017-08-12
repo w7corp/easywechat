@@ -21,7 +21,7 @@ class GuardTest extends TestCase
     public function testValidate()
     {
         $guard = \Mockery::mock(Guard::class)->makePartial();
-        $this->assertTrue($guard->validate());
+        $this->assertSame($guard, $guard->validate());
     }
 
     public function testShouldReturnRawResponse()

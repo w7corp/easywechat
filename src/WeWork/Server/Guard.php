@@ -27,7 +27,7 @@ class Guard extends ServerGuard
      */
     public function validate()
     {
-        return true;
+        return $this;
     }
 
     /**
