@@ -13,6 +13,7 @@ namespace EasyWeChat\WeWork;
 
 use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\WeWork\Server\ServiceProvider;
 
 /**
  * Application.
@@ -29,6 +30,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\WeWork\Message\Messenger         $messenger
  * @property \EasyWeChat\WeWork\User\Client               $user
  * @property \EasyWeChat\WeWork\User\TagClient            $tag
+ * @property \EasyWeChat\WeWork\Server\ServiceProvider    $server
  * @property \EasyWeChat\BasicService\Jssdk\Client        $jssdk
  * @property \Overtrue\Socialite\Providers\WeWorkProvider $oauth
  *
@@ -50,6 +52,7 @@ class Application extends ServiceContainer
         Media\ServiceProvider::class,
         Message\ServiceProvider::class,
         Department\ServiceProvider::class,
+        Server\ServiceProvider::class,
 
         // base services
         BasicService\Jssdk\ServiceProvider::class,
