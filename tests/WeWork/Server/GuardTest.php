@@ -18,6 +18,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GuardTest extends TestCase
 {
+    public function testValidate()
+    {
+        $guard = \Mockery::mock(Guard::class)->makePartial();
+        $this->assertTrue($guard->validate());
+    }
+
     public function testShouldReturnRawResponse()
     {
         $app = new ServiceContainer([], [
