@@ -23,6 +23,9 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class ServerGuard.
  *
+ * 1. url 里的 signature 只是将 token+nonce+timestamp 得到的签名，只是用于验证当前请求的，在公众号环境下一直有
+ * 2. 企业号消息发送时是没有的，因为固定为完全模式，所以 url 里不会存在 signature, 只有 msg_signature 用于解密消息的
+ *
  * @author overtrue <i@overtrue.me>
  */
 class ServerGuard
@@ -105,13 +108,11 @@ class ServerGuard
             return $this;
         }
 
-        $params = [
-            $this->app['config']['token'],
-            $this->app['request']->get('timestamp'),
-            $this->app['request']->get('nonce'),
-        ];
-
-        if ($this->app['request']->get('signature') !== $this->signature($params)) {
+        if ($this->app['request']->get('signature') !== $this->signature([
+                $this->app['config']['token'],
+                $this->app['request']->get('timestamp'),
+                $this->app['request']->get('nonce'),
+            ])) {
             throw new BadRequestException('Invalid request signature.', 400);
         }
 
@@ -136,9 +137,9 @@ class ServerGuard
         if ($this->isSafeMode() && !empty($message['Encrypt'])) {
             $message = $this->app['encryptor']->decrypt(
                 $message['Encrypt'],
-                $message['MsgSignature'],
-                $message['Nonce'],
-                $message['TimeStamp']
+                $this->app['request']->get('msg_signature'),
+                $this->app['request']->get('nonce'),
+                $this->app['request']->get('timestamp')
             );
 
             return XML::parse($message);

@@ -166,18 +166,13 @@ class ServerGuardTest extends TestCase
             'nonce' => $nonce,
             'timestamp' => $time,
             'signature' => $signature,
+            'msg_signature' => 'mock-msg-signature',
             'encrypt_type' => 'aes',
         ], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
-        ], '<xml>
-                    <Encrypt>encrypted content</Encrypt>
-                    <MsgType>text</MsgType>
-                    <Nonce>mock-msg-nonce</Nonce>
-                    <MsgSignature>mock-msg-signature</MsgSignature>
-                    <TimeStamp>1402223334</TimeStamp>
-                   </xml>');
+        ], '<xml><Encrypt>encrypted content</Encrypt></xml>');
         $encryptor = \Mockery::mock(Encryptor::class);
-        $encryptor->allows()->decrypt('encrypted content', 'mock-msg-signature', 'mock-msg-nonce', 1402223334)
+        $encryptor->allows()->decrypt('encrypted content', 'mock-msg-signature', $nonce, $time)
             ->andReturn(XML::build(['foo' => 'bar']));
 
         $app = new ServiceContainer([], [
