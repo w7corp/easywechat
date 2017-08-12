@@ -13,7 +13,6 @@ namespace EasyWeChat\WeWork;
 
 use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
-use EasyWeChat\WeWork\Server\ServiceProvider;
 
 /**
  * Application.
