@@ -33,8 +33,6 @@ use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
  */
 class Application extends ServiceContainer
 {
-    const COMPONENT_LOGIN_PAGE = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage';
-
     /**
      * @var array
      */
@@ -95,19 +93,21 @@ class Application extends ServiceContainer
     }
 
     /**
-     * Return the url to redirect to authorization page.
+     * Return the pre-authorization login page url.
      *
      * @param string $callbackUrl
      *
      * @return string
      */
-    public function getRedirectUrl(string $callbackUrl): string
+    public function getPreAuthorizationUrl(string $callbackUrl): string
     {
-        return self::COMPONENT_LOGIN_PAGE.'?'.http_build_query([
-                'component_appid' => $this['config']['app_id'],
-                'pre_auth_code' => $this->createPreAuthorizationCode()['pre_auth_code'],
-                'redirect_uri' => $callbackUrl,
-            ]);
+        $queries = [
+            'component_appid' => $this['config']['app_id'],
+            'pre_auth_code' => $this->createPreAuthorizationCode()['pre_auth_code'],
+            'redirect_uri' => $callbackUrl,
+        ];
+
+        return 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?'.http_build_query($queries);
     }
 
     /**

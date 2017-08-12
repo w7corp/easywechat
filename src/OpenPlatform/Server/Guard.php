@@ -11,13 +11,13 @@
 
 namespace EasyWeChat\OpenPlatform\Server;
 
-use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Traits\Observable;
 use EasyWeChat\OfficialAccount\Server\Guard as BaseGuard;
 use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\UpdateAuthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\VerifyTicketRefreshed;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Guard.
@@ -33,23 +33,20 @@ class Guard extends BaseGuard
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
     const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
 
-    /**
-     * {@inheritdoc}.
-     */
-    protected function handleRequest(): array
+    protected function resolve(): Response
     {
         $this->registerHandlers();
 
-        $message = new Collection($this->getMessage());
+        $message = $this->getMessage();
 
-        return [
-            'to' => $message['FromUserName'],
-            'from' => $message['ToUserName'],
-            'response' => $this->dispatch($message->get('InfoType'), $message->toArray()),
-        ];
+        if (isset($message['InfoType'])) {
+            $this->dispatch($message['InfoType'], $message);
+        }
+
+        return new Response(static::SUCCESS_EMPTY_RESPONSE);
     }
 
-    protected function registerHandlers(): void
+    protected function registerHandlers()
     {
         $this->on(self::EVENT_AUTHORIZED, Authorized::class);
         $this->on(self::EVENT_UNAUTHORIZED, Unauthorized::class);
