@@ -169,6 +169,7 @@ class Messenger
         if (empty($this->message)) {
             throw new RuntimeException('No message to send.');
         }
+
         if (is_null($this->agentId)) {
             throw new RuntimeException('No agentid specified.');
         }
