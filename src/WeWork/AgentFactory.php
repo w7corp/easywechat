@@ -68,7 +68,7 @@ class AgentFactory
     public function make(string $name)
     {
         if (!isset($this->config['agents'][$name])) {
-            throw new InvalidArgumentException(sprintf('No agent named "%s"', $name));
+            throw new InvalidArgumentException(sprintf('No agent named "%s".', $name));
         }
 
         if (!isset($this->resolved[$name])) {

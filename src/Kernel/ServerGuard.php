@@ -129,7 +129,7 @@ class ServerGuard
     {
         $message = $this->parseMessage($this->app['request']->getContent(false));
 
-        if (!is_array($message) || empty($message['MsgType'])) {
+        if (!is_array($message) || empty($message)) {
             throw new BadRequestException('No message received.');
         }
 

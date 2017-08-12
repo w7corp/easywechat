@@ -199,10 +199,7 @@ class ServerGuardTest extends TestCase
         ]);
         $guard = new ServerGuard($app);
 
-        $this->expectException(BadRequestException::class);
-        $this->expectExceptionMessage('No message received.');
-
-        $guard->getMessage();
+        $this->assertSame(['not-xml-content'], $guard->getMessage());
     }
 
     public function testGetMessageWithEmptyContent()

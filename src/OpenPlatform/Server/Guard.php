@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\OpenPlatform\Server;
 
+use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\Kernel\Traits\Observable;
-use EasyWeChat\OfficialAccount\Server\Guard as BaseGuard;
 use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\UpdateAuthorized;
@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Guard extends BaseGuard
+class Guard extends ServerGuard
 {
     use Observable;
 

@@ -54,5 +54,7 @@ class EchoStrHandler implements EventHandlerInterface
 
             return new FinallyResult($str);
         }
+
+        return true;
     }
 }

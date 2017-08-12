@@ -13,6 +13,7 @@ namespace EasyWeChat\Tests\Kernel;
 
 use EasyWeChat\Factory;
 use EasyWeChat\Tests\TestCase;
+use EasyWeChat\WeWork\AgentFactory;
 
 class FactoryTest extends TestCase
 {
@@ -59,5 +60,8 @@ class FactoryTest extends TestCase
             \EasyWeChat\BasicService\Application::class,
             Factory::basicService(['appid' => 'appid@789'])
         );
+
+        $this->assertInstanceOf(AgentFactory::class, Factory::weWork(['foo' => 'bar']));
+        $this->assertInstanceOf(AgentFactory::class, Factory::make('weWork', ['foo' => 'bar']));
     }
 }

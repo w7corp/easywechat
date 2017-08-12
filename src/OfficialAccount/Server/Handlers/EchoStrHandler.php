@@ -47,5 +47,7 @@ class EchoStrHandler implements EventHandlerInterface
         if ($str = $this->app['request']->get('echostr')) {
             return new FinallyResult($str);
         }
+
+        return true;
     }
 }
