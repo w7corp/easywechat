@@ -228,16 +228,37 @@ class ServerGuardTest extends TestCase
         $app = new ServiceContainer([], [
             'request' => $request,
         ]);
-        $guard = \Mockery::mock(ServerGuard::class.'[handleRequest,buildResponse]', [$app])->shouldAllowMockingProtectedMethods()->makePartial();
+        $guard = \Mockery::mock(ServerGuard::class.'[handleRequest,shouldReturnRawResponse,buildResponse]', [$app])->shouldAllowMockingProtectedMethods()->makePartial();
 
-        $guard->expects()->handleRequest()->andReturn([
+        $guard->allows()->handleRequest()->andReturn([
             'to' => 'overtrue',
             'from' => 'easywechat',
             'response' => 'hello overtrue!',
-        ])->twice();
+        ]);
         $guard->expects()->buildResponse('overtrue', 'easywechat', 'hello overtrue!')->andReturn('success')->twice();
         $this->assertInstanceOf(Response::class, $guard->resolve());
         $this->assertSame('success', $guard->resolve()->getContent());
+    }
+
+    public function testResolveWithRawResponse()
+    {
+        $request = Request::create('/path/to/resource', 'POST', [], [], [], [
+            'CONTENT_TYPE' => ['application/xml'],
+        ], '<xml><foo>bar</foo></xml>');
+
+        $app = new ServiceContainer([], [
+            'request' => $request,
+        ]);
+        $guard = \Mockery::mock(ServerGuard::class.'[handleRequest,shouldReturnRawResponse,buildResponse]', [$app])->shouldAllowMockingProtectedMethods()->makePartial();
+
+        // return raw
+        $guard->allows()->handleRequest()->andReturn([
+            'to' => 'overtrue',
+            'from' => 'easywechat',
+            'response' => 'hello overtrue!',
+        ]);
+        $guard->expects()->shouldReturnRawResponse()->andReturn(true)->once();
+        $this->assertSame('hello overtrue!', $guard->resolve()->getContent());
     }
 
     public function testBuildResponse()

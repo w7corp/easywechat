@@ -156,6 +156,10 @@ class ServerGuard
     {
         $result = $this->handleRequest();
 
+        if ($this->shouldReturnRawResponse()) {
+            return new Response($result['response']);
+        }
+
         return new Response(
             $this->buildResponse($result['to'], $result['from'], $result['response']),
             200,
@@ -318,5 +322,13 @@ class ServerGuard
         }
 
         return $this->app['request']->get('signature') && $this->app['request']->get('encrypt_type') === 'aes';
+    }
+
+    /**
+     * @return bool
+     */
+    protected function shouldReturnRawResponse(): bool
+    {
+        return false;
     }
 }

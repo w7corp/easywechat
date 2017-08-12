@@ -21,4 +21,12 @@ use EasyWeChat\Kernel\ServerGuard;
 class Guard extends ServerGuard
 {
     protected $alwaysValidate = true;
+
+    /**
+     * @return bool
+     */
+    protected function shouldReturnRawResponse(): bool
+    {
+        return !is_null($this->app['request']->get('echostr'));
+    }
 }
