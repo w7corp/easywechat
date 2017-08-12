@@ -51,6 +51,21 @@ class HandleNotiryTest extends TestCase
     }
 
     /**
+     * A callback for handleRefundNotify().
+     *
+     * @param $notify
+     * @param $successful
+     *
+     * @return mixed
+     */
+    public function handleRefundNotifyCallback($notify, $successful)
+    {
+        return $successful;
+    }
+
+
+
+    /**
      * A callback for handleScanNotify().
      *
      * @param $produceId
@@ -80,19 +95,15 @@ class HandleNotiryTest extends TestCase
 
         // mock Notify.
         $mockNotify->shouldReceive('isValid')
-            ->times(3)
             ->andReturn(false, true, true);
 
         $mockNotify->shouldReceive('getNotify')
-            ->twice()
             ->andReturn(
                 new Collection(['result_code' => 'SUCCESS']),
-                new Collection(['result_code' => 'FAILURE'])
+                new Collection(['result_code' => 'FAIL'])
             );
 
-        $mock->shouldReceive('getNotify')
-            ->times(3)
-            ->andReturn($mockNotify);
+        $mock->shouldReceive('getNotify')->andReturn($mockNotify);
 
         // $notify->isValid() === false
         try {
@@ -106,8 +117,34 @@ class HandleNotiryTest extends TestCase
         // result_code === 'SUCCESS'
         $this->assertInstanceOf(Response::class, $mock->handleNotify([$this, 'handleNotifyCallback']));
 
-        // result_code === 'SUCCESS'
+        // result_code === 'FAIL'
         $this->assertInstanceOf(Response::class, $mock->handleNotify([$this, 'handleNotifyCallback']));
+    }
+
+    public function testRefundHandleNotify()
+    {
+        $app = $this->makeApp();
+
+        $mock = \Mockery::mock(DummnyClassForHandleNotifyTest::class.'[getNotify, handleRefundNotify]', [$app])->shouldAllowMockingProtectedMethods()->makePartial();
+
+        $mockNotify = \Mockery::mock(Notify::class, [$app['merchant']]);
+
+        $mockNotify->shouldReceive('decryptReqInfo')
+            ->andReturn($mockNotify);
+
+        $mockNotify->shouldReceive('getNotify')
+            ->andReturn(
+                new Collection(['result_code' => 'SUCCESS']),
+                new Collection(['result_code' => 'FAIL'])
+            );
+
+        $mock->shouldReceive('getNotify')->andReturn($mockNotify);
+
+        // result_code === 'SUCCESS'
+        $this->assertInstanceOf(Response::class, $mock->handleRefundNotify([$this, 'handleRefundNotifyCallback']));
+
+        // result_code === 'FAIL'
+        $this->assertInstanceOf(Response::class, $mock->handleRefundNotify([$this, 'handleRefundNotifyCallback']));
     }
 
     public function testHandleScanNotify()
