@@ -21,7 +21,7 @@
         "pimple/pimple": "^3.0",
         "monolog/monolog": "^1.17",
         "overtrue/socialite": "^1.0.25",
-        "doctrine/cache": "^1.4",
+        "doctrine/cache": "~1.6.2",
         "guzzlehttp/guzzle": "^6.2",
         "symfony/http-foundation": "^2.6|^3.0",
         "symfony/psr-http-message-bridge": "~0.3|^1.0"
