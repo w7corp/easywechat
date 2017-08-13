@@ -64,16 +64,13 @@ class Application extends ServiceContainer
      */
     public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): OfficialAccount
     {
-        $officialAccount = new OfficialAccount([
-            'app_id' => $appId,
-            'refresh_token' => $refreshToken,
-        ], $this->getReplaceServices($accessToken));
+        $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
 
-        $officialAccount->extend('oauth', function ($socialite) {
+        $application->extend('oauth', function ($socialite) {
             return $socialite->component(new ComponentDelegate($this));
         });
 
-        return $officialAccount->register(new AggregateServiceProvider());
+        return $application->register(new AggregateServiceProvider());
     }
 
     /**
@@ -87,10 +84,7 @@ class Application extends ServiceContainer
      */
     public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): MiniProgram
     {
-        return new MiniProgram([
-            'app_id' => $appId,
-            'refresh_token' => $refreshToken,
-        ], $this->getReplaceServices($accessToken));
+        return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
     }
 
     /**
@@ -109,6 +103,23 @@ class Application extends ServiceContainer
         ];
 
         return 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?'.http_build_query($queries);
+    }
+
+    /**
+     * @param string $appId
+     * @param string $refreshToken
+     *
+     * @return array
+     */
+    protected function getAuthorizerConfig(string $appId, string $refreshToken): array
+    {
+        return [
+            'debug' => $this['config']->get('debug', false),
+            'response_type' => $this['config']->get('response_type', 'array'),
+            'log' => $this['config']->get('log', []),
+            'app_id' => $appId,
+            'refresh_token' => $refreshToken,
+        ];
     }
 
     /**
