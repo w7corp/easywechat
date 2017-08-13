@@ -110,14 +110,14 @@ class BaseClientTest extends TestCase
 
         // default value
         $client->expects()->registerHttpMiddlewares()->once();
-        $client->expects()->performRequest($url, 'GET', [], false)->andReturn(new Response(200, [], '{"mock":"result"}'));
+        $client->expects()->performRequest($url, 'GET', [])->andReturn(new Response(200, [], '{"mock":"result"}'));
         $this->assertSame(['mock' => 'result'], $client->request($url));
 
         // return raw with custom arguments
         $options = ['foo' => 'bar'];
         $response = new Response(200, [], '{"mock":"result"}');
         $client->expects()->registerHttpMiddlewares()->once();
-        $client->expects()->performRequest($url, 'POST', $options, true)->andReturn($response);
+        $client->expects()->performRequest($url, 'POST', $options)->andReturn($response);
         $this->assertSame($response, $client->request($url, 'POST', $options, true));
     }
 
