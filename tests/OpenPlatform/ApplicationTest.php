@@ -47,7 +47,7 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf('EasyWeChat\OfficialAccount\Application', $officialAccount);
         $this->assertInstanceOf(AuthorizerAccessToken::class, $officialAccount['access_token']);
-        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Account\Client::class, $officialAccount['account']);
+        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client::class, $officialAccount['account']);
 
         $this->assertArraySubset([
             'app_id' => 'app-id',

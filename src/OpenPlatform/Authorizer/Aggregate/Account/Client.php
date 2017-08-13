@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\Authorizer\Account;
+namespace EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account;
 
 use EasyWeChat\Kernel\BaseClient;
 

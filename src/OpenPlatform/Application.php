@@ -15,7 +15,7 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
-use EasyWeChat\OpenPlatform\Authorizer\Account\Client;
+use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
 
@@ -73,7 +73,7 @@ class Application extends ServiceContainer
             return $socialite->component(new ComponentDelegate($this));
         });
 
-        return $officialAccount;
+        return $officialAccount->register(new AggregateServiceProvider());
     }
 
     /**
@@ -128,10 +128,6 @@ class Application extends ServiceContainer
             },
 
             'encryptor' => $this['encryptor'],
-
-            'account' => function ($app) {
-                return new Client($app);
-            },
         ];
     }
 
