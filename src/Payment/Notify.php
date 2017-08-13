@@ -13,10 +13,10 @@ namespace EasyWeChat\Payment;
 
 use EasyWeChat\Kernel\Exceptions\Exception;
 use EasyWeChat\Kernel\Support;
+use EasyWeChat\Kernel\Support\AES;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
-use EasyWeChat\Kernel\Support\AES;
 
 /**
  * Class Notify.
@@ -74,6 +74,7 @@ class Notify
      * Decrypt req_info in refund Notify.
      *
      * @return $this
+     *
      * @throws Exception
      */
     public function decryptReqInfo()
@@ -105,6 +106,7 @@ class Notify
         if (!empty($this->notify)) {
             return $this->notify;
         }
+
         try {
             $xml = XML::parse(strval($this->request->getContent()));
         } catch (\Throwable $e) {

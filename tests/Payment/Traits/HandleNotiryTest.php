@@ -63,8 +63,6 @@ class HandleNotiryTest extends TestCase
         return $successful;
     }
 
-
-
     /**
      * A callback for handleScanNotify().
      *
