@@ -273,23 +273,25 @@ class ClientTest extends TestCase
 
         $client = $this->mockApiClient(Client::class, 'report', $app)->makePartial();
 
-        $api = 'foo';
+        $api = 'http://easywechat.org';
         $timeConsuming = 1;
         $resultCode = 'bar';
         $returnCode = 'baz';
-        $optional = [];
+        $optional = ['foo' => 'bar'];
 
-        $params = array_merge([
-            'interface_url' => $api,
-            'execute_time_' => $timeConsuming,
-            'return_code' => $returnCode,
-            'return_msg' => null,
-            'result_code' => $resultCode,
-            'user_ip' => Support\get_client_ip(),
-            'time' => time(),
-        ], $optional);
+        $client->expects()->request($client->wrapApi('payitil/report'), \Mockery::on(function ($params) use ($api, $timeConsuming, $resultCode, $returnCode, $optional) {
+            $this->assertSame($params['interface_url'], $api);
+            $this->assertSame($params['return_code'], $returnCode);
+            $this->assertSame($params['return_msg'], null);
+            $this->assertSame($params['result_code'], $resultCode);
 
-        $client->expects()->request($client->wrapApi('payitil/report'), $params)->andReturn('mock-result');
+            $this->assertInternalType('string', $params['user_ip']);
+            $this->assertInternalType('int', $params['time']);
+
+            $this->assertArraySubset($optional, $params);
+
+            return true;
+        }))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->report($api, $timeConsuming, $resultCode, $returnCode, $optional));
     }
