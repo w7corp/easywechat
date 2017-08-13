@@ -182,6 +182,7 @@ class Client extends BaseClient
             if (is_array($value)) {
                 if (isset($value['value'])) {
                     $formatted[$key] = $value;
+
                     continue;
                 }
 

@@ -113,6 +113,7 @@ class MessengerTest extends TestCase
         // no agentid
         $client = \Mockery::mock(Client::class);
         $messenger = new Messenger($client);
+
         try {
             $messenger->send('hello world!');
             $this->fail('No expected exception thrown.');

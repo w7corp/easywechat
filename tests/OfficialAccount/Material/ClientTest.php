@@ -224,6 +224,7 @@ class ClientTest extends TestCase
 
         // invalid path
         $path = '/this/is/a/not/exists/image.jpg';
+
         try {
             $client->upload('image', $path);
             $this->fail('Failed to assert exception thrown.');
