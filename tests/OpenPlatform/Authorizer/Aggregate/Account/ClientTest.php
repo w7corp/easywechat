@@ -9,9 +9,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OpenPlatform\Authorizer\Account;
+namespace EasyWeChat\Tests\OpenPlatform\Authorizer\Aggregate\Account;
 
-use EasyWeChat\OpenPlatform\Authorizer\Account\Client;
+use EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

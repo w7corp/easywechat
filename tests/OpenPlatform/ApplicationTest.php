@@ -42,14 +42,31 @@ class ApplicationTest extends TestCase
 
     public function testOfficialAccount()
     {
-        $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
+        $app = new Application([
+            'app_id' => 'component-app-id', 'secret' => 'component-secret',
+            'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf',
+            'debug' => true,
+            'response_type' => 'collection',
+            'log' => [
+                'level' => 'debug',
+                'permission' => 0777,
+                'file' => '/tmp/easywechat.log',
+            ],
+        ]);
         $officialAccount = $app->officialAccount('app-id', 'refresh-token');
 
         $this->assertInstanceOf('EasyWeChat\OfficialAccount\Application', $officialAccount);
         $this->assertInstanceOf(AuthorizerAccessToken::class, $officialAccount['access_token']);
-        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Account\Client::class, $officialAccount['account']);
+        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client::class, $officialAccount['account']);
 
         $this->assertArraySubset([
+            'debug' => true,
+            'response_type' => 'collection',
+            'log' => [
+                'level' => 'debug',
+                'permission' => 0777,
+                'file' => '/tmp/easywechat.log',
+            ],
             'app_id' => 'app-id',
             'refresh_token' => 'refresh-token',
         ], $officialAccount->config->toArray());
