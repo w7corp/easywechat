@@ -282,6 +282,7 @@ class Material extends AbstractAPI
         switch ($type) {
             case 'news_image':
                 $api = self::API_NEWS_IMAGE_UPLOAD;
+
                 break;
             default:
                 $api = self::API_UPLOAD;
