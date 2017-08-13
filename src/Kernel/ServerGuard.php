@@ -234,7 +234,7 @@ class ServerGuard
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \EasyWeChat\OfficialAccount\Server\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
     protected function handleRequest(): array
     {

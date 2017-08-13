@@ -89,9 +89,9 @@ class Notify
             $this->notify->req_info = $decrypted;
 
             return $this;
-        } else {
-            throw new Exception('req_info does not exist.', 400);
         }
+
+        throw new Exception('req_info does not exist.', 400);
     }
 
     /**

@@ -12,7 +12,7 @@
 namespace EasyWeChat\Kernel\Contracts;
 
 /**
- * Class EventHandlerInterface.
+ * Interface EventHandlerInterface.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */

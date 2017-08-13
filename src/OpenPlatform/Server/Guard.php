@@ -30,6 +30,9 @@ class Guard extends ServerGuard
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
     const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
 
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     protected function resolve(): Response
     {
         $this->registerHandlers();
@@ -43,6 +46,9 @@ class Guard extends ServerGuard
         return new Response(static::SUCCESS_EMPTY_RESPONSE);
     }
 
+    /**
+     * Register event handlers.
+     */
     protected function registerHandlers()
     {
         $this->on(self::EVENT_AUTHORIZED, Authorized::class);

@@ -68,7 +68,7 @@ trait Observable
      */
     public function observe($condition, $handler)
     {
-        return $this->push($handler, $condition);
+        $this->push($handler, $condition);
     }
 
     /**
@@ -77,7 +77,7 @@ trait Observable
      */
     public function on($condition, $handler)
     {
-        return $this->push($handler, $condition);
+        $this->push($handler, $condition);
     }
 
     /**

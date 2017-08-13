@@ -67,6 +67,7 @@ class Application extends ServiceContainer
         $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
 
         $application->extend('oauth', function ($socialite) {
+            /* @var \Overtrue\Socialite\Providers\WeChatProvider $socialite */
             return $socialite->component(new ComponentDelegate($this));
         });
 
