@@ -53,6 +53,49 @@ class NotifyTest extends TestCase
         $this->assertTrue($notify->isValid());
     }
 
+    public function testDecryptReqInfo()
+    {
+        $merchant = new Merchant([
+            'merchant_id' => '123456',
+            'key' => 'foo',
+        ]);
+
+        $notify = \Mockery::mock(DummnyClassForNotiryTest::class.'[getNotify, decryptReqInfo]', [$merchant])->makePartial();
+
+        // build a collection vithout req_info
+        $mockInvalidResult = new Collection([
+            'foo' => 'bar',
+            'bax' => 123,
+        ]);
+
+        $notify->expects()->getNotify()->andReturn($mockInvalidResult);
+
+        try {
+            $this->assertFalse($notify->decryptReqInfo());
+
+            $this->fail('No eaception is thrown.');
+        } catch (\Exception $e) {
+            $this->assertSame('req_info does not exist.', $e->getMessage());
+        }
+
+        // build a collection vith valid req_info
+        $mockValidResult = new Collection([
+            'foo' => 'bar',
+            'bax' => 123,
+            'req_info' => base64_encode(Support\AES::encrypt('foo-req-info', md5($merchant->key), substr(md5($merchant->key), 0, 16))),
+        ]);
+
+        $notify->notify = $mockValidResult;
+
+        $notify->expects()->getNotify()->andReturn($mockValidResult);
+
+        // get the notify with its req_info decrypted
+        $notifyWithDecryptedReqInfo = $notify->decryptReqInfo();
+
+        $this->assertInstanceOf(Notify::class, $notifyWithDecryptedReqInfo);
+        $this->assertSame('foo-req-info', $notifyWithDecryptedReqInfo->notify->req_info);
+    }
+
     public function testGetNotify()
     {
         $merchant = new Merchant([
@@ -62,7 +105,7 @@ class NotifyTest extends TestCase
 
         // test notify already has non-empty value.
         $notify = new DummnyClassForNotiryTest($merchant);
-        $notify->setNotify(new Collection(['foo' => 'bar']));
+        $notify->notify = new Collection(['foo' => 'bar']);
 
         $notifyResult = $notify->getNotify();
 
@@ -116,8 +159,5 @@ class NotifyTest extends TestCase
 
 class DummnyClassForNotiryTest extends Notify
 {
-    public function setNotify(Collection $notify)
-    {
-        $this->notify = $notify;
-    }
+    public $notify;
 }

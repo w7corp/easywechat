@@ -16,6 +16,7 @@ use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
+use EasyWeChat\Kernel\Support\AES;
 
 /**
  * Class Notify.
@@ -67,6 +68,29 @@ class Notify
         $localSign = Support\generate_sign($this->getNotify()->except('sign')->all(), $this->merchant->key, 'md5');
 
         return $localSign === $this->getNotify()->get('sign');
+    }
+
+    /**
+     * Decrypt req_info in refund Notify.
+     *
+     * @return $this
+     * @throws Exception
+     */
+    public function decryptReqInfo()
+    {
+        if ($reqInfo = $this->getNotify()->get('req_info')) {
+            $decrypted = AES::decrypt(
+                base64_decode($reqInfo, true),
+                md5($this->merchant->key),
+                substr(md5($this->merchant->key), 0, 16)
+            );
+
+            $this->notify->req_info = $decrypted;
+
+            return $this;
+        } else {
+            throw new Exception('req_info does not exist.', 400);
+        }
     }
 
     /**
