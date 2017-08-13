@@ -16,6 +16,7 @@ use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\Account\Client;
+use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
 
 /**
@@ -120,6 +121,10 @@ class Application extends ServiceContainer
         return [
             'access_token' => $accessToken ?? function ($app) {
                 return new AuthorizerAccessToken($app, $this);
+            },
+
+            'server' => function ($app) {
+                return new Guard($app);
             },
 
             'encryptor' => $this['encryptor'],

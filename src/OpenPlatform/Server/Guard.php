@@ -12,7 +12,6 @@
 namespace EasyWeChat\OpenPlatform\Server;
 
 use EasyWeChat\Kernel\ServerGuard;
-use EasyWeChat\Kernel\Traits\Observable;
 use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\UpdateAuthorized;
@@ -26,8 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Guard extends ServerGuard
 {
-    use Observable;
-
     const EVENT_AUTHORIZED = 'authorized';
     const EVENT_UNAUTHORIZED = 'unauthorized';
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';

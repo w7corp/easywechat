@@ -109,7 +109,7 @@ class ServerGuard
         }
 
         if ($this->app['request']->get('signature') !== $this->signature([
-                $this->app['config']['token'],
+                $this->getToken(),
                 $this->app['request']->get('timestamp'),
                 $this->app['request']->get('nonce'),
             ])) {
@@ -166,6 +166,14 @@ class ServerGuard
             200,
             ['Content-Type' => 'application/xml']
         );
+    }
+
+    /**
+     * @return string|null
+     */
+    protected function getToken()
+    {
+        return $this->app['config']['token'];
     }
 
     /**
