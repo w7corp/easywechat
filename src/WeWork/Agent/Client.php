@@ -23,12 +23,14 @@ class Client extends BaseClient
     /**
      * Get agent.
      *
+     * @param int $agentId
+     *
      * @return mixed
      */
-    public function get()
+    public function get(int $agentId)
     {
         $params = [
-            'agentid' => $this->app['config']['agent_id'],
+            'agentid' => $agentId,
         ];
 
         return $this->httpGet('agent/get', $params);
@@ -37,13 +39,14 @@ class Client extends BaseClient
     /**
      * Set agent.
      *
+     * @param int   $agentId
      * @param array $attributes
      *
      * @return mixed
      */
-    public function set(array $attributes)
+    public function set(int $agentId, array $attributes)
     {
-        return $this->httpPostJson('agent/set', array_merge(['agentid' => $this->app['config']['agent_id']], $attributes));
+        return $this->httpPostJson('agent/set', array_merge(['agentid' => $agentId], $attributes));
     }
 
     /**

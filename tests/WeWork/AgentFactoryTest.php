@@ -13,6 +13,7 @@ namespace EasyWeChat\Tests\WeWork;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Tests\TestCase;
+use EasyWeChat\WeWork\Agent\Client;
 use EasyWeChat\WeWork\AgentFactory;
 use EasyWeChat\WeWork\Application;
 
@@ -49,5 +50,26 @@ class AgentFactoryTest extends TestCase
         $this->expectExceptionMessage('No agent named "contacts".');
 
         $factory->make('contacts');
+    }
+
+    public function testAgentProperty()
+    {
+        $factory = new AgentFactory([
+            'corp_id' => 'mock-corp-id',
+            'agents' => [
+                'foo' => [
+                    'agend_id' => 123,
+                    'secret' => 'aabb',
+                ],
+                'bar' => [
+                    'agend_id' => 124,
+                    'secret' => 'aabb',
+                ],
+            ],
+        ], ['foo' => 'bar']);
+
+        $app = $factory->make('foo');
+
+        $this->assertInstanceOf(Client::class, $app->agent);
     }
 }

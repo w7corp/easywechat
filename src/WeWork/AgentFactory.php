@@ -17,6 +17,8 @@ use EasyWeChat\Kernel\Support\Arr;
 /**
  * Class AgentFactory.
  *
+ * @property \EasyWeChat\WeWork\Agent\Client $agent
+ *
  * @author overtrue <i@overtrue.me>
  */
 class AgentFactory
@@ -77,5 +79,17 @@ class AgentFactory
         }
 
         return $this->resolved[$name];
+    }
+
+    /**
+     * @param string $property
+     *
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        $default = Arr::get($this->config, 'default_agent', key($this->config['agents']));
+
+        return $this->make($default)->$property;
     }
 }
