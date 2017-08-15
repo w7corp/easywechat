@@ -81,25 +81,45 @@ class TagClient extends BaseClient
     /**
      * @param int   $tagId
      * @param array $userList
+     *
+     * @return mixed
+     */
+    public function tagUsers(int $tagId, array $userList = [])
+    {
+        return $this->tagOrUntagUsers('tag/addtagusers', $tagId, $userList);
+    }
+
+    /**
+     * @param int   $tagId
      * @param array $partyList
      *
      * @return mixed
      */
-    public function tagUsers(int $tagId, array $userList = [], array $partyList = [])
+    public function tagDepartments(int $tagId, array $partyList = [])
     {
-        return $this->tagOrUntagUsers('tag/addtagusers', $tagId, $userList, $partyList);
+        return $this->tagOrUntagUsers('tag/addtagusers', $tagId, [], $partyList);
     }
 
     /**
      * @param $tagId
      * @param array $userList
+     *
+     * @return mixed
+     */
+    public function untagUsers(int $tagId, array $userList = [])
+    {
+        return $this->tagOrUntagUsers('tag/deltagusers', $tagId, $userList);
+    }
+
+    /**
+     * @param $tagId
      * @param array $partyList
      *
      * @return mixed
      */
-    public function untagUsers(int $tagId, array $userList = [], array $partyList = [])
+    public function untagDepartments(int $tagId, array $partyList = [])
     {
-        return $this->tagOrUntagUsers('tag/deltagusers', $tagId, $userList, $partyList);
+        return $this->tagOrUntagUsers('tag/deltagusers', $tagId, [], $partyList);
     }
 
     /**
@@ -110,7 +130,7 @@ class TagClient extends BaseClient
      *
      * @return mixed
      */
-    protected function tagOrUntagUsers(string $endpoint, int $tagId, array $userList, array $partyList)
+    protected function tagOrUntagUsers(string $endpoint, int $tagId, array $userList = [], array $partyList = [])
     {
         $data = [
             'tagid' => $tagId,

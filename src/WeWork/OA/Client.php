@@ -51,7 +51,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function approvalRecords(int $startTime, int $endTime, int $nextNumber)
+    public function approvalRecords(int $startTime, int $endTime, int $nextNumber = null)
     {
         $params = [
             'starttime' => $startTime,

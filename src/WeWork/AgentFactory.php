@@ -18,6 +18,8 @@ use EasyWeChat\Kernel\Support\Arr;
  * Class AgentFactory.
  *
  * @property \EasyWeChat\WeWork\Agent\Client $agent
+ * @property \EasyWeChat\WeWork\Media\Client $media
+ * @property \EasyWeChat\WeWork\OA\Client    $oa
  *
  * @author overtrue <i@overtrue.me>
  */

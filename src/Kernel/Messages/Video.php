@@ -40,4 +40,15 @@ class Video extends Media
         'media_id',
         'thumb_media_id',
     ];
+
+    /**
+     * Video constructor.
+     *
+     * @param string $mediaId
+     * @param array  $attributes
+     */
+    public function __construct(string $mediaId, array $attributes = [])
+    {
+        parent::__construct($mediaId, 'video', $attributes);
+    }
 }

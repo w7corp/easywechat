@@ -77,10 +77,10 @@ class TagClientTest extends TestCase
         $client->expects()->httpPostJson('tag/addtagusers', [
             'tagid' => 12,
             'userlist' => ['foo', 'bar'],
-            'partylist' => [14, 26],
+            'partylist' => [],
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->tagUsers(12, ['foo', 'bar'], [14, 26]));
+        $this->assertSame('mock-result', $client->tagUsers(12, ['foo', 'bar']));
     }
 
     public function testUntagUsers()
@@ -90,9 +90,35 @@ class TagClientTest extends TestCase
         $client->expects()->httpPostJson('tag/deltagusers', [
             'tagid' => 12,
             'userlist' => ['foo', 'bar'],
+            'partylist' => [],
+        ])->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->untagUsers(12, ['foo', 'bar']));
+    }
+
+    public function testTagDepartments()
+    {
+        $client = $this->mockApiClient(TagClient::class);
+
+        $client->expects()->httpPostJson('tag/addtagusers', [
+            'tagid' => 12,
+            'userlist' => [],
             'partylist' => [14, 26],
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->untagUsers(12, ['foo', 'bar'], [14, 26]));
+        $this->assertSame('mock-result', $client->tagDepartments(12, [14, 26]));
+    }
+
+    public function testUntagDepartments()
+    {
+        $client = $this->mockApiClient(TagClient::class);
+
+        $client->expects()->httpPostJson('tag/deltagusers', [
+            'tagid' => 12,
+            'userlist' => [],
+            'partylist' => [14, 26],
+        ])->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->untagDepartments(12, [14, 26]));
     }
 }

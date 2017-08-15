@@ -22,6 +22,13 @@ use EasyWeChat\Kernel\Support\Arr;
 /**
  * Class Client.
  *
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewTextByName($text, $wxname);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewNewsByName($mediaId, $wxname);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewVoiceByName($mediaId, $wxname);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewImageByName($mediaId, $wxname);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewVideoByName($message, $wxname);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewCardByName($cardId, $wxname);
+ *
  * @author overtrue <i@overtrue.me>
  */
 class Client extends BaseClient
@@ -274,5 +281,28 @@ class Client extends BaseClient
         $message = (new MessageBuilder())->message($message)->to($to)->build();
 
         return $this->send($message);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        if (strpos($method, 'ByName') > 0) {
+            $method = strstr($method, 'ByName', true);
+
+            if (method_exists($this, $method)) {
+                array_push($args, self::PREVIEW_BY_NAME);
+
+                return $this->$method(...$args);
+            }
+        }
+
+        throw new \BadMethodCallException(sprintf('Method %s not exists.', $method));
     }
 }

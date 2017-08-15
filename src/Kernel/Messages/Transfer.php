@@ -34,4 +34,16 @@ class Transfer extends Message
     protected $properties = [
         'account',
     ];
+
+    /**
+     * Transfer constructor.
+     *
+     * @param string|null $account
+     */
+    public function __construct($account = null)
+    {
+        if ($account) {
+            $this->account = $account;
+        }
+    }
 }

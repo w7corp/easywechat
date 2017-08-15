@@ -30,7 +30,7 @@ class ServiceProvider implements ServiceProviderInterface
             return new Client($app);
         };
 
-        $app['user_tag'] = function ($app) {
+        $app['tag'] = function ($app) {
             return new TagClient($app);
         };
     }

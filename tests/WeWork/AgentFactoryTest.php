@@ -72,4 +72,47 @@ class AgentFactoryTest extends TestCase
 
         $this->assertInstanceOf(Client::class, $app->agent);
     }
+
+    public function testDefaultAgent()
+    {
+        $factory = new AgentFactory([
+            'corp_id' => 'mock-corp-id',
+            'agents' => [
+                'foo' => [
+                    'agend_id' => 123,
+                    'secret' => 'aabb',
+                ],
+                'bar' => [
+                    'agend_id' => 124,
+                    'secret' => 'aabb',
+                ],
+            ],
+        ], ['foo' => 'bar']);
+
+        $foo = $factory->make('foo');
+
+        $this->assertSame($foo->oa, $factory->oa);
+    }
+
+    public function testDefaultAgentWithConfiguredName()
+    {
+        $factory = new AgentFactory([
+            'corp_id' => 'mock-corp-id',
+            'default_agent' => 'bar',
+            'agents' => [
+                'foo' => [
+                    'agend_id' => 123,
+                    'secret' => 'aabb',
+                ],
+                'bar' => [
+                    'agend_id' => 124,
+                    'secret' => 'aabb',
+                ],
+            ],
+        ], ['foo' => 'bar']);
+
+        $bar = $factory->make('bar');
+
+        $this->assertSame($bar->oa, $factory->oa);
+    }
 }
