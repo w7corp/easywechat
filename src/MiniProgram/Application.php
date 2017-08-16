@@ -18,6 +18,16 @@ use EasyWeChat\Kernel\ServiceContainer;
  * Class Application.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
+ *
+ * @property \EasyWeChat\MiniProgram\Auth\AccessToken            $access_token
+ * @property \EasyWeChat\MiniProgram\DataCube\Client             $data_cube
+ * @property \EasyWeChat\MiniProgram\AppCode\Client              $app_code
+ * @property \EasyWeChat\MiniProgram\Sns\Client                  $sns
+ * @property \EasyWeChat\OfficialAccount\Server\Guard            $server
+ * @property \EasyWeChat\MiniProgram\Encryptor                   $encryptor
+ * @property \EasyWeChat\MiniProgram\TemplateMessage\Client      $template_message
+ * @property \EasyWeChat\OfficialAccount\CustomerService\Client  $customer_service
+ * @property \EasyWeChat\BasicService\Media\Client               $media
  */
 class Application extends ServiceContainer
 {

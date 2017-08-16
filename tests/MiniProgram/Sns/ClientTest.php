@@ -28,6 +28,6 @@ class ClientTest extends TestCase
             'grant_type' => 'authorization_code',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->getSessionKey('js-code'));
+        $this->assertSame('mock-result', $client->session('js-code'));
     }
 }

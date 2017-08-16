@@ -79,13 +79,13 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->weeklyRetainInfo('2017-08-02', '2017-08-10'));
     }
 
-    public function testMontylyRetainInfo()
+    public function testMonthlyRetainInfo()
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
         $client->expects()->query('datacube/getweanalysisappidmonthlyretaininfo', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->montylyRetainInfo('2017-08-02', '2017-08-10'));
+        $this->assertSame('mock-result', $client->monthlyRetainInfo('2017-08-02', '2017-08-10'));
     }
 
     public function testVisitPage()

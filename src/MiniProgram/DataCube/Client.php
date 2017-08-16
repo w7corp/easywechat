@@ -119,7 +119,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function montylyRetainInfo($from, $to)
+    public function monthlyRetainInfo($from, $to)
     {
         return $this->query('datacube/getweanalysisappidmonthlyretaininfo', $from, $to);
     }

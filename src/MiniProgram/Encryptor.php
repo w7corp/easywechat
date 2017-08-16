@@ -31,9 +31,9 @@ class Encryptor extends BaseEncryptor
      *
      * @return array
      *
-     * @throws EncryptionException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function decryptData($sessionKey, $iv, $encrypted)
+    public function decryptData(string $sessionKey, string $iv, string $encrypted): array
     {
         $decrypted = AES::decrypt(
             base64_decode($encrypted, true),
@@ -42,7 +42,7 @@ class Encryptor extends BaseEncryptor
             OPENSSL_NO_PADDING
         );
 
-        $result = $this->pkcs7Unpad($decrypted, $this->blockSize);
+        $result = $this->pkcs7Unpad($decrypted);
         $content = json_decode($result, true);
 
         if ($content['watermark']['appid'] !== $this->appId) {
