@@ -142,6 +142,12 @@ class ServerGuard
                 $this->app['request']->get('timestamp')
             );
 
+            // Handle JSON format.
+            $dataSet = json_decode($message, true);
+            if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
+                return $dataSet;
+            }
+
             return XML::parse($message);
         }
 
@@ -304,10 +310,8 @@ class ServerGuard
             if (stripos($content, '<') === 0) {
                 $content = XML::parse($content);
             } else {
-                // For mini-program JSON formats.
-                // Convert to XML if the given string can be decode into a data array.
+                // Handle JSON format.
                 $dataSet = json_decode($content, true);
-
                 if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
                     $content = $dataSet;
                 }
