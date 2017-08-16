@@ -11,7 +11,9 @@
 
 namespace EasyWeChat\MiniProgram\Server;
 
-use EasyWeChat\MiniProgram\Encryption\Encryptor;
+use EasyWeChat\MiniProgram\Encryptor;
+use EasyWeChat\OfficialAccount\Server\Guard;
+use EasyWeChat\OfficialAccount\Server\Handlers\EchoStrHandler;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -31,7 +33,10 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         !isset($app['server']) && $app['server'] = function ($app) {
-            return (new Guard($app))->debug($app['config']['debug']);
+            $guard = new Guard($app);
+            $guard->push(new EchoStrHandler($app));
+
+            return $guard;
         };
     }
 }

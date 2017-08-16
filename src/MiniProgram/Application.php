@@ -31,6 +31,7 @@ class Application extends ServiceContainer
         Sns\ServiceProvider::class,
         Server\ServiceProvider::class,
         TemplateMessage\ServiceProvider::class,
+        CustomerService\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
     ];
