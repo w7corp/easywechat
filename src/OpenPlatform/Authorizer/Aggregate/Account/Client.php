@@ -28,14 +28,12 @@ class Client extends BaseClient
     /**
      * 创建开放平台帐号并绑定公众号/小程序.
      *
-     * @param string $appId 授权公众号或小程序的appid
-     *
      * @return mixed
      */
-    public function create(string $appId)
+    public function create()
     {
         $params = [
-            'appid' => $appId,
+            'appid' => $this->app['config']['app_id'],
         ];
 
         return $this->httpPostJson('create', $params);
@@ -44,15 +42,14 @@ class Client extends BaseClient
     /**
      * 将公众号/小程序绑定到开放平台帐号下.
      *
-     * @param string $appId     授权公众号或小程序的appid
      * @param string $openAppId 开放平台帐号appid
      *
      * @return mixed
      */
-    public function bind(string $appId, string $openAppId)
+    public function bindTo(string $openAppId)
     {
         $params = [
-            'appid' => $appId,
+            'appid' => $this->app['config']['app_id'],
             'open_appid' => $openAppId,
         ];
 
@@ -62,15 +59,14 @@ class Client extends BaseClient
     /**
      * 将公众号/小程序从开放平台帐号下解绑.
      *
-     * @param string $appId     授权公众号或小程序的appid
      * @param string $openAppId 开放平台帐号appid
      *
      * @return mixed
      */
-    public function unbind(string $appId, string $openAppId)
+    public function unbindFrom(string $openAppId)
     {
         $params = [
-            'appid' => $appId,
+            'appid' => $this->app['config']['app_id'],
             'open_appid' => $openAppId,
         ];
 
@@ -80,14 +76,12 @@ class Client extends BaseClient
     /**
      * 获取公众号/小程序所绑定的开放平台帐号.
      *
-     * @param string $appId 授权公众号或小程序的appid
-     *
      * @return mixed
      */
-    public function getBinding(string $appId)
+    public function getBinding()
     {
         $params = [
-            'appid' => $appId,
+            'appid' => $this->app['config']['app_id'],
         ];
 
         return $this->httpPostJson('get', $params);
