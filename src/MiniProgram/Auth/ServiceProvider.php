@@ -24,5 +24,9 @@ class ServiceProvider implements ServiceProviderInterface
         !isset($app['access_token']) && $app['access_token'] = function ($app) {
             return new AccessToken($app);
         };
+
+        $app['auth'] = function ($app) {
+            return new Auth($app);
+        };
     }
 }
