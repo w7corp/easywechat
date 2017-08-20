@@ -169,7 +169,7 @@ class BaseClient
      * @param string $method
      * @param array  $options
      *
-     * @return ResponseInterface
+     * @return \EasyWeChat\Kernel\Http\Response
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {

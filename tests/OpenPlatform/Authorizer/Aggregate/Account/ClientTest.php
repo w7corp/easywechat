@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Authorizer\Aggregate\Account;
 
+use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client;
 use EasyWeChat\Tests\TestCase;
 
@@ -18,33 +19,33 @@ class ClientTest extends TestCase
 {
     public function testCreate()
     {
-        $client = $this->mockApiClient(Client::class);
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
         $client->expects()->httpPostJson('create', ['appid' => 'app-id'])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->create('app-id'));
+        $this->assertSame('mock-result', $client->create());
     }
 
-    public function testBind()
+    public function testBindTo()
     {
-        $client = $this->mockApiClient(Client::class);
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
         $client->expects()->httpPostJson('bind', ['appid' => 'app-id', 'open_appid' => 'open-app-id'])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->bind('app-id', 'open-app-id'));
+        $this->assertSame('mock-result', $client->bindTo('open-app-id'));
     }
 
-    public function testUnbind()
+    public function testUnbindFrom()
     {
-        $client = $this->mockApiClient(Client::class);
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
         $client->expects()->httpPostJson('unbind', ['appid' => 'app-id', 'open_appid' => 'open-app-id'])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->unbind('app-id', 'open-app-id'));
+        $this->assertSame('mock-result', $client->unbindFrom('open-app-id'));
     }
 
     public function testGetBinding()
     {
-        $client = $this->mockApiClient(Client::class);
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
         $client->expects()->httpPostJson('get', ['appid' => 'app-id'])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->getBinding('app-id'));
+        $this->assertSame('mock-result', $client->getBinding());
     }
 }

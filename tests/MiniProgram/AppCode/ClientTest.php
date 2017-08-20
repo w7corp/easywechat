@@ -22,9 +22,7 @@ class ClientTest extends TestCase
     {
         parent::setUp();
 
-        $this->mockStream = \Mockery::mock(\Psr\Http\Message\StreamInterface::class, function ($mock) {
-            $mock->expects()->getBody()->andReturn('mock-body');
-        });
+        $this->mockStream = \Mockery::mock(\EasyWeChat\Kernel\Http\Response::class);
     }
 
     public function testGetAppCode()
@@ -33,12 +31,12 @@ class ClientTest extends TestCase
 
         $client->expects()->requestRaw('wxa/getwxacode', 'POST', ['json' => [
             'path' => 'foo-path',
-            'width' => 430,
-            'auto_color' => false,
-            'line_color' => ['r' => 0, 'g' => 0, 'b' => 0],
+            'width' => null,
+            'auto_color' => null,
+            'line_color' => null,
         ]])->andReturn($this->mockStream)->once();
 
-        $this->assertSame('mock-body', $client->getAppCode('foo-path'));
+        $this->assertInstanceOf(\EasyWeChat\Kernel\Http\Response::class, $client->get('foo-path'));
     }
 
     public function testGetAppCodeUnlimit()
@@ -47,12 +45,13 @@ class ClientTest extends TestCase
 
         $client->expects()->requestRaw('wxa/getwxacodeunlimit', 'POST', ['json' => [
             'scene' => 'scene',
-            'width' => 430,
-            'auto_color' => false,
-            'line_color' => ['r' => 0, 'g' => 0, 'b' => 0],
+            'page' => null,
+            'width' => null,
+            'auto_color' => null,
+            'line_color' => null,
         ]])->andReturn($this->mockStream)->once();
 
-        $this->assertSame('mock-body', $client->getAppCodeUnlimit('scene'));
+        $this->assertInstanceOf(\EasyWeChat\Kernel\Http\Response::class, $client->getUnlimit('scene'));
     }
 
     public function testCreateQrCode()
@@ -61,9 +60,9 @@ class ClientTest extends TestCase
 
         $client->expects()->requestRaw('cgi-bin/wxaapp/createwxaqrcode', 'POST', ['json' => [
             'path' => 'foo-path',
-            'width' => 430,
+            'width' => null,
         ]])->andReturn($this->mockStream)->once();
 
-        $this->assertSame('mock-body', $client->createQrCode('foo-path'));
+        $this->assertInstanceOf(\EasyWeChat\Kernel\Http\Response::class, $client->qrcode('foo-path'));
     }
 }
