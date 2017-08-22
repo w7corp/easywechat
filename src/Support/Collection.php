@@ -355,7 +355,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      */
     public static function __set_state(array $array = [])
     {
-        return (new static)->all();
+        return (new static())->all();
     }
 
     /**
