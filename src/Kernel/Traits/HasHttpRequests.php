@@ -141,6 +141,8 @@ trait HasHttpRequests
 
         $options = array_merge(self::$defaults, $options, ['handler' => $this->getHandlerStack()]);
 
+        $options = $this->fixJsonEmptyArrayIssue($options);
+
         if (!empty($this->baseUri)) {
             $options['base_uri'] = $this->baseUri;
         }
@@ -226,5 +228,21 @@ trait HasHttpRequests
         }
 
         return $this->resolveResponse($response, $type);
+    }
+
+    /**
+     * @param array $options
+     *
+     * @return array
+     */
+    protected function fixJsonEmptyArrayIssue(array $options)
+    {
+        if (isset($options['json']) && is_array($options['json']) && empty($options['json'])) {
+            $options['headers'] = array_merge($options['headers'] ?? [], ['Content-Type' => 'application/json']);
+            $options['body'] = \GuzzleHttp\json_encode($options['json'], JSON_FORCE_OBJECT);
+            unset($options['json']);
+        }
+
+        return $options;
     }
 }

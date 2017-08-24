@@ -164,6 +164,35 @@ class HasHttpRequestsTest extends TestCase
         $response = json_decode(json_encode(['foo' => 'bar']));
         $this->assertSame(['foo' => 'bar'], $cls->transformResponseToType($response, 'array'));
     }
+
+    public function testEmptyArrayJsonIssue()
+    {
+        $cls = \Mockery::mock(DummnyClassForHasHttpRequestTest::class.'[getHandlerStack]');
+        $handlerStack = \Mockery::mock(HandlerStack::class);
+        $cls->allows()->getHandlerStack()->andReturn($handlerStack);
+
+        $client = \Mockery::mock(Client::class);
+        $cls->setHttpClient($client);
+
+        $response = new Response(200, [], 'mock-result');
+
+        // default arguments
+        $client->expects()->request('POST', 'foo/bar', [
+            'curl' => [
+                CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+            ],
+            'handler' => $handlerStack,
+            'body' => '{}',
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'base_uri' => 'http://easywechat.com',
+        ])->andReturn($response)->once();
+
+        $this->assertSame($response, $cls->request('foo/bar', 'POST', [
+            'json' => [],
+        ]));
+    }
 }
 
 class DummyResponseClassForHasHttpRequestTest
