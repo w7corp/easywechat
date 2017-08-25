@@ -89,12 +89,17 @@ class BaseClient
      * @param string       $url
      * @param string|array $data
      * @param array        $query
+     * @param int          $options JSON encode option bitmask
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function httpPostJson(string $url, array $data = [], array $query = [])
+    public function httpPostJson(string $url, array $data = [], array $query = [], $options = JSON_UNESCAPED_UNICODE)
     {
-        return $this->request($url, 'POST', ['query' => $query, 'json' => $data]);
+        return $this->request($url, 'POST', [
+            'headers' => ['Content-Type' => 'application/json'],
+            'query' => $query,
+            'body' => json_encode($data, $options),
+        ]);
     }
 
     /**
