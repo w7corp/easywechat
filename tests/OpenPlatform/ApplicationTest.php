@@ -57,6 +57,7 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf('EasyWeChat\OfficialAccount\Application', $officialAccount);
         $this->assertInstanceOf(AuthorizerAccessToken::class, $officialAccount['access_token']);
+        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Server\Guard::class, $officialAccount['server']);
         $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client::class, $officialAccount['account']);
 
         $this->assertArraySubset([
@@ -92,7 +93,7 @@ class ApplicationTest extends TestCase
     {
         $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
         $app['base'] = new class() {
-            function dummyMethod()
+            public function dummyMethod()
             {
                 return 'mock-result';
             }

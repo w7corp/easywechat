@@ -23,12 +23,12 @@ class Client extends BaseClient
     /**
      * Open article comment.
      *
-     * @param string $msgId
-     * @param int    $index
+     * @param string   $msgId
+     * @param int|null $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function open(string $msgId, int $index)
+    public function open(string $msgId, int $index = null)
     {
         $params = [
             'msg_data_id' => $msgId,
@@ -41,12 +41,12 @@ class Client extends BaseClient
     /**
      * Close comment.
      *
-     * @param string $msgId
-     * @param int    $index
+     * @param string   $msgId
+     * @param int|null $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function close(string $msgId, int $index)
+    public function close(string $msgId, int $index = null)
     {
         $params = [
             'msg_data_id' => $msgId,
