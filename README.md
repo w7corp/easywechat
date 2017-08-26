@@ -31,7 +31,7 @@
 </p>
 
 <p align="center">
-<img width="400" src="http://wx1.sinaimg.cn/mw690/82b94fb4gy1fgwafq32r0j20nw0nwter.jpg">
+<img width="200" src="http://wx1.sinaimg.cn/mw690/82b94fb4gy1fgwafq32r0j20nw0nwter.jpg">
 </p>
 
 <p align="center">关注我的公众号我们一起聊聊代码怎么样？</p>
@@ -48,7 +48,7 @@
 
 ## Requirement
 
-1. PHP >= 5.5.9
+1. PHP >= 7.0
 2. **[composer](https://getcomposer.org/)**
 3. openssl 拓展
 4. fileinfo 拓展（素材管理模块需要用到）
@@ -58,7 +58,7 @@
 ## Installation
 
 ```shell
-composer require "overtrue/wechat:~3.1" -vvv
+composer require "overtrue/wechat:~4.0" -vvv
 ```
 
 ## Usage
@@ -68,12 +68,11 @@ composer require "overtrue/wechat:~3.1" -vvv
 ```php
 <?php
 
-use EasyWeChat\Application;
+use EasyWeChat\Factory;
 
 $options = [
-    'debug'     => true,
-    'app_id'    => 'wx3cf0f39249eb0e60',
-    'secret'    => 'f1c242f4f28f735d4687abb469072a29',
+    'app_id'    => 'wx3cf0f39249eb0exxx',
+    'secret'    => 'f1c242f4f28f735d4687abb469072xxx',
     'token'     => 'easywechat',
     'log' => [
         'level' => 'debug',
@@ -82,13 +81,13 @@ $options = [
     // ...
 ];
 
-$app = new Application($options);
+$app = Factory::officialAccount($options);
 
 $server = $app->server;
 $user = $app->user;
 
-$server->setMessageHandler(function($message) use ($user) {
-    $fromUser = $user->get($message->FromUserName);
+$server->push(function($message) use ($user) {
+    $fromUser = $user->get($message['FromUserName']);
 
     return "{$fromUser->nickname} 您好！欢迎关注 overtrue!";
 });
@@ -96,7 +95,7 @@ $server->setMessageHandler(function($message) use ($user) {
 $server->serve()->send();
 ```
 
-更多请参考[http://easywechat.org/](http://easywechat.org/)。
+更多请参考[http://easywechat.com/](http://easywechat.com/)。
 
 ## Documentation
 
