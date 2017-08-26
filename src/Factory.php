@@ -28,7 +28,7 @@ class Factory
      * @param string $name
      * @param array  $config
      *
-     * @return \EasyWeChat\Kernel\ServiceContainer
+     * @return \EasyWeChat\Kernel\ServiceContainer|\EasyWeChat\WeWork\AgentFactory
      */
     public static function make($name, array $config)
     {
@@ -45,7 +45,7 @@ class Factory
     /**
      * @param array $config
      *
-     * @return AgentFactory
+     * @return \EasyWeChat\WeWork\AgentFactory
      */
     public static function weWork(array $config)
     {

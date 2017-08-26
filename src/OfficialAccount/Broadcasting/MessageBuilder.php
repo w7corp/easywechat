@@ -27,7 +27,7 @@ class MessageBuilder
     protected $to;
 
     /**
-     * @var Message
+     * @var array|\EasyWeChat\Kernel\Messages\Message
      */
     protected $message;
 
@@ -36,7 +36,7 @@ class MessageBuilder
      *
      * @param array|\EasyWeChat\Kernel\Messages\Message $message
      *
-     * @return \EasyWeChat\OfficialAccount\Broadcasting\MessageBuilder
+     * @return $this
      */
     public function message(Message $message)
     {
@@ -50,7 +50,7 @@ class MessageBuilder
      *
      * @param mixed $to
      *
-     * @return MessageBuilder
+     * @return $this
      */
     public function to($to)
     {
@@ -64,11 +64,11 @@ class MessageBuilder
      *
      * @param array $prepends
      *
-     * @return bool
+     * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function build(array $prepends = [])
+    public function build(array $prepends = []): array
     {
         if (empty($this->message)) {
             throw new RuntimeException('No message content to send.');
@@ -92,7 +92,7 @@ class MessageBuilder
      *
      * @return array
      */
-    public function buildForPreview($by)
+    public function buildForPreview(string $by): array
     {
         return $this->build([$by => $this->to]);
     }
@@ -104,7 +104,7 @@ class MessageBuilder
      *
      * @return array
      */
-    protected function buildGroup($group)
+    protected function buildGroup($group): array
     {
         if (is_null($group)) {
             $group = [
