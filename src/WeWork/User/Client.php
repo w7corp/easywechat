@@ -29,7 +29,7 @@ class Client extends BaseClient
      */
     public function create(array $data)
     {
-        return $this->httpPost('user/create', $data);
+        return $this->httpPostJson('user/create', $data);
     }
 
     /**
@@ -42,7 +42,7 @@ class Client extends BaseClient
      */
     public function update(string $id, array $data)
     {
-        return $this->httpPost('user/update', array_merge(['userid' => $id], $data));
+        return $this->httpPostJson('user/update', array_merge(['userid' => $id], $data));
     }
 
     /**
