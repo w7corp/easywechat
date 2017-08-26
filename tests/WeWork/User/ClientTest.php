@@ -19,14 +19,14 @@ class ClientTest extends TestCase
     public function testCreate()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPost('user/create', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('user/create', ['foo' => 'bar'])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
 
     public function testUpdate()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPost('user/update', ['userid' => 'overtrue', 'foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('user/update', ['userid' => 'overtrue', 'foo' => 'bar'])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->update('overtrue', ['foo' => 'bar']));
     }
 
