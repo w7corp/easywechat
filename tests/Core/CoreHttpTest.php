@@ -79,6 +79,7 @@ namespace EasyWeChat\Tests\Core {
         {
             $http = new Http();
             $http->setClient($this->getGuzzleWithResponse('{"foo:"bar"}'));
+
             try {
                 $http->parseJSON($http->request('http://overtrue.me', 'GET'));
                 $this->assertFail('Invalid json body check fail.');

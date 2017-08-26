@@ -88,6 +88,7 @@ class Notify
         if (!empty($this->notify)) {
             return $this->notify;
         }
+
         try {
             $xml = XML::parse(strval($this->request->getContent()));
         } catch (\Throwable $t) {
