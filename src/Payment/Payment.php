@@ -55,7 +55,7 @@ class Payment
     /**
      * Cache.
      *
-     * @var Cache
+     * @var \Doctrine\Common\Cache\Cache
      */
     protected $cache;
 
