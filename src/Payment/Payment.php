@@ -21,6 +21,7 @@
 
 namespace EasyWeChat\Payment;
 
+use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Core\Exceptions\FaultException;
 use EasyWeChat\Support\Url as UrlHelper;
 use EasyWeChat\Support\XML;
@@ -52,13 +53,22 @@ class Payment
     protected $merchant;
 
     /**
+     * Cache.
+     *
+     * @var Cache
+     */
+    protected $cache;
+
+    /**
      * Constructor.
      *
-     * @param Merchant $merchant
+     * @param \EasyWeChat\Payment\Merchant      $merchant
+     * @param \Doctrine\Common\Cache\Cache|null $cache
      */
-    public function __construct(Merchant $merchant)
+    public function __construct(Merchant $merchant, Cache $cache = null)
     {
         $this->merchant = $merchant;
+        $this->cache = $cache;
     }
 
     /**
@@ -318,7 +328,7 @@ class Payment
      */
     public function getAPI()
     {
-        return $this->api ?: $this->api = new API($this->getMerchant());
+        return $this->api ?: $this->api = new API($this->getMerchant(), $this->cache);
     }
 
     /**
