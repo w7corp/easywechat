@@ -57,9 +57,9 @@ class BaseClientTest extends TestCase
         $client = $this->makeClient('request');
         $url = 'http://easywechat.org';
 
-        $data = ['foo' => 'bar', 'name' => '中文'];
+        $data = ['foo' => 'bar'];
         $query = ['appid' => 1234];
-        $client->expects()->request($url, 'POST', ['headers' => ['Content-Type' => 'application/json'], 'query' => $query, 'body' => '{"foo":"bar","name":"中文"}'])->andReturn('mock-result')->once();
+        $client->expects()->request($url, 'POST', ['query' => $query, 'json' => $data])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->httpPostJson($url, $data, $query));
     }
 
