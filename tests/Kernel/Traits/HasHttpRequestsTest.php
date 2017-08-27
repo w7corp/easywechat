@@ -165,7 +165,7 @@ class HasHttpRequestsTest extends TestCase
         $this->assertSame(['foo' => 'bar'], $cls->transformResponseToType($response, 'array'));
     }
 
-    public function testEmptyArrayJsonIssue()
+    public function testFixJsonIssue()
     {
         $cls = \Mockery::mock(DummnyClassForHasHttpRequestTest::class.'[getHandlerStack]');
         $handlerStack = \Mockery::mock(HandlerStack::class);
@@ -192,6 +192,23 @@ class HasHttpRequestsTest extends TestCase
         $this->assertSame($response, $cls->request('foo/bar', 'POST', [
             'json' => [],
         ]));
+
+        // unescape unicode
+        $client->expects()->request('POST', 'foo/bar', [
+            'curl' => [
+                CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+            ],
+            'handler' => $handlerStack,
+            'body' => '{"name":"中文"}',
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'base_uri' => 'http://easywechat.com',
+        ])->andReturn($response)->once();
+
+        $cls->request('foo/bar', 'POST', [
+            'json' => ['name' => '中文'],
+        ]);
     }
 }
 
