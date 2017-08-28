@@ -21,6 +21,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
  * @property \EasyWeChat\OfficialAccount\Card\CodeClient $code
  * @property \EasyWeChat\OfficialAccount\Card\MeetingTicketClient $meeting_ticket
  * @property \EasyWeChat\OfficialAccount\Card\MemberCardClient $member_card
+ * @property \EasyWeChat\OfficialAccount\Card\GeneralCardClient $general_card
  * @property \EasyWeChat\OfficialAccount\Card\MovieTicketClient $movie_ticket
  * @property \EasyWeChat\OfficialAccount\Card\CoinClient $coin
  * @property \EasyWeChat\OfficialAccount\Card\SubMerchantClient $sub_merchant

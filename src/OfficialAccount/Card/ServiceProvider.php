@@ -54,6 +54,10 @@ class ServiceProvider implements ServiceProviderInterface
             return new MemberCardClient($app);
         };
 
+        $app['card.general_card'] = function ($app) {
+            return new GeneralCardClient($app);
+        };
+
         $app['card.boarding_pass'] = function ($app) {
             return new BoardingPassClient($app);
         };
