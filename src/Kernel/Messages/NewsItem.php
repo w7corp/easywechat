@@ -35,14 +35,15 @@ class NewsItem extends Message
         'image',
     ];
 
-    /**
-     * Aliases of attribute.
-     *
-     * @var array
-     */
-    protected $jsonAliases = [
-        'pic_url' => 'image',
-    ];
+    public function toJsonArray()
+    {
+        return [
+            'title' => $this->get('title'),
+            'description' => $this->get('description'),
+            'url' => $this->get('url'),
+            'picurl' => $this->get('image'),
+        ];
+    }
 
     public function toXmlArray()
     {

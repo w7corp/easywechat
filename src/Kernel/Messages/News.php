@@ -40,13 +40,28 @@ class News extends Message
         parent::__construct(compact('items'));
     }
 
+    /**
+     * @param array $data
+     * @param array $aliases
+     *
+     * @return array
+     */
+    public function propertiesToArray(array $data, array $aliases = []): array
+    {
+        return ['articles' => array_map(function ($item) {
+            if ($item instanceof NewsItem) {
+                return $item->toJsonArray();
+            }
+        }, $this->get('items'))];
+    }
+
     public function toXmlArray()
     {
         $items = [];
 
-        foreach ($this->get('items') as $article) {
-            if ($article instanceof NewsItem) {
-                $items[] = $article->toXmlArray();
+        foreach ($this->get('items') as $item) {
+            if ($item instanceof NewsItem) {
+                $items[] = $item->toXmlArray();
             }
         }
 
