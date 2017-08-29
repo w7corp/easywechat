@@ -38,6 +38,6 @@ class Client extends BaseClient
      */
     public function send(array $message)
     {
-        return $this->httpPostJson('message/send', $message);
+        return $this->httpPostJson('cgi-bin/message/send', $message);
     }
 }

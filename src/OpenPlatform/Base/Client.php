@@ -34,7 +34,7 @@ class Client extends BaseClient
             'authorization_code' => $authCode ?? $this->app['request']->get('auth_code'),
         ];
 
-        return $this->httpPostJson('api_query_auth', $params);
+        return $this->httpPostJson('cgi-bin/component/api_query_auth', $params);
     }
 
     /**
@@ -51,7 +51,7 @@ class Client extends BaseClient
             'authorizer_appid' => $appId,
         ];
 
-        return $this->httpPostJson('api_get_authorizer_info', $params);
+        return $this->httpPostJson('cgi-bin/component/api_get_authorizer_info', $params);
     }
 
     /**
@@ -70,7 +70,7 @@ class Client extends BaseClient
             'option_name' => $name,
         ];
 
-        return $this->httpPostJson('api_get_authorizer_option', $params);
+        return $this->httpPostJson('cgi-bin/component/api_get_authorizer_option', $params);
     }
 
     /**
@@ -91,7 +91,7 @@ class Client extends BaseClient
             'option_value' => $value,
         ];
 
-        return $this->httpPostJson('api_set_authorizer_option', $params);
+        return $this->httpPostJson('cgi-bin/component/api_set_authorizer_option', $params);
     }
 
     /**
@@ -110,7 +110,7 @@ class Client extends BaseClient
             'count' => $count,
         ];
 
-        return $this->httpPostJson('api_get_authorizer_list', $params);
+        return $this->httpPostJson('cgi-bin/component/api_get_authorizer_list', $params);
     }
 
     /**

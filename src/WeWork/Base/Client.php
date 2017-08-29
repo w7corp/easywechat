@@ -27,6 +27,6 @@ class Client extends BaseClient
      */
     public function getCallbackIp()
     {
-        return $this->httpGet('getcallbackip');
+        return $this->httpGet('cgi-bin/getcallbackip');
     }
 }

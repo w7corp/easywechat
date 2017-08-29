@@ -36,7 +36,7 @@ class Client extends BaseClient
             'appid' => $this->app['config']['app_id'],
         ];
 
-        return $this->httpPostJson('create', $params);
+        return $this->httpPostJson('cgi-bin/component/create', $params);
     }
 
     /**
@@ -53,7 +53,7 @@ class Client extends BaseClient
             'open_appid' => $openAppId,
         ];
 
-        return $this->httpPostJson('bind', $params);
+        return $this->httpPostJson('cgi-bin/component/bind', $params);
     }
 
     /**
@@ -70,7 +70,7 @@ class Client extends BaseClient
             'open_appid' => $openAppId,
         ];
 
-        return $this->httpPostJson('unbind', $params);
+        return $this->httpPostJson('cgi-bin/component/unbind', $params);
     }
 
     /**
@@ -84,6 +84,6 @@ class Client extends BaseClient
             'appid' => $this->app['config']['app_id'],
         ];
 
-        return $this->httpPostJson('get', $params);
+        return $this->httpPostJson('cgi-bin/component/get', $params);
     }
 }

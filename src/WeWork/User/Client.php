@@ -29,7 +29,7 @@ class Client extends BaseClient
      */
     public function create(array $data)
     {
-        return $this->httpPostJson('user/create', $data);
+        return $this->httpPostJson('cgi-bin/user/create', $data);
     }
 
     /**
@@ -42,7 +42,7 @@ class Client extends BaseClient
      */
     public function update(string $id, array $data)
     {
-        return $this->httpPostJson('user/update', array_merge(['userid' => $id], $data));
+        return $this->httpPostJson('cgi-bin/user/update', array_merge(['userid' => $id], $data));
     }
 
     /**
@@ -58,7 +58,7 @@ class Client extends BaseClient
             return $this->batchDelete($userId);
         }
 
-        return $this->httpGet('user/delete', ['userid' => $userId]);
+        return $this->httpGet('cgi-bin/user/delete', ['userid' => $userId]);
     }
 
     /**
@@ -70,7 +70,7 @@ class Client extends BaseClient
      */
     public function batchDelete(array $userIds)
     {
-        return $this->httpPost('user/batchdelete', ['useridlist' => $userIds]);
+        return $this->httpPost('cgi-bin/user/batchdelete', ['useridlist' => $userIds]);
     }
 
     /**
@@ -82,7 +82,7 @@ class Client extends BaseClient
      */
     public function get(string $userId)
     {
-        return $this->httpGet('user/get', ['userid' => $userId]);
+        return $this->httpGet('cgi-bin/user/get', ['userid' => $userId]);
     }
 
     /**
@@ -100,7 +100,7 @@ class Client extends BaseClient
             'fetch_child' => (int) $fetchChild,
         ];
 
-        return $this->httpGet('user/simplelist', $params);
+        return $this->httpGet('cgi-bin/user/simplelist', $params);
     }
 
     /**
@@ -118,7 +118,7 @@ class Client extends BaseClient
             'fetch_child' => (int) $fetchChild,
         ];
 
-        return $this->httpGet('user/list', $params);
+        return $this->httpGet('cgi-bin/user/list', $params);
     }
 
     /**
@@ -136,7 +136,7 @@ class Client extends BaseClient
             'agentid' => $agentId,
         ];
 
-        return $this->httpPostJson('user/convert_to_openid', $params);
+        return $this->httpPostJson('cgi-bin/user/convert_to_openid', $params);
     }
 
     /**
@@ -152,7 +152,7 @@ class Client extends BaseClient
             'openid' => $openid,
         ];
 
-        return $this->httpPostJson('user/convert_to_userid', $params);
+        return $this->httpPostJson('cgi-bin/user/convert_to_userid', $params);
     }
 
     /**
@@ -166,6 +166,6 @@ class Client extends BaseClient
             'userid' => $userId,
         ];
 
-        return $this->httpGet('user/authsucc', $params);
+        return $this->httpGet('cgi-bin/user/authsucc', $params);
     }
 }

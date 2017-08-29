@@ -49,7 +49,7 @@ class Application extends ServiceContainer
     protected $defaultConfig = [
         'http' => [
             'timeout' => 5.0,
-            'base_uri' => 'https://api.weixin.qq.com/cgi-bin/component/',
+            'base_uri' => 'https://api.weixin.qq.com/',
         ],
     ];
 

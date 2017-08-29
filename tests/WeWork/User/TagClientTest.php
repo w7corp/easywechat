@@ -20,11 +20,11 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpPostJson('tag/create', ['tagname' => '粉丝', 'tagid' => null])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/tag/create', ['tagname' => '粉丝', 'tagid' => null])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->create('粉丝'));
 
         // with id
-        $client->expects()->httpPostJson('tag/create', ['tagname' => '粉丝', 'tagid' => 1])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/tag/create', ['tagname' => '粉丝', 'tagid' => 1])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->create('粉丝', 1));
     }
 
@@ -32,7 +32,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpGet('tag/list')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/tag/list')->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->list());
     }
 
@@ -40,7 +40,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpPostJson('tag/update', [
+        $client->expects()->httpPostJson('cgi-bin/tag/update', [
             'tagid' => 12,
             'tagname' => '粉丝',
         ])->andReturn('mock-result')->once();
@@ -52,7 +52,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpGet('tag/delete', [
+        $client->expects()->httpGet('cgi-bin/tag/delete', [
             'tagid' => 12,
         ])->andReturn('mock-result')->once();
 
@@ -63,7 +63,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpGet('tag/get', [
+        $client->expects()->httpGet('cgi-bin/tag/get', [
             'tagid' => 12,
         ])->andReturn('mock-result')->once();
 
@@ -74,7 +74,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpPostJson('tag/addtagusers', [
+        $client->expects()->httpPostJson('cgi-bin/tag/addtagusers', [
             'tagid' => 12,
             'userlist' => ['foo', 'bar'],
             'partylist' => [],
@@ -87,7 +87,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpPostJson('tag/deltagusers', [
+        $client->expects()->httpPostJson('cgi-bin/tag/deltagusers', [
             'tagid' => 12,
             'userlist' => ['foo', 'bar'],
             'partylist' => [],
@@ -100,7 +100,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpPostJson('tag/addtagusers', [
+        $client->expects()->httpPostJson('cgi-bin/tag/addtagusers', [
             'tagid' => 12,
             'userlist' => [],
             'partylist' => [14, 26],
@@ -113,7 +113,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpPostJson('tag/deltagusers', [
+        $client->expects()->httpPostJson('cgi-bin/tag/deltagusers', [
             'tagid' => 12,
             'userlist' => [],
             'partylist' => [14, 26],

@@ -39,7 +39,7 @@ class Client extends BaseClient
             'useridlist' => $userList,
         ];
 
-        return $this->httpPostJson('checkin/getcheckindata', $params);
+        return $this->httpPostJson('cgi-bin/checkin/getcheckindata', $params);
     }
 
     /**
@@ -59,6 +59,6 @@ class Client extends BaseClient
             'next_spnum' => $nextNumber,
         ];
 
-        return $this->httpPostJson('corp/getapprovaldata', $params);
+        return $this->httpPostJson('cgi-bin/corp/getapprovaldata', $params);
     }
 }

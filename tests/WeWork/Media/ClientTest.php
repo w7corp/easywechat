@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     public function testGet()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('media/get', ['media_id' => 'mock-media-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/media/get', ['media_id' => 'mock-media-id'])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->get('mock-media-id'));
     }
 
@@ -58,7 +58,7 @@ class ClientTest extends TestCase
     public function testUpload()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpUpload('media/upload', [
+        $client->expects()->httpUpload('cgi-bin/media/upload', [
             'media' => '/foo/bar/voice.mp3',
         ], [], ['type' => 'voice'])->andReturn('mock-result');
 

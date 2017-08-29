@@ -28,7 +28,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('message/send', ['foo' => 'bar'])->andReturn('mock-result');
+        $client->expects()->httpPostJson('cgi-bin/message/send', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->send(['foo' => 'bar']));
     }

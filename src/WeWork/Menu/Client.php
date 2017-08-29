@@ -27,7 +27,7 @@ class Client extends BaseClient
      */
     public function get()
     {
-        return $this->httpGet('menu/get', ['agentid' => $this->app['config']['agent_id']]);
+        return $this->httpGet('cgi-bin/menu/get', ['agentid' => $this->app['config']['agent_id']]);
     }
 
     /**
@@ -39,7 +39,7 @@ class Client extends BaseClient
      */
     public function create(array $data)
     {
-        return $this->httpPostJson('menu/create', $data, ['agentid' => $this->app['config']['agent_id']]);
+        return $this->httpPostJson('cgi-bin/menu/create', $data, ['agentid' => $this->app['config']['agent_id']]);
     }
 
     /**
@@ -49,6 +49,6 @@ class Client extends BaseClient
      */
     public function delete()
     {
-        return $this->httpGet('menu/delete', ['agentid' => $this->app['config']['agent_id']]);
+        return $this->httpGet('cgi-bin/menu/delete', ['agentid' => $this->app['config']['agent_id']]);
     }
 }

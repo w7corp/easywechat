@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     public function testCheckinRecords()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('checkin/getcheckindata', [
+        $client->expects()->httpPostJson('cgi-bin/checkin/getcheckindata', [
             'opencheckindatatype' => 3,
             'starttime' => 1408272000,
             'endtime' => 1408274000,
@@ -32,7 +32,7 @@ class ClientTest extends TestCase
     public function testApprovalRecords()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('corp/getapprovaldata', [
+        $client->expects()->httpPostJson('cgi-bin/corp/getapprovaldata', [
             'starttime' => 1408272000,
             'endtime' => 1408274000,
             'next_spnum' => 12,

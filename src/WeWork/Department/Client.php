@@ -29,7 +29,7 @@ class Client extends BaseClient
      */
     public function create(array $data)
     {
-        return $this->httpPostJson('department/create', $data);
+        return $this->httpPostJson('cgi-bin/department/create', $data);
     }
 
     /**
@@ -42,7 +42,7 @@ class Client extends BaseClient
      */
     public function update(int $id, array $data)
     {
-        return $this->httpPostJson('department/update', array_merge(compact('id'), $data));
+        return $this->httpPostJson('cgi-bin/department/update', array_merge(compact('id'), $data));
     }
 
     /**
@@ -54,7 +54,7 @@ class Client extends BaseClient
      */
     public function delete($id)
     {
-        return $this->httpGet('department/delete', compact('id'));
+        return $this->httpGet('cgi-bin/department/delete', compact('id'));
     }
 
     /**
@@ -66,6 +66,6 @@ class Client extends BaseClient
      */
     public function list($id = null)
     {
-        return $this->httpGet('department/list', compact('id'));
+        return $this->httpGet('cgi-bin/department/list', compact('id'));
     }
 }

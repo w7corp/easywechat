@@ -23,7 +23,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
 
-        $client->expects()->httpPostJson('api_query_auth', [
+        $client->expects()->httpPostJson('cgi-bin/component/api_query_auth', [
             'component_appid' => '123456',
             'authorization_code' => 'auth-code',
         ])->andReturn('mock-result')->once();
@@ -35,7 +35,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456'], ['request' => new Request(['auth_code' => 'auth-code-from-request'])]));
 
-        $client->expects()->httpPostJson('api_query_auth', [
+        $client->expects()->httpPostJson('cgi-bin/component/api_query_auth', [
             'component_appid' => '123456',
             'authorization_code' => 'auth-code-from-request',
         ])->andReturn('mock-result')->once();
@@ -47,7 +47,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
 
-        $client->expects()->httpPostJson('api_get_authorizer_info', [
+        $client->expects()->httpPostJson('cgi-bin/component/api_get_authorizer_info', [
             'component_appid' => '123456',
             'authorizer_appid' => '654321',
         ])->andReturn('mock-result')->once();
@@ -59,7 +59,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
 
-        $client->expects()->httpPostJson('api_get_authorizer_option', [
+        $client->expects()->httpPostJson('cgi-bin/component/api_get_authorizer_option', [
             'component_appid' => '123456',
             'authorizer_appid' => '654321',
             'option_name' => 'foobar',
@@ -72,7 +72,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
 
-        $client->expects()->httpPostJson('api_set_authorizer_option', [
+        $client->expects()->httpPostJson('cgi-bin/component/api_set_authorizer_option', [
             'component_appid' => '123456',
             'authorizer_appid' => '654321',
             'option_name' => 'foobar',
@@ -86,7 +86,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
 
-        $client->expects()->httpPostJson('api_get_authorizer_list', [
+        $client->expects()->httpPostJson('cgi-bin/component/api_get_authorizer_list', [
             'component_appid' => '123456',
             'offset' => '0',
             'count' => '500',
@@ -94,7 +94,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->getAuthorizers());
 
-        $client->expects()->httpPostJson('api_get_authorizer_list', [
+        $client->expects()->httpPostJson('cgi-bin/component/api_get_authorizer_list', [
             'component_appid' => '123456',
             'offset' => '20',
             'count' => '100',

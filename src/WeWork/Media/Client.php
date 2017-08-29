@@ -29,7 +29,7 @@ class Client extends BaseClient
      */
     public function get(string $mediaId)
     {
-        return $this->httpGet('media/get', ['media_id' => $mediaId]);
+        return $this->httpGet('cgi-bin/media/get', ['media_id' => $mediaId]);
     }
 
     /**
@@ -94,6 +94,6 @@ class Client extends BaseClient
             'media' => $path,
         ];
 
-        return $this->httpUpload('media/upload', $files, [], compact('type'));
+        return $this->httpUpload('cgi-bin/media/upload', $files, [], compact('type'));
     }
 }

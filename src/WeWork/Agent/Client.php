@@ -33,7 +33,7 @@ class Client extends BaseClient
             'agentid' => $agentId,
         ];
 
-        return $this->httpGet('agent/get', $params);
+        return $this->httpGet('cgi-bin/agent/get', $params);
     }
 
     /**
@@ -46,7 +46,7 @@ class Client extends BaseClient
      */
     public function set(int $agentId, array $attributes)
     {
-        return $this->httpPostJson('agent/set', array_merge(['agentid' => $agentId], $attributes));
+        return $this->httpPostJson('cgi-bin/agent/set', array_merge(['agentid' => $agentId], $attributes));
     }
 
     /**
@@ -56,6 +56,6 @@ class Client extends BaseClient
      */
     public function list()
     {
-        return $this->httpGet('agent/list');
+        return $this->httpGet('cgi-bin/agent/list');
     }
 }

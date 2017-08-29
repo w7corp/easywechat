@@ -63,7 +63,7 @@ class Application extends ServiceContainer
     protected $defaultConfig = [
         // http://docs.guzzlephp.org/en/stable/request-options.html
         'http' => [
-            'base_uri' => 'https://qyapi.weixin.qq.com/cgi-bin/',
+            'base_uri' => 'https://qyapi.weixin.qq.com/',
         ],
     ];
 
