@@ -23,7 +23,7 @@ class XML
      *
      * @param string $xml XML string
      *
-     * @return array|\SimpleXMLElement
+     * @return array
      */
     public static function parse($xml)
     {

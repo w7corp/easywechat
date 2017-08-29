@@ -11,6 +11,8 @@
 
 namespace EasyWeChat\Kernel\Exceptions;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Class HttpException.
  *
@@ -19,17 +21,18 @@ namespace EasyWeChat\Kernel\Exceptions;
 class HttpException extends Exception
 {
     /**
-     * @var array
+     * @var \Psr\Http\Message\ResponseInterface|null
      */
     public $response;
 
     /**
      * HttpException constructor.
      *
-     * @param string $message
-     * @param int    $response
+     * @param string                                   $message
+     * @param \Psr\Http\Message\ResponseInterface|null $response
+     * @param int|null                                 $code
      */
-    public function __construct($message, $response = null, $code = null)
+    public function __construct($message, ResponseInterface $response = null, $code = null)
     {
         parent::__construct($message, $code);
 

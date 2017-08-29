@@ -258,9 +258,9 @@ class ServerGuard
     /**
      * Build reply XML.
      *
-     * @param string                                                     $to
-     * @param string                                                     $from
-     * @param \EasyWeChat\Kernel\Contracts\MessageInterface|string|array $message
+     * @param string                                              $to
+     * @param string                                              $from
+     * @param \EasyWeChat\Kernel\Contracts\MessageInterface|array $message
      *
      * @return string
      */

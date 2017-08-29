@@ -17,7 +17,6 @@ use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
-use Pimple\Container;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -31,7 +30,7 @@ class BaseClient
     use HasHttpRequests { request as performRequest; }
 
     /**
-     * @var \Pimple\Container
+     * @var \EasyWeChat\Kernel\ServiceContainer
      */
     protected $app;
 
@@ -48,10 +47,10 @@ class BaseClient
     /**
      * BaseClient constructor.
      *
-     * @param \Pimple\Container                                      $app
+     * @param \EasyWeChat\Kernel\ServiceContainer                    $app
      * @param \EasyWeChat\Kernel\Contracts\AccessTokenInterface|null $accessToken
      */
-    public function __construct(Container $app, AccessTokenInterface $accessToken = null)
+    public function __construct(ServiceContainer $app, AccessTokenInterface $accessToken = null)
     {
         $this->app = $app;
         $this->accessToken = $accessToken ?? $this->app['access_token'];

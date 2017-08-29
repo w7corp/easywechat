@@ -26,7 +26,7 @@ use Psr\Http\Message\ResponseInterface;
 trait HasHttpRequests
 {
     /**
-     * @var \GuzzleHttp\Client
+     * @var \GuzzleHttp\ClientInterface
      */
     protected $httpClient;
 
@@ -143,7 +143,7 @@ trait HasHttpRequests
 
         $options = $this->fixJsonIssue($options);
 
-        if (!empty($this->baseUri)) {
+        if (property_exists($this, 'baseUri')) {
             $options['base_uri'] = $this->baseUri;
         }
 

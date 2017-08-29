@@ -142,7 +142,7 @@ trait Observable
         try {
             return $handler($payload);
         } catch (\Exception $e) {
-            if (isset($this->app) && $this->app instanceof ServiceContainer) {
+            if (property_exists($this, 'app') && $this->app instanceof ServiceContainer) {
                 $this->app['logger']->error($e->getCode().': '.$e->getMessage(), [
                     'code' => $e->getCode(),
                     'message' => $e->getMessage(),

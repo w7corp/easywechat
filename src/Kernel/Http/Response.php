@@ -23,7 +23,7 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 class Response extends GuzzleResponse
 {
     /**
-     * @return bool|string
+     * @return string
      */
     public function getBodyContents()
     {

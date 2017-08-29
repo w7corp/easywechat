@@ -50,7 +50,7 @@ trait HasAttributes
      * @param string $attribute
      * @param string $value
      *
-     * @return HasAttributes
+     * @return $this
      */
     public function setAttribute($attribute, $value)
     {
