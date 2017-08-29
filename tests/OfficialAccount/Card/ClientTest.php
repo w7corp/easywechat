@@ -39,23 +39,35 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $baseInfo = [
-            'foo' => 'bar',
-        ];
-        $especial = [
-            'brand' => 'easywechat',
-        ];
-        $advancedInfo = [
-            'wx_active' => true,
+        $attributes = [
+            'base_info' => [
+                'brand_name' => '微信餐厅',
+                'code_type' => 'CODE_TYPE_TEXT',
+                'title' => '132元双人火锅套餐',
+                //...
+            ],
+
+            'use_limit' => 100,
+            'get_limit' => 3,
+            // ...
+
+            'advanced_info' => [
+                'use_condition' => [
+                'accept_category' => '鞋类',
+                   'reject_category' => '阿迪达斯',
+                   'can_use_with_other_discount' => true,
+               ],
+                //...
+            ],
         ];
         $client->expects()->httpPostJson('card/create', [
             'card' => [
                 'card_type' => 'MEMBER_CARD',
-                'member_card' => array_merge(['base_info' => $baseInfo], $especial, ['advanced_info' => $advancedInfo]),
+                'member_card' => $attributes,
             ],
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->create('member_card', $baseInfo, $especial, $advancedInfo));
+        $this->assertSame('mock-result', $client->create('member_card', $attributes));
     }
 
     public function testCreateQrCode()
@@ -197,11 +209,26 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $baseInfo = [
-            'foo' => 'bar',
-        ];
-        $especial = [
-            'brand' => 'easywechat',
+        $attributes = [
+            'base_info' => [
+                'brand_name' => '微信餐厅',
+                'code_type' => 'CODE_TYPE_TEXT',
+                'title' => '132元双人火锅套餐',
+                //...
+            ],
+
+            'use_limit' => 100,
+            'get_limit' => 3,
+            // ...
+
+            'advanced_info' => [
+                'use_condition' => [
+                    'accept_category' => '鞋类',
+                    'reject_category' => '阿迪达斯',
+                    'can_use_with_other_discount' => true,
+                ],
+                //...
+            ],
         ];
 
         // case 1
@@ -215,22 +242,10 @@ class ClientTest extends TestCase
         // case 2
         $client->expects()->httpPostJson('card/update', [
             'card_id' => 'mock-card-id',
-            'member_card' => [
-                'base_info' => $baseInfo,
-            ],
+            'member_card' => $attributes,
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->update('mock-card-id', 'member_card', $baseInfo));
-
-        // case 3
-        $client->expects()->httpPostJson('card/update', [
-            'card_id' => 'mock-card-id',
-            'member_card' => array_merge([
-                'base_info' => $baseInfo,
-            ], $especial),
-        ])->andReturn('mock-result')->once();
-
-        $this->assertSame('mock-result', $client->update('mock-card-id', 'member_card', $baseInfo, $especial));
+        $this->assertSame('mock-result', $client->update('mock-card-id', 'member_card', $attributes));
     }
 
     public function testSetPayCell()
@@ -281,14 +296,5 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->updateStock('mock-card-id', 10, 'reduce'));
         $this->assertSame('mock-result', $client->updateStock('mock-card-id', -10, 'reduce'));
-    }
-
-    public function testUpdateCardUser()
-    {
-        $client = $this->mockApiClient(Client::class);
-
-        $client->expects()->httpPostJson('card/generalcard/updateuser', ['foo' => 'bar'])->andReturn('mock-result')->once();
-
-        $this->assertSame('mock-result', $client->updateCardUser(['foo' => 'bar']));
     }
 }

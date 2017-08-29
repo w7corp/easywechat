@@ -16,7 +16,7 @@ use EasyWeChat\Tests\TestCase;
 
 class MeetingTicketClientTest extends TestCase
 {
-    public function testCheckin()
+    public function testUpdateUser()
     {
         $client = $this->mockApiClient(MeetingTicketClient::class);
 

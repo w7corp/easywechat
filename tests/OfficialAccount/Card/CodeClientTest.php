@@ -21,14 +21,13 @@ class CodeClientTest extends TestCase
         $client = $this->mockApiClient(CodeClient::class);
 
         $cardId = 'mock-card-id';
-        $code = 'mock-code';
         $params = [
             'card_id' => $cardId,
-            'code' => $code,
+            'code' => ['code1', 'code2'],
         ];
         $client->expects()->httpPostJson('card/code/deposit', $params)->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->deposit($cardId, $code));
+        $this->assertSame('mock-result', $client->deposit($cardId, ['code1', 'code2']));
     }
 
     public function testGetDepositedCount()
@@ -52,11 +51,11 @@ class CodeClientTest extends TestCase
         $code = 'mock-code';
         $params = [
             'card_id' => $cardId,
-            'code' => $code,
+            'code' => ['code1', 'code2'],
         ];
         $client->expects()->httpPostJson('card/code/checkcode', $params)->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->check($cardId, $code));
+        $this->assertSame('mock-result', $client->check($cardId, ['code1', 'code2']));
     }
 
     public function testGet()
@@ -64,16 +63,22 @@ class CodeClientTest extends TestCase
         $client = $this->mockApiClient(CodeClient::class);
 
         $cardId = 'mock-card-id';
-        $consume = 'mock-consume';
         $code = 'mock-code';
-        $params = [
+        $client->expects()->httpPostJson('card/code/get', [
             'code' => $code,
-            'check_consume' => $consume,
+            'check_consume' => true,
             'card_id' => $cardId,
-        ];
-        $client->expects()->httpPostJson('card/code/get', $params)->andReturn('mock-result')->once();
+        ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->get($code, $consume, $cardId));
+        $this->assertSame('mock-result', $client->get($code, $cardId));
+
+        $client->expects()->httpPostJson('card/code/get', [
+            'code' => $code,
+            'check_consume' => false,
+            'card_id' => $cardId,
+        ])->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->get($code, $cardId, false));
     }
 
     public function testUpdate()
