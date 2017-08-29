@@ -258,7 +258,7 @@ class Client extends BaseClient
 
     /**
      * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
-     * @param string                                          $to
+     * @param string                                        $to
      * @param string                                        $by
      *
      * @return mixed
