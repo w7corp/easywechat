@@ -25,7 +25,7 @@ class GeneralCardClient extends Client
      *
      * @return mixed
      */
-    public function activate($info = [])
+    public function activate(array $info = [])
     {
         return $this->httpPostJson('card/generalcard/activate', $info);
     }
@@ -38,7 +38,7 @@ class GeneralCardClient extends Client
      *
      * @return mixed
      */
-    public function unactivate($cardId, $code)
+    public function deactivate(string $cardId, string $code)
     {
         $params = [
             'card_id' => $cardId,

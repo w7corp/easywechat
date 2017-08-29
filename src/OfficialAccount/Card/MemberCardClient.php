@@ -25,7 +25,7 @@ class MemberCardClient extends Client
      *
      * @return mixed
      */
-    public function activate($info = [])
+    public function activate(array $info = [])
     {
         return $this->httpPostJson('card/membercard/activate', $info);
     }
@@ -38,7 +38,7 @@ class MemberCardClient extends Client
      *
      * @return mixed
      */
-    public function setActivationForm($cardId, array $settings)
+    public function setActivationForm(string $cardId, array $settings)
     {
         $params = array_merge(['card_id' => $cardId], $settings);
 
@@ -53,7 +53,7 @@ class MemberCardClient extends Client
      *
      * @return mixed
      */
-    public function getUser($cardId, $code)
+    public function getUser(string $cardId, string $code)
     {
         $params = [
             'card_id' => $cardId,
