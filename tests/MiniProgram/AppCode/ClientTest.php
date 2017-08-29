@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\MiniProgram\AppCode;
 
+use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\MiniProgram\AppCode\Client;
 use EasyWeChat\Tests\TestCase;
 
@@ -22,7 +23,7 @@ class ClientTest extends TestCase
     {
         parent::setUp();
 
-        $this->mockStream = \Mockery::mock(\EasyWeChat\Kernel\Http\Response::class);
+        $this->mockStream = new \EasyWeChat\Kernel\Http\Response();
     }
 
     public function testGetAppCode()
@@ -31,12 +32,12 @@ class ClientTest extends TestCase
 
         $client->expects()->requestRaw('wxa/getwxacode', 'POST', ['json' => [
             'path' => 'foo-path',
-            'width' => null,
-            'auto_color' => null,
-            'line_color' => null,
+            'width' => 430,
         ]])->andReturn($this->mockStream)->once();
 
-        $this->assertInstanceOf(\EasyWeChat\Kernel\Http\Response::class, $client->get('foo-path'));
+        $this->assertInstanceOf(StreamResponse::class, $client->get('foo-path', [
+            'width' => 430,
+        ]));
     }
 
     public function testGetAppCodeUnlimit()
@@ -45,13 +46,12 @@ class ClientTest extends TestCase
 
         $client->expects()->requestRaw('wxa/getwxacodeunlimit', 'POST', ['json' => [
             'scene' => 'scene',
-            'page' => null,
-            'width' => null,
-            'auto_color' => null,
-            'line_color' => null,
+            'page' => '/app/pages/hello',
         ]])->andReturn($this->mockStream)->once();
 
-        $this->assertInstanceOf(\EasyWeChat\Kernel\Http\Response::class, $client->getUnlimit('scene'));
+        $this->assertInstanceOf(StreamResponse::class, $client->getUnlimit('scene', [
+            'page' => '/app/pages/hello',
+        ]));
     }
 
     public function testCreateQrCode()
@@ -63,6 +63,6 @@ class ClientTest extends TestCase
             'width' => null,
         ]])->andReturn($this->mockStream)->once();
 
-        $this->assertInstanceOf(\EasyWeChat\Kernel\Http\Response::class, $client->qrcode('foo-path'));
+        $this->assertInstanceOf(StreamResponse::class, $client->getQrCode('foo-path'));
     }
 }

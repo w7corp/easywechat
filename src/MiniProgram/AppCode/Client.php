@@ -12,6 +12,7 @@
 namespace EasyWeChat\MiniProgram\AppCode;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Http\StreamResponse;
 
 /**
  * Class Client.
@@ -23,21 +24,16 @@ class Client extends BaseClient
     /**
      * Get AppCode.
      *
-     * @param string     $path
-     * @param int|null   $width
-     * @param bool|null  $autoColor
-     * @param array|null $lineColor
+     * @param string $path
+     * @param array  $optional
      *
      * @return \EasyWeChat\Kernel\Http\Response
      */
-    public function get(string $path, int $width = null, bool $autoColor = null, array $lineColor = null)
+    public function get(string $path, array $optional = [])
     {
-        $params = [
+        $params = array_merge([
             'path' => $path,
-            'width' => $width,
-            'auto_color' => $autoColor,
-            'line_color' => $lineColor,
-        ];
+        ], $optional);
 
         return $this->getStream('wxa/getwxacode', $params);
     }
@@ -45,23 +41,16 @@ class Client extends BaseClient
     /**
      * Get AppCode unlimit.
      *
-     * @param string      $scene
-     * @param string|null $page
-     * @param int|null    $width
-     * @param bool|null   $autoColor
-     * @param array|null  $lineColor
+     * @param string $scene
+     * @param array  $optional
      *
      * @return \EasyWeChat\Kernel\Http\Response
      */
-    public function getUnlimit(string $scene, string $page = null, int $width = null, bool $autoColor = null, array $lineColor = null)
+    public function getUnlimit(string $scene, array $optional = [])
     {
-        $params = [
+        $params = array_merge([
             'scene' => $scene,
-            'page' => $page,
-            'width' => $width,
-            'auto_color' => $autoColor,
-            'line_color' => $lineColor,
-        ];
+        ], $optional);
 
         return $this->getStream('wxa/getwxacodeunlimit', $params);
     }
@@ -74,7 +63,7 @@ class Client extends BaseClient
      *
      * @return \EasyWeChat\Kernel\Http\Response
      */
-    public function qrcode(string $path, int $width = null)
+    public function getQrCode(string $path, int $width = null)
     {
         return $this->getStream('cgi-bin/wxaapp/createwxaqrcode', compact('path', 'width'));
     }
@@ -89,6 +78,6 @@ class Client extends BaseClient
      */
     protected function getStream(string $endpoint, array $params)
     {
-        return $this->requestRaw($endpoint, 'POST', ['json' => $params]);
+        return StreamResponse::buildFromGuzzleResponse($this->requestRaw($endpoint, 'POST', ['json' => $params]));
     }
 }
