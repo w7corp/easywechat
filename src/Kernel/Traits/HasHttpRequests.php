@@ -217,7 +217,7 @@ trait HasHttpRequests
      * @param mixed  $response
      * @param string $type
      *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
+     * @return string
      */
     protected function transformResponseToType($response, string $type)
     {
