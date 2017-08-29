@@ -32,7 +32,7 @@ trait Observable
 
     /**
      * @param \Closure|EventHandlerInterface|string $handler
-     * @param string $condition
+     * @param string                                $condition
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
