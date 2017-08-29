@@ -197,7 +197,7 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @return mixed|string
+     * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
