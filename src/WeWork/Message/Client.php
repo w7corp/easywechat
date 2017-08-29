@@ -34,7 +34,7 @@ class Client extends BaseClient
     /**
      * @param array $message
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function send(array $message)
     {

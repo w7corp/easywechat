@@ -133,8 +133,8 @@ class CodeClient extends BaseClient
     /**
      * 核销 Code 接口.
      *
-     * @param string $code
-     * @param string $cardId
+     * @param string      $code
+     * @param string|null $cardId
      *
      * @return mixed
      */
@@ -144,7 +144,7 @@ class CodeClient extends BaseClient
             'code' => $code,
         ];
 
-        if ($cardId) {
+        if (!is_null($cardId)) {
             $params['card_id'] = $cardId;
         }
 
