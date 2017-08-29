@@ -285,7 +285,7 @@ class Arr
 
         $keys = (array) $keys;
 
-        if (!$array) {
+        if (empty($array)) {
             return false;
         }
 

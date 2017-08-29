@@ -107,7 +107,7 @@ trait HasHttpRequests
      */
     public function pushMiddleware(callable $middleware, string $name = null)
     {
-        if ($name) {
+        if (!is_null($name)) {
             $this->middlewares[$name] = $middleware;
         } else {
             array_push($this->middlewares, $middleware);

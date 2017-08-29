@@ -69,7 +69,7 @@ class Response extends GuzzleResponse
     {
         $content = $this->getBodyContents();
 
-        if (false !== stripos($this->getHeaderLine('Content-Type'), 'xml')) {
+        if (false !== stripos($this->getHeaderLine('Content-Type'), 'xml') || stripos($content, '<xml') === 0) {
             return XML::parse($content);
         }
 

@@ -50,7 +50,7 @@ class Client extends BaseClient
      */
     public function create(array $buttons, array $matchRule = [])
     {
-        if ($matchRule) {
+        if (!empty($matchRule)) {
             return $this->httpPostJson('cgi-bin/menu/addconditional', [
                 'button' => $buttons,
                 'matchrule' => $matchRule,

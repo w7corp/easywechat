@@ -40,9 +40,9 @@ class Transfer extends Message
      *
      * @param string|null $account
      */
-    public function __construct($account = null)
+    public function __construct(string $account = null)
     {
-        if ($account) {
+        if (!is_null($account)) {
             $this->account = $account;
         }
     }

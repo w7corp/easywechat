@@ -40,7 +40,7 @@ class EchoStrHandler implements EventHandlerInterface
     /**
      * @param array $payload
      *
-     * @return FinallyResult
+     * @return FinallyResult|null
      */
     public function handle(array $payload = [])
     {
@@ -54,7 +54,5 @@ class EchoStrHandler implements EventHandlerInterface
 
             return new FinallyResult($str);
         }
-
-        return true;
     }
 }

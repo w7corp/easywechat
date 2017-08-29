@@ -41,6 +41,6 @@ class EchoStrHandlerTest extends TestCase
         ]);
         $handler = new EchoStrHandler($app);
 
-        $this->assertTrue($handler->handle());
+        $this->assertNull($handler->handle());
     }
 }
