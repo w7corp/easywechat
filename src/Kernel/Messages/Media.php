@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel\Messages;
 
 use EasyWeChat\Kernel\Contracts\MediaInterface;
+use EasyWeChat\Kernel\Support\Str;
 
 /**
  * Class Media.
@@ -54,5 +55,14 @@ class Media extends Message implements MediaInterface
         $this->checkRequiredAttributes();
 
         return $this->get('media_id');
+    }
+
+    public function toXmlArray()
+    {
+        return [
+            Str::studly($this->getType()) => [
+                'MediaId' => $this->get('media_id'),
+            ],
+        ];
     }
 }

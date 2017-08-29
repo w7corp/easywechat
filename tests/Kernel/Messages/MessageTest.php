@@ -100,30 +100,9 @@ class MessageTest extends TestCase
 
         $this->assertSame(XML::build([
             'MsgType' => 'dummy',
+            'MediaId' => 12345,
+            'RequiredId' => 'r',
             'append_id' => 'ap_id',
-            'media_id' => '12345',
-            'Foo' => 'f',
-            'Bar' => 'b',
-            'required_id' => 'r',
-        ]), $message->transformToXml(['append_id' => 'ap_id']));
-
-        // optional
-        $message = new DummyMessageForMessageTest([
-            'media_id' => '12345',
-            'title' => 'the title',
-            'foo' => 'f',
-            'bar' => 'b',
-            'required_id' => 'r',
-        ]);
-
-        $this->assertSame(XML::build([
-            'MsgType' => 'dummy',
-            'append_id' => 'ap_id',
-            'media_id' => '12345',
-            'title' => 'the title',
-            'Foo' => 'f',
-            'Bar' => 'b',
-            'required_id' => 'r',
         ]), $message->transformToXml(['append_id' => 'ap_id']));
     }
 
@@ -165,4 +144,12 @@ class DummyMessageForMessageTest extends Message
     protected $required = [
         'media_id', 'required_id',
     ];
+
+    public function toXmlArray()
+    {
+        return [
+            'MediaId' => $this->get('media_id'),
+            'RequiredId' => $this->get('required_id'),
+        ];
+    }
 }

@@ -280,6 +280,7 @@ class ServerGuardTest extends TestCase
         $this->assertArrayHasKey('CreateTime', $response);
         $this->assertArrayHasKey('MsgType', $response);
         $this->assertArrayHasKey('Content', $response);
+        $this->assertSame('welcome to easywechat.com', $response['Content']);
 
         $this->assertSame('overtrue', $response['ToUserName']);
         $this->assertSame('easywechat', $response['FromUserName']);
@@ -332,18 +333,6 @@ class ServerGuardTest extends TestCase
 
         $guard = new ServerGuard($app);
         $this->assertSame('mock-encrypted-response', $guard->buildResponse('overtrue', 'easywechat', 'hello world!'));
-    }
-
-    public function testIsMessage()
-    {
-        $guard = \Mockery::mock(ServerGuard::class, [new ServiceContainer()])->makePartial();
-
-        $this->assertFalse($guard->isMessage(new \stdClass()));
-        $this->assertTrue($guard->isMessage(new Text('hello')));
-
-        $this->assertTrue($guard->isMessage([new Text('hello'), new Image('media-id')]));
-
-        $this->assertFalse($guard->isMessage([new Text('hello'), new \stdClass()]));
     }
 
     public function testHandleRequest()
@@ -401,19 +390,19 @@ class ServerGuardTest extends TestCase
 
         $this->assertSame([
             'MsgType' => 'text',
+            'Content' => 'hello world!',
             'ToUserName' => 'overtrue',
             'FromUserName' => 'easywechat',
             'CreateTime' => strval($timestamp),
-            'Content' => 'hello world!',
         ], $guard->parseMessage($xml));
 
         // json format
         $this->assertSame([
             'MsgType' => 'text',
+            'Content' => 'hello world!',
             'ToUserName' => 'overtrue',
             'FromUserName' => 'easywechat',
             'CreateTime' => strval($timestamp),
-            'Content' => 'hello world!',
         ], $guard->parseMessage(json_encode(XML::parse($xml))));
     }
 

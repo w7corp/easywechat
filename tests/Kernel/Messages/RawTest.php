@@ -22,5 +22,7 @@ class RawTest extends TestCase
         $raw = new Raw($content);
 
         $this->assertSame($content, $raw->content);
+
+        $this->assertSame($content, strval($raw));
     }
 }

@@ -25,4 +25,15 @@ class MediaTest extends TestCase
         $this->assertSame('mock-media-id', $media->getMediaId());
         $this->assertSame('mock-title', $media->title);
     }
+
+    public function testToXmlArray()
+    {
+        $message = new Media('mock-id', 'file');
+
+        $this->assertSame([
+            'File' => [
+                'MediaId' => 'mock-id',
+            ],
+        ], $message->toXmlArray());
+    }
 }

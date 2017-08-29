@@ -11,9 +11,12 @@
 
 namespace EasyWeChat\Kernel;
 
+use EasyWeChat\Kernel\Contracts\MessageInterface;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Messages\Message;
+use EasyWeChat\Kernel\Messages\News;
+use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Raw as RawMessage;
 use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\Kernel\Support\XML;
@@ -205,33 +208,15 @@ class ServerGuard
             $message = new Text((string) $message);
         }
 
-        if (!$this->isMessage($message)) {
+        if (is_array($message) && reset($message) instanceof NewsItem) {
+            $message = new News($message);
+        }
+
+        if (!($message instanceof Message)) {
             throw new InvalidArgumentException(sprintf('Invalid Messages type "%s".', gettype($message)));
         }
 
         return $this->buildReply($to, $from, $message);
-    }
-
-    /**
-     * Whether response is message.
-     *
-     * @param mixed $message
-     *
-     * @return bool
-     */
-    protected function isMessage($message)
-    {
-        if (is_array($message)) {
-            foreach ($message as $element) {
-                if (!($element instanceof Message)) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        return $message instanceof Message;
     }
 
     /**
@@ -258,19 +243,19 @@ class ServerGuard
     /**
      * Build reply XML.
      *
-     * @param string                                              $to
-     * @param string                                              $from
-     * @param \EasyWeChat\Kernel\Contracts\MessageInterface|array $message
+     * @param string                                        $to
+     * @param string                                        $from
+     * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
      *
      * @return string
      */
-    protected function buildReply(string $to, string $from, $message): string
+    protected function buildReply(string $to, string $from, MessageInterface $message): string
     {
         $prepends = [
             'ToUserName' => $to,
             'FromUserName' => $from,
             'CreateTime' => time(),
-            'MsgType' => is_array($message) ? current($message)->getType() : $message->getType(),
+            'MsgType' => $message->getType(),
         ];
 
         $response = $message->transformToXml($prepends);

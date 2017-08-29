@@ -43,4 +43,17 @@ class Music extends Message
         'thumb_media_id',
         'format',
     ];
+
+    public function toXmlArray()
+    {
+        return [
+            'Music' => [
+                'Title' => $this->get('title'),
+                'Description' => $this->get('description'),
+                'MusicUrl' => $this->get('url'),
+                'HQMusicUrl' => $this->get('hq_url'),
+                'ThumbMediaId' => $this->get('thumb_media_id'),
+            ],
+        ];
+    }
 }

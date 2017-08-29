@@ -12,18 +12,16 @@
 namespace EasyWeChat\Kernel\Messages;
 
 /**
- * Class DeviceText.
- *
- * @property string $content
+ * Class NewsItem.
  */
-class DeviceText extends Message
+class NewsItem extends Message
 {
     /**
      * Messages type.
      *
      * @var string
      */
-    protected $type = 'device_text';
+    protected $type = 'news';
 
     /**
      * Properties.
@@ -31,20 +29,28 @@ class DeviceText extends Message
      * @var array
      */
     protected $properties = [
-        'device_type',
-        'device_id',
-        'content',
-        'session_id',
-        'open_id',
+        'title',
+        'description',
+        'url',
+        'image',
+    ];
+
+    /**
+     * Aliases of attribute.
+     *
+     * @var array
+     */
+    protected $jsonAliases = [
+        'pic_url' => 'image',
     ];
 
     public function toXmlArray()
     {
         return [
-            'DeviceType' => $this->get('device_type'),
-            'DeviceID' => $this->get('device_id'),
-            'SessionID' => $this->get('session_id'),
-            'Content' => base64_encode($this->get('content')),
+            'Title' => $this->get('title'),
+            'Description' => $this->get('description'),
+            'Url' => $this->get('url'),
+            'PicUrl' => $this->get('image'),
         ];
     }
 }

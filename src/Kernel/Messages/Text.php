@@ -33,13 +33,6 @@ class Text extends Message
     protected $properties = ['content'];
 
     /**
-     * @var array
-     */
-    protected $xmlAliases = [
-        'Content' => 'content',
-    ];
-
-    /**
      * Text constructor.
      *
      * @param string $content
@@ -47,5 +40,15 @@ class Text extends Message
     public function __construct(string $content)
     {
         parent::__construct(compact('content'));
+    }
+
+    /**
+     * @return array
+     */
+    public function toXmlArray()
+    {
+        return [
+            'Content' => $this->get('content'),
+        ];
     }
 }

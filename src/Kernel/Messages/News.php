@@ -13,34 +13,46 @@ namespace EasyWeChat\Kernel\Messages;
 
 /**
  * Class News.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class News extends Message
 {
     /**
-     * Messages type.
-     *
      * @var string
      */
     protected $type = 'news';
 
     /**
-     * Properties.
-     *
      * @var array
      */
     protected $properties = [
-        'title',
-        'description',
-        'url',
-        'image',
+        'items',
     ];
 
     /**
-     * Aliases of attribute.
+     * News constructor.
      *
-     * @var array
+     * @param array $items
      */
-    protected $jsonAliases = [
-        'pic_url' => 'image',
-    ];
+    public function __construct(array $items = [])
+    {
+        parent::__construct(compact('items'));
+    }
+
+    public function toXmlArray()
+    {
+        $items = [];
+
+        foreach ($this->get('items') as $article) {
+            if ($article instanceof NewsItem) {
+                $items[] = $article->toXmlArray();
+            }
+        }
+
+        return [
+            'ArticleCount' => count($items),
+            'Articles' => $items,
+        ];
+    }
 }

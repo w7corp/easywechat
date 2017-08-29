@@ -48,4 +48,9 @@ class Raw extends Message
     {
         return json_decode($this->content, true) ?? [];
     }
+
+    public function __toString()
+    {
+        return $this->get('content') ?? '';
+    }
 }

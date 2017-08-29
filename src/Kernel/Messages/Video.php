@@ -51,4 +51,15 @@ class Video extends Media
     {
         parent::__construct($mediaId, 'video', $attributes);
     }
+
+    public function toXmlArray()
+    {
+        return [
+            'Video' => [
+                'MediaId' => $this->get('media_id'),
+                'Title' => $this->get('title'),
+                'Description' => $this->get('description'),
+            ],
+        ];
+    }
 }

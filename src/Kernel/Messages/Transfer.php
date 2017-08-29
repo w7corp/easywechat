@@ -46,4 +46,13 @@ class Transfer extends Message
             $this->account = $account;
         }
     }
+
+    public function toXmlArray()
+    {
+        return empty($this->get('account')) ? [] : [
+            'TransInfo' => [
+                'KfAccount' => $this->get('account'),
+            ],
+        ];
+    }
 }

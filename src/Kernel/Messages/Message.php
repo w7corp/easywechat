@@ -14,6 +14,7 @@ namespace EasyWeChat\Kernel\Messages;
 use EasyWeChat\Kernel\Contracts\MessageInterface;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Kernel\Traits\HasAttributes;
+use Mockery\Exception\BadMethodCallException;
 
 /**
  * Class Messages.
@@ -66,11 +67,6 @@ abstract class Message implements MessageInterface
      * @var array
      */
     protected $jsonAliases = [];
-
-    /**
-     * @var array
-     */
-    protected $xmlAliases = [];
 
     /**
      * Message constructor.
@@ -172,9 +168,7 @@ abstract class Message implements MessageInterface
      */
     public function transformToXml(array $appends = [], bool $returnAsArray = false): string
     {
-        $data = array_merge(['MsgType' => $this->getType()], $appends);
-
-        $data = $this->propertiesToArray($data, $this->xmlAliases);
+        $data = array_merge(['MsgType' => $this->getType()], $this->toXmlArray(), $appends);
 
         return $returnAsArray ? $data : XML::build($data);
     }
@@ -199,5 +193,10 @@ abstract class Message implements MessageInterface
         }
 
         return $data;
+    }
+
+    public function toXmlArray()
+    {
+        throw new BadMethodCallException(sprintf('Class "%s" cannot support transform to XML message.', __CLASS__));
     }
 }
