@@ -24,15 +24,15 @@ class CodeClient extends BaseClient
      * 导入code接口.
      *
      * @param string $cardId
-     * @param array  $code
+     * @param array  $codes
      *
      * @return mixed
      */
-    public function deposit($cardId, $code)
+    public function deposit(string $cardId, array $codes)
     {
         $params = [
             'card_id' => $cardId,
-            'code' => $code,
+            'code' => $codes,
         ];
 
         return $this->httpPostJson('card/code/deposit', $params);
@@ -45,7 +45,7 @@ class CodeClient extends BaseClient
      *
      * @return mixed
      */
-    public function getDepositedCount($cardId)
+    public function getDepositedCount(string $cardId)
     {
         $params = [
             'card_id' => $cardId,
@@ -58,30 +58,30 @@ class CodeClient extends BaseClient
      * 核查code接口.
      *
      * @param string $cardId
-     * @param array  $code
+     * @param array  $codes
      *
      * @return mixed
      */
-    public function check($cardId, $code)
+    public function check(string $cardId, array $codes)
     {
         $params = [
             'card_id' => $cardId,
-            'code' => $code,
+            'code' => $codes,
         ];
 
         return $this->httpPostJson('card/code/checkcode', $params);
     }
 
     /**
-     * 查询Code接口.
+     * 查询 Code 接口.
      *
      * @param string $code
-     * @param bool   $checkConsume
      * @param string $cardId
+     * @param bool   $checkConsume
      *
      * @return mixed
      */
-    public function get($code, $checkConsume, $cardId)
+    public function get(string $code, string $cardId = '', bool $checkConsume = true)
     {
         $params = [
             'code' => $code,
@@ -97,11 +97,11 @@ class CodeClient extends BaseClient
      *
      * @param string $code
      * @param string $newCode
-     * @param array  $cardId
+     * @param string $cardId
      *
      * @return mixed
      */
-    public function update($code, $newCode, $cardId = [])
+    public function update(string $code, string $newCode, string $cardId = '')
     {
         $params = [
             'code' => $code,
@@ -120,7 +120,7 @@ class CodeClient extends BaseClient
      *
      * @return mixed
      */
-    public function disable($code, $cardId = '')
+    public function disable(string $code, string $cardId = '')
     {
         $params = [
             'code' => $code,
@@ -131,14 +131,14 @@ class CodeClient extends BaseClient
     }
 
     /**
-     * 核销Code接口.
+     * 核销 Code 接口.
      *
      * @param string $code
      * @param string $cardId
      *
      * @return mixed
      */
-    public function consume($code, $cardId = null)
+    public function consume(string $code, string $cardId = null)
     {
         $params = [
             'code' => $code,
@@ -158,7 +158,7 @@ class CodeClient extends BaseClient
      *
      * @return mixed
      */
-    public function decrypt($encryptedCode)
+    public function decrypt(string $encryptedCode)
     {
         $params = [
             'encrypt_code' => $encryptedCode,

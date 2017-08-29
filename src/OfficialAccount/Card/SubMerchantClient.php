@@ -55,7 +55,7 @@ class SubMerchantClient extends BaseClient
      *
      * @return mixed
      */
-    public function update($merchantId, array $info = [])
+    public function update(int $merchantId, array $info = [])
     {
         $params = [
             'info' => array_merge(['merchant_id' => $merchantId],
@@ -82,7 +82,7 @@ class SubMerchantClient extends BaseClient
      *
      * @return mixed
      */
-    public function get($merchantId)
+    public function get(int $merchantId)
     {
         return $this->httpPostJson('card/submerchant/get', ['merchant_id' => $merchantId]);
     }
@@ -96,7 +96,7 @@ class SubMerchantClient extends BaseClient
      *
      * @return mixed
      */
-    public function list($beginId = 0, $limit = 50, $status = 'CHECKING')
+    public function list(int $beginId = 0, int $limit = 50, string $status = 'CHECKING')
     {
         $params = [
             'begin_id' => $beginId,

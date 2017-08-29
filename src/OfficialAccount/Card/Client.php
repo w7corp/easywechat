@@ -66,18 +66,16 @@ class Client extends BaseClient
      * 创建卡券.
      *
      * @param string $cardType
-     * @param array  $baseInfo
-     * @param array  $especial
-     * @param array  $advancedInfo
+     * @param array  $attributes
      *
      * @return mixed
      */
-    public function create($cardType = 'member_card', array $baseInfo = [], array $especial = [], array $advancedInfo = [])
+    public function create($cardType = 'member_card', array $attributes)
     {
         $params = [
             'card' => [
                 'card_type' => strtoupper($cardType),
-                strtolower($cardType) => array_merge(['base_info' => $baseInfo], $especial, ['advanced_info' => $advancedInfo]),
+                strtolower($cardType) => $attributes,
             ],
         ];
 
@@ -125,23 +123,15 @@ class Client extends BaseClient
      *
      * @param string $cardId
      * @param string $type
-     * @param array  $baseInfo
-     * @param array  $especial
+     * @param array  $attributes
      *
      * @return mixed
      */
-    public function update($cardId, $type, $baseInfo = [], $especial = [])
+    public function update($cardId, $type, array $attributes = [])
     {
         $card = [];
         $card['card_id'] = $cardId;
-        $card[$type] = [];
-
-        $cardInfo = [];
-        if ($baseInfo) {
-            $cardInfo['base_info'] = $baseInfo;
-        }
-
-        $card[$type] = array_merge($cardInfo, $especial);
+        $card[$type] = $attributes;
 
         return $this->httpPostJson('card/update', $card);
     }
@@ -169,7 +159,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function createQrCode(array $cards = [])
+    public function createQrCode(array $cards)
     {
         return $this->httpPostJson('card/qrcode/create', $cards);
     }
@@ -181,7 +171,7 @@ class Client extends BaseClient
      *
      * @return array
      */
-    public function getQrCode($ticket = null)
+    public function getQrCode($ticket)
     {
         $baseUri = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
         $params = [
@@ -365,17 +355,5 @@ class Client extends BaseClient
         ];
 
         return $this->httpPostJson('card/modifystock', $params);
-    }
-
-    /**
-     * 更新通用员信息.
-     *
-     * @param array $params
-     *
-     * @return mixed
-     */
-    public function updateCardUser(array $params = [])
-    {
-        return $this->httpPostJson('card/generalcard/updateuser', $params);
     }
 }
