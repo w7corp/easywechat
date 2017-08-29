@@ -289,6 +289,7 @@ class Guard
 
         if (!$this->isMessage($message)) {
             $messageType = gettype($message);
+
             throw new InvalidArgumentException("Invalid Message type .'{$messageType}'");
         }
 
