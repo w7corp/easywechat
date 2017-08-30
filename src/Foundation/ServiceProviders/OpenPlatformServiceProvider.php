@@ -149,13 +149,17 @@ class OpenPlatformServiceProvider implements ServiceProviderInterface
         $pimple['open_platform.oauth'] = function ($pimple) {
             $callback = $this->prepareCallbackUrl($pimple);
             $scopes = $pimple['config']->get('open_platform.oauth.scopes', []);
-            $socialite = (new Socialite([
+            $config = [
                 'wechat_open' => [
                     'client_id' => $pimple['open_platform.authorizer']->getAppId(),
                     'client_secret' => $pimple['open_platform.access_token'],
                     'redirect' => $callback,
                 ],
-            ]))->driver('wechat_open');
+            ];
+            if (in_array('guzzle', $pimple['config'])){
+                $config['guzzle'] = $pimple['config']['guzzle'];
+            }
+            $socialite = (new Socialite($config))->driver('wechat_open');
 
             if (!empty($scopes)) {
                 $socialite->scopes($scopes);
