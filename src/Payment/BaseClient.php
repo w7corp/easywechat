@@ -90,7 +90,7 @@ class BaseClient
      *
      * @return array|Support\Collection|object|ResponseInterface|string
      */
-    protected function requestRaw($api, array $params, $method = 'post', array $options = [])
+    protected function requestRaw($api, array $params = [], $method = 'post', array $options = [])
     {
         return $this->request($api, $params, $method, $options, true);
     }
