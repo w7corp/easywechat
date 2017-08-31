@@ -39,8 +39,8 @@ trait InteractsWithCache
         }
 
         if (property_exists($this, 'app') && $this->app instanceof ServiceContainer
-            && isset($this->app['cache']) && $this->app['cache'] instanceof CacheInterface) {
-            return $this->cache = $this->app['cache'];
+            && isset($this->app['config']['cache']) && $this->app['config']['cache'] instanceof CacheInterface) {
+            return $this->cache = $this->app['config']['cache'];
         }
 
         return $this->cache = $this->createDefaultCache();
