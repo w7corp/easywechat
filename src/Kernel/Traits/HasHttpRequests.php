@@ -189,7 +189,7 @@ trait HasHttpRequests
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param string                              $type
      *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     protected function resolveResponse(ResponseInterface $response, string $type)
     {
