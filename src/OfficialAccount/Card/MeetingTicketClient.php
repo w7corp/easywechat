@@ -21,7 +21,7 @@ class MeetingTicketClient extends Client
     /**
      * @param array $params
      *
-     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function updateUser(array $params)
     {
