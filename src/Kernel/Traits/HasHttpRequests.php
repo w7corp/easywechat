@@ -133,7 +133,7 @@ trait HasHttpRequests
      * @param string $method
      * @param array  $options
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function request($url, $method = 'GET', $options = []): ResponseInterface
     {

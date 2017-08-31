@@ -21,7 +21,7 @@ class BoardingPassClient extends Client
     /**
      * @param array $params
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function checkin(array $params)
     {

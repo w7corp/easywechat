@@ -46,7 +46,7 @@ class Client extends BaseClient
      *
      * @param array $deviceIds
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function qrCode(array $deviceIds)
     {
@@ -63,7 +63,7 @@ class Client extends BaseClient
      * @param string $productId
      * @param int    $opType
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function authorize(array $devices, string $productId, int $opType = 0)
     {
@@ -82,7 +82,7 @@ class Client extends BaseClient
      *
      * @param string $productId
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function createId(string $productId)
     {
@@ -98,7 +98,7 @@ class Client extends BaseClient
      * @param string $deviceId
      * @param string $ticket
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function bind(string $openid, string $deviceId, string $ticket)
     {
@@ -116,7 +116,7 @@ class Client extends BaseClient
      * @param string $deviceId
      * @param string $ticket
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function unbind(string $openid, string $deviceId, string $ticket)
     {
@@ -133,7 +133,7 @@ class Client extends BaseClient
      * @param string $openid
      * @param string $deviceId
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function forceBind(string $openid, string $deviceId)
     {
@@ -149,7 +149,7 @@ class Client extends BaseClient
      * @param string $openid
      * @param string $deviceId
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function forceUnbind(string $openid, string $deviceId)
     {
@@ -164,7 +164,7 @@ class Client extends BaseClient
     /**
      * @param string $deviceId
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function status(string $deviceId)
     {
@@ -178,7 +178,7 @@ class Client extends BaseClient
     /**
      * @param string $ticket
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function verify(string $ticket)
     {
@@ -192,7 +192,7 @@ class Client extends BaseClient
     /**
      * @param string $deviceId
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function openid(string $deviceId)
     {
@@ -207,7 +207,7 @@ class Client extends BaseClient
     /**
      * @param string $openid
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return PsrHttpMessageResponseInterface|asyWeChatKernelSupportCollection|array|object|string
      */
     public function listByOpenid(string $openid)
     {
