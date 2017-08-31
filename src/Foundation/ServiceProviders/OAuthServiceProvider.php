@@ -51,7 +51,7 @@ class OAuthServiceProvider implements ServiceProviderInterface
                     'redirect' => $callback,
                 ],
             ];
-            if (in_array('guzzle', $pimple['config'])){
+            if (in_array('guzzle', $pimple['config'], true)) {
                 $config['guzzle'] = $pimple['config']['guzzle'];
             }
             $socialite = (new Socialite($config))->driver('wechat');
