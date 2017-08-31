@@ -12,12 +12,12 @@
 namespace EasyWeChat\Tests\Payment\Traits;
 
 use EasyWeChat\Kernel\Exceptions\Exception;
-use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Notify;
 use EasyWeChat\Payment\Traits\HandleNotify;
 use EasyWeChat\Tests\TestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class HandleNotiryTest extends TestCase
 {
@@ -25,6 +25,8 @@ class HandleNotiryTest extends TestCase
      * Make Application.
      *
      * @param array $config
+     *
+     * @return \EasyWeChat\Payment\Application
      */
     private function makeApp($config = [])
     {
