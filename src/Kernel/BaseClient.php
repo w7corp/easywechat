@@ -150,7 +150,7 @@ class BaseClient
      * @param array  $options
      * @param bool   $returnRaw
      *
-     * @return \GuzzleHttp\Psr7\Response
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
