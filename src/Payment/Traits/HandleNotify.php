@@ -57,7 +57,7 @@ trait HandleNotify
             ];
         }
 
-        return new Response(Support\XML::build($response));
+        return new Response(200, [], Support\XML::build($response));
     }
 
     /**
