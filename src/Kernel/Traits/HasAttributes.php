@@ -96,7 +96,7 @@ trait HasAttributes
      * @param string $attribute
      * @param mixed  $value
      *
-     * @return HasAttributes
+     * @return $this
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */

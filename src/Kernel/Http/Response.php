@@ -14,6 +14,7 @@ namespace EasyWeChat\Kernel\Http;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Support\XML;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Response.
@@ -35,11 +36,11 @@ class Response extends GuzzleResponse
     }
 
     /**
-     * @param \GuzzleHttp\Psr7\Response $response
+     * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return \EasyWeChat\Kernel\Http\Response
      */
-    public static function buildFromGuzzleResponse(GuzzleResponse $response)
+    public static function buildFromPsrResponse(ResponseInterface $response)
     {
         return new static(
             $response->getStatusCode(),

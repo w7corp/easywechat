@@ -78,6 +78,6 @@ class Client extends BaseClient
      */
     protected function getStream(string $endpoint, array $params)
     {
-        return StreamResponse::buildFromGuzzleResponse($this->requestRaw($endpoint, 'POST', ['json' => $params]));
+        return StreamResponse::buildFromPsrResponse($this->requestRaw($endpoint, 'POST', ['json' => $params]));
     }
 }

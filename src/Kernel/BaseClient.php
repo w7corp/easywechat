@@ -172,7 +172,7 @@ class BaseClient
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {
-        return Response::buildFromGuzzleResponse($this->request($url, $method, $options, true));
+        return Response::buildFromPsrResponse($this->request($url, $method, $options, true));
     }
 
     /**

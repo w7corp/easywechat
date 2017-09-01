@@ -189,6 +189,6 @@ class Client extends BaseClient
             $this->app['logger']->error('Fail to get media contents.', $response->toArray());
         }
 
-        return StreamResponse::buildFromGuzzleResponse($response);
+        return StreamResponse::buildFromPsrResponse($response);
     }
 }

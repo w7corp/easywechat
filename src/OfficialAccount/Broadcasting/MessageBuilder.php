@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\OfficialAccount\Broadcasting;
 
+use EasyWeChat\Kernel\Contracts\MessageInterface;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\Kernel\Messages\Message;
 
 /**
  * Class MessageBuilder.
@@ -27,18 +27,18 @@ class MessageBuilder
     protected $to;
 
     /**
-     * @var array|\EasyWeChat\Kernel\Messages\Message
+     * @var \EasyWeChat\Kernel\Contracts\MessageInterface
      */
     protected $message;
 
     /**
      * Set message.
      *
-     * @param array|\EasyWeChat\Kernel\Messages\Message $message
+     * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
      *
      * @return $this
      */
-    public function message(Message $message)
+    public function message(MessageInterface $message)
     {
         $this->message = $message;
 

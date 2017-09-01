@@ -51,22 +51,13 @@ class ServiceContainerTest extends TestCase
         $this->assertSame('foo', $container['foo']);
     }
 
-    public function testHooks()
-    {
-        $container = new DummyContainerForHooksTest();
-
-        $this->assertInternalType('float', $container['beforeRegistered']);
-        $this->assertInternalType('float', $container['afterRegistered']);
-        $this->assertTrue($container['beforeRegistered'] < $container['afterRegistered'], '"afterRegistered" called after "beforeRegistered"');
-    }
-
     public function testLoggerCreator()
     {
-        $container = new DummyContainerForHooksTest();
+        $container = new DummyContainerForProviderTest();
 
         // null config
         $this->assertInstanceOf(Logger::class, $container['logger']);
-        $this->assertSame(str_replace('\\', '.', strtolower(DummyContainerForHooksTest::class)), $container['logger']->getName());
+        $this->assertSame(str_replace('\\', '.', strtolower(DummyContainerForProviderTest::class)), $container['logger']->getName());
         $this->assertCount(1, $container['logger']->getHandlers());
         $this->assertInstanceOf(ErrorLogHandler::class, $container['logger']->getHandlers()[0]);
 
@@ -109,18 +100,5 @@ class FooServiceProvider implements ServiceProviderInterface
         $pimple['foo'] = function () {
             return 'foo';
         };
-    }
-}
-
-class DummyContainerForHooksTest extends ServiceContainer
-{
-    protected function beforeRegistered()
-    {
-        $this['beforeRegistered'] = microtime(true);
-    }
-
-    protected function afterRegistered()
-    {
-        $this['afterRegistered'] = microtime(true);
     }
 }

@@ -160,7 +160,7 @@ class Client extends BaseClient
         $response = $this->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => $mediaId]]);
 
         if (preg_match('/(image|video|audio)/i', $response->getHeaderLine('Content-Type'))) {
-            return StreamResponse::buildFromGuzzleResponse($response);
+            return StreamResponse::buildFromPsrResponse($response);
         }
 
         return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));

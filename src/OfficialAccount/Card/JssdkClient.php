@@ -62,7 +62,7 @@ class JssdkClient extends Jssdk
             ['code', 'openid', 'outer_id', 'balance', 'fixed_begintimestamp', 'outer_str']
         ));
 
-        $ext['signature'] = $this->getSignature(
+        $ext['signature'] = $this->getTicketSignature(
             $this->getTicket()['ticket'],
             $timestamp,
             $cardId,

@@ -100,11 +100,12 @@ class File
         try {
             $stream = file_get_contents($stream);
         } catch (\Exception $e) {
+            // keep slient...
         }
 
-        $finfo = new finfo(FILEINFO_MIME);
+        $fileInfo = new finfo(FILEINFO_MIME);
 
-        $mime = strstr($finfo->buffer($stream), ';', true);
+        $mime = strstr($fileInfo->buffer($stream), ';', true);
 
         return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : self::getExtBySignature($stream);
     }

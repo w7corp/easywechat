@@ -193,7 +193,7 @@ trait HasHttpRequests
      */
     protected function resolveResponse(ResponseInterface $response, string $type)
     {
-        $response = Response::buildFromGuzzleResponse($response);
+        $response = Response::buildFromPsrResponse($response);
 
         switch ($type) {
             case 'collection':
@@ -222,7 +222,7 @@ trait HasHttpRequests
     protected function transformResponseToType($response, string $type)
     {
         if ($response instanceof ResponseInterface) {
-            $response = Response::buildFromGuzzleResponse($response);
+            $response = Response::buildFromPsrResponse($response);
         } elseif (($response instanceof Collection) || is_array($response) || is_object($response)) {
             $response = new Response(200, [], json_encode($response));
         }
