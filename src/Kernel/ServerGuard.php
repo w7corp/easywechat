@@ -283,7 +283,7 @@ class ServerGuard
     /**
      * Parse message array from raw php input.
      *
-     * @param string|resource $content
+     * @param string $content
      *
      * @return array
      *

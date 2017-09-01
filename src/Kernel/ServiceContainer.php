@@ -62,16 +62,11 @@ class ServiceContainer extends Container
     {
         parent::__construct($prepends);
 
-        $this->registerConfig($config);
-
-        $this->beforeRegistered();
-
-        $this->registerProviders()
+        $this->registerConfig($config)
+            ->registerProviders()
             ->registerLogger()
             ->registerRequest()
             ->registerHttpClient();
-
-        $this->afterRegistered();
     }
 
     /**
@@ -171,14 +166,6 @@ class ServiceContainer extends Container
         };
 
         return $this;
-    }
-
-    protected function afterRegistered()
-    {
-    }
-
-    protected function beforeRegistered()
-    {
     }
 
     /**
