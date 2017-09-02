@@ -12,15 +12,20 @@
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\BasicService;
+use EasyWeChat\OfficialAccount;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
  * Class Application.
  *
- * @property \EasyWeChat\Payment\Coupon\Client   $coupon
- * @property \EasyWeChat\Payment\Redpack\Client  $redpack
- * @property \EasyWeChat\Payment\Transfer\Client $transfer
- * @property \EasyWeChat\Payment\Jssdk\Client    $jssdk
+ * @property \EasyWeChat\OfficialAccount\Auth\AccessToken $access_token
+ * @property \EasyWeChat\BasicService\Url\Client          $url
+ * @property \EasyWeChat\Payment\Coupon\Client            $coupon
+ * @property \EasyWeChat\Payment\Redpack\Client           $redpack
+ * @property \EasyWeChat\Payment\Transfer\Client          $transfer
+ * @property \EasyWeChat\Payment\Jssdk\Client             $jssdk
+ * @property \EasyWeChat\Payment\Merchant                 $merchant
+ * @property \EasyWeChat\Payment\Client                   $payment
  *
  * @method \EasyWeChat\Payment\Client sandboxMode(bool $enabled = false)
  * @method string scheme(string $productId)
@@ -38,6 +43,7 @@ class Application extends ServiceContainer
      * @var array
      */
     protected $providers = [
+        OfficialAccount\Auth\ServiceProvider::class,
         BasicService\Url\ServiceProvider::class,
         ServiceProvider::class,
     ];

@@ -24,6 +24,12 @@ class ApplicationTest extends TestCase
             'merchant_id' => 'foo-merchant-id',
         ]);
 
+        $this->assertInstanceOf(\EasyWeChat\BasicService\Url\Client::class, $app->url);
+        $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Auth\AccessToken::class, $app->access_token);
+        $this->assertInstanceOf(\EasyWeChat\Payment\Coupon\Client::class, $app->coupon);
+        $this->assertInstanceOf(\EasyWeChat\Payment\Redpack\Client::class, $app->redpack);
+        $this->assertInstanceOf(\EasyWeChat\Payment\Transfer\Client::class, $app->transfer);
+        $this->assertInstanceOf( \EasyWeChat\Payment\Jssdk\Client::class, $app->jssdk);
         $this->assertInstanceOf(Client::class, $app->sandboxMode(true));
 
         // test calling nonexistent method
