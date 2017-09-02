@@ -29,7 +29,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Payment\Coupon\Client::class, $app->coupon);
         $this->assertInstanceOf(\EasyWeChat\Payment\Redpack\Client::class, $app->redpack);
         $this->assertInstanceOf(\EasyWeChat\Payment\Transfer\Client::class, $app->transfer);
-        $this->assertInstanceOf( \EasyWeChat\Payment\Jssdk\Client::class, $app->jssdk);
+        $this->assertInstanceOf(\EasyWeChat\Payment\Jssdk\Client::class, $app->jssdk);
         $this->assertInstanceOf(Client::class, $app->sandboxMode(true));
 
         // test calling nonexistent method
