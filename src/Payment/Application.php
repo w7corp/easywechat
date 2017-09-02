@@ -12,8 +12,8 @@
 namespace EasyWeChat\Payment;
 
 use EasyWeChat\BasicService;
-use EasyWeChat\OfficialAccount;
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\OfficialAccount;
 
 /**
  * Class Application.
