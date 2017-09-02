@@ -23,7 +23,7 @@ class AccessToken extends BaseAccessToken
     /**
      * @var string
      */
-    protected $endpointToGetToken = 'gettoken';
+    protected $endpointToGetToken = 'cgi-bin/gettoken';
 
     /**
      * @var int

@@ -33,6 +33,6 @@ class AccessTokenTest extends TestCase
 
     public function testEndpoint()
     {
-        $this->assertSame('gettoken', (new AccessToken(new ServiceContainer()))->getEndpoint());
+        $this->assertSame('cgi-bin/gettoken', (new AccessToken(new ServiceContainer()))->getEndpoint());
     }
 }
