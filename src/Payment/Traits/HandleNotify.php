@@ -14,6 +14,7 @@ namespace EasyWeChat\Payment\Traits;
 use EasyWeChat\Kernel\Exceptions\Exception;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Notify;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -27,14 +28,15 @@ trait HandleNotify
      * Handle payment notify.
      *
      * @param callable $callback
+     * @param Request  $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Exception
      */
-    public function handleNotify(callable $callback)
+    public function handleNotify(callable $callback, Request $request = null)
     {
-        $notify = $this->getNotify();
+        $notify = $this->getNotify($request);
 
         if (!$notify->isValid()) {
             throw new Exception('Invalid request payloads.', 400);
@@ -64,15 +66,16 @@ trait HandleNotify
      * Handle refund notify.
      *
      * @param callable $callback
+     * @param Request  $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Exception
      */
-    public function handleRefundNotify(callable $callback)
+    public function handleRefundNotify(callable $callback, Request $request = null)
     {
         // please notice that the 'req_info' has been decrypted here
-        $notify = $this->getNotify()->decryptReqInfo();
+        $notify = $this->getNotify($request)->decryptReqInfo();
 
         $notify = $notify->getNotify();
         $successful = $notify->get('result_code') === 'SUCCESS';
@@ -101,14 +104,15 @@ trait HandleNotify
      * @see https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
      *
      * @param callable $callback
+     * @param Request  $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
-    public function handleScanNotify(callable $callback)
+    public function handleScanNotify(callable $callback, Request $request = null)
     {
-        $notify = $this->getNotify();
+        $notify = $this->getNotify($request);
 
         if (!$notify->isValid()) {
             throw new Exception('Invalid request payloads.', 400);
@@ -142,10 +146,12 @@ trait HandleNotify
     /**
      * Return Notify instance.
      *
+     * @param Request $request
+     *
      * @return \EasyWeChat\Payment\Notify
      */
-    public function getNotify(): Notify
+    public function getNotify(Request $request = null): Notify
     {
-        return new Notify($this->app['merchant']);
+        return new Notify($this->app['merchant'], $request);
     }
 }
