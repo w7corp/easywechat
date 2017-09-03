@@ -146,7 +146,7 @@ trait HandleNotify
     /**
      * Return Notify instance.
      *
-     * @param Request  $request
+     * @param Request $request
      *
      * @return \EasyWeChat\Payment\Notify
      */
