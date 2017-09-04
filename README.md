@@ -99,8 +99,8 @@ $server->serve()->send();
 
 ## Documentation
 
-- Homepage: http://easywechat.com
-- Forum: https://easywechat.com/discussions
+- Homepage: https://easywechat.org
+- Forum: https://forum.easywechat.org
 - 微信公众平台文档: https://mp.weixin.qq.com/wiki
 - WeChat Official Documentation: http://admin.wechat.com/wiki
 
