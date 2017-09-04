@@ -57,6 +57,8 @@
 
 ## Installation
 
+> 注意！当前分支这 4.0 分支， 4.0 还没有发布，意味着你无法通过下面的命令来安装。如果你想尝鲜 4.0 可以将 4.0 换成 dev-master 安装。
+
 ```shell
 composer require "overtrue/wechat:~4.0" -vvv
 ```
