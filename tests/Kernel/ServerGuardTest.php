@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Messages\Image;
+use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Raw;
 use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\Kernel\ServerGuard;
@@ -162,6 +163,9 @@ class ServerGuardTest extends TestCase
         ];
         sort($params, SORT_STRING);
         $signature = sha1(implode($params));
+        $encryptor = \Mockery::mock(Encryptor::class);
+
+        // xml
         $request = Request::create('/path/to/resource?foo=bar', 'POST', [
             'nonce' => $nonce,
             'timestamp' => $time,
@@ -171,9 +175,28 @@ class ServerGuardTest extends TestCase
         ], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
         ], '<xml><Encrypt>encrypted content</Encrypt></xml>');
-        $encryptor = \Mockery::mock(Encryptor::class);
         $encryptor->allows()->decrypt('encrypted content', 'mock-msg-signature', $nonce, $time)
             ->andReturn(XML::build(['foo' => 'bar']));
+
+        $app = new ServiceContainer([], [
+            'request' => $request,
+            'encryptor' => $encryptor,
+        ]);
+        $guard = new ServerGuard($app);
+        $this->assertSame(['foo' => 'bar'], $guard->getMessage());
+
+        // json
+        $request = Request::create('/path/to/resource?foo=bar', 'POST', [
+            'nonce' => $nonce,
+            'timestamp' => $time,
+            'signature' => $signature,
+            'msg_signature' => 'mock-msg-signature2',
+            'encrypt_type' => 'aes',
+        ], [], [], [
+            'CONTENT_TYPE' => ['application/json'],
+        ], '<xml><Encrypt>encrypted content</Encrypt></xml>');
+        $encryptor->allows()->decrypt('encrypted content', 'mock-msg-signature2', $nonce, $time)
+            ->andReturn(json_encode(['foo' => 'bar']));
 
         $app = new ServiceContainer([], [
             'request' => $request,
@@ -285,6 +308,33 @@ class ServerGuardTest extends TestCase
         $this->assertSame('overtrue', $response['ToUserName']);
         $this->assertSame('easywechat', $response['FromUserName']);
         $this->assertSame('welcome to easywechat.com', $response['Content']);
+
+        // news
+        $item1 = new NewsItem([
+            'title' => 'mock-title-1',
+            'description' => 'mock-description-1',
+            'url' => 'mock-url-1',
+            'image' => 'mock-image-1',
+        ]);
+        $item2 = new NewsItem([
+            'title' => 'mock-title-2',
+            'description' => 'mock-description-2',
+            'url' => 'mock-url-2',
+            'image' => 'mock-image-2',
+        ]);
+        $response = XML::parse($guard->buildResponse('overtrue', 'easywechat', [$item1, $item2]));
+        $this->assertArrayHasKey('ToUserName', $response);
+        $this->assertArrayHasKey('FromUserName', $response);
+        $this->assertArrayHasKey('CreateTime', $response);
+        $this->assertArrayHasKey('MsgType', $response);
+        $this->assertArrayHasKey('ArticleCount', $response);
+        $this->assertArrayHasKey('Articles', $response);
+        $this->assertSame('2', $response['ArticleCount']);
+        $this->assertCount(2, $response['Articles']['item']);
+        $this->assertArraySubset($item1->toXmlArray(), $response['Articles']['item'][0]);
+        $this->assertArraySubset($item2->toXmlArray(), $response['Articles']['item'][1]);
+        $this->assertSame('overtrue', $response['ToUserName']);
+        $this->assertSame('easywechat', $response['FromUserName']);
 
         // not message
         try {

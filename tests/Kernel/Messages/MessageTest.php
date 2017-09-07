@@ -18,6 +18,16 @@ use EasyWeChat\Tests\TestCase;
 
 class MessageTest extends TestCase
 {
+    public function testToXmlArrayException()
+    {
+        $message = new class() extends Message {
+        };
+
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage(sprintf('Class "%s" cannot support transform to XML message.', Message::class));
+        $message->toXmlArray();
+    }
+
     public function testBasicFeatures()
     {
         $message = new DummyMessageForMessageTest([

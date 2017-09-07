@@ -11,7 +11,7 @@
 
 namespace EasyWeChat;
 
-use EasyWeChat\WeWork\AgentFactory;
+use EasyWeChat\Work\AgentFactory;
 
 /**
  * Class Factory.
@@ -28,15 +28,15 @@ class Factory
      * @param string $name
      * @param array  $config
      *
-     * @return \EasyWeChat\Kernel\ServiceContainer|\EasyWeChat\WeWork\AgentFactory
+     * @return \EasyWeChat\Kernel\ServiceContainer|\EasyWeChat\Work\AgentFactory
      */
     public static function make($name, array $config)
     {
         $namespace = Kernel\Support\Str::studly($name);
         $application = "\\EasyWeChat\\{$namespace}\\Application";
 
-        if ($namespace === 'WeWork') {
-            return self::weWork($config);
+        if ($namespace === 'Work') {
+            return self::work($config);
         }
 
         return new $application($config);
@@ -45,9 +45,9 @@ class Factory
     /**
      * @param array $config
      *
-     * @return \EasyWeChat\WeWork\AgentFactory
+     * @return \EasyWeChat\Work\AgentFactory
      */
-    public static function weWork(array $config)
+    public static function work(array $config)
     {
         return new AgentFactory($config);
     }

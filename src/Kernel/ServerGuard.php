@@ -147,6 +147,7 @@ class ServerGuard
 
             // Handle JSON format.
             $dataSet = json_decode($message, true);
+
             if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
                 return $dataSet;
             }

@@ -42,9 +42,7 @@ class Transfer extends Message
      */
     public function __construct(string $account = null)
     {
-        if (!is_null($account)) {
-            $this->account = $account;
-        }
+        parent::__construct(compact('account'));
     }
 
     public function toXmlArray()
