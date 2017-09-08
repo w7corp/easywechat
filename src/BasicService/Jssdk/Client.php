@@ -51,7 +51,7 @@ class Client extends BaseClient
      *
      * @return array|string
      */
-    public function buildConfig(array $jsApiList, $debug = false, $beta = false, $json = true)
+    public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true)
     {
         $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->signature());
 
@@ -67,7 +67,7 @@ class Client extends BaseClient
      *
      * @return array
      */
-    public function getConfigArray(array $apis, $debug = false, $beta = false)
+    public function getConfigArray(array $apis, bool $debug = false, bool $beta = false)
     {
         return $this->buildConfig($apis, $debug, $beta, false);
     }
@@ -80,7 +80,7 @@ class Client extends BaseClient
      *
      * @return array
      */
-    public function getTicket(bool $refresh = false, $type = 'jsapi'): array
+    public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
         $cacheKey = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
 
@@ -101,13 +101,13 @@ class Client extends BaseClient
     /**
      * Build signature.
      *
-     * @param string $url
-     * @param string $nonce
-     * @param int    $timestamp
+     * @param string|null $url
+     * @param string|null $nonce
+     * @param int|null    $timestamp
      *
      * @return array
      */
-    protected function signature($url = null, $nonce = null, $timestamp = null)
+    protected function signature(string $url = null, string $nonce = null, int $timestamp = null): array
     {
         $url = $url ?: $this->getUrl();
         $nonce = $nonce ?: Support\Str::quickRandom(10);
@@ -132,7 +132,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getTicketSignature($ticket, $nonce, $timestamp, $url)
+    public function getTicketSignature(string $ticket, string $nonce, int $timestamp, string $url): string
     {
         return sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}");
     }
@@ -144,7 +144,7 @@ class Client extends BaseClient
      *
      * @return $this
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->url = $url;
 
@@ -156,7 +156,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getUrl()
+    public function getUrl(): string
     {
         if ($this->url) {
             return $this->url;

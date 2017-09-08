@@ -124,7 +124,7 @@ class Client extends BaseClient
             'component_appid' => $this->app['config']['app_id'],
         ];
 
-        $response = $this->requestRaw('api_create_preauthcode', 'POST', ['json' => $params]);
+        $response = $this->requestRaw('cgi-bin/component/api_create_preauthcode', 'POST', ['json' => $params]);
 
         return $this->resolveResponse($response, 'collection');
     }

@@ -33,7 +33,7 @@ class AccessToken extends BaseAccessToken
     /**
      * @var string
      */
-    protected $endpointToGetToken = 'api_component_token';
+    protected $endpointToGetToken = 'cgi-bin/component/api_component_token';
 
     /**
      * @return array
