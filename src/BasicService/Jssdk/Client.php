@@ -107,7 +107,7 @@ class Client extends BaseClient
      *
      * @return array
      */
-    protected function signature(string $url = null, string $nonce = null, int $timestamp = null): array
+    protected function signature(string $url = null, string $nonce = null, $timestamp = null): array
     {
         $url = $url ?: $this->getUrl();
         $nonce = $nonce ?: Support\Str::quickRandom(10);
@@ -132,7 +132,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getTicketSignature(string $ticket, string $nonce, int $timestamp, string $url): string
+    public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
     {
         return sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}");
     }

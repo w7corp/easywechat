@@ -27,7 +27,7 @@ class JssdkClient extends Jssdk
      *
      * @return array
      */
-    public function getTicket(bool $refresh = false, $type = 'wx_card'): array
+    public function getTicket(bool $refresh = false, string $type = 'wx_card'): array
     {
         return parent::getTicket($refresh, $type);
     }

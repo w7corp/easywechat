@@ -108,7 +108,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
 
         $client->expects()
-            ->requestRaw('api_create_preauthcode', 'POST', ['json' => ['component_appid' => '123456']])
+            ->requestRaw('cgi-bin/component/api_create_preauthcode', 'POST', ['json' => ['component_appid' => '123456']])
             ->andReturnUsing(function () {
                 return new \EasyWeChat\Kernel\Http\Response(200, [], json_encode(['foo' => 'bar']));
             })
