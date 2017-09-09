@@ -69,10 +69,50 @@ class HasAttributesTest extends TestCase
 
         $cls->withBar('bar');
         $cls->withName('overtrue');
-        $cls->merge(['hello' => 'world']);
         $this->assertSame('bar', $cls->bar);
         $this->assertSame('overtrue', $cls->name);
-        $this->assertSame('world', $cls->hello);
+
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('Method "invalidMethodName" does not exists.');
+
+        $cls->invalidMethodName('hello', 'world!');
+    }
+
+    public function testMerge()
+    {
+        $cls = new DummyClassForHasAttributesTest();
+
+        $cls->setAttributes([
+            'foo' => 'bar',
+            'name' => 'easywechat',
+        ]);
+
+        $cls->merge([
+            'age' => 27,
+        ]);
+
+        $this->assertTrue($cls->has('age'));
+        $this->assertSame(27, $cls->get('age'));
+    }
+
+    public function testOnly()
+    {
+        $cls = new DummyClassForHasAttributesTest();
+
+        $cls->setAttributes([
+            'foo' => 'bar',
+            'name' => 'easywechat',
+            'age' => 27,
+        ]);
+
+        $this->assertSame([
+            'foo' => 'bar',
+        ], $cls->only('foo'));
+
+        $this->assertSame([
+            'foo' => 'bar',
+            'age' => 27,
+        ], $cls->only(['foo', 'age']));
     }
 }
 

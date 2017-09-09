@@ -12,7 +12,7 @@
 namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Support\Collection;
+use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Support\Str;
 
 /**
@@ -21,9 +21,9 @@ use EasyWeChat\Kernel\Support\Str;
 trait HasAttributes
 {
     /**
-     * @var \EasyWeChat\Kernel\Support\Collection
+     * @var array
      */
-    protected $attributes;
+    protected $attributes = [];
 
     /**
      * @var bool
@@ -39,7 +39,7 @@ trait HasAttributes
      */
     public function setAttributes(array $attributes = [])
     {
-        $this->attributes = new Collection($attributes);
+        $this->attributes = $attributes;
 
         return $this;
     }
@@ -54,7 +54,7 @@ trait HasAttributes
      */
     public function setAttribute($attribute, $value)
     {
-        $this->attributes->set($attribute, $value);
+        Arr::set($this->attributes, $attribute, $value);
 
         return $this;
     }
@@ -69,7 +69,7 @@ trait HasAttributes
      */
     public function getAttribute($attribute, $default = null)
     {
-        return $this->attributes->get($attribute, $default);
+        return Arr::get($this->attributes, $attribute, $default);
     }
 
     /**
@@ -138,6 +138,38 @@ trait HasAttributes
     }
 
     /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has(string $key)
+    {
+        return Arr::has($this->attributes, $key);
+    }
+
+    /**
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function merge(array $attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
+
+        return $this;
+    }
+
+    /**
+     * @param array|string $keys
+     *
+     * @return array
+     */
+    public function only($keys)
+    {
+        return Arr::only($this->attributes, $keys);
+    }
+
+    /**
      * Return all items.
      *
      * @return array
@@ -146,7 +178,7 @@ trait HasAttributes
     {
         $this->checkRequiredAttributes();
 
-        return $this->attributes->all();
+        return $this->attributes;
     }
 
     /**
@@ -163,7 +195,7 @@ trait HasAttributes
             return $this->with(substr($method, 4), array_shift($args));
         }
 
-        return call_user_func_array([$this->attributes, $method], $args);
+        throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method));
     }
 
     /**

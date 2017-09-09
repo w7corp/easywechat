@@ -316,10 +316,12 @@ class Client extends BaseClient
      */
     protected function prepends(): array
     {
-        return $this->app['merchant']->only(['sub_appid', 'sub_mch_id'])->merge([
-            'appid' => $this->app['merchant']->app_id,
-            'mch_id' => $this->app['merchant']->merchant_id,
-            'device_info' => $this->app['merchant']->device_info,
-        ])->all();
+        return array_merge(
+                $this->app['merchant']->only(['sub_appid', 'sub_mch_id']),
+                [
+                    'appid' => $this->app['merchant']->app_id,
+                    'mch_id' => $this->app['merchant']->merchant_id,
+                    'device_info' => $this->app['merchant']->device_info,
+                ]);
     }
 }
