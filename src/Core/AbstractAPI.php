@@ -215,7 +215,7 @@ abstract class AbstractAPI
             // Limit the number of retries to 2
             if ($retries <= self::$maxRetries && $response && $body = $response->getBody()) {
                 // Retry on server errors
-                if (stripos($body, 'errcode') && (stripos($body, '40001') || stripos($body, '42001'))) {
+                if (stripos($body, 'errcode') !== false && (stripos($body, '40001') !== false || stripos($body, '42001') !== false )) {
                     $field = $this->accessToken->getQueryName();
                     $token = $this->accessToken->getToken(true);
 
