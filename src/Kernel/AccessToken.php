@@ -14,7 +14,6 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Traits\HasAttributes;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use Pimple\Container;
@@ -28,7 +27,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class AccessToken implements AccessTokenInterface
 {
-    use HasHttpRequests, HasAttributes, InteractsWithCache;
+    use HasHttpRequests, InteractsWithCache;
 
     /**
      * @var \Pimple\Container
@@ -44,6 +43,11 @@ abstract class AccessToken implements AccessTokenInterface
      * @var string
      */
     protected $endpointToGetToken;
+
+    /**
+     * @var string
+     */
+    protected $queryName;
 
     /**
      * @var array
