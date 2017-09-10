@@ -16,6 +16,7 @@ use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
+use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\MiniProgramServiceProvider;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
 
@@ -85,7 +86,11 @@ class Application extends ServiceContainer
      */
     public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): MiniProgram
     {
-        return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
+        $application = new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
+
+        $application->register(new MiniProgramServiceProvider());
+
+        return $application;
     }
 
     /**
