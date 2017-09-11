@@ -9,21 +9,17 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\Authorizer\MiniProgram;
+namespace EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Domain;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class MiniProgramServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['code'] = function ($app) {
-            return new Code\Client($app);
-        };
-
         $app['domain'] = function ($app) {
-            return new Domain\Client($app);
+            return new Client($app);
         };
     }
 }

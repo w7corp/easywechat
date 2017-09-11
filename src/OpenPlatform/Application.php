@@ -12,11 +12,9 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
-use EasyWeChat\MiniProgram\Application as MiniProgram;
-use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
-use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
-use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\MiniProgramServiceProvider;
+use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
+use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
 
@@ -61,7 +59,7 @@ class Application extends ServiceContainer
      * @param string                                                   $refreshToken
      * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
      *
-     * @return \EasyWeChat\OfficialAccount\Application
+     * @return \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application
      */
     public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): OfficialAccount
     {
@@ -72,7 +70,7 @@ class Application extends ServiceContainer
             return $socialite->component(new ComponentDelegate($this));
         });
 
-        return $application->register(new AggregateServiceProvider());
+        return $application;
     }
 
     /**
@@ -82,29 +80,26 @@ class Application extends ServiceContainer
      * @param string                                                   $refreshToken
      * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
      *
-     * @return \EasyWeChat\MiniProgram\Application
+     * @return \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application
      */
     public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): MiniProgram
     {
-        $application = new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
-
-        $application->register(new MiniProgramServiceProvider());
-
-        return $application;
+        return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
     }
 
     /**
      * Return the pre-authorization login page url.
      *
-     * @param string $callbackUrl
+     * @param string      $callbackUrl
+     * @param string|null $authCode
      *
      * @return string
      */
-    public function getPreAuthorizationUrl(string $callbackUrl): string
+    public function getPreAuthorizationUrl(string $callbackUrl, string $authCode = null): string
     {
         $queries = [
             'component_appid' => $this['config']['app_id'],
-            'pre_auth_code' => $this->createPreAuthorizationCode()['pre_auth_code'],
+            'pre_auth_code' => $authCode ?? $this->createPreAuthorizationCode()['pre_auth_code'],
             'redirect_uri' => $callbackUrl,
         ];
 
