@@ -78,6 +78,7 @@ class Client extends BaseClient
 
     /**
      * Return url for ticket.
+     * Detail: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542
      *
      * @param string $ticket
      *
@@ -85,7 +86,7 @@ class Client extends BaseClient
      */
     public function url($ticket)
     {
-        return sprintf($this->baseUri.'showqrcode?ticket=%s', $ticket);
+        return sprintf('https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', urlencode($ticket));
     }
 
     /**
