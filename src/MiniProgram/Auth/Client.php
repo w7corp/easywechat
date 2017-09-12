@@ -18,7 +18,7 @@ use EasyWeChat\Kernel\BaseClient;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class Auth extends BaseClient
+class Client extends BaseClient
 {
     /**
      * Get session info by code.

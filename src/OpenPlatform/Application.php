@@ -12,8 +12,10 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\MiniProgram\Encryptor;
 use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
+use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
@@ -63,7 +65,9 @@ class Application extends ServiceContainer
      */
     public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): OfficialAccount
     {
-        $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
+        $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
+            'encryptor' => $this['encryptor'],
+        ]);
 
         $application->extend('oauth', function ($socialite) {
             /* @var \Overtrue\Socialite\Providers\WeChatProvider $socialite */
@@ -84,7 +88,15 @@ class Application extends ServiceContainer
      */
     public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): MiniProgram
     {
-        return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken));
+        return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
+            'encryptor' => function () {
+                return new Encryptor($this['config']['app_id'], $this['config']['token'], $this['config']['aes_key']);
+            },
+
+            'auth' => function ($app) {
+                return new Client($app, $this);
+            },
+        ]);
     }
 
     /**
@@ -138,8 +150,6 @@ class Application extends ServiceContainer
             'server' => function ($app) {
                 return new Guard($app);
             },
-
-            'encryptor' => $this['encryptor'],
         ];
     }
 

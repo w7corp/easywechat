@@ -12,14 +12,14 @@
 namespace EasyWeChat\Tests\MiniProgram\Sns;
 
 use EasyWeChat\Kernel\ServiceContainer;
-use EasyWeChat\MiniProgram\Auth\Auth;
+use EasyWeChat\MiniProgram\Auth\Client;
 use EasyWeChat\Tests\TestCase;
 
 class AuthTest extends TestCase
 {
     public function testGetSessionKey()
     {
-        $client = $this->mockApiClient(Auth::class, [], new ServiceContainer(['app_id' => 'app-id', 'secret' => 'mock-secret']));
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id', 'secret' => 'mock-secret']));
 
         $client->expects()->httpGet('sns/jscode2session', [
             'appid' => 'app-id',

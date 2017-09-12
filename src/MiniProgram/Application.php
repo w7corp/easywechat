@@ -22,7 +22,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Auth\AccessToken            $access_token
  * @property \EasyWeChat\MiniProgram\DataCube\Client             $data_cube
  * @property \EasyWeChat\MiniProgram\AppCode\Client              $app_code
- * @property \EasyWeChat\MiniProgram\Auth\Auth                   $auth
+ * @property \EasyWeChat\MiniProgram\Auth\Client                 $auth
  * @property \EasyWeChat\OfficialAccount\Server\Guard            $server
  * @property \EasyWeChat\MiniProgram\Encryptor                   $encryptor
  * @property \EasyWeChat\MiniProgram\TemplateMessage\Client      $template_message
