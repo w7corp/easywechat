@@ -21,11 +21,6 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * @var string
-     */
-    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/open/';
-
-    /**
      * 创建开放平台帐号并绑定公众号/小程序.
      *
      * @return mixed
@@ -36,7 +31,7 @@ class Client extends BaseClient
             'appid' => $this->app['config']['app_id'],
         ];
 
-        return $this->httpPostJson('cgi-bin/component/create', $params);
+        return $this->httpPostJson('cgi-bin/open/create', $params);
     }
 
     /**
@@ -53,7 +48,7 @@ class Client extends BaseClient
             'open_appid' => $openAppId,
         ];
 
-        return $this->httpPostJson('cgi-bin/component/bind', $params);
+        return $this->httpPostJson('cgi-bin/open/bind', $params);
     }
 
     /**
@@ -70,7 +65,7 @@ class Client extends BaseClient
             'open_appid' => $openAppId,
         ];
 
-        return $this->httpPostJson('cgi-bin/component/unbind', $params);
+        return $this->httpPostJson('cgi-bin/open/unbind', $params);
     }
 
     /**
@@ -84,6 +79,6 @@ class Client extends BaseClient
             'appid' => $this->app['config']['app_id'],
         ];
 
-        return $this->httpPostJson('cgi-bin/component/get', $params);
+        return $this->httpPostJson('cgi-bin/open/get', $params);
     }
 }
