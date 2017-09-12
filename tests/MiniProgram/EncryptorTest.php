@@ -28,9 +28,5 @@ class EncryptorTest extends TestCase
 
         $this->assertSame('oGZUI0egBJY1zhBYw2KhdUfwVJJE', $decrypted['openId']);
         $this->assertSame('ocMvos6NjeKLIBqg5Mr9QjxrP1FA', $decrypted['unionId']);
-
-        $this->expectExceptionMessage('Invalid appId.');
-        $encryptor = new Encryptor('invalid appid', 'pamtest', 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
-        $decrypted = $encryptor->decryptData('tiihtNczf5v6AKRyjwEUhQ==', 'r7BXXKkLb8qrSNn05n0qiA==', $encryptedData);
     }
 }
