@@ -78,7 +78,7 @@ class Client extends BaseClient
 
     /**
      * Return url for ticket.
-     * Detail: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542
+     * Detail: https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1443433542 .
      *
      * @param string $ticket
      *

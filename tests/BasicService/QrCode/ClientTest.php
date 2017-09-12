@@ -53,7 +53,7 @@ class ClientTest extends TestCase
     public function testUrl()
     {
         $client = $this->mockApiClient(Client::class, 'create');
-        $this->assertSame(sprintf('https://api.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', 'ticket'), $client->url('ticket'));
+        $this->assertSame(sprintf('https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s', 'ticket%3F%2F'), $client->url('ticket?/'));
     }
 
     public function testCreate()
