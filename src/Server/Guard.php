@@ -53,6 +53,7 @@ class Guard
     const LINK_MSG = 128;
     const DEVICE_EVENT_MSG = 256;
     const DEVICE_TEXT_MSG = 512;
+    const FILE_MSG = 1024;
     const EVENT_MSG = 1048576;
     const ALL_MSG = 1049598;
 
@@ -94,6 +95,7 @@ class Guard
         'link' => 128,
         'device_event' => 256,
         'device_text' => 512,
+        'file' => 1024,
         'event' => 1048576,
     ];
 
