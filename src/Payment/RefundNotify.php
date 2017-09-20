@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: leo108
- * Date: 2017/8/10
- * Time: 15:07
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace EasyWeChat\Payment;
@@ -45,7 +48,7 @@ class RefundNotify
     public function __construct(Merchant $merchant, Request $request = null)
     {
         $this->merchant = $merchant;
-        $this->request  = $request ?: Request::createFromGlobals();
+        $this->request = $request ?: Request::createFromGlobals();
     }
 
     /**
@@ -80,8 +83,8 @@ class RefundNotify
     public function decode($reqInfo)
     {
         $ciphertext = base64_decode($reqInfo);
-        $key        = md5($this->merchant->key);
-        $decrypted  = openssl_decrypt($ciphertext, 'aes-256-ecb', $key, OPENSSL_RAW_DATA);
+        $key = md5($this->merchant->key);
+        $decrypted = openssl_decrypt($ciphertext, 'aes-256-ecb', $key, OPENSSL_RAW_DATA);
 
         return XML::parse($decrypted);
     }
