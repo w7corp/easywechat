@@ -63,6 +63,7 @@ class RefundNotify
         if (!empty($this->notify)) {
             return $this->notify;
         }
+
         try {
             $xml = XML::parse(strval($this->request->getContent()));
         } catch (\Throwable $t) {
@@ -82,7 +83,7 @@ class RefundNotify
 
     public function decode($reqInfo)
     {
-        $ciphertext = base64_decode($reqInfo);
+        $ciphertext = base64_decode($reqInfo, true);
         $key = md5($this->merchant->key);
         $decrypted = openssl_decrypt($ciphertext, 'aes-256-ecb', $key, OPENSSL_RAW_DATA);
 
