@@ -97,7 +97,7 @@ $server->push(function($message) use ($user) {
 $server->serve()->send();
 ```
 
-更多请参考 [http://easywechat.com/](http://easywechat.com/)。
+更多请参考 [http://easywechat.org/](http://easywechat.org/)。
 
 ## Documentation
 
