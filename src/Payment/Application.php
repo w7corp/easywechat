@@ -36,6 +36,7 @@ use EasyWeChat\OfficialAccount;
  * @method mixed close(string $tradeNo)
  * @method mixed reverse(string $orderNo)
  * @method mixed reverseByTransactionId(string $transactionId)
+ * @method mixed handleNotify(callable $callback, \Symfony\Component\HttpFoundation\Request $request = null)
  */
 class Application extends ServiceContainer
 {
