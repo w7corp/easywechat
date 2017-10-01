@@ -34,7 +34,7 @@ class Client extends JssdkClient
      *
      * @param string $prepayId
      * @param bool   $json
-     * @param null $appId
+     * @param null   $appId
      *
      * @return string|array
      */
