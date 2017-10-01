@@ -36,7 +36,12 @@ class ClientTest extends TestCase
 
     public function testBridgeConfig()
     {
-        $app = $this->makeApp();
+        $app = new Application([
+            'app_id' => 'wx123456',
+            'merchant_id' => 'foo-mcherant-id',
+            'key' => 'foo-mcherant-key',
+            'sub_mch_id' => 'foo-sub-mch-id',
+        ]);
 
         $client = $this->mockApiClient(Client::class, 'bridgeConfig', $app)->makePartial();
 
@@ -63,6 +68,20 @@ class ClientTest extends TestCase
         $this->assertArrayHasKey('signType', $config);
         $this->assertArrayHasKey('paySign', $config);
         $this->assertSame($app['merchant']->app_id, $config['appId']);
+        $this->assertSame("prepay_id=$prepayId", $config['package']);
+        $this->assertSame('MD5', $config['signType']);
+
+        // sub_appid
+        $app = new Application([
+            'app_id' => 'wx123456',
+            'merchant_id' => 'foo-mcherant-id',
+            'key' => 'foo-mcherant-key',
+            'sub_appid' => 'foo-sub-appid',
+            'sub_mch_id' => 'foo-sub-mch-id',
+        ]);
+        $client = $this->mockApiClient(Client::class, 'bridgeConfig', $app)->makePartial();
+        $config = $client->bridgeConfig($prepayId, false);
+        $this->assertSame($app['merchant']->sub_appid, $config['appId']);
         $this->assertSame("prepay_id=$prepayId", $config['package']);
         $this->assertSame('MD5', $config['signType']);
     }
