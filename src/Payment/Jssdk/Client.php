@@ -34,14 +34,13 @@ class Client extends JssdkClient
      *
      * @param string $prepayId
      * @param bool   $json
-     * @param null   $appId
      *
      * @return string|array
      */
-    public function bridgeConfig($prepayId, $json = true, $appId = null)
+    public function bridgeConfig($prepayId, $json = true)
     {
         $params = [
-            'appId' => $appId ?: $this->app['merchant']->app_id,
+            'appId' => $this->app['merchant']->sub_appid ?: $this->app['merchant']->app_id,
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
             'package' => "prepay_id=$prepayId",
