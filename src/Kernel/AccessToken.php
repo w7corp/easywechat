@@ -143,10 +143,11 @@ abstract class AccessToken implements AccessTokenInterface
      */
     public function requestToken(array $credentials): array
     {
-        $result = json_decode($this->sendRequest($credentials)->getBody()->getContents(), true);
+        $response = $this->sendRequest($credentials);
+        $result = json_decode($response->getBody()->getContents(), true);
 
         if (empty($result[$this->tokenKey])) {
-            throw new HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response);
         }
 
         return $result;

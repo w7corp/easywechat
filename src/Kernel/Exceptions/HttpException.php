@@ -37,5 +37,9 @@ class HttpException extends Exception
         parent::__construct($message, $code);
 
         $this->response = $response;
+
+        if ($response) {
+            $response->getBody()->rewind();
+        }
     }
 }
