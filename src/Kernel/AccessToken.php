@@ -172,7 +172,7 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @param array $credentials
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return null|ResponseInterface
      */
     protected function sendRequest(array $credentials): ResponseInterface
     {
