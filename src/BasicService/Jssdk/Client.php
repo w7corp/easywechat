@@ -27,7 +27,7 @@ class Client extends BaseClient
     /**
      * @var string
      */
-    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
+    const API_GET_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
 
     /**
      * Current URI.
@@ -82,14 +82,14 @@ class Client extends BaseClient
      */
     public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
-        $cacheKey = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
+        $cacheKey = self::TICKET_CACHE_PREFIX.$this->getAppId();
 
         if (!$refresh && $this->getCache()->has($cacheKey)) {
             return $this->getCache()->get($cacheKey);
         }
 
         $result = $this->resolveResponse(
-            $this->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => $type]]),
+            $this->requestRaw(static::API_GET_TICKET, 'GET', ['query' => ['type' => $type]]),
             'array'
         );
 
@@ -114,7 +114,7 @@ class Client extends BaseClient
         $timestamp = $timestamp ?: time();
 
         return [
-            'appId' => $this->app['config']['app_id'],
+            'appId' => $this->getAppId(),
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'url' => $url,
@@ -163,5 +163,13 @@ class Client extends BaseClient
         }
 
         return Support\current_url();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAppId()
+    {
+        return $this->app['config']->get('app_id');
     }
 }

@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Work;
 
-use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -52,9 +51,7 @@ class Application extends ServiceContainer
         Message\ServiceProvider::class,
         Department\ServiceProvider::class,
         Server\ServiceProvider::class,
-
-        // base services
-        BasicService\Jssdk\ServiceProvider::class,
+        Jssdk\ServiceProvider::class,
     ];
 
     /**
