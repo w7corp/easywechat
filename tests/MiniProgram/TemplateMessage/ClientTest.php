@@ -47,4 +47,14 @@ class ClientTest extends TestCase
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id', 'form_id' => 'mock-form_id']));
     }
+    
+    public function testTemplatelist()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+        print('获取帐号下已存在的模板列表');
+
+        // 获取帐号下已存在的模板列表
+        $client->expects()->httpPostJson('cgi-bin/wxopen/template/list')->andReturn('mock-result')->once();
+        $this->assertNotSame('mock-result', $client->getPrivateTemplates();
+    }
 }

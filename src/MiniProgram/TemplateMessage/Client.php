@@ -21,6 +21,7 @@ use EasyWeChat\OfficialAccount\TemplateMessage\Client as BaseClient;
 class Client extends BaseClient
 {
     const API_SEND = 'cgi-bin/message/wxopen/template/send';
+    const API_PRIVATE_TEMPLATE_LIST = 'cgi-bin/wxopen/template/list';
 
     /**
      * {@inheritdoc}.
@@ -38,4 +39,16 @@ class Client extends BaseClient
      * {@inheritdoc}.
      */
     protected $required = ['touser', 'template_id', 'form_id'];
+
+    /**
+     * 4.获取帐号下已存在的模板列表
+     *
+     * https://api.weixin.qq.com/cgi-bin/wxopen/template/list?access_token=ACCESS_TOKEN
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function getTemplateList($offset, $count)
+    {
+        return $this->httpPostJson(static::API_PRIVATE_TEMPLATE_LIST, ['offset'=>$offset, 'count'=>$count]);
+    }
 }
