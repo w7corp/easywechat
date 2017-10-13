@@ -9,25 +9,19 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Notify.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Payment;
 
-use EasyWeChat\Core\Exceptions\FaultException;
-use EasyWeChat\Support\Collection;
-use EasyWeChat\Support\XML;
+use EasyWeChat\Kernel\Exceptions\Exception;
+use EasyWeChat\Kernel\Support;
+use EasyWeChat\Kernel\Support\AES;
+use EasyWeChat\Kernel\Support\Collection;
+use EasyWeChat\Kernel\Support\XML;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class Notify.
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class Notify
 {
@@ -46,7 +40,7 @@ class Notify
     protected $request;
 
     /**
-     * Payment notify (extract from XML).
+     * Payment notify (prependsct from XML).
      *
      * @var Collection
      */
@@ -71,33 +65,56 @@ class Notify
      */
     public function isValid()
     {
-        $localSign = generate_sign($this->getNotify()->except('sign')->all(), $this->merchant->key, 'md5');
+        $localSign = Support\generate_sign($this->getNotify()->except('sign')->all(), $this->merchant->key, 'md5');
 
         return $localSign === $this->getNotify()->get('sign');
     }
 
     /**
+     * Decrypt req_info in refund Notify.
+     *
+     * @return $this
+     *
+     * @throws Exception
+     */
+    public function decryptReqInfo()
+    {
+        if ($reqInfo = $this->getNotify()->get('req_info')) {
+            $decrypted = AES::decrypt(
+                base64_decode($reqInfo, true),
+                md5($this->merchant->key),
+                substr(md5($this->merchant->key), 0, 16)
+            );
+
+            $this->notify->req_info = $decrypted;
+
+            return $this;
+        }
+
+        throw new Exception('req_info does not exist.', 400);
+    }
+
+    /**
      * Return the notify body from request.
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
-     * @throws \EasyWeChat\Core\Exceptions\FaultException
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function getNotify()
     {
         if (!empty($this->notify)) {
             return $this->notify;
         }
+
         try {
             $xml = XML::parse(strval($this->request->getContent()));
-        } catch (\Throwable $t) {
-            throw new FaultException('Invalid request XML: '.$t->getMessage(), 400);
-        } catch (\Exception $e) {
-            throw new FaultException('Invalid request XML: '.$e->getMessage(), 400);
+        } catch (\Throwable $e) {
+            throw new Exception('Invalid request XML: '.$e->getMessage(), 400);
         }
 
         if (!is_array($xml) || empty($xml)) {
-            throw new FaultException('Invalid request XML.', 400);
+            throw new Exception('Invalid request XML.', 400);
         }
 
         return $this->notify = new Collection($xml);

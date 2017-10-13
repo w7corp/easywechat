@@ -9,22 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Merchant.php.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Payment;
 
-use EasyWeChat\Support\Attribute;
+use EasyWeChat\Kernel\Traits\HasAttributes;
 
 /**
  * Class Merchant.
+ *
+ * @author overtrue <i@overtrue.me>
  *
  * @property string $app_id
  * @property string $merchant_id
@@ -36,37 +28,39 @@ use EasyWeChat\Support\Attribute;
  * @property string $fee_type
  * @property string $device_info
  */
-class Merchant extends Attribute
+class Merchant
 {
+    use HasAttributes;
+
     /**
      * @var array
      */
-    protected $attributes = [
-        'app_id',
-        'merchant_id',
-        'key',
-        'sub_app_id',
-        'sub_merchant_id',
-        'ssl_cert_path',
-        'ssl_key_path',
-        'fee_type',
-        'device_info',
-    ];
+    // protected $attributes = [
+    //     'app_id',
+    //     'merchant_id',
+    //     'key',
+    //     'sub_app_id',
+    //     'sub_merchant_id',
+    //     'ssl_cert_path',
+    //     'ssl_key_path',
+    //     'fee_type',
+    //     'device_info',
+    // ];
 
     /**
      * Aliases of attributes.
      *
      * @var array
      */
-    protected $aliases = [
-        'app_id' => 'appid',
-        'key' => 'mch_key',
-        'merchant_id' => 'mch_id',
-        'sub_app_id' => 'sub_appid',
-        'sub_merchant_id' => 'sub_mch_id',
-        'cert_path' => 'sslcert_path',
-        'key_path' => 'sslkey_path',
-    ];
+    // protected $aliases = [
+    //     'app_id' => 'appid',
+    //     'key' => 'mch_key',
+    //     'merchant_id' => 'mch_id',
+    //     'sub_app_id' => 'sub_appid',
+    //     'sub_merchant_id' => 'sub_mch_id',
+    //     'cert_path' => 'sslcert_path',
+    //     'key_path' => 'sslkey_path',
+    // ];
 
     /**
      * Constructor.
@@ -75,7 +69,17 @@ class Merchant extends Attribute
      */
     public function __construct(array $attributes)
     {
-        parent::__construct($attributes);
+        $this->setAttributes($attributes);
+
+        $this->aliases = [
+            'app_id' => 'appid',
+            'key' => 'mch_key',
+            'merchant_id' => 'mch_id',
+            'sub_app_id' => 'sub_appid',
+            'sub_merchant_id' => 'sub_mch_id',
+            'cert_path' => 'sslcert_path',
+            'key_path' => 'sslkey_path',
+        ];
 
         $this->with('fee_type', 'CNY');
     }

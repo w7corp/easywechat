@@ -9,22 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-/**
- * Order.
- *
- * @author    overtrue <i@overtrue.me>
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Payment;
 
-use EasyWeChat\Support\Attribute;
+use EasyWeChat\Kernel\Traits\HasAttributes;
 
 /**
  * Class Order.
+ *
+ * @author overtrue <i@overtrue.me>
  *
  * @property string $body
  * @property string $detail
@@ -44,40 +36,23 @@ use EasyWeChat\Support\Attribute;
  * @property string $sub_openid
  * @property string $auth_code
  */
-class Order extends Attribute
+class Order
 {
+    use HasAttributes;
+
     const JSAPI = 'JSAPI';
     const NATIVE = 'NATIVE';
     const APP = 'APP';
     const MICROPAY = 'MICROPAY';
-
-    protected $attributes = [
-        'body',
-        'detail',
-        'attach',
-        'out_trade_no',
-        'fee_type',
-        'total_fee',
-        'spbill_create_ip',
-        'time_start',
-        'time_expire',
-        'goods_tag',
-        'notify_url',
-        'trade_type',
-        'product_id',
-        'limit_pay',
-        'openid',
-        'sub_openid',
-        'auth_code',
-    ];
+    const MWEB = 'MWEB';
 
     /**
      * Constructor.
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes)
+    public function __construct(array $attributes = [])
     {
-        parent::__construct($attributes);
+        $this->setAttributes($attributes);
     }
 }
