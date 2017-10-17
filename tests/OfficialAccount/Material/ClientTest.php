@@ -157,15 +157,15 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['response_type' => 'array']));
 
         // stream response
-        $response = new Response(200, ['Content-Type' => ['image/jpeg']], 'mock-content');
-        $client->expects()->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => 'mock-media-id']])
+        $response = new Response(200, [], 'mock-content');
+        $client->expects()->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => 'mock-media-id']])
                     ->andReturn($response)->once();
 
         $this->assertInstanceOf(StreamResponse::class, $client->get('mock-media-id'));
 
         // json response
-        $response = new Response(200, ['Content-Type' => ['application/json']], '{"title": "mock-title"}');
-        $client->expects()->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => 'mock-media-id']])
+        $response = new Response(200, ['Content-Type' => ['text/plain']], '{"title": "mock-title"}');
+        $client->expects()->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => 'mock-media-id']])
                     ->andReturn($response)->once();
 
         $result = $client->get('mock-media-id');

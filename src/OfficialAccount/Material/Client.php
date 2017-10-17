@@ -157,13 +157,13 @@ class Client extends BaseClient
      */
     public function get(string $mediaId)
     {
-        $response = $this->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => $mediaId]]);
+        $response = $this->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => $mediaId]]);
 
-        if (preg_match('/(image|video|audio)/i', $response->getHeaderLine('Content-Type'))) {
-            return StreamResponse::buildFromPsrResponse($response);
+        if ($response->getHeaderLine('Content-Type') === 'text/plain') {
+            return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
         }
 
-        return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+        return StreamResponse::buildFromPsrResponse($response);
     }
 
     /**
