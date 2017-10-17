@@ -17,8 +17,8 @@ use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
+use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\OAuth\ComponentDelegate;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
-use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
 
 /**
  * Class Application.

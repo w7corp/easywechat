@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\OAuth;
+namespace EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\OAuth;
 
 use EasyWeChat\OpenPlatform\Application;
 use Overtrue\Socialite\WeChatComponentInterface;

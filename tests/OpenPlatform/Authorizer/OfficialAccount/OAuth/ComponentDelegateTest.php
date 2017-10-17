@@ -9,11 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OpenPlatform\OAuth;
+namespace EasyWeChat\Tests\OpenPlatform\Authorizer\OfficialAccount\OAuth;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Application;
-use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
+use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\OAuth\ComponentDelegate;
 use EasyWeChat\Tests\TestCase;
 
 class ComponentDelegateTest extends TestCase
