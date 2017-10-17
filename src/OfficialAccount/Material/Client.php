@@ -159,11 +159,11 @@ class Client extends BaseClient
     {
         $response = $this->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => $mediaId]]);
 
-        if ($response->getHeaderLine('Content-Type') === 'text/plain') {
-            return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+        if (strpos($response->getHeaderLine('Content-Type'), 'text') === false) {
+            return StreamResponse::buildFromPsrResponse($response);
         }
 
-        return StreamResponse::buildFromPsrResponse($response);
+        return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
     }
 
     /**
