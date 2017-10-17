@@ -157,9 +157,9 @@ class Client extends BaseClient
      */
     public function get(string $mediaId)
     {
-        $response = $this->requestRaw('cgi-bin/material/get_material', 'GET', ['query' => ['media_id' => $mediaId]]);
+        $response = $this->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => $mediaId]]);
 
-        if (preg_match('/(image|video|audio)/i', $response->getHeaderLine('Content-Type'))) {
+        if (strpos($response->getHeaderLine('Content-Type'), 'text') === false) {
             return StreamResponse::buildFromPsrResponse($response);
         }
 
