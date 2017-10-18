@@ -9,18 +9,18 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\Auth;
+namespace EasyWeChat\OpenPlatform\Authorizer\Auth;
 
 use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 use EasyWeChat\OpenPlatform\Application;
 use Pimple\Container;
 
 /**
- * Class AuthorizerAccessToken.
+ * Class AccessToken.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
-class AuthorizerAccessToken extends BaseAccessToken
+class AccessToken extends BaseAccessToken
 {
     /**
      * @var string

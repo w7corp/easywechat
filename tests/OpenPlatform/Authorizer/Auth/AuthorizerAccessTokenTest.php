@@ -9,12 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OpenPlatform\Auth;
+namespace EasyWeChat\Tests\OpenPlatform\Authorizer\Auth;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Auth\AccessToken;
-use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
+use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken as AuthorizerAccessToken;
 use EasyWeChat\Tests\TestCase;
 
 class AuthorizerAccessTokenTest extends TestCase

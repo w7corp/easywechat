@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\OpenPlatform\Application;
-use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
+use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken as AuthorizerAccessToken;
 use EasyWeChat\Tests\TestCase;
 
 class ApplicationTest extends TestCase
