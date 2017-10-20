@@ -41,7 +41,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function queryStock(array $params)
+    public function stock(array $params)
     {
         return $this->request('mmpaymkttransfers/query_coupon_stock', $params);
     }
@@ -53,19 +53,8 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function query(array $params)
+    public function info(array $params)
     {
         return $this->request('mmpaymkttransfers/querycouponsinfo', $params);
-    }
-
-    /**
-     * {@inheritdoc}.
-     */
-    protected function prepends(): array
-    {
-        return [
-            'mch_id' => $this->app['merchant']->merchant_id,
-            'appid' => $this->app['merchant']->app_id,
-        ];
     }
 }

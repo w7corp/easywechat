@@ -9,10 +9,11 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Payment;
+namespace EasyWeChat\Payment\Kernel;
 
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
+use EasyWeChat\Payment\Application;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -64,11 +65,14 @@ class BaseClient
      */
     protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
     {
-        $params = array_merge($this->prepends(), $params);
+        $params = array_merge([
+            'appid' => $this->app['config']['app_id'],
+            'mch_id' => $this->app['config']['mch_id'],
+        ], $this->prepends(), $params);
         $params['nonce_str'] = uniqid();
         $params = array_filter($params);
 
-        $key = method_exists($this, 'getSignKey') ? $this->getSignKey($api) : $this->app['merchant']->key;
+        $key = method_exists($this, 'getSignKey') ? $this->getSignKey($api) : $this->app['config']->key;
         $params['sign'] = Support\generate_sign($params, $key, 'md5');
 
         $options = array_merge([
@@ -107,8 +111,8 @@ class BaseClient
     protected function safeRequest($api, array $params, $method = 'post')
     {
         $options = [
-            'cert' => $this->app['merchant']->get('cert_path'),
-            'ssl_key' => $this->app['merchant']->get('key_path'),
+            'cert' => $this->app['config']->get('cert_path'),
+            'ssl_key' => $this->app['config']->get('key_path'),
         ];
 
         return $this->request($api, $params, $method, $options);

@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment\Transfer;
 
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.
@@ -29,15 +29,14 @@ class Client extends BaseClient
      *
      * @notice mch_id when query, but mchid when send
      */
-    public function query($mchBillNo)
+    public function info(array $params)
     {
-        $params = [
-            'appid' => $this->app['merchant']->app_id,
-            'mch_id' => $this->app['merchant']->merchant_id,
-            'partner_trade_no' => $mchBillNo,
+        $base = [
+            'appid' => $this->app['config']->app_id,
+            'mch_id' => $this->app['config']->mch_id,
         ];
 
-        return $this->safeRequest('mmpaymkttransfers/gettransferinfo', $params);
+        return $this->safeRequest('mmpaymkttransfers/gettransferinfo', array_merge($base, $params));
     }
 
     /**

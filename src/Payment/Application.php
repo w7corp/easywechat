@@ -13,6 +13,7 @@ namespace EasyWeChat\Payment;
 
 use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Support;
 use EasyWeChat\OfficialAccount;
 
 /**
@@ -46,7 +47,15 @@ class Application extends ServiceContainer
     protected $providers = [
         OfficialAccount\Auth\ServiceProvider::class,
         BasicService\Url\ServiceProvider::class,
-        ServiceProvider::class,
+        Base\ServiceProvider::class,
+        Bill\ServiceProvider::class,
+        Coupon\ServiceProvider::class,
+        Jssdk\ServiceProvider::class,
+        Order\ServiceProvider::class,
+        Redpack\ServiceProvider::class,
+        Refund\ServiceProvider::class,
+        Reverse\ServiceProvider::class,
+        Transfer\ServiceProvider::class,
     ];
 
     /**
@@ -59,6 +68,58 @@ class Application extends ServiceContainer
     ];
 
     /**
+     * Build payment scheme for product.
+     *
+     * @param string $productId
+     *
+     * @return string
+     */
+    public function scheme(string $productId): string
+    {
+        $params = [
+            'appid' => $this['config']->app_id,
+            'mch_id' => $this['config']->mch_id,
+            'time_stamp' => time(),
+            'nonce_str' => uniqid(),
+            'product_id' => $productId,
+        ];
+
+        $params['sign'] = Support\generate_sign($params, $this['config']->key, 'md5');
+
+        return 'weixin://wxpay/bizpayurl?'.http_build_query($params);
+    }
+
+    /**
+     * @param callable $callback
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handlePaidNotify(callable $callback)
+    {
+        return (new Notify\Paid($this))->handle($callback);
+    }
+
+    /**
+     * @param callable $callback
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handleRefundedNotify(callable $callback)
+    {
+        return (new Notify\Refunded($this))->handle($callback);
+    }
+
+    /**
+     * @param callable $callback
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handleScanedNotify(callable $callback)
+    {
+        return (new Notify\Scaned($this))->handle($callback);
+    }
+
+    /**
      * @param string $name
      * @param array  $arguments
      *
@@ -66,6 +127,6 @@ class Application extends ServiceContainer
      */
     public function __call($name, $arguments)
     {
-        return call_user_func_array([$this['payment'], $name], $arguments);
+        return call_user_func_array([$this['base'], $name], $arguments);
     }
 }

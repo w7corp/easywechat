@@ -40,14 +40,14 @@ class Client extends JssdkClient
     public function bridgeConfig($prepayId, $json = true)
     {
         $params = [
-            'appId' => $this->app['merchant']->sub_appid ?: $this->app['merchant']->app_id,
+            'appId' => $this->app['config']->sub_appid ?: $this->app['config']->app_id,
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
             'package' => "prepay_id=$prepayId",
             'signType' => 'MD5',
         ];
 
-        $params['paySign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
+        $params['paySign'] = Support\generate_sign($params, $this->app['config']->key, 'md5');
 
         return $json ? json_encode($params) : $params;
     }
@@ -83,15 +83,15 @@ class Client extends JssdkClient
     public function appConfig($prepayId)
     {
         $params = [
-            'appid' => $this->app['merchant']->app_id,
-            'partnerid' => $this->app['merchant']->merchant_id,
+            'appid' => $this->app['config']->app_id,
+            'partnerid' => $this->app['config']->merchant_id,
             'prepayid' => $prepayId,
             'noncestr' => uniqid(),
             'timestamp' => time(),
             'package' => 'Sign=WXPay',
         ];
 
-        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key);
+        $params['sign'] = Support\generate_sign($params, $this->app['config']->key);
 
         return $params;
     }
@@ -111,7 +111,7 @@ class Client extends JssdkClient
         }
 
         $params = [
-            'appId' => $this->app['merchant']->app_id,
+            'appId' => $this->app['config']->app_id,
             'scope' => 'jsapi_address',
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
