@@ -19,25 +19,19 @@ use EasyWeChat\OfficialAccount;
 /**
  * Class Application.
  *
- * @property \EasyWeChat\OfficialAccount\Auth\AccessToken $access_token
- * @property \EasyWeChat\BasicService\Url\Client          $url
- * @property \EasyWeChat\Payment\Coupon\Client            $coupon
- * @property \EasyWeChat\Payment\Redpack\Client           $redpack
- * @property \EasyWeChat\Payment\Transfer\Client          $transfer
- * @property \EasyWeChat\Payment\Jssdk\Client             $jssdk
- * @property \EasyWeChat\Payment\Merchant                 $merchant
- * @property \EasyWeChat\Payment\Client                   $payment
+ * @property \EasyWeChat\Payment\Bill\Client               $bill
+ * @property \EasyWeChat\Payment\Jssdk\Client              $jssdk
+ * @property \EasyWeChat\Payment\Order\Client              $order
+ * @property \EasyWeChat\Payment\Refund\Client             $refund
+ * @property \EasyWeChat\Payment\Coupon\Client             $coupon
+ * @property \EasyWeChat\Payment\Reverse\Client            $reverse
+ * @property \EasyWeChat\Payment\Redpack\Client            $redpack
+ * @property \EasyWeChat\BasicService\Url\Client           $url
+ * @property \EasyWeChat\Payment\Transfer\Client           $transfer
+ * @property \EasyWeChat\OfficialAccount\Auth\AccessToken  $access_token
  *
- * @method \EasyWeChat\Payment\Client sandboxMode(bool $enabled = false)
- * @method string scheme(string $productId)
- * @method mixed pay(\EasyWeChat\Payment\Order $order)
- * @method mixed prepare(\EasyWeChat\Payment\Order $order)
- * @method mixed query(string $orderNo)
- * @method mixed queryByTransactionId(string $transactionId)
- * @method mixed close(string $tradeNo)
- * @method mixed reverse(string $orderNo)
- * @method mixed reverseByTransactionId(string $transactionId)
- * @method mixed handleNotify(callable $callback, \Symfony\Component\HttpFoundation\Request $request = null)
+ * @method mixed pay(array $attributes)
+ * @method mixed authCodeToOpenId(string $authCode)
  */
 class Application extends ServiceContainer
 {
@@ -55,6 +49,7 @@ class Application extends ServiceContainer
         Redpack\ServiceProvider::class,
         Refund\ServiceProvider::class,
         Reverse\ServiceProvider::class,
+        Sandbox\ServiceProvider::class,
         Transfer\ServiceProvider::class,
     ];
 
@@ -84,7 +79,7 @@ class Application extends ServiceContainer
             'product_id' => $productId,
         ];
 
-        $params['sign'] = Support\generate_sign($params, $this['config']->key, 'md5');
+        $params['sign'] = Support\generate_sign($params, $this['config']->key);
 
         return 'weixin://wxpay/bizpayurl?'.http_build_query($params);
     }
@@ -114,9 +109,17 @@ class Application extends ServiceContainer
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handleScanedNotify(callable $callback)
+    public function handleScannedNotify(callable $callback)
     {
-        return (new Notify\Scaned($this))->handle($callback);
+        return (new Notify\Scanned($this))->handle($callback);
+    }
+
+    /**
+     * @return bool
+     */
+    public function inSandbox(): bool
+    {
+        return (bool) $this['config']->get('sandbox');
     }
 
     /**

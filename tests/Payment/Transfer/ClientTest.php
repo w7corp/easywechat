@@ -26,30 +26,30 @@ class ClientTest extends TestCase
     {
         return new Application(array_merge([
             'app_id' => 'wx123456',
-            'merchant_id' => 'foo-mcherant-id',
+            'mch_id' => 'foo-mcherant-id',
             'key' => 'foo-mcherant-key',
             'sub_appid' => 'foo-sub-appid',
             'sub_mch_id' => 'foo-sub-mch-id',
         ], $config));
     }
 
-    public function testQuery()
+    public function testInfo()
     {
         $app = $this->makeApp();
 
-        $client = $this->mockApiClient(Client::class, ['query', 'safeRequest'], $app)->makePartial();
+        $client = $this->mockApiClient(Client::class, ['safeRequest'], $app)->makePartial();
 
-        $mchBillNo = 'foo';
+        $params = ['partner_trade_no' => 'bar'];
 
-        $client->expects()->safeRequest('mmpaymkttransfers/gettransferinfo', \Mockery::on(function ($paramsForSafeRequest) use ($app, $mchBillNo) {
-            $this->assertSame($paramsForSafeRequest['partner_trade_no'], $mchBillNo);
-            $this->assertSame($paramsForSafeRequest['appid'], $app['merchant']->app_id);
-            $this->assertSame($paramsForSafeRequest['mch_id'], $app['merchant']->merchant_id);
+        $client->expects()->safeRequest('mmpaymkttransfers/gettransferinfo', \Mockery::on(function ($paramsForSafeRequest) use ($app) {
+            $this->assertSame($paramsForSafeRequest['partner_trade_no'], 'bar');
+            $this->assertSame($paramsForSafeRequest['appid'], $app['config']->app_id);
+            $this->assertSame($paramsForSafeRequest['mch_id'], $app['config']->mch_id);
 
             return true;
         }))->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->query($mchBillNo));
+        $this->assertSame('mock-result', $client->info($params));
     }
 
     public function testSend()
@@ -64,8 +64,8 @@ class ClientTest extends TestCase
 
         $client->expects()->safeRequest('mmpaymkttransfers/promotion/transfers', \Mockery::on(function ($paramsForSafeRequest) use ($params, $app) {
             $this->assertSame($params['foo'], $paramsForSafeRequest['foo']);
-            $this->assertSame($paramsForSafeRequest['mchid'], $app['merchant']->merchant_id);
-            $this->assertSame($paramsForSafeRequest['mch_appid'], $app['merchant']->app_id);
+            $this->assertSame($paramsForSafeRequest['mchid'], $app['config']->mch_id);
+            $this->assertSame($paramsForSafeRequest['mch_appid'], $app['config']->app_id);
 
             return true;
         }))->andReturn('mock-result');

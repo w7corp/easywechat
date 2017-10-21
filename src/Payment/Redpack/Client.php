@@ -12,7 +12,7 @@
 namespace EasyWeChat\Payment\Redpack;
 
 use EasyWeChat\Kernel\Support;
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.
@@ -70,13 +70,5 @@ class Client extends BaseClient
         ];
 
         return $this->safeRequest('mmpaymkttransfers/sendgroupredpack', array_merge($base, $params));
-    }
-
-    /**
-     * {@inheritdoc}.
-     */
-    protected function prepends(): array
-    {
-        return [];
     }
 }

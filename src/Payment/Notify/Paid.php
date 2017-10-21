@@ -22,11 +22,9 @@ class Paid extends Handler
      */
     public function handle(callable $callback): Response
     {
-        $result = $callback->__invoke($this->getMessage(), [$this, 'fail']);
-
-        if ($result !== true) {
-            $this->fail(strval($result));
-        }
+        $this->strict(
+            $callback->__invoke($this->getMessage(), [$this, 'fail'])
+        );
 
         return $this->toResponse();
     }

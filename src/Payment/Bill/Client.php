@@ -22,9 +22,9 @@ class Client extends BaseClient
      * @param string $date
      * @param string $type
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return \EasyWeChat\Kernel\Http\StreamResponse|\Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function download($date, $type = 'ALL')
+    public function download(string $date, string $type = 'ALL')
     {
         $params = [
             'bill_date' => $date,
@@ -33,21 +33,10 @@ class Client extends BaseClient
 
         $response = $this->requestRaw('pay/downloadbill', $params);
 
-        if (strpos($response->getHeaderLine('Content-Type'), 'text') === false) {
-            return StreamResponse::buildFromPsrResponse($response);
+        if (strpos($response->getBody()->getContents(), '<xml>') === 0) {
+            return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
         }
 
-        return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
-    }
-
-    /**
-     * @return array
-     */
-    protected function prepends()
-    {
-        return [
-            'appid' => $this->app['config']['app_id'],
-            'mch_id' => $this->app['config']['mch_id'],
-        ];
+        return StreamResponse::buildFromPsrResponse($response);
     }
 }

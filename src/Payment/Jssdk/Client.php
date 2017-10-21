@@ -37,7 +37,7 @@ class Client extends JssdkClient
      *
      * @return string|array
      */
-    public function bridgeConfig($prepayId, $json = true)
+    public function bridgeConfig(string $prepayId, bool $json = true)
     {
         $params = [
             'appId' => $this->app['config']->sub_appid ?: $this->app['config']->app_id,
@@ -63,7 +63,7 @@ class Client extends JssdkClient
      *
      * @return array
      */
-    public function sdkConfig($prepayId)
+    public function sdkConfig(string $prepayId): array
     {
         $config = $this->bridgeConfig($prepayId, false);
 
@@ -80,11 +80,11 @@ class Client extends JssdkClient
      *
      * @return array
      */
-    public function appConfig($prepayId)
+    public function appConfig(string $prepayId): array
     {
         $params = [
             'appid' => $this->app['config']->app_id,
-            'partnerid' => $this->app['config']->merchant_id,
+            'partnerid' => $this->app['config']->mch_id,
             'prepayid' => $prepayId,
             'noncestr' => uniqid(),
             'timestamp' => time(),
@@ -104,7 +104,7 @@ class Client extends JssdkClient
      *
      * @return string|array
      */
-    public function shareAddressConfig($accessToken, $json = true)
+    public function shareAddressConfig($accessToken, bool $json = true)
     {
         if ($accessToken instanceof AccessTokenInterface) {
             $accessToken = $accessToken->getToken();
@@ -120,7 +120,7 @@ class Client extends JssdkClient
 
         $signParams = [
             'appid' => $params['appId'],
-            'url' => Support\current_url(),
+            'url' => $this->getUrl(),
             'timestamp' => $params['timeStamp'],
             'noncestr' => $params['nonceStr'],
             'accesstoken' => strval($accessToken),

@@ -22,13 +22,13 @@ class Client extends BaseClient
      * @param string $refundNumber
      * @param int    $totalFee
      * @param int    $refundFee
-     * @param array  $options
+     * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function byOutTradeNumber(string $number, string $refundNumber, int $totalFee, int $refundFee, array $options = [])
+    public function byOutTradeNumber(string $number, string $refundNumber, int $totalFee, int $refundFee, array $optional = [])
     {
-        return $this->refund($refundNumber, $totalFee, $refundFee, array_merge($options, ['out_trade_no' => $number]));
+        return $this->refund($refundNumber, $totalFee, $refundFee, array_merge($optional, ['out_trade_no' => $number]));
     }
 
     /**
@@ -38,13 +38,13 @@ class Client extends BaseClient
      * @param string $refundNumber
      * @param int    $totalFee
      * @param int    $refundFee
-     * @param array  $options
+     * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function byTransactionId(string $transactionId, string $refundNumber, int $totalFee, int $refundFee, array $options = [])
+    public function byTransactionId(string $transactionId, string $refundNumber, int $totalFee, int $refundFee, array $optional = [])
     {
-        return $this->refund($refundNumber, $totalFee, $refundFee, array_merge($options, ['transaction_id' => $transactionId]));
+        return $this->refund($refundNumber, $totalFee, $refundFee, array_merge($optional, ['transaction_id' => $transactionId]));
     }
 
     /**
@@ -101,17 +101,17 @@ class Client extends BaseClient
      * @param string $refundNumber
      * @param int    $totalFee
      * @param int    $refundFee
-     * @param array  $options
+     * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    protected function refund(string $refundNumber, int $totalFee, int $refundFee, $options = [])
+    protected function refund(string $refundNumber, int $totalFee, int $refundFee, $optional = [])
     {
         $params = array_merge([
             'out_refund_no' => $refundNumber,
             'total_fee' => $totalFee,
             'refund_fee' => $refundFee,
-        ], $options);
+        ], $optional);
 
         return $this->safeRequest('secapi/pay/refund', $params);
     }

@@ -9,32 +9,21 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\Payment;
+namespace EasyWeChat\Tests\Payment\Kernel;
 
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Payment\Kernel\BaseClient;
 use EasyWeChat\Tests\TestCase;
 
 class BaseClientTest extends TestCase
 {
-    public function testPrepends()
-    {
-        $app = new Application();
-
-        $client = $this->mockApiClient(BaseClient::class, 'prepends', $app)->shouldDeferMissing();
-
-        // assert result of prepends()
-        $this->assertEmpty($client->prepends());
-        $this->assertSame([], $client->prepends());
-    }
-
     public function testRequest()
     {
         $app = new Application();
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'resolveResponse', 'prepends', 'getSignKey'], $app)->shouldDeferMissing();
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'resolveResponse'], $app)->shouldDeferMissing();
 
         $api = 'http://easywechat.org';
         $params = ['foo' => 'bar'];
@@ -99,8 +88,8 @@ class BaseClientTest extends TestCase
         $method = \Mockery::anyOf(['get', 'post']);
 
         $client->expects()->request($api, $params, $method, \Mockery::on(function ($options) use ($app) {
-            $this->assertSame($options['cert'], $app['merchant']->get('cert_path'));
-            $this->assertSame($options['ssl_key'], $app['merchant']->get('key_path'));
+            $this->assertSame($options['cert'], $app['config']->get('cert_path'));
+            $this->assertSame($options['ssl_key'], $app['config']->get('key_path'));
 
             return true;
         }))->andReturn('mock-result');

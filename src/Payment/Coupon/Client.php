@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment\Coupon;
 
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.

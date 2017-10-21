@@ -13,8 +13,10 @@ namespace EasyWeChat\Payment\Notify;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class Scaned extends Handler
+class Scanned extends Handler
 {
+    protected $check = false;
+
     /**
      * @var string|null
      */
@@ -42,7 +44,7 @@ class Scaned extends Handler
         $result = $callback->__invoke($this->getMessage(), [$this, 'fail'], [$this, 'alert']);
 
         $attributes = [
-            'result_code' => is_null($this->alert) ? static::SUCCESS : static::FAIL,
+            'result_code' => is_null($this->alert) && is_null($this->fail) ? static::SUCCESS : static::FAIL,
             'err_code_des' => $this->alert,
         ];
 

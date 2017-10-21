@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Payment\Base;
+namespace EasyWeChat\Payment\Sandbox;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -17,16 +17,16 @@ use Pimple\ServiceProviderInterface;
 /**
  * Class ServiceProvider.
  *
- * @author overtrue <i@overtrue.me>
+ * @author mingyoung <mingyoungcheung@gmail.com>
  */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * {@inheritdoc}.
+     * @param \Pimple\Container $app
      */
     public function register(Container $app)
     {
-        $app['base'] = function ($app) {
+        $app['sandbox'] = function ($app) {
             return new Client($app);
         };
     }

@@ -17,7 +17,7 @@ use EasyWeChat\Payment\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Prepare order to pay.
+     * Unify order.
      *
      * @param array $attributes
      *
@@ -35,7 +35,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Query order.
+     * Query order by out trade number.
      *
      * @param string $number
      *
@@ -49,7 +49,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Query order by transaction_id.
+     * Query order by transaction id.
      *
      * @param string $transactionId
      *
