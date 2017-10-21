@@ -65,7 +65,8 @@ class RefundedTest extends TestCase
         ], XML::parse($response->getContent()));
 
         // empty return.
-        $response = $notify->handle(function () {});
+        $response = $notify->handle(function () {
+        });
 
         $this->assertSame([
             'return_code' => 'FAIL',

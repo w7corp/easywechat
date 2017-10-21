@@ -162,7 +162,7 @@ abstract class Handler
         }
 
         return Support\AES::decrypt(
-            base64_decode($message[$key]), md5($this->app['config']->key), '', OPENSSL_RAW_DATA, 'AES-256-ECB'
+            base64_decode($message[$key], true), md5($this->app['config']->key), '', OPENSSL_RAW_DATA, 'AES-256-ECB'
         );
     }
 
