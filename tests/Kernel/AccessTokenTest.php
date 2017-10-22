@@ -146,9 +146,14 @@ class AccessTokenTest extends TestCase
         $response = new Response(200, [], '{"error_msg":"mock-error-message"}');
         $token->expects()->sendRequest($credentials)->andReturn($response)->once();
 
-        $this->expectException(HttpException::class);
-        $this->expectExceptionMessage('Request access_token fail: {"error_msg":"mock-error-message"}');
-        $token->requestToken($credentials);
+        try {
+            $token->requestToken($credentials);
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(HttpException::class, $e);
+            $this->assertSame('Request access_token fail: {"error_msg":"mock-error-message"}', $e->getMessage());
+            $this->assertInstanceOf(Collection::class, $e->formattedResponse);
+            $this->assertSame('mock-error-message', $e->formattedResponse->get('error_msg'));
+        }
     }
 
     public function testApplyToRequest()
