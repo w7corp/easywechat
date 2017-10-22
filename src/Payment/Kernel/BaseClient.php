@@ -9,10 +9,13 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Payment;
+namespace EasyWeChat\Payment\Kernel;
 
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
+use EasyWeChat\Payment\Application;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -38,7 +41,14 @@ class BaseClient
     {
         $this->app = $app;
 
-        $this->setHttpClient($this->app['http_client']);
+        if ($this->app->inSandbox()) {
+            $config = $this->app['http_client']->getConfig();
+            $config['base_uri'] = new Uri($this->app['config']->get('http.base_uri').'/sandboxnew/');
+
+            $client = new Client($config);
+        }
+
+        $this->setHttpClient($client ?? $this->app['http_client']);
     }
 
     /**
@@ -54,7 +64,7 @@ class BaseClient
     /**
      * Make a API request.
      *
-     * @param string $api
+     * @param string $endpoint
      * @param array  $params
      * @param string $method
      * @param array  $options
@@ -62,20 +72,27 @@ class BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    protected function request($api, array $params, $method = 'post', array $options = [], $returnResponse = false)
+    protected function request(string $endpoint, array $params = [], $method = 'post', array $options = [], $returnResponse = false)
     {
-        $params = array_merge($this->prepends(), $params);
-        $params['nonce_str'] = uniqid();
-        $params = array_filter($params);
+        $base = [
+            'appid' => $this->app['config']['app_id'],
+            'mch_id' => $this->app['config']['mch_id'],
+            'nonce_str' => uniqid(),
+        ];
 
-        $key = method_exists($this, 'getSignKey') ? $this->getSignKey($api) : $this->app['merchant']->key;
-        $params['sign'] = Support\generate_sign($params, $key, 'md5');
+        $params = array_filter(array_merge($base, $this->prepends(), $params));
+
+        if ($this->app->inSandbox() && !$this->app['sandbox']->except($endpoint)) {
+            $key = $this->app['sandbox']->key();
+        }
+
+        $params['sign'] = Support\generate_sign($params, $key ?? $this->app['config']->key);
 
         $options = array_merge([
             'body' => Support\XML::build($params),
         ], $options);
 
-        $response = $this->performRequest($api, $method, $options);
+        $response = $this->performRequest($endpoint, $method, $options);
 
         return $returnResponse ? $response : $this->resolveResponse($response, $this->app->config->get('response_type'));
     }
@@ -83,34 +100,34 @@ class BaseClient
     /**
      * Make a request and return raw response.
      *
-     * @param string $api
+     * @param string $endpoint
      * @param array  $params
      * @param string $method
      * @param array  $options
      *
      * @return array|Support\Collection|object|ResponseInterface|string
      */
-    protected function requestRaw($api, array $params = [], $method = 'post', array $options = [])
+    protected function requestRaw($endpoint, array $params = [], $method = 'post', array $options = [])
     {
-        return $this->request($api, $params, $method, $options, true);
+        return $this->request($endpoint, $params, $method, $options, true);
     }
 
     /**
      * Request with SSL.
      *
-     * @param string $api
+     * @param string $endpoint
      * @param array  $params
      * @param string $method
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    protected function safeRequest($api, array $params, $method = 'post')
+    protected function safeRequest($endpoint, array $params, $method = 'post')
     {
         $options = [
-            'cert' => $this->app['merchant']->get('cert_path'),
-            'ssl_key' => $this->app['merchant']->get('key_path'),
+            'cert' => $this->app['config']->get('cert_path'),
+            'ssl_key' => $this->app['config']->get('key_path'),
         ];
 
-        return $this->request($api, $params, $method, $options);
+        return $this->request($endpoint, $params, $method, $options);
     }
 }

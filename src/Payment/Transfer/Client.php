@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment\Transfer;
 
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.
@@ -23,21 +23,18 @@ class Client extends BaseClient
     /**
      * Query MerchantPay.
      *
-     * @param string $mchBillNo
+     * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     *
-     * @notice mch_id when query, but mchid when send
      */
-    public function query($mchBillNo)
+    public function info(array $params)
     {
-        $params = [
-            'appid' => $this->app['merchant']->app_id,
-            'mch_id' => $this->app['merchant']->merchant_id,
-            'partner_trade_no' => $mchBillNo,
+        $base = [
+            'appid' => $this->app['config']->app_id,
+            'mch_id' => $this->app['config']->mch_id,
         ];
 
-        return $this->safeRequest('mmpaymkttransfers/gettransferinfo', $params);
+        return $this->safeRequest('mmpaymkttransfers/gettransferinfo', array_merge($base, $params));
     }
 
     /**
@@ -49,9 +46,11 @@ class Client extends BaseClient
      */
     public function send(array $params)
     {
-        $params['mchid'] = $this->app['merchant']->merchant_id;
-        $params['mch_appid'] = $this->app['merchant']->app_id;
+        $base = [
+            'mchid' => $this->app['config']->mch_id,
+            'mch_appid' => $this->app['config']->app_id,
+        ];
 
-        return $this->safeRequest('mmpaymkttransfers/promotion/transfers', $params);
+        return $this->safeRequest('mmpaymkttransfers/promotion/transfers', array_merge($base, $params));
     }
 }

@@ -9,52 +9,50 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Payment\Coupon;
+namespace EasyWeChat\Payment\Reverse;
 
 use EasyWeChat\Payment\Kernel\BaseClient;
 
-/**
- * Class Client.
- *
- * @author tianyong90 <412039588@qq.com>
- */
 class Client extends BaseClient
 {
     /**
-     * send a cash coupon.
+     * Reverse order by out trade number.
      *
-     * @param array $params
+     * @param string $outTradeNumber
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function send(array $params)
+    public function byOutTradeNumber(string $outTradeNumber)
     {
-        $params['openid_count'] = 1;
-
-        return $this->safeRequest('mmpaymkttransfers/send_coupon', $params);
+        return $this->reverse($outTradeNumber, 'out_trade_no');
     }
 
     /**
-     * query a coupon stock.
+     * Reverse order by transaction_id.
      *
-     * @param array $params
+     * @param string $transactionId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function stock(array $params)
+    public function byTransactionId(string $transactionId)
     {
-        return $this->request('mmpaymkttransfers/query_coupon_stock', $params);
+        return $this->reverse($transactionId, 'transaction_id');
     }
 
     /**
-     * query a info of coupon.
+     * Reverse order.
      *
-     * @param array $params
+     * @param string $number
+     * @param string $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function info(array $params)
+    protected function reverse(string $number, string $type)
     {
-        return $this->request('mmpaymkttransfers/querycouponsinfo', $params);
+        $params = [
+            $type => $number,
+        ];
+
+        return $this->safeRequest('secapi/pay/reverse', $params);
     }
 }

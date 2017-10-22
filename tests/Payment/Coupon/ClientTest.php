@@ -17,16 +17,11 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    /**
-     * Make Application.
-     *
-     * @param array $config
-     */
     private function makeApp($config = [])
     {
         return new Application(array_merge([
             'app_id' => 'wx123456',
-            'merchant_id' => 'foo-mcherant-id',
+            'mch_id' => 'foo-mcherant-id',
             'key' => 'foo-mcherant-key',
             'sub_appid' => 'foo-sub-appid',
             'sub_mch_id' => 'foo-sub-mch-id',
@@ -35,9 +30,7 @@ class ClientTest extends TestCase
 
     public function testSend()
     {
-        $app = $this->makeApp();
-
-        $client = $this->mockApiClient(Client::class, ['send', 'safeRequest'], $app)->makePartial();
+        $client = $this->mockApiClient(Client::class, ['send', 'safeRequest'], $this->makeApp())->makePartial();
 
         $params = ['foo' => 'bar'];
 
@@ -46,42 +39,25 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->send($params));
     }
 
-    public function testQueryStock()
+    public function testStock()
     {
-        $app = $this->makeApp();
-
-        $client = $this->mockApiClient(Client::class, ['send', 'queryStock'], $app)->makePartial();
+        $client = $this->mockApiClient(Client::class, ['send', 'queryStock'], $this->makeApp())->makePartial();
 
         $params = ['foo' => 'bar'];
 
         $client->expects()->request('mmpaymkttransfers/query_coupon_stock', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->queryStock($params));
+        $this->assertSame('mock-result', $client->stock($params));
     }
 
-    public function testQuery()
+    public function testInfo()
     {
-        $app = $this->makeApp();
-
-        $client = $this->mockApiClient(Client::class, ['send', 'query'], $app)->makePartial();
+        $client = $this->mockApiClient(Client::class, ['send', 'query'], $this->makeApp())->makePartial();
 
         $params = ['foo' => 'bar'];
 
         $client->expects()->request('mmpaymkttransfers/querycouponsinfo', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->query($params));
-    }
-
-    public function testPrepends()
-    {
-        $app = $this->makeApp();
-
-        $client = $this->mockApiClient(Client::class, 'prepends', $app)->makePartial();
-
-        $this->assertNotEmpty($client->prepends());
-        $this->assertArrayHasKey('mch_id', $client->prepends());
-        $this->assertArrayHasKey('appid', $client->prepends());
-        $this->assertSame($app['merchant']->merchant_id, $client->prepends()['mch_id']);
-        $this->assertSame($app['merchant']->app_id, $client->prepends()['appid']);
+        $this->assertSame('mock-result', $client->info($params));
     }
 }

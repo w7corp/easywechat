@@ -37,17 +37,17 @@ class Client extends JssdkClient
      *
      * @return string|array
      */
-    public function bridgeConfig($prepayId, $json = true)
+    public function bridgeConfig(string $prepayId, bool $json = true)
     {
         $params = [
-            'appId' => $this->app['merchant']->sub_appid ?: $this->app['merchant']->app_id,
+            'appId' => $this->app['config']->sub_appid ?: $this->app['config']->app_id,
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
             'package' => "prepay_id=$prepayId",
             'signType' => 'MD5',
         ];
 
-        $params['paySign'] = Support\generate_sign($params, $this->app['merchant']->key, 'md5');
+        $params['paySign'] = Support\generate_sign($params, $this->app['config']->key, 'md5');
 
         return $json ? json_encode($params) : $params;
     }
@@ -63,7 +63,7 @@ class Client extends JssdkClient
      *
      * @return array
      */
-    public function sdkConfig($prepayId)
+    public function sdkConfig(string $prepayId): array
     {
         $config = $this->bridgeConfig($prepayId, false);
 
@@ -80,18 +80,18 @@ class Client extends JssdkClient
      *
      * @return array
      */
-    public function appConfig($prepayId)
+    public function appConfig(string $prepayId): array
     {
         $params = [
-            'appid' => $this->app['merchant']->app_id,
-            'partnerid' => $this->app['merchant']->merchant_id,
+            'appid' => $this->app['config']->app_id,
+            'partnerid' => $this->app['config']->mch_id,
             'prepayid' => $prepayId,
             'noncestr' => uniqid(),
             'timestamp' => time(),
             'package' => 'Sign=WXPay',
         ];
 
-        $params['sign'] = Support\generate_sign($params, $this->app['merchant']->key);
+        $params['sign'] = Support\generate_sign($params, $this->app['config']->key);
 
         return $params;
     }
@@ -104,14 +104,14 @@ class Client extends JssdkClient
      *
      * @return string|array
      */
-    public function shareAddressConfig($accessToken, $json = true)
+    public function shareAddressConfig($accessToken, bool $json = true)
     {
         if ($accessToken instanceof AccessTokenInterface) {
             $accessToken = $accessToken->getToken();
         }
 
         $params = [
-            'appId' => $this->app['merchant']->app_id,
+            'appId' => $this->app['config']->app_id,
             'scope' => 'jsapi_address',
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
@@ -120,7 +120,7 @@ class Client extends JssdkClient
 
         $signParams = [
             'appid' => $params['appId'],
-            'url' => Support\current_url(),
+            'url' => $this->getUrl(),
             'timestamp' => $params['timeStamp'],
             'noncestr' => $params['nonceStr'],
             'accesstoken' => strval($accessToken),
