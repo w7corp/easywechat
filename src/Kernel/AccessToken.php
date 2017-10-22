@@ -136,10 +136,10 @@ abstract class AccessToken implements AccessTokenInterface
 
     /**
      * @param array $credentials
-     *
      * @param bool  $toArray
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      */
     public function requestToken(array $credentials, $toArray = false)
