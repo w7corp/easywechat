@@ -26,7 +26,7 @@ class Refunded extends Handler
     public function handle(callable $callback): Response
     {
         $this->strict(
-            $callback->bindTo($this)->__invoke($this->getMessage(), [$this, 'fail'])
+            call_user_func_array($callback, [$this->getMessage(), [$this, 'fail']])
         );
 
         return $this->toResponse();

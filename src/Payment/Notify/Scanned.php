@@ -41,7 +41,7 @@ class Scanned extends Handler
      */
     public function handle(callable $callback): Response
     {
-        $result = $callback->__invoke($this->getMessage(), [$this, 'fail'], [$this, 'alert']);
+        $result = call_user_func_array($callback, [$this->getMessage(), [$this, 'fail'], [$this, 'alert']]);
 
         $attributes = [
             'result_code' => is_null($this->alert) && is_null($this->fail) ? static::SUCCESS : static::FAIL,

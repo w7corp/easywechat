@@ -126,7 +126,7 @@ abstract class Handler
      */
     public function getMessage(): array
     {
-        if ($this->message) {
+        if (!empty($this->message)) {
             return $this->message;
         }
 

@@ -31,7 +31,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->pay($order));
     }
 
-    public function testAuthCodeToOpenId()
+    public function testAuthCodeToOpenid()
     {
         $app = new Application();
 
@@ -39,6 +39,6 @@ class ClientTest extends TestCase
 
         $client->expects()->request('tools/authcodetoopenid', ['auth_code' => 'foo'])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->authCodeToOpenId('foo'));
+        $this->assertSame('mock-result', $client->authCodeToOpenid('foo'));
     }
 }

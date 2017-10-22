@@ -34,7 +34,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function authCodeToOpenId(string $authCode)
+    public function authCodeToOpenid(string $authCode)
     {
         return $this->request('tools/authcodetoopenid', ['auth_code' => $authCode]);
     }
