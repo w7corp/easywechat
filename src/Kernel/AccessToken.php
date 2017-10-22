@@ -101,7 +101,7 @@ abstract class AccessToken implements AccessTokenInterface
             return $cache->get($cacheKey);
         }
 
-        $token = $this->requestToken($this->getCredentials());
+        $token = $this->requestToken($this->getCredentials(), true);
 
         $this->setToken($token[$this->tokenKey], $token['expires_in'] ?? 7200);
 
@@ -137,11 +137,12 @@ abstract class AccessToken implements AccessTokenInterface
     /**
      * @param array $credentials
      *
-     * @return array
+     * @param bool  $toArray
      *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      */
-    public function requestToken(array $credentials): array
+    public function requestToken(array $credentials, $toArray = false)
     {
         $response = $this->sendRequest($credentials);
         $result = json_decode($response->getBody()->getContents(), true);
@@ -150,7 +151,7 @@ abstract class AccessToken implements AccessTokenInterface
             throw new HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response);
         }
 
-        return $result;
+        return $toArray ? $result : $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
     }
 
     /**
