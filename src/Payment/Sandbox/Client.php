@@ -59,7 +59,7 @@ class Client extends BaseClient
             self::ENDPOINT,
         ];
 
-        return in_array($endpoint, $excepts);
+        return in_array($endpoint, $excepts, true);
     }
 
     /**
