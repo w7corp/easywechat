@@ -1,13 +1,19 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\Tests\Kernel\Support;
-
 
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Support\ArrayAccessible;
 use EasyWeChat\Tests\TestCase;
-
 
 class ArrayAccessibleTest extends TestCase
 {
@@ -33,7 +39,7 @@ class ArrayAccessibleTest extends TestCase
         $a['age'] = 27;
         $this->assertSame(27, $a['age']);
 
-        $a[ ] = ['name' => 'somebody'];
+        $a[] = ['name' => 'somebody'];
         $this->assertArrayHasKey(0, $a->toArray());
         $this->assertSame(['name' => 'somebody'], $a->toArray()[0]);
     }
