@@ -94,7 +94,7 @@ class BaseClient
 
         $response = $this->performRequest($endpoint, $method, $options);
 
-        return $returnResponse ? $response : $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+        return $returnResponse ? $response : $this->resolveResponse($response, $this->app->config->get('response_type'));
     }
 
     /**
