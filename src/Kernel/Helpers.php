@@ -29,7 +29,7 @@ function data_get($data, $key, $default = null)
             return $data->getArrayCopy()[$key] ?? $default;
         case $data instanceof \ArrayAccess:
             return $data[$key] ?? $default;
-        case $data instanceof \IteratorAggregate:
+        case $data instanceof \IteratorAggregate && $data->getIterator() instanceof \ArrayIterator:
             return $data->getIterator()->getArrayCopy()[$key] ?? $default;
         default:
             throw new RuntimeException(sprintf('Can\'t access data with key "%s"', $key));
@@ -45,7 +45,7 @@ function data_to_array($data)
             return $data->all();
         case $data instanceof Arrayable:
             return $data->toArray();
-        case $data instanceof \IteratorAggregate:
+        case $data instanceof \IteratorAggregate && $data->getIterator() instanceof \ArrayIterator:
             return $data->getIterator()->getArrayCopy();
         case $data instanceof \ArrayIterator:
             return $data->getArrayCopy();
