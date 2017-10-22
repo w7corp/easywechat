@@ -11,6 +11,8 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\Contracts\Arrayable;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support\Collection;
 use GuzzleHttp\Client;
@@ -187,15 +189,18 @@ trait HasHttpRequests
 
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
-     * @param string                              $type
+     * @param string|null                         $type
      *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    protected function resolveResponse(ResponseInterface $response, string $type)
+    protected function resolveResponse(ResponseInterface $response, $type = null)
     {
         $response = Response::buildFromPsrResponse($response);
+        $response->getBody()->rewind();
 
-        switch ($type) {
+        switch ($type ?? 'array') {
             case 'collection':
                 return $response->toCollection();
             case 'array':
@@ -203,13 +208,13 @@ trait HasHttpRequests
             case 'object':
                 return $response->toObject();
             case 'raw':
+                return $response;
             default:
-                $response->getBody()->rewind();
-                if (class_exists($type)) {
-                    return new $type($response);
+                if (!is_subclass_of($type, Arrayable::class)) {
+                    throw new InvalidConfigException(sprintf('Config key "response_type" classname must be an instanceof %s', Arrayable::class));
                 }
 
-                return $response;
+                return new $type($response);
         }
     }
 

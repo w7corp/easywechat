@@ -11,7 +11,9 @@
 
 namespace EasyWeChat\Tests\Kernel\Traits;
 
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Http\Response;
+use EasyWeChat\Kernel\Support\ArrayAccessible;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\Tests\TestCase;
@@ -142,9 +144,9 @@ class HasHttpRequestsTest extends TestCase
         $this->assertInstanceOf(Response::class, $dummyResponse->response);
 
         // 2. not exists
-        $resp = $cls->resolveResponse($response, 'Not\Exists\ClassName');
-        $this->assertInstanceOf(Response::class, $resp);
-        $this->assertSame('{"foo": "bar"}', $resp->getBody()->getContents());
+        $this->expectException(InvalidConfigException::class);
+        $cls->resolveResponse($response, 'Not\Exists\ClassName');
+        $this->fail('failed to assert resolveResponse should throw an exception.');
     }
 
     public function testTransformResponseToType()
@@ -212,13 +214,14 @@ class HasHttpRequestsTest extends TestCase
     }
 }
 
-class DummyResponseClassForHasHttpRequestTest
+class DummyResponseClassForHasHttpRequestTest extends ArrayAccessible
 {
     public $response;
 
     public function __construct($response)
     {
         $this->response = $response;
+        parent::__construct([]);
     }
 }
 

@@ -128,7 +128,7 @@ class Application extends ServiceContainer
     {
         return [
             'debug' => $this['config']->get('debug', false),
-            'response_type' => $this['config']->get('response_type', 'array'),
+            'response_type' => $this['config']->get('response_type'),
             'log' => $this['config']->get('log', []),
             'app_id' => $appId,
             'refresh_token' => $refreshToken,

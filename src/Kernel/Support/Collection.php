@@ -14,6 +14,7 @@ namespace EasyWeChat\Kernel\Support;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use EasyWeChat\Kernel\Contracts\Arrayable;
 use IteratorAggregate;
 use JsonSerializable;
 use Serializable;
@@ -21,7 +22,7 @@ use Serializable;
 /**
  * Class Collection.
  */
-class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
+class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable, Arrayable
 {
     /**
      * The collection data.

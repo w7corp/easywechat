@@ -163,7 +163,7 @@ class Client extends BaseClient
             return StreamResponse::buildFromPsrResponse($response);
         }
 
-        return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+        return $this->resolveResponse($response, $this->app['config']->get('response_type'));
     }
 
     /**

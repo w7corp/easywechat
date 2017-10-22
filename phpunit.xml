@@ -20,7 +20,7 @@
             <exclude>
                 <directory suffix="ServiceProvider.php">src/</directory>
                 <directory suffix="Exception.php">src/</directory>
-                <directory suffix="Helpers.php">src/</directory>
+                <directory suffix="Helpers.php">src/Kernel/Support</directory>
                 <directory>src/Encryption</directory>
                 <directory>src/Support</directory>
             </exclude>
