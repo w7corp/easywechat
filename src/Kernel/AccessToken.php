@@ -174,7 +174,7 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @param array $credentials
      *
-     * @return null|ResponseInterface
+     * @return ResponseInterface
      */
     protected function sendRequest(array $credentials): ResponseInterface
     {
