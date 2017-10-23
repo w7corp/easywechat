@@ -116,6 +116,22 @@ class Application extends ServiceContainer
     }
 
     /**
+     * Set sub-merchant.
+     *
+     * @param string      $mchId
+     * @param string|null $appId
+     *
+     * @return $this
+     */
+    public function setSubMerchant(string $mchId, string $appId = null)
+    {
+        $this['config']->set('sub_mch_id', $mchId);
+        $this['config']->set('sub_appid', $appId);
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function inSandbox(): bool
