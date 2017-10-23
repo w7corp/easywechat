@@ -33,7 +33,7 @@ class Encryptor extends BaseEncryptor
     public function decryptData(string $sessionKey, string $iv, string $encrypted): array
     {
         $decrypted = AES::decrypt(
-            base64_decode($encrypted, true), base64_decode($sessionKey, true), base64_decode($iv, true), OPENSSL_NO_PADDING
+            base64_decode($encrypted, true), base64_decode($sessionKey, true), base64_decode($iv, true)
         );
 
         return json_decode($this->pkcs7Unpad($decrypted), true);
