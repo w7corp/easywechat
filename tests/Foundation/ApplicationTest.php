@@ -64,7 +64,7 @@ class ApplicationTest extends TestCase
         $this->assertEquals(array_merge($config['guzzle'], [
          'curl' => [
             CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
-        ],]), Http::getDefaultOptions());
+        ], ]), Http::getDefaultOptions());
     }
 
     /**
