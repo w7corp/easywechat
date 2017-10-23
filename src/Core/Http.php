@@ -71,7 +71,7 @@ class Http
      */
     public static function setDefaultOptions($defaults = [])
     {
-        self::$defaults = $defaults;
+        self::$defaults = array_merge(self::$defaults, $defaults);
     }
 
     /**
