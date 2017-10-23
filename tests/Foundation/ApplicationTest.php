@@ -52,12 +52,19 @@ class ApplicationTest extends TestCase
     {
         $app = new Application([]);
 
-        $this->assertEquals(['timeout' => 5.0], Http::getDefaultOptions());
+        $this->assertEquals([
+            'timeout' => 5.0,
+             'curl' => [
+                CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+            ],
+        ], Http::getDefaultOptions());
 
         $config = ['guzzle' => ['timeout' => 6]];
         $app = new Application($config);
-
-        $this->assertEquals($config['guzzle'], Http::getDefaultOptions());
+        $this->assertEquals(array_merge($config['guzzle'], [
+         'curl' => [
+            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+        ],]), Http::getDefaultOptions());
     }
 
     /**

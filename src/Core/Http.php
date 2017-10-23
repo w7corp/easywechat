@@ -54,15 +54,20 @@ class Http
     protected $middlewares = [];
 
     /**
-     * Guzzle client default settings.
-     *
      * @var array
      */
-    protected static $defaults = [
+    protected static $globals = [
         'curl' => [
             CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
         ],
     ];
+
+    /**
+     * Guzzle client default settings.
+     *
+     * @var array
+     */
+    protected static $defaults = [];
 
     /**
      * Set guzzle default settings.
@@ -71,7 +76,7 @@ class Http
      */
     public static function setDefaultOptions($defaults = [])
     {
-        self::$defaults = array_merge(self::$defaults, $defaults);
+        self::$defaults = array_merge(self::$globals, $defaults);
     }
 
     /**
