@@ -165,7 +165,7 @@ class Encryptor
             substr($this->aesKey, 0, 16),
             OPENSSL_NO_PADDING
         );
-        $result = $this->pkcs7Unpad($decrypted, $this->blockSize);
+        $result = $this->pkcs7Unpad($decrypted);
         $content = substr($result, 16, strlen($result));
         $contentLen = unpack('N', substr($content, 0, 4))[1];
 
@@ -217,13 +217,15 @@ class Encryptor
      *
      * @param string $text
      *
-     * @return bool|string
+     * @return string
      */
     public function pkcs7Unpad(string $text): string
     {
-        $padChar = substr($text, -1);
-        $padLength = ord($padChar);
+        $pad = ord(substr($text, -1));
+        if ($pad < 1 || $pad > $this->blockSize) {
+            $pad = 0;
+        }
 
-        return substr($text, 0, -$padLength);
+        return substr($text, 0, (strlen($text) - $pad));
     }
 }
