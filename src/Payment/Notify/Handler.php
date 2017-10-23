@@ -153,9 +153,9 @@ abstract class Handler
      *
      * @param string $key
      *
-     * @return string
+     * @return string|null
      */
-    public function decryptMessage(string $key): string
+    public function decryptMessage(string $key)
     {
         $message = $this->getMessage();
         if (empty($message[$key])) {

@@ -84,11 +84,7 @@ class BaseClient
 
         $params = array_filter(array_merge($base, $this->prepends(), $params));
 
-        if ($this->app->inSandbox() && !$this->app['sandbox']->except($endpoint)) {
-            $key = $this->app['sandbox']->key();
-        }
-
-        $params['sign'] = Support\generate_sign($params, $key ?? $this->app['config']->key);
+        $params['sign'] = Support\generate_sign($params, $this->getKey($endpoint));
 
         $options = array_merge([
             'body' => Support\XML::build($params),
@@ -131,5 +127,19 @@ class BaseClient
         ];
 
         return $this->request($endpoint, $params, $method, $options);
+    }
+
+    /**
+     * @param string $endpoint
+     *
+     * @return string
+     */
+    protected function getKey(string $endpoint)
+    {
+        if ($this->app->inSandbox() && !$this->app['sandbox']->except($endpoint)) {
+            return $this->app['sandbox']->key();
+        }
+
+        return $this->app['config']->key;
     }
 }

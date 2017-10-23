@@ -87,6 +87,8 @@ class ApplicationTest extends TestCase
         $miniProgram = $app->miniProgram('app-id', 'refresh-token');
 
         $this->assertInstanceOf('EasyWeChat\MiniProgram\Application', $miniProgram);
+        $this->assertInstanceOf('\EasyWeChat\MiniProgram\Encryptor', $miniProgram->encryptor);
+        $this->assertInstanceOf('\EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client', $miniProgram->auth);
     }
 
     public function testDynamicCalls()

@@ -89,6 +89,8 @@ class Application extends ServiceContainer
      * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @codeCoverageIgnore
      */
     public function handlePaidNotify(Closure $closure)
     {
@@ -99,6 +101,8 @@ class Application extends ServiceContainer
      * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @codeCoverageIgnore
      */
     public function handleRefundedNotify(Closure $closure)
     {
@@ -109,6 +113,8 @@ class Application extends ServiceContainer
      * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @codeCoverageIgnore
      */
     public function handleScannedNotify(Closure $closure)
     {

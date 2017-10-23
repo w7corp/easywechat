@@ -49,4 +49,27 @@ class ApplicationTest extends TestCase
 
         $this->assertStringStartsWith('weixin://wxpay/bizpayurl?appid=wx123456&mch_id=foo-merchant-id&time_stamp=', $app->scheme('product-id'));
     }
+
+    public function testSetSubMerchant()
+    {
+        $app = new Application([
+            'app_id' => 'wx123456',
+            'mch_id' => 'foo-merchant-id',
+        ]);
+        $this->assertInstanceOf(Application::class, $app->setSubMerchant('sub-mchid', 'sub-appid'));
+
+        $this->assertSame('sub-mchid', $app->config['sub_mch_id']);
+        $this->assertSame('sub-appid', $app->config['sub_appid']);
+    }
+
+    public function testInSandbox()
+    {
+        $app = new Application([
+            'sandbox' => true,
+        ]);
+        $this->assertTrue($app->inSandbox());
+
+        $app = new Application([]);
+        $this->assertFalse($app->inSandbox());
+    }
 }

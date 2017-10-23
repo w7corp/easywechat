@@ -24,7 +24,7 @@ class Client extends BaseClient
 {
     use InteractsWithCache;
 
-    const ENDPOINT = 'pay/getsignkey';
+    const ENDPOINT = '/sandboxnew/pay/getsignkey';
 
     /**
      * @return string
@@ -37,7 +37,7 @@ class Client extends BaseClient
             return $cache;
         }
 
-        $response = $this->resolveResponse($this->requestRaw(self::ENDPOINT), 'array');
+        $response = $this->resolveResponse($this->requestRaw(self::ENDPOINT));
 
         if ($response['return_code'] === 'SUCCESS') {
             $this->getCache()->set($this->getCacheKey(), $key = $response['sandbox_signkey'], 24 * 3600);
