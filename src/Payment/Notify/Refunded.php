@@ -11,28 +11,33 @@
 
 namespace EasyWeChat\Payment\Notify;
 
+use Closure;
 use EasyWeChat\Kernel\Support\XML;
-use Symfony\Component\HttpFoundation\Response;
 
 class Refunded extends Handler
 {
     protected $check = false;
 
     /**
-     * @param callable $callback
+     * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(callable $callback): Response
+    public function handle(Closure $closure)
     {
         $this->strict(
-            call_user_func_array($callback, [$this->getMessage(), [$this, 'fail']])
+            $closure->bindTo($this)->__invoke($this->getMessage(), [$this, 'fail'])
         );
 
         return $this->toResponse();
     }
 
-    public function decryptedInfo()
+    /**
+     * Decrypt the `req_info` from request message.
+     *
+     * @return array
+     */
+    public function reqInfo()
     {
         return XML::parse($this->decryptMessage('req_info'));
     }

@@ -11,19 +11,19 @@
 
 namespace EasyWeChat\Payment\Notify;
 
-use Symfony\Component\HttpFoundation\Response;
+use Closure;
 
 class Paid extends Handler
 {
     /**
-     * @param callable $callback
+     * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(callable $callback): Response
+    public function handle(Closure $closure)
     {
         $this->strict(
-            call_user_func_array($callback, [$this->getMessage(), [$this, 'fail']])
+            $closure->bindTo($this)->__invoke($this->getMessage(), [$this, 'fail'])
         );
 
         return $this->toResponse();

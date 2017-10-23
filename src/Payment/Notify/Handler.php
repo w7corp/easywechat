@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Payment\Notify;
 
+use Closure;
 use EasyWeChat\Kernel\Exceptions\Exception;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Support\XML;
@@ -68,11 +69,11 @@ abstract class Handler
     /**
      * Handle incoming notify.
      *
-     * @param callable $callback
+     * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    abstract public function handle(callable $callback): Response;
+    abstract public function handle(Closure $closure);
 
     /**
      * @param string $message

@@ -38,8 +38,9 @@ class PaidTest extends TestCase
 
         $notify = new Paid($app);
 
-        $response = $notify->handle(function ($message) {
-            $this->assertSame([
+        $that = $this;
+        $response = $notify->handle(function ($message) use ($that) {
+            $that->assertSame([
                 'foo' => 'bar',
                 'sign' => '280F9CB28E99DC917792FCC7AC1B88C4',
             ], $message);

@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Payment;
 
+use Closure;
 use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
@@ -85,33 +86,33 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param callable $callback
+     * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handlePaidNotify(callable $callback)
+    public function handlePaidNotify(Closure $closure)
     {
-        return (new Notify\Paid($this))->handle($callback);
+        return (new Notify\Paid($this))->handle($closure);
     }
 
     /**
-     * @param callable $callback
+     * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handleRefundedNotify(callable $callback)
+    public function handleRefundedNotify(Closure $closure)
     {
-        return (new Notify\Refunded($this))->handle($callback);
+        return (new Notify\Refunded($this))->handle($closure);
     }
 
     /**
-     * @param callable $callback
+     * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handleScannedNotify(callable $callback)
+    public function handleScannedNotify(Closure $closure)
     {
-        return (new Notify\Scanned($this))->handle($callback);
+        return (new Notify\Scanned($this))->handle($closure);
     }
 
     /**

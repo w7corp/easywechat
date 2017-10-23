@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment\Notify;
 
-use Symfony\Component\HttpFoundation\Response;
+use Closure;
 
 class Scanned extends Handler
 {
@@ -24,24 +24,20 @@ class Scanned extends Handler
 
     /**
      * @param string $message
-     *
-     * @return $this
      */
     public function alert(string $message)
     {
         $this->alert = $message;
-
-        return $this;
     }
 
     /**
-     * @param callable $callback
+     * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(callable $callback): Response
+    public function handle(Closure $closure)
     {
-        $result = call_user_func_array($callback, [$this->getMessage(), [$this, 'fail'], [$this, 'alert']]);
+        $result = $closure->bindTo($this)->__invoke($this->getMessage(), [$this, 'fail'], [$this, 'alert']);
 
         $attributes = [
             'result_code' => is_null($this->alert) && is_null($this->fail) ? static::SUCCESS : static::FAIL,
