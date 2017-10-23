@@ -82,4 +82,47 @@ class RefundedTest extends TestCase
             'return_msg' => 'fails.',
         ], XML::parse($response->getContent()));
     }
+
+    public function testReqInfo()
+    {
+        $app = $this->makeApp();
+        $app['request'] = Request::create('', 'POST', [], [], [], [], '<xml>
+<req_info>FTuPWOW4npLOTY8GQp+JtWXKe3ZFa2wsJC6v9gFoATU=</req_info>
+<sign>280F9CB28E99DC917792FCC7AC1B88C4</sign>
+</xml>');
+
+        $notify = new Refunded($app);
+
+        $this->assertSame(['bar' => '123'], $notify->reqInfo());
+    }
+
+    public function testDecryptMessage()
+    {
+        $app = $this->makeApp();
+        $app['request'] = Request::create('', 'POST', [], [], [], [], '<xml>
+<req_info>FTuPWOW4npLOTY8GQp+JtWXKe3ZFa2wsJC6v9gFoATU=</req_info>
+<sign>280F9CB28E99DC917792FCC7AC1B88C4</sign>
+</xml>');
+        $notify = new Refunded($app);
+        $this->assertSame('<foo><bar>123</bar></foo>', $notify->decryptMessage('req_info'));
+        $this->assertNull($notify->decryptMessage('not-exists'));
+    }
+
+    public function testGetMessage()
+    {
+        $app = $this->makeApp();
+        $app['request'] = Request::create('', 'POST', [], [], [], [], 'invalid-xml');
+        $notify = new Refunded($app);
+        $this->expectException('\EasyWeChat\Kernel\Exceptions\Exception');
+        $notify->getMessage();
+    }
+
+    public function testGetMessageButMessageIsEmpty()
+    {
+        $app = $this->makeApp();
+        $app['request'] = Request::create('', 'POST', [], [], [], [], '<xml></xml>');
+        $notify = new Refunded($app);
+        $this->expectException('\EasyWeChat\Kernel\Exceptions\Exception');
+        $notify->getMessage();
+    }
 }
