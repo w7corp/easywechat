@@ -78,6 +78,8 @@ class BaseClient
             'appid' => $this->app['config']['app_id'],
             'mch_id' => $this->app['config']['mch_id'],
             'nonce_str' => uniqid(),
+            'sub_mch_id' => $this->app['config']['sub_mch_id'],
+            'sub_appid' => $this->app['config']['sub_appid'],
         ];
 
         $params = array_filter(array_merge($base, $this->prepends(), $params));
