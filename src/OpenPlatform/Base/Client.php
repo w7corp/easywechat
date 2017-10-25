@@ -116,7 +116,7 @@ class Client extends BaseClient
     /**
      * Create pre-authorization code.
      *
-     * @return \EasyWeChat\Kernel\Support\Collection
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function createPreAuthorizationCode()
     {
@@ -124,8 +124,6 @@ class Client extends BaseClient
             'component_appid' => $this->app['config']['app_id'],
         ];
 
-        $response = $this->requestRaw('cgi-bin/component/api_create_preauthcode', 'POST', ['json' => $params]);
-
-        return $this->resolveResponse($response, 'collection');
+        return $this->httpPostJson('cgi-bin/component/api_create_preauthcode', $params);
     }
 }
