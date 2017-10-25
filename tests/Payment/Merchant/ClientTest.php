@@ -36,14 +36,14 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->addSubMerchant(['foo' => 'bar']));
     }
 
-    public function testQuerySubMerchantByMerchangId()
+    public function testQuerySubMerchantByMerchantId()
     {
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->app());
         $client->expects()->safeRequest('secapi/mch/submchmanage', [
             'micro_mch_id' => 'foo-id',
         ], 'post', ['query' => ['action' => 'query']])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->querySubMerchantByMerchangId('foo-id'));
+        $this->assertSame('mock-result', $client->querySubMerchantByMerchantId('foo-id'));
     }
 
     public function testQuerySubMerchantByWeChatId()

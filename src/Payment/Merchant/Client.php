@@ -39,7 +39,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function querySubMerchantByMerchangId(string $id)
+    public function querySubMerchantByMerchantId(string $id)
     {
         $params = [
             'micro_mch_id' => $id,
