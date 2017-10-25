@@ -46,6 +46,7 @@ class Application extends ServiceContainer
         Bill\ServiceProvider::class,
         Coupon\ServiceProvider::class,
         Jssdk\ServiceProvider::class,
+        Merchant\ServiceProvider::class,
         Order\ServiceProvider::class,
         Redpack\ServiceProvider::class,
         Refund\ServiceProvider::class,
