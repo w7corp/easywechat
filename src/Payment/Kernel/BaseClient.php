@@ -116,15 +116,16 @@ class BaseClient
      * @param string $endpoint
      * @param array  $params
      * @param string $method
+     * @param array  $options
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    protected function safeRequest($endpoint, array $params, $method = 'post')
+    protected function safeRequest($endpoint, array $params, $method = 'post', array $options = [])
     {
-        $options = [
+        $options = array_merge([
             'cert' => $this->app['config']->get('cert_path'),
             'ssl_key' => $this->app['config']->get('key_path'),
-        ];
+        ], $options);
 
         return $this->request($endpoint, $params, $method, $options);
     }

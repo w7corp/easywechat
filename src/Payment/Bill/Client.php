@@ -24,12 +24,12 @@ class Client extends BaseClient
      *
      * @return \EasyWeChat\Kernel\Http\StreamResponse|\Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function download(string $date, string $type = 'ALL')
+    public function download(string $date, string $type = 'ALL', array $optional = [])
     {
         $params = [
             'bill_date' => $date,
             'bill_type' => $type,
-        ];
+        ] + $optional;
 
         $response = $this->requestRaw('pay/downloadbill', $params);
 
