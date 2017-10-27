@@ -31,6 +31,9 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->app());
         $client->expects()->safeRequest('secapi/mch/submchmanage', [
             'foo' => 'bar',
+            'nonce_str' => '',
+            'sub_mch_id' => '',
+            'sub_appid' => '',
         ], 'post', ['query' => ['action' => 'add']])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->addSubMerchant(['foo' => 'bar']));
@@ -41,6 +44,9 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->app());
         $client->expects()->safeRequest('secapi/mch/submchmanage', [
             'micro_mch_id' => 'foo-id',
+            'nonce_str' => '',
+            'sub_mch_id' => '',
+            'sub_appid' => '',
         ], 'post', ['query' => ['action' => 'query']])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->querySubMerchantByMerchantId('foo-id'));
@@ -51,6 +57,9 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->app());
         $client->expects()->safeRequest('secapi/mch/submchmanage', [
             'recipient_wechatid' => 'foo-id',
+            'nonce_str' => '',
+            'sub_mch_id' => '',
+            'sub_appid' => '',
         ], 'post', ['query' => ['action' => 'query']])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->querySubMerchantByWeChatId('foo-id'));
