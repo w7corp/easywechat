@@ -75,7 +75,7 @@ class Client extends BaseClient
         $params = array_merge($params, [
             'nonce_str' => '',
             'sub_mch_id' => '',
-            'sub_appid' => ''
+            'sub_appid' => '',
         ]);
 
         return $this->safeRequest('secapi/mch/submchmanage', $params, 'post', compact('query'));
