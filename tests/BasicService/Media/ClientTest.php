@@ -17,7 +17,6 @@ use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
-use Monolog\Logger;
 
 class ClientTest extends TestCase
 {

@@ -98,7 +98,7 @@ class XML
         if (is_array($obj)) {
             foreach ($obj as $key => $value) {
                 $res = self::normalize($value);
-                if (($key === '@attributes') && ($key)) {
+                if (('@attributes' === $key) && ($key)) {
                     $result = $res; // @codeCoverageIgnore
                 } else {
                     $result[$key] = $res;

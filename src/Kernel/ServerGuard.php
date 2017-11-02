@@ -197,7 +197,7 @@ class ServerGuard
      */
     public function buildResponse(string $to, string $from, $message)
     {
-        if (empty($message) || $message === self::SUCCESS_EMPTY_RESPONSE) {
+        if (empty($message) || self::SUCCESS_EMPTY_RESPONSE === $message) {
             return self::SUCCESS_EMPTY_RESPONSE;
         }
 
@@ -293,7 +293,7 @@ class ServerGuard
     protected function parseMessage($content)
     {
         try {
-            if (stripos($content, '<') === 0) {
+            if (0 === stripos($content, '<')) {
                 $content = XML::parse($content);
             } else {
                 // Handle JSON format.
@@ -320,7 +320,7 @@ class ServerGuard
             return true;
         }
 
-        return $this->app['request']->get('signature') && $this->app['request']->get('encrypt_type') === 'aes';
+        return $this->app['request']->get('signature') && 'aes' === $this->app['request']->get('encrypt_type');
     }
 
     /**
