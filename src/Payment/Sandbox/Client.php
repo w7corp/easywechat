@@ -39,7 +39,7 @@ class Client extends BaseClient
 
         $response = $this->resolveResponse($this->requestRaw(self::ENDPOINT));
 
-        if ($response['return_code'] === 'SUCCESS') {
+        if ('SUCCESS' === $response['return_code']) {
             $this->getCache()->set($this->getCacheKey(), $key = $response['sandbox_signkey'], 24 * 3600);
 
             return $key;
