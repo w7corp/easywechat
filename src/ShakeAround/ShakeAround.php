@@ -96,7 +96,7 @@ class ShakeAround extends AbstractAPI
             'qualification_cert_urls' => $certUrls,
         ];
 
-        if ($reason !== '') {
+        if ('' !== $reason) {
             $params['apply_reason'] = $reason;
         }
 
@@ -127,7 +127,7 @@ class ShakeAround extends AbstractAPI
             'ticket' => $ticket,
         ];
 
-        if ($needPoi !== null) {
+        if (null !== $needPoi) {
             $params['need_poi'] = intval($needPoi);
         }
 

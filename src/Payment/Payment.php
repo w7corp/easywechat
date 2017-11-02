@@ -109,7 +109,7 @@ class Payment
         }
 
         $notify = $notify->getNotify();
-        $successful = $notify->get('result_code') === 'SUCCESS';
+        $successful = 'SUCCESS' === $notify->get('result_code');
 
         $handleResult = call_user_func_array($callback, [$notify, $successful]);
 
@@ -138,7 +138,7 @@ class Payment
     public function handleRefundNotify(callable $callback)
     {
         $notify = $this->getRefundNotify()->getNotify();
-        $successful = $notify->get('return_code') === 'SUCCESS';
+        $successful = 'SUCCESS' === $notify->get('return_code');
 
         $handleResult = call_user_func_array($callback, [$notify, $successful]);
 

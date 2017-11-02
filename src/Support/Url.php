@@ -40,7 +40,7 @@ class Url
         $protocol = 'http://';
 
         if (!empty($_SERVER['HTTPS'])
-            || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+            || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'])) {
             $protocol = 'https://';
         }
 
