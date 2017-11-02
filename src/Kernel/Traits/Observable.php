@@ -102,7 +102,7 @@ trait Observable
         $result = null;
 
         foreach ($this->handlers as $condition => $handlers) {
-            if ($condition === '*' || ($condition & $event) === $event) {
+            if ('*' === $condition || ($condition & $event) === $event) {
                 foreach ($handlers as $handler) {
                     $response = $this->callHandler($handler, $payload);
 
