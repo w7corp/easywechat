@@ -126,7 +126,7 @@ class API extends AbstractAPI
     {
         $order->notify_url = $order->get('notify_url', $this->merchant->notify_url);
         if (is_null($order->spbill_create_ip)) {
-            $order->spbill_create_ip = ($order->trade_type === Order::NATIVE) ? get_server_ip() : get_client_ip();
+            $order->spbill_create_ip = (Order::NATIVE === $order->trade_type) ? get_server_ip() : get_client_ip();
         }
 
         return $this->request($this->wrapApi(self::API_PREPARE_ORDER), $order->all());
@@ -467,7 +467,7 @@ class API extends AbstractAPI
      */
     protected function getSignkey($api)
     {
-        return $this->sandboxEnabled && $api !== self::API_SANDBOX_SIGN_KEY ? $this->getSandboxSignKey() : $this->merchant->key;
+        return $this->sandboxEnabled && self::API_SANDBOX_SIGN_KEY !== $api ? $this->getSandboxSignKey() : $this->merchant->key;
     }
 
     /**
@@ -540,7 +540,7 @@ class API extends AbstractAPI
             // Try to acquire a new sandbox_signkey from WeChat
             $result = $this->request(self::API_SANDBOX_SIGN_KEY, []);
 
-            if ($result->return_code === 'SUCCESS') {
+            if ('SUCCESS' === $result->return_code) {
                 $cache->save($cacheKey, $result->sandbox_signkey, 24 * 3600);
 
                 return $this->sandboxSignKey = $result->sandbox_signkey;
