@@ -24,7 +24,7 @@ class Client extends BaseClient
      */
     public function pay(array $attributes)
     {
-        return $this->request('pay/micropay', $attributes);
+        return $this->request($this->wrap('pay/micropay'), $attributes);
     }
 
     /**

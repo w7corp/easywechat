@@ -31,7 +31,7 @@ class Client extends BaseClient
             'bill_type' => $type,
         ] + $optional;
 
-        $response = $this->requestRaw('pay/downloadbill', $params);
+        $response = $this->requestRaw($this->wrap('pay/downloadbill'), $params);
 
         if (strpos($response->getBody()->getContents(), '<xml>') === 0) {
             return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));

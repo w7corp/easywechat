@@ -41,14 +41,7 @@ class BaseClient
     {
         $this->app = $app;
 
-        if ($this->app->inSandbox()) {
-            $config = $this->app['http_client']->getConfig();
-            $config['base_uri'] = new Uri($this->app['config']->get('http.base_uri').'/sandboxnew/');
-
-            $client = new Client($config);
-        }
-
-        $this->setHttpClient($client ?? $this->app['http_client']);
+        $this->setHttpClient($this->app['http_client']);
     }
 
     /**
@@ -84,7 +77,7 @@ class BaseClient
 
         $params = array_filter(array_merge($base, $this->prepends(), $params));
 
-        $params['sign'] = Support\generate_sign($params, $this->getKey($endpoint));
+        $params['sign'] = Support\generate_sign($params, $this->app->getKey());
 
         $options = array_merge([
             'body' => Support\XML::build($params),
@@ -131,16 +124,14 @@ class BaseClient
     }
 
     /**
+     * Wrapping an API endpoint.
+     *
      * @param string $endpoint
      *
      * @return string
      */
-    protected function getKey(string $endpoint)
+    protected function wrap(string $endpoint): string
     {
-        if ($this->app->inSandbox() && !$this->app['sandbox']->except($endpoint)) {
-            return $this->app['sandbox']->key();
-        }
-
-        return $this->app['config']->key;
+        return $this->app->inSandbox() ? "sandboxnew/{$endpoint}" : $endpoint;
     }
 }

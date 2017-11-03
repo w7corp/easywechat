@@ -24,20 +24,18 @@ class Client extends BaseClient
 {
     use InteractsWithCache;
 
-    const ENDPOINT = '/sandboxnew/pay/getsignkey';
-
     /**
      * @return string
      *
      * @throws \EasyWeChat\Payment\Kernel\Exceptions\SandboxException
      */
-    public function key(): string
+    public function getKey(): string
     {
         if ($cache = $this->getCache()->get($this->getCacheKey())) {
             return $cache;
         }
 
-        $response = $this->resolveResponse($this->requestRaw(self::ENDPOINT));
+        $response = $this->request('sandboxnew/pay/getsignkey');
 
         if ($response['return_code'] === 'SUCCESS') {
             $this->getCache()->set($this->getCacheKey(), $key = $response['sandbox_signkey'], 24 * 3600);
@@ -49,24 +47,10 @@ class Client extends BaseClient
     }
 
     /**
-     * @param string $endpoint
-     *
-     * @return bool
-     */
-    public function except(string $endpoint): bool
-    {
-        $excepts = [
-            self::ENDPOINT,
-        ];
-
-        return in_array($endpoint, $excepts, true);
-    }
-
-    /**
      * @return string
      */
-    protected function getCacheKey()
+    protected function getCacheKey(): string
     {
-        return 'easywechat.payment.sandbox.'.$this->app['config']->app_id;
+        return 'easywechat.payment.sandbox.'.md5($this->app['config']->app_id.$this->app['config']['mch_id']);
     }
 }

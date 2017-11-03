@@ -53,6 +53,6 @@ class Client extends BaseClient
             $type => $number,
         ];
 
-        return $this->safeRequest('secapi/pay/reverse', $params);
+        return $this->safeRequest($this->wrap('secapi/pay/reverse'), $params);
     }
 }
