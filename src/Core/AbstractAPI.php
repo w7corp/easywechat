@@ -79,7 +79,7 @@ abstract class AbstractAPI
             $this->http = new Http();
         }
 
-        if (count($this->http->getMiddlewares()) === 0) {
+        if (0 === count($this->http->getMiddlewares())) {
             $this->registerHttpMiddlewares();
         }
 
@@ -215,7 +215,7 @@ abstract class AbstractAPI
             // Limit the number of retries to 2
             if ($retries <= self::$maxRetries && $response && $body = $response->getBody()) {
                 // Retry on server errors
-                if (stripos($body, 'errcode') !== false && (stripos($body, '40001') !== false || stripos($body, '42001') !== false)) {
+                if (false !== stripos($body, 'errcode') && (false !== stripos($body, '40001') || false !== stripos($body, '42001'))) {
                     $field = $this->accessToken->getQueryName();
                     $token = $this->accessToken->getToken(true);
 

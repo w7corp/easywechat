@@ -66,7 +66,7 @@ class Relation extends AbstractAPI
 
         $result = $this->parseJSON('json', [self::API_RELATION_SEARCH, $params]);
 
-        if ($raw === true) {
+        if (true === $raw) {
             return $result;
         }
         $page_ids = [];

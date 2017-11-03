@@ -277,7 +277,7 @@ class Guard
      */
     protected function buildResponse($to, $from, $message)
     {
-        if (empty($message) || $message === self::SUCCESS_EMPTY_RESPONSE) {
+        if (empty($message) || self::SUCCESS_EMPTY_RESPONSE === $message) {
             return self::SUCCESS_EMPTY_RESPONSE;
         }
 
@@ -484,6 +484,6 @@ class Guard
      */
     private function isSafeMode()
     {
-        return $this->request->get('encrypt_type') && $this->request->get('encrypt_type') === 'aes';
+        return $this->request->get('encrypt_type') && 'aes' === $this->request->get('encrypt_type');
     }
 }

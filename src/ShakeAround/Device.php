@@ -116,7 +116,7 @@ class Device extends AbstractAPI
             'poi_id' => intval($poiId),
         ];
 
-        if ($type === 2) {
+        if (2 === $type) {
             if (is_null($poiAppid)) {
                 throw new InvalidArgumentException('If value of argument #3 is 2, argument #4 is required.');
             }

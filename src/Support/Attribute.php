@@ -157,7 +157,7 @@ abstract class Attribute extends Collection
      */
     public function __call($method, $args)
     {
-        if (stripos($method, 'with') === 0) {
+        if (0 === stripos($method, 'with')) {
             $method = substr($method, 4);
         }
 
