@@ -348,7 +348,7 @@ class Client extends BaseClient
      */
     protected function updateStock($cardId, $amount, $action = 'increase')
     {
-        $key = $action === 'increase' ? 'increase_stock_value' : 'reduce_stock_value';
+        $key = 'increase' === $action ? 'increase_stock_value' : 'reduce_stock_value';
         $params = [
             'card_id' => $cardId,
             $key => abs($amount),
