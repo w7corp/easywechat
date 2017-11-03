@@ -26,7 +26,7 @@ class Client extends BaseClient
     public function unify(array $attributes)
     {
         if (empty($attributes['spbill_create_ip'])) {
-            $attributes['spbill_create_ip'] = ($attributes['trade_type'] === 'NATIVE') ? Support\get_server_ip() : Support\get_client_ip();
+            $attributes['spbill_create_ip'] = ('NATIVE' === $attributes['trade_type']) ? Support\get_server_ip() : Support\get_client_ip();
         }
 
         $attributes['notify_url'] = $attributes['notify_url'] ?? $this->app['config']['notify_url'];
