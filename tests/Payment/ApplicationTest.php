@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\Payment;
 
+use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Tests\TestCase;
 
@@ -71,5 +72,23 @@ class ApplicationTest extends TestCase
 
         $app = new Application([]);
         $this->assertFalse($app->inSandbox());
+    }
+
+    public function testGetKey()
+    {
+        $app = new Application(['key' => 'mock-key']);
+        $this->assertSame('mock-key', $app->getKey());
+    }
+
+    public function testGetKeyInSandboxMode()
+    {
+        $app = new Application([
+            'sandbox' => true,
+        ]);
+        $sandbox = \Mockery::mock(\EasyWeChat\Payment\Sandbox\Client::class.'[except,getKey]', new ServiceContainer());
+        $sandbox->expects()->getKey()->andReturn('123');
+        $app['sandbox'] = $sandbox;
+
+        $this->assertSame('123', $app->getKey());
     }
 }

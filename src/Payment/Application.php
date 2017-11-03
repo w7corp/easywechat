@@ -147,6 +147,14 @@ class Application extends ServiceContainer
     }
 
     /**
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
+    }
+
+    /**
      * @param string $name
      * @param array  $arguments
      *

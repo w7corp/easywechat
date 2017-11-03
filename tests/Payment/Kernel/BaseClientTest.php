@@ -12,7 +12,6 @@
 namespace EasyWeChat\Tests\Payment\Kernel;
 
 use EasyWeChat\Kernel\Http\Response;
-use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Kernel\BaseClient;
@@ -96,28 +95,5 @@ class BaseClientTest extends TestCase
         }))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->safeRequest($api, $params, $method));
-    }
-
-    public function testGetKey()
-    {
-        $app = new Application(['key' => 'mock-key']);
-        $client = $this->mockApiClient(BaseClient::class, ['getKey'], $app)->shouldAllowMockingProtectedMethods();
-        $client->expects()->getKey('foobar')->passthru();
-        $this->assertSame('mock-key', $client->getKey('foobar'));
-    }
-
-    public function testGetKeyInSandboxMode()
-    {
-        $app = new Application([
-            'sandbox' => true,
-        ]);
-        $sandbox = \Mockery::mock(\EasyWeChat\Payment\Sandbox\Client::class.'[except,key]', new ServiceContainer());
-        $sandbox->expects()->except('foobar')->andReturn(false);
-        $sandbox->expects()->key()->andReturn('123');
-        $app['sandbox'] = $sandbox;
-
-        $client = $this->mockApiClient(BaseClient::class, ['getKey'], $app)->shouldAllowMockingProtectedMethods();
-        $client->expects()->getKey('foobar')->passthru();
-        $this->assertSame('123', $client->getKey('foobar'));
     }
 }

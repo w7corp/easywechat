@@ -80,6 +80,6 @@ class VerifyTicket
      */
     protected function getCacheKey(): string
     {
-        return 'easywechat.open_platform.component_verify_ticket.'.$this->appId;
+        return 'easywechat.open_platform.verify_ticket.'.$this->appId;
     }
 }

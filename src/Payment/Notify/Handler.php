@@ -112,7 +112,7 @@ abstract class Handler
         $attributes = array_merge($base, $this->attributes);
 
         if ($this->sign) {
-            $attributes['sign'] = Support\generate_sign($attributes, $this->app['config']->key);
+            $attributes['sign'] = Support\generate_sign($attributes, $this->app->getKey());
         }
 
         return new Response(XML::build($attributes));
@@ -179,7 +179,7 @@ abstract class Handler
         $sign = $message['sign'];
         unset($message['sign']);
 
-        if (Support\generate_sign($message, $this->app['config']->key) !== $sign) {
+        if (Support\generate_sign($message, $this->app->getKey()) !== $sign) {
             throw new InvalidSignException();
         }
     }
