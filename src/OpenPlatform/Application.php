@@ -23,8 +23,9 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 /**
  * Class Application.
  *
- * @property \EasyWeChat\OpenPlatform\Server\Guard     $server
- * @property \EasyWeChat\OpenPlatform\Auth\AccessToken $access_token
+ * @property \EasyWeChat\OpenPlatform\Server\Guard        $server
+ * @property \EasyWeChat\OpenPlatform\Auth\AccessToken    $access_token
+ * @property \EasyWeChat\OpenPlatform\CodeTemplate\Client $code_template
  *
  * @method mixed handleAuthorize(string $authCode = null)
  * @method mixed getAuthorizer(string $appId)
@@ -42,6 +43,7 @@ class Application extends ServiceContainer
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
         Server\ServiceProvider::class,
+        CodeTemplate\ServiceProvider::class,
     ];
 
     /**
