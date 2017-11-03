@@ -30,7 +30,7 @@ class VerifyTicketTest extends TestCase
     {
         $client = \Mockery::mock(VerifyTicket::class.'[getCache]', ['app-id'], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
-                $mock->expects()->set('easywechat.open_platform.component_verify_ticket.app-id', 'ticket@654321')->once();
+                $mock->expects()->set('easywechat.open_platform.verify_ticket.app-id', 'ticket@654321')->once();
             });
             $mock->allows()->getCache()->andReturn($cache);
         });
@@ -42,7 +42,7 @@ class VerifyTicketTest extends TestCase
     {
         $client = \Mockery::mock(VerifyTicket::class.'[getCache]', ['app-id'], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
-                $mock->expects()->get('easywechat.open_platform.component_verify_ticket.app-id')->andReturn('ticket@123456')->once();
+                $mock->expects()->get('easywechat.open_platform.verify_ticket.app-id')->andReturn('ticket@123456')->once();
             });
             $mock->allows()->getCache()->andReturn($cache);
         });
@@ -54,7 +54,7 @@ class VerifyTicketTest extends TestCase
     {
         $client = \Mockery::mock(VerifyTicket::class.'[getCache]', ['app-id'], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
-                $mock->expects()->get('easywechat.open_platform.component_verify_ticket.app-id')->andReturn(null)->once();
+                $mock->expects()->get('easywechat.open_platform.verify_ticket.app-id')->andReturn(null)->once();
             });
             $mock->allows()->getCache()->andReturn($cache);
         });
