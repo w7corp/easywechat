@@ -25,30 +25,30 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->getDrafts());
     }
 
-    public function testAddDraftToTemplate()
+    public function testCreateFromDraft()
     {
         $client = $this->mockApiClient(Client::class, []);
 
         $client->expects()->httpPostJson('wxa/addtotemplate', ['draft_id' => 123])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->addDraftToTemplate(123));
+        $this->assertSame('mock-result', $client->createFromDraft(123));
     }
 
-    public function testGetTemplates()
+    public function testList()
     {
         $client = $this->mockApiClient(Client::class, []);
 
         $client->expects()->httpGet('wxa/gettemplatelist')->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->getTemplates());
+        $this->assertSame('mock-result', $client->list());
     }
 
-    public function testDeleteTemplate()
+    public function testDelete()
     {
         $client = $this->mockApiClient(Client::class, []);
 
         $client->expects()->httpPostJson('wxa/deletetemplate', ['template_id' => 234])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->deleteTemplate(234));
+        $this->assertSame('mock-result', $client->delete(234));
     }
 }

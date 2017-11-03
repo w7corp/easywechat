@@ -37,7 +37,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function addDraftToTemplate(int $draftId)
+    public function createFromDraft(int $draftId)
     {
         $params = [
             'draft_id' => $draftId,
@@ -51,7 +51,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function getTemplates()
+    public function list()
     {
         return $this->httpGet('wxa/gettemplatelist');
     }
@@ -63,7 +63,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function deleteTemplate($templateId)
+    public function delete($templateId)
     {
         $params = [
             'template_id' => $templateId,
