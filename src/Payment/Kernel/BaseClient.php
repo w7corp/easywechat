@@ -14,8 +14,6 @@ namespace EasyWeChat\Payment\Kernel;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\Payment\Application;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\ResponseInterface;
 
 /**

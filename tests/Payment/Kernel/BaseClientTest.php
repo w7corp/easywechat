@@ -12,7 +12,6 @@
 namespace EasyWeChat\Tests\Payment\Kernel;
 
 use EasyWeChat\Kernel\Http\Response;
-use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Kernel\BaseClient;
