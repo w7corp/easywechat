@@ -189,7 +189,7 @@ abstract class Handler
      */
     protected function strict($result)
     {
-        if ($result !== true && is_null($this->fail)) {
+        if (true !== $result && is_null($this->fail)) {
             $this->fail(strval($result));
         }
     }
