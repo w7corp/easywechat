@@ -83,7 +83,7 @@ class Encryptor
             throw new InvalidConfigException("Mission config 'aes_key'.");
         }
 
-        if (strlen($aesKey) !== 43) {
+        if (43 !== strlen($aesKey)) {
             throw new InvalidConfigException("The length of 'aes_key' must be 43.");
         }
         $this->aesKey = base64_decode($aesKey.'=', true);

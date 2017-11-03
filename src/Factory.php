@@ -35,7 +35,7 @@ class Factory
         $namespace = Kernel\Support\Str::studly($name);
         $application = "\\EasyWeChat\\{$namespace}\\Application";
 
-        if ($namespace === 'Work') {
+        if ('Work' === $namespace) {
             return self::work($config);
         }
 
