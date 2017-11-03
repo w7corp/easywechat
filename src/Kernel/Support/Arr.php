@@ -188,7 +188,7 @@ class Arr
 
             if (!is_array($item)) {
                 return array_merge($result, [$item]);
-            } elseif ($depth === 1) {
+            } elseif (1 === $depth) {
                 return array_merge($result, array_values($item));
             }
 
@@ -208,7 +208,7 @@ class Arr
 
         $keys = (array) $keys;
 
-        if (count($keys) === 0) {
+        if (0 === count($keys)) {
             return;
         }
 

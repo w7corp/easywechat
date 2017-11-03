@@ -179,7 +179,7 @@ abstract class AccessToken implements AccessTokenInterface
     protected function sendRequest(array $credentials): ResponseInterface
     {
         $options = [
-            ($this->requestMethod === 'GET') ? 'query' : 'json' => $credentials,
+            ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
         ];
 
         return $this->setHttpClient($this->app['http_client'])->request($this->getEndpoint(), $this->requestMethod, $options);
