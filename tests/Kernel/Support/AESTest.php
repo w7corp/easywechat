@@ -61,7 +61,7 @@ class AESTest extends TestCase
     {
         try {
             $result = AES::validateIv(str_repeat('x', $length));
-            if ($length === 16) {
+            if (16 === $length) {
                 $this->assertNull($result);
             } else {
                 $this->fail('No expected exception thrown.');
