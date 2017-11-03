@@ -1,9 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keal
- * Date: 2017/11/3
- * Time: 下午2:56
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace EasyWeChat\OpenPlatform\CodeTemplate;
@@ -11,7 +14,7 @@ namespace EasyWeChat\OpenPlatform\CodeTemplate;
 use EasyWeChat\Kernel\BaseClient;
 
 /**
- * Class Client
+ * Class Client.
  *
  * @author caikeal <caiyuezhang@gmail.com>
  */
@@ -19,7 +22,7 @@ class Client extends BaseClient
 {
     /**
      * 获取草稿箱内的所有临时代码草稿
-     * 
+     *
      * @return mixed
      */
     public function getDrafts()
@@ -28,22 +31,23 @@ class Client extends BaseClient
     }
 
     /**
-     * 将草稿箱的草稿选为小程序代码模版
+     * 将草稿箱的草稿选为小程序代码模版.
      *
      * @param int $draftId
+     *
      * @return mixed
      */
     public function addDraftToTemplate(int $draftId)
     {
         $params = [
-            'draft_id' => $draftId
+            'draft_id' => $draftId,
         ];
 
         return $this->httpPostJson('wxa/addtotemplate', $params);
     }
 
     /**
-     * 获取代码模版库中的所有小程序代码模版
+     * 获取代码模版库中的所有小程序代码模版.
      *
      * @return mixed
      */
@@ -53,15 +57,16 @@ class Client extends BaseClient
     }
 
     /**
-     * 删除指定小程序代码模版
+     * 删除指定小程序代码模版.
      *
      * @param $templateId
+     *
      * @return mixed
      */
     public function deleteTemplate($templateId)
     {
         $params = [
-            'template_id' => $templateId
+            'template_id' => $templateId,
         ];
 
         return $this->httpPostJson('wxa/deletetemplate', $params);
