@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\Payment\Sandbox;
 
-use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Kernel\Exceptions\SandboxException;
 use EasyWeChat\Payment\Sandbox\Client;
