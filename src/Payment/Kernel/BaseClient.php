@@ -75,7 +75,7 @@ class BaseClient
 
         $params = array_filter(array_merge($base, $this->prepends(), $params));
 
-        $params['sign'] = Support\generate_sign($params, $this->app->getKey());
+        $params['sign'] = Support\generate_sign($params, $this->app->getKey($endpoint));
 
         $options = array_merge([
             'body' => Support\XML::build($params),

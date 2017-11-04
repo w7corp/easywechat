@@ -84,11 +84,13 @@ class ApplicationTest extends TestCase
     {
         $app = new Application([
             'sandbox' => true,
+            'key' => 'keyxxx',
         ]);
-        $sandbox = \Mockery::mock(\EasyWeChat\Payment\Sandbox\Client::class.'[except,getKey]', new ServiceContainer());
+        $sandbox = \Mockery::mock(\EasyWeChat\Payment\Sandbox\Client::class.'[getKey]', new ServiceContainer());
         $sandbox->expects()->getKey()->andReturn('123');
         $app['sandbox'] = $sandbox;
 
-        $this->assertSame('123', $app->getKey());
+        $this->assertSame('123', $app->getKey('foo'));
+        $this->assertSame('keyxxx', $app->getKey('sandboxnew/pay/getsignkey'));
     }
 }
