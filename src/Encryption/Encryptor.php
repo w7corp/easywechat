@@ -164,7 +164,7 @@ class Encryptor
     {
         $padAmount = $this->blockSize - (strlen($text) % $this->blockSize);
 
-        $padAmount = $padAmount !== 0 ? $padAmount : $this->blockSize;
+        $padAmount = 0 !== $padAmount ? $padAmount : $this->blockSize;
 
         $padChr = chr($padAmount);
 
@@ -208,7 +208,7 @@ class Encryptor
             throw new InvalidConfigException("Configuration mission, 'aes_key' is required.");
         }
 
-        if (strlen($this->AESKey) !== 43) {
+        if (43 !== strlen($this->AESKey)) {
             throw new InvalidConfigException("The length of 'aes_key' must be 43.");
         }
 

@@ -361,7 +361,7 @@ class Card extends AbstractAPI
      */
     public function consume($code, $cardId = null)
     {
-        if (strlen($code) === 28 && $cardId && strlen($cardId) !== 28) {
+        if (28 === strlen($code) && $cardId && 28 !== strlen($cardId)) {
             list($code, $cardId) = [$cardId, $code];
         }
 
@@ -576,7 +576,7 @@ class Card extends AbstractAPI
      */
     protected function updateStock($cardId, $amount, $action = 'increase')
     {
-        $key = $action === 'increase' ? 'increase_stock_value' : 'reduce_stock_value';
+        $key = 'increase' === $action ? 'increase_stock_value' : 'reduce_stock_value';
         $params = [
             'card_id' => $cardId,
             $key => abs($amount),
@@ -648,7 +648,7 @@ class Card extends AbstractAPI
      */
     public function activate($info = [], $cardType = 'member_card')
     {
-        if ($cardType === 'general_card') {
+        if ('general_card' === $cardType) {
             return $this->parseJSON('json', [self::API_ACTIVATE_GENERAL_CARD, $info]);
         }
 

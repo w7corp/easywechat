@@ -128,7 +128,7 @@ class QRCode extends AbstractAPI
      */
     protected function create($actionName, $actionInfo, $temporary = true, $expireSeconds = null)
     {
-        $expireSeconds !== null || $expireSeconds = 7 * self::DAY;
+        null !== $expireSeconds || $expireSeconds = 7 * self::DAY;
 
         $params = [
                    'action_name' => $actionName,

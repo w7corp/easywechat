@@ -53,7 +53,7 @@ class Page extends AbstractAPI
             'page_url' => $pageUrl,
             'icon_url' => $iconUrl,
         ];
-        if ($comment !== '') {
+        if ('' !== $comment) {
             $params['comment'] = $comment;
         }
 
@@ -81,7 +81,7 @@ class Page extends AbstractAPI
             'page_url' => $pageUrl,
             'icon_url' => $iconUrl,
         ];
-        if ($comment !== '') {
+        if ('' !== $comment) {
             $params['comment'] = $comment;
         }
 
