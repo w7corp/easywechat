@@ -87,7 +87,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
-            return $message instanceof Text && $message->content === 'hello world!';
+            return $message instanceof Text && 'hello world!' === $message->content;
         }), 'overtrue')->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->sendText('hello world!', 'overtrue'));
     }
@@ -96,7 +96,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
-            return $message instanceof Media && $message->getType() === 'mpnews' && $message->media_id === 'mock-media-id';
+            return $message instanceof Media && 'mpnews' === $message->getType() && 'mock-media-id' === $message->media_id;
         }), 'overtrue')->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->sendNews('mock-media-id', 'overtrue'));
     }
@@ -105,7 +105,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
-            return $message instanceof Media && $message->getType() === 'voice' && $message->media_id === 'mock-media-id';
+            return $message instanceof Media && 'voice' === $message->getType() && 'mock-media-id' === $message->media_id;
         }), 'overtrue')->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->sendVoice('mock-media-id', 'overtrue'));
     }
@@ -114,7 +114,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
-            return $message instanceof Media && $message->getType() === 'mpvideo' && $message->media_id === 'mock-media-id';
+            return $message instanceof Media && 'mpvideo' === $message->getType() && 'mock-media-id' === $message->media_id;
         }), 'overtrue')->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->sendVideo('mock-media-id', 'overtrue'));
     }
@@ -123,7 +123,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
-            return $message instanceof Image && $message->media_id === 'mock-media-id';
+            return $message instanceof Image && 'mock-media-id' === $message->media_id;
         }), 'overtrue')->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->sendImage('mock-media-id', 'overtrue'));
     }
@@ -132,7 +132,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
-            return $message instanceof Card && $message->card_id === 'mock-card-id';
+            return $message instanceof Card && 'mock-card-id' === $message->card_id;
         }), 'overtrue')->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->sendCard('mock-card-id', 'overtrue'));
     }
@@ -141,7 +141,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['previewMessage']);
         $c->expects()->previewMessage(\Mockery::on(function ($message) {
-            return $message instanceof Text && $message->content === 'hello world!';
+            return $message instanceof Text && 'hello world!' === $message->content;
         }), 'openid', Client::PREVIEW_BY_OPENID)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->previewText('hello world!', 'openid'));
     }
@@ -150,7 +150,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['previewMessage']);
         $c->expects()->previewMessage(\Mockery::on(function ($message) {
-            return $message instanceof Media && $message->getType() === 'mpnews' && $message->media_id === 'mock-media-id';
+            return $message instanceof Media && 'mpnews' === $message->getType() && 'mock-media-id' === $message->media_id;
         }), 'openid', Client::PREVIEW_BY_OPENID)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->previewNews('mock-media-id', 'openid'));
     }
@@ -159,7 +159,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['previewMessage']);
         $c->expects()->previewMessage(\Mockery::on(function ($message) {
-            return $message instanceof Media && $message->getType() === 'voice' && $message->media_id === 'mock-media-id';
+            return $message instanceof Media && 'voice' === $message->getType() && 'mock-media-id' === $message->media_id;
         }), 'openid', Client::PREVIEW_BY_OPENID)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->previewVoice('mock-media-id', 'openid'));
     }
@@ -168,7 +168,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['previewMessage']);
         $c->expects()->previewMessage(\Mockery::on(function ($message) {
-            return $message instanceof Media && $message->getType() === 'mpvideo' && $message->media_id === 'mock-media-id';
+            return $message instanceof Media && 'mpvideo' === $message->getType() && 'mock-media-id' === $message->media_id;
         }), 'openid', Client::PREVIEW_BY_OPENID)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->previewVideo('mock-media-id', 'openid'));
     }
@@ -177,7 +177,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['previewMessage']);
         $c->expects()->previewMessage(\Mockery::on(function ($message) {
-            return $message instanceof Image && $message->media_id === 'mock-media-id';
+            return $message instanceof Image && 'mock-media-id' === $message->media_id;
         }), 'openid', Client::PREVIEW_BY_OPENID)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->previewImage('mock-media-id', 'openid'));
     }
@@ -186,7 +186,7 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['previewMessage']);
         $c->expects()->previewMessage(\Mockery::on(function ($message) {
-            return $message instanceof Card && $message->card_id === 'mock-card-id';
+            return $message instanceof Card && 'mock-card-id' === $message->card_id;
         }), 'openid', Client::PREVIEW_BY_OPENID)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->previewCard('mock-card-id', 'openid'));
     }

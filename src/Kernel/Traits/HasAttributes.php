@@ -191,7 +191,7 @@ trait HasAttributes
      */
     public function __call($method, $args)
     {
-        if (stripos($method, 'with') === 0) {
+        if (0 === stripos($method, 'with')) {
             return $this->with(substr($method, 4), array_shift($args));
         }
 
