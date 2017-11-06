@@ -142,7 +142,7 @@ class Messenger
      *
      * @return \EasyWeChat\Work\Message\Messenger
      */
-    protected function setRecipients($ids, string $key): Messenger
+    protected function setRecipients($ids, string $key): self
     {
         if (is_array($ids)) {
             $ids = implode('|', $ids);

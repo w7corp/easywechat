@@ -114,7 +114,7 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @return \EasyWeChat\Kernel\AccessToken
      */
-    public function setToken(string $token, int $lifetime = 7200): AccessToken
+    public function setToken(string $token, int $lifetime = 7200): self
     {
         $this->getCache()->set($this->getCacheKey(), [
             $this->tokenKey => $token,

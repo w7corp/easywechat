@@ -1,16 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keal
- * Date: 2017/11/6
- * Time: 下午2:39
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace EasyWeChat\Tests\OpenPlatform\Authorizer\MiniProgram\Tester;
 
-
-use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Tester\Client;
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Tester\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
