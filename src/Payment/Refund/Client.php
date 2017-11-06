@@ -113,7 +113,7 @@ class Client extends BaseClient
             'refund_fee' => $refundFee,
         ], $optional);
 
-        return $this->safeRequest('secapi/pay/refund', $params);
+        return $this->safeRequest($this->wrap('secapi/pay/refund'), $params);
     }
 
     /**
@@ -130,6 +130,6 @@ class Client extends BaseClient
             $type => $number,
         ];
 
-        return $this->request('pay/refundquery', $params);
+        return $this->request($this->wrap('pay/refundquery'), $params);
     }
 }

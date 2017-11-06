@@ -17,7 +17,6 @@ use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
-use Monolog\Logger;
 
 class ClientTest extends TestCase
 {
@@ -113,43 +112,12 @@ class ClientTest extends TestCase
         $this->assertSame('mock-response', $client->createVideoForBroadcasting($mediaId, $title, $description));
     }
 
-    public function testDownload()
-    {
-        $client = $this->mockApiClient(Client::class, ['getStream']);
-
-        try {
-            $client->download('media-id', '/not-exists-directory');
-            $this->fail('No expected exception thrown.');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(InvalidArgumentException::class, $e);
-            $this->assertSame('Directory does not exist or is not writable: \'/not-exists-directory\'.', $e->getMessage());
-        }
-
-        $directory = '/tmp/';
-        $response = \Mockery::mock(StreamResponse::class);
-
-        // no filename
-        $response->expects()->saveAs($directory, 'media-id')->once();
-        $client->expects()->getStream('media-id')->andReturn($response)->twice();
-
-        $this->assertSame('media-id', $client->download('media-id', $directory));
-
-        // with filename
-        $response->expects()->saveAs($directory, 'custom-filename')->once();
-        $this->assertSame('custom-filename', $client->download('media-id', $directory, 'custom-filename'));
-    }
-
-    public function testGetStream()
+    public function testGet()
     {
         $app = new ServiceContainer();
-        $logger = \Mockery::mock(Logger::class);
-        $logger->expects()->error('Fail to get media contents.', [
-            'error' => 'invalid media id hits.',
-        ]);
-        $app['logger'] = $logger;
         $client = $this->mockApiClient(Client::class, [], $app);
 
-        $mediaId = 'media-id';
+        $mediaId = 'invalid-media-id';
         $imageResponse = new Response(200, ['content-type' => 'text/plain'], '{"error": "invalid media id hits."}');
         $client->expects()->requestRaw('media/get', 'GET', [
             'query' => [
@@ -157,8 +125,16 @@ class ClientTest extends TestCase
             ],
         ])->andReturn($imageResponse)->once();
 
-        $response = $client->getStream($mediaId);
-        $this->assertInstanceOf(StreamResponse::class, $response);
-        $this->assertSame('{"error": "invalid media id hits."}', $response->getBody()->getContents());
+        $this->assertSame(['error' => 'invalid media id hits.'], $client->get($mediaId));
+
+        $mediaId = 'valid-media-id';
+        $imageResponse = new Response(200, [], 'valid data');
+        $client->expects()->requestRaw('media/get', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ])->andReturn($imageResponse)->once();
+
+        $this->assertInstanceOf(StreamResponse::class, $client->get($mediaId));
     }
 }

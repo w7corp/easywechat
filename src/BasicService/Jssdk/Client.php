@@ -39,7 +39,7 @@ class Client extends BaseClient
     /**
      * Ticket cache prefix.
      */
-    const TICKET_CACHE_PREFIX = 'easywechat.jsapi_ticket.';
+    const TICKET_CACHE_PREFIX = 'easywechat.basic_service.jssdk.ticket.';
 
     /**
      * Get config json for jsapi.

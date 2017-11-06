@@ -147,6 +147,20 @@ class Application extends ServiceContainer
     }
 
     /**
+     * @param string|null $endpoint
+     *
+     * @return string
+     */
+    public function getKey(string $endpoint = null)
+    {
+        if ('sandboxnew/pay/getsignkey' === $endpoint) {
+            return $this['config']->key;
+        }
+
+        return $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
+    }
+
+    /**
      * @param string $name
      * @param array  $arguments
      *

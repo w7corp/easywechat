@@ -26,12 +26,12 @@ class Client extends BaseClient
     public function unify(array $attributes)
     {
         if (empty($attributes['spbill_create_ip'])) {
-            $attributes['spbill_create_ip'] = ($attributes['trade_type'] === 'NATIVE') ? Support\get_server_ip() : Support\get_client_ip();
+            $attributes['spbill_create_ip'] = ('NATIVE' === $attributes['trade_type']) ? Support\get_server_ip() : Support\get_client_ip();
         }
 
         $attributes['notify_url'] = $attributes['notify_url'] ?? $this->app['config']['notify_url'];
 
-        return $this->request('pay/unifiedorder', $attributes);
+        return $this->request($this->wrap('pay/unifiedorder'), $attributes);
     }
 
     /**
@@ -69,7 +69,7 @@ class Client extends BaseClient
      */
     protected function query(array $params)
     {
-        return $this->request('pay/orderquery', $params);
+        return $this->request($this->wrap('pay/orderquery'), $params);
     }
 
     /**
@@ -85,6 +85,6 @@ class Client extends BaseClient
             'out_trade_no' => $tradeNo,
         ];
 
-        return $this->request('pay/closeorder', $params);
+        return $this->request($this->wrap('pay/closeorder'), $params);
     }
 }

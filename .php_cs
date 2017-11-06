@@ -20,6 +20,7 @@ return PhpCsFixer\Config::create()
         'no_useless_return' => true,
         'php_unit_construct' => true,
         'php_unit_strict' => true,
+        'yoda_style' => false,
     ))
     ->setFinder(
         PhpCsFixer\Finder::create()

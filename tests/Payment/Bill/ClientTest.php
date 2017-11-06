@@ -19,7 +19,7 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function testDownloadBill()
+    public function testGet()
     {
         $app = new Application(['response_type' => 'array']);
 
@@ -31,7 +31,7 @@ class ClientTest extends TestCase
         ];
         // stream response
         $client->expects()->requestRaw('pay/downloadbill', $params)->andReturn(new Response(200, ['text/plain'], 'mock-content'))->once();
-        $this->assertInstanceOf(StreamResponse::class, $client->download('20171010'));
+        $this->assertInstanceOf(StreamResponse::class, $client->get('20171010'));
 
         $response = new Response(200, ['Content-Type' => ['text/plain']], '<xml><return_code><![CDATA[FAIL]]></return_code>
 <return_msg><![CDATA[invalid bill_date]]></return_msg>
@@ -39,7 +39,7 @@ class ClientTest extends TestCase
 </xml>');
         $client->expects()->requestRaw('pay/downloadbill', $params)->andReturn($response)->once();
 
-        $result = $client->download('20171010');
+        $result = $client->get('20171010');
         $this->assertArraySubset([
             'return_code' => 'FAIL',
             'return_msg' => 'invalid bill_date',
