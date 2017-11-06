@@ -28,7 +28,7 @@ interface AccessTokenInterface
     /**
      * @return \EasyWeChat\Kernel\Contracts\AccessTokenInterface
      */
-    public function refresh(): AccessTokenInterface;
+    public function refresh(): self;
 
     /**
      * @param \Psr\Http\Message\RequestInterface $request
