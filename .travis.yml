@@ -5,6 +5,7 @@ php:
   - 7.1
 
 before_script:
+  - export TZ=Asia/Shanghai
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - ./vendor/bin/phplint
