@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\AES;
 use EasyWeChat\Kernel\Support\XML;
@@ -67,25 +66,14 @@ class Encryptor
     /**
      * Constructor.
      *
-     * @param string $appId
-     * @param string $token
-     * @param string $aesKey
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\Exception
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @param string      $appId
+     * @param string|null $token
+     * @param string|null $aesKey
      */
-    public function __construct(string $appId, string $token, $aesKey)
+    public function __construct(string $appId, string $token = null, string $aesKey = null)
     {
         $this->appId = $appId;
         $this->token = $token;
-
-        if (empty($aesKey)) {
-            throw new InvalidConfigException("Mission config 'aes_key'.");
-        }
-
-        if (43 !== strlen($aesKey)) {
-            throw new InvalidConfigException("The length of 'aes_key' must be 43.");
-        }
         $this->aesKey = base64_decode($aesKey.'=', true);
     }
 
