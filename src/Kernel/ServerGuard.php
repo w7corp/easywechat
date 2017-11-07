@@ -75,6 +75,14 @@ class ServerGuard
     public function __construct(ServiceContainer $app)
     {
         $this->app = $app;
+
+        foreach ($app->config->get('observers', []) as $observer) {
+            if (is_array($observer) && !is_callable($observer)) {
+                list($observer, $condition) = $observer;
+            }
+
+            $this->push($observer, $condition ?? '*');
+        }
     }
 
     /**
