@@ -78,7 +78,7 @@ class ServerGuard
 
         foreach ($app->config->get('observers', []) as $observer) {
             if (is_array($observer) && !is_callable($observer)) {
-                [$observer, $condition] = $observer;
+                list($observer, $condition) = $observer;
             }
 
             $this->push($observer, $condition ?? '*');
