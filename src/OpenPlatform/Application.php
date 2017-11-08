@@ -60,12 +60,12 @@ class Application extends ServiceContainer
      * Creates the officialAccount application.
      *
      * @param string                                                    $appId
-     * @param string                                                    $refreshToken
+     * @param string|null                                               $refreshToken
      * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
      *
      * @return \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application
      */
-    public function officialAccount(string $appId, string $refreshToken, AccessToken $accessToken = null): OfficialAccount
+    public function officialAccount(string $appId, string $refreshToken = null, AccessToken $accessToken = null): OfficialAccount
     {
         $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
             'encryptor' => $this['encryptor'],
@@ -83,12 +83,12 @@ class Application extends ServiceContainer
      * Creates the miniProgram application.
      *
      * @param string                                                    $appId
-     * @param string                                                    $refreshToken
+     * @param string|null                                               $refreshToken
      * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
      *
      * @return \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application
      */
-    public function miniProgram(string $appId, string $refreshToken, AccessToken $accessToken = null): MiniProgram
+    public function miniProgram(string $appId, string $refreshToken = null, AccessToken $accessToken = null): MiniProgram
     {
         return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
             'encryptor' => function () {
@@ -121,12 +121,12 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param string $appId
-     * @param string $refreshToken
+     * @param string      $appId
+     * @param string|null $refreshToken
      *
      * @return array
      */
-    protected function getAuthorizerConfig(string $appId, string $refreshToken): array
+    protected function getAuthorizerConfig(string $appId, string $refreshToken = null): array
     {
         return [
             'debug' => $this['config']->get('debug', false),
