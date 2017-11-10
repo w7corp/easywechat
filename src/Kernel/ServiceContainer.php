@@ -53,6 +53,11 @@ class ServiceContainer extends Container
     ];
 
     /**
+     * @var string
+     */
+    protected $id;
+
+    /**
      * Constructor.
      *
      * @param array $config
@@ -67,6 +72,16 @@ class ServiceContainer extends Container
             ->registerLogger()
             ->registerRequest()
             ->registerHttpClient();
+
+        $this->id = md5(json_encode($config));
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
