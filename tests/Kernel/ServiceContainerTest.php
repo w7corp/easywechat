@@ -44,6 +44,12 @@ class ServiceContainerTest extends TestCase
         $this->assertSame('bar', $container['bar']);
     }
 
+    public function testGetId()
+    {
+        $this->assertSame((new ServiceContainer(['app_id' => 'app-id1']))->getId(), (new ServiceContainer(['app_id' => 'app-id1']))->getId());
+        $this->assertNotSame((new ServiceContainer(['app_id' => 'app-id1']))->getId(), (new ServiceContainer(['app_id' => 'app-id2']))->getId());
+    }
+
     public function testRegisterProviders()
     {
         $container = new DummyContainerForProviderTest();
