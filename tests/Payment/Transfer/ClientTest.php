@@ -33,13 +33,13 @@ class ClientTest extends TestCase
         ], $config));
     }
 
-    public function testInfo()
+    public function testQueryBalanceOrder()
     {
         $app = $this->makeApp();
 
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $app)->makePartial();
 
-        $params = ['partner_trade_no' => 'bar'];
+        $partnerTradeNo = 'bar';
 
         $client->expects()->safeRequest('mmpaymkttransfers/gettransferinfo', \Mockery::on(function ($paramsForSafeRequest) use ($app) {
             $this->assertSame($paramsForSafeRequest['partner_trade_no'], 'bar');
@@ -49,10 +49,10 @@ class ClientTest extends TestCase
             return true;
         }))->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->info($params));
+        $this->assertSame('mock-result', $client->queryBalanceOrder($partnerTradeNo));
     }
 
-    public function testSend()
+    public function testToBalance()
     {
         $app = $this->makeApp();
 
@@ -70,6 +70,44 @@ class ClientTest extends TestCase
             return true;
         }))->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->send($params));
+        $this->assertSame('mock-result', $client->toBalance($params));
+    }
+
+    public function testQueryBankCardOrder()
+    {
+        $app = $this->makeApp();
+
+        $client = $this->mockApiClient(Client::class, ['safeRequest'], $app)->makePartial();
+
+        $partnerTradeNo = 'bar';
+
+        $client->expects()->safeRequest('mmpaysptrans/query_bank', \Mockery::on(function ($paramsForSafeRequest) use ($app) {
+            $this->assertSame($paramsForSafeRequest['partner_trade_no'], 'bar');
+            $this->assertSame($paramsForSafeRequest['mch_id'], $app['config']->mch_id);
+
+            return true;
+        }))->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->queryBankCardOrder($partnerTradeNo));
+    }
+
+    public function testToBackCard()
+    {
+        $app = $this->makeApp();
+
+        $client = $this->mockApiClient(Client::class, ['send', 'safeRequest'], $app)->makePartial();
+
+        $params = [
+            'foo' => 'bar',
+        ];
+
+        $client->expects()->safeRequest('mmpaysptrans/pay_bank', \Mockery::on(function ($paramsForSafeRequest) use ($params, $app) {
+            $this->assertSame($params['foo'], $paramsForSafeRequest['foo']);
+            $this->assertSame($paramsForSafeRequest['mchid'], $app['config']->mch_id);
+
+            return true;
+        }))->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->toBankCard($params));
     }
 }

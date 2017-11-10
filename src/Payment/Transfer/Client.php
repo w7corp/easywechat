@@ -21,30 +21,31 @@ use EasyWeChat\Payment\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Query MerchantPay.
+     * Query MerchantPay to balance.
      *
-     * @param array $params
+     * @param string $partnetTradeNo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function info(array $params)
+    public function queryBalanceOrder(string $partnetTradeNo)
     {
-        $base = [
+        $params = [
             'appid' => $this->app['config']->app_id,
             'mch_id' => $this->app['config']->mch_id,
+            'partner_trade_no' => $partnetTradeNo,
         ];
 
-        return $this->safeRequest('mmpaymkttransfers/gettransferinfo', array_merge($base, $params));
+        return $this->safeRequest('mmpaymkttransfers/gettransferinfo', $params);
     }
 
     /**
-     * Send MerchantPay.
+     * Send MerchantPay to balance.
      *
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function send(array $params)
+    public function toBalance(array $params)
     {
         $base = [
             'mchid' => $this->app['config']->mch_id,
@@ -52,5 +53,40 @@ class Client extends BaseClient
         ];
 
         return $this->safeRequest('mmpaymkttransfers/promotion/transfers', array_merge($base, $params));
+    }
+
+    /**
+     * Query MerchantPay order to BankCard.
+     *
+     * @param string $partnetTradeNo
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function queryBankCardOrder(string $partnetTradeNo)
+    {
+        $params = [
+            'mch_id' => $this->app['config']->mch_id,
+            'partner_trade_no' => $partnetTradeNo,
+        ];
+
+        return $this->safeRequest('mmpaysptrans/query_bank', $params);
+    }
+
+    /**
+     * Send MerchantPay to BankCard.
+     *
+     * @param array $params
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function toBankCard(array $params)
+    {
+        $base = [
+            'mchid' => $this->app['config']->mch_id,
+        ];
+
+        // TODO: RSA 加密 enc_bank_no, enc_true_name
+
+        return $this->safeRequest('mmpaysptrans/pay_bank', array_merge($base, $params));
     }
 }
