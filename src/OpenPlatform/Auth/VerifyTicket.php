@@ -52,7 +52,7 @@ class VerifyTicket
      */
     public function setTicket(string $ticket)
     {
-        $this->getCache()->set($this->getCacheKey(), $ticket);
+        $this->getCache()->set($this->getCacheKey(), $ticket, 3600);
 
         return $this;
     }
