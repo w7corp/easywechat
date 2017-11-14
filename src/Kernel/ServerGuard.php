@@ -89,7 +89,7 @@ class ServerGuard
     {
         foreach ($packages as $package) {
             foreach ($package['observers'] ?? [] as $handler) {
-                if (class_exists($handler) && in_array(EventHandlerInterface::class, class_implements($handler))) {
+                if (class_exists($handler) && in_array(EventHandlerInterface::class, class_implements($handler), true)) {
                     $this->push($handler);
                 }
             }
