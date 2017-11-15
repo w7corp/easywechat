@@ -65,7 +65,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'expires_in' => 7200,
         ];
-        $cacheKey = Client::TICKET_CACHE_PREFIX.'123456';
+        $cacheKey = 'easywechat.basic_service.jssdk.ticket.jsapi.123456';
         $client->allows()->getCache()->andReturn($cache);
 
         // no refresh and cached
