@@ -37,11 +37,6 @@ class Client extends BaseClient
     protected $url;
 
     /**
-     * Ticket cache prefix.
-     */
-    const TICKET_CACHE_PREFIX = 'easywechat.basic_service.jssdk.ticket.';
-
-    /**
      * Get config json for jsapi.
      *
      * @param array $jsApiList
@@ -82,7 +77,7 @@ class Client extends BaseClient
      */
     public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
-        $cacheKey = self::TICKET_CACHE_PREFIX.$this->getAppId();
+        $cacheKey = "easywechat.basic_service.jssdk.ticket.{$type}.{$this->getAppId()}";
 
         if (!$refresh && $this->getCache()->has($cacheKey)) {
             return $this->getCache()->get($cacheKey);

@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-use EasyWeChat\BasicService\Jssdk\Client;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OfficialAccount\Card\JssdkClient;
 use EasyWeChat\Tests\TestCase;
@@ -29,7 +28,7 @@ class JssdkClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'expires_in' => 7200,
         ];
-        $cacheKey = Client::TICKET_CACHE_PREFIX.'123456';
+        $cacheKey = 'easywechat.basic_service.jssdk.ticket.wx_card.123456';
         $client->allows()->getCache()->andReturn($cache);
 
         $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
