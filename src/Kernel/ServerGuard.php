@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Contracts\MessageInterface;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
@@ -77,22 +76,8 @@ class ServerGuard
     {
         $this->app = $app;
 
-        if (file_exists($packages = __DIR__.'/../../extensions/packages.php')) {
-            $this->discoverPackages(require $packages);
-        }
-    }
-
-    /**
-     * @param array $packages
-     */
-    protected function discoverPackages(array $packages)
-    {
-        foreach ($packages as $package) {
-            foreach ($package['observers'] ?? [] as $handler) {
-                if (class_exists($handler) && in_array(EventHandlerInterface::class, class_implements($handler), true)) {
-                    $this->push($handler);
-                }
-            }
+        foreach ($this->app->extension->observers() as $observer) {
+            call_user_func_array([$this, 'push'], $observer);
         }
     }
 
