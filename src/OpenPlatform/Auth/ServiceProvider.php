@@ -27,7 +27,7 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['verify_ticket'] = function ($app) {
-            return new VerifyTicket($app['config']['app_id']);
+            return new VerifyTicket($app);
         };
 
         $app['access_token'] = function ($app) {
