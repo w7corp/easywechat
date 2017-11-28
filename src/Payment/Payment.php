@@ -103,8 +103,8 @@ class Payment
     public function handleNotify(callable $callback)
     {
         $notify = $this->getNotify();
-
-        if (!$notify->isValid()) {
+        $signkey = $this->getKey();
+        if (!$notify->isValid($signkey)) {
             throw new FaultException('Invalid request payloads.', 400);
         }
 
@@ -169,8 +169,8 @@ class Payment
     public function handleScanNotify(callable $callback)
     {
         $notify = $this->getNotify();
-
-        if (!$notify->isValid()) {
+        $signkey = $this->getKey();
+        if (!$notify->isValid($signkey)) {
             throw new FaultException('Invalid request payloads.', 400);
         }
 
@@ -385,5 +385,15 @@ class Payment
         if (is_callable([$this->getAPI(), $method])) {
             return call_user_func_array([$this->api, $method], $args);
         }
+    }
+
+    /**
+     * Get merchant key or merchant wechat sandbox key for live/sandbox modal.
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->__call('getSignkey', [null]);
     }
 }
