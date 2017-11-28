@@ -36,11 +36,11 @@ class PaymentNotifyTest extends TestCase
 
         $notify = new Notify(new Merchant(['key' => 'sign_key']), $request);
 
-        $this->assertTrue($notify->isValid());
+        $this->assertTrue($notify->isValid('sign_key'));
 
         $notify = new Notify(new Merchant(['key' => 'different_sign_key']), $request);
 
-        $this->assertFalse($notify->isValid());
+        $this->assertFalse($notify->isValid('different_sign_key'));
     }
 
     /**
