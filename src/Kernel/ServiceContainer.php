@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Kernel;
 
+use EasyWeChatComposer\Extension;
 use GuzzleHttp\Client;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\HandlerInterface;
@@ -122,6 +123,10 @@ class ServiceContainer extends Container
         foreach ($this->providers as $provider) {
             $this->register(new $provider());
         }
+
+        $this['extension'] = function ($app) {
+            return new Extension($app);
+        };
 
         return $this;
     }

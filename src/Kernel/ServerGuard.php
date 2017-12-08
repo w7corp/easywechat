@@ -75,6 +75,10 @@ class ServerGuard
     public function __construct(ServiceContainer $app)
     {
         $this->app = $app;
+
+        foreach ($this->app->extension->observers() as $observer) {
+            call_user_func_array([$this, 'push'], $observer);
+        }
     }
 
     /**
