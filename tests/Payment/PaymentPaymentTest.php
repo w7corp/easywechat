@@ -66,10 +66,9 @@ class PaymentPaymentTest extends TestCase
     public function testHandleNotifyWithInvalidRequest()
     {
         $merchant = new Merchant(['key' => 'different_sign_key']);
-        $payment = \Mockery::mock(Payment::class.'[getNotify, getKey]', [$merchant]);
+        $payment = \Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
         $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><foo>bar</foo></xml>');
         $notify = \Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
-        $payment->shouldReceive('getKey')->andReturn('different_sign_key');
         $notify->shouldReceive('isValid')->andReturn(false);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
@@ -85,10 +84,9 @@ class PaymentPaymentTest extends TestCase
     public function testHandleNotify()
     {
         $merchant = new Merchant(['key' => 'different_sign_key']);
-        $payment = \Mockery::mock(Payment::class.'[getNotify, getKey]', [$merchant]);
+        $payment = \Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
         $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><foo>bar</foo></xml>');
         $notify = \Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
-        $payment->shouldReceive('getKey')->andReturn('different_sign_key');
         $notify->shouldReceive('isValid')->andReturn(true);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
