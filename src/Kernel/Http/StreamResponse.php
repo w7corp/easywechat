@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Kernel\Http;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\File;
 
 /**
@@ -32,8 +33,12 @@ class StreamResponse extends Response
 
         $directory = rtrim($directory, '/');
 
-        if (!is_writable($directory)) {
+        if (!is_dir($directory)) {
             mkdir($directory, 0755, true); // @codeCoverageIgnore
+        }
+
+        if (!is_writable($directory)) {
+            throw new InvalidArgumentException(sprintf("'%s' is not writable.", $directory));
         }
 
         $contents = $this->getBody()->getContents();
