@@ -137,4 +137,30 @@ class ClientTest extends TestCase
 
         $this->assertInstanceOf(StreamResponse::class, $client->get($mediaId));
     }
+
+    public function testGetJssdkMedia()
+    {
+        $app = new ServiceContainer();
+        $client = $this->mockApiClient(Client::class, [], $app);
+
+        $mediaId = 'invalid-media-id';
+        $imageResponse = new Response(200, ['content-type' => 'text/plain'], '{"error": "invalid media id hits."}');
+        $client->expects()->requestRaw('media/get/jssdk', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ])->andReturn($imageResponse)->once();
+
+        $this->assertSame(['error' => 'invalid media id hits.'], $client->getJssdkMedia($mediaId));
+
+        $mediaId = 'valid-media-id';
+        $imageResponse = new Response(200, [], 'valid data');
+        $client->expects()->requestRaw('media/get/jssdk', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ])->andReturn($imageResponse)->once();
+
+        $this->assertInstanceOf(StreamResponse::class, $client->getJssdkMedia($mediaId));
+    }
 }

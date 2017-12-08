@@ -165,4 +165,24 @@ class Client extends BaseClient
 
         return StreamResponse::buildFromPsrResponse($response);
     }
+
+    /**
+     * @param string $mediaId
+     *
+     * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getJssdkMedia(string $mediaId)
+    {
+        $response = $this->requestRaw('media/get/jssdk', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ]);
+
+        if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
+            return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+        }
+
+        return StreamResponse::buildFromPsrResponse($response);
+    }
 }
