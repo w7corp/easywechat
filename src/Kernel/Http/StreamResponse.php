@@ -39,11 +39,15 @@ class StreamResponse extends Response
         $contents = $this->getBody()->getContents();
 
         if (empty($filename)) {
-            $filename = md5($contents);
+            if (preg_match('/filename="(?<filename>.*?)"/', $this->getHeaderLine('Content-Disposition'), $match)) {
+                $filename = $match['filename'];
+            } else {
+                $filename = md5($contents);
+            }
         }
 
         if (empty(pathinfo($filename, PATHINFO_EXTENSION))) {
-            $filename .= File::getStreamExt($this->getBody());
+            $filename .= File::getStreamExt($this->getBody()->getContents());
         }
 
         file_put_contents($directory.'/'.$filename, $contents);
