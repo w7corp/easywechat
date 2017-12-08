@@ -11,24 +11,16 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Auth;
 
+use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Auth\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 use Psr\SimpleCache\CacheInterface;
 
 class VerifyTicketTest extends TestCase
 {
-    public function testConstruct()
-    {
-        $mock = $this->getMockBuilder(VerifyTicket::class)->disableOriginalConstructor()->setMethods(['setTicket'])->getMockForAbstractClass();
-
-        $mock->expects($this->once())->method('setTicket')->with($this->equalTo('ticket@123456'));
-
-        (new \ReflectionClass(VerifyTicket::class))->getConstructor()->invoke($mock, 'app-id', 'ticket@123456');
-    }
-
     public function testSetTicket()
     {
-        $client = \Mockery::mock(VerifyTicket::class.'[getCache]', ['app-id'], function ($mock) {
+        $client = \Mockery::mock(VerifyTicket::class.'[getCache]', [new Application(['app_id' => 'app-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
                 $mock->expects()->set('easywechat.open_platform.verify_ticket.app-id', 'ticket@654321', 3600)->once();
             });
@@ -40,7 +32,7 @@ class VerifyTicketTest extends TestCase
 
     public function testGetTicket()
     {
-        $client = \Mockery::mock(VerifyTicket::class.'[getCache]', ['app-id'], function ($mock) {
+        $client = \Mockery::mock(VerifyTicket::class.'[getCache]', [new Application(['app_id' => 'app-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
                 $mock->expects()->get('easywechat.open_platform.verify_ticket.app-id')->andReturn('ticket@123456')->once();
             });
@@ -52,7 +44,7 @@ class VerifyTicketTest extends TestCase
 
     public function testGetTicketAndThrowException()
     {
-        $client = \Mockery::mock(VerifyTicket::class.'[getCache]', ['app-id'], function ($mock) {
+        $client = \Mockery::mock(VerifyTicket::class.'[getCache]', [new Application(['app_id' => 'app-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
                 $mock->expects()->get('easywechat.open_platform.verify_ticket.app-id')->andReturn(null)->once();
             });

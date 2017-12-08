@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://easywechat.org/">
-<img src="https://easywechat.org/logo.svg" alt="EasyWeChat" width="160">
+    <img src="http://7u2jwa.com1.z0.glb.clouddn.com/logo-20171121.png" height="300" alt="EasyWeChat Logo"/>
 </a>
 
 <p align="center">📦 It is probably the best SDK in the world for developing Wechat App.</p>
@@ -36,15 +36,7 @@
 
 <p align="center">关注我的公众号我们一起聊聊代码怎么样？</p>
 
-## Feature
-
- - 命名不那么乱七八糟；
- - 隐藏开发者不需要关注的细节；
- - 方法使用更优雅，不必再去研究那些奇怪的的方法名或者类名是做啥用的；
- - 自定义缓存方式；
- - 符合 [PSR](https://github.com/php-fig/fig-standards) 标准，你可以各种方便的与你的框架集成；
- - 高度抽象的消息类，免去各种拼json与xml的痛苦；
- - 详细 Debug 日志，一切交互都一目了然；
+<p><img src="http://7u2jwa.com1.z0.glb.clouddn.com/QQ20171121-130611.jpg" alt="Features" /></p>
 
 ## Requirement
 
@@ -60,7 +52,7 @@
 > 注意！当前分支这 4.0 分支， 4.0 还没有发布，意味着你无法通过下面的命令来安装。如果你想尝鲜 4.0 可以将 4.0 换成 dev-master 安装。
 
 ```shell
-composer require "overtrue/wechat:~4.0" -vvv
+$ composer require "overtrue/wechat:~4.0" -vvv
 ```
 
 ## Usage
@@ -101,10 +93,7 @@ $server->serve()->send();
 
 ## Documentation
 
-- Homepage: https://easywechat.com
-- Forum: https://easywechat.com/discussions
-- 微信公众平台文档: https://mp.weixin.qq.com/wiki
-- WeChat Official Documentation: http://admin.wechat.com/wiki
+[官网](https://easywechat.com)  ·  [讨论](https://easywechat.com/discussions)  ·  [微信公众平台文档](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official Documentation](http://admin.wechat.com/wiki)
 
 > 强烈建议看懂微信文档后再来使用本 SDK。
 
