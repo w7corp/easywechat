@@ -13,6 +13,7 @@ namespace EasyWeChat\OpenPlatform\Auth;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
+use EasyWeChat\OpenPlatform\Application;
 
 /**
  * Class VerifyTicket.
@@ -24,23 +25,18 @@ class VerifyTicket
     use InteractsWithCache;
 
     /**
-     * @var string
+     * @var \EasyWeChat\OpenPlatform\Application
      */
-    protected $appId;
+    protected $app;
 
     /**
      * Constructor.
      *
-     * @param string      $appId
-     * @param string|null $ticket
+     * @param \EasyWeChat\OpenPlatform\Application $$app
      */
-    public function __construct(string $appId, string $ticket = null)
+    public function __construct(Application $app)
     {
-        $this->appId = $appId;
-
-        if (!is_null($ticket)) {
-            $this->setTicket($ticket);
-        }
+        $this->app = $app;
     }
 
     /**
@@ -80,6 +76,6 @@ class VerifyTicket
      */
     protected function getCacheKey(): string
     {
-        return 'easywechat.open_platform.verify_ticket.'.$this->appId;
+        return 'easywechat.open_platform.verify_ticket.'.$this->app['config']['app_id'];
     }
 }
