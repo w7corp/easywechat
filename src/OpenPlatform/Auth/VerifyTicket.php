@@ -32,7 +32,7 @@ class VerifyTicket
     /**
      * Constructor.
      *
-     * @param \EasyWeChat\OpenPlatform\Application $$app
+     * @param \EasyWeChat\OpenPlatform\Application $app
      */
     public function __construct(Application $app)
     {
