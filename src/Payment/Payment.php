@@ -103,8 +103,8 @@ class Payment
     public function handleNotify(callable $callback)
     {
         $notify = $this->getNotify();
-
-        if (!$notify->isValid()) {
+        $signkey = $this->getAPI()->getSignkey(null);
+        if (!$notify->isValid($signkey)) {
             throw new FaultException('Invalid request payloads.', 400);
         }
 
@@ -169,8 +169,8 @@ class Payment
     public function handleScanNotify(callable $callback)
     {
         $notify = $this->getNotify();
-
-        if (!$notify->isValid()) {
+        $signkey = $this->getAPI()->getSignkey(null);
+        if (!$notify->isValid($signkey)) {
             throw new FaultException('Invalid request payloads.', 400);
         }
 

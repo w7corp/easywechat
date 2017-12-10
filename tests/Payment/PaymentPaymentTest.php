@@ -125,9 +125,10 @@ class PaymentPaymentTest extends TestCase
     public function testHandleScanNotify()
     {
         $merchant = new Merchant(['key' => 'different_sign_key']);
-        $payment = \Mockery::mock(Payment::class.'[getNotify]', [$merchant]);
+        $payment = \Mockery::mock(Payment::class.'[getNotify, getKey]', [$merchant]);
         $request = Request::create('/callback', 'POST', [], [], [], [], '<xml><product_id>88888</product_id><openid>o8GeHuLAsgefS_80exEr1cTqekUs</openid></xml>');
         $notify = \Mockery::mock(Notify::class.'[isValid]', [$merchant, $request]);
+        $payment->shouldReceive('getKey')->andReturn('different_sign_key');
         $notify->shouldReceive('isValid')->andReturn(true);
         $payment->shouldReceive('getNotify')->andReturn($notify);
 
