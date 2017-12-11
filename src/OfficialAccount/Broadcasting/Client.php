@@ -40,6 +40,7 @@ use EasyWeChat\Kernel\Support\Arr;
 class Client extends BaseClient
 {
     const PREVIEW_BY_OPENID = 'touser';
+
     const PREVIEW_BY_NAME = 'towxname';
 
     /**
