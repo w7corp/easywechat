@@ -26,8 +26,11 @@ use Symfony\Component\HttpFoundation\Response;
 class Guard extends ServerGuard
 {
     const EVENT_AUTHORIZED = 'authorized';
+
     const EVENT_UNAUTHORIZED = 'unauthorized';
+
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
+
     const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
 
     /**
