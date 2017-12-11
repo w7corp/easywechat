@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class Handler
 {
     const SUCCESS = 'SUCCESS';
+
     const FAIL = 'FAIL';
 
     /**
