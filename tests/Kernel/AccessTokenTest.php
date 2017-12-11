@@ -263,7 +263,9 @@ class AccessTokenTest extends TestCase
 class DummyAccessTokenForTest extends AccessToken
 {
     protected $requestMethod = 'post';
+
     protected $endpointToGetToken = '/auth/get-token';
+
     protected $tokenKey = 'foo';
 
     protected function getCredentials(): array
