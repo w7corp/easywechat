@@ -52,7 +52,7 @@ class StreamResponse extends Response
         }
 
         if (empty(pathinfo($filename, PATHINFO_EXTENSION))) {
-            $filename .= File::getStreamExt($this->getBody()->getContents());
+            $filename .= File::getStreamExt($contents);
         }
 
         file_put_contents($directory.'/'.$filename, $contents);
