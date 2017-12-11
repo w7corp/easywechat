@@ -24,10 +24,6 @@
     <a href="https://www.yousails.com">
       <img src="https://yousails.com/banners/brand.png" width=350>
     </a>
-    <br><br>
-    <a href="https://laravist.com">
-      <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
-    </a>
 </p>
 
 <p align="center">
@@ -41,15 +37,11 @@
 ## Requirement
 
 1. PHP >= 7.0
-2. **[composer](https://getcomposer.org/)**
+2. **[Composer](https://getcomposer.org/)**
 3. openssl 拓展
 4. fileinfo 拓展（素材管理模块需要用到）
 
-> SDK 对所使用的框架并无特别要求
-
 ## Installation
-
-> 注意！当前分支这 4.0 分支， 4.0 还没有发布，意味着你无法通过下面的命令来安装。如果你想尝鲜 4.0 可以将 4.0 换成 dev-master 安装。
 
 ```shell
 $ composer require "overtrue/wechat:~4.0" -vvv
@@ -89,13 +81,11 @@ $server->push(function($message) use ($user) {
 $server->serve()->send();
 ```
 
-更多请参考 [https://easywechat.com/](https://easywechat.com/)。
+更多请参考 [https://www.easywechat.com/](https://www.easywechat.com/)。
 
 ## Documentation
 
-[官网](https://easywechat.com)  ·  [讨论](https://easywechat.com/discussions)  ·  [微信公众平台文档](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official Documentation](http://admin.wechat.com/wiki)
-
-> 强烈建议看懂微信文档后再来使用本 SDK。
+[官网](https://www.easywechat.com)  · [教程](https://www.easywechat.com/tutorials)  ·  [讨论](https://www.easywechat.com/discussions)  ·  [微信公众平台](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official](http://admin.wechat.com/wiki)
 
 ## Integration
 
