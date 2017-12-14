@@ -58,20 +58,15 @@ class JssdkClient extends Jssdk
     public function attachExtension($cardId, array $extension = [])
     {
         $timestamp = time();
+        $nonce = str_random(6);
+        $ticket = $this->getTicket()['ticket'];
+
         $ext = array_merge(['timestamp' => $timestamp], Arr::only(
             $extension,
             ['code', 'openid', 'outer_id', 'balance', 'fixed_begintimestamp', 'outer_str']
         ));
 
-        $nonce = str_random(6);
-        $ext['signature'] = $this->dictionaryOrderSignature(
-            $ticket = $this->getTicket()['ticket'],
-            $timestamp,
-            $cardId,
-            $ext['code'] ?? '',
-            $ext['openid'] ?? '',
-            $nonce
-        );
+        $ext['signature'] = $this->dictionaryOrderSignature($ticket, $timestamp, $cardId, $ext['code'] ?? '', $ext['openid'] ?? '', $nonce);
 
         return [
             'cardId' => $cardId,
