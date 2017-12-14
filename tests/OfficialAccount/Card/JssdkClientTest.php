@@ -80,7 +80,7 @@ class JssdkClientTest extends TestCase
 
     public function testAttachExtension()
     {
-        $client = $this->mockApiClient(JssdkClient::class, ['getTicketSignature', 'getTicket']);
+        $client = $this->mockApiClient(JssdkClient::class, ['dictionaryOrderSignature', 'getTicket']);
 
         $card = [
             'card_id' => 'mock-card-id1',
@@ -92,7 +92,7 @@ class JssdkClientTest extends TestCase
             'outer_str' => 'mock-outer_str',
         ];
 
-        $client->expects()->getTicketSignature('mock-ticket', \Mockery::type('int'), 'mock-card-id', 'mock-code', 'mock-openid', 'mock-balance')
+        $client->expects()->dictionaryOrderSignature('mock-ticket', \Mockery::type('int'), 'mock-card-id', 'mock-code', 'mock-openid', \Mockery::type('string'))
                     ->andReturn('mock-signature')->once();
         $client->expects()->getTicket()->andReturn(['ticket' => 'mock-ticket']);
 

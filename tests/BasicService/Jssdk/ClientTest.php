@@ -19,8 +19,8 @@ class ClientTest extends TestCase
 {
     public function testBuildConfig()
     {
-        $client = $this->mockApiClient(Client::class, 'signature');
-        $client->expects()->signature()->andReturn(['foo' => 'bar'])->twice();
+        $client = $this->mockApiClient(Client::class, 'configSignature');
+        $client->expects()->configSignature()->andReturn(['foo' => 'bar'])->twice();
         $config = json_decode($client->buildConfig(['api1', 'api2']), true);
 
         $this->assertArrayHasKey('debug', $config);
@@ -109,7 +109,7 @@ class ClientTest extends TestCase
         $client->allows()->getTicketSignature('mock-ticket', \Mockery::type('string'), \Mockery::type('integer'), $url)
                             ->andReturn('mock-signature');
         $client->allows()->getTicket()->andReturn($ticket);
-        $signature = $client->signature();
+        $signature = $client->configSignature();
 
         $this->assertArrayHasKey('appId', $signature);
         $this->assertArrayHasKey('nonceStr', $signature);
@@ -124,7 +124,7 @@ class ClientTest extends TestCase
 
         // custom arguments
         $time = time();
-        $signature = $client->signature('http://easywechat.org', 'mock-nonce', $time);
+        $signature = $client->configSignature('http://easywechat.org', 'mock-nonce', $time);
 
         $this->assertArrayHasKey('appId', $signature);
         $this->assertArrayHasKey('nonceStr', $signature);

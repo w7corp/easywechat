@@ -48,7 +48,7 @@ class Client extends BaseClient
      */
     public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true)
     {
-        $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->signature());
+        $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->configSignature());
 
         return $json ? json_encode($config) : $config;
     }
@@ -102,7 +102,7 @@ class Client extends BaseClient
      *
      * @return array
      */
-    protected function signature(string $url = null, string $nonce = null, $timestamp = null): array
+    protected function configSignature(string $url = null, string $nonce = null, $timestamp = null): array
     {
         $url = $url ?: $this->getUrl();
         $nonce = $nonce ?: Support\Str::quickRandom(10);
@@ -130,6 +130,18 @@ class Client extends BaseClient
     public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
     {
         return sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}");
+    }
+
+    /**
+     * @return string
+     */
+    public function dictionaryOrderSignature()
+    {
+        $params = func_get_args();
+
+        sort($params, SORT_STRING);
+
+        return sha1(implode($params));
     }
 
     /**
