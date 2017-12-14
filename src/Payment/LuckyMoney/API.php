@@ -41,18 +41,25 @@ class API extends AbstractAPI
 
     // api
     const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
+
     const API_SEND_GROUP = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendgroupredpack';
+
     const API_QUERY = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/gethbinfo';
+
     const API_PREPARE = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/hbpreorder';
 
     // LuckyMoney type
     const TYPE_NORMAL = 'NORMAL';
+
     const TYPE_GROUP = 'GROUP';
 
     // Risk control type.
     const RISK_NORMAL = 'NORMAL';
+
     const RISK_IGN_FREQ_LMT = 'IGN_FREQ_LMT';
+
     const RISK_IGN_DAY_LMT = 'IGN_DAY_LMT';
+
     const RISK_IGN_FREQ_DAY_LMT = 'IGN_FREQ_DAY_LMT';
 
     /**

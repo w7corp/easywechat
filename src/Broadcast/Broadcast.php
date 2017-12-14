@@ -30,19 +30,29 @@ use EasyWeChat\Core\Exceptions\HttpException;
 class Broadcast extends AbstractAPI
 {
     const API_SEND_BY_GROUP = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall';
+
     const API_SEND_BY_OPENID = 'https://api.weixin.qq.com/cgi-bin/message/mass/send';
+
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete';
+
     const API_PREVIEW = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview';
+
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/message/mass/get';
 
     const PREVIEW_BY_OPENID = 'touser';
+
     const PREVIEW_BY_NAME = 'towxname';
 
     const MSG_TYPE_TEXT = 'text'; // 文本
+
     const MSG_TYPE_NEWS = 'news'; // 图文
+
     const MSG_TYPE_VOICE = 'voice'; // 语音
+
     const MSG_TYPE_IMAGE = 'image'; // 图片
+
     const MSG_TYPE_VIDEO = 'video'; // 视频
+
     const MSG_TYPE_CARD = 'card'; // 卡券
 
     /**

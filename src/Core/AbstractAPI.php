@@ -50,7 +50,9 @@ abstract class AbstractAPI
     protected $accessToken;
 
     const GET = 'get';
+
     const POST = 'post';
+
     const JSON = 'json';
 
     /**

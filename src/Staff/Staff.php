@@ -30,14 +30,23 @@ use EasyWeChat\Support\Collection;
 class Staff extends AbstractAPI
 {
     const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist';
+
     const API_ONLINE = 'https://api.weixin.qq.com/cgi-bin/customservice/getonlinekflist';
+
     const API_DELETE = 'https://api.weixin.qq.com/customservice/kfaccount/del';
+
     const API_UPDATE = 'https://api.weixin.qq.com/customservice/kfaccount/update';
+
     const API_CREATE = 'https://api.weixin.qq.com/customservice/kfaccount/add';
+
     const API_INVITE_BIND = 'https://api.weixin.qq.com/customservice/kfaccount/inviteworker';
+
     const API_MESSAGE_SEND = 'https://api.weixin.qq.com/cgi-bin/message/custom/send';
+
     const API_AVATAR_UPLOAD = 'https://api.weixin.qq.com/customservice/kfaccount/uploadheadimg';
+
     const API_RECORDS = 'https://api.weixin.qq.com/customservice/msgrecord/getrecord';
+
     const API_MSG_LIST = 'https://api.weixin.qq.com/customservice/msgrecord/getmsglist';
 
     /**

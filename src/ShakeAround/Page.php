@@ -29,9 +29,13 @@ use EasyWeChat\Core\AbstractAPI;
 class Page extends AbstractAPI
 {
     const API_ADD = 'https://api.weixin.qq.com/shakearound/page/add';
+
     const API_UPDATE = 'https://api.weixin.qq.com/shakearound/page/update';
+
     const API_SEARCH = 'https://api.weixin.qq.com/shakearound/page/search';
+
     const API_DELETE = 'https://api.weixin.qq.com/shakearound/page/delete';
+
     const API_RELATION_SEARCH = 'https://api.weixin.qq.com/shakearound/relation/search';
 
     /**

@@ -51,38 +51,71 @@ class Card extends AbstractAPI
     protected $ticketCachePrefix = 'overtrue.wechat.card_api_ticket.';
 
     const API_GET_COLORS = 'https://api.weixin.qq.com/card/getcolors';
+
     const API_CREATE_CARD = 'https://api.weixin.qq.com/card/create';
+
     const API_CREATE_QRCODE = 'https://api.weixin.qq.com/card/qrcode/create';
+
     const API_SHOW_QRCODE = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
+
     const API_GET_CARD_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
+
     const API_CREATE_LANDING_PAGE = 'https://api.weixin.qq.com/card/landingpage/create';
+
     const API_DEPOSIT_CODE = 'https://api.weixin.qq.com/card/code/deposit';
+
     const API_GET_DEPOSIT_COUNT = 'https://api.weixin.qq.com/card/code/getdepositcount';
+
     const API_CHECK_CODE = 'https://api.weixin.qq.com/card/code/checkcode';
+
     const API_GET_HTML = 'https://api.weixin.qq.com/card/mpnews/gethtml';
+
     const API_SET_TEST_WHITE_LIST = 'https://api.weixin.qq.com/card/testwhitelist/set';
+
     const API_GET_CODE = 'https://api.weixin.qq.com/card/code/get';
+
     const API_CONSUME_CARD = 'https://api.weixin.qq.com/card/code/consume';
+
     const API_DECRYPT_CODE = 'https://api.weixin.qq.com/card/code/decrypt';
+
     const API_GET_CARD_LIST = 'https://api.weixin.qq.com/card/user/getcardlist';
+
     const API_GET_CARD = 'https://api.weixin.qq.com/card/get';
+
     const API_LIST_CARD = 'https://api.weixin.qq.com/card/batchget';
+
     const API_UPDATE_CARD = 'https://api.weixin.qq.com/card/update';
+
     const API_SET_PAY_CELL = 'https://api.weixin.qq.com/card/paycell/set';
+
     const API_MODIFY_STOCK = 'https://api.weixin.qq.com/card/modifystock';
+
     const API_UPDATE_CODE = 'https://api.weixin.qq.com/card/code/update';
+
     const API_DELETE_CARD = 'https://api.weixin.qq.com/card/delete';
+
     const API_DISABLE_CARD = 'https://api.weixin.qq.com/card/code/unavailable';
+
     const API_ACTIVATE_MEMBER_CARD = 'https://api.weixin.qq.com/card/membercard/activate';
+
     const API_ACTIVATE_MEMBER_USER_FORM = 'https://api.weixin.qq.com/card/membercard/activateuserform/set';
+
     const API_GET_MEMBER_USER_INFO = 'https://api.weixin.qq.com/card/membercard/userinfo/get';
+
     const API_UPDATE_MEMBER_CARD_USER = 'https://api.weixin.qq.com/card/membercard/updateuser';
+
     const API_CREATE_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/submit';
+
     const API_UPDATE_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/update';
+
     const API_GET_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/get';
+
     const API_LIST_SUB_MERCHANT = 'https://api.weixin.qq.com/card/submerchant/batchget';
+
     const API_GET_CATEGORIES = 'https://api.weixin.qq.com/card/getapplyprotocol';
+
     const API_ACTIVATE_GENERAL_CARD = 'https://api.weixin.qq.com/card/generalcard/activate';
+
     const API_UPDATE_GENERAL_CARD_USER = 'https://api.weixin.qq.com/card/generalcard/updateuser';
 
     /**

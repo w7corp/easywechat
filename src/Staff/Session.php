@@ -29,9 +29,13 @@ use EasyWeChat\Core\AbstractAPI;
 class Session extends AbstractAPI
 {
     const API_CREATE = 'https://api.weixin.qq.com/customservice/kfsession/create';
+
     const API_CLOSE = 'https://api.weixin.qq.com/customservice/kfsession/close';
+
     const API_GET = 'https://api.weixin.qq.com/customservice/kfsession/getsession';
+
     const API_LISTS = 'https://api.weixin.qq.com/customservice/kfsession/getsessionlist';
+
     const API_WAITERS = 'https://api.weixin.qq.com/customservice/kfsession/getwaitcase';
 
     /**
