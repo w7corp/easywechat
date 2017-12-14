@@ -68,8 +68,8 @@ class JssdkClient extends Jssdk
             $ticket = $this->getTicket()['ticket'],
             $timestamp,
             $cardId,
-            $ext['code'],
-            $ext['openid'],
+            $ext['code'] ?? '',
+            $ext['openid'] ?? '',
             $nonce
         );
 
