@@ -29,11 +29,17 @@ use EasyWeChat\Core\AbstractAPI;
 class Group extends AbstractAPI
 {
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/groups/get';
+
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/groups/create';
+
     const API_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/update';
+
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/groups/delete';
+
     const API_USER_GROUP_ID = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+
     const API_MEMBER_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/update';
+
     const API_MEMBER_BATCH_UPDATE = 'https://api.weixin.qq.com/cgi-bin/groups/members/batchupdate';
 
     /**

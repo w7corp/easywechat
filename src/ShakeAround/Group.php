@@ -29,11 +29,17 @@ use EasyWeChat\Core\AbstractAPI;
 class Group extends AbstractAPI
 {
     const API_ADD = 'https://api.weixin.qq.com/shakearound/device/group/add';
+
     const API_UPDATE = 'https://api.weixin.qq.com/shakearound/device/group/update';
+
     const API_DELETE = 'https://api.weixin.qq.com/shakearound/device/group/delete';
+
     const API_GET_LIST = 'https://api.weixin.qq.com/shakearound/device/group/getlist';
+
     const API_GET_DETAIL = 'https://api.weixin.qq.com/shakearound/device/group/getdetail';
+
     const API_ADD_DEVICE = 'https://api.weixin.qq.com/shakearound/device/group/adddevice';
+
     const API_DELETE_DEVICE = 'https://api.weixin.qq.com/shakearound/device/group/deletedevice';
 
     /**

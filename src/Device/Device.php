@@ -27,20 +27,33 @@ use EasyWeChat\Core\AccessToken;
 class Device extends AbstractAPI
 {
     protected $deviceType;
+
     protected $productId;
+
     protected $config;
 
     const API_TRANS_MSG = 'https://api.weixin.qq.com/device/transmsg';
+
     const API_CREATE = 'https://api.weixin.qq.com/device/create_qrcode';
+
     const API_DEV_STAT = 'https://api.weixin.qq.com/device/get_stat';
+
     const API_DEV_AUTH = 'https://api.weixin.qq.com/device/authorize_device';
+
     const API_DEV_GET_QRCODE = 'https://api.weixin.qq.com/device/getqrcode';
+
     const API_DEV_VERIFY_QRCODE = 'https://api.weixin.qq.com/device/verify_qrcode';
+
     const API_DEV_BIND = 'https://api.weixin.qq.com/device/bind';
+
     const API_DEV_UNBIND = 'https://api.weixin.qq.com/device/unbind';
+
     const API_DEV_COMPEL_BIND = 'https://api.weixin.qq.com/device/compel_bind';
+
     const API_DEV_COMPEL_UNBIND = 'https://api.weixin.qq.com/device/compel_unbind';
+
     const API_DEV_GET_OPENID = 'https://api.weixin.qq.com/device/get_openid';
+
     const API_USER_DEV_BIND = 'https://api.weixin.qq.com/device/get_bind_device';
 
     public function __construct(AccessToken $accessToken, $config)

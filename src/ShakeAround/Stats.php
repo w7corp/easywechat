@@ -29,8 +29,11 @@ use EasyWeChat\Core\AbstractAPI;
 class Stats extends AbstractAPI
 {
     const API_DEVICE = 'https://api.weixin.qq.com/shakearound/statistics/device';
+
     const API_DEVICE_LIST = 'https://api.weixin.qq.com/shakearound/statistics/devicelist';
+
     const API_PAGE = 'https://api.weixin.qq.com/shakearound/statistics/page';
+
     const API_PAGE_LIST = 'https://api.weixin.qq.com/shakearound/statistics/pagelist';
 
     /**

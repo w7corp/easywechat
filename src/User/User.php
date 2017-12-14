@@ -29,13 +29,21 @@ use EasyWeChat\Core\AbstractAPI;
 class User extends AbstractAPI
 {
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/user/info';
+
     const API_BATCH_GET = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget';
+
     const API_LIST = 'https://api.weixin.qq.com/cgi-bin/user/get';
+
     const API_GROUP = 'https://api.weixin.qq.com/cgi-bin/groups/getid';
+
     const API_REMARK = 'https://api.weixin.qq.com/cgi-bin/user/info/updateremark';
+
     const API_OAUTH_GET = 'https://api.weixin.qq.com/sns/userinfo';
+
     const API_GET_BLACK_LIST = 'https://api.weixin.qq.com/cgi-bin/tags/members/getblacklist';
+
     const API_BATCH_BLACK_LIST = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchblacklist';
+
     const API_BATCH_UNBLACK_LIST = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchunblacklist';
 
     /**

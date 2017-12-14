@@ -29,10 +29,15 @@ use EasyWeChat\Core\AbstractAPI;
 class POI extends AbstractAPI
 {
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/poi/addpoi';
+
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/poi/getpoi';
+
     const API_LIST = 'https://api.weixin.qq.com/cgi-bin/poi/getpoilist';
+
     const API_UPDATE = 'https://api.weixin.qq.com/cgi-bin/poi/updatepoi';
+
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/poi/delpoi';
+
     const API_GET_CATEGORIES = 'https://api.weixin.qq.com/cgi-bin/poi/getwxcategory';
 
     /**

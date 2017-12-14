@@ -29,12 +29,19 @@ use EasyWeChat\Core\AbstractAPI;
 class Tag extends AbstractAPI
 {
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/tags/get';
+
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/tags/create';
+
     const API_UPDATE = 'https://api.weixin.qq.com/cgi-bin/tags/update';
+
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/tags/delete';
+
     const API_USER_TAGS = 'https://api.weixin.qq.com/cgi-bin/tags/getidlist';
+
     const API_MEMBER_BATCH_TAG = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging';
+
     const API_MEMBER_BATCH_UNTAG = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging';
+
     const API_USERS_OF_TAG = 'https://api.weixin.qq.com/cgi-bin/user/tag/get';
 
     /**

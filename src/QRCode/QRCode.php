@@ -29,14 +29,21 @@ use EasyWeChat\Core\AbstractAPI;
 class QRCode extends AbstractAPI
 {
     const DAY = 86400;
+
     const SCENE_MAX_VALUE = 100000;
+
     const SCENE_QR_CARD = 'QR_CARD';
+
     const SCENE_QR_TEMPORARY = 'QR_SCENE';
+
     const SCENE_QR_TEMPORARY_STR = 'QR_STR_SCENE';
+
     const SCENE_QR_FOREVER = 'QR_LIMIT_SCENE';
+
     const SCENE_QR_FOREVER_STR = 'QR_LIMIT_STR_SCENE';
 
     const API_CREATE = 'https://api.weixin.qq.com/cgi-bin/qrcode/create';
+
     const API_SHOW = 'https://mp.weixin.qq.com/cgi-bin/showqrcode';
 
     /**

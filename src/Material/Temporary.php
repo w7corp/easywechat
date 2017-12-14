@@ -38,6 +38,7 @@ class Temporary extends AbstractAPI
     protected $allowTypes = ['image', 'voice', 'video', 'thumb'];
 
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/media/get';
+
     const API_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/media/upload';
 
     /**

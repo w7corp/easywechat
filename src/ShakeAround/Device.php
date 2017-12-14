@@ -30,9 +30,13 @@ use EasyWeChat\Core\Exceptions\InvalidArgumentException;
 class Device extends AbstractAPI
 {
     const API_DEVICE_APPLYID = 'https://api.weixin.qq.com/shakearound/device/applyid';
+
     const API_DEVICE_APPLYSTATUS = 'https://api.weixin.qq.com/shakearound/device/applystatus';
+
     const API_DEVICE_UPDATE = 'https://api.weixin.qq.com/shakearound/device/update';
+
     const API_DEVICE_BINDLOCATION = 'https://api.weixin.qq.com/shakearound/device/bindlocation';
+
     const API_DEVICE_SEARCH = 'https://api.weixin.qq.com/shakearound/device/search';
 
     /**

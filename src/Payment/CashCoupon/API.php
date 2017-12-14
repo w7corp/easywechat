@@ -41,7 +41,9 @@ class API extends AbstractAPI
 
     // api
     const API_SEND = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
+
     const API_QUERY_STOCK = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/query_coupon_stock';
+
     const API_QUERY = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/querycouponsinfo';
 
     /**

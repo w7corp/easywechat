@@ -26,6 +26,7 @@ use EasyWeChat\Core\AbstractAPI;
 class API extends AbstractAPI
 {
     const API_CLEAR_QUOTA = 'https://api.weixin.qq.com/cgi-bin/clear_quota';
+
     const API_CALLBACK_IP = 'https://api.weixin.qq.com/cgi-bin/getcallbackip';
 
     /**

@@ -45,16 +45,27 @@ class Guard
     const SUCCESS_EMPTY_RESPONSE = 'success';
 
     const TEXT_MSG = 2;
+
     const IMAGE_MSG = 4;
+
     const VOICE_MSG = 8;
+
     const VIDEO_MSG = 16;
+
     const SHORT_VIDEO_MSG = 32;
+
     const LOCATION_MSG = 64;
+
     const LINK_MSG = 128;
+
     const DEVICE_EVENT_MSG = 256;
+
     const DEVICE_TEXT_MSG = 512;
+
     const FILE_MSG = 1024;
+
     const EVENT_MSG = 1048576;
+
     const ALL_MSG = 1049598;
 
     /**

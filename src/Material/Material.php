@@ -38,12 +38,19 @@ class Material extends AbstractAPI
     protected $allowTypes = ['image', 'voice', 'video', 'thumb', 'news_image'];
 
     const API_GET = 'https://api.weixin.qq.com/cgi-bin/material/get_material';
+
     const API_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_material';
+
     const API_DELETE = 'https://api.weixin.qq.com/cgi-bin/material/del_material';
+
     const API_STATS = 'https://api.weixin.qq.com/cgi-bin/material/get_materialcount';
+
     const API_LISTS = 'https://api.weixin.qq.com/cgi-bin/material/batchget_material';
+
     const API_NEWS_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/material/add_news';
+
     const API_NEWS_UPDATE = 'https://api.weixin.qq.com/cgi-bin/material/update_news';
+
     const API_NEWS_IMAGE_UPLOAD = 'https://api.weixin.qq.com/cgi-bin/media/uploadimg';
 
     /**

@@ -29,7 +29,9 @@ use EasyWeChat\Core\AbstractAPI;
 class ShakeAround extends AbstractAPI
 {
     const API_ACCOUNT_REGISTER = 'https://api.weixin.qq.com/shakearound/account/register';
+
     const API_ACCOUNT_AUDIT_STATUS = 'https://api.weixin.qq.com/shakearound/account/auditstatus';
+
     const API_GET_SHAKE_INFO = 'https://api.weixin.qq.com/shakearound/user/getshakeinfo';
 
     /**
