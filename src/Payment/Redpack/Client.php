@@ -48,6 +48,7 @@ class Client extends BaseClient
     public function sendNormal(array $params)
     {
         $base = [
+            'appid' => null,
             'total_num' => 1,
             'client_ip' => $params['client_ip'] ?? Support\get_server_ip(),
             'wxappid' => $this->app['config']->app_id,
@@ -66,7 +67,9 @@ class Client extends BaseClient
     public function sendGroup(array $params)
     {
         $base = [
+            'appid' => null,
             'amt_type' => 'ALL_RAND',
+            'wxappid' => $this->app['config']->app_id,
         ];
 
         return $this->safeRequest('mmpaymkttransfers/sendgroupredpack', array_merge($base, $params));
