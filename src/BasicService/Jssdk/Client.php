@@ -73,7 +73,7 @@ class Client extends BaseClient
      * @param bool   $refresh
      * @param string $type
      *
-     * @return array
+     * @return array|null
      */
     public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
@@ -129,7 +129,7 @@ class Client extends BaseClient
      */
     public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
     {
-        return sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}");
+        return sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $ticket, $nonce, $timestamp, $url));
     }
 
     /**
@@ -141,7 +141,7 @@ class Client extends BaseClient
 
         sort($params, SORT_STRING);
 
-        return sha1(implode($params));
+        return sha1(implode('', $params));
     }
 
     /**

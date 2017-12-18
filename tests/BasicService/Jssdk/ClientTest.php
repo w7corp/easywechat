@@ -159,7 +159,7 @@ class ClientTest extends TestCase
 
         sort($params, SORT_STRING);
 
-        $this->assertSame(sha1(implode($params)), $client->dictionaryOrderSignature(...$unsorted));
+        $this->assertSame(sha1(implode('', $params)), $client->dictionaryOrderSignature(...$unsorted));
     }
 
     public function testUrlSetterAndGetter()
