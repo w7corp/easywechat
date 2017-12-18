@@ -85,9 +85,7 @@ class Client extends BaseClient
      */
     public function delete(string $account)
     {
-        $url = sprintf('customservice/kfaccount/del?kf_account=%s', $account);
-
-        return $this->httpGet($url);
+        return $this->httpPostJson('customservice/kfaccount/del', [], ['kf_account' => $account]);
     }
 
     /**

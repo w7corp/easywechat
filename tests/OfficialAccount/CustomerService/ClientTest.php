@@ -63,7 +63,8 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('customservice/kfaccount/del?kf_account=overtrue@test')->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('customservice/kfaccount/del', [], ['kf_account' => 'overtrue@test'])
+            ->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->delete('overtrue@test'));
     }
