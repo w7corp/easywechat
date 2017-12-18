@@ -109,7 +109,8 @@ class Encryptor
                 substr($this->aesKey, 0, 16),
                 OPENSSL_NO_PADDING
             ));
-        } catch (Throwable $e) { // @codeCoverageIgnore
+        } catch (Throwable $e) {
+            // @codeCoverageIgnore
             throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES); // @codeCoverageIgnore
         }
 
