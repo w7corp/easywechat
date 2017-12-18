@@ -82,7 +82,7 @@ trait Observable
 
     /**
      * @param string|int $event
-     * @param array      ...$payload
+     * @param mixed      ...$payload
      *
      * @return mixed|null
      */
@@ -93,7 +93,7 @@ trait Observable
 
     /**
      * @param string|int $event
-     * @param array      ...$payload
+     * @param mixed      ...$payload
      *
      * @return mixed|null
      */
