@@ -164,8 +164,9 @@ abstract class AccessToken implements AccessTokenInterface
     public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface
     {
         parse_str($request->getUri()->getQuery(), $query);
-var_dump($request->getUri());
+        var_dump($request->getUri());
         $query = http_build_query(array_merge($this->getQuery(), $query));
+
         return $request->withUri($request->getUri()->withQuery($query));
     }
 
