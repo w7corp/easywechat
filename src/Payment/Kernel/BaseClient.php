@@ -94,7 +94,7 @@ class BaseClient
      * @param string $method
      * @param array  $options
      *
-     * @return array|Support\Collection|object|ResponseInterface|string
+     * @return ResponseInterface
      */
     protected function requestRaw($endpoint, array $params = [], $method = 'post', array $options = [])
     {

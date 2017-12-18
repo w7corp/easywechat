@@ -132,7 +132,7 @@ class ServerGuard
     /**
      * Get request message.
      *
-     * @return array
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
      *
      * @throws BadRequestException
      */
@@ -198,7 +198,7 @@ class ServerGuard
      * @param string                                                   $from
      * @param \EasyWeChat\Kernel\Contracts\MessageInterface|string|int $message
      *
-     * @return mixed|string
+     * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
