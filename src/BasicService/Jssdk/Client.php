@@ -83,7 +83,7 @@ class Client extends BaseClient
             return $this->getCache()->get($cacheKey);
         }
 
-        $result = $this->resolveResponse(
+        $result = $this->castResponseToType(
             $this->requestRaw(static::API_GET_TICKET, 'GET', ['query' => ['type' => $type]]),
             'array'
         );

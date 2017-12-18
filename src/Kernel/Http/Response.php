@@ -77,7 +77,7 @@ class Response extends GuzzleResponse
         $array = json_decode($this->getBodyContents(), true);
 
         if (JSON_ERROR_NONE === json_last_error()) {
-            return $array;
+            return (array) $array;
         }
 
         return [];

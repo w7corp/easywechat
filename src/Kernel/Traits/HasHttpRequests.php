@@ -11,10 +11,6 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Contracts\Arrayable;
-use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
-use EasyWeChat\Kernel\Http\Response;
-use EasyWeChat\Kernel\Support\Collection;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
@@ -27,6 +23,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait HasHttpRequests
 {
+    use ResponseCastable;
+
     /**
      * @var \GuzzleHttp\ClientInterface
      */
@@ -185,54 +183,6 @@ trait HasHttpRequests
         }
 
         return $this->handlerStack;
-    }
-
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param string|null                         $type
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
-    protected function resolveResponse(ResponseInterface $response, $type = null)
-    {
-        $response = Response::buildFromPsrResponse($response);
-        $response->getBody()->rewind();
-
-        switch ($type ?? 'array') {
-            case 'collection':
-                return $response->toCollection();
-            case 'array':
-                return $response->toArray();
-            case 'object':
-                return $response->toObject();
-            case 'raw':
-                return $response;
-            default:
-                if (!is_subclass_of($type, Arrayable::class)) {
-                    throw new InvalidConfigException(sprintf('Config key "response_type" classname must be an instanceof %s', Arrayable::class));
-                }
-
-                return new $type($response);
-        }
-    }
-
-    /**
-     * @param mixed  $response
-     * @param string $type
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
-     */
-    protected function transformResponseToType($response, string $type)
-    {
-        if ($response instanceof ResponseInterface) {
-            $response = Response::buildFromPsrResponse($response);
-        } elseif (($response instanceof Collection) || is_array($response) || is_object($response)) {
-            $response = new Response(200, [], json_encode($response));
-        }
-
-        return $this->resolveResponse($response, $type);
     }
 
     /**

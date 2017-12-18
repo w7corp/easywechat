@@ -119,7 +119,7 @@ class Client extends BaseClient
     public function uploadVideoForBroadcasting(string $path, string $title, string $description)
     {
         $response = $this->uploadVideo($path);
-        $arrayResponse = $this->transformResponseToType($response, 'array');
+        $arrayResponse = $this->detectAndCastResponseToType($response, 'array');
 
         if (!empty($arrayResponse['media_id'])) {
             return $this->createVideoForBroadcasting($arrayResponse['media_id'], $title, $description);
@@ -160,7 +160,7 @@ class Client extends BaseClient
         ]);
 
         if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
-            return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+            return $this->castResponseToType($response, $this->app['config']->get('response_type'));
         }
 
         return StreamResponse::buildFromPsrResponse($response);
@@ -180,7 +180,7 @@ class Client extends BaseClient
         ]);
 
         if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
-            return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+            return $this->castResponseToType($response, $this->app['config']->get('response_type'));
         }
 
         return StreamResponse::buildFromPsrResponse($response);

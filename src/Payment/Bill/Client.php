@@ -34,7 +34,7 @@ class Client extends BaseClient
         $response = $this->requestRaw($this->wrap('pay/downloadbill'), $params);
 
         if (0 === strpos($response->getBody()->getContents(), '<xml>')) {
-            return $this->resolveResponse($response, $this->app['config']->get('response_type', 'array'));
+            return $this->castResponseToType($response, $this->app['config']->get('response_type'));
         }
 
         return StreamResponse::buildFromPsrResponse($response);

@@ -151,6 +151,17 @@ class ClientTest extends TestCase
         );
     }
 
+    public function testDictionaryOrderSignature()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = $unsorted = ['a', 'b', 1, 11];
+
+        sort($params, SORT_STRING);
+
+        $this->assertSame(sha1(implode($params)), $client->dictionaryOrderSignature(...$unsorted));
+    }
+
     public function testUrlSetterAndGetter()
     {
         $client = $this->mockApiClient(Client::class);
