@@ -214,10 +214,10 @@ class Payment
      *
      * @return string|array
      */
-    public function configForPayment($prepayId, $json = true)
+    public function configForPayment($prepayId, $json = true, $mini = false)
     {
         $params = [
-            'appId' => $this->merchant->app_id,
+            'appId' => $mini?$this->merchant->sub_app_id:$this->merchant->app_id,
             'timeStamp' => strval(time()),
             'nonceStr' => uniqid(),
             'package' => "prepay_id=$prepayId",
