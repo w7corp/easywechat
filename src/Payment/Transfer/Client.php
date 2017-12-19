@@ -48,7 +48,7 @@ class Client extends BaseClient
     public function toBalance(array $params)
     {
         $base = [
-        	'appid' => null,
+            'appid' => null,
             'mch_id' => null,
             'mchid' => $this->app['config']->mch_id,
             'mch_appid' => $this->app['config']->app_id,
