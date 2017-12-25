@@ -159,6 +159,7 @@ class Messenger
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function send($message = null)
     {

@@ -19,7 +19,11 @@ class ApplicationTest extends TestCase
 {
     public function testInstances()
     {
-        $app = new Application(['agent_id' => 102093]);
+        $app = new Application([
+            'corp_id' => 'xwnaka223',
+            'agent_id' => 102093,
+            'secret' => 'secret',
+        ]);
 
         $this->assertInstanceOf(\EasyWeChat\Work\OA\Client::class, $app->oa);
         $this->assertInstanceOf(\EasyWeChat\Work\Auth\AccessToken::class, $app->access_token);

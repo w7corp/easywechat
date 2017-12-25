@@ -25,6 +25,8 @@ class Client extends BaseClient
      * @param string|\EasyWeChat\Kernel\Messages\Message $message
      *
      * @return \EasyWeChat\Work\Message\Messenger
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function message($message)
     {
