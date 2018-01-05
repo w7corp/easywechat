@@ -67,7 +67,6 @@ trait Observable
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
-     *
      */
     public function observe($condition, $handler)
     {
@@ -77,7 +76,6 @@ trait Observable
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
-     *
      */
     public function on($condition, $handler)
     {
@@ -198,6 +196,7 @@ trait Observable
      * @param $condition
      *
      * @return array
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function resolveHandlerAndCondition($handler, $condition): array

@@ -171,6 +171,7 @@ class ServerGuard
      * Resolve server request and return the response.
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
