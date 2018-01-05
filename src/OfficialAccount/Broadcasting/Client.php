@@ -23,17 +23,17 @@ use EasyWeChat\Kernel\Support\Arr;
  * Class Client.
  *
  * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewTextByName($text, $wxname);
+ *         previewTextByName($text, $name);
  * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewNewsByName($mediaId, $wxname);
+ *         previewNewsByName($mediaId, $name);
  * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewVoiceByName($mediaId, $wxname);
+ *         previewVoiceByName($mediaId, $name);
  * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewImageByName($mediaId, $wxname);
+ *         previewImageByName($mediaId, $name);
  * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewVideoByName($message, $wxname);
+ *         previewVideoByName($message, $name);
  * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewCardByName($cardId, $wxname);
+ *         previewCardByName($cardId, $name);
  *
  * @author overtrue <i@overtrue.me>
  */
@@ -51,7 +51,8 @@ class Client extends BaseClient
      */
     public function send(array $message)
     {
-        $api = Arr::get($message, 'filter.is_to_all') ? 'cgi-bin/message/mass/sendall' : 'cgi-bin/message/mass/send';
+        $api = Arr::get($message, 'filter.is_to_all') || Arr::get($message, 'filter.tag_id')
+            ? 'cgi-bin/message/mass/sendall' : 'cgi-bin/message/mass/send';
 
         return $this->httpPostJson($api, $message);
     }
@@ -107,6 +108,8 @@ class Client extends BaseClient
      * @param mixed  $to
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function sendText(string $message, $to = null)
     {
@@ -120,6 +123,8 @@ class Client extends BaseClient
      * @param mixed  $to
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function sendNews(string $mediaId, $to = null)
     {
@@ -133,6 +138,8 @@ class Client extends BaseClient
      * @param mixed  $to
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function sendVoice(string $mediaId, $to = null)
     {
@@ -146,6 +153,8 @@ class Client extends BaseClient
      * @param mixed $to
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function sendImage(string $mediaId, $to = null)
     {
@@ -159,6 +168,8 @@ class Client extends BaseClient
      * @param mixed  $to
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function sendVideo(string $mediaId, $to = null)
     {
@@ -172,6 +183,8 @@ class Client extends BaseClient
      * @param mixed  $to
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function sendCard(string $cardId, $to = null)
     {
@@ -186,6 +199,8 @@ class Client extends BaseClient
      * @param string $by
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function previewText(string $message, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -200,6 +215,8 @@ class Client extends BaseClient
      * @param string $by
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function previewNews(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -214,6 +231,8 @@ class Client extends BaseClient
      * @param string $by
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function previewVoice(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -228,6 +247,8 @@ class Client extends BaseClient
      * @param string $by
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function previewImage(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -242,6 +263,8 @@ class Client extends BaseClient
      * @param string $by
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function previewVideo(string $mediaId, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -256,6 +279,8 @@ class Client extends BaseClient
      * @param string $by
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function previewCard(string $cardId, $to, $by = self::PREVIEW_BY_OPENID)
     {
@@ -268,10 +293,12 @@ class Client extends BaseClient
      * @param string                                        $by
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function previewMessage(MessageInterface $message, $to = null, $by = self::PREVIEW_BY_OPENID)
+    public function previewMessage(MessageInterface $message, string $to, $by = self::PREVIEW_BY_OPENID)
     {
-        $message = (new MessageBuilder())->message($message)->to($to)->buildForPreview($by);
+        $message = (new MessageBuilder())->message($message)->buildForPreview($by, $to);
 
         return $this->preview($message);
     }
@@ -281,12 +308,22 @@ class Client extends BaseClient
      * @param mixed                                         $to
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function sendMessage(MessageInterface $message, $to = null)
     {
-        $message = (new MessageBuilder())->message($message)->to($to)->build();
+        $message = (new MessageBuilder())->message($message);
 
-        return $this->send($message);
+        if (\is_int($to)) {
+            $message->toTag($to);
+        } elseif (\is_array($to)) {
+            $message->toUsers($to);
+        } else {
+            $message->toAll();
+        }
+
+        return $this->send($message->build());
     }
 
     /**

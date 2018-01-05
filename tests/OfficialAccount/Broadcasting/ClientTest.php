@@ -222,11 +222,10 @@ class ClientTest extends TestCase
     {
         $c = $this->mockApiClient(Client::class, ['send']);
 
-        // to openid
+        // to all
         $c->expects()->send([
             'filter' => [
-                'is_to_all' => false,
-                'group_id' => 'mock-groupid',
+                'is_to_all' => true,
             ],
             'msgtype' => 'text',
             'text' => [
@@ -234,6 +233,31 @@ class ClientTest extends TestCase
             ],
         ])->andReturn('mock-result')->once();
 
-        $c->sendMessage(new Text('hello world!'), 'mock-groupid');
+        $c->sendMessage(new Text('hello world!'));
+
+        // to tag id
+        $c->expects()->send([
+            'filter' => [
+                'is_to_all' => false,
+                'tag_id' => 12,
+            ],
+            'msgtype' => 'text',
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ])->andReturn('mock-result')->once();
+
+        $c->sendMessage(new Text('hello world!'), 12);
+
+        // to openids
+        $c->expects()->send([
+            'touser' => ['openid1', 'openid2'],
+            'msgtype' => 'text',
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ])->andReturn('mock-result')->once();
+
+        $c->sendMessage(new Text('hello world!'), ['openid1', 'openid2']);
     }
 }
