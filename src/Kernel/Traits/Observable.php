@@ -50,6 +50,8 @@ trait Observable
     /**
      * @param \Closure|EventHandlerInterface|string $handler
      * @param \Closure|EventHandlerInterface|string $condition
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function unshift($handler, $condition = '*')
     {
@@ -65,6 +67,7 @@ trait Observable
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
+     *
      */
     public function observe($condition, $handler)
     {
@@ -74,6 +77,7 @@ trait Observable
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
+     *
      */
     public function on($condition, $handler)
     {
@@ -133,11 +137,11 @@ trait Observable
 
     /**
      * @param \Closure $handler
-     * @param array    $payload
+     * @param mixed    $payload
      *
      * @return mixed
      */
-    protected function callHandler(Closure $handler, array $payload)
+    protected function callHandler(Closure $handler, $payload)
     {
         try {
             return $handler($payload);
@@ -194,6 +198,7 @@ trait Observable
      * @param $condition
      *
      * @return array
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function resolveHandlerAndCondition($handler, $condition): array
     {

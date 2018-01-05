@@ -90,6 +90,7 @@ class ServerGuard
      * @return Response
      *
      * @throws BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function serve(): Response
     {
@@ -135,6 +136,7 @@ class ServerGuard
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
      *
      * @throws BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getMessage()
     {
@@ -169,6 +171,8 @@ class ServerGuard
      * Resolve server request and return the response.
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function resolve(): Response
     {
@@ -232,8 +236,8 @@ class ServerGuard
      *
      * @return array
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function handleRequest(): array
     {
