@@ -120,10 +120,6 @@ class MessageBuilder
         $content = $this->message->transformForJsonRequest();
 
         if (empty($prepends)) {
-            if (empty($this->to)) {
-                throw new RuntimeException('The message reception object is not specified');
-            }
-
             $prepends = $this->to;
         }
 

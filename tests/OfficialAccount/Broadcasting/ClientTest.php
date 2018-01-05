@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Broadcasting;
 
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Card;
 use EasyWeChat\Kernel\Messages\Image;
 use EasyWeChat\Kernel\Messages\Media;
@@ -36,18 +37,38 @@ class ClientTest extends TestCase
         $c->expects()->httpPostJson('cgi-bin/message/mass/sendall', $message)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->send($message));
 
-        // to group
+        // to tag
         $message = [
             'filter' => [
                 'is_to_all' => false,
-                'group' => '@xxx',
+                'tag_id' => 23,
             ],
+            'data' => [
+                'foo' => 'bar',
+            ],
+        ];
+        $c->expects()->httpPostJson('cgi-bin/message/mass/sendall', $message)->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $c->send($message));
+
+        // to users
+        $message = [
+            'touser' => ['openid1', 'openid2'],
             'data' => [
                 'foo' => 'bar',
             ],
         ];
         $c->expects()->httpPostJson('cgi-bin/message/mass/send', $message)->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $c->send($message));
+
+        // exception
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('The message reception object is not specified');
+        $message = [
+            'data' => [
+                'foo' => 'bar',
+            ],
+        ];
+        $c->send($message);
     }
 
     public function testPreview()
@@ -191,7 +212,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $c->previewCard('mock-card-id', 'openid'));
     }
 
-    public function testpreviewMessage()
+    public function testPreviewMessage()
     {
         $c = $this->mockApiClient(Client::class, ['preview']);
 

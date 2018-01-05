@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Broadcasting;
 
-use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Text;
 use EasyWeChat\OfficialAccount\Broadcasting\Client;
 use EasyWeChat\OfficialAccount\Broadcasting\MessageBuilder;
@@ -97,10 +96,5 @@ class MessageBuilderTest extends TestCase
                 'content' => 'hello world!',
             ],
         ], $message);
-
-        // exception
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('The message reception object is not specified');
-        (new MessageBuilder())->message($text)->build();
     }
 }
