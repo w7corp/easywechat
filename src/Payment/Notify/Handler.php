@@ -154,6 +154,8 @@ abstract class Handler
      * @param string $key
      *
      * @return string|null
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function decryptMessage(string $key)
     {

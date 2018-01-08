@@ -21,11 +21,14 @@ class ClientTest extends TestCase
 {
     public function testGet()
     {
-        $app = new Application(['response_type' => 'array']);
+        $app = new Application([
+            'app_id' => 'mock-appid',
+            ]);
 
         $client = $this->mockApiClient(Client::class, ['download'], $app)->makePartial();
 
         $params = [
+            'appid' => 'mock-appid',
             'bill_date' => 20171010,
             'bill_type' => 'ALL',
         ];

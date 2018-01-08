@@ -19,6 +19,8 @@ class Paid extends Handler
      * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function handle(Closure $closure)
     {

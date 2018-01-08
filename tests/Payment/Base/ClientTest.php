@@ -19,11 +19,12 @@ class ClientTest extends TestCase
 {
     public function testPay()
     {
-        $app = new Application();
+        $app = new Application(['app_id' => 'mock-appid']);
 
         $client = $this->mockApiClient(Client::class, ['pay'], $app)->makePartial();
 
         $order = [
+            'appid' => 'mock-appid',
             'foo' => 'bar',
         ];
 
@@ -33,11 +34,14 @@ class ClientTest extends TestCase
 
     public function testAuthCodeToOpenid()
     {
-        $app = new Application();
+        $app = new Application(['app_id' => 'mock-appid']);
 
         $client = $this->mockApiClient(Client::class, 'authCodeToOpenId', $app)->makePartial();
 
-        $client->expects()->request('tools/authcodetoopenid', ['auth_code' => 'foo'])->andReturn('mock-result');
+        $client->expects()->request('tools/authcodetoopenid', [
+            'appid' => 'mock-appid',
+            'auth_code' => 'foo',
+            ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->authCodeToOpenid('foo'));
     }

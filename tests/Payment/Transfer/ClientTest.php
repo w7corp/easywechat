@@ -21,6 +21,8 @@ class ClientTest extends TestCase
      * Make Application.
      *
      * @param array $config
+     *
+     * @return \EasyWeChat\Payment\Application
      */
     private function makeApp($config = [])
     {
@@ -30,6 +32,7 @@ class ClientTest extends TestCase
             'key' => 'foo-mcherant-key',
             'sub_appid' => 'foo-sub-appid',
             'sub_mch_id' => 'foo-sub-mch-id',
+            'rsa_public_key_path' => \STUBS_ROOT.'/files/public-wx123456.pem',
         ], $config));
     }
 
@@ -98,12 +101,18 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['send', 'safeRequest'], $app)->makePartial();
 
         $params = [
-            'foo' => 'bar',
+            'partner_trade_no' => '1229222022',
+            'enc_bank_no' => '6214830102234434',
+            'enc_true_name' => '安正超',
+            'bank_code' => '1001',
+            'amount' => 100,
+            'desc' => '测试',
         ];
 
         $client->expects()->safeRequest('mmpaysptrans/pay_bank', \Mockery::on(function ($paramsForSafeRequest) use ($params, $app) {
-            $this->assertSame($params['foo'], $paramsForSafeRequest['foo']);
-            $this->assertSame($paramsForSafeRequest['mchid'], $app['config']->mch_id);
+            $this->assertSame($params['partner_trade_no'], $paramsForSafeRequest['partner_trade_no']);
+            $this->assertSame($params['bank_code'], $paramsForSafeRequest['bank_code']);
+            $this->assertSame(100, $paramsForSafeRequest['amount']);
 
             return true;
         }))->andReturn('mock-result');

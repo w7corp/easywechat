@@ -62,11 +62,12 @@ class BaseClient
      * @param bool   $returnResponse
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function request(string $endpoint, array $params = [], $method = 'post', array $options = [], $returnResponse = false)
     {
         $base = [
-            'appid' => $this->app['config']['app_id'],
             'mch_id' => $this->app['config']['mch_id'],
             'nonce_str' => uniqid(),
             'sub_mch_id' => $this->app['config']['sub_mch_id'],
@@ -76,7 +77,6 @@ class BaseClient
         $params = array_filter(array_merge($base, $this->prepends(), $params));
 
         $params['sign'] = Support\generate_sign($params, $this->app->getKey($endpoint));
-
         $options = array_merge([
             'body' => Support\XML::build($params),
         ], $options);
@@ -95,6 +95,8 @@ class BaseClient
      * @param array  $options
      *
      * @return ResponseInterface
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function requestRaw($endpoint, array $params = [], $method = 'post', array $options = [])
     {
@@ -110,6 +112,8 @@ class BaseClient
      * @param array  $options
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function safeRequest($endpoint, array $params, $method = 'post', array $options = [])
     {

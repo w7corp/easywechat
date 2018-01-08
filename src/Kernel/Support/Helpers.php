@@ -98,3 +98,17 @@ function str_random($length)
 {
     return Str::random($length);
 }
+
+/**
+ * @param string $content
+ * @param string $publicKey
+ *
+ * @return string
+ */
+function rsa_public_encrypt($content, $publicKey)
+{
+    $encrypted = '';
+    openssl_public_encrypt($content, $encrypted, openssl_pkey_get_public($publicKey), OPENSSL_PKCS1_OAEP_PADDING);
+
+    return base64_encode($encrypted);
+}

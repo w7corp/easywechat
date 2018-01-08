@@ -19,17 +19,20 @@ class ClientTest extends TestCase
 {
     public function testByOutTradeNumber()
     {
-        $client = $this->mockApiClient(Client::class, ['safeRequest'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['safeRequest'], new Application(['app_id' => 'wx123456']))->makePartial();
 
-        $client->expects()->safeRequest('secapi/pay/reverse', ['out_trade_no' => 'foo'])->andReturn('mock-result');
+        $client->expects()->safeRequest('secapi/pay/reverse', [
+            'appid' => 'wx123456',
+            'out_trade_no' => 'foo',
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->byOutTradeNumber('foo'));
     }
 
     public function testByTransactionId()
     {
-        $client = $this->mockApiClient(Client::class, ['safeRequest'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['safeRequest'], new Application(['app_id' => 'wx123456']))->makePartial();
 
-        $client->expects()->safeRequest('secapi/pay/reverse', ['transaction_id' => 'foo'])->andReturn('mock-result');
+        $client->expects()->safeRequest('secapi/pay/reverse', ['appid' => 'wx123456', 'transaction_id' => 'foo'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->byTransactionId('foo'));
     }
 }

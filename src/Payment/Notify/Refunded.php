@@ -22,6 +22,8 @@ class Refunded extends Handler
      * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function handle(Closure $closure)
     {
@@ -36,6 +38,8 @@ class Refunded extends Handler
      * Decrypt the `req_info` from request message.
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function reqInfo()
     {

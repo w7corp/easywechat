@@ -21,6 +21,8 @@ class Client extends BaseClient
      * @param string $outTradeNumber
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function byOutTradeNumber(string $outTradeNumber)
     {
@@ -33,6 +35,8 @@ class Client extends BaseClient
      * @param string $transactionId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function byTransactionId(string $transactionId)
     {
@@ -46,10 +50,13 @@ class Client extends BaseClient
      * @param string $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function reverse(string $number, string $type)
     {
         $params = [
+            'appid' => $this->app['config']->app_id,
             $type => $number,
         ];
 

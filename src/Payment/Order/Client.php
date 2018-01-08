@@ -19,19 +19,22 @@ class Client extends BaseClient
     /**
      * Unify order.
      *
-     * @param array $attributes
+     * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function unify(array $attributes)
+    public function unify(array $params)
     {
-        if (empty($attributes['spbill_create_ip'])) {
-            $attributes['spbill_create_ip'] = ('NATIVE' === $attributes['trade_type']) ? Support\get_server_ip() : Support\get_client_ip();
+        if (empty($params['spbill_create_ip'])) {
+            $params['spbill_create_ip'] = ('NATIVE' === $params['trade_type']) ? Support\get_server_ip() : Support\get_client_ip();
         }
 
-        $attributes['notify_url'] = $attributes['notify_url'] ?? $this->app['config']['notify_url'];
+        $params['appid'] = $this->app['config']->app_id;
+        $params['notify_url'] = $params['notify_url'] ?? $this->app['config']['notify_url'];
 
-        return $this->request($this->wrap('pay/unifiedorder'), $attributes);
+        return $this->request($this->wrap('pay/unifiedorder'), $params);
     }
 
     /**
@@ -40,6 +43,8 @@ class Client extends BaseClient
      * @param string $number
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function queryByOutTradeNumber(string $number)
     {
@@ -54,6 +59,8 @@ class Client extends BaseClient
      * @param string $transactionId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function queryByTransactionId(string $transactionId)
     {
@@ -66,9 +73,13 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function query(array $params)
     {
+        $params['appid'] = $this->app['config']->app_id;
+
         return $this->request($this->wrap('pay/orderquery'), $params);
     }
 
@@ -78,10 +89,13 @@ class Client extends BaseClient
      * @param string $tradeNo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function close(string $tradeNo)
     {
         $params = [
+            'appid' => $this->app['config']->app_id,
             'out_trade_no' => $tradeNo,
         ];
 

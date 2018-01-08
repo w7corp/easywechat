@@ -25,6 +25,8 @@ class Client extends BaseClient
      * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function byOutTradeNumber(string $number, string $refundNumber, int $totalFee, int $refundFee, array $optional = [])
     {
@@ -41,6 +43,8 @@ class Client extends BaseClient
      * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function byTransactionId(string $transactionId, string $refundNumber, int $totalFee, int $refundFee, array $optional = [])
     {
@@ -53,6 +57,8 @@ class Client extends BaseClient
      * @param string $transactionId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function queryByTransactionId(string $transactionId)
     {
@@ -65,6 +71,8 @@ class Client extends BaseClient
      * @param string $outTradeNumber
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function queryByOutTradeNumber(string $outTradeNumber)
     {
@@ -77,6 +85,8 @@ class Client extends BaseClient
      * @param string $outRefundNumber
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function queryByOutRefundNumber(string $outRefundNumber)
     {
@@ -89,6 +99,8 @@ class Client extends BaseClient
      * @param string $refundId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function queryByRefundId(string $refundId)
     {
@@ -104,6 +116,8 @@ class Client extends BaseClient
      * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function refund(string $refundNumber, int $totalFee, int $refundFee, $optional = [])
     {
@@ -111,6 +125,7 @@ class Client extends BaseClient
             'out_refund_no' => $refundNumber,
             'total_fee' => $totalFee,
             'refund_fee' => $refundFee,
+            'appid' => $this->app['config']->app_id,
         ], $optional);
 
         return $this->safeRequest($this->wrap('secapi/pay/refund'), $params);
@@ -123,10 +138,13 @@ class Client extends BaseClient
      * @param string $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function query(string $number, string $type)
     {
         $params = [
+            'appid' => $this->app['config']->app_id,
             $type => $number,
         ];
 

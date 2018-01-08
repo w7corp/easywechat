@@ -48,7 +48,6 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->makeApp())->makePartial();
         $client->expects()->safeRequest('mmpaymkttransfers/sendredpack', [
-            'appid' => null,
             'total_num' => 1,
             'client_ip' => Support\get_server_ip(),
             'wxappid' => 'wx123456',
@@ -61,10 +60,12 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->makeApp())->makePartial();
 
-        $params = ['foo' => 'bar'];
+        $params = [
+            'foo' => 'bar',
+        ];
 
         $client->expects()->safeRequest('mmpaymkttransfers/sendgroupredpack',
-            array_merge($params, ['appid' => null, 'amt_type' => 'ALL_RAND', 'wxappid' => 'wx123456'])
+            array_merge($params, ['amt_type' => 'ALL_RAND', 'wxappid' => 'wx123456'])
         )->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->sendGroup($params));

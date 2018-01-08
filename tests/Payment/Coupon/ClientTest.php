@@ -32,7 +32,10 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['send', 'safeRequest'], $this->makeApp())->makePartial();
 
-        $params = ['foo' => 'bar'];
+        $params = [
+            'foo' => 'bar',
+            'appid' => 'wx123456',
+        ];
 
         $client->expects()->safeRequest('mmpaymkttransfers/send_coupon', array_merge($params, ['openid_count' => 1]))->andReturn('mock-result');
 
@@ -43,7 +46,10 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['send', 'queryStock'], $this->makeApp())->makePartial();
 
-        $params = ['foo' => 'bar'];
+        $params = [
+            'foo' => 'bar',
+            'appid' => 'wx123456',
+        ];
 
         $client->expects()->request('mmpaymkttransfers/query_coupon_stock', $params)->andReturn('mock-result');
 
@@ -54,7 +60,10 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['send', 'query'], $this->makeApp())->makePartial();
 
-        $params = ['foo' => 'bar'];
+        $params = [
+            'foo' => 'bar',
+            'appid' => 'wx123456',
+        ];
 
         $client->expects()->request('mmpaymkttransfers/querycouponsinfo', $params)->andReturn('mock-result');
 

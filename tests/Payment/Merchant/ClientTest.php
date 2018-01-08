@@ -31,6 +31,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->app());
         $client->expects()->safeRequest('secapi/mch/submchmanage', [
             'foo' => 'bar',
+            'appid' => 'wx123456',
             'nonce_str' => '',
             'sub_mch_id' => '',
             'sub_appid' => '',
@@ -44,6 +45,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->app());
         $client->expects()->safeRequest('secapi/mch/submchmanage', [
             'micro_mch_id' => 'foo-id',
+            'appid' => 'wx123456',
             'nonce_str' => '',
             'sub_mch_id' => '',
             'sub_appid' => '',
@@ -57,6 +59,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->app());
         $client->expects()->safeRequest('secapi/mch/submchmanage', [
             'recipient_wechatid' => 'foo-id',
+            'appid' => 'wx123456',
             'nonce_str' => '',
             'sub_mch_id' => '',
             'sub_appid' => '',

@@ -17,9 +17,14 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
+    public function getApp()
+    {
+        return new Application(['app_id' => 'wx123456']);
+    }
+
     public function testByOutTradeNumber()
     {
-        $client = $this->mockApiClient(Client::class, ['safeRequest'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->getApp())->makePartial();
 
         $orderNo = 'foo';
         $refundNo = 'bar';
@@ -32,6 +37,7 @@ class ClientTest extends TestCase
             'out_refund_no' => $refundNo,
             'total_fee' => $totalFee,
             'refund_fee' => $totalFee,
+            'appid' => 'wx123456',
         ], $optional);
 
         $client->expects()->safeRequest('secapi/pay/refund', $params)->andReturn('mock-result');
@@ -41,7 +47,7 @@ class ClientTest extends TestCase
 
     public function testByTransactionId()
     {
-        $client = $this->mockApiClient(Client::class, ['safeRequest'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->getApp())->makePartial();
 
         $orderNo = 'foo';
         $refundNo = 'bar';
@@ -54,6 +60,7 @@ class ClientTest extends TestCase
             'out_refund_no' => $refundNo,
             'total_fee' => $totalFee,
             'refund_fee' => $totalFee,
+            'appid' => 'wx123456',
         ], $optional);
 
         $client->expects()->safeRequest('secapi/pay/refund', $params)->andReturn('mock-result');
@@ -63,10 +70,11 @@ class ClientTest extends TestCase
 
     public function testQueryByTransactionId()
     {
-        $client = $this->mockApiClient(Client::class, ['request'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['request'], $this->getApp())->makePartial();
 
         $client->expects()->request('pay/refundquery', [
             'transaction_id' => 'foobar',
+            'appid' => 'wx123456',
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->queryByTransactionId('foobar'));
@@ -74,10 +82,11 @@ class ClientTest extends TestCase
 
     public function testQueryByOutTradeNumber()
     {
-        $client = $this->mockApiClient(Client::class, ['request'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['request'], $this->getApp())->makePartial();
 
         $client->expects()->request('pay/refundquery', [
             'out_trade_no' => 'foobar',
+            'appid' => 'wx123456',
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->queryByOutTradeNumber('foobar'));
@@ -85,10 +94,11 @@ class ClientTest extends TestCase
 
     public function testQueryByOutRefundNumber()
     {
-        $client = $this->mockApiClient(Client::class, ['request'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['request'], $this->getApp())->makePartial();
 
         $client->expects()->request('pay/refundquery', [
             'out_refund_no' => 'foobar',
+            'appid' => 'wx123456',
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->queryByOutRefundNumber('foobar'));
@@ -96,10 +106,11 @@ class ClientTest extends TestCase
 
     public function testQueryByRefundId()
     {
-        $client = $this->mockApiClient(Client::class, ['request'], new Application())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['request'], $this->getApp())->makePartial();
 
         $client->expects()->request('pay/refundquery', [
             'refund_id' => 'foobar',
+            'appid' => 'wx123456',
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->queryByRefundId('foobar'));

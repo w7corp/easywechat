@@ -27,6 +27,8 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function info(array $params)
     {
@@ -44,11 +46,12 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function sendNormal(array $params)
     {
         $base = [
-            'appid' => null,
             'total_num' => 1,
             'client_ip' => $params['client_ip'] ?? Support\get_server_ip(),
             'wxappid' => $this->app['config']->app_id,
@@ -63,11 +66,12 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function sendGroup(array $params)
     {
         $base = [
-            'appid' => null,
             'amt_type' => 'ALL_RAND',
             'wxappid' => $this->app['config']->app_id,
         ];

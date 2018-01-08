@@ -26,6 +26,8 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function addSubMerchant(array $params)
     {
@@ -38,6 +40,8 @@ class Client extends BaseClient
      * @param string $id
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function querySubMerchantByMerchantId(string $id)
     {
@@ -54,6 +58,8 @@ class Client extends BaseClient
      * @param string $id
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function querySubMerchantByWeChatId(string $id)
     {
@@ -68,11 +74,14 @@ class Client extends BaseClient
      * @param array $params
      * @param array $query
      *
-     *@return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function manage(array $params, array $query)
     {
         $params = array_merge($params, [
+            'appid' => $this->app['config']->app_id,
             'nonce_str' => '',
             'sub_mch_id' => '',
             'sub_appid' => '',

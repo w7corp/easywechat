@@ -27,7 +27,9 @@ class Client extends BaseClient
     /**
      * @return string
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Payment\Kernel\Exceptions\SandboxException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getKey(): string
     {
