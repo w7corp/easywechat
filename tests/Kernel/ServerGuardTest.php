@@ -423,7 +423,7 @@ class ServerGuardTest extends TestCase
         $message->MsgType = 'file';
 
         $guard->expects()->getMessage()->andReturn($message)->once();
-        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['file'], (array)$message)->andReturn('mock-response')->once();
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['file'], (array) $message)->andReturn('mock-response')->once();
         $this->assertSame([
             'to' => 'overtrue',
             'from' => 'easywechat',
