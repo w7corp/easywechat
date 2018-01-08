@@ -91,6 +91,7 @@ class ServerGuard
      *
      * @throws BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function serve(): Response
     {
@@ -137,6 +138,7 @@ class ServerGuard
      *
      * @throws BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getMessage()
     {
@@ -174,6 +176,7 @@ class ServerGuard
      *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function resolve(): Response
     {
@@ -239,10 +242,11 @@ class ServerGuard
      *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function handleRequest(): array
     {
-        $message = $this->getMessage();
+        $message = $this->detectAndCastResponseToType($this->getMessage(), 'array');
 
         $response = $this->dispatch(self::MESSAGE_TYPE_MAPPING[$message['MsgType'] ?? 'text'], $message);
 

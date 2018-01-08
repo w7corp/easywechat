@@ -415,6 +415,20 @@ class ServerGuardTest extends TestCase
             'from' => 'easywechat',
             'response' => 'mock-response',
         ], $guard->handleRequest());
+
+        // object message type
+        $message = new \stdClass();
+        $message->FromUserName = 'overtrue';
+        $message->ToUserName = 'easywechat';
+        $message->MsgType = 'file';
+
+        $guard->expects()->getMessage()->andReturn($message)->once();
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['file'], (array)$message)->andReturn('mock-response')->once();
+        $this->assertSame([
+            'to' => 'overtrue',
+            'from' => 'easywechat',
+            'response' => 'mock-response',
+        ], $guard->handleRequest());
     }
 
     public function testParseMessageWithSafeMode()

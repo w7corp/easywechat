@@ -66,6 +66,7 @@ trait ResponseCastable
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function detectAndCastResponseToType($response, $type = null)
     {
