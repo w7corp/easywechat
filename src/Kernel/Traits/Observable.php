@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
-use Closure;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\Decorators\TerminateResult;
@@ -67,6 +66,8 @@ trait Observable
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function observe($condition, $handler)
     {
@@ -76,6 +77,8 @@ trait Observable
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function on($condition, $handler)
     {
@@ -134,12 +137,12 @@ trait Observable
     }
 
     /**
-     * @param \Closure $handler
+     * @param callable $handler
      * @param mixed    $payload
      *
      * @return mixed
      */
-    protected function callHandler(Closure $handler, $payload)
+    protected function callHandler(callable $handler, $payload)
     {
         try {
             return $handler($payload);
