@@ -42,7 +42,8 @@ class ObservableTest extends TestCase
         $this->assertSame($handler, $c->getHandlers()['*'][1]);
 
         // function
-        $handler = function () {};
+        $handler = function () {
+        };
         $c->push($handler);
         $this->assertSame($handler, $c->getHandlers()['*'][2]);
     }
