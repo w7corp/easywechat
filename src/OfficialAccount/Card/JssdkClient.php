@@ -67,7 +67,8 @@ class JssdkClient extends Jssdk
         ));
 
         $ext['signature'] = $this->dictionaryOrderSignature($ticket, $timestamp, $cardId, $ext['code'] ?? '', $ext['openid'] ?? '', $nonce);
-
+        $ext['nonce_str'] = $nonce;
+        
         return [
             'cardId' => $cardId,
             'cardExt' => json_encode($ext),
