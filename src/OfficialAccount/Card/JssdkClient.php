@@ -61,7 +61,7 @@ class JssdkClient extends Jssdk
         $nonce = str_random(6);
         $ticket = $this->getTicket()['ticket'];
 
-        $ext = array_merge(['timestamp' => $timestamp], Arr::only(
+        $ext = array_merge(['timestamp' => $timestamp, 'nonce_str' => $nonce], Arr::only(
             $extension,
             ['code', 'openid', 'outer_id', 'balance', 'fixed_begintimestamp', 'outer_str']
         ));
