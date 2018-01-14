@@ -94,6 +94,8 @@ class Application extends ServiceContainer
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @codeCoverageIgnore
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function handlePaidNotify(Closure $closure)
     {
@@ -106,6 +108,8 @@ class Application extends ServiceContainer
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @codeCoverageIgnore
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function handleRefundedNotify(Closure $closure)
     {
@@ -118,6 +122,8 @@ class Application extends ServiceContainer
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @codeCoverageIgnore
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\Exception
      */
     public function handleScannedNotify(Closure $closure)
     {
