@@ -131,7 +131,7 @@ class Client extends BaseClient
     {
         $card = [];
         $card['card_id'] = $cardId;
-        $card[$type] = $attributes;
+        $card[strtolower($type)] = $attributes;
 
         return $this->httpPostJson('card/update', $card);
     }
