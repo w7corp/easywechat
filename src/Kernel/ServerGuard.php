@@ -246,13 +246,15 @@ class ServerGuard
      */
     protected function handleRequest(): array
     {
-        $message = $this->detectAndCastResponseToType($this->getMessage(), 'array');
+        $castedMessage = $this->getMessage();
 
-        $response = $this->dispatch(self::MESSAGE_TYPE_MAPPING[$message['MsgType'] ?? 'text'], $message);
+        $messageArray = $this->detectAndCastResponseToType($castedMessage, 'array');
+
+        $response = $this->dispatch(self::MESSAGE_TYPE_MAPPING[$messageArray['MsgType'] ?? $messageArray['msg_type'] ?? 'text'], $castedMessage);
 
         return [
-            'to' => $message['FromUserName'] ?? '',
-            'from' => $message['ToUserName'] ?? '',
+            'to' => $messageArray['FromUserName'] ?? '',
+            'from' => $messageArray['ToUserName'] ?? '',
             'response' => $response,
         ];
     }

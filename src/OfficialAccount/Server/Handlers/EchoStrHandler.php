@@ -38,11 +38,11 @@ class EchoStrHandler implements EventHandlerInterface
     }
 
     /**
-     * @param array $payload
+     * @param mixed $payload
      *
      * @return FinallyResult|null
      */
-    public function handle(array $payload = [])
+    public function handle($payload = null)
     {
         if ($str = $this->app['request']->get('echostr')) {
             return new FinallyResult($str);
