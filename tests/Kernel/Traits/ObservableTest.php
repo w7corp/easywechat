@@ -310,7 +310,7 @@ class ObservableTest extends TestCase
 
 class DummyHandlerClassForObservableTest implements EventHandlerInterface
 {
-    public function handle(array $payload = [])
+    public function handle($payload = null)
     {
         return 'handled';
     }

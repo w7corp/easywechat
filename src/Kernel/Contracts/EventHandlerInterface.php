@@ -19,7 +19,7 @@ namespace EasyWeChat\Kernel\Contracts;
 interface EventHandlerInterface
 {
     /**
-     * @param array $payload
+     * @param mixed $payload
      */
-    public function handle(array $payload = []);
+    public function handle($payload = null);
 }
