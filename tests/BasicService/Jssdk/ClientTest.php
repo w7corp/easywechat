@@ -80,7 +80,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->andReturn(false);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $client->expects()->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket());
 
@@ -88,7 +88,7 @@ class ClientTest extends TestCase
         $cache->expects()->has('mock-cache-key')->never();
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $client->expects()->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket(true));
     }
