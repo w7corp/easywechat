@@ -27,7 +27,7 @@ class Client extends BaseClient
     /**
      * @var string
      */
-    const API_GET_TICKET = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
+    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
 
     /**
      * Current URI.
@@ -45,6 +45,9 @@ class Client extends BaseClient
      * @param bool  $json
      *
      * @return array|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true)
     {
@@ -61,6 +64,9 @@ class Client extends BaseClient
      * @param bool  $beta
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getConfigArray(array $apis, bool $debug = false, bool $beta = false)
     {
@@ -74,6 +80,9 @@ class Client extends BaseClient
      * @param string $type
      *
      * @return array|null
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
@@ -84,7 +93,7 @@ class Client extends BaseClient
         }
 
         $result = $this->castResponseToType(
-            $this->requestRaw(static::API_GET_TICKET, 'GET', ['query' => ['type' => $type]]),
+            $this->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => $type]]),
             'array'
         );
 
@@ -101,6 +110,9 @@ class Client extends BaseClient
      * @param int|null    $timestamp
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     protected function configSignature(string $url = null, string $nonce = null, $timestamp = null): array
     {
