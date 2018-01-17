@@ -27,7 +27,9 @@ use EasyWeChat\Core\AccessToken;
 class Device extends AbstractAPI
 {
     protected $deviceType;
+
     protected $productId;
+
     protected $config;
 
     const API_TRANS_MSG = 'https://api.weixin.qq.com/device/transmsg';
