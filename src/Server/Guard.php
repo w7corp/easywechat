@@ -397,7 +397,7 @@ class Guard
 
         $message = new Collection($message);
 
-        $messageType = $message->get('msg_type') ?? $message->get('MsgType');
+        $messageType = $message->get('msg_type', $message->get('MsgType'));
         
         $type = $this->messageTypeMapping[$messageType];
         
