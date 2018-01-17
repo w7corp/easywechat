@@ -364,9 +364,9 @@ class Guard
 
         $messageType = isset($message['msg_type']) ? $message['msg_type'] : $message['MsgType'];
 
-        if('device_text' == $messageType){
+        if ('device_text' === $messageType) {
             $message['FromUserName'] = '';
-            $message['ToUserName']   = '';
+            $message['ToUserName'] = '';
         }
 
         return [
@@ -398,9 +398,9 @@ class Guard
         $message = new Collection($message);
 
         $messageType = $message->get('msg_type', $message->get('MsgType'));
-        
+
         $type = $this->messageTypeMapping[$messageType];
-        
+
         $response = null;
 
         if ($this->messageFilter & $type) {
