@@ -99,7 +99,7 @@ class Payment
         }
 
         $notify = $notify->getNotify();
-        $successful = $notify->get('result_code') === 'SUCCESS';
+        $successful = 'SUCCESS' === $notify->get('result_code');
 
         $handleResult = call_user_func_array($callback, [$notify, $successful]);
 

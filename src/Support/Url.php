@@ -38,8 +38,8 @@ class Url
         }
 
         $protocol = (!empty($_SERVER['HTTPS'])
-                        && $_SERVER['HTTPS'] !== 'off'
-                        || (int) $_SERVER['SERVER_PORT'] === 443) ? 'https://' : 'http://';
+                        && 'off' !== $_SERVER['HTTPS']
+                        || 443 === (int) $_SERVER['SERVER_PORT']) ? 'https://' : 'http://';
 
         return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     }
