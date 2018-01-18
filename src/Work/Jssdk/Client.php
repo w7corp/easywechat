@@ -20,7 +20,7 @@ use EasyWeChat\BasicService\Jssdk\Client as BaseClient;
  */
 class Client extends BaseClient
 {
-    const API_GET_TICKET = 'https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket';
+    protected $ticketEndpoint = 'https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket';
 
     /**
      * @return string

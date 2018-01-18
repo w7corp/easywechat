@@ -27,7 +27,7 @@ class Client extends BaseClient
     /**
      * @var string
      */
-    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
+    protected $ticketEndpoint = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
 
     /**
      * Current URI.
@@ -93,7 +93,7 @@ class Client extends BaseClient
         }
 
         $result = $this->castResponseToType(
-            $this->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => $type]]),
+            $this->requestRaw($this->ticketEndpoint, 'GET', ['query' => ['type' => $type]]),
             'array'
         );
 

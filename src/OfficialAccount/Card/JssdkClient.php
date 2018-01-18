@@ -27,6 +27,9 @@ class JssdkClient extends Jssdk
      * @param string $type
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(bool $refresh = false, string $type = 'wx_card'): array
     {
@@ -54,6 +57,9 @@ class JssdkClient extends Jssdk
      * @param array  $extension
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function attachExtension($cardId, array $extension = [])
     {
