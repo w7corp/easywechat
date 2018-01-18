@@ -121,7 +121,7 @@ class Http
      *
      * @param string       $url
      * @param string|array $options
-     * @param array $queries
+     * @param array        $queries
      * @param int          $encodeOption
      *
      * @return ResponseInterface
