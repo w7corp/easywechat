@@ -27,6 +27,8 @@ class UserClient extends BaseClient
      * @param string $lang
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function get(string $openid, string $lang = 'zh_CN')
     {
@@ -45,6 +47,8 @@ class UserClient extends BaseClient
      * @param string $lang
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function select(array $openids, string $lang = 'zh_CN')
     {
@@ -64,6 +68,8 @@ class UserClient extends BaseClient
      * @param string $nextOpenId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function list(string $nextOpenId = null)
     {
@@ -79,6 +85,8 @@ class UserClient extends BaseClient
      * @param string $remark
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function remark(string $openid, string $remark)
     {
@@ -96,6 +104,8 @@ class UserClient extends BaseClient
      * @param string|null $beginOpenid
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function blacklist(string $beginOpenid = null)
     {
@@ -110,6 +120,8 @@ class UserClient extends BaseClient
      * @param array|string $openidList
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function block($openidList)
     {
@@ -124,6 +136,8 @@ class UserClient extends BaseClient
      * @param array $openidList
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function unblock($openidList)
     {

@@ -26,6 +26,8 @@ class TagClient extends BaseClient
      * @param string $name
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function create(string $name)
     {
@@ -40,6 +42,8 @@ class TagClient extends BaseClient
      * List all tags.
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function list()
     {
@@ -53,6 +57,8 @@ class TagClient extends BaseClient
      * @param string $name
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function update(int $tagId, string $name)
     {
@@ -72,6 +78,8 @@ class TagClient extends BaseClient
      * @param int $tagId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function delete(int $tagId)
     {
@@ -88,6 +96,8 @@ class TagClient extends BaseClient
      * @param string $openid
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function userTags(string $openid)
     {
@@ -103,6 +113,8 @@ class TagClient extends BaseClient
      * @param string $nextOpenId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function usersOfTag(int $tagId, string $nextOpenId = '')
     {
@@ -121,6 +133,8 @@ class TagClient extends BaseClient
      * @param int   $tagId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function tagUsers(array $openids, int $tagId)
     {
@@ -139,6 +153,8 @@ class TagClient extends BaseClient
      * @param int   $tagId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function untagUsers(array $openids, int $tagId)
     {
