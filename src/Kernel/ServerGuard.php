@@ -182,6 +182,8 @@ class ServerGuard
     {
         $result = $this->handleRequest();
 
+        ob_clean();
+        
         if ($this->shouldReturnRawResponse()) {
             return new Response($result['response']);
         }
