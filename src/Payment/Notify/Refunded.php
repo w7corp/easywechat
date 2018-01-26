@@ -28,7 +28,7 @@ class Refunded extends Handler
     public function handle(Closure $closure)
     {
         $this->strict(
-            \call_user_func($closure, $this->getMessage(), [$this, 'fail'])
+            \call_user_func($closure, $this->getMessage(), $this->reqInfo(), [$this, 'fail'])
         );
 
         return $this->toResponse();

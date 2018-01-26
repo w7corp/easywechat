@@ -73,7 +73,7 @@ class RefundedTest extends TestCase
             'return_msg' => null,
         ], XML::parse($response->getContent()));
 
-        $response = $notify->handle(function ($msg, $fail) {
+        $response = $notify->handle(function ($msg, $reqInfo, $fail) {
             $fail('fails.');
         });
 
