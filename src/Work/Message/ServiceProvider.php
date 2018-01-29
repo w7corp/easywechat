@@ -31,7 +31,13 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app['messenger'] = function ($app) {
-            return (new Messenger($app['message']))->ofAgent($app['config']['agent_id']);
+            $messenger = new Messenger($app['message']);
+
+            if (is_int($app['config']['agent_id'])) {
+                $messenger->ofAgent($app['config']['agent_id']);
+            }
+
+            return $messenger;
         };
     }
 }
