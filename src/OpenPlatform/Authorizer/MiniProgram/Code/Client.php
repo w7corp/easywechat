@@ -107,7 +107,7 @@ class Client extends BaseClient
      */
     public function undocodeaudit()
     {
-        return $this->httpPostJson('wxa/undocodeaudit');
+        return $this->httpGet('wxa/undocodeaudit');
     }
 
     /**
