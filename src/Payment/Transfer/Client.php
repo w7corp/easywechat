@@ -80,7 +80,6 @@ class Client extends BaseClient
     {
         $params = [
             'mch_id' => $this->app['config']->mch_id,
-            'appid' => $this->app['config']->app_id,
             'partner_trade_no' => $partnerTradeNo,
         ];
 
