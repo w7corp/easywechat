@@ -14,6 +14,8 @@
 <a href="https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master"><img src="https://scrutinizer-ci.com/g/overtrue/wechat/badges/coverage.png?b=master" alt="Code Coverage"></a>
 <a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/downloads" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/license" alt="License"></a>
+<a href="#backers"><img src="https://opencollective.com/wechat/backers/badge.svg" alt="Backers on Open Collective"></a>
+<a href="#sponsors"><img src="https://opencollective.com/wechat/sponsors/badge.svg" alt="Sponsors on Open Collective"></a>
 </p>
 
 </div>
@@ -94,6 +96,36 @@ $server->serve()->send();
 ## Contribution
 
 [Contribution Guide](.github/CONTRIBUTING.md)
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/wechat#backer)]
+
+<a href="https://opencollective.com/wechat#backers" target="_blank"><img src="https://opencollective.com/wechat/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/wechat#sponsor)]
+
+<a href="https://opencollective.com/wechat/sponsor/0/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/1/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/2/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/3/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/4/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/5/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/6/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/7/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/8/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/9/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
