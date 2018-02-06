@@ -101,6 +101,14 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('wxa/release');
     }
+    
+    /**
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function undoCodeAudit()
+    {
+        return $this->httpGet('wxa/undocodeaudit');
+    }
 
     /**
      * @param string $action
