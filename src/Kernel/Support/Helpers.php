@@ -115,14 +115,14 @@ function rsa_public_encrypt($content, $publicKey)
 
 /**
  * @param array  $message
- * @param string $key     , the payment key.
+ * @param string $key     , the payment key
  *
  * @return bool
-*/
+ */
 function checkSign(array $message, string $key): bool
 {
     $params = array_filter($message, function ($key) {
-         return 'sign' !== $key;
+        return 'sign' !== $key;
     }, ARRAY_FILTER_USE_KEY);
     $sign = generate_sign($params, $key);
 
