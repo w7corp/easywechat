@@ -105,7 +105,7 @@ class Client extends BaseClient
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function undoCodeAudit()
+    public function withdrawAudit()
     {
         return $this->httpGet('wxa/undocodeaudit');
     }
