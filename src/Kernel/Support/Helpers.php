@@ -121,8 +121,8 @@ function rsa_public_encrypt($content, $publicKey)
  */
 function checkSign(array $message, string $key): bool
 {
-    $params = array_filter($message, function ($key) {
-        return 'sign' !== $key;
+    $params = array_filter($message, function ($k) {
+        return 'sign' !== $k;
     }, ARRAY_FILTER_USE_KEY);
     $sign = generate_sign($params, $key);
 
