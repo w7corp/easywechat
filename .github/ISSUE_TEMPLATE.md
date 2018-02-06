@@ -10,3 +10,6 @@ overtrue/wechat 版本：
 
 如果你不提供相关的代码，我不会做任何应答，直接 close，感谢！
 
+
+<!-- Love wechat? Please consider supporting our collective:
+👉  https://opencollective.com/wechat/donate -->
