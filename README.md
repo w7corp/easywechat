@@ -93,10 +93,6 @@ $server->serve()->send();
 
 [Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
-## Contribution
-
-[Contribution Guide](.github/CONTRIBUTING.md)
-
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
