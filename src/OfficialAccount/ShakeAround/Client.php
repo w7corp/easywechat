@@ -58,7 +58,7 @@ class Client extends BaseClient
             $params['need_poi'] = 1;
         }
 
-        return $this->httpGet('shakearound/user/getshakeinfo', $params);
+        return $this->httpPostJson('shakearound/user/getshakeinfo', $params);
     }
 
     /**
