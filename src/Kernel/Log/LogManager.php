@@ -144,10 +144,10 @@ class LogManager implements LoggerInterface
      */
     protected function resolve($name)
     {
-        $config = $this->app['config']->get("log.channels.{$name}");
+        $config = $this->app['config']->get(\sprintf('log.channels.%s', $name));
 
         if (is_null($config)) {
-            throw new \InvalidArgumentException("Log [{$name}] is not defined.");
+            throw new \InvalidArgumentException(\sprintf('Log [%s] is not defined.', $name));
         }
 
         if (isset($this->customCreators[$config['driver']])) {
@@ -160,7 +160,7 @@ class LogManager implements LoggerInterface
             return $this->{$driverMethod}($config);
         }
 
-        throw new \InvalidArgumentException("Driver [{$config['driver']}] is not supported.");
+        throw new \InvalidArgumentException(\sprintf('Driver [%s] is not supported.', $config['driver']));
     }
 
     /**
@@ -405,6 +405,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function emergency($message, array $context = [])
     {
@@ -419,6 +421,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function alert($message, array $context = [])
     {
@@ -432,6 +436,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function critical($message, array $context = [])
     {
@@ -444,6 +450,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function error($message, array $context = [])
     {
@@ -458,6 +466,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function warning($message, array $context = [])
     {
@@ -469,6 +479,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function notice($message, array $context = [])
     {
@@ -482,6 +494,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function info($message, array $context = [])
     {
@@ -493,6 +507,8 @@ class LogManager implements LoggerInterface
      *
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function debug($message, array $context = [])
     {
@@ -505,6 +521,8 @@ class LogManager implements LoggerInterface
      * @param mixed  $level
      * @param string $message
      * @param array  $context
+     *
+     * @return mixed
      */
     public function log($level, $message, array $context = [])
     {
