@@ -370,7 +370,7 @@ class ServerGuardTest extends TestCase
             $this->assertSame('overtrue', $array['ToUserName']);
             $this->assertSame('easywechat', $array['FromUserName']);
             $this->assertSame('text', $array['MsgType']);
-            $this->assertTrue($array['CreateTime'] >= time());
+            $this->assertTrue($array['CreateTime'] <= time());
             $this->assertSame('hello world!', $array['Content']);
 
             return true;
