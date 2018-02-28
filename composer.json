@@ -17,15 +17,15 @@
     "require": {
         "php": ">=7.0",
         "ext-openssl": "*",
-        "ext-simplexml":"*",
-        "pimple/pimple": "^3.0",
+        "ext-simplexml": "*",
+        "easywechat-composer/easywechat-composer": "^1.0",
+        "guzzlehttp/guzzle": "^6.2",
         "monolog/monolog": "^1.22",
         "overtrue/socialite": "~2.0",
-        "guzzlehttp/guzzle": "^6.2",
-        "symfony/http-foundation": "^2.7|^3.0|^4.0",
-        "symfony/psr-http-message-bridge": "^0.3|^1.0",
+        "pimple/pimple": "^3.0",
         "symfony/cache": "^3.3|^4.0",
-        "easywechat-composer/easywechat-composer": "^0.1"
+        "symfony/http-foundation": "^2.7|^3.0|^4.0",
+        "symfony/psr-http-message-bridge": "^0.3|^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
