@@ -1,9 +1,9 @@
 <p align="center">
 <a href="https://easywechat.org/">
-<img src="https://easywechat.org/logo.svg" alt="EasyWeChat" width="160">
+    <img src="http://7u2jwa.com1.z0.glb.clouddn.com/logo-20171121.png" height="300" alt="EasyWeChat Logo"/>
 </a>
 
-<p align="center">📦 Maybe it is the best SDK for develop WeChat App.</p>
+<p align="center">📦 It is probably the best SDK in the world for developing Wechat App.</p>
 
 <p align="center">
 <a href="https://travis-ci.org/overtrue/wechat"><img src="https://travis-ci.org/overtrue/wechat.svg?branch=master" alt="Build Status"></a>
@@ -14,43 +14,39 @@
 <a href="https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master"><img src="https://scrutinizer-ci.com/g/overtrue/wechat/badges/coverage.png?b=master" alt="Code Coverage"></a>
 <a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/downloads" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/overtrue/wechat"><img src="https://poser.pugx.org/overtrue/wechat/license" alt="License"></a>
+<a href="#backers"><img src="https://opencollective.com/wechat/backers/badge.svg" alt="Backers on Open Collective"></a>
+<a href="#sponsors"><img src="https://opencollective.com/wechat/sponsors/badge.svg" alt="Sponsors on Open Collective"></a>
 </p>
 
 </div>
 
-## Supporting EasyWeChat
+<p align="center">
+    <b>Special thanks to the generous sponsorship by:</b>
+    <br><br>
+    <a href="https://www.yousails.com">
+      <img src="https://yousails.com/banners/brand.png" width=350>
+    </a>
+</p>
 
-EasyWeChat 是一个 MIT 协议的开源项目. 它的发展离不开背后的支持者。
+<p align="center">
+<img width="200" src="http://wx1.sinaimg.cn/mw690/82b94fb4gy1fgwafq32r0j20nw0nwter.jpg">
+</p>
 
-特别感谢他们的慷慨赞助:
+<p align="center">关注我的公众号我们一起聊聊代码怎么样？</p>
 
-<a href="https://laravist.com">
-  <img width="160" src="https://o0dpls1ru.qnssl.com/laravist.com-logo.png">
-</a>
-
-## Feature
-
- - 命名不那么乱七八糟；
- - 隐藏开发者不需要关注的细节；
- - 方法使用更优雅，不必再去研究那些奇怪的的方法名或者类名是做啥用的；
- - 自定义缓存方式；
- - 符合 [PSR](https://github.com/php-fig/fig-standards) 标准，你可以各种方便的与你的框架集成；
- - 高度抽象的消息类，免去各种拼json与xml的痛苦；
- - 详细 Debug 日志，一切交互都一目了然；
+<p><img src="http://7u2jwa.com1.z0.glb.clouddn.com/QQ20171121-130611.jpg" alt="Features" /></p>
 
 ## Requirement
 
-1. PHP >= 5.5.9
-2. **[composer](https://getcomposer.org/)**
+1. PHP >= 7.0
+2. **[Composer](https://getcomposer.org/)**
 3. openssl 拓展
 4. fileinfo 拓展（素材管理模块需要用到）
-
-> SDK 对所使用的框架并无特别要求
 
 ## Installation
 
 ```shell
-composer require "overtrue/wechat:~3.1" -vvv
+$ composer require "overtrue/wechat:~4.0" -vvv
 ```
 
 ## Usage
@@ -60,12 +56,11 @@ composer require "overtrue/wechat:~3.1" -vvv
 ```php
 <?php
 
-use EasyWeChat\Foundation\Application;
+use EasyWeChat\Factory;
 
 $options = [
-    'debug'     => true,
-    'app_id'    => 'wx3cf0f39249eb0e60',
-    'secret'    => 'f1c242f4f28f735d4687abb469072a29',
+    'app_id'    => 'wx3cf0f39249eb0exxx',
+    'secret'    => 'f1c242f4f28f735d4687abb469072xxx',
     'token'     => 'easywechat',
     'log' => [
         'level' => 'debug',
@@ -74,13 +69,13 @@ $options = [
     // ...
 ];
 
-$app = new Application($options);
+$app = Factory::officialAccount($options);
 
 $server = $app->server;
 $user = $app->user;
 
-$server->setMessageHandler(function($message) use ($user) {
-    $fromUser = $user->get($message->FromUserName);
+$server->push(function($message) use ($user) {
+    $fromUser = $user->get($message['FromUserName']);
 
     return "{$fromUser->nickname} 您好！欢迎关注 overtrue!";
 });
@@ -88,22 +83,45 @@ $server->setMessageHandler(function($message) use ($user) {
 $server->serve()->send();
 ```
 
-更多请参考[http://easywechat.org/](http://easywechat.org/)。
+更多请参考 [https://www.easywechat.com/](https://www.easywechat.com/)。
 
-## Documention
+## Documentation
 
-- Homepage: http://easywechat.org/
-- Forum: https://forum.easywechat.org
-
-> 强烈建议看懂微信文档后再来使用本 SDK。
+[官网](https://www.easywechat.com)  · [教程](https://www.easywechat.com/tutorials)  ·  [讨论](https://www.easywechat.com/discussions)  ·  [微信公众平台](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official](http://admin.wechat.com/wiki)
 
 ## Integration
 
 [Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
 
-## Contribution
+## Contributors
 
-[Contribution Guide](CONTRIBUTING.md)
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/overtrue/wechat/graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/wechat#backer)]
+
+<a href="https://opencollective.com/wechat#backers" target="_blank"><img src="https://opencollective.com/wechat/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/wechat#sponsor)]
+
+<a href="https://opencollective.com/wechat/sponsor/0/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/1/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/2/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/3/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/4/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/5/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/6/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/7/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/8/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/wechat/sponsor/9/website" target="_blank"><img src="https://opencollective.com/wechat/sponsor/9/avatar.svg"></a>
+
+
 
 ## License
 
