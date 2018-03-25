@@ -171,7 +171,7 @@ class LogManager implements LoggerInterface
     protected function createEmergencyLogger()
     {
         return new Monolog('EasyWeChat', $this->prepareHandlers([new StreamHandler(
-            \sys_get_temp_dir().'/logs/easywechat.log', $this->level(['level' => 'debug'])
+            \sys_get_temp_dir().'/easywechat_logs/easywechat.log', $this->level(['level' => 'debug'])
         )]));
     }
 
