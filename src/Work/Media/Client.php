@@ -39,6 +39,7 @@ class Client extends BaseClient
         if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
             return $this->castResponseToType($response, $this->app['config']->get('response_type'));
         }
+
         return StreamResponse::buildFromPsrResponse($response);
     }
 
