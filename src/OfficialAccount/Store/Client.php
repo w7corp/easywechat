@@ -43,7 +43,7 @@ class Client extends BaseClient
     /**
      * Search store from tencent map.
      *
-     * @param int $id district's id
+     * @param int $id
      * @param string $keyword
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
@@ -52,7 +52,7 @@ class Client extends BaseClient
     {
         $params = [
             'districtid' => $id,
-            'keyword'    => $keyword
+            'keyword' => $keyword,
         ];
 
         return $this->httpPostJson('wxa/search_map_poi', $params);
@@ -157,7 +157,7 @@ class Client extends BaseClient
     {
         $params = [
             'begin' => $offset,
-            'limit' => $limit
+            'limit' => $limit,
         ];
 
         return $this->httpPostJson('wxa/get_store_list', $params);
