@@ -48,7 +48,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function searchFormMap(int $districtId, string $keyword)
+    public function searchFromMap(int $districtId, string $keyword)
     {
         $params = [
             'districtid' => $districtId,
@@ -93,13 +93,13 @@ class Client extends BaseClient
     }
 
     /**
-     * Create a store form tencent map.
+     * Create a store from tencent map.
      *
      * @param array $baseInfo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function createFormMap(array $baseInfo)
+    public function createFromMap(array $baseInfo)
     {
         return $this->httpPostJson('wxa/create_map_poi', $baseInfo);
     }
@@ -111,7 +111,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function createStore(array $baseInfo)
+    public function create(array $baseInfo)
     {
         return $this->httpPostJson('wxa/add_store', $baseInfo);
     }
@@ -124,7 +124,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function updateStore(int $poiId, array $baseInfo)
+    public function update(int $poiId, array $baseInfo)
     {
         $params = array_merge($baseInfo, ['poi_id' => $poiId]);
 

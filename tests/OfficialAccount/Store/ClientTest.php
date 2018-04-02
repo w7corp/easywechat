@@ -32,7 +32,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->district());
     }
 
-    public function testSearchFormMap()
+    public function testSearchFromMap()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -40,7 +40,7 @@ class ClientTest extends TestCase
             'districtid' => 2,
             'keyword' => '北京',
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->searchFormMap(2, '北京'));
+        $this->assertSame('mock-result', $client->searchFromMap(2, '北京'));
     }
 
     public function testCreateMerchant()
@@ -63,27 +63,27 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->updateMerchant(['foo' => 'bar']));
     }
 
-    public function testCreateFormMap()
+    public function testCreateFromMap()
     {
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('wxa/create_map_poi', [
             'foo' => 'bar'
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->createFormMap(['foo' => 'bar']));
+        $this->assertSame('mock-result', $client->createFromMap(['foo' => 'bar']));
     }
 
-    public function testCreateStore()
+    public function testCreate()
     {
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('wxa/add_store', [
             'foo' => 'bar'
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->createStore(['foo' => 'bar']));
+        $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
 
-    public function testUpdateStore()
+    public function testUpdate()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -91,7 +91,7 @@ class ClientTest extends TestCase
             'foo' => 'bar',
             'poi_id' => 246,
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->updateStore(246, ['foo' => 'bar']));
+        $this->assertSame('mock-result', $client->update(246, ['foo' => 'bar']));
     }
 
     public function testGet()
