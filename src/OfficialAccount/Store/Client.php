@@ -43,15 +43,15 @@ class Client extends BaseClient
     /**
      * Search store from tencent map.
      *
-     * @param int $id
+     * @param int    $districtId
      * @param string $keyword
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function searchFormMap(int $id, string $keyword)
+    public function searchFormMap(int $districtId, string $keyword)
     {
         $params = [
-            'districtid' => $id,
+            'districtid' => $districtId,
             'keyword' => $keyword,
         ];
 
