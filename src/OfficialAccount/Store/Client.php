@@ -126,9 +126,7 @@ class Client extends BaseClient
      */
     public function updateStore(int $poiId, array $baseInfo)
     {
-        $params = [
-            'base_info' => array_merge($baseInfo, ['poi_id' => $poiId]),
-        ];
+        $params = array_merge($baseInfo, ['poi_id' => $poiId]);
 
         return $this->httpPostJson('wxa/update_store', $params);
     }
