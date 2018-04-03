@@ -58,7 +58,6 @@ class Application extends ServiceContainer
         Semantic\ServiceProvider::class,
         DataCube\ServiceProvider::class,
         POI\ServiceProvider::class,
-        Store\ServiceProvider::class,
         AutoReply\ServiceProvider::class,
         Broadcasting\ServiceProvider::class,
         Card\ServiceProvider::class,

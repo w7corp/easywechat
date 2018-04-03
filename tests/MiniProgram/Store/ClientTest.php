@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Store;
 
-use EasyWeChat\OfficialAccount\Store\Client;
+use EasyWeChat\MiniProgram\Store\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
