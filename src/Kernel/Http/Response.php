@@ -98,7 +98,7 @@ class Response extends GuzzleResponse
      */
     public function toObject()
     {
-        return json_decode($this->getBodyContents());
+        return json_decode($this->toJson());
     }
 
     /**
