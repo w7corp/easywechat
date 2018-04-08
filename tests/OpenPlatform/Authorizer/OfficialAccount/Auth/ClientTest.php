@@ -21,8 +21,8 @@ class ClientTest extends TestCase
         $client = \Mockery::mock(Client::class.'[request]', [new Application(['app_id' => 'app-id']), $app]);
 
         $this->assertSame(
-            'https://mp.weixin.qq.com/cgi-bin/fastregisterauth?component_appid=component-app-id&appid=app-id&copy_wx_verify=0&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback',
-            $client->getPreAuthorizationUrl('https://easywechat.com/callback', false)
+            'https://mp.weixin.qq.com/cgi-bin/fastregisterauth?copy_wx_verify=0&component_appid=component-app-id&appid=app-id&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback',
+            $client->getFastRegistrationUrl('https://easywechat.com/callback', false)
         );
     }
 }
