@@ -130,7 +130,7 @@ class BaseClient
             $multipart[] = compact('name', 'contents');
         }
 
-        return $this->request($url, 'POST', ['query' => $query, 'multipart' => $multipart]);
+        return $this->request($url, 'POST', ['query' => $query, 'multipart' => $multipart, 'connect_timeout' => 30, 'timeout' => 30, 'read_timeout' => 30]);
     }
 
     /**
