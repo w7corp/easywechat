@@ -1,16 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: keal
- * Date: 2018/4/3
- * Time: 上午10:51
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Management;
-
+namespace EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\MiniProgram;
 
 use EasyWeChat\Kernel\BaseClient;
 
+/**
+ * Class Client.
+ *
+ * @author Keal <caiyuezhang@gmail.com>
+ */
 class Client extends BaseClient
 {
     /**
@@ -28,20 +35,20 @@ class Client extends BaseClient
     /**
      * 关联小程序.
      *
-     * @param string $miniProgramAppId
-     * @param bool $notifyUsers
-     * @param bool $showProfile
+     * @param string $appId
+     * @param bool   $notifyUsers
+     * @param bool   $showProfile
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function link(string $miniProgramAppId, bool $notifyUsers = true, bool $showProfile = false)
+    public function link(string $appId, bool $notifyUsers = true, bool $showProfile = false)
     {
         $params = [
-            'appid' => $miniProgramAppId,
-            'notify_users' => $notifyUsers ? '1' : '0',
-            'show_profile' => $showProfile ? '1' : '0'
+            'appid' => $appId,
+            'notify_users' => (string) $notifyUsers,
+            'show_profile' => (string) $showProfile,
         ];
 
         return $this->httpPostJson('cgi-bin/wxopen/wxamplink', $params);
@@ -50,36 +57,18 @@ class Client extends BaseClient
     /**
      * 解除已关联的小程序.
      *
-     * @param $miniProgramAppId
+     * @param string $appId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function unlink($miniProgramAppId)
+    public function unlink(string $appId)
     {
         $params = [
-            'appid' => $miniProgramAppId
+            'appid' => $appId,
         ];
 
         return $this->httpPostJson('cgi-bin/wxopen/wxampunlink', $params);
-    }
-
-    /**
-     * 小程序快速注册.
-     *
-     * @param string $ticket
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
-    public function register(string $ticket)
-    {
-        $params = [
-            'ticket' => $ticket
-        ];
-
-        return $this->httpPostJson('cgi-bin/account/fastregister', $params);
     }
 }
