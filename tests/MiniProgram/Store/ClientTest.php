@@ -29,7 +29,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpGet('wxa/get_district')->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->district());
+        $this->assertSame('mock-result', $client->districts());
     }
 
     public function testSearchFromMap()

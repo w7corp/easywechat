@@ -35,7 +35,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function district()
+    public function districts()
     {
         return $this->httpGet('wxa/get_district');
     }
