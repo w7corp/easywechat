@@ -137,6 +137,18 @@ class Messenger
     }
 
     /**
+     * Undo secret.
+     *
+     * @return \EasyWeChat\Work\Message\Messenger
+     */
+    public function unSecretive()
+    {
+        $this->secretive = false;
+
+        return $this;
+    }
+
+    /**
      * @param array|string $ids
      * @param string       $key
      *
