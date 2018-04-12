@@ -16,6 +16,7 @@ use EasyWeChat\MiniProgram\Encryptor;
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client;
+use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client as AccountClient;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\OAuth\ComponentDelegate;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
@@ -69,6 +70,10 @@ class Application extends ServiceContainer
     {
         $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
             'encryptor' => $this['encryptor'],
+
+            'account' => function ($app) {
+                return new AccountClient($app, $this);
+            },
         ]);
 
         $application->extend('oauth', function ($socialite) {
