@@ -60,16 +60,18 @@ class QRCode extends AbstractMiniProgram
      * Get WXACode unlimit.
      *
      * @param string $scene
+     * @param string $page
      * @param int    $width
      * @param bool   $autoColor
      * @param array  $lineColor
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getAppCodeUnlimit($scene, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
+    public function getAppCodeUnlimit($scene, $page = null, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
     {
         $params = [
             'scene' => $scene,
+            'page' => $page,
             'width' => $width,
             'auto_color' => $autoColor,
             'line_color' => $lineColor,
