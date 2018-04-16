@@ -83,7 +83,7 @@ class MemberCardClient extends Client
      *
      * @return mixed
      */
-    public function activateTempInfo($activateTicket){
+    public function getActivationForm($activateTicket){
 
         $params = [
             'activate_ticket' => $activateTicket
