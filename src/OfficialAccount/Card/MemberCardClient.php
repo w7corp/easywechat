@@ -74,4 +74,21 @@ class MemberCardClient extends Client
     {
         return $this->httpPostJson('card/membercard/updateuser', $params);
     }
+
+
+    /**
+     * 获取用户提交资料.
+     *
+     * @param string $activateTicket
+     *
+     * @return mixed
+     */
+    public function getActivationForm($activateTicket){
+
+        $params = [
+            'activate_ticket' => $activateTicket
+        ];
+
+        return $this->httpPostJson('card/membercard/activatetempinfo/get', $params);
+    }
 }
