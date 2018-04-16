@@ -145,4 +145,21 @@ class UserClient extends BaseClient
 
         return $this->httpPostJson('cgi-bin/tags/members/batchunblacklist', $params);
     }
+
+    /**
+     * @param string $oldAppId
+     * @param array  $openidList
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function changeOpenid(string $oldAppId, array $openidList)
+    {
+        $params = [
+            'from_appid' => $oldAppId,
+            'openid_list' => $openidList,
+        ];
+
+        return $this->httpPostJson('cgi-bin/changeopenid', $params);
+    }
 }
