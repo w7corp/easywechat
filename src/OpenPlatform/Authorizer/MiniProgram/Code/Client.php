@@ -39,14 +39,14 @@ class Client extends BaseClient
     }
 
     /**
-     * @param string    $path
+     * @param string|null $path
      *
      * @return \EasyWeChat\Kernel\Http\Response
      */
-    public function getQrCode(string $path = '')
+    public function getQrCode(string $path = null)
     {
         return $this->requestRaw('wxa/get_qrcode', 'GET', [
-            'query' => ['path' => urlencode($path)]
+            'query' => ['path' => urlencode($path)],
         ]);
     }
 
