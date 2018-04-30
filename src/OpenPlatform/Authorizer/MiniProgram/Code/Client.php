@@ -46,7 +46,7 @@ class Client extends BaseClient
     public function getQrCode(string $path = null)
     {
         return $this->requestRaw('wxa/get_qrcode', 'GET', [
-            'query' => ['path' => urlencode($path)],
+            'query' => ['path' => $path],
         ]);
     }
 
