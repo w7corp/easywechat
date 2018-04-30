@@ -33,8 +33,15 @@ class ClientTest extends TestCase
     public function testGetQrCode()
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
-        $client->expects()->requestRaw('wxa/get_qrcode', 'GET')->andReturn('mock-result');
+        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => '']])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getQrCode());
+    }
+
+    public function testGetQrCodeWithParamPath()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => 'page/index?action=1']])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getQrCode('page/index?action=1'));
     }
 
     public function testGetCategory()
