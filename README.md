@@ -22,14 +22,6 @@
 </div>
 
 <p align="center">
-    <b>Special thanks to the generous sponsorship by:</b>
-    <br><br>
-    <a href="https://www.yousails.com">
-      <img src="https://yousails.com/banners/brand.png" width=350>
-    </a>
-</p>
-
-<p align="center">
 <img width="200" src="http://wx1.sinaimg.cn/mw690/82b94fb4gy1fgwafq32r0j20nw0nwter.jpg">
 </p>
 
