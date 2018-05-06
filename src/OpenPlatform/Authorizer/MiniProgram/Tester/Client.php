@@ -47,4 +47,17 @@ class Client extends BaseClient
             'wechatid' => $wechatId,
         ]);
     }
+
+    /**
+     * 获取体验者列表.
+     *
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function memberAuth()
+    {
+        return $this->httpPostJson('wxa/unbind_tester', [
+            'action' => 'get_experiencer',
+        ]);
+    }
 }
