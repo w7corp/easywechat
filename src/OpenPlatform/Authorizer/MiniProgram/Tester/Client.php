@@ -56,7 +56,7 @@ class Client extends BaseClient
      */
     public function memberAuth()
     {
-        return $this->httpPostJson('wxa/unbind_tester', [
+        return $this->httpPostJson('wxa/memberauth', [
             'action' => 'get_experiencer',
         ]);
     }
