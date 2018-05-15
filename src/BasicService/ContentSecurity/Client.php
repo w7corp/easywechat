@@ -31,6 +31,7 @@ class Client extends BaseClient
      * @param string $text
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function checkText(string $text)
@@ -48,6 +49,7 @@ class Client extends BaseClient
      * @param string $path
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function checkImage(string $path)

@@ -22,7 +22,7 @@ class ClientTest extends TestCase
         $client->shouldDeferMissing();
 
         $client->expects()->httpPostJson('msg_sec_check', [
-            'content' => 'foo'
+            'content' => 'foo',
         ])->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->checkText('foo'));
@@ -36,7 +36,7 @@ class ClientTest extends TestCase
         $imagePath = 'foo';
 
         $client->expects()->httpUpload('img_sec_check', [
-            'media' => $imagePath
+            'media' => $imagePath,
         ])->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->checkImage($imagePath));
