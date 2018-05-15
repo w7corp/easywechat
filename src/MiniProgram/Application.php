@@ -28,6 +28,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\TemplateMessage\Client      $template_message
  * @property \EasyWeChat\OfficialAccount\CustomerService\Client  $customer_service
  * @property \EasyWeChat\BasicService\Media\Client               $media
+ * @property \EasyWeChat\BasicService\ContentSecurity\Client     $content_security
  */
 class Application extends ServiceContainer
 {
@@ -44,5 +45,6 @@ class Application extends ServiceContainer
         Store\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
+        BasicService\ContentSecurity\ServiceProvider::class,
     ];
 }
