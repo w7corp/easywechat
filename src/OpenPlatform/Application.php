@@ -157,6 +157,7 @@ class Application extends ServiceContainer
             'server' => function ($app) {
                 return new Guard($app);
             },
+            'cache' => $this['cache'] ?? null,
         ];
     }
 
