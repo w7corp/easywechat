@@ -133,4 +133,39 @@ class Client extends BaseClient
             'action' => $action,
         ]);
     }
+
+    /**
+     * 分阶段发布
+     *
+     * @param int $gray_percentage
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function grayRelease(int $gray_percentage)
+    {
+        return $this->httpPostJson('wxa/grayrelease', [
+            'gray_percentage' => $gray_percentage,
+        ]);
+    }
+
+    /**
+     * 取消分阶段发布
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function revertGrayRelease()
+    {
+        return $this->httpGet('wxa/revertgrayrelease');
+    }
+
+
+    /**
+     * 查询当前分阶段发布详情
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getGrayReleaseplan()
+    {
+        return $this->httpGet('wxa/getgrayreleaseplan');
+    }
 }
