@@ -54,9 +54,9 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function memberAuth()
+    public function list()
     {
-        return $this->httpPostJson('wxa/unbind_tester', [
+        return $this->httpPostJson('wxa/memberauth', [
             'action' => 'get_experiencer',
         ]);
     }
