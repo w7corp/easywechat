@@ -149,7 +149,7 @@ class Application extends ServiceContainer
      */
     protected function getReplaceServices(AccessToken $accessToken = null): array
     {
-        return [
+        $services = [
             'access_token' => $accessToken ?: function ($app) {
                 return new AccessToken($app, $this);
             },
@@ -158,6 +158,14 @@ class Application extends ServiceContainer
                 return new Guard($app);
             },
         ];
+
+        foreach (['cache', 'http_client', 'log', 'logger', 'request'] as $reuse) {
+            if (isset($this[$reuse])) {
+                $services[$reuse] = $this[$reuse];
+            }
+        }
+
+        return $services;
     }
 
     /**
