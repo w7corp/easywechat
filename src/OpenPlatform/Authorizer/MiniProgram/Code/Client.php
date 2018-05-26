@@ -135,7 +135,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 分阶段发布
+     * 分阶段发布.
      *
      * @param int $gray_percentage
      *
@@ -149,7 +149,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 取消分阶段发布
+     * 取消分阶段发布.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
@@ -160,7 +160,7 @@ class Client extends BaseClient
 
 
     /**
-     * 查询当前分阶段发布详情
+     * 查询当前分阶段发布详情.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */

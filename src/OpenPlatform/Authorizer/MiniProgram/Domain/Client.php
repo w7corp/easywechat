@@ -31,7 +31,8 @@ class Client extends BaseClient
     }
 
     /**
-     * 设置小程序业务域名
+     * 设置小程序业务域名.
+     *
      * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
