@@ -137,14 +137,14 @@ class Client extends BaseClient
     /**
      * 分阶段发布.
      *
-     * @param int $gray_percentage
+     * @param int $grayPercentage
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function grayRelease(int $gray_percentage)
+    public function grayRelease(int $grayPercentage)
     {
         return $this->httpPostJson('wxa/grayrelease', [
-            'gray_percentage' => $gray_percentage,
+            'gray_percentage' => $grayPercentage,
         ]);
     }
 
@@ -163,7 +163,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function getGrayReleaseplan()
+    public function getGrayReleasePlan()
     {
         return $this->httpGet('wxa/getgrayreleaseplan');
     }
