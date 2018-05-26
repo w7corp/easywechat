@@ -33,12 +33,16 @@ class Client extends BaseClient
     /**
      * 设置小程序业务域名.
      *
-     * @param array $params
+     * @param array  $domains
+     * @param string $action
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function setWebViewDomain(array $params)
+    public function setWebviewDomain(array $domains, $action = 'add')
     {
-        return $this->httpPostJson('wxa/setwebviewdomain', $params);
+        return $this->httpPostJson('wxa/setwebviewdomain', [
+            'action' => $action,
+            'webviewdomain' => $domains,
+        ]);
     }
 }
