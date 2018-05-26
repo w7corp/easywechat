@@ -158,7 +158,6 @@ class Client extends BaseClient
         return $this->httpGet('wxa/revertgrayrelease');
     }
 
-
     /**
      * 查询当前分阶段发布详情.
      *
