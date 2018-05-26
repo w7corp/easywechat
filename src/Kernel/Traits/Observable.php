@@ -164,6 +164,7 @@ trait Observable
      * @return \Closure
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     protected function makeClosure($handler)
     {
@@ -201,6 +202,7 @@ trait Observable
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     protected function resolveHandlerAndCondition($handler, $condition): array
     {

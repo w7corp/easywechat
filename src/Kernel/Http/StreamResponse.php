@@ -26,6 +26,7 @@ class StreamResponse extends Response
      * @param string $filename
      *
      * @return bool|int
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function save(string $directory, string $filename = '')
     {
@@ -65,6 +66,7 @@ class StreamResponse extends Response
      * @param string $filename
      *
      * @return bool|int
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function saveAs(string $directory, string $filename)
     {
