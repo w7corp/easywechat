@@ -30,4 +30,11 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('wxa/unbind_tester', ['wechatid' => 'bar'])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->unbind('bar'));
     }
+
+    public function testList()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpPostJson('wxa/memberauth', ['action' => 'get_experiencer'])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->list('bar'));
+    }
 }
