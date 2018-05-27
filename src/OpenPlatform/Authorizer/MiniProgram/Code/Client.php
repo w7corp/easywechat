@@ -163,7 +163,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function getGrayReleasePlan()
+    public function getGrayRelease()
     {
         return $this->httpGet('wxa/getgrayreleaseplan');
     }

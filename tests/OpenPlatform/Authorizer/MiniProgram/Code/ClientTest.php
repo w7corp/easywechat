@@ -107,10 +107,10 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->revertGrayRelease());
     }
 
-    public function testGetGrayReleasePlan()
+    public function testGetGrayRelease()
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
         $client->expects()->httpGet('wxa/getgrayreleaseplan')->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->getGrayReleasePlan());
+        $this->assertSame('mock-result', $client->getGrayRelease());
     }
 }
