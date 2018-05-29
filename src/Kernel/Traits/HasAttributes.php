@@ -97,8 +97,6 @@ trait HasAttributes
      * @param mixed  $value
      *
      * @return $this
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function with($attribute, $value)
     {
