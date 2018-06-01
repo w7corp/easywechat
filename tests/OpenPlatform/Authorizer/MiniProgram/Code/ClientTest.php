@@ -92,4 +92,25 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('wxa/change_visitstatus', ['action' => 'foo'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->changeVisitStatus('foo'));
     }
+
+    public function testGrayRelease()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpPostJson('wxa/grayrelease', ['gray_percentage' => 20])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->grayRelease(20));
+    }
+
+    public function testRevertGrayRelease()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpGet('wxa/revertgrayrelease')->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->revertGrayRelease());
+    }
+
+    public function testGetGrayRelease()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpGet('wxa/getgrayreleaseplan')->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getGrayRelease());
+    }
 }
