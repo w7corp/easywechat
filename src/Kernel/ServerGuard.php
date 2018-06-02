@@ -61,6 +61,7 @@ class ServerGuard
         'device_text' => Message::DEVICE_TEXT,
         'event' => Message::EVENT,
         'file' => Message::FILE,
+        'miniprogrampage' => Message::MINIPROGRAM_PAGE,
     ];
 
     /**
