@@ -240,7 +240,7 @@ class BaseClient
      */
     protected function logMiddleware()
     {
-        $formatter = new GuzzleMessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
+        $formatter = new GuzzleMessageFormatter($this->app['config']['http.log_template'] ?? GuzzleMessageFormatter::DEBUG);
 
         return Middleware::log($this->app['logger'], $formatter);
     }
