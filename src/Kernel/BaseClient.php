@@ -13,9 +13,9 @@ namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Http\Response;
+use EasyWeChat\Kernel\Support\GuzzleMessageFormatter;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
@@ -240,7 +240,7 @@ class BaseClient
      */
     protected function logMiddleware()
     {
-        $formatter = new MessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
+        $formatter = new GuzzleMessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
 
         return Middleware::log($this->app['logger'], $formatter);
     }
