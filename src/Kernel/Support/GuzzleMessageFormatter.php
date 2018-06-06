@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace EasyWeChat\Kernel\Support;
 
 use Psr\Http\Message\MessageInterface;
@@ -37,10 +47,12 @@ class GuzzleMessageFormatter
 {
     /**
      * Apache Common Log Format.
-     * @link http://httpd.apache.org/docs/2.4/logs.html#common
+     *
+     * @see http://httpd.apache.org/docs/2.4/logs.html#common
+     *
      * @var string
      */
-    const CLF = "{hostname} {req_header_User-Agent} - [{date_common_log}] \"{method} {target} HTTP/{version}\" {code} {res_header_Content-Length}";
+    const CLF = '{hostname} {req_header_User-Agent} - [{date_common_log}] "{method} {target} HTTP/{version}" {code} {res_header_Content-Length}';
     const DEBUG = ">>>>>>>>\n{request}\n<<<<<<<<\n{response}\n--------\n{error}";
     const SHORT = '[{ts}] "{method} {target} HTTP/{version}" {code}';
 
@@ -74,7 +86,6 @@ class GuzzleMessageFormatter
         return preg_replace_callback(
             '/{\s*([A-Za-z_\-\.0-9]+)\s*}/',
             function (array $matches) use ($request, $response, $error, &$cache) {
-
                 if (isset($cache[$matches[1]])) {
                     return $cache[$matches[1]];
                 }
@@ -83,15 +94,18 @@ class GuzzleMessageFormatter
                 switch ($matches[1]) {
                     case 'request':
                         $result = Psr7\str($request);
+
                         break;
                     case 'response':
                         $result = $response ? Psr7\str($response) : '';
+
                         break;
                     case 'req_headers':
                         $result = trim($request->getMethod()
-                                . ' ' . $request->getRequestTarget())
-                            . ' HTTP/' . $request->getProtocolVersion() . "\r\n"
-                            . $this->headers($request);
+                                .' '.$request->getRequestTarget())
+                            .' HTTP/'.$request->getProtocolVersion()."\r\n"
+                            .$this->headers($request);
+
                         break;
                     case 'res_headers':
                         $result = $response ?
@@ -100,63 +114,79 @@ class GuzzleMessageFormatter
                                 $response->getProtocolVersion(),
                                 $response->getStatusCode(),
                                 $response->getReasonPhrase()
-                            ) . "\r\n" . $this->headers($response)
+                            )."\r\n".$this->headers($response)
                             : 'NULL';
+
                         break;
                     case 'req_body':
                         $result = $request->getBody();
+
                         break;
                     case 'res_body':
                         $result = $response ? $response->getHeaderLine('Content-disposition') ? '<file-content>' : $response->getBody() : 'NULL';
+
                         break;
                     case 'ts':
                     case 'date_iso_8601':
                         $result = gmdate('c');
+
                         break;
                     case 'date_common_log':
                         $result = date('d/M/Y:H:i:s O');
+
                         break;
                     case 'method':
                         $result = $request->getMethod();
+
                         break;
                     case 'version':
                         $result = $request->getProtocolVersion();
+
                         break;
                     case 'uri':
                     case 'url':
                         $result = $request->getUri();
+
                         break;
                     case 'target':
                         $result = $request->getRequestTarget();
+
                         break;
                     case 'req_version':
                         $result = $request->getProtocolVersion();
+
                         break;
                     case 'res_version':
                         $result = $response
                             ? $response->getProtocolVersion()
                             : 'NULL';
+
                         break;
                     case 'host':
                         $result = $request->getHeaderLine('Host');
+
                         break;
                     case 'hostname':
                         $result = gethostname();
+
                         break;
                     case 'code':
                         $result = $response ? $response->getStatusCode() : 'NULL';
+
                         break;
                     case 'phrase':
                         $result = $response ? $response->getReasonPhrase() : 'NULL';
+
                         break;
                     case 'error':
                         $result = $error ? $error->getMessage() : 'NULL';
+
                         break;
                     default:
                         // handle prefixed dynamic headers
-                        if (strpos($matches[1], 'req_header_') === 0) {
+                        if (0 === strpos($matches[1], 'req_header_')) {
                             $result = $request->getHeaderLine(substr($matches[1], 11));
-                        } elseif (strpos($matches[1], 'res_header_') === 0) {
+                        } elseif (0 === strpos($matches[1], 'res_header_')) {
                             $result = $response
                                 ? $response->getHeaderLine(substr($matches[1], 11))
                                 : 'NULL';
@@ -164,6 +194,7 @@ class GuzzleMessageFormatter
                 }
 
                 $cache[$matches[1]] = $result;
+
                 return $result;
             },
             $this->template
@@ -174,7 +205,7 @@ class GuzzleMessageFormatter
     {
         $result = '';
         foreach ($message->getHeaders() as $name => $values) {
-            $result .= $name . ': ' . implode(', ', $values) . "\r\n";
+            $result .= $name.': '.implode(', ', $values)."\r\n";
         }
 
         return trim($result);
