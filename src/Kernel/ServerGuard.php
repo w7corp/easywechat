@@ -117,7 +117,7 @@ class ServerGuard
      */
     public function validate()
     {
-        if (!$this->isSafeMode()) {
+        if (!$this->alwaysValidate && !$this->isSafeMode()) {
             return $this;
         }
 
@@ -347,10 +347,6 @@ class ServerGuard
      */
     protected function isSafeMode(): bool
     {
-        if ($this->alwaysValidate) {
-            return true;
-        }
-
         return $this->app['request']->get('signature') && 'aes' === $this->app['request']->get('encrypt_type');
     }
 
