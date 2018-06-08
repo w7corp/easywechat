@@ -134,6 +134,8 @@ class ServerGuard
 
     /**
      * Force validate request.
+     *
+     * @return $this
      */
     public function forceValidate()
     {
