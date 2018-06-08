@@ -133,6 +133,16 @@ class ServerGuard
     }
 
     /**
+     * Force validate request.
+     */
+    public function forceValidate()
+    {
+        $this->alwaysValidate = true;
+
+        return $this;
+    }
+
+    /**
      * Get request message.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
