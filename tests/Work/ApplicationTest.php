@@ -36,6 +36,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Work\Server\Guard::class, $app->server);
         $this->assertInstanceOf(\EasyWeChat\BasicService\Jssdk\Client::class, $app->jssdk);
         $this->assertInstanceOf(\Overtrue\Socialite\Providers\WeWorkProvider::class, $app->oauth);
+        $this->assertInstanceOf(\EasyWeChat\Work\MiniProgram\Auth\Client::class, $app->auth);
     }
 
     public function testBaseCall()
