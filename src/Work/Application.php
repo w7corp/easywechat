@@ -12,6 +12,7 @@
 namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
 
 /**
  * Application.
@@ -31,7 +32,6 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\Work\Server\ServiceProvider      $server
  * @property \EasyWeChat\BasicService\Jssdk\Client        $jssdk
  * @property \Overtrue\Socialite\Providers\WeWorkProvider $oauth
- * @property \EasyWeChat\Work\MiniProgram\Auth\Client     $auth
  *
  * @method mixed getCallbackIp()
  */
@@ -53,7 +53,6 @@ class Application extends ServiceContainer
         Department\ServiceProvider::class,
         Server\ServiceProvider::class,
         Jssdk\ServiceProvider::class,
-        MiniProgram\Auth\ServiceProvider::class,
     ];
 
     /**
@@ -65,6 +64,16 @@ class Application extends ServiceContainer
             'base_uri' => 'https://qyapi.weixin.qq.com/',
         ],
     ];
+
+    /**
+     * Creates the miniProgram application.
+     *
+     * @return \EasyWeChat\Work\MiniProgram\Application
+     */
+    public function miniProgram() : MiniProgram
+    {
+        return new MiniProgram($this->getConfig());
+    }
 
     /**
      * @param string $method

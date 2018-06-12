@@ -24,10 +24,9 @@ class ClientTest extends TestCase
 {
     public function testGetSessionKey()
     {
-        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['corp_id' => 'wx123', 'secret' => 'mock-secret']));
+        $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpGet('cgi-bin/miniprogram/jscode2session', [
-            'secret' => 'mock-secret',
             'js_code' => 'js-code',
             'grant_type' => 'authorization_code',
         ])->andReturn('mock-result')->once();

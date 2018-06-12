@@ -14,9 +14,9 @@ namespace EasyWeChat\Work\MiniProgram\Auth;
 use EasyWeChat\Kernel\BaseClient;
 
 /**
- * Class Auth.
+ * Class Client.
  *
- * @author mingyoung <mingyoungcheung@gmail.com>
+ * @package EasyWeChat\Work\MiniProgram\Auth
  */
 class Client extends BaseClient
 {
@@ -32,7 +32,6 @@ class Client extends BaseClient
     public function session(string $code)
     {
         $params = [
-            'secret' => $this->app['config']['secret'],
             'js_code' => $code,
             'grant_type' => 'authorization_code',
         ];
