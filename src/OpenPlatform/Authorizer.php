@@ -184,7 +184,7 @@ class Authorizer
      */
     public function getAccessTokenCacheKey()
     {
-        return self::CACHE_KEY_ACCESS_TOKEN.$this->appId.$this->getAppId();
+        return self::CACHE_KEY_ACCESS_TOKEN.'.'.$this->openPlatformAppId.'.'.$this->getAppId();
     }
 
     /**
@@ -194,6 +194,6 @@ class Authorizer
      */
     public function getRefreshTokenCacheKey()
     {
-        return self::CACHE_KEY_REFRESH_TOKEN.$this->appId.$this->getAppId();
+        return self::CACHE_KEY_REFRESH_TOKEN.'.'.$this->openPlatformAppId.'.'.$this->getAppId();
     }
 }
