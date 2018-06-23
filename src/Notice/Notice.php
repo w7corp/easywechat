@@ -47,6 +47,7 @@ class Notice extends AbstractAPI
         'template_id' => '',
         'url' => '',
         'data' => [],
+        'miniprogram' => ''
     ];
 
     /**
