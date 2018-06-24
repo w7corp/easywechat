@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\Work\MiniProgram\Auth;
 
-use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\MiniProgram\Auth\Client;
 

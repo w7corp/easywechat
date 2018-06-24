@@ -15,8 +15,6 @@ use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
- *
- * @package EasyWeChat\Work\MiniProgram\Auth
  */
 class Client extends BaseClient
 {
