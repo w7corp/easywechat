@@ -12,6 +12,7 @@
 namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
 
 /**
  * Application.
@@ -65,6 +66,16 @@ class Application extends ServiceContainer
             'base_uri' => 'https://qyapi.weixin.qq.com/',
         ],
     ];
+
+    /**
+     * Creates the miniProgram application.
+     *
+     * @return \EasyWeChat\Work\MiniProgram\Application
+     */
+    public function miniProgram() : MiniProgram
+    {
+        return new MiniProgram($this->getConfig());
+    }
 
     /**
      * @param string $method
