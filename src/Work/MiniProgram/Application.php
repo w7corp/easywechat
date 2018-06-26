@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -10,7 +11,9 @@
 
 namespace EasyWeChat\Work\MiniProgram;
 
-use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\MiniProgram\Application as MiniProgram;
+use EasyWeChat\Work\Auth\AccessToken;
+use EasyWeChat\Work\MiniProgram\Auth\Client;
 
 /**
  * Class Application.
@@ -19,7 +22,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  *
  * @property \EasyWeChat\Work\MiniProgram\Auth\Client $auth
  */
-class Application extends ServiceContainer
+class Application extends MiniProgram
 {
     /**
      * Application constructor.
@@ -29,14 +32,13 @@ class Application extends ServiceContainer
      */
     public function __construct(array $config = [], array $prepends = [])
     {
-        parent::__construct($config, $prepends);
-
-        $providers = [
-            Auth\ServiceProvider::class,
-        ];
-
-        foreach ($providers as $provider) {
-            $this->register(new $provider());
-        }
+        parent::__construct($config, $prepends + [
+            'access_token' => function ($app) {
+                return new AccessToken($app);
+            },
+            'auth' => function ($app) {
+                return new Client($app);
+            },
+        ]);
     }
 }
