@@ -37,7 +37,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getApp3rdInstallUrl(string $redirect_uri, string $state = '')
+    public function getPreAuthorizationUrl(string $redirect_uri, string $state = '')
     {
         $params = [
             'suite_id'      => $this->app['config']['suite_id'],
@@ -72,7 +72,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function setSessionInfo(array $data)
+    public function setSession(array $data)
     {
         return $this->httpPostJson('cgi-bin/service/set_session_info', compact('data'));
     }
@@ -86,12 +86,12 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getPermanentCode(string $auth_code)
+    public function getPermanentByCode(string $auth_code)
     {
         $params = [
             'auth_code' => $auth_code,
         ];
-        return $this->httpPostJson('cgi-bin/service/set_session_info', $params);
+        return $this->httpPostJson('cgi-bin/service/get_permanent_code', $params);
     }
 
     /**
@@ -104,7 +104,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getAuthInfo(string $auth_corpid, string $permanent_code)
+    public function getAuthorization(string $auth_corpid, string $permanent_code)
     {
         $params = [
             'auth_corpid'    => $auth_corpid,
@@ -123,7 +123,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getAdminList(string $auth_corpid, string $agentid)
+    public function getManagers(string $auth_corpid, string $agentid)
     {
         $params = [
             'auth_corpid' => $auth_corpid,
@@ -141,7 +141,7 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getOauth2Uri(string $redirect_uri, string $scope = 'snsapi_userinfo', string $state = null)
+    public function getOAuthRedirectUrl(string $redirect_uri, string $scope = 'snsapi_userinfo', string $state = null)
     {
         $params = [
             'appid'         => $this->app['config']['suite_id'],
@@ -162,12 +162,12 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getUserInfo3rd(string $code)
+    public function getUserByCode(string $code)
     {
         $params = [
-            'code'         => $code
+            'code' => $code
         ];
-        return $this->httpPostJson('cgi-bin/service/getuserinfo3rd', $params);
+        return $this->httpGet('cgi-bin/service/getuserinfo3rd', $params);
     }
 
     /**
@@ -179,7 +179,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getUserDetail3rd(string $user_ticket)
+    public function getUserByTicket(string $user_ticket)
     {
         $params = [
             'user_ticket'  => $user_ticket
