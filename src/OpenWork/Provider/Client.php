@@ -156,12 +156,12 @@ class Client extends BaseClient
         array $allow_party = [],
         array $allow_tag = []
     ) {
-        $this->middlewares = ['access_token' => $access_token];
         $params = [
             "agentid"     => $agentid,
             "allow_user"  => $allow_user,
             "allow_party" => $allow_party,
-            "allow_tag"   => $allow_tag
+            "allow_tag"   => $allow_tag,
+            "access_token" => $access_token
         ];
         return $this->httpGet('cgi-bin/agent/set_scope', $params);
     }
@@ -179,7 +179,7 @@ class Client extends BaseClient
      */
     public function contactSyncSuccess(string $access_token)
     {
-        $this->middlewares = ['access_token' => $access_token];
-        return $this->httpGet('cgi-bin/sync/contact_sync_success');
+        $params = ['access_token' => $access_token];
+        return $this->httpGet('cgi-bin/sync/contact_sync_success',$params);
     }
 }
