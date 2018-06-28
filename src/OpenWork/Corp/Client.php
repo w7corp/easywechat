@@ -29,19 +29,18 @@ class Client extends BaseClient
     /**
      * 企业微信应用授权 url.
      *
-     * @param string $pre_auth_code
-     * @param string $redirect_uri
+     * @param string $redirectUri
      * @param string $state
      *
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getPreAuthorizationUrl(string $redirect_uri, string $state = '')
+    public function getPreAuthorizationUrl(string $redirectUri, string $state = '')
     {
         $params = [
             'suite_id'      => $this->app['config']['suite_id'],
-            'redirect_uri'  => urlencode($redirect_uri),
+            'redirect_uri'  => $redirectUri,
             'pre_auth_code' => $this->getPreAuthCode()['pre_auth_code'],
             'state'         => $state || rand(),
         ];
@@ -80,16 +79,16 @@ class Client extends BaseClient
     /**
      * 获取企业永久授权码.
      *
-     * @param string $auth_code 临时授权码，会在授权成功时附加在redirect_uri中跳转回第三方服务商网站，或通过回调推送给服务商。长度为64至512个字节
+     * @param string $authCode 临时授权码，会在授权成功时附加在redirect_uri中跳转回第三方服务商网站，或通过回调推送给服务商。长度为64至512个字节
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getPermanentByCode(string $auth_code)
+    public function getPermanentByCode(string $authCode)
     {
         $params = [
-            'auth_code' => $auth_code,
+            'auth_code' => $authCode,
         ];
         return $this->httpPostJson('cgi-bin/service/get_permanent_code', $params);
     }
@@ -97,18 +96,18 @@ class Client extends BaseClient
     /**
      * 获取企业授权信息.
      *
-     * @param string $auth_corpid
-     * @param string $permanent_code
+     * @param string $authCorpId
+     * @param string $permanentCode
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getAuthorization(string $auth_corpid, string $permanent_code)
+    public function getAuthorization(string $authCorpId, string $permanentCode)
     {
         $params = [
-            'auth_corpid'    => $auth_corpid,
-            'permanent_code' => $permanent_code,
+            'auth_corpid'    => $authCorpId,
+            'permanent_code' => $permanentCode,
         ];
         return $this->httpPostJson('cgi-bin/service/get_auth_info', $params);
     }
@@ -116,18 +115,18 @@ class Client extends BaseClient
     /**
      * 获取应用的管理员列表.
      *
-     * @param string $auth_corpid
-     * @param string $agentid
+     * @param string $authCorpId
+     * @param string $agentId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getManagers(string $auth_corpid, string $agentid)
+    public function getManagers(string $authCorpId, string $agentId)
     {
         $params = [
-            'auth_corpid' => $auth_corpid,
-            'agentid'     => $agentid,
+            'auth_corpid' => $authCorpId,
+            'agentid'     => $agentId
         ];
         return $this->httpPostJson('cgi-bin/service/get_admin_lis', $params);
     }
@@ -135,17 +134,17 @@ class Client extends BaseClient
     /**
      * 获取登录url.
      *
-     * @param string      $redirect_uri
+     * @param string      $redirectUri
      * @param string      $scope
      * @param string|null $state
      *
      * @return string
      */
-    public function getOAuthRedirectUrl(string $redirect_uri, string $scope = 'snsapi_userinfo', string $state = null)
+    public function getOAuthRedirectUrl(string $redirectUri, string $scope = 'snsapi_userinfo', string $state = null)
     {
         $params = [
             'appid'         => $this->app['config']['suite_id'],
-            'redirect_uri'  => urlencode($redirect_uri),
+            'redirect_uri'  => $redirectUri,
             'response_type' => 'code',
             'scope'         => $scope,
             'state'         => $state || rand(),
@@ -173,16 +172,16 @@ class Client extends BaseClient
     /**
      * 第三方使用user_ticket获取成员详情.
      *
-     * @param string $user_ticket
+     * @param string $userTicket
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getUserByTicket(string $user_ticket)
+    public function getUserByTicket(string $userTicket)
     {
         $params = [
-            'user_ticket'  => $user_ticket
+            'user_ticket'  => $userTicket
         ];
         return $this->httpPostJson('cgi-bin/service/getuserdetail3rd', $params);
     }

@@ -29,12 +29,12 @@ class AccessToken extends BaseAccessToken
     /**
      * @var String 授权方企业ID
      */
-    protected $auth_corpid;
+    protected $authCorpid;
 
     /**
      * @var String 授权方企业永久授权码，通过get_permanent_code获取
      */
-    protected $permanent_code;
+    protected $permanentCode;
 
     protected $component;
 
@@ -42,14 +42,14 @@ class AccessToken extends BaseAccessToken
      * AccessToken constructor.
      *
      * @param Container   $app
-     * @param String      $auth_corpid
-     * @param String      $permanent_code
+     * @param String      $authCorpId
+     * @param String      $permanentCode
      * @param Application $component
      */
-    public function __construct(Container $app, String $auth_corpid, String $permanent_code, Application $component)
+    public function __construct(Container $app, String $authCorpId, String $permanentCode, Application $component)
     {
-        $this->auth_corpid = $auth_corpid;
-        $this->permanent_code = $permanent_code;
+        $this->authCorpid = $authCorpId;
+        $this->permanentCode = $permanentCode;
         parent::__construct($app);
     }
 
@@ -61,8 +61,8 @@ class AccessToken extends BaseAccessToken
     protected function getCredentials(): array
     {
         return [
-            'auth_corpid'    => $this->auth_corpid,
-            'permanent_code' => $this->permanent_code,
+            'auth_corpid'    => $this->authCorpid,
+            'permanent_code' => $this->permanentCode,
         ];
     }
 
