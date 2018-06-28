@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\OpenWork\Provider;
 
-
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\ServiceContainer;
 
@@ -81,8 +80,12 @@ class Client extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getRegisterCode(string $corp_name = '', string $admin_name = '', string $admin_mobile = '', string $state = '')
-    {
+    public function getRegisterCode(
+        string $corp_name = '',
+        string $admin_name = '',
+        string $admin_mobile = '',
+        string $state = ''
+    ) {
         $params = array();
         $params['template_id'] = $this->app['config']['template_id'];
         !empty($corp_name) && $params['corp_name'] = $corp_name;
@@ -122,8 +125,13 @@ class Client extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function setAgentScope(string $access_token, string $agentid, array $allow_user = [], array $allow_party = [], array $allow_tag = [])
-    {
+    public function setAgentScope(
+        string $access_token,
+        string $agentid,
+        array $allow_user = [],
+        array $allow_party = [],
+        array $allow_tag = []
+    ) {
         $this->middlewares = ['access_token' => $access_token];
         $params = [
             "agentid"     => $agentid,

@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\OpenWork\Corp;
 
-
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\ServiceContainer;
 

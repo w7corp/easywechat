@@ -16,6 +16,9 @@ use EasyWeChat\Kernel\ServerGuard;
 
 class Guard extends ServerGuard
 {
+    /**
+     * @var bool
+     */
     protected $alwaysValidate = true;
 
     /**

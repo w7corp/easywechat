@@ -14,11 +14,6 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenWork\Work\Application as Work;
 
 /**
- * Class Application
- * @package EasyWeChat\OpenWork
- *
- * @author Xiaomin<keacefull@gmail.com>
- *
  * //配置文件格式
  * $config = [
  *      'corp_id'         => 'XXX', //服务商的corpid
@@ -33,7 +28,6 @@ use EasyWeChat\OpenWork\Work\Application as Work;
  * @property \EasyWeChat\OpenWork\Server\ServiceProvider $server
  * @property \EasyWeChat\OpenWork\Corp\ServiceProvider $corp
  * @property \EasyWeChat\OpenWork\Provider\ServiceProvider $provider
- *
  */
 class Application extends ServiceContainer
 {
@@ -74,7 +68,6 @@ class Application extends ServiceContainer
     /**
      * @param string $method
      * @param array $arguments
-     *
      * @return mixed
      */
     public function __call($method, $arguments)
