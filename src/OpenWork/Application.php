@@ -18,8 +18,8 @@ use EasyWeChat\OpenWork\Work\Application as Work;
  *
  * @author xiaomin <keacefull@gmail.com>
  *
- * @property \EasyWeChat\OpenWork\Server\ServiceProvider $server
- * @property \EasyWeChat\OpenWork\Corp\ServiceProvider $corp
+ * @property \EasyWeChat\OpenWork\Server\ServiceProvider   $server
+ * @property \EasyWeChat\OpenWork\Corp\ServiceProvider     $corp
  * @property \EasyWeChat\OpenWork\Provider\ServiceProvider $provider
  */
 class Application extends ServiceContainer

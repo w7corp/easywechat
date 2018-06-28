@@ -140,9 +140,9 @@ class Client extends BaseClient
      *
      * @param string $access_token
      * @param string $agentid
-     * @param array $allow_user
-     * @param array $allow_party
-     * @param array $allow_tag
+     * @param array  $allow_user
+     * @param array  $allow_party
+     * @param array  $allow_tag
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

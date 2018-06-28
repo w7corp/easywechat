@@ -134,8 +134,8 @@ class Client extends BaseClient
 
     /**
      * 获取登录url.
-     * @param string $redirect_uri
-     * @param string $scope
+     * @param string      $redirect_uri
+     * @param string      $scope
      * @param string|null $state
      *
      * @return string

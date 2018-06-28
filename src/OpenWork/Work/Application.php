@@ -25,10 +25,10 @@ class Application extends Work
     /**
      * Application constructor.
      *
-     * @param string $auth_corpid
-     * @param string $permanent_code
+     * @param string   $auth_corpid
+     * @param string   $permanent_code
      * @param OpenWork $component
-     * @param array $prepends
+     * @param array    $prepends
      */
     public function __construct(string $auth_corpid, string $permanent_code, OpenWork $component, array $prepends = [])
     {
