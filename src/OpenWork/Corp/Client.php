@@ -165,8 +165,7 @@ class Client extends BaseClient
     public function getUserInfo3rd(string $code)
     {
         $params = [
-            'code'         => $code,
-            'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token'],
+            'code'         => $code
         ];
         return $this->httpPostJson('cgi-bin/service/getuserinfo3rd', $params);
     }
@@ -183,8 +182,7 @@ class Client extends BaseClient
     public function getUserDetail3rd(string $user_ticket)
     {
         $params = [
-            'user_ticket'  => $user_ticket,
-            'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token'],
+            'user_ticket'  => $user_ticket
         ];
         return $this->httpPostJson('cgi-bin/service/getuserdetail3rd', $params);
     }
