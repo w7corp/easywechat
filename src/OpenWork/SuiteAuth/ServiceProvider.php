@@ -1,8 +1,8 @@
 <?php
 /*
- * This file is part of the keacefull/wechat.
+ * This file is part of the overtrue/wechat.
  *
- * (c) xiaomin <keacefull@gmail.com>
+ * (c) overtrue <i@overtrue.me>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -13,6 +13,11 @@ namespace EasyWeChat\OpenWork\SuiteAuth;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+
+/**
+ * Class ServiceProvider
+ * @package EasyWeChat\OpenWork\SuiteAuth
+ */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**

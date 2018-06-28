@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace EasyWeChat\OpenWork\Corp;
 
 
@@ -131,7 +140,7 @@ class Client extends BaseClient
     public function getUserInfo3rd(string $code)
     {
         $params = [
-            'code' => $code,
+            'code'         => $code,
             'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token']
         ];
         return $this->httpPostJson('cgi-bin/service/getuserinfo3rd', $params);
@@ -146,7 +155,7 @@ class Client extends BaseClient
     public function getUserDetail3rd(string $user_ticket)
     {
         $params = [
-            'user_ticket' => $user_ticket,
+            'user_ticket'  => $user_ticket,
             'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token']
         ];
         return $this->httpPostJson('cgi-bin/service/getuserdetail3rd', $params);

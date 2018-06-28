@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace EasyWeChat\OpenWork\Work;
 
@@ -19,8 +27,8 @@ class Application extends Work
     public function __construct(string $auth_corpid, string $permanent_code, OpenWork $component, array $prepends = [])
     {
         parent::__construct($component->getConfig(), $prepends + [
-                'access_token' => function ($app) use ($auth_corpid, $permanent_code,$component) {
-                    return new AccessToken($app, $auth_corpid, $permanent_code,$component);
+                'access_token' => function ($app) use ($auth_corpid, $permanent_code, $component) {
+                    return new AccessToken($app, $auth_corpid, $permanent_code, $component);
                 }
             ]);
     }

@@ -1,11 +1,12 @@
 <?php
-/**
- * @link https://www.chaoyouyun.com
- * @copyright 2014-2018 Chongqing Xianzhou Technology LLC
+
+/*
+ * This file is part of the overtrue/wechat.
  *
- * @author Xiaomin<keacefull@gmail.com>
- * @version 1.0.0
- * @since 1.0
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace EasyWeChat\OpenWork\Server;
