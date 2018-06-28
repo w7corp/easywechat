@@ -45,7 +45,6 @@ class Application extends ServiceContainer
         ],
     ];
 
-
     /**
      * @param string $auth_corpid    企业 corp_id
      * @param string $permanent_code 企业永久授权码
@@ -57,7 +56,6 @@ class Application extends ServiceContainer
         return new Work($auth_corpid, $permanent_code, $this);
     }
 
-
     /**
      * @param string $method
      * @param array  $arguments
@@ -68,5 +66,4 @@ class Application extends ServiceContainer
     {
         return $this['base']->$method(...$arguments);
     }
-
 }

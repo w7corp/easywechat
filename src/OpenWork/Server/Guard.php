@@ -45,5 +45,4 @@ class Guard extends ServerGuard
     {
         return true;
     }
-
 }

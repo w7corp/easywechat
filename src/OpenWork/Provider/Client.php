@@ -21,7 +21,6 @@ use EasyWeChat\Kernel\ServiceContainer;
  */
 class Client extends BaseClient
 {
-
     /**
      * Client constructor.
      *
@@ -183,5 +182,4 @@ class Client extends BaseClient
         $this->middlewares = ['access_token' => $access_token];
         return $this->httpGet('cgi-bin/sync/contact_sync_success');
     }
-
 }

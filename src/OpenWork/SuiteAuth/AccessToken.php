@@ -52,5 +52,4 @@ class AccessToken extends BaseAccessToken
             'suite_ticket' => $this->app['suite_ticket']->getTicket()
         ];
     }
-
 }

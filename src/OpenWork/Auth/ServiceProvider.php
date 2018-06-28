@@ -30,5 +30,4 @@ class ServiceProvider implements ServiceProviderInterface
             return new AccessToken($app);
         };
     }
-
 }

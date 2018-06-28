@@ -47,5 +47,4 @@ class AccessToken extends BaseAccessToken
             'provider_secret' => $this->app['config']['secret'],
         ];
     }
-
 }

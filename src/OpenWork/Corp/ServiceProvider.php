@@ -21,7 +21,6 @@ use Pimple\ServiceProviderInterface;
  */
 class ServiceProvider implements ServiceProviderInterface
 {
-
     /**
      * Registers services on the given container.
      *
@@ -36,5 +35,4 @@ class ServiceProvider implements ServiceProviderInterface
             return new Client($app);
         };
     }
-
 }

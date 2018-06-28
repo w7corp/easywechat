@@ -58,7 +58,5 @@ class EchoStrHandler implements EventHandlerInterface
         if (!empty($payload['SuiteTicket'])) {
             $this->app['suite_ticket']->setTicket($payload['SuiteTicket']);
         }
-
     }
-
 }

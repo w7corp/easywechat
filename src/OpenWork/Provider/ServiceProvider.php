@@ -21,7 +21,6 @@ use Pimple\ServiceProviderInterface;
  */
 class ServiceProvider implements ServiceProviderInterface
 {
-
     protected $app;
 
     /**
@@ -34,5 +33,4 @@ class ServiceProvider implements ServiceProviderInterface
             return new Client($app);
         };
     }
-
 }

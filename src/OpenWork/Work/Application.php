@@ -21,7 +21,6 @@ use \EasyWeChat\OpenWork\Application as OpenWork;
  */
 class Application extends Work
 {
-
     /**
      * Application constructor.
      *
@@ -38,5 +37,4 @@ class Application extends Work
                 }
             ]);
     }
-
 }

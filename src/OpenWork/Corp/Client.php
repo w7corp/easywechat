@@ -21,7 +21,6 @@ use EasyWeChat\Kernel\ServiceContainer;
  */
 class Client extends BaseClient
 {
-
     public function __construct(ServiceContainer $app)
     {
         parent::__construct($app, $app['suite_access_token']);
@@ -44,7 +43,7 @@ class Client extends BaseClient
             'suite_id'      => $this->app['config']['suite_id'],
             'redirect_uri'  => urlencode($redirect_uri),
             'pre_auth_code' => $this->getPreAuthCode()['pre_auth_code'],
-            'state'         => $state || rand()
+            'state'         => $state || rand(),
         ];
         return 'https://open.work.weixin.qq.com/3rdapp/install?' . http_build_query($params);
     }
@@ -90,7 +89,7 @@ class Client extends BaseClient
     public function getPermanentCode(string $auth_code)
     {
         $params = [
-            'auth_code' => $auth_code
+            'auth_code' => $auth_code,
         ];
         return $this->httpPostJson('cgi-bin/service/set_session_info', $params);
     }
@@ -109,7 +108,7 @@ class Client extends BaseClient
     {
         $params = [
             'auth_corpid'    => $auth_corpid,
-            'permanent_code' => $permanent_code
+            'permanent_code' => $permanent_code,
         ];
         return $this->httpPostJson('cgi-bin/service/get_auth_info', $params);
     }
@@ -128,7 +127,7 @@ class Client extends BaseClient
     {
         $params = [
             'auth_corpid' => $auth_corpid,
-            'agentid'     => $agentid
+            'agentid'     => $agentid,
         ];
         return $this->httpPostJson('cgi-bin/service/get_admin_lis', $params);
     }
@@ -149,7 +148,7 @@ class Client extends BaseClient
             'redirect_uri'  => urlencode($redirect_uri),
             'response_type' => 'code',
             'scope'         => $scope,
-            'state'         => $state || rand()
+            'state'         => $state || rand(),
         ];
         return 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query($params) . '#wechat_redirect';
     }
@@ -167,7 +166,7 @@ class Client extends BaseClient
     {
         $params = [
             'code'         => $code,
-            'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token']
+            'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token'],
         ];
         return $this->httpPostJson('cgi-bin/service/getuserinfo3rd', $params);
     }
@@ -185,9 +184,8 @@ class Client extends BaseClient
     {
         $params = [
             'user_ticket'  => $user_ticket,
-            'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token']
+            'access_token' => $this->app['suite_access_token']->getToken()['suite_access_token'],
         ];
         return $this->httpPostJson('cgi-bin/service/getuserdetail3rd', $params);
     }
-
 }

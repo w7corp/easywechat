@@ -36,7 +36,6 @@ class AccessToken extends BaseAccessToken
      */
     protected $permanent_code;
 
-
     protected $component;
 
     /**
@@ -76,5 +75,4 @@ class AccessToken extends BaseAccessToken
                 'suite_access_token' => $this->component['suite_access_token']->getToken()['suite_access_token'],
             ]);
     }
-
 }
