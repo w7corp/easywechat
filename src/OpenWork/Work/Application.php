@@ -24,16 +24,16 @@ class Application extends Work
     /**
      * Application constructor.
      *
-     * @param string   $auth_corpid
-     * @param string   $permanent_code
+     * @param string   $authCorpId
+     * @param string   $permanentCode
      * @param OpenWork $component
      * @param array    $prepends
      */
-    public function __construct(string $auth_corpid, string $permanent_code, OpenWork $component, array $prepends = [])
+    public function __construct(string $authCorpId, string $permanentCode, OpenWork $component, array $prepends = [])
     {
         parent::__construct($component->getConfig(), $prepends + [
-                'access_token' => function ($app) use ($auth_corpid, $permanent_code, $component) {
-                    return new AccessToken($app, $auth_corpid, $permanent_code, $component);
+                'access_token' => function ($app) use ($authCorpId, $permanentCode, $component) {
+                    return new AccessToken($app, $authCorpId, $permanentCode, $component);
                 }
             ]);
     }
