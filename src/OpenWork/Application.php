@@ -18,9 +18,9 @@ use EasyWeChat\OpenWork\Work\Application as Work;
  *
  * @author xiaomin <keacefull@gmail.com>
  *
- * @property \EasyWeChat\OpenWork\Server\ServiceProvider   $server
- * @property \EasyWeChat\OpenWork\Corp\ServiceProvider     $corp
- * @property \EasyWeChat\OpenWork\Provider\ServiceProvider $provider
+ * @property \EasyWeChat\OpenWork\Server\Guard    $server
+ * @property \EasyWeChat\OpenWork\Corp\Client     $corp
+ * @property \EasyWeChat\OpenWork\Provider\Client $provider
  */
 class Application extends ServiceContainer
 {
@@ -46,14 +46,14 @@ class Application extends ServiceContainer
     ];
 
     /**
-     * @param string $auth_corpid    企业 corp_id
-     * @param string $permanent_code 企业永久授权码
+     * @param string $authCorpId    企业 corp_id
+     * @param string $permanentCode 企业永久授权码
      *
      * @return Work
      */
-    public function work(string $auth_corpid, string $permanent_code): Work
+    public function work(string $authCorpId, string $permanentCode): Work
     {
-        return new Work($auth_corpid, $permanent_code, $this);
+        return new Work($authCorpId, $permanentCode, $this);
     }
 
     /**
