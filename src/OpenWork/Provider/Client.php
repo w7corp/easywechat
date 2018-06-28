@@ -87,6 +87,7 @@ class Client extends BaseClient
 
     /**
      * 获取注册码.
+     *
      * @param string $corp_name
      * @param string $admin_name
      * @param string $admin_mobile
@@ -132,6 +133,7 @@ class Client extends BaseClient
 
     /**
      * 设置授权应用可见范围.
+     *
      * Desc:调用该接口前提是开启通讯录迁移，收到授权成功通知后可调用。
      *      企业注册初始化安装应用后，应用默认可见范围为根部门。
      *      如需修改应用可见范围，服务商可以调用该接口设置授权应用的可见范围。
@@ -167,6 +169,7 @@ class Client extends BaseClient
 
     /**
      * 设置通讯录同步完成.
+     *
      * Desc:该API用于设置通讯录同步完成，解除通讯录锁定状态，同时使通讯录迁移access_token失效。
      *
      * @param $access_token

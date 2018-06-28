@@ -80,6 +80,7 @@ class Client extends BaseClient
 
     /**
      * 获取企业永久授权码.
+     *
      * @param string $auth_code 临时授权码，会在授权成功时附加在redirect_uri中跳转回第三方服务商网站，或通过回调推送给服务商。长度为64至512个字节
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -134,6 +135,7 @@ class Client extends BaseClient
 
     /**
      * 获取登录url.
+     *
      * @param string      $redirect_uri
      * @param string      $scope
      * @param string|null $state
