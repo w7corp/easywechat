@@ -11,9 +11,13 @@
 
 namespace EasyWeChat\OpenWork\Server;
 
-
 use EasyWeChat\Kernel\ServerGuard;
 
+/**
+ * Guard.
+ *
+ * @author xiaomin <keacefull@gmail.com>
+ */
 class Guard extends ServerGuard
 {
     /**
@@ -41,4 +45,5 @@ class Guard extends ServerGuard
     {
         return true;
     }
+
 }

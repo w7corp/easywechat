@@ -15,8 +15,9 @@ use EasyWeChat\OpenWork\Application;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 
 /**
- * Class SuiteTicket
- * @package EasyWeChat\OpenWork\SuiteAuth
+ * SuiteTicket.
+ *
+ * @author xiaomin <keacefull@gmail.com>
  */
 class SuiteTicket
 {
@@ -38,7 +39,9 @@ class SuiteTicket
 
     /**
      * @param string $ticket
+     *
      * @return $this
+     *
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function setTicket(string $ticket)
@@ -50,6 +53,7 @@ class SuiteTicket
 
     /**
      * @return string
+     *
      * @throws RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */

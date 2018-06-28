@@ -15,8 +15,9 @@ use EasyWeChat\OpenWork\Application;
 use Pimple\Container;
 
 /**
- * Class AccessToken
- * @package EasyWeChat\OpenWork\Work\Auth
+ * AccessToken.
+ *
+ * @author xiaomin <keacefull@gmail.com>
  */
 class AccessToken extends BaseAccessToken
 {
@@ -40,9 +41,9 @@ class AccessToken extends BaseAccessToken
 
     /**
      * AccessToken constructor.
-     * @param Container $app
-     * @param String $auth_corpid
-     * @param String $permanent_code
+     * @param Container   $app
+     * @param String      $auth_corpid
+     * @param String      $permanent_code
      * @param Application $component
      */
     public function __construct(Container $app, String $auth_corpid, String $permanent_code, Application $component)
@@ -74,4 +75,5 @@ class AccessToken extends BaseAccessToken
                 'suite_access_token' => $this->component['suite_access_token']->getToken()['suite_access_token'],
             ]);
     }
+
 }

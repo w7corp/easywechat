@@ -14,6 +14,11 @@ namespace EasyWeChat\OpenWork\Auth;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
+/**
+ * ServiceProvider.
+ *
+ * @author xiaomin <keacefull@gmail.com>
+ */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
@@ -25,4 +30,5 @@ class ServiceProvider implements ServiceProviderInterface
             return new AccessToken($app);
         };
     }
+
 }

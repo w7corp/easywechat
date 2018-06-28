@@ -13,10 +13,13 @@ namespace EasyWeChat\OpenWork\Auth;
 
 use  EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
-
+/**
+ * AccessToken.
+ *
+ * @author xiaomin <keacefull@gmail.com>
+ */
 class AccessToken extends BaseAccessToken
 {
-
     /**
      * @var string
      */
@@ -44,4 +47,5 @@ class AccessToken extends BaseAccessToken
             'provider_secret' => $this->app['config']['secret'],
         ];
     }
+
 }

@@ -14,6 +14,11 @@ namespace EasyWeChat\OpenWork\Corp;
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\ServiceContainer;
 
+/**
+ * Client.
+ *
+ * @author xiaomin <keacefull@gmail.com>
+ */
 class Client extends BaseClient
 {
 
@@ -23,11 +28,14 @@ class Client extends BaseClient
     }
 
     /**
-     * 企业微信应用授权 url
+     * 企业微信应用授权 url.
+     *
      * @param string $pre_auth_code
      * @param string $redirect_uri
      * @param string $state
+     *
      * @return string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getApp3rdInstallUrl(string $redirect_uri, string $state = '')
@@ -43,8 +51,10 @@ class Client extends BaseClient
 
 
     /**
-     * 获取预授权码
+     * 获取预授权码.
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getPreAuthCode()
@@ -53,10 +63,14 @@ class Client extends BaseClient
     }
 
     /**
-     * 设置授权配置
+     * 设置授权配置.
+     *
      * 该接口可对某次授权进行配置
+     *
      * @param array $data
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function setSessionInfo(array $data)
@@ -65,9 +79,11 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取企业永久授权码
+     * 获取企业永久授权码.
      * @param string $auth_code 临时授权码，会在授权成功时附加在redirect_uri中跳转回第三方服务商网站，或通过回调推送给服务商。长度为64至512个字节
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getPermanentCode(string $auth_code)
@@ -79,10 +95,13 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取企业授权信息
+     * 获取企业授权信息.
+     *
      * @param string $auth_corpid
      * @param string $permanent_code
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getAuthInfo(string $auth_corpid, string $permanent_code)
@@ -95,10 +114,13 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取应用的管理员列表
+     * 获取应用的管理员列表.
+     *
      * @param string $auth_corpid
      * @param string $agentid
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getAdminList(string $auth_corpid, string $agentid)
@@ -111,10 +133,11 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取登录url
+     * 获取登录url.
      * @param string $redirect_uri
      * @param string $scope
      * @param string|null $state
+     *
      * @return string
      */
     public function getOauth2Uri(string $redirect_uri, string $scope = 'snsapi_userinfo', string $state = null)
@@ -129,11 +152,13 @@ class Client extends BaseClient
         return 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query($params) . '#wechat_redirect';
     }
 
-
     /**
-     * 第三方根据code获取企业成员信息
+     * 第三方根据code获取企业成员信息.
+     *
      * @param string $code
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getUserInfo3rd(string $code)
@@ -146,9 +171,12 @@ class Client extends BaseClient
     }
 
     /**
-     * 第三方使用user_ticket获取成员详情
+     * 第三方使用user_ticket获取成员详情.
+     *
      * @param string $user_ticket
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getUserDetail3rd(string $user_ticket)

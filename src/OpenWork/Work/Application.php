@@ -14,11 +14,17 @@ use EasyWeChat\OpenWork\Work\Auth\AccessToken;
 use EasyWeChat\Work\Application as Work;
 use \EasyWeChat\OpenWork\Application as OpenWork;
 
+/**
+ * Application.
+ *
+ * @author xiaomin <keacefull@gmail.com>
+ */
 class Application extends Work
 {
 
     /**
      * Application constructor.
+     *
      * @param string $auth_corpid
      * @param string $permanent_code
      * @param OpenWork $component
@@ -32,4 +38,5 @@ class Application extends Work
                 }
             ]);
     }
+
 }

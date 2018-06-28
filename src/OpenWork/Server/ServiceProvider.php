@@ -17,11 +17,9 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class ServiceProvider
- * @package EasyWeChat\OpenWork\Server
+ * ServiceProvider.
  *
- * @author Xiaomin<keacefull@gmail.com>
- *
+ * @author xiaomin <keacefull@gmail.com>
  */
 class ServiceProvider implements ServiceProviderInterface
 {

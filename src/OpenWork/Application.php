@@ -14,16 +14,9 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenWork\Work\Application as Work;
 
 /**
- * //配置文件格式
- * $config = [
- *      'corp_id'         => 'XXX', //服务商的corpid
- *      'secret'          => 'XXX', //服务商的secret，在服务商管理后台可见
- *      'suite_id'        => 'XXX', //应用的suiteID
- *      'suite_secret'    => 'XXX',//应用的Secret
- *      'token'           => 'XXX', //应用的token
- *      'aes_key'         => 'XXX',//应用的aes_key
- *      'reg_template_id' => '注册定制化模板ID',
- * ];
+ * Application.
+ *
+ * @author xiaomin <keacefull@gmail.com>
  *
  * @property \EasyWeChat\OpenWork\Server\ServiceProvider $server
  * @property \EasyWeChat\OpenWork\Corp\ServiceProvider $corp
@@ -31,7 +24,6 @@ use EasyWeChat\OpenWork\Work\Application as Work;
  */
 class Application extends ServiceContainer
 {
-
     /**
      * @var array
      */
@@ -55,8 +47,9 @@ class Application extends ServiceContainer
 
 
     /**
-     * @param string $auth_corpid 企业 corp_id
+     * @param string $auth_corpid    企业 corp_id
      * @param string $permanent_code 企业永久授权码
+     *
      * @return Work
      */
     public function work(string $auth_corpid, string $permanent_code): Work
@@ -67,11 +60,13 @@ class Application extends ServiceContainer
 
     /**
      * @param string $method
-     * @param array $arguments
+     * @param array  $arguments
+     *
      * @return mixed
      */
     public function __call($method, $arguments)
     {
         return $this['base']->$method(...$arguments);
     }
+
 }

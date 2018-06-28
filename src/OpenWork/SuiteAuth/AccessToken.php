@@ -12,6 +12,11 @@ namespace EasyWeChat\OpenWork\SuiteAuth;
 
 use  EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 
+/**
+ * AccessToken.
+ *
+ * @author xiaomin <keacefull@gmail.com>
+ */
 class AccessToken extends BaseAccessToken
 {
     /**
@@ -34,7 +39,6 @@ class AccessToken extends BaseAccessToken
      */
     protected $cachePrefix = 'easywechat.kernel.suite_access_token.';
 
-
     /**
      * Credential for get token.
      *
@@ -48,4 +52,5 @@ class AccessToken extends BaseAccessToken
             'suite_ticket' => $this->app['suite_ticket']->getTicket()
         ];
     }
+
 }

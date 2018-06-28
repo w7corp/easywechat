@@ -16,9 +16,9 @@ use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
- * Class EchoStrHandler.
+ * EchoStrHandler.
  *
- * @author overtrue <i@overtrue.me>
+ * @author xiaomin <keacefull@gmail.com>
  */
 class EchoStrHandler implements EventHandlerInterface
 {
@@ -60,4 +60,5 @@ class EchoStrHandler implements EventHandlerInterface
         }
 
     }
+
 }
