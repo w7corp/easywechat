@@ -39,11 +39,15 @@ class Client extends BaseClient
     }
 
     /**
+     * @param string|null $path
+     *
      * @return \EasyWeChat\Kernel\Http\Response
      */
-    public function getQrCode()
+    public function getQrCode(string $path = null)
     {
-        return $this->requestRaw('wxa/get_qrcode', 'GET');
+        return $this->requestRaw('wxa/get_qrcode', 'GET', [
+            'query' => ['path' => $path],
+        ]);
     }
 
     /**
@@ -103,6 +107,22 @@ class Client extends BaseClient
     }
 
     /**
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function withdrawAudit()
+    {
+        return $this->httpGet('wxa/undocodeaudit');
+    }
+
+    /**
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function rollbackRelease()
+    {
+        return $this->httpGet('wxa/revertcoderelease');
+    }
+
+    /**
      * @param string $action
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -112,5 +132,39 @@ class Client extends BaseClient
         return $this->httpPostJson('wxa/change_visitstatus', [
             'action' => $action,
         ]);
+    }
+
+    /**
+     * 分阶段发布.
+     *
+     * @param int $grayPercentage
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function grayRelease(int $grayPercentage)
+    {
+        return $this->httpPostJson('wxa/grayrelease', [
+            'gray_percentage' => $grayPercentage,
+        ]);
+    }
+
+    /**
+     * 取消分阶段发布.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function revertGrayRelease()
+    {
+        return $this->httpGet('wxa/revertgrayrelease');
+    }
+
+    /**
+     * 查询当前分阶段发布详情.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getGrayRelease()
+    {
+        return $this->httpGet('wxa/getgrayreleaseplan');
     }
 }

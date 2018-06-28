@@ -11,7 +11,10 @@
 
 namespace EasyWeChat\Payment\Transfer;
 
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Payment\Kernel\BaseClient;
+use function EasyWeChat\Kernel\Support\get_server_ip;
+use function EasyWeChat\Kernel\Support\rsa_public_encrypt;
 
 /**
  * Class Client.
@@ -21,37 +24,91 @@ use EasyWeChat\Payment\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Query MerchantPay.
+     * Query MerchantPay to balance.
      *
-     * @param string $mchBillNo
+     * @param string $partnerTradeNo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
-     * @notice mch_id when query, but mchid when send
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function query($mchBillNo)
+    public function queryBalanceOrder(string $partnerTradeNo)
     {
         $params = [
-            'appid' => $this->app['merchant']->app_id,
-            'mch_id' => $this->app['merchant']->merchant_id,
-            'partner_trade_no' => $mchBillNo,
+            'appid' => $this->app['config']->app_id,
+            'mch_id' => $this->app['config']->mch_id,
+            'partner_trade_no' => $partnerTradeNo,
         ];
 
         return $this->safeRequest('mmpaymkttransfers/gettransferinfo', $params);
     }
 
     /**
-     * Send MerchantPay.
+     * Send MerchantPay to balance.
      *
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function send(array $params)
+    public function toBalance(array $params)
     {
-        $params['mchid'] = $this->app['merchant']->merchant_id;
-        $params['mch_appid'] = $this->app['merchant']->app_id;
+        $base = [
+            'mch_id' => null,
+            'mchid' => $this->app['config']->mch_id,
+            'mch_appid' => $this->app['config']->app_id,
+        ];
 
-        return $this->safeRequest('mmpaymkttransfers/promotion/transfers', $params);
+        if (empty($params['spbill_create_ip'])) {
+            $params['spbill_create_ip'] = get_server_ip();
+        }
+
+        return $this->safeRequest('mmpaymkttransfers/promotion/transfers', array_merge($base, $params));
+    }
+
+    /**
+     * Query MerchantPay order to BankCard.
+     *
+     * @param string $partnerTradeNo
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function queryBankCardOrder(string $partnerTradeNo)
+    {
+        $params = [
+            'mch_id' => $this->app['config']->mch_id,
+            'partner_trade_no' => $partnerTradeNo,
+        ];
+
+        return $this->safeRequest('mmpaysptrans/query_bank', $params);
+    }
+
+    /**
+     * Send MerchantPay to BankCard.
+     *
+     * @param array $params
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function toBankCard(array $params)
+    {
+        foreach (['bank_code', 'partner_trade_no', 'enc_bank_no', 'enc_true_name', 'amount'] as $key) {
+            if (empty($params[$key])) {
+                throw new RuntimeException(\sprintf('"%s" is required.', $key));
+            }
+        }
+
+        $publicKey = file_get_contents($this->app['config']->get('rsa_public_key_path'));
+
+        $params['enc_bank_no'] = rsa_public_encrypt($params['enc_bank_no'], $publicKey);
+        $params['enc_true_name'] = rsa_public_encrypt($params['enc_true_name'], $publicKey);
+
+        return $this->safeRequest('mmpaysptrans/pay_bank', $params);
     }
 }

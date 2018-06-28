@@ -38,13 +38,13 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('shakearound/user/getshakeinfo', ['ticket' => 'mock-ticket'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('shakearound/user/getshakeinfo', ['ticket' => 'mock-ticket'])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->user('mock-ticket'));
 
-        $client->expects()->httpGet('shakearound/user/getshakeinfo', ['ticket' => 'mock-ticket', 'need_poi' => 1])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('shakearound/user/getshakeinfo', ['ticket' => 'mock-ticket', 'need_poi' => 1])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->user('mock-ticket', true));
 
-        $client->expects()->httpGet('shakearound/user/getshakeinfo', ['ticket' => 'mock-ticket', 'need_poi' => 1])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('shakearound/user/getshakeinfo', ['ticket' => 'mock-ticket', 'need_poi' => 1])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->userWithPoi('mock-ticket', true));
     }
 }

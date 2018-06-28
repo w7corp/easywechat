@@ -19,7 +19,7 @@ class AggregateServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['account'] = function ($app) {
+        !isset($app['account']) && $app['account'] = function ($app) {
             return new Client($app);
         };
     }

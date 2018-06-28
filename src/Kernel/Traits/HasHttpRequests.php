@@ -11,8 +11,6 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Http\Response;
-use EasyWeChat\Kernel\Support\Collection;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
@@ -25,6 +23,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 trait HasHttpRequests
 {
+    use ResponseCastable;
+
     /**
      * @var \GuzzleHttp\ClientInterface
      */
@@ -183,51 +183,6 @@ trait HasHttpRequests
         }
 
         return $this->handlerStack;
-    }
-
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param string                              $type
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    protected function resolveResponse(ResponseInterface $response, string $type)
-    {
-        $response = Response::buildFromPsrResponse($response);
-
-        switch ($type) {
-            case 'collection':
-                return $response->toCollection();
-            case 'array':
-                return $response->toArray();
-            case 'object':
-                return $response->toObject();
-            case 'raw':
-            default:
-                $response->getBody()->rewind();
-                if (class_exists($type)) {
-                    return new $type($response);
-                }
-
-                return $response;
-        }
-    }
-
-    /**
-     * @param mixed  $response
-     * @param string $type
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
-     */
-    protected function transformResponseToType($response, string $type)
-    {
-        if ($response instanceof ResponseInterface) {
-            $response = Response::buildFromPsrResponse($response);
-        } elseif (($response instanceof Collection) || is_array($response) || is_object($response)) {
-            $response = new Response(200, [], json_encode($response));
-        }
-
-        return $this->resolveResponse($response, $type);
     }
 
     /**

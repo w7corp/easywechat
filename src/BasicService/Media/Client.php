@@ -96,7 +96,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function upload($type, $path)
+    public function upload(string $type, string $path)
     {
         if (!file_exists($path) || !is_readable($path)) {
             throw new InvalidArgumentException(sprintf("File does not exist, or the file is unreadable: '%s'", $path));
@@ -119,7 +119,7 @@ class Client extends BaseClient
     public function uploadVideoForBroadcasting(string $path, string $title, string $description)
     {
         $response = $this->uploadVideo($path);
-        $arrayResponse = $this->transformResponseToType($response, 'array');
+        $arrayResponse = $this->detectAndCastResponseToType($response, 'array');
 
         if (!empty($arrayResponse['media_id'])) {
             return $this->createVideoForBroadcasting($arrayResponse['media_id'], $title, $description);
@@ -145,39 +145,13 @@ class Client extends BaseClient
     }
 
     /**
-     * Download temporary material.
-     *
-     * @param string $mediaId
-     * @param string $directory
-     * @param string $filename
-     *
-     * @return string
-     *
-     * @throws InvalidArgumentException
-     */
-    public function download($mediaId, $directory, $filename = '')
-    {
-        if (!is_dir($directory) || !is_writable($directory)) {
-            throw new InvalidArgumentException("Directory does not exist or is not writable: '$directory'.");
-        }
-
-        $filename = $filename ?: $mediaId;
-
-        $this->getStream($mediaId)->saveAs($directory, $filename);
-
-        return $filename;
-    }
-
-    /**
      * Fetch item from WeChat server.
      *
      * @param string $mediaId
      *
-     * @return \EasyWeChat\Kernel\Http\StreamResponse
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @return \EasyWeChat\Kernel\Http\StreamResponse|\Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function getStream($mediaId)
+    public function get(string $mediaId)
     {
         $response = $this->requestRaw('media/get', 'GET', [
             'query' => [
@@ -186,7 +160,27 @@ class Client extends BaseClient
         ]);
 
         if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
-            $this->app['logger']->error('Fail to get media contents.', $response->toArray());
+            return $this->castResponseToType($response, $this->app['config']->get('response_type'));
+        }
+
+        return StreamResponse::buildFromPsrResponse($response);
+    }
+
+    /**
+     * @param string $mediaId
+     *
+     * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getJssdkMedia(string $mediaId)
+    {
+        $response = $this->requestRaw('media/get/jssdk', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ]);
+
+        if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
+            return $this->castResponseToType($response, $this->app['config']->get('response_type'));
         }
 
         return StreamResponse::buildFromPsrResponse($response);

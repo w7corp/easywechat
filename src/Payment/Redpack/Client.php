@@ -12,7 +12,7 @@
 namespace EasyWeChat\Payment\Redpack;
 
 use EasyWeChat\Kernel\Support;
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.
@@ -21,74 +21,24 @@ use EasyWeChat\Payment\BaseClient;
  */
 class Client extends BaseClient
 {
-    // Redpack type
-    const TYPE_NORMAL = 'NORMAL';
-    const TYPE_GROUP = 'GROUP';
-
-    // Risk control type.
-    const RISK_NORMAL = 'NORMAL';
-    const RISK_IGN_FREQ_LMT = 'IGN_FREQ_LMT';
-    const RISK_IGN_DAY_LMT = 'IGN_DAY_LMT';
-    const RISK_IGN_FREQ_DAY_LMT = 'IGN_FREQ_DAY_LMT';
-
-    /**
-     * Prepare shake-around redpack.
-     *
-     * @param array $params
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function prepare(array $params)
-    {
-        $params['wxappid'] = $this->app['merchant']->app_id;
-
-        // XXX: PLEASE DON'T CHANGE THE FOLLOWING LINES.
-        $params['auth_mchid'] = '1000052601';
-        $params['auth_appid'] = 'wxbf42bd79c4391863';
-
-        $params['amt_type'] = 'ALL_RAND';
-
-        return $this->safeRequest('mmpaymkttransfers/hbpreorder', $params);
-    }
-
     /**
      * Query redpack.
      *
-     * @param string $mchBillNo
+     * @param mixed $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function query($mchBillNo)
+    public function info($mchBillno)
     {
-        $params = [
-            'appid' => $this->app['merchant']->app_id,
-            'mch_billno' => $mchBillNo,
+        $params = is_array($mchBillno) ? $mchBillno : ['mch_billno' => $mchBillno];
+        $base = [
+            'appid' => $this->app['config']->app_id,
             'bill_type' => 'MCHT',
         ];
 
-        return $this->safeRequest('mmpaymkttransfers/gethbinfo', $params);
-    }
-
-    /**
-     * Send redpack.
-     *
-     * @param array  $params
-     * @param string $type
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     */
-    public function send(array $params, $type = self::TYPE_NORMAL)
-    {
-        $params['wxappid'] = $this->app['merchant']->app_id;
-        $endpoint = 'mmpaymkttransfers/sendredpack';
-
-        // 如果类型为分裂红则去掉 client_ip 参数，否则签名会出错
-        if ($type === self::TYPE_GROUP) {
-            $endpoint = 'mmpaymkttransfers/sendgroupredpack';
-            unset($params['client_ip']);
-        }
-
-        return $this->safeRequest($endpoint, $params);
+        return $this->safeRequest('mmpaymkttransfers/gethbinfo', array_merge($base, $params));
     }
 
     /**
@@ -97,13 +47,18 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function sendNormal($params)
+    public function sendNormal(array $params)
     {
-        $params['total_num'] = 1;
-        $params['client_ip'] = $params['client_ip'] ?? Support\get_server_ip();
+        $base = [
+            'total_num' => 1,
+            'client_ip' => $params['client_ip'] ?? Support\get_server_ip(),
+            'wxappid' => $this->app['config']->app_id,
+        ];
 
-        return $this->send($params, self::TYPE_NORMAL);
+        return $this->safeRequest('mmpaymkttransfers/sendredpack', array_merge($base, $params));
     }
 
     /**
@@ -112,21 +67,16 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function sendGroup($params)
+    public function sendGroup(array $params)
     {
-        $params['amt_type'] = 'ALL_RAND';
-
-        return $this->send($params, self::TYPE_GROUP);
-    }
-
-    /**
-     * {@inheritdoc}.
-     */
-    protected function prepends(): array
-    {
-        return [
-            'mch_id' => $this->app['merchant']->merchant_id,
+        $base = [
+            'amt_type' => 'ALL_RAND',
+            'wxappid' => $this->app['config']->app_id,
         ];
+
+        return $this->safeRequest('mmpaymkttransfers/sendgroupredpack', array_merge($base, $params));
     }
 }

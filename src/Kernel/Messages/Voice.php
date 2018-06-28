@@ -16,7 +16,7 @@ namespace EasyWeChat\Kernel\Messages;
  *
  * @property string $media_id
  */
-class Voice extends Message
+class Voice extends Media
 {
     /**
      * Messages type.

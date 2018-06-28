@@ -13,25 +13,27 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\MiniProgram\Encryptor;
-use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
+use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client;
+use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client as AccountClient;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
+use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\OAuth\ComponentDelegate;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
-use EasyWeChat\OpenPlatform\OAuth\ComponentDelegate;
 
 /**
  * Class Application.
  *
- * @property \EasyWeChat\OpenPlatform\Server\Guard     $server
- * @property \EasyWeChat\OpenPlatform\Auth\AccessToken $access_token
+ * @property \EasyWeChat\OpenPlatform\Server\Guard        $server
+ * @property \EasyWeChat\OpenPlatform\Auth\AccessToken    $access_token
+ * @property \EasyWeChat\OpenPlatform\CodeTemplate\Client $code_template
  *
  * @method mixed handleAuthorize(string $authCode = null)
  * @method mixed getAuthorizer(string $appId)
  * @method mixed getAuthorizerOption(string $appId, string $name)
  * @method mixed setAuthorizerOption(string $appId, string $name, string $value)
  * @method mixed getAuthorizers(int $offset = 0, int $count = 500)
- * @method \EasyWeChat\Kernel\Support\Collection createPreAuthorizationCode()
+ * @method mixed createPreAuthorizationCode()
  */
 class Application extends ServiceContainer
 {
@@ -42,6 +44,7 @@ class Application extends ServiceContainer
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
         Server\ServiceProvider::class,
+        CodeTemplate\ServiceProvider::class,
     ];
 
     /**
@@ -57,16 +60,20 @@ class Application extends ServiceContainer
     /**
      * Creates the officialAccount application.
      *
-     * @param string                                                   $appId
-     * @param string                                                   $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
+     * @param string                                                    $appId
+     * @param string|null                                               $refreshToken
+     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
      *
      * @return \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application
      */
-    public function officialAccount(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): OfficialAccount
+    public function officialAccount(string $appId, string $refreshToken = null, AccessToken $accessToken = null): OfficialAccount
     {
         $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
             'encryptor' => $this['encryptor'],
+
+            'account' => function ($app) {
+                return new AccountClient($app, $this);
+            },
         ]);
 
         $application->extend('oauth', function ($socialite) {
@@ -80,13 +87,13 @@ class Application extends ServiceContainer
     /**
      * Creates the miniProgram application.
      *
-     * @param string                                                   $appId
-     * @param string                                                   $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
+     * @param string                                                    $appId
+     * @param string|null                                               $refreshToken
+     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
      *
      * @return \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application
      */
-    public function miniProgram(string $appId, string $refreshToken, AuthorizerAccessToken $accessToken = null): MiniProgram
+    public function miniProgram(string $appId, string $refreshToken = null, AccessToken $accessToken = null): MiniProgram
     {
         return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
             'encryptor' => function () {
@@ -111,7 +118,7 @@ class Application extends ServiceContainer
     {
         $queries = [
             'component_appid' => $this['config']['app_id'],
-            'pre_auth_code' => $authCode ?? $this->createPreAuthorizationCode()['pre_auth_code'],
+            'pre_auth_code' => $authCode ?: $this->createPreAuthorizationCode()['pre_auth_code'],
             'redirect_uri' => $callbackUrl,
         ];
 
@@ -119,16 +126,16 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param string $appId
-     * @param string $refreshToken
+     * @param string      $appId
+     * @param string|null $refreshToken
      *
      * @return array
      */
-    protected function getAuthorizerConfig(string $appId, string $refreshToken): array
+    protected function getAuthorizerConfig(string $appId, string $refreshToken = null): array
     {
         return [
             'debug' => $this['config']->get('debug', false),
-            'response_type' => $this['config']->get('response_type', 'array'),
+            'response_type' => $this['config']->get('response_type'),
             'log' => $this['config']->get('log', []),
             'app_id' => $appId,
             'refresh_token' => $refreshToken,
@@ -136,21 +143,29 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param \EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken|null $accessToken
+     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
      *
      * @return array
      */
-    protected function getReplaceServices(AuthorizerAccessToken $accessToken = null): array
+    protected function getReplaceServices(AccessToken $accessToken = null): array
     {
-        return [
-            'access_token' => $accessToken ?? function ($app) {
-                return new AuthorizerAccessToken($app, $this);
+        $services = [
+            'access_token' => $accessToken ?: function ($app) {
+                return new AccessToken($app, $this);
             },
 
             'server' => function ($app) {
                 return new Guard($app);
             },
         ];
+
+        foreach (['cache', 'http_client', 'log', 'logger', 'request'] as $reuse) {
+            if (isset($this[$reuse])) {
+                $services[$reuse] = $this[$reuse];
+            }
+        }
+
+        return $services;
     }
 
     /**

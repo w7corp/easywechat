@@ -26,7 +26,7 @@ class ServiceProvider implements ServiceProviderInterface
                     'client_secret' => null,
                     'redirect' => null,
                 ],
-            ]))->driver('wework');
+            ], $app['request']))->driver('wework');
 
             $scopes = (array) $app['config']->get('oauth.scopes', ['snsapi_base']);
 

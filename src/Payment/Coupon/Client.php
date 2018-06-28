@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Payment\Coupon;
 
-use EasyWeChat\Payment\BaseClient;
+use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.
@@ -26,9 +26,12 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function send(array $params)
     {
+        $params['appid'] = $this->app['config']->app_id;
         $params['openid_count'] = 1;
 
         return $this->safeRequest('mmpaymkttransfers/send_coupon', $params);
@@ -40,9 +43,13 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function queryStock(array $params)
+    public function stock(array $params)
     {
+        $params['appid'] = $this->app['config']->app_id;
+
         return $this->request('mmpaymkttransfers/query_coupon_stock', $params);
     }
 
@@ -52,20 +59,13 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function query(array $params)
+    public function info(array $params)
     {
-        return $this->request('mmpaymkttransfers/querycouponsinfo', $params);
-    }
+        $params['appid'] = $this->app['config']->app_id;
 
-    /**
-     * {@inheritdoc}.
-     */
-    protected function prepends(): array
-    {
-        return [
-            'mch_id' => $this->app['merchant']->merchant_id,
-            'appid' => $this->app['merchant']->app_id,
-        ];
+        return $this->request('mmpaymkttransfers/querycouponsinfo', $params);
     }
 }

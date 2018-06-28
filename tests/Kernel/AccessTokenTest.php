@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\AccessToken;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -68,14 +69,14 @@ class AccessTokenTest extends TestCase
         // no refresh and no cached
         $cache->expects()->has('mock-cache-key')->andReturn(false);
         $cache->expects()->get('mock-cache-key')->never();
-        $token->expects()->requestToken($credentials)->andReturn($tokenResult)->once();
+        $token->expects()->requestToken($credentials, true)->andReturn($tokenResult)->once();
         $token->expects()->setToken($tokenResult['access_token'], $tokenResult['expires_in'])->once();
 
         $this->assertSame($tokenResult, $token->getToken());
 
         // with refresh and cached
         $cache->expects()->has('mock-cache-key')->never();
-        $token->expects()->requestToken($credentials)->andReturn($tokenResult)->once();
+        $token->expects()->requestToken($credentials, true)->andReturn($tokenResult)->once();
         $token->expects()->setToken($tokenResult['access_token'], $tokenResult['expires_in'])->once();
 
         $this->assertSame($tokenResult, $token->getRefreshedToken());
@@ -119,7 +120,9 @@ class AccessTokenTest extends TestCase
 
     public function testRequestToken()
     {
-        $app = \Mockery::mock(ServiceContainer::class);
+        $app = new ServiceContainer([
+            'response_type' => 'collection',
+        ]);
         $token = \Mockery::mock(AccessToken::class.'[sendRequest]', [$app])
             ->shouldAllowMockingProtectedMethods();
         $credentials = [
@@ -129,16 +132,28 @@ class AccessTokenTest extends TestCase
 
         // succeed
         $response = new Response(200, [], '{"access_token":"mock-token"}');
-        $token->expects()->sendRequest($credentials)->andReturn($response)->once();
-        $this->assertSame(['access_token' => 'mock-token'], $token->requestToken($credentials));
+        $token->allows()->sendRequest($credentials)->andReturn($response)->once();
+        $this->assertSame(['access_token' => 'mock-token'], $token->requestToken($credentials, true));
+
+        // not array
+        $response = new Response(200, [], '{"access_token":"mock-token"}');
+        $token->allows()->sendRequest($credentials)->andReturn($response)->once();
+        $result = $token->requestToken($credentials);
+        $this->assertInstanceOf(Collection::class, $result);
+        $this->assertSame('mock-token', $result->get('access_token'));
 
         // erred
         $response = new Response(200, [], '{"error_msg":"mock-error-message"}');
         $token->expects()->sendRequest($credentials)->andReturn($response)->once();
 
-        $this->expectException(HttpException::class);
-        $this->expectExceptionMessage('Request access_token fail: {"error_msg":"mock-error-message"}');
-        $token->requestToken($credentials);
+        try {
+            $token->requestToken($credentials);
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(HttpException::class, $e);
+            $this->assertSame('Request access_token fail: {"error_msg":"mock-error-message"}', $e->getMessage());
+            $this->assertInstanceOf(Collection::class, $e->formattedResponse);
+            $this->assertSame('mock-error-message', $e->formattedResponse->get('error_msg'));
+        }
     }
 
     public function testApplyToRequest()
@@ -248,7 +263,9 @@ class AccessTokenTest extends TestCase
 class DummyAccessTokenForTest extends AccessToken
 {
     protected $requestMethod = 'post';
+
     protected $endpointToGetToken = '/auth/get-token';
+
     protected $tokenKey = 'foo';
 
     protected function getCredentials(): array

@@ -12,12 +12,10 @@
 namespace EasyWeChat\Tests\Kernel;
 
 use EasyWeChat\Kernel\Config;
+use EasyWeChat\Kernel\Log\LogManager;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use GuzzleHttp\Client;
-use Monolog\Handler\ErrorLogHandler;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +26,7 @@ class ServiceContainerTest extends TestCase
     {
         $container = new ServiceContainer();
 
-        $this->assertEmpty($container->getProviders());
+        $this->assertNotEmpty($container->getProviders());
 
         // __set, __get, offsetGet
         $this->assertInstanceOf(Config::class, $container['config']);
@@ -36,6 +34,8 @@ class ServiceContainerTest extends TestCase
 
         $this->assertInstanceOf(Client::class, $container['http_client']);
         $this->assertInstanceOf(Request::class, $container['request']);
+        $this->assertInstanceOf(LogManager::class, $container['log']);
+        $this->assertInstanceOf(LogManager::class, $container['logger']);
 
         $container['foo'] = 'foo';
         $container->bar = 'bar';
@@ -44,45 +44,17 @@ class ServiceContainerTest extends TestCase
         $this->assertSame('bar', $container['bar']);
     }
 
+    public function testGetId()
+    {
+        $this->assertSame((new ServiceContainer(['app_id' => 'app-id1']))->getId(), (new ServiceContainer(['app_id' => 'app-id1']))->getId());
+        $this->assertNotSame((new ServiceContainer(['app_id' => 'app-id1']))->getId(), (new ServiceContainer(['app_id' => 'app-id2']))->getId());
+    }
+
     public function testRegisterProviders()
     {
         $container = new DummyContainerForProviderTest();
 
         $this->assertSame('foo', $container['foo']);
-    }
-
-    public function testLoggerCreator()
-    {
-        $container = new DummyContainerForProviderTest();
-
-        // null config
-        $this->assertInstanceOf(Logger::class, $container['logger']);
-        $this->assertSame(str_replace('\\', '.', strtolower(DummyContainerForProviderTest::class)), $container['logger']->getName());
-        $this->assertCount(1, $container['logger']->getHandlers());
-        $this->assertInstanceOf(ErrorLogHandler::class, $container['logger']->getHandlers()[0]);
-
-        // log with handler
-        $container = new ServiceContainer([
-            'log' => [
-                'handler' => new StreamHandler('/tmp/easywechat.log'),
-            ],
-        ]);
-
-        $this->assertCount(1, $container['logger']->getHandlers());
-        $this->assertInstanceOf(StreamHandler::class, $container['logger']->getHandlers()[0]);
-
-        // log with file and level
-        $container = new ServiceContainer([
-            'log' => [
-                'level' => 'debug',
-                'file' => '/tmp/easywechat.log',
-            ],
-        ]);
-
-        $this->assertCount(1, $container['logger']->getHandlers());
-        $handler = $container['logger']->getHandlers()[0];
-        $this->assertInstanceOf(StreamHandler::class, $handler);
-        $this->assertSame('/tmp/easywechat.log', $handler->getUrl());
     }
 }
 

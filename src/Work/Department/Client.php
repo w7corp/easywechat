@@ -26,6 +26,8 @@ class Client extends BaseClient
      * @param array $data
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function create(array $data)
     {
@@ -39,6 +41,8 @@ class Client extends BaseClient
      * @param array $data
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function update(int $id, array $data)
     {
@@ -51,6 +55,8 @@ class Client extends BaseClient
      * @param int $id
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function delete($id)
     {
@@ -63,6 +69,8 @@ class Client extends BaseClient
      * @param int|null $id
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function list($id = null)
     {

@@ -36,6 +36,7 @@ abstract class Message implements MessageInterface
     const TEXT_CARD = 2048;
     const TRANSFER = 4096;
     const EVENT = 1048576;
+    const MINIPROGRAM_PAGE = 2097152;
     const ALL = 1049598;
 
     /**
@@ -178,6 +179,8 @@ abstract class Message implements MessageInterface
      * @param array $aliases
      *
      * @return array|mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function propertiesToArray(array $data, array $aliases = []): array
     {

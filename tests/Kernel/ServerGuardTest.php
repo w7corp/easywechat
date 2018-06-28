@@ -370,7 +370,7 @@ class ServerGuardTest extends TestCase
             $this->assertSame('overtrue', $array['ToUserName']);
             $this->assertSame('easywechat', $array['FromUserName']);
             $this->assertSame('text', $array['MsgType']);
-            $this->assertTrue($array['CreateTime'] >= time());
+            $this->assertTrue($array['CreateTime'] <= time());
             $this->assertSame('hello world!', $array['Content']);
 
             return true;
@@ -410,6 +410,20 @@ class ServerGuardTest extends TestCase
         ];
         $guard->expects()->getMessage()->andReturn($message)->once();
         $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['image'], $message)->andReturn('mock-response')->once();
+        $this->assertSame([
+            'to' => 'overtrue',
+            'from' => 'easywechat',
+            'response' => 'mock-response',
+        ], $guard->handleRequest());
+
+        // object message type
+        $message = new \stdClass();
+        $message->FromUserName = 'overtrue';
+        $message->ToUserName = 'easywechat';
+        $message->MsgType = 'file';
+
+        $guard->expects()->getMessage()->andReturn($message)->once();
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['file'], $message)->andReturn('mock-response')->once();
         $this->assertSame([
             'to' => 'overtrue',
             'from' => 'easywechat',

@@ -27,7 +27,7 @@ class Client extends BaseClient
     /**
      * @var string
      */
-    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
+    protected $ticketEndpoint = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
 
     /**
      * Current URI.
@@ -35,11 +35,6 @@ class Client extends BaseClient
      * @var string
      */
     protected $url;
-
-    /**
-     * Ticket cache prefix.
-     */
-    const TICKET_CACHE_PREFIX = 'easywechat.jsapi_ticket.';
 
     /**
      * Get config json for jsapi.
@@ -50,10 +45,13 @@ class Client extends BaseClient
      * @param bool  $json
      *
      * @return array|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true)
     {
-        $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->signature());
+        $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->configSignature());
 
         return $json ? json_encode($config) : $config;
     }
@@ -66,6 +64,9 @@ class Client extends BaseClient
      * @param bool  $beta
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getConfigArray(array $apis, bool $debug = false, bool $beta = false)
     {
@@ -78,18 +79,21 @@ class Client extends BaseClient
      * @param bool   $refresh
      * @param string $type
      *
-     * @return array
+     * @return array|null
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
-        $cacheKey = self::TICKET_CACHE_PREFIX.$this->app['config']['app_id'];
+        $cacheKey = sprintf('easywechat.basic_service.jssdk.ticket.%s.%s', $type, $this->getAppId());
 
         if (!$refresh && $this->getCache()->has($cacheKey)) {
             return $this->getCache()->get($cacheKey);
         }
 
-        $result = $this->resolveResponse(
-            $this->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => $type]]),
+        $result = $this->castResponseToType(
+            $this->requestRaw($this->ticketEndpoint, 'GET', ['query' => ['type' => $type]]),
             'array'
         );
 
@@ -106,15 +110,18 @@ class Client extends BaseClient
      * @param int|null    $timestamp
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    protected function signature(string $url = null, string $nonce = null, $timestamp = null): array
+    protected function configSignature(string $url = null, string $nonce = null, $timestamp = null): array
     {
         $url = $url ?: $this->getUrl();
         $nonce = $nonce ?: Support\Str::quickRandom(10);
         $timestamp = $timestamp ?: time();
 
         return [
-            'appId' => $this->app['config']['app_id'],
+            'appId' => $this->getAppId(),
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'url' => $url,
@@ -134,7 +141,19 @@ class Client extends BaseClient
      */
     public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
     {
-        return sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}");
+        return sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $ticket, $nonce, $timestamp, $url));
+    }
+
+    /**
+     * @return string
+     */
+    public function dictionaryOrderSignature()
+    {
+        $params = func_get_args();
+
+        sort($params, SORT_STRING);
+
+        return sha1(implode('', $params));
     }
 
     /**
@@ -163,5 +182,13 @@ class Client extends BaseClient
         }
 
         return Support\current_url();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getAppId()
+    {
+        return $this->app['config']->get('app_id');
     }
 }

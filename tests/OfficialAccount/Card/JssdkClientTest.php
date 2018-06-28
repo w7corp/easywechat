@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-use EasyWeChat\BasicService\Jssdk\Client;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OfficialAccount\Card\JssdkClient;
 use EasyWeChat\Tests\TestCase;
@@ -29,14 +28,14 @@ class JssdkClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'expires_in' => 7200,
         ];
-        $cacheKey = Client::TICKET_CACHE_PREFIX.'123456';
+        $cacheKey = 'easywechat.basic_service.jssdk.ticket.wx_card.123456';
         $client->allows()->getCache()->andReturn($cache);
 
         $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
         $cache->expects()->has($cacheKey)->andReturn(false);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
-        $client->expects()->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'wx_card']])->andReturn($response)->once();
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'wx_card']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket());
     }
@@ -81,7 +80,7 @@ class JssdkClientTest extends TestCase
 
     public function testAttachExtension()
     {
-        $client = $this->mockApiClient(JssdkClient::class, ['getTicketSignature', 'getTicket']);
+        $client = $this->mockApiClient(JssdkClient::class, ['dictionaryOrderSignature', 'getTicket']);
 
         $card = [
             'card_id' => 'mock-card-id1',
@@ -93,7 +92,7 @@ class JssdkClientTest extends TestCase
             'outer_str' => 'mock-outer_str',
         ];
 
-        $client->expects()->getTicketSignature('mock-ticket', \Mockery::type('int'), 'mock-card-id', 'mock-code', 'mock-openid', 'mock-balance')
+        $client->expects()->dictionaryOrderSignature('mock-ticket', \Mockery::type('int'), 'mock-card-id', 'mock-code', 'mock-openid', \Mockery::type('string'))
                     ->andReturn('mock-signature')->once();
         $client->expects()->getTicket()->andReturn(['ticket' => 'mock-ticket']);
 

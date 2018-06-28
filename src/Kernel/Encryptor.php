@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\AES;
 use EasyWeChat\Kernel\Support\XML;
@@ -67,25 +66,14 @@ class Encryptor
     /**
      * Constructor.
      *
-     * @param string $appId
-     * @param string $token
-     * @param string $aesKey
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\Exception
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @param string      $appId
+     * @param string|null $token
+     * @param string|null $aesKey
      */
-    public function __construct(string $appId, string $token, $aesKey)
+    public function __construct(string $appId, string $token = null, string $aesKey = null)
     {
         $this->appId = $appId;
         $this->token = $token;
-
-        if (empty($aesKey)) {
-            throw new InvalidConfigException("Mission config 'aes_key'.");
-        }
-
-        if (strlen($aesKey) !== 43) {
-            throw new InvalidConfigException("The length of 'aes_key' must be 43.");
-        }
         $this->aesKey = base64_decode($aesKey.'=', true);
     }
 
@@ -121,9 +109,11 @@ class Encryptor
                 substr($this->aesKey, 0, 16),
                 OPENSSL_NO_PADDING
             ));
-        } catch (Throwable $e) { // @codeCoverageIgnore
-            throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES); // @codeCoverageIgnore
+            // @codeCoverageIgnoreStart
+        } catch (Throwable $e) {
+            throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
+        // @codeCoverageIgnoreEnd
 
         !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
         !is_null($timestamp) || $timestamp = time();
@@ -165,7 +155,7 @@ class Encryptor
             substr($this->aesKey, 0, 16),
             OPENSSL_NO_PADDING
         );
-        $result = $this->pkcs7Unpad($decrypted, $this->blockSize);
+        $result = $this->pkcs7Unpad($decrypted);
         $content = substr($result, 16, strlen($result));
         $contentLen = unpack('N', substr($content, 0, 4))[1];
 
@@ -217,13 +207,15 @@ class Encryptor
      *
      * @param string $text
      *
-     * @return bool|string
+     * @return string
      */
     public function pkcs7Unpad(string $text): string
     {
-        $padChar = substr($text, -1);
-        $padLength = ord($padChar);
+        $pad = ord(substr($text, -1));
+        if ($pad < 1 || $pad > $this->blockSize) {
+            $pad = 0;
+        }
 
-        return substr($text, 0, -$padLength);
+        return substr($text, 0, (strlen($text) - $pad));
     }
 }

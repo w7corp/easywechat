@@ -17,6 +17,7 @@ use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -63,6 +64,8 @@ class BaseClient
      * @param array  $query
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function httpGet(string $url, array $query = [])
     {
@@ -76,6 +79,8 @@ class BaseClient
      * @param array  $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function httpPost(string $url, array $data = [])
     {
@@ -90,6 +95,8 @@ class BaseClient
      * @param array        $query
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function httpPostJson(string $url, array $data = [], array $query = [])
     {
@@ -105,6 +112,8 @@ class BaseClient
      * @param array  $query
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = [])
     {
@@ -121,7 +130,7 @@ class BaseClient
             $multipart[] = compact('name', 'contents');
         }
 
-        return $this->request($url, 'POST', ['query' => $query, 'multipart' => $multipart]);
+        return $this->request($url, 'POST', ['query' => $query, 'multipart' => $multipart, 'connect_timeout' => 30, 'timeout' => 30, 'read_timeout' => 30]);
     }
 
     /**
@@ -151,6 +160,8 @@ class BaseClient
      * @param bool   $returnRaw
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
@@ -160,7 +171,7 @@ class BaseClient
 
         $response = $this->performRequest($url, $method, $options);
 
-        return $returnRaw ? $response : $this->resolveResponse($response, $this->app->config->get('response_type', 'array'));
+        return $returnRaw ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
     }
 
     /**
@@ -169,6 +180,8 @@ class BaseClient
      * @param array  $options
      *
      * @return \EasyWeChat\Kernel\Http\Response
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {
@@ -249,7 +262,7 @@ class BaseClient
                 // Retry on server errors
                 $response = json_decode($body, true);
 
-                if (!empty($response['errcode']) && in_array(abs($response['errcode']), [40001, 42001], true)) {
+                if (!empty($response['errcode']) && in_array(abs($response['errcode']), [40001, 40014, 42001], true)) {
                     $this->accessToken->refresh();
                     $this->app['logger']->debug('Retrying with refreshed access token.');
 

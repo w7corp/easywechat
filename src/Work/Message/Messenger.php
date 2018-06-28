@@ -142,7 +142,7 @@ class Messenger
      *
      * @return \EasyWeChat\Work\Message\Messenger
      */
-    protected function setRecipients($ids, string $key): Messenger
+    protected function setRecipients($ids, string $key): self
     {
         if (is_array($ids)) {
             $ids = implode('|', $ids);
@@ -159,6 +159,7 @@ class Messenger
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function send($message = null)
     {
@@ -178,6 +179,8 @@ class Messenger
             'agentid' => $this->agentId,
             'safe' => intval($this->secretive),
         ], $this->to));
+
+        $this->secretive = false;
 
         return $this->client->send($message);
     }

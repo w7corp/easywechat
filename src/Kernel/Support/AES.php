@@ -35,19 +35,20 @@ class AES
     }
 
     /**
-     * @param string $cipherText
-     * @param string $key
-     * @param string $iv
-     * @param int    $option
+     * @param string      $cipherText
+     * @param string      $key
+     * @param string      $iv
+     * @param int         $option
+     * @param string|null $method
      *
      * @return string
      */
-    public static function decrypt(string $cipherText, string $key, string $iv, int $option = OPENSSL_RAW_DATA): string
+    public static function decrypt(string $cipherText, string $key, string $iv, int $option = OPENSSL_RAW_DATA, $method = null): string
     {
         self::validateKey($key);
         self::validateIv($iv);
 
-        return openssl_decrypt($cipherText, self::getMode($key), $key, $option, $iv);
+        return openssl_decrypt($cipherText, $method ?: self::getMode($key), $key, $option, $iv);
     }
 
     /**
@@ -77,7 +78,7 @@ class AES
      */
     public static function validateIv(string $iv)
     {
-        if (strlen($iv) !== 16) {
+        if (!empty($iv) && 16 !== strlen($iv)) {
             throw new \InvalidArgumentException('IV length must be 16 bytes.');
         }
     }

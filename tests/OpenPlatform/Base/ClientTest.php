@@ -12,7 +12,6 @@
 namespace EasyWeChat\Tests\OpenPlatform\Base;
 
 use EasyWeChat\Kernel\ServiceContainer;
-use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\OpenPlatform\Base\Client;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -108,18 +107,12 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
 
         $client->expects()
-            ->requestRaw('cgi-bin/component/api_create_preauthcode', 'POST', ['json' => ['component_appid' => '123456']])
-            ->andReturnUsing(function () {
-                return new \EasyWeChat\Kernel\Http\Response(200, [], json_encode(['foo' => 'bar']));
-            })
+            ->httpPostJson('cgi-bin/component/api_create_preauthcode', ['component_appid' => '123456'])
+            ->andReturn('mock-result')
             ->once();
 
         $result = $client->createPreAuthorizationCode();
 
-        $this->assertInstanceOf(Collection::class, $result);
-        $this->assertSame(
-            (new Collection(['foo' => 'bar']))->toArray(),
-            $result->toArray()
-        );
+        $this->assertSame('mock-result', $result);
     }
 }

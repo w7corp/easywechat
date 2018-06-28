@@ -70,14 +70,14 @@ class Response extends GuzzleResponse
     {
         $content = $this->getBodyContents();
 
-        if (false !== stripos($this->getHeaderLine('Content-Type'), 'xml') || stripos($content, '<xml') === 0) {
+        if (false !== stripos($this->getHeaderLine('Content-Type'), 'xml') || 0 === stripos($content, '<xml')) {
             return XML::parse($content);
         }
 
         $array = json_decode($this->getBodyContents(), true);
 
         if (JSON_ERROR_NONE === json_last_error()) {
-            return $array;
+            return (array) $array;
         }
 
         return [];
@@ -98,7 +98,7 @@ class Response extends GuzzleResponse
      */
     public function toObject()
     {
-        return json_decode($this->getBodyContents());
+        return json_decode($this->toJson());
     }
 
     /**

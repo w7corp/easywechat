@@ -13,6 +13,7 @@ namespace EasyWeChat\OfficialAccount\Card;
 
 use EasyWeChat\BasicService\Jssdk\Client as Jssdk;
 use EasyWeChat\Kernel\Support\Arr;
+use function EasyWeChat\Kernel\Support\str_random;
 
 /**
  * Class Jssdk.
@@ -26,6 +27,9 @@ class JssdkClient extends Jssdk
      * @param string $type
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(bool $refresh = false, string $type = 'wx_card'): array
     {
@@ -53,23 +57,22 @@ class JssdkClient extends Jssdk
      * @param array  $extension
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function attachExtension($cardId, array $extension = [])
     {
         $timestamp = time();
-        $ext = array_merge(['timestamp' => $timestamp], Arr::only(
+        $nonce = str_random(6);
+        $ticket = $this->getTicket()['ticket'];
+
+        $ext = array_merge(['timestamp' => $timestamp, 'nonce_str' => $nonce], Arr::only(
             $extension,
             ['code', 'openid', 'outer_id', 'balance', 'fixed_begintimestamp', 'outer_str']
         ));
 
-        $ext['signature'] = $this->getTicketSignature(
-            $this->getTicket()['ticket'],
-            $timestamp,
-            $cardId,
-            $ext['code'],
-            $ext['openid'],
-            $ext['balance']
-        );
+        $ext['signature'] = $this->dictionaryOrderSignature($ticket, $timestamp, $cardId, $ext['code'] ?? '', $ext['openid'] ?? '', $nonce);
 
         return [
             'cardId' => $cardId,

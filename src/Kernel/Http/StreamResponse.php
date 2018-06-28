@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Kernel\Http;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\File;
 
 /**
@@ -25,6 +26,8 @@ class StreamResponse extends Response
      * @param string $filename
      *
      * @return bool|int
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function save(string $directory, string $filename = '')
     {
@@ -32,18 +35,26 @@ class StreamResponse extends Response
 
         $directory = rtrim($directory, '/');
 
-        if (!is_writable($directory)) {
+        if (!is_dir($directory)) {
             mkdir($directory, 0755, true); // @codeCoverageIgnore
+        }
+
+        if (!is_writable($directory)) {
+            throw new InvalidArgumentException(sprintf("'%s' is not writable.", $directory));
         }
 
         $contents = $this->getBody()->getContents();
 
         if (empty($filename)) {
-            $filename = md5($contents);
+            if (preg_match('/filename="(?<filename>.*?)"/', $this->getHeaderLine('Content-Disposition'), $match)) {
+                $filename = $match['filename'];
+            } else {
+                $filename = md5($contents);
+            }
         }
 
         if (empty(pathinfo($filename, PATHINFO_EXTENSION))) {
-            $filename .= File::getStreamExt($this->getBody());
+            $filename .= File::getStreamExt($contents);
         }
 
         file_put_contents($directory.'/'.$filename, $contents);
@@ -56,6 +67,8 @@ class StreamResponse extends Response
      * @param string $filename
      *
      * @return bool|int
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function saveAs(string $directory, string $filename)
     {

@@ -42,6 +42,12 @@ class ResponseTest extends TestCase
 
         $response = new Response(200, ['Content-Type' => ['text/html']], '<xml><foo>foo</foo><bar>bar</bar></xml>');
         $this->assertSame(['foo' => 'foo', 'bar' => 'bar'], $response->toArray());
+
+        $response = new Response(200, ['Content-Type' => ['application/xml']], '<xml><foo>foo</foo><bar>bar</bar></xml>');
+        $result = $response->toObject();
+        $this->assertInstanceOf(\stdClass::class, $result);
+        $this->assertSame('foo', $result->foo);
+        $this->assertSame('bar', $result->bar);
     }
 
     public function testInvalidArrayableContents()

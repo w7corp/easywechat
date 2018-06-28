@@ -27,7 +27,7 @@ class XML
      */
     public static function parse($xml)
     {
-        return self::normalize(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS));
+        return self::normalize(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS));
     }
 
     /**
@@ -98,7 +98,7 @@ class XML
         if (is_array($obj)) {
             foreach ($obj as $key => $value) {
                 $res = self::normalize($value);
-                if (($key === '@attributes') && ($key)) {
+                if (('@attributes' === $key) && ($key)) {
                     $result = $res; // @codeCoverageIgnore
                 } else {
                     $result[$key] = $res;

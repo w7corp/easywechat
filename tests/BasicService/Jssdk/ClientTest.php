@@ -19,8 +19,8 @@ class ClientTest extends TestCase
 {
     public function testBuildConfig()
     {
-        $client = $this->mockApiClient(Client::class, 'signature');
-        $client->expects()->signature()->andReturn(['foo' => 'bar'])->twice();
+        $client = $this->mockApiClient(Client::class, 'configSignature');
+        $client->expects()->configSignature()->andReturn(['foo' => 'bar'])->twice();
         $config = json_decode($client->buildConfig(['api1', 'api2']), true);
 
         $this->assertArrayHasKey('debug', $config);
@@ -65,7 +65,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'expires_in' => 7200,
         ];
-        $cacheKey = Client::TICKET_CACHE_PREFIX.'123456';
+        $cacheKey = 'easywechat.basic_service.jssdk.ticket.jsapi.123456';
         $client->allows()->getCache()->andReturn($cache);
 
         // no refresh and cached
@@ -80,7 +80,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->andReturn(false);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
-        $client->expects()->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket());
 
@@ -88,7 +88,7 @@ class ClientTest extends TestCase
         $cache->expects()->has('mock-cache-key')->never();
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
-        $client->expects()->requestRaw('ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket(true));
     }
@@ -109,7 +109,7 @@ class ClientTest extends TestCase
         $client->allows()->getTicketSignature('mock-ticket', \Mockery::type('string'), \Mockery::type('integer'), $url)
                             ->andReturn('mock-signature');
         $client->allows()->getTicket()->andReturn($ticket);
-        $signature = $client->signature();
+        $signature = $client->configSignature();
 
         $this->assertArrayHasKey('appId', $signature);
         $this->assertArrayHasKey('nonceStr', $signature);
@@ -124,7 +124,7 @@ class ClientTest extends TestCase
 
         // custom arguments
         $time = time();
-        $signature = $client->signature('http://easywechat.org', 'mock-nonce', $time);
+        $signature = $client->configSignature('http://easywechat.org', 'mock-nonce', $time);
 
         $this->assertArrayHasKey('appId', $signature);
         $this->assertArrayHasKey('nonceStr', $signature);
@@ -149,6 +149,17 @@ class ClientTest extends TestCase
             sha1("jsapi_ticket={$ticket}&noncestr={$nonce}&timestamp={$timestamp}&url={$url}"),
             $client->getTicketSignature($ticket, $nonce, $timestamp, $url)
         );
+    }
+
+    public function testDictionaryOrderSignature()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = $unsorted = ['a', 'b', 1, 11];
+
+        sort($params, SORT_STRING);
+
+        $this->assertSame(sha1(implode('', $params)), $client->dictionaryOrderSignature(...$unsorted));
     }
 
     public function testUrlSetterAndGetter()

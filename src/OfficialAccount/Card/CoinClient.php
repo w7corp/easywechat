@@ -58,7 +58,7 @@ class CoinClient extends BaseClient
     public function recharge(int $count)
     {
         return $this->httpPostJson('card/pay/recharge', [
-            'coin_count' => 100,
+            'coin_count' => $count,
         ]);
     }
 

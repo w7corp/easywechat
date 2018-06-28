@@ -23,7 +23,7 @@ class AccessToken extends BaseAccessToken
     /**
      * @var string
      */
-    protected $endpointToGetToken = 'cgi-bin/token';
+    protected $endpointToGetToken = 'https://api.weixin.qq.com/cgi-bin/token';
 
     /**
      * @return array

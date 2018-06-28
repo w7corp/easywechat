@@ -95,6 +95,28 @@ class MessengerTest extends TestCase
 
         $this->assertFalse($messenger->secretive);
         $this->assertTrue($messenger->secretive()->secretive);
+
+        $message = new Raw(json_encode([
+            'touser' => '@all',
+            'msgtype' => 'text',
+            'agentid' => 123456,
+            'safe' => 0,
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ]));
+        $client->expects()->send([
+            'touser' => '@all',
+            'msgtype' => 'text',
+            'agentid' => 123456,
+            'safe' => 0,
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ])->andReturn('mock-result');
+
+        $messenger->message($message)->ofAgent(123456)->send();
+        $this->assertFalse($messenger->secretive);
     }
 
     public function testSend()

@@ -23,7 +23,7 @@ class UpdateAuthorized implements EventHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function handle(array $payload = [])
+    public function handle($payload = null)
     {
         // Do nothing for the time being.
     }

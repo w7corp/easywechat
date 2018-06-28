@@ -255,7 +255,7 @@ class ArrTest extends TestCase
         // Does not work for nested keys
         $array = ['emails' => ['i@example.com' => 'Joe', 'jack@localhost' => 'Jane']];
         $name = Arr::pull($array, 'emails.i@example.com');
-        $this->assertSame(null, $name);
+        $this->assertNull($name);
         $this->assertSame(['emails' => ['i@example.com' => 'Joe', 'jack@localhost' => 'Jane']], $array);
     }
 

@@ -12,7 +12,7 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\OpenPlatform\Application;
-use EasyWeChat\OpenPlatform\Auth\AuthorizerAccessToken;
+use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken as AuthorizerAccessToken;
 use EasyWeChat\Tests\TestCase;
 
 class ApplicationTest extends TestCase
@@ -24,6 +24,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Auth\AccessToken::class, $app->access_token);
         $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Auth\VerifyTicket::class, $app->verify_ticket);
         $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Server\Guard::class, $app->server);
+        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\CodeTemplate\Client::class, $app->code_template);
     }
 
     public function testGetPreAuthorizationUrl()
@@ -58,7 +59,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf('EasyWeChat\OfficialAccount\Application', $officialAccount);
         $this->assertInstanceOf(AuthorizerAccessToken::class, $officialAccount['access_token']);
         $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Server\Guard::class, $officialAccount['server']);
-        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client::class, $officialAccount['account']);
+        $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client::class, $officialAccount['account']);
 
         $this->assertArraySubset([
             'debug' => true,
@@ -87,6 +88,8 @@ class ApplicationTest extends TestCase
         $miniProgram = $app->miniProgram('app-id', 'refresh-token');
 
         $this->assertInstanceOf('EasyWeChat\MiniProgram\Application', $miniProgram);
+        $this->assertInstanceOf('\EasyWeChat\MiniProgram\Encryptor', $miniProgram->encryptor);
+        $this->assertInstanceOf('\EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client', $miniProgram->auth);
     }
 
     public function testDynamicCalls()

@@ -22,9 +22,9 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 class MessageBuilder
 {
     /**
-     * @var mixed
+     * @var array
      */
-    protected $to;
+    protected $to = [];
 
     /**
      * @var \EasyWeChat\Kernel\Contracts\MessageInterface
@@ -52,9 +52,52 @@ class MessageBuilder
      *
      * @return $this
      */
-    public function to($to)
+    public function to(array $to)
     {
         $this->to = $to;
+
+        return $this;
+    }
+
+    /**
+     * @param int $tagId
+     *
+     * @return \EasyWeChat\OfficialAccount\Broadcasting\MessageBuilder
+     */
+    public function toTag(int $tagId)
+    {
+        $this->to([
+            'filter' => [
+                'is_to_all' => false,
+                'tag_id' => $tagId,
+            ],
+        ]);
+
+        return $this;
+    }
+
+    /**
+     * @param array $openids
+     *
+     * @return \EasyWeChat\OfficialAccount\Broadcasting\MessageBuilder
+     */
+    public function toUsers(array $openids)
+    {
+        $this->to([
+            'touser' => $openids,
+        ]);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function toAll()
+    {
+        $this->to([
+            'filter' => ['is_to_all' => true],
+        ]);
 
         return $this;
     }
@@ -77,7 +120,7 @@ class MessageBuilder
         $content = $this->message->transformForJsonRequest();
 
         if (empty($prepends)) {
-            $prepends = $this->buildGroup($this->to);
+            $prepends = $this->to;
         }
 
         $message = array_merge($prepends, $content);
@@ -89,42 +132,14 @@ class MessageBuilder
      * Build preview message.
      *
      * @param string $by
+     * @param string $user
      *
      * @return array
-     */
-    public function buildForPreview(string $by): array
-    {
-        return $this->build([$by => $this->to]);
-    }
-
-    /**
-     * Build group.
      *
-     * @param mixed $group
-     *
-     * @return array
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    protected function buildGroup($group): array
+    public function buildForPreview(string $by, string $user): array
     {
-        if (is_null($group)) {
-            $group = [
-                'filter' => [
-                    'is_to_all' => true,
-                ],
-            ];
-        } elseif (is_array($group)) {
-            $group = [
-                'touser' => $group,
-            ];
-        } else {
-            $group = [
-                'filter' => [
-                    'is_to_all' => false,
-                    'group_id' => $group,
-                ],
-            ];
-        }
-
-        return $group;
+        return $this->build([$by => $user]);
     }
 }

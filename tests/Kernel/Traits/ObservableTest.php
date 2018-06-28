@@ -22,6 +22,32 @@ use EasyWeChat\Tests\TestCase;
 
 class ObservableTest extends TestCase
 {
+    public function demoHandler()
+    {
+    }
+
+    public function testCallHandler()
+    {
+        $c = new DummyClassForObservableTest();
+
+        // handler interface
+        $handler = \Mockery::mock(EventHandlerInterface::class);
+        $c->push($handler);
+        $this->assertArrayHasKey('*', $c->getHandlers());
+        $this->assertInstanceOf(Closure::class, $c->getHandlers()['*'][0]);
+
+        // callable
+        $handler = [$this, 'demoHandler'];
+        $c->push($handler);
+        $this->assertSame($handler, $c->getHandlers()['*'][1]);
+
+        // function
+        $handler = function () {
+        };
+        $c->push($handler);
+        $this->assertSame($handler, $c->getHandlers()['*'][2]);
+    }
+
     public function testAddObserverWithoutEvent()
     {
         $c = new DummyClassForObservableTest();
@@ -166,12 +192,13 @@ class ObservableTest extends TestCase
     public function testNotifyWithHandlerExceptionThrown()
     {
         $exception = new Exception('handler2 exception thrown.', -204);
+        $line = __LINE__ - 1;
         $logger = \Mockery::mock('stdClass');
         $logger->expects()->error('-204: handler2 exception thrown.', [
             'code' => -204,
             'message' => 'handler2 exception thrown.',
             'file' => __FILE__,
-            'line' => 168,
+            'line' => $line,
         ])->once();
         $app = new ServiceContainer([], [
             'logger' => $logger,
@@ -283,7 +310,7 @@ class ObservableTest extends TestCase
 
 class DummyHandlerClassForObservableTest implements EventHandlerInterface
 {
-    public function handle(array $payload = [])
+    public function handle($payload = null)
     {
         return 'handled';
     }

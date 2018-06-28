@@ -128,4 +128,15 @@ class UserClientTest extends TestCase
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->unblock(['mock-openid1', 'mock-openid2']));
     }
+
+    public function testChangeOpenid()
+    {
+        $client = $this->mockApiClient(UserClient::class);
+
+        $client->expects()->httpPostJson('cgi-bin/changeopenid', [
+            'from_appid' => 'old-appid',
+            'openid_list' => ['openid1', 'openid2'],
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->changeOpenid('old-appid', ['openid1', 'openid2']));
+    }
 }

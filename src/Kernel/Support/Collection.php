@@ -14,6 +14,7 @@ namespace EasyWeChat\Kernel\Support;
 use ArrayAccess;
 use ArrayIterator;
 use Countable;
+use EasyWeChat\Kernel\Contracts\Arrayable;
 use IteratorAggregate;
 use JsonSerializable;
 use Serializable;
@@ -21,7 +22,7 @@ use Serializable;
 /**
  * Class Collection.
  */
-class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
+class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable, Arrayable
 {
     /**
      * The collection data.
@@ -57,7 +58,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *
      * @param array $keys
      *
-     * @return array
+     * @return \EasyWeChat\Kernel\Support\Collection
      */
     public function only(array $keys)
     {
@@ -93,7 +94,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *
      * @param Collection|array $items
      *
-     * @return array
+     * @return \EasyWeChat\Kernel\Support\Collection
      */
     public function merge($items)
     {
@@ -250,8 +251,8 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *
      * @see http://php.net/manual/en/iteratoraggregate.getiterator.php
      *
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     *                     <b>Traversable</b>
+     * @return \ArrayIterator An instance of an object implementing <b>Iterator</b> or
+     *                        <b>Traversable</b>
      */
     public function getIterator()
     {

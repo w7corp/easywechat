@@ -18,16 +18,11 @@ use Overtrue\Socialite\AccessToken;
 
 class ClientTest extends TestCase
 {
-    /**
-     * Make Application.
-     *
-     * @param array $config
-     */
     private function makeApp($config = [])
     {
         return new Application(array_merge([
             'app_id' => 'wx123456',
-            'merchant_id' => 'foo-mcherant-id',
+            'mch_id' => 'foo-mcherant-id',
             'key' => 'foo-mcherant-key',
             'sub_appid' => 'foo-sub-appid',
             'sub_mch_id' => 'foo-sub-mch-id',
@@ -36,7 +31,12 @@ class ClientTest extends TestCase
 
     public function testBridgeConfig()
     {
-        $app = $this->makeApp();
+        $app = new Application([
+            'app_id' => 'wx123456',
+            'mch_id' => 'foo-mcherant-id',
+            'key' => 'foo-mcherant-key',
+            'sub_mch_id' => 'foo-sub-mch-id',
+        ]);
 
         $client = $this->mockApiClient(Client::class, 'bridgeConfig', $app)->makePartial();
 
@@ -50,7 +50,7 @@ class ClientTest extends TestCase
         $this->assertArrayHasKey('package', $config);
         $this->assertArrayHasKey('signType', $config);
         $this->assertArrayHasKey('paySign', $config);
-        $this->assertSame($app['merchant']->app_id, $config['appId']);
+        $this->assertSame($app['config']->app_id, $config['appId']);
         $this->assertSame("prepay_id=$prepayId", $config['package']);
         $this->assertSame('MD5', $config['signType']);
 
@@ -62,7 +62,21 @@ class ClientTest extends TestCase
         $this->assertArrayHasKey('package', $config);
         $this->assertArrayHasKey('signType', $config);
         $this->assertArrayHasKey('paySign', $config);
-        $this->assertSame($app['merchant']->app_id, $config['appId']);
+        $this->assertSame($app['config']->app_id, $config['appId']);
+        $this->assertSame("prepay_id=$prepayId", $config['package']);
+        $this->assertSame('MD5', $config['signType']);
+
+        // sub_appid
+        $app = new Application([
+            'app_id' => 'wx123456',
+            'merchant_id' => 'foo-mcherant-id',
+            'key' => 'foo-mcherant-key',
+            'sub_appid' => 'foo-sub-appid',
+            'sub_mch_id' => 'foo-sub-mch-id',
+        ]);
+        $client = $this->mockApiClient(Client::class, 'bridgeConfig', $app)->makePartial();
+        $config = $client->bridgeConfig($prepayId, false);
+        $this->assertSame($app['config']->sub_appid, $config['appId']);
         $this->assertSame("prepay_id=$prepayId", $config['package']);
         $this->assertSame('MD5', $config['signType']);
     }
@@ -102,8 +116,8 @@ class ClientTest extends TestCase
         $this->assertArrayHasKey('package', $config);
         $this->assertArrayHasKey('sign', $config);
 
-        $this->assertSame($app['merchant']->app_id, $config['appid']);
-        $this->assertSame($app['merchant']->merchant_id, $config['partnerid']);
+        $this->assertSame($app['config']->app_id, $config['appid']);
+        $this->assertSame($app['config']->mch_id, $config['partnerid']);
         $this->assertSame($prepayId, $config['prepayid']);
         $this->assertSame('Sign=WXPay', $config['package']);
     }
@@ -120,14 +134,14 @@ class ClientTest extends TestCase
         $mockAccessToken->expects()->getToken()->andReturn('foo_access_token')->twice();
 
         // return json
-        $config = json_decode($client->shareAddressConfig($mockAccessToken, true), true);
+        $config = json_decode($client->setUrl('foo')->shareAddressConfig($mockAccessToken, true), true);
         $this->assertArrayHasKey('appId', $config);
         $this->assertArrayHasKey('scope', $config);
         $this->assertArrayHasKey('timeStamp', $config);
         $this->assertArrayHasKey('nonceStr', $config);
         $this->assertArrayHasKey('signType', $config);
         $this->assertArrayHasKey('addrSign', $config);
-        $this->assertSame($app['merchant']->app_id, $config['appId']);
+        $this->assertSame($app['config']->app_id, $config['appId']);
         $this->assertSame('jsapi_address', $config['scope']);
         $this->assertSame('SHA1', $config['signType']);
 
@@ -139,7 +153,7 @@ class ClientTest extends TestCase
         $this->assertArrayHasKey('nonceStr', $config);
         $this->assertArrayHasKey('signType', $config);
         $this->assertArrayHasKey('addrSign', $config);
-        $this->assertSame($app['merchant']->app_id, $config['appId']);
+        $this->assertSame($app['config']->app_id, $config['appId']);
         $this->assertSame('jsapi_address', $config['scope']);
         $this->assertSame('SHA1', $config['signType']);
     }

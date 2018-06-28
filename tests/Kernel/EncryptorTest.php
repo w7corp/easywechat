@@ -23,23 +23,6 @@ class EncryptorTest extends TestCase
         return new Encryptor('wxb11529c136998cb6', 'pamtest', 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
     }
 
-    public function testErrorParams()
-    {
-        try {
-            new Encryptor('', '', '');
-            $this->fail('No exception thrown.');
-        } catch (\Exception $e) {
-            $this->assertSame('Mission config \'aes_key\'.', $e->getMessage());
-        }
-
-        try {
-            new Encryptor('', '', '1111111111');
-            $this->fail('No expected exception thrown.');
-        } catch (\Exception $e) {
-            $this->assertSame('The length of \'aes_key\' must be 43.', $e->getMessage());
-        }
-    }
-
     public function testDecrypt()
     {
         $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
