@@ -10,7 +10,7 @@
 
 namespace EasyWeChat\OpenWork\Work\Auth;
 
-use  EasyWeChat\Kernel\AccessToken as BaseAccessToken;
+use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 use EasyWeChat\OpenWork\Application;
 use Pimple\Container;
 
@@ -41,9 +41,9 @@ class AccessToken extends BaseAccessToken
 
     /**
      * AccessToken constructor.
-     * @param Container   $app
-     * @param String      $auth_corpid
-     * @param String      $permanent_code
+     * @param Container $app
+     * @param String $auth_corpid
+     * @param String $permanent_code
      * @param Application $component
      */
     public function __construct(Container $app, String $auth_corpid, String $permanent_code, Application $component)
