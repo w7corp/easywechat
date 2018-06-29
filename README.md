@@ -25,7 +25,7 @@
 <img width="200" src="http://wx1.sinaimg.cn/mw690/82b94fb4gy1fgwafq32r0j20nw0nwter.jpg">
 </p>
 
-<p align="center">关注我的公众号我们一起聊聊代码怎么样？</p>
+<p align="center">关注公众号我们一起聊聊代码怎么样？</p>
 
 <p><img src="http://7u2jwa.com1.z0.glb.clouddn.com/QQ20171121-130611.jpg" alt="Features" /></p>
 
