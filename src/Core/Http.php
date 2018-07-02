@@ -264,7 +264,7 @@ class Http
     public function parseJSON($body)
     {
         if ($body instanceof ResponseInterface) {
-            $body = utf8_encode($body->getBody());
+            $body = $body->getBody();
         }
 
         // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
