@@ -267,6 +267,9 @@ class Http
             $body = $body->getBody();
         }
 
+        \Log::info('On est bien la');
+        die();
+
         // XXX: json maybe contains special chars. So, let's FUCK the WeChat API developers ...
         $body = $this->fuckTheWeChatInvalidJSON($body);
 
