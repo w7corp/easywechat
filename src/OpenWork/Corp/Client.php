@@ -27,7 +27,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 企业微信应用授权 url.
+     * 企业微信安装应用授权 url.
      *
      * @param string $redirectUri
      * @param string $state
@@ -36,13 +36,15 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getPreAuthorizationUrl(string $redirectUri, string $state = '')
+    public function getPreAuthorizationUrl(string $redirectUri = '', string $state = '')
     {
+        $redirectUri || $redirectUri = $this->app->config['redirect_uri_install'];
+        $state || $state = rand();
         $params = [
             'suite_id'      => $this->app['config']['suite_id'],
             'redirect_uri'  => $redirectUri,
             'pre_auth_code' => $this->getPreAuthCode()['pre_auth_code'],
-            'state'         => $state || rand(),
+            'state'         => $state
         ];
         return 'https://open.work.weixin.qq.com/3rdapp/install?' . http_build_query($params);
     }
@@ -140,14 +142,16 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getOAuthRedirectUrl(string $redirectUri, string $scope = 'snsapi_userinfo', string $state = null)
+    public function getOAuthRedirectUrl(string $redirectUri = '', string $scope = 'snsapi_userinfo', string $state = null)
     {
+        $redirectUri || $redirectUri = $this->app->config['redirect_uri_oauth'];
+        $state || $state = rand();
         $params = [
             'appid'         => $this->app['config']['suite_id'],
             'redirect_uri'  => $redirectUri,
             'response_type' => 'code',
             'scope'         => $scope,
-            'state'         => $state || rand(),
+            'state'         => $state
         ];
         return 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query($params) . '#wechat_redirect';
     }
@@ -181,7 +185,7 @@ class Client extends BaseClient
     public function getUserByTicket(string $userTicket)
     {
         $params = [
-            'user_ticket'  => $userTicket
+            'user_ticket' => $userTicket
         ];
         return $this->httpPostJson('cgi-bin/service/getuserdetail3rd', $params);
     }

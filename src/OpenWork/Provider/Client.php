@@ -41,14 +41,18 @@ class Client extends BaseClient
      *
      * @return string
      */
-    public function getLoginUrl(string $redirectUri, string $userType = 'admin', string $state = '')
+    public function getLoginUrl(string $redirectUri = '', string $userType = 'admin', string $state = '')
     {
+
+        $redirectUri || $redirectUri = $this->app->config['redirect_uri_single'];
+        $state || $state = rand();
         $params = [
             'appid'        => $this->app['config']['corp_id'],
             'redirect_uri' => $redirectUri,
             'usertype'     => $userType,
-            'state'        => $state || rand()
+            'state'        => $state
         ];
+
         return 'https://open.work.weixin.qq.com/wwopen/sso/3rd_qrConnect?' . http_build_query($params);
     }
 
@@ -73,12 +77,14 @@ class Client extends BaseClient
     /**
      * 获取注册定制化URL.
      *
-     * @param $registerCode
+     * @param string $registerCode
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getRegisterUri($registerCode)
+    public function getRegisterUri(string $registerCode = '')
     {
+        $registerCode || $registerCode = $this->getRegisterCode()['register_code'];
         $params = ['register_code' => $registerCode];
         return 'https://open.work.weixin.qq.com/3rdservice/wework/register?' . http_build_query($params);
     }
@@ -101,9 +107,10 @@ class Client extends BaseClient
         string $adminName = '',
         string $adminMobile = '',
         string $state = ''
-    ) {
-        $params = array();
-        $params['template_id'] = $this->app['config']['template_id'];
+    )
+    {
+        $params = [];
+        $params['template_id'] = $this->app['config']['reg_template_id'];
         !empty($corpName) && $params['corp_name'] = $corpName;
         !empty($adminName) && $params['admin_name'] = $adminName;
         !empty($adminMobile) && $params['admin_mobile'] = $adminMobile;
@@ -156,12 +163,13 @@ class Client extends BaseClient
         array $allowUser = [],
         array $allowParty = [],
         array $allowTag = []
-    ) {
+    )
+    {
         $params = [
-            "agentid"     => $agentId,
-            "allow_user"  => $allowUser,
-            "allow_party" => $allowParty,
-            "allow_tag"   => $allowTag,
+            "agentid"      => $agentId,
+            "allow_user"   => $allowUser,
+            "allow_party"  => $allowParty,
+            "allow_tag"    => $allowTag,
             "access_token" => $accessToken
         ];
         return $this->httpGet('cgi-bin/agent/set_scope', $params);
@@ -181,6 +189,6 @@ class Client extends BaseClient
     public function contactSyncSuccess(string $accessToken)
     {
         $params = ['access_token' => $accessToken];
-        return $this->httpGet('cgi-bin/sync/contact_sync_success',$params);
+        return $this->httpGet('cgi-bin/sync/contact_sync_success', $params);
     }
 }

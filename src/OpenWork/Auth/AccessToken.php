@@ -20,6 +20,9 @@ use  EasyWeChat\Kernel\AccessToken as BaseAccessToken;
  */
 class AccessToken extends BaseAccessToken
 {
+
+    protected $requestMethod = 'POST';
+
     /**
      * @var string
      */

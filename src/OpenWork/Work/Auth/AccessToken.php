@@ -50,6 +50,7 @@ class AccessToken extends BaseAccessToken
     {
         $this->authCorpid = $authCorpId;
         $this->permanentCode = $permanentCode;
+        $this->component = $component;
         parent::__construct($app);
     }
 
