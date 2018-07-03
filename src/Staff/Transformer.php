@@ -194,4 +194,22 @@ class Transformer
                             ],
                ];
     }
+
+    /**
+     * Transform minprogrampage message
+     * @return  array
+     */
+    public function transformMiniProgramPage(AbstractMessage $message){
+        $type = $message->getType();
+
+        return [
+            'msgtype' => $type,
+            $type     => [
+                'title'          => $message->get('title'),
+                'appid'          => $message->get('appid'),
+                'pagepath'       => $message->get('pagepath'),
+                'thumb_media_id' => $message->get('thumb_media_id'),
+            ],
+        ];
+    }
 }

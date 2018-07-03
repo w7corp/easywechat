@@ -13,6 +13,7 @@ namespace EasyWeChat\Tests\Staff;
 
 use EasyWeChat\Message\Image;
 use EasyWeChat\Message\Link;
+use EasyWeChat\Message\MiniProgramPage;
 use EasyWeChat\Message\News;
 use EasyWeChat\Message\Text;
 use EasyWeChat\Message\Video;
@@ -120,5 +121,27 @@ class StaffTransformerTest extends TestCase
         $this->assertEquals('news', $result['msgtype']);
         $this->assertEquals('foo', $result['news']['articles'][0]['title']);
         $this->assertEquals('bar', $result['news']['articles'][1]['title']);
+    }
+
+    /**
+     * Test transformMiniProgramPage()
+     */
+    public function testTransformMiniProgramPage()
+    {
+        $message = new MiniProgramPage();
+        $message->title = 'a staff message that type is miniprogrampage';
+        $message->appid = 'appid';
+        $message->pagepath = 'page/main?a=b';
+        $message->thumb('miniprogram cover');
+
+
+        $transformer = new Transformer();
+
+        $result = $transformer->transform($message);
+        $this->assertEquals('miniprogrampage', $result['msgtype']);
+        $this->assertEquals('a staff message that type is miniprogrampage', $result['miniprogrampage']['title']);
+        $this->assertEquals('appid', $result['miniprogrampage']['appid']);
+        $this->assertEquals('page/main?a=b', $result['miniprogrampage']['pagepath']);
+        $this->assertEquals('miniprogram cover', $result['miniprogrampage']['thumb_media_id']);
     }
 }
