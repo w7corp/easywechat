@@ -87,6 +87,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'url' => '',
             'data' => [],
+            'miniprogram' => '',
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id']));
     }
