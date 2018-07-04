@@ -124,7 +124,7 @@ class StaffTransformerTest extends TestCase
     }
 
     /**
-     * Test transformMiniProgramPage()
+     * Test transformMiniProgramPage().
      */
     public function testTransformMiniProgramPage()
     {
@@ -133,7 +133,6 @@ class StaffTransformerTest extends TestCase
         $message->appid = 'appid';
         $message->pagepath = 'page/main?a=b';
         $message->thumb('miniprogram cover');
-
 
         $transformer = new Transformer();
 
