@@ -20,7 +20,6 @@ use  EasyWeChat\Kernel\AccessToken as BaseAccessToken;
  */
 class AccessToken extends BaseAccessToken
 {
-
     protected $requestMethod = 'POST';
 
     /**
@@ -46,7 +45,7 @@ class AccessToken extends BaseAccessToken
     protected function getCredentials(): array
     {
         return [
-            'corpid'          => $this->app['config']['corp_id'], //服务商的corpid
+            'corpid' => $this->app['config']['corp_id'], //服务商的corpid
             'provider_secret' => $this->app['config']['secret'],
         ];
     }

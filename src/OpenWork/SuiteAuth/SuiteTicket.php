@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -10,9 +11,9 @@
 
 namespace EasyWeChat\OpenWork\SuiteAuth;
 
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use EasyWeChat\OpenWork\Application;
-use EasyWeChat\Kernel\Exceptions\RuntimeException;
 
 /**
  * SuiteTicket.
@@ -30,6 +31,7 @@ class SuiteTicket
 
     /**
      * SuiteTicket constructor.
+     *
      * @param Application $app
      */
     public function __construct(Application $app)
@@ -71,6 +73,6 @@ class SuiteTicket
      */
     protected function getCacheKey(): string
     {
-        return 'easywechat.open_work.suite_ticket.' . $this->app['config']['corp_id'];
+        return 'easywechat.open_work.suite_ticket.'.$this->app['config']['corp_id'];
     }
 }
