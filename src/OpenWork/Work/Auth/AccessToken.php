@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -27,12 +28,12 @@ class AccessToken extends BaseAccessToken
     protected $requestMethod = 'POST';
 
     /**
-     * @var String 授权方企业ID
+     * @var string 授权方企业ID
      */
     protected $authCorpid;
 
     /**
-     * @var String 授权方企业永久授权码，通过get_permanent_code获取
+     * @var string 授权方企业永久授权码，通过get_permanent_code获取
      */
     protected $permanentCode;
 
@@ -42,8 +43,8 @@ class AccessToken extends BaseAccessToken
      * AccessToken constructor.
      *
      * @param Container   $app
-     * @param String      $authCorpId
-     * @param String      $permanentCode
+     * @param string      $authCorpId
+     * @param string      $permanentCode
      * @param Application $component
      */
     public function __construct(Container $app, String $authCorpId, String $permanentCode, Application $component)
@@ -62,7 +63,7 @@ class AccessToken extends BaseAccessToken
     protected function getCredentials(): array
     {
         return [
-            'auth_corpid'    => $this->authCorpid,
+            'auth_corpid' => $this->authCorpid,
             'permanent_code' => $this->permanentCode,
         ];
     }
@@ -72,7 +73,7 @@ class AccessToken extends BaseAccessToken
      */
     public function getEndpoint(): string
     {
-        return 'cgi-bin/service/get_corp_token?' . http_build_query([
+        return 'cgi-bin/service/get_corp_token?'.http_build_query([
                 'suite_access_token' => $this->component['suite_access_token']->getToken()['suite_access_token'],
             ]);
     }

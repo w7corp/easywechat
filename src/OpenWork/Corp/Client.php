@@ -41,14 +41,14 @@ class Client extends BaseClient
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_install'];
         $state || $state = rand();
         $params = [
-            'suite_id'      => $this->app['config']['suite_id'],
-            'redirect_uri'  => $redirectUri,
+            'suite_id' => $this->app['config']['suite_id'],
+            'redirect_uri' => $redirectUri,
             'pre_auth_code' => $this->getPreAuthCode()['pre_auth_code'],
-            'state'         => $state
+            'state' => $state,
         ];
-        return 'https://open.work.weixin.qq.com/3rdapp/install?' . http_build_query($params);
-    }
 
+        return 'https://open.work.weixin.qq.com/3rdapp/install?'.http_build_query($params);
+    }
 
     /**
      * 获取预授权码.
@@ -92,6 +92,7 @@ class Client extends BaseClient
         $params = [
             'auth_code' => $authCode,
         ];
+
         return $this->httpPostJson('cgi-bin/service/get_permanent_code', $params);
     }
 
@@ -108,9 +109,10 @@ class Client extends BaseClient
     public function getAuthorization(string $authCorpId, string $permanentCode)
     {
         $params = [
-            'auth_corpid'    => $authCorpId,
+            'auth_corpid' => $authCorpId,
             'permanent_code' => $permanentCode,
         ];
+
         return $this->httpPostJson('cgi-bin/service/get_auth_info', $params);
     }
 
@@ -128,8 +130,9 @@ class Client extends BaseClient
     {
         $params = [
             'auth_corpid' => $authCorpId,
-            'agentid'     => $agentId
+            'agentid' => $agentId,
         ];
+
         return $this->httpPostJson('cgi-bin/service/get_admin_lis', $params);
     }
 
@@ -147,13 +150,14 @@ class Client extends BaseClient
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_oauth'];
         $state || $state = rand();
         $params = [
-            'appid'         => $this->app['config']['suite_id'],
-            'redirect_uri'  => $redirectUri,
+            'appid' => $this->app['config']['suite_id'],
+            'redirect_uri' => $redirectUri,
             'response_type' => 'code',
-            'scope'         => $scope,
-            'state'         => $state
+            'scope' => $scope,
+            'state' => $state,
         ];
-        return 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query($params) . '#wechat_redirect';
+
+        return 'https://open.weixin.qq.com/connect/oauth2/authorize?'.http_build_query($params).'#wechat_redirect';
     }
 
     /**
@@ -168,8 +172,9 @@ class Client extends BaseClient
     public function getUserByCode(string $code)
     {
         $params = [
-            'code' => $code
+            'code' => $code,
         ];
+
         return $this->httpGet('cgi-bin/service/getuserinfo3rd', $params);
     }
 
@@ -185,8 +190,9 @@ class Client extends BaseClient
     public function getUserByTicket(string $userTicket)
     {
         $params = [
-            'user_ticket' => $userTicket
+            'user_ticket' => $userTicket,
         ];
+
         return $this->httpPostJson('cgi-bin/service/getuserdetail3rd', $params);
     }
 }

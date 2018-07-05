@@ -39,6 +39,7 @@ class ServiceProvider implements ServiceProviderInterface
         !isset($app['server']) && $app['server'] = function ($app) {
             $guard = new Guard($app);
             $guard->push(new EchoStrHandler($app));
+
             return $guard;
         };
     }

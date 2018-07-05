@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -47,9 +48,9 @@ class AccessToken extends BaseAccessToken
     protected function getCredentials(): array
     {
         return [
-            'suite_id'     => $this->app['config']['suite_id'],
+            'suite_id' => $this->app['config']['suite_id'],
             'suite_secret' => $this->app['config']['suite_secret'],
-            'suite_ticket' => $this->app['suite_ticket']->getTicket()
+            'suite_ticket' => $this->app['suite_ticket']->getTicket(),
         ];
     }
 }

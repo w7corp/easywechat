@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -10,9 +11,9 @@
 
 namespace EasyWeChat\OpenWork\Work;
 
+use EasyWeChat\OpenWork\Application as OpenWork;
 use EasyWeChat\OpenWork\Work\Auth\AccessToken;
 use EasyWeChat\Work\Application as Work;
-use \EasyWeChat\OpenWork\Application as OpenWork;
 
 /**
  * Application.
@@ -34,7 +35,7 @@ class Application extends Work
         parent::__construct($component->getConfig(), $prepends + [
                 'access_token' => function ($app) use ($authCorpId, $permanentCode, $component) {
                     return new AccessToken($app, $authCorpId, $permanentCode, $component);
-                }
+                },
             ]);
     }
 }
