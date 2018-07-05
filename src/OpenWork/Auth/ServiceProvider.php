@@ -9,25 +9,25 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Work\Base;
+namespace EasyWeChat\OpenWork\Auth;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class ServiceProvider.
+ * ServiceProvider.
  *
- * @author mingyoung <mingyoungcheung@gmail.com>
+ * @author xiaomin <keacefull@gmail.com>
  */
 class ServiceProvider implements ServiceProviderInterface
 {
     /**
-     * @param Container $app
+     * {@inheritdoc}.
      */
     public function register(Container $app)
     {
-        $app['base'] = function ($app) {
-            return new Client($app);
+        isset($app['provider_access_token']) || $app['provider_access_token'] = function ($app) {
+            return new AccessToken($app);
         };
     }
 }

@@ -20,6 +20,7 @@ namespace EasyWeChat;
  * @method static \EasyWeChat\OfficialAccount\Application    officialAccount(array $config)
  * @method static \EasyWeChat\BasicService\Application       basicService(array $config)
  * @method static \EasyWeChat\Work\Application               work(array $config)
+ * @method static \EasyWeChat\OpenWork\Application           openWork(array $config)
  */
 class Factory
 {
