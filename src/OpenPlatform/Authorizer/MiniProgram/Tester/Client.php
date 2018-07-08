@@ -26,6 +26,7 @@ class Client extends BaseClient
      * @param string $wechatId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function bind(string $wechatId)
@@ -41,6 +42,7 @@ class Client extends BaseClient
      * @param string $wechatId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function unbind(string $wechatId)
@@ -55,6 +57,7 @@ class Client extends BaseClient
      *
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function list()
