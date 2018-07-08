@@ -27,6 +27,7 @@ class Client extends BaseClient
      * @param string $description
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function commit(int $templateId, string $extJson, string $version, string $description)
     {
@@ -42,6 +43,7 @@ class Client extends BaseClient
      * @param string|null $path
      *
      * @return \EasyWeChat\Kernel\Http\Response
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getQrCode(string $path = null)
     {
@@ -52,6 +54,7 @@ class Client extends BaseClient
 
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getCategory()
     {
@@ -60,6 +63,7 @@ class Client extends BaseClient
 
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getPage()
     {
@@ -70,6 +74,7 @@ class Client extends BaseClient
      * @param array $itemList
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function submitAudit(array $itemList)
     {
@@ -82,6 +87,7 @@ class Client extends BaseClient
      * @param int $auditId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getAuditStatus(int $auditId)
     {
@@ -92,6 +98,7 @@ class Client extends BaseClient
 
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getLatestAuditStatus()
     {
@@ -100,6 +107,7 @@ class Client extends BaseClient
 
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function release()
     {
@@ -108,6 +116,7 @@ class Client extends BaseClient
 
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function withdrawAudit()
     {
@@ -116,6 +125,7 @@ class Client extends BaseClient
 
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function rollbackRelease()
     {
@@ -126,6 +136,7 @@ class Client extends BaseClient
      * @param string $action
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function changeVisitStatus(string $action)
     {
@@ -140,6 +151,7 @@ class Client extends BaseClient
      * @param int $grayPercentage
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function grayRelease(int $grayPercentage)
     {
@@ -152,6 +164,7 @@ class Client extends BaseClient
      * 取消分阶段发布.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function revertGrayRelease()
     {
@@ -162,6 +175,7 @@ class Client extends BaseClient
      * 查询当前分阶段发布详情.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getGrayRelease()
     {

@@ -24,6 +24,7 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function modify(array $params)
     {
@@ -37,6 +38,7 @@ class Client extends BaseClient
      * @param string $action
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function setWebviewDomain(array $domains, $action = 'add')
     {
