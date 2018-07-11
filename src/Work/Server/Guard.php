@@ -27,7 +27,7 @@ class Guard extends ServerGuard
     {
         return $this;
     }
-    
+
     /**
      * Check the request message safe mode.
      *
