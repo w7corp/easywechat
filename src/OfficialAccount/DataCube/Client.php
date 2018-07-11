@@ -306,7 +306,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function memberCardDetailSummary(string $from, string $to, string $cardId)
+    public function memberCardSummaryById(string $from, string $to, string $cardId)
     {
         $ext = [
             'card_id' => $cardId,
