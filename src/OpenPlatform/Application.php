@@ -111,18 +111,42 @@ class Application extends ServiceContainer
      *
      * @param string      $callbackUrl
      * @param string|null $authCode
+     * @param integer     $authType
      *
      * @return string
      */
-    public function getPreAuthorizationUrl(string $callbackUrl, string $authCode = null): string
+    public function getPreAuthorizationUrl(string $callbackUrl, string $authCode = null,int $authType=3): string
     {
         $queries = [
+            'auth_type' => $authType,
             'component_appid' => $this['config']['app_id'],
             'pre_auth_code' => $authCode ?: $this->createPreAuthorizationCode()['pre_auth_code'],
             'redirect_uri' => $callbackUrl,
         ];
 
         return 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?'.http_build_query($queries);
+    }
+
+    /**
+     * Return the pre-authorization url (mobile).
+     *
+     * @param string      $callbackUrl
+     * @param string|null $authCode
+     * @param integer     $authType
+     *
+     * @return string
+     */
+    public function getMobilePreAuthorizationUrl(string $callbackUrl, string $authCode = null,int $authType=3): string
+    {
+        $queries = [
+            'action' => 'bindcomponent',
+            'auth_type' => $authType,
+            'no_scan' => 1,
+            'component_appid' => $this['config']['app_id'],
+            'pre_auth_code' => $authCode ?: $this->createPreAuthorizationCode()['pre_auth_code'],
+            'redirect_uri' => $callbackUrl,
+        ];
+        return 'https://mp.weixin.qq.com/safe/bindcomponent?'.http_build_query($queries).'#wechat_redirect';
     }
 
     /**
