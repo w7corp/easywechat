@@ -109,7 +109,7 @@ class Application extends ServiceContainer
     /**
      * Return the pre-authorization login page url.
      *
-     * @param string      $callbackUrl
+     * @param string            $callbackUrl
      * @param string|array|null $optional
      *
      * @return string
@@ -119,7 +119,7 @@ class Application extends ServiceContainer
         // 兼容旧版 API 设计
         if (\is_string($optional)) {
             $optional = [
-                'pre_auth_code' => $optional
+                'pre_auth_code' => $optional,
             ];
         } else {
             $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
@@ -136,7 +136,7 @@ class Application extends ServiceContainer
     /**
      * Return the pre-authorization login page url (mobile).
      *
-     * @param string      $callbackUrl
+     * @param string            $callbackUrl
      * @param string|array|null $optional
      *
      * @return string
@@ -146,7 +146,7 @@ class Application extends ServiceContainer
         // 兼容旧版 API 设计
         if (\is_string($optional)) {
             $optional = [
-                'pre_auth_code' => $optional
+                'pre_auth_code' => $optional,
             ];
         } else {
             $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
