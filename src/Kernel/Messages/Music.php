@@ -57,7 +57,7 @@ class Music extends Message
         if ($thumbMediaId = $this->get('thumb_media_id')) {
             $music['ThumbMediaId'] = $thumbMediaId;
         }
-        
+
         return $music;
     }
 }
