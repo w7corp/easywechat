@@ -108,7 +108,7 @@ class File
             if (is_readable($stream)) {
                 $stream = file_get_contents($stream);
             }
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
