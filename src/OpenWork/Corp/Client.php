@@ -75,7 +75,7 @@ class Client extends BaseClient
      */
     public function setSession(array $data)
     {
-        return $this->httpPostJson('cgi-bin/service/set_session_info', compact('data'));
+        return $this->httpPostJson('cgi-bin/service/set_session_info', $data);
     }
 
     /**
