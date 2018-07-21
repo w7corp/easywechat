@@ -46,7 +46,7 @@ class Client extends BaseClient
     public function getPreAuthorizationUrl(string $preAuthCode = '', string $redirectUri = '', string $state = '')
     {
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_install'];
-        $preAuthCode || $redirectUri = $this->getPreAuthCode()['pre_auth_code'];
+        $preAuthCode || $preAuthCode = $this->getPreAuthCode()['pre_auth_code'];
         $state || $state = rand();
 
         $params = [
