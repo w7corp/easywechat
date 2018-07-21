@@ -21,6 +21,12 @@ use EasyWeChat\Kernel\ServiceContainer;
  */
 class Client extends BaseClient
 {
+    /**
+     * Client constructor.
+     * 三方接口有三个access_token，这里用的是suite_access_token.
+     *
+     * @param \EasyWeChat\Kernel\ServiceContainer $app
+     */
     public function __construct(ServiceContainer $app)
     {
         parent::__construct($app, $app['suite_access_token']);
@@ -29,6 +35,7 @@ class Client extends BaseClient
     /**
      * 企业微信安装应用授权 url.
      *
+     * @param string $preAuthCode
      * @param string $redirectUri
      * @param string $state
      *
@@ -36,14 +43,14 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getPreAuthorizationUrl(string $redirectUri = '', string $state = '')
+    public function getPreAuthorizationUrl(string $preAuthCode, string $redirectUri = '', string $state = '')
     {
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_install'];
         $state || $state = rand();
         $params = [
             'suite_id' => $this->app['config']['suite_id'],
             'redirect_uri' => $redirectUri,
-            'pre_auth_code' => $this->getPreAuthCode()['pre_auth_code'],
+            'pre_auth_code' => $preAuthCode,
             'state' => $state,
         ];
 
@@ -64,18 +71,23 @@ class Client extends BaseClient
 
     /**
      * 设置授权配置.
+     * 该接口可对某次授权进行配置.
      *
-     * 该接口可对某次授权进行配置
-     *
-     * @param array $data
+     * @param string $preAuthCode
+     * @param array  $sessionInfo
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function setSession(array $data)
+    public function setSession(string $preAuthCode, array $sessionInfo)
     {
-        return $this->httpPostJson('cgi-bin/service/set_session_info', compact('data'));
+        $params = [
+            'pre_auth_code' => $preAuthCode,
+            'session_info' => $sessionInfo,
+        ];
+
+        return $this->httpPostJson('cgi-bin/service/set_session_info', $params);
     }
 
     /**
