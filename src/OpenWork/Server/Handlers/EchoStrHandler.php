@@ -45,7 +45,7 @@ class EchoStrHandler implements EventHandlerInterface
     public function handle($payload = null)
     {
         if ($decrypted = $this->app['request']->get('echostr')) {
-            $str = $this->app['encryptor']->decrypt(
+            $str = $this->app['encryptor_corp']->decrypt(
                 $decrypted,
                 $this->app['request']->get('msg_signature'),
                 $this->app['request']->get('nonce'),
