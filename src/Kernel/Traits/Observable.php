@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\Clauses\Clause;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\Decorators\TerminateResult;
@@ -30,8 +31,15 @@ trait Observable
     protected $handlers = [];
 
     /**
+     * @var array
+     */
+    protected $clauses = [];
+
+    /**
      * @param \Closure|EventHandlerInterface|string $handler
      * @param \Closure|EventHandlerInterface|string $condition
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
@@ -44,6 +52,8 @@ trait Observable
         }
 
         array_push($this->handlers[$condition], $handler);
+
+        return $this->clauses[spl_object_hash((object) $handler)] = new Clause();
     }
 
     /**
@@ -109,6 +119,11 @@ trait Observable
         foreach ($this->handlers as $condition => $handlers) {
             if ('*' === $condition || ($condition & $event) === $event) {
                 foreach ($handlers as $handler) {
+                    if ($clause = $this->clauses[spl_object_hash((object) $handler)] ?? null) {
+                        if ($clause->intercepted($payload)) {
+                            continue 2;
+                        }
+                    }
                     $response = $this->callHandler($handler, $payload);
 
                     switch (true) {
