@@ -53,12 +53,14 @@ trait Observable
 
         array_push($this->handlers[$condition], $handler);
 
-        return $this->clauses[spl_object_hash((object) $handler)] = new Clause();
+        return $this->newClause($handler);
     }
 
     /**
      * @param \Closure|EventHandlerInterface|string $handler
      * @param \Closure|EventHandlerInterface|string $condition
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
@@ -71,28 +73,34 @@ trait Observable
         }
 
         array_unshift($this->handlers[$condition], $handler);
+
+        return $this->newClause($handler);
     }
 
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function observe($condition, $handler)
     {
-        $this->push($handler, $condition);
+        return $this->push($handler, $condition);
     }
 
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
      *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function on($condition, $handler)
     {
-        $this->push($handler, $condition);
+        return $this->push($handler, $condition);
     }
 
     /**
@@ -149,6 +157,16 @@ trait Observable
     public function getHandlers()
     {
         return $this->handlers;
+    }
+
+    /**
+     * @param mixed $handler
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
+     */
+    protected function newClause($handler): Clause
+    {
+        return $this->clauses[spl_object_hash((object) $handler)] = new Clause();
     }
 
     /**
