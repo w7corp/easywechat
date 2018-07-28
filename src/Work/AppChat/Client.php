@@ -22,7 +22,7 @@ class Client extends BaseClient
 {
     /**
      * Get appchat.
-     * 
+     *
      * @param string $chatId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
@@ -48,7 +48,7 @@ class Client extends BaseClient
      * Update appchat.
      *
      * @param string $chatId
-     * @param array $data
+     * @param array  $data
      * 
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
@@ -61,7 +61,7 @@ class Client extends BaseClient
      * Send a message.
      *
      * @param array $message
-     * 
+     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function send(array $message)
