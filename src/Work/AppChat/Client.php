@@ -21,9 +21,9 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Get appchat
+     * Get appchat.
      * 
-     * @param string $chatId.
+     * @param string $chatId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
@@ -45,7 +45,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Update appchat
+     * Update appchat.
      *
      * @param string $chatId
      * @param array $data
@@ -58,7 +58,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Send a message
+     * Send a message.
      *
      * @param array $message
      * 
