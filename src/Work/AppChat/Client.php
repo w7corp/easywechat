@@ -49,7 +49,7 @@ class Client extends BaseClient
      *
      * @param string $chatId
      * @param array  $data
-     * 
+     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function update(string $chatId, array $data)
