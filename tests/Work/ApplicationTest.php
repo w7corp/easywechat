@@ -26,6 +26,7 @@ class ApplicationTest extends TestCase
         ]);
 
         $this->assertInstanceOf(\EasyWeChat\Work\OA\Client::class, $app->oa);
+        $this->assertInstanceOf(\EasyWeChat\Work\AppChat\Client::class, $app->appchat);
         $this->assertInstanceOf(\EasyWeChat\Work\Auth\AccessToken::class, $app->access_token);
         $this->assertInstanceOf(\EasyWeChat\Work\Agent\Client::class, $app->agent);
         $this->assertInstanceOf(\EasyWeChat\Work\Department\Client::class, $app->department);
