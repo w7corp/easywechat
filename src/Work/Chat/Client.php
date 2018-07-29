@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Work\AppChat;
+namespace EasyWeChat\Work\Chat;
 
 use EasyWeChat\Kernel\BaseClient;
 
@@ -21,7 +21,7 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Get appchat.
+     * Get chat.
      *
      * @param string $chatId
      *
@@ -33,7 +33,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Create appchat.
+     * Create chat.
      *
      * @param array $data
      *
@@ -45,7 +45,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Update appchat.
+     * Update chat.
      *
      * @param string $chatId
      * @param array  $data
