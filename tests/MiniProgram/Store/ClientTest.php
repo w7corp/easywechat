@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OfficialAccount\Store;
+namespace EasyWeChat\Tests\MiniProgram\Store;
 
 use EasyWeChat\MiniProgram\Store\Client;
 use EasyWeChat\Tests\TestCase;
@@ -107,13 +107,13 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('wxa/get_store_list', [
-            'begin' => 0,
+            'offset' => 0,
             'limit' => 10,
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->list());
 
         $client->expects()->httpPostJson('wxa/get_store_list', [
-            'begin' => 1,
+            'offset' => 1,
             'limit' => 20,
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->list(1, 20));
