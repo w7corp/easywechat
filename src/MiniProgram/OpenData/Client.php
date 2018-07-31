@@ -3,7 +3,7 @@
 /*
  * This file is part of the overtrue/wechat.
  *
- * (c) lxm <lxm@luxingmin.com>
+ * (c) overtrue <i@overtrue.me>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -42,10 +42,11 @@ class Client extends BaseClient
         $query = [
             'appid' => $this->app['config']['app_id'],
             'secret' => $this->app['config']['secret'],
-            'openid'    =>  $openid,
-            'sig_method'    =>  'hmac_sha256',
-            'signature' =>  hash_hmac('sha256', json_encode($data), $sessionKey), 
+            'openid' => $openid,
+            'sig_method' => 'hmac_sha256',
+            'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
         ];
+
         return $this->httpPostJson('remove_user_storage', $data, $query);
     }
 
@@ -68,8 +69,9 @@ class Client extends BaseClient
             'secret' => $this->app['config']['secret'],
             'openid' => $openid,
             'sig_method' => 'hmac_sha256',
-            'signature' => hash_hmac('sha256', json_encode($data), $sessionKey), 
+            'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
         ];
+
         return $this->httpPostJson('set_user_storage', $data, $query);
     }
 }
