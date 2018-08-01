@@ -55,7 +55,8 @@ class Clause
      */
     protected function interceptWhereClause($payload)
     {
-        foreach ($this->clauses['where'] as [$key, $value]) {
+        foreach ($this->clauses['where'] as $item) {
+            list($key, $value) = $item;
             if (isset($payload[$key]) && $payload[$key] !== $value) {
                 return true;
             }
