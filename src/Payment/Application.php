@@ -159,6 +159,7 @@ class Application extends ServiceContainer
      * @param string|null $endpoint
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getKey(string $endpoint = null)
     {
@@ -167,9 +168,11 @@ class Application extends ServiceContainer
         }
 
         $key =  $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
+
         if (strlen($key) != 32) {
             throw new InvalidArgumentException(sprintf("'%s' should be 32 chars length.", $key));
         }
+
         return $key;
     }
 

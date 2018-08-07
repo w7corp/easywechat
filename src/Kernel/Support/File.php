@@ -102,13 +102,11 @@ class File
                 $stream = file_get_contents($stream);
             }
         } catch (\Exception $e) {
-            return false;
         }
 
         $fileInfo = new finfo(FILEINFO_MIME);
 
         $mime = strstr($fileInfo->buffer($stream), ';', true);
-
         return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : self::getExtBySignature($stream);
     }
 

@@ -490,21 +490,46 @@ class ServerGuardTest extends TestCase
 
     public function testIsSafeMode()
     {
-        $request = Request::create('/path/to/resource?foo=bar', 'POST', []);
+
+        // signature & encrypt_type
+        $request = Request::create('/path/to/resource?foo=bar&signature=xxx&encrypt_type=aes', 'POST', []);
         $app = new ServiceContainer([
             'app_id' => 'appId',
             'token' => 'mock-token',
         ], [
             'request' => $request,
         ]);
-
         $guard = \Mockery::mock(DummyClassForServerGuardTest::class, [$app])->makePartial();
 
         $this->assertTrue($guard->isSafeMode());
+
+        // signature 
+        $request = Request::create('/path/to/resource?foo=bar&signature=xxx', 'POST', []);
+        $app = new ServiceContainer([
+            'app_id' => 'appId',
+            'token' => 'mock-token',
+        ], [
+            'request' => $request,
+        ]);
+        $guard = \Mockery::mock(DummyClassForServerGuardTest::class, [$app])->makePartial();
+
+        $this->assertFalse($guard->isSafeMode());
+
+        // encrypt_type 
+        $request = Request::create('/path/to/resource?foo=bar&encrypt_type=aes', 'POST', []);
+        $app = new ServiceContainer([
+            'app_id' => 'appId',
+            'token' => 'mock-token',
+        ], [
+            'request' => $request,
+        ]);
+        $guard = \Mockery::mock(DummyClassForServerGuardTest::class, [$app])->makePartial();
+
+        $this->assertFalse($guard->isSafeMode());
     }
 }
 
 class DummyClassForServerGuardTest extends ServerGuard
 {
-    protected $alwaysValidate = true;
+    //
 }

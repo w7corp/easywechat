@@ -55,7 +55,7 @@ class Music extends Message
             ],
         ];
         if ($thumbMediaId = $this->get('thumb_media_id')) {
-            $music['ThumbMediaId'] = $thumbMediaId;
+            $music['Music']['ThumbMediaId'] = $thumbMediaId;
         }
 
         return $music;

@@ -128,7 +128,7 @@ class ClientTest extends TestCase
         $this->assertSame(['error' => 'invalid media id hits.'], $client->get($mediaId));
 
         $mediaId = 'valid-media-id';
-        $imageResponse = new Response(200, [], 'valid data');
+        $imageResponse = new Response(200, ['content-disposition' => 'attachment'], 'valid data');
         $client->expects()->requestRaw('media/get', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
@@ -154,7 +154,7 @@ class ClientTest extends TestCase
         $this->assertSame(['error' => 'invalid media id hits.'], $client->getJssdkMedia($mediaId));
 
         $mediaId = 'valid-media-id';
-        $imageResponse = new Response(200, [], 'valid data');
+        $imageResponse = new Response(200, ['content-disposition' => 'attachment'], 'valid data');
         $client->expects()->requestRaw('media/get/jssdk', 'GET', [
             'query' => [
                 'media_id' => $mediaId,

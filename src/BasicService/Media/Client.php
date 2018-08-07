@@ -164,7 +164,7 @@ class Client extends BaseClient
             ],
         ]);
 
-        if (false !== stripos($this->getHeaderLine('Content-disposition'), 'attachment')) {
+        if (false !== stripos($response->getHeaderLine('Content-disposition'), 'attachment')) {
             return StreamResponse::buildFromPsrResponse($response);
         }
 
@@ -185,7 +185,7 @@ class Client extends BaseClient
             ],
         ]);
 
-        if (false !== stripos($this->getHeaderLine('Content-disposition'), 'attachment')) {
+        if (false !== stripos($response->getHeaderLine('Content-disposition'), 'attachment')) {
             return StreamResponse::buildFromPsrResponse($response);
         }
 

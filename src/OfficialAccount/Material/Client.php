@@ -149,6 +149,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function uploadArticleImage(string $path)
     {
@@ -167,7 +168,7 @@ class Client extends BaseClient
     {
         $response = $this->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => $mediaId]]);
 
-        if (false !== stripos($this->getHeaderLine('Content-disposition'), 'attachment')) {
+        if (false !== stripos($response->getHeaderLine('Content-disposition'), 'attachment')) {
             return StreamResponse::buildFromPsrResponse($response);
         }
 
@@ -209,6 +210,7 @@ class Client extends BaseClient
      * @param int    $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function list(string $type, int $offset = 0, int $count = 20)
     {
@@ -225,6 +227,7 @@ class Client extends BaseClient
      * Get stats of materials.
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function stats()
     {
@@ -241,6 +244,7 @@ class Client extends BaseClient
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function upload(string $type, string $path, array $form = [])
     {

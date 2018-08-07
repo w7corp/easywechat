@@ -21,7 +21,7 @@ class BaseClientTest extends TestCase
 {
     public function testRequest()
     {
-        $app = new Application();
+        $app = new Application(['key' => '88888888888888888888888888888888']);
 
         $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->shouldDeferMissing();
 

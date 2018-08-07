@@ -175,6 +175,7 @@ abstract class Handler
      * @param array $message
      *
      * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function validate(array $message)
     {
