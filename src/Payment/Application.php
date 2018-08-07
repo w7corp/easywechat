@@ -13,6 +13,7 @@ namespace EasyWeChat\Payment;
 
 use Closure;
 use EasyWeChat\BasicService;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\OfficialAccount;
@@ -165,7 +166,11 @@ class Application extends ServiceContainer
             return $this['config']->key;
         }
 
-        return $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
+        $key =  $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
+        if (strlen($key) != 32) {
+            throw new InvalidArgumentException(sprintf("'%s' should be 32 chars length.", $key));
+        }
+        return $key;
     }
 
     /**
