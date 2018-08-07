@@ -14,7 +14,6 @@ namespace EasyWeChat\Tests\Kernel\Server;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Messages\Image;
 use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Raw;
 use EasyWeChat\Kernel\Messages\Text;
@@ -490,7 +489,6 @@ class ServerGuardTest extends TestCase
 
     public function testIsSafeMode()
     {
-
         // signature & encrypt_type
         $request = Request::create('/path/to/resource?foo=bar&signature=xxx&encrypt_type=aes', 'POST', []);
         $app = new ServiceContainer([
@@ -503,7 +501,7 @@ class ServerGuardTest extends TestCase
 
         $this->assertTrue($guard->isSafeMode());
 
-        // signature 
+        // signature
         $request = Request::create('/path/to/resource?foo=bar&signature=xxx', 'POST', []);
         $app = new ServiceContainer([
             'app_id' => 'appId',
@@ -515,7 +513,7 @@ class ServerGuardTest extends TestCase
 
         $this->assertFalse($guard->isSafeMode());
 
-        // encrypt_type 
+        // encrypt_type
         $request = Request::create('/path/to/resource?foo=bar&encrypt_type=aes', 'POST', []);
         $app = new ServiceContainer([
             'app_id' => 'appId',
@@ -531,5 +529,4 @@ class ServerGuardTest extends TestCase
 
 class DummyClassForServerGuardTest extends ServerGuard
 {
-    //
 }

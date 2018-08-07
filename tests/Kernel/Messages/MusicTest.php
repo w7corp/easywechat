@@ -37,7 +37,6 @@ class MusicTest extends TestCase
             ],
         ], $message->toXmlArray());
 
-
         // without ThumbMediaId
         $message = new Music([
                 'title' => '告白气球',

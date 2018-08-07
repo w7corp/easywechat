@@ -17,7 +17,6 @@ use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
-use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

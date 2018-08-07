@@ -107,6 +107,7 @@ class File
         $fileInfo = new finfo(FILEINFO_MIME);
 
         $mime = strstr($fileInfo->buffer($stream), ';', true);
+
         return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : self::getExtBySignature($stream);
     }
 
