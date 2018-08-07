@@ -166,10 +166,11 @@ class Application extends ServiceContainer
             return $this['config']->key;
         }
 
-        $key =  $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
-        if (strlen($key) != 32) {
+        $key = $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
+        if (32 !== strlen($key)) {
             throw new InvalidArgumentException(sprintf("'%s' should be 32 chars length.", $key));
         }
+
         return $key;
     }
 
