@@ -116,6 +116,7 @@ class Client extends BaseClient
      * @param string $description
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
@@ -137,6 +138,7 @@ class Client extends BaseClient
      * @param string $description
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function createVideoForBroadcasting(string $mediaId, string $title, string $description)
@@ -154,6 +156,7 @@ class Client extends BaseClient
      * @param string $mediaId
      *
      * @return \EasyWeChat\Kernel\Http\StreamResponse|\Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function get(string $mediaId)
@@ -175,6 +178,7 @@ class Client extends BaseClient
      * @param string $mediaId
      *
      * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getJssdkMedia(string $mediaId)

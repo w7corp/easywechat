@@ -490,7 +490,6 @@ class ServerGuardTest extends TestCase
 
     public function testIsSafeMode()
     {
-
         // signature & encrypt_type
         $request = Request::create('/path/to/resource?foo=bar&signature=xxx&encrypt_type=aes', 'POST', []);
         $app = new ServiceContainer([
@@ -503,7 +502,7 @@ class ServerGuardTest extends TestCase
 
         $this->assertTrue($guard->isSafeMode());
 
-        // signature 
+        // signature
         $request = Request::create('/path/to/resource?foo=bar&signature=xxx', 'POST', []);
         $app = new ServiceContainer([
             'app_id' => 'appId',
@@ -515,7 +514,7 @@ class ServerGuardTest extends TestCase
 
         $this->assertFalse($guard->isSafeMode());
 
-        // encrypt_type 
+        // encrypt_type
         $request = Request::create('/path/to/resource?foo=bar&encrypt_type=aes', 'POST', []);
         $app = new ServiceContainer([
             'app_id' => 'appId',
