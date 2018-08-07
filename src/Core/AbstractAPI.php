@@ -138,13 +138,18 @@ abstract class AbstractAPI
      * @param string $method
      * @param array  $args
      *
-     * @return \EasyWeChat\Support\Collection
+     * @return \EasyWeChat\Support\Collection | null
+     * @throws \EasyWeChat\Core\Exceptions\HttpException
      */
     public function parseJSON($method, array $args)
     {
         $http = $this->getHttp();
 
         $contents = $http->parseJSON(call_user_func_array([$http, $method], $args));
+
+        if (empty($contents)) {
+            return null;
+        }
 
         $this->checkAndThrow($contents);
 
