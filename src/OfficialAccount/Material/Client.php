@@ -214,8 +214,8 @@ class Client extends BaseClient
     {
         $params = [
             'type' => $type,
-            'offset' => intval($offset),
-            'count' => min(20, $count),
+            'offset' => $offset,
+            'count' => $count,
         ];
 
         return $this->httpPostJson('cgi-bin/material/batchget_material', $params);

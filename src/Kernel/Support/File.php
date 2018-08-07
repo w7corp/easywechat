@@ -93,14 +93,16 @@ class File
      *
      * @param string $stream
      *
-     * @return string
+     * @return string|false
      */
     public static function getStreamExt($stream)
     {
         try {
-            $stream = file_get_contents($stream);
+            if (is_readable($stream)) {
+                $stream = file_get_contents($stream);
+            }
         } catch (\Exception $e) {
-            // keep slient...
+            return false;
         }
 
         $fileInfo = new finfo(FILEINFO_MIME);

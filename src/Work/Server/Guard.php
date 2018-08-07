@@ -20,14 +20,22 @@ use EasyWeChat\Kernel\ServerGuard;
  */
 class Guard extends ServerGuard
 {
-    protected $alwaysValidate = true;
-
     /**
      * @return bool
      */
     public function validate()
     {
         return $this;
+    }
+
+    /**
+     * Check the request message safe mode.
+     *
+     * @return bool
+     */
+    protected function isSafeMode(): bool
+    {
+        return true;
     }
 
     /**
