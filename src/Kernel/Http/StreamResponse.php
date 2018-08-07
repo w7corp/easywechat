@@ -47,7 +47,7 @@ class StreamResponse extends Response
 
         $contents = $this->getBody()->getContents();
 
-        if (empty($contents) || $contents[0] == '{') {
+        if (empty($contents) || '{' === $contents[0]) {
             throw new RuntimeException('Invalid media response content.');
         }
 
