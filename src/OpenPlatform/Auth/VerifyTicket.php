@@ -45,6 +45,8 @@ class VerifyTicket
      * @param string $ticket
      *
      * @return $this
+     *
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function setTicket(string $ticket)
     {
@@ -59,6 +61,7 @@ class VerifyTicket
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(): string
     {

@@ -203,6 +203,17 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->memberCardSummary('2017-08-02', '2017-08-10', '67'));
     }
 
+    public function testMemberCardSummaryById()
+    {
+        $client = $this->mockApiClient(Client::class, ['query']);
+
+        $client->expects()->query('datacube/getcardmembercarddetail', '2017-08-02', '2017-08-10', [
+            'card_id' => 'mock-card_id',
+        ])->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->memberCardSummaryById('2017-08-02', '2017-08-10', 'mock-card_id'));
+    }
+
     public function testQuery()
     {
         $client = $this->mockApiClient(Client::class)->makePartial();

@@ -95,6 +95,7 @@ class Client extends BaseClient
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function upload(string $type, string $path)
     {
@@ -115,6 +116,9 @@ class Client extends BaseClient
      * @param string $description
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function uploadVideoForBroadcasting(string $path, string $title, string $description)
     {
@@ -134,6 +138,8 @@ class Client extends BaseClient
      * @param string $description
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function createVideoForBroadcasting(string $mediaId, string $title, string $description)
     {
@@ -150,6 +156,8 @@ class Client extends BaseClient
      * @param string $mediaId
      *
      * @return \EasyWeChat\Kernel\Http\StreamResponse|\Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function get(string $mediaId)
     {
@@ -159,17 +167,19 @@ class Client extends BaseClient
             ],
         ]);
 
-        if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
-            return $this->castResponseToType($response, $this->app['config']->get('response_type'));
+        if (false !== stripos($response->getHeaderLine('Content-disposition'), 'attachment')) {
+            return StreamResponse::buildFromPsrResponse($response);
         }
 
-        return StreamResponse::buildFromPsrResponse($response);
+        return $this->castResponseToType($response, $this->app['config']->get('response_type'));
     }
 
     /**
      * @param string $mediaId
      *
      * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getJssdkMedia(string $mediaId)
     {
@@ -179,10 +189,10 @@ class Client extends BaseClient
             ],
         ]);
 
-        if (false !== stripos($response->getHeaderLine('Content-Type'), 'text/plain')) {
-            return $this->castResponseToType($response, $this->app['config']->get('response_type'));
+        if (false !== stripos($response->getHeaderLine('Content-disposition'), 'attachment')) {
+            return StreamResponse::buildFromPsrResponse($response);
         }
 
-        return StreamResponse::buildFromPsrResponse($response);
+        return $this->castResponseToType($response, $this->app['config']->get('response_type'));
     }
 }

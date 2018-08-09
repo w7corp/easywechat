@@ -87,8 +87,22 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'url' => '',
             'data' => [],
+            'miniprogram' => '',
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id']));
+
+        // with miniprogram
+        $client->expects()->httpPostJson('cgi-bin/message/template/send', [
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'url' => '',
+            'data' => [],
+            'miniprogram' => [
+                'appid' => 'id',
+                'pagepath' => 'path',
+            ],
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id', 'miniprogram' => ['appid' => 'id', 'pagepath' => 'path']]));
     }
 
     public function testFormatData()
@@ -124,6 +138,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'url' => '',
             'data' => [],
+            'miniprogram' => '',
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->sendSubscription(['touser' => 'mock-openid', 'template_id' => 'mock-template_id']));
 
@@ -136,6 +151,7 @@ class ClientTest extends TestCase
                 'data' => [
                     'content' => ['value' => 'VALUE'],
                 ],
+            'miniprogram' => '',
         ])->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->sendSubscription([

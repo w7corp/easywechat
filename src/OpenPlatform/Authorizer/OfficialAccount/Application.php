@@ -19,7 +19,8 @@ use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  *
- * @property \EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client $account
+ * @property \EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client           $account
+ * @property \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\MiniProgram\Client $mini_program
  */
 class Application extends OfficialAccount
 {
@@ -35,6 +36,7 @@ class Application extends OfficialAccount
 
         $providers = [
             AggregateServiceProvider::class,
+            MiniProgram\ServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {

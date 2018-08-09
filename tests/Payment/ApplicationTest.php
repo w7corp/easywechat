@@ -76,8 +76,8 @@ class ApplicationTest extends TestCase
 
     public function testGetKey()
     {
-        $app = new Application(['key' => 'mock-key']);
-        $this->assertSame('mock-key', $app->getKey());
+        $app = new Application(['key' => '88888888888888888888888888888888']);
+        $this->assertSame('88888888888888888888888888888888', $app->getKey());
     }
 
     public function testGetKeyInSandboxMode()
@@ -87,10 +87,10 @@ class ApplicationTest extends TestCase
             'key' => 'keyxxx',
         ]);
         $sandbox = \Mockery::mock(\EasyWeChat\Payment\Sandbox\Client::class.'[getKey]', new ServiceContainer());
-        $sandbox->expects()->getKey()->andReturn('123');
+        $sandbox->expects()->getKey()->andReturn('88888888888888888888888888888888');
         $app['sandbox'] = $sandbox;
 
-        $this->assertSame('123', $app->getKey('foo'));
+        $this->assertSame('88888888888888888888888888888888', $app->getKey('foo'));
         $this->assertSame('keyxxx', $app->getKey('sandboxnew/pay/getsignkey'));
     }
 }

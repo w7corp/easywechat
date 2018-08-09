@@ -28,6 +28,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Work\OA\Client::class, $app->oa);
         $this->assertInstanceOf(\EasyWeChat\Work\Auth\AccessToken::class, $app->access_token);
         $this->assertInstanceOf(\EasyWeChat\Work\Agent\Client::class, $app->agent);
+        $this->assertInstanceOf(\EasyWeChat\Work\Chat\Client::class, $app->chat);
         $this->assertInstanceOf(\EasyWeChat\Work\Department\Client::class, $app->department);
         $this->assertInstanceOf(\EasyWeChat\Work\Media\Client::class, $app->media);
         $this->assertInstanceOf(\EasyWeChat\Work\Menu\Client::class, $app->menu);
@@ -36,6 +37,39 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Work\Server\Guard::class, $app->server);
         $this->assertInstanceOf(\EasyWeChat\BasicService\Jssdk\Client::class, $app->jssdk);
         $this->assertInstanceOf(\Overtrue\Socialite\Providers\WeWorkProvider::class, $app->oauth);
+    }
+
+    public function testMiniProgram()
+    {
+        $app = new Application([
+            'response_type' => 'array',
+            'log' => [
+                'level' => 'debug',
+                'permission' => 0777,
+                'file' => '/tmp/easywechat.log',
+            ],
+            'debug' => true,
+            'corp_id' => 'corp-id',
+            'agent_id' => 100020,
+            'secret' => 'secret',
+        ]);
+
+        $miniProgram = $app->miniProgram();
+        $this->assertInstanceOf(\EasyWeChat\Work\MiniProgram\Application::class, $miniProgram);
+        $this->assertInstanceOf(\EasyWeChat\Work\Auth\AccessToken::class, $miniProgram['access_token']);
+        $this->assertInstanceOf(\EasyWeChat\Work\MiniProgram\Auth\Client::class, $miniProgram['auth']);
+        $this->assertArraySubset([
+            'response_type' => 'array',
+            'log' => [
+                'level' => 'debug',
+                'permission' => 0777,
+                'file' => '/tmp/easywechat.log',
+            ],
+            'debug' => true,
+            'corp_id' => 'corp-id',
+            'agent_id' => 100020,
+            'secret' => 'secret',
+        ], $miniProgram->config->toArray());
     }
 
     public function testBaseCall()

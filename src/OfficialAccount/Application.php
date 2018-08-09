@@ -38,6 +38,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\Card\Card               $card
  * @property \EasyWeChat\OfficialAccount\Device\Client           $device
  * @property \EasyWeChat\OfficialAccount\ShakeAround\ShakeAround $shake_around
+ * @property \EasyWeChat\OfficialAccount\POI\Client              $poi
  * @property \EasyWeChat\OfficialAccount\Base\Client             $base
  * @property \Overtrue\Socialite\Providers\WeChatProvider        $oauth
  */

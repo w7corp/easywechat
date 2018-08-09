@@ -62,4 +62,17 @@ class MemberCardClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->updateUser(['foo' => 'bar']));
     }
+
+    public function testGetActivateUrl()
+    {
+        $client = $this->mockApiClient(MemberCardClient::class);
+
+        $params = [
+            'card_id' => 'mock-card-id',
+            'outer_str' => 'mock-outer_str',
+        ];
+
+        $client->expects()->httpPostJson('card/membercard/activate/geturl', $params)->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->getActivateUrl($params));
+    }
 }

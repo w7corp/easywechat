@@ -306,6 +306,30 @@ class ObservableTest extends TestCase
             $this->assertSame('No valid handler is found in arguments.', $e->getMessage());
         }
     }
+
+    public function testWhereClause()
+    {
+        $c = new DummyClassForObservableTest();
+        $handler1 = \Mockery::mock(EventHandlerInterface::class);
+        $handler1->allows()->handle(['Type' => 'testing'])->andReturn('handler1-response');
+        $c->push($handler1)->where('Type', 'staging');
+
+        $this->assertNull($c->notify('foo', ['Type' => 'testing']));
+
+        $c2 = new DummyClassForObservableTest();
+        $handler2 = \Mockery::mock(EventHandlerInterface::class);
+        $handler2->allows()->handle(['Type' => 'testing'])->andReturn('handler2-response');
+        $c2->push($handler2)->where('Type', 'testing');
+
+        $this->assertSame('handler2-response', $c2->notify('foo', ['Type' => 'testing']));
+
+        $c3 = new DummyClassForObservableTest();
+        $handler3 = \Mockery::mock(EventHandlerInterface::class);
+        $handler3->allows()->handle(['Type' => 'testing', 'User' => 'user-123'])->andReturn('handler3-response');
+        $c3->push($handler3)->where('Type', 'testing')->where('User', 'user-456');
+
+        $this->assertNull($c3->notify('foo', ['Type' => 'testing', 'User' => 'user-123']));
+    }
 }
 
 class DummyHandlerClassForObservableTest implements EventHandlerInterface

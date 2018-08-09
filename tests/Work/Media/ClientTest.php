@@ -11,6 +11,9 @@
 
 namespace EasyWeChat\Tests\Work\Media;
 
+use EasyWeChat\Kernel\Http\Response;
+use EasyWeChat\Kernel\Http\StreamResponse;
+use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\Media\Client;
 
@@ -18,9 +21,28 @@ class ClientTest extends TestCase
 {
     public function testGet()
     {
-        $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/media/get', ['media_id' => 'mock-media-id'])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $client->get('mock-media-id'));
+        $app = new ServiceContainer();
+        $client = $this->mockApiClient(Client::class, [], $app);
+
+        $mediaId = 'invalid-media-id';
+        $imageResponse = new Response(200, ['content-type' => 'text/plain'], '{"error": "invalid media id hits."}');
+        $client->expects()->requestRaw('cgi-bin/media/get', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ])->andReturn($imageResponse)->once();
+
+        $this->assertSame(['error' => 'invalid media id hits.'], $client->get($mediaId));
+
+        $mediaId = 'valid-media-id';
+        $imageResponse = new Response(200, [], 'valid data');
+        $client->expects()->requestRaw('cgi-bin/media/get', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ])->andReturn($imageResponse)->once();
+
+        $this->assertInstanceOf(StreamResponse::class, $client->get($mediaId));
     }
 
     public function testUploadImage()

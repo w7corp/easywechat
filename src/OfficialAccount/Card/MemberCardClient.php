@@ -74,4 +74,34 @@ class MemberCardClient extends Client
     {
         return $this->httpPostJson('card/membercard/updateuser', $params);
     }
+
+    /**
+     * 获取用户提交资料.
+     *
+     * @param string $activateTicket
+     *
+     * @return mixed
+     */
+    public function getActivationForm($activateTicket)
+    {
+        $params = [
+            'activate_ticket' => $activateTicket,
+        ];
+
+        return $this->httpPostJson('card/membercard/activatetempinfo/get', $params);
+    }
+
+    /**
+     * 获取开卡组件链接接口.
+     *
+     * @param array $params 包含会员卡ID和随机字符串
+     *
+     * @return string 开卡组件链接
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getActivateUrl(array $params = [])
+    {
+        return $this->httpPostJson('card/membercard/activate/geturl', $params);
+    }
 }

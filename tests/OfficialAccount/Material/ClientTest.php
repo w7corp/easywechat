@@ -157,7 +157,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['response_type' => 'array']));
 
         // stream response
-        $response = new Response(200, [], 'mock-content');
+        $response = new Response(200, ['Content-Disposition' => 'attachment; filename="filename.jpg"'], 'mock-content');
         $client->expects()->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => 'mock-media-id']])
                     ->andReturn($response)->once();
 

@@ -42,6 +42,12 @@ class ResponseTest extends TestCase
 
         $response = new Response(200, ['Content-Type' => ['text/html']], '<xml><foo>foo</foo><bar>bar</bar></xml>');
         $this->assertSame(['foo' => 'foo', 'bar' => 'bar'], $response->toArray());
+
+        $response = new Response(200, ['Content-Type' => ['application/xml']], '<xml><foo>foo</foo><bar>bar</bar></xml>');
+        $result = $response->toObject();
+        $this->assertInstanceOf(\stdClass::class, $result);
+        $this->assertSame('foo', $result->foo);
+        $this->assertSame('bar', $result->bar);
     }
 
     public function testInvalidArrayableContents()
@@ -51,5 +57,14 @@ class ResponseTest extends TestCase
         $this->assertInstanceOf(\GuzzleHttp\Psr7\Response::class, $response);
 
         $this->assertSame([], $response->toArray());
+
+        // #1291
+        $json = "{\"name\":\"小明\x09了死烧部全们你把并\"}";
+        \json_decode($json, true);
+        $this->assertSame(\JSON_ERROR_CTRL_CHAR, \json_last_error());
+
+        $response = new Response(200, ['Content-Type' => ['application/json']], $json);
+        $this->assertInstanceOf(\GuzzleHttp\Psr7\Response::class, $response);
+        $this->assertSame(['name' => '小明了死烧部全们你把并'], $response->toArray());
     }
 }

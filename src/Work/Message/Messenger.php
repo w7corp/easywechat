@@ -180,6 +180,8 @@ class Messenger
             'safe' => intval($this->secretive),
         ], $this->to));
 
+        $this->secretive = false;
+
         return $this->client->send($message);
     }
 

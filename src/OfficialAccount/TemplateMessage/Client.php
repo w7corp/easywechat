@@ -34,6 +34,7 @@ class Client extends BaseClient
         'template_id' => '',
         'url' => '',
         'data' => [],
+        'miniprogram' => '',
     ];
 
     /**

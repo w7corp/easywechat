@@ -24,7 +24,7 @@ class PaidTest extends TestCase
     private function makeApp($config = [])
     {
         return new Application(array_merge([
-            'key' => 'foo-merchant-key',
+            'key' => '88888888888888888888888888888888',
         ], $config));
     }
 
@@ -33,7 +33,7 @@ class PaidTest extends TestCase
         $app = $this->makeApp();
         $app['request'] = Request::create('', 'POST', [], [], [], [], '<xml>
 <foo>bar</foo>
-<sign>280F9CB28E99DC917792FCC7AC1B88C4</sign>
+<sign>834A25C9A5B48305AB997C9A7E101530</sign>
 </xml>');
 
         $notify = new Paid($app);
@@ -42,7 +42,7 @@ class PaidTest extends TestCase
         $response = $notify->handle(function ($message) use ($that) {
             $that->assertSame([
                 'foo' => 'bar',
-                'sign' => '280F9CB28E99DC917792FCC7AC1B88C4',
+                'sign' => '834A25C9A5B48305AB997C9A7E101530',
             ], $message);
 
             return true;

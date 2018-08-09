@@ -33,8 +33,15 @@ class ClientTest extends TestCase
     public function testGetQrCode()
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
-        $client->expects()->requestRaw('wxa/get_qrcode', 'GET')->andReturn('mock-result');
+        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => '']])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getQrCode());
+    }
+
+    public function testGetQrCodeWithParamPath()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => 'page/index?action=1']])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getQrCode('page/index?action=1'));
     }
 
     public function testGetCategory()
@@ -84,5 +91,26 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
         $client->expects()->httpPostJson('wxa/change_visitstatus', ['action' => 'foo'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->changeVisitStatus('foo'));
+    }
+
+    public function testGrayRelease()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpPostJson('wxa/grayrelease', ['gray_percentage' => 20])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->grayRelease(20));
+    }
+
+    public function testRevertGrayRelease()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpGet('wxa/revertgrayrelease')->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->revertGrayRelease());
+    }
+
+    public function testGetGrayRelease()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpGet('wxa/getgrayreleaseplan')->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getGrayRelease());
     }
 }

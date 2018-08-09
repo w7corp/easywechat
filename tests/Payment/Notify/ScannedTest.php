@@ -25,7 +25,7 @@ class ScannedTest extends TestCase
         return new Application(array_merge([
             'app_id' => 'mock-app-id',
             'mch_id' => 'mock-mch-id',
-            'key' => 'foo-merchant-key',
+            'key' => '88888888888888888888888888888888',
         ], $config));
     }
 

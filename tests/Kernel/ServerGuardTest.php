@@ -14,7 +14,6 @@ namespace EasyWeChat\Tests\Kernel\Server;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Messages\Image;
 use EasyWeChat\Kernel\Messages\NewsItem;
 use EasyWeChat\Kernel\Messages\Raw;
 use EasyWeChat\Kernel\Messages\Text;
@@ -490,21 +489,44 @@ class ServerGuardTest extends TestCase
 
     public function testIsSafeMode()
     {
-        $request = Request::create('/path/to/resource?foo=bar', 'POST', []);
+        // signature & encrypt_type
+        $request = Request::create('/path/to/resource?foo=bar&signature=xxx&encrypt_type=aes', 'POST', []);
         $app = new ServiceContainer([
             'app_id' => 'appId',
             'token' => 'mock-token',
         ], [
             'request' => $request,
         ]);
-
         $guard = \Mockery::mock(DummyClassForServerGuardTest::class, [$app])->makePartial();
 
         $this->assertTrue($guard->isSafeMode());
+
+        // signature
+        $request = Request::create('/path/to/resource?foo=bar&signature=xxx', 'POST', []);
+        $app = new ServiceContainer([
+            'app_id' => 'appId',
+            'token' => 'mock-token',
+        ], [
+            'request' => $request,
+        ]);
+        $guard = \Mockery::mock(DummyClassForServerGuardTest::class, [$app])->makePartial();
+
+        $this->assertFalse($guard->isSafeMode());
+
+        // encrypt_type
+        $request = Request::create('/path/to/resource?foo=bar&encrypt_type=aes', 'POST', []);
+        $app = new ServiceContainer([
+            'app_id' => 'appId',
+            'token' => 'mock-token',
+        ], [
+            'request' => $request,
+        ]);
+        $guard = \Mockery::mock(DummyClassForServerGuardTest::class, [$app])->makePartial();
+
+        $this->assertFalse($guard->isSafeMode());
     }
 }
 
 class DummyClassForServerGuardTest extends ServerGuard
 {
-    protected $alwaysValidate = true;
 }

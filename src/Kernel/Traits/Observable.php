@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\Clauses\Clause;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\Decorators\TerminateResult;
@@ -30,8 +31,15 @@ trait Observable
     protected $handlers = [];
 
     /**
+     * @var array
+     */
+    protected $clauses = [];
+
+    /**
      * @param \Closure|EventHandlerInterface|string $handler
      * @param \Closure|EventHandlerInterface|string $condition
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
@@ -44,11 +52,15 @@ trait Observable
         }
 
         array_push($this->handlers[$condition], $handler);
+
+        return $this->newClause($handler);
     }
 
     /**
      * @param \Closure|EventHandlerInterface|string $handler
      * @param \Closure|EventHandlerInterface|string $condition
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
@@ -61,28 +73,34 @@ trait Observable
         }
 
         array_unshift($this->handlers[$condition], $handler);
+
+        return $this->newClause($handler);
     }
 
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function observe($condition, $handler)
     {
-        $this->push($handler, $condition);
+        return $this->push($handler, $condition);
     }
 
     /**
      * @param string                                $condition
      * @param \Closure|EventHandlerInterface|string $handler
      *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function on($condition, $handler)
     {
-        $this->push($handler, $condition);
+        return $this->push($handler, $condition);
     }
 
     /**
@@ -109,6 +127,11 @@ trait Observable
         foreach ($this->handlers as $condition => $handlers) {
             if ('*' === $condition || ($condition & $event) === $event) {
                 foreach ($handlers as $handler) {
+                    if ($clause = $this->clauses[spl_object_hash((object) $handler)] ?? null) {
+                        if ($clause->intercepted($payload)) {
+                            continue 2;
+                        }
+                    }
                     $response = $this->callHandler($handler, $payload);
 
                     switch (true) {
@@ -134,6 +157,16 @@ trait Observable
     public function getHandlers()
     {
         return $this->handlers;
+    }
+
+    /**
+     * @param mixed $handler
+     *
+     * @return \EasyWeChat\Kernel\Clauses\Clause
+     */
+    protected function newClause($handler): Clause
+    {
+        return $this->clauses[spl_object_hash((object) $handler)] = new Clause();
     }
 
     /**
@@ -164,6 +197,7 @@ trait Observable
      * @return \Closure
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     protected function makeClosure($handler)
     {
@@ -201,6 +235,7 @@ trait Observable
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     protected function resolveHandlerAndCondition($handler, $condition): array
     {

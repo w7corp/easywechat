@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel\Http;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\File;
 
 /**
@@ -26,6 +27,9 @@ class StreamResponse extends Response
      * @param string $filename
      *
      * @return bool|int
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function save(string $directory, string $filename = '')
     {
@@ -42,6 +46,10 @@ class StreamResponse extends Response
         }
 
         $contents = $this->getBody()->getContents();
+
+        if (empty($contents) || '{' === $contents[0]) {
+            throw new RuntimeException('Invalid media response content.');
+        }
 
         if (empty($filename)) {
             if (preg_match('/filename="(?<filename>.*?)"/', $this->getHeaderLine('Content-Disposition'), $match)) {
@@ -65,6 +73,8 @@ class StreamResponse extends Response
      * @param string $filename
      *
      * @return bool|int
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function saveAs(string $directory, string $filename)
     {
