@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
@@ -192,9 +193,9 @@ class BaseClient
      *
      * @return \GuzzleHttp\Client
      */
-    public function getHttpClient(): Client
+    public function getHttpClient(): ClientInterface
     {
-        if (!($this->httpClient instanceof Client)) {
+        if (!($this->httpClient instanceof ClientInterface)) {
             $this->httpClient = $this->app['http_client'] ?? new Client();
         }
 

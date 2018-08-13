@@ -88,7 +88,7 @@ trait HasHttpRequests
      *
      * @return \GuzzleHttp\Client
      */
-    public function getHttpClient(): Client
+    public function getHttpClient(): ClientInterface
     {
         if (!($this->httpClient instanceof ClientInterface)) {
             $this->httpClient = new Client();
