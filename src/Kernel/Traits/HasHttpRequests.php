@@ -84,7 +84,7 @@ trait HasHttpRequests
     }
 
     /**
-     * Return ClientInterface instance.
+     * Return GuzzleHttp\ClientInterface instance.
      *
      * @return ClientInterface
      */

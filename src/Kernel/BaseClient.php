@@ -189,7 +189,7 @@ class BaseClient
     }
 
     /**
-     * Return ClientInterface instance.
+     * Return GuzzleHttp\ClientInterface instance.
      *
      * @return ClientInterface
      */
