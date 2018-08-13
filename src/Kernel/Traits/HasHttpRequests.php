@@ -84,9 +84,9 @@ trait HasHttpRequests
     }
 
     /**
-     * Return GuzzleHttp\Client instance.
+     * Return ClientInterface instance.
      *
-     * @return \GuzzleHttp\Client
+     * @return ClientInterface
      */
     public function getHttpClient(): ClientInterface
     {
