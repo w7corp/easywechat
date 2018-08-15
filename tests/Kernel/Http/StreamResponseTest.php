@@ -53,8 +53,9 @@ class StreamResponseTest extends TestCase
 
         // not writable
         $this->expectException(\EasyWeChat\Kernel\Exceptions\InvalidArgumentException::class);
-        $this->expectExceptionMessage("'/usr' is not writable.");
-        $response->save('/usr');
+        $this->expectExceptionMessage("'vfs://usr' is not writable.");
+        vfsStream::setup('usr', 0444);
+        $response->save(vfsStream::url('usr'));
     }
 
     public function testSaveAs()
