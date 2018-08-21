@@ -36,7 +36,7 @@ class LogServiceProvider implements ServiceProviderInterface
             $config = $this->formatLogConfig($app);
 
             if (!empty($config)) {
-                $app['config']->merge($config);
+                $app->rebind('config', $app['config']->merge($config));
             }
 
             return new LogManager($app);

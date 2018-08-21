@@ -109,6 +109,16 @@ class ServiceContainer extends Container
     }
 
     /**
+     * @param string $id
+     * @param mixed  $value
+     */
+    public function rebind($id, $value)
+    {
+        $this->offsetUnset($id);
+        $this->offsetSet($id, $value);
+    }
+
+    /**
      * Magic get access.
      *
      * @param string $id

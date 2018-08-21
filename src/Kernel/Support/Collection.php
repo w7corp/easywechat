@@ -98,11 +98,13 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      */
     public function merge($items)
     {
+        $clone = new static($this->all());
+
         foreach ($items as $key => $value) {
-            $this->set($key, $value);
+            $clone->set($key, $value);
         }
 
-        return new static($this->all());
+        return $clone;
     }
 
     /**
