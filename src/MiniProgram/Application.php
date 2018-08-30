@@ -42,7 +42,6 @@ class Application extends ServiceContainer
         Server\ServiceProvider::class,
         TemplateMessage\ServiceProvider::class,
         CustomerService\ServiceProvider::class,
-        Store\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
         BasicService\ContentSecurity\ServiceProvider::class,
