@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="false">
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+            <exclude>
+                <directory suffix="ServiceProvider.php">src/</directory>
+                <directory suffix="Exception.php">src/</directory>
+                <directory suffix="Helpers.php">src/Kernel/Support</directory>
+                <directory>src/Encryption</directory>
+                <directory>src/Support</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+       <const name="PHPUNIT_RUNNING" value="true" />
+    </php>
+</phpunit>
