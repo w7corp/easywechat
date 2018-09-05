@@ -44,6 +44,16 @@ class Music extends Message
         'format',
     ];
 
+    /**
+     * Aliases of attribute.
+     *
+     * @var array
+     */
+    protected $jsonAliases = [
+        'musicurl' => 'url',
+        'hqmusicurl' => 'hq_url',
+    ];
+
     public function toXmlArray()
     {
         $music = [

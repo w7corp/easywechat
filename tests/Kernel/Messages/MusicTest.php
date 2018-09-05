@@ -54,5 +54,16 @@ class MusicTest extends TestCase
                 'HQMusicUrl' => 'http://easywechat.com/music/foo_hq.mp3',
             ],
         ], $message->toXmlArray());
+
+        $this->assertSame([
+            'msgtype' => 'music',
+            'music' => [
+                'title' => '告白气球',
+                'description' => '告白气球 - 周杰伦',
+                'musicurl' => 'http://easywechat.com/music/foo.mp3',
+                'hqmusicurl' => 'http://easywechat.com/music/foo_hq.mp3',
+                'format' => 'mp3',
+            ],
+        ], $message->transformForJsonRequest());
     }
 }
