@@ -171,6 +171,7 @@ class Application extends ServiceContainer
     protected function getAuthorizerConfig(string $appId, string $refreshToken = null): array
     {
         return $this['config']->merge([
+            'component_app_id' => $this['config']['app_id'],
             'app_id' => $appId,
             'refresh_token' => $refreshToken,
         ])->toArray();
