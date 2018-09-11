@@ -212,6 +212,6 @@ class Application extends ServiceContainer
      */
     public function __call($method, $args)
     {
-        return call_user_func_array([$this['base'], $method], $args);
+        return $this->base->$method(...$args);
     }
 }
