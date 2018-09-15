@@ -37,7 +37,8 @@ abstract class Message implements MessageInterface
     const TRANSFER = 4096;
     const EVENT = 1048576;
     const MINIPROGRAM_PAGE = 2097152;
-    const ALL = 1049598;
+    const ALL = self::TEXT | self::IMAGE | self::VOICE | self::VIDEO | self::SHORT_VIDEO | self::LOCATION | self::LINK
+                | self::DEVICE_EVENT | self::DEVICE_TEXT | self::FILE | self::TEXT_CARD | self::TRANSFER | self::EVENT | self::MINIPROGRAM_PAGE;
 
     /**
      * @var string

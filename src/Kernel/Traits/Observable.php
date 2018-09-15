@@ -42,6 +42,7 @@ trait Observable
      * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function push($handler, $condition = '*')
     {
@@ -63,6 +64,7 @@ trait Observable
      * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function unshift($handler, $condition = '*')
     {
