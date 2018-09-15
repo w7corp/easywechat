@@ -37,7 +37,7 @@ abstract class Message implements MessageInterface
     const TRANSFER = 4096;
     const EVENT = 1048576;
     const MINIPROGRAM_PAGE = 2097152;
-    const ALL = 1049598;
+    const ALL = 1050622;
 
     /**
      * @var string
