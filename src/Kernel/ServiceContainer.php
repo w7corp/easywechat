@@ -70,7 +70,7 @@ class ServiceContainer extends Container
 
         $this->id = $id;
 
-        $this->aggregation();
+        $this->aggregate();
     }
 
     /**
