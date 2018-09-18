@@ -90,6 +90,16 @@ class Application extends ServiceContainer
     }
 
     /**
+     * @param string $codeUrl
+     *
+     * @return string
+     */
+    public function codeUrlScheme(string $codeUrl)
+    {
+        return \sprintf('weixin://wxpay/bizpayurl?sr=%s', $codeUrl);
+    }
+
+    /**
      * @param \Closure $closure
      *
      * @return \Symfony\Component\HttpFoundation\Response

@@ -51,6 +51,17 @@ class ApplicationTest extends TestCase
         $this->assertStringStartsWith('weixin://wxpay/bizpayurl?appid=wx123456&mch_id=foo-merchant-id&time_stamp=', $app->scheme('product-id'));
     }
 
+    public function testCodeUrlScheme()
+    {
+        $app = new Application([
+            'app_id' => 'wx123456',
+            'mch_id' => 'foo-merchant-id',
+        ]);
+        $this->assertStringStartsWith('weixin://wxpay/bizpayurl?sr=foo', $app->codeUrlScheme('foo'));
+        $this->assertStringStartsWith('weixin://wxpay/bizpayurl?sr=foo/bar', $app->codeUrlScheme('foo/bar'));
+    }
+
+
     public function testSetSubMerchant()
     {
         $app = new Application([
