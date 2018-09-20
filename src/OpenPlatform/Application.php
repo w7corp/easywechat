@@ -171,6 +171,7 @@ class Application extends ServiceContainer
     protected function getAuthorizerConfig(string $appId, string $refreshToken = null): array
     {
         return $this['config']->merge([
+            'component_app_id' => $this['config']['app_id'],
             'app_id' => $appId,
             'refresh_token' => $refreshToken,
         ])->toArray();
@@ -212,6 +213,6 @@ class Application extends ServiceContainer
      */
     public function __call($method, $args)
     {
-        return call_user_func_array([$this['base'], $method], $args);
+        return $this->base->$method(...$args);
     }
 }

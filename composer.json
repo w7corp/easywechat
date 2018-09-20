@@ -19,7 +19,7 @@
         "ext-fileinfo": "*",
         "ext-openssl": "*",
         "ext-simplexml": "*",
-        "easywechat-composer/easywechat-composer": "^1.0",
+        "easywechat-composer/easywechat-composer": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
         "monolog/monolog": "^1.22",
         "overtrue/socialite": "~2.0",

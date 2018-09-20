@@ -16,6 +16,7 @@ use EasyWeChat\Kernel\Providers\ExtensionServiceProvider;
 use EasyWeChat\Kernel\Providers\HttpClientServiceProvider;
 use EasyWeChat\Kernel\Providers\LogServiceProvider;
 use EasyWeChat\Kernel\Providers\RequestServiceProvider;
+use EasyWeChatComposer\Traits\WithAggregator;
 use Pimple\Container;
 
 /**
@@ -30,6 +31,8 @@ use Pimple\Container;
  */
 class ServiceContainer extends Container
 {
+    use WithAggregator;
+
     /**
      * @var string
      */
@@ -66,6 +69,8 @@ class ServiceContainer extends Container
         $this->userConfig = $config;
 
         $this->id = $id;
+
+        $this->aggregate();
     }
 
     /**
@@ -127,6 +132,10 @@ class ServiceContainer extends Container
      */
     public function __get($id)
     {
+        if ($this->shouldDelegate($id)) {
+            return $this->delegateTo($id);
+        }
+
         return $this->offsetGet($id);
     }
 
