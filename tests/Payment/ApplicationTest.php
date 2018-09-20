@@ -61,7 +61,6 @@ class ApplicationTest extends TestCase
         $this->assertStringStartsWith('weixin://wxpay/bizpayurl?sr=foo/bar', $app->codeUrlScheme('foo/bar'));
     }
 
-
     public function testSetSubMerchant()
     {
         $app = new Application([
