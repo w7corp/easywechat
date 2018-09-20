@@ -55,7 +55,7 @@ class Guard
     const DEVICE_EVENT_MSG = 256;
     const DEVICE_TEXT_MSG = 512;
     const EVENT_MSG = 1048576;
-    const ALL_MSG = 1049598;
+    const ALL_MSG = 1050622;
 
     /**
      * @var Request
