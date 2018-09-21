@@ -250,6 +250,14 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
+     * @return string
+     */
+    public function getTokenKey()
+    {
+        return $this->tokenKey;
+    }
+
+    /**
      * Credential for get token.
      *
      * @return array
