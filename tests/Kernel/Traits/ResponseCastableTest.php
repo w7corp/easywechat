@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\Kernel\Traits;
 
+use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Http\Response;
@@ -87,6 +88,10 @@ class ResponseCastableTest extends TestCase
         $this->assertSame([], $cls->detectAndCastResponseToType(false, 'array'));
         $this->assertSame('', $cls->detectAndCastResponseToType(false, 'raw')->getBody()->getContents());
 
+        // custom response
+        $response = new DummyClassForArrayableCast();
+        $this->assertSame(['hello' => 'world!'], $cls->detectAndCastResponseToType($response, 'array'));
+
         // exception
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Unsupported response type "NULL"');
@@ -97,6 +102,34 @@ class ResponseCastableTest extends TestCase
 class DummyClassForResponseCastable
 {
     use ResponseCastable;
+}
+
+class DummyClassForArrayableCast implements Arrayable
+{
+    public function toArray()
+    {
+        return [
+            'hello' => 'world!'
+        ];
+    }
+    public function offsetExists($offset)
+    {
+        // TODO: Implement offsetExists() method.
+    }
+
+    public function offsetGet($offset)
+    {
+        // TODO: Implement offsetGet() method.
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        // TODO: Implement offsetSet() method.
+    }
+
+    public function offsetUnset($offset) {
+        // TODO: Implement offsetUnset() method.
+    }
 }
 
 class DummyResponseClassForResponseCastableTest extends ArrayAccessible
