@@ -109,9 +109,10 @@ class DummyClassForArrayableCast implements Arrayable
     public function toArray()
     {
         return [
-            'hello' => 'world!'
+            'hello' => 'world!',
         ];
     }
+
     public function offsetExists($offset)
     {
         // TODO: Implement offsetExists() method.
@@ -127,7 +128,8 @@ class DummyClassForArrayableCast implements Arrayable
         // TODO: Implement offsetSet() method.
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         // TODO: Implement offsetUnset() method.
     }
 }
