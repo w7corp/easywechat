@@ -74,7 +74,7 @@ class Response extends GuzzleResponse
             return XML::parse($content);
         }
 
-        $array = json_decode($content, true);
+        $array = json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
 
         if (JSON_ERROR_NONE === json_last_error()) {
             return (array) $array;
