@@ -274,7 +274,7 @@ class Http
             return false;
         }
 
-        $contents = json_decode($body, true);
+        $contents = json_decode($body, true, 512, JSON_BIGINT_AS_STRING);
 
         Log::debug('API response decoded:', compact('contents'));
 
