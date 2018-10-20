@@ -45,7 +45,7 @@ class Client extends BaseClient
             return $key;
         }
 
-        throw new SandboxException($response['retmsg']);
+        throw new SandboxException($response['retmsg'] ?? $response['return_msg']);
     }
 
     /**
