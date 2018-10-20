@@ -109,8 +109,8 @@ class ClientTest extends TestCase
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
             return $message instanceof Text && 'hello world!' === $message->content;
-        }), 'overtrue')->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $c->sendText('hello world!', 'overtrue'));
+        }), 'overtrue', ['send_ignore_reprint' => 1])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $c->sendText('hello world!', 'overtrue', ['send_ignore_reprint' => 1]));
     }
 
     public function testSendNews()
@@ -118,8 +118,8 @@ class ClientTest extends TestCase
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
             return $message instanceof Media && 'mpnews' === $message->getType() && 'mock-media-id' === $message->media_id;
-        }), 'overtrue')->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $c->sendNews('mock-media-id', 'overtrue'));
+        }), 'overtrue', ['send_ignore_reprint' => 1])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $c->sendNews('mock-media-id', 'overtrue', ['send_ignore_reprint' => 1]));
     }
 
     public function testSendVoice()
@@ -127,8 +127,8 @@ class ClientTest extends TestCase
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
             return $message instanceof Media && 'voice' === $message->getType() && 'mock-media-id' === $message->media_id;
-        }), 'overtrue')->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $c->sendVoice('mock-media-id', 'overtrue'));
+        }), 'overtrue', ['send_ignore_reprint' => 1])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $c->sendVoice('mock-media-id', 'overtrue', ['send_ignore_reprint' => 1]));
     }
 
     public function testSendVideo()
@@ -136,8 +136,8 @@ class ClientTest extends TestCase
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
             return $message instanceof Media && 'mpvideo' === $message->getType() && 'mock-media-id' === $message->media_id;
-        }), 'overtrue')->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $c->sendVideo('mock-media-id', 'overtrue'));
+        }), 'overtrue', ['send_ignore_reprint' => 1])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $c->sendVideo('mock-media-id', 'overtrue', ['send_ignore_reprint' => 1]));
     }
 
     public function testSendImage()
@@ -145,8 +145,8 @@ class ClientTest extends TestCase
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
             return $message instanceof Image && 'mock-media-id' === $message->media_id;
-        }), 'overtrue')->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $c->sendImage('mock-media-id', 'overtrue'));
+        }), 'overtrue', ['send_ignore_reprint' => 1])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $c->sendImage('mock-media-id', 'overtrue', ['send_ignore_reprint' => 1]));
     }
 
     public function testSendCard()
@@ -154,8 +154,8 @@ class ClientTest extends TestCase
         $c = $this->mockApiClient(Client::class, ['sendMessage']);
         $c->expects()->sendMessage(\Mockery::on(function ($message) {
             return $message instanceof Card && 'mock-card-id' === $message->card_id;
-        }), 'overtrue')->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $c->sendCard('mock-card-id', 'overtrue'));
+        }), 'overtrue', ['send_ignore_reprint' => 1])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $c->sendCard('mock-card-id', 'overtrue', ['send_ignore_reprint' => 1]));
     }
 
     public function testPreviewText()

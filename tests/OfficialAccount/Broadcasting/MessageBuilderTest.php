@@ -57,7 +57,7 @@ class MessageBuilderTest extends TestCase
         $text = new Text('hello world!');
 
         // to all
-        $message = (new MessageBuilder())->message($text)->toAll()->build();
+        $message = (new MessageBuilder())->message($text)->with(['send_ignore_reprint' => 1])->toAll()->build();
 
         $this->assertSame([
             'filter' => [
@@ -67,6 +67,7 @@ class MessageBuilderTest extends TestCase
             'text' => [
                 'content' => 'hello world!',
             ],
+            'send_ignore_reprint' => 1,
         ], $message);
 
         // to tag

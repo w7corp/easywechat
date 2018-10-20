@@ -32,6 +32,11 @@ class MessageBuilder
     protected $message;
 
     /**
+     * @var array
+     */
+    protected $attributes = [];
+
+    /**
      * Set message.
      *
      * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
@@ -103,6 +108,18 @@ class MessageBuilder
     }
 
     /**
+     * @param array $attributes
+     *
+     * @return \EasyWeChat\OfficialAccount\Broadcasting\MessageBuilder
+     */
+    public function with(array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
      * Build message.
      *
      * @param array $prepends
@@ -123,7 +140,7 @@ class MessageBuilder
             $prepends = $this->to;
         }
 
-        $message = array_merge($prepends, $content);
+        $message = array_merge($prepends, $content, $this->attributes);
 
         return $message;
     }
