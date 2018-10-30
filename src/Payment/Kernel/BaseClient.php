@@ -14,6 +14,8 @@ namespace EasyWeChat\Payment\Kernel;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\Payment\Application;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -82,9 +84,23 @@ class BaseClient
             'body' => Support\XML::build($params),
         ], $options);
 
+        $this->pushMiddleware($this->logMiddleware(), 'log');
+
         $response = $this->performRequest($endpoint, $method, $options);
 
         return $returnResponse ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
+    }
+
+    /**
+     * Log the request.
+     *
+     * @return \Closure
+     */
+    protected function logMiddleware()
+    {
+        $formatter = new MessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
+
+        return Middleware::log($this->app['logger'], $formatter);
     }
 
     /**
