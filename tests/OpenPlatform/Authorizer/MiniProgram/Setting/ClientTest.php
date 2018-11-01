@@ -72,14 +72,12 @@ class ClientTest extends TestCase
                     ],
                 ]],
             ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $this->client->addCategories([
-            'categories' => [[
-                'first' => 1, 'second' => 2,
-                'certicates' => [
-                    ['key' => 'name', 'value' => 'media_id'],
-                ],
-            ]],
-        ]));
+        $this->assertSame('mock-result', $this->client->addCategories([[
+            'first' => 1, 'second' => 2,
+            'certicates' => [
+                ['key' => 'name', 'value' => 'media_id'],
+            ],
+        ]]));
     }
 
     public function testDeleteCategories()

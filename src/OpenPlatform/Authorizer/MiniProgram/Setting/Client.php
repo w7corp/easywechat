@@ -79,7 +79,9 @@ class Client extends BaseClient
      */
     public function addCategories(array $categories)
     {
-        return $this->httpPostJson('cgi-bin/wxopen/addcategory', $categories);
+        $params = ['categories' => $categories];
+
+        return $this->httpPostJson('cgi-bin/wxopen/addcategory', $params);
     }
 
     /**
