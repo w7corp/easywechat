@@ -31,7 +31,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $this->client->getBasicInfo());
     }
 
-    public function testModifyHeadImage()
+    public function testUpdateAvatar()
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/account/modifyheadimage', [
@@ -39,17 +39,17 @@ class ClientTest extends TestCase
                 'x1' => 0, 'y1' => 0, 'x2' => 1, 'y2' => 1,
             ])->andReturn('mock-result')->once();
         $this->assertSame(
-            'mock-result', $this->client->modifyHeadImage('media-id'));
+            'mock-result', $this->client->updateAvatar('media-id'));
     }
 
-    public function testModifySignature()
+    public function testUpdateSignature()
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/account/modifysignature', [
                 'signature' => 'signature',
             ])->andReturn('mock-result')->once();
         $this->assertSame(
-            'mock-result', $this->client->modifySignature('signature'));
+            'mock-result', $this->client->updateSignature('signature'));
     }
 
     public function testGetAllCategories()
@@ -61,37 +61,45 @@ class ClientTest extends TestCase
             'mock-result', $this->client->getAllCategories());
     }
 
-    public function testAddCategory()
+    public function testAddCategories()
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/wxopen/addcategory', [
-                'first' => 1, 'second' => 2, 'categories' => [
+                'categories' => [[
+                    'first' => 1, 'second' => 2,
+                    'certicates' => [
+                        ['key' => 'name', 'value' => 'media_id'],
+                    ],
+                ]],
+            ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->addCategories([
+            'categories' => [[
+                'first' => 1, 'second' => 2,
+                'certicates' => [
                     ['key' => 'name', 'value' => 'media_id'],
                 ],
-            ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $this->client->addCategory(1, 2, [
-            'name' => 'media_id',
+            ]],
         ]));
     }
 
-    public function testDeleteCategory()
+    public function testDeleteCategories()
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/wxopen/deletecategory', [
                 'first' => 1, 'second' => 2,
             ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $this->client->deleteCategory(1, 2));
+        $this->assertSame('mock-result', $this->client->deleteCategories(1, 2));
     }
 
-    public function testGetCategory()
+    public function testGetCategories()
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/wxopen/getcategory')
             ->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $this->client->getCategory());
+        $this->assertSame('mock-result', $this->client->getCategories());
     }
 
-    public function testModifyCategory()
+    public function testUpdateCategory()
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/wxopen/modifycategory', [
@@ -99,8 +107,10 @@ class ClientTest extends TestCase
                     ['key' => 'name', 'value' => 'media_id'],
                 ],
             ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $this->client->modifyCategory(1, 2, [
-            'name' => 'media_id',
+        $this->assertSame('mock-result', $this->client->updateCategory([
+            'first' => 1, 'second' => 2, 'categories' => [
+                ['key' => 'name', 'value' => 'media_id'],
+            ],
         ]));
     }
 
@@ -117,21 +127,21 @@ class ClientTest extends TestCase
             'name', 'card_no', 'media_id', ['stuff_01', 'stuff_02']));
     }
 
-    public function testQueryNickname()
+    public function testGetNicknameAuditStatus()
     {
         $this->client->expects()->httpPostJson('wxa/api_wxa_querynickname', [
             'audit_id' => 'audit-id',
         ])->andReturn('mock-result')->once();
         $this->assertSame(
-            'mock-result', $this->client->queryNickname('audit-id'));
+            'mock-result', $this->client->getNicknameAuditStatus('audit-id'));
     }
 
-    public function testCheckWxVerifyNickname()
+    public function testIsAvailableNickname()
     {
         $this->client->expects()->httpPostJson('cgi-bin/wxverify/checkwxverifynickname', [
             'nick_name' => 'name',
         ])->andReturn('mock-result')->once();
         $this->assertSame(
-            'mock-result', $this->client->checkWxVerifyNickname('name'));
+            'mock-result', $this->client->isAvailableNickname('name'));
     }
 }
