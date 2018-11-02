@@ -91,7 +91,7 @@ class Client extends BaseClient
             'license' => $licenseMediaId,
         ];
 
-        for ($i = \count($otherStuffs) - 1; $i >= 0 ; --$i) {
+        for ($i = \count($otherStuffs) - 1; $i >= 0; --$i) {
             $params['naming_other_stuff_'.($i + 1)] = $otherStuffs[$i];
         }
 
