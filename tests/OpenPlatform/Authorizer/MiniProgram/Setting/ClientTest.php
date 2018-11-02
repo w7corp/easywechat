@@ -23,35 +23,6 @@ class ClientTest extends TestCase
             Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
     }
 
-    public function testGetBasicInfo()
-    {
-        $this->client->expects()
-            ->httpPostJson('cgi-bin/account/getaccountbasicinfo')
-            ->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $this->client->getBasicInfo());
-    }
-
-    public function testUpdateAvatar()
-    {
-        $this->client->expects()
-            ->httpPostJson('cgi-bin/account/modifyheadimage', [
-                'head_img_media_id' => 'media-id',
-                'x1' => 0, 'y1' => 0, 'x2' => 1, 'y2' => 1,
-            ])->andReturn('mock-result')->once();
-        $this->assertSame(
-            'mock-result', $this->client->updateAvatar('media-id'));
-    }
-
-    public function testUpdateSignature()
-    {
-        $this->client->expects()
-            ->httpPostJson('cgi-bin/account/modifysignature', [
-                'signature' => 'signature',
-            ])->andReturn('mock-result')->once();
-        $this->assertSame(
-            'mock-result', $this->client->updateSignature('signature'));
-    }
-
     public function testGetAllCategories()
     {
         $this->client->expects()

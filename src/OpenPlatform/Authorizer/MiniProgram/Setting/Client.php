@@ -21,50 +21,6 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * 获取账号基本信息.
-     */
-    public function getBasicInfo()
-    {
-        return $this->httpPostJson('cgi-bin/account/getaccountbasicinfo');
-    }
-
-    /**
-     * 修改头像.
-     *
-     * @param string $mediaId 头像素材mediaId
-     * @param int    $left    剪裁框左上角x坐标（取值范围：[0, 1]）
-     * @param int    $top     剪裁框左上角y坐标（取值范围：[0, 1]）
-     * @param int    $right   剪裁框右下角x坐标（取值范围：[0, 1]）
-     * @param int    $bottom  剪裁框右下角y坐标（取值范围：[0, 1]）
-     */
-    public function updateAvatar(
-        string $mediaId,
-        float $left = 0,
-        float $top = 0,
-        float $right = 1,
-        float $bottom = 1
-    ) {
-        $params = [
-            'head_img_media_id' => $mediaId,
-            'x1' => $left, 'y1' => $top, 'x2' => $right, 'y2' => $bottom,
-        ];
-
-        return $this->httpPostJson('cgi-bin/account/modifyheadimage', $params);
-    }
-
-    /**
-     * 修改功能介绍.
-     *
-     * @param string $signature 功能介绍（简介）
-     */
-    public function updateSignature(string $signature)
-    {
-        $params = ['signature' => $signature];
-
-        return $this->httpPostJson('cgi-bin/account/modifysignature', $params);
-    }
-
-    /**
      * 获取账号可以设置的所有类目.
      */
     public function getAllCategories()
@@ -135,7 +91,7 @@ class Client extends BaseClient
             'license' => $licenseMediaId,
         ];
 
-        for ($i = 0; $i < \count($otherStuffs); ++$i) {
+        for ($i = \count($otherStuffs) - 1; $i >= 0 ; --$i) {
             $params['naming_other_stuff_'.($i + 1)] = $otherStuffs[$i];
         }
 
