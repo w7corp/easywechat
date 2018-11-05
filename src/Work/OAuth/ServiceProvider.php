@@ -24,7 +24,7 @@ class ServiceProvider implements ServiceProviderInterface
                 'wework' => [
                     'client_id' => $app['config']['corp_id'],
                     'client_secret' => null,
-                    'redirect' => null,
+                    'redirect' => $this->prepareCallbackUrl($app),
                 ],
             ], $app['request']))->driver('wework');
 
@@ -36,5 +36,25 @@ class ServiceProvider implements ServiceProviderInterface
 
             return $socialite->setAccessToken(new AccessTokenDelegate($app));
         };
+    }
+
+    /**
+     * Prepare the OAuth callback url for wechat.
+     *
+     * @param Container $app
+     *
+     * @return string
+     */
+    private function prepareCallbackUrl($app)
+    {
+        $callback = $app['config']->get('oauth.callback');
+
+        if (0 === stripos($callback, 'http')) {
+            return $callback;
+        }
+
+        $baseUrl = $app['request']->getSchemeAndHttpHost();
+
+        return $baseUrl.'/'.ltrim($callback, '/');
     }
 }
