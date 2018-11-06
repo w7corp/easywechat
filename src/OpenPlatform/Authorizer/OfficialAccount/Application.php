@@ -12,6 +12,7 @@
 namespace EasyWeChat\OpenPlatform\Authorizer\OfficialAccount;
 
 use EasyWeChat\OfficialAccount\Application as OfficialAccount;
+use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
 
 /**
  * Class Application.
@@ -34,6 +35,7 @@ class Application extends OfficialAccount
         parent::__construct($config, $prepends);
 
         $providers = [
+            AggregateServiceProvider::class,
             MiniProgram\ServiceProvider::class,
         ];
 

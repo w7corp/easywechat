@@ -12,6 +12,7 @@
 namespace EasyWeChat\OpenPlatform\Authorizer\MiniProgram;
 
 use EasyWeChat\MiniProgram\Application as MiniProgram;
+use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
 
 /**
  * Class Application.
@@ -37,6 +38,7 @@ class Application extends MiniProgram
         parent::__construct($config, $prepends);
 
         $providers = [
+            AggregateServiceProvider::class,
             Code\ServiceProvider::class,
             Domain\ServiceProvider::class,
             Account\ServiceProvider::class,
