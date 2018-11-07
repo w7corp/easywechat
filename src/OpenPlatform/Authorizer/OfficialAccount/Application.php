@@ -19,7 +19,7 @@ use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  *
- * @property \EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client           $account
+ * @property \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client     $account
  * @property \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\MiniProgram\Client $mini_program
  */
 class Application extends OfficialAccount
