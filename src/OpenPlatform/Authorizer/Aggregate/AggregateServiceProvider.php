@@ -18,6 +18,6 @@ class AggregateServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-    	//
+        //
     }
 }
