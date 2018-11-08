@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\MiniProgram\UniformMessage;
 
-use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\OfficialAccount\TemplateMessage\Client as BaseClient;
 
@@ -83,6 +82,7 @@ class Client extends BaseClient
 
     /**
      * @param array $data
+     *
      * @return array
      */
     protected function formatWeappMessage(array $data = [])
@@ -96,6 +96,7 @@ class Client extends BaseClient
 
     /**
      * @param array $data
+     *
      * @return array
      */
     protected function formatMpMessage(array $data = [])
