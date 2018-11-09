@@ -26,9 +26,9 @@ class Client extends BaseClient
     }
 
     /**
-     * @param $activityId
-     * @param int $state
-     * @param array $parameter
+     * @param string $activityId
+     * @param int    $state
+     * @param array  $parameter
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -36,7 +36,7 @@ class Client extends BaseClient
      */
     public function setUpdatableMsg($activityId, $state = 0, $parameter = [])
     {
-        if (!in_array($state, [0, 1])) {
+        if (!in_array($state, [0, 1], true)) {
             throw new InvalidArgumentException('"state" should be "0" or "1".');
         }
 
@@ -47,7 +47,7 @@ class Client extends BaseClient
             'target_state' => $state,
             'template_info' => ['parameter_list' => $parameterList]
         ];
-        return $this->httpPost('cgi-bin/message/wxopen/updatablemsg/send', $params);
+        return $this->httpPostJson('cgi-bin/message/wxopen/updatablemsg/send', $params);
     }
 
     /**
@@ -60,11 +60,11 @@ class Client extends BaseClient
         $parameterList = [];
 
         foreach ($data as $name => $value) {
-            if (!in_array($name, ['member_count', 'room_limit', 'path', 'version_type'])) {
+            if (!in_array($name, ['member_count', 'room_limit', 'path', 'version_type'], true)) {
                 continue;
             }
 
-            if ($name == 'version_type' && !in_array($value, ['develop', 'trial', 'release'])) {
+            if ($name == 'version_type' && !in_array($value, ['develop', 'trial', 'release'], true)) {
                 throw new InvalidArgumentException('Invalid value of attribute "version_type".');
             }
 
