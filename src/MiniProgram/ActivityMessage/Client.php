@@ -16,7 +16,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
 class Client extends BaseClient
 {
-
     /**
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
@@ -47,6 +46,7 @@ class Client extends BaseClient
             'target_state' => $state,
             'template_info' => ['parameter_list' => $parameterList],
         ];
+
         return $this->httpPostJson('cgi-bin/message/wxopen/updatablemsg/send', $params);
     }
 
