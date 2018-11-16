@@ -34,7 +34,7 @@ class Client extends BaseClient
      *
      * @throws InvalidArgumentException
      */
-    public function setUpdatableMsg($activityId, $state = 0, $parameter = [])
+    public function updateMessage($activityId, $state = 0, $parameter = [])
     {
         if (!in_array($state, [0, 1], true)) {
             throw new InvalidArgumentException('"state" should be "0" or "1".');
@@ -45,7 +45,7 @@ class Client extends BaseClient
         $params = [
             'activity_id' => $activityId,
             'target_state' => $state,
-            'template_info' => ['parameter_list' => $parameterList]
+            'template_info' => ['parameter_list' => $parameterList],
         ];
         return $this->httpPostJson('cgi-bin/message/wxopen/updatablemsg/send', $params);
     }
@@ -64,13 +64,13 @@ class Client extends BaseClient
                 continue;
             }
 
-            if ($name == 'version_type' && !in_array($value, ['develop', 'trial', 'release'], true)) {
+            if ('version_type' === $name && !in_array($value, ['develop', 'trial', 'release'], true)) {
                 throw new InvalidArgumentException('Invalid value of attribute "version_type".');
             }
 
             $parameterList[] = [
                 'name' => $name,
-                'value' => strval($value)
+                'value' => strval($value),
             ];
         }
 
