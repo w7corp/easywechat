@@ -30,7 +30,8 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\BasicService\Media\Client              $media
  * @property \EasyWeChat\BasicService\ContentSecurity\Client    $content_security
  * @property \EasyWeChat\MiniProgram\Plugin\Client              $plugin
- * @property \EasyWeChat\MiniProgram\UniformMessage\Client              $uniform_message
+ * @property \EasyWeChat\MiniProgram\UniformMessage\Client      $uniform_message
+ * @property \EasyWeChat\MiniProgram\ActivityMessage\Client     $activity_message
  */
 class Application extends ServiceContainer
 {
@@ -45,6 +46,7 @@ class Application extends ServiceContainer
         TemplateMessage\ServiceProvider::class,
         CustomerService\ServiceProvider::class,
         UniformMessage\ServiceProvider::class,
+        ActivityMessage\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
         BasicService\ContentSecurity\ServiceProvider::class,
