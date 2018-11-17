@@ -27,39 +27,39 @@ class Client extends BaseClient
     /**
      * @param string $activityId
      * @param int    $state
-     * @param array  $parameter
+     * @param array  $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws InvalidArgumentException
      */
-    public function updateMessage($activityId, $state = 0, $parameter = [])
+    public function updateMessage(string $activityId, int $state = 0, array $params = [])
     {
         if (!in_array($state, [0, 1], true)) {
             throw new InvalidArgumentException('"state" should be "0" or "1".');
         }
 
-        $parameterList = $this->formatParameterList($parameter);
+        $params = $this->formatParameters($params);
 
         $params = [
             'activity_id' => $activityId,
             'target_state' => $state,
-            'template_info' => ['parameter_list' => $parameterList],
+            'template_info' => ['parameter_list' => $params],
         ];
 
         return $this->httpPostJson('cgi-bin/message/wxopen/updatablemsg/send', $params);
     }
 
     /**
-     * @param $data
+     * @param array $params
      *
      * @return array
      */
-    protected function formatParameterList($data)
+    protected function formatParameters(array $params)
     {
-        $parameterList = [];
+        $formatted = [];
 
-        foreach ($data as $name => $value) {
+        foreach ($params as $name => $value) {
             if (!in_array($name, ['member_count', 'room_limit', 'path', 'version_type'], true)) {
                 continue;
             }
@@ -68,12 +68,12 @@ class Client extends BaseClient
                 throw new InvalidArgumentException('Invalid value of attribute "version_type".');
             }
 
-            $parameterList[] = [
+            $formatted[] = [
                 'name' => $name,
                 'value' => strval($value),
             ];
         }
 
-        return $parameterList;
+        return $formatted;
     }
 }
