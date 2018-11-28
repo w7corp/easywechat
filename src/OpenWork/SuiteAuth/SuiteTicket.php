@@ -48,7 +48,7 @@ class SuiteTicket
      */
     public function setTicket(string $ticket)
     {
-        $this->getCache()->set($this->getCacheKey(), $ticket, 600);
+        $this->getCache()->set($this->getCacheKey(), $ticket, 1800);
 
         return $this;
     }
