@@ -56,7 +56,7 @@ class Guard extends ServerGuard
      */
     protected function decryptMessage(array $message)
     {
-        $encryptor = new Encryptor($message['ToUserName'], $this->app['config']->get('token'), $this->app['config']->get('aes_token'));
+        $encryptor = new Encryptor($message['ToUserName'], $this->app['config']->get('token'), $this->app['config']->get('aes_key'));
 
         return $message = $encryptor->decrypt(
             $message['Encrypt'],

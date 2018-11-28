@@ -162,10 +162,8 @@ class ServerGuard
         }
 
         if ($this->isSafeMode() && !empty($message['Encrypt'])) {
-            $this->decryptMessage($message);
-
             // Handle JSON format.
-            $dataSet = json_decode($message, true);
+            $dataSet = json_decode($this->decryptMessage($message), true);
 
             if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
                 return $dataSet;
