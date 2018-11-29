@@ -94,14 +94,14 @@ class AccessTokenTest extends TestCase
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7200,
-        ], 7200 - 500)->once();
+        ], 7200 - 500)->once()->andReturn(true);
         $result = $token->setToken('mock-token');
         $this->assertSame($token, $result);
 
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7000,
-        ], 7000 - 500)->once();
+        ], 7000 - 500)->once()->andReturn(true);
         $result = $token->setToken('mock-token', 7000);
         $this->assertSame($token, $result);
     }

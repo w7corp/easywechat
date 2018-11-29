@@ -12,6 +12,7 @@
 namespace EasyWeChat\BasicService\Jssdk;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
 
@@ -83,6 +84,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
@@ -97,7 +99,11 @@ class Client extends BaseClient
             'array'
         );
 
-        $this->getCache()->set($cacheKey, $result, $result['expires_in'] - 500);
+        $ok = $this->getCache()->set($cacheKey, $result, $result['expires_in'] - 500);
+
+        if (!$ok) {
+            throw new RuntimeException('Failed to cache jssdk ticket.');
+        }
 
         return $result;
     }

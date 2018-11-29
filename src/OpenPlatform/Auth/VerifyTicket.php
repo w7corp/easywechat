@@ -47,10 +47,15 @@ class VerifyTicket
      * @return $this
      *
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function setTicket(string $ticket)
     {
-        $this->getCache()->set($this->getCacheKey(), $ticket, 3600);
+        $ok = $this->getCache()->set($this->getCacheKey(), $ticket, 3600);
+
+        if (!$ok) {
+            throw new RuntimeException('Failed to cache verify ticket.');
+        }
 
         return $this;
     }

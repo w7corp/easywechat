@@ -34,7 +34,7 @@ class JssdkClientTest extends TestCase
         $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
         $cache->expects()->has($cacheKey)->andReturn(false);
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(true);
         $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'wx_card']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket());

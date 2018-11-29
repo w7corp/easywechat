@@ -22,8 +22,8 @@ use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
  * @property \EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client   $account
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Code\Client    $code
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Domain\Client  $domain
- * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Account\Client  $setting
- * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Setting\Client  $setting
+ * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Account\Client $setting
+ * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Setting\Client $setting
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Tester\Client  $tester
  */
 class Application extends MiniProgram

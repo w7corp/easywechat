@@ -22,7 +22,7 @@ class VerifyTicketTest extends TestCase
     {
         $client = \Mockery::mock(VerifyTicket::class.'[getCache]', [new Application(['app_id' => 'app-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
-                $mock->expects()->set('easywechat.open_platform.verify_ticket.app-id', 'ticket@654321', 3600)->once();
+                $mock->expects()->set('easywechat.open_platform.verify_ticket.app-id', 'ticket@654321', 3600)->once()->andReturn(true);
             });
             $mock->allows()->getCache()->andReturn($cache);
         });
