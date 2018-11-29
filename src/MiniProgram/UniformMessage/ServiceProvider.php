@@ -9,15 +9,20 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\OpenPlatform\Authorizer\Aggregate;
+namespace EasyWeChat\MiniProgram\UniformMessage;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
-class AggregateServiceProvider implements ServiceProviderInterface
+class ServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * {@inheritdoc}.
+     */
     public function register(Container $app)
     {
-        //
+        $app['uniform_message'] = function ($app) {
+            return new Client($app);
+        };
     }
 }

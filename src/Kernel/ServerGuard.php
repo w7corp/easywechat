@@ -162,12 +162,7 @@ class ServerGuard
         }
 
         if ($this->isSafeMode() && !empty($message['Encrypt'])) {
-            $message = $this->app['encryptor']->decrypt(
-                $message['Encrypt'],
-                $this->app['request']->get('msg_signature'),
-                $this->app['request']->get('nonce'),
-                $this->app['request']->get('timestamp')
-            );
+            $message = $this->decryptMessage($message);
 
             // Handle JSON format.
             $dataSet = json_decode($message, true);
@@ -356,5 +351,20 @@ class ServerGuard
     protected function shouldReturnRawResponse(): bool
     {
         return false;
+    }
+
+    /**
+     * @param array $message
+     *
+     * @return mixed
+     */
+    protected function decryptMessage(array $message)
+    {
+        return $message = $this->app['encryptor']->decrypt(
+            $message['Encrypt'],
+            $this->app['request']->get('msg_signature'),
+            $this->app['request']->get('nonce'),
+            $this->app['request']->get('timestamp')
+        );
     }
 }

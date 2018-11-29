@@ -115,4 +115,21 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $result);
     }
+
+    /**
+     * @uses \Client::clearQuota()
+     */
+    public function testClearQuota()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
+
+        $client->expects()
+            ->httpPostJson('cgi-bin/component/clear_quota', ['component_appid' => '123456'])
+            ->andReturn('mock-result')
+            ->once();
+
+        $result = $client->clearQuota();
+
+        $this->assertSame('mock-result', $result);
+    }
 }

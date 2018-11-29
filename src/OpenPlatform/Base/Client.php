@@ -126,4 +126,20 @@ class Client extends BaseClient
 
         return $this->httpPostJson('cgi-bin/component/api_create_preauthcode', $params);
     }
+
+    /**
+     * OpenPlatform Clear quota.
+     *
+     * @see https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318587
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function clearQuota()
+    {
+        $params = [
+            'component_appid' => $this->app['config']['app_id'],
+        ];
+
+        return $this->httpPostJson('cgi-bin/component/clear_quota', $params);
+    }
 }
