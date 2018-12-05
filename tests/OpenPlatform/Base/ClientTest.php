@@ -117,7 +117,7 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @uses \Client::clearQuota()
+     * @uses \EasyWeChat\OpenPlatform\Base\Client::clearQuota()
      */
     public function testClearQuota()
     {
