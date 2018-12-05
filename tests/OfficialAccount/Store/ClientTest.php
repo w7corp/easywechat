@@ -50,7 +50,6 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('wxa/get_merchant_audit_info')->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->getStatus());
-
     }
 
     public function testCreateMerchant()

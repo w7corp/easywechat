@@ -94,7 +94,6 @@ class ApplicationTest extends TestCase
         $this->expectExceptionMessage(sprintf("'%s' should be 32 chars length.", '1234'));
         $app = new Application(['key' => '1234']);
         $app->getKey();
-
     }
 
     public function testGetKeyInSandboxMode()

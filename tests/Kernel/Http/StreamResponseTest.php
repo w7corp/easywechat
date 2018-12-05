@@ -63,7 +63,7 @@ class StreamResponseTest extends TestCase
         // empty contents
         $directory = vfsStream::url('testing');
         $this->expectException(\EasyWeChat\Kernel\Exceptions\RuntimeException::class);
-        $this->expectExceptionMessage("Invalid media response content.");
+        $this->expectExceptionMessage('Invalid media response content.');
         $response = new StreamResponse(200, [], file_get_contents(STUBS_ROOT.'/files/empty.file'));
         $response->save($directory);
     }

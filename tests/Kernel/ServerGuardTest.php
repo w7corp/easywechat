@@ -530,10 +530,10 @@ class ServerGuardTest extends TestCase
     {
         $app = new ServiceContainer();
         $guard = \Mockery::mock(ServerGuard::class, [$app])->makePartial();
-        $reflectionProperty = new \ReflectionProperty($guard,'alwaysValidate');
+        $reflectionProperty = new \ReflectionProperty($guard, 'alwaysValidate');
         $reflectionProperty->setAccessible(true);
 
-        $this->assertSame(false,$reflectionProperty->getValue($guard));
+        $this->assertSame(false, $reflectionProperty->getValue($guard));
 
         $guard->forceValidate();
 

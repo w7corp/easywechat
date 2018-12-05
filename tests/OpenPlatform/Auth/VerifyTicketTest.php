@@ -30,7 +30,6 @@ class VerifyTicketTest extends TestCase
 
         $this->assertInstanceOf(VerifyTicket::class, $client->setTicket('ticket@654321'));
 
-
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to cache verify ticket.');
         $client = \Mockery::mock(VerifyTicket::class.'[getCache]', [new Application(['app_id' => 'app-id'])], function ($mock) {

@@ -65,7 +65,7 @@ class ServiceContainerTest extends TestCase
 
         $container->shouldReceive('delegateTo')->andReturn(DelegationTo::class);
         $container->shouldReceive('offsetGet')->andReturn(BaseClient::class);
-        $container->shouldReceive('shouldDelegate')->andReturn(true,false);
+        $container->shouldReceive('shouldDelegate')->andReturn(true, false);
 
         $this->assertSame(DelegationTo::class, $container->log);
         $this->assertSame(BaseClient::class, $container->config);

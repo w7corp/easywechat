@@ -272,12 +272,11 @@ class AccessTokenTest extends TestCase
     {
         $token = \Mockery::mock(AccessToken::class)->makePartial();
 
-        $this->assertSame('access_token',$token->getTokenKey());
+        $this->assertSame('access_token', $token->getTokenKey());
 
         $DummyAccessToken = \Mockery::mock(DummyAccessTokenForTest::class)->makePartial();
 
-        $this->assertSame('foo',$DummyAccessToken->getTokenKey());
-
+        $this->assertSame('foo', $DummyAccessToken->getTokenKey());
     }
 }
 
