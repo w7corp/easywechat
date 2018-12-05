@@ -214,7 +214,7 @@ class BaseClientTest extends TestCase
     {
         // no retries configured
         $app = new ServiceContainer([]);
-        $app['logger'] = $logger = \Mockery::mock(Logger::class, ['easywechat']);
+        $app['logger'] = $logger = \Mockery::mock('stdClass');
         $accessToken = \Mockery::mock(AccessToken::class, [$app]);
         $client = $this->makeClient(['retryMiddleware'], $app, $accessToken)
             ->shouldAllowMockingProtectedMethods()
