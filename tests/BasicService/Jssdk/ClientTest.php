@@ -12,6 +12,7 @@
 namespace EasyWeChat\Tests\BasicService\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 
@@ -91,6 +92,14 @@ class ClientTest extends TestCase
         $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
 
         $this->assertSame($ticket, $client->getTicket(true));
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Failed to cache jssdk ticket.');
+
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(false);
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+
+        $client->getTicket(true);
     }
 
     public function testSignature()

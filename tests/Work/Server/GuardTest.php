@@ -38,4 +38,13 @@ class GuardTest extends TestCase
         $guard = \Mockery::mock(Guard::class, [$app])->makePartial();
         $this->assertFalse($guard->shouldReturnRawResponse());
     }
+
+    public function testIsSafeMode()
+    {
+        $guard = \Mockery::mock(Guard::class, [new ServiceContainer()])->makePartial();
+        $method = new \ReflectionMethod($guard, 'isSafeMode');
+        $method->setAccessible(true);
+
+        $this->assertSame(true, $method->invoke($guard));
+    }
 }

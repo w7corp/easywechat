@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\Payment;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Tests\TestCase;
@@ -88,6 +89,11 @@ class ApplicationTest extends TestCase
     {
         $app = new Application(['key' => '88888888888888888888888888888888']);
         $this->assertSame('88888888888888888888888888888888', $app->getKey());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf("'%s' should be 32 chars length.", '1234'));
+        $app = new Application(['key' => '1234']);
+        $app->getKey();
     }
 
     public function testGetKeyInSandboxMode()

@@ -86,6 +86,20 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->release());
     }
 
+    public function testWithdrawAudit()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpGet('wxa/undocodeaudit')->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->withdrawAudit());
+    }
+
+    public function testRollbackRelease()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+        $client->expects()->httpGet('wxa/revertcoderelease')->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->rollbackRelease());
+    }
+
     public function testChangeVisitStatus()
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
