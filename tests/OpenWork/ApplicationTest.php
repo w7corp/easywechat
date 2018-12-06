@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: milkmeowo
- * Date: 2018/12/6
- * Time: 9:57 PM
- */
 
 namespace EasyWeChat\Tests\OpenWork;
 
