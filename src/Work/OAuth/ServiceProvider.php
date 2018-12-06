@@ -32,6 +32,8 @@ class ServiceProvider implements ServiceProviderInterface
 
             if (!empty($scopes)) {
                 $socialite->scopes($scopes);
+            } else {
+                $socialite->setAgentId($app['config']['agent_id']);
             }
 
             return $socialite->setAccessToken(new AccessTokenDelegate($app));
