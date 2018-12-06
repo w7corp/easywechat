@@ -1,7 +1,15 @@
 <?php
 
-namespace EasyWeChat\Tests\OpenWork;
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace EasyWeChat\Tests\OpenWork;
 
 use EasyWeChat\OpenWork\Application;
 use EasyWeChat\Tests\TestCase;
@@ -10,7 +18,7 @@ class ApplicationTest extends TestCase
 {
     public function testProperties()
     {
-        $app = new Application(['corp_id' => 'mock-corp-id',]);
+        $app = new Application(['corp_id' => 'mock-corp-id']);
 
         $this->assertInstanceOf(\EasyWeChat\OpenWork\Server\Guard::class, $app->server);
         $this->assertInstanceOf(\EasyWeChat\OpenWork\Corp\Client::class, $app->corp);
@@ -42,8 +50,7 @@ class ApplicationTest extends TestCase
     public function testDynamicCalls()
     {
         $app = new Application(['corp_id' => 'mock-corp-id']);
-        $app['base'] = new class()
-        {
+        $app['base'] = new class() {
             public function dummyMethod()
             {
                 return 'mock-result';

@@ -1,7 +1,15 @@
 <?php
 
-namespace EasyWeChat\Tests\OpenWork\Work\Auth;
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace EasyWeChat\Tests\OpenWork\Work\Auth;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenWork\Application;
@@ -26,8 +34,7 @@ class AccessTokenTest extends TestCase
 
     public function testEndpoint()
     {
-
-        $app = \Mockery::mock(new ServiceContainer);
+        $app = \Mockery::mock(new ServiceContainer());
 
         $openWork = new Application();
 
