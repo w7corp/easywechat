@@ -11,10 +11,12 @@
 
 namespace EasyWeChat\Tests\Kernel;
 
+use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Log\LogManager;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
+use EasyWeChatComposer\Delegation\DelegationTo;
 use GuzzleHttp\Client;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -55,6 +57,18 @@ class ServiceContainerTest extends TestCase
         $container = new DummyContainerForProviderTest();
 
         $this->assertSame('foo', $container['foo']);
+    }
+
+    public function testMagicGetDelegation()
+    {
+        $container = \Mockery::mock(ServiceContainer::class);
+
+        $container->shouldReceive('delegateTo')->andReturn(DelegationTo::class);
+        $container->shouldReceive('offsetGet')->andReturn(BaseClient::class);
+        $container->shouldReceive('shouldDelegate')->andReturn(true, false);
+
+        $this->assertSame(DelegationTo::class, $container->log);
+        $this->assertSame(BaseClient::class, $container->config);
     }
 }
 

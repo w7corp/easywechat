@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Auth;
 
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Auth\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
@@ -28,6 +29,16 @@ class VerifyTicketTest extends TestCase
         });
 
         $this->assertInstanceOf(VerifyTicket::class, $client->setTicket('ticket@654321'));
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Failed to cache verify ticket.');
+        $client = \Mockery::mock(VerifyTicket::class.'[getCache]', [new Application(['app_id' => 'app-id'])], function ($mock) {
+            $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
+                $mock->expects()->set('easywechat.open_platform.verify_ticket.app-id', 'ticket@654321', 3600)->once()->andReturn(false);
+            });
+            $mock->allows()->getCache()->andReturn($cache);
+        });
+        $client->setTicket('ticket@654321');
     }
 
     public function testGetTicket()

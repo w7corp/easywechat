@@ -525,6 +525,20 @@ class ServerGuardTest extends TestCase
 
         $this->assertFalse($guard->isSafeMode());
     }
+
+    public function testForceValidate()
+    {
+        $app = new ServiceContainer();
+        $guard = \Mockery::mock(ServerGuard::class, [$app])->makePartial();
+        $reflectionProperty = new \ReflectionProperty($guard, 'alwaysValidate');
+        $reflectionProperty->setAccessible(true);
+
+        $this->assertSame(false, $reflectionProperty->getValue($guard));
+
+        $guard->forceValidate();
+
+        $this->assertSame(true, $reflectionProperty->getValue($guard));
+    }
 }
 
 class DummyClassForServerGuardTest extends ServerGuard

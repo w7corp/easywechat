@@ -41,6 +41,18 @@ class MemberCardClientTest extends TestCase
         $this->assertSame('mock-result', $client->setActivationForm('mock-card-id', $params));
     }
 
+    public function testGetActivateForm()
+    {
+        $client = $this->mockApiClient(MemberCardClient::class);
+
+        $params = [
+            'activate_ticket' => 'mock-activate-ticket',
+        ];
+        $client->expects()->httpPostJson('card/membercard/activatetempinfo/get', $params)->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->getActivationForm('mock-activate-ticket'));
+    }
+
     public function testGetUser()
     {
         $client = $this->mockApiClient(MemberCardClient::class);

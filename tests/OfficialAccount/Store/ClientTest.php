@@ -43,6 +43,15 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->searchFromMap(2, '北京'));
     }
 
+    public function testGetStatus()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('wxa/get_merchant_audit_info')->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->getStatus());
+    }
+
     public function testCreateMerchant()
     {
         $client = $this->mockApiClient(Client::class);
