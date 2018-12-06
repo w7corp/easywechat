@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: milkmeowo
- * Date: 2018/12/6
- * Time: 2:56 PM
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace EasyWeChat\Tests\MiniProgram\OpenData;
-
 
 use EasyWeChat\MiniProgram\OpenData\Client;
 use EasyWeChat\Tests\TestCase;
@@ -19,7 +21,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $data = [
-            'key' => ['mock-key']
+            'key' => ['mock-key'],
         ];
         $client->expects()->httpPostJson('remove_user_storage', $data, [
             'openid' => 'mock-openid',
@@ -43,9 +45,8 @@ class ClientTest extends TestCase
                 [
                     'key' => 'mock-key-2',
                     'value' => 'mock-value-2',
-                ]
-            ]
-
+                ],
+            ],
         ];
         $client->expects()->httpPostJson('set_user_storage', $data, [
             'openid' => 'mock-openid',
@@ -57,6 +58,5 @@ class ClientTest extends TestCase
             'mock-key-1' => 'mock-value-1',
             'mock-key-2' => 'mock-value-2',
         ]));
-
     }
 }

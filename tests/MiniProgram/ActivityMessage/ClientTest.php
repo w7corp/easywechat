@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace EasyWeChat\Tests\MiniProgram\ActivityMessage;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
@@ -13,13 +23,13 @@ class ClientTest extends TestCase
 
         $client->expects()->httpGet('cgi-bin/message/wxopen/activityid/create')->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result',$client->createActivityId());
+        $this->assertSame('mock-result', $client->createActivityId());
     }
 
     public function testUpdateMessageWithInvalidState()
     {
         $client = $this->mockApiClient(Client::class);
-        
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('"state" should be "0" or "1".');
         $client->updateMessage('mock-activity-id', 666);
@@ -44,33 +54,33 @@ class ClientTest extends TestCase
                     ],
                     [
                         'name' => 'path',
-                        'value' => 'mock-path'
+                        'value' => 'mock-path',
                     ],
                     [
                         'name' => 'version_type',
-                        'value' => 'develop'
-                    ]
-                ]
-            ]
+                        'value' => 'develop',
+                    ],
+                ],
+            ],
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result',$client->updateMessage('mock-activity-id',0,[
+        $this->assertSame('mock-result', $client->updateMessage('mock-activity-id', 0, [
             'member_count' => 'mock-member-count',
             'room_limit' => 'mock-room-limit',
             'path' => 'mock-path',
             'version_type' => 'develop',
-            'foo'=> 'bar',
+            'foo' => 'bar',
         ]));
 
         // invalid version type
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid value of attribute "version_type".');
-        $this->assertSame('mock-result',$client->updateMessage('mock-activity-id',0,[
+        $this->assertSame('mock-result', $client->updateMessage('mock-activity-id', 0, [
             'member_count' => 'mock-member-count',
             'room_limit' => 'mock-room-limit',
             'path' => 'mock-path',
             'version_type' => 'mock-version-type',
-            'foo'=> 'bar',
+            'foo' => 'bar',
         ]));
     }
 }

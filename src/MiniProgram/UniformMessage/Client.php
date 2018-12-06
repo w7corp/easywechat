@@ -60,10 +60,11 @@ class Client extends BaseClient
      */
     protected $required = ['touser', 'template_id', 'form_id', 'miniprogram', 'appid'];
 
-
     /**
      * @param array $data
+     *
      * @return array
+     *
      * @throws InvalidArgumentException
      */
     protected function formatMessage(array $data = [])

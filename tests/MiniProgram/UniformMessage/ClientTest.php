@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: milkmeowo
- * Date: 2018/12/6
- * Time: 3:43 PM
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace EasyWeChat\Tests\MiniProgram\UniformMessage;
-
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
@@ -36,7 +38,7 @@ class ClientTest extends TestCase
                     'bar' => ['value' => 'content', 'color' => '#F00'],
                     'baz' => ['value' => 'hello', 'color' => '#550038'],
                     'zoo' => ['value' => 'hello'],
-                ]
+                ],
             ],
             'weapp_template_msg' => [
                 'template_id' => 'mock-template-id',
@@ -48,8 +50,8 @@ class ClientTest extends TestCase
                     'baz' => ['value' => 'hello', 'color' => '#550038'],
                     'zoo' => ['value' => 'hello'],
                 ],
-                'emphasis_keyword' => ''
-            ]
+                'emphasis_keyword' => '',
+            ],
         ], $client->formatMessage([
             'touser' => 'mock-touser',
             'mp_template_msg' => [
@@ -65,7 +67,7 @@ class ClientTest extends TestCase
                     'bar' => ['content', '#F00'],
                     'baz' => ['value' => 'hello', 'color' => '#550038'],
                     'zoo' => ['value' => 'hello'],
-                ]
+                ],
             ],
             'weapp_template_msg' => [
                 'template_id' => 'mock-template-id',
@@ -76,15 +78,14 @@ class ClientTest extends TestCase
                     'bar' => ['content', '#F00'],
                     'baz' => ['value' => 'hello', 'color' => '#550038'],
                     'zoo' => ['value' => 'hello'],
-                ]
-            ]
+                ],
+            ],
         ]));
-
 
         try {
             $client->formatMessage([
                 'touser' => '',
-                'mp_template_msg' => []
+                'mp_template_msg' => [],
             ]);
         } catch (\Exception $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);
@@ -93,18 +94,18 @@ class ClientTest extends TestCase
 
         $this->assertSame([
             'touser' => 'mock-user',
-            'mp_template_msg' => []
+            'mp_template_msg' => [],
         ], $client->formatMessage([
             'touser' => 'mock-user',
-            'mp_template_msg' => []
+            'mp_template_msg' => [],
         ]));
 
         $this->assertSame([
             'touser' => 'mock-user',
-            'weapp_template_msg' => []
+            'weapp_template_msg' => [],
         ], $client->formatMessage([
             'touser' => 'mock-user',
-            'weapp_template_msg' => []
+            'weapp_template_msg' => [],
         ]));
     }
 
@@ -125,7 +126,7 @@ class ClientTest extends TestCase
                 'bar' => ['value' => 'content', 'color' => '#F00'],
                 'baz' => ['value' => 'hello', 'color' => '#550038'],
                 'zoo' => ['value' => 'hello'],
-            ]
+            ],
         ], $client->formatMpMessage([
             'appid' => 'mock-appid',
             'template_id' => 'mock-template-id',
@@ -139,7 +140,7 @@ class ClientTest extends TestCase
                 'bar' => ['content', '#F00'],
                 'baz' => ['value' => 'hello', 'color' => '#550038'],
                 'zoo' => ['value' => 'hello'],
-            ]
+            ],
         ]));
 
         // miss appid
@@ -152,13 +153,12 @@ class ClientTest extends TestCase
                     'appid' => 'mock-mini-program-appid',
                     'pagepath' => 'mock-page-path',
                 ],
-                'data' => []
+                'data' => [],
             ]);
         } catch (\Exception $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);
             $this->assertSame('Attribute "appid" can not be empty!', $exception->getMessage());
         }
-
 
         // miss template_id
         try {
@@ -170,7 +170,7 @@ class ClientTest extends TestCase
                     'appid' => 'mock-mini-program-appid',
                     'pagepath' => 'mock-page-path',
                 ],
-                'data' => []
+                'data' => [],
             ]);
         } catch (\Exception $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);
@@ -184,7 +184,7 @@ class ClientTest extends TestCase
                 'template_id' => 'mock-template-id',
                 'url' => 'mock-url',
                 'miniprogram' => '',
-                'data' => []
+                'data' => [],
             ]);
         } catch (\Exception $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);
@@ -195,7 +195,7 @@ class ClientTest extends TestCase
     public function testFormatMpMessageWithMissMiniProgramAppid()
     {
         $config = [
-            'app_id' => 'mock-appid'
+            'app_id' => 'mock-appid',
         ];
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer($config))->makePartial();
 
@@ -206,14 +206,14 @@ class ClientTest extends TestCase
             'miniprogram' => [
                 'appid' => 'mock-appid',
             ],
-            'data' => []
+            'data' => [],
         ], $client->formatMpMessage([
             'appid' => 'mock-appid',
             'template_id' => 'mock-template-id',
             'miniprogram' => [
-                'appid' => ''
+                'appid' => '',
             ],
-            'data' => []
+            'data' => [],
         ]));
     }
 
@@ -231,7 +231,7 @@ class ClientTest extends TestCase
                 'baz' => ['value' => 'hello', 'color' => '#550038'],
                 'zoo' => ['value' => 'hello'],
             ],
-            'emphasis_keyword' => ''
+            'emphasis_keyword' => '',
         ], $client->formatWeappMessage([
             'template_id' => 'mock-template-id',
             'page' => 'mock-page',
@@ -241,9 +241,8 @@ class ClientTest extends TestCase
                 'bar' => ['content', '#F00'],
                 'baz' => ['value' => 'hello', 'color' => '#550038'],
                 'zoo' => ['value' => 'hello'],
-            ]
+            ],
         ]));
-
 
         // miss template_id
         try {
@@ -251,7 +250,7 @@ class ClientTest extends TestCase
                 'template_id' => '',
                 'page' => 'mock-page',
                 'form_id' => 'mock-from-id',
-                'data' => []
+                'data' => [],
             ]);
         } catch (\Exception $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);
@@ -264,7 +263,7 @@ class ClientTest extends TestCase
                 'template_id' => 'mock-template-id',
                 'page' => 'mock-page',
                 'form_id' => '',
-                'data' => []
+                'data' => [],
             ]);
         } catch (\Exception $exception) {
             $this->assertInstanceOf(InvalidArgumentException::class, $exception);

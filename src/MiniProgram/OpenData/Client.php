@@ -75,6 +75,7 @@ class Client extends BaseClient
 
     /**
      * @param array $params
+     *
      * @return array
      */
     protected function formatKVLists(array $params)
