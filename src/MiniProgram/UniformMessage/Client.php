@@ -60,14 +60,19 @@ class Client extends BaseClient
      */
     protected $required = ['touser', 'template_id', 'form_id', 'miniprogram', 'appid'];
 
+
     /**
      * @param array $data
-     *
      * @return array
+     * @throws InvalidArgumentException
      */
     protected function formatMessage(array $data = [])
     {
-        $params = $this->baseFormat($data, $this->message);
+        $params = array_merge($this->message, $data);
+
+        if (empty($params['touser'])) {
+            throw new InvalidArgumentException(sprintf('Attribute "touser" can not be empty!'));
+        }
 
         if (!empty($params['weapp_template_msg'])) {
             $params['weapp_template_msg'] = $this->formatWeappMessage($params['weapp_template_msg']);
