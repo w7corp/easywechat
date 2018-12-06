@@ -40,8 +40,6 @@ class Client extends BaseClient
     {
         $data = ['key' => $key];
         $query = [
-            'appid' => $this->app['config']['app_id'],
-            'secret' => $this->app['config']['secret'],
             'openid' => $openid,
             'sig_method' => 'hmac_sha256',
             'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
@@ -63,15 +61,34 @@ class Client extends BaseClient
      */
     public function setUserStorage(string $openid, string $sessionKey, array $kvList)
     {
+        $kvList = $this->formatKVLists($kvList);
+
         $data = ['kv_list' => $kvList];
         $query = [
-            'appid' => $this->app['config']['app_id'],
-            'secret' => $this->app['config']['secret'],
             'openid' => $openid,
             'sig_method' => 'hmac_sha256',
             'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
         ];
 
         return $this->httpPostJson('set_user_storage', $data, $query);
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    protected function formatKVLists(array $params)
+    {
+        $formatted = [];
+
+        foreach ($params as $name => $value) {
+            $formatted[] = [
+                'key' => $name,
+                'value' => strval($value),
+            ];
+        }
+
+        return $formatted;
     }
 }
