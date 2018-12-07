@@ -24,9 +24,10 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 /**
  * Class Application.
  *
- * @property \EasyWeChat\OpenPlatform\Server\Guard        $server
- * @property \EasyWeChat\OpenPlatform\Auth\AccessToken    $access_token
- * @property \EasyWeChat\OpenPlatform\CodeTemplate\Client $code_template
+ * @property \EasyWeChat\OpenPlatform\Server\Guard                   $server
+ * @property \EasyWeChat\OpenPlatform\Auth\AccessToken               $access_token
+ * @property \EasyWeChat\OpenPlatform\CodeTemplate\Client            $code_template
+ * @property \EasyWeChat\OpenPlatform\MiniProgramFastRegister\Client $mini_program_fast_register
  *
  * @method mixed handleAuthorize(string $authCode = null)
  * @method mixed getAuthorizer(string $appId)
@@ -45,6 +46,7 @@ class Application extends ServiceContainer
         Base\ServiceProvider::class,
         Server\ServiceProvider::class,
         CodeTemplate\ServiceProvider::class,
+        MiniProgramFastRegister\ServiceProvider::class,
     ];
 
     /**
