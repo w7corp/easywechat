@@ -25,22 +25,24 @@ class Client extends BaseClient
      *
      * @param string $companyName
      * @param string $companyCode
-     * @param int $codeType
+     * @param int    $codeType
      * @param string $legalPersonaWechat
      * @param string $legalPersonaName
      * @param string $componentPhone
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @return array
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function create(string $companyName, string $companyCode, int $codeType, string $legalPersonaWechat, string $legalPersonaName, string $componentPhone)
     {
         $params = [
-            'name'                 => $companyName,
-            'code'                 => $companyCode,
-            'code_type'            => $codeType,
+            'name' => $companyName,
+            'code' => $companyCode,
+            'code_type' => $codeType,
             'legal_persona_wechat' => $legalPersonaWechat,
-            'legal_persona_name'   => $legalPersonaName,
-            'component_phone'      => $componentPhone,
+            'legal_persona_name' => $legalPersonaName,
+            'component_phone' => $componentPhone,
         ];
 
         return $this->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'create']);
@@ -52,15 +54,17 @@ class Client extends BaseClient
      * @param string $companyName
      * @param string $legalPersonaWechat
      * @param string $legalPersonaName
+     *
      * @return array
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function search(string $companyName, string $legalPersonaWechat, string $legalPersonaName)
     {
         $params = [
-            'name'                 => $companyName,
+            'name' => $companyName,
             'legal_persona_wechat' => $legalPersonaWechat,
-            'legal_persona_name'   => $legalPersonaName,
+            'legal_persona_name' => $legalPersonaName,
         ];
 
         return $this->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'search']);
