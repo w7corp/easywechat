@@ -1,6 +1,6 @@
 <p align="center">
 <a href="https://easywechat.org/">
-    <img src="http://7u2jwa.com1.z0.glb.clouddn.com/logo-20171121.png" height="300" alt="EasyWeChat Logo"/>
+    <img src="https://user-images.githubusercontent.com/1472352/49656357-1e874080-fa78-11e8-80ea-69e2103345cf.png" height="100" alt="EasyWeChat Logo"/>
 </a>
 
 <p align="center">📦 It is probably the best SDK in the world for developing Wechat App.</p>
