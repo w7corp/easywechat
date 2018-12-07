@@ -14,14 +14,14 @@ namespace EasyWeChat\OpenPlatform\MiniProgramFastRegister;
 use EasyWeChat\Kernel\BaseClient;
 
 /**
- * Class Client
+ * Class Client.
  *
  * @author dudashuang <dudashuang1222@gmail.com>
  */
 class Client extends BaseClient
 {
     /**
-     * 快速创建小程序
+     * 快速创建小程序.
      *
      * @param string $companyName
      * @param string $companyCode
@@ -49,7 +49,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 查询创建任务状态
+     * 查询创建任务状态.
      *
      * @param string $companyName
      * @param string $legalPersonaWechat
