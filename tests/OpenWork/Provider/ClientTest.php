@@ -1,7 +1,15 @@
 <?php
 
-namespace EasyWeChat\Tests\OpenWork\Provider;
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace EasyWeChat\Tests\OpenWork\Provider;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenWork\Auth\AccessToken;
@@ -25,7 +33,7 @@ class ClientTest extends TestCase
     {
         $app = new ServiceContainer([
             'corp_id' => 'mock-corp-id',
-            'redirect_uri_single' => 'mock-redirect-uri'
+            'redirect_uri_single' => 'mock-redirect-uri',
         ]);
         $app['provider_access_token'] = \Mockery::mock(AccessToken::class);
 
@@ -70,7 +78,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['getRegisterCode'], $app)->makePartial();
 
         $client->expects()->getRegisterCode()->andReturn([
-            'register_code' => 'mock-register-code'
+            'register_code' => 'mock-register-code',
         ]);
 
         $this->assertSame('https://open.work.weixin.qq.com/3rdservice/wework/register?register_code=mock-register-code', $client->getRegisterUri());
@@ -80,7 +88,7 @@ class ClientTest extends TestCase
     {
         $app = new ServiceContainer([
             'corp_id' => 'mock-corp-id',
-            'reg_template_id' => 'mock-reg-template-id'
+            'reg_template_id' => 'mock-reg-template-id',
         ]);
 
         $app['provider_access_token'] = \Mockery::mock(AccessToken::class);
@@ -101,7 +109,7 @@ class ClientTest extends TestCase
     {
         $app = new ServiceContainer([
             'corp_id' => 'mock-corp-id',
-            'reg_template_id' => 'mock-reg-template-id'
+            'reg_template_id' => 'mock-reg-template-id',
         ]);
 
         $app['provider_access_token'] = \Mockery::mock(AccessToken::class);

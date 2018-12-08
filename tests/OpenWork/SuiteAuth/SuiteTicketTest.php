@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace EasyWeChat\Tests\OpenWork\SuiteAuth;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
@@ -12,7 +21,7 @@ class SuiteTicketTest extends TestCase
 {
     public function testSetTicket()
     {
-        $client = \Mockery::mock(SuiteTicket::class . '[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
+        $client = \Mockery::mock(SuiteTicket::class.'[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
                 $mock->expects()->set('easywechat.open_work.suite_ticket.mock-suite-id', 'mock-suit-ticket@666', 1800)->once()->andReturn(true);
             });
@@ -26,7 +35,7 @@ class SuiteTicketTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to cache suite ticket.');
-        $client = \Mockery::mock(SuiteTicket::class . '[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
+        $client = \Mockery::mock(SuiteTicket::class.'[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
                 $mock->expects()->set('easywechat.open_work.suite_ticket.mock-suite-id', 'mock-suit-ticket@666', 1800)->once()->andReturn(false);
             });
@@ -37,7 +46,7 @@ class SuiteTicketTest extends TestCase
 
     public function testGetTicket()
     {
-        $client = \Mockery::mock(SuiteTicket::class . '[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
+        $client = \Mockery::mock(SuiteTicket::class.'[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
                 $mock->expects()->get('easywechat.open_work.suite_ticket.mock-suite-id')->once()->andReturn('mock-suit-ticket@666');
             });
@@ -49,7 +58,7 @@ class SuiteTicketTest extends TestCase
 
     public function testGetTicketAndThrowException()
     {
-        $client = \Mockery::mock(SuiteTicket::class . '[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
+        $client = \Mockery::mock(SuiteTicket::class.'[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
                 $mock->expects()->get('easywechat.open_work.suite_ticket.mock-suite-id')->once()->andReturn(null);
             });

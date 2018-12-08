@@ -1,7 +1,15 @@
 <?php
 
-namespace EasyWeChat\Tests\OpenWork\Server\Handlers;
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace EasyWeChat\Tests\OpenWork\Server\Handlers;
 
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\Encryptor;
@@ -16,7 +24,7 @@ class EchoStrHandlerTest extends TestCase
     {
         $config = [
             'token' => 'mock-token',
-            'aes_key' => 'mock-aes-key'
+            'aes_key' => 'mock-aes-key',
         ];
         $msgSignature = 'mock-signature';
         $nonce = 'mock-nonce';
@@ -28,7 +36,7 @@ class EchoStrHandlerTest extends TestCase
         $encryptor_corp->expects()->decrypt('mock-echo-str', 'mock-signature', 'mock-nonce', 'mock-timestamp')->andReturn('decrypted');
         $app = new Application([$config], [
             'request' => $request,
-            'encryptor_corp' => $encryptor_corp
+            'encryptor_corp' => $encryptor_corp,
         ]);
 
         $handler = \Mockery::mock(EchoStrHandler::class, [$app])->makePartial();
@@ -44,7 +52,7 @@ class EchoStrHandlerTest extends TestCase
 
         $handler = \Mockery::mock(EchoStrHandler::class, [$app])->makePartial()->shouldAllowMockingProtectedMethods();
         $handler->handle([
-            'SuiteTicket' => 'mock-suite-ticket'
+            'SuiteTicket' => 'mock-suite-ticket',
         ]);
 
         $this->assertSame('mock-suite-ticket', $app['suite_ticket']->getTicket());

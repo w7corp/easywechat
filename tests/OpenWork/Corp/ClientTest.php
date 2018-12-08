@@ -1,7 +1,15 @@
 <?php
 
-namespace EasyWeChat\Tests\OpenWork\Corp;
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
+namespace EasyWeChat\Tests\OpenWork\Corp;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenWork\Corp\Client;
@@ -25,11 +33,11 @@ class ClientTest extends TestCase
     {
         $app = new ServiceContainer([
             'suite_id' => 'mock-suit-id',
-            'redirect_uri_install' => 'mock-redirect-uri'
+            'redirect_uri_install' => 'mock-redirect-uri',
         ]);
         $app['suite_access_token'] = \Mockery::mock(AccessToken::class);
 
-        $client = $this->mockApiClient(Client::class . '[getPreAuthCode]', [], $app);
+        $client = $this->mockApiClient(Client::class.'[getPreAuthCode]', [], $app);
         $client->allows()->getPreAuthCode()->andReturn(['pre_auth_code' => 'mock-pre-auth-code']);
 
         $expected = 'https://open.work.weixin.qq.com/3rdapp/install?suite_id=mock-suit-id&redirect_uri=mock-redirect-uri&pre_auth_code=mock-pre-auth-code&state=mock-state';
@@ -58,13 +66,13 @@ class ClientTest extends TestCase
             'pre_auth_code' => 'mock-pre-auth-code',
             'session_info' => [
                 'appid' => [1, 2, 3],
-                'auth_type' => 1
-            ]
+                'auth_type' => 1,
+            ],
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->setSession('mock-pre-auth-code', [
             'appid' => [1, 2, 3],
-            'auth_type' => 1
+            'auth_type' => 1,
         ]));
     }
 
@@ -76,7 +84,7 @@ class ClientTest extends TestCase
         $app['suite_access_token'] = \Mockery::mock(AccessToken::class);
         $client = $this->mockApiClient(Client::class, [], $app)->makePartial();
         $client->expects()->httpPostJson('cgi-bin/service/get_permanent_code', [
-            'auth_code' => 'mock-auth-code'
+            'auth_code' => 'mock-auth-code',
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getPermanentByCode('mock-auth-code'));
     }
@@ -124,7 +132,7 @@ class ClientTest extends TestCase
     {
         $app = new ServiceContainer([
             'suite_id' => 'mock-suit-id',
-            'redirect_uri_oauth' => 'mock-redirect-uri'
+            'redirect_uri_oauth' => 'mock-redirect-uri',
         ]);
         $app['suite_access_token'] = \Mockery::mock(AccessToken::class);
 
