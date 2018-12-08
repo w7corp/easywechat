@@ -151,12 +151,13 @@ class XML
     }
 
     /**
-     * Delete invalid characters in XML
+     * Delete invalid characters in XML.
      *
      * @see https://www.w3.org/TR/2008/REC-xml-20081126/#charsets - XML charset range
      * @see http://php.net/manual/en/regexp.reference.escape.php - escape in UTF-8 mode
      *
      * @param string $xml
+     *
      * @return string
      */
     public static function sanitize($xml)
