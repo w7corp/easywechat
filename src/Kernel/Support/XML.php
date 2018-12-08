@@ -29,7 +29,7 @@ class XML
     {
         $backup = libxml_disable_entity_loader(true);
 
-        $result = self::normalize(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS));
+        $result = self::normalize(simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS));
 
         libxml_disable_entity_loader($backup);
 
@@ -148,5 +148,19 @@ class XML
         }
 
         return $xml;
+    }
+
+    /**
+     * Delete invalid characters in XML
+     *
+     * @see https://www.w3.org/TR/2008/REC-xml-20081126/#charsets - XML charset range
+     * @see http://php.net/manual/en/regexp.reference.escape.php - escape in UTF-8 mode
+     *
+     * @param string $xml
+     * @return string
+     */
+    public static function sanitize($xml)
+    {
+        return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml);
     }
 }

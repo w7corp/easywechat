@@ -77,4 +77,28 @@ class XMLTest extends TestCase
     {
         $this->assertSame('<![CDATA[text here]]>', XML::cdata('text here'));
     }
+
+    public function testSanitize()
+    {
+        $content_template = "<1%s%s%s234%s微信测试%sabcd?*_^%s@#%s%s%s>";
+        $valid_chars = preg_replace('/(%s)+/', '', $content_template);
+        $invalid_chars = sprintf($content_template, "\x1", "\x02", "\3", "\u{05}", "\xe", "\xF", "\u{00FFFF}", "\xC", "\10");
+
+        $xml_template = "<xml><foo>We shall filter out invalid chars</foo><bar><![CDATA[%s]]></bar></xml>";
+
+        $element = 'SimpleXMLElement';
+        $option = LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS;
+
+        $invalid_xml = sprintf($xml_template, $invalid_chars);
+        libxml_use_internal_errors(true);
+        $this->assertFalse(simplexml_load_string($invalid_xml, $element, $option));
+        libxml_use_internal_errors(false);
+
+        $valid_xml = sprintf($xml_template, $valid_chars);
+
+        $this->assertSame(
+            (array) simplexml_load_string($valid_xml, $element, $option),
+            (array) simplexml_load_string(XML::sanitize($invalid_xml), $element, $option)
+        );
+    }
 }
