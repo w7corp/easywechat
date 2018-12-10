@@ -80,11 +80,11 @@ class XMLTest extends TestCase
 
     public function testSanitize()
     {
-        $content_template = "<1%s%s%s234%s微信测试%sabcd?*_^%s@#%s%s%s>";
+        $content_template = '<1%s%s%s234%s微信测试%sabcd?*_^%s@#%s%s%s>';
         $valid_chars = preg_replace('/(%s)+/', '', $content_template);
         $invalid_chars = sprintf($content_template, "\x1", "\x02", "\3", "\u{05}", "\xe", "\xF", "\u{00FFFF}", "\xC", "\10");
 
-        $xml_template = "<xml><foo>We shall filter out invalid chars</foo><bar><![CDATA[%s]]></bar></xml>";
+        $xml_template = '<xml><foo>We shall filter out invalid chars</foo><bar><![CDATA[%s]]></bar></xml>';
 
         $element = 'SimpleXMLElement';
         $option = LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS;
