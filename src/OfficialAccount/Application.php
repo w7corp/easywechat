@@ -41,6 +41,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\POI\Client              $poi
  * @property \EasyWeChat\OfficialAccount\Store\Client            $store
  * @property \EasyWeChat\OfficialAccount\Base\Client             $base
+ * @property \EasyWeChat\OfficialAccount\Comment\Client          $comment
  * @property \Overtrue\Socialite\Providers\WeChatProvider        $oauth
  */
 class Application extends ServiceContainer
