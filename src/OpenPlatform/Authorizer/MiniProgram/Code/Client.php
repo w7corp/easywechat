@@ -195,4 +195,30 @@ class Client extends BaseClient
     {
         return $this->httpGet('wxa/getgrayreleaseplan');
     }
+
+    /**
+     * 查询当前设置的最低基础库版本及各版本用户占比.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getSupportVersion()
+    {
+        return $this->httpPostJson('cgi-bin/wxopen/getweappsupportversion');
+    }
+
+    /**
+     * 设置最低基础库版本.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function setSupportVersion(string $version)
+    {
+        return $this->httpPostJson('cgi-bin/wxopen/setweappsupportversion', [
+            'version' => $version,
+        ]);
+    }
 }
