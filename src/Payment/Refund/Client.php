@@ -128,7 +128,15 @@ class Client extends BaseClient
             'appid' => $this->app['config']->app_id,
         ], $optional);
 
-        return $this->safeRequest($this->wrap('secapi/pay/refund'), $params);
+        $api = 'secapi/pay/refund';
+        if ($this->app->inSandbox()) {
+            // 根据文档说明,沙盒中必须调用 pay/refund 接口,否则不通过
+            // https://pay.weixin.qq.com/wiki/doc/api/download/mczyscsyl.pdf
+            // 1002-可选用例-刷卡支付退款
+            $api = 'pay/refund';
+        }
+
+        return $this->safeRequest($this->wrap($api), $params);
     }
 
     /**
