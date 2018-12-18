@@ -130,7 +130,7 @@ class Client extends BaseClient
 
         return $this->safeRequest($this->wrap(
             $this->app->inSandbox() ? 'pay/refund' : 'secapi/pay/refund'
-        )), $params);
+        ), $params);
     }
 
     /**
