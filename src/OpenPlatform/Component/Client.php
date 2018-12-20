@@ -21,7 +21,7 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * 通过法人微信快速创建小程序
+     * 通过法人微信快速创建小程序.
      *
      * @param string $companyName
      * @param string $companyCode
@@ -55,7 +55,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 查询创建任务状态
+     * 查询创建任务状态.
      *
      * @param string $companyName
      * @param string $legalPersonaWechat
