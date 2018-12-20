@@ -9,43 +9,43 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OpenPlatform\MiniProgramFastRegister;
+namespace EasyWeChat\Tests\OpenPlatform\Component;
 
-use EasyWeChat\OpenPlatform\MiniProgramFastRegister\Client;
+use EasyWeChat\OpenPlatform\Component\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function testCreate()
+    public function testRegisterMiniProgram()
     {
         $client = $this->mockApiClient(Client::class, []);
 
         $params = [
-            'name'                 => 'aaa',
-            'code'                 => '111',
-            'code_type'            => 1,
+            'name' => 'aaa',
+            'code' => '111',
+            'code_type' => 1,
             'legal_persona_wechat' => 'aaa111',
-            'legal_persona_name'   => 'aaa111',
-            'component_phone'      => '111',
+            'legal_persona_name' => 'aaa111',
+            'component_phone' => '111',
         ];
 
         $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'create'])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->create('aaa', '111', 1, 'aaa111', 'aaa111', '111'));
+        $this->assertSame('mock-result', $client->registerMiniProgram('aaa', '111', 1, 'aaa111', 'aaa111', '111'));
     }
 
-    public function testSearch()
+    public function testSearchRegistrationStatus()
     {
         $client = $this->mockApiClient(Client::class, []);
 
         $params = [
-            'name'                 => 'aaa',
+            'name' => 'aaa',
             'legal_persona_wechat' => 'aaa111',
-            'legal_persona_name'   => 'aaa111',
+            'legal_persona_name' => 'aaa111',
         ];
 
         $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'search'])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->search('aaa', 'aaa111', 'aaa111'));
+        $this->assertSame('mock-result', $client->searchRegistrationStatus('aaa', 'aaa111', 'aaa111'));
     }
 }
