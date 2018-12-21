@@ -31,10 +31,10 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'create'])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->registerMiniProgram('aaa', '111', 1, 'aaa111', 'aaa111', '111'));
+        $this->assertSame('mock-result', $client->registerMiniProgram($params));
     }
 
-    public function testSearchRegistrationStatus()
+    public function testGetRegistrationStatus()
     {
         $client = $this->mockApiClient(Client::class, []);
 
@@ -46,6 +46,6 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'search'])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->searchRegistrationStatus('aaa', 'aaa111', 'aaa111'));
+        $this->assertSame('mock-result', $client->getRegistrationStatus('aaa', 'aaa111', 'aaa111'));
     }
 }
