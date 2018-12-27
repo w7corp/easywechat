@@ -30,4 +30,3 @@ class Client extends BaseClient
         return $this->httpGet('wxa/getpaidunionid', compact('openid') + $options);
     }
 }
-
