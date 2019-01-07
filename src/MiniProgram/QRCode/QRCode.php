@@ -41,16 +41,18 @@ class QRCode extends AbstractMiniProgram
      * @param int    $width
      * @param bool   $autoColor
      * @param array  $lineColor
+     * @param bool   $is_hyaline
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getAppCode($path, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
+    public function getAppCode($path, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0], $is_hyaline = false)
     {
         $params = [
             'path' => $path,
             'width' => $width,
             'auto_color' => $autoColor,
             'line_color' => $lineColor,
+            'is_hyaline' => $is_hyaline,
         ];
 
         return $this->getStream(self::API_GET_WXACODE, $params);
@@ -63,16 +65,18 @@ class QRCode extends AbstractMiniProgram
      * @param int    $width
      * @param bool   $autoColor
      * @param array  $lineColor
+     * @param bool   $is_hyaline
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getAppCodeUnlimit($scene, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0])
+    public function getAppCodeUnlimit($scene, $width = 430, $autoColor = false, $lineColor = ['r' => 0, 'g' => 0, 'b' => 0], $is_hyaline = false)
     {
         $params = [
             'scene' => $scene,
             'width' => $width,
             'auto_color' => $autoColor,
             'line_color' => $lineColor,
+            'is_hyaline' => $is_hyaline,
         ];
 
         return $this->getStream(self::API_GET_WXACODE_UNLIMIT, $params);
@@ -86,10 +90,11 @@ class QRCode extends AbstractMiniProgram
      * @param int    $width
      * @param bool   $autoColor
      * @param array  $lineColor
+     * @param bool   $is_hyaline
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function appCodeUnlimit($scene, $page = null, $width = null, $autoColor = null, $lineColor = null)
+    public function appCodeUnlimit($scene, $page = null, $width = null, $autoColor = null, $lineColor = null, $is_hyaline = false)
     {
         $params = [
             'scene' => $scene,
@@ -97,6 +102,7 @@ class QRCode extends AbstractMiniProgram
             'width' => $width,
             'auto_color' => $autoColor,
             'line_color' => $lineColor,
+            'is_hyaline' => $is_hyaline,
         ];
 
         return $this->getStream(self::API_GET_WXACODE_UNLIMIT, $params);
