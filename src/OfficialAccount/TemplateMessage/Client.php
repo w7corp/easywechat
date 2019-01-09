@@ -210,6 +210,6 @@ class Client extends BaseClient
      */
     protected function restoreMessage()
     {
-        $this->message = (new ReflectionClass(__CLASS__))->getDefaultProperties()['message'];
+        $this->message = (new ReflectionClass(static::class))->getDefaultProperties()['message'];
     }
 }
