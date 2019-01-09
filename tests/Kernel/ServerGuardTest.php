@@ -533,11 +533,11 @@ class ServerGuardTest extends TestCase
         $reflectionProperty = new \ReflectionProperty($guard, 'alwaysValidate');
         $reflectionProperty->setAccessible(true);
 
-        $this->assertSame(false, $reflectionProperty->getValue($guard));
+        $this->assertFalse($reflectionProperty->getValue($guard));
 
         $guard->forceValidate();
 
-        $this->assertSame(true, $reflectionProperty->getValue($guard));
+        $this->assertTrue($reflectionProperty->getValue($guard));
     }
 }
 

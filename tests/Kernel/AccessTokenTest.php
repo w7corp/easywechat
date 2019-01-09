@@ -92,6 +92,7 @@ class AccessTokenTest extends TestCase
         $token->allows()->getCacheKey()->andReturn('mock-cache-key');
         $token->allows()->getCache()->andReturn($cache);
 
+        $cache->expects()->has('mock-cache-key')->andReturn(true);
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7200,
@@ -99,6 +100,8 @@ class AccessTokenTest extends TestCase
         $result = $token->setToken('mock-token');
         $this->assertSame($token, $result);
 
+        // 7000
+        $cache->expects()->has('mock-cache-key')->andReturn(true);
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7000,
@@ -108,6 +111,7 @@ class AccessTokenTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to cache access token.');
+        $cache->expects()->has('mock-cache-key')->andReturn(false);
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7000,

@@ -23,7 +23,9 @@ class SuiteTicketTest extends TestCase
     {
         $client = \Mockery::mock(SuiteTicket::class.'[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
-                $mock->expects()->set('easywechat.open_work.suite_ticket.mock-suite-id', 'mock-suit-ticket@666', 1800)->once()->andReturn(true);
+                $key = 'easywechat.open_work.suite_ticket.mock-suite-id';
+                $mock->expects()->set($key, 'mock-suit-ticket@666', 1800)->once()->andReturn(true);
+                $mock->expects()->has($key)->andReturn(true);
             });
             $mock->allows()->getCache()->andReturn($cache);
         });
@@ -37,7 +39,9 @@ class SuiteTicketTest extends TestCase
         $this->expectExceptionMessage('Failed to cache suite ticket.');
         $client = \Mockery::mock(SuiteTicket::class.'[getCache]', [new Application(['suite_id' => 'mock-suite-id'])], function ($mock) {
             $cache = \Mockery::mock(CacheInterface::class, function ($mock) {
-                $mock->expects()->set('easywechat.open_work.suite_ticket.mock-suite-id', 'mock-suit-ticket@666', 1800)->once()->andReturn(false);
+                $key = 'easywechat.open_work.suite_ticket.mock-suite-id';
+                $mock->expects()->set($key, 'mock-suit-ticket@666', 1800)->once();
+                $mock->expects()->has($key)->andReturn(false);
             });
             $mock->allows()->getCache()->andReturn($cache);
         });

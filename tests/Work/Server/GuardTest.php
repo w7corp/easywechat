@@ -45,6 +45,6 @@ class GuardTest extends TestCase
         $method = new \ReflectionMethod($guard, 'isSafeMode');
         $method->setAccessible(true);
 
-        $this->assertSame(true, $method->invoke($guard));
+        $this->assertTrue($method->invoke($guard));
     }
 }

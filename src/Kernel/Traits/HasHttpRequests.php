@@ -101,7 +101,7 @@ trait HasHttpRequests
      * Add a middleware.
      *
      * @param callable    $middleware
-     * @param null|string $name
+     * @param string|null $name
      *
      * @return $this
      */
