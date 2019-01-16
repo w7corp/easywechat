@@ -14,8 +14,6 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
@@ -186,20 +184,6 @@ class BaseClient
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {
         return Response::buildFromPsrResponse($this->request($url, $method, $options, true));
-    }
-
-    /**
-     * Return GuzzleHttp\ClientInterface instance.
-     *
-     * @return ClientInterface
-     */
-    public function getHttpClient(): ClientInterface
-    {
-        if (!($this->httpClient instanceof ClientInterface)) {
-            $this->httpClient = $this->app['http_client'] ?? new Client();
-        }
-
-        return $this->httpClient;
     }
 
     /**
