@@ -14,8 +14,6 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;

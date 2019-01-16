@@ -213,12 +213,14 @@ trait HasHttpRequests
 
     /**
      * Get guzzle handler.
+     *
      * @return callable
      */
     protected function getGuzzleHandler()
     {
         if (isset($this->app['guzzle_handler']) && is_string($this->app['guzzle_handler'])) {
             $handler = $this->app['guzzle_handler'];
+
             return new $handler();
         }
 
