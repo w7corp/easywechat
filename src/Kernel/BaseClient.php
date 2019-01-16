@@ -189,20 +189,6 @@ class BaseClient
     }
 
     /**
-     * Return GuzzleHttp\ClientInterface instance.
-     *
-     * @return ClientInterface
-     */
-    public function getHttpClient(): ClientInterface
-    {
-        if (!($this->httpClient instanceof ClientInterface)) {
-            $this->httpClient = $this->app['http_client'] ?? new Client();
-        }
-
-        return $this->httpClient;
-    }
-
-    /**
      * Register Guzzle middlewares.
      */
     protected function registerHttpMiddlewares()

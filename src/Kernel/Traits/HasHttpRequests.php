@@ -91,7 +91,11 @@ trait HasHttpRequests
     public function getHttpClient(): ClientInterface
     {
         if (!($this->httpClient instanceof ClientInterface)) {
-            $this->httpClient = new Client();
+            if ($this->app['http_client']) {
+                $this->httpClient = $this->app['http_client'];
+            } else {
+                $this->httpClient = new Client(['handler' => HandlerStack::create($this->getGuzzleHandler())]);
+            }
         }
 
         return $this->httpClient;
@@ -176,7 +180,7 @@ trait HasHttpRequests
             return $this->handlerStack;
         }
 
-        $this->handlerStack = HandlerStack::create();
+        $this->handlerStack = HandlerStack::create($this->getGuzzleHandler());
 
         foreach ($this->middlewares as $name => $middleware) {
             $this->handlerStack->push($middleware, $name);
@@ -205,5 +209,19 @@ trait HasHttpRequests
         }
 
         return $options;
+    }
+
+    /**
+     * Get guzzle handler.
+     * @return callable
+     */
+    protected function getGuzzleHandler()
+    {
+        if (isset($this->app['guzzle_handler']) && is_string($this->app['guzzle_handler'])) {
+            $handler = $this->app['guzzle_handler'];
+            return new $handler();
+        }
+
+        return \GuzzleHttp\choose_handler();
     }
 }
