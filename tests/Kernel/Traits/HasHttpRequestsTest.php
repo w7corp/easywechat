@@ -43,12 +43,6 @@ class HasHttpRequestsTest extends TestCase
         $this->assertSame($client, $cls->getHttpClient());
     }
 
-    public function testGuzzleHandler()
-    {
-        $cls = \Mockery::mock(HasHttpRequests::class);
-        $this->assertTrue(is_callable($cls->getGuzzleHandler()));
-    }
-
     public function testMiddlewareFeatures()
     {
         $cls = \Mockery::mock(HasHttpRequests::class);
