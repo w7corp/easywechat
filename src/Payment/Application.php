@@ -31,6 +31,7 @@ use EasyWeChat\OfficialAccount;
  * @property \EasyWeChat\BasicService\Url\Client          $url
  * @property \EasyWeChat\Payment\Transfer\Client          $transfer
  * @property \EasyWeChat\Payment\Security\Client          $security
+ * @property \EasyWeChat\Payment\Sharing\Client           $sharing
  * @property \EasyWeChat\OfficialAccount\Auth\AccessToken $access_token
  *
  * @method mixed pay(array $attributes)
@@ -56,6 +57,7 @@ class Application extends ServiceContainer
         Sandbox\ServiceProvider::class,
         Transfer\ServiceProvider::class,
         Security\ServiceProvider::class,
+        Sharing\ServiceProvider::class,
     ];
 
     /**
