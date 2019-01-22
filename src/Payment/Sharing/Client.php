@@ -80,7 +80,7 @@ class Client extends BaseClient
      * @param string $outOrderNo    商户系统内部的分账单号
      * @param string $receivers     分账接收方列表
      */
-    public function sharing(
+    public function share(
         string $transactionId,
         string $outOrderNo,
         array $receivers
@@ -127,12 +127,12 @@ class Client extends BaseClient
     }
 
     /**
-     * Finish profit sharing
+     * Finish profit sharing.
      * 完结分账.
      * 
      * @param array $params
      */
-    public function finishSharing(array $params)
+    public function markOrderAsFinished(array $params)
     {
         $params['appid'] = $this->app['config']->app_id;
         $params['sub_appid'] = null;
@@ -143,13 +143,13 @@ class Client extends BaseClient
     }
 
     /**
-     * Query profit sharing result
+     * Query profit sharing result.
      * 查询分账结果.
      * 
      * @param string $transactionId 微信支付订单号
      * @param string $outOrderNo    商户系统内部的分账单号
      */
-    public function querySharing(
+    public function query(
         string $transactionId, string $outOrderNo
     ) {
         $params = [

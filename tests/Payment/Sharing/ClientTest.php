@@ -67,7 +67,7 @@ class ClientTest extends TestCase
         );
     }
 
-    public function testSharing()
+    public function testShare()
     {
         $client = $this->mockApiClient(
             Client::class, ['safeRequest'], $this->app()
@@ -82,7 +82,7 @@ class ClientTest extends TestCase
             ]
         )->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->sharing(
+        $this->assertSame('mock-result', $client->share(
             '4208450740201411110007820472',
             'P20150806125346',
             [[
@@ -131,7 +131,7 @@ class ClientTest extends TestCase
         ));
     }
 
-    public function testFinishSharing()
+    public function testMarkOrderAsFinished()
     {
         $client = $this->mockApiClient(
             Client::class, ['safeRequest'], $this->app()
@@ -148,7 +148,7 @@ class ClientTest extends TestCase
             ]
         )->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->finishSharing([
+        $this->assertSame('mock-result', $client->markOrderAsFinished([
             'transaction_id' => '4208450740201411110007820472',
             'out_order_no' => 'P20150806125346',
             'amount' => 888,
@@ -156,7 +156,7 @@ class ClientTest extends TestCase
         ]));
     }
 
-    public function testQuerySharing()
+    public function testQuery()
     {
         $client = $this->mockApiClient(
             Client::class, ['request'], $this->app()
@@ -168,7 +168,7 @@ class ClientTest extends TestCase
             'out_order_no' => 'P20150806125346',
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->querySharing(
+        $this->assertSame('mock-result', $client->query(
             '4208450740201411110007820472', 'P20150806125346'
         ));
     }
