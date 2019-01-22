@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Payment\Sharing;
+namespace EasyWeChat\Payment\ProfitSharing;
 
 use EasyWeChat\Payment\Kernel\BaseClient;
 
