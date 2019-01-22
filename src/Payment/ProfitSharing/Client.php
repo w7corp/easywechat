@@ -107,7 +107,7 @@ class Client extends BaseClient
      * @param string $outOrderNo    商户系统内部的分账单号
      * @param string $receivers     分账接收方列表
      */
-    public function multiSharing(
+    public function multiShare(
         string $transactionId,
         string $outOrderNo,
         array $receivers
