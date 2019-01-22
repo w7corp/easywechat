@@ -34,7 +34,7 @@ class Client extends BaseClient
      * Add profit sharing receiver.
      * 服务商代子商户发起添加分账接收方请求.
      * 后续可通过发起分账请求将结算后的钱分到该分账接收方.
-     * 
+     *
      * @param array $receiver 分账接收方对象，json格式
      */
     public function addReceiver(array $receiver)
@@ -55,7 +55,7 @@ class Client extends BaseClient
      * Delete profit sharing receiver.
      * 服务商代子商户发起删除分账接收方请求.
      * 删除后不支持将结算后的钱分到该分账接收方.
-     * 
+     *
      * @param array $receiver 分账接收方对象，json格式
      */
     public function deleteReceiver(array $receiver)
@@ -75,7 +75,7 @@ class Client extends BaseClient
     /**
      * Single profit sharing.
      * 请求单次分账.
-     * 
+     *
      * @param string $transactionId 微信支付订单号
      * @param string $outOrderNo    商户系统内部的分账单号
      * @param string $receivers     分账接收方列表
@@ -102,7 +102,7 @@ class Client extends BaseClient
     /**
      * Multi profit sharing.
      * 请求多次分账.
-     * 
+     *
      * @param string $transactionId 微信支付订单号
      * @param string $outOrderNo    商户系统内部的分账单号
      * @param string $receivers     分账接收方列表
@@ -129,7 +129,7 @@ class Client extends BaseClient
     /**
      * Finish profit sharing.
      * 完结分账.
-     * 
+     *
      * @param array $params
      */
     public function markOrderAsFinished(array $params)
@@ -145,7 +145,7 @@ class Client extends BaseClient
     /**
      * Query profit sharing result.
      * 查询分账结果.
-     * 
+     *
      * @param string $transactionId 微信支付订单号
      * @param string $outOrderNo    商户系统内部的分账单号
      */
