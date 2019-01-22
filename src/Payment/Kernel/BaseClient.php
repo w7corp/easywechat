@@ -79,9 +79,8 @@ class BaseClient
 
         $params = array_filter(array_merge($base, $this->prepends(), $params));
 
-        $signType = $params['sign_type'] ?? 'MD5';
         $secretKey = $this->app->getKey($endpoint);
-        if ('HMAC-SHA256' === $signType) {
+        if ('HMAC-SHA256' === ($params['sign_type'] ?? 'MD5')) {
             $encryptMethod = function ($str) use ($secretKey) {
                 return hash_hmac('sha256', $str, $secretKey);
             };
