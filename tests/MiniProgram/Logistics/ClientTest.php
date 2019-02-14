@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\MiniProgram\Logistics;
 
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\MiniProgram\Logistics\Client;
 use EasyWeChat\Tests\TestCase;
 
@@ -23,6 +22,6 @@ class ClientTest extends TestCase
 
         $client->expects()->httpGet('cgi-bin/express/business/delivery/getall')->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->list(5, 10));
+        $this->assertSame('mock-result', $client->getAllExpress());
     }
 }
