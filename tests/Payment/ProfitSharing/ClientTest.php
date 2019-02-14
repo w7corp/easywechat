@@ -99,7 +99,7 @@ class ClientTest extends TestCase
         ));
     }
 
-    public function testMultiSharing()
+    public function testMultiShare()
     {
         $client = $this->mockApiClient(
             Client::class, ['safeRequest'], $this->app()
@@ -114,7 +114,7 @@ class ClientTest extends TestCase
             ]
         )->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->multiSharing(
+        $this->assertSame('mock-result', $client->multiShare(
             '4208450740201411110007820472',
             'P20150806125346',
             [[
