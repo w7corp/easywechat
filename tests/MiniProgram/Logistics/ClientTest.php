@@ -79,7 +79,7 @@ class ClientTest extends TestCase
                     [
                         'name' => '爱马仕铂金包',
                         'count' => 1,
-                    ]
+                    ],
                 ]
             ],
             'insured' => [
@@ -89,7 +89,7 @@ class ClientTest extends TestCase
             'service' => [
                 'service_type' => 0,
                 'service_name' => '标准快递',
-            ]
+            ],
         ];
 
         $client->expects()->httpPostJson('cgi-bin/express/business/order/add', $data)->andReturn('mock-result')->once();
