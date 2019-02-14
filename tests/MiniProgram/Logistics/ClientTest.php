@@ -17,7 +17,6 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-
     public function testList()
     {
         $client = $this->mockApiClient(Client::class);
@@ -26,5 +25,4 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->list(5, 10));
     }
-
 }

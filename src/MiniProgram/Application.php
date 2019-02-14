@@ -54,7 +54,7 @@ class Application extends ServiceContainer
         OpenData\ServiceProvider::class,
         Plugin\ServiceProvider::class,
         Base\ServiceProvider::class,
-        Logistics\ServiceProvider::class
+        Logistics\ServiceProvider::class,
     ];
 
     /**

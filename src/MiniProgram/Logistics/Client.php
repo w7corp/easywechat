@@ -20,9 +20,7 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class Client extends BaseClient
 {
-
     /**
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function getAllExpress()
@@ -31,7 +29,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array   $data
+     * @param array $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
@@ -41,7 +39,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array   $data
+     * @param array $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
@@ -51,7 +49,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array   $data
+     * @param array $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
@@ -59,6 +57,4 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/express/business/order/get', $data);
     }
-
-
 }
