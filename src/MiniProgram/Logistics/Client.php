@@ -57,4 +57,14 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/express/business/order/get', $data);
     }
+
+    /**
+     * @param array $data
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     */
+    public function getPath(array $data = [])
+    {
+        return $this->httpPostJson('cgi-bin/express/business/path/get', $data);
+    }
 }

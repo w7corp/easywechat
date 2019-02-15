@@ -128,4 +128,20 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->getOrder($data));
     }
+
+    public function testGetPath(array $data = [])
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'order_id' => '01234567890123456789',
+            'openid' => 'oABC123456',
+            'delivery_id' => 'SF',
+            'waybill_id' => '000000000',
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/business/path/get', $data)->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->getPath($data));
+    }
 }
