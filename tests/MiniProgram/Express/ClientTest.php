@@ -97,7 +97,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->createWaybill($data));
     }
 
-    public function testDeleteWaybill(array $data = [])
+    public function testDeleteWaybill()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -113,7 +113,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->deleteWaybill($data));
     }
 
-    public function testGetWaybill(array $data = [])
+    public function testGetWaybill()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -129,7 +129,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->getWaybill($data));
     }
 
-    public function testGetPath(array $data = [])
+    public function testGetWaybillTrack()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -142,6 +142,48 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/express/business/path/get', $data)->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->getPath($data));
+        $this->assertSame('mock-result', $client->getWaybillTrack($data));
+    }
+
+    public function testGetBalance()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'delivery_id' => 'YTO',
+            'biz_id' => 'xyz',
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/business/quota/get', $data)->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->getBalance('YTO', 'xyz'));
+    }
+
+    public function testBindPrinter()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'openid' => 'myopenid',
+            'update_type' => 'bind',
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/business/printer/update', $data)->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->bindPrinter('myopenid'));
+    }
+
+    public function testUnbindPrinter()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'openid' => 'myopenid',
+            'update_type' => 'unbind',
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/business/printer/update', $data)->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->unbindPrinter('myopenid'));
     }
 }
