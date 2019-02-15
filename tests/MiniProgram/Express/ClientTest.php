@@ -11,21 +11,21 @@
 
 namespace EasyWeChat\Tests\MiniProgram\Logistics;
 
-use EasyWeChat\MiniProgram\Logistics\Client;
+use EasyWeChat\MiniProgram\Express\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function testGetAllExpress()
+    public function testListProviders()
     {
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpGet('cgi-bin/express/business/delivery/getall')->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->getAllExpress());
+        $this->assertSame('mock-result', $client->listProviders());
     }
 
-    public function testAddOrder()
+    public function testCreateWaybill()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -94,10 +94,10 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/express/business/order/add', $data)->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->addOrder($data));
+        $this->assertSame('mock-result', $client->createWaybill($data));
     }
 
-    public function testCancelOrder(array $data = [])
+    public function testDeleteWaybill(array $data = [])
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -110,10 +110,10 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/express/business/order/cancel', $data)->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->cancelOrder($data));
+        $this->assertSame('mock-result', $client->deleteWaybill($data));
     }
 
-    public function testGetOrder(array $data = [])
+    public function testGetWaybill(array $data = [])
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -126,7 +126,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/express/business/order/get', $data)->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->getOrder($data));
+        $this->assertSame('mock-result', $client->getWaybill($data));
     }
 
     public function testGetPath(array $data = [])
