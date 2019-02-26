@@ -25,7 +25,7 @@ class ClientTest extends TestCase
             'related_name'           => 'mock-name',
             'related_credential'     => 'mock-credential',
             'related_address'        => 'mock-address',
-            'related_proof_material' => 'mock-proof-material'
+            'related_proof_material' => 'mock-proof-material',
         ])->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->add('mock-name', 'mock-credential', 'mock-address', 'mock-proof-material'));
@@ -64,7 +64,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('wxa/setnearbypoishowstatus', [
             'poi_id' => 'mock-poi-id',
-            'status' => 0
+            'status' => 0,
         ])->andReturn('mock-result')->once();
 
         $this->assertSame('mock-result', $client->setShowStatus('mock-poi-id', 0));

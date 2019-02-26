@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\MiniProgram\NearybyPoi;
+namespace EasyWeChat\MiniProgram\NearbyPoi;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;

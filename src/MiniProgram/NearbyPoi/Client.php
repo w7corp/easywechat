@@ -38,7 +38,7 @@ class Client extends BaseClient
             'related_name'           => $name,
             'related_credential'     => $credential,
             'related_address'        => $address,
-            'related_proof_material' => $proofMaterial
+            'related_proof_material' => $proofMaterial,
         ]);   
     }
 
@@ -52,7 +52,7 @@ class Client extends BaseClient
     public function delete(string $poiId)
     {
         return $this->httpPostJson('wxa/delnearbypoi', [
-            'poi_id' => $poiId
+            'poi_id' => $poiId,
         ]);
     }
 
@@ -68,7 +68,7 @@ class Client extends BaseClient
     {
         return $this->httpGet('wxa/getnearbypoilist', [
             'page'      => $page,
-            'page_rows' => $pageRows
+            'page_rows' => $pageRows,
         ]);
     }
 
@@ -88,7 +88,7 @@ class Client extends BaseClient
 
         return $this->httpPostJson('wxa/setnearbypoishowstatus', [
             'poi_id' => $poiId,
-            'status' => $status
+            'status' => $status,
         ]);
     }
 }
