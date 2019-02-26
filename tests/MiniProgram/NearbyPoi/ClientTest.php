@@ -22,9 +22,9 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('wxa/addnearbypoi', [
-            'related_name'           => 'mock-name',
-            'related_credential'     => 'mock-credential',
-            'related_address'        => 'mock-address',
+            'related_name' => 'mock-name',
+            'related_credential' => 'mock-credential',
+            'related_address' => 'mock-address',
             'related_proof_material' => 'mock-proof-material',
         ])->andReturn('mock-result')->once();
 
