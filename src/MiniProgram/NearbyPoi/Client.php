@@ -67,7 +67,7 @@ class Client extends BaseClient
     public function list(int $page, int $pageRows)
     {
         return $this->httpGet('wxa/getnearbypoilist', [
-            'page' => $page,
+            'page'      => $page,
             'page_rows' => $pageRows
         ]);
     }
