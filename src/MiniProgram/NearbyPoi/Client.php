@@ -21,7 +21,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
  */
 class Client extends BaseClient
 {
-
     /**
      * Add nearby poi.
      *
@@ -35,11 +34,11 @@ class Client extends BaseClient
     public function add(string $name, string $credential, string $address, string $proofMaterial = null)
     {
         return $this->httpPostJson('wxa/addnearbypoi', [
-            'related_name'           => $name,
-            'related_credential'     => $credential,
-            'related_address'        => $address,
+            'related_name' => $name,
+            'related_credential' => $credential,
+            'related_address' => $address,
             'related_proof_material' => $proofMaterial,
-        ]);   
+        ]);
     }
 
     /**
@@ -61,20 +60,20 @@ class Client extends BaseClient
      *
      * @param int $page
      * @param int $pageRows
-     * 
+     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
     public function list(int $page, int $pageRows)
     {
         return $this->httpGet('wxa/getnearbypoilist', [
-            'page'      => $page,
+            'page' => $page,
             'page_rows' => $pageRows,
         ]);
     }
 
     /**
      * Set nearby poi show status.
-     * 
+     *
      * @param string $poiId
      * @param int    $status
      *
