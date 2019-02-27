@@ -55,7 +55,7 @@ class ClientTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('status should be 0 or 1.');
-        $client->setVisible('mock-poi-id', 2);
+        $client->setVisibility('mock-poi-id', 2);
     }
 
     public function testSetVisibility()
