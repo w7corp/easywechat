@@ -58,7 +58,7 @@ class ClientTest extends TestCase
         $client->setVisible('mock-poi-id', 2);
     }
 
-    public function testsetVisible()
+    public function testSetVisibility()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -67,6 +67,6 @@ class ClientTest extends TestCase
             'status' => 0,
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->setVisible('mock-poi-id', 0));
+        $this->assertSame('mock-result', $client->setVisibility('mock-poi-id', 0));
     }
 }
