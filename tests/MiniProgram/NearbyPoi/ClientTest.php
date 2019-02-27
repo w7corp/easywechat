@@ -55,10 +55,10 @@ class ClientTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('status should be 0 or 1.');
-        $client->setShowStatus('mock-poi-id', 2);
+        $client->setVisible('mock-poi-id', 2);
     }
 
-    public function testSetShowStatus()
+    public function testsetVisible()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -67,6 +67,6 @@ class ClientTest extends TestCase
             'status' => 0,
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->setShowStatus('mock-poi-id', 0));
+        $this->assertSame('mock-result', $client->setVisible('mock-poi-id', 0));
     }
 }
