@@ -79,7 +79,7 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public function setVisible(string $poiId, int $status)
+    public function setVisibility(string $poiId, int $status)
     {
         if (!in_array($status, [0, 1], true)) {
             throw new InvalidArgumentException('status should be 0 or 1.');
