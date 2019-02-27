@@ -33,6 +33,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\UniformMessage\Client      $uniform_message
  * @property \EasyWeChat\MiniProgram\ActivityMessage\Client     $activity_message
  * @property \EasyWeChat\MiniProgram\Express\Client             $logistics
+ * @property \EasyWeChat\MiniProgram\NearbyPoi\Client           $nearby_poi
  */
 class Application extends ServiceContainer
 {
@@ -55,6 +56,7 @@ class Application extends ServiceContainer
         Plugin\ServiceProvider::class,
         Base\ServiceProvider::class,
         Express\ServiceProvider::class,
+        NearbyPoi\ServiceProvider::class,
     ];
 
     /**
