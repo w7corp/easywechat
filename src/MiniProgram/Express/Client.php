@@ -22,6 +22,7 @@ class Client extends BaseClient
 {
     /**
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function listProviders()
@@ -33,6 +34,7 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function createWaybill(array $params = [])
@@ -44,6 +46,7 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function deleteWaybill(array $params = [])
@@ -55,6 +58,7 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getWaybill(array $params = [])
@@ -66,6 +70,7 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getWaybillTrack(array $params = [])
@@ -78,6 +83,7 @@ class Client extends BaseClient
      * @param string $bizId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getBalance(string $deliveryId, string $bizId)
@@ -92,6 +98,7 @@ class Client extends BaseClient
      * @param string $openid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function bindPrinter(string $openid)
@@ -106,6 +113,7 @@ class Client extends BaseClient
      * @param string $openid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function unbindPrinter(string $openid)
