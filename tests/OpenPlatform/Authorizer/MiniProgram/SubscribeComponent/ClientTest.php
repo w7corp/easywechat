@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\OpenPlatform\Authorizer\MiniProgram\Tester;
+namespace EasyWeChat\Tests\OpenPlatform\Authorizer\MiniProgram\SubscribeComponent;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\SubscribeComponent\Client;

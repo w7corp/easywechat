@@ -134,7 +134,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 设置小程序隐私设置(是否可被搜素)
+     * 设置小程序隐私设置(是否可被搜素).
      *
      * @param int $status
      *

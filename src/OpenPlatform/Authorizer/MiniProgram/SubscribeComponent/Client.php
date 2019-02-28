@@ -21,7 +21,7 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * 获取展示的公众号信息
+     * 获取展示的公众号信息.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
@@ -31,7 +31,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 设置展示的公众号
+     * 设置展示的公众号.
      *
      * @param string $appid
      * @param int    $flag
@@ -47,7 +47,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取可以用来设置的公众号列表
+     * 获取可以用来设置的公众号列表.
      *
      * @param int $page
      * @param int $num
