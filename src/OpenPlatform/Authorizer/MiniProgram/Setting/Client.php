@@ -122,4 +122,28 @@ class Client extends BaseClient
         return $this->httpPostJson(
             'cgi-bin/wxverify/checkwxverifynickname', $params);
     }
+
+    /**
+     * 查询小程序当前隐私设置(是否可被搜索).
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getSearchStatus()
+    {
+        return $this->httpGet('wxa/getwxasearchstatus');
+    }
+
+    /**
+     * 设置小程序隐私设置(是否可被搜素)
+     *
+     * @param int $status
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function setSearchStatus(int $status)
+    {
+        return $this->httpPostJson('wxa/changewxasearchstatus', [
+            'status' => $status,
+        ]);
+    }
 }

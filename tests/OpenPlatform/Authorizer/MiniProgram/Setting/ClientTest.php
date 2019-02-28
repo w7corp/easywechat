@@ -113,4 +113,18 @@ class ClientTest extends TestCase
         $this->assertSame(
             'mock-result', $this->client->isAvailableNickname('name'));
     }
+
+    public function testGetSearchStatus()
+    {
+        $this->client->expects()->httpGet('wxa/getwxasearchstatus')->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->getSearchStatus());
+    }
+
+    public function testSetSearchStatus()
+    {
+        $this->client->expects()->httpPostJson('wxa/changewxasearchstatus', [
+            'status' => 1,
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->setSearchStatus(1));
+    }
 }

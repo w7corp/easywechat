@@ -24,6 +24,7 @@ use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Domain\Client  $domain
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Setting\Client $setting
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Tester\Client  $tester
+ * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\SubscribeComponent $subscribe_component
  */
 class Application extends MiniProgram
 {
@@ -44,6 +45,7 @@ class Application extends MiniProgram
             Account\ServiceProvider::class,
             Setting\ServiceProvider::class,
             Tester\ServiceProvider::class,
+            SubscribeComponent\ServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {
