@@ -67,9 +67,6 @@ class Client extends JssdkClient
     {
         $config = $this->bridgeConfig($prepayId, false);
 
-        $config['timestamp'] = $config['timeStamp'];
-        unset($config['timeStamp']);
-
         return $config;
     }
 
