@@ -70,7 +70,7 @@ class Client extends BaseClient
      */
     public function batchDelete(array $userIds)
     {
-        return $this->httpPost('cgi-bin/user/batchdelete', ['useridlist' => $userIds]);
+        return $this->httpPostJson('cgi-bin/user/batchdelete', ['useridlist' => $userIds]);
     }
 
     /**
