@@ -12,9 +12,7 @@
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat) 
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat) 
 
-<img width="200" src="http://wx1.sinaimg.cn/mw690/82b94fb4gy1fgwafq32r0j20nw0nwter.jpg">
-
-个人公众号
+[![EasyWechat  898X200](https://user-images.githubusercontent.com/1472352/54258820-c728cd00-459e-11e9-989f-407178c4d47a.jpg)](https://e.coding.net/?utm_source=easywechat)
 
 ## Requirement
 
