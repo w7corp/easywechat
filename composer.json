@@ -47,5 +47,8 @@
         "psr-4": {
             "EasyWeChat\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
