@@ -178,6 +178,20 @@ class ServerGuard
     }
 
     /**
+     * Get request rawMessage.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
+     *
+     * @throws BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getRawMessage()
+    {
+        return $this->app['request']->getContent(false);
+    }
+
+    /**
      * Resolve server request and return the response.
      *
      * @return \Symfony\Component\HttpFoundation\Response
