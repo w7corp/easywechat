@@ -50,7 +50,7 @@ class ClientTest extends TestCase
     public function testBatchDelete()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPost('cgi-bin/user/batchdelete', ['useridlist' => ['overtrue', 'foo']])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/user/batchdelete', ['useridlist' => ['overtrue', 'foo']])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->batchDelete(['overtrue', 'foo']));
     }
 
