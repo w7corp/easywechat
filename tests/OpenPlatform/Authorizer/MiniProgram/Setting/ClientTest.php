@@ -120,11 +120,52 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $this->client->getSearchStatus());
     }
 
-    public function testSetSearchStatus()
+    public function testSetSearchable()
+    {
+        $this->client->expects()->httpPostJson('wxa/changewxasearchstatus', [
+            'status' => 0,
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->setSearchable());
+    }
+
+    public function testSetUnsearchable()
     {
         $this->client->expects()->httpPostJson('wxa/changewxasearchstatus', [
             'status' => 1,
         ])->andReturn('mock-result')->once();
-        $this->assertSame('mock-result', $this->client->setSearchStatus(1));
+        $this->assertSame('mock-result', $this->client->setUnsearchable());
+    }
+
+    public function testGetDisplayedOfficialAccount()
+    {
+        $this->client->expects()->httpGet('wxa/getshowwxaitem')->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->getDisplayedOfficialAccount());
+    }
+
+    public function testSetDisplayedOfficialAccount()
+    {
+        $this->client->expects()->httpPostJson('wxa/updateshowwxaitem', [
+            'appid' => 'app-id',
+            'wxa_subscribe_biz_flag' => 1,
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->setDisplayedOfficialAccount('app-id'));
+    }
+
+    public function testSetOfficialAccountCantNotDisplayed()
+    {
+        $this->client->expects()->httpPostJson('wxa/updateshowwxaitem', [
+            'appid' => null,
+            'wxa_subscribe_biz_flag' => 0,
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->setDisplayedOfficialAccount(false));
+    }
+
+    public function testGetDisplayableOfficialAccounts()
+    {
+        $this->client->expects()->httpGet('wxa/getwxamplinkforshow', [
+            'page' => 1,
+            'num' => 10,
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $this->client->getDisplayableOfficialAccounts(1, 10));
     }
 }
