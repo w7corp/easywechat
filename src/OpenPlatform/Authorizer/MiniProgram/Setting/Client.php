@@ -124,7 +124,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 查询小程序当前隐私设置(是否可被搜索).
+     * 查询小程序是否可被搜索.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
