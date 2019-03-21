@@ -154,7 +154,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function typing(string $openid)
+    public function showTypingStatusToUser(string $openid)
     {
         return $this->httpPostJson('cgi-bin/message/custom/typing', [
             'touser' => $openid,
@@ -169,7 +169,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function cancelTyping(string $openid)
+    public function hideTypingStatusToUser(string $openid)
     {
         return $this->httpPostJson('cgi-bin/message/custom/typing', [
             'touser' => $openid,

@@ -111,7 +111,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->send(['foo' => 'bar']));
     }
 
-    public function testTyping()
+    public function testShowTypingStatusToUser()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -120,10 +120,10 @@ class ClientTest extends TestCase
             'command' => 'Typing',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->typing('open-id'));
+        $this->assertSame('mock-result', $client->showTypingStatusToUser('open-id'));
     }
 
-    public function testCancelTyping()
+    public function testHideTypingStatusToUser()
     {
         $client = $this->mockApiClient(Client::class);
 
@@ -132,7 +132,7 @@ class ClientTest extends TestCase
             'command' => 'CancelTyping',
         ])->andReturn('mock-result')->once();
 
-        $this->assertSame('mock-result', $client->cancelTyping('open-id'));
+        $this->assertSame('mock-result', $client->hideTypingStatusToUser('open-id'));
     }
 
     public function testMessages()
