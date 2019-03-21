@@ -111,6 +111,30 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->send(['foo' => 'bar']));
     }
 
+    public function testShowTypingStatusToUser()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/message/custom/typing', [
+            'touser' => 'open-id',
+            'command' => 'Typing',
+        ])->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->showTypingStatusToUser('open-id'));
+    }
+
+    public function testHideTypingStatusToUser()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/message/custom/typing', [
+            'touser' => 'open-id',
+            'command' => 'CancelTyping',
+        ])->andReturn('mock-result')->once();
+
+        $this->assertSame('mock-result', $client->hideTypingStatusToUser('open-id'));
+    }
+
     public function testMessages()
     {
         $client = $this->mockApiClient(Client::class);
