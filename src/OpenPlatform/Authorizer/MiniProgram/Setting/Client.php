@@ -122,4 +122,79 @@ class Client extends BaseClient
         return $this->httpPostJson(
             'cgi-bin/wxverify/checkwxverifynickname', $params);
     }
+
+    /**
+     * 查询小程序是否可被搜索.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getSearchStatus()
+    {
+        return $this->httpGet('wxa/getwxasearchstatus');
+    }
+
+    /**
+     * 设置小程序可被搜素.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function setSearchable()
+    {
+        return $this->httpPostJson('wxa/changewxasearchstatus', [
+            'status' => 0,
+        ]);
+    }
+
+    /**
+     * 设置小程序不可被搜素.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function setUnsearchable()
+    {
+        return $this->httpPostJson('wxa/changewxasearchstatus', [
+            'status' => 1,
+        ]);
+    }
+
+    /**
+     * 获取展示的公众号信息.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getDisplayedOfficialAccount()
+    {
+        return $this->httpGet('wxa/getshowwxaitem');
+    }
+
+    /**
+     * 设置展示的公众号.
+     *
+     * @param string|bool $appid
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function setDisplayedOfficialAccount($appid)
+    {
+        return $this->httpPostJson('wxa/updateshowwxaitem', [
+            'appid' => $appid ?: null,
+            'wxa_subscribe_biz_flag' => $appid ? 1 : 0,
+        ]);
+    }
+
+    /**
+     * 获取可以用来设置的公众号列表.
+     *
+     * @param int $page
+     * @param int $num
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function getDisplayableOfficialAccounts(int $page, int $num)
+    {
+        return $this->httpGet('wxa/getwxamplinkforshow', [
+            'page' => $page,
+            'num' => $num,
+        ]);
+    }
 }
