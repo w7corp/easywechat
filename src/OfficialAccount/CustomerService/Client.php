@@ -148,7 +148,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Typing.
+     * Show typing status.
      *
      * @param string $openid
      *
@@ -163,7 +163,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Cancel typing.
+     * Hide typing status.
      *
      * @param string $openid
      *
