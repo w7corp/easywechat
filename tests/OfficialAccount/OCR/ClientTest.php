@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\OCR;
 
-use EasyWeChat\OfficialAccount\OCR\Client;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\OfficialAccount\OCR\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
