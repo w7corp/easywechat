@@ -26,16 +26,17 @@ class ClientTest extends TestCase
             'type' => 'photo',
             'img_url' => $path,
         ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->idCard($path, 'photo'));
 
-        $this->assertSame('mock-result', $client->idCard('photo', $path));
+        $client->expects()->httpGet('cv/ocr/idcard', [
+            'type' => 'scan',
+            'img_url' => $path,
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->idCard($path, 'scan'));
 
-        try {
-            $client->idCard('image', $path);
-            $this->fail('No expected exception thrown.');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(InvalidArgumentException::class, $e);
-            $this->assertSame('Unsupported type: \'image\'', $e->getMessage());
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unsupported type: \'image\'');
+        $client->idCard($path, 'image');
     }
 
     public function testBankCard()

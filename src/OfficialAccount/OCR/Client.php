@@ -31,14 +31,17 @@ class Client extends BaseClient
     /**
      * ID card OCR.
      *
-     * @param string $type
      * @param string $path
+     * @param string $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function idCard(string $type, string $path)
+    public function idCard(string $path, string $type = 'photo')
     {
-        if (!in_array($type, $this->allowTypes, true)) {
+        if (!\in_array($type, $this->allowTypes, true)) {
             throw new InvalidArgumentException(sprintf("Unsupported type: '%s'", $type));
         }
 
@@ -54,6 +57,8 @@ class Client extends BaseClient
      * @param string $path
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function bankCard(string $path)
     {
@@ -68,6 +73,8 @@ class Client extends BaseClient
      * @param string $path
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function vehicleLicense(string $path)
     {
