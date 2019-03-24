@@ -13,9 +13,9 @@ namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\AES;
-use function EasyWeChat\Kernel\Support\str_random;
 use EasyWeChat\Kernel\Support\XML;
 use Throwable;
+use function EasyWeChat\Kernel\Support\str_random;
 
 /**
  * Class Encryptor.
