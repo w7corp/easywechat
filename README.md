@@ -12,7 +12,7 @@
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat) 
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat) 
 
-[![EasyWechat  898X200](https://user-images.githubusercontent.com/1472352/54258820-c728cd00-459e-11e9-989f-407178c4d47a.jpg)](https://e.coding.net/?utm_source=easywechat)
+[![image](https://user-images.githubusercontent.com/1472352/55847298-4fd56180-5b7b-11e9-99ef-8727a4ddcbe2.png)](https://e.coding.net/?utm_source=easywechat)
 
 ## Requirement
 
