@@ -78,6 +78,12 @@ class Client extends BaseClient
      */
     protected function getStream(string $endpoint, array $params)
     {
-        return StreamResponse::buildFromPsrResponse($this->requestRaw($endpoint, 'POST', ['json' => $params]));
+        $response = $this->requestRaw($endpoint, 'POST', ['json' => $params]);
+
+        if (false !== stripos($response->getHeaderLine('Content-disposition'), 'attachment')) {
+            return StreamResponse::buildFromPsrResponse($response);
+        }
+
+        return $this->castResponseToType($response, $this->app['config']->get('response_type'));
     }
 }
