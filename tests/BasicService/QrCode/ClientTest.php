@@ -59,7 +59,7 @@ class ClientTest extends TestCase
     public function testCreate()
     {
         $client = $this->mockApiClient(Client::class, 'create')->shouldAllowMockingProtectedMethods();
-        $client->shouldDeferMissing();
+        $client->makePartial();
 
         // temporary = true, expireSeconds = null
         $client->expects()->httpPostJson('qrcode/create', [

@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     public function testCheckText()
     {
         $client = $this->mockApiClient(Client::class, 'checkText')->shouldAllowMockingProtectedMethods();
-        $client->shouldDeferMissing();
+        $client->makePartial();
 
         $client->expects()->httpPostJson('msg_sec_check', [
             'content' => 'foo',
@@ -31,7 +31,7 @@ class ClientTest extends TestCase
     public function testCheckImage()
     {
         $client = $this->mockApiClient(Client::class, 'checkImage')->shouldAllowMockingProtectedMethods();
-        $client->shouldDeferMissing();
+        $client->makePartial();
 
         $imagePath = 'foo';
 

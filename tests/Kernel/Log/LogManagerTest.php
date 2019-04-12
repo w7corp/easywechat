@@ -208,7 +208,7 @@ class LogManagerTest extends TestCase
         ]);
         $log = \Mockery::mock(LogManager::class, [$app])
                 ->shouldAllowMockingProtectedMethods()
-                ->shouldDeferMissing();
+                ->makePartial();
 
         $this->assertInstanceOf(Logger::class, $log->createStackDriver(['channels' => ['single']]));
         $this->assertInstanceOf(Logger::class, $log->createSlackDriver(['url' => 'https://easywechat.com']));
@@ -222,7 +222,7 @@ class LogManagerTest extends TestCase
         $app = new ServiceContainer([]);
         $log = \Mockery::mock(LogManager::class, [$app])
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid log level.');

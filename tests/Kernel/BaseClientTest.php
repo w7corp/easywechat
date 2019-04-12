@@ -152,7 +152,7 @@ class BaseClientTest extends TestCase
     {
         $client = $this->makeClient(['retryMiddleware', 'accessTokenMiddleware', 'logMiddleware', 'pushMiddleware'])
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
         $retryMiddleware = function () {
             return 'retry';
         };
@@ -178,7 +178,7 @@ class BaseClientTest extends TestCase
         $accessToken = \Mockery::mock(AccessToken::class.'[applyToRequest]', [$app]);
         $client = $this->makeClient(['accessTokenMiddleware'], $app, $accessToken)
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $func = $client->accessTokenMiddleware();
 
@@ -205,7 +205,7 @@ class BaseClientTest extends TestCase
         $app['logger'] = new Logger('logger');
         $client = $this->makeClient(['accessTokenMiddleware'], $app)
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $this->assertInstanceOf('Closure', $client->logMiddleware());
     }
@@ -218,7 +218,7 @@ class BaseClientTest extends TestCase
         $accessToken = \Mockery::mock(AccessToken::class, [$app]);
         $client = $this->makeClient(['retryMiddleware'], $app, $accessToken)
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $func = $client->retryMiddleware();
 
