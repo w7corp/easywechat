@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     public function testGetExternalContact()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/crm/get_external_contact', ['external_userid' => 'mock-userid'])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/crm/get_external_contact', ['external_userid' => 'mock-userid'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getExternalContact('mock-userid'));
     }
 }

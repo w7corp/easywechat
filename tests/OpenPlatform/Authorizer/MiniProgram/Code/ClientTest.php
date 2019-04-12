@@ -26,7 +26,7 @@ class ClientTest extends TestCase
             'ext_json' => '{"foo":"bar"}',
             'user_version' => 'v1.0',
             'user_desc' => 'First commit.',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->commit(123, '{"foo":"bar"}', 'v1.0', 'First commit.'));
     }
 

@@ -22,7 +22,7 @@ class VerifyTicketRefreshedTest extends TestCase
     {
         $app = new Application();
         $app['verify_ticket'] = \Mockery::mock(VerifyTicket::class, function ($mock) {
-            $mock->expects()->setTicket('ticket')->once();
+            $mock->expects()->setTicket('ticket');
         });
         $handler = new VerifyTicketRefreshed($app);
 

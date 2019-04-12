@@ -22,7 +22,7 @@ class TagClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/tags/create', [
             'tag' => ['name' => '粉丝'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->create('粉丝'));
     }
@@ -31,7 +31,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpGet('cgi-bin/tags/get')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/tags/get')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
     }
@@ -45,7 +45,7 @@ class TagClientTest extends TestCase
                 'id' => 12,
                 'name' => '粉丝',
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update(12, '粉丝'));
     }
@@ -58,7 +58,7 @@ class TagClientTest extends TestCase
             'tag' => [
                 'id' => 12,
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete(12));
     }
@@ -69,7 +69,7 @@ class TagClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/tags/getidlist', [
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->userTags('mock-openid'));
     }
@@ -81,13 +81,13 @@ class TagClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/user/tag/get', [
             'tagid' => 45,
             'next_openid' => '',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->usersOfTag(45));
 
         $client->expects()->httpPostJson('cgi-bin/user/tag/get', [
             'tagid' => 45,
             'next_openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->usersOfTag(45, 'mock-openid'));
     }
 
@@ -98,7 +98,7 @@ class TagClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchtagging', [
             'openid_list' => ['openid1', 'openid2'],
             'tagid' => 45,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->tagUsers(['openid1', 'openid2'], 45));
     }
 
@@ -109,7 +109,7 @@ class TagClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchuntagging', [
             'openid_list' => ['openid1', 'openid2'],
             'tagid' => 45,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->untagUsers(['openid1', 'openid2'], 45));
     }
 }

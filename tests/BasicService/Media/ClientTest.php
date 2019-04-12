@@ -57,7 +57,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['httpUpload']);
 
         $path = STUBS_ROOT.'/files/image.jpg';
-        $client->expects()->httpUpload('media/upload', ['media' => $path], ['type' => 'image'])->andReturn('mock-response')->once();
+        $client->expects()->httpUpload('media/upload', ['media' => $path], ['type' => 'image'])->andReturn('mock-response');
 
         $client->upload('image', $path);
 
@@ -85,14 +85,14 @@ class ClientTest extends TestCase
         $client->allows()->uploadVideo($path)->andReturn('mock-response');
 
         // no media_id
-        $client->expects()->detectAndCastResponseToType('mock-response', 'array')->andReturn(['foo' => 'bar'])->once();
+        $client->expects()->detectAndCastResponseToType('mock-response', 'array')->andReturn(['foo' => 'bar']);
         $client->shouldNotReceive('createVideoForBroadcasting');
 
         $client->uploadVideoForBroadcasting($path, 'title', 'description');
 
         // return media_id
-        $client->expects()->detectAndCastResponseToType('mock-response', 'array')->andReturn(['media_id' => 'mock-media-id'])->once();
-        $client->expects()->createVideoForBroadcasting('mock-media-id', 'title', 'description')->once();
+        $client->expects()->detectAndCastResponseToType('mock-response', 'array')->andReturn(['media_id' => 'mock-media-id']);
+        $client->expects()->createVideoForBroadcasting('mock-media-id', 'title', 'description');
 
         $client->uploadVideoForBroadcasting($path, 'title', 'description');
     }
@@ -107,7 +107,7 @@ class ClientTest extends TestCase
             'media_id' => $mediaId,
             'title' => $title,
             'description' => $description,
-        ])->andReturn('mock-response')->once();
+        ])->andReturn('mock-response');
 
         $this->assertSame('mock-response', $client->createVideoForBroadcasting($mediaId, $title, $description));
     }
@@ -123,7 +123,7 @@ class ClientTest extends TestCase
             'query' => [
                 'media_id' => $mediaId,
             ],
-        ])->andReturn($imageResponse)->once();
+        ])->andReturn($imageResponse);
 
         $this->assertSame(['error' => 'invalid media id hits.'], $client->get($mediaId));
 
@@ -133,7 +133,7 @@ class ClientTest extends TestCase
             'query' => [
                 'media_id' => $mediaId,
             ],
-        ])->andReturn($imageResponse)->once();
+        ])->andReturn($imageResponse);
 
         $this->assertInstanceOf(StreamResponse::class, $client->get($mediaId));
     }
@@ -149,7 +149,7 @@ class ClientTest extends TestCase
             'query' => [
                 'media_id' => $mediaId,
             ],
-        ])->andReturn($imageResponse)->once();
+        ])->andReturn($imageResponse);
 
         $this->assertSame(['error' => 'invalid media id hits.'], $client->getJssdkMedia($mediaId));
 
@@ -159,7 +159,7 @@ class ClientTest extends TestCase
             'query' => [
                 'media_id' => $mediaId,
             ],
-        ])->andReturn($imageResponse)->once();
+        ])->andReturn($imageResponse);
 
         $this->assertInstanceOf(StreamResponse::class, $client->getJssdkMedia($mediaId));
     }

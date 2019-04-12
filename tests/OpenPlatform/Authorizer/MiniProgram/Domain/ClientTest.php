@@ -21,7 +21,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
-        $client->expects()->httpPostJson('wxa/modify_domain', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/modify_domain', ['foo' => 'bar'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->modify(['foo' => 'bar']));
     }
 
@@ -29,7 +29,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
-        $client->expects()->httpPostJson('wxa/setwebviewdomain', ['webviewdomain' => ['bar'], 'action' => 'add'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/setwebviewdomain', ['webviewdomain' => ['bar'], 'action' => 'add'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->setWebviewDomain(['bar']));
     }
 }

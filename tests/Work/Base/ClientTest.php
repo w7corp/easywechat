@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('cgi-bin/getcallbackip')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/getcallbackip')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getCallbackIp());
     }

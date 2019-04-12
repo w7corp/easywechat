@@ -28,7 +28,7 @@ class ClientTest extends TestCase
         $client->expects()->httpGet('cgi-bin/miniprogram/jscode2session', [
             'js_code' => 'js-code',
             'grant_type' => 'authorization_code',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->session('js-code'));
     }

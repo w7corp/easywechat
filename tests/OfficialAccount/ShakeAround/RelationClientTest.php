@@ -26,7 +26,7 @@ class RelationClientTest extends TestCase
                 ['device_id' => 10012],
             ],
             'page_ids' => [1, 4],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->bindPages([
             ['device_id' => 10011],
@@ -41,7 +41,7 @@ class RelationClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/relation/search', [
             'type' => 1,
             'device_identifier' => ['device_id' => 10011],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->listByDeviceId(['device_id' => 10011]));
     }
@@ -55,7 +55,7 @@ class RelationClientTest extends TestCase
             'page_id' => 6,
             'begin' => 5,
             'count' => 50,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->listByPageId(6, 5, 50));
     }

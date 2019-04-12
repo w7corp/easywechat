@@ -26,7 +26,7 @@ class ClientTest extends TestCase
             'category' => 'foo,bar',
             'appid' => '123456',
             'name' => 'easywechat',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->query('keywords', 'foo,bar', ['name' => 'easywechat']));
     }

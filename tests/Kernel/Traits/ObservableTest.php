@@ -129,13 +129,13 @@ class ObservableTest extends TestCase
     {
         $c = new DummyClassForObservableTest();
         $handler1 = \Mockery::mock(EventHandlerInterface::class);
-        $handler1->expects()->handle(['foo' => 'bar'])->andReturn('mock-response')->once();
+        $handler1->expects()->handle(['foo' => 'bar'])->andReturn('mock-response');
 
         $handler2 = \Mockery::mock(EventHandlerInterface::class);
-        $handler2->expects()->handle(['foo' => 'bar'])->andReturn(true)->once();
+        $handler2->expects()->handle(['foo' => 'bar'])->andReturn(true);
 
         $handler3 = \Mockery::mock(EventHandlerInterface::class);
-        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-2')->once();
+        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-2');
 
         $c->push($handler1);
         $c->push($handler2);
@@ -147,10 +147,10 @@ class ObservableTest extends TestCase
     {
         $c = new DummyClassForObservableTest();
         $handler1 = \Mockery::mock(EventHandlerInterface::class);
-        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(null)->once();
+        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(null);
 
         $handler2 = \Mockery::mock(EventHandlerInterface::class);
-        $handler2->expects()->handle(['foo' => 'bar'])->andReturn(false)->once();
+        $handler2->expects()->handle(['foo' => 'bar'])->andReturn(false);
 
         $handler3 = \Mockery::mock(EventHandlerInterface::class);
         $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-result')->never();
@@ -199,19 +199,19 @@ class ObservableTest extends TestCase
             'message' => 'handler2 exception thrown.',
             'file' => __FILE__,
             'line' => $line,
-        ])->once();
+        ]);
         $app = new ServiceContainer([], [
             'logger' => $logger,
         ]);
         $c = new DummyClassForObservableTest($app);
         $handler1 = \Mockery::mock(EventHandlerInterface::class);
-        $handler1->expects()->handle(['foo' => 'bar'])->andReturn('mock-response')->once();
+        $handler1->expects()->handle(['foo' => 'bar'])->andReturn('mock-response');
 
         $handler2 = \Mockery::mock(EventHandlerInterface::class);
-        $handler2->expects()->handle(['foo' => 'bar'])->andThrow($exception)->once();
+        $handler2->expects()->handle(['foo' => 'bar'])->andThrow($exception);
 
         $handler3 = \Mockery::mock(EventHandlerInterface::class);
-        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-3')->once();
+        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-3');
 
         $c->push($handler1);
         $c->push($handler2);
@@ -223,7 +223,7 @@ class ObservableTest extends TestCase
     {
         $c = new DummyClassForObservableTest();
         $handler1 = \Mockery::mock(EventHandlerInterface::class);
-        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(new TerminateResult('mock-terminate-response'))->once();
+        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(new TerminateResult('mock-terminate-response'));
 
         $handler2 = \Mockery::mock(EventHandlerInterface::class);
         $handler2->expects()->handle(['foo' => 'bar'])->andThrow(new Exception('foo'))->never();
@@ -242,16 +242,16 @@ class ObservableTest extends TestCase
         $c = new DummyClassForObservableTest();
 
         $handler0 = \Mockery::mock(EventHandlerInterface::class);
-        $handler0->expects()->handle(['foo' => 'bar'])->andReturn('mock-first-response')->once();
+        $handler0->expects()->handle(['foo' => 'bar'])->andReturn('mock-first-response');
 
         $handler1 = \Mockery::mock(EventHandlerInterface::class);
-        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(new FinallyResult('mock-finally-response'))->once();
+        $handler1->expects()->handle(['foo' => 'bar'])->andReturn(new FinallyResult('mock-finally-response'));
 
         $handler2 = \Mockery::mock(EventHandlerInterface::class);
-        $handler2->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-2')->once();
+        $handler2->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-2');
 
         $handler3 = \Mockery::mock(EventHandlerInterface::class);
-        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-3')->once();
+        $handler3->expects()->handle(['foo' => 'bar'])->andReturn('mock-response-3');
 
         $c->push($handler0);
         $c->push($handler1);
@@ -278,7 +278,7 @@ class ObservableTest extends TestCase
         // class instance
         $c = new DummyClassForObservableTest();
         $handler = \Mockery::mock(EventHandlerInterface::class);
-        $handler->expects()->handle(['foo' => 'bar'])->andReturn('class instance handle')->once();
+        $handler->expects()->handle(['foo' => 'bar'])->andReturn('class instance handle');
         $c->push($handler, 'foo');
         $this->assertSame('class instance handle', $c->getHandlers()['foo'][0](['foo' => 'bar']));
     }

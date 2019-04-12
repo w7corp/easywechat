@@ -19,21 +19,21 @@ class ClientTest extends TestCase
     public function testGet()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/appchat/get', ['chatid' => 'overtrue'])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/appchat/get', ['chatid' => 'overtrue'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->get('overtrue'));
     }
 
     public function testCreate()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('cgi-bin/appchat/create', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/appchat/create', ['foo' => 'bar'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
 
     public function testUpdate()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('cgi-bin/appchat/update', ['chatid' => 'overtrue', 'foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/appchat/update', ['chatid' => 'overtrue', 'foo' => 'bar'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->update('overtrue', ['foo' => 'bar']));
     }
 
@@ -41,7 +41,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('cgi-bin/appchat/send', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/appchat/send', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->send(['foo' => 'bar']));
     }

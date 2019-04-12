@@ -23,7 +23,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('msg_sec_check', [
             'content' => 'foo',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->checkText('foo'));
     }
@@ -37,7 +37,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpUpload('img_sec_check', [
             'media' => $imagePath,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->checkImage($imagePath));
     }

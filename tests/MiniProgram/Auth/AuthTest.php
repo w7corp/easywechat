@@ -26,7 +26,7 @@ class AuthTest extends TestCase
             'secret' => 'mock-secret',
             'js_code' => 'js-code',
             'grant_type' => 'authorization_code',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->session('js-code'));
     }

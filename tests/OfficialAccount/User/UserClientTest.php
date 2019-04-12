@@ -23,13 +23,13 @@ class UserClientTest extends TestCase
         $client->expects()->httpGet('cgi-bin/user/info', [
             'openid' => 'mock-openid',
             'lang' => 'zh_CN',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->get('mock-openid'));
 
         $client->expects()->httpGet('cgi-bin/user/info', [
             'openid' => 'mock-openid',
             'lang' => 'en',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->get('mock-openid', 'en'));
     }
 
@@ -48,7 +48,7 @@ class UserClientTest extends TestCase
                     'lang' => 'zh_CN',
                 ],
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->select(['mock-openid1', 'mock-openid2']));
 
         $client->expects()->httpPostJson('cgi-bin/user/info/batchget', [
@@ -62,7 +62,7 @@ class UserClientTest extends TestCase
                     'lang' => 'en',
                 ],
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->select(['mock-openid1', 'mock-openid2'], 'en'));
     }
 
@@ -70,10 +70,10 @@ class UserClientTest extends TestCase
     {
         $client = $this->mockApiClient(UserClient::class);
 
-        $client->expects()->httpGet('cgi-bin/user/get', ['next_openid' => null])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/user/get', ['next_openid' => null])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list());
 
-        $client->expects()->httpGet('cgi-bin/user/get', ['next_openid' => 'mock-openid'])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/user/get', ['next_openid' => 'mock-openid'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list('mock-openid'));
     }
 
@@ -84,7 +84,7 @@ class UserClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/user/info/updateremark', [
             'openid' => 'mock-openid',
             'remark' => 'mock-remark',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->remark('mock-openid', 'mock-remark'));
     }
 
@@ -92,10 +92,10 @@ class UserClientTest extends TestCase
     {
         $client = $this->mockApiClient(UserClient::class);
 
-        $client->expects()->httpPostJson('cgi-bin/tags/members/getblacklist', ['begin_openid' => null])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/tags/members/getblacklist', ['begin_openid' => null])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->blacklist());
 
-        $client->expects()->httpPostJson('cgi-bin/tags/members/getblacklist', ['begin_openid' => 'mock-openid'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/tags/members/getblacklist', ['begin_openid' => 'mock-openid'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->blacklist('mock-openid'));
     }
 
@@ -105,12 +105,12 @@ class UserClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchblacklist', [
             'openid_list' => ['mock-openid1'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->block('mock-openid1'));
 
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchblacklist', [
             'openid_list' => ['mock-openid1', 'mock-openid2'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->block(['mock-openid1', 'mock-openid2']));
     }
 
@@ -120,12 +120,12 @@ class UserClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchunblacklist', [
             'openid_list' => ['mock-openid1'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->unblock('mock-openid1'));
 
         $client->expects()->httpPostJson('cgi-bin/tags/members/batchunblacklist', [
             'openid_list' => ['mock-openid1', 'mock-openid2'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->unblock(['mock-openid1', 'mock-openid2']));
     }
 
@@ -136,7 +136,7 @@ class UserClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/changeopenid', [
             'from_appid' => 'old-appid',
             'openid_list' => ['openid1', 'openid2'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->changeOpenid('old-appid', ['openid1', 'openid2']));
     }
 }

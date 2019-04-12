@@ -29,7 +29,7 @@ class ClientTest extends TestCase
             'component_phone' => '111',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'create'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'create'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->registerMiniProgram($params));
     }
@@ -44,7 +44,7 @@ class ClientTest extends TestCase
             'legal_persona_name' => 'aaa111',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'search'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/component/fastregisterweapp', $params, ['action' => 'search'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getRegistrationStatus('aaa', 'aaa111', 'aaa111'));
     }

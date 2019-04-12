@@ -23,7 +23,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/clear_quota', [
             'appid' => '123456',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->clearQuota());
     }
@@ -32,7 +32,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('cgi-bin/getcallbackip')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/getcallbackip')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getValidIps());
     }

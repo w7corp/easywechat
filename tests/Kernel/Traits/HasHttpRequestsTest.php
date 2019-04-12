@@ -80,7 +80,7 @@ class HasHttpRequestsTest extends TestCase
             ],
             'handler' => $handlerStack,
             'base_uri' => 'http://easywechat.com',
-        ])->andReturn($response)->once();
+        ])->andReturn($response);
 
         $this->assertSame($response, $cls->request('foo/bar'));
 
@@ -92,7 +92,7 @@ class HasHttpRequestsTest extends TestCase
             'query' => ['foo' => 'bar'],
             'handler' => $handlerStack,
             'base_uri' => 'http://easywechat.com',
-        ])->andReturn($response)->once();
+        ])->andReturn($response);
 
         $this->assertSame($response, $cls->request('foo/bar', 'post', ['query' => ['foo' => 'bar']]));
     }
@@ -135,7 +135,7 @@ class HasHttpRequestsTest extends TestCase
                 'Content-Type' => 'application/json',
             ],
             'base_uri' => 'http://easywechat.com',
-        ])->andReturn($response)->once();
+        ])->andReturn($response);
 
         $this->assertSame($response, $cls->request('foo/bar', 'POST', [
             'json' => [],
@@ -152,7 +152,7 @@ class HasHttpRequestsTest extends TestCase
                 'Content-Type' => 'application/json',
             ],
             'base_uri' => 'http://easywechat.com',
-        ])->andReturn($response)->once();
+        ])->andReturn($response);
 
         $cls->request('foo/bar', 'POST', [
             'json' => ['name' => '中文'],

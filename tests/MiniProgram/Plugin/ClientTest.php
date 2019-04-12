@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('wxa/plugin', ['action' => 'apply', 'plugin_appid' => 'plugin-app-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/plugin', ['action' => 'apply', 'plugin_appid' => 'plugin-app-id'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->apply('plugin-app-id'));
     }
@@ -29,7 +29,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('wxa/plugin', ['action' => 'list'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/plugin', ['action' => 'list'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
     }
@@ -38,7 +38,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('wxa/plugin', ['action' => 'unbind', 'plugin_appid' => 'plugin-app-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/plugin', ['action' => 'unbind', 'plugin_appid' => 'plugin-app-id'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->unbind('plugin-app-id'));
     }

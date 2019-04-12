@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappiddailysummarytrend', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappiddailysummarytrend', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->summaryTrend('2017-08-02', '2017-08-10'));
     }
@@ -29,7 +29,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappiddailyvisittrend', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappiddailyvisittrend', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->dailyVisitTrend('2017-08-02', '2017-08-10'));
     }
@@ -38,7 +38,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappidweeklyvisittrend', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappidweeklyvisittrend', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->weeklyVisitTrend('2017-08-02', '2017-08-10'));
     }
@@ -47,7 +47,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappidmonthlyvisittrend', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappidmonthlyvisittrend', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->monthlyVisitTrend('2017-08-02', '2017-08-10'));
     }
@@ -56,7 +56,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappidvisitdistribution', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappidvisitdistribution', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->visitDistribution('2017-08-02', '2017-08-10'));
     }
@@ -65,7 +65,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappiddailyretaininfo', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappiddailyretaininfo', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->dailyRetainInfo('2017-08-02', '2017-08-10'));
     }
@@ -74,7 +74,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappidweeklyretaininfo', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappidweeklyretaininfo', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->weeklyRetainInfo('2017-08-02', '2017-08-10'));
     }
@@ -83,7 +83,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappidmonthlyretaininfo', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappidmonthlyretaininfo', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->monthlyRetainInfo('2017-08-02', '2017-08-10'));
     }
@@ -92,7 +92,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappidvisitpage', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappidvisitpage', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->visitPage('2017-08-02', '2017-08-10'));
     }
@@ -101,7 +101,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['query']);
 
-        $client->expects()->query('datacube/getweanalysisappiduserportrait', '2017-08-02', '2017-08-10')->andReturn('mock-result')->once();
+        $client->expects()->query('datacube/getweanalysisappiduserportrait', '2017-08-02', '2017-08-10')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->userPortrait('2017-08-02', '2017-08-10'));
     }
@@ -113,7 +113,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('path/to/api', [
             'begin_date' => '2017-08-02',
             'end_date' => '2017-08-10',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->query('path/to/api', '2017-08-02', '2017-08-10'));
     }

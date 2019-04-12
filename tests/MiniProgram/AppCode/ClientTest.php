@@ -33,7 +33,7 @@ class ClientTest extends TestCase
         $client->expects()->requestRaw('wxa/getwxacode', 'POST', ['json' => [
             'path' => 'foo-path',
             'width' => 430,
-        ]])->andReturn($this->mockStream)->once();
+        ]])->andReturn($this->mockStream);
 
         $this->assertInstanceOf(StreamResponse::class, $client->get('foo-path', [
             'width' => 430,
@@ -47,7 +47,7 @@ class ClientTest extends TestCase
         $client->expects()->requestRaw('wxa/getwxacodeunlimit', 'POST', ['json' => [
             'scene' => 'scene',
             'page' => '/app/pages/hello',
-        ]])->andReturn($this->mockStream)->once();
+        ]])->andReturn($this->mockStream);
 
         $this->assertInstanceOf(StreamResponse::class, $client->getUnlimit('scene', [
             'page' => '/app/pages/hello',
@@ -61,7 +61,7 @@ class ClientTest extends TestCase
         $client->expects()->requestRaw('cgi-bin/wxaapp/createwxaqrcode', 'POST', ['json' => [
             'path' => 'foo-path',
             'width' => null,
-        ]])->andReturn($this->mockStream)->once();
+        ]])->andReturn($this->mockStream);
 
         $this->assertInstanceOf(StreamResponse::class, $client->getQrCode('foo-path'));
     }

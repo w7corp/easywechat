@@ -21,7 +21,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('cgi-bin/message/wxopen/activityid/create')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/message/wxopen/activityid/create')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->createActivityId());
     }

@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, []);
 
-        $client->expects()->httpGet('wxa/gettemplatedraftlist')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('wxa/gettemplatedraftlist')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getDrafts());
     }
@@ -29,7 +29,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, []);
 
-        $client->expects()->httpPostJson('wxa/addtotemplate', ['draft_id' => 123])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/addtotemplate', ['draft_id' => 123])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->createFromDraft(123));
     }
@@ -38,7 +38,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, []);
 
-        $client->expects()->httpGet('wxa/gettemplatelist')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('wxa/gettemplatelist')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
     }
@@ -47,7 +47,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, []);
 
-        $client->expects()->httpPostJson('wxa/deletetemplate', ['template_id' => 234])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/deletetemplate', ['template_id' => 234])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete(234));
     }
