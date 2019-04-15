@@ -12,6 +12,7 @@
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\BasicService;
+use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
@@ -77,5 +78,12 @@ class Application extends ServiceContainer
         BasicService\Media\ServiceProvider::class,
         BasicService\Url\ServiceProvider::class,
         BasicService\Jssdk\ServiceProvider::class,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $defaultConfig = [
+        'encryption_mode' => ServerGuard::ENCRYPTION_MODE_COMPATIBLE,
     ];
 }

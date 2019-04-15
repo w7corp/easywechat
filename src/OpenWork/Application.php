@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\OpenWork;
 
+use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenWork\Work\Application as Work;
 
@@ -44,6 +45,7 @@ class Application extends ServiceContainer
         'http' => [
             'base_uri' => 'https://qyapi.weixin.qq.com/',
         ],
+        'encryption_mode' => ServerGuard::ENCRYPTION_MODE_SAFE,
     ];
 
     /**

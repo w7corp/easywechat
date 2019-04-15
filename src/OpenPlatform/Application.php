@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\OpenPlatform;
 
+use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\MiniProgram\Encryptor;
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
@@ -57,6 +58,7 @@ class Application extends ServiceContainer
             'timeout' => 5.0,
             'base_uri' => 'https://api.weixin.qq.com/',
         ],
+        'encryption_mode' => ServerGuard::ENCRYPTION_MODE_SAFE,
     ];
 
     /**
@@ -73,6 +75,7 @@ class Application extends ServiceContainer
         $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
             'encryptor' => $this['encryptor'],
 
+            'encryption_mode' => ServerGuard::ENCRYPTION_MODE_SAFE,
             'account' => function ($app) {
                 return new AccountClient($app, $this);
             },
@@ -102,6 +105,7 @@ class Application extends ServiceContainer
                 return new Encryptor($this['config']['app_id'], $this['config']['token'], $this['config']['aes_key']);
             },
 
+            'encryption_mode' => ServerGuard::ENCRYPTION_MODE_SAFE,
             'auth' => function ($app) {
                 return new Client($app, $this);
             },

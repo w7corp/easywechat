@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Work;
 
+use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
 
@@ -69,6 +70,7 @@ class Application extends ServiceContainer
         'http' => [
             'base_uri' => 'https://qyapi.weixin.qq.com/',
         ],
+        'encryption_mode' => ServerGuard::ENCRYPTION_MODE_COMPATIBLE,
     ];
 
     /**
