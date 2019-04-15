@@ -47,6 +47,13 @@ class ServerGuard
     const SUCCESS_EMPTY_RESPONSE = 'success';
 
     /**
+     * Message encryption and decryption mode.
+     */
+    const ENCRYPTION_MODE_NONE=0;
+    const ENCRYPTION_MODE_COMPATIBLE=1;
+    const ENCRYPTION_MODE_SAFE=2;
+
+    /**
      * @var array
      */
     const MESSAGE_TYPE_MAPPING = [
@@ -161,17 +168,22 @@ class ServerGuard
             throw new BadRequestException('No message received.');
         }
 
-        if ($this->isSafeMode() && !empty($message['Encrypt'])) {
-            $message = $this->decryptMessage($message);
+        $mode=$this->app->getConfig()['encryption_mode'];
+        if ($mode!==self::ENCRYPTION_MODE_NONE){
+            if ($this->isSafeMode() && !empty($message['Encrypt'])) {
+                $message = $this->decryptMessage($message);
 
-            // Handle JSON format.
-            $dataSet = json_decode($message, true);
+                // Handle JSON format.
+                $dataSet = json_decode($message, true);
 
-            if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
-                return $dataSet;
+                if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
+                    return $dataSet;
+                }
+
+                $message = XML::parse($message);
+            }else if ($mode===self::ENCRYPTION_MODE_SAFE){
+                throw new BadRequestException('Message encryption mode error.');
             }
-
-            $message = XML::parse($message);
         }
 
         return $this->detectAndCastResponseToType($message, $this->app->config->get('response_type'));
