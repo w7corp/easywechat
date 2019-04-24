@@ -182,6 +182,10 @@ class Application extends ServiceContainer
 
         $key = $this->inSandbox() ? $this['sandbox']->getKey() : $this['config']->key;
 
+        if (empty($key)) {
+            throw new InvalidArgumentException("config key connot be empty.");
+        }
+
         if (32 !== strlen($key)) {
             throw new InvalidArgumentException(sprintf("'%s' should be 32 chars length.", $key));
         }
