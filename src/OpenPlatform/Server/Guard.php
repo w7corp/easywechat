@@ -16,6 +16,7 @@ use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\UpdateAuthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\VerifyTicketRefreshed;
+use EasyWeChat\OpenPlatform\Server\Handlers\ThirdFastregisterNotified;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
