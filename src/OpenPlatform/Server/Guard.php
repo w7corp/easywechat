@@ -29,6 +29,7 @@ class Guard extends ServerGuard
     const EVENT_UNAUTHORIZED = 'unauthorized';
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
     const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
+    const EVENT_NOTIFY_THIRD_FASTREGISTER = 'notify_third_fasteregister';
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
@@ -55,5 +56,6 @@ class Guard extends ServerGuard
         $this->on(self::EVENT_UNAUTHORIZED, Unauthorized::class);
         $this->on(self::EVENT_UPDATE_AUTHORIZED, UpdateAuthorized::class);
         $this->on(self::EVENT_COMPONENT_VERIFY_TICKET, VerifyTicketRefreshed::class);
+        $this->on(self::EVENT_NOTIFY_THIRD_FASTREGISTER, ThirdFastregisterNotified::class);
     }
 }
