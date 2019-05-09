@@ -23,7 +23,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/shorturl', [
             'action' => 'long2short',
             'long_url' => $url,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->shorten($url));
     }

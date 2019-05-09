@@ -76,8 +76,8 @@ class StreamResponseTest extends TestCase
     public function testSaveAs()
     {
         $response = Mockery::mock(StreamResponse::class.'[save]');
-        $response->expects()->save('dir', 'filename', true)->andReturn('filename.png')->once();
-        $response->expects()->save('dir', 'filename', false)->andReturn('filename')->once();
+        $response->expects()->save('dir', 'filename', true)->andReturn('filename.png');
+        $response->expects()->save('dir', 'filename', false)->andReturn('filename');
 
         $this->assertSame('filename.png', $response->saveAs('dir', 'filename'));
 

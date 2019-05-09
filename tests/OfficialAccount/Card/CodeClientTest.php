@@ -25,7 +25,7 @@ class CodeClientTest extends TestCase
             'card_id' => $cardId,
             'code' => ['code1', 'code2'],
         ];
-        $client->expects()->httpPostJson('card/code/deposit', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/deposit', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->deposit($cardId, ['code1', 'code2']));
     }
@@ -38,7 +38,7 @@ class CodeClientTest extends TestCase
         $params = [
             'card_id' => $cardId,
         ];
-        $client->expects()->httpPostJson('card/code/getdepositcount', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/getdepositcount', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getDepositedCount($cardId));
     }
@@ -53,7 +53,7 @@ class CodeClientTest extends TestCase
             'card_id' => $cardId,
             'code' => ['code1', 'code2'],
         ];
-        $client->expects()->httpPostJson('card/code/checkcode', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/checkcode', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->check($cardId, ['code1', 'code2']));
     }
@@ -68,7 +68,7 @@ class CodeClientTest extends TestCase
             'code' => $code,
             'check_consume' => true,
             'card_id' => $cardId,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get($code, $cardId));
 
@@ -76,7 +76,7 @@ class CodeClientTest extends TestCase
             'code' => $code,
             'check_consume' => false,
             'card_id' => $cardId,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get($code, $cardId, false));
     }
@@ -93,7 +93,7 @@ class CodeClientTest extends TestCase
             'new_code' => $newCode,
             'card_id' => $cardId,
         ];
-        $client->expects()->httpPostJson('card/code/update', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/update', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update($code, $newCode, $cardId));
     }
@@ -108,7 +108,7 @@ class CodeClientTest extends TestCase
             'code' => $code,
             'card_id' => $cardId,
         ];
-        $client->expects()->httpPostJson('card/code/unavailable', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/unavailable', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->disable($code, $cardId));
     }
@@ -120,10 +120,10 @@ class CodeClientTest extends TestCase
         $cardId = 'mock-card-id';
         $code = 'mock-code';
 
-        $client->expects()->httpPostJson('card/code/consume', ['code' => $code])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/consume', ['code' => $code])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->consume($code));
 
-        $client->expects()->httpPostJson('card/code/consume', ['code' => $code, 'card_id' => $cardId])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/consume', ['code' => $code, 'card_id' => $cardId])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->consume($code, $cardId));
     }
 
@@ -135,7 +135,7 @@ class CodeClientTest extends TestCase
         $params = [
             'encrypt_code' => $encryptedCode,
         ];
-        $client->expects()->httpPostJson('card/code/decrypt', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/code/decrypt', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->decrypt($encryptedCode));
     }

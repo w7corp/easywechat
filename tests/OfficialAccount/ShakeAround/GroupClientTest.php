@@ -20,7 +20,7 @@ class GroupClientTest extends TestCase
     {
         $client = $this->mockApiClient(GroupClient::class);
 
-        $client->expects()->httpPostJson('shakearound/device/group/add', ['group_name' => 'foo'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('shakearound/device/group/add', ['group_name' => 'foo'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->create('foo'));
     }
@@ -32,7 +32,7 @@ class GroupClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/device/group/update', [
             'group_id' => 11,
             'group_name' => 'foo',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update(11, 'foo'));
     }
@@ -43,7 +43,7 @@ class GroupClientTest extends TestCase
 
         $client->expects()->httpPostJson('shakearound/device/group/delete', [
             'group_id' => 11,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete(11));
     }
@@ -55,7 +55,7 @@ class GroupClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/device/group/getlist', [
             'begin' => 11,
             'count' => 50,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(11, 50));
     }
@@ -68,7 +68,7 @@ class GroupClientTest extends TestCase
             'group_id' => 66,
             'begin' => 11,
             'count' => 50,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get(66, 11, 50));
     }
@@ -80,7 +80,7 @@ class GroupClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/device/group/adddevice', [
             'group_id' => 66,
             'device_identifiers' => [['device_id' => 10011]],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->addDevices(66, [['device_id' => 10011]]));
     }
@@ -92,7 +92,7 @@ class GroupClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/device/group/deletedevice', [
             'group_id' => 66,
             'device_identifiers' => [['device_id' => 10011]],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->removeDevices(66, [['device_id' => 10011]]));
     }

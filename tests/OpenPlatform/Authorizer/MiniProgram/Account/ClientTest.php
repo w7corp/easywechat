@@ -27,7 +27,7 @@ class ClientTest extends TestCase
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/account/getaccountbasicinfo')
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
         $this->assertSame('mock-result', $this->client->getBasicInfo());
     }
 
@@ -37,7 +37,7 @@ class ClientTest extends TestCase
             ->httpPostJson('cgi-bin/account/modifyheadimage', [
                 'head_img_media_id' => 'media-id',
                 'x1' => 0, 'y1' => 0, 'x2' => 1, 'y2' => 1,
-            ])->andReturn('mock-result')->once();
+            ])->andReturn('mock-result');
         $this->assertSame(
             'mock-result', $this->client->updateAvatar('media-id'));
     }
@@ -47,7 +47,7 @@ class ClientTest extends TestCase
         $this->client->expects()
             ->httpPostJson('cgi-bin/account/modifysignature', [
                 'signature' => 'signature',
-            ])->andReturn('mock-result')->once();
+            ])->andReturn('mock-result');
         $this->assertSame(
             'mock-result', $this->client->updateSignature('signature'));
     }

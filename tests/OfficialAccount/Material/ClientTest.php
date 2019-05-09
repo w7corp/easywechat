@@ -24,7 +24,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->upload('image', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('image', '/path/to/media')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadImage('/path/to/media'));
     }
@@ -33,7 +33,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->upload('voice', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('voice', '/path/to/media')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadVoice('/path/to/media'));
     }
@@ -42,7 +42,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->upload('thumb', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('thumb', '/path/to/media')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadThumb('/path/to/media'));
     }
@@ -56,7 +56,7 @@ class ClientTest extends TestCase
                'title' => 'mock-title',
                 'introduction' => 'mock-introduction',
             ]),
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadVideo('/path/to/media', 'mock-title', 'mock-introduction'));
     }
@@ -91,7 +91,7 @@ class ClientTest extends TestCase
             'articles' => [
                 $article1->all(),
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->uploadArticle($article1->all()));
 
         // case2: Article
@@ -99,7 +99,7 @@ class ClientTest extends TestCase
             'articles' => [
                 $article1->transformForJsonRequestWithoutType([]),
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->uploadArticle($article1));
 
         // case3: [Article, Article]
@@ -108,7 +108,7 @@ class ClientTest extends TestCase
                 $article1->transformForJsonRequestWithoutType(),
                 $article2->transformForJsonRequestWithoutType(),
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->uploadArticle([$article1, $article2]));
     }
 
@@ -131,7 +131,7 @@ class ClientTest extends TestCase
             'media_id' => 'mock-media-id',
             'index' => 3,
             'articles' => $article->transformForJsonRequestWithoutType(),
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->updateArticle('mock-media-id', $article, 3));
 
         // case2: Article array
@@ -139,7 +139,7 @@ class ClientTest extends TestCase
             'media_id' => 'mock-media-id',
             'index' => 3,
             'articles' => $article->all(),
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->updateArticle('mock-media-id', $article->all(), 3));
     }
 
@@ -147,7 +147,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['upload']);
 
-        $client->expects()->upload('news_image', '/path/to/media')->andReturn('mock-result')->once();
+        $client->expects()->upload('news_image', '/path/to/media')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadArticleImage('/path/to/media'));
     }
@@ -159,14 +159,14 @@ class ClientTest extends TestCase
         // stream response
         $response = new Response(200, ['Content-Disposition' => 'attachment; filename="filename.jpg"'], 'mock-content');
         $client->expects()->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => 'mock-media-id']])
-                    ->andReturn($response)->once();
+                    ->andReturn($response);
 
         $this->assertInstanceOf(StreamResponse::class, $client->get('mock-media-id'));
 
         // json response
         $response = new Response(200, ['Content-Type' => ['text/plain']], '{"title": "mock-title"}');
         $client->expects()->requestRaw('cgi-bin/material/get_material', 'POST', ['json' => ['media_id' => 'mock-media-id']])
-                    ->andReturn($response)->once();
+                    ->andReturn($response);
 
         $result = $client->get('mock-media-id');
         $this->assertInternalType('array', $result);
@@ -177,7 +177,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('cgi-bin/material/del_material', ['media_id' => 'mock-media-id'])
-                ->andReturn('mock-result')->once();
+                ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete('mock-media-id'));
     }
@@ -190,21 +190,21 @@ class ClientTest extends TestCase
             'type' => 'image',
             'offset' => 0,
             'count' => 20,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list('image'));
 
         $client->expects()->httpPostJson('cgi-bin/material/batchget_material', [
             'type' => 'image',
             'offset' => 1,
             'count' => 20,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list('image', 1));
 
         $client->expects()->httpPostJson('cgi-bin/material/batchget_material', [
             'type' => 'image',
             'offset' => 1,
             'count' => 10,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list('image', 1, 10));
     }
 
@@ -213,7 +213,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpGet('cgi-bin/material/get_materialcount')
-                            ->andReturn('mock-result')->once();
+                            ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->stats());
     }
@@ -235,12 +235,12 @@ class ClientTest extends TestCase
         // real path
         $path = STUBS_ROOT.'/files/image.jpg';
         $client->expects()->httpUpload('cgi-bin/material/add_material', ['media' => $path], ['foo' => 'bar', 'type' => 'image'])
-                    ->andReturn('mock-result')->once();
+                    ->andReturn('mock-result');
         $this->assertSame('mock-result', $client->upload('image', $path, ['foo' => 'bar']));
 
         // real path with news image
         $client->expects()->httpUpload('cgi-bin/media/uploadimg', ['media' => $path], ['foo' => 'bar', 'type' => 'news_image'])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
         $this->assertSame('mock-result', $client->upload('news_image', $path, ['foo' => 'bar']));
     }
 }

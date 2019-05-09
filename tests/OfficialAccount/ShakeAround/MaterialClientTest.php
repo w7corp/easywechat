@@ -23,10 +23,10 @@ class MaterialClientTest extends TestCase
 
         $path = STUBS_ROOT.'/files/image.png';
 
-        $client->expects()->httpUpload('shakearound/material/add', ['media' => $path], [], ['type' => 'icon'])->andReturn('mock-result')->once();
+        $client->expects()->httpUpload('shakearound/material/add', ['media' => $path], [], ['type' => 'icon'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->uploadImage($path));
 
-        $client->expects()->httpUpload('shakearound/material/add', ['media' => $path], [], ['type' => 'cover'])->andReturn('mock-result')->once();
+        $client->expects()->httpUpload('shakearound/material/add', ['media' => $path], [], ['type' => 'cover'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->uploadImage($path, 'cover'));
 
         // invalid path

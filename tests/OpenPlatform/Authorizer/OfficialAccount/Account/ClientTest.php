@@ -36,7 +36,7 @@ class ClientTest extends TestCase
         $client = \Mockery::mock(Client::class.'[httpPostJson]', [new Application(['app_id' => 'app-id']), $app]);
         $client->expects()->httpPostJson('cgi-bin/account/fastregister', [
             'ticket' => 'ticket',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->register('ticket'));
     }
 }

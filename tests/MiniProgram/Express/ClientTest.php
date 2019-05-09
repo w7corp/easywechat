@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('cgi-bin/express/business/delivery/getall')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/express/business/delivery/getall')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->listProviders());
     }
@@ -92,7 +92,7 @@ class ClientTest extends TestCase
             ],
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/express/business/order/add', $data)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/express/business/order/add', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->createWaybill($data));
     }
@@ -108,7 +108,7 @@ class ClientTest extends TestCase
             'waybill_id' => '000000000',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/express/business/order/cancel', $data)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/express/business/order/cancel', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->deleteWaybill($data));
     }
@@ -124,7 +124,7 @@ class ClientTest extends TestCase
             'waybill_id' => '000000000',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/express/business/order/get', $data)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/express/business/order/get', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getWaybill($data));
     }
@@ -140,7 +140,7 @@ class ClientTest extends TestCase
             'waybill_id' => '000000000',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/express/business/path/get', $data)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/express/business/path/get', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getWaybillTrack($data));
     }
@@ -154,7 +154,7 @@ class ClientTest extends TestCase
             'biz_id' => 'xyz',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/express/business/quota/get', $data)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/express/business/quota/get', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getBalance('YTO', 'xyz'));
     }
@@ -168,7 +168,7 @@ class ClientTest extends TestCase
             'update_type' => 'bind',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/express/business/printer/update', $data)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/express/business/printer/update', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->bindPrinter('myopenid'));
     }
@@ -182,7 +182,7 @@ class ClientTest extends TestCase
             'update_type' => 'unbind',
         ];
 
-        $client->expects()->httpPostJson('cgi-bin/express/business/printer/update', $data)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/express/business/printer/update', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->unbindPrinter('myopenid'));
     }

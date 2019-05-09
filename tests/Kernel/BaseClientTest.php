@@ -38,7 +38,7 @@ class BaseClientTest extends TestCase
         $client = $this->makeClient('request');
         $url = 'http://easywechat.org';
         $query = ['foo' => 'bar'];
-        $client->expects()->request($url, 'GET', ['query' => $query])->andReturn('mock-result')->once();
+        $client->expects()->request($url, 'GET', ['query' => $query])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->httpGet($url, $query));
     }
 
@@ -48,7 +48,7 @@ class BaseClientTest extends TestCase
         $url = 'http://easywechat.org';
 
         $data = ['foo' => 'bar'];
-        $client->expects()->request($url, 'POST', ['form_params' => $data])->andReturn('mock-result')->once();
+        $client->expects()->request($url, 'POST', ['form_params' => $data])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->httpPost($url, $data));
     }
 
@@ -59,7 +59,7 @@ class BaseClientTest extends TestCase
 
         $data = ['foo' => 'bar'];
         $query = ['appid' => 1234];
-        $client->expects()->request($url, 'POST', ['query' => $query, 'json' => $data])->andReturn('mock-result')->once();
+        $client->expects()->request($url, 'POST', ['query' => $query, 'json' => $data])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->httpPostJson($url, $data, $query));
     }
 
@@ -83,7 +83,7 @@ class BaseClientTest extends TestCase
             $this->assertInternalType('resource', $params['multipart'][0]['contents']);
 
             return true;
-        }))->andReturn('mock-result')->once();
+        }))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->httpUpload($url, $files, $form, $query));
     }
@@ -109,14 +109,14 @@ class BaseClientTest extends TestCase
             ->shouldAllowMockingProtectedMethods();
 
         // default value
-        $client->expects()->registerHttpMiddlewares()->once();
+        $client->expects()->registerHttpMiddlewares();
         $client->expects()->performRequest($url, 'GET', [])->andReturn(new Response(200, [], '{"mock":"result"}'));
         $this->assertSame(['mock' => 'result'], $client->request($url));
 
         // return raw with custom arguments
         $options = ['foo' => 'bar'];
         $response = new Response(200, [], '{"mock":"result"}');
-        $client->expects()->registerHttpMiddlewares()->once();
+        $client->expects()->registerHttpMiddlewares();
         $client->expects()->performRequest($url, 'POST', $options)->andReturn($response);
         $this->assertSame($response, $client->request($url, 'POST', $options, true));
     }
@@ -126,7 +126,7 @@ class BaseClientTest extends TestCase
         $url = 'http://easywechat.org';
         $response = new Response(200, [], '{"mock":"result"}');
         $client = $this->makeClient('request');
-        $client->expects()->request($url, 'GET', [], true)->andReturn($response)->once();
+        $client->expects()->request($url, 'GET', [], true)->andReturn($response);
 
         $this->assertInstanceOf(Response::class, $client->requestRaw($url));
     }
@@ -152,7 +152,7 @@ class BaseClientTest extends TestCase
     {
         $client = $this->makeClient(['retryMiddleware', 'accessTokenMiddleware', 'logMiddleware', 'pushMiddleware'])
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
         $retryMiddleware = function () {
             return 'retry';
         };
@@ -162,12 +162,12 @@ class BaseClientTest extends TestCase
         $accessTokenMiddleware = function () {
             return 'access_token';
         };
-        $client->expects()->retryMiddleware()->andReturn($retryMiddleware)->once();
-        $client->expects()->accessTokenMiddleware()->andReturn($accessTokenMiddleware)->once();
-        $client->expects()->logMiddleware()->andReturn($logMiddleware)->once();
-        $client->expects()->pushMiddleware($retryMiddleware, 'retry')->once();
-        $client->expects()->pushMiddleware($accessTokenMiddleware, 'access_token')->once();
-        $client->expects()->pushMiddleware($logMiddleware, 'log')->once();
+        $client->expects()->retryMiddleware()->andReturn($retryMiddleware);
+        $client->expects()->accessTokenMiddleware()->andReturn($accessTokenMiddleware);
+        $client->expects()->logMiddleware()->andReturn($logMiddleware);
+        $client->expects()->pushMiddleware($retryMiddleware, 'retry');
+        $client->expects()->pushMiddleware($accessTokenMiddleware, 'access_token');
+        $client->expects()->pushMiddleware($logMiddleware, 'log');
 
         $client->registerHttpMiddlewares();
     }
@@ -178,13 +178,13 @@ class BaseClientTest extends TestCase
         $accessToken = \Mockery::mock(AccessToken::class.'[applyToRequest]', [$app]);
         $client = $this->makeClient(['accessTokenMiddleware'], $app, $accessToken)
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $func = $client->accessTokenMiddleware();
 
         $request = new Request('GET', 'http://easywechat.com');
         $options = ['foo' => 'bar'];
-        $accessToken->expects()->applyToRequest($request, $options)->andReturn($request)->once();
+        $accessToken->expects()->applyToRequest($request, $options)->andReturn($request);
 
         $middleware = $func(function ($request, $options) {
             return compact('request', 'options');
@@ -205,7 +205,7 @@ class BaseClientTest extends TestCase
         $app['logger'] = new Logger('logger');
         $client = $this->makeClient(['accessTokenMiddleware'], $app)
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $this->assertInstanceOf('Closure', $client->logMiddleware());
     }
@@ -218,13 +218,13 @@ class BaseClientTest extends TestCase
         $accessToken = \Mockery::mock(AccessToken::class, [$app]);
         $client = $this->makeClient(['retryMiddleware'], $app, $accessToken)
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $func = $client->retryMiddleware();
 
         // default once with right response
-        $logger->expects()->debug('Retrying with refreshed access token.')->once();
-        $accessToken->expects()->refresh()->once();
+        $logger->expects()->debug('Retrying with refreshed access token.');
+        $accessToken->expects()->refresh();
         $handler = new MockHandler([
             new Response(200, [], '{"errcode":40001}'),
             new Response(200, [], '{"success": true}'),
@@ -238,8 +238,8 @@ class BaseClientTest extends TestCase
         $this->assertSame('{"success": true}', $response->getBody()->getContents());
 
         // default once with error response
-        $logger->expects()->debug('Retrying with refreshed access token.')->once();
-        $accessToken->expects()->refresh()->once();
+        $logger->expects()->debug('Retrying with refreshed access token.');
+        $accessToken->expects()->refresh();
         $handler = new MockHandler([
             new Response(200, [], '{"errcode":40001}'),
             new Response(200, [], '{"errcode":42001}'),

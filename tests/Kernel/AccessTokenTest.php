@@ -70,15 +70,15 @@ class AccessTokenTest extends TestCase
         // no refresh and no cached
         $cache->expects()->has('mock-cache-key')->andReturn(false);
         $cache->expects()->get('mock-cache-key')->never();
-        $token->expects()->requestToken($credentials, true)->andReturn($tokenResult)->once();
-        $token->expects()->setToken($tokenResult['access_token'], $tokenResult['expires_in'])->once();
+        $token->expects()->requestToken($credentials, true)->andReturn($tokenResult);
+        $token->expects()->setToken($tokenResult['access_token'], $tokenResult['expires_in']);
 
         $this->assertSame($tokenResult, $token->getToken());
 
         // with refresh and cached
         $cache->expects()->has('mock-cache-key')->never();
-        $token->expects()->requestToken($credentials, true)->andReturn($tokenResult)->once();
-        $token->expects()->setToken($tokenResult['access_token'], $tokenResult['expires_in'])->once();
+        $token->expects()->requestToken($credentials, true)->andReturn($tokenResult);
+        $token->expects()->setToken($tokenResult['access_token'], $tokenResult['expires_in']);
 
         $this->assertSame($tokenResult, $token->getRefreshedToken());
     }
@@ -96,7 +96,7 @@ class AccessTokenTest extends TestCase
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7200,
-        ], 7200 - 500)->once()->andReturn(true);
+        ], 7200 - 500)->andReturn(true);
         $result = $token->setToken('mock-token');
         $this->assertSame($token, $result);
 
@@ -105,7 +105,7 @@ class AccessTokenTest extends TestCase
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7000,
-        ], 7000 - 500)->once()->andReturn(true);
+        ], 7000 - 500)->andReturn(true);
         $result = $token->setToken('mock-token', 7000);
         $this->assertSame($token, $result);
 
@@ -115,7 +115,7 @@ class AccessTokenTest extends TestCase
         $cache->expects()->set('mock-cache-key', [
             'access_token' => 'mock-token',
             'expires_in' => 7000,
-        ], 7000 - 500)->once()->andReturn(false);
+        ], 7000 - 500)->andReturn(false);
         $token->setToken('mock-token', 7000);
     }
 
@@ -124,7 +124,7 @@ class AccessTokenTest extends TestCase
         $app = \Mockery::mock(ServiceContainer::class);
         $token = \Mockery::mock(AccessToken::class.'[getToken]', [$app])
             ->shouldAllowMockingProtectedMethods();
-        $token->expects()->getToken(true)->once();
+        $token->expects()->getToken(true);
 
         $result = $token->refresh();
 
@@ -157,7 +157,7 @@ class AccessTokenTest extends TestCase
 
         // erred
         $response = new Response(200, [], '{"error_msg":"mock-error-message"}');
-        $token->expects()->sendRequest($credentials)->andReturn($response)->once();
+        $token->expects()->sendRequest($credentials)->andReturn($response);
 
         try {
             $token->requestToken($credentials);
@@ -196,10 +196,10 @@ class AccessTokenTest extends TestCase
         $app['http_client'] = \Mockery::mock(Client::class);
 
         $token->expects()->sendRequest($credentials)->passthru();
-        $token->expects()->getEndpoint()->andReturn('/auth/get-token')->once();
-        $token->expects()->setHttpClient($app['http_client'])->andReturnSelf()->once();
+        $token->expects()->getEndpoint()->andReturn('/auth/get-token');
+        $token->expects()->setHttpClient($app['http_client'])->andReturnSelf();
         $token->expects()->request('/auth/get-token', 'GET', ['query' => $credentials])
-                        ->andReturn(new Response(200, [], 'mock-response'))->once();
+                        ->andReturn(new Response(200, [], 'mock-response'));
 
         $response = $token->sendRequest($credentials);
         $this->assertSame('mock-response', $response->getBody()->getContents());
@@ -213,10 +213,10 @@ class AccessTokenTest extends TestCase
         ];
 
         $token->expects()->sendRequest($credentials)->passthru();
-        $token->expects()->getEndpoint()->andReturn('/auth/get-token')->once();
-        $token->expects()->setHttpClient($app['http_client'])->andReturnSelf()->once();
+        $token->expects()->getEndpoint()->andReturn('/auth/get-token');
+        $token->expects()->setHttpClient($app['http_client'])->andReturnSelf();
         $token->expects()->request('/auth/get-token', 'post', ['json' => $credentials])
-            ->andReturn(new Response(200, [], 'mock-response'))->once();
+            ->andReturn(new Response(200, [], 'mock-response'));
 
         $response = $token->sendRequest($credentials);
         $this->assertSame('mock-response', $response->getBody()->getContents());
@@ -243,7 +243,7 @@ class AccessTokenTest extends TestCase
         $token = \Mockery::mock(AccessToken::class.'[getToken,getQuery]', [$app])
             ->shouldAllowMockingProtectedMethods();
 
-        $token->expects()->getToken()->andReturn(['access_token' => 'mock-token'])->once();
+        $token->expects()->getToken()->andReturn(['access_token' => 'mock-token']);
         $token->expects()->getQuery()->passthru();
 
         $this->assertSame(['access_token' => 'mock-token'], $token->getQuery());
@@ -252,7 +252,7 @@ class AccessTokenTest extends TestCase
         $token = \Mockery::mock(DummyAccessTokenForTest::class.'[getToken,getQuery]', [$app])
             ->shouldAllowMockingProtectedMethods();
 
-        $token->expects()->getToken()->andReturn(['foo' => 'mock-token'])->once();
+        $token->expects()->getToken()->andReturn(['foo' => 'mock-token']);
         $token->expects()->getQuery()->passthru();
 
         $this->assertSame(['foo' => 'mock-token'], $token->getQuery());

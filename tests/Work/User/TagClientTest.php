@@ -20,11 +20,11 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpPostJson('cgi-bin/tag/create', ['tagname' => '粉丝', 'tagid' => null])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/tag/create', ['tagname' => '粉丝', 'tagid' => null])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create('粉丝'));
 
         // with id
-        $client->expects()->httpPostJson('cgi-bin/tag/create', ['tagname' => '粉丝', 'tagid' => 1])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/tag/create', ['tagname' => '粉丝', 'tagid' => 1])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create('粉丝', 1));
     }
 
@@ -32,7 +32,7 @@ class TagClientTest extends TestCase
     {
         $client = $this->mockApiClient(TagClient::class);
 
-        $client->expects()->httpGet('cgi-bin/tag/list')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/tag/list')->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list());
     }
 
@@ -43,7 +43,7 @@ class TagClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/tag/update', [
             'tagid' => 12,
             'tagname' => '粉丝',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update(12, '粉丝'));
     }
@@ -54,7 +54,7 @@ class TagClientTest extends TestCase
 
         $client->expects()->httpGet('cgi-bin/tag/delete', [
             'tagid' => 12,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete(12));
     }
@@ -65,7 +65,7 @@ class TagClientTest extends TestCase
 
         $client->expects()->httpGet('cgi-bin/tag/get', [
             'tagid' => 12,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get(12));
     }
@@ -78,7 +78,7 @@ class TagClientTest extends TestCase
             'tagid' => 12,
             'userlist' => ['foo', 'bar'],
             'partylist' => [],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->tagUsers(12, ['foo', 'bar']));
     }
@@ -91,7 +91,7 @@ class TagClientTest extends TestCase
             'tagid' => 12,
             'userlist' => ['foo', 'bar'],
             'partylist' => [],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->untagUsers(12, ['foo', 'bar']));
     }
@@ -104,7 +104,7 @@ class TagClientTest extends TestCase
             'tagid' => 12,
             'userlist' => [],
             'partylist' => [14, 26],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->tagDepartments(12, [14, 26]));
     }
@@ -117,7 +117,7 @@ class TagClientTest extends TestCase
             'tagid' => 12,
             'userlist' => [],
             'partylist' => [14, 26],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->untagDepartments(12, [14, 26]));
     }

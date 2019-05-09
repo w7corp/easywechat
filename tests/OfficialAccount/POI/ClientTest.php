@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('cgi-bin/poi/getwxcategory')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/poi/getwxcategory')->andReturn('mock-result');
         $this->assertSame('mock-result', $client->categories());
     }
 
@@ -28,7 +28,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('cgi-bin/poi/getpoi', ['poi_id' => 44])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/poi/getpoi', ['poi_id' => 44])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->get(44));
     }
 
@@ -36,7 +36,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('cgi-bin/poi/delpoi', ['poi_id' => 12])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/poi/delpoi', ['poi_id' => 12])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->delete(12));
     }
 
@@ -47,13 +47,13 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/poi/getpoilist', [
             'begin' => 0,
             'limit' => 10,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list());
 
         $client->expects()->httpPostJson('cgi-bin/poi/getpoilist', [
             'begin' => 1,
             'limit' => 20,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list(1, 20));
     }
 
@@ -65,7 +65,7 @@ class ClientTest extends TestCase
             'business' => [
                 'base_info' => ['foo' => 'bar'],
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
 
@@ -73,7 +73,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['create']);
 
-        $client->expects()->create(['foo' => 'bar'])->andReturn(['poi_id' => 'mock-id'])->once();
+        $client->expects()->create(['foo' => 'bar'])->andReturn(['poi_id' => 'mock-id']);
         $this->assertSame('mock-id', $client->createAndGetId(['foo' => 'bar']));
     }
 
@@ -88,7 +88,7 @@ class ClientTest extends TestCase
                     'poi_id' => 246,
                 ],
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->update(246, ['foo' => 'bar']));
     }
 }

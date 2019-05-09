@@ -26,7 +26,7 @@ class ClientTest extends TestCase
             'related_credential' => 'mock-credential',
             'related_address' => 'mock-address',
             'related_proof_material' => 'mock-proof-material',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->add('mock-name', 'mock-credential', 'mock-address', 'mock-proof-material'));
     }
@@ -35,7 +35,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('wxa/delnearbypoi', ['poi_id' => 'mock-poi-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('wxa/delnearbypoi', ['poi_id' => 'mock-poi-id'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete('mock-poi-id'));
     }
@@ -44,7 +44,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('wxa/getnearbypoilist', ['page' => 5, 'page_rows' => 10])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('wxa/getnearbypoilist', ['page' => 5, 'page_rows' => 10])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(5, 10));
     }
@@ -65,7 +65,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('wxa/setnearbypoishowstatus', [
             'poi_id' => 'mock-poi-id',
             'status' => 0,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->setVisibility('mock-poi-id', 0));
     }

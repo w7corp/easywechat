@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     public function testGet()
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['agent_id' => 203874]));
-        $client->expects()->httpGet('cgi-bin/agent/get', ['agentid' => 203874])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/agent/get', ['agentid' => 203874])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->get(203874));
     }
 
@@ -30,14 +30,14 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/agent/set', [
             'agentid' => 203874,
             'foo' => 'bar',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->set(203874, ['foo' => 'bar']));
     }
 
     public function testList()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/agent/list')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/agent/list')->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list());
     }
 }

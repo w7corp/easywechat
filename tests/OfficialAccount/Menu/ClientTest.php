@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     public function testList()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/menu/get')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/menu/get')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
     }
@@ -27,7 +27,7 @@ class ClientTest extends TestCase
     public function testCurrent()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/get_current_selfmenu_info')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/get_current_selfmenu_info')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->current());
     }
@@ -40,13 +40,13 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/menu/addconditional', [
             'button' => ['foo' => 'bar'],
             'matchrule' => ['tag_id' => 1],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create(['foo' => 'bar'], ['tag_id' => 1]));
 
         // without match rule
         $client->expects()->httpPostJson('cgi-bin/menu/create', [
             'button' => ['foo' => 'bar'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
 
@@ -55,11 +55,11 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         // without menu id
-        $client->expects()->httpGet('cgi-bin/menu/delete')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/menu/delete')->andReturn('mock-result');
         $this->assertSame('mock-result', $client->delete());
 
         // without match rule
-        $client->expects()->httpPostJson('cgi-bin/menu/delconditional', ['menuid' => 20181723])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/menu/delconditional', ['menuid' => 20181723])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->delete(20181723));
     }
 
@@ -67,7 +67,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('cgi-bin/menu/trymatch', ['user_id' => 'mock-user-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/menu/trymatch', ['user_id' => 'mock-user-id'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->match('mock-user-id'));
     }
 }

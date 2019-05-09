@@ -21,7 +21,7 @@ class AccessTokenTest extends TestCase
     public function testGetCredentials()
     {
         $suitTicket = \Mockery::mock(SuiteTicket::class, function ($mock) {
-            $mock->expects()->getTicket()->andReturn('mock-suit-ticket')->once();
+            $mock->expects()->getTicket()->andReturn('mock-suit-ticket');
         });
 
         $app = new ServiceContainer([

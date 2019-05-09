@@ -23,7 +23,7 @@ class BaseClientTest extends TestCase
     {
         $app = new Application(['key' => '88888888888888888888888888888888']);
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->shouldDeferMissing();
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->makePartial();
 
         $api = 'http://easywechat.org';
         $params = ['foo' => 'bar'];
@@ -106,7 +106,7 @@ class BaseClientTest extends TestCase
             'key' => '88888888888888888888888888888888',
         ]);
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest'], $app)->shouldDeferMissing();
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest'], $app)->makePartial();
 
         $api = 'http://easywechat.org';
         $params = [
