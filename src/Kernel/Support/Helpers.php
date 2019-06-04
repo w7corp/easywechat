@@ -20,9 +20,9 @@ namespace EasyWeChat\Kernel\Support;
 /**
  * Generate a signature.
  *
- * @param array  $attributes
- * @param string $key
- * @param string $encryptMethod
+ * @param  array   $attributes
+ * @param  string  $key
+ * @param  string  $encryptMethod
  *
  * @return string
  */
@@ -49,7 +49,7 @@ function get_client_ip()
         $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
     }
 
-    return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
+    return filter_var($ip, FILTER_VALIDATE_IP) ? : '127.0.0.1';
 }
 
 /**
@@ -68,7 +68,7 @@ function get_server_ip()
         $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
     }
 
-    return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
+    return filter_var($ip, FILTER_VALIDATE_IP) ? : '127.0.0.1';
 }
 
 /**
@@ -80,17 +80,19 @@ function current_url()
 {
     $protocol = 'http://';
 
-    if ((!empty($_SERVER['HTTPS']) && 'off' !== $_SERVER['HTTPS']) || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'http') === 'https') {
+    if ((!empty($_SERVER['HTTPS']) && 'off' !== $_SERVER['HTTPS'])
+        || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? 'http') === 'https'
+    ) {
         $protocol = 'https://';
     }
 
-    return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 }
 
 /**
  * Return random string.
  *
- * @param string $length
+ * @param  string  $length
  *
  * @return string
  */
@@ -100,8 +102,8 @@ function str_random($length)
 }
 
 /**
- * @param string $content
- * @param string $publicKey
+ * @param  string  $content
+ * @param  string  $publicKey
  *
  * @return string
  */
@@ -111,4 +113,40 @@ function rsa_public_encrypt($content, $publicKey)
     openssl_public_encrypt($content, $encrypted, openssl_pkey_get_public($publicKey), OPENSSL_PKCS1_OAEP_PADDING);
 
     return base64_encode($encrypted);
+}
+
+/**
+ * verify signature
+ *
+ * @param $data
+ * @param $secretKey
+ *
+ * @return bool
+ *
+ * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+ */
+function verify_signature($data, $secretKey)
+{
+    if ($data['return_code'] != 'SUCCESS' || $data['result_code'] != 'SUCCESS') {
+        return false;
+    }
+
+    $sign = $data['sign'];
+    strlen($sign) > 32 && $sign_type = 'HMAC-SHA256';
+    unset($data['sign']);
+
+
+    if ('HMAC-SHA256' === ($sign_type ?? 'MD5')) {
+        $encryptMethod = function ($str) use ($secretKey) {
+            return hash_hmac('sha256', $str, $secretKey);
+        };
+    } else {
+        $encryptMethod = 'md5';
+    }
+
+    if (generate_sign($data, $secretKey, $encryptMethod) == $sign) {
+        return true;
+    }
+
+    throw new \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException('return value signature verification error');
 }
