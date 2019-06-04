@@ -1,0 +1,122 @@
+<?php
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+namespace EasyWeChat\MicroMerchant;
+
+use EasyWeChat\BasicService;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\ServiceContainer;
+
+/**
+ * Class Application.
+ *
+ * @author liuml <liumenglei0211@gmail.com>
+ *
+ * @property \EasyWeChat\MicroMerchant\Certficates\Client $certficates
+ */
+class Application extends ServiceContainer
+{
+
+    /**
+     * @var array
+     */
+    protected $providers = [
+        // Base services
+        BasicService\Media\ServiceProvider::class,
+        Base\ServiceProvider::class,
+        Certficates\ServiceProvider::class,
+    ];
+
+    /**
+     * @var array
+     */
+    protected $defaultConfig = [
+        'http' => [
+            'base_uri' => 'https://api.mch.weixin.qq.com/',
+        ],
+        'log'  => [
+            'default'  => 'dev', // 默认使用的 channel，生产环境可以改为下面的 prod
+            'channels' => [
+                // 测试环境
+                'dev'  => [
+                    'driver' => 'single',
+                    'path'   => '/tmp/easywechat.log',
+                    'level'  => 'debug',
+                ],
+                // 生产环境
+                'prod' => [
+                    'driver' => 'daily',
+                    'path'   => '/tmp/easywechat.log',
+                    'level'  => 'info',
+                ],
+            ],
+        ],
+    ];
+
+    /**
+     * @return string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getKey()
+    {
+        $key = $this['config']->key;
+
+        if (empty($key)) {
+            throw new InvalidArgumentException("config key connot be empty.");
+        }
+
+        if (32 !== strlen($key)) {
+            throw new InvalidArgumentException(sprintf("'%s' should be 32 chars length.", $key));
+        }
+
+        return $key;
+    }
+
+    /**
+     * get certficates
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
+     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function getCertficates()
+    {
+        return $this->certficates->getCertficates();
+    }
+
+    /**
+     * set sub-mch-id and appid
+     *
+     * @param  string  $sub_mch_id  Identification Number of Small and Micro Businessmen Reported by Service Providers
+     * @param  string  $appid       Public Account ID of Service Provider
+     *
+     * @return $this
+     */
+    public function setSubMchId(string $sub_mch_id, string $appid = '')
+    {
+        $this['config']->set('sub_mch_id', $sub_mch_id);
+        $this['config']->set('appid', $appid);
+        return $this;
+    }
+
+    /**
+     * @param  string  $name
+     * @param  array   $arguments
+     *
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array([$this['base'], $name], $arguments);
+    }
+}
