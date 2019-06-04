@@ -218,8 +218,10 @@ trait HasHttpRequests
      */
     protected function getGuzzleHandler()
     {
-        if ($handler = $this->app->guzzle_handler ?? null) {
-            return is_string($handler) ? new $handler() : $handler;
+        if (property_exists($this, 'app') && isset($this->app['guzzle_handler'])) {
+            return is_string($handler = $this->app->raw('guzzle_handler'))
+                        ? new $handler()
+                        : $handler;
         }
 
         return \GuzzleHttp\choose_handler();
