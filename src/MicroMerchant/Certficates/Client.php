@@ -83,7 +83,7 @@ class Client extends BaseClient
             throw new InvalidArgumentException(
                 sprintf(
                     'Failed to download certificate. return_code_msg: "%s" .',
-                    $data['return_code'] . '(' . $data['return_msg'] . ')'
+                    $data['return_code'].'('.$data['return_msg'].')'
                 )
             );
         }
@@ -91,12 +91,12 @@ class Client extends BaseClient
             throw new InvalidArgumentException(
                 sprintf(
                     'Failed to download certificate. result_err_code_des: "%s" .',
-                    $data['result_code'] . '(' . $data['err_code'] . '[' . $data['err_code_des'] . '])'
+                    $data['result_code'].'('.$data['err_code'].'['.$data['err_code_des'].'])'
                 )
             );
         }
         $certificates = \GuzzleHttp\json_decode($data['certificates'], JSON_UNESCAPED_UNICODE)['data'][0];
-        $ciphertext = $this->decryptCiphertext($certificates['encrypt_certificate']);
+        $ciphertext   = $this->decryptCiphertext($certificates['encrypt_certificate']);
         unset($certificates['encrypt_certificate']);
         $certificates['certificates'] = $ciphertext;
         $this->getCache()->set($this->microCertificates, $certificates);
