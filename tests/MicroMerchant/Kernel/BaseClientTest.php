@@ -22,16 +22,17 @@ class BaseClientTest extends TestCase
     {
         $app = new Application(['key' => '88888888888888888888888888888888']);
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->makePartial();
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->shouldDeferMissing();
 
-        $api = 'http://easywechat.org';
-        $params = ['foo' => 'bar'];
-        $method = \Mockery::anyOf(['get', 'post']);
+        $api     = 'http://easywechat.org';
+        $params  = ['foo' => 'bar', 'nonce_str' => '112'];
+        $method  = \Mockery::anyOf(['get', 'post']);
         $options = ['foo' => 'bar'];
 
         $mockResponse = new Response(200, [], 'response-content');
 
         $client->expects()->performRequest($api, $method, \Mockery::on(function ($options) {
+
             $this->assertSame('bar', $options['foo']);
             $this->assertInternalType('string', $options['body']);
 
@@ -46,10 +47,10 @@ class BaseClientTest extends TestCase
 
         $client->expects()->castResponseToType()
             ->with($mockResponse, \Mockery::any())
-            ->andReturn(['foo' => 'mock-bar']);
+            ->andReturn(['foo' => 'mock-bar', 'return_code' => '1212']);
 
         // $returnResponse = false
-        $this->assertSame(['foo' => 'mock-bar'], $client->request($api, $params, $method, $options, false));
+        $this->assertSame(['foo' => 'mock-bar', 'return_code' => '1212'], $client->request($api, $params, $method, $options, false));
 
         // $returnResponse = true
         $this->assertInstanceOf(Response::class, $client->request($api, $params, $method, $options, true));
@@ -62,9 +63,9 @@ class BaseClientTest extends TestCase
 
         $client = $this->mockApiClient(BaseClient::class, ['request', 'requestRaw'], $app)->makePartial();
 
-        $api = 'http://easywechat.org';
-        $params = ['foo' => 'bar'];
-        $method = \Mockery::anyOf(['get', 'post']);
+        $api     = 'http://easywechat.org';
+        $params  = ['foo' => 'bar'];
+        $method  = \Mockery::anyOf(['get', 'post']);
         $options = [];
 
         $client->expects()->request($api, $params, $method, $options, true)->andReturn('mock-result');
@@ -75,14 +76,14 @@ class BaseClientTest extends TestCase
     public function testSafeRequest()
     {
         $app = new Application([
-            'app_id' => 'wx123456',
+            'app_id'    => 'wx123456',
             'cert_path' => 'foo',
-            'key_path' => 'bar',
+            'key_path'  => 'bar',
         ]);
 
         $client = $this->mockApiClient(BaseClient::class, ['safeRequest'], $app)->makePartial();
 
-        $api = 'http://easywechat.org';
+        $api    = 'http://easywechat.org';
         $params = ['foo' => 'bar'];
         $method = \Mockery::anyOf(['get', 'post']);
 
@@ -107,13 +108,13 @@ class BaseClientTest extends TestCase
 
         $client = $this->mockApiClient(BaseClient::class, ['performRequest'], $app)->shouldDeferMissing();
 
-        $api = 'http://easywechat.org';
-        $params = [
-            'foo' => 'bar',
+        $api     = 'http://easywechat.org';
+        $params  = [
+            'foo'       => 'bar',
             'nonce_str' => $nonceStr,
             'sign_type' => $signType,
         ];
-        $method = \Mockery::anyOf(['get', 'post']);
+        $method  = \Mockery::anyOf(['get', 'post']);
         $options = [];
 
         $mockResponse = new Response(200, [], 'response-content');

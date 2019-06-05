@@ -13,17 +13,25 @@ namespace EasyWeChat\MicroMerchant;
 use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Support;
+use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException;
 
 /**
  * Class Application.
  *
  * @author liuml <liumenglei0211@gmail.com>
  *
- * @property \EasyWeChat\MicroMerchant\Certficates\Client $certficates
+ * @property \EasyWeChat\MicroMerchant\Certficates\Client    $certficates
+ * @property \EasyWeChat\MicroMerchant\Material\Client       $material
+ * @property \EasyWeChat\MicroMerchant\MerchantConfig\Client $merchantConfig
+ * @property \EasyWeChat\MicroMerchant\Withdraw\Client       $withdraw
+ * @method mixed applyForEnter(array $params)
+ * @method mixed getState(string $applyment_id, string $business_code = '')
+ * @method mixed upgrade(array $params)
+ * @method mixed getUpgradeState(string $sub_mch_id = '')
  */
 class Application extends ServiceContainer
 {
-
     /**
      * @var array
      */
@@ -32,6 +40,9 @@ class Application extends ServiceContainer
         BasicService\Media\ServiceProvider::class,
         Base\ServiceProvider::class,
         Certficates\ServiceProvider::class,
+        MerchantConfig\ServiceProvider::class,
+        Material\ServiceProvider::class,
+        Withdraw\ServiceProvider::class,
     ];
 
     /**
@@ -110,6 +121,43 @@ class Application extends ServiceContainer
     }
 
     /**
+     * Returning true indicates that the verification is successful, returning false indicates that the signature field does not exist or is empty, and if the signature
+     * verification is wrong, the InvalidSignException will be thrown directly.
+     *
+     * @param $data
+     *
+     * @return bool
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     */
+    public function verifySignature($data)
+    {
+        if (!isset($data['sign']) || empty($data['sign'])) {
+            return false;
+        }
+
+        $sign = $data['sign'];
+        strlen($sign) > 32 && $sign_type = 'HMAC-SHA256';
+        unset($data['sign']);
+        $secretKey = $this->getKey();
+
+        if ('HMAC-SHA256' === ($sign_type ?? 'MD5')) {
+            $encryptMethod = function ($str) use ($secretKey) {
+                return hash_hmac('sha256', $str, $secretKey);
+            };
+        } else {
+            $encryptMethod = 'md5';
+        }
+
+        if (Support\generate_sign($data, $secretKey, $encryptMethod) == $sign) {
+            return true;
+        }
+
+        throw new InvalidSignException('return value signature verification error');
+    }
+
+    /**
      * @param  string  $name
      * @param  array   $arguments
      *
@@ -119,4 +167,6 @@ class Application extends ServiceContainer
     {
         return call_user_func_array([$this['base'], $name], $arguments);
     }
+
+
 }

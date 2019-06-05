@@ -114,39 +114,3 @@ function rsa_public_encrypt($content, $publicKey)
 
     return base64_encode($encrypted);
 }
-
-/**
- * verify signature
- *
- * @param $data
- * @param $secretKey
- *
- * @return bool
- *
- * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
- */
-function verify_signature($data, $secretKey)
-{
-    if ($data['return_code'] != 'SUCCESS' || $data['result_code'] != 'SUCCESS') {
-        return false;
-    }
-
-    $sign = $data['sign'];
-    strlen($sign) > 32 && $sign_type = 'HMAC-SHA256';
-    unset($data['sign']);
-
-
-    if ('HMAC-SHA256' === ($sign_type ?? 'MD5')) {
-        $encryptMethod = function ($str) use ($secretKey) {
-            return hash_hmac('sha256', $str, $secretKey);
-        };
-    } else {
-        $encryptMethod = 'md5';
-    }
-
-    if (generate_sign($data, $secretKey, $encryptMethod) == $sign) {
-        return true;
-    }
-
-    throw new \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException('return value signature verification error');
-}

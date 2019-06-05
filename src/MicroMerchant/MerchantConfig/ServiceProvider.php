@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\MicroMerchant\Config;
+namespace EasyWeChat\MicroMerchant\MerchantConfig;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -26,7 +26,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['config'] = function ($app) {
+        $app['merchantConfig'] = function ($app) {
             return new Client($app);
         };
     }
