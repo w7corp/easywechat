@@ -18,7 +18,7 @@ class Client extends BaseClient
     /**
      * apply to settle in to become a small micro merchant.
      *
-     * @param $params
+     * @param  $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -73,7 +73,7 @@ class Client extends BaseClient
     }
 
     /**
-     * merchant upgrade api
+     * merchant upgrade api.
      *
      * @param  array  $params
      *
@@ -99,9 +99,9 @@ class Client extends BaseClient
     }
 
     /**
-     * get upgrade state
+     * get upgrade state.
      *
-     * @param $sub_mch_id
+     * @param  string  $sub_mch_id
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

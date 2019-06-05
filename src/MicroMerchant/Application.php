@@ -92,7 +92,7 @@ class Application extends ServiceContainer
     }
 
     /**
-     * get certficates
+     * get certficates.
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -106,7 +106,7 @@ class Application extends ServiceContainer
     }
 
     /**
-     * set sub-mch-id and appid
+     * set sub-mch-id and appid.
      *
      * @param  string  $sub_mch_id  Identification Number of Small and Micro Businessmen Reported by Service Providers
      * @param  string  $appid       Public Account ID of Service Provider
@@ -121,12 +121,9 @@ class Application extends ServiceContainer
     }
 
     /**
-     * Returning true indicates that the verification is successful
-     * returning false indicates that the signature field does not exist or is empty
-     * and if the signature verification is wrong
-     * the InvalidSignException will be thrown directly.
+     * Returning true indicates that the verification is successful, returning false indicates that the signature field does not exist or is empty, and if the signature verification is wrong, the InvalidSignException will be thrown directly.
      *
-     * @param $data
+     * @param  $data
      *
      * @return bool
      *
