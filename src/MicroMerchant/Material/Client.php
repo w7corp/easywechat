@@ -39,7 +39,7 @@ class Client extends BaseClient
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params               = $this->processingParams(array_merge($params, [
-            'version'   => 1.0,
+            'version'   => '1.0',
             'cert_sn'   => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
@@ -65,7 +65,7 @@ class Client extends BaseClient
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params = $this->processingParams(array_merge($params, [
-            'version'   => 1.0,
+            'version'   => '1.0',
             'cert_sn'   => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),

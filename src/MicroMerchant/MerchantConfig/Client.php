@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\MicroMerchant\Config;
+namespace EasyWeChat\MicroMerchant\MerchantConfig;
 
 use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 
@@ -129,6 +129,4 @@ class Client extends BaseClient
             'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
         ]);
     }
-
-
 }

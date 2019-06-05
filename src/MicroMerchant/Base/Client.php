@@ -29,10 +29,10 @@ class Client extends BaseClient
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function applyEnter(array $params)
+    public function applyForEnter(array $params)
     {
         $params = $this->processingParams(array_merge($params, [
-            'version'   => 3.0,
+            'version'   => '3.0',
             'cert_sn'   => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
@@ -65,7 +65,7 @@ class Client extends BaseClient
         }
 
         $params = array_merge($params, [
-            'version'   => 1.0,
+            'version'   => '1.0',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]);
@@ -75,7 +75,7 @@ class Client extends BaseClient
     /**
      * merchant upgrade api
      *
-     * @param $params
+     * @param  array  $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -86,11 +86,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function upgrade($params)
+    public function upgrade(array $params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params               = $this->processingParams(array_merge($params, [
-            'version'   => 1.0,
+            'version'   => '1.0',
             'cert_sn'   => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
@@ -112,7 +112,7 @@ class Client extends BaseClient
     public function getUpgradeState(string $sub_mch_id = '')
     {
         return $this->safeRequest('applyment/micro/getupgradestate', [
-            'version'    => 1.0,
+            'version'    => '1.0',
             'sign_type'  => 'HMAC-SHA256',
             'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
             'nonce_str'  => uniqid('micro'),

@@ -76,8 +76,6 @@ class BaseClient
      * @param  array   $options
      * @param  bool    $returnResponse
      *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
@@ -85,7 +83,7 @@ class BaseClient
     protected function request(string $endpoint, array $params = [], $method = 'post', array $options = [], $returnResponse = false)
     {
         $base = [
-            'mch_id'    => $this->app['config']['mch_id']
+            'mch_id' => $this->app['config']['mch_id'],
         ];
 
         $params = array_filter(array_merge($base, $this->prepends(), $params));
@@ -107,8 +105,12 @@ class BaseClient
         $this->pushMiddleware($this->logMiddleware(), 'log');
 
         $response = $this->performRequest($endpoint, $method, $options);
-        Support\verify_signature($this->castResponseToType($response, 'array'), $secretKey);
-        return $returnResponse ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
+        $response = $returnResponse ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
+        // auto verify signature
+        if (!$returnResponse && ($this->app->config->get('response_type') ?? 'array') === 'array'){
+            $this->app->verifySignature($response);
+        }
+        return $response;
     }
 
     /**
