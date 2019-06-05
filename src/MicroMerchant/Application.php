@@ -121,8 +121,10 @@ class Application extends ServiceContainer
     }
 
     /**
-     * Returning true indicates that the verification is successful, returning false indicates that the signature field does not exist or is empty, and if the signature
-     * verification is wrong, the InvalidSignException will be thrown directly.
+     * Returning true indicates that the verification is successful
+     * returning false indicates that the signature field does not exist or is empty
+     * and if the signature verification is wrong
+     * the InvalidSignException will be thrown directly.
      *
      * @param $data
      *
@@ -167,6 +169,4 @@ class Application extends ServiceContainer
     {
         return call_user_func_array([$this['base'], $name], $arguments);
     }
-
-
 }
