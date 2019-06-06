@@ -27,11 +27,11 @@ class ClientTest extends TestCase
 
     public function testAttention()
     {
-        $client = $this->mockApiClient(Client::class, ['attention'], $this->getApp())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['recommendConf'], $this->getApp())->makePartial();
         $sub_appid = '121n3kjn2j3nnjknj';
         $subscribe_appid = '1222323dssfsd';
-        $client->expects()->attention($sub_appid, $subscribe_appid)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->attention($sub_appid, $subscribe_appid));
+        $client->expects()->recommendConf($sub_appid, $subscribe_appid)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->recommendConf($sub_appid, $subscribe_appid));
     }
 
     public function testAddPayAccreditDirectory()

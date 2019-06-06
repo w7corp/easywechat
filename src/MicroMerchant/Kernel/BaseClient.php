@@ -132,7 +132,7 @@ class BaseClient
     /**
      * Make a request and return raw response.
      *
-     * @param        $endpoint
+     * @param string $endpoint
      * @param array  $params
      * @param string $method
      * @param array  $options
@@ -143,7 +143,7 @@ class BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    protected function requestRaw($endpoint, array $params = [], $method = 'post', array $options = [])
+    protected function requestRaw(string $endpoint, array $params = [], $method = 'post', array $options = [])
     {
         return $this->request($endpoint, $params, $method, $options, true);
     }
@@ -151,7 +151,7 @@ class BaseClient
     /**
      * Request with SSL.
      *
-     * @param        $endpoint
+     * @param string $endpoint
      * @param array  $params
      * @param string $method
      * @param array  $options
@@ -162,7 +162,7 @@ class BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    protected function safeRequest($endpoint, array $params, $method = 'post', array $options = [])
+    protected function safeRequest(string $endpoint, array $params, $method = 'post', array $options = [])
     {
         $options = array_merge([
             'cert' => $this->app['config']->get('cert_path'),

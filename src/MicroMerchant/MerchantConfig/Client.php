@@ -24,9 +24,9 @@ class Client extends BaseClient
     /**
      * Service providers configure recommendation functions for small and micro businesses.
      *
-     * @param string $sub_appid
-     * @param string $subscribe_appid
-     * @param string $receipt_appid
+     * @param string $subAppid
+     * @param string $subscribeAppid
+     * @param string $receiptAppid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -34,16 +34,16 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function attention(string $sub_appid, string $subscribe_appid, string $receipt_appid = '')
+    public function recommendConf(string $subAppid, string $subscribeAppid, string $receiptAppid = '')
     {
         $params = [
-            'sub_appid' => $sub_appid,
+            'sub_appid' => $subAppid,
         ];
 
-        if (!empty($subscribe_appid)) {
-            $params['subscribe_appid'] = $subscribe_appid;
+        if (!empty($subscribeAppid)) {
+            $params['subscribe_appid'] = $subscribeAppid;
         } else {
-            $params['receipt_appid'] = $receipt_appid;
+            $params['receipt_appid'] = $receiptAppid;
         }
 
         return $this->safeRequest('secapi/mkt/addrecommendconf', array_merge($params, [
@@ -87,7 +87,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function bindAppid(string $subAppid, string $appid = '', string $subMchId = '')
+    public function bindAppId(string $subAppid, string $appid = '', string $subMchId = '')
     {
         return $this->addSubDevConfig([
             'appid' => $appid ?: $this->app['config']->appid,

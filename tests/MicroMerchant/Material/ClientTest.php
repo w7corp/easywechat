@@ -27,25 +27,25 @@ class ClientTest extends TestCase
 
     public function testModifyArchives()
     {
-        $client = $this->mockApiClient(Client::class, ['modifyArchives'], $this->getApp())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['updateArchives'], $this->getApp())->makePartial();
         $params = [
             'account_number' => '122222',
             'bank_name' => '浙商银行xxx支行',
             // ...
         ];
-        $client->expects()->modifyArchives($params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->modifyArchives($params));
+        $client->expects()->updateArchives($params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->updateArchives($params));
     }
 
     public function testModifyContactInfo()
     {
-        $client = $this->mockApiClient(Client::class, ['modifyContactInfo'], $this->getApp())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['updateContact'], $this->getApp())->makePartial();
         $params = [
             'mobile_phone' => '13200000000',
             'email' => '13200000000@163.com',
             // ...
         ];
-        $client->expects()->modifyContactInfo($params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->modifyContactInfo($params));
+        $client->expects()->updateContact($params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->updateContact($params));
     }
 }

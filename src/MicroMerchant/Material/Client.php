@@ -22,7 +22,7 @@ use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * modify settlement card.
+     * update settlement card.
      *
      * @param $params
      *
@@ -35,7 +35,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function modifyArchives($params)
+    public function updateArchives($params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params = $this->processParams(array_merge($params, [
@@ -49,7 +49,7 @@ class Client extends BaseClient
     }
 
     /**
-     * modify contact info.
+     * update contact info.
      *
      * @param $params
      *
@@ -62,7 +62,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function modifyContactInfo($params)
+    public function updateContact($params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params = $this->processParams(array_merge($params, [
