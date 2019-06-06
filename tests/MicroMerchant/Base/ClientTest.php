@@ -27,14 +27,14 @@ class ClientTest extends TestCase
 
     public function testApplyEnter()
     {
-        $client = $this->mockApiClient(Client::class, ['applyForEnter'], $this->getApp())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['submitApplication'], $this->getApp())->makePartial();
         $params = [
             'business_code' => '122222',
             'id_card_copy' => '111',
             // ...
         ];
-        $client->expects()->applyForEnter($params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->applyForEnter($params));
+        $client->expects()->submitApplication($params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->submitApplication($params));
     }
 
     public function testGetState()
