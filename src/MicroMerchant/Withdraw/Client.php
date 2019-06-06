@@ -25,7 +25,7 @@ class Client extends BaseClient
      * Query withdrawal status.
      *
      * @param        $date
-     * @param string $sub_mch_id
+     * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -33,13 +33,13 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function queryWithdrawalStatus($date, $sub_mch_id = '')
+    public function queryWithdrawalStatus($date, $subMchId = '')
     {
         return $this->safeRequest('fund/queryautowithdrawbydate', [
             'date' => $date,
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
-            'sub_mch_id' => $sub_mch_id ?: $this->app['config']->sub_mch_id,
+            'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
         ]);
     }
 
@@ -47,7 +47,7 @@ class Client extends BaseClient
      * Re-initiation of withdrawal.
      *
      * @param        $date
-     * @param string $sub_mch_id
+     * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -55,13 +55,13 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function reAutoWithdrawByDate($date, $sub_mch_id = '')
+    public function reAutoWithdrawByDate($date, $subMchId = '')
     {
         return $this->safeRequest('fund/reautowithdrawbydate', [
             'date' => $date,
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
-            'sub_mch_id' => $sub_mch_id ?: $this->app['config']->sub_mch_id,
+            'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
         ]);
     }
 }
