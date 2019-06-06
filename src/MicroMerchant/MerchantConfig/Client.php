@@ -14,7 +14,7 @@ namespace EasyWeChat\MicroMerchant\MerchantConfig;
 use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 
 /**
- * Class Client
+ * Class Client.
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-05-30  14:19
@@ -53,11 +53,11 @@ class Client extends BaseClient
     }
 
     /**
-     * Configure the new payment directory
+     * Configure the new payment directory.
      *
-     * @param  string  $jsapi_path
+     * @param  string  $jsapiPath
      * @param  string  $appid
-     * @param  string  $sub_mch_id
+     * @param  string  $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -65,21 +65,21 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function addPayAccreditDirectory(string $jsapi_path, string $appid = '', string $sub_mch_id = '')
+    public function addPayAccreditDirectory(string $jsapiPath, string $appid = '', string $subMchId = '')
     {
         return $this->addSubDevConfig([
-            'appid'      => $appid ? : $this->app['config']->appid,
-            'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
-            'jsapi_path' => $jsapi_path,
+            'appid' => $appid ?: $this->app['config']->appid,
+            'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
+            'jsapi_path' => $jsapiPath,
         ]);
     }
 
     /**
-     * bind appid
+     * bind appid.
      *
-     * @param  string  $sub_appid
+     * @param  string  $subAppid
      * @param  string  $appid
-     * @param  string  $sub_mch_id
+     * @param  string  $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -87,17 +87,17 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function bindAppid(string $sub_appid, string $appid = '', string $sub_mch_id = '')
+    public function bindAppid(string $subAppid, string $appid = '', string $subMchId = '')
     {
         return $this->addSubDevConfig([
-            'appid'      => $appid ? : $this->app['config']->appid,
-            'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
-            'sub_appid'  => $sub_appid,
+            'appid' => $appid ?: $this->app['config']->appid,
+            'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
+            'sub_appid' => $subAppid,
         ]);
     }
 
     /**
-     * addSubDevConfig
+     * addSubDevConfig.
      *
      * @param $params
      *
@@ -113,7 +113,7 @@ class Client extends BaseClient
     }
 
     /**
-     * querySubDevConfig
+     * querySubDevConfig.
      *
      * @param $sub_mch_id
      *
@@ -126,7 +126,7 @@ class Client extends BaseClient
     public function querySubDevConfig($sub_mch_id = '')
     {
         return $this->safeRequest('secapi/mch/querysubdevconfig', [
-            'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
+            'sub_mch_id' => $sub_mch_id ?: $this->app['config']->sub_mch_id,
         ]);
     }
 }

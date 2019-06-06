@@ -45,11 +45,12 @@ class ApplicationTest extends TestCase
     {
         $app = new Application(['key' => '88888888888888888888888888888888']);
         $this->assertSame($app, $app->setSubMchId('sub_mch_id', 'appid'));
-        $this->assertSame('sub_mch_id',$app->config->sub_mch_id);
-        $this->assertSame('appid',$app->config->appid);
+        $this->assertSame('sub_mch_id', $app->config->sub_mch_id);
+        $this->assertSame('appid', $app->config->appid);
     }
 
-    public function testVerifySignature(){
+    public function testVerifySignature()
+    {
         $app = new Application(['key' => '88888888888888888888888888888888']);
 
         $this->assertSame(true, $app->verifySignature([

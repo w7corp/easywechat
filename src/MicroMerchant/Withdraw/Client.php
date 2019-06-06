@@ -14,7 +14,7 @@ namespace EasyWeChat\MicroMerchant\Withdraw;
 use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 
 /**
- * Class Client
+ * Class Client.
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-05-30  14:19
@@ -36,10 +36,10 @@ class Client extends BaseClient
     public function queryWithdrawalStatus($date, $sub_mch_id = '')
     {
         return $this->safeRequest('fund/queryautowithdrawbydate', [
-            'date'       => $date,
-            'sign_type'  => 'HMAC-SHA256',
-            'nonce_str'  => uniqid('micro'),
-            'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
+            'date' => $date,
+            'sign_type' => 'HMAC-SHA256',
+            'nonce_str' => uniqid('micro'),
+            'sub_mch_id' => $sub_mch_id ?: $this->app['config']->sub_mch_id,
         ]);
     }
 
@@ -58,10 +58,10 @@ class Client extends BaseClient
     public function reAutoWithdrawByDate($date, $sub_mch_id = '')
     {
         return $this->safeRequest('fund/reautowithdrawbydate', [
-            'date'       => $date,
-            'sign_type'  => 'HMAC-SHA256',
-            'nonce_str'  => uniqid('micro'),
-            'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
+            'date' => $date,
+            'sign_type' => 'HMAC-SHA256',
+            'nonce_str' => uniqid('micro'),
+            'sub_mch_id' => $sub_mch_id ?: $this->app['config']->sub_mch_id,
         ]);
     }
 }

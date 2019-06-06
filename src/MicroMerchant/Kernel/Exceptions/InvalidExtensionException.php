@@ -15,7 +15,7 @@ namespace EasyWeChat\MicroMerchant\Kernel\Exceptions;
 use EasyWeChat\Kernel\Exceptions\Exception;
 
 /**
- * Class InvalidExtensionException
+ * Class InvalidExtensionException.
  *
  * @author   liuml  <liumenglei0211@163.com>
  */

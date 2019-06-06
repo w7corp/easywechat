@@ -15,7 +15,7 @@ namespace EasyWeChat\MicroMerchant\Kernel\Exceptions;
 use EasyWeChat\Kernel\Exceptions\Exception;
 
 /**
- * Class EncryptException
+ * Class EncryptException.
  *
  * @author   liuml  <liumenglei0211@163.com>
  */

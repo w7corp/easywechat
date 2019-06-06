@@ -21,7 +21,7 @@ class ClientTest extends TestCase
     {
         return new Application([
             'mch_id' => 'mock-mch_id',
-            'key'    => 'mock-key123456789101234567891011',
+            'key' => 'mock-key123456789101234567891011',
         ]);
     }
 
@@ -30,7 +30,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['applyForEnter'], $this->getApp())->makePartial();
         $params = [
             'business_code' => '122222',
-            'id_card_copy'  => '111',
+            'id_card_copy' => '111',
             // ...
         ];
         $client->expects()->applyForEnter($params)->andReturn('mock-result');
@@ -39,18 +39,18 @@ class ClientTest extends TestCase
 
     public function testGetState()
     {
-        $client       = $this->mockApiClient(Client::class, ['getState'], $this->getApp())->makePartial();
-        $applyment_id = 'applyment_id';
-        $client->expects()->getState($applyment_id)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->getState($applyment_id));
+        $client = $this->mockApiClient(Client::class, ['getStatus'], $this->getApp())->makePartial();
+        $applymentId = 'applyment_id';
+        $client->expects()->getStatus($applymentId)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getStatus($applymentId));
     }
 
     public function testUpgrade()
     {
         $client = $this->mockApiClient(Client::class, ['upgrade'], $this->getApp())->makePartial();
         $params = [
-            'sub_mch_id'            => 'sub_mch_id',
-            'organization_type'     => 2,
+            'sub_mch_id' => 'sub_mch_id',
+            'organization_type' => 2,
             'business_license_copy' => '2ewajkfjskdjfi3ji4jf93wi4j3438348932nnd',
             // ...
         ];
@@ -61,8 +61,8 @@ class ClientTest extends TestCase
 
     public function testGetUpgradeState()
     {
-        $client = $this->mockApiClient(Client::class, ['getUpgradeState'], $this->getApp())->makePartial();
-        $client->expects()->getUpgradeState('sub_mch_id')->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->getUpgradeState('sub_mch_id'));
+        $client = $this->mockApiClient(Client::class, ['getUpgradeStatus'], $this->getApp())->makePartial();
+        $client->expects()->getUpgradeStatus('sub_mch_id')->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getUpgradeStatus('sub_mch_id'));
     }
 }

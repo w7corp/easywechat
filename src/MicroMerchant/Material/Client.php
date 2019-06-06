@@ -14,7 +14,7 @@ namespace EasyWeChat\MicroMerchant\Material;
 use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 
 /**
- * Class Client
+ * Class Client.
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-05-30  14:19
@@ -22,7 +22,7 @@ use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * modify settlement card
+     * modify settlement card.
      *
      * @param $params
      *
@@ -38,9 +38,9 @@ class Client extends BaseClient
     public function modifyArchives($params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
-        $params               = $this->processingParams(array_merge($params, [
-            'version'   => '1.0',
-            'cert_sn'   => '',
+        $params = $this->processParams(array_merge($params, [
+            'version' => '1.0',
+            'cert_sn' => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));
@@ -48,7 +48,7 @@ class Client extends BaseClient
     }
 
     /**
-     * modifyContactInfo
+     * modify contact info.
      *
      * @param $params
      *
@@ -64,9 +64,9 @@ class Client extends BaseClient
     public function modifyContactInfo($params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
-        $params               = $this->processingParams(array_merge($params, [
-            'version'   => '1.0',
-            'cert_sn'   => '',
+        $params = $this->processParams(array_merge($params, [
+            'version' => '1.0',
+            'cert_sn' => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));

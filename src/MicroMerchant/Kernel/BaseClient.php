@@ -44,7 +44,7 @@ class BaseClient
     protected $app;
 
     /**
-     * Constructor
+     * BaseClient constructor.
      *
      * @param  \EasyWeChat\MicroMerchant\Application  $app
      */
@@ -68,7 +68,7 @@ class BaseClient
     }
 
     /**
-     * request
+     * request.
      *
      * @param  string  $endpoint
      * @param  array   $params
@@ -109,7 +109,7 @@ class BaseClient
         $response = $this->performRequest($endpoint, $method, $options);
         $response = $returnResponse ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
         // auto verify signature
-        if (!$returnResponse && ($this->app->config->get('response_type') ?? 'array') === 'array') {
+        if (!$returnResponse && 'array' === ($this->app->config->get('response_type') ?? 'array')) {
             $this->app->verifySignature($response);
         }
         return $response;
@@ -163,7 +163,7 @@ class BaseClient
     protected function safeRequest($endpoint, array $params, $method = 'post', array $options = [])
     {
         $options = array_merge([
-            'cert'    => $this->app['config']->get('cert_path'),
+            'cert' => $this->app['config']->get('cert_path'),
             'ssl_key' => $this->app['config']->get('key_path'),
         ], $options);
 
@@ -184,22 +184,22 @@ class BaseClient
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    protected function processingParams(array $params)
+    protected function processParams(array $params)
     {
-        $cert               = $this->app->getCertficates();
+        $cert = $this->app->getCertficates();
         $this->certificates = $cert['certificates'];
-        $params['cert_sn']  = $cert['serial_no'];
-        $sensitive_fields   = $this->getSensitiveFieldsName();
+        $params['cert_sn'] = $cert['serial_no'];
+        $sensitive_fields = $this->getSensitiveFieldsName();
         foreach ($params as $k => $v) {
-            if (in_array($k, $sensitive_fields)) {
-                $params[$k] = $this->encryptionOfSensitiveInformation($v);
+            if (in_array($k, $sensitive_fields, true)) {
+                $params[$k] = $this->encryptSensitiveInformation($v);
             }
         }
         return $params;
     }
 
     /**
-     * To id card, mobile phone number and other fields sensitive information encryption
+     * To id card, mobile phone number and other fields sensitive information encryption.
      *
      * @param  string  $string
      *
@@ -207,11 +207,11 @@ class BaseClient
      *
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
      */
-    protected function encryptionOfSensitiveInformation(string $string)
+    protected function encryptSensitiveInformation(string $string)
     {
-        $encrypted         = '';
+        $encrypted = '';
         $publicKeyResource = openssl_get_publickey($this->certificates);
-        $f                 = openssl_public_encrypt($string, $encrypted, $publicKeyResource);
+        $f = openssl_public_encrypt($string, $encrypted, $publicKeyResource);
         openssl_free_key($publicKeyResource);
         if ($f) {
             return base64_encode($encrypted);
@@ -220,7 +220,7 @@ class BaseClient
     }
 
     /**
-     * get sensitive fields name
+     * get sensitive fields name.
      *
      * @return array
      */

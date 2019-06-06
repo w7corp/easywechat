@@ -26,9 +26,9 @@ use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException;
  * @property \EasyWeChat\MicroMerchant\MerchantConfig\Client $merchantConfig
  * @property \EasyWeChat\MicroMerchant\Withdraw\Client       $withdraw
  * @method mixed applyForEnter(array $params)
- * @method mixed getState(string $applyment_id, string $business_code = '')
+ * @method mixed getStatus(string $applymentId, string $businessCode = '')
  * @method mixed upgrade(array $params)
- * @method mixed getUpgradeState(string $sub_mch_id = '')
+ * @method mixed getUpgradeStatus(string $subMchId = '')
  */
 class Application extends ServiceContainer
 {
@@ -52,20 +52,20 @@ class Application extends ServiceContainer
         'http' => [
             'base_uri' => 'https://api.mch.weixin.qq.com/',
         ],
-        'log'  => [
-            'default'  => 'dev', // 默认使用的 channel，生产环境可以改为下面的 prod
+        'log' => [
+            'default' => 'dev', // 默认使用的 channel，生产环境可以改为下面的 prod
             'channels' => [
                 // 测试环境
-                'dev'  => [
+                'dev' => [
                     'driver' => 'single',
-                    'path'   => '/tmp/easywechat.log',
-                    'level'  => 'debug',
+                    'path' => '/tmp/easywechat.log',
+                    'level' => 'debug',
                 ],
                 // 生产环境
                 'prod' => [
                     'driver' => 'daily',
-                    'path'   => '/tmp/easywechat.log',
-                    'level'  => 'info',
+                    'path' => '/tmp/easywechat.log',
+                    'level' => 'info',
                 ],
             ],
         ],
@@ -81,7 +81,7 @@ class Application extends ServiceContainer
         $key = $this['config']->key;
 
         if (empty($key)) {
-            throw new InvalidArgumentException("config key connot be empty.");
+            throw new InvalidArgumentException('config key connot be empty.');
         }
 
         if (32 !== strlen($key)) {
@@ -102,7 +102,7 @@ class Application extends ServiceContainer
      */
     public function getCertficates()
     {
-        return $this->certficates->getCertficates();
+        return $this->certficates->get();
     }
 
     /**
@@ -123,25 +123,25 @@ class Application extends ServiceContainer
     /**
      * Returning true indicates that the verification is successful, returning false indicates that the signature field does not exist or is empty, and if the signature verification is wrong, the InvalidSignException will be thrown directly.
      *
-     * @param  $data
+     * @param  array  $data
      *
      * @return bool
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function verifySignature($data)
+    public function verifySignature(array $data)
     {
         if (!isset($data['sign']) || empty($data['sign'])) {
             return false;
         }
 
         $sign = $data['sign'];
-        strlen($sign) > 32 && $sign_type = 'HMAC-SHA256';
+        strlen($sign) > 32 && $signType = 'HMAC-SHA256';
         unset($data['sign']);
         $secretKey = $this->getKey();
 
-        if ('HMAC-SHA256' === ($sign_type ?? 'MD5')) {
+        if ('HMAC-SHA256' === ($signType ?? 'MD5')) {
             $encryptMethod = function ($str) use ($secretKey) {
                 return hash_hmac('sha256', $str, $secretKey);
             };
@@ -149,7 +149,7 @@ class Application extends ServiceContainer
             $encryptMethod = 'md5';
         }
 
-        if (Support\generate_sign($data, $secretKey, $encryptMethod) == $sign) {
+        if (Support\generate_sign($data, $secretKey, $encryptMethod) === $sign) {
             return true;
         }
 

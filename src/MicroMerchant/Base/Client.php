@@ -13,6 +13,12 @@ namespace EasyWeChat\MicroMerchant\Base;
 
 use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 
+/**
+ * Class Client.
+ *
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-05-30  14:19
+ */
 class Client extends BaseClient
 {
     /**
@@ -31,9 +37,9 @@ class Client extends BaseClient
      */
     public function applyForEnter(array $params)
     {
-        $params = $this->processingParams(array_merge($params, [
-            'version'   => '3.0',
-            'cert_sn'   => '',
+        $params = $this->processParams(array_merge($params, [
+            'version' => '3.0',
+            'cert_sn' => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));
@@ -43,8 +49,8 @@ class Client extends BaseClient
     /**
      * query application status.
      *
-     * @param  string  $applyment_id
-     * @param  string  $business_code
+     * @param  string  $applymentId
+     * @param  string  $businessCode
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -52,20 +58,20 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function getState(string $applyment_id, string $business_code = '')
+    public function getStatus(string $applymentId, string $businessCode = '')
     {
-        if (!empty($applyment_id)) {
+        if (!empty($applymentId)) {
             $params = [
-                'applyment_id' => $applyment_id,
+                'applyment_id' => $applymentId,
             ];
         } else {
             $params = [
-                'business_code' => $business_code,
+                'business_code' => $businessCode,
             ];
         }
 
         $params = array_merge($params, [
-            'version'   => '1.0',
+            'version' => '1.0',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]);
@@ -89,9 +95,9 @@ class Client extends BaseClient
     public function upgrade(array $params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
-        $params               = $this->processingParams(array_merge($params, [
-            'version'   => '1.0',
-            'cert_sn'   => '',
+        $params = $this->processParams(array_merge($params, [
+            'version' => '1.0',
+            'cert_sn' => '',
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));
@@ -99,9 +105,9 @@ class Client extends BaseClient
     }
 
     /**
-     * get upgrade state.
+     * get upgrade status.
      *
-     * @param  string  $sub_mch_id
+     * @param  string  $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -109,13 +115,13 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function getUpgradeState(string $sub_mch_id = '')
+    public function getUpgradeStatus(string $subMchId = '')
     {
         return $this->safeRequest('applyment/micro/getupgradestate', [
-            'version'    => '1.0',
-            'sign_type'  => 'HMAC-SHA256',
-            'sub_mch_id' => $sub_mch_id ? : $this->app['config']->sub_mch_id,
-            'nonce_str'  => uniqid('micro'),
+            'version' => '1.0',
+            'sign_type' => 'HMAC-SHA256',
+            'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
+            'nonce_str' => uniqid('micro'),
         ]);
     }
 }

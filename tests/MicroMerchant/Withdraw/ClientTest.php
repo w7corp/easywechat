@@ -21,14 +21,14 @@ class ClientTest extends TestCase
     {
         return new Application([
             'mch_id' => 'mock-mch_id',
-            'key'    => 'mock-key123456789101234567891011',
+            'key' => 'mock-key123456789101234567891011',
         ]);
     }
 
     public function testQueryWithdrawalStatus()
     {
-        $client          = $this->mockApiClient(Client::class, ['queryWithdrawalStatus'], $this->getApp())->makePartial();
-        $date       = '20180508';
+        $client = $this->mockApiClient(Client::class, ['queryWithdrawalStatus'], $this->getApp())->makePartial();
+        $date = '20180508';
         $sub_mch_id = '1900000109';
         $client->expects()->queryWithdrawalStatus($date, $sub_mch_id)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->queryWithdrawalStatus($date, $sub_mch_id));
@@ -36,8 +36,8 @@ class ClientTest extends TestCase
 
     public function testReAutoWithdrawByDate()
     {
-        $client          = $this->mockApiClient(Client::class, ['reAutoWithdrawByDate'], $this->getApp())->makePartial();
-        $date       = '20180508';
+        $client = $this->mockApiClient(Client::class, ['reAutoWithdrawByDate'], $this->getApp())->makePartial();
+        $date = '20180508';
         $sub_mch_id = '1900000109';
         $client->expects()->reAutoWithdrawByDate($date, $sub_mch_id)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->reAutoWithdrawByDate($date, $sub_mch_id));

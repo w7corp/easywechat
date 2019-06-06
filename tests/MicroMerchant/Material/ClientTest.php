@@ -21,26 +21,28 @@ class ClientTest extends TestCase
     {
         return new Application([
             'mch_id' => 'mock-mch_id',
-            'key'    => 'mock-key123456789101234567891011',
+            'key' => 'mock-key123456789101234567891011',
         ]);
     }
 
-    public function testModifyArchives(){
+    public function testModifyArchives()
+    {
         $client = $this->mockApiClient(Client::class, ['modifyArchives'], $this->getApp())->makePartial();
         $params = [
             'account_number' => '122222',
-            'bank_name'  => '浙商银行xxx支行',
+            'bank_name' => '浙商银行xxx支行',
             // ...
         ];
         $client->expects()->modifyArchives($params)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->modifyArchives($params));
     }
 
-    public function testModifyContactInfo(){
+    public function testModifyContactInfo()
+    {
         $client = $this->mockApiClient(Client::class, ['modifyContactInfo'], $this->getApp())->makePartial();
         $params = [
             'mobile_phone' => '13200000000',
-            'email'  => '13200000000@163.com',
+            'email' => '13200000000@163.com',
             // ...
         ];
         $client->expects()->modifyContactInfo($params)->andReturn('mock-result');

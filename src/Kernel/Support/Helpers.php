@@ -49,7 +49,7 @@ function get_client_ip()
         $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
     }
 
-    return filter_var($ip, FILTER_VALIDATE_IP) ? : '127.0.0.1';
+    return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
 }
 
 /**
@@ -68,7 +68,7 @@ function get_server_ip()
         $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
     }
 
-    return filter_var($ip, FILTER_VALIDATE_IP) ? : '127.0.0.1';
+    return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
 }
 
 /**
@@ -86,7 +86,7 @@ function current_url()
         $protocol = 'https://';
     }
 
-    return $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    return $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 }
 
 /**
