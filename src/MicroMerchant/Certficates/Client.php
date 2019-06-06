@@ -70,7 +70,7 @@ class Client extends BaseClient
         $response = $this->request('risk/getcertficates', $params);
         $this->app->config->set('response_type', $responseType);
 
-        return $this->analytical($response);
+        return $this->analyze($response);
     }
 
     /**
@@ -84,7 +84,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    protected function analytical($data)
+    protected function analyze($data)
     {
         if ('SUCCESS' !== $data['return_code']) {
             throw new InvalidArgumentException(
@@ -131,7 +131,7 @@ class Client extends BaseClient
         }
 
         // sodium_crypto_aead_aes256gcm_decrypt function needs to open libsodium extension.
-        // https://blog.csdn.net/u010324331/article/details/82153067
+        // https://www.php.net/manual/zh/function.sodium-crypto-aead-aes256gcm-decrypt.php
         return sodium_crypto_aead_aes256gcm_decrypt(
             base64_decode($encryptCertificate['ciphertext'], true),
             $encryptCertificate['associated_data'],
