@@ -102,7 +102,7 @@ class Client extends BaseClient
                 )
             );
         }
-        $certificates = \GuzzleHttp\json_decode($data['certificates'], JSON_UNESCAPED_UNICODE)['data'][0];
+        $certificates = \GuzzleHttp\json_decode($data['certificates'], true)['data'][0];
         $ciphertext = $this->decrypt($certificates['encrypt_certificate']);
         unset($certificates['encrypt_certificate']);
         $certificates['certificates'] = $ciphertext;
