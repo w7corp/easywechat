@@ -110,7 +110,7 @@ class Application extends ServiceContainer
     /**
      * set sub-mch-id and appid.
      *
-     * @param string $sub_mch_id Identification Number of Small and Micro Businessmen Reported by Service Providers
+     * @param string $subMchId Identification Number of Small and Micro Businessmen Reported by Service Providers
      * @param string $appid      Public Account ID of Service Provider
      *
      * @return $this
