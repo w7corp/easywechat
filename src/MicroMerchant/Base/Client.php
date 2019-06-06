@@ -35,7 +35,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function applyForEnter(array $params)
+    public function submitApplication(array $params)
     {
         $params = $this->processParams(array_merge($params, [
             'version' => '3.0',

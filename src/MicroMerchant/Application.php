@@ -115,16 +115,18 @@ class Application extends ServiceContainer
      *
      * @return $this
      */
-    public function setSubMchId(string $sub_mch_id, string $appid = '')
+    public function setSubMchId(string $subMchId, string $appid = '')
     {
-        $this['config']->set('sub_mch_id', $sub_mch_id);
+        $this['config']->set('sub_mch_id', $subMchId);
         $this['config']->set('appid', $appid);
 
         return $this;
     }
 
     /**
-     * Returning true indicates that the verification is successful, returning false indicates that the signature field does not exist or is empty, and if the signature verification is wrong, the InvalidSignException will be thrown directly.
+     * Returning true indicates that the verification is successful,
+     * returning false indicates that the signature field does not exist or is empty,
+     * and if the signature verification is wrong, the InvalidSignException will be thrown directly.
      *
      * @param array $data
      *
