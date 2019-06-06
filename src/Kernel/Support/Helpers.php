@@ -20,9 +20,9 @@ namespace EasyWeChat\Kernel\Support;
 /**
  * Generate a signature.
  *
- * @param  array   $attributes
- * @param  string  $key
- * @param  string  $encryptMethod
+ * @param array  $attributes
+ * @param string $key
+ * @param string $encryptMethod
  *
  * @return string
  */
@@ -92,7 +92,7 @@ function current_url()
 /**
  * Return random string.
  *
- * @param  string  $length
+ * @param string $length
  *
  * @return string
  */
@@ -102,8 +102,8 @@ function str_random($length)
 }
 
 /**
- * @param  string  $content
- * @param  string  $publicKey
+ * @param string $content
+ * @param string $publicKey
  *
  * @return string
  */
@@ -113,4 +113,5 @@ function rsa_public_encrypt($content, $publicKey)
     openssl_public_encrypt($content, $encrypted, openssl_pkey_get_public($publicKey), OPENSSL_PKCS1_OAEP_PADDING);
 
     return base64_encode($encrypted);
+
 }

@@ -44,6 +44,7 @@ class Client extends BaseClient
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));
+
         return $this->safeRequest('applyment/micro/modifyarchives', $params);
     }
 
@@ -70,6 +71,7 @@ class Client extends BaseClient
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));
+
         return $this->safeRequest('applyment/micro/modifycontactinfo', $params);
     }
 }

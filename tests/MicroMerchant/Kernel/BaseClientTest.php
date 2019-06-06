@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -33,7 +34,6 @@ class BaseClientTest extends TestCase
         $mockResponse = new Response(200, [], 'response-content');
 
         $client->expects()->performRequest($api, $method, \Mockery::on(function ($options) {
-
             $this->assertSame('bar', $options['foo']);
             $this->assertInternalType('string', $options['body']);
 

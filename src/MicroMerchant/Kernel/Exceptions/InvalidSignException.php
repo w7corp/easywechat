@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\MicroMerchant\Kernel\Exceptions;
 
-
 use EasyWeChat\Kernel\Exceptions\Exception;
 
 /**

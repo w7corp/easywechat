@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\MicroMerchant\Base;
 
-use EasyWeChat\MicroMerchant\Base\Client;
 use EasyWeChat\MicroMerchant\Application;
+use EasyWeChat\MicroMerchant\Base\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -25,6 +26,7 @@ use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException;
  * @property \EasyWeChat\MicroMerchant\Material\Client       $material
  * @property \EasyWeChat\MicroMerchant\MerchantConfig\Client $merchantConfig
  * @property \EasyWeChat\MicroMerchant\Withdraw\Client       $withdraw
+ *
  * @method mixed applyForEnter(array $params)
  * @method mixed getStatus(string $applymentId, string $businessCode = '')
  * @method mixed upgrade(array $params)
@@ -108,8 +110,8 @@ class Application extends ServiceContainer
     /**
      * set sub-mch-id and appid.
      *
-     * @param  string  $sub_mch_id  Identification Number of Small and Micro Businessmen Reported by Service Providers
-     * @param  string  $appid       Public Account ID of Service Provider
+     * @param string $sub_mch_id Identification Number of Small and Micro Businessmen Reported by Service Providers
+     * @param string $appid      Public Account ID of Service Provider
      *
      * @return $this
      */
@@ -117,13 +119,14 @@ class Application extends ServiceContainer
     {
         $this['config']->set('sub_mch_id', $sub_mch_id);
         $this['config']->set('appid', $appid);
+
         return $this;
     }
 
     /**
      * Returning true indicates that the verification is successful, returning false indicates that the signature field does not exist or is empty, and if the signature verification is wrong, the InvalidSignException will be thrown directly.
      *
-     * @param  array  $data
+     * @param array $data
      *
      * @return bool
      *
@@ -157,8 +160,8 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param  string  $name
-     * @param  array   $arguments
+     * @param string $name
+     * @param array  $arguments
      *
      * @return mixed
      */

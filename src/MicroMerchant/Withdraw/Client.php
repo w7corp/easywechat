@@ -24,8 +24,8 @@ class Client extends BaseClient
     /**
      * Query withdrawal status.
      *
-     * @param          $date
-     * @param  string  $sub_mch_id
+     * @param        $date
+     * @param string $sub_mch_id
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -46,8 +46,8 @@ class Client extends BaseClient
     /**
      * Re-initiation of withdrawal.
      *
-     * @param          $date
-     * @param  string  $sub_mch_id
+     * @param        $date
+     * @param string $sub_mch_id
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

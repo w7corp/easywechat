@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -46,7 +47,7 @@ class BaseClient
     /**
      * BaseClient constructor.
      *
-     * @param  \EasyWeChat\MicroMerchant\Application  $app
+     * @param \EasyWeChat\MicroMerchant\Application $app
      */
     public function __construct(Application $app)
     {
@@ -70,11 +71,11 @@ class BaseClient
     /**
      * request.
      *
-     * @param  string  $endpoint
-     * @param  array   $params
-     * @param  string  $method
-     * @param  array   $options
-     * @param  bool    $returnResponse
+     * @param string $endpoint
+     * @param array  $params
+     * @param string $method
+     * @param array  $options
+     * @param bool   $returnResponse
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -112,6 +113,7 @@ class BaseClient
         if (!$returnResponse && 'array' === ($this->app->config->get('response_type') ?? 'array')) {
             $this->app->verifySignature($response);
         }
+
         return $response;
     }
 
@@ -131,9 +133,9 @@ class BaseClient
      * Make a request and return raw response.
      *
      * @param          $endpoint
-     * @param  array   $params
-     * @param  string  $method
-     * @param  array   $options
+     * @param array    $params
+     * @param string   $method
+     * @param array    $options
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -150,9 +152,9 @@ class BaseClient
      * Request with SSL.
      *
      * @param          $endpoint
-     * @param  array   $params
-     * @param  string  $method
-     * @param  array   $options
+     * @param array    $params
+     * @param string   $method
+     * @param array    $options
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -173,7 +175,7 @@ class BaseClient
     /**
      * processing parameters contain fields that require sensitive information encryption.
      *
-     * @param  array  $params
+     * @param array $params
      *
      * @return array
      *
@@ -195,13 +197,14 @@ class BaseClient
                 $params[$k] = $this->encryptSensitiveInformation($v);
             }
         }
+
         return $params;
     }
 
     /**
      * To id card, mobile phone number and other fields sensitive information encryption.
      *
-     * @param  string  $string
+     * @param string $string
      *
      * @return string
      *
@@ -216,6 +219,7 @@ class BaseClient
         if ($f) {
             return base64_encode($encrypted);
         }
+        
         throw new EncryptException('Encryption of sensitive information failed');
     }
 

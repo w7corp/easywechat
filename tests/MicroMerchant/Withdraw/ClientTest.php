@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\MicroMerchant\Withdraw;
 
-use EasyWeChat\MicroMerchant\Withdraw\Client;
 use EasyWeChat\MicroMerchant\Application;
+use EasyWeChat\MicroMerchant\Withdraw\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

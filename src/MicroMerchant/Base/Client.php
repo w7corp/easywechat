@@ -43,14 +43,15 @@ class Client extends BaseClient
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));
+
         return $this->safeRequest('applyment/micro/submit', $params);
     }
 
     /**
      * query application status.
      *
-     * @param  string  $applymentId
-     * @param  string  $businessCode
+     * @param string $applymentId
+     * @param string $businessCode
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -75,13 +76,14 @@ class Client extends BaseClient
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]);
+
         return $this->safeRequest('applyment/micro/getstate', $params);
     }
 
     /**
      * merchant upgrade api.
      *
-     * @param  array  $params
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -101,13 +103,14 @@ class Client extends BaseClient
             'sign_type' => 'HMAC-SHA256',
             'nonce_str' => uniqid('micro'),
         ]));
+
         return $this->safeRequest('applyment/micro/submitupgrade', $params);
     }
 
     /**
      * get upgrade status.
      *
-     * @param  string  $subMchId
+     * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -124,4 +127,5 @@ class Client extends BaseClient
             'nonce_str' => uniqid('micro'),
         ]);
     }
+
 }

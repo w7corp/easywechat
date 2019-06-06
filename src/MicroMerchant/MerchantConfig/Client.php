@@ -24,9 +24,9 @@ class Client extends BaseClient
     /**
      * Service providers configure recommendation functions for small and micro businesses.
      *
-     * @param  string  $sub_appid
-     * @param  string  $subscribe_appid
-     * @param  string  $receipt_appid
+     * @param string $sub_appid
+     * @param string $subscribe_appid
+     * @param string $receipt_appid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -55,9 +55,9 @@ class Client extends BaseClient
     /**
      * Configure the new payment directory.
      *
-     * @param  string  $jsapiPath
-     * @param  string  $appid
-     * @param  string  $subMchId
+     * @param string $jsapiPath
+     * @param string $appid
+     * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -77,9 +77,9 @@ class Client extends BaseClient
     /**
      * bind appid.
      *
-     * @param  string  $subAppid
-     * @param  string  $appid
-     * @param  string  $subMchId
+     * @param string $subAppid
+     * @param string $appid
+     * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

@@ -43,6 +43,7 @@ class Client extends BaseClient
         if ($certificates && strtotime($certificates['expire_time']) > time()) {
             return $certificates;
         }
+
         return $this->refresh();
     }
 
@@ -68,6 +69,7 @@ class Client extends BaseClient
         $this->app->config->set('response_type', 'array');
         $response = $this->request('risk/getcertficates', $params);
         $this->app->config->set('response_type', $responseType);
+
         return $this->analytical($response);
     }
 
@@ -105,6 +107,7 @@ class Client extends BaseClient
         unset($certificates['encrypt_certificate']);
         $certificates['certificates'] = $ciphertext;
         $this->getCache()->set($this->microCertificates, $certificates);
+
         return $certificates;
     }
 
