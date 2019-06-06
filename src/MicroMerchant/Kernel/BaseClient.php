@@ -132,10 +132,10 @@ class BaseClient
     /**
      * Make a request and return raw response.
      *
-     * @param          $endpoint
-     * @param array    $params
-     * @param string   $method
-     * @param array    $options
+     * @param        $endpoint
+     * @param array  $params
+     * @param string $method
+     * @param array  $options
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -151,10 +151,10 @@ class BaseClient
     /**
      * Request with SSL.
      *
-     * @param          $endpoint
-     * @param array    $params
-     * @param string   $method
-     * @param array    $options
+     * @param        $endpoint
+     * @param array  $params
+     * @param string $method
+     * @param array  $options
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -219,7 +219,7 @@ class BaseClient
         if ($f) {
             return base64_encode($encrypted);
         }
-        
+
         throw new EncryptException('Encryption of sensitive information failed');
     }
 

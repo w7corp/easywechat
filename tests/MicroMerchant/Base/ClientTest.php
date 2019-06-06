@@ -58,7 +58,6 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->upgrade($params));
     }
 
-
     public function testGetUpgradeState()
     {
         $client = $this->mockApiClient(Client::class, ['getUpgradeStatus'], $this->getApp())->makePartial();

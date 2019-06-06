@@ -127,5 +127,4 @@ class Client extends BaseClient
             'nonce_str' => uniqid('micro'),
         ]);
     }
-
 }

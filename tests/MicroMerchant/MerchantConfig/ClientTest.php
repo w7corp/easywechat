@@ -69,5 +69,4 @@ class ClientTest extends TestCase
         $client->expects()->safeRequest('secapi/mch/querysubdevconfig', ['sub_mch_id' => $sub_mch_id])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->querySubDevConfig($sub_mch_id));
     }
-
 }
