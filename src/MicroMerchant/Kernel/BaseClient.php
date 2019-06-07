@@ -114,7 +114,7 @@ class BaseClient
         } else {
             $this->app->verifySignature($result);
         }
-        
+
         return $result;
     }
 
