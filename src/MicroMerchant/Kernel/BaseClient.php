@@ -106,13 +106,15 @@ class BaseClient
         ], $options);
 
         $this->pushMiddleware($this->logMiddleware(), 'log');
-
         $response = $this->performRequest($endpoint, $method, $options);
         $response = $returnResponse ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
         // auto verify signature
-        if (!$returnResponse && 'array' === ($this->app->config->get('response_type') ?? 'array')) {
+        if ($returnResponse || 'array' !== ($this->app->config->get('response_type') ?? 'array')) {
+            $this->app->verifySignature($this->castResponseToType($response, 'array'));
+        }else{
             $this->app->verifySignature($response);
         }
+
 
         return $response;
     }

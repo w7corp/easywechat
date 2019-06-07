@@ -47,7 +47,7 @@ class BaseClientTest extends TestCase
         }))->times(3)->andReturn($mockResponse);
 
         $client->expects()->castResponseToType()
-            ->with($mockResponse, \Mockery::any())
+            ->with($mockResponse, \Mockery::any())->times(3)
             ->andReturn(['foo' => 'mock-bar', 'return_code' => '1212']);
 
         // $returnResponse = false

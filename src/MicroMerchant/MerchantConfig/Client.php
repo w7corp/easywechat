@@ -65,7 +65,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function addPayAccreditDirectory(string $jsapiPath, string $appid = '', string $subMchId = '')
+    public function addPath(string $jsapiPath, string $appid = '', string $subMchId = '')
     {
         return $this->addSubDevConfig([
             'appid' => $appid ?: $this->app['config']->appid,
@@ -97,7 +97,7 @@ class Client extends BaseClient
     }
 
     /**
-     * addSubDevConfig.
+     * add sub dev config.
      *
      * @param $params
      *

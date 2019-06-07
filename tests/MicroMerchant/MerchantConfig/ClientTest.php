@@ -45,7 +45,7 @@ class ClientTest extends TestCase
             'sub_mch_id' => $sub_mch_id,
             'jsapi_path' => $jsapi_path,
         ])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->addPayAccreditDirectory($jsapi_path, $appid, $sub_mch_id));
+        $this->assertSame('mock-result', $client->addPath($jsapi_path, $appid, $sub_mch_id));
     }
 
     public function testBindAppid()

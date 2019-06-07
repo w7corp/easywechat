@@ -123,7 +123,7 @@ class Client extends BaseClient
     protected function decrypt($encryptCertificate)
     {
         if (false === extension_loaded('sodium')) {
-            throw new InvalidExtensionException('sodium extension is not installed，Reference link https://blog.csdn.net/u010324331/article/details/82153067');
+            throw new InvalidExtensionException('sodium extension is not installed，Reference link https://php.net/manual/zh/book.sodium.php');
         }
 
         if (false === sodium_crypto_aead_aes256gcm_is_available()) {
