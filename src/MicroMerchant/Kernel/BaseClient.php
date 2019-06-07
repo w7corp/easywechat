@@ -111,7 +111,7 @@ class BaseClient
         // auto verify signature
         if ($returnResponse || 'array' !== ($this->app->config->get('response_type') ?? 'array')) {
             $this->app->verifySignature($this->castResponseToType($response, 'array'));
-        }else{
+        } else {
             $this->app->verifySignature($response);
         }
 
