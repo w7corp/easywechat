@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\MicroMerchant\Media;
 
-use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 
 /**
  * Class Client.
@@ -41,7 +41,7 @@ class Client extends BaseClient
 
         $form = [
             'media_hash' => strtolower(md5_file($path)),
-            'sign_type' => 'HMAC-SHA256'
+            'sign_type' => 'HMAC-SHA256',
         ];
 
         return $this->httpUpload('secapi/mch/uploadmedia', ['media' => $path], $form);
