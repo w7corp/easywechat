@@ -67,7 +67,7 @@ class Client extends BaseClient
      */
     public function addPath(string $jsapiPath, string $appid = '', string $subMchId = '')
     {
-        return $this->addSubDevConfig([
+        return $this->addConfig([
             'appid' => $appid ?: $this->app['config']->appid,
             'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
             'jsapi_path' => $jsapiPath,
@@ -89,7 +89,7 @@ class Client extends BaseClient
      */
     public function bindAppId(string $subAppid, string $appid = '', string $subMchId = '')
     {
-        return $this->addSubDevConfig([
+        return $this->addConfig([
             'appid' => $appid ?: $this->app['config']->appid,
             'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
             'sub_appid' => $subAppid,
@@ -107,7 +107,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    private function addSubDevConfig($params)
+    private function addConfig($params)
     {
         return $this->safeRequest('secapi/mch/addsubdevconfig', $params);
     }
