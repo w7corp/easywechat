@@ -113,7 +113,7 @@ class Client extends BaseClient
     }
 
     /**
-     * querySubDevConfig.
+     * query Sub Dev Config.
      *
      * @param $subMchId
      *
@@ -123,7 +123,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function querySubDevConfig($subMchId = '')
+    public function queryConfig($subMchId = '')
     {
         return $this->safeRequest('secapi/mch/querysubdevconfig', [
             'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,

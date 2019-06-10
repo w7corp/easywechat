@@ -62,11 +62,11 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->bindAppid($sub_appid, $appid, $sub_mch_id));
     }
 
-    public function testQuerySubDevConfig()
+    public function testQueryConfig()
     {
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->getApp())->makePartial();
         $sub_mch_id = '232423423';
         $client->expects()->safeRequest('secapi/mch/querysubdevconfig', ['sub_mch_id' => $sub_mch_id])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->querySubDevConfig($sub_mch_id));
+        $this->assertSame('mock-result', $client->queryConfig($sub_mch_id));
     }
 }
