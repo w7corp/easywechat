@@ -26,6 +26,7 @@ use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException;
  * @property \EasyWeChat\MicroMerchant\Material\Client       $material
  * @property \EasyWeChat\MicroMerchant\MerchantConfig\Client $merchantConfig
  * @property \EasyWeChat\MicroMerchant\Withdraw\Client       $withdraw
+ * @property \EasyWeChat\MicroMerchant\Media\Client          $media
  *
  * @method mixed applyForEnter(array $params)
  * @method mixed getStatus(string $applymentId, string $businessCode = '')
@@ -45,6 +46,7 @@ class Application extends ServiceContainer
         MerchantConfig\ServiceProvider::class,
         Material\ServiceProvider::class,
         Withdraw\ServiceProvider::class,
+        Media\ServiceProvider::class,
     ];
 
     /**

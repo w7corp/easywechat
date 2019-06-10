@@ -24,7 +24,7 @@ class BaseClientTest extends TestCase
     {
         $app = new Application(['key' => '88888888888888888888888888888888']);
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->shouldDeferMissing();
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->makePartial();
 
         $api = 'http://easywechat.org';
         $params = ['foo' => 'bar', 'nonce_str' => '112'];
@@ -107,7 +107,7 @@ class BaseClientTest extends TestCase
             'key' => '88888888888888888888888888888888',
         ]);
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest'], $app)->shouldDeferMissing();
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest'], $app)->makePartial();
 
         $api = 'http://easywechat.org';
         $params = [
@@ -147,7 +147,7 @@ class BaseClientTest extends TestCase
             'key' => '88888888888888888888888888888888',
         ]);
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest'], $app)->shouldDeferMissing();
+        $client = $this->mockApiClient(BaseClient::class, [], $app)->makePartial();
         $this->setCache();
         $this->assertArrayHasKey('cert_sn', $client->processParams(['email' => 'dddd']));
         $this->clearCache();
@@ -200,5 +200,28 @@ K1pp74P1S8SqtCr4fKGxhZSM9AyHDPSsQPhZSZg=
         $client->getCache()->delete('mock-mch_id_micro_certificates');
 
         $this->assertSame(null, $client->getCache()->get('mock-mch_id_micro_certificates'));
+    }
+
+    public function testGetSign()
+    {
+        $app = new Application(['mch_id' => 'mock-mch_id', 'key' => '88888888888888888888888888888888']);
+        $client = $this->mockApiClient(BaseClient::class, [], $app)->makePartial();
+        $client->getSign(['foo' => 'bar']);
+
+        $this->assertSame('834A25C9A5B48305AB997C9A7E101530', $client->getSign(['foo' => 'bar']));
+    }
+
+    public function testhttpUpload()
+    {
+        $app = new Application();
+
+        $client = $this->mockApiClient(BaseClient::class, ['httpUpload'], $app)->makePartial();
+        $url = 'http://easywechat.org';
+        $files = ['foo' => 'bar'];
+        $form = ['foo' => 'bar'];
+
+        $client->expects()->httpUpload($url, $files, $form)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->httpUpload($url, $files, $form));
     }
 }

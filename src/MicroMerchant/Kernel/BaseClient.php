@@ -69,6 +69,69 @@ class BaseClient
     }
 
     /**
+     * httpUpload.
+     *
+     * @param string $url
+     * @param array  $files
+     * @param array  $form
+     * @param array  $query
+     * @param bool   $returnResponse
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     */
+    public function httpUpload(string $url, array $files = [], array $form = [], array $query = [], $returnResponse = false)
+    {
+        $multipart = [];
+
+        foreach ($files as $name => $path) {
+            $multipart[] = [
+                'name' => $name,
+                'contents' => fopen($path, 'r'),
+            ];
+        }
+
+        $base = [
+            'mch_id' => $this->app['config']['mch_id'],
+        ];
+
+        $form = array_merge($base, $form);
+
+        $form['sign'] = $this->getSign($form);
+
+        foreach ($form as $name => $contents) {
+            $multipart[] = compact('name', 'contents');
+        }
+
+        $options = [
+            'query' => $query,
+            'multipart' => $multipart,
+            'connect_timeout' => 30,
+            'timeout' => 30,
+            'read_timeout' => 30,
+            'cert' => $this->app['config']->get('cert_path'),
+            'ssl_key' => $this->app['config']->get('key_path'),
+        ];
+
+        $this->pushMiddleware($this->logMiddleware(), 'log');
+
+        $response = $this->performRequest($url, 'POST', $options);
+
+        $result = $returnResponse ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
+        // auto verify signature
+        if ($returnResponse || 'array' !== ($this->app->config->get('response_type') ?? 'array')) {
+            $this->app->verifySignature($this->castResponseToType($response, 'array'));
+        } else {
+            $this->app->verifySignature($result);
+        }
+
+        return $result;
+    }
+
+    /**
      * request.
      *
      * @param string $endpoint
@@ -89,18 +152,8 @@ class BaseClient
             'mch_id' => $this->app['config']['mch_id'],
         ];
 
-        $params = array_filter(array_merge($base, $this->prepends(), $params));
-
-        $secretKey = $this->app->getKey();
-        if ('HMAC-SHA256' === ($params['sign_type'] ?? 'MD5')) {
-            $encryptMethod = function ($str) use ($secretKey) {
-                return hash_hmac('sha256', $str, $secretKey);
-            };
-        } else {
-            $encryptMethod = 'md5';
-        }
-        $params['sign'] = Support\generate_sign($params, $secretKey, $encryptMethod);
-
+        $params = array_merge($base, $this->prepends(), $params);
+        $params['sign'] = $this->getSign($params);
         $options = array_merge([
             'body' => Support\XML::build($params),
         ], $options);
@@ -243,5 +296,30 @@ class BaseClient
             'mobile_phone',
             'email',
         ];
+    }
+
+    /**
+     * getSign.
+     *
+     * @param $params
+     *
+     * @return string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    protected function getSign($params)
+    {
+        $params = array_filter($params);
+
+        $key = $this->app->getKey();
+        if ('HMAC-SHA256' === ($params['sign_type'] ?? 'MD5')) {
+            $encryptMethod = function ($str) use ($key) {
+                return hash_hmac('sha256', $str, $key);
+            };
+        } else {
+            $encryptMethod = 'md5';
+        }
+
+        return Support\generate_sign($params, $key, $encryptMethod);
     }
 }
