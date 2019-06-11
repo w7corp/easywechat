@@ -14,7 +14,6 @@ namespace EasyWeChat\Tests\MicroMerchant\Kernel;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\MicroMerchant\Application;
-use EasyWeChat\MicroMerchant\Certficates\Client as Certficates;
 use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 use EasyWeChat\Tests\TestCase;
 

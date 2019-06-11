@@ -12,11 +12,11 @@
 namespace EasyWeChat\MicroMerchant\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\MicroMerchant\Application;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
+use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
 
 /**
  * Class BaseClient.

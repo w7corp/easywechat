@@ -70,7 +70,7 @@ class Client extends BaseClient
         $params = array_merge($params, [
             'version' => '1.0',
             'sign_type' => 'HMAC-SHA256',
-            'nonce_str' => '9ZtG8fAuVMkekKMs3UDaG8EIAoduDO5G'// uniqid('micro'),
+            'nonce_str' => uniqid('micro'),
         ]);
 
         return $this->safeRequest('applyment/micro/getstate', $params);
