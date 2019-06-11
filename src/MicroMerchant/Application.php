@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\MicroMerchant;
 
-use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
@@ -28,7 +27,7 @@ use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException;
  * @property \EasyWeChat\MicroMerchant\Withdraw\Client       $withdraw
  * @property \EasyWeChat\MicroMerchant\Media\Client          $media
  *
- * @method mixed applyForEnter(array $params)
+ * @method mixed submitApplication(array $params)
  * @method mixed getStatus(string $applymentId, string $businessCode = '')
  * @method mixed upgrade(array $params)
  * @method mixed getUpgradeStatus(string $subMchId = '')
@@ -40,7 +39,6 @@ class Application extends ServiceContainer
      */
     protected $providers = [
         // Base services
-        BasicService\Media\ServiceProvider::class,
         Base\ServiceProvider::class,
         Certficates\ServiceProvider::class,
         MerchantConfig\ServiceProvider::class,
@@ -93,20 +91,6 @@ class Application extends ServiceContainer
         }
 
         return $key;
-    }
-
-    /**
-     * get certficates.
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    public function getCertficates()
-    {
-        return $this->certficates->get();
     }
 
     /**

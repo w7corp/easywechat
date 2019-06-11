@@ -11,28 +11,23 @@
 
 namespace EasyWeChat\MicroMerchant\Kernel;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\MicroMerchant\Application;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
-use GuzzleHttp\MessageFormatter;
-use GuzzleHttp\Middleware;
 
 /**
  * Class BaseClient.
  *
  * @author overtrue <i@overtrue.me>
  */
-class BaseClient
+class BaseClient extends PaymentBaseClient
 {
     use HasHttpRequests {
         request as performRequest;
     }
-
-    /**
-     * @var string
-     */
-    protected $microCertificates;
 
     /**
      * @var string
@@ -52,8 +47,6 @@ class BaseClient
     public function __construct(Application $app)
     {
         $this->app = $app;
-
-        $this->microCertificates = $this->app['config']->mch_id.'_micro_certificates';
 
         $this->setHttpClient($this->app['http_client']);
     }
@@ -172,61 +165,6 @@ class BaseClient
     }
 
     /**
-     * Log the request.
-     *
-     * @return \Closure
-     */
-    protected function logMiddleware()
-    {
-        $formatter = new MessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
-
-        return Middleware::log($this->app['logger'], $formatter);
-    }
-
-    /**
-     * Make a request and return raw response.
-     *
-     * @param string $endpoint
-     * @param array  $params
-     * @param string $method
-     * @param array  $options
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     */
-    protected function requestRaw(string $endpoint, array $params = [], $method = 'post', array $options = [])
-    {
-        return $this->request($endpoint, $params, $method, $options, true);
-    }
-
-    /**
-     * Request with SSL.
-     *
-     * @param string $endpoint
-     * @param array  $params
-     * @param string $method
-     * @param array  $options
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     */
-    protected function safeRequest(string $endpoint, array $params, $method = 'post', array $options = [])
-    {
-        $options = array_merge([
-            'cert' => $this->app['config']->get('cert_path'),
-            'ssl_key' => $this->app['config']->get('key_path'),
-        ], $options);
-
-        return $this->request($endpoint, $params, $method, $options);
-    }
-
-    /**
      * processing parameters contain fields that require sensitive information encryption.
      *
      * @param array $params
@@ -234,17 +172,16 @@ class BaseClient
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     protected function processParams(array $params)
     {
-        $cert = $this->app->getCertficates();
-        $this->certificates = $cert['certificates'];
-        $params['cert_sn'] = $cert['serial_no'];
+        $serial_no = $this->app['config']->get('serial_no');
+        if (null === $serial_no) {
+            throw new InvalidArgumentException('config serial_no connot be empty.');
+        }
+
+        $params['cert_sn'] = $serial_no;
         $sensitive_fields = $this->getSensitiveFieldsName();
         foreach ($params as $k => $v) {
             if (in_array($k, $sensitive_fields, true)) {
@@ -262,12 +199,18 @@ class BaseClient
      *
      * @return string
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
      */
     protected function encryptSensitiveInformation(string $string)
     {
+        $certificates = $this->app['config']->get('certificate');
+        if (null === $certificates) {
+            throw new InvalidArgumentException('config certificate connot be empty.');
+        }
+
         $encrypted = '';
-        $publicKeyResource = openssl_get_publickey($this->certificates);
+        $publicKeyResource = openssl_get_publickey($certificates);
         $f = openssl_public_encrypt($string, $encrypted, $publicKeyResource);
         openssl_free_key($publicKeyResource);
         if ($f) {

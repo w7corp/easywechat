@@ -32,9 +32,8 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function recommendConf(string $subAppid, string $subscribeAppid, string $receiptAppid = '')
+    public function setFollowConfig(string $subAppid, string $subscribeAppid, string $receiptAppid = '')
     {
         $params = [
             'sub_appid' => $subAppid,
@@ -63,7 +62,6 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
     public function addPath(string $jsapiPath, string $appid = '', string $subMchId = '')
     {
@@ -85,7 +83,6 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
     public function bindAppId(string $subAppid, string $appid = '', string $subMchId = '')
     {
@@ -105,7 +102,6 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
     private function addConfig($params)
     {
@@ -115,18 +111,19 @@ class Client extends BaseClient
     /**
      * query Sub Dev Config.
      *
-     * @param $subMchId
+     * @param string $subMchId
+     * @param string $appId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function queryConfig($subMchId = '')
+    public function getConfig(string $subMchId = '', string $appId = '')
     {
         return $this->safeRequest('secapi/mch/querysubdevconfig', [
             'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
+            'appid' => $appId ?: $this->app['config']->appid,
         ]);
     }
 }

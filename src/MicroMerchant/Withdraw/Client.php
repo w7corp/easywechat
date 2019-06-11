@@ -31,7 +31,6 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
     public function queryWithdrawalStatus($date, $subMchId = '')
     {
@@ -53,9 +52,8 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
-    public function reAutoWithdrawByDate($date, $subMchId = '')
+    public function requestWithdraw($date, $subMchId = '')
     {
         return $this->safeRequest('fund/reautowithdrawbydate', [
             'date' => $date,

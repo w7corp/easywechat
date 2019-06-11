@@ -12,7 +12,6 @@
 namespace EasyWeChat\MicroMerchant\Certficates;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Traits\InteractsWithCache;
 use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException;
 
@@ -24,41 +23,19 @@ use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException;
  */
 class Client extends BaseClient
 {
-    use InteractsWithCache;
-
     /**
      * get certficates.
      *
-     * @return mixed
+     * @param bool $returnRaw
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function get()
-    {
-        $certificates = $this->getCache()->get($this->microCertificates);
-        if ($certificates && strtotime($certificates['expire_time']) > time()) {
-            return $certificates;
-        }
-
-        return $this->refresh();
-    }
-
-    /**
-     * download certficates.
-     *
-     * @return mixed
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    private function download()
+    public function get(bool $returnRaw = false)
     {
         $params = [
             'sign_type' => 'HMAC-SHA256',
@@ -66,47 +43,34 @@ class Client extends BaseClient
         ];
 
         $responseType = $this->app->config->get('response_type');
+        if (true === $returnRaw) {
+            return $this->requestRaw('risk/getcertficates', $params);
+        }
+
         $this->app->config->set('response_type', 'array');
         $response = $this->request('risk/getcertficates', $params);
         $this->app->config->set('response_type', $responseType);
 
-        return $this->analyze($response);
-    }
-
-    /**
-     * analytical certificate.
-     *
-     * @param $data
-     *
-     * @return mixed
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    protected function analyze($data)
-    {
-        if ('SUCCESS' !== $data['return_code']) {
+        if ('SUCCESS' !== $response['return_code']) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Failed to download certificate. return_code_msg: "%s" .',
-                    $data['return_code'].'('.$data['return_msg'].')'
+                    'Failed to get certificate. return_code_msg: "%s" .',
+                    $response['return_code'].'('.$response['return_msg'].')'
                 )
             );
         }
-        if ('SUCCESS' !== $data['result_code']) {
+        if ('SUCCESS' !== $response['result_code']) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Failed to download certificate. result_err_code_des: "%s" .',
-                    $data['result_code'].'('.$data['err_code'].'['.$data['err_code_des'].'])'
+                    'Failed to get certificate. result_err_code_des: "%s" .',
+                    $response['result_code'].'('.$response['err_code'].'['.$response['err_code_des'].'])'
                 )
             );
         }
-        $certificates = \GuzzleHttp\json_decode($data['certificates'], true)['data'][0];
+        $certificates = \GuzzleHttp\json_decode($response['certificates'], true)['data'][0];
         $ciphertext = $this->decrypt($certificates['encrypt_certificate']);
         unset($certificates['encrypt_certificate']);
         $certificates['certificates'] = $ciphertext;
-        $this->getCache()->set($this->microCertificates, $certificates);
 
         return $certificates;
     }
@@ -114,13 +78,13 @@ class Client extends BaseClient
     /**
      * decrypt ciphertext.
      *
-     * @param $encryptCertificate
+     * @param array $encryptCertificate
      *
      * @return string
      *
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
      */
-    protected function decrypt($encryptCertificate)
+    public function decrypt(array $encryptCertificate)
     {
         if (false === extension_loaded('sodium')) {
             throw new InvalidExtensionException('sodium extension is not installed，Reference link https://php.net/manual/zh/book.sodium.php');
@@ -138,21 +102,5 @@ class Client extends BaseClient
             $encryptCertificate['nonce'],
             $this->app['config']->apiv3_key
         );
-    }
-
-    /**
-     * refresh certificate.
-     *
-     * @return mixed
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    public function refresh()
-    {
-        return $this->download();
     }
 }

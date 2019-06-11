@@ -36,10 +36,10 @@ class ClientTest extends TestCase
 
     public function testReAutoWithdrawByDate()
     {
-        $client = $this->mockApiClient(Client::class, ['reAutoWithdrawByDate'], $this->getApp())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['requestWithdraw'], $this->getApp())->makePartial();
         $date = '20180508';
         $sub_mch_id = '1900000109';
-        $client->expects()->reAutoWithdrawByDate($date, $sub_mch_id)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->reAutoWithdrawByDate($date, $sub_mch_id));
+        $client->expects()->requestWithdraw($date, $sub_mch_id)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->requestWithdraw($date, $sub_mch_id));
     }
 }

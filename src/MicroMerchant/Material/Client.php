@@ -31,11 +31,8 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function updateArchives($params)
+    public function setSettlementCard($params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params = $this->processParams(array_merge($params, [
@@ -58,9 +55,6 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function updateContact($params)
     {

@@ -24,16 +24,13 @@ class Client extends BaseClient
     /**
      * apply to settle in to become a small micro merchant.
      *
-     * @param  $params
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function submitApplication(array $params)
     {
@@ -57,7 +54,6 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
     public function getStatus(string $applymentId, string $businessCode = '')
     {
@@ -74,7 +70,7 @@ class Client extends BaseClient
         $params = array_merge($params, [
             'version' => '1.0',
             'sign_type' => 'HMAC-SHA256',
-            'nonce_str' => uniqid('micro'),
+            'nonce_str' => '9ZtG8fAuVMkekKMs3UDaG8EIAoduDO5G'// uniqid('micro'),
         ]);
 
         return $this->safeRequest('applyment/micro/getstate', $params);
@@ -90,9 +86,6 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function upgrade(array $params)
     {
@@ -116,7 +109,6 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      */
     public function getUpgradeStatus(string $subMchId = '')
     {

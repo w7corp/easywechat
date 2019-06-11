@@ -27,14 +27,14 @@ class ClientTest extends TestCase
 
     public function testModifyArchives()
     {
-        $client = $this->mockApiClient(Client::class, ['updateArchives'], $this->getApp())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['setSettlementCard'], $this->getApp())->makePartial();
         $params = [
             'account_number' => '122222',
             'bank_name' => '浙商银行xxx支行',
             // ...
         ];
-        $client->expects()->updateArchives($params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->updateArchives($params));
+        $client->expects()->setSettlementCard($params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->setSettlementCard($params));
     }
 
     public function testModifyContactInfo()

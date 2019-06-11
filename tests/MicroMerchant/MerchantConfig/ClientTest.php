@@ -27,11 +27,11 @@ class ClientTest extends TestCase
 
     public function testAttention()
     {
-        $client = $this->mockApiClient(Client::class, ['recommendConf'], $this->getApp())->makePartial();
+        $client = $this->mockApiClient(Client::class, ['setFollowConfig'], $this->getApp())->makePartial();
         $sub_appid = '121n3kjn2j3nnjknj';
         $subscribe_appid = '1222323dssfsd';
-        $client->expects()->recommendConf($sub_appid, $subscribe_appid)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->recommendConf($sub_appid, $subscribe_appid));
+        $client->expects()->setFollowConfig($sub_appid, $subscribe_appid)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->setFollowConfig($sub_appid, $subscribe_appid));
     }
 
     public function testAddPayAccreditDirectory()
@@ -66,7 +66,8 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['safeRequest'], $this->getApp())->makePartial();
         $sub_mch_id = '232423423';
-        $client->expects()->safeRequest('secapi/mch/querysubdevconfig', ['sub_mch_id' => $sub_mch_id])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->queryConfig($sub_mch_id));
+        $appid = '232423423';
+        $client->expects()->safeRequest('secapi/mch/querysubdevconfig', ['sub_mch_id' => $sub_mch_id,'appid'=>$appid])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getConfig($sub_mch_id,$appid));
     }
 }
