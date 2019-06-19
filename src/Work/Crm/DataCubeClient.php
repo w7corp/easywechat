@@ -25,7 +25,7 @@ class DataCubeClient extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91580
      *
-     * @param array $userIds
+     * @param array  $userIds
      * @param string $from
      * @param string $to
      *

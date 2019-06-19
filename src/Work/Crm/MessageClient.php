@@ -93,7 +93,7 @@ class MessageClient extends BaseClient
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91688
      *
      * @param string $welcomeCode
-     * @param array $msg
+     * @param array  $msg
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

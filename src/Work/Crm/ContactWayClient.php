@@ -23,8 +23,8 @@ class ContactWayClient extends BaseClient
     /**
      * 配置客户联系「联系我」方式.
      *
-     * @param int $type
-     * @param int $scene
+     * @param int   $type
+     * @param int   $scene
      * @param array $config
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
