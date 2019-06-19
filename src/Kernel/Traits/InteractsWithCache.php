@@ -17,6 +17,7 @@ use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use \Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 
 /**
  * Trait InteractsWithCache.
@@ -44,6 +45,7 @@ trait InteractsWithCache
 
         if (property_exists($this, 'app') && $this->app instanceof ServiceContainer && isset($this->app['cache'])) {
             $this->setCache($this->app['cache']);
+            return $this->cache;
         }
 
         return $this->cache = $this->createDefaultCache();
@@ -68,6 +70,9 @@ trait InteractsWithCache
         }
 
         if ($cache instanceof CacheItemPoolInterface) {
+            if (!$this->isSymfony43()) {
+                throw new InvalidArgumentException(sprintf('The cache instance must implements %s', SimpleCacheInterface::class));
+            }
             $cache = new Psr16Cache($cache);
         }
 
@@ -81,6 +86,18 @@ trait InteractsWithCache
      */
     protected function createDefaultCache()
     {
-        return new Psr16Cache(AbstractAdapter::createSystemCache('easywechat', 2700, '1.0', \sys_get_temp_dir()));
+        if ($this->isSymfony43()) {
+            return new Psr16Cache(AbstractAdapter::createSystemCache('easywechat', 2700, '1.0', \sys_get_temp_dir()));
+        }
+
+        return new FilesystemCache();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isSymfony43(): bool
+    {
+        return \class_exists('Symfony\Component\Cache\Psr16Cache');
     }
 }

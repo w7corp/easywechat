@@ -28,9 +28,17 @@ class InteractsWithCacheTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $trait->setCache($cache);
         $this->assertSame($cache, $trait->getCache());
+
+        if (\class_exists('Symfony\Component\Cache\Psr16Cache')) {
+            $this->doTestPsr6Bridge();
+        }
     }
 
-    public function testPsr6Bridge()
+    /**
+     * @return mixed
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function doTestPsr6Bridge()
     {
         $trait = \Mockery::mock(InteractsWithCache::class);
 

@@ -23,6 +23,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Simple\FilesystemCache;
 
 class AccessTokenTest extends TestCase
 {
@@ -34,7 +35,12 @@ class AccessTokenTest extends TestCase
         $this->assertInstanceOf(CacheInterface::class, $token->getCache());
 
         // prepended cache instance
-        $cache = new ArrayAdapter();
+        if (\class_exists('Symfony\Component\Cache\Psr16Cache')) {
+            $cache = new ArrayAdapter();
+        } else {
+            $cache = new FilesystemCache();
+        }
+
         $app['cache'] = function () use ($cache) {
             return $cache;
         };
