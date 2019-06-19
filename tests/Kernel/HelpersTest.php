@@ -11,12 +11,12 @@
 
 namespace EasyWeChat\Tests\Kernel;
 
+use function EasyWeChat\Kernel\data_get;
+use function EasyWeChat\Kernel\data_to_array;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\ArrayAccessible;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Tests\TestCase;
-use function EasyWeChat\Kernel\data_get;
-use function EasyWeChat\Kernel\data_to_array;
 
 class HelpersTest extends TestCase
 {

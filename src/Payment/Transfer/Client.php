@@ -12,9 +12,9 @@
 namespace EasyWeChat\Payment\Transfer;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\Payment\Kernel\BaseClient;
 use function EasyWeChat\Kernel\Support\get_server_ip;
 use function EasyWeChat\Kernel\Support\rsa_public_encrypt;
+use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.
