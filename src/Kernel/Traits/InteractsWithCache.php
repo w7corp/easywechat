@@ -11,9 +11,12 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Simple\FilesystemCache;
+use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
+use Symfony\Component\Cache\Psr16Cache;
+use \Psr\Cache\CacheItemPoolInterface;
 
 /**
  * Trait InteractsWithCache.
@@ -31,6 +34,7 @@ trait InteractsWithCache
      * Get cache instance.
      *
      * @return \Psr\SimpleCache\CacheInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getCache()
     {
@@ -38,9 +42,8 @@ trait InteractsWithCache
             return $this->cache;
         }
 
-        if (property_exists($this, 'app') && $this->app instanceof ServiceContainer
-            && isset($this->app['cache']) && $this->app['cache'] instanceof CacheInterface) {
-            return $this->cache = $this->app['cache'];
+        if (property_exists($this, 'app') && $this->app instanceof ServiceContainer && isset($this->app['cache'])) {
+            $this->setCache($this->app['cache']);
         }
 
         return $this->cache = $this->createDefaultCache();
@@ -49,22 +52,35 @@ trait InteractsWithCache
     /**
      * Set cache instance.
      *
-     * @param \Psr\SimpleCache\CacheInterface $cache
+     * @param \Psr\SimpleCache\CacheInterface|\Psr\Cache\CacheItemPoolInterface $cache
      *
      * @return $this
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function setCache(CacheInterface $cache)
+    public function setCache($cache)
     {
+        if (empty(\array_intersect([SimpleCacheInterface::class, CacheItemPoolInterface::class], \class_implements($cache)))) {
+            throw new InvalidArgumentException(
+                \sprintf('The cache instance must implements %s or %s interface.',
+                    SimpleCacheInterface::class, CacheItemPoolInterface::class
+                )
+            );
+        }
+
+        if ($cache instanceof CacheItemPoolInterface) {
+            $cache = new Psr16Cache($cache);
+        }
+
         $this->cache = $cache;
 
         return $this;
     }
 
     /**
-     * @return \Symfony\Component\Cache\Simple\FilesystemCache
+     * @return \Psr\SimpleCache\CacheInterface
      */
     protected function createDefaultCache()
     {
-        return new FilesystemCache();
+        return new Psr16Cache(AbstractAdapter::createSystemCache('easywechat', 2700, '1.0', \sys_get_temp_dir()));
     }
 }

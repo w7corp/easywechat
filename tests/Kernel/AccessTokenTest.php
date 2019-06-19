@@ -22,6 +22,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class AccessTokenTest extends TestCase
 {
@@ -33,11 +34,11 @@ class AccessTokenTest extends TestCase
         $this->assertInstanceOf(CacheInterface::class, $token->getCache());
 
         // prepended cache instance
-        $cache = \Mockery::mock(CacheInterface::class);
+        $cache = new ArrayAdapter();
         $app['cache'] = function () use ($cache) {
             return $cache;
         };
-        $token = \Mockery::mock(AccessToken::class.'[setCache]', [$app]);
+        $token = \Mockery::mock(AccessToken::class, [$app])->makePartial();
 
         $this->assertInstanceOf(CacheInterface::class, $token->getCache());
     }
