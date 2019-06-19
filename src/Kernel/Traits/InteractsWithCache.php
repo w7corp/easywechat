@@ -13,10 +13,10 @@ namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Psr16Cache;
-use \Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 
 /**
@@ -35,6 +35,7 @@ trait InteractsWithCache
      * Get cache instance.
      *
      * @return \Psr\SimpleCache\CacheInterface
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getCache()
@@ -45,6 +46,7 @@ trait InteractsWithCache
 
         if (property_exists($this, 'app') && $this->app instanceof ServiceContainer && isset($this->app['cache'])) {
             $this->setCache($this->app['cache']);
+
             return $this->cache;
         }
 
@@ -57,6 +59,7 @@ trait InteractsWithCache
      * @param \Psr\SimpleCache\CacheInterface|\Psr\Cache\CacheItemPoolInterface $cache
      *
      * @return $this
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function setCache($cache)
