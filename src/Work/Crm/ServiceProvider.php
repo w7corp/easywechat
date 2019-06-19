@@ -27,7 +27,27 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['crm'] = function ($app) {
+            return new Crm($app);
+        };
+
+        $app['crm.client'] = function ($app) {
             return new Client($app);
+        };
+
+        $app['crm.contact_way'] = function ($app) {
+            return new ContactWayClient($app);
+        };
+
+        $app['crm.data_cube'] = function ($app) {
+            return new DataCubeClient($app);
+        };
+
+        $app['crm.dimission'] = function ($app) {
+            return new DimissionClient($app);
+        };
+
+        $app['crm.msg'] = function ($app) {
+            return new MessageClient($app);
         };
     }
 }
