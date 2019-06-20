@@ -72,7 +72,7 @@ class ContactWayTest extends TestCase
         ]));
     }
 
-    public function testDel()
+    public function testDelete()
     {
         $client = $this->mockApiClient(ContactWayClient::class);
 
@@ -83,6 +83,6 @@ class ContactWayTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/del_contact_way', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->del($configId));
+        $this->assertSame('mock-result', $client->delete($configId));
     }
 }

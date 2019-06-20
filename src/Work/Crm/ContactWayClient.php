@@ -85,7 +85,7 @@ class ContactWayClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function del($configId)
+    public function delete($configId)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/del_contact_way', [
             'config_id' => $configId,
