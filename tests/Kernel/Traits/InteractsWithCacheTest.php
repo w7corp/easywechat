@@ -36,6 +36,7 @@ class InteractsWithCacheTest extends TestCase
 
     /**
      * @return mixed
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function doTestPsr6Bridge()
