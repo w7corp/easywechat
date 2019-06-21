@@ -15,9 +15,9 @@ use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\ExternalContact\Client;
 use EasyWeChat\Work\ExternalContact\ContactWayClient;
-use EasyWeChat\Work\ExternalContact\ExternalContact;
 use EasyWeChat\Work\ExternalContact\DataCubeClient;
 use EasyWeChat\Work\ExternalContact\DimissionClient;
+use EasyWeChat\Work\ExternalContact\ExternalContact;
 use EasyWeChat\Work\ExternalContact\MessageClient;
 
 class ExternalContactTest extends TestCase
