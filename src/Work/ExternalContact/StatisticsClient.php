@@ -14,7 +14,7 @@ namespace EasyWeChat\Work\ExternalContact;
 use EasyWeChat\Kernel\BaseClient;
 
 /**
- * Class DataCubeClient.
+ * Class StatisticsClient.
  *
  * @author milkmeowo <milkmeowo@gmail.com>
  */
