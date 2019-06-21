@@ -47,7 +47,7 @@ class AccessToken extends BaseAccessToken
      * @param string      $permanentCode
      * @param Application $component
      */
-    public function __construct(Container $app, String $authCorpId, String $permanentCode, Application $component)
+    public function __construct(Container $app, string $authCorpId, string $permanentCode, Application $component)
     {
         $this->authCorpid = $authCorpId;
         $this->permanentCode = $permanentCode;
