@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\Work\Crm;
+namespace EasyWeChat\Tests\Work\ExternalContact;
 
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Work\Crm\ContactWayClient;
+use EasyWeChat\Work\ExternalContact\ContactWayClient;
 
 class ContactWayTest extends TestCase
 {

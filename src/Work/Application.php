@@ -34,7 +34,7 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \Overtrue\Socialite\Providers\WeWorkProvider $oauth
  * @property \EasyWeChat\Work\Invoice\Client              $invoice
  * @property \EasyWeChat\Work\Chat\Client                 $chat
- * @property \EasyWeChat\Work\Crm\Client                  $crm
+ * @property \EasyWeChat\Work\ExternalContact\Client      $external_contact
  *
  * @method mixed getCallbackIp()
  */
@@ -58,7 +58,7 @@ class Application extends ServiceContainer
         Jssdk\ServiceProvider::class,
         Invoice\ServiceProvider::class,
         Chat\ServiceProvider::class,
-        Crm\ServiceProvider::class,
+        ExternalContact\ServiceProvider::class,
     ];
 
     /**

@@ -9,10 +9,10 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\Work\Crm;
+namespace EasyWeChat\Tests\Work\ExternalContact;
 
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Work\Crm\DataCubeClient;
+use EasyWeChat\Work\ExternalContact\DataCubeClient;
 
 class DataCubeTest extends TestCase
 {
