@@ -35,6 +35,9 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\Invoice\Client              $invoice
  * @property \EasyWeChat\Work\Chat\Client                 $chat
  * @property \EasyWeChat\Work\ExternalContact\Client      $external_contact
+ * @property \EasyWeChat\Work\ExternalContact\ContactWayClient      $contact_way
+ * @property \EasyWeChat\Work\ExternalContact\StatisticsClient      $external_contact_statistics
+ * @property \EasyWeChat\Work\ExternalContact\MessageClient      $external_contact_message
  *
  * @method mixed getCallbackIp()
  */

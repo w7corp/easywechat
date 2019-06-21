@@ -16,7 +16,7 @@ use EasyWeChat\Work\ExternalContact\ContactWayClient;
 
 class ContactWayTest extends TestCase
 {
-    public function testAdd()
+    public function testCreate()
     {
         $client = $this->mockApiClient(ContactWayClient::class);
 
@@ -30,7 +30,7 @@ class ContactWayTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/add_contact_way', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->add(1, 2, [
+        $this->assertSame('mock-result', $client->create(1, 2, [
             'style' => 1,
             'state' => 'test-state',
             'user' => ['UserID1', 'UserID2', 'UserID3'],

@@ -17,13 +17,13 @@ use EasyWeChat\Work\ExternalContact\MessageClient;
 
 class MessageTest extends TestCase
 {
-    public function testAddTemplateMessage()
+    public function testSubmit()
     {
         $client = $this->mockApiClient(MessageClient::class);
 
         $client->shouldReceive('httpPostJson')->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->addTemplateMessage([
+        $this->assertSame('mock-result', $client->submit([
             'external_userid' => [
                 'mock-userid-1',
                 'mock-userid-2',
@@ -50,13 +50,13 @@ class MessageTest extends TestCase
         ]));
     }
 
-    public function testAddTemplateMessageWithoutTextContent()
+    public function testSubmitWithoutTextContent()
     {
         $client = $this->mockApiClient(MessageClient::class);
         $client->shouldReceive('httpPostJson');
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'text' => [
                     'test',
                 ],
@@ -67,13 +67,13 @@ class MessageTest extends TestCase
         }
     }
 
-    public function testAddTemplateMessageWithoutImageMediaId()
+    public function testSubmitWithoutImageMediaId()
     {
         $client = $this->mockApiClient(MessageClient::class);
         $client->shouldReceive('httpPostJson');
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'image' => [
                     'test',
                 ],
@@ -84,13 +84,13 @@ class MessageTest extends TestCase
         }
     }
 
-    public function testAddTemplateMessageWithoutLinkField()
+    public function testSubmitWithoutLinkField()
     {
         $client = $this->mockApiClient(MessageClient::class);
         $client->shouldReceive('httpPostJson');
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'link' => [
                     'test',
                 ],
@@ -101,7 +101,7 @@ class MessageTest extends TestCase
         }
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'link' => [
                     'title' => 'mock-title',
                 ],
@@ -112,13 +112,13 @@ class MessageTest extends TestCase
         }
     }
 
-    public function testAddTemplateMessageWithoutMiniprogramField()
+    public function testSubmitWithoutMiniprogramField()
     {
         $client = $this->mockApiClient(MessageClient::class);
         $client->shouldReceive('httpPostJson')->andReturn('mock-result');
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'miniprogram' => [
                     'test',
                 ],
@@ -129,7 +129,7 @@ class MessageTest extends TestCase
         }
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'miniprogram' => [
                     'title' => 'mock-title',
                 ],
@@ -140,7 +140,7 @@ class MessageTest extends TestCase
         }
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'miniprogram' => [
                     'title' => 'mock-title',
                     'pic_media_id' => 'mock-pic_media_id',
@@ -152,7 +152,7 @@ class MessageTest extends TestCase
         }
 
         try {
-            $client->addTemplateMessage([
+            $client->submit([
                 'miniprogram' => [
                     'title' => 'mock-title',
                     'pic_media_id' => 'mock-pic_media_id',
@@ -164,7 +164,7 @@ class MessageTest extends TestCase
             $this->assertSame('Attribute "page" can not be empty!', $exception->getMessage());
         }
 
-        $this->assertSame('mock-result', $client->addTemplateMessage([
+        $this->assertSame('mock-result', $client->submit([
             'miniprogram' => [
                 'title' => 'mock-title',
                 'pic_media_id' => 'mock-pic_media_id',
@@ -182,10 +182,10 @@ class MessageTest extends TestCase
             'msgid' => 'mock-msgid',
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getGroupMsgResult('mock-msgid'));
+        $this->assertSame('mock-result', $client->get('mock-msgid'));
     }
 
-    public function testSendWelcomeMsg()
+    public function testSendWelcome()
     {
         $client = $this->mockApiClient(MessageClient::class);
 
@@ -198,7 +198,7 @@ class MessageTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/send_welcome_msg', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->sendWelcomeMsg('mock-welcome-code', [
+        $this->assertSame('mock-result', $client->sendWelcome('mock-welcome-code', [
             'text' => [
                 'content' => 'mock-content',
             ],

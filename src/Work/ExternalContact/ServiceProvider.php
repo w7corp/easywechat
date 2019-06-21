@@ -27,26 +27,18 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['external_contact'] = function ($app) {
-            return new ExternalContact($app);
-        };
-
-        $app['external_contact.client'] = function ($app) {
             return new Client($app);
         };
 
-        $app['external_contact.contact_way'] = function ($app) {
+        $app['contact_way'] = function ($app) {
             return new ContactWayClient($app);
         };
 
-        $app['external_contact.data_cube'] = function ($app) {
-            return new DataCubeClient($app);
+        $app['external_contact_statistics'] = function ($app) {
+            return new StatisticsClient($app);
         };
 
-        $app['external_contact.dimission'] = function ($app) {
-            return new DimissionClient($app);
-        };
-
-        $app['external_contact.msg'] = function ($app) {
+        $app['external_contact_message'] = function ($app) {
             return new MessageClient($app);
         };
     }

@@ -31,7 +31,7 @@ class ContactWayClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function add(int $type, int $scene, array $config = [])
+    public function create(int $type, int $scene, array $config = [])
     {
         $params = array_merge([
             'type' => $type,
@@ -85,7 +85,7 @@ class ContactWayClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function delete($configId)
+    public function delete(string $configId)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/del_contact_way', [
             'config_id' => $configId,

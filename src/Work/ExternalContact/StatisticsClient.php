@@ -18,7 +18,7 @@ use EasyWeChat\Kernel\BaseClient;
  *
  * @author milkmeowo <milkmeowo@gmail.com>
  */
-class DataCubeClient extends BaseClient
+class StatisticsClient extends BaseClient
 {
     /**
      * 获取员工行为数据.

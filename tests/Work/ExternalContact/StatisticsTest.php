@@ -12,13 +12,13 @@
 namespace EasyWeChat\Tests\Work\ExternalContact;
 
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Work\ExternalContact\DataCubeClient;
+use EasyWeChat\Work\ExternalContact\StatisticsClient;
 
-class DataCubeTest extends TestCase
+class StatisticsTest extends TestCase
 {
     public function testUserBehavior()
     {
-        $client = $this->mockApiClient(DataCubeClient::class);
+        $client = $this->mockApiClient(StatisticsClient::class);
 
         $params = [
             'userid' => [

@@ -62,7 +62,7 @@ class MessageClient extends BaseClient
      * @throws InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function addTemplateMessage(array $msg)
+    public function submit(array $msg)
     {
         $params = $this->formatMessage($msg);
 
@@ -80,7 +80,7 @@ class MessageClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getGroupMsgResult($msgId)
+    public function get(string $msgId)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/get_group_msg_result', [
             'msgid' => $msgId,
@@ -100,7 +100,7 @@ class MessageClient extends BaseClient
      * @throws InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function sendWelcomeMsg(string $welcomeCode, array $msg)
+    public function sendWelcome(string $welcomeCode, array $msg)
     {
         $formattedMsg = $this->formatMessage($msg);
 
@@ -123,19 +123,19 @@ class MessageClient extends BaseClient
         $params = $data;
 
         if (!empty($params['text'])) {
-            $params['text'] = $this->baseFormat($params['text'], $this->textMessage);
+            $params['text'] = $this->formatFields($params['text'], $this->textMessage);
         }
 
         if (!empty($params['image'])) {
-            $params['image'] = $this->baseFormat($params['image'], $this->imageMessage);
+            $params['image'] = $this->formatFields($params['image'], $this->imageMessage);
         }
 
         if (!empty($params['link'])) {
-            $params['link'] = $this->baseFormat($params['link'], $this->linkMessage);
+            $params['link'] = $this->formatFields($params['link'], $this->linkMessage);
         }
 
         if (!empty($params['miniprogram'])) {
-            $params['miniprogram'] = $this->baseFormat($params['miniprogram'], $this->miniprogramMessage);
+            $params['miniprogram'] = $this->formatFields($params['miniprogram'], $this->miniprogramMessage);
         }
 
         return $params;
@@ -149,7 +149,7 @@ class MessageClient extends BaseClient
      *
      * @throws InvalidArgumentException
      */
-    protected function baseFormat($data = [], $default = [])
+    protected function formatFields(array $data = [], array $default = [])
     {
         $params = array_merge($default, $data);
         foreach ($params as $key => $value) {

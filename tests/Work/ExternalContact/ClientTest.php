@@ -30,10 +30,37 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->list('mock-userid'));
     }
 
-    public function testFollowUsers()
+    public function testGetFollowUsers()
     {
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpGet('cgi-bin/externalcontact/get_follow_user_list')->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->followUsers());
+        $this->assertSame('mock-result', $client->getFollowUsers());
+    }
+
+    public function testGetUnassigned()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'page_id' => 1,
+            'page_size' => 1000,
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/get_unassigned_list', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getUnassigned(1));
+    }
+
+    public function testTransfer()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'external_userid' => 'mock-external-userid',
+            'handover_userid' => 'mock-handover-userid',
+            'takeover_userid' => 'mock-takeover-userid',
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/transfer', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->transfer('mock-external-userid', 'mock-handover-userid', 'mock-takeover-userid'));
     }
 }

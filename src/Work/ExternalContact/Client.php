@@ -29,7 +29,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function followUsers()
+    public function getFollowUsers()
     {
         return $this->httpGet('cgi-bin/externalcontact/get_follow_user_list');
     }
@@ -45,7 +45,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function list($userId)
+    public function list(string $userId)
     {
         return $this->httpGet('cgi-bin/externalcontact/list', [
             'userid' => $userId,
@@ -63,10 +63,54 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function get($externalUserId)
+    public function get(string $externalUserId)
     {
         return $this->httpGet('cgi-bin/externalcontact/get', [
             'external_userid' => $externalUserId,
         ]);
+    }
+
+    /**
+     * 获取离职成员的客户列表.
+     *
+     * @see https://work.weixin.qq.com/api/doc#90000/90135/91563
+     *
+     * @param int $pageId
+     * @param int $pageSize
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getUnassigned(int $pageId = 0, int $pageSize = 1000)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/get_unassigned_list', [
+            'page_id' => $pageId,
+            'page_size' => $pageSize,
+        ]);
+    }
+
+    /**
+     * 离职成员的外部联系人再分配.
+     *
+     * @see https://work.weixin.qq.com/api/doc#90000/90135/91564
+     *
+     * @param string $externalUserId
+     * @param string $handoverUserId
+     * @param string $takeoverUserId
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function transfer(string $externalUserId, string $handoverUserId, string $takeoverUserId)
+    {
+        $params = [
+            'external_userid' => $externalUserId,
+            'handover_userid' => $handoverUserId,
+            'takeover_userid' => $takeoverUserId,
+        ];
+
+        return $this->httpPostJson('cgi-bin/externalcontact/transfer', $params);
     }
 }
