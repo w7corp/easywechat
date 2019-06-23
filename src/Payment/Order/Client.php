@@ -42,14 +42,17 @@ class Client extends BaseClient
      *
      * @param string $number
      *
+     * @param string $attach
+     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function queryByOutTradeNumber(string $number)
+    public function queryByOutTradeNumber(string $number, string $attach='')
     {
         return $this->query([
             'out_trade_no' => $number,
+            'attach' => $attach
         ]);
     }
 
@@ -58,14 +61,17 @@ class Client extends BaseClient
      *
      * @param string $transactionId
      *
+     * @param string $attach
+     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function queryByTransactionId(string $transactionId)
+    public function queryByTransactionId(string $transactionId, string $attach='')
     {
         return $this->query([
             'transaction_id' => $transactionId,
+            'attach' => $attach
         ]);
     }
 
