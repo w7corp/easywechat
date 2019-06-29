@@ -27,16 +27,18 @@ class Client extends BaseClient
      * @param string $subAppid
      * @param string $subscribeAppid
      * @param string $receiptAppid
+     * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function setFollowConfig(string $subAppid, string $subscribeAppid, string $receiptAppid = '')
+    public function setFollowConfig(string $subAppid, string $subscribeAppid, string $receiptAppid = '', string $subMchId = '')
     {
         $params = [
             'sub_appid' => $subAppid,
+            'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
         ];
 
         if (!empty($subscribeAppid)) {
