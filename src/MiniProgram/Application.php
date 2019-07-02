@@ -33,6 +33,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Express\Client             $logistics
  * @property \EasyWeChat\MiniProgram\NearbyPoi\Client           $nearby_poi
  * @property \EasyWeChat\MiniProgram\OCR\Client                 $ocr
+ * @property \EasyWeChat\MiniProgram\Soter\Client               $soter
  * @property \EasyWeChat\BasicService\Media\Client              $media
  * @property \EasyWeChat\BasicService\ContentSecurity\Client    $content_security
  */
@@ -56,6 +57,7 @@ class Application extends ServiceContainer
         Express\ServiceProvider::class,
         NearbyPoi\ServiceProvider::class,
         OCR\ServiceProvider::class,
+        Soter\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
         BasicService\ContentSecurity\ServiceProvider::class,
