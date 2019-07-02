@@ -22,18 +22,18 @@ class Client extends BaseClient
 {
     /**
      * @param string $openid
-     * @param string $string
+     * @param string $json
      * @param string $signature
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function verifySignature(string $openid, string $string, string $signature)
+    public function verifySignature(string $openid, string $json, string $signature)
     {
         return $this->httpPostJson('cgi-bin/soter/verify_signature', [
             'openid' => $openid,
-            'json_string' => $string,
+            'json_string' => $json,
             'json_signature' => $signature,
         ]);
     }

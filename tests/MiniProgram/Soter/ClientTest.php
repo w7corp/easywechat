@@ -22,10 +22,10 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/soter/verify_signature', [
             'openid' => 'mock-openid',
-            'json_string' => 'mock-string',
+            'json_string' => 'mock-json',
             'json_signature' => 'mock-signature',
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->verifySignature('mock-openid', 'mock-string', 'mock-signature'));
+        $this->assertSame('mock-result', $client->verifySignature('mock-openid', 'mock-json', 'mock-signature'));
     }
 }
