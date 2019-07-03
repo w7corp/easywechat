@@ -12,7 +12,6 @@
 namespace EasyWeChat\Tests\BasicService\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client;
-use EasyWeChat\Factory;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
