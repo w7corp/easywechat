@@ -129,7 +129,7 @@ trait Observable
         foreach ($this->handlers as $condition => $handlers) {
             if ('*' === $condition || ($condition & $event) === $event) {
                 foreach ($handlers as $handler) {
-                    if ($clause = $this->clauses[$this->getObjectHash($handler)] ?? null) {
+                    if ($clause = $this->clauses[$this->getCallableHash($handler)] ?? null) {
                         if ($clause->intercepted($payload)) {
                             continue;
                         }
@@ -169,7 +169,7 @@ trait Observable
      */
     protected function newClause($handler): Clause
     {
-        return $this->clauses[$this->getObjectHash($handler)] = new Clause();
+        return $this->clauses[$this->getCallableHash($handler)] = new Clause();
     }
 
     /**
@@ -177,7 +177,7 @@ trait Observable
      *
      * @return string
      */
-    protected function getObjectHash($handler)
+    protected function getCallableHash($handler)
     {
         if (is_string($handler)) {
             return $handler;
