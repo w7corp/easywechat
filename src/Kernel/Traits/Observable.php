@@ -129,11 +129,12 @@ trait Observable
         foreach ($this->handlers as $condition => $handlers) {
             if ('*' === $condition || ($condition & $event) === $event) {
                 foreach ($handlers as $handler) {
-                    if ($clause = $this->clauses[spl_object_hash((object) $handler)] ?? null) {
+                    if ($clause = $this->clauses[$this->getObjectHash($handler)] ?? null) {
                         if ($clause->intercepted($payload)) {
                             continue;
                         }
                     }
+
                     $response = $this->callHandler($handler, $payload);
 
                     switch (true) {
@@ -168,7 +169,27 @@ trait Observable
      */
     protected function newClause($handler): Clause
     {
-        return $this->clauses[spl_object_hash((object) $handler)] = new Clause();
+        return $this->clauses[$this->getObjectHash($handler)] = new Clause();
+    }
+
+    /**
+     * @param mixed $handler
+     *
+     * @return string
+     */
+    protected function getObjectHash($handler)
+    {
+        if (is_string($handler)) {
+            return $handler;
+        }
+
+        if (is_array($handler)) {
+            return is_string($handler[0])
+                ? $handler[0].'::'.$handler[1]
+                : get_class($handler[0]).$handler[1];
+        }
+
+        return spl_object_hash($handler);
     }
 
     /**
@@ -180,7 +201,7 @@ trait Observable
     protected function callHandler(callable $handler, $payload)
     {
         try {
-            return $handler($payload);
+            return call_user_func_array($handler, [$payload]);
         } catch (\Exception $e) {
             if (property_exists($this, 'app') && $this->app instanceof ServiceContainer) {
                 $this->app['logger']->error($e->getCode().': '.$e->getMessage(), [
