@@ -143,6 +143,21 @@ class ObservableTest extends TestCase
         $this->assertSame('mock-response-2', $c->notify('foo', ['foo' => 'bar']));
     }
 
+    public function testNotifyWithArrayCallableHandler()
+    {
+        $c = new DummyClassForObservableTest();
+        $o = new DummyHandlerClass();
+        $c->push([$o, 'handler4']);
+        $c->push([$o, 'handler1'])->where('name', 'h1');
+        $c->push([$o, 'handler2'])->where('name', 'h2');
+        $c->push([$o, 'handler3'])->where('name', 'h3');
+
+        $this->assertSame('handler1', $c->notify('foo', ['name' => 'h1']));
+        $this->assertSame('handler2', $c->notify('foo', ['name' => 'h2']));
+        $this->assertSame('handler3', $c->notify('foo', ['name' => 'h3']));
+        $this->assertSame('handler4', $c->notify('foo', ['name' => 'not-exists']));
+    }
+
     public function testNotifyWithStopPropagation()
     {
         $c = new DummyClassForObservableTest();
@@ -360,4 +375,27 @@ class DummyClassForObservableTest
     }
 
     use Observable;
+}
+
+class DummyHandlerClass
+{
+    public function handler1($payload)
+    {
+        return 'handler1';
+    }
+
+    public function handler2($payload)
+    {
+        return 'handler2';
+    }
+
+    public function handler3($payload)
+    {
+        return 'handler3';
+    }
+
+    public function handler4($payload)
+    {
+        return 'handler4';
+    }
 }

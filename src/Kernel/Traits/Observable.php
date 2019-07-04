@@ -36,8 +36,8 @@ trait Observable
     protected $clauses = [];
 
     /**
-     * @param \Closure|EventHandlerInterface|string $handler
-     * @param \Closure|EventHandlerInterface|string $condition
+     * @param \Closure|EventHandlerInterface|callable|string $handler
+     * @param \Closure|EventHandlerInterface|callable|string $condition
      *
      * @return \EasyWeChat\Kernel\Clauses\Clause
      *
@@ -129,7 +129,7 @@ trait Observable
         foreach ($this->handlers as $condition => $handlers) {
             if ('*' === $condition || ($condition & $event) === $event) {
                 foreach ($handlers as $handler) {
-                    if ($clause = $this->clauses[$this->getCallableHash($handler)] ?? null) {
+                    if ($clause = $this->clauses[$this->getHandlerHash($handler)] ?? null) {
                         if ($clause->intercepted($payload)) {
                             continue;
                         }
@@ -169,7 +169,7 @@ trait Observable
      */
     protected function newClause($handler): Clause
     {
-        return $this->clauses[$this->getCallableHash($handler)] = new Clause();
+        return $this->clauses[$this->getHandlerHash($handler)] = new Clause();
     }
 
     /**
@@ -177,7 +177,7 @@ trait Observable
      *
      * @return string
      */
-    protected function getCallableHash($handler)
+    protected function getHandlerHash($handler)
     {
         if (is_string($handler)) {
             return $handler;
