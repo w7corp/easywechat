@@ -97,14 +97,14 @@ class Application extends ServiceContainer
      * set sub-mch-id and appid.
      *
      * @param string $subMchId Identification Number of Small and Micro Businessmen Reported by Service Providers
-     * @param string $appid    Public Account ID of Service Provider
+     * @param string $appId    Public Account ID of Service Provider
      *
      * @return $this
      */
-    public function setSubMchId(string $subMchId, string $appid = '')
+    public function setSubMchId(string $subMchId, string $appId = '')
     {
         $this['config']->set('sub_mch_id', $subMchId);
-        $this['config']->set('appid', $appid);
+        $this['config']->set('appid', $appId);
 
         return $this;
     }
@@ -113,14 +113,14 @@ class Application extends ServiceContainer
      * setCertificate.
      *
      * @param string $certificate
-     * @param string $serial_no
+     * @param string $serialNo
      *
      * @return $this
      */
-    public function setCertificate(string $certificate, string $serial_no)
+    public function setCertificate(string $certificate, string $serialNo)
     {
         $this['config']->set('certificate', $certificate);
-        $this['config']->set('serial_no', $serial_no);
+        $this['config']->set('serial_no', $serialNo);
 
         return $this;
     }
