@@ -12,7 +12,7 @@
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat) 
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat) 
 
-[![](http://prt.ruffood.com/svg/overtrue)](http://prt.ruffood.com/jump/overtrue)
+[![7.0-9.9](http://prt.ruffood.com/svg/overtrue)](http://prt.ruffood.com/jump/overtrue)
 
 ## Requirement
 
