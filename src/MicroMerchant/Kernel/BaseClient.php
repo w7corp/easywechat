@@ -13,7 +13,6 @@ namespace EasyWeChat\MicroMerchant\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support;
-use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\MicroMerchant\Application;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
 use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
@@ -21,23 +20,15 @@ use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
 /**
  * Class BaseClient.
  *
- * @author overtrue <i@overtrue.me>
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-07-10  12:06
  */
 class BaseClient extends PaymentBaseClient
 {
-    use HasHttpRequests {
-        request as performRequest;
-    }
-
     /**
      * @var string
      */
     protected $certificates;
-
-    /**
-     * @var \EasyWeChat\MicroMerchant\Application
-     */
-    protected $app;
 
     /**
      * BaseClient constructor.
