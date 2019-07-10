@@ -18,7 +18,7 @@ use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
 use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
 
 /**
- * Class BaseClient
+ * Class BaseClient.
  *
  * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-10  12:06
