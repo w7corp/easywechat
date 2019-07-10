@@ -30,7 +30,7 @@ class ClientTest extends TestCase
             'query' => [
                 'media_id' => $mediaId,
             ],
-        ])->andReturn($imageResponse)->once();
+        ])->andReturn($imageResponse);
 
         $this->assertSame(['error' => 'invalid media id hits.'], $client->get($mediaId));
 
@@ -40,7 +40,7 @@ class ClientTest extends TestCase
             'query' => [
                 'media_id' => $mediaId,
             ],
-        ])->andReturn($imageResponse)->once();
+        ])->andReturn($imageResponse);
 
         $this->assertInstanceOf(StreamResponse::class, $client->get($mediaId));
     }

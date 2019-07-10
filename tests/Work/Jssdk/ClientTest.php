@@ -38,6 +38,7 @@ class ClientTest extends TestCase
         ];
         $cacheKey = 'easywechat.basic_service.jssdk.ticket.jsapi.123456';
         $client->allows()->getCache()->andReturn($cache);
+        $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
 
         // no refresh and cached
         $cache->expects()->has($cacheKey)->andReturn(true);
@@ -46,20 +47,18 @@ class ClientTest extends TestCase
         $this->assertSame($ticket, $client->getTicket());
 
         // no refresh and no cached
-        $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
-
-        $cache->expects()->has($cacheKey)->andReturn(false);
+        $cache->expects()->has($cacheKey)->twice()->andReturn(false, true);
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(true);
-        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
+        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket());
 
         // with refresh and cached
-        $cache->expects()->has('mock-cache-key')->never();
+        $cache->expects()->has($cacheKey)->andReturn(true);
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(true);
-        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
+        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket(true));
     }

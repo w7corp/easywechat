@@ -51,9 +51,9 @@ class VerifyTicket
      */
     public function setTicket(string $ticket)
     {
-        $ok = $this->getCache()->set($this->getCacheKey(), $ticket, 3600);
+        $this->getCache()->set($this->getCacheKey(), $ticket, 3600);
 
-        if (!$ok) {
+        if (!$this->getCache()->has($this->getCacheKey())) {
             throw new RuntimeException('Failed to cache verify ticket.');
         }
 

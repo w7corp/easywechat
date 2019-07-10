@@ -21,7 +21,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
-        $client->expects()->httpPostJson('cgi-bin/open/create', ['appid' => 'app-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/open/create', ['appid' => 'app-id'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create());
     }
 
@@ -29,7 +29,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
-        $client->expects()->httpPostJson('cgi-bin/open/bind', ['appid' => 'app-id', 'open_appid' => 'open-app-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/open/bind', ['appid' => 'app-id', 'open_appid' => 'open-app-id'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->bindTo('open-app-id'));
     }
 
@@ -37,7 +37,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
-        $client->expects()->httpPostJson('cgi-bin/open/unbind', ['appid' => 'app-id', 'open_appid' => 'open-app-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/open/unbind', ['appid' => 'app-id', 'open_appid' => 'open-app-id'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->unbindFrom('open-app-id'));
     }
 
@@ -45,7 +45,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
 
-        $client->expects()->httpPostJson('cgi-bin/open/get', ['appid' => 'app-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/open/get', ['appid' => 'app-id'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getBinding());
     }
 }

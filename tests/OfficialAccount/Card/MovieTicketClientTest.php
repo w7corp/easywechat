@@ -20,7 +20,7 @@ class MovieTicketClientTest extends TestCase
     {
         $client = $this->mockApiClient(MovieTicketClient::class);
 
-        $client->expects()->httpPostJson('card/movieticket/updateuser', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/movieticket/updateuser', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->updateUser(['foo' => 'bar']));
     }

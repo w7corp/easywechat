@@ -58,7 +58,7 @@ class LogManagerTest extends TestCase
         $log = \Mockery::mock(LogManager::class.'[createEmergencyLogger]', [$app])->shouldAllowMockingProtectedMethods();
 
         $emergencyLogger = \Mockery::mock(Logger::class);
-        $log->shouldReceive('createEmergencyLogger')->andReturn($emergencyLogger)->once();
+        $log->shouldReceive('createEmergencyLogger')->andReturn($emergencyLogger);
         $emergencyLogger->shouldReceive('emergency')
             ->with('Unable to create configured logger. Using emergency logger.', \Mockery::on(function ($data) {
                 $this->assertArrayHasKey('exception', $data);
@@ -112,7 +112,7 @@ class LogManagerTest extends TestCase
 
         $log = \Mockery::mock(LogManager::class.'[createEmergencyLogger]', [$app])->shouldAllowMockingProtectedMethods();
         $emergencyLogger = \Mockery::mock(Logger::class);
-        $log->shouldReceive('createEmergencyLogger')->andReturn($emergencyLogger)->once();
+        $log->shouldReceive('createEmergencyLogger')->andReturn($emergencyLogger);
         $emergencyLogger->shouldReceive('emergency')
             ->with('Unable to create configured logger. Using emergency logger.', \Mockery::on(function ($data) {
                 $this->assertArrayHasKey('exception', $data);
@@ -120,7 +120,7 @@ class LogManagerTest extends TestCase
                 $this->assertSame('Driver [abcde] is not supported.', $data['exception']->getMessage());
 
                 return true;
-            }))->once();
+            }));
         $log->driver('custom');
     }
 
@@ -142,16 +142,16 @@ class LogManagerTest extends TestCase
 
         $logger = \Mockery::mock(Logger::class);
 
-        $log->shouldReceive('createSingleDriver')->andReturn($logger)->once();
-        $logger->shouldReceive('emergency')->with('emergency message', [])->once();
-        $logger->shouldReceive('alert')->with('alert message', [])->once();
-        $logger->shouldReceive('critical')->with('critical message', [])->once();
-        $logger->shouldReceive('error')->with('error message', [])->once();
-        $logger->shouldReceive('warning')->with('warning message', [])->once();
-        $logger->shouldReceive('notice')->with('notice message', [])->once();
-        $logger->shouldReceive('info')->with('info message', [])->once();
-        $logger->shouldReceive('debug')->with('debug message', [])->once();
-        $logger->shouldReceive('log')->with('debug', 'log message', [])->once();
+        $log->shouldReceive('createSingleDriver')->andReturn($logger);
+        $logger->shouldReceive('emergency')->with('emergency message', []);
+        $logger->shouldReceive('alert')->with('alert message', []);
+        $logger->shouldReceive('critical')->with('critical message', []);
+        $logger->shouldReceive('error')->with('error message', []);
+        $logger->shouldReceive('warning')->with('warning message', []);
+        $logger->shouldReceive('notice')->with('notice message', []);
+        $logger->shouldReceive('info')->with('info message', []);
+        $logger->shouldReceive('debug')->with('debug message', []);
+        $logger->shouldReceive('log')->with('debug', 'log message', []);
 
         $log->emergency('emergency message');
         $log->alert('alert message');
@@ -185,8 +185,8 @@ class LogManagerTest extends TestCase
 
         $log->setDefaultDriver('single');
 
-        $log->shouldReceive('createSingleDriver')->andReturn($logger)->once();
-        $logger->shouldReceive('debug')->with('debug message', [])->once();
+        $log->shouldReceive('createSingleDriver')->andReturn($logger);
+        $logger->shouldReceive('debug')->with('debug message', []);
 
         $log->debug('debug message');
 
@@ -208,7 +208,7 @@ class LogManagerTest extends TestCase
         ]);
         $log = \Mockery::mock(LogManager::class, [$app])
                 ->shouldAllowMockingProtectedMethods()
-                ->shouldDeferMissing();
+                ->makePartial();
 
         $this->assertInstanceOf(Logger::class, $log->createStackDriver(['channels' => ['single']]));
         $this->assertInstanceOf(Logger::class, $log->createSlackDriver(['url' => 'https://easywechat.com']));
@@ -222,7 +222,7 @@ class LogManagerTest extends TestCase
         $app = new ServiceContainer([]);
         $log = \Mockery::mock(LogManager::class, [$app])
             ->shouldAllowMockingProtectedMethods()
-            ->shouldDeferMissing();
+            ->makePartial();
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid log level.');

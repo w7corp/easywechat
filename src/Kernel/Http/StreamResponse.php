@@ -25,13 +25,14 @@ class StreamResponse extends Response
     /**
      * @param string $directory
      * @param string $filename
+     * @param bool   $appendSuffix
      *
      * @return bool|int
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function save(string $directory, string $filename = '')
+    public function save(string $directory, string $filename = '', bool $appendSuffix = true)
     {
         $this->getBody()->rewind();
 
@@ -59,7 +60,7 @@ class StreamResponse extends Response
             }
         }
 
-        if (empty(pathinfo($filename, PATHINFO_EXTENSION))) {
+        if ($appendSuffix && empty(pathinfo($filename, PATHINFO_EXTENSION))) {
             $filename .= File::getStreamExt($contents);
         }
 
@@ -71,13 +72,15 @@ class StreamResponse extends Response
     /**
      * @param string $directory
      * @param string $filename
+     * @param bool   $appendSuffix
      *
      * @return bool|int
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function saveAs(string $directory, string $filename)
+    public function saveAs(string $directory, string $filename, bool $appendSuffix = true)
     {
-        return $this->save($directory, $filename);
+        return $this->save($directory, $filename, $appendSuffix);
     }
 }

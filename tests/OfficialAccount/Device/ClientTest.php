@@ -35,7 +35,7 @@ class ClientTest extends TestCase
             'device_id' => 'mock-id',
             'open_id' => 'mock-openid',
             'content' => base64_encode('hello'),
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->message('mock-id', 'mock-openid', 'hello'));
     }
@@ -47,7 +47,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('device/create_qrcode', [
             'device_num' => 2,
             'device_id_list' => ['mock-id1', 'mock-id2'],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->qrCode(['mock-id1', 'mock-id2']));
     }
@@ -58,7 +58,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpGet('device/getqrcode', [
             'product_id' => 'mock-pid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->createId('mock-pid'));
     }
@@ -71,7 +71,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'device_id' => 'mock-id',
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->bind('mock-openid', 'mock-id', 'mock-ticket'));
     }
@@ -84,7 +84,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'device_id' => 'mock-id',
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->unbind('mock-openid', 'mock-id', 'mock-ticket'));
     }
@@ -96,7 +96,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('device/compel_bind', [
             'device_id' => 'mock-id',
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->forceBind('mock-openid', 'mock-id'));
     }
@@ -108,7 +108,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('device/compel_unbind', [
             'device_id' => 'mock-id',
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->forceUnbind('mock-openid', 'mock-id'));
     }
@@ -119,7 +119,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpGet('device/get_stat', [
             'device_id' => 'mock-id',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->status('mock-id'));
     }
@@ -130,7 +130,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPost('device/verify_qrcode', [
             'ticket' => 'mock-ticket',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->verify('mock-ticket'));
     }
@@ -142,7 +142,7 @@ class ClientTest extends TestCase
         $client->expects()->httpGet('device/get_openid', [
             'device_id' => 'mock-id',
             'device_type' => 'mock-type',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->openid('mock-id'));
     }
@@ -153,7 +153,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpGet('device/get_bind_device', [
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->listByOpenid('mock-openid'));
     }
@@ -196,7 +196,7 @@ class ClientTest extends TestCase
             'device_list' => $devices,
             'op_type' => 0,
             'product_id' => 'mock-pid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->authorize($devices, 'mock-pid'));
     }
 }

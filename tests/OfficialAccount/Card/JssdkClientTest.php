@@ -32,10 +32,10 @@ class JssdkClientTest extends TestCase
         $client->allows()->getCache()->andReturn($cache);
 
         $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
-        $cache->expects()->has($cacheKey)->andReturn(false);
+        $cache->expects()->has($cacheKey)->twice()->andReturns(false, true);
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(true);
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'wx_card']])->andReturn($response)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'wx_card']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket());
     }
@@ -57,14 +57,14 @@ class JssdkClientTest extends TestCase
         ])->andReturn([
             'card_id' => 'mock-card-id1',
             'assigned' => 'yes',
-        ])->once();
+        ]);
 
         $client->expects()->attachExtension('mock-card-id2', [
             'card_id' => 'mock-card-id2',
         ])->andReturn([
             'card_id' => 'mock-card-id2',
             'assigned' => 'yes',
-        ])->once();
+        ]);
 
         $this->assertSame(json_encode([
             [
@@ -93,7 +93,7 @@ class JssdkClientTest extends TestCase
         ];
 
         $client->expects()->dictionaryOrderSignature('mock-ticket', \Mockery::type('int'), 'mock-card-id', 'mock-code', 'mock-openid', \Mockery::type('string'))
-                    ->andReturn('mock-signature')->once();
+                    ->andReturn('mock-signature');
         $client->expects()->getTicket()->andReturn(['ticket' => 'mock-ticket']);
 
         $attached = $client->attachExtension('mock-card-id', $card);

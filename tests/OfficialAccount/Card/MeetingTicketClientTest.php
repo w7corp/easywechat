@@ -23,7 +23,7 @@ class MeetingTicketClientTest extends TestCase
         $params = [
             'foo' => 'bar',
         ];
-        $client->expects()->httpPostJson('card/meetingticket/updateuser', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/meetingticket/updateuser', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->updateUser($params));
     }

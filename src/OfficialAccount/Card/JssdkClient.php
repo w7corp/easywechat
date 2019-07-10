@@ -30,6 +30,7 @@ class JssdkClient extends Jssdk
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getTicket(bool $refresh = false, string $type = 'wx_card'): array
     {

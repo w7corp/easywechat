@@ -23,7 +23,7 @@ class MemberCardClientTest extends TestCase
         $params = [
             'foo' => 'bar',
         ];
-        $client->expects()->httpPostJson('card/membercard/activate', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/membercard/activate', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->activate($params));
     }
@@ -36,7 +36,7 @@ class MemberCardClientTest extends TestCase
             'card_id' => 'mock-card-id',
             'foo' => 'bar',
         ];
-        $client->expects()->httpPostJson('card/membercard/activateuserform/set', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/membercard/activateuserform/set', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->setActivationForm('mock-card-id', $params));
     }
@@ -48,7 +48,7 @@ class MemberCardClientTest extends TestCase
         $params = [
             'activate_ticket' => 'mock-activate-ticket',
         ];
-        $client->expects()->httpPostJson('card/membercard/activatetempinfo/get', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/membercard/activatetempinfo/get', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getActivationForm('mock-activate-ticket'));
     }
@@ -61,7 +61,7 @@ class MemberCardClientTest extends TestCase
             'card_id' => 'mock-card-id',
             'code' => 'mock-code',
         ];
-        $client->expects()->httpPostJson('card/membercard/userinfo/get', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/membercard/userinfo/get', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getUser('mock-card-id', 'mock-code'));
     }
@@ -70,7 +70,7 @@ class MemberCardClientTest extends TestCase
     {
         $client = $this->mockApiClient(MemberCardClient::class);
 
-        $client->expects()->httpPostJson('card/membercard/updateuser', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/membercard/updateuser', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->updateUser(['foo' => 'bar']));
     }
@@ -84,7 +84,7 @@ class MemberCardClientTest extends TestCase
             'outer_str' => 'mock-outer_str',
         ];
 
-        $client->expects()->httpPostJson('card/membercard/activate/geturl', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/membercard/activate/geturl', $params)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getActivateUrl($params));
     }
 }

@@ -23,7 +23,7 @@ class GeneralCardClientTest extends TestCase
         $params = [
             'foo' => 'bar',
         ];
-        $client->expects()->httpPostJson('card/generalcard/activate', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/generalcard/activate', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->activate($params));
     }
@@ -36,7 +36,7 @@ class GeneralCardClientTest extends TestCase
             'card_id' => 'mock-card-id',
             'code' => 'bar',
         ];
-        $client->expects()->httpPostJson('card/generalcard/unactivate', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/generalcard/unactivate', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->deactivate('mock-card-id', 'bar'));
     }
@@ -45,7 +45,7 @@ class GeneralCardClientTest extends TestCase
     {
         $client = $this->mockApiClient(GeneralCardClient::class);
 
-        $client->expects()->httpPostJson('card/generalcard/updateuser', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/generalcard/updateuser', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->updateUser(['foo' => 'bar']));
     }

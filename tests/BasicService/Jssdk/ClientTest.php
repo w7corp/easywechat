@@ -50,7 +50,7 @@ class ClientTest extends TestCase
     public function testGetConfigArray()
     {
         $client = $this->mockApiClient(Client::class, 'buildConfig');
-        $client->expects()->buildConfig(['api1', 'api2'], true, true, false)->andReturn('mock-result')->once();
+        $client->expects()->buildConfig(['api1', 'api2'], true, true, false)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getConfigArray(['api1', 'api2'], true, true));
     }
@@ -68,6 +68,7 @@ class ClientTest extends TestCase
         ];
         $cacheKey = 'easywechat.basic_service.jssdk.ticket.jsapi.123456';
         $client->allows()->getCache()->andReturn($cache);
+        $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
 
         // no refresh and cached
         $cache->expects()->has($cacheKey)->andReturn(true);
@@ -76,28 +77,28 @@ class ClientTest extends TestCase
         $this->assertSame($ticket, $client->getTicket());
 
         // no refresh and no cached
-        $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
-
-        $cache->expects()->has($cacheKey)->andReturn(false);
+        $cache->expects()->has($cacheKey)->twice()->andReturns(false, true);
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(true);
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket());
 
         // with refresh and cached
-        $cache->expects()->has('mock-cache-key')->never();
+        $cache->expects()->has($cacheKey)->andReturn(true);
         $cache->expects()->get($cacheKey)->never();
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(true);
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket(true));
 
+        // cache failed
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to cache jssdk ticket.');
 
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once()->andReturn(false);
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
+        $cache->expects()->has($cacheKey)->andReturn(false);
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $client->getTicket(true);
     }
@@ -112,8 +113,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'expires_in' => 7200,
         ];
-        $client = $this->mockApiClient(Client::class, ['getUrl', 'getTicket', 'getTicketSignature'], $app)
-                        ->shouldDeferMissing();
+        $client = $this->mockApiClient(Client::class, ['getUrl', 'getTicket', 'getTicketSignature'], $app)->makePartial();
         $client->allows()->getUrl()->andReturn($url)->once();
         $client->allows()->getTicketSignature('mock-ticket', \Mockery::type('string'), \Mockery::type('integer'), $url)
                             ->andReturn('mock-signature');

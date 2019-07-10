@@ -39,6 +39,11 @@ class StreamResponseTest extends TestCase
         $this->assertTrue(vfsStreamWrapper::getRoot()->hasChild($filename));
         $this->assertSame('custom-filename.png', $filename);
 
+        // custom filename without auto suffix
+        $filename = $response->save($directory, 'custom-filename', false);
+        $this->assertTrue(vfsStreamWrapper::getRoot()->hasChild($filename));
+        $this->assertSame('custom-filename', $filename);
+
         // get filename from header
         $response = new StreamResponse(200, ['Content-Disposition' => 'attachment; filename="filename.jpg"'], file_get_contents(STUBS_ROOT.'/files/image.png'));
         $filename = $response->save($directory);
@@ -71,8 +76,12 @@ class StreamResponseTest extends TestCase
     public function testSaveAs()
     {
         $response = Mockery::mock(StreamResponse::class.'[save]');
-        $response->expects()->save('dir', 'filename')->andReturn('filename.png')->once();
+        $response->expects()->save('dir', 'filename', true)->andReturn('filename.png');
+        $response->expects()->save('dir', 'filename', false)->andReturn('filename');
 
         $this->assertSame('filename.png', $response->saveAs('dir', 'filename'));
+
+        // without auto suffix
+        $this->assertSame('filename', $response->saveAs('dir', 'filename', false));
     }
 }

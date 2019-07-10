@@ -21,7 +21,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('cgi-bin/customservice/getkflist')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/customservice/getkflist')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
     }
@@ -30,7 +30,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('cgi-bin/customservice/getonlinekflist')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/customservice/getonlinekflist')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->online());
     }
@@ -42,7 +42,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('customservice/kfaccount/add', [
             'kf_account' => 'overtrue@test',
             'nickname' => '小超',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->create('overtrue@test', '小超'));
     }
@@ -54,7 +54,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('customservice/kfaccount/update', [
             'kf_account' => 'overtrue@test',
             'nickname' => '小小超',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update('overtrue@test', '小小超'));
     }
@@ -64,7 +64,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('customservice/kfaccount/del', [], ['kf_account' => 'overtrue@test'])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete('overtrue@test'));
     }
@@ -76,7 +76,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('customservice/kfaccount/inviteworker', [
             'kf_account' => 'overtrue@test',
             'invite_wx' => 'notovertrue',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->invite('overtrue@test', 'notovertrue'));
     }
@@ -90,7 +90,7 @@ class ClientTest extends TestCase
             ['media' => '/path/to/image.jpg'],
             [],
             ['kf_account' => 'overtrue@test']
-        )->andReturn('mock-result')->once();
+        )->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->setAvatar('overtrue@test', '/path/to/image.jpg'));
     }
@@ -106,9 +106,33 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('cgi-bin/message/custom/send', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/message/custom/send', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->send(['foo' => 'bar']));
+    }
+
+    public function testShowTypingStatusToUser()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/message/custom/typing', [
+            'touser' => 'open-id',
+            'command' => 'Typing',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->showTypingStatusToUser('open-id'));
+    }
+
+    public function testHideTypingStatusToUser()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/message/custom/typing', [
+            'touser' => 'open-id',
+            'command' => 'CancelTyping',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->hideTypingStatusToUser('open-id'));
     }
 
     public function testMessages()
@@ -120,7 +144,7 @@ class ClientTest extends TestCase
             'endtime' => 1464796800,
             'msgid' => 1,
             'number' => 10000,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->messages(1464710400, 1464796800));
 
         $client->expects()->httpPostJson('customservice/msgrecord/getmsglist', [
@@ -128,7 +152,7 @@ class ClientTest extends TestCase
             'endtime' => 1464796800,
             'msgid' => 2,
             'number' => 100,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->messages(1464710400, 1464796800, 2, 100));
 
         // string time
@@ -137,7 +161,7 @@ class ClientTest extends TestCase
             'endtime' => strtotime('2017-08-05 12:01:00'),
             'msgid' => 2,
             'number' => 100,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->messages('2017-08-05 12:00:00', '2017-08-05 12:01:00', 2, 100));
     }
 }

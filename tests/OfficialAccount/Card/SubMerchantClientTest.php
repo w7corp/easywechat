@@ -34,7 +34,7 @@ class SubMerchantClientTest extends TestCase
             'foo' => 'bar',
         ];
 
-        $client->expects()->httpPostJson('card/submerchant/submit', ['info' => Arr::except($info, 'foo')])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/submerchant/submit', ['info' => Arr::except($info, 'foo')])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->create($info));
     }
@@ -58,7 +58,7 @@ class SubMerchantClientTest extends TestCase
 
         $client->expects()->httpPostJson('card/submerchant/update', [
             'info' => array_merge(['merchant_id' => 13], Arr::except($info, 'foo')),
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update(13, $info));
     }
@@ -67,7 +67,7 @@ class SubMerchantClientTest extends TestCase
     {
         $client = $this->mockApiClient(SubMerchantClient::class);
 
-        $client->expects()->httpPostJson('card/submerchant/get', ['merchant_id' => 13])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/submerchant/get', ['merchant_id' => 13])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get(13));
     }
@@ -80,7 +80,7 @@ class SubMerchantClientTest extends TestCase
             'begin_id' => 0,
             'limit' => 50,
             'status' => 'CHECKING',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
 
@@ -88,7 +88,7 @@ class SubMerchantClientTest extends TestCase
             'begin_id' => 10,
             'limit' => 20,
             'status' => 'CHECKED',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(10, 20, 'CHECKED'));
     }

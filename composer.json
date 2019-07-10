@@ -24,7 +24,8 @@
         "monolog/monolog": "^1.22",
         "overtrue/socialite": "~2.0",
         "pimple/pimple": "^3.0",
-        "symfony/cache": "^3.3 || ^4.0",
+        "psr/simple-cache": "^1.0",
+        "symfony/cache": "^3.3 || ^4.3",
         "symfony/http-foundation": "^2.7 || ^3.0 || ^4.0",
         "symfony/psr-http-message-bridge": "^0.3 || ^1.0"
     },
@@ -32,7 +33,7 @@
         "mikey179/vfsStream": "^1.6",
         "mockery/mockery": "^1.0",
         "overtrue/phplint": "dev-master",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "~6.5"
     },
     "autoload": {
         "psr-4": {
@@ -47,5 +48,8 @@
         "psr-4": {
             "EasyWeChat\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }

@@ -21,7 +21,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('cgi-bin/department/create', [
             'foo' => 'bar',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
 
@@ -31,7 +31,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/department/update', [
             'id' => 3,
             'foo' => 'bar',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->update(3, ['foo' => 'bar']));
     }
 
@@ -40,7 +40,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpGet('cgi-bin/department/delete', [
             'id' => 3,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->delete(3));
     }
 
@@ -49,12 +49,12 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpGet('cgi-bin/department/list', [
             'id' => null,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list());
 
         $client->expects()->httpGet('cgi-bin/department/list', [
             'id' => 3,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list(3));
     }
 }

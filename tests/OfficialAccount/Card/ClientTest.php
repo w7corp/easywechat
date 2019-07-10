@@ -21,7 +21,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('card/getcolors')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('card/getcolors')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->colors());
     }
@@ -30,7 +30,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpGet('card/getapplyprotocol')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('card/getapplyprotocol')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->categories());
     }
@@ -63,7 +63,7 @@ class ClientTest extends TestCase
                 'card_type' => 'MEMBER_CARD',
                 'member_card' => $attributes,
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->create('member_card', $attributes));
     }
@@ -72,7 +72,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/qrcode/create', ['foo', 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/qrcode/create', ['foo', 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->createQrCode(['foo', 'bar']));
     }
@@ -86,7 +86,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
         ];
         $response = new Response(200, ['content-type' => 'image/jpeg'], 'mock-content');
-        $client->expects()->requestRaw($baseUri, 'GET', $params)->andReturn($response)->once();
+        $client->expects()->requestRaw($baseUri, 'GET', $params)->andReturn($response);
 
         $this->assertSame([
             'status' => $response->getStatusCode(),
@@ -119,7 +119,7 @@ class ClientTest extends TestCase
             'can_share' => $canShare,
             'scene' => $scene,
             'card_list' => $cardList,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList));
     }
@@ -128,7 +128,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/mpnews/gethtml', ['card_id' => 'mock-card-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/mpnews/gethtml', ['card_id' => 'mock-card-id'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getHtml('mock-card-id'));
     }
@@ -137,7 +137,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/testwhitelist/set', ['openid' => ['mock-openid1', 'mock-openid2']])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/testwhitelist/set', ['openid' => ['mock-openid1', 'mock-openid2']])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->setTestWhitelist(['mock-openid1', 'mock-openid2']));
     }
@@ -146,7 +146,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/testwhitelist/set', ['username' => ['mock-username1', 'mock-username2']])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/testwhitelist/set', ['username' => ['mock-username1', 'mock-username2']])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->setTestWhitelistByName(['mock-username1', 'mock-username2']));
     }
@@ -155,7 +155,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/user/getcardlist', ['openid' => 'mock-openid', 'card_id' => 'mock-card-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/user/getcardlist', ['openid' => 'mock-openid', 'card_id' => 'mock-card-id'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getUserCards('mock-openid', 'mock-card-id'));
     }
@@ -164,7 +164,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/get', ['card_id' => 'mock-card-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/get', ['card_id' => 'mock-card-id'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get('mock-card-id'));
     }
@@ -173,7 +173,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/delete', ['card_id' => 'mock-card-id'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/delete', ['card_id' => 'mock-card-id'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete('mock-card-id'));
     }
@@ -183,22 +183,22 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 0, 'count' => 10, 'status_list' => 'CARD_STATUS_VERIFY_OK'])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 1, 'count' => 10, 'status_list' => 'CARD_STATUS_VERIFY_OK'])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(1));
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 1, 'count' => 10, 'status_list' => 'CARD_STATUS_VERIFY_OK'])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(1, 10));
 
         $client->expects()->httpPostJson('card/batchget', ['offset' => 1, 'count' => 10, 'status_list' => 'CUSTOM'])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(1, 10, 'CUSTOM'));
     }
@@ -233,7 +233,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('card/update', [
             'card_id' => 'mock-card-id',
             'member_card' => [],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update('mock-card-id', 'member_card'));
 
@@ -241,7 +241,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('card/update', [
             'card_id' => 'mock-card-id',
             'member_card' => $attributes,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update('mock-card-id', 'member_card', $attributes));
     }
@@ -250,10 +250,10 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('card/paycell/set', ['card_id' => 'mock-card-id', 'is_open' => true])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/paycell/set', ['card_id' => 'mock-card-id', 'is_open' => true])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->setPayCell('mock-card-id'));
 
-        $client->expects()->httpPostJson('card/paycell/set', ['card_id' => 'mock-card-id', 'is_open' => false])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/paycell/set', ['card_id' => 'mock-card-id', 'is_open' => false])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->setPayCell('mock-card-id', false));
     }
 
@@ -261,7 +261,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['updateStock']);
 
-        $client->expects()->updateStock('mock-card-id', 10, 'increase')->andReturn('mock-result')->once();
+        $client->expects()->updateStock('mock-card-id', 10, 'increase')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->increaseStock('mock-card-id', 10));
     }
@@ -270,7 +270,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, ['updateStock']);
 
-        $client->expects()->updateStock('mock-card-id', 10, 'reduce')->andReturn('mock-result')->once();
+        $client->expects()->updateStock('mock-card-id', 10, 'reduce')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->reduceStock('mock-card-id', 10));
     }

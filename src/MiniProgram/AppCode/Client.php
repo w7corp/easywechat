@@ -27,7 +27,7 @@ class Client extends BaseClient
      * @param string $path
      * @param array  $optional
      *
-     * @return \EasyWeChat\Kernel\Http\StreamResponse
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function get(string $path, array $optional = [])
     {
@@ -44,7 +44,7 @@ class Client extends BaseClient
      * @param string $scene
      * @param array  $optional
      *
-     * @return \EasyWeChat\Kernel\Http\StreamResponse
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function getUnlimit(string $scene, array $optional = [])
     {
@@ -61,7 +61,7 @@ class Client extends BaseClient
      * @param string   $path
      * @param int|null $width
      *
-     * @return \EasyWeChat\Kernel\Http\StreamResponse
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function getQrCode(string $path, int $width = null)
     {
@@ -74,10 +74,16 @@ class Client extends BaseClient
      * @param string $endpoint
      * @param array  $params
      *
-     * @return \EasyWeChat\Kernel\Http\StreamResponse
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     protected function getStream(string $endpoint, array $params)
     {
-        return StreamResponse::buildFromPsrResponse($this->requestRaw($endpoint, 'POST', ['json' => $params]));
+        $response = $this->requestRaw($endpoint, 'POST', ['json' => $params]);
+
+        if (false !== stripos($response->getHeaderLine('Content-disposition'), 'attachment')) {
+            return StreamResponse::buildFromPsrResponse($response);
+        }
+
+        return $this->castResponseToType($response, $this->app['config']->get('response_type'));
     }
 }

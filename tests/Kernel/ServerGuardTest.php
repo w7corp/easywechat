@@ -30,13 +30,13 @@ class ServerGuardTest extends TestCase
     {
         $response = new Response('success');
         $logger = \Mockery::mock('stdClass');
-        $logger->expects()->debug('Server response created:', ['content' => 'success'])->once();
+        $logger->expects()->debug('Server response created:', ['content' => 'success']);
         $logger->expects()->debug('Request received:', [
             'method' => 'POST',
             'uri' => 'http://localhost/path/to/resource?foo=bar',
             'content-type' => 'xml',
             'content' => '<xml><name>foo</name></xml>',
-        ])->once();
+        ]);
 
         $request = Request::create('/path/to/resource?foo=bar', 'POST', ['foo' => 'bar'], [], [], [
             'CONTENT_TYPE' => ['application/xml'],
@@ -48,8 +48,8 @@ class ServerGuardTest extends TestCase
         ]);
 
         $guard = \Mockery::mock(ServerGuard::class.'[validate,resolve]', [$app])->shouldAllowMockingProtectedMethods();
-        $guard->expects()->validate()->andReturnSelf()->once();
-        $guard->expects()->resolve()->andReturn($response)->once();
+        $guard->expects()->validate()->andReturnSelf();
+        $guard->expects()->resolve()->andReturn($response);
 
         $this->assertSame($response, $guard->serve());
     }
@@ -274,7 +274,7 @@ class ServerGuardTest extends TestCase
             'from' => 'easywechat',
             'response' => 'hello overtrue!',
         ]);
-        $guard->expects()->shouldReturnRawResponse()->andReturn(true)->once();
+        $guard->expects()->shouldReturnRawResponse()->andReturn(true);
         $this->assertSame('hello overtrue!', $guard->resolve()->getContent());
     }
 
@@ -354,7 +354,7 @@ class ServerGuardTest extends TestCase
         sort($params, SORT_STRING);
         $signature = sha1(implode($params));
         $logger = \Mockery::mock('stdClass');
-        $logger->expects()->debug('Messages safe mode is enabled.')->once();
+        $logger->expects()->debug('Messages safe mode is enabled.');
         $request = Request::create('/path/to/resource?foo=bar', 'POST', [
             'timestamp' => $time,
             'nonce' => $nonce,
@@ -393,8 +393,8 @@ class ServerGuardTest extends TestCase
             'FromUserName' => 'overtrue',
             'ToUserName' => 'easywechat',
         ];
-        $guard->expects()->getMessage()->andReturn($message)->once();
-        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['text'], $message)->andReturn('mock-response')->once();
+        $guard->expects()->getMessage()->andReturn($message);
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['text'], $message)->andReturn('mock-response');
         $this->assertSame([
             'to' => 'overtrue',
             'from' => 'easywechat',
@@ -407,8 +407,8 @@ class ServerGuardTest extends TestCase
             'ToUserName' => 'easywechat',
             'MsgType' => 'image',
         ];
-        $guard->expects()->getMessage()->andReturn($message)->once();
-        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['image'], $message)->andReturn('mock-response')->once();
+        $guard->expects()->getMessage()->andReturn($message);
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['image'], $message)->andReturn('mock-response');
         $this->assertSame([
             'to' => 'overtrue',
             'from' => 'easywechat',
@@ -421,8 +421,8 @@ class ServerGuardTest extends TestCase
         $message->ToUserName = 'easywechat';
         $message->MsgType = 'file';
 
-        $guard->expects()->getMessage()->andReturn($message)->once();
-        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['file'], $message)->andReturn('mock-response')->once();
+        $guard->expects()->getMessage()->andReturn($message);
+        $guard->expects()->dispatch(ServerGuard::MESSAGE_TYPE_MAPPING['file'], $message)->andReturn('mock-response');
         $this->assertSame([
             'to' => 'overtrue',
             'from' => 'easywechat',
@@ -533,11 +533,11 @@ class ServerGuardTest extends TestCase
         $reflectionProperty = new \ReflectionProperty($guard, 'alwaysValidate');
         $reflectionProperty->setAccessible(true);
 
-        $this->assertSame(false, $reflectionProperty->getValue($guard));
+        $this->assertFalse($reflectionProperty->getValue($guard));
 
         $guard->forceValidate();
 
-        $this->assertSame(true, $reflectionProperty->getValue($guard));
+        $this->assertTrue($reflectionProperty->getValue($guard));
     }
 }
 

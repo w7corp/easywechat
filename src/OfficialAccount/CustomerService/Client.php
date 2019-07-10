@@ -148,6 +148,36 @@ class Client extends BaseClient
     }
 
     /**
+     * Show typing status.
+     *
+     * @param string $openid
+     *
+     * @return mixed
+     */
+    public function showTypingStatusToUser(string $openid)
+    {
+        return $this->httpPostJson('cgi-bin/message/custom/typing', [
+            'touser' => $openid,
+            'command' => 'Typing',
+        ]);
+    }
+
+    /**
+     * Hide typing status.
+     *
+     * @param string $openid
+     *
+     * @return mixed
+     */
+    public function hideTypingStatusToUser(string $openid)
+    {
+        return $this->httpPostJson('cgi-bin/message/custom/typing', [
+            'touser' => $openid,
+            'command' => 'CancelTyping',
+        ]);
+    }
+
+    /**
      * Get messages history.
      *
      * @param int $startTime

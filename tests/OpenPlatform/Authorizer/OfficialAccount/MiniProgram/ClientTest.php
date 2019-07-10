@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     public function testList()
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
-        $client->expects()->httpPostJson('cgi-bin/wxopen/wxamplinkget')->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/wxopen/wxamplinkget')->andReturn('mock-result');
         $this->assertSame('mock-result', $client->list());
     }
 
@@ -31,7 +31,7 @@ class ClientTest extends TestCase
             'appid' => 'wxa',
             'notify_users' => false,
             'show_profile' => true,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->link('wxa', false, true));
     }
 
@@ -40,7 +40,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
         $client->expects()->httpPostJson('cgi-bin/wxopen/wxampunlink', [
             'appid' => 'wxa',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->unlink('wxa'));
     }
 }

@@ -23,7 +23,7 @@ class BaseClientTest extends TestCase
     {
         $app = new Application(['key' => '88888888888888888888888888888888']);
 
-        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->shouldDeferMissing();
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest', 'castResponseToType'], $app)->makePartial();
 
         $api = 'http://easywechat.org';
         $params = ['foo' => 'bar'];
@@ -95,5 +95,47 @@ class BaseClientTest extends TestCase
         }))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->safeRequest($api, $params, $method));
+    }
+
+    /**
+     * @dataProvider bodySignProvider
+     */
+    public function testBodySign($signType, $nonceStr, $sign)
+    {
+        $app = new Application([
+            'key' => '88888888888888888888888888888888',
+        ]);
+
+        $client = $this->mockApiClient(BaseClient::class, ['performRequest'], $app)->makePartial();
+
+        $api = 'http://easywechat.org';
+        $params = [
+            'foo' => 'bar',
+            'nonce_str' => $nonceStr,
+            'sign_type' => $signType,
+        ];
+        $method = \Mockery::anyOf(['get', 'post']);
+        $options = [];
+
+        $mockResponse = new Response(200, [], 'response-content');
+
+        $client->expects()->performRequest($api, $method, \Mockery::on(function ($options) use ($sign) {
+            $bodyInOptions = Support\XML::parse($options['body']);
+
+            $this->assertSame($sign, $bodyInOptions['sign']);
+
+            return true;
+        }))->andReturn($mockResponse);
+
+        $this->assertSame('response-content', $client->requestRaw($api, $params, $method, $options)->getBodyContents());
+    }
+
+    public function bodySignProvider()
+    {
+        return [
+            ['', '5c3bfd3227348', '82125D68D3C25B2B78D53F66E12EC89A'],
+            ['MD5', '5c3bfe0343bab', 'A9237F1A2DF77FF900CFFB7B432CD1A9'],
+            ['HMAC-SHA256', '5c3bfe6716023', 'A890BD78E9B1563C546D07F21E8C8D96B146CFE5B18941C312678B5636263DE6'],
+        ];
     }
 }

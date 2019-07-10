@@ -20,7 +20,7 @@ class CoinClientTest extends TestCase
     {
         $client = $this->mockApiClient(CoinClient::class);
 
-        $client->expects()->httpGet('card/pay/activate')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('card/pay/activate')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->activate());
     }
@@ -29,7 +29,7 @@ class CoinClientTest extends TestCase
     {
         $client = $this->mockApiClient(CoinClient::class);
 
-        $client->expects()->httpGet('card/pay/getcoinsinfo')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('card/pay/getcoinsinfo')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->summary());
     }
@@ -44,7 +44,7 @@ class CoinClientTest extends TestCase
             'card_id' => $cardId,
             'quantity' => $quantity,
         ];
-        $client->expects()->httpPostJson('card/pay/getpayprice', $params)->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/pay/getpayprice', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getPrice($cardId, $quantity));
     }
@@ -55,7 +55,7 @@ class CoinClientTest extends TestCase
 
         $client->expects()->httpPostJson('card/pay/recharge', [
             'coin_count' => 100,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->recharge(100));
     }
@@ -66,7 +66,7 @@ class CoinClientTest extends TestCase
 
         $client->expects()->httpPostJson('card/pay/getorder', [
             'order_id' => 'mock-order-id',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->order('mock-order-id'));
     }
@@ -75,7 +75,7 @@ class CoinClientTest extends TestCase
     {
         $client = $this->mockApiClient(CoinClient::class);
 
-        $client->expects()->httpPostJson('card/pay/getorderlist', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('card/pay/getorderlist', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->orders(['foo' => 'bar']));
     }
@@ -88,7 +88,7 @@ class CoinClientTest extends TestCase
             'card_id' => 'mock-card-id',
             'order_id' => 'mock-order-id',
             'quantity' => 20,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->confirm('mock-card-id', 'mock-order-id', 20));
     }

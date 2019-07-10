@@ -14,10 +14,9 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Traits\HasHttpRequests;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Monolog\Logger;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -189,20 +188,6 @@ class BaseClient
     }
 
     /**
-     * Return GuzzleHttp\ClientInterface instance.
-     *
-     * @return ClientInterface
-     */
-    public function getHttpClient(): ClientInterface
-    {
-        if (!($this->httpClient instanceof ClientInterface)) {
-            $this->httpClient = $this->app['http_client'] ?? new Client();
-        }
-
-        return $this->httpClient;
-    }
-
-    /**
      * Register Guzzle middlewares.
      */
     protected function registerHttpMiddlewares()
@@ -242,7 +227,7 @@ class BaseClient
     {
         $formatter = new MessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
 
-        return Middleware::log($this->app['logger'], $formatter);
+        return Middleware::log($this->app['logger'], $formatter, Logger::DEBUG);
     }
 
     /**

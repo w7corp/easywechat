@@ -19,38 +19,38 @@ class ClientTest extends TestCase
     public function testCreate()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('cgi-bin/user/create', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/user/create', ['foo' => 'bar'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
 
     public function testUpdate()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('cgi-bin/user/update', ['userid' => 'overtrue', 'foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/user/update', ['userid' => 'overtrue', 'foo' => 'bar'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->update('overtrue', ['foo' => 'bar']));
     }
 
     public function testGet()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/user/get', ['userid' => 'overtrue'])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/user/get', ['userid' => 'overtrue'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->get('overtrue'));
     }
 
     public function testDelete()
     {
         $client = $this->mockApiClient(Client::class, 'batchDelete');
-        $client->expects()->httpGet('cgi-bin/user/delete', ['userid' => 'overtrue'])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/user/delete', ['userid' => 'overtrue'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->delete('overtrue'));
 
-        $client->expects()->batchDelete(['overtrue', 'foo'])->andReturn('mock-result')->once();
+        $client->expects()->batchDelete(['overtrue', 'foo'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->delete(['overtrue', 'foo']));
     }
 
     public function testBatchDelete()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPost('cgi-bin/user/batchdelete', ['useridlist' => ['overtrue', 'foo']])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/user/batchdelete', ['useridlist' => ['overtrue', 'foo']])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->batchDelete(['overtrue', 'foo']));
     }
 
@@ -60,13 +60,13 @@ class ClientTest extends TestCase
         $client->expects()->httpGet('cgi-bin/user/simplelist', [
             'department_id' => 14,
             'fetch_child' => 0,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getDepartmentUsers(14));
 
         $client->expects()->httpGet('cgi-bin/user/simplelist', [
             'department_id' => 15,
             'fetch_child' => 1,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getDepartmentUsers(15, true));
     }
 
@@ -76,13 +76,13 @@ class ClientTest extends TestCase
         $client->expects()->httpGet('cgi-bin/user/list', [
             'department_id' => 18,
             'fetch_child' => 0,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getDetailedDepartmentUsers(18));
 
         $client->expects()->httpGet('cgi-bin/user/list', [
             'department_id' => 18,
             'fetch_child' => 1,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getDetailedDepartmentUsers(18, true));
     }
 
@@ -90,11 +90,11 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('cgi-bin/user/convert_to_openid', ['userid' => 'overtrue', 'agentid' => null])
-                        ->andReturn('mock-result')->once();
+                        ->andReturn('mock-result');
         $this->assertSame('mock-result', $client->userIdToOpenid('overtrue'));
 
         $client->expects()->httpPostJson('cgi-bin/user/convert_to_openid', ['userid' => 'overtrue', 'agentid' => 39202])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
         $this->assertSame('mock-result', $client->userIdToOpenid('overtrue', 39202));
     }
 
@@ -102,14 +102,14 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('cgi-bin/user/convert_to_userid', ['openid' => 'mock-openid'])
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
         $this->assertSame('mock-result', $client->openidToUserId('mock-openid'));
     }
 
     public function testAccept()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/user/authsucc', ['userid' => 'overtrue'])->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/user/authsucc', ['userid' => 'overtrue'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->accept('overtrue'));
     }
 }

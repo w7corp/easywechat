@@ -22,7 +22,7 @@ class SessionClientTest extends TestCase
 
         $client->expects()->httpGet('customservice/kfsession/getsessionlist', [
             'kf_account' => 'overtrue@test',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list('overtrue@test'));
     }
@@ -31,7 +31,7 @@ class SessionClientTest extends TestCase
     {
         $client = $this->mockApiClient(SessionClient::class);
 
-        $client->expects()->httpGet('customservice/kfsession/getwaitcase')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('customservice/kfsession/getwaitcase')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->waiting());
     }
@@ -43,7 +43,7 @@ class SessionClientTest extends TestCase
         $client->expects()->httpPostJson('customservice/kfsession/create', [
             'kf_account' => 'overtrue@test',
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->create('overtrue@test', 'mock-openid'));
     }
@@ -55,7 +55,7 @@ class SessionClientTest extends TestCase
         $client->expects()->httpPostJson('customservice/kfsession/close', [
             'kf_account' => 'overtrue@test',
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->close('overtrue@test', 'mock-openid'));
     }
@@ -66,7 +66,7 @@ class SessionClientTest extends TestCase
 
         $client->expects()->httpGet('customservice/kfsession/getsession', [
             'openid' => 'mock-openid',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get('mock-openid'));
     }

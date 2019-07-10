@@ -26,8 +26,7 @@ class Clause
     ];
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param array $args
      *
      * @return $this
      */

@@ -27,7 +27,7 @@ class ClientTest extends TestCase
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/wxopen/getallcategories')
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
         $this->assertSame(
             'mock-result', $this->client->getAllCategories());
     }
@@ -42,7 +42,7 @@ class ClientTest extends TestCase
                         ['key' => 'name', 'value' => 'media_id'],
                     ],
                 ]],
-            ])->andReturn('mock-result')->once();
+            ])->andReturn('mock-result');
         $this->assertSame('mock-result', $this->client->addCategories([[
             'first' => 1, 'second' => 2,
             'certicates' => [
@@ -56,7 +56,7 @@ class ClientTest extends TestCase
         $this->client->expects()
             ->httpPostJson('cgi-bin/wxopen/deletecategory', [
                 'first' => 1, 'second' => 2,
-            ])->andReturn('mock-result')->once();
+            ])->andReturn('mock-result');
         $this->assertSame('mock-result', $this->client->deleteCategories(1, 2));
     }
 
@@ -64,7 +64,7 @@ class ClientTest extends TestCase
     {
         $this->client->expects()
             ->httpPostJson('cgi-bin/wxopen/getcategory')
-            ->andReturn('mock-result')->once();
+            ->andReturn('mock-result');
         $this->assertSame('mock-result', $this->client->getCategories());
     }
 
@@ -75,7 +75,7 @@ class ClientTest extends TestCase
                 'first' => 1, 'second' => 2, 'categories' => [
                     ['key' => 'name', 'value' => 'media_id'],
                 ],
-            ])->andReturn('mock-result')->once();
+            ])->andReturn('mock-result');
         $this->assertSame('mock-result', $this->client->updateCategory([
             'first' => 1, 'second' => 2, 'categories' => [
                 ['key' => 'name', 'value' => 'media_id'],
@@ -91,7 +91,7 @@ class ClientTest extends TestCase
             'license' => 'media_id',
             'naming_other_stuff_1' => 'stuff_01',
             'naming_other_stuff_2' => 'stuff_02',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $this->client->setNickname(
             'name', 'card_no', 'media_id', ['stuff_01', 'stuff_02']));
     }
@@ -100,7 +100,7 @@ class ClientTest extends TestCase
     {
         $this->client->expects()->httpPostJson('wxa/api_wxa_querynickname', [
             'audit_id' => 'audit-id',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame(
             'mock-result', $this->client->getNicknameAuditStatus('audit-id'));
     }
@@ -109,8 +109,63 @@ class ClientTest extends TestCase
     {
         $this->client->expects()->httpPostJson('cgi-bin/wxverify/checkwxverifynickname', [
             'nick_name' => 'name',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame(
             'mock-result', $this->client->isAvailableNickname('name'));
+    }
+
+    public function testGetSearchStatus()
+    {
+        $this->client->expects()->httpGet('wxa/getwxasearchstatus')->andReturn('mock-result');
+        $this->assertSame('mock-result', $this->client->getSearchStatus());
+    }
+
+    public function testSetSearchable()
+    {
+        $this->client->expects()->httpPostJson('wxa/changewxasearchstatus', [
+            'status' => 0,
+        ])->andReturn('mock-result');
+        $this->assertSame('mock-result', $this->client->setSearchable());
+    }
+
+    public function testSetUnsearchable()
+    {
+        $this->client->expects()->httpPostJson('wxa/changewxasearchstatus', [
+            'status' => 1,
+        ])->andReturn('mock-result');
+        $this->assertSame('mock-result', $this->client->setUnsearchable());
+    }
+
+    public function testGetDisplayedOfficialAccount()
+    {
+        $this->client->expects()->httpGet('wxa/getshowwxaitem')->andReturn('mock-result');
+        $this->assertSame('mock-result', $this->client->getDisplayedOfficialAccount());
+    }
+
+    public function testSetDisplayedOfficialAccount()
+    {
+        $this->client->expects()->httpPostJson('wxa/updateshowwxaitem', [
+            'appid' => 'app-id',
+            'wxa_subscribe_biz_flag' => 1,
+        ])->andReturn('mock-result');
+        $this->assertSame('mock-result', $this->client->setDisplayedOfficialAccount('app-id'));
+    }
+
+    public function testSetOfficialAccountCantNotDisplayed()
+    {
+        $this->client->expects()->httpPostJson('wxa/updateshowwxaitem', [
+            'appid' => null,
+            'wxa_subscribe_biz_flag' => 0,
+        ])->andReturn('mock-result');
+        $this->assertSame('mock-result', $this->client->setDisplayedOfficialAccount(false));
+    }
+
+    public function testGetDisplayableOfficialAccounts()
+    {
+        $this->client->expects()->httpGet('wxa/getwxamplinkforshow', [
+            'page' => 1,
+            'num' => 10,
+        ])->andReturn('mock-result');
+        $this->assertSame('mock-result', $this->client->getDisplayableOfficialAccounts(1, 10));
     }
 }
