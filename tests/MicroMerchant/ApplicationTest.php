@@ -53,17 +53,17 @@ class ApplicationTest extends TestCase
     {
         $app = new Application(['key' => '88888888888888888888888888888888']);
 
-        $this->assertSame(true, $app->verifySignature([
+        $this->assertTrue($app->verifySignature([
             'foo' => 'bar',
             'sign' => '834A25C9A5B48305AB997C9A7E101530',
         ]));
 
-        $this->assertSame(false, $app->verifySignature([
+        $this->assertFalse($app->verifySignature([
             'foo' => 'bar',
         ]));
         $this->expectException(InvalidSignException::class);
         $this->expectExceptionMessage('return value signature verification error');
-        $this->assertSame(true, $app->verifySignature([
+        $this->assertTrue($app->verifySignature([
             'foo' => 'bar',
             'sign' => '834A25C9A5B48305AB997C9A7E101531',
         ]));
