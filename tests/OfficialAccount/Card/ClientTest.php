@@ -295,4 +295,30 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->updateStock('mock-card-id', 10, 'reduce'));
         $this->assertSame('mock-result', $client->updateStock('mock-card-id', -10, 'reduce'));
     }
+
+    public function testSetPayConsumeCell()
+    {
+        $client     = $this->mockApiClient(Client::class);
+
+        $attributes = [
+            ['card_id' => 'mock-card-id', 'is_open' => true, 'need_verify_cod' => false, 'need_remark_amount' => false],
+            ['card_id' => 'mock-card-id', 'is_open' => true, 'need_verify_cod' => false, 'need_remark_amount' => true],
+            ['card_id' => 'mock-card-id', 'is_open' => true, 'need_verify_cod' => true, 'need_remark_amount' => false],
+            ['card_id' => 'mock-card-id', 'is_open' => true, 'need_verify_cod' => true, 'need_remark_amount' => true],
+            ['card_id' => 'mock-card-id', 'is_open' => false, 'need_verify_cod' => false, 'need_remark_amount' => false],
+            ['card_id' => 'mock-card-id', 'is_open' => false, 'need_verify_cod' => false, 'need_remark_amount' => true],
+            ['card_id' => 'mock-card-id', 'is_open' => false, 'need_verify_cod' => true, 'need_remark_amount' => false],
+            ['card_id' => 'mock-card-id', 'is_open' => false, 'need_verify_cod' => true, 'need_remark_amount' => true],
+
+        ];
+        foreach ($attributes as $attribute) {
+            $client->expects()->httpPostJson('card/selfconsumecell/set', $attribute)->andReturn('mock-result');
+            $this->assertSame('mock-result', $client->setPayConsumeCell(
+                $attribute['card_id'],
+                $attribute['is_open'],
+                $attribute['need_verify_cod'],
+                $attribute['need_remark_amount']
+            ));
+        }
+    }
 }
