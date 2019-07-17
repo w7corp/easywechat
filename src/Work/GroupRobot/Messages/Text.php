@@ -31,7 +31,7 @@ class Text extends Message
     /**
      * Text constructor.
      *
-     * @param string $content
+     * @param string       $content
      * @param string|array $userIds
      * @param string|array $mobiles
      */
@@ -39,8 +39,8 @@ class Text extends Message
     {
         parent::__construct([
             'content' => $content,
-            'mentioned_list' => (array)$userIds,
-            'mentioned_mobile_list' => (array)$mobiles,
+            'mentioned_list' => (array) $userIds,
+            'mentioned_mobile_list' => (array) $mobiles,
         ]);
     }
 
@@ -51,7 +51,7 @@ class Text extends Message
      */
     public function mention($userIds)
     {
-        $this->set('mentioned_list', (array)$userIds);
+        $this->set('mentioned_list', (array) $userIds);
 
         return $this;
     }
@@ -63,7 +63,7 @@ class Text extends Message
      */
     public function mentionByMobile($mobiles)
     {
-        $this->set('mentioned_mobile_list', (array)$mobiles);
+        $this->set('mentioned_mobile_list', (array) $mobiles);
 
         return $this;
     }

@@ -35,9 +35,10 @@ class Client extends BaseClient
 
     /**
      * @param string $key
-     * @param array $message
+     * @param array  $message
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function send(string $key, array $message)
