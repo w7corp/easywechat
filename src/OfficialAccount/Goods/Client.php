@@ -90,8 +90,8 @@ class Client extends BaseClient
      * Get a list of goods.
      *
      * @param string $context
-     * @param int $page
-     * @param int $size
+     * @param int    $page
+     * @param int    $size
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

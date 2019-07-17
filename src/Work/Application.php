@@ -13,7 +13,6 @@ namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
-use EasyWeChat\Work\OA\ServiceProvider;
 
 /**
  * Application.

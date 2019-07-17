@@ -193,7 +193,7 @@ class MessengerTest extends TestCase
                         'description' => 'mock-description',
                         'url' => 'mock-url',
                         'picurl' => 'mock-picurl',
-                    ]
+                    ],
                 ],
             ],
         ])->andReturn('mock-result');

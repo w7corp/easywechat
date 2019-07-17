@@ -11,8 +11,8 @@
 
 namespace Work\GroupRobot\Messages;
 
-use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Kernel\Messages\Message as BaseMessage;
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\GroupRobot\Messages\Message;
 
 class MessageTest extends TestCase

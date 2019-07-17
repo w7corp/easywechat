@@ -11,7 +11,7 @@
 
 namespace EasyWeChat\Work\GroupRobot\Messages;
 
-use \EasyWeChat\Kernel\Messages\Message as BaseMessage;
+use EasyWeChat\Kernel\Messages\Message as BaseMessage;
 
 /**
  * Class Message.

@@ -40,9 +40,9 @@ class NewsTest extends TestCase
                         'description' => 'mock-description',
                         'url' => 'mock-url',
                         'picurl' => 'mock-picurl',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ];
 
         $this->assertSame($message, $news->transformForJsonRequest());
