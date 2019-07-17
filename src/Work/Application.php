@@ -13,6 +13,7 @@ namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
+use EasyWeChat\Work\OA\ServiceProvider;
 
 /**
  * Application.
@@ -38,6 +39,8 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\ExternalContact\ContactWayClient $contact_way
  * @property \EasyWeChat\Work\ExternalContact\StatisticsClient $external_contact_statistics
  * @property \EasyWeChat\Work\ExternalContact\MessageClient    $external_contact_message
+ * @property \EasyWeChat\Work\GroupRobot\Client                $group_robot
+ * @property \EasyWeChat\Work\GroupRobot\Messenger             $group_robot_messenger
  *
  * @method mixed getCallbackIp()
  */
@@ -62,6 +65,7 @@ class Application extends ServiceContainer
         Invoice\ServiceProvider::class,
         Chat\ServiceProvider::class,
         ExternalContact\ServiceProvider::class,
+        GroupRobot\ServiceProvider::class,
     ];
 
     /**
