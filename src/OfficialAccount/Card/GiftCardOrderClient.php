@@ -21,7 +21,7 @@ use EasyWeChat\Kernel\BaseClient;
 class GiftCardOrderClient extends BaseClient
 {
     /**
-     * 查询-单个礼品卡订单信息接口
+     * 查询-单个礼品卡订单信息接口.
      *
      * @param string $orderId
      *
@@ -30,20 +30,20 @@ class GiftCardOrderClient extends BaseClient
     public function get(string $orderId)
     {
         $params = [
-            'order_id' => $orderId
+            'order_id' => $orderId,
         ];
 
         return $this->httpPostJson('card/giftcard/order/get', $params);
     }
 
     /**
-     * 查询-批量查询礼品卡订单信息接口
+     * 查询-批量查询礼品卡订单信息接口.
      *
-     * @param int $beginTime
-     * @param int $endTime
-     * @param int $offset
-     * @param int $count
-     * @param string $sortType
+     * @param int       $beginTime
+     * @param int       $endTime
+     * @param int       $offset
+     * @param int       $count
+     * @param string    $sortType
      *
      * @return mixed
      */
@@ -51,17 +51,17 @@ class GiftCardOrderClient extends BaseClient
     {
         $params = [
             "begin_time" => $beginTime,
-            "end_time"   => $endTime,
-            "sort_type"  => $sortType,
-            "offset"     => $offset,
-            "count"      => $count,
+            "end_time" => $endTime,
+            "sort_type" => $sortType,
+            "offset" => $offset,
+            "count" => $count,
         ];
 
         return $this->httpPostJson('card/giftcard/order/batchget', $params);
     }
 
     /**
-     * 退款接口
+     * 退款接口.
      *
      * @param string $orderId
      *
@@ -70,7 +70,7 @@ class GiftCardOrderClient extends BaseClient
     public function refund(string $orderId)
     {
         $params = [
-            'order_id' => $orderId
+            'order_id' => $orderId,
         ];
 
         return $this->httpPostJson('card/giftcard/order/refund', $params);

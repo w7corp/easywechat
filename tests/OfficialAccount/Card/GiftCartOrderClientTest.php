@@ -22,7 +22,7 @@ class GiftCartOrderClientTest extends TestCase
         $client = $this->mockApiClient(GiftCardOrderClient::class);
 
         $params = [
-            'order_id' => 'mock-order-id'
+            'order_id' => 'mock-order-id',
         ];
 
         $client->expects()->httpPostJson('card/giftcard/order/get', $params)->andReturn('mock-result');
@@ -34,11 +34,11 @@ class GiftCartOrderClientTest extends TestCase
     {
         $client = $this->mockApiClient(GiftCardOrderClient::class);
 
-        $client->expects()->httpPostJson('card/giftcard/order/batchget', ["begin_time" => 1472400000, "end_time" => 1472716604, "offset" => 0, "count" => 2, "sort_type" => 'ASC',])->andReturn('mock-result');
+        $client->expects()->httpPostJson('card/giftcard/order/batchget', ["begin_time" => 1472400000, "end_time" => 1472716604, "offset" => 0, "count" => 2, "sort_type" => 'ASC'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(1472400000, 1472716604, 0, 2, 'ASC'));
 
-        $client->expects()->httpPostJson('card/giftcard/order/batchget', ["begin_time" => 1472400000, "end_time" => 1472716604, "offset" => 0, "count" => 2, "sort_type" => 'DESC',])->andReturn('mock-result');
+        $client->expects()->httpPostJson('card/giftcard/order/batchget', ["begin_time" => 1472400000, "end_time" => 1472716604, "offset" => 0, "count" => 2, "sort_type" => 'DESC'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(1472400000, 1472716604, 0, 2, 'DESC'));
     }
@@ -48,7 +48,7 @@ class GiftCartOrderClientTest extends TestCase
         $client = $this->mockApiClient(GiftCardOrderClient::class);
 
         $params = [
-            'order_id' => 'mock-order-id'
+            'order_id' => 'mock-order-id',
         ];
 
         $client->expects()->httpPostJson('card/giftcard/order/refund', $params)->andReturn('mock-result');

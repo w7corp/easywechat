@@ -22,10 +22,10 @@ class GiftCartPageClientTest extends TestCase
         $client = $this->mockApiClient(GiftCardPageClient::class);
 
         $params = [
-            'page_title'     => 'mock-page-title',
-            'support_multi'  => true,
+            'page_title' => 'mock-page-title',
+            'support_multi' => true,
             'banner_pic_url' => 'mock-banner-pic-url',
-            'theme_list'     => 'mock-theme-list',
+            'theme_list' => 'mock-theme-list',
             //xxxx
         ];
 
@@ -39,7 +39,7 @@ class GiftCartPageClientTest extends TestCase
         $client = $this->mockApiClient(GiftCardPageClient::class);
 
         $params = [
-            'page_id'     => 'mock-page-id'
+            'page_id' => 'mock-page-id',
         ];
 
         $client->expects()->httpPostJson('card/giftcard/page/get', $params)->andReturn('mock-result');
@@ -53,9 +53,9 @@ class GiftCartPageClientTest extends TestCase
 
         $params = [
             'page' => [
-                'page_id'        => 'mock-page-id',
+                'page_id' => 'mock-page-id',
                 'banner_pic_url' => 'mock-banner-pic-url',
-                'theme_list'     => ['mock-theme-list'],
+                'theme_list' => ['mock-theme-list'],
             ],
         ];
 

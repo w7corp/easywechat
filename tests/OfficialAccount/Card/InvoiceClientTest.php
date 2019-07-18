@@ -23,7 +23,7 @@ class InvoiceClientTest extends TestCase
 
         $params = [
             'paymch_info' => [
-                'mchid'    => 'mock-mchid',
+                'mchid' => 'mock-mchid',
                 's_pappid' => 'mock-s-appid',
             ],
         ];
@@ -49,7 +49,7 @@ class InvoiceClientTest extends TestCase
         $params = [
             'auth_field' => [
                 'user_field' => ['mock-user-data'],
-                'biz_field'  => ['mock-biz-data'],
+                'biz_field' => ['mock-biz-data'],
             ],
         ];
 
@@ -73,7 +73,7 @@ class InvoiceClientTest extends TestCase
 
         $params = [
             'order_id' => 'mock-order-id',
-            's_appid'  => 'mock-s-appid'
+            's_appid' => 'mock-s-appid',
         ];
 
         $client->expects()->httpPost('card/invoice/getauthdata', $params)->andReturn('mock-result');

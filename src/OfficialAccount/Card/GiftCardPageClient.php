@@ -21,23 +21,23 @@ use EasyWeChat\Kernel\BaseClient;
 class GiftCardPageClient extends BaseClient
 {
     /**
-     * 创建-礼品卡货架接口
+     * 创建-礼品卡货架接口.
      *
-     * @param array  $attributes
+     * @param array $attributes
      *
      * @return mixed
      */
     public function add(array $attributes)
     {
         $params = [
-            'page' => $attributes
+            'page' => $attributes,
         ];
 
         return $this->httpPostJson('card/giftcard/page/add', $params);
     }
 
     /**
-     * 查询-礼品卡货架信息接口
+     * 查询-礼品卡货架信息接口.
      *
      * @param string $pageId
      *
@@ -46,18 +46,18 @@ class GiftCardPageClient extends BaseClient
     public function get(string $pageId)
     {
         $params = [
-            'page_id' => $pageId
+            'page_id' => $pageId,
         ];
 
         return $this->httpPostJson('card/giftcard/page/get', $params);
     }
 
     /**
-     * 修改-礼品卡货架信息接口
+     * 修改-礼品卡货架信息接口.
      *
      * @param string $pageId
      * @param string $bannerPicUrl
-     * @param array $themeList
+     * @param array  $themeList
      *
      * @return mixed
      */
@@ -65,9 +65,9 @@ class GiftCardPageClient extends BaseClient
     {
         $params = [
             'page' => [
-                'page_id'        => $pageId,
+                'page_id' => $pageId,
                 'banner_pic_url' => $bannerPicUrl,
-                'theme_list'     => $themeList,
+                'theme_list' => $themeList,
             ],
         ];
 
@@ -75,7 +75,7 @@ class GiftCardPageClient extends BaseClient
     }
 
     /**
-     * 查询-礼品卡货架列表接口
+     * 查询-礼品卡货架列表接口.
      *
      * @return mixed
      */
@@ -85,7 +85,7 @@ class GiftCardPageClient extends BaseClient
     }
 
     /**
-     * 下架-礼品卡货架接口(下架某一个货架或者全部货架)
+     * 下架-礼品卡货架接口(下架某一个货架或者全部货架).
      *
      * @param string $pageId
      *

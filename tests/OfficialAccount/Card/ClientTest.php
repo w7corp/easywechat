@@ -298,7 +298,7 @@ class ClientTest extends TestCase
 
     public function testSetPayConsumeCell()
     {
-        $client     = $this->mockApiClient(Client::class);
+        $client = $this->mockApiClient(Client::class);
 
         $attributes = [
             ['card_id' => 'mock-card-id', 'is_open' => true, 'need_verify_cod' => false, 'need_remark_amount' => false],

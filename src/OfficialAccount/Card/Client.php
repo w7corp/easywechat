@@ -325,9 +325,9 @@ class Client extends BaseClient
     public function setPayConsumeCell($cardId, $isOpen = true, $verifyCod = false, $remarkAmount = false)
     {
         $params = [
-            'card_id'            => $cardId,
-            'is_open'            => $isOpen,
-            'need_verify_cod'    => $verifyCod,
+            'card_id' => $cardId,
+            'is_open' => $isOpen,
+            'need_verify_cod' => $verifyCod,
             'need_remark_amount' => $remarkAmount,
         ];
 

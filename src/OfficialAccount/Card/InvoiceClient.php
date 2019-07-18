@@ -1,13 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: birjemin
- * Date: 2019/7/15
- * Time: 10:29
+
+/*
+ * This file is part of the overtrue/wechat.
+ *
+ * (c) overtrue <i@overtrue.me>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace EasyWeChat\OfficialAccount\Card;
-
 
 use EasyWeChat\Kernel\BaseClient;
 
@@ -19,7 +21,7 @@ use EasyWeChat\Kernel\BaseClient;
 class InvoiceClient extends BaseClient
 {
     /**
-     * 设置支付后开票信息接口
+     * 设置支付后开票信息接口.
      *
      * @param string $mchid
      * @param string $sPappid
@@ -30,7 +32,7 @@ class InvoiceClient extends BaseClient
     {
         $params = [
             'paymch_info' => [
-                'mchid'    => $mchid,
+                'mchid' => $mchid,
                 's_pappid' => $sPappid,
             ],
         ];
@@ -38,7 +40,7 @@ class InvoiceClient extends BaseClient
     }
 
     /**
-     * 查询支付后开票信息接口
+     * 查询支付后开票信息接口.
      *
      * @return mixed
      */
@@ -48,7 +50,7 @@ class InvoiceClient extends BaseClient
     }
 
     /**
-     * 设置授权页字段信息接口
+     * 设置授权页字段信息接口.
      *
      * @param array $userData
      * @param array $bizData
@@ -60,14 +62,14 @@ class InvoiceClient extends BaseClient
         $params = [
             'auth_field' => [
                 'user_field' => $userData,
-                'biz_field'  => $bizData,
+                'biz_field' => $bizData,
             ],
         ];
         return $this->setBizattr('set_auth_field', $params);
     }
 
     /**
-     * 查询授权页字段信息接口
+     * 查询授权页字段信息接口.
      *
      * @return mixed
      */
@@ -77,7 +79,7 @@ class InvoiceClient extends BaseClient
     }
 
     /**
-     * 查询开票信息
+     * 查询开票信息.
      *
      * @param string $orderId
      * @param string $appId
@@ -88,16 +90,17 @@ class InvoiceClient extends BaseClient
     {
         $params = [
             'order_id' => $orderId,
-            's_appid'  => $appId
+            's_appid' => $appId
         ];
         return $this->httpPost('card/invoice/getauthdata', $params);
     }
 
     /**
      * @param string $action
-     * @param array $params
+     * @param array  $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     private function setBizattr(string $action, array $params = [])
