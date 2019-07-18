@@ -32,10 +32,11 @@ class InvoiceClient extends BaseClient
     {
         $params = [
             'paymch_info' => [
-                'mchid' => $mchid,
+                'mchid'    => $mchid,
                 's_pappid' => $sPappid,
             ],
         ];
+
         return $this->setBizattr('set_pay_mch', $params);
     }
 
@@ -62,9 +63,10 @@ class InvoiceClient extends BaseClient
         $params = [
             'auth_field' => [
                 'user_field' => $userData,
-                'biz_field' => $bizData,
+                'biz_field'  => $bizData,
             ],
         ];
+
         return $this->setBizattr('set_auth_field', $params);
     }
 
@@ -90,14 +92,15 @@ class InvoiceClient extends BaseClient
     {
         $params = [
             'order_id' => $orderId,
-            's_appid' => $appId
+            's_appid'  => $appId,
         ];
+
         return $this->httpPost('card/invoice/getauthdata', $params);
     }
 
     /**
      * @param string $action
-     * @param array  $params
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

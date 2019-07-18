@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-
 use EasyWeChat\OfficialAccount\Card\InvoiceClient;
 use EasyWeChat\Tests\TestCase;
 

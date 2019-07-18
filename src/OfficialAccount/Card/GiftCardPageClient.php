@@ -96,6 +96,7 @@ class GiftCardPageClient extends BaseClient
         $params = ($pageId ? ['page_id' => $pageId] : ['all' => true]) + [
                 'maintain' => true,
             ];
+
         return $this->httpPostJson('card/giftcard/maintain/set', $params);
     }
 }

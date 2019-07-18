@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-
 use EasyWeChat\OfficialAccount\Card\GiftCardClient;
 use EasyWeChat\Tests\TestCase;
 

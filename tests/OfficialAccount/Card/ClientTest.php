@@ -309,7 +309,6 @@ class ClientTest extends TestCase
             ['card_id' => 'mock-card-id', 'is_open' => false, 'need_verify_cod' => false, 'need_remark_amount' => true],
             ['card_id' => 'mock-card-id', 'is_open' => false, 'need_verify_cod' => true, 'need_remark_amount' => false],
             ['card_id' => 'mock-card-id', 'is_open' => false, 'need_verify_cod' => true, 'need_remark_amount' => true],
-
         ];
         foreach ($attributes as $attribute) {
             $client->expects()->httpPostJson('card/selfconsumecell/set', $attribute)->andReturn('mock-result');

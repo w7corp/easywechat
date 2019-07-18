@@ -39,22 +39,22 @@ class GiftCardOrderClient extends BaseClient
     /**
      * 查询-批量查询礼品卡订单信息接口.
      *
-     * @param int       $beginTime
-     * @param int       $endTime
-     * @param int       $offset
-     * @param int       $count
-     * @param string    $sortType
+     * @param int    $beginTime
+     * @param int    $endTime
+     * @param int    $offset
+     * @param int    $count
+     * @param string $sortType
      *
      * @return mixed
      */
     public function list(int $beginTime, int $endTime, int $offset = 0, int $count = 10, string $sortType = 'ASC')
     {
         $params = [
-            "begin_time" => $beginTime,
-            "end_time" => $endTime,
-            "sort_type" => $sortType,
-            "offset" => $offset,
-            "count" => $count,
+            'begin_time' => $beginTime,
+            'end_time' => $endTime,
+            'sort_type' => $sortType,
+            'offset' => $offset,
+            'count' => $count,
         ];
 
         return $this->httpPostJson('card/giftcard/order/batchget', $params);

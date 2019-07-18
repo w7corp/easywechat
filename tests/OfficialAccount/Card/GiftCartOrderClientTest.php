@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\OfficialAccount\Card;
 
-
 use EasyWeChat\OfficialAccount\Card\GiftCardOrderClient;
 use EasyWeChat\Tests\TestCase;
 
@@ -34,11 +33,11 @@ class GiftCartOrderClientTest extends TestCase
     {
         $client = $this->mockApiClient(GiftCardOrderClient::class);
 
-        $client->expects()->httpPostJson('card/giftcard/order/batchget', ["begin_time" => 1472400000, "end_time" => 1472716604, "offset" => 0, "count" => 2, "sort_type" => 'ASC'])->andReturn('mock-result');
+        $client->expects()->httpPostJson('card/giftcard/order/batchget', ['begin_time' => 1472400000, 'end_time' => 1472716604, 'offset' => 0, 'count' => 2, 'sort_type' => 'ASC'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(1472400000, 1472716604, 0, 2, 'ASC'));
 
-        $client->expects()->httpPostJson('card/giftcard/order/batchget', ["begin_time" => 1472400000, "end_time" => 1472716604, "offset" => 0, "count" => 2, "sort_type" => 'DESC'])->andReturn('mock-result');
+        $client->expects()->httpPostJson('card/giftcard/order/batchget', ['begin_time' => 1472400000, 'end_time' => 1472716604, 'offset' => 0, 'count' => 2, 'sort_type' => 'DESC'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(1472400000, 1472716604, 0, 2, 'DESC'));
     }

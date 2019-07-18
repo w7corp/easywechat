@@ -48,7 +48,7 @@ class GiftCardClient extends BaseClient
     {
         $params = [
             'sub_mch_id' => $subMchId,
-            'wxa_appid' => $wxaAppid
+            'wxa_appid' => $wxaAppid,
         ];
 
         return $this->httpPostJson('card/giftcard/pay/submch/bind', $params);
