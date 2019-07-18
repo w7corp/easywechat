@@ -32,12 +32,12 @@ class InvoiceClient extends BaseClient
     {
         $params = [
             'paymch_info' => [
-                'mchid'    => $mchid,
+                'mchid' => $mchid,
                 's_pappid' => $sPappid,
             ],
         ];
 
-        return $this->setBizattr('set_pay_mch', $params);
+        return $this->setBizAttr('set_pay_mch', $params);
     }
 
     /**
@@ -47,7 +47,7 @@ class InvoiceClient extends BaseClient
      */
     public function get()
     {
-        return $this->setBizattr('get_pay_mch');
+        return $this->setBizAttr('get_pay_mch');
     }
 
     /**
@@ -63,11 +63,11 @@ class InvoiceClient extends BaseClient
         $params = [
             'auth_field' => [
                 'user_field' => $userData,
-                'biz_field'  => $bizData,
+                'biz_field' => $bizData,
             ],
         ];
 
-        return $this->setBizattr('set_auth_field', $params);
+        return $this->setBizAttr('set_auth_field', $params);
     }
 
     /**
@@ -77,7 +77,7 @@ class InvoiceClient extends BaseClient
      */
     public function getAuthField()
     {
-        return $this->setBizattr('get_auth_field');
+        return $this->setBizAttr('get_auth_field');
     }
 
     /**
@@ -100,13 +100,13 @@ class InvoiceClient extends BaseClient
 
     /**
      * @param string $action
-     * @param array $params
+     * @param array  $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
+     *A
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    private function setBizattr(string $action, array $params = [])
+    private function setBizAttr(string $action, array $params = [])
     {
         return $this->httpPostJson('card/invoice/setbizattr', $params, ['action' => $action]);
     }
