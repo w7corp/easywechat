@@ -92,7 +92,7 @@ class InvoiceClient extends BaseClient
     {
         $params = [
             'order_id' => $orderId,
-            's_appid'  => $appId,
+            's_appid' => $appId,
         ];
 
         return $this->httpPost('card/invoice/getauthdata', $params);
@@ -103,7 +103,7 @@ class InvoiceClient extends BaseClient
      * @param array  $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *A
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     private function setBizAttr(string $action, array $params = [])
