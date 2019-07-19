@@ -156,6 +156,24 @@ class Client extends BaseClient
     }
 
     /**
+     * Convert mobile to userId.
+     *
+     * @param string $mobile
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function mobileToUserId(string $mobile)
+    {
+        $params = [
+            'mobile' => $mobile,
+        ];
+
+        return $this->httpPostJson('cgi-bin/user/getuserid', $params);
+    }
+
+    /**
      * @param string $userId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
