@@ -106,6 +106,14 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->openidToUserId('mock-openid'));
     }
 
+    public function testMobileToUserId()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('cgi-bin/user/getuserid', ['mobile' => 'mock-mobile'])
+            ->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->mobileToUserId('mock-mobile'));
+    }
+
     public function testAccept()
     {
         $client = $this->mockApiClient(Client::class);
