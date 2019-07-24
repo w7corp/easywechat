@@ -36,6 +36,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Soter\Client               $soter
  * @property \EasyWeChat\BasicService\Media\Client              $media
  * @property \EasyWeChat\BasicService\ContentSecurity\Client    $content_security
+ * @property \EasyWeChat\MiniProgram\Mall\ForwardsMall          $mall
  */
 class Application extends ServiceContainer
 {
