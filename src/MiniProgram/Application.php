@@ -28,6 +28,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\TemplateMessage\Client     $template_message
  * @property \EasyWeChat\OfficialAccount\CustomerService\Client $customer_service
  * @property \EasyWeChat\MiniProgram\Plugin\Client              $plugin
+ * @property \EasyWeChat\MiniProgram\Plugin\DevClient           $plugin_dev
  * @property \EasyWeChat\MiniProgram\UniformMessage\Client      $uniform_message
  * @property \EasyWeChat\MiniProgram\ActivityMessage\Client     $activity_message
  * @property \EasyWeChat\MiniProgram\Express\Client             $logistics
