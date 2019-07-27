@@ -24,21 +24,40 @@ class Client extends BaseClient
     /**
      * Add nearby poi.
      *
-     * @param string $name
-     * @param string $credential
-     * @param string $address
-     * @param string $proofMaterial
+     * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function add(string $name, string $credential, string $address, string $proofMaterial = null)
+    public function add(array $params)
     {
-        return $this->httpPostJson('wxa/addnearbypoi', [
-            'related_name' => $name,
-            'related_credential' => $credential,
-            'related_address' => $address,
-            'related_proof_material' => $proofMaterial,
-        ]);
+        $params = array_merge([
+            'is_comm_nearby' => '1',
+            'poi_id' => '',
+        ], $params);
+
+        return $this->httpPostJson('wxa/addnearbypoi', $params);
+    }
+
+    /**
+     * Update nearby poi.
+     *
+     * @param string $poiId
+     * @param array $params
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function update(string $poiId, array $params)
+    {
+        $params = array_merge([
+            'is_comm_nearby' => '1',
+            'poi_id' => $poiId,
+        ], $params);
+
+        return $this->httpPostJson('wxa/addnearbypoi', $params);
     }
 
     /**
