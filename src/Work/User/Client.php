@@ -214,7 +214,7 @@ class Client extends BaseClient
      */
     public function getInvitationQrCode(int $sizeType = 1)
     {
-        if (!\in_array($sizeType, [1, 2, 3, 4])) {
+        if (!\in_array($sizeType, [1, 2, 3, 4], true)) {
             throw new InvalidArgumentException('The sizeType must be 1, 2, 3, 4.');
         }
 
