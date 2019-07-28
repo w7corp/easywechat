@@ -203,7 +203,7 @@ class Client extends BaseClient
     }
 
     /**
-     * Get the QR code for joining corp.
+     * Get invitation QR code.
      *
      * @param int $sizeType
      *
@@ -212,7 +212,7 @@ class Client extends BaseClient
      * @throws InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getJoinCorpQrCode(int $sizeType = 1)
+    public function getInvitationQrCode(int $sizeType = 1)
     {
         if (!\in_array($sizeType, [1, 2, 3, 4])) {
             throw new InvalidArgumentException('The sizeType must be 1, 2, 3, 4.');

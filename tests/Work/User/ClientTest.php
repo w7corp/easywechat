@@ -130,18 +130,18 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->invite($params));
     }
 
-    public function testGetJoinCorpQrCode()
+    public function testGetInvitationQrCode()
     {
         $client = $this->mockApiClient(Client::class);
 
         try {
-            $client->getJoinCorpQrCode(5);
+            $client->getInvitationQrCode(5);
         } catch (\Exception $e) {
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertSame('The sizeType must be 1, 2, 3, 4.', $e->getMessage());
         }
 
         $client->expects()->httpGet('cgi-bin/corp/get_join_qrcode', ['size_type' => 1])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->getJoinCorpQrCode(1));
+        $this->assertSame('mock-result', $client->getInvitationQrCode(1));
     }
 }
