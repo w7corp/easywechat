@@ -12,6 +12,7 @@
 namespace EasyWeChat\Work\User;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
 /**
  * Class Client.
@@ -199,5 +200,24 @@ class Client extends BaseClient
     public function invite(array $params)
     {
         return $this->httpPostJson('cgi-bin/batch/invite', $params);
+    }
+
+    /**
+     * Get the QR code for joining corp.
+     *
+     * @param int $sizeType
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getJoinCorpQrCode(int $sizeType = 1)
+    {
+        if (!\in_array($sizeType, [1, 2, 3, 4])) {
+            throw new InvalidArgumentException('The sizeType must be 1, 2, 3, 4.');
+        }
+
+        return $this->httpGet('cgi-bin/corp/get_join_qrcode', ['size_type' => $sizeType]);
     }
 }
