@@ -186,4 +186,18 @@ class Client extends BaseClient
 
         return $this->httpGet('cgi-bin/user/authsucc', $params);
     }
+
+    /**
+     * Batch invite users.
+     *
+     * @param array $params
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function invite(array $params)
+    {
+        return $this->httpPostJson('cgi-bin/batch/invite', $params);
+    }
 }

@@ -120,4 +120,12 @@ class ClientTest extends TestCase
         $client->expects()->httpGet('cgi-bin/user/authsucc', ['userid' => 'overtrue'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->accept('overtrue'));
     }
+
+    public function testInvite()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = ['user' => ['mock-user-id']];
+        $client->expects()->httpPostJson('cgi-bin/batch/invite', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->invite($params));
+    }
 }
