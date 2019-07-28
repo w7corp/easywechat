@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\Work\User;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\User\Client;
 
@@ -119,5 +120,28 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpGet('cgi-bin/user/authsucc', ['userid' => 'overtrue'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->accept('overtrue'));
+    }
+
+    public function testInvite()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = ['user' => ['mock-user-id']];
+        $client->expects()->httpPostJson('cgi-bin/batch/invite', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->invite($params));
+    }
+
+    public function testGetInvitationQrCode()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        try {
+            $client->getInvitationQrCode(5);
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(InvalidArgumentException::class, $e);
+            $this->assertSame('The sizeType must be 1, 2, 3, 4.', $e->getMessage());
+        }
+
+        $client->expects()->httpGet('cgi-bin/corp/get_join_qrcode', ['size_type' => 1])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getInvitationQrCode(1));
     }
 }
