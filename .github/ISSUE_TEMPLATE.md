@@ -1,8 +1,8 @@
 ## 我用的环境
 
-PHP 版本：
-overtrue/wechat 版本：
-是否使用了框架？框架名称：
+* PHP 版本：
+* overtrue/wechat 版本：
+* 是否使用了框架？框架名称：
 
 ## 问题及现象
 
