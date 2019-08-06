@@ -23,14 +23,14 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/template/api_set_industry', [
             'industry_id1' => 'foo',
             'industry_id2' => 'bar',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->setIndustry('foo', 'bar'));
     }
 
     public function testGetIndustry()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('cgi-bin/template/get_industry')->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/template/get_industry')->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getIndustry());
     }
 
@@ -39,14 +39,14 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('cgi-bin/template/api_add_template', [
             'template_id_short' => 'mock-id',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->addTemplate('mock-id'));
     }
 
     public function testGetPrivateTemplates()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('cgi-bin/template/get_all_private_template')->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('cgi-bin/template/get_all_private_template')->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getPrivateTemplates());
     }
 
@@ -55,7 +55,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('cgi-bin/template/del_private_template', [
             'template_id' => 'mock-id',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->deletePrivateTemplate('mock-id'));
     }
 
@@ -88,7 +88,7 @@ class ClientTest extends TestCase
             'url' => '',
             'data' => [],
             'miniprogram' => '',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id']));
 
         // with miniprogram
@@ -101,7 +101,7 @@ class ClientTest extends TestCase
                 'appid' => 'id',
                 'pagepath' => 'path',
             ],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id', 'miniprogram' => ['appid' => 'id', 'pagepath' => 'path']]));
     }
 
@@ -139,7 +139,7 @@ class ClientTest extends TestCase
             'url' => '',
             'data' => [],
             'miniprogram' => '',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->sendSubscription(['touser' => 'mock-openid', 'template_id' => 'mock-template_id']));
 
         $client->expects()->httpPostJson('cgi-bin/message/template/subscribe', [
@@ -152,7 +152,7 @@ class ClientTest extends TestCase
                     'content' => ['value' => 'VALUE'],
                 ],
             'miniprogram' => '',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->sendSubscription([
             'touser' => 'foo',

@@ -23,6 +23,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\OpenWork\Server\Guard::class, $app->server);
         $this->assertInstanceOf(\EasyWeChat\OpenWork\Corp\Client::class, $app->corp);
         $this->assertInstanceOf(\EasyWeChat\OpenWork\Provider\Client::class, $app->provider);
+        $this->assertInstanceOf(\EasyWeChat\OpenWork\MiniProgram\Client::class, $app->mini_program);
     }
 
     public function testWork()

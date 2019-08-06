@@ -20,7 +20,7 @@ class DeviceClientTest extends TestCase
     {
         $client = $this->mockApiClient(DeviceClient::class);
 
-        $client->expects()->httpPostJson('shakearound/device/applyid', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('shakearound/device/applyid', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->apply(['foo' => 'bar']));
     }
@@ -29,7 +29,7 @@ class DeviceClientTest extends TestCase
     {
         $client = $this->mockApiClient(DeviceClient::class);
 
-        $client->expects()->httpPostJson('shakearound/device/applystatus', ['apply_id' => 77])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('shakearound/device/applystatus', ['apply_id' => 77])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->status(77));
     }
@@ -43,7 +43,7 @@ class DeviceClientTest extends TestCase
                 'device_id' => 10011,
             ],
             'comment' => 'mock-comment',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update(['device_id' => 10011], 'mock-comment'));
     }
@@ -57,7 +57,7 @@ class DeviceClientTest extends TestCase
                 'device_id' => 10011,
             ],
             'poi_id' => 14,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->bindPoi(['device_id' => 10011], 14));
     }
@@ -73,7 +73,7 @@ class DeviceClientTest extends TestCase
             'poi_id' => 14,
             'type' => 2,
             'poi_appid' => 'mock-app-id',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->bindThirdPoi(['device_id' => 10011], 14, 'mock-app-id'));
     }
@@ -88,7 +88,7 @@ class DeviceClientTest extends TestCase
                 ['device_id' => 10012],
             ],
             'type' => 1,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->listByIds([['device_id' => 10011], ['device_id' => 10012]]));
     }
@@ -101,7 +101,7 @@ class DeviceClientTest extends TestCase
             'type' => 2,
             'last_seen' => 45,
             'count' => 20,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(45, 20));
     }
@@ -115,7 +115,7 @@ class DeviceClientTest extends TestCase
             'apply_id' => 56,
             'last_seen' => 45,
             'count' => 20,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->listByApplyId(56, 45, 20));
     }
@@ -126,7 +126,7 @@ class DeviceClientTest extends TestCase
 
         $client->expects()->httpPostJson('shakearound/device/search', [
             'foo' => 'bar',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->search(['foo' => 'bar']));
     }

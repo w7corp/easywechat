@@ -19,7 +19,7 @@ class ClientTest extends TestCase
     public function testCurrent()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('cgi-bin/get_current_autoreply_info')->andReturn('mock-result')->once();
+        $client->expects()->httpGet('cgi-bin/get_current_autoreply_info')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->current());
     }

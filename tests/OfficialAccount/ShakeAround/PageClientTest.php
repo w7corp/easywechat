@@ -20,7 +20,7 @@ class PageClientTest extends TestCase
     {
         $client = $this->mockApiClient(PageClient::class);
 
-        $client->expects()->httpPostJson('shakearound/page/add', ['foo' => 'bar'])->andReturn('mock-result')->once();
+        $client->expects()->httpPostJson('shakearound/page/add', ['foo' => 'bar'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->create(['foo' => 'bar']));
     }
@@ -32,7 +32,7 @@ class PageClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/page/update', [
             'page_id' => 3,
             'foo' => 'bar',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->update(3, ['foo' => 'bar']));
     }
@@ -44,7 +44,7 @@ class PageClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/page/search', [
             'type' => 1,
             'page_ids' => [1, 2, 5],
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->listByIds([1, 2, 5]));
     }
@@ -57,7 +57,7 @@ class PageClientTest extends TestCase
             'type' => 2,
             'begin' => 3,
             'count' => 20,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list(3, 20));
     }
@@ -68,7 +68,7 @@ class PageClientTest extends TestCase
 
         $client->expects()->httpPostJson('shakearound/page/delete', [
             'page_id' => 3,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete(3));
     }

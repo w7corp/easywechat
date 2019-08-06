@@ -34,7 +34,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ServerGuard
 {
-    use Observable, ResponseCastable;
+    use Observable;
+    use ResponseCastable;
 
     /**
      * @var bool

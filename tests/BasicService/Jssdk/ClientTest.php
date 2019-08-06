@@ -50,7 +50,7 @@ class ClientTest extends TestCase
     public function testGetConfigArray()
     {
         $client = $this->mockApiClient(Client::class, 'buildConfig');
-        $client->expects()->buildConfig(['api1', 'api2'], true, true, false)->andReturn('mock-result')->once();
+        $client->expects()->buildConfig(['api1', 'api2'], true, true, false)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getConfigArray(['api1', 'api2'], true, true));
     }
@@ -71,7 +71,7 @@ class ClientTest extends TestCase
         $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
 
         // no refresh and cached
-        $cache->expects()->has($cacheKey)->once()->andReturn(true);
+        $cache->expects()->has($cacheKey)->andReturn(true);
         $cache->expects()->get($cacheKey)->andReturn($ticket);
 
         $this->assertSame($ticket, $client->getTicket());
@@ -80,7 +80,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->twice()->andReturns(false, true);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket());
 
@@ -88,7 +88,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->andReturn(true);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket(true));
 
@@ -96,9 +96,9 @@ class ClientTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Failed to cache jssdk ticket.');
 
-        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500)->once();
-        $cache->expects()->has($cacheKey)->once()->andReturn(false);
-        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response)->once();
+        $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
+        $cache->expects()->has($cacheKey)->andReturn(false);
+        $client->expects()->requestRaw('https://api.weixin.qq.com/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $client->getTicket(true);
     }

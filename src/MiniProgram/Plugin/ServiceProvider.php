@@ -34,5 +34,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['plugin'] = function ($app) {
             return new Client($app);
         };
+
+        $app['plugin_dev'] = function ($app) {
+            return new DevClient($app);
+        };
     }
 }

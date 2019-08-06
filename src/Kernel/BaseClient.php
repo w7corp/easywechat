@@ -18,6 +18,7 @@ use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LogLevel;
 
 /**
  * Class BaseClient.
@@ -226,7 +227,7 @@ class BaseClient
     {
         $formatter = new MessageFormatter($this->app['config']['http.log_template'] ?? MessageFormatter::DEBUG);
 
-        return Middleware::log($this->app['logger'], $formatter);
+        return Middleware::log($this->app['logger'], $formatter, LogLevel::DEBUG);
     }
 
     /**

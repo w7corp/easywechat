@@ -24,7 +24,7 @@ class StatsClientTest extends TestCase
             'device_identifier' => ['device_id' => 10011],
             'begin_date' => 1438704000,
             'end_date' => 1438708000,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->deviceSummary(['device_id' => 10011], 1438704000, 1438708000));
     }
@@ -36,7 +36,7 @@ class StatsClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/statistics/devicelist', [
             'date' => 1438704000,
             'page_index' => 5,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->devicesSummary(1438704000, 5));
     }
@@ -49,7 +49,7 @@ class StatsClientTest extends TestCase
             'page_id' => 10011,
             'begin_date' => 1438704000,
             'end_date' => 1438708000,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->pageSummary(10011, 1438704000, 1438708000));
     }
@@ -61,7 +61,7 @@ class StatsClientTest extends TestCase
         $client->expects()->httpPostJson('shakearound/statistics/pagelist', [
             'date' => 1438704000,
             'page_index' => 5,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->pagesSummary(1438704000, 5));
     }

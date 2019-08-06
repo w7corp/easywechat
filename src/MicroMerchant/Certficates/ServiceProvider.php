@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Work\Crm;
+namespace EasyWeChat\MicroMerchant\Certficates;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -17,7 +17,7 @@ use Pimple\ServiceProviderInterface;
 /**
  * Class ServiceProvider.
  *
- * @author mingyoung <mingyoungcheung@gmail.com>
+ * @author overtrue <i@overtrue.me>
  */
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -26,7 +26,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $app)
     {
-        $app['crm'] = function ($app) {
+        $app['certficates'] = function ($app) {
             return new Client($app);
         };
     }

@@ -23,7 +23,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/comment/open', [
             'msg_data_id' => 'mock-id',
             'index' => 1,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->open('mock-id', 1));
     }
@@ -35,7 +35,7 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/comment/close', [
             'msg_data_id' => 'mock-id',
             'index' => 2,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->close('mock-id', 2));
     }
@@ -50,7 +50,7 @@ class ClientTest extends TestCase
             'begin' => 0,
             'count' => 20,
             'type' => 1,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list('mock-id', 3, 0, 20, 1));
     }
@@ -63,7 +63,7 @@ class ClientTest extends TestCase
             'msg_data_id' => 'mock-id',
             'index' => 3,
             'user_comment_id' => 18,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->markElect('mock-id', 3, 18));
     }
@@ -76,7 +76,7 @@ class ClientTest extends TestCase
             'msg_data_id' => 'mock-id',
             'index' => 3,
             'user_comment_id' => 18,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->unmarkElect('mock-id', 3, 18));
     }
@@ -89,7 +89,7 @@ class ClientTest extends TestCase
             'msg_data_id' => 'mock-id',
             'index' => 3,
             'user_comment_id' => 18,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->delete('mock-id', 3, 18));
     }
@@ -103,7 +103,7 @@ class ClientTest extends TestCase
             'index' => 3,
             'user_comment_id' => 18,
             'content' => 'mock-content',
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->reply('mock-id', 3, 18, 'mock-content'));
     }
@@ -116,7 +116,7 @@ class ClientTest extends TestCase
             'msg_data_id' => 'mock-id',
             'index' => 3,
             'user_comment_id' => 18,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->deleteReply('mock-id', 3, 18));
     }

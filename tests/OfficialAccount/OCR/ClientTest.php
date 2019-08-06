@@ -25,13 +25,13 @@ class ClientTest extends TestCase
         $client->expects()->httpGet('cv/ocr/idcard', [
             'type' => 'photo',
             'img_url' => $path,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->idCard($path, 'photo'));
 
         $client->expects()->httpGet('cv/ocr/idcard', [
             'type' => 'scan',
             'img_url' => $path,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->idCard($path, 'scan'));
 
         $this->expectException(InvalidArgumentException::class);
@@ -46,7 +46,7 @@ class ClientTest extends TestCase
         $path = '/foo/bar.jpg';
         $client->expects()->httpGet('cv/ocr/bankcard', [
             'img_url' => $path,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->bankCard($path));
     }
@@ -58,7 +58,7 @@ class ClientTest extends TestCase
         $path = '/foo/bar.jpg';
         $client->expects()->httpGet('cv/ocr/driving', [
             'img_url' => $path,
-        ])->andReturn('mock-result')->once();
+        ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->vehicleLicense($path));
     }

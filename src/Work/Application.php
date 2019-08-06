@@ -19,22 +19,27 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
  *
- * @property \EasyWeChat\Work\OA\Client                   $oa
- * @property \EasyWeChat\Work\Auth\AccessToken            $access_token
- * @property \EasyWeChat\Work\Agent\Client                $agent
- * @property \EasyWeChat\Work\Department\Client           $department
- * @property \EasyWeChat\Work\Media\Client                $media
- * @property \EasyWeChat\Work\Menu\Client                 $menu
- * @property \EasyWeChat\Work\Message\Client              $message
- * @property \EasyWeChat\Work\Message\Messenger           $messenger
- * @property \EasyWeChat\Work\User\Client                 $user
- * @property \EasyWeChat\Work\User\TagClient              $tag
- * @property \EasyWeChat\Work\Server\ServiceProvider      $server
- * @property \EasyWeChat\BasicService\Jssdk\Client        $jssdk
- * @property \Overtrue\Socialite\Providers\WeWorkProvider $oauth
- * @property \EasyWeChat\Work\Invoice\Client              $invoice
- * @property \EasyWeChat\Work\Chat\Client                 $chat
- * @property \EasyWeChat\Work\Crm\Client                  $crm
+ * @property \EasyWeChat\Work\OA\Client                        $oa
+ * @property \EasyWeChat\Work\Auth\AccessToken                 $access_token
+ * @property \EasyWeChat\Work\Agent\Client                     $agent
+ * @property \EasyWeChat\Work\Department\Client                $department
+ * @property \EasyWeChat\Work\Media\Client                     $media
+ * @property \EasyWeChat\Work\Menu\Client                      $menu
+ * @property \EasyWeChat\Work\Message\Client                   $message
+ * @property \EasyWeChat\Work\Message\Messenger                $messenger
+ * @property \EasyWeChat\Work\User\Client                      $user
+ * @property \EasyWeChat\Work\User\TagClient                   $tag
+ * @property \EasyWeChat\Work\Server\ServiceProvider           $server
+ * @property \EasyWeChat\BasicService\Jssdk\Client             $jssdk
+ * @property \Overtrue\Socialite\Providers\WeWorkProvider      $oauth
+ * @property \EasyWeChat\Work\Invoice\Client                   $invoice
+ * @property \EasyWeChat\Work\Chat\Client                      $chat
+ * @property \EasyWeChat\Work\ExternalContact\Client           $external_contact
+ * @property \EasyWeChat\Work\ExternalContact\ContactWayClient $contact_way
+ * @property \EasyWeChat\Work\ExternalContact\StatisticsClient $external_contact_statistics
+ * @property \EasyWeChat\Work\ExternalContact\MessageClient    $external_contact_message
+ * @property \EasyWeChat\Work\GroupRobot\Client                $group_robot
+ * @property \EasyWeChat\Work\GroupRobot\Messenger             $group_robot_messenger
  *
  * @method mixed getCallbackIp()
  */
@@ -58,7 +63,8 @@ class Application extends ServiceContainer
         Jssdk\ServiceProvider::class,
         Invoice\ServiceProvider::class,
         Chat\ServiceProvider::class,
-        Crm\ServiceProvider::class,
+        ExternalContact\ServiceProvider::class,
+        GroupRobot\ServiceProvider::class,
     ];
 
     /**

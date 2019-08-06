@@ -44,6 +44,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\Base\Client                   $base
  * @property \EasyWeChat\OfficialAccount\Comment\Client                $comment
  * @property \EasyWeChat\OfficialAccount\OCR\Client                    $ocr
+ * @property \EasyWeChat\OfficialAccount\Goods\Client                  $goods
  * @property \Overtrue\Socialite\Providers\WeChatProvider              $oauth
  */
 class Application extends ServiceContainer
@@ -72,6 +73,7 @@ class Application extends ServiceContainer
         Comment\ServiceProvider::class,
         Base\ServiceProvider::class,
         OCR\ServiceProvider::class,
+        Goods\ServiceProvider::class,
         // Base services
         BasicService\QrCode\ServiceProvider::class,
         BasicService\Media\ServiceProvider::class,

@@ -77,7 +77,7 @@ class BaseClient
             'sub_appid' => $this->app['config']['sub_appid'],
         ];
 
-        $params = array_filter(array_merge($base, $this->prepends(), $params));
+        $params = array_filter(array_merge($base, $this->prepends(), $params), 'strlen');
 
         $secretKey = $this->app->getKey($endpoint);
         if ('HMAC-SHA256' === ($params['sign_type'] ?? 'MD5')) {

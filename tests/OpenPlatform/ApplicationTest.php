@@ -33,7 +33,7 @@ class ApplicationTest extends TestCase
         $app = \Mockery::mock(Application::class.'[createPreAuthorizationCode]', ['app_id' => 'component-app-id'], function ($mock) {
             $mock->expects()->createPreAuthorizationCode()->andReturn([
                 'pre_auth_code' => 'auth-code@123456',
-            ])->once();
+            ]);
         });
 
         $this->assertSame(
@@ -52,7 +52,7 @@ class ApplicationTest extends TestCase
         $app = \Mockery::mock(Application::class.'[createPreAuthorizationCode]', ['app_id' => 'component-app-id'], function ($mock) {
             $mock->expects()->createPreAuthorizationCode()->andReturn([
                 'pre_auth_code' => 'auth-code@123456',
-            ])->once();
+            ]);
         });
 
         $this->assertSame(

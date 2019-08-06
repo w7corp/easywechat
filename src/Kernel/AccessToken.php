@@ -28,7 +28,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 abstract class AccessToken implements AccessTokenInterface
 {
-    use HasHttpRequests, InteractsWithCache;
+    use HasHttpRequests;
+    use InteractsWithCache;
 
     /**
      * @var \Pimple\Container
