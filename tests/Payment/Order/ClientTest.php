@@ -111,7 +111,7 @@ class ClientTest extends TestCase
         // spbill_create_ip is null and trade_type !== Order::NATIVE
         $order = [
             'trade_type' => 'JSAPI',
-            'request_serial' => 123
+            'request_serial' => 123,
         ];
         $client->expects()->request('pay/contractorder', array_merge($order, $contract, [
             'spbill_create_ip' => Support\get_client_ip(),
@@ -147,7 +147,6 @@ class ClientTest extends TestCase
         ]))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->unify($order, true));
-
 
         // set contract-notify-url when unify order.
         $order = [

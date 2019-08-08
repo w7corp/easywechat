@@ -20,12 +20,11 @@ use Psr\Http\Message\ResponseInterface;
 
 class Client extends BaseClient
 {
-
     /**
      * Unify order.
      *
      * @param array $params
-     * @param bool $isContract
+     * @param bool  $isContract
      *
      * @return ResponseInterface|Collection|array|object|string
      *
