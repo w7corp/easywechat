@@ -56,47 +56,54 @@ class Client extends BaseClient
      * Query order by out trade number.
      *
      * @param string $number
+     * @param bool $isContract
      *
      * @return ResponseInterface|Collection|array|object|string
      *
      * @throws InvalidArgumentException
      * @throws InvalidConfigException
      */
-    public function queryByOutTradeNumber(string $number)
+    public function queryByOutTradeNumber(string $number, $isContract = false)
     {
         return $this->query([
             'out_trade_no' => $number,
-        ]);
+        ], $isContract);
     }
 
     /**
      * Query order by transaction id.
      *
      * @param string $transactionId
+     * @param bool $isContract
      *
      * @return ResponseInterface|Collection|array|object|string
      *
      * @throws InvalidArgumentException
      * @throws InvalidConfigException
      */
-    public function queryByTransactionId(string $transactionId)
+    public function queryByTransactionId(string $transactionId, $isContract = false)
     {
         return $this->query([
             'transaction_id' => $transactionId,
-        ]);
+        ], $isContract);
     }
 
     /**
      * @param array $params
+     * @param bool $isContract
      *
      * @return ResponseInterface|Collection|array|object|string
      *
      * @throws InvalidArgumentException
      * @throws InvalidConfigException
      */
-    protected function query(array $params)
+    protected function query(array $params, $isContract = false)
     {
         $params['appid'] = $this->app['config']->app_id;
+
+        if($isContract) {
+            return $this->request($this->wrap('pay/paporderquery'), $params);
+        }
 
         return $this->request($this->wrap('pay/orderquery'), $params);
     }

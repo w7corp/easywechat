@@ -175,6 +175,17 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->queryByOutTradeNumber('out-trade-no-123'));
     }
 
+    public function testQueryByOutTradeNumberContract()
+    {
+        $client = $this->mockApiClient(Client::class, ['request'], $this->app());
+        $client->expects()->request('pay/paporderquery', [
+            'appid' => 'wx123456',
+            'out_trade_no' => 'out-trade-no-123',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->queryByOutTradeNumber('out-trade-no-123', true));
+    }
+
     public function testQueryByTransactionId()
     {
         $client = $this->mockApiClient(Client::class, ['request'], $this->app());
@@ -184,6 +195,18 @@ class ClientTest extends TestCase
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->queryByTransactionId('transaction-id-123'));
+    }
+
+    public function testQueryByTransactionIdContract()
+    {
+
+        $client = $this->mockApiClient(Client::class, ['request'], $this->app());
+        $client->expects()->request('pay/paporderquery', [
+            'appid' => 'wx123456',
+            'transaction_id' => 'transaction-id-123',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->queryByTransactionId('transaction-id-123', true));
     }
 
     public function testClose()
