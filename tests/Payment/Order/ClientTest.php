@@ -199,7 +199,6 @@ class ClientTest extends TestCase
 
     public function testQueryByTransactionIdContract()
     {
-
         $client = $this->mockApiClient(Client::class, ['request'], $this->app());
         $client->expects()->request('pay/paporderquery', [
             'appid' => 'wx123456',

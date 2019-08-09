@@ -56,7 +56,7 @@ class Client extends BaseClient
      * Query order by out trade number.
      *
      * @param string $number
-     * @param bool $isContract
+     * @param bool   $isContract
      *
      * @return ResponseInterface|Collection|array|object|string
      *
@@ -74,7 +74,7 @@ class Client extends BaseClient
      * Query order by transaction id.
      *
      * @param string $transactionId
-     * @param bool $isContract
+     * @param bool   $isContract
      *
      * @return ResponseInterface|Collection|array|object|string
      *
@@ -90,7 +90,7 @@ class Client extends BaseClient
 
     /**
      * @param array $params
-     * @param bool $isContract
+     * @param bool  $isContract
      *
      * @return ResponseInterface|Collection|array|object|string
      *
@@ -101,7 +101,7 @@ class Client extends BaseClient
     {
         $params['appid'] = $this->app['config']->app_id;
 
-        if($isContract) {
+        if ($isContract) {
             return $this->request($this->wrap('pay/paporderquery'), $params);
         }
 
