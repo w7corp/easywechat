@@ -1,0 +1,6 @@
+parameters:
+    level: 0
+    paths:
+        - src
+    ignoreErrors:
+        - '#EasyWeChat\\MicroMerchant\\Kernel\\BaseClient::__construct\(\) does not call parent constructor from EasyWeChat\\Payment\\Kernel\\BaseClient#'
