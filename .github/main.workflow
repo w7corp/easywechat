@@ -5,5 +5,5 @@ workflow "Main" {
 
 action "PHPStan" {
   uses = "docker://oskarstark/phpstan-ga"
-  args = "analyse src/"
+  args = "analyse --no-progress"
 }
