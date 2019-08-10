@@ -40,7 +40,7 @@ class BaseClient
     protected $accessToken;
 
     /**
-     * @var
+     * @var string
      */
     protected $baseUri;
 
@@ -89,9 +89,9 @@ class BaseClient
     /**
      * JSON request.
      *
-     * @param string       $url
-     * @param string|array $data
-     * @param array        $query
+     * @param string $url
+     * @param array  $data
+     * @param array  $query
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

@@ -84,7 +84,7 @@ class Messenger
     }
 
     /**
-     * @param null|string|Message $message
+     * @param string|Message|null $message
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

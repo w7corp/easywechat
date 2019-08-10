@@ -23,18 +23,12 @@ use EasyWeChat\Kernel\Support\Arr;
 /**
  * Class Client.
  *
- * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewTextByName($text, $name);
- * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewNewsByName($mediaId, $name);
- * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewVoiceByName($mediaId, $name);
- * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewImageByName($mediaId, $name);
- * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewVideoByName($message, $name);
- * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
- *         previewCardByName($cardId, $name);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewTextByName($text, $name);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewNewsByName($mediaId, $name);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewVoiceByName($mediaId, $name);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewImageByName($mediaId, $name);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewVideoByName($message, $name);
+ * @method \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string previewCardByName($cardId, $name);
  *
  * @author overtrue <i@overtrue.me>
  */
@@ -168,9 +162,9 @@ class Client extends BaseClient
     /**
      * Send a image message.
      *
-     * @param mixed $mediaId
-     * @param mixed $reception
-     * @param array $attributes
+     * @param string $mediaId
+     * @param mixed  $reception
+     * @param array  $attributes
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -219,7 +213,7 @@ class Client extends BaseClient
     /**
      * Preview a text message.
      *
-     * @param mixed  $message   message
+     * @param string $message   message
      * @param string $reception
      * @param string $method
      *
@@ -236,7 +230,7 @@ class Client extends BaseClient
     /**
      * Preview a news message.
      *
-     * @param mixed  $mediaId   message
+     * @param string $mediaId   message
      * @param string $reception
      * @param string $method
      *
@@ -253,7 +247,7 @@ class Client extends BaseClient
     /**
      * Preview a voice message.
      *
-     * @param mixed  $mediaId   message
+     * @param string $mediaId   message
      * @param string $reception
      * @param string $method
      *
@@ -270,7 +264,7 @@ class Client extends BaseClient
     /**
      * Preview a image message.
      *
-     * @param mixed  $mediaId   message
+     * @param string $mediaId   message
      * @param string $reception
      * @param string $method
      *
@@ -287,7 +281,7 @@ class Client extends BaseClient
     /**
      * Preview a video message.
      *
-     * @param mixed  $mediaId   message
+     * @param string $mediaId   message
      * @param string $reception
      * @param string $method
      *
@@ -304,7 +298,7 @@ class Client extends BaseClient
     /**
      * Preview a card message.
      *
-     * @param mixed  $cardId    message
+     * @param string $cardId    message
      * @param string $reception
      * @param string $method
      *
@@ -320,7 +314,7 @@ class Client extends BaseClient
 
     /**
      * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
-     * @param mixed                                         $reception
+     * @param string                                        $reception
      * @param string                                        $method
      *
      * @return mixed

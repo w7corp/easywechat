@@ -101,7 +101,7 @@ class TagClient extends BaseClient
     }
 
     /**
-     * @param $tagId
+     * @param int   $tagId
      * @param array $userList
      *
      * @return mixed
@@ -112,7 +112,7 @@ class TagClient extends BaseClient
     }
 
     /**
-     * @param $tagId
+     * @param int   $tagId
      * @param array $partyList
      *
      * @return mixed
@@ -123,12 +123,14 @@ class TagClient extends BaseClient
     }
 
     /**
-     * @param $endpoint
-     * @param $tagId
-     * @param array $userList
-     * @param array $partyList
+     * @param string $endpoint
+     * @param int    $tagId
+     * @param array  $userList
+     * @param array  $partyList
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function tagOrUntagUsers(string $endpoint, int $tagId, array $userList = [], array $partyList = [])
     {

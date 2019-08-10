@@ -45,7 +45,7 @@ class Text extends Message
     }
 
     /**
-     * @param $userIds
+     * @param array $userIds
      *
      * @return Text
      */
@@ -57,7 +57,7 @@ class Text extends Message
     }
 
     /**
-     * @param $mobiles
+     * @param array $mobiles
      *
      * @return Text
      */

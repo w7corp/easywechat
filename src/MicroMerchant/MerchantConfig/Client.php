@@ -98,14 +98,14 @@ class Client extends BaseClient
     /**
      * add sub dev config.
      *
-     * @param $params
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    private function addConfig($params)
+    private function addConfig(array $params)
     {
         return $this->safeRequest('secapi/mch/addsubdevconfig', $params);
     }

@@ -37,11 +37,12 @@ class Client extends BaseClient
     /**
      * Upload image.
      *
-     * @param $path
+     * @param string $path
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function uploadImage($path)
     {
@@ -51,11 +52,12 @@ class Client extends BaseClient
     /**
      * Upload video.
      *
-     * @param $path
+     * @param string $path
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function uploadVideo($path)
     {
@@ -68,6 +70,7 @@ class Client extends BaseClient
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function uploadVoice($path)
     {
@@ -75,11 +78,12 @@ class Client extends BaseClient
     }
 
     /**
-     * @param $path
+     * @param string $path
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function uploadThumb($path)
     {

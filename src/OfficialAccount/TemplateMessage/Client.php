@@ -113,13 +113,14 @@ class Client extends BaseClient
     /**
      * Send a template message.
      *
-     * @param $data
+     * @param array $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function send($data = [])
+    public function send(array $data = [])
     {
         $params = $this->formatMessage($data);
 

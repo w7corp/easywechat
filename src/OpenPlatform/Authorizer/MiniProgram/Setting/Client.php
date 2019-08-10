@@ -77,7 +77,11 @@ class Client extends BaseClient
      * @param string $nickname       昵称
      * @param string $idCardMediaId  身份证照片素材ID
      * @param string $licenseMediaId 组织机构代码证或营业执照素材ID
-     * @param string $otherStuffs    其他证明材料素材ID
+     * @param array  $otherStuffs    其他证明材料素材ID
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function setNickname(
         string $nickname,
