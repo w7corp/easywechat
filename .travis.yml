@@ -17,7 +17,7 @@ after_script:
 
 script:
   - ./vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
-  - ./vendor/bin/phpstan analyse --no-progress
+  # - ./vendor/bin/phpstan analyse --no-progress
 
 matrix:
   fast_finish: true

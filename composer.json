@@ -33,8 +33,7 @@
         "mikey179/vfsStream": "^1.6",
         "mockery/mockery": "^1.0",
         "overtrue/phplint": "dev-master",
-        "phpunit/phpunit": "~6.5",
-        "phpstan/phpstan": "^0.11.12"
+        "phpunit/phpunit": "~6.5"
     },
     "autoload": {
         "psr-4": {
