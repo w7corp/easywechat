@@ -179,7 +179,7 @@ abstract class Message implements MessageInterface
      * @param array $data
      * @param array $aliases
      *
-     * @return array|mixed
+     * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */

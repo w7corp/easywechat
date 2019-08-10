@@ -39,7 +39,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91555
      *
-     * @param $userId
+     * @param string $userId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -57,7 +57,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91556
      *
-     * @param $externalUserId
+     * @param string $externalUserId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

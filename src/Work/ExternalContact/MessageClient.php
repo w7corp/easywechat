@@ -74,7 +74,7 @@ class MessageClient extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91561
      *
-     * @param $msgId
+     * @param string $msgId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

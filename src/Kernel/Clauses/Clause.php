@@ -26,7 +26,7 @@ class Clause
     ];
 
     /**
-     * @param array $args
+     * @param mixed ...$args
      *
      * @return $this
      */

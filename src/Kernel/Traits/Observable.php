@@ -215,7 +215,7 @@ trait Observable
     }
 
     /**
-     * @param $handler
+     * @param mixed $handler
      *
      * @return \Closure
      *
@@ -252,8 +252,8 @@ trait Observable
     }
 
     /**
-     * @param $handler
-     * @param $condition
+     * @param mixed $handler
+     * @param mixed $condition
      *
      * @return array
      *

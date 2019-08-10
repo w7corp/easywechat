@@ -78,7 +78,12 @@ class Client extends BaseClient
      *
      * @param string $transactionId 微信支付订单号
      * @param string $outOrderNo    商户系统内部的分账单号
-     * @param string $receivers     分账接收方列表
+     * @param array  $receivers     分账接收方列表
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function share(
         string $transactionId,
@@ -105,7 +110,12 @@ class Client extends BaseClient
      *
      * @param string $transactionId 微信支付订单号
      * @param string $outOrderNo    商户系统内部的分账单号
-     * @param string $receivers     分账接收方列表
+     * @param array  $receivers     分账接收方列表
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function multiShare(
         string $transactionId,

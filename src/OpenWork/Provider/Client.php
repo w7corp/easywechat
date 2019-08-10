@@ -180,7 +180,7 @@ class Client extends BaseClient
      *
      * Desc:该API用于设置通讯录同步完成，解除通讯录锁定状态，同时使通讯录迁移access_token失效。
      *
-     * @param $accessToken
+     * @param string $accessToken
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

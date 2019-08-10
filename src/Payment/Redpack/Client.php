@@ -24,11 +24,12 @@ class Client extends BaseClient
     /**
      * Query redpack.
      *
-     * @param mixed $params
+     * @param mixed $mchBillno
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function info($mchBillno)
     {

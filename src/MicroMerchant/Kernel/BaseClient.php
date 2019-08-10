@@ -235,13 +235,13 @@ class BaseClient extends PaymentBaseClient
     /**
      * getSign.
      *
-     * @param $params
+     * @param array $params
      *
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    protected function getSign($params)
+    protected function getSign(array $params)
     {
         $params = array_filter($params);
 

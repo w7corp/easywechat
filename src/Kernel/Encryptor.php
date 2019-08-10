@@ -170,8 +170,6 @@ class Encryptor
      * Get SHA1.
      *
      * @return string
-     *
-     * @throws self
      */
     public function signature(): string
     {

@@ -138,9 +138,11 @@ class Client extends BaseClient
     /**
      * Send a message.
      *
-     * @param string|array $message
+     * @param array $message
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function send(array $message)
     {

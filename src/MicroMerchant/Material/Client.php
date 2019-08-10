@@ -24,7 +24,7 @@ class Client extends BaseClient
     /**
      * update settlement card.
      *
-     * @param $params
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -32,7 +32,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
      */
-    public function setSettlementCard($params)
+    public function setSettlementCard(array $params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params = $this->processParams(array_merge($params, [
@@ -48,7 +48,7 @@ class Client extends BaseClient
     /**
      * update contact info.
      *
-     * @param $params
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -56,7 +56,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
      */
-    public function updateContact($params)
+    public function updateContact(array $params)
     {
         $params['sub_mch_id'] = $params['sub_mch_id'] ?? $this->app['config']->sub_mch_id;
         $params = $this->processParams(array_merge($params, [

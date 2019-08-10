@@ -34,7 +34,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * set data.
      *
-     * @param mixed $items
+     * @param array $items
      */
     public function __construct(array $items = [])
     {

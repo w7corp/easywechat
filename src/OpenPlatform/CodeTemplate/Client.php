@@ -59,9 +59,11 @@ class Client extends BaseClient
     /**
      * 删除指定小程序代码模版.
      *
-     * @param $templateId
+     * @param string $templateId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function delete($templateId)
     {

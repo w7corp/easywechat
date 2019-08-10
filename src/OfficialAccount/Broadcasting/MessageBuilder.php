@@ -53,7 +53,7 @@ class MessageBuilder
     /**
      * Set target user or group.
      *
-     * @param mixed $to
+     * @param array $to
      *
      * @return $this
      */

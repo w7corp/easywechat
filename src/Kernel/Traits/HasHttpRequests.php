@@ -138,6 +138,8 @@ trait HasHttpRequests
      * @param array  $options
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request($url, $method = 'GET', $options = []): ResponseInterface
     {
