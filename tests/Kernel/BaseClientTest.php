@@ -25,12 +25,11 @@ class BaseClientTest extends TestCase
 {
     public function makeClient($methods = [], ServiceContainer $app = null, AccessToken $accessToken = null)
     {
-        $methods = implode(',', (array) $methods);
+        $methods = !empty($methods) ? \sprintf('[%s]', implode(',', (array) $methods)) : '';
+        $app = $app ?? \Mockery::mock(ServiceContainer::class);
+        $accessToken = $accessToken ?? \Mockery::mock(AccessToken::class, [$app]);
 
-        return \Mockery::mock(BaseClient::class."[{$methods}]", [
-            $app ?? \Mockery::mock(ServiceContainer::class),
-            $accessToken ?? \Mockery::mock(AccessToken::class),
-        ]);
+        return \Mockery::mock(BaseClient::class."{$methods}", [$app, $accessToken])->makePartial();
     }
 
     public function testHttpGet()
