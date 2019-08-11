@@ -21,7 +21,7 @@ class ClientTest extends TestCase
 {
     public function testKey()
     {
-        $client = $this->mockApiClient(Client::class, ['requestRaw', 'getCache'], new Application(['app_id' => 'mock-123']))->makePartial();
+        $client = $this->mockApiClient(Client::class, ['getCache'], new Application(['app_id' => 'mock-123']))->makePartial();
         $cache = \Mockery::mock(CacheInterface::class);
 
         // without cache...
@@ -32,7 +32,7 @@ class ClientTest extends TestCase
         $client->expects()->getCache()->times(2)->andReturn($cache);
         $cache->expects()->get('easywechat.payment.sandbox.d76cffbeb98b8c8214acd523f7f889c3')->andReturn(false);
         $cache->expects()->set('easywechat.payment.sandbox.d76cffbeb98b8c8214acd523f7f889c3', 'sandbox-key', 86400)->andReturn(true);
-        $client->expects()->request('sandboxnew/pay/getsignkey')->andReturn($response);
+        $client->expects()->requestArray('sandboxnew/pay/getsignkey')->andReturn($response);
 
         $this->assertSame('sandbox-key', $client->getKey());
 
@@ -48,7 +48,7 @@ class ClientTest extends TestCase
         ];
         $client->expects()->getCache()->andReturn($cache);
         $cache->expects()->get('easywechat.payment.sandbox.d76cffbeb98b8c8214acd523f7f889c3')->andReturn(false);
-        $client->expects()->request('sandboxnew/pay/getsignkey')->andReturn($response);
+        $client->expects()->requestArray('sandboxnew/pay/getsignkey')->andReturn($response);
 
         $this->expectException(SandboxException::class);
         $client->getKey();

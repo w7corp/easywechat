@@ -97,6 +97,7 @@ class Client extends BaseClient
             return $this->getCache()->get($cacheKey);
         }
 
+        /** @var array<string, mixed> $result */
         $result = $this->castResponseToType(
             $this->requestRaw($this->ticketEndpoint, 'GET', ['query' => ['type' => $type]]),
             'array'

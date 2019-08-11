@@ -30,12 +30,12 @@ class Messenger
     protected $client;
 
     /**
-     * @var Message
+     * @var Message|null
      */
     protected $message;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $groupKey;
 

@@ -24,6 +24,8 @@ class Client extends BaseClient
      * Get POI supported categories.
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function categories()
     {
@@ -36,6 +38,9 @@ class Client extends BaseClient
      * @param int $poiId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(int $poiId)
     {
@@ -49,6 +54,9 @@ class Client extends BaseClient
      * @param int $limit
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function list(int $offset = 0, int $limit = 10)
     {
@@ -66,6 +74,9 @@ class Client extends BaseClient
      * @param array $baseInfo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(array $baseInfo)
     {
@@ -82,10 +93,17 @@ class Client extends BaseClient
      * @param array $databaseInfo
      *
      * @return int
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function createAndGetId(array $databaseInfo)
     {
-        return $this->create($databaseInfo)['poi_id'];
+        /** @var array $response */
+        $response = $this->detectAndCastResponseToType($this->create($databaseInfo), 'array');
+
+        return $response['poi_id'];
     }
 
     /**
@@ -95,6 +113,9 @@ class Client extends BaseClient
      * @param array $baseInfo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(int $poiId, array $baseInfo)
     {
@@ -113,6 +134,9 @@ class Client extends BaseClient
      * @param int $poiId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function delete(int $poiId)
     {
