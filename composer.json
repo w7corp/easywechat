@@ -50,6 +50,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "phpstan": "docker run -v \"$PWD:/usr/src/app\" --rm oskarstark/phpstan-ga:latest analyse"
     }
 }

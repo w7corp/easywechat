@@ -13,3 +13,4 @@ parameters:
         - '#Default value of the parameter \#2 \$depth \(INF.0\) of method EasyWeChat\\Kernel\\Support\\Arr::flatten\(\) is incompatible with type int#'
         - '#Access to an undefined property EasyWeChat\\Kernel\\ServiceContainer::\$extension#'
         - '#Method EasyWeChat\\Kernel\\Contracts\\MessageInterface::transformToXml\(\) invoked with 1 parameter, 0 required#'
+        - '#PHPDoc tag @throws with type GuzzleHttp\\Exception\\GuzzleException is not subtype of Throwable#'
