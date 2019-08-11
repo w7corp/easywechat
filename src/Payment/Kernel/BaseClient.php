@@ -129,10 +129,8 @@ class BaseClient
      */
     protected function requestRaw(string $endpoint, array $params = [], $method = 'post', array $options = [])
     {
+        /** @var ResponseInterface $response */
         $response = $this->request($endpoint, $params, $method, $options, true);
-
-        // Fix phpstan error
-        assert($response instanceof ResponseInterface);
 
         return $response;
     }
