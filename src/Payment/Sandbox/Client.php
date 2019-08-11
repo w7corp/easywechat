@@ -31,6 +31,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Payment\Kernel\Exceptions\SandboxException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getKey(): string
     {
@@ -38,7 +39,7 @@ class Client extends BaseClient
             return $cache;
         }
 
-        $response = $this->request('sandboxnew/pay/getsignkey');
+        $response = $this->requestArray('sandboxnew/pay/getsignkey');
 
         if ('SUCCESS' === $response['return_code']) {
             $this->getCache()->set($this->getCacheKey(), $key = $response['sandbox_signkey'], 24 * 3600);

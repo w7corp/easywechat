@@ -33,7 +33,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
-     * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(bool $returnRaw = false)
     {
@@ -42,14 +42,11 @@ class Client extends BaseClient
             'nonce_str' => uniqid('micro'),
         ];
 
-        $responseType = $this->app->config->get('response_type');
         if (true === $returnRaw) {
             return $this->requestRaw('risk/getcertficates', $params);
         }
-
-        $this->app->config->set('response_type', 'array');
-        $response = $this->request('risk/getcertficates', $params);
-        $this->app->config->set('response_type', $responseType);
+        /** @var array $response */
+        $response = $this->requestArray('risk/getcertficates', $params);
 
         if ('SUCCESS' !== $response['return_code']) {
             throw new InvalidArgumentException(

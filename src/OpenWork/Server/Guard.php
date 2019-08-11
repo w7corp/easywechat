@@ -27,7 +27,7 @@ class Guard extends ServerGuard
     protected $alwaysValidate = true;
 
     /**
-     * @return bool
+     * @return $this
      */
     public function validate()
     {
