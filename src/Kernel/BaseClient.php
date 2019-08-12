@@ -173,6 +173,8 @@ class BaseClient
 
         $response = $this->performRequest($url, $method, $options);
 
+        $this->app->events->dispatch(new Events\HttpResponseCreated($response));
+
         return $returnRaw ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
     }
 

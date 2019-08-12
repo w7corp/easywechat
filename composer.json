@@ -35,6 +35,9 @@
         "overtrue/phplint": "dev-master",
         "phpunit/phpunit": "~6.5"
     },
+    "suggest": {
+        "symfony/event-dispatcher": "Required to use EasyWeChat events component (^4.0)."
+    },
     "autoload": {
         "psr-4": {
             "EasyWeChat\\": "src/"
@@ -50,7 +53,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
-        "phpstan": "docker run -v \"$PWD:/usr/src/app\" --rm oskarstark/phpstan-ga:latest analyse"
+        "phpstan": "docker run -v \"$PWD:/usr/src/app\" --rm oskarstark/phpstan-ga:latest analyse",
+        "test": "vendor/bin/phpunit"
     }
 }
