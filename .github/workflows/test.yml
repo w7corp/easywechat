@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php_version: ['7.0', '7.1', '7.2', '7.3']
+        php_version: ['7.1', '7.2', '7.3']
     container:
       image: php:${{ matrix.php_version }}-cli
     steps:
@@ -28,8 +28,6 @@ jobs:
         cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini 
 
         # Install deps
-        # TODO: remove this after PHP7.0 is unsupported.
-        composer remove symfony/event-dispatcher --no-progress --dev -n
-        # composer install --no-progress --prefer-dist
+        composer install --no-progress --prefer-dist
     - name: Run PHPUnit
       run: ./vendor/bin/phpunit
