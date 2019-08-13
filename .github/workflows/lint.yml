@@ -7,10 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: docker://php:7.3-cli
     - name: Install Dependencies
       run: composer require phpstan/phpstan --no-progress
       # TODO: change to the following line after phpstan have been added to composer.json
       # run: composer install --no-progress
     - name: Run PHPStan
       run: ./vendor/bin/phpstan analyse --no-progress
+
+  php_cs_fixer:
+    name: PHP-CS-Fxier
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Dependencies
+      run: composer require friendsofphp/php-cs-fixer --no-progress
+      # TODO: change to the following line after php-cs-fixer have been added to composer.json
+      # run: composer install --no-progress
+    - name: Run PHP-CS-Fxier
+      run: ./vendor/bin/php-cs-fixer fix --dry-run --diff 1>&2
