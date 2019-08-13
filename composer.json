@@ -32,8 +32,7 @@
     "require-dev": {
         "mikey179/vfsStream": "^1.6",
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "~6.5",
-        "friendsofphp/php-cs-fixer": "^2.15"
+        "phpunit/phpunit": "~6.5"
     },
     "autoload": {
         "psr-4": {
