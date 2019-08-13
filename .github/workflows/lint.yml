@@ -1,0 +1,16 @@
+name: Lint
+on: [push, pull_request]
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: docker://php:7.3-cli
+    - name: Install Dependencies
+      run: composer require phpstan/phpstan --no-progress
+      # TODO: change to the following line after phpstan have been added to composer.json
+      # run: composer install --no-progress
+    - name: Run PHPStan
+      run: ./vendor/bin/phpstan analyse --no-progress
