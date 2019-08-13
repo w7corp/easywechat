@@ -1,0 +1,24 @@
+name: Lint
+on: [push, pull_request]
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+    # - uses: actions/checkout@master
+    # - uses: docker://php:7.3-cli
+    #   id: hello
+    # - run: ls -a
+    # - name: Install Dependencies
+    #   run: composer install --no-progress
+    # - name: Run PHPStan
+    #   run: ./vendor/bin/phpstan analyse --no-progress
+    - name: set1
+      run: sleep 10; time
+    - name: set2
+      run: sleep 10; time
+    - name: set3
+      run: sleep 10; time
+    - name: set4
+      run: sleep 10; time
