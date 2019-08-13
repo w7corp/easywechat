@@ -32,7 +32,6 @@
     "require-dev": {
         "mikey179/vfsStream": "^1.6",
         "mockery/mockery": "^1.0",
-        "overtrue/phplint": "dev-master",
         "phpunit/phpunit": "~6.5"
     },
     "suggest": {
@@ -53,7 +52,8 @@
         }
     },
     "scripts": {
-        "phpstan": "docker run -v \"$PWD:/usr/src/app\" --rm oskarstark/phpstan-ga:latest analyse",
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "phpcs": "vendor/bin/php-cs-fixer fix",
+        "phpstan": "docker run -v \"$PWD:/usr/src/app\" --rm oskarstark/phpstan-ga:latest analyse"
     }
 }
