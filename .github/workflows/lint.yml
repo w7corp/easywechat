@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: docker://php:7.3-cli
     - name: Install Dependencies
       run: composer require phpstan/phpstan --no-progress
       # TODO: change to the following line after phpstan have been added to composer.json
