@@ -192,14 +192,18 @@ class ServerGuard
         $result = $this->handleRequest();
 
         if ($this->shouldReturnRawResponse()) {
-            return new Response($result['response']);
+            $response = new Response($result['response']);
+        } else {
+            $response = new Response(
+                $this->buildResponse($result['to'], $result['from'], $result['response']),
+                200,
+                ['Content-Type' => 'application/xml']
+            );
         }
 
-        return new Response(
-            $this->buildResponse($result['to'], $result['from'], $result['response']),
-            200,
-            ['Content-Type' => 'application/xml']
-        );
+        $this->app->events->dispatch(new Events\ServerGuardResponseCreated($response));
+
+        return $response;
     }
 
     /**
