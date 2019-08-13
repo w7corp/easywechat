@@ -32,7 +32,8 @@
     "require-dev": {
         "mikey179/vfsStream": "^1.6",
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "~6.5"
+        "phpunit/phpunit": "~6.5",
+        "symfony/event-dispatcher": "^4.0"
     },
     "suggest": {
         "symfony/event-dispatcher": "Required to use EasyWeChat events component (^4.0)."
