@@ -4,7 +4,7 @@
 
 📦 It is probably the best SDK in the world for developing Wechat App.
 
-[![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat) 
+[![Build Status](https://action-badges.now.sh/overtrue/wechat)](https://travis-ci.org/overtrue/wechat) 
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat) 
 [![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master) 
