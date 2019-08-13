@@ -17,6 +17,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * Class Dispatcher.
  *
  * @author mingyoung <mingyoungcheung@gmail.com>
+ *
+ * @method string|null dispatch(object $event)
  */
 class Dispatcher
 {
@@ -48,7 +50,9 @@ class Dispatcher
             $listener = new $listener();
         }
 
-        return $this->__call('addListener', [$eventName, $listener, $priority]);
+        if ($this->dispatcher) {
+            $this->dispatcher->addListener($eventName, $listener, $priority);
+        }
     }
 
     /**
