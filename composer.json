@@ -31,11 +31,11 @@
         "symfony/psr-http-message-bridge": "^0.3 || ^1.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.15",
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "~6.5",
         "phpstan/phpstan": "^0.11.12",
-        "friendsofphp/php-cs-fixer": "^2.15"
+        "phpunit/phpunit": "~6.5"
     },
     "autoload": {
         "psr-4": {
@@ -52,8 +52,8 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
         "phpcs": "vendor/bin/php-cs-fixer fix",
-        "phpstan": "vendor/bin/phpstan analyse"
+        "phpstan": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/phpunit"
     }
 }
