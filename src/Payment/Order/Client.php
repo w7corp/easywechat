@@ -28,8 +28,9 @@ class Client extends BaseClient
      *
      * @return ResponseInterface|Collection|array|object|string
      *
-     * @throws InvalidArgumentException
-     * @throws InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function unify(array $params, $isContract = false)
     {
@@ -91,8 +92,9 @@ class Client extends BaseClient
      *
      * @return ResponseInterface|Collection|array|object|string
      *
-     * @throws InvalidArgumentException
-     * @throws InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function query(array $params)
     {
@@ -108,8 +110,9 @@ class Client extends BaseClient
      *
      * @return ResponseInterface|Collection|array|object|string
      *
-     * @throws InvalidArgumentException
-     * @throws InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function close(string $tradeNo)
     {

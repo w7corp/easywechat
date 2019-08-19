@@ -62,7 +62,7 @@ class Str
      *
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public static function random($length = 16)
     {

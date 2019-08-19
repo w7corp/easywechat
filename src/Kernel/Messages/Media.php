@@ -49,6 +49,8 @@ class Media extends Message implements MediaInterface
 
     /**
      * @return string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getMediaId(): string
     {

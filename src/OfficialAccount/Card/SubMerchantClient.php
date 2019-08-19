@@ -27,6 +27,9 @@ class SubMerchantClient extends BaseClient
      * @param array $info
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(array $info = [])
     {
@@ -54,6 +57,9 @@ class SubMerchantClient extends BaseClient
      * @param array $info
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(int $merchantId, array $info = [])
     {
@@ -81,6 +87,9 @@ class SubMerchantClient extends BaseClient
      * @param int $merchantId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(int $merchantId)
     {
@@ -95,6 +104,9 @@ class SubMerchantClient extends BaseClient
      * @param string $status
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function list(int $beginId = 0, int $limit = 50, string $status = 'CHECKING')
     {

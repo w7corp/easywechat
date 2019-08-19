@@ -167,6 +167,8 @@ class LogManager implements LoggerInterface
      * Create an emergency log handler to avoid white screens of death.
      *
      * @return \Monolog\Logger
+     *
+     * @throws \Exception
      */
     protected function createEmergencyLogger()
     {
@@ -211,6 +213,8 @@ class LogManager implements LoggerInterface
      * @param array $config
      *
      * @return \Psr\Log\LoggerInterface
+     *
+     * @throws \Exception
      */
     protected function createSingleDriver(array $config)
     {

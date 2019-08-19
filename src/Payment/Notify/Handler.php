@@ -101,6 +101,8 @@ abstract class Handler
      * Build xml and return the response to WeChat.
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function toResponse(): Response
     {

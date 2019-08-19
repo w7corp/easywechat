@@ -29,6 +29,9 @@ class Client extends BaseClient
      * @param int   $type
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function checkinRecords(int $startTime, int $endTime, array $userList, int $type = 3)
     {
@@ -50,6 +53,9 @@ class Client extends BaseClient
      * @param int $nextNumber
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function approvalRecords(int $startTime, int $endTime, int $nextNumber = null)
     {

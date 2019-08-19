@@ -158,6 +158,9 @@ class Client extends BaseClient
      * @param string $to
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function query(string $api, string $from, string $to)
     {
