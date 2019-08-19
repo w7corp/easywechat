@@ -31,6 +31,9 @@ class Client extends BaseClient
      * @param string $url
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function shorten(string $url)
     {

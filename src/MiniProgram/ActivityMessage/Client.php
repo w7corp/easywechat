@@ -18,6 +18,8 @@ class Client extends BaseClient
 {
     /**
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function createActivityId()
     {
@@ -31,7 +33,9 @@ class Client extends BaseClient
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
-     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateMessage(string $activityId, int $state = 0, array $params = [])
     {
@@ -54,6 +58,8 @@ class Client extends BaseClient
      * @param array $params
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function formatParameters(array $params)
     {

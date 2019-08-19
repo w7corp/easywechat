@@ -101,6 +101,9 @@ class Client extends BaseClient
      * @param string $path
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function upload(string $type, string $path)
     {

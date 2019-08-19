@@ -26,6 +26,9 @@ class GroupClient extends BaseClient
      * @param string $name
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(string $name)
     {
@@ -43,6 +46,9 @@ class GroupClient extends BaseClient
      * @param string $name
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(int $groupId, string $name)
     {
@@ -60,6 +66,9 @@ class GroupClient extends BaseClient
      * @param int $groupId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function delete(int $groupId)
     {
@@ -77,6 +86,9 @@ class GroupClient extends BaseClient
      * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function list(int $begin, int $count)
     {
@@ -96,6 +108,9 @@ class GroupClient extends BaseClient
      * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(int $groupId, int $begin, int $count)
     {
@@ -115,6 +130,9 @@ class GroupClient extends BaseClient
      * @param array $deviceIdentifiers
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function addDevices(int $groupId, array $deviceIdentifiers)
     {
@@ -133,6 +151,9 @@ class GroupClient extends BaseClient
      * @param array $deviceIdentifiers
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function removeDevices(int $groupId, array $deviceIdentifiers)
     {

@@ -24,6 +24,9 @@ class GeneralCardClient extends Client
      * @param array $info
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function activate(array $info = [])
     {
@@ -37,6 +40,9 @@ class GeneralCardClient extends Client
      * @param string $code
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function deactivate(string $cardId, string $code)
     {
@@ -54,6 +60,9 @@ class GeneralCardClient extends Client
      * @param array $params
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateUser(array $params = [])
     {

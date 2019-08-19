@@ -27,6 +27,9 @@ class CodeClient extends BaseClient
      * @param array  $codes
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function deposit(string $cardId, array $codes)
     {
@@ -44,6 +47,9 @@ class CodeClient extends BaseClient
      * @param string $cardId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getDepositedCount(string $cardId)
     {
@@ -61,6 +67,9 @@ class CodeClient extends BaseClient
      * @param array  $codes
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function check(string $cardId, array $codes)
     {
@@ -80,6 +89,9 @@ class CodeClient extends BaseClient
      * @param bool   $checkConsume
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(string $code, string $cardId = '', bool $checkConsume = true)
     {
@@ -100,6 +112,9 @@ class CodeClient extends BaseClient
      * @param string $cardId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(string $code, string $newCode, string $cardId = '')
     {
@@ -119,6 +134,9 @@ class CodeClient extends BaseClient
      * @param string $cardId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function disable(string $code, string $cardId = '')
     {
@@ -137,6 +155,9 @@ class CodeClient extends BaseClient
      * @param string|null $cardId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function consume(string $code, string $cardId = null)
     {
@@ -157,6 +178,9 @@ class CodeClient extends BaseClient
      * @param string $encryptedCode
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function decrypt(string $encryptedCode)
     {

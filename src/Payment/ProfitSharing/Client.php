@@ -36,6 +36,12 @@ class Client extends BaseClient
      * 后续可通过发起分账请求将结算后的钱分到该分账接收方.
      *
      * @param array $receiver 分账接收方对象，json格式
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function addReceiver(array $receiver)
     {
@@ -57,6 +63,12 @@ class Client extends BaseClient
      * 删除后不支持将结算后的钱分到该分账接收方.
      *
      * @param array $receiver 分账接收方对象，json格式
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function deleteReceiver(array $receiver)
     {
@@ -84,6 +96,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function share(
         string $transactionId,
@@ -116,6 +129,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function multiShare(
         string $transactionId,
@@ -141,6 +155,12 @@ class Client extends BaseClient
      * 完结分账.
      *
      * @param array $params
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function markOrderAsFinished(array $params)
     {
@@ -158,6 +178,12 @@ class Client extends BaseClient
      *
      * @param string $transactionId 微信支付订单号
      * @param string $outOrderNo    商户系统内部的分账单号
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function query(
         string $transactionId, string $outOrderNo

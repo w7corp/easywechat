@@ -171,6 +171,8 @@ trait HasAttributes
      * Return all items.
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function all()
     {

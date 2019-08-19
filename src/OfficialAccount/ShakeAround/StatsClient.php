@@ -28,6 +28,9 @@ class StatsClient extends BaseClient
      * @param int   $endTime          (Unix timestamp)
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function deviceSummary(array $deviceIdentifier, int $beginTime, int $endTime)
     {
@@ -47,6 +50,9 @@ class StatsClient extends BaseClient
      * @param int $pageIndex
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function devicesSummary(int $timestamp, int $pageIndex)
     {
@@ -66,6 +72,9 @@ class StatsClient extends BaseClient
      * @param int $endTime   (Unix timestamp)
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function pageSummary(int $pageId, int $beginTime, int $endTime)
     {
@@ -85,6 +94,9 @@ class StatsClient extends BaseClient
      * @param int $pageIndex
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function pagesSummary(int $timestamp, int $pageIndex)
     {

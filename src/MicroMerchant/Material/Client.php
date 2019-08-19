@@ -31,6 +31,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function setSettlementCard(array $params)
     {
@@ -55,6 +56,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateContact(array $params)
     {

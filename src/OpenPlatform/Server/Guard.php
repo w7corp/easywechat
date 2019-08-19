@@ -32,6 +32,10 @@ class Guard extends ServerGuard
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     protected function resolve(): Response
     {
