@@ -43,10 +43,12 @@ class Raw extends Message
      * @param bool  $withType
      *
      * @return array
+     *
+     * @throws \Safe\Exceptions\JsonException
      */
     public function transformForJsonRequest(array $appends = [], $withType = true): array
     {
-        return json_decode($this->content, true) ?? [];
+        return \Safe\json_decode($this->content, true) ?? [];
     }
 
     public function __toString()

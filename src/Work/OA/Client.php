@@ -32,6 +32,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function checkinRecords(int $startTime, int $endTime, array $userList, int $type = 3)
     {
@@ -56,6 +60,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function approvalRecords(int $startTime, int $endTime, int $nextNumber = null)
     {

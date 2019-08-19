@@ -37,6 +37,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function addCategories(array $categories)
     {
@@ -55,6 +59,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function deleteCategories(int $firstId, int $secondId)
     {
@@ -80,6 +88,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function updateCategory(array $category)
     {
@@ -98,6 +110,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function setNickname(
         string $nickname,
@@ -127,6 +143,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getNicknameAuditStatus($auditId)
     {
@@ -144,6 +164,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function isAvailableNickname($nickname)
     {
@@ -160,6 +184,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getSearchStatus()
     {
@@ -173,6 +201,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function setSearchable()
     {
@@ -188,6 +220,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function setUnsearchable()
     {
@@ -203,6 +239,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getDisplayedOfficialAccount()
     {
@@ -218,6 +258,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function setDisplayedOfficialAccount($appid)
     {
@@ -237,6 +281,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getDisplayableOfficialAccounts(int $page, int $num)
     {

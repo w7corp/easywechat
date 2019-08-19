@@ -27,11 +27,17 @@ class Client extends BaseClient
     /**
      * @return string
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Payment\Kernel\Exceptions\SandboxException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getKey(): string
     {

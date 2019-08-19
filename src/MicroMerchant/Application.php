@@ -77,6 +77,7 @@ class Application extends ServiceContainer
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getKey()
     {
@@ -87,7 +88,7 @@ class Application extends ServiceContainer
         }
 
         if (32 !== strlen($key)) {
-            throw new InvalidArgumentException(sprintf("'%s' should be 32 chars length.", $key));
+            throw new InvalidArgumentException(\Safe\sprintf("'%s' should be 32 chars length.", $key));
         }
 
         return $key;
@@ -136,6 +137,8 @@ class Application extends ServiceContainer
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function verifySignature(array $data)
     {

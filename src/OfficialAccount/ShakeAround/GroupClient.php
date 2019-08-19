@@ -29,6 +29,10 @@ class GroupClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function create(string $name)
     {
@@ -49,6 +53,10 @@ class GroupClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function update(int $groupId, string $name)
     {
@@ -69,6 +77,10 @@ class GroupClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function delete(int $groupId)
     {
@@ -89,6 +101,10 @@ class GroupClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function list(int $begin, int $count)
     {
@@ -111,6 +127,10 @@ class GroupClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function get(int $groupId, int $begin, int $count)
     {
@@ -133,6 +153,10 @@ class GroupClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function addDevices(int $groupId, array $deviceIdentifiers)
     {
@@ -154,6 +178,10 @@ class GroupClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function removeDevices(int $groupId, array $deviceIdentifiers)
     {

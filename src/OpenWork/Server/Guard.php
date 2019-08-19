@@ -53,6 +53,10 @@ class Guard extends ServerGuard
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\OpensslException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
      */
     protected function decryptMessage(array $message)
     {

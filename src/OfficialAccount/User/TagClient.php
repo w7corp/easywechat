@@ -29,6 +29,10 @@ class TagClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function create(string $name)
     {
@@ -45,6 +49,11 @@ class TagClient extends BaseClient
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function list()
     {
@@ -61,6 +70,10 @@ class TagClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function update(int $tagId, string $name)
     {
@@ -83,6 +96,10 @@ class TagClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function delete(int $tagId)
     {
@@ -102,6 +119,10 @@ class TagClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function userTags(string $openid)
     {
@@ -120,6 +141,10 @@ class TagClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function usersOfTag(int $tagId, string $nextOpenId = '')
     {
@@ -141,6 +166,10 @@ class TagClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function tagUsers(array $openids, int $tagId)
     {
@@ -162,6 +191,10 @@ class TagClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function untagUsers(array $openids, int $tagId)
     {

@@ -43,6 +43,7 @@ trait Observable
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function push($handler, $condition = '*')
     {
@@ -65,6 +66,7 @@ trait Observable
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function unshift($handler, $condition = '*')
     {
@@ -87,6 +89,7 @@ trait Observable
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function observe($condition, $handler)
     {
@@ -101,6 +104,7 @@ trait Observable
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function on($condition, $handler)
     {
@@ -223,6 +227,7 @@ trait Observable
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function makeClosure($handler)
     {
@@ -232,11 +237,11 @@ trait Observable
 
         if (is_string($handler)) {
             if (!class_exists($handler)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" not exists.', $handler));
+                throw new InvalidArgumentException(\Safe\sprintf('Class "%s" not exists.', $handler));
             }
 
             if (!in_array(EventHandlerInterface::class, (new \ReflectionClass($handler))->getInterfaceNames(), true)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" not an instance of "%s".', $handler, EventHandlerInterface::class));
+                throw new InvalidArgumentException(\Safe\sprintf('Class "%s" not an instance of "%s".', $handler, EventHandlerInterface::class));
             }
 
             return function ($payload) use ($handler) {
@@ -261,6 +266,7 @@ trait Observable
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function resolveHandlerAndCondition($handler, $condition): array
     {

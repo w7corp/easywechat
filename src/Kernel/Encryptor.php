@@ -69,12 +69,14 @@ class Encryptor
      * @param string      $appId
      * @param string|null $token
      * @param string|null $aesKey
+     *
+     * @throws \Safe\Exceptions\UrlException
      */
     public function __construct(string $appId, string $token = null, string $aesKey = null)
     {
         $this->appId = $appId;
         $this->token = $token;
-        $this->aesKey = base64_decode($aesKey.'=', true);
+        $this->aesKey = \Safe\base64_decode($aesKey.'=', true);
     }
 
     /**
@@ -97,6 +99,8 @@ class Encryptor
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function encrypt($xml, $nonce = null, $timestamp = null): string
     {
@@ -106,7 +110,7 @@ class Encryptor
             $encrypted = base64_encode(AES::encrypt(
                 $xml,
                 $this->aesKey,
-                substr($this->aesKey, 0, 16),
+                \Safe\substr($this->aesKey, 0, 16),
                 OPENSSL_NO_PADDING
             ));
             // @codeCoverageIgnoreStart
@@ -115,7 +119,7 @@ class Encryptor
         }
         // @codeCoverageIgnoreEnd
 
-        !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
+        !is_null($nonce) || $nonce = \Safe\substr($this->appId, 0, 10);
         !is_null($timestamp) || $timestamp = time();
 
         $response = [
@@ -140,6 +144,10 @@ class Encryptor
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\OpensslException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
      */
     public function decrypt($content, $msgSignature, $nonce, $timestamp): string
     {
@@ -150,31 +158,33 @@ class Encryptor
         }
 
         $decrypted = AES::decrypt(
-            base64_decode($content, true),
+            \Safe\base64_decode($content, true),
             $this->aesKey,
-            substr($this->aesKey, 0, 16),
+            \Safe\substr($this->aesKey, 0, 16),
             OPENSSL_NO_PADDING
         );
         $result = $this->pkcs7Unpad($decrypted);
-        $content = substr($result, 16, strlen($result));
-        $contentLen = unpack('N', substr($content, 0, 4))[1];
+        $content = \Safe\substr($result, 16, strlen($result));
+        $contentLen = unpack('N', \Safe\substr($content, 0, 4))[1];
 
-        if (trim(substr($content, $contentLen + 4)) !== $this->appId) {
+        if (trim(\Safe\substr($content, $contentLen + 4)) !== $this->appId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
         }
 
-        return substr($content, 4, $contentLen);
+        return \Safe\substr($content, 4, $contentLen);
     }
 
     /**
      * Get SHA1.
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\ArrayException
      */
     public function signature(): string
     {
         $array = func_get_args();
-        sort($array, SORT_STRING);
+        \Safe\sort($array, SORT_STRING);
 
         return sha1(implode($array));
     }
@@ -206,14 +216,16 @@ class Encryptor
      * @param string $text
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     public function pkcs7Unpad(string $text): string
     {
-        $pad = ord(substr($text, -1));
+        $pad = ord(\Safe\substr($text, -1));
         if ($pad < 1 || $pad > $this->blockSize) {
             $pad = 0;
         }
 
-        return substr($text, 0, (strlen($text) - $pad));
+        return \Safe\substr($text, 0, (strlen($text) - $pad));
     }
 }

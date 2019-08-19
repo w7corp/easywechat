@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Kernel\Support\XML;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Psr\Http\Message\ResponseInterface;
+use Safe\Exceptions\JsonException;
 
 /**
  * Class Response.
@@ -55,16 +56,23 @@ class Response extends GuzzleResponse
      * Build to json.
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
      */
     public function toJson()
     {
-        return json_encode($this->toArray());
+        return \Safe\json_encode($this->toArray());
     }
 
     /**
      * Build to array.
      *
      * @return array
+     *
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
      */
     public function toArray()
     {
@@ -74,19 +82,20 @@ class Response extends GuzzleResponse
             return XML::parse($content);
         }
 
-        $array = json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
-
-        if (JSON_ERROR_NONE === json_last_error()) {
-            return (array) $array;
+        try {
+            return \Safe\json_decode($content, true, 512, JSON_BIGINT_AS_STRING);
+        } catch (JsonException $exception) {
+            return [];
         }
-
-        return [];
     }
 
     /**
      * Get collection data.
      *
      * @return \EasyWeChat\Kernel\Support\Collection
+     *
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
      */
     public function toCollection()
     {
@@ -95,10 +104,14 @@ class Response extends GuzzleResponse
 
     /**
      * @return object
+     *
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
      */
     public function toObject()
     {
-        return json_decode($this->toJson());
+        return \Safe\json_decode($this->toJson());
     }
 
     /**
@@ -113,9 +126,11 @@ class Response extends GuzzleResponse
      * @param string $content
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\PcreException
      */
     protected function removeControlCharacters(string $content)
     {
-        return \preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', $content);
+        return \Safe\preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', $content);
     }
 }

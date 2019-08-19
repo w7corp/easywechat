@@ -12,7 +12,6 @@
 namespace EasyWeChat\Work\GroupRobot;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Work\GroupRobot\Messages\Message;
 use EasyWeChat\Work\GroupRobot\Messages\Text;
@@ -88,9 +87,14 @@ class Messenger
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
-     * @throws InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function send($message = null)
     {
@@ -116,7 +120,8 @@ class Messenger
      *
      * @return mixed
      *
-     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function __get($property)
     {
@@ -124,6 +129,6 @@ class Messenger
             return $this->$property;
         }
 
-        throw new InvalidArgumentException(sprintf('No property named "%s"', $property));
+        throw new InvalidArgumentException(\Safe\sprintf('No property named "%s"', $property));
     }
 }

@@ -32,15 +32,22 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function upload(string $path)
     {
         if (!file_exists($path) || !is_readable($path)) {
-            throw new InvalidArgumentException(sprintf("File does not exist, or the file is unreadable: '%s'", $path));
+            throw new InvalidArgumentException(\Safe\sprintf("File does not exist, or the file is unreadable: '%s'", $path));
         }
 
         $form = [
-            'media_hash' => strtolower(md5_file($path)),
+            'media_hash' => strtolower(\Safe\md5_file($path)),
             'sign_type' => 'HMAC-SHA256',
         ];
 

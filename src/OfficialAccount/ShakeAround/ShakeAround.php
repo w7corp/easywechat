@@ -32,6 +32,7 @@ class ShakeAround extends Client
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function __get($property)
     {
@@ -39,6 +40,6 @@ class ShakeAround extends Client
             return $this->app["shake_around.{$property}"];
         }
 
-        throw new InvalidArgumentException(sprintf('No shake_around service named "%s".', $property));
+        throw new InvalidArgumentException(\Safe\sprintf('No shake_around service named "%s".', $property));
     }
 }

@@ -125,6 +125,11 @@ class Messenger
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function send()
     {
@@ -133,7 +138,7 @@ class Messenger
         }
 
         if ($this->message instanceof RawMessage) {
-            $message = json_decode($this->message->get('content'), true);
+            $message = \Safe\json_decode($this->message->get('content'), true);
         } else {
             $prepends = [
                 'touser' => $this->to,

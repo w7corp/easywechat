@@ -137,6 +137,9 @@ abstract class Message implements MessageInterface
      * @param array $appends
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function transformForJsonRequestWithoutType(array $appends = [])
     {
@@ -150,6 +153,7 @@ abstract class Message implements MessageInterface
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function transformForJsonRequest(array $appends = [], $withType = true): array
     {
@@ -169,6 +173,8 @@ abstract class Message implements MessageInterface
      * @param bool  $returnAsArray
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     public function transformToXml(array $appends = [], bool $returnAsArray = false): string
     {
@@ -184,6 +190,7 @@ abstract class Message implements MessageInterface
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function propertiesToArray(array $data, array $aliases = []): array
     {
@@ -203,6 +210,6 @@ abstract class Message implements MessageInterface
 
     public function toXmlArray()
     {
-        throw new BadMethodCallException(sprintf('Class "%s" cannot support transform to XML message.', __CLASS__));
+        throw new BadMethodCallException(\Safe\sprintf('Class "%s" cannot support transform to XML message.', __CLASS__));
     }
 }

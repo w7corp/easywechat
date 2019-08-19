@@ -37,6 +37,8 @@ trait InteractsWithCache
      * @return \Psr\SimpleCache\CacheInterface
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getCache()
     {
@@ -64,12 +66,14 @@ trait InteractsWithCache
      * @return $this
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function setCache($cache)
     {
-        if (empty(\array_intersect([SimpleCacheInterface::class, CacheItemPoolInterface::class], \class_implements($cache)))) {
+        if (empty(\array_intersect([SimpleCacheInterface::class, CacheItemPoolInterface::class], \Safe\class_implements($cache)))) {
             throw new InvalidArgumentException(
-                \sprintf('The cache instance must implements %s or %s interface.',
+                \Safe\sprintf('The cache instance must implements %s or %s interface.',
                     SimpleCacheInterface::class, CacheItemPoolInterface::class
                 )
             );
@@ -77,7 +81,7 @@ trait InteractsWithCache
 
         if ($cache instanceof CacheItemPoolInterface) {
             if (!$this->isSymfony43()) {
-                throw new InvalidArgumentException(sprintf('The cache instance must implements %s', SimpleCacheInterface::class));
+                throw new InvalidArgumentException(\Safe\sprintf('The cache instance must implements %s', SimpleCacheInterface::class));
             }
             $cache = new Psr16Cache($cache);
         }

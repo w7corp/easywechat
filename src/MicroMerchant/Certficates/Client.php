@@ -34,6 +34,12 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
      */
     public function get(bool $returnRaw = false)
     {
@@ -50,7 +56,7 @@ class Client extends BaseClient
 
         if ('SUCCESS' !== $response['return_code']) {
             throw new InvalidArgumentException(
-                sprintf(
+                \Safe\sprintf(
                     'Failed to get certificate. return_code_msg: "%s" .',
                     $response['return_code'].'('.$response['return_msg'].')'
                 )
@@ -58,7 +64,7 @@ class Client extends BaseClient
         }
         if ('SUCCESS' !== $response['result_code']) {
             throw new InvalidArgumentException(
-                sprintf(
+                \Safe\sprintf(
                     'Failed to get certificate. result_err_code_des: "%s" .',
                     $response['result_code'].'('.$response['err_code'].'['.$response['err_code_des'].'])'
                 )
@@ -80,6 +86,7 @@ class Client extends BaseClient
      * @return string
      *
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException
+     * @throws \Safe\Exceptions\UrlException
      */
     public function decrypt(array $encryptCertificate)
     {
@@ -94,7 +101,7 @@ class Client extends BaseClient
         // sodium_crypto_aead_aes256gcm_decrypt function needs to open libsodium extension.
         // https://www.php.net/manual/zh/function.sodium-crypto-aead-aes256gcm-decrypt.php
         return sodium_crypto_aead_aes256gcm_decrypt(
-            base64_decode($encryptCertificate['ciphertext'], true),
+            \Safe\base64_decode($encryptCertificate['ciphertext'], true),
             $encryptCertificate['associated_data'],
             $encryptCertificate['nonce'],
             $this->app['config']->apiv3_key

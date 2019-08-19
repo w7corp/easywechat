@@ -99,7 +99,7 @@ class File
     {
         try {
             if (is_readable($stream)) {
-                $stream = file_get_contents($stream);
+                $stream = \Safe\file_get_contents($stream);
             }
         } catch (\Exception $e) {
         }

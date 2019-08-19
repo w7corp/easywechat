@@ -66,6 +66,10 @@ class BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function httpGet(string $url, array $query = [])
     {
@@ -82,6 +86,10 @@ class BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function httpPost(string $url, array $data = [])
     {
@@ -99,6 +107,10 @@ class BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function httpPostJson(string $url, array $data = [], array $query = [])
     {
@@ -117,6 +129,11 @@ class BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = [])
     {
@@ -125,7 +142,7 @@ class BaseClient
         foreach ($files as $name => $path) {
             $multipart[] = [
                 'name' => $name,
-                'contents' => fopen($path, 'r'),
+                'contents' => \Safe\fopen($path, 'r'),
             ];
         }
 
@@ -166,6 +183,10 @@ class BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function request(string $url, string $method = 'GET', array $options = [], $returnRaw = false)
     {
@@ -189,6 +210,10 @@ class BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {
@@ -253,7 +278,7 @@ class BaseClient
             // Limit the number of retries to 2
             if ($retries < $this->app->config->get('http.max_retries', 1) && $response && $body = $response->getBody()) {
                 // Retry on server errors
-                $response = json_decode($body, true);
+                $response = \Safe\json_decode($body, true);
 
                 if (!empty($response['errcode']) && in_array(abs($response['errcode']), [40001, 40014, 42001], true)) {
                     $this->accessToken->refresh();

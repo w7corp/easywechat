@@ -32,11 +32,16 @@ class MaterialClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function uploadImage(string $path, string $type = 'icon')
     {
         if (!file_exists($path) || !is_readable($path)) {
-            throw new InvalidArgumentException(sprintf('File does not exist, or the file is unreadable: "%s"', $path));
+            throw new InvalidArgumentException(\Safe\sprintf('File does not exist, or the file is unreadable: "%s"', $path));
         }
 
         return $this->httpUpload('shakearound/material/add', ['media' => $path], [], ['type' => strtolower($type)]);

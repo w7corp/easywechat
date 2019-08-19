@@ -16,6 +16,7 @@ use EasyWeChat\Kernel\Support;
 use EasyWeChat\MicroMerchant\Application;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
 use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
+use Safe\Exceptions\OpensslException;
 
 /**
  * Class BaseClient.
@@ -67,6 +68,12 @@ class BaseClient extends PaymentBaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = [], $returnResponse = false)
     {
@@ -75,7 +82,7 @@ class BaseClient extends PaymentBaseClient
         foreach ($files as $name => $path) {
             $multipart[] = [
                 'name' => $name,
-                'contents' => fopen($path, 'r'),
+                'contents' => \Safe\fopen($path, 'r'),
             ];
         }
 
@@ -131,6 +138,11 @@ class BaseClient extends PaymentBaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function request(string $endpoint, array $params = [], $method = 'post', array $options = [], $returnResponse = false)
     {
@@ -204,13 +216,16 @@ class BaseClient extends PaymentBaseClient
 
         $encrypted = '';
         $publicKeyResource = openssl_get_publickey($certificates);
-        $f = openssl_public_encrypt($string, $encrypted, $publicKeyResource);
-        openssl_free_key($publicKeyResource);
-        if ($f) {
-            return base64_encode($encrypted);
+
+        try {
+            \Safe\openssl_public_encrypt($string, $encrypted, $publicKeyResource);
+        } catch (OpensslException $exception) {
+            throw new EncryptException('Encryption of sensitive information failed', $exception->getCode(), $exception);
         }
 
-        throw new EncryptException('Encryption of sensitive information failed');
+        openssl_free_key($publicKeyResource);
+
+        return base64_encode($encrypted);
     }
 
     /**
@@ -242,6 +257,8 @@ class BaseClient extends PaymentBaseClient
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function getSign(array $params)
     {

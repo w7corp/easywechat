@@ -75,6 +75,8 @@ class Application extends ServiceContainer
      * @param string $productId
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\ArrayException
      */
     public function scheme(string $productId): string
     {
@@ -95,10 +97,12 @@ class Application extends ServiceContainer
      * @param string $codeUrl
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     public function codeUrlScheme(string $codeUrl)
     {
-        return \sprintf('weixin://wxpay/bizpayurl?sr=%s', $codeUrl);
+        return \Safe\sprintf('weixin://wxpay/bizpayurl?sr=%s', $codeUrl);
     }
 
     /**
@@ -106,9 +110,11 @@ class Application extends ServiceContainer
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @codeCoverageIgnore
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
+     * @codeCoverageIgnore
      */
     public function handlePaidNotify(Closure $closure)
     {
@@ -120,9 +126,16 @@ class Application extends ServiceContainer
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @codeCoverageIgnore
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\OpensslException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
+     * @codeCoverageIgnore
      */
     public function handleRefundedNotify(Closure $closure)
     {
@@ -134,9 +147,12 @@ class Application extends ServiceContainer
      *
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @codeCoverageIgnore
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
+     * @codeCoverageIgnore
      */
     public function handleScannedNotify(Closure $closure)
     {
@@ -173,6 +189,7 @@ class Application extends ServiceContainer
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getKey(string $endpoint = null)
     {
@@ -187,7 +204,7 @@ class Application extends ServiceContainer
         }
 
         if (32 !== strlen($key)) {
-            throw new InvalidArgumentException(sprintf("'%s' should be 32 chars length.", $key));
+            throw new InvalidArgumentException(\Safe\sprintf("'%s' should be 32 chars length.", $key));
         }
 
         return $key;

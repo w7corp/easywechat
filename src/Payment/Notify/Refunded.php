@@ -24,6 +24,14 @@ class Refunded extends Handler
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\OpensslException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
      */
     public function handle(Closure $closure)
     {
@@ -40,6 +48,14 @@ class Refunded extends Handler
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\OpensslException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
      */
     public function reqInfo()
     {

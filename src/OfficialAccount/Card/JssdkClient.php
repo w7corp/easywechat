@@ -31,7 +31,13 @@ class JssdkClient extends Jssdk
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getTicket(bool $refresh = false, string $type = 'wx_card'): array
     {
@@ -44,10 +50,12 @@ class JssdkClient extends Jssdk
      * @param array $cards
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\JsonException
      */
     public function assign(array $cards)
     {
-        return json_encode(array_map(function ($card) {
+        return \Safe\json_encode(array_map(function ($card) {
             return $this->attachExtension($card['card_id'], $card);
         }, $cards));
     }
@@ -60,9 +68,17 @@ class JssdkClient extends Jssdk
      *
      * @return array
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function attachExtension($cardId, array $extension = [])
     {
@@ -79,7 +95,7 @@ class JssdkClient extends Jssdk
 
         return [
             'cardId' => $cardId,
-            'cardExt' => json_encode($ext),
+            'cardExt' => \Safe\json_encode($ext),
         ];
     }
 }

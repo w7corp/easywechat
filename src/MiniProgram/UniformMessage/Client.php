@@ -65,14 +65,15 @@ class Client extends BaseClient
      *
      * @return array
      *
-     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function formatMessage(array $data = [])
     {
         $params = array_merge($this->message, $data);
 
         if (empty($params['touser'])) {
-            throw new InvalidArgumentException(sprintf('Attribute "touser" can not be empty!'));
+            throw new InvalidArgumentException(\Safe\sprintf('Attribute "touser" can not be empty!'));
         }
 
         if (!empty($params['weapp_template_msg'])) {
@@ -92,6 +93,7 @@ class Client extends BaseClient
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function formatWeappMessage(array $data = [])
     {
@@ -108,6 +110,7 @@ class Client extends BaseClient
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function formatMpMessage(array $data = [])
     {
@@ -129,13 +132,14 @@ class Client extends BaseClient
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function baseFormat($data = [], $default = [])
     {
         $params = array_merge($default, $data);
         foreach ($params as $key => $value) {
             if (in_array($key, $this->required, true) && empty($value) && empty($default[$key])) {
-                throw new InvalidArgumentException(sprintf('Attribute "%s" can not be empty!', $key));
+                throw new InvalidArgumentException(\Safe\sprintf('Attribute "%s" can not be empty!', $key));
             }
 
             $params[$key] = empty($value) ? $default[$key] : $value;

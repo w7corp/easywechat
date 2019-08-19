@@ -36,6 +36,7 @@ class Card extends Client
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function __get($property)
     {
@@ -43,6 +44,6 @@ class Card extends Client
             return $this->app["card.{$property}"];
         }
 
-        throw new InvalidArgumentException(sprintf('No card service named "%s".', $property));
+        throw new InvalidArgumentException(\Safe\sprintf('No card service named "%s".', $property));
     }
 }

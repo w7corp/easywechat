@@ -91,9 +91,14 @@ class ServerGuard
      *
      * @return Response
      *
-     * @throws BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function serve(): Response
     {
@@ -115,6 +120,7 @@ class ServerGuard
      * @return $this
      *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \Safe\Exceptions\ArrayException
      */
     public function validate()
     {
@@ -150,9 +156,13 @@ class ServerGuard
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
      *
-     * @throws BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getMessage()
     {
@@ -165,14 +175,16 @@ class ServerGuard
         if ($this->isSafeMode() && !empty($message['Encrypt'])) {
             $message = $this->decryptMessage($message);
 
-            // Handle JSON format.
-            $dataSet = json_decode($message, true);
+            try {
+                // Handle JSON format.
+                $dataSet = \Safe\json_decode($message, true);
 
-            if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
-                return $dataSet;
+                if (!$dataSet) {
+                    $message = XML::parse($message);
+                }
+            } catch (\Exception $exception) {
+                $message = XML::parse($message);
             }
-
-            $message = XML::parse($message);
         }
 
         return $this->detectAndCastResponseToType($message, $this->app->config->get('response_type'));
@@ -186,6 +198,10 @@ class ServerGuard
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function resolve(): Response
     {
@@ -222,6 +238,7 @@ class ServerGuard
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function buildResponse(string $to, string $from, $message)
     {
@@ -242,7 +259,7 @@ class ServerGuard
         }
 
         if (!($message instanceof Message)) {
-            throw new InvalidArgumentException(sprintf('Invalid Messages type "%s".', gettype($message)));
+            throw new InvalidArgumentException(\Safe\sprintf('Invalid Messages type "%s".', gettype($message)));
         }
 
         return $this->buildReply($to, $from, $message);
@@ -256,6 +273,10 @@ class ServerGuard
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function handleRequest(): array
     {
@@ -304,10 +325,12 @@ class ServerGuard
      * @param array $params
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\ArrayException
      */
     protected function signature(array $params)
     {
-        sort($params, SORT_STRING);
+        \Safe\sort($params, SORT_STRING);
 
         return sha1(implode($params));
     }
@@ -320,6 +343,7 @@ class ServerGuard
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function parseMessage($content)
     {
@@ -328,7 +352,7 @@ class ServerGuard
                 $content = XML::parse($content);
             } else {
                 // Handle JSON format.
-                $dataSet = json_decode($content, true);
+                $dataSet = \Safe\json_decode($content, true);
                 if ($dataSet && (JSON_ERROR_NONE === json_last_error())) {
                     $content = $dataSet;
                 }
@@ -336,7 +360,7 @@ class ServerGuard
 
             return (array) $content;
         } catch (\Exception $e) {
-            throw new BadRequestException(sprintf('Invalid message content:(%s) %s', $e->getCode(), $e->getMessage()), $e->getCode());
+            throw new BadRequestException(\Safe\sprintf('Invalid message content:(%s) %s', $e->getCode(), $e->getMessage()), $e->getCode());
         }
     }
 

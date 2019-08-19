@@ -14,6 +14,8 @@ namespace EasyWeChat\MiniProgram;
 use EasyWeChat\Kernel\Encryptor as BaseEncryptor;
 use EasyWeChat\Kernel\Exceptions\DecryptException;
 use EasyWeChat\Kernel\Support\AES;
+use Safe\Exceptions\JsonException;
+use Safe\Exceptions\OpensslException;
 
 /**
  * Class Encryptor.
@@ -32,19 +34,19 @@ class Encryptor extends BaseEncryptor
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
      */
     public function decryptData(string $sessionKey, string $iv, string $encrypted): array
     {
-        $decrypted = AES::decrypt(
-            base64_decode($encrypted, false), base64_decode($sessionKey, false), base64_decode($iv, false)
-        );
+        try {
+            $decrypted = AES::decrypt(
+                \Safe\base64_decode($encrypted, false), \Safe\base64_decode($sessionKey, false), \Safe\base64_decode($iv, false)
+            );
 
-        $decrypted = json_decode($this->pkcs7Unpad($decrypted), true);
-
-        if (!$decrypted) {
-            throw new DecryptException('The given payload is invalid.');
+            return \Safe\json_decode($this->pkcs7Unpad($decrypted), true);
+        } catch (JsonException | OpensslException $exception) {
+            throw new DecryptException('The given payload is invalid.', 0, $exception);
         }
-
-        return $decrypted;
     }
 }

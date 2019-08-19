@@ -32,6 +32,10 @@ trait ResponseCastable
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function castResponseToType(ResponseInterface $response, $type = null)
     {
@@ -49,7 +53,7 @@ trait ResponseCastable
                 return $response;
             default:
                 if (!is_subclass_of($type, Arrayable::class)) {
-                    throw new InvalidConfigException(sprintf(
+                    throw new InvalidConfigException(\Safe\sprintf(
                         'Config key "response_type" classname must be an instanceof %s',
                         Arrayable::class
                     ));
@@ -67,6 +71,10 @@ trait ResponseCastable
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function detectAndCastResponseToType($response, $type = null)
     {
@@ -76,11 +84,11 @@ trait ResponseCastable
 
                 break;
             case $response instanceof Arrayable:
-                $response = new Response(200, [], json_encode($response->toArray()));
+                $response = new Response(200, [], \Safe\json_encode($response->toArray()));
 
                 break;
             case ($response instanceof Collection) || is_array($response) || is_object($response):
-                $response = new Response(200, [], json_encode($response));
+                $response = new Response(200, [], \Safe\json_encode($response));
 
                 break;
             case is_scalar($response):
@@ -88,7 +96,7 @@ trait ResponseCastable
 
                 break;
             default:
-                throw new InvalidArgumentException(sprintf('Unsupported response type "%s"', gettype($response)));
+                throw new InvalidArgumentException(\Safe\sprintf('Unsupported response type "%s"', gettype($response)));
         }
 
         return $this->castResponseToType($response, $type);

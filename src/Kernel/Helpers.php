@@ -32,7 +32,7 @@ function data_get($data, $key, $default = null)
         case $data instanceof \IteratorAggregate && $data->getIterator() instanceof \ArrayIterator:
             return $data->getIterator()->getArrayCopy()[$key] ?? $default;
         default:
-            throw new RuntimeException(sprintf('Can\'t access data with key "%s"', $key));
+            throw new RuntimeException(\Safe\sprintf('Can\'t access data with key "%s"', $key));
     }
 }
 
@@ -50,6 +50,6 @@ function data_to_array($data)
         case $data instanceof \ArrayIterator:
             return $data->getArrayCopy();
         default:
-            throw new RuntimeException(sprintf('Can\'t transform data to array'));
+            throw new RuntimeException(\Safe\sprintf('Can\'t transform data to array'));
     }
 }

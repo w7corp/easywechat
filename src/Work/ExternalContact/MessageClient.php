@@ -62,6 +62,10 @@ class MessageClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function submit(array $msg)
     {
@@ -81,6 +85,10 @@ class MessageClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function get(string $msgId)
     {
@@ -102,6 +110,10 @@ class MessageClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function sendWelcome(string $welcomeCode, array $msg)
     {
@@ -119,7 +131,8 @@ class MessageClient extends BaseClient
      *
      * @return array
      *
-     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function formatMessage(array $data = [])
     {
@@ -150,14 +163,15 @@ class MessageClient extends BaseClient
      *
      * @return array
      *
-     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function formatFields(array $data = [], array $default = [])
     {
         $params = array_merge($default, $data);
         foreach ($params as $key => $value) {
             if (in_array($key, $this->required, true) && empty($value) && empty($default[$key])) {
-                throw new InvalidArgumentException(sprintf('Attribute "%s" can not be empty!', $key));
+                throw new InvalidArgumentException(\Safe\sprintf('Attribute "%s" can not be empty!', $key));
             }
 
             $params[$key] = empty($value) ? $default[$key] : $value;

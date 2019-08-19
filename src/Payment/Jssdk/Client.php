@@ -36,6 +36,9 @@ class Client extends JssdkClient
      * @param bool   $json
      *
      * @return string|array
+     *
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
      */
     public function bridgeConfig(string $prepayId, bool $json = true)
     {
@@ -49,7 +52,7 @@ class Client extends JssdkClient
 
         $params['paySign'] = Support\generate_sign($params, $this->app['config']->key, 'md5');
 
-        return $json ? json_encode($params) : $params;
+        return $json ? \Safe\json_encode($params) : $params;
     }
 
     /**
@@ -62,6 +65,9 @@ class Client extends JssdkClient
      * @param string $prepayId
      *
      * @return array
+     *
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
      */
     public function sdkConfig(string $prepayId): array
     {
@@ -79,6 +85,8 @@ class Client extends JssdkClient
      * @param string $prepayId
      *
      * @return array
+     *
+     * @throws \Safe\Exceptions\ArrayException
      */
     public function appConfig(string $prepayId): array
     {
@@ -103,6 +111,9 @@ class Client extends JssdkClient
      * @param bool                                            $json
      *
      * @return string|array
+     *
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
      */
     public function shareAddressConfig($accessToken, bool $json = true)
     {
@@ -126,10 +137,10 @@ class Client extends JssdkClient
             'accesstoken' => strval($accessToken),
         ];
 
-        ksort($signParams);
+        \Safe\ksort($signParams);
 
         $params['addrSign'] = sha1(urldecode(http_build_query($signParams)));
 
-        return $json ? json_encode($params) : $params;
+        return $json ? \Safe\json_encode($params) : $params;
     }
 }

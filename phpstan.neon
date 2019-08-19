@@ -1,3 +1,5 @@
+includes:
+    - vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
 parameters:
     level: 3
     paths:
@@ -13,6 +15,6 @@ parameters:
         - '#Default value of the parameter \#2 \$depth \(INF.0\) of method EasyWeChat\\Kernel\\Support\\Arr::flatten\(\) is incompatible with type int#'
         - '#Access to an undefined property EasyWeChat\\Kernel\\ServiceContainer::\$extension#'
         - '#Method EasyWeChat\\Kernel\\Contracts\\MessageInterface::transformToXml\(\) invoked with 1 parameter, 0 required#'
-        - '#GuzzleHttp\\Exception\\GuzzleException is not subtype of Throwable#'
+        - '#Guzzle.* is not subtype of Throwable#'
         - '#Method EasyWeChat\\Kernel\\Support\\Collection::__set_state\(\) should return object but returns array#'
         - '#Property EasyWeChat\\Payment\\Kernel\\BaseClient::\$app \(EasyWeChat\\Payment\\Application\) does not accept EasyWeChat\\MicroMerchant\\Application#'

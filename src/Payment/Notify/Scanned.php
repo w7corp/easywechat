@@ -36,6 +36,10 @@ class Scanned extends Handler
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function handle(Closure $closure)
     {

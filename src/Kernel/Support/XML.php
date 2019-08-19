@@ -24,12 +24,15 @@ class XML
      * @param string $xml XML string
      *
      * @return array
+     *
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
      */
     public static function parse($xml)
     {
         $backup = libxml_disable_entity_loader(true);
 
-        $result = self::normalize(simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS));
+        $result = self::normalize(\Safe\simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS));
 
         libxml_disable_entity_loader($backup);
 
@@ -46,6 +49,8 @@ class XML
      * @param string $id
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     public static function build(
         $data,
@@ -79,10 +84,12 @@ class XML
      * @param string $string
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     public static function cdata($string)
     {
-        return sprintf('<![CDATA[%s]]>', $string);
+        return \Safe\sprintf('<![CDATA[%s]]>', $string);
     }
 
     /**
@@ -125,6 +132,8 @@ class XML
      * @param string $id
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     protected static function data2Xml($data, $item = 'item', $id = 'id')
     {
@@ -159,9 +168,11 @@ class XML
      * @param string $xml
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\PcreException
      */
     public static function sanitize($xml)
     {
-        return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml);
+        return \Safe\preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml);
     }
 }

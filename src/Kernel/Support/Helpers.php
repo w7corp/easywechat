@@ -25,10 +25,12 @@ namespace EasyWeChat\Kernel\Support;
  * @param string $encryptMethod
  *
  * @return string
+ *
+ * @throws \Safe\Exceptions\ArrayException
  */
 function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
 {
-    ksort($attributes);
+    \Safe\ksort($attributes);
 
     $attributes['key'] = $key;
 
@@ -39,6 +41,8 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
  * Get client ip.
  *
  * @return string
+ *
+ * @throws \Safe\Exceptions\NetworkException
  */
 function get_client_ip()
 {
@@ -46,7 +50,7 @@ function get_client_ip()
         $ip = $_SERVER['REMOTE_ADDR'];
     } else {
         // for php-cli(phpunit etc.)
-        $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
+        $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(\Safe\gethostname());
     }
 
     return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
@@ -56,6 +60,8 @@ function get_client_ip()
  * Get current server ip.
  *
  * @return string
+ *
+ * @throws \Safe\Exceptions\NetworkException
  */
 function get_server_ip()
 {
@@ -65,7 +71,7 @@ function get_server_ip()
         $ip = gethostbyname($_SERVER['SERVER_NAME']);
     } else {
         // for php-cli(phpunit etc.)
-        $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(gethostname());
+        $ip = defined('PHPUNIT_RUNNING') ? '127.0.0.1' : gethostbyname(\Safe\gethostname());
     }
 
     return filter_var($ip, FILTER_VALIDATE_IP) ?: '127.0.0.1';
@@ -93,6 +99,9 @@ function current_url()
  * @param string $length
  *
  * @return string
+ *
+ * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+ * @throws \Safe\Exceptions\StringsException
  */
 function str_random($length)
 {
@@ -104,11 +113,13 @@ function str_random($length)
  * @param string $publicKey
  *
  * @return string
+ *
+ * @throws \Safe\Exceptions\OpensslException
  */
 function rsa_public_encrypt($content, $publicKey)
 {
     $encrypted = '';
-    openssl_public_encrypt($content, $encrypted, openssl_pkey_get_public($publicKey), OPENSSL_PKCS1_OAEP_PADDING);
+    \Safe\openssl_public_encrypt($content, $encrypted, \Safe\openssl_pkey_get_public($publicKey), OPENSSL_PKCS1_OAEP_PADDING);
 
     return base64_encode($encrypted);
 }

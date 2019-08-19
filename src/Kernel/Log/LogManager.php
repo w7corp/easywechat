@@ -81,6 +81,8 @@ class LogManager implements LoggerInterface
      * @param string|null $channel
      *
      * @return \Psr\Log\LoggerInterface
+     *
+     * @throws \Exception
      */
     public function stack(array $channels, $channel = null)
     {
@@ -93,6 +95,8 @@ class LogManager implements LoggerInterface
      * @param string|null $channel
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function channel($channel = null)
     {
@@ -105,6 +109,8 @@ class LogManager implements LoggerInterface
      * @param string|null $driver
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function driver($driver = null)
     {
@@ -117,6 +123,8 @@ class LogManager implements LoggerInterface
      * @param string $name
      *
      * @return \Psr\Log\LoggerInterface
+     *
+     * @throws \Exception
      */
     protected function get($name)
     {
@@ -140,14 +148,14 @@ class LogManager implements LoggerInterface
      *
      * @return \Psr\Log\LoggerInterface
      *
-     * @throws \InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function resolve($name)
     {
-        $config = $this->app['config']->get(\sprintf('log.channels.%s', $name));
+        $config = $this->app['config']->get(\Safe\sprintf('log.channels.%s', $name));
 
         if (is_null($config)) {
-            throw new \InvalidArgumentException(\sprintf('Log [%s] is not defined.', $name));
+            throw new \InvalidArgumentException(\Safe\sprintf('Log [%s] is not defined.', $name));
         }
 
         if (isset($this->customCreators[$config['driver']])) {
@@ -160,7 +168,7 @@ class LogManager implements LoggerInterface
             return $this->{$driverMethod}($config);
         }
 
-        throw new \InvalidArgumentException(\sprintf('Driver [%s] is not supported.', $config['driver']));
+        throw new \InvalidArgumentException(\Safe\sprintf('Driver [%s] is not supported.', $config['driver']));
     }
 
     /**
@@ -195,6 +203,8 @@ class LogManager implements LoggerInterface
      * @param array $config
      *
      * @return \Monolog\Logger
+     *
+     * @throws \Exception
      */
     protected function createStackDriver(array $config)
     {
@@ -411,6 +421,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function emergency($message, array $context = [])
     {
@@ -427,6 +439,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function alert($message, array $context = [])
     {
@@ -442,6 +456,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function critical($message, array $context = [])
     {
@@ -456,6 +472,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function error($message, array $context = [])
     {
@@ -472,6 +490,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function warning($message, array $context = [])
     {
@@ -485,6 +505,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function notice($message, array $context = [])
     {
@@ -500,6 +522,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function info($message, array $context = [])
     {
@@ -513,6 +537,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function debug($message, array $context = [])
     {
@@ -527,6 +553,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function log($level, $message, array $context = [])
     {
@@ -540,6 +568,8 @@ class LogManager implements LoggerInterface
      * @param array  $parameters
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function __call($method, $parameters)
     {

@@ -84,10 +84,16 @@ abstract class AccessToken implements AccessTokenInterface
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getRefreshedToken(): array
     {
@@ -100,10 +106,16 @@ abstract class AccessToken implements AccessTokenInterface
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getToken(bool $refresh = false): array
     {
@@ -133,6 +145,9 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function setToken(string $token, int $lifetime = 7200): AccessTokenInterface
     {
@@ -152,10 +167,16 @@ abstract class AccessToken implements AccessTokenInterface
      * @return \EasyWeChat\Kernel\Contracts\AccessTokenInterface
      *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function refresh(): AccessTokenInterface
     {
@@ -171,17 +192,22 @@ abstract class AccessToken implements AccessTokenInterface
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function requestToken(array $credentials, $toArray = false)
     {
         $response = $this->sendRequest($credentials);
-        $result = json_decode($response->getBody()->getContents(), true);
+        $result = \Safe\json_decode($response->getBody()->getContents(), true);
         $formatted = $this->castResponseToType($response, $this->app['config']->get('response_type'));
 
         if (empty($result[$this->tokenKey])) {
-            throw new HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $formatted);
+            throw new HttpException('Request access_token fail: '.\Safe\json_encode($result, JSON_UNESCAPED_UNICODE), $response, $formatted);
         }
 
         return $toArray ? $result : $formatted;
@@ -194,10 +220,16 @@ abstract class AccessToken implements AccessTokenInterface
      * @return \Psr\Http\Message\RequestInterface
      *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface
     {
@@ -229,10 +261,12 @@ abstract class AccessToken implements AccessTokenInterface
 
     /**
      * @return string
+     *
+     * @throws \Safe\Exceptions\JsonException
      */
     protected function getCacheKey()
     {
-        return $this->cachePrefix.md5(json_encode($this->getCredentials()));
+        return $this->cachePrefix.md5(\Safe\json_encode($this->getCredentials()));
     }
 
     /**
@@ -241,10 +275,16 @@ abstract class AccessToken implements AccessTokenInterface
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function getQuery(): array
     {

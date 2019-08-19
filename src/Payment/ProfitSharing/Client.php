@@ -42,12 +42,17 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function addReceiver(array $receiver)
     {
         $params = [
             'appid' => $this->app['config']->app_id,
-            'receiver' => json_encode(
+            'receiver' => \Safe\json_encode(
                 $receiver, JSON_UNESCAPED_UNICODE
             ),
         ];
@@ -69,12 +74,17 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function deleteReceiver(array $receiver)
     {
         $params = [
             'appid' => $this->app['config']->app_id,
-            'receiver' => json_encode(
+            'receiver' => \Safe\json_encode(
                 $receiver, JSON_UNESCAPED_UNICODE
             ),
         ];
@@ -97,6 +107,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function share(
         string $transactionId,
@@ -107,7 +122,7 @@ class Client extends BaseClient
             'appid' => $this->app['config']->app_id,
             'transaction_id' => $transactionId,
             'out_order_no' => $outOrderNo,
-            'receivers' => json_encode(
+            'receivers' => \Safe\json_encode(
                 $receivers, JSON_UNESCAPED_UNICODE
             ),
         ];
@@ -130,6 +145,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function multiShare(
         string $transactionId,
@@ -140,7 +160,7 @@ class Client extends BaseClient
             'appid' => $this->app['config']->app_id,
             'transaction_id' => $transactionId,
             'out_order_no' => $outOrderNo,
-            'receivers' => json_encode(
+            'receivers' => \Safe\json_encode(
                 $receivers, JSON_UNESCAPED_UNICODE
             ),
         ];
@@ -161,6 +181,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function markOrderAsFinished(array $params)
     {
@@ -184,6 +209,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function query(
         string $transactionId, string $outOrderNo

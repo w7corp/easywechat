@@ -63,6 +63,7 @@ class Str
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Safe\Exceptions\StringsException
      */
     public static function random($length = 16)
     {
@@ -73,7 +74,7 @@ class Str
 
             $bytes = static::randomBytes($size);
 
-            $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+            $string .= \Safe\substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
         }
 
         return $string;
@@ -97,7 +98,7 @@ class Str
         if (function_exists('random_bytes')) {
             $bytes = random_bytes($length);
         } elseif (function_exists('openssl_random_pseudo_bytes')) {
-            $bytes = openssl_random_pseudo_bytes($length, $strong);
+            $bytes = \Safe\openssl_random_pseudo_bytes($length, $strong);
             if (false === $bytes || false === $strong) {
                 throw new RuntimeException('Unable to generate random string.');
             }
@@ -116,12 +117,14 @@ class Str
      * @param int $length
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     public static function quickRandom($length = 16)
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+        return \Safe\substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
     }
 
     /**
@@ -155,6 +158,8 @@ class Str
      * @param string $delimiter
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\PcreException
      */
     public static function snake($value, $delimiter = '_')
     {
@@ -165,7 +170,7 @@ class Str
         }
 
         if (!ctype_lower($value)) {
-            $value = strtolower(preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
+            $value = strtolower(\Safe\preg_replace('/(.)(?=[A-Z])/', '$1'.$delimiter, $value));
         }
 
         return static::$snakeCache[$key] = trim($value, '_');

@@ -47,15 +47,22 @@ class Client extends BaseClient
      *
      * @return array|string
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true)
     {
         $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->configSignature());
 
-        return $json ? json_encode($config) : $config;
+        return $json ? \Safe\json_encode($config) : $config;
     }
 
     /**
@@ -67,9 +74,16 @@ class Client extends BaseClient
      *
      * @return array
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getConfigArray(array $apis, bool $debug = false, bool $beta = false)
     {
@@ -89,10 +103,15 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getTicket(bool $refresh = false, string $type = 'jsapi'): array
     {
-        $cacheKey = sprintf('easywechat.basic_service.jssdk.ticket.%s.%s', $type, $this->getAppId());
+        $cacheKey = \Safe\sprintf('easywechat.basic_service.jssdk.ticket.%s.%s', $type, $this->getAppId());
 
         if (!$refresh && $this->getCache()->has($cacheKey)) {
             return $this->getCache()->get($cacheKey);
@@ -125,7 +144,13 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\SplException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function configSignature(string $url = null, string $nonce = null, $timestamp = null): array
     {
@@ -151,20 +176,24 @@ class Client extends BaseClient
      * @param string $url
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
     {
-        return sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $ticket, $nonce, $timestamp, $url));
+        return sha1(\Safe\sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $ticket, $nonce, $timestamp, $url));
     }
 
     /**
      * @return string
+     *
+     * @throws \Safe\Exceptions\ArrayException
      */
     public function dictionaryOrderSignature()
     {
         $params = func_get_args();
 
-        sort($params, SORT_STRING);
+        \Safe\sort($params, SORT_STRING);
 
         return sha1(implode('', $params));
     }

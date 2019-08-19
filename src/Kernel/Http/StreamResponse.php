@@ -31,6 +31,9 @@ class StreamResponse extends Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function save(string $directory, string $filename = '', bool $appendSuffix = true)
     {
@@ -39,11 +42,11 @@ class StreamResponse extends Response
         $directory = rtrim($directory, '/');
 
         if (!is_dir($directory)) {
-            mkdir($directory, 0755, true); // @codeCoverageIgnore
+            \Safe\mkdir($directory, 0755, true); // @codeCoverageIgnore
         }
 
         if (!is_writable($directory)) {
-            throw new InvalidArgumentException(sprintf("'%s' is not writable.", $directory));
+            throw new InvalidArgumentException(\Safe\sprintf("'%s' is not writable.", $directory));
         }
 
         $contents = $this->getBody()->getContents();
@@ -53,7 +56,7 @@ class StreamResponse extends Response
         }
 
         if (empty($filename)) {
-            if (preg_match('/filename="(?<filename>.*?)"/', $this->getHeaderLine('Content-Disposition'), $match)) {
+            if (\Safe\preg_match('/filename="(?<filename>.*?)"/', $this->getHeaderLine('Content-Disposition'), $match)) {
                 $filename = $match['filename'];
             } else {
                 $filename = md5($contents);
@@ -64,7 +67,7 @@ class StreamResponse extends Response
             $filename .= File::getStreamExt($contents);
         }
 
-        file_put_contents($directory.'/'.$filename, $contents);
+        \Safe\file_put_contents($directory.'/'.$filename, $contents);
 
         return $filename;
     }
@@ -78,6 +81,9 @@ class StreamResponse extends Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function saveAs(string $directory, string $filename, bool $appendSuffix = true)
     {

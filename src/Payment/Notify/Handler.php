@@ -103,6 +103,8 @@ abstract class Handler
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function toResponse(): Response
     {
@@ -126,6 +128,10 @@ abstract class Handler
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function getMessage(): array
     {
@@ -158,6 +164,12 @@ abstract class Handler
      * @return string|null
      *
      * @throws \EasyWeChat\Kernel\Exceptions\Exception
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
+     * @throws \Safe\Exceptions\UrlException
+     * @throws \Safe\Exceptions\OpensslException
      */
     public function decryptMessage(string $key)
     {
@@ -167,7 +179,7 @@ abstract class Handler
         }
 
         return Support\AES::decrypt(
-            base64_decode($message[$key], true), md5($this->app['config']->key), '', OPENSSL_RAW_DATA, 'AES-256-ECB'
+            \Safe\base64_decode($message[$key], true), md5($this->app['config']->key), '', OPENSSL_RAW_DATA, 'AES-256-ECB'
         );
     }
 
@@ -176,8 +188,10 @@ abstract class Handler
      *
      * @param array $message
      *
-     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function validate(array $message)
     {

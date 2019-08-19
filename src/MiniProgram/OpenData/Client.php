@@ -36,6 +36,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function removeUserStorage(string $openid, string $sessionKey, array $key)
     {
@@ -43,7 +47,7 @@ class Client extends BaseClient
         $query = [
             'openid' => $openid,
             'sig_method' => 'hmac_sha256',
-            'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
+            'signature' => hash_hmac('sha256', \Safe\json_encode($data), $sessionKey),
         ];
 
         return $this->httpPostJson('remove_user_storage', $data, $query);
@@ -60,6 +64,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function setUserStorage(string $openid, string $sessionKey, array $kvList)
     {
@@ -69,7 +77,7 @@ class Client extends BaseClient
         $query = [
             'openid' => $openid,
             'sig_method' => 'hmac_sha256',
-            'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
+            'signature' => hash_hmac('sha256', \Safe\json_encode($data), $sessionKey),
         ];
 
         return $this->httpPostJson('set_user_storage', $data, $query);

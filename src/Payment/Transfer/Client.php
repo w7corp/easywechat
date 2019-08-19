@@ -33,6 +33,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function queryBalanceOrder(string $partnerTradeNo)
     {
@@ -55,6 +60,12 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\NetworkException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function toBalance(array $params)
     {
@@ -81,6 +92,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function queryBankCardOrder(string $partnerTradeNo)
     {
@@ -103,16 +119,23 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Safe\Exceptions\ArrayException
+     * @throws \Safe\Exceptions\FilesystemException
+     * @throws \Safe\Exceptions\JsonException
+     * @throws \Safe\Exceptions\OpensslException
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\SimplexmlException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function toBankCard(array $params)
     {
         foreach (['bank_code', 'partner_trade_no', 'enc_bank_no', 'enc_true_name', 'amount'] as $key) {
             if (empty($params[$key])) {
-                throw new RuntimeException(\sprintf('"%s" is required.', $key));
+                throw new RuntimeException(\Safe\sprintf('"%s" is required.', $key));
             }
         }
 
-        $publicKey = file_get_contents($this->app['config']->get('rsa_public_key_path'));
+        $publicKey = \Safe\file_get_contents($this->app['config']->get('rsa_public_key_path'));
 
         $params['enc_bank_no'] = rsa_public_encrypt($params['enc_bank_no'], $publicKey);
         $params['enc_true_name'] = rsa_public_encrypt($params['enc_true_name'], $publicKey);

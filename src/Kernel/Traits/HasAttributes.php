@@ -97,6 +97,8 @@ trait HasAttributes
      * @param mixed  $value
      *
      * @return $this
+     *
+     * @throws \Safe\Exceptions\PcreException
      */
     public function with($attribute, $value)
     {
@@ -161,6 +163,8 @@ trait HasAttributes
      * @param array|string $keys
      *
      * @return array
+     *
+     * @throws \Safe\Exceptions\ArrayException
      */
     public function only($keys)
     {
@@ -173,6 +177,7 @@ trait HasAttributes
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function all()
     {
@@ -188,14 +193,17 @@ trait HasAttributes
      * @param array  $args
      *
      * @return $this
+     *
+     * @throws \Safe\Exceptions\PcreException
+     * @throws \Safe\Exceptions\StringsException
      */
     public function __call($method, $args)
     {
         if (0 === stripos($method, 'with')) {
-            return $this->with(substr($method, 4), array_shift($args));
+            return $this->with(\Safe\substr($method, 4), array_shift($args));
         }
 
-        throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method));
+        throw new \BadMethodCallException(\Safe\sprintf('Method "%s" does not exists.', $method));
     }
 
     /**
@@ -217,6 +225,8 @@ trait HasAttributes
      * @param mixed  $value
      *
      * @return $this
+     *
+     * @throws \Safe\Exceptions\PcreException
      */
     public function __set($property, $value)
     {
@@ -239,12 +249,13 @@ trait HasAttributes
      * Check required attributes.
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Safe\Exceptions\StringsException
      */
     protected function checkRequiredAttributes()
     {
         foreach ($this->getRequired() as $attribute) {
             if (is_null($this->get($attribute))) {
-                throw new InvalidArgumentException(sprintf('"%s" cannot be empty.', $attribute));
+                throw new InvalidArgumentException(\Safe\sprintf('"%s" cannot be empty.', $attribute));
             }
         }
     }

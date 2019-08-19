@@ -204,16 +204,20 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param int $option
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\JsonException
      */
     public function toJson($option = JSON_UNESCAPED_UNICODE)
     {
-        return json_encode($this->all(), $option);
+        return \Safe\json_encode($this->all(), $option);
     }
 
     /**
      * To string.
      *
      * @return string
+     *
+     * @throws \Safe\Exceptions\JsonException
      */
     public function __toString()
     {

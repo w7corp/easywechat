@@ -335,10 +335,12 @@ class Arr
      * @param array|string $keys
      *
      * @return array
+     *
+     * @throws \Safe\Exceptions\ArrayException
      */
     public static function only(array $array, $keys)
     {
-        return array_intersect_key($array, array_flip((array) $keys));
+        return array_intersect_key($array, \Safe\array_flip((array) $keys));
     }
 
     /**
