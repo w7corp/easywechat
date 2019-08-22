@@ -78,7 +78,7 @@ class Application extends ServiceContainer
         Base\ServiceProvider::class,
         OCR\ServiceProvider::class,
         Goods\ServiceProvider::class,
-        Wifi\ServiceProvider::class,
+        WiFi\ServiceProvider::class,
         // Base services
         BasicService\QrCode\ServiceProvider::class,
         BasicService\Media\ServiceProvider::class,
