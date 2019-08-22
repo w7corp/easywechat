@@ -59,7 +59,7 @@ class ShopClient extends BaseClient
     /**
      * Update shop Wi-Fi information.
      *
-     * @param int $shopId
+     * @param int   $shopId
      * @param array $data
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -77,7 +77,7 @@ class ShopClient extends BaseClient
     /**
      * Clear shop network and equipment.
      *
-     * @param int $shopId
+     * @param int         $shopId
      * @param string|null $ssid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string

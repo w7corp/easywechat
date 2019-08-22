@@ -25,7 +25,7 @@ class Client extends BaseClient
      *
      * @param string $beginDate
      * @param string $endDate
-     * @param int $shopId
+     * @param int    $shopId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -46,9 +46,9 @@ class Client extends BaseClient
     /**
      * Get the material QR code.
      *
-     * @param int $shopId
+     * @param int    $shopId
      * @param string $ssid
-     * @param int $type
+     * @param int    $type
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

@@ -23,7 +23,7 @@ class DeviceClient extends BaseClient
     /**
      * Add a password device.
      *
-     * @param int $shopId
+     * @param int    $shopId
      * @param string $ssid
      * @param string $password
      *
@@ -46,9 +46,9 @@ class DeviceClient extends BaseClient
     /**
      * Add a portal device.
      *
-     * @param int $shopId
+     * @param int    $shopId
      * @param string $ssid
-     * @param bool $reset
+     * @param bool   $reset
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
