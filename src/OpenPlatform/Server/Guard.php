@@ -29,6 +29,7 @@ class Guard extends ServerGuard
     const EVENT_UNAUTHORIZED = 'unauthorized';
     const EVENT_UPDATE_AUTHORIZED = 'updateauthorized';
     const EVENT_COMPONENT_VERIFY_TICKET = 'component_verify_ticket';
+    const EVENT_THIRD_FAST_REGISTERED = 'notify_third_fasteregister';
 
     /**
      * @return \Symfony\Component\HttpFoundation\Response
