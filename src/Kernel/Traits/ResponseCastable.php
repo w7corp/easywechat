@@ -84,7 +84,7 @@ trait ResponseCastable
 
                 break;
             case is_scalar($response):
-                $response = new Response(200, [], $response);
+                $response = new Response(200, [], (string) $response);
 
                 break;
             default:
