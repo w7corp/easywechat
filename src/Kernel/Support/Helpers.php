@@ -41,12 +41,14 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
  *
  * @return \Closure|string
  */
-function get_encrypt_method(string $signType, string $secretKey = '') {
+function get_encrypt_method(string $signType, string $secretKey = '')
+{
     if ('HMAC-SHA256' === $signType) {
         return function ($str) use ($secretKey) {
             return hash_hmac('sha256', $str, $secretKey);
         };
     }
+
     return 'md5';
 }
 
