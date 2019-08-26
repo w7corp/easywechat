@@ -63,6 +63,7 @@ class Client extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getLoginInfo(string $authCode)
     {
@@ -81,10 +82,18 @@ class Client extends BaseClient
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getRegisterUri(string $registerCode = '')
     {
-        $registerCode || $registerCode = $this->getRegisterCode()['register_code'];
+        if (!$registerCode) {
+            /** @var array $response */
+            $response = $this->detectAndCastResponseToType($this->getRegisterCode(), 'array');
+
+            $registerCode = $response['register_code'];
+        }
+
         $params = ['register_code' => $registerCode];
 
         return 'https://open.work.weixin.qq.com/3rdservice/wework/register?'.http_build_query($params);
@@ -101,6 +110,7 @@ class Client extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getRegisterCode(
         string $corpName = '',
@@ -128,6 +138,7 @@ class Client extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getRegisterInfo(string $registerCode)
     {
@@ -180,7 +191,7 @@ class Client extends BaseClient
      *
      * Desc:该API用于设置通讯录同步完成，解除通讯录锁定状态，同时使通讯录迁移access_token失效。
      *
-     * @param $accessToken
+     * @param string $accessToken
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

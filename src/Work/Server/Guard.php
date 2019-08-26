@@ -21,7 +21,7 @@ use EasyWeChat\Kernel\ServerGuard;
 class Guard extends ServerGuard
 {
     /**
-     * @return bool
+     * @return $this
      */
     public function validate()
     {

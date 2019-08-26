@@ -32,17 +32,22 @@ class Client extends BaseClient
      * 修改头像.
      *
      * @param string $mediaId 头像素材mediaId
-     * @param int    $left    剪裁框左上角x坐标（取值范围：[0, 1]）
-     * @param int    $top     剪裁框左上角y坐标（取值范围：[0, 1]）
-     * @param int    $right   剪裁框右下角x坐标（取值范围：[0, 1]）
-     * @param int    $bottom  剪裁框右下角y坐标（取值范围：[0, 1]）
+     * @param float  $left    剪裁框左上角x坐标（取值范围：[0, 1]）
+     * @param float  $top     剪裁框左上角y坐标（取值范围：[0, 1]）
+     * @param float  $right   剪裁框右下角x坐标（取值范围：[0, 1]）
+     * @param float  $bottom  剪裁框右下角y坐标（取值范围：[0, 1]）
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateAvatar(
         string $mediaId,
-        float $left = 0,
-        float $top = 0,
-        float $right = 1,
-        float $bottom = 1
+        float $left = 0.0,
+        float $top = 0.0,
+        float $right = 1.0,
+        float $bottom = 1.0
     ) {
         $params = [
             'head_img_media_id' => $mediaId,
@@ -56,6 +61,11 @@ class Client extends BaseClient
      * 修改功能介绍.
      *
      * @param string $signature 功能介绍（简介）
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function updateSignature(string $signature)
     {

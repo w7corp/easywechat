@@ -26,6 +26,7 @@ class Client extends BaseClient
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create()
     {
@@ -44,6 +45,7 @@ class Client extends BaseClient
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function bindTo(string $openAppId)
     {
@@ -63,6 +65,7 @@ class Client extends BaseClient
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function unbindFrom(string $openAppId)
     {
@@ -80,6 +83,7 @@ class Client extends BaseClient
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getBinding()
     {

@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Providers\ConfigServiceProvider;
+use EasyWeChat\Kernel\Providers\EventDispatcherServiceProvider;
 use EasyWeChat\Kernel\Providers\ExtensionServiceProvider;
 use EasyWeChat\Kernel\Providers\HttpClientServiceProvider;
 use EasyWeChat\Kernel\Providers\LogServiceProvider;
@@ -24,10 +25,11 @@ use Pimple\Container;
  *
  * @author overtrue <i@overtrue.me>
  *
- * @property \EasyWeChat\Kernel\Config                 $config
- * @property \Symfony\Component\HttpFoundation\Request $request
- * @property \GuzzleHttp\Client                        $http_client
- * @property \Monolog\Logger                           $logger
+ * @property \EasyWeChat\Kernel\Config                          $config
+ * @property \Symfony\Component\HttpFoundation\Request          $request
+ * @property \GuzzleHttp\Client                                 $http_client
+ * @property \Monolog\Logger                                    $logger
+ * @property \Symfony\Component\EventDispatcher\EventDispatcher $events
  */
 class ServiceContainer extends Container
 {
@@ -71,6 +73,8 @@ class ServiceContainer extends Container
         $this->id = $id;
 
         $this->aggregate();
+
+        $this->events->dispatch(new Events\ApplicationInitialized($this));
     }
 
     /**
@@ -110,6 +114,7 @@ class ServiceContainer extends Container
             RequestServiceProvider::class,
             HttpClientServiceProvider::class,
             ExtensionServiceProvider::class,
+            EventDispatcherServiceProvider::class,
         ], $this->providers);
     }
 

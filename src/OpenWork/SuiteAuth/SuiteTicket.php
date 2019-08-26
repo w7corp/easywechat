@@ -44,8 +44,9 @@ class SuiteTicket
      *
      * @return $this
      *
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function setTicket(string $ticket)
     {
@@ -61,7 +62,8 @@ class SuiteTicket
     /**
      * @return string
      *
-     * @throws RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(): string

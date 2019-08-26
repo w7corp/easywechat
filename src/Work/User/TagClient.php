@@ -27,6 +27,9 @@ class TagClient extends BaseClient
      * @param int|null $tagId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(string $tagName, int $tagId = null)
     {
@@ -45,6 +48,9 @@ class TagClient extends BaseClient
      * @param string $tagName
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(int $tagId, string $tagName)
     {
@@ -62,6 +68,8 @@ class TagClient extends BaseClient
      * @param int $tagId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function delete(int $tagId)
     {
@@ -72,6 +80,8 @@ class TagClient extends BaseClient
      * @param int $tagId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function get(int $tagId)
     {
@@ -83,6 +93,9 @@ class TagClient extends BaseClient
      * @param array $userList
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function tagUsers(int $tagId, array $userList = [])
     {
@@ -94,6 +107,9 @@ class TagClient extends BaseClient
      * @param array $partyList
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function tagDepartments(int $tagId, array $partyList = [])
     {
@@ -101,10 +117,13 @@ class TagClient extends BaseClient
     }
 
     /**
-     * @param $tagId
+     * @param int   $tagId
      * @param array $userList
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function untagUsers(int $tagId, array $userList = [])
     {
@@ -112,10 +131,13 @@ class TagClient extends BaseClient
     }
 
     /**
-     * @param $tagId
+     * @param int   $tagId
      * @param array $partyList
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function untagDepartments(int $tagId, array $partyList = [])
     {
@@ -123,12 +145,15 @@ class TagClient extends BaseClient
     }
 
     /**
-     * @param $endpoint
-     * @param $tagId
-     * @param array $userList
-     * @param array $partyList
+     * @param string $endpoint
+     * @param int    $tagId
+     * @param array  $userList
+     * @param array  $partyList
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function tagOrUntagUsers(string $endpoint, int $tagId, array $userList = [], array $partyList = [])
     {
@@ -143,6 +168,8 @@ class TagClient extends BaseClient
 
     /**
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function list()
     {

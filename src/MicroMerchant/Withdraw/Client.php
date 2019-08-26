@@ -24,13 +24,14 @@ class Client extends BaseClient
     /**
      * Query withdrawal status.
      *
-     * @param        $date
+     * @param string $date
      * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function queryWithdrawalStatus($date, $subMchId = '')
     {
@@ -45,13 +46,14 @@ class Client extends BaseClient
     /**
      * Re-initiation of withdrawal.
      *
-     * @param        $date
+     * @param string $date
      * @param string $subMchId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function requestWithdraw($date, $subMchId = '')
     {

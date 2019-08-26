@@ -148,6 +148,8 @@ abstract class Message implements MessageInterface
      * @param bool  $withType
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function transformForJsonRequest(array $appends = [], $withType = true): array
     {
@@ -179,7 +181,7 @@ abstract class Message implements MessageInterface
      * @param array $data
      * @param array $aliases
      *
-     * @return array|mixed
+     * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */

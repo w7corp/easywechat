@@ -51,9 +51,8 @@ class AccessTokenTest extends TestCase
 
     public function testGetToken()
     {
-        $app = \Mockery::mock(ServiceContainer::class)->makePartial()->shouldAllowMockingProtectedMethods();
         $cache = \Mockery::mock(CacheInterface::class);
-        $token = \Mockery::mock(AccessToken::class.'[getCacheKey,getCache,requestToken,setToken,getCredentials]', [$app])
+        $token = \Mockery::mock(AccessToken::class.'[getCacheKey,getCache,requestToken,setToken,getCredentials]', [new ServiceContainer()])
                             ->shouldAllowMockingProtectedMethods();
         $credentials = [
             'foo' => 'foo',

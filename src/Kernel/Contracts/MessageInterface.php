@@ -24,7 +24,7 @@ interface MessageInterface
     public function getType(): string;
 
     /**
-     * @return mixed
+     * @return array
      */
     public function transformForJsonRequest(): array;
 

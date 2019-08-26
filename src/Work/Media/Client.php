@@ -26,7 +26,10 @@ class Client extends BaseClient
      *
      * @param string $mediaId
      *
-     * @return mixed
+     * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(string $mediaId)
     {
@@ -98,6 +101,9 @@ class Client extends BaseClient
      * @param string $path
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function upload(string $type, string $path)
     {

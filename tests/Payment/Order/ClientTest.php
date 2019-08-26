@@ -24,6 +24,7 @@ class ClientTest extends TestCase
             'app_id' => 'wx123456',
             'mch_id' => 'foo-merchant-id',
             'notify_url' => 'http://easywechat.org/notify',
+            'contract_notify_url' => 'http://easywechat.org/contract_notify',
         ]);
     }
 
@@ -80,6 +81,87 @@ class ClientTest extends TestCase
         ]))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->unify($order));
+    }
+
+    public function testUnifyContract()
+    {
+        $client = $this->mockApiClient(Client::class, ['request'], $this->app());
+
+        $order = [
+            'trade_type' => 'NATIVE',
+            'request_serial' => 123,
+        ];
+
+        $contract = [
+            'contract_appid' => 'wx123456',
+            'contract_mchid' => 'foo-merchant-id',
+            'request_serial' => 123,
+            'contract_notify_url' => 'http://easywechat.org/contract_notify',
+        ];
+
+        // spbill_create_ip is null and trade_type === NATIVE
+        $client->expects()->request('pay/contractorder', array_merge($order, $contract, [
+            'spbill_create_ip' => Support\get_server_ip(),
+            'appid' => 'wx123456',
+            'notify_url' => 'http://easywechat.org/notify',
+        ]))->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->unify($order, true));
+
+        // spbill_create_ip is null and trade_type !== Order::NATIVE
+        $order = [
+            'trade_type' => 'JSAPI',
+            'request_serial' => 123,
+        ];
+        $client->expects()->request('pay/contractorder', array_merge($order, $contract, [
+            'spbill_create_ip' => Support\get_client_ip(),
+            'appid' => 'wx123456',
+            'notify_url' => 'http://easywechat.org/notify',
+        ]))->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->unify($order, true));
+
+        // spbill_create_ip is not null.
+        $order = [
+            'trade_type' => 'JSAPI',
+            'spbill_create_ip' => '192.168.0.1',
+            'request_serial' => 123,
+        ];
+        $client->expects()->request('pay/contractorder', array_merge($order, $contract, [
+            'appid' => 'wx123456',
+            'notify_url' => 'http://easywechat.org/notify',
+        ]))->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->unify($order, true));
+
+        // set notify-url when unify order.
+        $order = [
+            'trade_type' => 'JSAPI',
+            'notify_url' => 'http://foobar.baz/notify',
+            'request_serial' => 123,
+        ];
+        $client->expects()->request('pay/contractorder', array_merge($order, $contract, [
+            'spbill_create_ip' => Support\get_client_ip(),
+            'appid' => 'wx123456',
+            'notify_url' => 'http://foobar.baz/notify',
+        ]))->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->unify($order, true));
+
+        // set contract-notify-url when unify order.
+        $order = [
+            'trade_type' => 'JSAPI',
+            'contract_notify_url' => 'http://foobar.baz/contract_notify',
+            'request_serial' => 123,
+        ];
+        $client->expects()->request('pay/contractorder', array_merge($order, $contract, [
+            'spbill_create_ip' => Support\get_client_ip(),
+            'appid' => 'wx123456',
+            'notify_url' => 'http://easywechat.org/notify',
+            'contract_notify_url' => 'http://foobar.baz/contract_notify',
+        ]))->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->unify($order, true));
     }
 
     public function testQueryByOutTradeNumber()

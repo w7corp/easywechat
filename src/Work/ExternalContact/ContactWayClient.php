@@ -30,6 +30,7 @@ class ContactWayClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(int $type, int $scene, array $config = [])
     {
@@ -44,11 +45,12 @@ class ContactWayClient extends BaseClient
     /**
      * 获取企业已配置的「联系我」方式.
      *
-     * @param $configId
+     * @param string $configId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(string $configId)
     {
@@ -60,12 +62,13 @@ class ContactWayClient extends BaseClient
     /**
      * 更新企业已配置的「联系我」方式.
      *
-     * @param $configId
-     * @param $config
+     * @param string $configId
+     * @param array  $config
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function update(string $configId, array $config = [])
     {
@@ -79,11 +82,12 @@ class ContactWayClient extends BaseClient
     /**
      * 删除企业已配置的「联系我」方式.
      *
-     * @param $configId
+     * @param string $configId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function delete(string $configId)
     {

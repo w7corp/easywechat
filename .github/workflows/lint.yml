@@ -1,0 +1,23 @@
+name: Lint
+on: [push, pull_request]
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Dependencies
+      run: composer install --no-progress
+    - name: Run PHPStan
+      run: ./vendor/bin/phpstan analyse --no-progress
+
+  php_cs_fixer:
+    name: PHP-CS-Fxier
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Dependencies
+      run: composer install --no-progress
+    - name: Run PHP-CS-Fxier
+      run: ./vendor/bin/php-cs-fixer fix --dry-run --diff 1>&2

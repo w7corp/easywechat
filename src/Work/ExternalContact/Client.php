@@ -39,7 +39,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91555
      *
-     * @param $userId
+     * @param string $userId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -57,7 +57,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91556
      *
-     * @param $externalUserId
+     * @param string $externalUserId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -81,6 +81,7 @@ class Client extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getUnassigned(int $pageId = 0, int $pageSize = 1000)
     {
@@ -102,6 +103,7 @@ class Client extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function transfer(string $externalUserId, string $handoverUserId, string $takeoverUserId)
     {

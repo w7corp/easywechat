@@ -1,6 +1,0 @@
-path: ./
-jobs: 10
-exclude:
-  - .github
-  - build
-  - vendor

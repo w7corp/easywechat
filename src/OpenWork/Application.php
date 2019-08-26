@@ -19,9 +19,13 @@ use EasyWeChat\OpenWork\Work\Application as Work;
  *
  * @author xiaomin <keacefull@gmail.com>
  *
- * @property \EasyWeChat\OpenWork\Server\Guard    $server
- * @property \EasyWeChat\OpenWork\Corp\Client     $corp
- * @property \EasyWeChat\OpenWork\Provider\Client $provider
+ * @property \EasyWeChat\OpenWork\Server\Guard            $server
+ * @property \EasyWeChat\OpenWork\Corp\Client             $corp
+ * @property \EasyWeChat\OpenWork\Provider\Client         $provider
+ * @property \EasyWeChat\OpenWork\SuiteAuth\AccessToken   $suite_access_token
+ * @property \EasyWeChat\OpenWork\Auth\AccessToken        $provider_access_token
+ * @property \EasyWeChat\OpenWork\SuiteAuth\SuiteTicket   $suite_ticket
+ * @property \EasyWeChat\OpenWork\MiniProgram\Auth\Client $mini_program
  */
 class Application extends ServiceContainer
 {
@@ -34,6 +38,7 @@ class Application extends ServiceContainer
         Server\ServiceProvider::class,
         Corp\ServiceProvider::class,
         Provider\ServiceProvider::class,
+        MiniProgram\ServiceProvider::class,
     ];
 
     /**
@@ -45,6 +50,16 @@ class Application extends ServiceContainer
             'base_uri' => 'https://qyapi.weixin.qq.com/',
         ],
     ];
+
+    /**
+     * Creates the miniProgram application.
+     *
+     * @return \EasyWeChat\Work\MiniProgram\Application
+     */
+    public function miniProgram(): \EasyWeChat\Work\MiniProgram\Application
+    {
+        return new \EasyWeChat\Work\MiniProgram\Application($this->getConfig());
+    }
 
     /**
      * @param string $authCorpId    企业 corp_id

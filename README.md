@@ -4,7 +4,8 @@
 
 📦 It is probably the best SDK in the world for developing Wechat App.
 
-[![Build Status](https://travis-ci.org/overtrue/wechat.svg?branch=master)](https://travis-ci.org/overtrue/wechat) 
+[![Test Status](https://github.com/overtrue/wechat/workflows/Test/badge.svg)](https://github.com/overtrue/wechat/actions) 
+[![Lint Status](https://github.com/overtrue/wechat/workflows/Lint/badge.svg)](https://github.com/overtrue/wechat/actions) 
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat) 
 [![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master) 
@@ -12,11 +13,11 @@
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat) 
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat) 
 
-[![7.0-9.9](http://prt.ruffood.com/svg/overtrue)](http://prt.ruffood.com/jump/overtrue)
+[![7.0-9.9](https://raw.githubusercontent.com/ruffood/ruofan/master/img/ad0724.jpg)](http://prt.ruffood.com/jump/overtrue)
 
 ## Requirement
 
-1. PHP >= 7.0
+1. PHP >= 7.1
 2. **[Composer](https://getcomposer.org/)**
 3. openssl 拓展
 4. fileinfo 拓展（素材管理模块需要用到）
@@ -24,7 +25,7 @@
 ## Installation
 
 ```shell
-$ composer require "overtrue/wechat:~4.1" -vvv
+$ composer require "overtrue/wechat:^4.2" -vvv
 ```
 
 ## Usage

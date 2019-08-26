@@ -1,0 +1,19 @@
+name: Test
+on: [push, pull_request]
+
+jobs:
+  phpunit:
+    name: PHPUnit with PHP ${{ matrix.php_version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php_version: ['7.1', '7.2', '7.3']
+    container:
+      image: nauxliu/php-ci-image:${{ matrix.php_version }}
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Dependencies
+      run: composer install --no-progress --prefer-dist
+    - name: Run PHPUnit
+      run: ./vendor/bin/phpunit

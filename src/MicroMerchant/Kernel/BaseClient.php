@@ -13,7 +13,6 @@ namespace EasyWeChat\MicroMerchant\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support;
-use EasyWeChat\Kernel\Traits\HasHttpRequests;
 use EasyWeChat\MicroMerchant\Application;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
 use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
@@ -21,23 +20,15 @@ use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
 /**
  * Class BaseClient.
  *
- * @author overtrue <i@overtrue.me>
+ * @author   liuml  <liumenglei0211@163.com>
+ * @DateTime 2019-07-10  12:06
  */
 class BaseClient extends PaymentBaseClient
 {
-    use HasHttpRequests {
-        request as performRequest;
-    }
-
     /**
      * @var string
      */
     protected $certificates;
-
-    /**
-     * @var \EasyWeChat\MicroMerchant\Application
-     */
-    protected $app;
 
     /**
      * BaseClient constructor.
@@ -75,6 +66,7 @@ class BaseClient extends PaymentBaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = [], $returnResponse = false)
     {
@@ -138,6 +130,7 @@ class BaseClient extends PaymentBaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function request(string $endpoint, array $params = [], $method = 'post', array $options = [], $returnResponse = false)
     {
@@ -244,13 +237,13 @@ class BaseClient extends PaymentBaseClient
     /**
      * getSign.
      *
-     * @param $params
+     * @param array $params
      *
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    protected function getSign($params)
+    protected function getSign(array $params)
     {
         $params = array_filter($params);
 

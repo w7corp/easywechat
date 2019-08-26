@@ -86,6 +86,7 @@ trait Observable
      * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function observe($condition, $handler)
     {
@@ -99,6 +100,7 @@ trait Observable
      * @return \EasyWeChat\Kernel\Clauses\Clause
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      */
     public function on($condition, $handler)
     {
@@ -215,7 +217,7 @@ trait Observable
     }
 
     /**
-     * @param $handler
+     * @param mixed $handler
      *
      * @return \Closure
      *
@@ -252,8 +254,8 @@ trait Observable
     }
 
     /**
-     * @param $handler
-     * @param $condition
+     * @param mixed $handler
+     * @param mixed $condition
      *
      * @return array
      *
