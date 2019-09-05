@@ -346,7 +346,7 @@ class LogManager implements LoggerInterface
      */
     protected function parseChannel(array $config)
     {
-        return $config['name'] ?? null;
+        return $config['name'] ?? '';
     }
 
     /**
