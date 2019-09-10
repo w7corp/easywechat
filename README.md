@@ -13,7 +13,6 @@
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat) 
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat) 
 
-[![7.0-9.9](https://raw.githubusercontent.com/ruffood/ruofan/master/img/ad0724.jpg)](http://prt.ruffood.com/jump/overtrue)
 
 ## Requirement
 
