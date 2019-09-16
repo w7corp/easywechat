@@ -12,6 +12,7 @@
 namespace EasyWeChat\OfficialAccount\Base;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
 /**
  * Class Client.
@@ -47,5 +48,38 @@ class Client extends BaseClient
     public function getValidIps()
     {
         return $this->httpGet('cgi-bin/getcallbackip');
+    }
+
+    /**
+     * Check the callback address network.
+     *
+     * @param string $action
+     * @param string $operator
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkCallbackUrl(string $action = 'all', string $operator = 'DEFAULT')
+    {
+        if (!in_array($action, ['dns', 'ping', 'all'])) {
+            throw new InvalidArgumentException('The action must be dns, ping, all.');
+        }
+
+        $operator = strtoupper($operator);
+
+        if (!in_array($operator, ['CHINANET', 'UNICOM', 'CAP', 'DEFAULT'])) {
+            throw new InvalidArgumentException('The operator must be CHINANET, UNICOM, CAP, DEFAULT.');
+        }
+
+        $params = [
+            'action' => $action,
+            'check_operator' => $operator,
+        ];
+
+        return $this->httpPostJson('cgi-bin/callback/check', $params);
     }
 }
