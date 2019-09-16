@@ -60,18 +60,17 @@ class Client extends BaseClient
      *
      * @throws InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function checkCallbackUrl(string $action = 'all', string $operator = 'DEFAULT')
     {
-        if (!in_array($action, ['dns', 'ping', 'all'])) {
+        if (!in_array($action, ['dns', 'ping', 'all'], true)) {
             throw new InvalidArgumentException('The action must be dns, ping, all.');
         }
 
         $operator = strtoupper($operator);
 
-        if (!in_array($operator, ['CHINANET', 'UNICOM', 'CAP', 'DEFAULT'])) {
+        if (!in_array($operator, ['CHINANET', 'UNICOM', 'CAP', 'DEFAULT'], true)) {
             throw new InvalidArgumentException('The operator must be CHINANET, UNICOM, CAP, DEFAULT.');
         }
 
