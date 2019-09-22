@@ -89,7 +89,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function getRefreshedToken(): array
+    public function getRefreshedToken() : array
     {
         return $this->getToken(true);
     }
@@ -105,7 +105,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function getToken(bool $refresh = false): array
+    public function getToken(bool $refresh = false) : array
     {
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
@@ -134,7 +134,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function setToken(string $token, int $lifetime = 7200): AccessTokenInterface
+    public function setToken(string $token, int $lifetime = 7200) : AccessTokenInterface
     {
         $this->getCache()->set($this->getCacheKey(), [
             $this->tokenKey => $token,
@@ -157,7 +157,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function refresh(): AccessTokenInterface
+    public function refresh() : AccessTokenInterface
     {
         $this->getToken(true);
 
@@ -181,7 +181,7 @@ abstract class AccessToken implements AccessTokenInterface
         $formatted = $this->castResponseToType($response, $this->app['config']->get('response_type'));
 
         if (empty($result[$this->tokenKey])) {
-            throw new HttpException('Request access_token fail: '.json_encode($result, JSON_UNESCAPED_UNICODE), $response, $formatted);
+            throw new HttpException('Request access_token fail: ' . json_encode($result, JSON_UNESCAPED_UNICODE), $response, $formatted);
         }
 
         return $toArray ? $result : $formatted;
@@ -199,7 +199,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function applyToRequest(RequestInterface $request, array $requestOptions = []): RequestInterface
+    public function applyToRequest(RequestInterface $request, array $requestOptions = []) : RequestInterface
     {
         parse_str($request->getUri()->getQuery(), $query);
 
@@ -218,7 +218,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    protected function sendRequest(array $credentials): ResponseInterface
+    protected function sendRequest(array $credentials) : ResponseInterface
     {
         $options = [
             ('GET' === $this->requestMethod) ? 'query' : 'json' => $credentials,
@@ -232,7 +232,7 @@ abstract class AccessToken implements AccessTokenInterface
      */
     protected function getCacheKey()
     {
-        return $this->cachePrefix.md5(json_encode($this->getCredentials()));
+        return $this->cachePrefix . md5(json_encode($this->getCredentials()));
     }
 
     /**
@@ -246,7 +246,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    protected function getQuery(): array
+    protected function getQuery() : array
     {
         return [$this->queryName ?? $this->tokenKey => $this->getToken()[$this->tokenKey]];
     }
@@ -256,8 +256,11 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function getEndpoint(): string
+    public function getEndpoint() : string
     {
+        if ($this->app['config']->get('http')['get_token_uri']) {
+            $this->endpointToGetToken = $this->app['config']->get('http')['get_token_uri'];
+        }
         if (empty($this->endpointToGetToken)) {
             throw new InvalidArgumentException('No endpoint for access token request.');
         }
@@ -278,5 +281,5 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @return array
      */
-    abstract protected function getCredentials(): array;
+    abstract protected function getCredentials() : array;
 }
