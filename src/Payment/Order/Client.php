@@ -50,7 +50,12 @@ class Client extends BaseClient
             return $this->request($this->wrap('pay/contractorder'), $params);
         }
 
-        return $this->request($this->wrap('pay/unifiedorder'), $params);
+        $path = $this->wrap('pay/unifiedorder');
+        if ($this->app['config']->has('http.base_uri') && strpos($this->app['config']->get('http.base_uri'), 'qpay.qq.com') !== false) {
+            $path = 'cgi-bin/pay/qpay_close_order.cgi';
+        }
+
+        return $this->request($path, $params);
     }
 
     /**

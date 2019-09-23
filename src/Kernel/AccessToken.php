@@ -258,9 +258,10 @@ abstract class AccessToken implements AccessTokenInterface
      */
     public function getEndpoint() : string
     {
-        if ($this->app['config']->get('http')['get_token_uri']) {
-            $this->endpointToGetToken = $this->app['config']->get('http')['get_token_uri'];
+        if ($this->app['config']->has('http.base_uri') && strpos($this->app['config']->get('http.base_uri'), 'api.q.qq.com') !== false) {
+            $this->endpointToGetToken = $this->app['config']->get('http.base_uri') . 'api/getToken';
         }
+
         if (empty($this->endpointToGetToken)) {
             throw new InvalidArgumentException('No endpoint for access token request.');
         }
