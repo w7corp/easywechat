@@ -129,6 +129,4 @@ class Client extends BaseClient
 
         return $this->httpPostJson('media_check_async', $params);
     }
-
-
 }
