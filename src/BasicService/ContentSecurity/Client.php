@@ -89,4 +89,46 @@ class Client extends BaseClient
 
         return $this->httpPostJson('media_check_async', $params);
     }
+
+    /**
+     * Image security check async.
+     *
+     * @param string $mediaUrl
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkImageAsync(string $mediaUrl)
+    {
+        $params = [
+            'media_url' => $mediaUrl,
+            'media_type' => 2,
+        ];
+
+        return $this->httpPostJson('media_check_async', $params);
+    }
+
+    /**
+     * Audio security check async.
+     *
+     * @param string $mediaUrl
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkAudioAsync(string $mediaUrl)
+    {
+        $params = [
+            'media_url' => $mediaUrl,
+            'media_type' => 1,
+        ];
+
+        return $this->httpPostJson('media_check_async', $params);
+    }
+
+
 }
