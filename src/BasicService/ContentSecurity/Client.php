@@ -79,7 +79,7 @@ class Client extends BaseClient
          */
         $mediaTypes = [1, 2];
 
-        if (!in_array($mediaType, $mediaTypes)) {
+        if (!in_array($mediaType, $mediaTypes, true)) {
             throw new InvalidArgumentException('media type must be 1 or 2');
         }
 
