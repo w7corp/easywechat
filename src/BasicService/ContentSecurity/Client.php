@@ -78,7 +78,7 @@ class Client extends BaseClient
          * 1:音频;2:图片
          */
         $mediaTypes = [1, 2];
-        
+
         if (!in_array($mediaType, $mediaTypes)) {
             throw new InvalidArgumentException('media type must be 1 or 2');
         }
