@@ -64,7 +64,7 @@ class Client extends BaseClient
      * Media security check.
      *
      * @param string $mediaUrl
-     * @param string $mediaType
+     * @param int $mediaType
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
