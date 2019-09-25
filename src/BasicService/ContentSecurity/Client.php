@@ -64,7 +64,7 @@ class Client extends BaseClient
      * Media security check.
      *
      * @param string $mediaUrl
-     * @param int $mediaType
+     * @param int    $mediaType
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -72,12 +72,13 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function checkMedia(string $mediaUrl, int $mediaType)
+    public function checkMediaAsync(string $mediaUrl, int $mediaType)
     {
         /*
          * 1:音频;2:图片
          */
         $mediaTypes = [1, 2];
+        
         if (!in_array($mediaType, $mediaTypes)) {
             throw new InvalidArgumentException('media type must be 1 or 2');
         }
@@ -102,12 +103,7 @@ class Client extends BaseClient
      */
     public function checkImageAsync(string $mediaUrl)
     {
-        $params = [
-            'media_url' => $mediaUrl,
-            'media_type' => 2,
-        ];
-
-        return $this->httpPostJson('media_check_async', $params);
+        return $this->checkMediaAsync($mediaUrl, 2);
     }
 
     /**
@@ -122,11 +118,6 @@ class Client extends BaseClient
      */
     public function checkAudioAsync(string $mediaUrl)
     {
-        $params = [
-            'media_url' => $mediaUrl,
-            'media_type' => 1,
-        ];
-
-        return $this->httpPostJson('media_check_async', $params);
+        return $this->checkMediaAsync($mediaUrl, 1);
     }
 }
