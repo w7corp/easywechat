@@ -42,7 +42,7 @@ class Client extends BaseClient
             'sub_mch_id' => $subMchId ?: $this->app['config']->sub_mch_id,
         ];
 
-        if (!empty($subscribeAppid)) {
+        if (!empty($subscribeAppId)) {
             $params['subscribe_appid'] = $subscribeAppId;
         } else {
             $params['receipt_appid'] = $receiptAppId;
