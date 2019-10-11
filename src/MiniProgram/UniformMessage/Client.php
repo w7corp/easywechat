@@ -90,6 +90,8 @@ class Client extends BaseClient
      * @param array $data
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function formatWeappMessage(array $data = [])
     {
@@ -104,6 +106,8 @@ class Client extends BaseClient
      * @param array $data
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function formatMpMessage(array $data = [])
     {

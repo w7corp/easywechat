@@ -24,6 +24,8 @@ class Client extends BaseClient
      * Get all menus.
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function list()
     {
@@ -34,6 +36,8 @@ class Client extends BaseClient
      * Get current menus.
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function current()
     {
@@ -47,6 +51,9 @@ class Client extends BaseClient
      * @param array $matchRule
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function create(array $buttons, array $matchRule = [])
     {
@@ -66,6 +73,9 @@ class Client extends BaseClient
      * @param int $menuId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function delete(int $menuId = null)
     {
@@ -82,6 +92,9 @@ class Client extends BaseClient
      * @param string $userId
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function match(string $userId)
     {

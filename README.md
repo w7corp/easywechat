@@ -4,7 +4,8 @@
 
 📦 It is probably the best SDK in the world for developing Wechat App.
 
-[![Build Status](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/badge/overtrue/wechat)](https://wdp9fww0r9.execute-api.us-west-2.amazonaws.com/production/results/overtrue/wechat) 
+[![Test Status](https://github.com/overtrue/wechat/workflows/Test/badge.svg)](https://github.com/overtrue/wechat/actions) 
+[![Lint Status](https://github.com/overtrue/wechat/workflows/Lint/badge.svg)](https://github.com/overtrue/wechat/actions) 
 [![Latest Stable Version](https://poser.pugx.org/overtrue/wechat/v/stable.svg)](https://packagist.org/packages/overtrue/wechat) 
 [![Latest Unstable Version](https://poser.pugx.org/overtrue/wechat/v/unstable.svg)](https://packagist.org/packages/overtrue/wechat)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/overtrue/wechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/overtrue/wechat/?branch=master) 
@@ -12,7 +13,6 @@
 [![Total Downloads](https://poser.pugx.org/overtrue/wechat/downloads)](https://packagist.org/packages/overtrue/wechat) 
 [![License](https://poser.pugx.org/overtrue/wechat/license)](https://packagist.org/packages/overtrue/wechat) 
 
-[![7.0-9.9](https://raw.githubusercontent.com/ruffood/ruofan/master/img/ad0724.jpg)](http://prt.ruffood.com/jump/overtrue)
 
 ## Requirement
 
@@ -24,7 +24,7 @@
 ## Installation
 
 ```shell
-$ composer require "overtrue/wechat:~4.1" -vvv
+$ composer require "overtrue/wechat:^4.2" -vvv
 ```
 
 ## Usage

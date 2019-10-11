@@ -60,6 +60,7 @@ class Application extends ServiceContainer
         NearbyPoi\ServiceProvider::class,
         OCR\ServiceProvider::class,
         Soter\ServiceProvider::class,
+        Mall\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
         BasicService\ContentSecurity\ServiceProvider::class,

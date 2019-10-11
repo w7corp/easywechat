@@ -26,6 +26,9 @@ class MediaClient extends BaseClient
      * @param array $params
      *
      * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function import($params)
     {

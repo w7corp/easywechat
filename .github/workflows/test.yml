@@ -3,31 +3,24 @@ on: [push, pull_request]
 
 jobs:
   phpunit:
-    name: PHPUnit with PHP ${{ matrix.php_version }}
+    name: PHP-${{ matrix.php_version }}-${{ matrix.perfer }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php_version: ['7.1', '7.2', '7.3']
+        php_version:
+          - 7.1
+          - 7.2
+          - 7.3
+          - 7.4-rc
+        perfer:
+          - stable
+          - lowest
     container:
-      image: php:${{ matrix.php_version }}-cli
+      image: nauxliu/php-ci-image:${{ matrix.php_version }}
     steps:
     - uses: actions/checkout@master
     - name: Install Dependencies
-      run: |
-        apt-get update
-        apt-get install -y git unzip
-
-        # Instal composer
-        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-        php -r "if (hash_file('sha384', 'composer-setup.php') === 'a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-        php composer-setup.php --install-dir=/usr/local/bin --filename composer
-        php -r "unlink('composer-setup.php');"
-
-        # copy default php.ini
-        cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini 
-
-        # Install deps
-        composer install --no-progress --prefer-dist
+      run: composer update --prefer-dist --no-interaction --no-suggest --prefer-${{ matrix.perfer }}
     - name: Run PHPUnit
       run: ./vendor/bin/phpunit

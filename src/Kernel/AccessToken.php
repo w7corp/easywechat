@@ -130,8 +130,9 @@ abstract class AccessToken implements AccessTokenInterface
      *
      * @return \EasyWeChat\Kernel\Contracts\AccessTokenInterface
      *
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function setToken(string $token, int $lifetime = 7200): AccessTokenInterface
     {
@@ -215,6 +216,7 @@ abstract class AccessToken implements AccessTokenInterface
      * @return ResponseInterface
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function sendRequest(array $credentials): ResponseInterface
     {

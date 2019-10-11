@@ -97,8 +97,10 @@ class File
      */
     public static function getStreamExt($stream)
     {
+        $ext = self::getExtBySignature($stream);
+
         try {
-            if (is_readable($stream)) {
+            if (empty($ext) && is_readable($stream)) {
                 $stream = file_get_contents($stream);
             }
         } catch (\Exception $e) {
@@ -108,7 +110,7 @@ class File
 
         $mime = strstr($fileInfo->buffer($stream), ';', true);
 
-        return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : self::getExtBySignature($stream);
+        return isset(self::$extensionMap[$mime]) ? self::$extensionMap[$mime] : $ext;
     }
 
     /**

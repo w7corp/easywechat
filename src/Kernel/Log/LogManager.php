@@ -14,6 +14,7 @@ namespace EasyWeChat\Kernel\Log;
 use EasyWeChat\Kernel\ServiceContainer;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\FormattableHandlerInterface;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\SlackWebhookHandler;
@@ -81,6 +82,8 @@ class LogManager implements LoggerInterface
      * @param string|null $channel
      *
      * @return \Psr\Log\LoggerInterface
+     *
+     * @throws \Exception
      */
     public function stack(array $channels, $channel = null)
     {
@@ -93,6 +96,8 @@ class LogManager implements LoggerInterface
      * @param string|null $channel
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function channel($channel = null)
     {
@@ -105,6 +110,8 @@ class LogManager implements LoggerInterface
      * @param string|null $driver
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function driver($driver = null)
     {
@@ -117,6 +124,8 @@ class LogManager implements LoggerInterface
      * @param string $name
      *
      * @return \Psr\Log\LoggerInterface
+     *
+     * @throws \Exception
      */
     protected function get($name)
     {
@@ -167,6 +176,8 @@ class LogManager implements LoggerInterface
      * Create an emergency log handler to avoid white screens of death.
      *
      * @return \Monolog\Logger
+     *
+     * @throws \Exception
      */
     protected function createEmergencyLogger()
     {
@@ -193,6 +204,8 @@ class LogManager implements LoggerInterface
      * @param array $config
      *
      * @return \Monolog\Logger
+     *
+     * @throws \Exception
      */
     protected function createStackDriver(array $config)
     {
@@ -211,6 +224,8 @@ class LogManager implements LoggerInterface
      * @param array $config
      *
      * @return \Psr\Log\LoggerInterface
+     *
+     * @throws \Exception
      */
     protected function createSingleDriver(array $config)
     {
@@ -317,7 +332,11 @@ class LogManager implements LoggerInterface
      */
     protected function prepareHandler(HandlerInterface $handler)
     {
-        return $handler->setFormatter($this->formatter());
+        if ($handler instanceof FormattableHandlerInterface) {
+            $handler->setFormatter($this->formatter());
+        }
+
+        return $handler;
     }
 
     /**
@@ -342,7 +361,7 @@ class LogManager implements LoggerInterface
      */
     protected function parseChannel(array $config)
     {
-        return $config['name'] ?? null;
+        return $config['name'] ?? 'EasyWeChat';
     }
 
     /**
@@ -407,6 +426,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function emergency($message, array $context = [])
     {
@@ -423,6 +444,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function alert($message, array $context = [])
     {
@@ -438,6 +461,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function critical($message, array $context = [])
     {
@@ -452,6 +477,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function error($message, array $context = [])
     {
@@ -468,6 +495,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function warning($message, array $context = [])
     {
@@ -481,6 +510,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function notice($message, array $context = [])
     {
@@ -496,6 +527,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function info($message, array $context = [])
     {
@@ -509,6 +542,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function debug($message, array $context = [])
     {
@@ -523,6 +558,8 @@ class LogManager implements LoggerInterface
      * @param array  $context
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function log($level, $message, array $context = [])
     {
@@ -536,6 +573,8 @@ class LogManager implements LoggerInterface
      * @param array  $parameters
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
     public function __call($method, $parameters)
     {
