@@ -228,7 +228,7 @@ trait Observable
             return $handler;
         }
 
-        if (is_string($handler)) {
+        if (is_string($handler) && $handler !== '*') {
             if (!class_exists($handler)) {
                 throw new InvalidArgumentException(sprintf('Class "%s" not exists.', $handler));
             }
