@@ -64,7 +64,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    private function formatMessage(array $data = [])
+    protected function formatMessage(array $data = [])
     {
         $params = array_merge($this->message, $data);
 
@@ -76,24 +76,10 @@ class Client extends BaseClient
             $params[$key] = empty($value) ? $this->message[$key] : $value;
         }
 
-        $params['data'] = $this->formatData($params['data']);
-
-        return $params;
-    }
-
-    /**
-     * @param array $data
-     *
-     * @return array
-     */
-    protected function formatData(array $data)
-    {
-        $formatted = [];
-
-        foreach ($data as $key => $value) {
+        foreach ($params['data'] as $key => $value) {
             if (is_array($value)) {
                 if (isset($value['value'])) {
-                    $formatted[$key] = $value;
+                    $params['data'][$key] = ['value' => $value['value']];
 
                     continue;
                 }
@@ -110,10 +96,10 @@ class Client extends BaseClient
                 ];
             }
 
-            $formatted[$key] = $value;
+            $params['data'][$key] = $value;
         }
 
-        return $formatted;
+        return $params;
     }
 
     /**

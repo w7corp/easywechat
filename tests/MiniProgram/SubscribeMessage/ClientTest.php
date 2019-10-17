@@ -36,6 +36,7 @@ class ClientTest extends TestCase
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertSame('Attribute "template_id" can not be empty!', $e->getMessage());
         }
+
         // without data
         try {
             $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id']);
@@ -43,6 +44,67 @@ class ClientTest extends TestCase
             $this->assertInstanceOf(InvalidArgumentException::class, $e);
             $this->assertSame('Attribute "data" can not be empty!', $e->getMessage());
         }
+
+        // format message
+        $this->assertSame([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['value' => 'thing1.DATA']],
+        ], $client->formatMessage([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => 'thing1.DATA'],
+        ]));
+
+        $this->assertSame([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['value' => 'thing1.DATA']],
+        ], $client->formatMessage([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['thing1.DATA']],
+        ]));
+
+        $this->assertSame([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['value' => 'thing1.DATA']],
+        ], $client->formatMessage([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['thing1.DATA', 'ignore value']],
+        ]));
+
+        $this->assertSame([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['value' => 'thing1.DATA']],
+        ], $client->formatMessage([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['value' => 'thing1.DATA']],
+        ]));
+
+        $this->assertSame([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['value' => 'thing1.DATA']],
+        ], $client->formatMessage([
+            'touser' => 'mock-openid',
+            'template_id' => 'mock-template_id',
+            'page' => '',
+            'data' => ['thing1' => ['value' => 'thing1.DATA', 'color' => 'ignore value']],
+        ]));
 
         $client->expects()->httpPostJson('cgi-bin/message/subscribe/send', [
             'touser' => 'mock-openid',
