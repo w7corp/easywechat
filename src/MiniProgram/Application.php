@@ -61,6 +61,7 @@ class Application extends ServiceContainer
         OCR\ServiceProvider::class,
         Soter\ServiceProvider::class,
         Mall\ServiceProvider::class,
+        SubscribeMessage\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
         BasicService\ContentSecurity\ServiceProvider::class,
