@@ -48,7 +48,7 @@ class ClientTest extends TestCase
             'touser' => 'mock-openid',
             'template_id' => 'mock-template_id',
             'page' => '',
-            'data' => ['thing1' => ['value' => 'thing1.DATA']]
+            'data' => ['thing1' => ['value' => 'thing1.DATA']],
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id', 'data' => ['thing1' => 'thing1.DATA']]));
     }
