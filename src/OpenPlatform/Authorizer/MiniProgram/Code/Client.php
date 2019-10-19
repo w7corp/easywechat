@@ -77,7 +77,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $itemList
+     * @param array  $itemList
      * @param string $feedback_info
      * @param string $feedback_stuff
      *
@@ -91,7 +91,7 @@ class Client extends BaseClient
         return $this->httpPostJson('wxa/submit_audit', [
             'item_list' => $itemList,
             'feedback_info' => $feedback_info,
-            'feedback_stuff' => $feedback_stuff
+            'feedback_stuff' => $feedback_stuff,
         ]);
     }
 
