@@ -77,7 +77,7 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array  $itemList
+     * @param array       $itemList
      * @param string|null $feedbackInfo
      * @param string|null $feedbackStuff
      *
