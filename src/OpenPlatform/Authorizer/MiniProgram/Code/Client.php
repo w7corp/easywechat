@@ -78,15 +78,15 @@ class Client extends BaseClient
 
     /**
      * @param array  $itemList
-     * @param string $feedbackInfo
-     * @param string $feedbackStuff
+     * @param string|null $feedbackInfo
+     * @param string|null $feedbackStuff
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function submitAudit(array $itemList, string $feedbackInfo, string $feedbackStuff)
+    public function submitAudit(array $itemList, string $feedbackInfo = null, string $feedbackStuff = null)
     {
         return $this->httpPostJson('wxa/submit_audit', [
             'item_list' => $itemList,
