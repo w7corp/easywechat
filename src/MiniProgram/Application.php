@@ -38,6 +38,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\BasicService\Media\Client              $media
  * @property \EasyWeChat\BasicService\ContentSecurity\Client    $content_security
  * @property \EasyWeChat\MiniProgram\Mall\ForwardsMall          $mall
+ * @property \EasyWeChat\MiniProgram\SubscribeMessage\Client    $subscribe_message
  */
 class Application extends ServiceContainer
 {
@@ -61,6 +62,7 @@ class Application extends ServiceContainer
         OCR\ServiceProvider::class,
         Soter\ServiceProvider::class,
         Mall\ServiceProvider::class,
+        SubscribeMessage\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
         BasicService\ContentSecurity\ServiceProvider::class,
