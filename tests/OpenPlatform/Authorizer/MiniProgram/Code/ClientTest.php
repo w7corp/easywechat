@@ -62,7 +62,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
         $client->expects()->httpPostJson('wxa/submit_audit', ['item_list' => ['foo', 'bar'], 'feedback_info' => 'foo', 'feedback_stuff' => 'foo'])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->submitAudit(['foo', 'bar']));
+        $this->assertSame('mock-result', $client->submitAudit(['foo', 'bar'], 'foo', 'foo'));
     }
 
     public function testGetAuditStatus()
