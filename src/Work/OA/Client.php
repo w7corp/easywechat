@@ -48,8 +48,8 @@ class Client extends BaseClient
     /**
      * Get the checkin rules.
      *
-     * @param int $datetime
-     * @param array  $userList
+     * @param int   $datetime
+     * @param array $userList
      *
      * @return mixed
      *
