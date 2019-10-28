@@ -46,10 +46,10 @@ class Client extends BaseClient
     }
 
     /**
-     * Get the checkin rules
+     * Get the checkin rules.
      *
-     * @param  string $day
-     * @param  array  $userList
+     * @param string $day
+     * @param array  $userList
      *
      * @return mixed
      *
@@ -67,13 +67,13 @@ class Client extends BaseClient
     }
 
     /**
-     * Get Approval number
+     * Get Approval number.
      *
-     * @param  int $startTime
-     * @param  int $endTime
-     * @param  int $nextCursor
-     * @param  int $size
-     * @param  array $filters
+     * @param int   $startTime
+     * @param int   $endTime
+     * @param int   $nextCursor
+     * @param int   $size
+     * @param array $filters
      *
      * @return mixed
      *
@@ -94,9 +94,9 @@ class Client extends BaseClient
     }
 
     /**
-     * Get approval detail
+     * Get approval detail.
      *
-     * @param  int $number
+     * @param int $number
      *
      * @return mixed
      *

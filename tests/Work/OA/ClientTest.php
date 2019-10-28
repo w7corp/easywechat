@@ -33,7 +33,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('cgi-bin/checkin/getcheckinoption', [
-            'day' => '2019-10-28',
+            'datetime' => 1572192000,
             'useridlist' => ['overtrue', 'tianyong'],
         ])->andReturn('mock-result');
 
@@ -48,7 +48,7 @@ class ClientTest extends TestCase
             'endtime' => 1408274000,
             'cursor' => 0,
             'size' => 100,
-            'filters'=>[]
+            'filters' => [],
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->approvalNumbers(1408272000, 1408274000, 0, 100, []));
