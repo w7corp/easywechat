@@ -29,6 +29,41 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->checkinRecords(1408272000, 1408274000, ['overtrue', 'tianyong']));
     }
 
+    public function testCheckinRules()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('cgi-bin/checkin/getcheckinoption', [
+            'day' => '2019-10-28',
+            'useridlist' => ['overtrue', 'tianyong'],
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->checkinRules('2019-10-28', ['overtrue', 'tianyong']));
+    }
+
+    public function testApprovalNumbers()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('cgi-bin/oa/getapprovalinfo', [
+            'starttime' => 1408272000,
+            'endtime' => 1408274000,
+            'cursor' => 0,
+            'size' => 100,
+            'filters'=>[]
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->approvalNumbers(1408272000, 1408274000, 0, 100, []));
+    }
+
+    public function testApprovalDetail()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('cgi-bin/oa/getapprovaldetail', [
+            'sp_no' => 201910280001,
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->approvalDetail(201910280001));
+    }
+
     public function testApprovalRecords()
     {
         $client = $this->mockApiClient(Client::class);

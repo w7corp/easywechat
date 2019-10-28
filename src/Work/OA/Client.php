@@ -46,6 +46,73 @@ class Client extends BaseClient
     }
 
     /**
+     * Get the checkin rules
+     *
+     * @param  string $day
+     * @param  array  $userList
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkinRules(string $day,array $userList)
+    {
+        $params = [
+            'datetime' => strtotime($day),
+            'useridlist' => $userList,
+        ];
+
+        return $this->httpPostJson('cgi-bin/checkin/getcheckinoption', $params);
+    }
+
+    /**
+     * Get Approval number
+     *
+     * @param  int $startTime
+     * @param  int $endTime
+     * @param  int $nextCursor
+     * @param  int $size
+     * @param  array $filters
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function approvalNumbers(int $startTime, int $endTime, int $nextCursor = 0, int $size = 100, array $filters = [])
+    {
+        $params = [
+            'starttime' => $startTime,
+            'endtime' => $endTime,
+            'cursor' => $nextCursor,
+            'size' => $size > 100 ? 100 : $size,
+            'filters' => $filters,
+        ];
+
+        return $this->httpPostJson('cgi-bin/oa/getapprovalinfo', $params);
+    }
+
+    /**
+     * Get approval detail
+     *
+     * @param  int $number
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function approvalDetail(int $number)
+    {
+        $params = [
+            'sp_no' => $number,
+        ];
+
+        return $this->httpPostJson('cgi-bin/oa/getapprovaldetail', $params);
+    }
+
+    /**
      * Get Approval Data.
      *
      * @param int $startTime
