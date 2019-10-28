@@ -37,7 +37,7 @@ class ClientTest extends TestCase
             'useridlist' => ['overtrue', 'tianyong'],
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->checkinRules('2019-10-28', ['overtrue', 'tianyong']));
+        $this->assertSame('mock-result', $client->checkinRules(1572192000, ['overtrue', 'tianyong']));
     }
 
     public function testApprovalNumbers()

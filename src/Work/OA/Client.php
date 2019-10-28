@@ -48,7 +48,7 @@ class Client extends BaseClient
     /**
      * Get the checkin rules.
      *
-     * @param string $day
+     * @param int $datetime
      * @param array  $userList
      *
      * @return mixed
@@ -56,10 +56,10 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function checkinRules(string $day,array $userList)
+    public function checkinRules(int $datetime, array $userList)
     {
         $params = [
-            'datetime' => strtotime($day),
+            'datetime' => $datetime,
             'useridlist' => $userList,
         ];
 
