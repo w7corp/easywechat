@@ -40,6 +40,64 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->checkinRules(1572192000, ['overtrue', 'tianyong']));
     }
 
+    public function testApprovalTemplate()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('cgi-bin/oa/gettemplatedetail', [
+            'template_id' => 'ZLqk8pcsAoXZ1eY56vpAgfX28MPdYU3ayMaSPH',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->approvalTemplate('ZLqk8pcsAoXZ1eY56vpAgfX28MPdYU3ayMaSPH'));
+    }
+
+    public function testCreateApproval()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('cgi-bin/oa/applyevent', [
+            'creator_userid' => 'WangXiaoMing',
+            'template_id' => '3Tka1eD6v6JfzhDMqPd3aMkFdxqtJMc2ZRioeFXk',
+            'approver' => [
+                [
+                    'attr' => 1,
+                    'userid' => ['LiuXiaoGang'],
+                ]
+            ],
+            'notifyer' => [],
+            'notify_type' => 1,
+            'apply_data' => [
+                'contents' => [
+                    [
+                        'id' => 'Text-1569573760849',
+                        'control' => 'Text',
+                        'title' => [
+                            'text' => '文本控件',
+                            'lang' => 'zh_CN',
+                        ],
+                        'value' => [
+                            'text' => '文本填写的内容',
+                        ],
+                    ]
+                ]
+            ],
+            'summary_list' => [
+                [
+                    'summary_info' => [
+                        'text' => '摘要第1行',
+                        'lang' => 'zh_CN',
+                    ]
+                ],
+                [
+                    'summary_info' => [
+                        'text' => '摘要第2行',
+                        'lang' => 'zh_CN',
+                    ]
+                ]
+            ],
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->createApproval('WangXiaoMing', '3Tka1eD6v6JfzhDMqPd3aMkFdxqtJMc2ZRioeFXk', [['attr' => 1, 'userid' => ['LiuXiaoGang']]], [], 1, ['contents' => [['id' => 'Text-1569573760849', 'control' => 'Text', 'title' => ['text' => '文本控件', 'lang' => 'zh_CN'], 'value' =>['text' => '文本填写的内容']]]], [['summary_info' => ['text' => '摘要第1行', 'lang' => 'zh_CN']], ['summary_info' => ['text' => '摘要第2行', 'lang' => 'zh_CN']]]));
+    }
+
     public function testApprovalNumbers()
     {
         $client = $this->mockApiClient(Client::class);

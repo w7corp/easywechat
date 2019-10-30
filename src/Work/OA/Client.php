@@ -67,6 +67,56 @@ class Client extends BaseClient
     }
 
     /**
+     * Get approval template details.
+     *
+     * @param string $templateId
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function approvalTemplate(string $templateId)
+    {
+        $params = [
+            'template_id' => $templateId,
+        ];
+
+        return $this->httpPostJson('cgi-bin/oa/gettemplatedetail', $params);
+    }
+
+    /**
+     * Submit an application for approval.
+     *
+     * @param string $userId
+     * @param string $templateId
+     * @param array  $approver
+     * @param array  $notifyer
+     * @param int    $notifyType
+     * @param array  $applyData
+     * @param array  $summaryList
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function createApproval(string $userId, string $templateId, array $approver, array $notifyer = [], int $notifyType = 1, array $applyData, array $summaryList)
+    {
+        $params = [
+            'creator_userid' => $userId,
+            'template_id' => $templateId,
+            'approver' => $approver,
+            'notifyer' => $notifyer,
+            'notify_type' => $notifyType,
+            'apply_data' => $applyData,
+            'summary_list' => $summaryList,
+        ];
+
+        return $this->httpPostJson('cgi-bin/oa/applyevent', $params);
+    }
+
+    /**
      * Get Approval number.
      *
      * @param int   $startTime
