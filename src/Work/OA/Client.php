@@ -88,22 +88,16 @@ class Client extends BaseClient
     /**
      * Submit an application for approval.
      *
-     * @param string $userId
-     * @param array  $applyData
-     * @param array  $notify
+     * @param array $data
      *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function createApproval(string $userId, array $applyData, array $notify = [])
+    public function createApproval(array $data)
     {
-        $params = array_merge([
-            'creator_userid' => $userId,
-        ], $applyData, $notify);
-
-        return $this->httpPostJson('cgi-bin/oa/applyevent', $params);
+        return $this->httpPostJson('cgi-bin/oa/applyevent', $data);
     }
 
     /**

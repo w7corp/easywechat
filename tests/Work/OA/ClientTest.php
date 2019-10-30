@@ -93,7 +93,7 @@ class ClientTest extends TestCase
             ],
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->createApproval('WangXiaoMing', ['template_id' => '3Tka1eD6v6JfzhDMqPd3aMkFdxqtJMc2ZRioeFXk', 'approver' => [['attr' => 1, 'userid' => ['LiuXiaoGang']]], 'apply_data' => ['contents' => [['id' => 'Text-1569573760849', 'control' => 'Text', 'title' => ['text' => '文本控件', 'lang' => 'zh_CN'], 'value' => ['text' => '文本填写的内容']]]], 'summary_list' => [['summary_info' => ['text' => '摘要第1行', 'lang' => 'zh_CN']], ['summary_info' => ['text' => '摘要第2行', 'lang' => 'zh_CN']]]], []));
+        $this->assertSame('mock-result', $client->createApproval(['creator_userid' => 'WangXiaoMing', 'template_id' => '3Tka1eD6v6JfzhDMqPd3aMkFdxqtJMc2ZRioeFXk', 'approver' => [['attr' => 1, 'userid' => ['LiuXiaoGang']]], 'apply_data' => ['contents' => [['id' => 'Text-1569573760849', 'control' => 'Text', 'title' => ['text' => '文本控件', 'lang' => 'zh_CN'], 'value' => ['text' => '文本填写的内容']]]], 'summary_list' => [['summary_info' => ['text' => '摘要第1行', 'lang' => 'zh_CN']], ['summary_info' => ['text' => '摘要第2行', 'lang' => 'zh_CN']]]]));
     }
 
     public function testApprovalNumbers()
