@@ -67,6 +67,40 @@ class Client extends BaseClient
     }
 
     /**
+     * Get approval template details.
+     *
+     * @param string $templateId
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function approvalTemplate(string $templateId)
+    {
+        $params = [
+            'template_id' => $templateId,
+        ];
+
+        return $this->httpPostJson('cgi-bin/oa/gettemplatedetail', $params);
+    }
+
+    /**
+     * Submit an application for approval.
+     *
+     * @param array $data
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function createApproval(array $data)
+    {
+        return $this->httpPostJson('cgi-bin/oa/applyevent', $data);
+    }
+
+    /**
      * Get Approval number.
      *
      * @param int   $startTime
