@@ -17,6 +17,7 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\ArrayAccessible;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Tests\TestCase;
+use stdClass;
 
 class HelpersTest extends TestCase
 {
@@ -46,6 +47,12 @@ class HelpersTest extends TestCase
         // ArrayIterator
         $array = new DummyIteratorAggregateClassForHelpersTest(['name' => 'overtrue']);
         $this->assertSame('overtrue', data_get($array->getIterator(), 'name'));
+
+        // object
+        $obj = \json_decode(\json_encode(['name' => 'foo']));
+        $this->assertSame('foo', data_get($obj, 'name'));
+        $this->assertNull(data_get($obj, 'age'));
+        $this->assertSame(27, data_get($obj, 'age', 27));
 
         $this->expectException(RuntimeException::class);
         data_get('not an array accessible data', 'foo');
