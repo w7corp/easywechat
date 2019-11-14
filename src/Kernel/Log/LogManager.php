@@ -201,19 +201,6 @@ class LogManager implements LoggerInterface
     }
 
     /**
-     * Create a custom log driver instance.
-     *
-     * @param  array  $config
-     * @return \Psr\Log\LoggerInterface
-     */
-    protected function createCustomDriver(array $config)
-    {
-        $factory = is_callable($via = $config['via']) ? $via : $this->app->make($via);
-
-        return $factory($config);
-    }
-
-    /**
      * Create an aggregate log driver instance.
      *
      * @param array $config
