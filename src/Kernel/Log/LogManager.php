@@ -12,17 +12,17 @@
 namespace EasyWeChat\Kernel\Log;
 
 use EasyWeChat\Kernel\ServiceContainer;
-use Psr\Log\LoggerInterface;
 use InvalidArgumentException;
-use Monolog\Logger as Monolog;
-use Monolog\Handler\StreamHandler;
-use Monolog\Handler\SyslogHandler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\SlackWebhookHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogHandler;
 use Monolog\Handler\WhatFailureGroupHandler;
+use Monolog\Logger as Monolog;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class LogManager.
@@ -164,7 +164,7 @@ class LogManager implements LoggerInterface
             return $this->callCustomCreator($config);
         }
 
-        $driverMethod = 'create' . ucfirst($config['driver']) . 'Driver';
+        $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
 
         if (method_exists($this, $driverMethod)) {
             return $this->{$driverMethod}($config);
@@ -183,7 +183,7 @@ class LogManager implements LoggerInterface
     protected function createEmergencyLogger()
     {
         return new Monolog('EasyWeChat', $this->prepareHandlers([new StreamHandler(
-            \sys_get_temp_dir() . '/easywechat/easywechat.log',
+            \sys_get_temp_dir().'/easywechat/easywechat.log',
             $this->level(['level' => 'debug'])
         )]));
     }
