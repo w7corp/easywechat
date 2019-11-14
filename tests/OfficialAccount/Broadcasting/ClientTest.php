@@ -90,6 +90,7 @@ class ClientTest extends TestCase
         $msgId = 'mock-msg-id';
         $c->expects()->httpPostJson('cgi-bin/message/mass/delete', [
             'msg_id' => $msgId,
+            'article_idx' => 0
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $c->delete($msgId));
     }

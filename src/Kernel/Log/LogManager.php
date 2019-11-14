@@ -247,7 +247,8 @@ class LogManager implements LoggerInterface
     {
         return new Monolog($this->parseChannel($config), [
             $this->prepareHandler(new RotatingFileHandler(
-                $config['path'], $config['days'] ?? 7, $this->level($config)
+                $config['path'], $config['days'] ?? 7, $this->level($config),
+                $config['bubble'] ?? true, $config['permission'] ?? null, $config['locking'] ?? false
             )),
         ]);
     }
