@@ -17,7 +17,6 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\ArrayAccessible;
 use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Tests\TestCase;
-use stdClass;
 
 class HelpersTest extends TestCase
 {
