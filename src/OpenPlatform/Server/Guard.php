@@ -11,14 +11,13 @@
 
 namespace EasyWeChat\OpenPlatform\Server;
 
+use function EasyWeChat\Kernel\data_get;
 use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\UpdateAuthorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\VerifyTicketRefreshed;
 use Symfony\Component\HttpFoundation\Response;
-
-use function EasyWeChat\Kernel\data_get;
 
 /**
  * Class Guard.
