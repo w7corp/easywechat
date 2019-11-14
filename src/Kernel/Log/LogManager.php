@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\ServiceContainer;
 use InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\FormattableHandlerInterface;
 use Monolog\Handler\HandlerInterface;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\SlackWebhookHandler;
@@ -355,7 +356,9 @@ class LogManager implements LoggerInterface
     protected function prepareHandler(HandlerInterface $handler, array $config = [])
     {
         if (!isset($config['formatter'])) {
-            $handler->setFormatter($this->formatter());
+            if ($handler instanceof FormattableHandlerInterface) {
+                $handler->setFormatter($this->formatter());
+            }
         }
 
         return $handler;
