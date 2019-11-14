@@ -356,8 +356,6 @@ class LogManager implements LoggerInterface
     {
         if (!isset($config['formatter'])) {
             $handler->setFormatter($this->formatter());
-        } elseif ($config['formatter'] !== 'default') {
-            $handler->setFormatter($this->app->make($config['formatter'], $config['formatter_with'] ?? []));
         }
 
         return $handler;
