@@ -12,6 +12,7 @@
 namespace EasyWeChat\Kernel\Log;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use InvalidArgumentException;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\FormattableHandlerInterface;
@@ -20,6 +21,7 @@ use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogHandler;
+use Monolog\Handler\WhatFailureGroupHandler;
 use Monolog\Logger as Monolog;
 use Psr\Log\LoggerInterface;
 
@@ -101,7 +103,7 @@ class LogManager implements LoggerInterface
      */
     public function channel($channel = null)
     {
-        return $this->get($channel);
+        return $this->driver($channel);
     }
 
     /**
@@ -135,8 +137,8 @@ class LogManager implements LoggerInterface
             $logger = $this->createEmergencyLogger();
 
             $logger->emergency('Unable to create configured logger. Using emergency logger.', [
-                    'exception' => $e,
-                ]);
+                'exception' => $e,
+            ]);
 
             return $logger;
         }
@@ -149,14 +151,14 @@ class LogManager implements LoggerInterface
      *
      * @return \Psr\Log\LoggerInterface
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function resolve($name)
     {
         $config = $this->app['config']->get(\sprintf('log.channels.%s', $name));
 
         if (is_null($config)) {
-            throw new \InvalidArgumentException(\sprintf('Log [%s] is not defined.', $name));
+            throw new InvalidArgumentException(\sprintf('Log [%s] is not defined.', $name));
         }
 
         if (isset($this->customCreators[$config['driver']])) {
@@ -169,7 +171,7 @@ class LogManager implements LoggerInterface
             return $this->{$driverMethod}($config);
         }
 
-        throw new \InvalidArgumentException(\sprintf('Driver [%s] is not supported.', $config['driver']));
+        throw new InvalidArgumentException(\sprintf('Driver [%s] is not supported.', $config['driver']));
     }
 
     /**
@@ -182,7 +184,8 @@ class LogManager implements LoggerInterface
     protected function createEmergencyLogger()
     {
         return new Monolog('EasyWeChat', $this->prepareHandlers([new StreamHandler(
-            \sys_get_temp_dir().'/easywechat/easywechat.log', $this->level(['level' => 'debug'])
+            \sys_get_temp_dir().'/easywechat/easywechat.log',
+            $this->level(['level' => 'debug'])
         )]));
     }
 
@@ -215,6 +218,10 @@ class LogManager implements LoggerInterface
             $handlers = \array_merge($handlers, $this->channel($channel)->getHandlers());
         }
 
+        if ($config['ignore_exceptions'] ?? false) {
+            $handlers = [new WhatFailureGroupHandler($handlers)];
+        }
+
         return new Monolog($this->parseChannel($config), $handlers);
     }
 
@@ -230,9 +237,13 @@ class LogManager implements LoggerInterface
     protected function createSingleDriver(array $config)
     {
         return new Monolog($this->parseChannel($config), [
-            $this->prepareHandler(
-                new StreamHandler($config['path'], $this->level($config))
-            ),
+            $this->prepareHandler(new StreamHandler(
+                $config['path'],
+                $this->level($config),
+                $config['bubble'] ?? true,
+                $config['permission'] ?? null,
+                $config['locking'] ?? false
+            ), $config),
         ]);
     }
 
@@ -247,9 +258,13 @@ class LogManager implements LoggerInterface
     {
         return new Monolog($this->parseChannel($config), [
             $this->prepareHandler(new RotatingFileHandler(
-                $config['path'], $config['days'] ?? 7, $this->level($config),
-                $config['bubble'] ?? true, $config['permission'] ?? null, $config['locking'] ?? false
-            )),
+                $config['path'],
+                $config['days'] ?? 7,
+                $this->level($config),
+                $config['bubble'] ?? true,
+                $config['permission'] ?? null,
+                $config['locking'] ?? false
+            ), $config),
         ]);
     }
 
@@ -271,8 +286,10 @@ class LogManager implements LoggerInterface
                 $config['emoji'] ?? ':boom:',
                 $config['short'] ?? false,
                 $config['context'] ?? true,
-                $this->level($config)
-            )),
+                $this->level($config),
+                $config['bubble'] ?? true,
+                $config['exclude_fields'] ?? []
+            ), $config),
         ]);
     }
 
@@ -287,8 +304,10 @@ class LogManager implements LoggerInterface
     {
         return new Monolog($this->parseChannel($config), [
             $this->prepareHandler(new SyslogHandler(
-                    'EasyWeChat', $config['facility'] ?? LOG_USER, $this->level($config))
-            ),
+                'EasyWeChat',
+                $config['facility'] ?? LOG_USER,
+                $this->level($config)
+            ), $config),
         ]);
     }
 
@@ -302,8 +321,11 @@ class LogManager implements LoggerInterface
     protected function createErrorlogDriver(array $config)
     {
         return new Monolog($this->parseChannel($config), [
-            $this->prepareHandler(new ErrorLogHandler(
-                    $config['type'] ?? ErrorLogHandler::OPERATING_SYSTEM, $this->level($config))
+            $this->prepareHandler(
+                new ErrorLogHandler(
+                    $config['type'] ?? ErrorLogHandler::OPERATING_SYSTEM,
+                    $this->level($config)
+                )
             ),
         ]);
     }
@@ -331,10 +353,12 @@ class LogManager implements LoggerInterface
      *
      * @return \Monolog\Handler\HandlerInterface
      */
-    protected function prepareHandler(HandlerInterface $handler)
+    protected function prepareHandler(HandlerInterface $handler, array $config = [])
     {
-        if ($handler instanceof FormattableHandlerInterface) {
-            $handler->setFormatter($this->formatter());
+        if (!isset($config['formatter'])) {
+            if ($handler instanceof FormattableHandlerInterface) {
+                $handler->setFormatter($this->formatter());
+            }
         }
 
         return $handler;
@@ -372,7 +396,7 @@ class LogManager implements LoggerInterface
      *
      * @return int
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function level(array $config)
     {
@@ -382,7 +406,7 @@ class LogManager implements LoggerInterface
             return $this->levels[$level];
         }
 
-        throw new \InvalidArgumentException('Invalid log level.');
+        throw new InvalidArgumentException('Invalid log level.');
     }
 
     /**
