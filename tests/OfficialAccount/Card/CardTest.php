@@ -18,6 +18,10 @@ use EasyWeChat\OfficialAccount\Card\Client;
 use EasyWeChat\OfficialAccount\Card\CodeClient;
 use EasyWeChat\OfficialAccount\Card\CoinClient;
 use EasyWeChat\OfficialAccount\Card\GeneralCardClient;
+use EasyWeChat\OfficialAccount\Card\GiftCardClient;
+use EasyWeChat\OfficialAccount\Card\GiftCardOrderClient;
+use EasyWeChat\OfficialAccount\Card\GiftCardPageClient;
+use EasyWeChat\OfficialAccount\Card\InvoiceClient;
 use EasyWeChat\OfficialAccount\Card\JssdkClient;
 use EasyWeChat\OfficialAccount\Card\MeetingTicketClient;
 use EasyWeChat\OfficialAccount\Card\MemberCardClient;
@@ -42,6 +46,10 @@ class CardTest extends TestCase
         $this->assertInstanceOf(CodeClient::class, $card->code);
         $this->assertInstanceOf(SubMerchantClient::class, $card->sub_merchant);
         $this->assertInstanceOf(JssdkClient::class, $card->jssdk);
+        $this->assertInstanceOf(GiftCardClient::class, $card->gift_card);
+        $this->assertInstanceOf(GiftCardOrderClient::class, $card->gift_card_order);
+        $this->assertInstanceOf(GiftCardPageClient::class, $card->gift_card_page);
+        $this->assertInstanceOf(InvoiceClient::class, $card->invoice);
 
         try {
             $card->foo;

@@ -81,13 +81,9 @@ class BaseClient
         $params = array_filter(array_merge($base, $this->prepends(), $params), 'strlen');
 
         $secretKey = $this->app->getKey($endpoint);
-        if ('HMAC-SHA256' === ($params['sign_type'] ?? 'MD5')) {
-            $encryptMethod = function ($str) use ($secretKey) {
-                return hash_hmac('sha256', $str, $secretKey);
-            };
-        } else {
-            $encryptMethod = 'md5';
-        }
+
+        $encryptMethod = Support\get_encrypt_method(Support\Arr::get($params, 'sign_type', 'MD5'), $secretKey);
+
         $params['sign'] = Support\generate_sign($params, $secretKey, $encryptMethod);
 
         $options = array_merge([
