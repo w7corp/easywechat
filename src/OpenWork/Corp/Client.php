@@ -151,7 +151,7 @@ class Client extends BaseClient
             'agentid' => $agentId,
         ];
 
-        return $this->httpPostJson('cgi-bin/service/get_admin_lis', $params);
+        return $this->httpPostJson('cgi-bin/service/get_admin_list', $params);
     }
 
     /**
