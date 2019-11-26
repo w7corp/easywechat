@@ -249,4 +249,19 @@ class Client extends BaseClient
         return $this->httpGet('wxa/queryquota');
     }
 
+    /**
+     * 加急审核申请
+     *
+     * @param int $auditId 审核单ID
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function speedupAudit(int $auditId)
+    {
+        return $this->httpPostJson('wxa/speedupaudit', [
+            'auditid' => $auditId,
+        ]);
+    }
 }
