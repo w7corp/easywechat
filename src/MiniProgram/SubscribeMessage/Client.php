@@ -113,8 +113,8 @@ class Client extends BaseClient
     /**
      * Combine templates and add them to your personal template library under your account.
      *
-     * @param string $tid
-     * @param array $kidList
+     * @param string      $tid
+     * @param array       $kidList
      * @param string|null $sceneDesc
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -164,8 +164,8 @@ class Client extends BaseClient
      * Get the title of the public template under the category to which the account belongs.
      *
      * @param array $ids
-     * @param int $start
-     * @param int $limit
+     * @param int   $start
+     * @param int   $limit
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
