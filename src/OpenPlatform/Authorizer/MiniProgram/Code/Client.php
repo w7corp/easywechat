@@ -238,7 +238,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 查询服务商的当月提审限额（quota）和加急次数
+     * 查询服务商的当月提审限额（quota）和加急次数.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -250,7 +250,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 加急审核申请
+     * 加急审核申请.
      *
      * @param int $auditId 审核单ID
      *
