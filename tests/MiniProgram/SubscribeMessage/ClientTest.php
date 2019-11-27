@@ -114,4 +114,72 @@ class ClientTest extends TestCase
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id', 'data' => ['thing1' => 'thing1.DATA']]));
     }
+
+    public function testAddTemplate()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+
+        $client->expects()->httpPost('wxaapi/newtmpl/addtemplate', [
+            'tid' => 'mock-tid',
+            'kidList' => ['mock-kid'],
+            'sceneDesc' => 'mock-scene',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->addTemplate('mock-tid', ['mock-kid'], 'mock-scene'));
+    }
+
+    public function testDeleteTemplate()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+
+        $client->expects()->httpPost('wxaapi/newtmpl/deltemplate', [
+            'priTmplId' => 'mock-template-id',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->deleteTemplate('mock-template-id'));
+    }
+
+    public function testGetTemplateKeywords()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+
+        $client->expects()->httpGet('wxaapi/newtmpl/getpubtemplatekeywords', [
+            'tid' => 'mock-tid',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getTemplateKeywords('mock-tid'));
+    }
+
+    public function testGetTemplateTitles()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+
+        $client->expects()->httpGet('wxaapi/newtmpl/getpubtemplatetitles', [
+            'ids' => 'mock-tid1,mock-tid2',
+            'start' => 0,
+            'limit' => 30,
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getTemplateTitles(['mock-tid1', 'mock-tid2']));
+    }
+
+    public function testGetTemplates()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+
+        $client->expects()->httpGet('wxaapi/newtmpl/gettemplate')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getTemplates());
+    }
+
+    public function testGetCategory()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+
+        $client->expects()->httpGet('wxaapi/newtmpl/getcategory')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getCategory());
+    }
+
+
 }
