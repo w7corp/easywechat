@@ -180,6 +180,4 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->getCategory());
     }
-
-
 }
