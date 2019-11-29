@@ -52,7 +52,7 @@ class Client extends BaseClient
             throw new InvalidArgumentException(sprintf('Failed to get certificate. return_code_msg: "%s" .', $response['return_code'].'('.$response['return_msg'].')'));
         }
         if ('SUCCESS' !== $response['result_code']) {
-            throw new InvalidArgumentException(sprintf('Failed to get certificate. result_err_code_des: "%s" .', $response['result_code'].'('.$response['err_code'].'['.$response['err_code_des'].'])'));
+            throw new InvalidArgumentException(sprintf('Failed to get certificate. result_err_code_desc: "%s" .', $response['result_code'].'('.$response['err_code'].'['.$response['err_code_desc'].'])'));
         }
         $certificates = \GuzzleHttp\json_decode($response['certificates'], true)['data'][0];
         $ciphertext = $this->decrypt($certificates['encrypt_certificate']);
