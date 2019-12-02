@@ -236,4 +236,32 @@ class Client extends BaseClient
             'version' => $version,
         ]);
     }
+
+    /**
+     * 查询服务商的当月提审限额（quota）和加急次数.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function queryQuota()
+    {
+        return $this->httpGet('wxa/queryquota');
+    }
+
+    /**
+     * 加急审核申请.
+     *
+     * @param int $auditId 审核单ID
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function speedupAudit(int $auditId)
+    {
+        return $this->httpPostJson('wxa/speedupaudit', [
+            'auditid' => $auditId,
+        ]);
+    }
 }
