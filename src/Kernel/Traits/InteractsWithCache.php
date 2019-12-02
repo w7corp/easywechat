@@ -72,7 +72,7 @@ trait InteractsWithCache
         }
 
         if ($cache instanceof CacheItemPoolInterface) {
-            if (!$this->isSymfony43()) {
+            if (!$this->isSymfony43OrHigher()) {
                 throw new InvalidArgumentException(sprintf('The cache instance must implements %s', SimpleCacheInterface::class));
             }
             $cache = new Psr16Cache($cache);
@@ -88,7 +88,7 @@ trait InteractsWithCache
      */
     protected function createDefaultCache()
     {
-        if ($this->isSymfony43()) {
+        if ($this->isSymfony43OrHigher()) {
             return new Psr16Cache(new FilesystemAdapter('easywechat', 1500));
         }
 
@@ -98,7 +98,7 @@ trait InteractsWithCache
     /**
      * @return bool
      */
-    protected function isSymfony43(): bool
+    protected function isSymfony43OrHigher(): bool
     {
         return \class_exists('Symfony\Component\Cache\Psr16Cache');
     }
