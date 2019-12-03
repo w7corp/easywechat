@@ -104,7 +104,9 @@ class Application extends ServiceContainer
     public function setSubMchId(string $subMchId, string $appId = '')
     {
         $this['config']->set('sub_mch_id', $subMchId);
-        $this['config']->set('appid', $appId);
+        if ($appId) {
+            $this['config']->set('appid', $appId);
+        }
 
         return $this;
     }
