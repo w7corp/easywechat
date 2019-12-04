@@ -34,7 +34,7 @@
         "friendsofphp/php-cs-fixer": "^2.15",
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.2.3",
-        "phpstan/phpstan": "^0.11.12",
+        "phpstan/phpstan": "^0.12.0",
         "phpunit/phpunit": "^7.5"
     },
     "autoload": {
