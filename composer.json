@@ -2,6 +2,7 @@
     "name": "overtrue/wechat",
     "description": "微信SDK",
     "keywords": [
+        "easywechat",
         "wechat",
         "weixin",
         "weixin-sdk",
