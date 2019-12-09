@@ -29,7 +29,18 @@ class Client extends BaseClient
     {
         return $this->httpGet('cgi-bin/express/business/delivery/getall');
     }
-
+    
+    /**
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getBindAccounts()
+    {
+        return $this->httpGet('cgi-bin/express/business/account/getall');
+    }
+    
     /**
      * @param array $params
      *
