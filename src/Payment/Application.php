@@ -17,7 +17,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\OfficialAccount;
-use EasyWeChat\Payment\Fundflow\ServiceProvider;
 
 /**
  * Class Application.
