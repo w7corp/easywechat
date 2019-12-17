@@ -29,7 +29,6 @@ class Client extends BaseClient
      */
     public function get(string $date, string $type = 'Basic', $options = [])
     {
-
         $params   = [
             'appid' => $this->app['config']->app_id,
             'bill_date' => $date,
