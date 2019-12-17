@@ -21,10 +21,11 @@ class Client extends BaseClient
      *
      * @param string $date
      * @param string $type
-     *
-     * @return \EasyWeChat\Kernel\Http\StreamResponse|\Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     *
+     * @param array $options
+     * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(string $date, string $type = 'Basic', $options = [])
     {
@@ -45,9 +46,7 @@ class Client extends BaseClient
         );
         $response = $this->requestRaw('pay/downloadfundflow', $params, 'post', $options);
 
-        $Contents = $response->getBody()
-                             ->getContents();
-        if (0 === strpos($res, '<xml>')) {
+        if (0 === strpos($response->getBody()->getContents(), '<xml>')) {
             return $this->castResponseToType($response, $this->app['config']->get('response_type'));
         }
 
