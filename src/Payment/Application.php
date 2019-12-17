@@ -19,7 +19,7 @@ use EasyWeChat\Kernel\Support;
 use EasyWeChat\OfficialAccount;
 
 /**
- * Class Application
+ * Class Application.
  *
  * @property \EasyWeChat\Payment\Bill\Client              $bill
  * @property \EasyWeChat\Payment\Fundflow\Client          $fundflow

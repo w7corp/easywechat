@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the overtrue/wechat.
+ * This file is part of the overtrue/wechat
  *
  * (c) overtrue <i@overtrue.me>
  *
