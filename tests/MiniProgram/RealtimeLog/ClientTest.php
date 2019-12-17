@@ -24,7 +24,7 @@ class ClientTest extends TestCase
                 'date' => '20191217',
                 'begintime' => 1576549163,
                 'endtime' => 1576559963,
-                'level' => 2
+                'level' => 2,
             ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->search('20191217', 1576549163, 1576559963, ['level' => 2]));
