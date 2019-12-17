@@ -15,7 +15,6 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-
     public function testGet()
     {
         //单元测试未完成
