@@ -11,10 +11,6 @@
 
 namespace EasyWeChat\Tests\Payment\Fundflow;
 
-use EasyWeChat\Kernel\Http\Response;
-use EasyWeChat\Kernel\Http\StreamResponse;
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Fundflow\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

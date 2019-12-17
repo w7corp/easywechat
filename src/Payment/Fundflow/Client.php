@@ -17,7 +17,7 @@ use EasyWeChat\Payment\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Download fundflow history as a table file.
+     * Download fundflow history as a table file
      *
      * @param string $date
      * @param string $type

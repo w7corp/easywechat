@@ -15,7 +15,7 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class ServiceProvider.
+ * Class ServiceProvider
  *
  * @author overtrue <i@overtrue.me>
  */
