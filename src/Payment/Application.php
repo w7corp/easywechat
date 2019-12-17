@@ -22,6 +22,7 @@ use EasyWeChat\OfficialAccount;
  * Class Application.
  *
  * @property \EasyWeChat\Payment\Bill\Client              $bill
+ * @property \EasyWeChat\Payment\Fundflow\Client          $fundflow
  * @property \EasyWeChat\Payment\Jssdk\Client             $jssdk
  * @property \EasyWeChat\Payment\Order\Client             $order
  * @property \EasyWeChat\Payment\Refund\Client            $refund
@@ -47,6 +48,7 @@ class Application extends ServiceContainer
         BasicService\Url\ServiceProvider::class,
         Base\ServiceProvider::class,
         Bill\ServiceProvider::class,
+        Fundflow\ServiceProvider::class,
         Coupon\ServiceProvider::class,
         Jssdk\ServiceProvider::class,
         Merchant\ServiceProvider::class,
