@@ -42,7 +42,7 @@ class Client extends BaseClient
 
         return $this->safeRequest('mmpaymkttransfers/gethbinfo', array_merge($base, $params));
     }
-    
+
     /**
      * Send miniprogram normal redpack.
      *
@@ -62,7 +62,7 @@ class Client extends BaseClient
 
         return $this->safeRequest('mmpaymkttransfers/sendminiprogramhb', array_merge($base, $params));
     }
-    
+
     /**
      * Send normal redpack.
      *
