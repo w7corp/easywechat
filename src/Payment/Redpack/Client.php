@@ -42,7 +42,27 @@ class Client extends BaseClient
 
         return $this->safeRequest('mmpaymkttransfers/gethbinfo', array_merge($base, $params));
     }
+    
+    /**
+     * Send miniprogram normal redpack.
+     *
+     * @param array $params
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function sendMiniprogramNormal(array $params)
+    {
+        $base = [
+            'total_num' => 1,
+            'client_ip' => $params['client_ip'] ?? Support\get_server_ip(),
+            'wxappid' => $this->app['config']->app_id,
+        ];
 
+        return $this->safeRequest('mmpaymkttransfers/sendminiprogramhb', array_merge($base, $params));
+    }
+    
     /**
      * Send normal redpack.
      *
