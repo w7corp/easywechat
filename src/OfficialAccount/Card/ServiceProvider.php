@@ -69,5 +69,21 @@ class ServiceProvider implements ServiceProviderInterface
         $app['card.jssdk'] = function ($app) {
             return new JssdkClient($app);
         };
+
+        $app['card.gift_card'] = function ($app) {
+            return new GiftCardClient($app);
+        };
+
+        $app['card.gift_card_order'] = function ($app) {
+            return new GiftCardOrderClient($app);
+        };
+
+        $app['card.gift_card_page'] = function ($app) {
+            return new GiftCardPageClient($app);
+        };
+
+        $app['card.invoice'] = function ($app) {
+            return new InvoiceClient($app);
+        };
     }
 }

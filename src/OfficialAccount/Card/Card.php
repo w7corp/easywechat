@@ -27,6 +27,10 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
  * @property \EasyWeChat\OfficialAccount\Card\SubMerchantClient   $sub_merchant
  * @property \EasyWeChat\OfficialAccount\Card\BoardingPassClient  $boarding_pass
  * @property \EasyWeChat\OfficialAccount\Card\JssdkClient         $jssdk
+ * @property \EasyWeChat\OfficialAccount\Card\GiftCardClient      $gift_card
+ * @property \EasyWeChat\OfficialAccount\Card\GiftCardOrderClient $gift_card_order
+ * @property \EasyWeChat\OfficialAccount\Card\GiftCardPageClient  $gift_card_page
+ * @property \EasyWeChat\OfficialAccount\Card\InvoiceClient       $invoice
  */
 class Card extends Client
 {

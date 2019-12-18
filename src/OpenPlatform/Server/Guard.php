@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\OpenPlatform\Server;
 
+use function EasyWeChat\Kernel\data_get;
 use EasyWeChat\Kernel\ServerGuard;
 use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
@@ -44,8 +45,8 @@ class Guard extends ServerGuard
 
         $message = $this->getMessage();
 
-        if (isset($message['InfoType'])) {
-            $this->dispatch($message['InfoType'], $message);
+        if ($infoType = data_get($message, 'InfoType')) {
+            $this->dispatch($infoType, $message);
         }
 
         return new Response(static::SUCCESS_EMPTY_RESPONSE);

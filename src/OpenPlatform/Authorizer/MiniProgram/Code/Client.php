@@ -77,17 +77,21 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $itemList
+     * @param array       $itemList
+     * @param string|null $feedbackInfo
+     * @param string|null $feedbackStuff
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function submitAudit(array $itemList)
+    public function submitAudit(array $itemList, string $feedbackInfo = null, string $feedbackStuff = null)
     {
         return $this->httpPostJson('wxa/submit_audit', [
             'item_list' => $itemList,
+            'feedback_info' => $feedbackInfo,
+            'feedback_stuff' => $feedbackStuff,
         ]);
     }
 
@@ -230,6 +234,34 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/wxopen/setweappsupportversion', [
             'version' => $version,
+        ]);
+    }
+
+    /**
+     * 查询服务商的当月提审限额（quota）和加急次数.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function queryQuota()
+    {
+        return $this->httpGet('wxa/queryquota');
+    }
+
+    /**
+     * 加急审核申请.
+     *
+     * @param int $auditId 审核单ID
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function speedupAudit(int $auditId)
+    {
+        return $this->httpPostJson('wxa/speedupaudit', [
+            'auditid' => $auditId,
         ]);
     }
 }
