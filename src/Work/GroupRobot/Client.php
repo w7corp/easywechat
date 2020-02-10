@@ -46,4 +46,15 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/webhook/send', $message, ['key' => $key]);
     }
+    
+    /**
+     * Register Guzzle middlewares.
+     */
+    protected function registerHttpMiddlewares()
+    {
+        // retry
+        $this->pushMiddleware($this->retryMiddleware(), 'retry');
+        // log
+        $this->pushMiddleware($this->logMiddleware(), 'log');
+    }
 }
