@@ -44,6 +44,8 @@ class Client extends BaseClient
      */
     public function send(string $key, array $message)
     {
+        $this->accessToken = null;
+
         return $this->httpPostJson('cgi-bin/webhook/send', $message, ['key' => $key]);
     }
 }
