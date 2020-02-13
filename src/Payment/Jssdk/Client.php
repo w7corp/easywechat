@@ -132,4 +132,20 @@ class Client extends JssdkClient
 
         return $json ? json_encode($params) : $params;
     }
+
+    /**
+     * Generate js config for contract of mini program
+     *
+     * @param array $params
+     * @return array
+     */
+    public function contractConfig(array $params): array
+    {
+        $params['appid'] = $this->app['config']->app_id;
+        $params['timestamp'] = time();
+
+        $params['sign'] = Support\generate_sign($params, $this->app['config']->key);
+
+        return $params;
+    }
 }
