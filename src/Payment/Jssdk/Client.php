@@ -134,9 +134,10 @@ class Client extends JssdkClient
     }
 
     /**
-     * Generate js config for contract of mini program
+     * Generate js config for contract of mini program.
      *
      * @param array $params
+     *
      * @return array
      */
     public function contractConfig(array $params): array
