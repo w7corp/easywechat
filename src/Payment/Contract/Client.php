@@ -21,7 +21,7 @@ use EasyWeChat\Payment\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * entrust official account
+     * entrust official account.
      *
      * @param array $params
      *
@@ -39,7 +39,7 @@ class Client extends BaseClient
     }
 
     /**
-     * entrust app
+     * entrust app.
      *
      * @param array $params
      *
@@ -57,7 +57,7 @@ class Client extends BaseClient
     }
 
     /**
-     * entrust html 5
+     * entrust html 5.
      *
      * @param array $params
      *
@@ -75,7 +75,7 @@ class Client extends BaseClient
     }
 
     /**
-     * apply papay
+     * apply papay.
      *
      * @param array $params
      *
@@ -93,7 +93,7 @@ class Client extends BaseClient
     }
 
     /**
-     * delete papay contrace
+     * delete papay contrace.
      *
      * @param array $params
      *
