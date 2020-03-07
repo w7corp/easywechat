@@ -48,12 +48,14 @@ class Client extends BaseClient
         $params = [
             'appid' => $this->app['config']->app_id,
             'receiver' => json_encode(
-                $receiver, JSON_UNESCAPED_UNICODE
+                $receiver,
+                JSON_UNESCAPED_UNICODE
             ),
         ];
 
         return $this->request(
-            'pay/profitsharingaddreceiver', $params
+            'pay/profitsharingaddreceiver',
+            $params
         );
     }
 
@@ -75,12 +77,14 @@ class Client extends BaseClient
         $params = [
             'appid' => $this->app['config']->app_id,
             'receiver' => json_encode(
-                $receiver, JSON_UNESCAPED_UNICODE
+                $receiver,
+                JSON_UNESCAPED_UNICODE
             ),
         ];
 
         return $this->request(
-            'pay/profitsharingremovereceiver', $params
+            'pay/profitsharingremovereceiver',
+            $params
         );
     }
 
@@ -108,12 +112,14 @@ class Client extends BaseClient
             'transaction_id' => $transactionId,
             'out_order_no' => $outOrderNo,
             'receivers' => json_encode(
-                $receivers, JSON_UNESCAPED_UNICODE
+                $receivers,
+                JSON_UNESCAPED_UNICODE
             ),
         ];
 
         return $this->safeRequest(
-            'secapi/pay/profitsharing', $params
+            'secapi/pay/profitsharing',
+            $params
         );
     }
 
@@ -141,12 +147,14 @@ class Client extends BaseClient
             'transaction_id' => $transactionId,
             'out_order_no' => $outOrderNo,
             'receivers' => json_encode(
-                $receivers, JSON_UNESCAPED_UNICODE
+                $receivers,
+                JSON_UNESCAPED_UNICODE
             ),
         ];
 
         return $this->safeRequest(
-            'secapi/pay/multiprofitsharing', $params
+            'secapi/pay/multiprofitsharing',
+            $params
         );
     }
 
@@ -168,7 +176,8 @@ class Client extends BaseClient
         $params['sub_appid'] = null;
 
         return $this->safeRequest(
-            'secapi/pay/profitsharingfinish', $params
+            'secapi/pay/profitsharingfinish',
+            $params
         );
     }
 
@@ -186,7 +195,8 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function query(
-        string $transactionId, string $outOrderNo
+        string $transactionId,
+        string $outOrderNo
     ) {
         $params = [
             'sub_appid' => null,
@@ -195,7 +205,8 @@ class Client extends BaseClient
         ];
 
         return $this->request(
-            'pay/profitsharingquery', $params
+            'pay/profitsharingquery',
+            $params
         );
     }
 }
