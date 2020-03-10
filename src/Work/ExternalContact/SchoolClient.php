@@ -206,6 +206,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 批量更新学生，每次最多100个
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92042
      * @param array $students 格式：[['student_userid':'lisi','new_student_userid':'lisi2','name':'','department':[1,2]],.....]
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -219,6 +220,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 创建家长
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92077
      * @param string $userId
      * @param string $mobile
      * @param bool $toInvite
@@ -239,6 +241,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 删除家长
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92079
      * @param string $userId
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -252,6 +255,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 更新家长
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92081
      * @param string $userId
      * @param string $mobile
      * @param string $newUserId
@@ -280,6 +284,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 批量创建家长 每次最多100个
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92078
      * @param array $parents [['parent_userid':'','mobile':'','to_invite':true,'children':['student_userid':'','relation':'']],.....]
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -293,6 +298,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 批量删除家长，每次最多100个
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92080
      * @param array $userIdList 格式：['chang','lisi']
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -306,6 +312,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 批量更新家长，每次最多100个
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92082
      * @param array $parents 格式：[['parent_userid':'','new_parent_userid':'','mobile':'','children':[['student_userid':'','relation':''],...]],.....]
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -319,6 +326,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 读取学生或家长
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92038
      * @param string $userId 学生或家长的userid
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -331,7 +339,8 @@ class SchoolClient extends BaseClient
     }
 
     /**
-     * 获取班级学生详情
+     * 获取部门成员详情
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92038
      * @param int $departmentId
      * @param bool $fetchChild
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -354,20 +363,8 @@ class SchoolClient extends BaseClient
     }
 
     /**
-     * 获取班级家长列表
-     * @param int $departmentId
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
-    public function listParent(int $departmentId)
-    {
-        return $this->httpGet('cgi-bin/school/user/list_parent',[
-            'department_id' => $departmentId
-        ]);
-    }
-
-    /**
      * 获取学校通知二维码
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92197
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
@@ -378,6 +375,7 @@ class SchoolClient extends BaseClient
 
     /**
      * 设置关注学校通知的模式
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92290
      * @param int $mode 关注模式，1可扫码填写资料加入，2禁止扫码填写资料加入
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -391,11 +389,37 @@ class SchoolClient extends BaseClient
 
     /**
      * 获取关注学校通知的模式
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92290
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function getSubscribeMode()
     {
         return $this->httpGet('cgi-bin/externalcontact/get_subscribe_mode');
+    }
+
+    /**
+     * 设置【老师可查看班级】的模式
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92652
+     * @param int $mode
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function setTeacherViewMode(int $mode)
+    {
+        return $this->httpPostJson('cgi-bin/school/set_teacher_view_mode',[
+            'view_mode' => $mode
+        ]);
+    }
+
+    /**
+     * 获取【老师可查看班级】的模式
+     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/92652
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getTeacherViewMode()
+    {
+        return $this->httpGet('cgi-bin/school/get_teacher_view_mode');
     }
 }
