@@ -28,11 +28,14 @@ class ClientTest extends TestCase
     public function testAddReceiver()
     {
         $client = $this->mockApiClient(
-            Client::class, ['request'], $this->app()
+            Client::class,
+            ['request'],
+            $this->app()
         );
 
         $client->expects()->request(
-            'pay/profitsharingaddreceiver', [
+            'pay/profitsharingaddreceiver',
+            [
                 'appid' => 'wx123456',
                 'receiver' => '{"type":"MERCHANT_ID","account":"190001001","name":"实例商户全称"}',
             ]
@@ -48,18 +51,22 @@ class ClientTest extends TestCase
     public function testDeleteReceiver()
     {
         $client = $this->mockApiClient(
-            Client::class, ['request'], $this->app()
+            Client::class,
+            ['request'],
+            $this->app()
         );
 
         $client->expects()->request(
-            'pay/profitsharingremovereceiver', [
+            'pay/profitsharingremovereceiver',
+            [
                 'appid' => 'wx123456',
                 'receiver' => '{"type":"MERCHANT_ID","account":"190001001","name":"实例商户全称"}',
             ]
         )->andReturn('mock-result');
 
         $this->assertSame(
-            'mock-result', $client->deleteReceiver([
+            'mock-result',
+            $client->deleteReceiver([
                 'type' => 'MERCHANT_ID',
                 'account' => '190001001',
                 'name' => '实例商户全称',
@@ -70,11 +77,14 @@ class ClientTest extends TestCase
     public function testShare()
     {
         $client = $this->mockApiClient(
-            Client::class, ['safeRequest'], $this->app()
+            Client::class,
+            ['safeRequest'],
+            $this->app()
         );
 
         $client->expects()->safeRequest(
-            'secapi/pay/profitsharing', [
+            'secapi/pay/profitsharing',
+            [
                 'appid' => 'wx123456',
                 'transaction_id' => '4208450740201411110007820472',
                 'out_order_no' => 'P20150806125346',
@@ -102,11 +112,14 @@ class ClientTest extends TestCase
     public function testMultiShare()
     {
         $client = $this->mockApiClient(
-            Client::class, ['safeRequest'], $this->app()
+            Client::class,
+            ['safeRequest'],
+            $this->app()
         );
 
         $client->expects()->safeRequest(
-            'secapi/pay/multiprofitsharing', [
+            'secapi/pay/multiprofitsharing',
+            [
                 'appid' => 'wx123456',
                 'transaction_id' => '4208450740201411110007820472',
                 'out_order_no' => 'P20150806125346',
@@ -134,11 +147,14 @@ class ClientTest extends TestCase
     public function testMarkOrderAsFinished()
     {
         $client = $this->mockApiClient(
-            Client::class, ['safeRequest'], $this->app()
+            Client::class,
+            ['safeRequest'],
+            $this->app()
         );
 
         $client->expects()->safeRequest(
-            'secapi/pay/profitsharingfinish', [
+            'secapi/pay/profitsharingfinish',
+            [
                 'appid' => 'wx123456',
                 'sub_appid' => null,
                 'transaction_id' => '4208450740201411110007820472',
@@ -159,7 +175,9 @@ class ClientTest extends TestCase
     public function testQuery()
     {
         $client = $this->mockApiClient(
-            Client::class, ['request'], $this->app()
+            Client::class,
+            ['request'],
+            $this->app()
         );
 
         $client->expects()->request('pay/profitsharingquery', [
@@ -169,7 +187,8 @@ class ClientTest extends TestCase
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->query(
-            '4208450740201411110007820472', 'P20150806125346'
+            '4208450740201411110007820472',
+            'P20150806125346'
         ));
     }
 }
