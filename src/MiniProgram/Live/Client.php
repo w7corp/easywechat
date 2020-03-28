@@ -12,7 +12,6 @@
 namespace EasyWeChat\MiniProgram\Live;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Kernel\Http\StreamResponse;
 
 /**
  * Class Client.
@@ -22,27 +21,27 @@ use EasyWeChat\Kernel\Http\StreamResponse;
 class Client extends BaseClient
 {
     /**
-     * Get Room List
+     * Get Room List.
      *
-     * @param integer $start
-     * @param integer $limit
+     * @param int $start
+     * @param int $limit
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function getRooms(int $start = 0, int $limit = 10)
     {
         $params = [
             'start' => $start,
-            'limit' => $limit
+            'limit' => $limit,
         ];
         return $this->httpPostJson('wxa/business/getliveinfo', $params);
     }
 
     /**
-     * Get Playback List
+     * Get Playback List.
      *
-     * @param integer $roomId
-     * @param integer $start
-     * @param integer $limit
+     * @param int $roomId
+     * @param int $start
+     * @param int $limit
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function getPlaybacks(int $roomId, int $start = 0, int $limit = 10)
@@ -51,7 +50,7 @@ class Client extends BaseClient
             'action' => 'get_replay',
             'room_id' => $roomId,
             'start' => $start,
-            'limit' => $limit
+            'limit' => $limit,
         ];
         return $this->httpPostJson('wxa/business/getliveinfo', $params);
     }

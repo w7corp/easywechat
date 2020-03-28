@@ -9,9 +9,8 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Tests\MiniProgram\TemplateMessage;
+namespace EasyWeChat\Tests\MiniProgram\Live;
 
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\MiniProgram\Live\Client;
 use EasyWeChat\Tests\TestCase;
 
@@ -23,7 +22,7 @@ class ClientTest extends TestCase
 
         $params = [
             'start' => 0,
-            'limit' => 10
+            'limit' => 10,
         ];
 
         $client->expects()->httpPostJson('wxa/business/getliveinfo', $params)->andReturn('mock-result');
@@ -38,7 +37,7 @@ class ClientTest extends TestCase
             'action' => 'get_replay',
             'room_id' => 1,
             'start' => 0,
-            'limit' => 10
+            'limit' => 10,
         ];
 
         $client->expects()->httpPostJson('wxa/business/getliveinfo', $params)->andReturn('mock-result');
