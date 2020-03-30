@@ -244,7 +244,8 @@ class Client extends BaseClient
         ];
 
         return $this->safeRequest(
-            'secapi/pay/profitsharingreturn', $params
+            'secapi/pay/profitsharingreturn',
+            $params
         );
     }
 }

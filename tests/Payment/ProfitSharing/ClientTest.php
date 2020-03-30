@@ -195,7 +195,9 @@ class ClientTest extends TestCase
     public function testReturnShare()
     {
         $client = $this->mockApiClient(
-            Client::class, ['safeRequest'], $this->app()
+            Client::class,
+            ['safeRequest'],
+            $this->app()
         );
 
         $outOrderNo = 'P20150806125346';
@@ -205,7 +207,8 @@ class ClientTest extends TestCase
         $description = '用户退款';
 
         $client->expects()->safeRequest(
-            'secapi/pay/profitsharingreturn', [
+            'secapi/pay/profitsharingreturn',
+            [
                 'appid' => 'wx123456',
                 'out_order_no' => $outOrderNo,
                 'out_return_no' => $refundNo,
