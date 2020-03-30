@@ -172,4 +172,37 @@ class ClientTest extends TestCase
             '4208450740201411110007820472', 'P20150806125346'
         ));
     }
+
+    public function testReturnShare()
+    {
+        $client = $this->mockApiClient(
+            Client::class, ['safeRequest'], $this->app()
+        );
+
+        $outOrderNo = 'P20150806125346';
+        $refundNo = 'bar';
+        $amount = 888;
+        $account = 'foo-merchant-id';
+        $description = '用户退款';
+
+        $client->expects()->safeRequest(
+            'secapi/pay/profitsharingreturn', [
+                'appid' => 'wx123456',
+                'out_order_no' => $outOrderNo,
+                'out_return_no' => $refundNo,
+                'return_account_type' => 'MERCHANT_ID',
+                'return_account' => $account,
+                'return_amount' => $amount,
+                'description' => $description,
+            ]
+        )->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->returnShare(
+            $outOrderNo,
+            $refundNo,
+            $amount,
+            $account,
+            $description
+        ));
+    }
 }

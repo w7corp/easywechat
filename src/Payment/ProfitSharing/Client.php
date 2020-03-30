@@ -198,4 +198,42 @@ class Client extends BaseClient
             'pay/profitsharingquery', $params
         );
     }
+
+    /**
+     * Profit sharing return.
+     * 分账回退.
+     *
+     * @param string $outOrderNo    商户系统内部的分账单号
+     * @param string $outReturnNo   商户系统内部分账回退单号
+     * @param int    $returnAmount  回退金额
+     * @param string $returnAccount 回退方账号
+     * @param string $description   回退描述
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function returnShare(
+        string $outOrderNo,
+        string $outReturnNo,
+        int $returnAmount,
+        string $returnAccount,
+        string $description
+    ) {
+        $params = [
+            'appid' => $this->app['config']->app_id,
+            'out_order_no' => $outOrderNo,
+            'out_return_no' => $outReturnNo,
+            'return_account_type' => 'MERCHANT_ID',
+            'return_account' => $returnAccount,
+            'return_amount' => $returnAmount,
+            'description' => $description,
+        ];
+
+        return $this->safeRequest(
+            'secapi/pay/profitsharingreturn', $params
+        );
+    }
 }
