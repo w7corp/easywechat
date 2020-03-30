@@ -20,7 +20,10 @@ class ClientTest extends TestCase
     public function setUp()
     {
         $this->client = $this->mockApiClient(
-            Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+            Client::class,
+            [],
+            new ServiceContainer(['app_id' => 'app-id'])
+        );
     }
 
     public function testGetBasicInfo()
@@ -39,7 +42,9 @@ class ClientTest extends TestCase
                 'x1' => 0, 'y1' => 0, 'x2' => 1, 'y2' => 1,
             ])->andReturn('mock-result');
         $this->assertSame(
-            'mock-result', $this->client->updateAvatar('media-id'));
+            'mock-result',
+            $this->client->updateAvatar('media-id')
+        );
     }
 
     public function testUpdateSignature()
@@ -49,6 +54,8 @@ class ClientTest extends TestCase
                 'signature' => 'signature',
             ])->andReturn('mock-result');
         $this->assertSame(
-            'mock-result', $this->client->updateSignature('signature'));
+            'mock-result',
+            $this->client->updateSignature('signature')
+        );
     }
 }
