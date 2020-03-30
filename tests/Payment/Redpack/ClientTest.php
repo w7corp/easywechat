@@ -64,7 +64,8 @@ class ClientTest extends TestCase
             'foo' => 'bar',
         ];
 
-        $client->expects()->safeRequest('mmpaymkttransfers/sendgroupredpack',
+        $client->expects()->safeRequest(
+            'mmpaymkttransfers/sendgroupredpack',
             array_merge($params, ['amt_type' => 'ALL_RAND', 'wxappid' => 'wx123456'])
         )->andReturn('mock-result');
 
