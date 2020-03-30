@@ -25,6 +25,7 @@ class Client extends BaseClient
      *
      * @param int $start
      * @param int $limit
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function getRooms(int $start = 0, int $limit = 10)
@@ -33,6 +34,7 @@ class Client extends BaseClient
             'start' => $start,
             'limit' => $limit,
         ];
+
         return $this->httpPostJson('wxa/business/getliveinfo', $params);
     }
 
@@ -42,6 +44,7 @@ class Client extends BaseClient
      * @param int $roomId
      * @param int $start
      * @param int $limit
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function getPlaybacks(int $roomId, int $start = 0, int $limit = 10)
@@ -52,6 +55,7 @@ class Client extends BaseClient
             'start' => $start,
             'limit' => $limit,
         ];
+
         return $this->httpPostJson('wxa/business/getliveinfo', $params);
     }
 }
