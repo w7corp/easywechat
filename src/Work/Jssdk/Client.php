@@ -13,6 +13,7 @@ namespace EasyWeChat\Work\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client as BaseClient;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\Support;
 
 /**
  * Class Client.
@@ -109,7 +110,8 @@ class Client extends BaseClient
         $timestamp = $timestamp ?: time();
 
         return [
-            'appId' => $this->getAppId(),
+            'corpid' => $this->getAppId(),
+            'agentid'   => $this->getAgentId(),
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'url' => $url,
