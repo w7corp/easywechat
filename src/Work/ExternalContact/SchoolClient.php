@@ -74,6 +74,7 @@ class SchoolClient extends BaseClient
             'order' => $order,
             'department_admins' => $departmentAdmins
         ];
+        $params = $this->filterNullValue($params);
         return $this->httpPostJson('cgi-bin/school/department/update',$params);
     }
 
@@ -421,5 +422,21 @@ class SchoolClient extends BaseClient
     public function getTeacherViewMode()
     {
         return $this->httpGet('cgi-bin/school/get_teacher_view_mode');
+    }
+
+    /**
+     * 过滤数组中值为NULL的键
+     * @param array $data
+     * @return array
+     */
+    protected function filterNullValue(array $data)
+    {
+        $returnData = [];
+        foreach ($data as $key => $value){
+            if ($value !== null){
+                $returnData[$key] = trim($value);
+            }
+        }
+        return $returnData;
     }
 }

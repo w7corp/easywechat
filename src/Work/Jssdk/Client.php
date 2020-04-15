@@ -32,6 +32,14 @@ class Client extends BaseClient
     }
 
     /**
+     * @return string
+     */
+    protected function getAgentId()
+    {
+        return $this->app['config']->get('agent_id');
+    }
+
+    /**
      * @param bool   $refresh
      * @param string $type
      *
@@ -64,5 +72,48 @@ class Client extends BaseClient
         }
 
         return $result;
+    }
+
+    /**
+     * 获取应用的agentConfig
+     * @param array $jsApiList
+     * @param bool $debug
+     * @param bool $beta
+     * @param bool $json
+     * @return array|false|string
+     * @throws RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function buildAgentConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true)
+    {
+        $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->configAgentSignature());
+
+        return $json ? json_encode($config) : $config;
+    }
+
+    /**
+     * 获取应用签名数据
+     * @param string|null $url
+     * @param string|null $nonce
+     * @param null $timestamp
+     * @return array
+     * @throws RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    protected function configAgentSignature(string $url = null, string $nonce = null, $timestamp = null): array
+    {
+        $url = $url ?: $this->getUrl();
+        $nonce = $nonce ?: Support\Str::quickRandom(10);
+        $timestamp = $timestamp ?: time();
+
+        return [
+            'appId' => $this->getAppId(),
+            'nonceStr' => $nonce,
+            'timestamp' => $timestamp,
+            'url' => $url,
+            'signature' => $this->getTicketSignature($this->getAgentTicket()['ticket'], $nonce, $timestamp, $url),
+        ];
     }
 }
