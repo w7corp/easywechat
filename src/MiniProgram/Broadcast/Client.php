@@ -23,19 +23,16 @@ class Client extends BaseClient
     /**
      * Add broadcast goods
      *
-     * @param string $coverImgUrl
-     * @param string $name
-     * @param int $priceType
-     * @param float $price
-     * @param float $price2
-     * @param string $url
+     * @param array $goodsInfo
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function add(string $coverImgUrl, string $name, int $priceType, float $price, float $price2, string $url)
+    public function create(array $goodsInfo)
     {
-        $params = $this->getGoodsInfoArray($coverImgUrl, $name, $priceType, $price, $price2, $url);
+        $params = [
+            'goodsInfo' => $goodsInfo,
+        ];
         
         return $this->httpPostJson('wxaapi/broadcast/goods/add', $params);
     }
@@ -53,7 +50,7 @@ class Client extends BaseClient
     {
         $params = [
             'auditId' => $auditId,
-            'goodsId' => $goodsId
+            'goodsId' => $goodsId,
         ];
         
         return $this->httpPostJson('wxaapi/broadcast/goods/resetaudit', $params);
@@ -67,10 +64,10 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function reSubmitAudit(int $goodsId)
+    public function resubmitAudit(int $goodsId)
     {
         $params = [
-            'goodsId' => $goodsId
+            'goodsId' => $goodsId,
         ];
         
         return $this->httpPostJson('wxaapi/broadcast/goods/audit', $params);
@@ -87,7 +84,7 @@ class Client extends BaseClient
     public function delete(int $goodsId)
     {
         $params = [
-            'goodsId' => $goodsId
+            'goodsId' => $goodsId,
         ];
         
         return $this->httpPostJson('wxaapi/broadcast/goods/delete', $params);
@@ -96,20 +93,16 @@ class Client extends BaseClient
     /**
      * Update goods info
      *
-     * @param string $coverImgUrl
-     * @param string $name
-     * @param int $priceType
-     * @param float $price
-     * @param float $price2
-     * @param string $url
-     * @param int $goodsId
+     * @param array $goodsInfo
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update(string $coverImgUrl, string $name, int $priceType, float $price, float $price2, string $url, int $goodsId)
+    public function update(array $goodsInfo)
     {
-        $params = $this->getGoodsInfoArray($coverImgUrl, $name, $priceType, $price, $price2, $url, $goodsId);
+        $params = [
+            'goodsInfo' => $goodsInfo,
+        ];
         
         return $this->httpPostJson('wxaapi/broadcast/goods/update', $params);
     }
@@ -122,45 +115,12 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getGoodsWareHouse(array $goodsIdArray)
+    public function getGoodsWarehouse(array $goodsIdArray)
     {
         $params = [
-            'goods_ids' => $goodsIdArray
+            'goods_ids' => $goodsIdArray,
         ];
         
         return $this->httpGet('wxa/business/getgoodswarehouse', $params);
-    }
-    
-    /**
-     * Get goods info array
-     *
-     * @param string $coverImgUrl
-     * @param string $name
-     * @param int $priceType
-     * @param float $price
-     * @param float $price2
-     * @param string $url
-     * @param int $goodsId
-     * @return array
-     */
-    private function getGoodsInfoArray(string $coverImgUrl, string $name, int $priceType, float $price, float $price2, string $url, $goodsId = 0)
-    {
-        $goodsInfoArray = [
-            'coverImgUrl' => $coverImgUrl,
-            'name' => $name,
-            'priceType' => $priceType,
-            'price' => $price,
-            'url' => $url,
-        ];
-    
-        if ($priceType == 1) {
-            $goodsInfoArray['price2'] = $price2;
-        }
-    
-        if ($goodsId) {
-            $goodsInfoArray['goodsId'] = $goodsId;
-        }
-    
-        return ['goodsInfo' => $goodsInfoArray];
     }
 }
