@@ -16,23 +16,21 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-    public function testAdd()
+    public function testCreate()
     {
         $client = $this->mockApiClient(Client::class);
 
         $params = [
-            'goodsInfo' => [
-                'coverImgUrl' => 'foo',
-                'name' => 'bar',
-                'priceType' => 1,
-                'price' => 1.0,
-                'price2' => 2.0,
-                'url' => 'pages/goods/index.html?id=10'
-            ]
+            'coverImgUrl' => 'foo',
+            'name' => 'bar',
+            'priceType' => 1,
+            'price' => 1.0,
+            'price2' => 2.0,
+            'url' => 'pages/goods/index.html?id=10',
         ];
-        $client->expects()->httpPostJson('wxaapi/broadcast/goods/add', $params)->andReturn('mock-result');
-        $response = $client->add($params['goodsInfo']['coverImgUrl'], $params['goodsInfo']['name'], $params['goodsInfo']['priceType'], $params['goodsInfo']['price'], $params['goodsInfo']['price2'], $params['goodsInfo']['url']);
-        
+        $client->expects()->httpPostJson('wxaapi/broadcast/goods/add', ['goodsInfo' => $params])->andReturn('mock-result');
+        $response = $client->create($params);
+
         $this->assertSame('mock-result', $response);
     }
     
@@ -40,7 +38,7 @@ class ClientTest extends TestCase
     {
         $params = [
             'auditId' => '123456',
-            'goodsId' => 1
+            'goodsId' => 1,
         ];
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('wxaapi/broadcast/goods/resetaudit', $params)->andReturn('mock-result');
@@ -48,12 +46,12 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->resetAudit('123456', 1));
     }
     
-    public function testReSubmitAudit()
+    public function testResubmitAudit()
     {
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('wxaapi/broadcast/goods/audit', ['goodsId' => 1])->andReturn('mock-result');
         
-        $this->assertSame('mock-result', $client->reSubmitAudit(1));
+        $this->assertSame('mock-result', $client->resubmitAudit(1));
     }
     
     public function testDelete()
@@ -69,27 +67,25 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
         
         $params = [
-            'goodsInfo' => [
-                'coverImgUrl' => 'foo',
-                'name' => 'bar',
-                'priceType' => 1,
-                'price' => 1.0,
-                'price2' => 2.0,
-                'url' => 'pages/goods/index.html?id=10',
-                'goodsId' => 1
-            ]
+            'coverImgUrl' => 'foo',
+            'name' => 'bar',
+            'priceType' => 1,
+            'price' => 1.0,
+            'price2' => 2.0,
+            'url' => 'pages/goods/index.html?id=10',
+            'goodsId' => 1,
         ];
-        $client->expects()->httpPostJson('wxaapi/broadcast/goods/update', $params)->andReturn('mock-result');
-        $response = $client->update($params['goodsInfo']['coverImgUrl'], $params['goodsInfo']['name'], $params['goodsInfo']['priceType'], $params['goodsInfo']['price'], $params['goodsInfo']['price2'], $params['goodsInfo']['url'], $params['goodsInfo']['goodsId']);
-        
+        $client->expects()->httpPostJson('wxaapi/broadcast/goods/update', ['goodsInfo' => $params])->andReturn('mock-result');
+        $response = $client->update($params);
+
         $this->assertSame('mock-result', $response);
     }
     
-    public function testGetGoodsWareHouse()
+    public function testGetGoodsWarehouse()
     {
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpGet('wxa/business/getgoodswarehouse', ['goods_ids' => [1]])->andReturn('mock-result');
         
-        $this->assertSame('mock-result', $client->getGoodsWareHouse([1]));
+        $this->assertSame('mock-result', $client->getGoodsWarehouse([1]));
     }
 }
