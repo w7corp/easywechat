@@ -21,10 +21,12 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Add broadcast goods
+     * Add broadcast goods.
      *
      * @param array $goodsInfo
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -33,16 +35,18 @@ class Client extends BaseClient
         $params = [
             'goodsInfo' => $goodsInfo,
         ];
-        
+
         return $this->httpPostJson('wxaapi/broadcast/goods/add', $params);
     }
-    
+
     /**
-     * Reset audit
+     * Reset audit.
      *
      * @param int $auditId
      * @param int $goodsId
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -52,15 +56,17 @@ class Client extends BaseClient
             'auditId' => $auditId,
             'goodsId' => $goodsId,
         ];
-        
+
         return $this->httpPostJson('wxaapi/broadcast/goods/resetaudit', $params);
     }
-    
+
     /**
-     * Resubmit audit goods
+     * Resubmit audit goods.
      *
      * @param int $goodsId
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -69,15 +75,17 @@ class Client extends BaseClient
         $params = [
             'goodsId' => $goodsId,
         ];
-        
+
         return $this->httpPostJson('wxaapi/broadcast/goods/audit', $params);
     }
-    
+
     /**
-     * Delete broadcast goods
+     * Delete broadcast goods.
      *
      * @param int $goodsId
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -86,15 +94,17 @@ class Client extends BaseClient
         $params = [
             'goodsId' => $goodsId,
         ];
-        
+
         return $this->httpPostJson('wxaapi/broadcast/goods/delete', $params);
     }
-    
+
     /**
-     * Update goods info
+     * Update goods info.
      *
      * @param array $goodsInfo
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -103,15 +113,17 @@ class Client extends BaseClient
         $params = [
             'goodsInfo' => $goodsInfo,
         ];
-        
+
         return $this->httpPostJson('wxaapi/broadcast/goods/update', $params);
     }
-    
+
     /**
-     * Get goods information and review status
+     * Get goods information and review status.
      *
      * @param array $goodsIdArray
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -120,7 +132,7 @@ class Client extends BaseClient
         $params = [
             'goods_ids' => $goodsIdArray,
         ];
-        
+
         return $this->httpGet('wxa/business/getgoodswarehouse', $params);
     }
 }

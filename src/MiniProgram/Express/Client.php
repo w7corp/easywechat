@@ -99,9 +99,9 @@ class Client extends BaseClient
         ]);
     }
 
-
     /**
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -109,7 +109,6 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/express/business/printer/getall');
     }
-
 
     /**
      * @param string $openid

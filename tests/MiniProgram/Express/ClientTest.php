@@ -163,7 +163,6 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-
         $client->expects()->httpPostJson('cgi-bin/express/business/printer/getall')->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getPrinter());
