@@ -20,7 +20,10 @@ class ClientTest extends TestCase
     public function setUp()
     {
         $this->client = $this->mockApiClient(
-            Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
+            Client::class,
+            [],
+            new ServiceContainer(['app_id' => 'app-id'])
+        );
     }
 
     public function testGetAllCategories()
@@ -29,7 +32,9 @@ class ClientTest extends TestCase
             ->httpPostJson('cgi-bin/wxopen/getallcategories')
             ->andReturn('mock-result');
         $this->assertSame(
-            'mock-result', $this->client->getAllCategories());
+            'mock-result',
+            $this->client->getAllCategories()
+        );
     }
 
     public function testAddCategories()
@@ -93,7 +98,11 @@ class ClientTest extends TestCase
             'naming_other_stuff_2' => 'stuff_02',
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $this->client->setNickname(
-            'name', 'card_no', 'media_id', ['stuff_01', 'stuff_02']));
+            'name',
+            'card_no',
+            'media_id',
+            ['stuff_01', 'stuff_02']
+        ));
     }
 
     public function testGetNicknameAuditStatus()
@@ -102,7 +111,9 @@ class ClientTest extends TestCase
             'audit_id' => 'audit-id',
         ])->andReturn('mock-result');
         $this->assertSame(
-            'mock-result', $this->client->getNicknameAuditStatus('audit-id'));
+            'mock-result',
+            $this->client->getNicknameAuditStatus('audit-id')
+        );
     }
 
     public function testIsAvailableNickname()
@@ -111,7 +122,9 @@ class ClientTest extends TestCase
             'nick_name' => 'name',
         ])->andReturn('mock-result');
         $this->assertSame(
-            'mock-result', $this->client->isAvailableNickname('name'));
+            'mock-result',
+            $this->client->isAvailableNickname('name')
+        );
     }
 
     public function testGetSearchStatus()
