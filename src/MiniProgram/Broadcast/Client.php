@@ -135,12 +135,14 @@ class Client extends BaseClient
 
         return $this->httpGet('wxa/business/getgoodswarehouse', $params);
     }
-    
+
     /**
-     * Get goods list based on status
+     * Get goods list based on status.
      *
-     * @param  array  $params
+     * @param array $params
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -148,12 +150,14 @@ class Client extends BaseClient
     {
         return $this->httpGet('wxaapi/broadcast/goods/getapproved', $params);
     }
-    
+
     /**
      * Add goods to the designated live room.
      *
-     * @param  array  $params
+     * @param array $params
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

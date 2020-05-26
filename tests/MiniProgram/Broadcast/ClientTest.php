@@ -88,22 +88,22 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->getGoodsWarehouse([1]));
     }
-    
+
     public function testGetApproved()
     {
         $client = $this->mockApiClient(Client::class);
         $params = ['offset' => 1, 'limit' => 30, 'status' => 1];
         $client->expects()->httpGet('wxaapi/broadcast/goods/getapproved', $params)->andReturn('mock-result');
-        
+
         $this->assertSame('mock-result', $client->getApproved($params));
     }
-    
+
     public function testAddGoods()
     {
         $client = $this->mockApiClient(Client::class);
         $params = ['ids' => [9, 11], 'roomId' => 223];
         $client->expects()->httpPost('wxaapi/broadcast/room/addgoods', $params)->andReturn('mock-result');
-        
+
         $this->assertSame('mock-result', $client->addGoods($params));
     }
 }
