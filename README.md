@@ -1,6 +1,10 @@
-<img align="right" width="100" src="https://user-images.githubusercontent.com/1472352/49656357-1e874080-fa78-11e8-80ea-69e2103345cf.png" alt="EasyWeChat Logo"/>
-
 <h1 align="left"><a href="https://www.easywechat.com">EasyWeChat</a></h1>
+
+# 基于EasyWeChat做的扩展，增加以下接口：
+
+1. 家校沟通
+2. 对话能力
+
 
 📦 It is probably the best SDK in the world for developing Wechat App.
 
