@@ -1,7 +1,9 @@
 <h1 align="left"><a href="https://www.easywechat.com">EasyWeChat</a></h1>
 
 ##基于EasyWeChat做的扩展，增加以下接口：
+
 1、家校沟通
+
 2、对话能力
 
 📦 It is probably the best SDK in the world for developing Wechat App.
