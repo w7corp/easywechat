@@ -163,47 +163,6 @@ class Client extends BaseClient
     }
     
     /**
-     * Get Room List.
-     *
-     * @param int $start
-     * @param int $limit
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     * @author onekb <1@1kb.ren>
-     */
-    public function getRooms(int $start = 0, int $limit = 10)
-    {
-        $params = [
-            'start' => $start,
-            'limit' => $limit,
-        ];
-        
-        return $this->httpPostJson('wxa/business/getliveinfo', $params);
-    }
-    
-    /**
-     * Get Playback List.
-     *
-     * @param int $roomId
-     * @param int $start
-     * @param int $limit
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     * @author onekb <1@1kb.ren>
-     */
-    public function getPlaybacks(int $roomId, int $start = 0, int $limit = 10)
-    {
-        $params = [
-            'action' => 'get_replay',
-            'room_id' => $roomId,
-            'start' => $start,
-            'limit' => $limit,
-        ];
-        
-        return $this->httpPostJson('wxa/business/getliveinfo', $params);
-    }
-    
-    /**
      * Create a live room.
      *
      * @param  array  $params
