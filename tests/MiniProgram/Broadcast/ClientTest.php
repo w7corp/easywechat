@@ -107,6 +107,40 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->addGoods($params));
     }
     
+    /**
+     * @author onekb <1@1kb.ren>
+     */
+    public function testGetRooms()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+        
+        $params = [
+            'start' => 0,
+            'limit' => 10,
+        ];
+        
+        $client->expects()->httpPostJson('wxa/business/getliveinfo', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getRooms());
+    }
+    
+    /**
+     * @author onekb <1@1kb.ren>
+     */
+    public function testGetPlaybacks()
+    {
+        $client = $this->mockApiClient(Client::class)->makePartial();
+    
+        $params = [
+            'action' => 'get_replay',
+            'room_id' => 1,
+            'start' => 0,
+            'limit' => 10,
+        ];
+    
+        $client->expects()->httpPostJson('wxa/business/getliveinfo', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getPlaybacks(1));
+    }
+    
     public function testCreateLiveRoom()
     {
         $client = $this->mockApiClient(Client::class);
