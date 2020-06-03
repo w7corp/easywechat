@@ -133,7 +133,7 @@ class Client extends BaseClient
             'goods_ids' => $goodsIdArray,
         ];
 
-        return $this->httpGet('wxa/business/getgoodswarehouse', $params);
+        return $this->httpPostJson('wxa/business/getgoodswarehouse', $params);
     }
     
     /**

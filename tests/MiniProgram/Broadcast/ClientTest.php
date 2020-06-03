@@ -84,7 +84,7 @@ class ClientTest extends TestCase
     public function testGetGoodsWarehouse()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpGet('wxa/business/getgoodswarehouse', ['goods_ids' => [1]])->andReturn('mock-result');
+        $client->expects()->httpPostJson('wxa/business/getgoodswarehouse', ['goods_ids' => [1]])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getGoodsWarehouse([1]));
     }
