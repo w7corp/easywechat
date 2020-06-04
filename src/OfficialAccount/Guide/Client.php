@@ -826,4 +826,118 @@ class Client extends BaseClient
         ];
         return $this->httpPostJson('cgi-bin/guide/delguidewordmaterial',$params);
     }
+
+    /**
+     * 添加群发任务，为指定顾问添加群发任务
+     * @param string $guideAccount
+     * @param string $guideOpenid
+     * @param string $taskName
+     * @param string $taskRemark
+     * @param int $pushTime
+     * @param array $openidArray
+     * @param array $materialArray
+     * @return array|Collection|object|ResponseInterface|string
+     * @throws InvalidConfigException
+     */
+    public function addGuideMasSendJob(string $guideAccount,string $guideOpenid,string $taskName,string $taskRemark,int $pushTime,array $openidArray,array $materialArray)
+    {
+        $params = [
+            'task_name' => $taskName,
+            'push_time' => $pushTime,
+            'openid'    => $openidArray,
+            'material'  => $materialArray
+        ];
+        if (!empty($taskRemark)){
+            $params['task_remark'] = $taskRemark;
+        }
+        $params = $this->selectAccountAndOpenid($params,$guideAccount,$guideOpenid);
+        return $this->httpPostJson('cgi-bin/guide/addguidemassendjob',$params);
+    }
+
+    /**
+     * 获取群发任务列表
+     * @param string $guideAccount
+     * @param string $guideOpenid
+     * @param array $taskStatus
+     * @param int $offset
+     * @param int $limit
+     * @return array|Collection|object|ResponseInterface|string
+     * @throws InvalidConfigException
+     */
+    public function getGuideMasSendJobList(string $guideAccount,string $guideOpenid,array $taskStatus = [],int $offset = 0,int $limit = 50)
+    {
+        $params = $this->selectAccountAndOpenid(array(),$guideAccount,$guideOpenid);
+        if (!empty($taskStatus)){
+            $params['task_status'] = $taskStatus;
+        }
+        if ($offset > 0){
+            $params['offset'] = $offset;
+        }
+        if ($limit != 50){
+            $params['limit'] = $limit;
+        }
+        return $this->httpPostJson('cgi-bin/guide/getguidemassendjoblist',$params);
+    }
+
+    /**
+     * 获取指定群发任务信息
+     * @param string $taskId
+     * @return array|Collection|object|ResponseInterface|string
+     * @throws InvalidConfigException
+     */
+    public function getGuideMasSendJob(string $taskId)
+    {
+        $params = [
+            'task_id'   => $taskId
+        ];
+        return $this->httpPostJson('cgi-bin/guide/getguidemassendjob',$params);
+    }
+
+    /**
+     * 修改群发任务
+     * @param string $taskId
+     * @param string $taskName
+     * @param string $taskRemark
+     * @param int $pushTime
+     * @param array $openidArray
+     * @param array $materialArray
+     * @return array|Collection|object|ResponseInterface|string
+     * @throws InvalidConfigException
+     */
+    public function updateGuideMasSendJob(string $taskId,string $taskName,string $taskRemark,int $pushTime,array $openidArray,array $materialArray)
+    {
+        $params = [
+            'task_id'   => $taskId
+        ];
+        if (!empty($taskName)){
+            $params['task_name'] = $taskName;
+        }
+        if (!empty($taskRemark)){
+            $params['task_remark'] = $taskRemark;
+        }
+        if (!empty($pushTime)){
+            $params['push_time'] = $pushTime;
+        }
+        if (!empty($openidArray)){
+            $params['openid'] = $openidArray;
+        }
+        if (!empty($materialArray)){
+            $params['material'] = $materialArray;
+        }
+        return $this->httpPostJson('cgi-bin/guide/updateguidemassendjob',$params);
+    }
+
+    /**
+     * 取消群发任务
+     * @param string $taskId
+     * @return array|Collection|object|ResponseInterface|string
+     * @throws InvalidConfigException
+     */
+    public function cancelGuideMasSendJob(string $taskId)
+    {
+        $params = [
+            'task_id'   => $taskId
+        ];
+        return $this->httpPostJson('cgi-bin/guide/cancelguidemassendjob',$params);
+    }
 }
