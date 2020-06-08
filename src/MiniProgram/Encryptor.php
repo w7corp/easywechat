@@ -41,7 +41,7 @@ class Encryptor extends BaseEncryptor
             base64_decode($iv, false)
         );
 
-        $decrypted = json_decode($this->pkcs7Unpad($decrypted), true);
+        $decrypted = json_decode($decrypted, true);
 
         if (!$decrypted) {
             throw new DecryptException('The given payload is invalid.');
