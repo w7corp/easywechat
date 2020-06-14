@@ -34,7 +34,7 @@ class ServiceProvider implements ServiceProviderInterface
                     'client_secret' => $app['config']['secret'],
                     'redirect' => $this->prepareCallbackUrl($app),
                 ],
-            ], $app['request']))->driver('wechat');
+            ]))->driver('wechat');
 
             $scopes = (array) $app['config']->get('oauth.scopes', ['snsapi_userinfo']);
 

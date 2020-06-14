@@ -16,7 +16,7 @@ use Overtrue\Socialite\WeChatComponentInterface;
 
 /**
  * Class ComponentDelegate.
- *
+ * @todo 移除此类
  * @author mingyoung <mingyoungcheung@gmail.com>
  */
 class ComponentDelegate implements WeChatComponentInterface

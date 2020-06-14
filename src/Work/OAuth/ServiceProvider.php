@@ -20,13 +20,13 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['oauth'] = function ($app) {
-            $socialite = (new SocialiteManager([
+            $socialite = (new Manager([
                 'wework' => [
                     'client_id' => $app['config']['corp_id'],
                     'client_secret' => null,
                     'redirect' => $this->prepareCallbackUrl($app),
                 ],
-            ], $app['request']))->driver('wework');
+            ], $app));
 
             $scopes = (array) $app['config']->get('oauth.scopes', ['snsapi_base']);
 
@@ -35,8 +35,6 @@ class ServiceProvider implements ServiceProviderInterface
             } else {
                 $socialite->setAgentId($app['config']['agent_id']);
             }
-
-            return $socialite->setAccessToken(new AccessTokenDelegate($app));
         };
     }
 
