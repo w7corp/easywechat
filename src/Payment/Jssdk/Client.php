@@ -13,7 +13,6 @@ namespace EasyWeChat\Payment\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client as JssdkClient;
 use EasyWeChat\Kernel\Support;
-use Overtrue\Socialite\AccessTokenInterface;
 
 /**
  * Class Client.
@@ -99,17 +98,13 @@ class Client extends JssdkClient
     /**
      * Generate js config for share user address.
      *
-     * @param string|\Overtrue\Socialite\AccessTokenInterface $accessToken
+     * @param string $accessToken
      * @param bool                                            $json
      *
      * @return string|array
      */
-    public function shareAddressConfig($accessToken, bool $json = true)
+    public function shareAddressConfig(string $accessToken, bool $json = true)
     {
-        if ($accessToken instanceof AccessTokenInterface) {
-            $accessToken = $accessToken->getToken();
-        }
-
         $params = [
             'appId' => $this->app['config']->app_id,
             'scope' => 'jsapi_address',

@@ -12,6 +12,7 @@
 namespace EasyWeChat\Tests\Kernel\Messages;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Message;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Tests\TestCase;
@@ -23,7 +24,7 @@ class MessageTest extends TestCase
         $message = new class() extends Message {
         };
 
-        $this->expectException(\BadMethodCallException::class);
+        $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(sprintf('Class "%s" cannot support transform to XML message.', Message::class));
         $message->toXmlArray();
     }

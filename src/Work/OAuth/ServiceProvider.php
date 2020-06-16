@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Work\OAuth;
 
-use Overtrue\Socialite\SocialiteManager;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -35,6 +34,8 @@ class ServiceProvider implements ServiceProviderInterface
             } else {
                 $socialite->setAgentId($app['config']['agent_id']);
             }
+
+            return $socialite;
         };
     }
 

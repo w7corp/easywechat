@@ -14,7 +14,6 @@ namespace EasyWeChat\Tests\Payment\Jssdk;
 use EasyWeChat\Payment\Application;
 use EasyWeChat\Payment\Jssdk\Client;
 use EasyWeChat\Tests\TestCase;
-use Overtrue\Socialite\AccessToken;
 
 class ClientTest extends TestCase
 {
@@ -128,13 +127,10 @@ class ClientTest extends TestCase
 
         $client = $this->mockApiClient(Client::class, 'shareAddressConfig', $app)->makePartial();
 
-        $accessTokenParams = ['access_token' => 'foo'];
-
-        $mockAccessToken = \Mockery::mock(AccessToken::class.'[getToken]', [$accessTokenParams])->shouldAllowMockingProtectedMethods()->makePartial();
-        $mockAccessToken->expects()->getToken()->andReturn('foo_access_token')->twice();
+        $fakeAccessToken = 'foo_access_token';
 
         // return json
-        $config = json_decode($client->setUrl('foo')->shareAddressConfig($mockAccessToken, true), true);
+        $config = json_decode($client->setUrl('foo')->shareAddressConfig($fakeAccessToken, true), true);
         $this->assertArrayHasKey('appId', $config);
         $this->assertArrayHasKey('scope', $config);
         $this->assertArrayHasKey('timeStamp', $config);
@@ -146,7 +142,7 @@ class ClientTest extends TestCase
         $this->assertSame('SHA1', $config['signType']);
 
         // return array
-        $config = $client->shareAddressConfig($mockAccessToken, false);
+        $config = $client->shareAddressConfig($fakeAccessToken, false);
         $this->assertArrayHasKey('appId', $config);
         $this->assertArrayHasKey('scope', $config);
         $this->assertArrayHasKey('timeStamp', $config);

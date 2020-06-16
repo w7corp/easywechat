@@ -45,7 +45,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\Comment\Client                $comment
  * @property \EasyWeChat\OfficialAccount\OCR\Client                    $ocr
  * @property \EasyWeChat\OfficialAccount\Goods\Client                  $goods
- * @property \Overtrue\Socialite\Providers\WeChatProvider              $oauth
+ * @property \Overtrue\Socialite\Providers\WeChat                      $oauth
  * @property \EasyWeChat\OfficialAccount\WiFi\Client                   $wifi
  * @property \EasyWeChat\OfficialAccount\WiFi\CardClient               $wifi_card
  * @property \EasyWeChat\OfficialAccount\WiFi\DeviceClient             $wifi_device
