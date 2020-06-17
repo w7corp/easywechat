@@ -62,7 +62,7 @@ trait Observable
      * 
      * @return $this
      */
-    public function setHandlers($handlers = [])
+    public function setHandlers(array $handlers = [])
     {
         $this->handlers = $handlers;
 
