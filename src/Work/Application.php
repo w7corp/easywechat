@@ -31,7 +31,7 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\User\TagClient                   $tag
  * @property \EasyWeChat\Work\Server\Guard                     $server
  * @property \EasyWeChat\Work\Jssdk\Client                     $jssdk
- * @property \Overtrue\Socialite\Providers\WeWorkProvider      $oauth
+ * @property \Overtrue\Socialite\Providers\WeWork              $oauth
  * @property \EasyWeChat\Work\Invoice\Client                   $invoice
  * @property \EasyWeChat\Work\Chat\Client                      $chat
  * @property \EasyWeChat\Work\ExternalContact\Client           $external_contact
