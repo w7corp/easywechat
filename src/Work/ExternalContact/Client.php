@@ -70,6 +70,26 @@ class Client extends BaseClient
         ]);
     }
 
+
+    /**
+     * 修改客户备注信息.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92115
+     *
+     * @param array $data
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function remark(array $data)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/remark',
+            $data
+        );
+    }
+
+
     /**
      * 获取离职成员的客户列表.
      *
