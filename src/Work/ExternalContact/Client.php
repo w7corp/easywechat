@@ -135,4 +135,45 @@ class Client extends BaseClient
 
         return $this->httpPostJson('cgi-bin/externalcontact/transfer', $params);
     }
+
+
+    /**
+     * 获取客户群列表.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92120
+     *
+     * @param array $data
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+
+    public function getGroupChatList(array $data){
+
+        return $this->httpPostJson('cgi-bin/externalcontact/groupchat/list', $data);
+    }
+
+
+
+    /**
+     * 获取客户群详情.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92122
+     *
+     * @param string $chatId
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+
+    public function getGroupChat(string $chatId){
+
+        return $this->httpPostJson('cgi-bin/externalcontact/groupchat/get', $data);
+    }
+
+
 }
