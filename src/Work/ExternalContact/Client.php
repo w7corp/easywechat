@@ -142,7 +142,11 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92120
      *
-     * @param array $data
+     * @param int $statusFilter
+     * @param array $useridList
+     * @param array $partyidList
+     * @param int $offset
+     * @param int $limit
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -150,9 +154,18 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getGroupChatList(array $data){
+    public function getGroupChatList(int $statusFilter=0,array $useridList=[],array $partyidList=[],int $offset=0,int $limit=100){
 
-        return $this->httpPostJson('cgi-bin/externalcontact/groupchat/list', $data);
+        $params = [
+            "status_filter"=> $statusFilter,
+            "owner_filter"=> [
+                "userid_list"=> $useridList,
+                "partyid_list"=> $partyidList
+            ],
+            "offset" => $offset,
+            "limit" => $limit
+        ];
+        return $this->httpPostJson('cgi-bin/externalcontact/groupchat/list', $params);
     }
 
 
@@ -314,5 +327,5 @@ class Client extends BaseClient
     }
 
 
-    
+
 }
