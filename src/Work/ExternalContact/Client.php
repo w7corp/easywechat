@@ -142,11 +142,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92120
      *
-     * @param int $statusFilter
-     * @param array $useridList
-     * @param array $partyidList
-     * @param int $offset
-     * @param int $limit
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -154,21 +150,10 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getGroupChatList(int $statusFilter=0,array $useridList=[],array $partyidList=[],int $offset=0,int $limit=100){
-
-        $params = [
-            "status_filter"=> $statusFilter,
-            "owner_filter"=> [
-                "userid_list"=> $useridList,
-                "partyid_list"=> $partyidList
-            ],
-            "offset" => $offset,
-            "limit" => $limit
-        ];
+    public function getGroupChats(array $params)
+    {
         return $this->httpPostJson('cgi-bin/externalcontact/groupchat/list', $params);
     }
-
-
 
     /**
      * 获取客户群详情.
@@ -183,15 +168,14 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getGroupChat(string $chatId){
-
+    public function getGroupChat(string $chatId)
+    {
         $params = [
             'chat_id' => $chatId
         ];
 
         return $this->httpPostJson('cgi-bin/externalcontact/groupchat/get', $params);
     }
-
 
     /**
      * 获取企业标签库.
@@ -206,8 +190,8 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getCorpTagList(array $tagIds=[]){
-
+    public function getCorpTags(array $tagIds = [])
+    {
         $params = [
             'tag_id' => $tagIds
         ];
@@ -222,10 +206,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92117#添加企业客户标签
      *
-     * @param string $groupId
-     * @param string $groupName
-     * @param $order $order
-     * @param array $tags
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -233,15 +214,8 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function addCorpTag(string $groupId='',string $groupName,int $order=1,array $tags){
-
-        $params = [
-            "group_id" => $groupId,
-            "group_name" => $groupName,
-            "order" => $order,
-            "tag" => $tags
-        ];
-
+    public function addCorpTag(array $params)
+    {
         return $this->httpPostJson('cgi-bin/externalcontact/add_corp_tag', $params);
     }
 
@@ -253,7 +227,7 @@ class Client extends BaseClient
      *
      * @param string $id
      * @param string $name
-     * @param $order $order
+     * @param int $order
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -261,8 +235,8 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function editCorpTag(string $id,string $name,int $order=1){
-
+    public function updateCorpTag(string $id, string $name, int $order = 1)
+    {
         $params = [
             "id" => $id,
             "name" => $name,
@@ -287,8 +261,8 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function delCorpTag(array $tagId,array $groupId){
-
+    public function deleteCorpTag(array $tagId, array $groupId)
+    {
         $params = [
             "tag_id" => $tagId,
             "group_id" => $groupId,
@@ -303,10 +277,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92118
      *
-     * @param string $userId
-     * @param string $externalUserid
-     * @param array $addTag
-     * @param array $removeTag
+     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -314,15 +285,8 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function markTag(string $userId,string $externalUserid,array $addTag=[],array $removeTag=[]){
-
-        $params = [
-            "userid" => $userId,
-            "external_userid" => $externalUserid,
-            "add_tag" => $addTag,
-            "remove_tag" => $removeTag,
-        ];
-
+    public function markTags(array $params)
+    {
         return $this->httpPostJson('cgi-bin/externalcontact/mark_tag', $params);
     }
 
