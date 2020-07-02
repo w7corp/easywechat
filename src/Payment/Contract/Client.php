@@ -89,7 +89,7 @@ class Client extends BaseClient
     {
         $params['appid'] = $this->app['config']->app_id;
 
-        return $this->safeRequest('papay/pappayapply', $params);
+        return $this->safeRequest('pay/pappayapply', $params);
     }
 
     /**
