@@ -18,6 +18,29 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ClientTest extends TestCase
 {
+
+    public function testHandleChangeAdmin()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
+
+        $client->expects()->httpPostJson('cgi-bin/account/componentrebindadmin', [
+            'taskid' => 'taskid-code',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->handleChangeAdmin('taskid-code'));
+    }
+
+    public function testHandleFastRegister()
+    {
+        $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));
+
+        $client->expects()->httpPostJson('cgi-bin/account/fastregister', [
+            'ticket' => 'ticket-code',
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->handleFastRegister('ticket-code'));
+    }
+
     public function testHandleAuthorizeWithAuthCode()
     {
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => '123456']));

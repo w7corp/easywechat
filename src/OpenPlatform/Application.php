@@ -29,6 +29,8 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
  * @property \EasyWeChat\OpenPlatform\Component\Client    $component
  *
  * @method mixed handleAuthorize(string $authCode = null)
+ * @method mixed handleFastRegister(string $ticket = null)
+ * @method mixed handleChangeAdmin(string $taskId = null)
  * @method mixed getAuthorizer(string $appId)
  * @method mixed getAuthorizerOption(string $appId, string $name)
  * @method mixed setAuthorizerOption(string $appId, string $name, string $value)
@@ -105,6 +107,48 @@ class Application extends ServiceContainer
                 return new Client($app, $this);
             },
         ]);
+    }
+
+    /**
+     * Return the change admin page url.
+     *
+     * @param string $callbackUrl
+     * @param        $appid
+     *
+     * @return string
+     */
+    public function getChangeBindAdminUrl(string $callbackUrl, $appid): string
+    {
+        $queries = [
+            'component_appid' => $this['config']['app_id'],
+            'appid' => $appid,
+            'redirect_uri' => $callbackUrl,
+        ];
+
+        return 'https://mp.weixin.qq.com/wxopen/componentrebindadmin?'.http_build_query($queries);
+    }
+
+    /**
+     *
+     * Return the fast register page url.
+     *
+     * @param string $callbackUrl
+     * @param        $appid
+     * @param int    $copyWxVerify
+     *
+     * @return string
+     */
+    public function getFastRegisterAuthUrl(string $callbackUrl, $appid, $copyWxVerify = 1): string
+    {
+
+        $queries = [
+            'component_appid' => $this['config']['app_id'],
+            'appid' => $appid,
+            'copy_wx_verify' => $copyWxVerify,
+            'redirect_uri' => $callbackUrl,
+        ];
+
+        return 'https://mp.weixin.qq.com/cgi-bin/fastregisterauth?'.http_build_query($queries);
     }
 
     /**

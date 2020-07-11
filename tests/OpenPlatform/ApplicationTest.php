@@ -28,6 +28,31 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\OpenPlatform\Component\Client::class, $app->component);
     }
 
+    public function testGetChangeBindAdminUrl()
+    {
+        $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
+
+        $this->assertSame(
+            'https://mp.weixin.qq.com/wxopen/componentrebindadmin?component_appid=component-app-id&appid=appid123&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback',
+            $app->getChangeBindAdminUrl('https://easywechat.com/callback', 'appid123')
+        );
+    }
+
+    public function testGetFastRegisterAuthUrl()
+    {
+        $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
+
+        $this->assertSame(
+            'https://mp.weixin.qq.com/cgi-bin/fastregisterauth?component_appid=component-app-id&appid=appid123&copy_wx_verify=0&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback',
+            $app->getFastRegisterAuthUrl('https://easywechat.com/callback', 'appid123', 0)
+        );
+
+        $this->assertSame(
+            'https://mp.weixin.qq.com/cgi-bin/fastregisterauth?component_appid=component-app-id&appid=appid123&copy_wx_verify=1&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback',
+            $app->getFastRegisterAuthUrl('https://easywechat.com/callback', 'appid123')
+        );
+    }
+
     public function testGetPreAuthorizationUrl()
     {
         $app = \Mockery::mock(Application::class.'[createPreAuthorizationCode]', ['app_id' => 'component-app-id'], function ($mock) {

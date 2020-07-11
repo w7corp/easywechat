@@ -20,6 +20,45 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class Client extends BaseClient
 {
+
+    /**
+     * Get change admin info.
+     *
+     * @param string|null $taskId
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function handleChangeAdmin(string $taskId = null)
+    {
+        $params = [
+            'taskid' => $taskId ?? $this->app['request']->get('taskid'),
+        ];
+
+        return $this->httpPostJson('cgi-bin/account/componentrebindadmin', $params);
+    }
+
+    /**
+     * Get fast register info.
+     *
+     * @param string|null $ticket
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function handleFastRegister(string $ticket = null)
+    {
+        $params = [
+            'ticket' => $ticket ?? $this->app['request']->get('ticket'),
+        ];
+
+        return $this->httpPostJson('cgi-bin/account/fastregister', $params);
+    }
+
     /**
      * Get authorization info.
      *
