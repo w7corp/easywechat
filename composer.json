@@ -21,7 +21,7 @@
         "ext-openssl": "*",
         "ext-simplexml": "*",
         "easywechat-composer/easywechat-composer": "^1.1",
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": "^6.2 || ^7.0",
         "monolog/monolog": "^1.22 || ^2.0",
         "overtrue/socialite": "dev-develop",
         "pimple/pimple": "^3.0",
