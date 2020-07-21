@@ -45,7 +45,7 @@ class Client extends BaseClient
             throw new InvalidArgumentException(sprintf("Unsupported type: '%s'", $type));
         }
 
-        return $this->httpGet('cv/ocr/idcard', [
+        return $this->httpPost('cv/ocr/idcard', [
             'type' => $type,
             'img_url' => $path,
         ]);
