@@ -37,7 +37,7 @@ class Manager
 
     protected function getProvider(): WeWork
     {
-        return $this->provider ?? $this->provider = (new SocialiteManager($this->config))->driver('wework');
+        return $this->provider ?? $this->provider = (new SocialiteManager($this->config))->create('wework');
     }
 
     public function __call($name, $arguments)
