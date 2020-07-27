@@ -78,7 +78,7 @@ class Client extends BaseClient
      */
     public function vehicleLicense(string $path)
     {
-        return $this->httpPost('cv/ocr/driving', [
+        return $this->httpPost('cv/ocr/drivinglicense', [
             'img_url' => $path,
         ]);
     }
