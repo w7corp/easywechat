@@ -51,7 +51,7 @@ class Client extends BaseClient
     ) {
         $params = [
             'head_img_media_id' => $mediaId,
-            'x1' => $left, 'y1' => $top, 'x2' => $right, 'y2' => $bottom,
+            'x1' => \strval($left), 'y1' => \strval($top), 'x2' => \strval($right), 'y2' => \strval($bottom),
         ];
 
         return $this->httpPostJson('cgi-bin/account/modifyheadimage', $params);
