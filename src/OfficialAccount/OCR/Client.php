@@ -62,7 +62,7 @@ class Client extends BaseClient
      */
     public function bankCard(string $path)
     {
-        return $this->httpGet('cv/ocr/bankcard', [
+        return $this->httpPost('cv/ocr/bankcard', [
             'img_url' => $path,
         ]);
     }
@@ -78,7 +78,7 @@ class Client extends BaseClient
      */
     public function vehicleLicense(string $path)
     {
-        return $this->httpGet('cv/ocr/driving', [
+        return $this->httpPost('cv/ocr/driving', [
             'img_url' => $path,
         ]);
     }
