@@ -104,7 +104,7 @@ class ApplicationTest extends TestCase
         $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
         $officialAccount = $app->officialAccount('app-id', 'refresh-token');
 
-        $this->assertInstanceOf('Overtrue\Socialite\Providers\WeChat', $officialAccount->oauth);
+        $this->assertInstanceOf('Overtrue\Socialite\Providers\WeChatProvider', $officialAccount->oauth);
     }
 
     public function testMiniProgram()

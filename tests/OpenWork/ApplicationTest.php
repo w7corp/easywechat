@@ -45,7 +45,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Work\Message\Messenger::class, $work->messenger);
         $this->assertInstanceOf(\EasyWeChat\Work\Server\Guard::class, $work->server);
         $this->assertInstanceOf(\EasyWeChat\BasicService\Jssdk\Client::class, $work->jssdk);
-        $this->assertInstanceOf(\EasyWeChat\Work\OAuth\Manager::class, $work->oauth);
+        $this->assertInstanceOf(\Overtrue\Socialite\Providers\WeWorkProvider::class, $work->oauth);
     }
 
     public function testDynamicCalls()

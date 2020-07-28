@@ -44,7 +44,7 @@ class ServiceProvider implements ServiceProviderInterface
                 ] ;
             }
 
-            $socialite = (new Socialite($wechat))->create('wechat');
+            $socialite = (new Socialite($wechat))->driver('wechat');
 
             $scopes = (array)$app['config']->get('oauth.scopes', ['snsapi_userinfo']);
 

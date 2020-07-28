@@ -23,7 +23,7 @@
         "easywechat-composer/easywechat-composer": "^1.1",
         "guzzlehttp/guzzle": "^6.2 || ^7.0",
         "monolog/monolog": "^1.22 || ^2.0",
-        "overtrue/socialite": "dev-develop",
+        "overtrue/socialite": "~2.0",
         "pimple/pimple": "^3.0",
         "psr/simple-cache": "^1.0",
         "symfony/cache": "^3.3 || ^4.3 || ^5.0",
