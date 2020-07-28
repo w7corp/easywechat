@@ -20,4 +20,4 @@ jobs:
     - name: Install Dependencies
       run: composer install --no-progress
     - name: Run PHP-CS-Fxier
-      run: ./vendor/bin/php-cs-fixer fix --dry-run --diff 1>&2
+      run: ./composer check-style

@@ -56,10 +56,10 @@ trait Observable
 
         return $this->newClause($handler);
     }
-    
+
     /**
      * @param array $handlers
-     * 
+     *
      * @return $this
      */
     public function setHandlers(array $handlers = [])

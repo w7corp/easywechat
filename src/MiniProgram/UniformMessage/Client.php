@@ -16,7 +16,7 @@ use EasyWeChat\OfficialAccount\TemplateMessage\Client as BaseClient;
 
 class Client extends BaseClient
 {
-    const API_SEND = 'cgi-bin/message/wxopen/template/uniform_send';
+    public const API_SEND = 'cgi-bin/message/wxopen/template/uniform_send';
 
     /**
      * {@inheritdoc}.

@@ -22,7 +22,7 @@ use ReflectionClass;
  */
 class Client extends BaseClient
 {
-    const API_SEND = 'cgi-bin/message/template/send';
+    public const API_SEND = 'cgi-bin/message/template/send';
 
     /**
      * Attributes.

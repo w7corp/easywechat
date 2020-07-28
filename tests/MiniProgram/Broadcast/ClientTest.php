@@ -88,63 +88,63 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->getGoodsWarehouse([1]));
     }
-    
+
     public function testGetApproved()
     {
         $client = $this->mockApiClient(Client::class);
         $params = ['offset' => 1, 'limit' => 30, 'status' => 1];
         $client->expects()->httpGet('wxaapi/broadcast/goods/getapproved', $params)->andReturn('mock-result');
-        
+
         $this->assertSame('mock-result', $client->getApproved($params));
     }
-    
+
     public function testAddGoods()
     {
         $client = $this->mockApiClient(Client::class);
         $params = ['ids' => [9, 11], 'roomId' => 223];
         $client->expects()->httpPost('wxaapi/broadcast/room/addgoods', $params)->andReturn('mock-result');
-        
+
         $this->assertSame('mock-result', $client->addGoods($params));
     }
-    
+
     /**
      *  @author onekb <1@1kb.ren>
      */
     public function testGetRooms()
     {
         $client = $this->mockApiClient(\EasyWeChat\MiniProgram\Live\Client::class)->makePartial();
-        
+
         $params = [
             'start' => 0,
             'limit' => 10,
         ];
-        
+
         $client->expects()->httpPostJson('wxa/business/getliveinfo', $params)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getRooms());
     }
-    
+
     /**
      *  @author onekb <1@1kb.ren>
      */
     public function testGetPlaybacks()
     {
         $client = $this->mockApiClient(Client::class)->makePartial();
-        
+
         $params = [
             'action' => 'get_replay',
             'room_id' => 1,
             'start' => 0,
             'limit' => 10,
         ];
-        
+
         $client->expects()->httpPostJson('wxa/business/getliveinfo', $params)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getPlaybacks(1));
     }
-    
+
     public function testCreateLiveRoom()
     {
         $client = $this->mockApiClient(Client::class);
-        
+
         $params = [
             'name' => "测试直播间", // 房间名字
             'coverImg' => "xxxxxx", // 填写mediaID，直播间背景图，图片规则：建议像素1080*1920，大小不超过2M
@@ -159,9 +159,9 @@ class ClientTest extends TestCase
             'closeGoods' => 0, // 1：关闭货架 0：打开货架，关闭后无法开启
             'closeComment' => 0 // 1：关闭评论 0：打开评论，关闭后无法开启
         ];
-        
+
         $client->expects()->httpPost('wxaapi/broadcast/room/create', $params)->andReturn('mock-result');
-        
+
         $this->assertSame('mock-result', $client->createLiveRoom($params));
     }
 }

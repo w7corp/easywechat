@@ -84,7 +84,8 @@ class Client extends BaseClient
      */
     public function remark(array $data)
     {
-        return $this->httpPostJson('cgi-bin/externalcontact/remark',
+        return $this->httpPostJson(
+            'cgi-bin/externalcontact/remark',
             $data
         );
     }
@@ -289,7 +290,4 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/externalcontact/mark_tag', $params);
     }
-
-
-
 }

@@ -135,7 +135,7 @@ class Client extends BaseClient
 
         return $this->httpPostJson('wxa/business/getgoodswarehouse', $params);
     }
-    
+
     /**
      * Get goods list based on status
      *
@@ -148,7 +148,7 @@ class Client extends BaseClient
     {
         return $this->httpGet('wxaapi/broadcast/goods/getapproved', $params);
     }
-    
+
     /**
      * Add goods to the designated live room.
      *
@@ -161,7 +161,7 @@ class Client extends BaseClient
     {
         return $this->httpPost('wxaapi/broadcast/room/addgoods', $params);
     }
-    
+
     /**
      * Get Room List.
      *
@@ -178,10 +178,10 @@ class Client extends BaseClient
             'start' => $start,
             'limit' => $limit,
         ];
-        
+
         return $this->httpPostJson('wxa/business/getliveinfo', $params);
     }
-    
+
     /**
      * Get Playback List.
      *
@@ -201,10 +201,10 @@ class Client extends BaseClient
             'start' => $start,
             'limit' => $limit,
         ];
-        
+
         return $this->httpPostJson('wxa/business/getliveinfo', $params);
     }
-    
+
     /**
      * Create a live room.
      *
