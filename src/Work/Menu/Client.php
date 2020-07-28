@@ -35,8 +35,6 @@ class Client extends BaseClient
     /**
      * Create menu for the given agent.
      *
-     * @param array $data
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

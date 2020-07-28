@@ -32,9 +32,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param bool   $refresh
-     * @param string $type
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|mixed|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws RuntimeException

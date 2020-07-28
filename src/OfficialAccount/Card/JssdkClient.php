@@ -23,11 +23,6 @@ use function EasyWeChat\Kernel\Support\str_random;
 class JssdkClient extends Jssdk
 {
     /**
-     * @param bool   $refresh
-     * @param string $type
-     *
-     * @return array
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
@@ -40,8 +35,6 @@ class JssdkClient extends Jssdk
 
     /**
      * 微信卡券：JSAPI 卡券发放.
-     *
-     * @param array $cards
      *
      * @return string
      */
@@ -56,7 +49,6 @@ class JssdkClient extends Jssdk
      * 生成 js添加到卡包 需要的 card_list 项.
      *
      * @param string $cardId
-     * @param array  $extension
      *
      * @return array
      *

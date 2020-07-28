@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * send a cash coupon.
      *
-     * @param array $params
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -42,8 +40,6 @@ class Client extends BaseClient
     /**
      * query a coupon stock.
      *
-     * @param array $params
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -59,8 +55,6 @@ class Client extends BaseClient
 
     /**
      * query a info of coupon.
-     *
-     * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * 绑定小程序体验者.
      *
-     * @param string $wechatId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -40,8 +38,6 @@ class Client extends BaseClient
     /**
      * 解绑小程序体验者.
      *
-     * @param string $wechatId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -56,7 +52,6 @@ class Client extends BaseClient
 
     /**
      * 获取体验者列表.
-     *
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

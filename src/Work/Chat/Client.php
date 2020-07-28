@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * Get chat.
      *
-     * @param string $chatId
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -36,8 +34,6 @@ class Client extends BaseClient
 
     /**
      * Create chat.
-     *
-     * @param array $data
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -52,9 +48,6 @@ class Client extends BaseClient
     /**
      * Update chat.
      *
-     * @param string $chatId
-     * @param array  $data
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -67,8 +60,6 @@ class Client extends BaseClient
 
     /**
      * Send a message.
-     *
-     * @param array $message
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

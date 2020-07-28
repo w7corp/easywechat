@@ -24,9 +24,6 @@ class MaterialClient extends BaseClient
     /**
      * Upload image material.
      *
-     * @param string $path
-     * @param string $type
-     *
      * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException

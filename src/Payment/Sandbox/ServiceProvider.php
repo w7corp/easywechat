@@ -21,9 +21,6 @@ use Pimple\ServiceProviderInterface;
  */
 class ServiceProvider implements ServiceProviderInterface
 {
-    /**
-     * @param \Pimple\Container $app
-     */
     public function register(Container $app)
     {
         $app['sandbox'] = function ($app) {

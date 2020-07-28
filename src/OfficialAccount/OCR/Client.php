@@ -31,9 +31,6 @@ class Client extends BaseClient
     /**
      * ID card OCR.
      *
-     * @param string $path
-     * @param string $type
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -54,8 +51,6 @@ class Client extends BaseClient
     /**
      * Bank card OCR.
      *
-     * @param string $path
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -69,8 +64,6 @@ class Client extends BaseClient
 
     /**
      * Vehicle license OCR.
-     *
-     * @param string $path
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

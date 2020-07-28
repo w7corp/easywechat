@@ -23,9 +23,6 @@ class Client extends BaseClient
     /**
      * 获取用户增减数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function userSummary(string $from, string $to)
@@ -35,9 +32,6 @@ class Client extends BaseClient
 
     /**
      * 获取累计用户数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -49,9 +43,6 @@ class Client extends BaseClient
     /**
      * 获取图文群发每日数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function articleSummary(string $from, string $to)
@@ -61,9 +52,6 @@ class Client extends BaseClient
 
     /**
      * 获取图文群发总数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -75,9 +63,6 @@ class Client extends BaseClient
     /**
      * 获取图文统计数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function userReadSummary(string $from, string $to)
@@ -87,9 +72,6 @@ class Client extends BaseClient
 
     /**
      * 获取图文统计分时数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -101,9 +83,6 @@ class Client extends BaseClient
     /**
      * 获取图文分享转发数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function userShareSummary(string $from, string $to)
@@ -113,9 +92,6 @@ class Client extends BaseClient
 
     /**
      * 获取图文分享转发分时数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -127,9 +103,6 @@ class Client extends BaseClient
     /**
      * 获取消息发送概况数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function upstreamMessageSummary(string $from, string $to)
@@ -139,9 +112,6 @@ class Client extends BaseClient
 
     /**
      * 获取消息分送分时数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -153,9 +123,6 @@ class Client extends BaseClient
     /**
      * 获取消息发送周数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function upstreamMessageWeekly(string $from, string $to)
@@ -165,9 +132,6 @@ class Client extends BaseClient
 
     /**
      * 获取消息发送月数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -179,9 +143,6 @@ class Client extends BaseClient
     /**
      * 获取消息发送分布数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function upstreamMessageDistSummary(string $from, string $to)
@@ -191,9 +152,6 @@ class Client extends BaseClient
 
     /**
      * 获取消息发送分布周数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -205,9 +163,6 @@ class Client extends BaseClient
     /**
      * 获取消息发送分布月数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function upstreamMessageDistMonthly(string $from, string $to)
@@ -217,9 +172,6 @@ class Client extends BaseClient
 
     /**
      * 获取接口分析数据.
-     *
-     * @param string $from
-     * @param string $to
      *
      * @return mixed
      */
@@ -231,9 +183,6 @@ class Client extends BaseClient
     /**
      * 获取接口分析分时数据.
      *
-     * @param string $from
-     * @param string $to
-     *
      * @return mixed
      */
     public function interfaceSummaryHourly(string $from, string $to)
@@ -244,9 +193,7 @@ class Client extends BaseClient
     /**
      * 拉取卡券概况数据接口.
      *
-     * @param string $from
-     * @param string $to
-     * @param int    $condSource
+     * @param int $condSource
      *
      * @return mixed
      */
@@ -261,11 +208,6 @@ class Client extends BaseClient
 
     /**
      * 获取免费券数据接口.
-     *
-     * @param string $from
-     * @param string $to
-     * @param int    $condSource
-     * @param string $cardId
      *
      * @return mixed
      */
@@ -282,9 +224,7 @@ class Client extends BaseClient
     /**
      * 拉取会员卡数据接口.
      *
-     * @param string $from
-     * @param string $to
-     * @param int    $condSource
+     * @param int $condSource
      *
      * @return mixed
      */
@@ -300,10 +240,6 @@ class Client extends BaseClient
     /**
      * 拉取单张会员卡数据接口.
      *
-     * @param string $from
-     * @param string $to
-     * @param string $cardId
-     *
      * @return mixed
      */
     public function memberCardSummaryById(string $from, string $to, string $cardId)
@@ -317,11 +253,6 @@ class Client extends BaseClient
 
     /**
      * 查询数据.
-     *
-     * @param string $api
-     * @param string $from
-     * @param string $to
-     * @param array  $ext
      *
      * @return mixed
      *

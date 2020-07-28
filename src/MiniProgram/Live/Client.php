@@ -23,10 +23,8 @@ class Client extends BaseClient
     /**
      * Get Room List.
      *
-     * @param int $start
-     * @param int $limit
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @deprecated This method has been merged into `\EasyWeChat\MiniProgram\Broadcast`
      */
     public function getRooms(int $start = 0, int $limit = 10)
@@ -42,11 +40,8 @@ class Client extends BaseClient
     /**
      * Get Playback List.
      *
-     * @param int $roomId
-     * @param int $start
-     * @param int $limit
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
      * @deprecated This method has been merged into `\EasyWeChat\MiniProgram\Broadcast`
      */
     public function getPlaybacks(int $roomId, int $start = 0, int $limit = 10)

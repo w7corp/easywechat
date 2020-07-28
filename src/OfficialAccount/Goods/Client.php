@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * Add the goods.
      *
-     * @param array $data
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -39,8 +37,6 @@ class Client extends BaseClient
 
     /**
      * Update the goods.
-     *
-     * @param array $data
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -57,8 +53,6 @@ class Client extends BaseClient
     /**
      * Get add or update goods results.
      *
-     * @param string $ticket
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -73,8 +67,6 @@ class Client extends BaseClient
 
     /**
      * Get goods information.
-     *
-     * @param string $pid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -92,10 +84,6 @@ class Client extends BaseClient
 
     /**
      * Get a list of goods.
-     *
-     * @param string $context
-     * @param int    $page
-     * @param int    $size
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

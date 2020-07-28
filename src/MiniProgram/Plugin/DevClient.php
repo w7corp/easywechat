@@ -23,9 +23,6 @@ class DevClient extends BaseClient
     /**
      * Get users.
      *
-     * @param int $page
-     * @param int $size
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -43,8 +40,6 @@ class DevClient extends BaseClient
     /**
      * Agree to use plugin.
      *
-     * @param string $appId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -60,8 +55,6 @@ class DevClient extends BaseClient
 
     /**
      * Refuse to use plugin.
-     *
-     * @param string $reason
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

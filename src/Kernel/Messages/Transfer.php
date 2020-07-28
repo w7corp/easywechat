@@ -37,8 +37,6 @@ class Transfer extends Message
 
     /**
      * Transfer constructor.
-     *
-     * @param string|null $account
      */
     public function __construct(string $account = null)
     {

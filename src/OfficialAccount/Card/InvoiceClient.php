@@ -23,9 +23,6 @@ class InvoiceClient extends BaseClient
     /**
      * 设置支付后开票信息接口.
      *
-     * @param string $mchid
-     * @param string $sPappid
-     *
      * @return mixed
      */
     public function set(string $mchid, string $sPappid)
@@ -52,9 +49,6 @@ class InvoiceClient extends BaseClient
 
     /**
      * 设置授权页字段信息接口.
-     *
-     * @param array $userData
-     * @param array $bizData
      *
      * @return mixed
      */
@@ -83,9 +77,6 @@ class InvoiceClient extends BaseClient
     /**
      * 查询开票信息.
      *
-     * @param string $orderId
-     * @param string $appId
-     *
      * @return mixed
      */
     public function getAuthData(string $appId, string $orderId)
@@ -99,9 +90,6 @@ class InvoiceClient extends BaseClient
     }
 
     /**
-     * @param string $action
-     * @param array  $params
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

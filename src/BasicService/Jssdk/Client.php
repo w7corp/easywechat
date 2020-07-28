@@ -40,11 +40,6 @@ class Client extends BaseClient
     /**
      * Get config json for jsapi.
      *
-     * @param array $jsApiList
-     * @param bool  $debug
-     * @param bool  $beta
-     * @param bool  $json
-     *
      * @return array|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -61,10 +56,6 @@ class Client extends BaseClient
     /**
      * Return jsapi config as a PHP array.
      *
-     * @param array $apis
-     * @param bool  $debug
-     * @param bool  $beta
-     *
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -78,11 +69,6 @@ class Client extends BaseClient
 
     /**
      * Get js ticket.
-     *
-     * @param bool   $refresh
-     * @param string $type
-     *
-     * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -116,11 +102,7 @@ class Client extends BaseClient
     /**
      * Build signature.
      *
-     * @param string|null $url
-     * @param string|null $nonce
-     * @param int|null    $timestamp
-     *
-     * @return array
+     * @param int|null $timestamp
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -149,8 +131,6 @@ class Client extends BaseClient
      * @param string $nonce
      * @param int    $timestamp
      * @param string $url
-     *
-     * @return string
      */
     public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
     {
@@ -172,8 +152,6 @@ class Client extends BaseClient
     /**
      * Set current url.
      *
-     * @param string $url
-     *
      * @return $this
      */
     public function setUrl(string $url)
@@ -185,8 +163,6 @@ class Client extends BaseClient
 
     /**
      * Get current url.
-     *
-     * @return string
      */
     public function getUrl(): string
     {

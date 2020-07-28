@@ -56,10 +56,8 @@ trait Observable
 
         return $this->newClause($handler);
     }
-    
+
     /**
-     * @param array $handlers
-     * 
      * @return $this
      */
     public function setHandlers(array $handlers = [])
@@ -178,8 +176,6 @@ trait Observable
 
     /**
      * @param mixed $handler
-     *
-     * @return \EasyWeChat\Kernel\Clauses\Clause
      */
     protected function newClause($handler): Clause
     {
@@ -207,8 +203,7 @@ trait Observable
     }
 
     /**
-     * @param callable $handler
-     * @param mixed    $payload
+     * @param mixed $payload
      *
      * @return mixed
      */
@@ -268,8 +263,6 @@ trait Observable
     /**
      * @param mixed $handler
      * @param mixed $condition
-     *
-     * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException

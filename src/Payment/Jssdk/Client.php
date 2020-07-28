@@ -13,6 +13,7 @@ namespace EasyWeChat\Payment\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client as JssdkClient;
 use EasyWeChat\Kernel\Support;
+use Overtrue\Socialite\AccessTokenInterface;
 
 /**
  * Class Client.
@@ -30,9 +31,6 @@ class Client extends JssdkClient
      *  ...
      * );
      * </pre>
-     *
-     * @param string $prepayId
-     * @param bool   $json
      *
      * @return string|array
      */
@@ -57,10 +55,6 @@ class Client extends JssdkClient
      * <pre>
      * wx.chooseWXPay({...});
      * </pre>
-     *
-     * @param string $prepayId
-     *
-     * @return array
      */
     public function sdkConfig(string $prepayId): array
     {
@@ -74,10 +68,6 @@ class Client extends JssdkClient
 
     /**
      * Generate app payment parameters.
-     *
-     * @param string $prepayId
-     *
-     * @return array
      */
     public function appConfig(string $prepayId): array
     {
@@ -98,13 +88,16 @@ class Client extends JssdkClient
     /**
      * Generate js config for share user address.
      *
-     * @param string $accessToken
-     * @param bool                                            $json
+     * @param string|\Overtrue\Socialite\AccessTokenInterface $accessToken
      *
      * @return string|array
      */
-    public function shareAddressConfig(string $accessToken, bool $json = true)
+    public function shareAddressConfig($accessToken, bool $json = true)
     {
+        if ($accessToken instanceof AccessTokenInterface) {
+            $accessToken = $accessToken->getToken();
+        }
+
         $params = [
             'appId' => $this->app['config']->app_id,
             'scope' => 'jsapi_address',
@@ -130,10 +123,6 @@ class Client extends JssdkClient
 
     /**
      * Generate js config for contract of mini program.
-     *
-     * @param array $params
-     *
-     * @return array
      */
     public function contractConfig(array $params): array
     {

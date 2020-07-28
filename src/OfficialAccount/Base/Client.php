@@ -53,9 +53,6 @@ class Client extends BaseClient
     /**
      * Check the callback address network.
      *
-     * @param string $action
-     * @param string $operator
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws InvalidArgumentException

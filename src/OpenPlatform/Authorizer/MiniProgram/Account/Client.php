@@ -44,14 +44,17 @@ class Client extends BaseClient
      */
     public function updateAvatar(
         string $mediaId,
-        float $left = '0.0',
-        float $top = '0.0',
-        float $right = '1.0',
-        float $bottom = '1.0'
+        $left = '0.0',
+        $top = '0.0',
+        $right = '1.0',
+        $bottom = '1.0'
     ) {
         $params = [
             'head_img_media_id' => $mediaId,
-            'x1' => \strval($left), 'y1' => \strval($top), 'x2' => \strval($right), 'y2' => \strval($bottom),
+            'x1' => \strval($left),
+            'y1' => \strval($top),
+            'x2' => \strval($right),
+            'y2' => \strval($bottom),
         ];
 
         return $this->httpPostJson('cgi-bin/account/modifyheadimage', $params);

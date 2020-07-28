@@ -23,9 +23,6 @@ class UserClient extends BaseClient
     /**
      * Fetch a user by open id.
      *
-     * @param string $openid
-     * @param string $lang
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -42,9 +39,6 @@ class UserClient extends BaseClient
 
     /**
      * Batch get users.
-     *
-     * @param array  $openids
-     * @param string $lang
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -82,9 +76,6 @@ class UserClient extends BaseClient
     /**
      * Set user remark.
      *
-     * @param string $openid
-     * @param string $remark
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -102,8 +93,6 @@ class UserClient extends BaseClient
 
     /**
      * Get black list.
-     *
-     * @param string|null $beginOpenid
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -152,9 +141,6 @@ class UserClient extends BaseClient
     }
 
     /**
-     * @param string $oldAppId
-     * @param array  $openidList
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

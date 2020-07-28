@@ -23,8 +23,6 @@ class GiftCardClient extends BaseClient
     /**
      * 申请微信支付礼品卡权限接口.
      *
-     * @param string $subMchId
-     *
      * @return mixed
      */
     public function add(string $subMchId)
@@ -38,9 +36,6 @@ class GiftCardClient extends BaseClient
 
     /**
      * 绑定商户号到礼品卡小程序接口(商户号必须为公众号申请的商户号，否则报错).
-     *
-     * @param string $subMchId
-     * @param string $wxaAppid
      *
      * @return mixed
      */
@@ -56,9 +51,6 @@ class GiftCardClient extends BaseClient
 
     /**
      * 上传小程序代码.
-     *
-     * @param string $wxaAppid
-     * @param string $pageId
      *
      * @return mixed
      */

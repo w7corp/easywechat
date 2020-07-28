@@ -41,11 +41,6 @@ class AccessToken extends BaseAccessToken
 
     /**
      * AccessToken constructor.
-     *
-     * @param Container   $app
-     * @param string      $authCorpId
-     * @param string      $permanentCode
-     * @param Application $component
      */
     public function __construct(Container $app, string $authCorpId, string $permanentCode, Application $component)
     {
@@ -57,8 +52,6 @@ class AccessToken extends BaseAccessToken
 
     /**
      * Credential for get token.
-     *
-     * @return array
      */
     protected function getCredentials(): array
     {
@@ -68,9 +61,6 @@ class AccessToken extends BaseAccessToken
         ];
     }
 
-    /**
-     * @return string
-     */
     public function getEndpoint(): string
     {
         return 'cgi-bin/service/get_corp_token?'.http_build_query([

@@ -23,9 +23,6 @@ class Client extends BaseClient
     /**
      * Open article comment.
      *
-     * @param string   $msgId
-     * @param int|null $index
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -44,9 +41,6 @@ class Client extends BaseClient
     /**
      * Close comment.
      *
-     * @param string   $msgId
-     * @param int|null $index
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -64,12 +58,6 @@ class Client extends BaseClient
 
     /**
      * Get article comments.
-     *
-     * @param string $msgId
-     * @param int    $index
-     * @param int    $begin
-     * @param int    $count
-     * @param int    $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -92,10 +80,6 @@ class Client extends BaseClient
     /**
      * Mark elect comment.
      *
-     * @param string $msgId
-     * @param int    $index
-     * @param int    $commentId
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -114,10 +98,6 @@ class Client extends BaseClient
 
     /**
      * Unmark elect comment.
-     *
-     * @param string $msgId
-     * @param int    $index
-     * @param int    $commentId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -138,10 +118,6 @@ class Client extends BaseClient
     /**
      * Delete comment.
      *
-     * @param string $msgId
-     * @param int    $index
-     * @param int    $commentId
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -160,11 +136,6 @@ class Client extends BaseClient
 
     /**
      * Reply to a comment.
-     *
-     * @param string $msgId
-     * @param int    $index
-     * @param int    $commentId
-     * @param string $content
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -185,10 +156,6 @@ class Client extends BaseClient
 
     /**
      * Delete a reply.
-     *
-     * @param string $msgId
-     * @param int    $index
-     * @param int    $commentId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

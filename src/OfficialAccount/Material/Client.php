@@ -33,8 +33,6 @@ class Client extends BaseClient
     /**
      * Upload image.
      *
-     * @param string $path
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -48,8 +46,6 @@ class Client extends BaseClient
 
     /**
      * Upload voice.
-     *
-     * @param string $path
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -65,8 +61,6 @@ class Client extends BaseClient
     /**
      * Upload thumb.
      *
-     * @param string $path
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -80,10 +74,6 @@ class Client extends BaseClient
 
     /**
      * Upload video.
-     *
-     * @param string $path
-     * @param string $title
-     * @param string $description
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -136,9 +126,7 @@ class Client extends BaseClient
     /**
      * Update article.
      *
-     * @param string        $mediaId
      * @param array|Article $article
-     * @param int           $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -163,8 +151,6 @@ class Client extends BaseClient
     /**
      * Upload image for article.
      *
-     * @param string $path
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -177,8 +163,6 @@ class Client extends BaseClient
 
     /**
      * Fetch material.
-     *
-     * @param string $mediaId
      *
      * @return mixed
      *
@@ -198,8 +182,6 @@ class Client extends BaseClient
 
     /**
      * Delete material by media ID.
-     *
-     * @param string $mediaId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -227,10 +209,6 @@ class Client extends BaseClient
      *         // more...
      *   ]
      * }
-     *
-     * @param string $type
-     * @param int    $offset
-     * @param int    $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -263,10 +241,6 @@ class Client extends BaseClient
     /**
      * Upload material.
      *
-     * @param string $type
-     * @param string $path
-     * @param array  $form
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -286,8 +260,6 @@ class Client extends BaseClient
 
     /**
      * Get API by type.
-     *
-     * @param string $type
      *
      * @return string
      */
