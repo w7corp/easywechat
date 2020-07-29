@@ -367,14 +367,13 @@ class DummyHandlerClassForObservableTest implements EventHandlerInterface
 
 class DummyClassForObservableTest
 {
+    use Observable;
     protected $app;
 
     public function __construct(ServiceContainer $app = null)
     {
         $this->app = $app;
     }
-
-    use Observable;
 }
 
 class DummyHandlerClass

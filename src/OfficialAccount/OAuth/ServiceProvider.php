@@ -28,7 +28,6 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['oauth'] = function ($app) {
-
             $wechat = [
                 'wechat' => [
                     'client_id' => $app['config']['app_id'],

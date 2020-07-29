@@ -23,7 +23,7 @@
         "easywechat-composer/easywechat-composer": "^1.1",
         "guzzlehttp/guzzle": "^6.2 || ^7.0",
         "monolog/monolog": "^1.22 || ^2.0",
-        "overtrue/socialite": "dev-develop",
+        "overtrue/socialite": "^3.0",
         "pimple/pimple": "^3.0",
         "psr/simple-cache": "^1.0",
         "symfony/cache": "^3.3 || ^4.3 || ^5.0",
@@ -33,6 +33,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
+        "brainmaestro/composer-git-hooks": "^2.7",
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.2.3",
         "phpstan/phpstan": "^0.12.0",
@@ -52,9 +53,27 @@
             "EasyWeChat\\Tests\\": "tests/"
         }
     },
+    "extra": {
+        "hooks": {
+            "pre-commit": "composer check-style",
+            "pre-push": [
+                "composer test",
+                "composer fix-style"
+            ]
+        }
+    },
     "scripts": {
-        "phpcs": "vendor/bin/php-cs-fixer fix",
+        "post-update-cmd": [
+            "cghooks update"
+        ],
+        "post-merge": "composer install",
+        "post-install-cmd": [
+            "cghooks add --ignore-lock",
+            "cghooks update"
+        ],
         "phpstan": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/phpunit"
+        "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php_cs --dry-run --ansi",
+        "fix-style": "php-cs-fixer fix --using-cache=no --config=.php_cs --ansi",
+        "test": "vendor/bin/phpunit --colors=always --testdox"
     }
 }

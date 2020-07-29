@@ -60,5 +60,7 @@ class Clause
                 return true;
             }
         }
+
+        return false;
     }
 }
