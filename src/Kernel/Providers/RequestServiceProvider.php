@@ -32,7 +32,7 @@ class RequestServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['request'] = function () {
+        !isset($pimple['request']) && $pimple['request'] = function () {
             return Request::createFromGlobals();
         };
     }
