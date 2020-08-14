@@ -106,7 +106,9 @@ abstract class AccessToken implements AccessTokenInterface
         $cache = $this->getCache();
 
         if (!$refresh && $cache->has($cacheKey)) {
-            return $cache->get($cacheKey);
+            if ($result = $cache->get($cacheKey)) {
+                return $result;
+            }
         }
 
         /** @var array $token */
