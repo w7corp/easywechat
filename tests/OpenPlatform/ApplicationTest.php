@@ -90,9 +90,14 @@ class ApplicationTest extends TestCase
             'debug' => true,
             'response_type' => 'collection',
             'log' => [
-                'level' => 'debug',
-                'permission' => 0777,
-                'file' => '/tmp/easywechat.log',
+                'default' => 'single',
+                'channels' => [
+                    'single' => [
+                        'driver' => 'single',
+                        'path' => '/tmp/easywechat.log',
+                        'level' => 'debug',
+                    ]
+                ],
             ],
             'app_id' => 'app-id',
             'refresh_token' => 'refresh-token',

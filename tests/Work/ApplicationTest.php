@@ -65,9 +65,14 @@ class ApplicationTest extends TestCase
         $this->assertArraySubset([
             'response_type' => 'array',
             'log' => [
-                'level' => 'debug',
-                'permission' => 0777,
-                'file' => '/tmp/easywechat.log',
+                'default' => 'single',
+                'channels' => [
+                    'single' => [
+                        'driver' => 'single',
+                        'path' => '/tmp/easywechat.log',
+                        'level' => 'debug',
+                    ]
+                ],
             ],
             'debug' => true,
             'corp_id' => 'corp-id',
