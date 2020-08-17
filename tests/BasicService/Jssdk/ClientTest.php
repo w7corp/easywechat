@@ -129,7 +129,7 @@ class ClientTest extends TestCase
         $this->assertSame('123456', $signature['appId']);
         $this->assertSame(10, strlen($signature['nonceStr']), 'nonceStr length is 10');
         $this->assertSame($url, $signature['url']);
-        $this->assertInternalType('integer', $signature['timestamp']);
+        $this->assertIsInt($signature['timestamp']);
 
         // custom arguments
         $time = time();

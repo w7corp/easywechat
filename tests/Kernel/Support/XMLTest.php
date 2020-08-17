@@ -27,7 +27,7 @@ class XMLTest extends TestCase
         $this->assertSame(['foo' => 'name', 'bar' => 'age', 'name' => 'text here'], XML::parse($xml));
 
         $xml = '<xml>'
-            .'<id color="blue"><![CDATA[bk101]]></id>'
+            .'<id><![CDATA[bk101]]></id>'
             .'<author><![CDATA[Gambardella, Matthew]]></author>'
             .'<title><![CDATA[XML Developer\'s Guide]]></title>'
             .'<genre><![CDATA[Computer]]></genre>'

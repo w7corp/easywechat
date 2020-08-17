@@ -21,7 +21,7 @@ class ClientTest extends TestCase
 {
     protected $mockStream;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

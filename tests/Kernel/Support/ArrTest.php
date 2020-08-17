@@ -264,11 +264,11 @@ class ArrTest extends TestCase
         $randomValue = Arr::random(['foo', 'bar', 'baz']);
         $this->assertContains($randomValue, ['foo', 'bar', 'baz']);
         $randomValues = Arr::random(['foo', 'bar', 'baz'], 1);
-        $this->assertInternalType('array', $randomValues);
+        $this->assertIsArray($randomValues);
         $this->assertCount(1, $randomValues);
         $this->assertContains($randomValues[0], ['foo', 'bar', 'baz']);
         $randomValues = Arr::random(['foo', 'bar', 'baz'], 2);
-        $this->assertInternalType('array', $randomValues);
+        $this->assertIsArray($randomValues);
         $this->assertCount(2, $randomValues);
         $this->assertContains($randomValues[0], ['foo', 'bar', 'baz']);
         $this->assertContains($randomValues[1], ['foo', 'bar', 'baz']);

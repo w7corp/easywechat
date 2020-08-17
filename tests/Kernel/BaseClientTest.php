@@ -79,7 +79,7 @@ class BaseClientTest extends TestCase
             $this->assertArrayHasKey('multipart', $params);
             $this->assertSame($query, $params['query']);
             $this->assertSame('media', $params['multipart'][0]['name']);
-            $this->assertInternalType('resource', $params['multipart'][0]['contents']);
+            $this->assertIsResource($params['multipart'][0]['contents']);
 
             return true;
         }))->andReturn('mock-result');

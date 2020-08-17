@@ -37,7 +37,8 @@
         "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "^1.2.3",
         "phpstan/phpstan": "^0.12.0",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3",
+        "dms/phpunit-arraysubset-asserts": "^0.2.0"
     },
     "autoload": {
         "psr-4": {
