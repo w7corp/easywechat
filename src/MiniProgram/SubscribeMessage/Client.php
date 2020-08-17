@@ -74,7 +74,7 @@ class Client extends BaseClient
 
         foreach ($params['data'] as $key => $value) {
             if (is_array($value)) {
-                if (isset($value['value'])) {
+                if (\array_key_exists('value', $value)) {
                     $params['data'][$key] = ['value' => $value['value']];
 
                     continue;
