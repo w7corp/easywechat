@@ -40,15 +40,22 @@ class Client extends BaseClient
     /**
      * Get config json for jsapi.
      *
+     * @param array $jsApiList
+     * @param bool  $debug
+     * @param bool  $beta
+     * @param bool  $json
+     * @param array $openTagList
+     *
      * @return array|string
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true)
+    public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [])
     {
-        $config = array_merge(compact('debug', 'beta', 'jsApiList'), $this->configSignature());
+        $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->configSignature());
 
         return $json ? json_encode($config) : $config;
     }
@@ -56,15 +63,21 @@ class Client extends BaseClient
     /**
      * Return jsapi config as a PHP array.
      *
+     * @param array $apis
+     * @param bool  $debug
+     * @param bool  $beta
+     * @param array $openTagList
+     *
      * @return array
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function getConfigArray(array $apis, bool $debug = false, bool $beta = false)
+    public function getConfigArray(array $apis, bool $debug = false, bool $beta = false, array $openTagList = [])
     {
-        return $this->buildConfig($apis, $debug, $beta, false);
+        return $this->buildConfig($apis, $debug, $beta, false, $openTagList);
     }
 
     /**
