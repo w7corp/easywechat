@@ -13,6 +13,7 @@ namespace EasyWeChat\Work\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client as BaseClient;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\Support;
 
 /**
  * Class Client.
