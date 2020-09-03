@@ -40,22 +40,24 @@ class Client extends BaseClient
     /**
      * Get config json for jsapi.
      *
-     * @param array $jsApiList
-     * @param bool $debug
-     * @param bool $beta
-     * @param bool $json
-     * @param array $openTagList
+     * @param array       $jsApiList
+     * @param bool        $debug
+     * @param bool        $beta
+     * @param bool        $json
+     * @param array       $openTagList
+     * @param string|null $url
      *
      * @return array|string
      *
-     * @throws RuntimeException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [])
+    public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [], string $url = null)
     {
-        $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->configSignature());
+        $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->configSignature($url));
 
         return $json ? json_encode($config) : $config;
     }
@@ -63,21 +65,22 @@ class Client extends BaseClient
     /**
      * Return jsapi config as a PHP array.
      *
-     * @param array $apis
-     * @param bool  $debug
-     * @param bool  $beta
-     * @param array $openTagList
+     * @param array       $apis
+     * @param bool        $debug
+     * @param bool        $beta
+     * @param array       $openTagList
+     * @param string|null $url
      *
-     * @return array
-     *
-     * @throws RuntimeException
+     * @return array|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getConfigArray(array $apis, bool $debug = false, bool $beta = false, array $openTagList = [])
+    public function getConfigArray(array $apis, bool $debug = false, bool $beta = false, array $openTagList = [], string $url = null)
     {
-        return $this->buildConfig($apis, $debug, $beta, false, $openTagList);
+        return $this->buildConfig($apis, $debug, $beta, false, $openTagList, $url);
     }
 
     /**
@@ -122,13 +125,14 @@ class Client extends BaseClient
      *
      * @param string|null $url
      * @param string|null $nonce
-     * @param int|null    $timestamp
+     * @param null        $timestamp
      *
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     protected function configSignature(string $url = null, string $nonce = null, $timestamp = null): array

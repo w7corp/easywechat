@@ -114,8 +114,8 @@ class ClientTest extends TestCase
     public function testBuildAgentConfig()
     {
         $client = $this->mockApiClient(\EasyWeChat\Work\Jssdk\Client::class, 'agentConfigSignature');
-        $client->expects()->agentConfigSignature()->andReturn(['foo' => 'bar'])->twice();
-        $config = json_decode($client->buildAgentConfig(['api1', 'api2']), true);
+        $client->expects()->agentConfigSignature('agentId', null)->andReturn(['foo' => 'bar'])->twice();
+        $config = json_decode($client->buildAgentConfig(['api1', 'api2'], 'agentId'), true);
 
         $this->assertArrayHasKey('debug', $config);
         $this->assertArrayHasKey('beta', $config);
@@ -129,7 +129,7 @@ class ClientTest extends TestCase
         $this->assertSame('bar', $config['foo']);
 
         // beta: true, debug: true, json:false
-        $config = $client->buildAgentConfig(['api1', 'api2'], true, true, false, ['foo', 'bar']);
+        $config = $client->buildAgentConfig(['api1', 'api2'], 'agentId', true, true, false, ['foo', 'bar']);
         $this->assertArrayHasKey('debug', $config);
         $this->assertArrayHasKey('beta', $config);
         $this->assertArrayHasKey('jsApiList', $config);
@@ -146,8 +146,8 @@ class ClientTest extends TestCase
     public function testGetAgentConfigArray()
     {
         $client = $this->mockApiClient(Client::class, 'buildAgentConfig');
-        $client->expects()->buildAgentConfig(['api1', 'api2'], true, true, false, [])->andReturn('mock-result');
+        $client->expects()->buildAgentConfig(['api1', 'api2'], 'agentId', true, true, false, [], null)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getAgentConfigArray(['api1', 'api2'], true, true));
+        $this->assertSame('mock-result', $client->getAgentConfigArray(['api1', 'api2'], 'agentId', true, true));
     }
 }
