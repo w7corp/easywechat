@@ -208,4 +208,12 @@ class Client extends BaseClient
     {
         return $this->app['config']->get('app_id');
     }
+
+    /**
+     * @return string
+     */
+    protected function getAgentId()
+    {
+        return $this->app['config']->get('agent_id');
+    }
 }
