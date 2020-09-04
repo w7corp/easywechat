@@ -21,8 +21,8 @@ class ClientTest extends TestCase
     public function testBuildConfig()
     {
         $client = $this->mockApiClient(Client::class, 'configSignature');
-        $client->expects()->configSignature()->andReturn(['foo' => 'bar'])->twice();
-        $config = json_decode($client->buildConfig(['api1', 'api2']), true);
+        $client->expects()->configSignature('https://www.easywechat.com/docs/4.1/basic-services/jssdk')->andReturn(['foo' => 'bar'])->twice();
+        $config = json_decode($client->buildConfig(['api1', 'api2'], false, false, true, [], 'https://www.easywechat.com/docs/4.1/basic-services/jssdk'), true);
 
         $this->assertArrayHasKey('debug', $config);
         $this->assertArrayHasKey('beta', $config);
@@ -36,7 +36,7 @@ class ClientTest extends TestCase
         $this->assertSame('bar', $config['foo']);
 
         // beta: true, debug: true, json:false
-        $config = $client->buildConfig(['api1', 'api2'], true, true, false, ['foo', 'bar']);
+        $config = $client->buildConfig(['api1', 'api2'], true, true, false, ['foo', 'bar'], 'https://www.easywechat.com/docs/4.1/basic-services/jssdk');
         $this->assertArrayHasKey('debug', $config);
         $this->assertArrayHasKey('beta', $config);
         $this->assertArrayHasKey('jsApiList', $config);
@@ -53,9 +53,9 @@ class ClientTest extends TestCase
     public function testGetConfigArray()
     {
         $client = $this->mockApiClient(Client::class, 'buildConfig');
-        $client->expects()->buildConfig(['api1', 'api2'], true, true, false, [])->andReturn('mock-result');
+        $client->expects()->buildConfig(['api1', 'api2'], true, true, false, [], 'https://www.easywechat.com/docs/4.1/basic-services/jssdk')->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getConfigArray(['api1', 'api2'], true, true));
+        $this->assertSame('mock-result', $client->getConfigArray(['api1', 'api2'], true, true, [], 'https://www.easywechat.com/docs/4.1/basic-services/jssdk'));
     }
 
     public function testGetTicket()

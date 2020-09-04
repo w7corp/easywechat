@@ -40,11 +40,12 @@ class Client extends BaseClient
     /**
      * Get config json for jsapi.
      *
-     * @param array $jsApiList
-     * @param bool  $debug
-     * @param bool  $beta
-     * @param bool  $json
-     * @param array $openTagList
+     * @param array  $jsApiList
+     * @param bool   $debug
+     * @param bool   $beta
+     * @param bool   $json
+     * @param array  $openTagList
+     * @param string $url
      *
      * @return array|string
      *
@@ -53,9 +54,9 @@ class Client extends BaseClient
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [])
+    public function buildConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [], string $url = null)
     {
-        $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->configSignature());
+        $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->configSignature($url));
 
         return $json ? json_encode($config) : $config;
     }
@@ -63,10 +64,11 @@ class Client extends BaseClient
     /**
      * Return jsapi config as a PHP array.
      *
-     * @param array $apis
-     * @param bool  $debug
-     * @param bool  $beta
-     * @param array $openTagList
+     * @param array  $apis
+     * @param bool   $debug
+     * @param bool   $beta
+     * @param array  $openTagList
+     * @param string $url
      *
      * @return array
      *
@@ -75,9 +77,9 @@ class Client extends BaseClient
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function getConfigArray(array $apis, bool $debug = false, bool $beta = false, array $openTagList = [])
+    public function getConfigArray(array $apis, bool $debug = false, bool $beta = false, array $openTagList = [], string $url = null)
     {
-        return $this->buildConfig($apis, $debug, $beta, false, $openTagList);
+        return $this->buildConfig($apis, $debug, $beta, false, $openTagList, $url);
     }
 
     /**
