@@ -35,10 +35,12 @@ class Client extends BaseClient
     /**
      * Return jsapi agent config as a PHP array.
      *
-     * @param array $apis
-     * @param bool  $debug
-     * @param bool  $beta
-     * @param array $openTagList
+     * @param array       $apis
+     * @param             $agentId
+     * @param bool        $debug
+     * @param bool        $beta
+     * @param array       $openTagList
+     * @param string|null $url
      *
      * @return array|string
      *
@@ -48,19 +50,21 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getAgentConfigArray(array $apis, bool $debug = false, bool $beta = false, array $openTagList = [])
+    public function getAgentConfigArray(array $apis, $agentId, bool $debug = false, bool $beta = false, array $openTagList = [], string $url = null)
     {
-        return $this->buildAgentConfig($apis, $debug, $beta, false, $openTagList);
+        return $this->buildAgentConfig($apis, $agentId, $debug, $beta, false, $openTagList, $url);
     }
 
     /**
      * Get agent config json for jsapi.
      *
-     * @param array $jsApiList
-     * @param bool  $debug
-     * @param bool  $beta
-     * @param bool  $json
-     * @param array $openTagList
+     * @param array       $jsApiList
+     * @param             $agentId
+     * @param bool        $debug
+     * @param bool        $beta
+     * @param bool        $json
+     * @param array       $openTagList
+     * @param string|null $url
      *
      * @return array|string
      *
@@ -70,26 +74,28 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function buildAgentConfig(array $jsApiList, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [])
+    public function buildAgentConfig(array $jsApiList, $agentId, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [], string $url = null)
     {
-        $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->agentConfigSignature());
+        $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->agentConfigSignature($agentId, $url));
 
         return $json ? json_encode($config) : $config;
     }
 
     /**
+     * @param             $agentId
      * @param string|null $url
      * @param string|null $nonce
      * @param null        $timestamp
      *
      * @return array
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    protected function agentConfigSignature(string $url = null, string $nonce = null, $timestamp = null): array
+    protected function agentConfigSignature($agentId, string $url = null, string $nonce = null, $timestamp = null): array
     {
         $url = $url ?: $this->getUrl();
         $nonce = $nonce ?: Support\Str::quickRandom(10);
@@ -97,7 +103,7 @@ class Client extends BaseClient
 
         return [
             'corpid' => $this->getAppId(),
-            'agentid' => $this->getAgentId(),
+            'agentid' => $agentId,
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'url' => $url,

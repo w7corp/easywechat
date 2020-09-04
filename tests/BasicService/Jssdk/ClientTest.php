@@ -21,7 +21,7 @@ class ClientTest extends TestCase
     public function testBuildConfig()
     {
         $client = $this->mockApiClient(Client::class, 'configSignature');
-        $client->expects()->configSignature()->andReturn(['foo' => 'bar'])->twice();
+        $client->expects()->configSignature(null)->andReturn(['foo' => 'bar'])->twice();
         $config = json_decode($client->buildConfig(['api1', 'api2']), true);
 
         $this->assertArrayHasKey('debug', $config);
@@ -53,7 +53,7 @@ class ClientTest extends TestCase
     public function testGetConfigArray()
     {
         $client = $this->mockApiClient(Client::class, 'buildConfig');
-        $client->expects()->buildConfig(['api1', 'api2'], true, true, false, [])->andReturn('mock-result');
+        $client->expects()->buildConfig(['api1', 'api2'], true, true, false, [], null)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getConfigArray(['api1', 'api2'], true, true));
     }
