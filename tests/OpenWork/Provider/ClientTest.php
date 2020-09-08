@@ -168,7 +168,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->contactSyncSuccess('mock-access-token'));
     }
 
-    public function testContactSearch()
+    public function testSearchContact()
     {
         $app = new ServiceContainer(['corp_id' => 'mock-corp-id']);
 
@@ -184,6 +184,6 @@ class ClientTest extends TestCase
             'offset' => 0,
             'limit' => 50,
         ])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->contactSearch('user', 'mock-agent-id', 0, 50, 1));
+        $this->assertSame('mock-result', $client->searchContact('user', 'mock-agent-id', 0, 50, 1));
     }
 }

@@ -218,7 +218,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function contactSearch(
+    public function searchContact(
         string $queryWord,
         $agentId,
         int $offset = 0,
