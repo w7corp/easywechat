@@ -177,4 +177,38 @@ class Client extends BaseClient
 
         return $this->httpGet('cgi-bin/sync/contact_sync_success', $params);
     }
+
+    /**
+     * 通讯录单个搜索
+     *
+     * @param string $queryWord
+     * @param        $agentId
+     * @param int    $offset
+     * @param int    $limit
+     * @param int    $queryType
+     * @param null   $fullMatchField
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function searchContact(
+        string $queryWord,
+        $agentId,
+        int $offset = 0,
+        int $limit = 50,
+        int $queryType = 0,
+        $fullMatchField = null
+    ) {
+        $params = [];
+        $params['auth_corpid'] = $this->app['config']['corp_id'];
+        $params['query_word'] = $queryWord;
+        $params['query_type'] = $queryType;
+        $params['agentid'] = $agentId;
+        $params['offset'] = $offset;
+        $params['limit'] = $limit;
+        !empty($fullMatchField) && $params['full_match_field'] = $fullMatchField;
+
+        return $this->httpPostJson('cgi-bin/service/contact/search', $params);
+    }
 }
