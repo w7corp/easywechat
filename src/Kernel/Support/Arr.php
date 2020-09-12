@@ -181,7 +181,7 @@ class Arr
      *
      * @return array
      */
-    public static function flatten(array $array, $depth = INF)
+    public static function flatten(array $array, $depth = \PHP_INT_MAX)
     {
         return array_reduce($array, function ($result, $item) use ($depth) {
             $item = $item instanceof Collection ? $item->all() : $item;

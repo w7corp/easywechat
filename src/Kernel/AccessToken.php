@@ -56,11 +56,6 @@ abstract class AccessToken implements AccessTokenInterface
     protected $token;
 
     /**
-     * @var int
-     */
-    protected $safeSeconds = 500;
-
-    /**
      * @var string
      */
     protected $tokenKey = 'access_token';
@@ -110,8 +105,8 @@ abstract class AccessToken implements AccessTokenInterface
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
 
-        if (!$refresh && $cache->has($cacheKey)) {
-            return $cache->get($cacheKey);
+        if (!$refresh && $cache->has($cacheKey) && $result = $cache->get($cacheKey)) {
+            return $result;
         }
 
         /** @var array $token */
@@ -139,7 +134,7 @@ abstract class AccessToken implements AccessTokenInterface
         $this->getCache()->set($this->getCacheKey(), [
             $this->tokenKey => $token,
             'expires_in' => $lifetime,
-        ], $lifetime - $this->safeSeconds);
+        ], $lifetime);
 
         if (!$this->getCache()->has($this->getCacheKey())) {
             throw new RuntimeException('Failed to cache access token.');

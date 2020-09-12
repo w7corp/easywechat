@@ -34,8 +34,8 @@ use EasyWeChat\Kernel\Support\Arr;
  */
 class Client extends BaseClient
 {
-    const PREVIEW_BY_OPENID = 'touser';
-    const PREVIEW_BY_NAME = 'towxname';
+    public const PREVIEW_BY_OPENID = 'touser';
+    public const PREVIEW_BY_NAME = 'towxname';
 
     /**
      * Send a message.
@@ -78,16 +78,18 @@ class Client extends BaseClient
      * Delete a broadcast.
      *
      * @param string $msgId
+     * @param int    $index
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function delete(string $msgId)
+    public function delete(string $msgId, int $index = 0)
     {
         $options = [
             'msg_id' => $msgId,
+            'article_idx' => $index,
         ];
 
         return $this->httpPostJson('cgi-bin/message/mass/delete', $options);

@@ -98,7 +98,9 @@ class Client extends BaseClient
                 [
                     'title' => $title,
                     'introduction' => $description,
-                ], JSON_UNESCAPED_UNICODE),
+                ],
+                JSON_UNESCAPED_UNICODE
+            ),
         ];
 
         return $this->upload('video', $path, $params);

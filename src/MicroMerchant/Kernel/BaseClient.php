@@ -248,13 +248,8 @@ class BaseClient extends PaymentBaseClient
         $params = array_filter($params);
 
         $key = $this->app->getKey();
-        if ('HMAC-SHA256' === ($params['sign_type'] ?? 'MD5')) {
-            $encryptMethod = function ($str) use ($key) {
-                return hash_hmac('sha256', $str, $key);
-            };
-        } else {
-            $encryptMethod = 'md5';
-        }
+
+        $encryptMethod = Support\get_encrypt_method(Support\Arr::get($params, 'sign_type', 'MD5'), $key);
 
         return Support\generate_sign($params, $key, $encryptMethod);
     }

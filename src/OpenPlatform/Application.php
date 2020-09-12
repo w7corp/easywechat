@@ -18,7 +18,6 @@ use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client as AccountClient;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
-use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\OAuth\ComponentDelegate;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 
 /**
@@ -79,8 +78,8 @@ class Application extends ServiceContainer
         ]);
 
         $application->extend('oauth', function ($socialite) {
-            /* @var \Overtrue\Socialite\Providers\WeChatProvider $socialite */
-            return $socialite->component(new ComponentDelegate($this));
+            /* @var \Overtrue\Socialite\Providers\WeChat $socialite */
+            return $socialite;
         });
 
         return $application;
@@ -174,6 +173,7 @@ class Application extends ServiceContainer
     {
         return $this['config']->merge([
             'component_app_id' => $this['config']['app_id'],
+            'component_app_token' => $this['config']['token'],
             'app_id' => $appId,
             'refresh_token' => $refreshToken,
         ])->toArray();

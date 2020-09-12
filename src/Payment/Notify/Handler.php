@@ -20,8 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class Handler
 {
-    const SUCCESS = 'SUCCESS';
-    const FAIL = 'FAIL';
+    public const SUCCESS = 'SUCCESS';
+    public const FAIL = 'FAIL';
 
     /**
      * @var \EasyWeChat\Payment\Application
@@ -167,7 +167,11 @@ abstract class Handler
         }
 
         return Support\AES::decrypt(
-            base64_decode($message[$key], true), md5($this->app['config']->key), '', OPENSSL_RAW_DATA, 'AES-256-ECB'
+            base64_decode($message[$key], true),
+            md5($this->app['config']->key),
+            '',
+            OPENSSL_RAW_DATA,
+            'AES-256-ECB'
         );
     }
 

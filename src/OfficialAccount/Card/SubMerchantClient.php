@@ -64,7 +64,8 @@ class SubMerchantClient extends BaseClient
     public function update(int $merchantId, array $info = [])
     {
         $params = [
-            'info' => array_merge(['merchant_id' => $merchantId],
+            'info' => array_merge(
+                ['merchant_id' => $merchantId],
                 Arr::only($info, [
                     'brand_name',
                     'logo_url',
@@ -75,7 +76,8 @@ class SubMerchantClient extends BaseClient
                     'agreement_media_id',
                     'operator_media_id',
                     'app_id',
-                ])),
+                ])
+            ),
         ];
 
         return $this->httpPostJson('card/submerchant/update', $params);

@@ -55,6 +55,11 @@ class ApplicationTest extends TestCase
 
         $this->assertTrue($app->verifySignature([
             'foo' => 'bar',
+            'sign' => 'A17558A18A547578818256FD52E74BB3EA9475E021F5F210809F2B7916C53B1D',
+        ]));
+
+        $this->assertTrue($app->verifySignature([
+            'foo' => 'bar',
             'sign' => '834A25C9A5B48305AB997C9A7E101530',
         ]));
 

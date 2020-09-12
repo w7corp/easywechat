@@ -150,7 +150,9 @@ class Client extends BaseClient
         $params = ['nick_name' => $nickname];
 
         return $this->httpPostJson(
-            'cgi-bin/wxverify/checkwxverifynickname', $params);
+            'cgi-bin/wxverify/checkwxverifynickname',
+            $params
+        );
     }
 
     /**

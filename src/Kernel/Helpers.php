@@ -31,6 +31,8 @@ function data_get($data, $key, $default = null)
             return $data[$key] ?? $default;
         case $data instanceof \IteratorAggregate && $data->getIterator() instanceof \ArrayIterator:
             return $data->getIterator()->getArrayCopy()[$key] ?? $default;
+        case is_object($data):
+            return $data->{$key} ?? $default;
         default:
             throw new RuntimeException(sprintf('Can\'t access data with key "%s"', $key));
     }

@@ -355,6 +355,29 @@ class Client extends BaseClient
     }
 
     /**
+     * 设置自助核销接口
+     * 设置买单的 card_id 必须已经配置了门店，否则会报错.
+     *
+     * @param string $cardId
+     * @param bool   $isOpen
+     * @param bool   $verifyCod
+     * @param bool   $remarkAmount
+     *
+     * @return mixed
+     */
+    public function setPayConsumeCell($cardId, $isOpen = true, $verifyCod = false, $remarkAmount = false)
+    {
+        $params = [
+            'card_id' => $cardId,
+            'is_open' => $isOpen,
+            'need_verify_cod' => $verifyCod,
+            'need_remark_amount' => $remarkAmount,
+        ];
+
+        return $this->httpPostJson('card/selfconsumecell/set', $params);
+    }
+
+    /**
      * 增加库存.
      *
      * @param string $cardId

@@ -236,6 +236,6 @@ class LogManagerTest extends TestCase
     {
         $app = new ServiceContainer([]);
         $log = new LogManager($app);
-        $this->assertInternalType('array', $log->getHandlers());
+        $this->assertIsArray($log->getHandlers());
     }
 }

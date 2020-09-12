@@ -22,7 +22,7 @@ use ReflectionClass;
  */
 class Client extends BaseClient
 {
-    const API_SEND = 'cgi-bin/message/template/send';
+    public const API_SEND = 'cgi-bin/message/template/send';
 
     /**
      * Attributes.
@@ -200,7 +200,7 @@ class Client extends BaseClient
 
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                if (isset($value['value'])) {
+                if (\array_key_exists('value', $value)) {
                     $formatted[$key] = $value;
 
                     continue;

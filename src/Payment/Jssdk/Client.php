@@ -13,7 +13,6 @@ namespace EasyWeChat\Payment\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client as JssdkClient;
 use EasyWeChat\Kernel\Support;
-use Overtrue\Socialite\AccessTokenInterface;
 
 /**
  * Class Client.
@@ -99,17 +98,13 @@ class Client extends JssdkClient
     /**
      * Generate js config for share user address.
      *
-     * @param string|\Overtrue\Socialite\AccessTokenInterface $accessToken
+     * @param string $accessToken
      * @param bool                                            $json
      *
      * @return string|array
      */
-    public function shareAddressConfig($accessToken, bool $json = true)
+    public function shareAddressConfig(string $accessToken, bool $json = true)
     {
-        if ($accessToken instanceof AccessTokenInterface) {
-            $accessToken = $accessToken->getToken();
-        }
-
         $params = [
             'appId' => $this->app['config']->app_id,
             'scope' => 'jsapi_address',
@@ -131,5 +126,22 @@ class Client extends JssdkClient
         $params['addrSign'] = sha1(urldecode(http_build_query($signParams)));
 
         return $json ? json_encode($params) : $params;
+    }
+
+    /**
+     * Generate js config for contract of mini program.
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    public function contractConfig(array $params): array
+    {
+        $params['appid'] = $this->app['config']->app_id;
+        $params['timestamp'] = time();
+
+        $params['sign'] = Support\generate_sign($params, $this->app['config']->key);
+
+        return $params;
     }
 }

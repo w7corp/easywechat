@@ -169,7 +169,7 @@ class ClientTest extends TestCase
                     ->andReturn($response);
 
         $result = $client->get('mock-media-id');
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
     }
 
     public function testDelete()

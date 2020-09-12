@@ -106,7 +106,7 @@ class HasHttpRequestsTest extends TestCase
 
         $handlerStack = $cls->getHandlerStack();
         $this->assertInstanceOf(HandlerStack::class, $handlerStack);
-        $this->assertContains('Name: \'fn1\', Function: callable', (string) $handlerStack);
+        $this->assertMatchesRegularExpression('/.*Name: \'fn1\', Function: callable.*/', (string) $handlerStack);
 
         $handlerStack2 = \Mockery::mock(HandlerStack::class);
         $cls->setHandlerStack($handlerStack2);

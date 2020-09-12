@@ -28,7 +28,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Server\Guard::class, $app->server);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\User\UserClient::class, $app->user);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\User\TagClient::class, $app->user_tag);
-        $this->assertInstanceOf(\Overtrue\Socialite\Providers\WeChatProvider::class, $app->oauth);
+        $this->assertInstanceOf(\Overtrue\Socialite\Providers\WeChat::class, $app->oauth);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Menu\Client::class, $app->menu);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\TemplateMessage\Client::class, $app->template_message);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Material\Client::class, $app->material);

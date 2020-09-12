@@ -110,7 +110,7 @@ class ClientTest extends TestCase
         ]);
         $app['suite_access_token'] = \Mockery::mock(AccessToken::class);
         $client = $this->mockApiClient(Client::class, [], $app)->makePartial();
-        $client->expects()->httpPostJson('cgi-bin/service/get_admin_lis', [
+        $client->expects()->httpPostJson('cgi-bin/service/get_admin_list', [
             'auth_corpid' => 'mock-auth-corp-id',
             'agentid' => 'mock-agent-id',
         ])->andReturn('mock-result');

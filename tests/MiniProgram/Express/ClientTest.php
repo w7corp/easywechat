@@ -159,6 +159,15 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->getBalance('YTO', 'xyz'));
     }
 
+    public function testGetPrinter()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/express/business/printer/getall')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getPrinter());
+    }
+
     public function testBindPrinter()
     {
         $client = $this->mockApiClient(Client::class);
