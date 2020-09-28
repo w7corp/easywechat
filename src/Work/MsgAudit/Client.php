@@ -16,7 +16,7 @@ use EasyWeChat\Kernel\BaseClient;
 /**
  * Class Client.
  *
- * @author mingyoung <mingyoungcheung@gmail.com>
+ * @author ZengJJ <z373522886@foxmail.com >
  */
 class Client extends BaseClient
 {
@@ -27,7 +27,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getPermitUserList(string $type = null)
+    public function getPermitUsers(string $type = null)
     {
         return $this->httpPostJson('cgi-bin/msgaudit/get_permit_user_list', (empty($type) ? [] : ['type' => $type]));
     }
@@ -39,7 +39,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function checkSingleAgree(array $info)
+    public function getSingleAgreeStatus(array $info)
     {
         $params = [
             'info' => $info
@@ -55,10 +55,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function checkRoomAgree(string $roomid)
+    public function getRoomAgreeStatus(string $roomId)
     {
         $params = [
-            'roomid' => $roomid
+            'roomid' => $roomId
         ];
 
         return $this->httpPostJson('cgi-bin/msgaudit/check_room_agree', $params);
@@ -71,10 +71,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getGroupChat(string $roomid)
+    public function getRoom(string $roomId)
     {
         $params = [
-            'roomid' => $roomid
+            'roomid' => $roomId
         ];
 
         return $this->httpPostJson('cgi-bin/msgaudit/groupchat/get', $params);
