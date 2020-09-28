@@ -42,6 +42,7 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\GroupRobot\Messenger             $group_robot_messenger
  * @property \EasyWeChat\Work\Calendar\Client                  $calendar
  * @property \EasyWeChat\Work\Schedule\Client                  $schedule
+ * @property \EasyWeChat\Work\MsgAudit\Client                  $msg_audit
  *
  * @method mixed getCallbackIp()
  */
