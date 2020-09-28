@@ -70,6 +70,7 @@ class Application extends ServiceContainer
         GroupRobot\ServiceProvider::class,
         Calendar\ServiceProvider::class,
         Schedule\ServiceProvider::class,
+        MsgAudit\ServiceProvider::class,
     ];
 
     /**
