@@ -41,17 +41,22 @@ class Client extends BaseClient
      * 解绑小程序体验者.
      *
      * @param string $wechatId
+     * @param string $userStr
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function unbind(string $wechatId)
+    public function unbind(string $wechatId,string $userStr='')
     {
-        return $this->httpPostJson('wxa/unbind_tester', [
-            'wechatid' => $wechatId,
-        ]);
+        if ($userStr)
+            return $this->httpPostJson('wxa/unbind_tester', [
+                'userstr' => $userStr,
+            ]);
+        else
+            return $this->httpPostJson('wxa/unbind_tester', [
+                'wechatid' => $wechatId,
+            ]);
     }
 
     /**
