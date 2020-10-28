@@ -10,10 +10,10 @@ jobs:
       matrix:
         php_version:
           - 7.4
-          - 8.0-rc
+#          - 8.0-rc
         perfer:
           - stable
-          - lowest
+#          - lowest
     container:
       image: nauxliu/php-ci-image:${{ matrix.php_version }}
     steps:
