@@ -35,12 +35,12 @@ class Client extends BaseClient
     /**
      * Return jsapi agent config as a PHP array.
      *
-     * @param array       $apis
-     * @param             $agentId
-     * @param bool        $debug
-     * @param bool        $beta
-     * @param array       $openTagList
-     * @param string|null $url
+     * @param  array  $apis
+     * @param  int|string  $agentId
+     * @param  bool  $debug
+     * @param  bool  $beta
+     * @param  array  $openTagList
+     * @param  string|null  $url
      *
      * @return array|string
      *
@@ -50,21 +50,27 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getAgentConfigArray(array $apis, $agentId, bool $debug = false, bool $beta = false, array $openTagList = [], string $url = null)
-    {
+    public function getAgentConfigArray(
+        array $apis,
+        $agentId,
+        bool $debug = false,
+        bool $beta = false,
+        array $openTagList = [],
+        string $url = null
+    ) {
         return $this->buildAgentConfig($apis, $agentId, $debug, $beta, false, $openTagList, $url);
     }
 
     /**
      * Get agent config json for jsapi.
      *
-     * @param array       $jsApiList
-     * @param             $agentId
-     * @param bool        $debug
-     * @param bool        $beta
-     * @param bool        $json
-     * @param array       $openTagList
-     * @param string|null $url
+     * @param  array  $jsApiList
+     * @param  int|string  $agentId
+     * @param  bool  $debug
+     * @param  bool  $beta
+     * @param  bool  $json
+     * @param  array  $openTagList
+     * @param  string|null  $url
      *
      * @return array|string
      *
@@ -74,18 +80,25 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function buildAgentConfig(array $jsApiList, $agentId, bool $debug = false, bool $beta = false, bool $json = true, array $openTagList = [], string $url = null)
-    {
+    public function buildAgentConfig(
+        array $jsApiList,
+        $agentId,
+        bool $debug = false,
+        bool $beta = false,
+        bool $json = true,
+        array $openTagList = [],
+        string $url = null
+    ) {
         $config = array_merge(compact('debug', 'beta', 'jsApiList', 'openTagList'), $this->agentConfigSignature($agentId, $url));
 
         return $json ? json_encode($config) : $config;
     }
 
     /**
-     * @param             $agentId
-     * @param string|null $url
-     * @param string|null $nonce
-     * @param null        $timestamp
+     * @param  int|string  $agentId
+     * @param  string|null  $url
+     * @param  string|null  $nonce
+     * @param  null  $timestamp
      *
      * @return array
      *
@@ -114,8 +127,8 @@ class Client extends BaseClient
     /**
      * Get js ticket.
      *
-     * @param bool   $refresh
-     * @param string $type
+     * @param  bool  $refresh
+     * @param  string  $type
      *
      * @return array
      *
@@ -149,8 +162,8 @@ class Client extends BaseClient
     }
 
     /**
-     * @param bool   $refresh
-     * @param string $type
+     * @param  bool  $refresh
+     * @param  string  $type
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|mixed|object|\Psr\Http\Message\ResponseInterface|string
      *

@@ -70,7 +70,7 @@ class Client extends BaseClient
         return $this->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', [
             'userid' => $userId,
             'cursor' => $cursor,
-            'limit'  => $limit,
+            'limit' => $limit,
         ]);
     }
 
