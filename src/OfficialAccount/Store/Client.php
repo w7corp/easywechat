@@ -75,7 +75,7 @@ class Client extends BaseClient
      */
     public function getStatus()
     {
-        return $this->httpPostJson('wxa/get_merchant_audit_info');
+        return $this->httpGet('wxa/get_merchant_audit_info');
     }
 
     /**
