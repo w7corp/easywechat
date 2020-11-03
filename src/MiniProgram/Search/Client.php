@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * Submit applet page URL and parameter information.
      *
-     * @param array $pages
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

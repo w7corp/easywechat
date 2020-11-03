@@ -37,7 +37,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'expires_in' => 7200,
         ];
-        $cacheKey = 'easywechat.basic_service.jssdk.ticket.jsapi.123456';
+        $cacheKey = 'easywechat.work.jssdk.ticket.config.123456';
         $client->allows()->getCache()->andReturn($cache);
         $response = new \EasyWeChat\Kernel\Http\Response(200, [], json_encode($ticket));
 
@@ -51,7 +51,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->twice()->andReturn(false, true);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
-        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
+        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET')->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket());
 
@@ -59,7 +59,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->andReturn(true);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
-        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
+        $client->expects()->requestRaw('https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket', 'GET')->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket(true));
     }
@@ -109,5 +109,45 @@ class ClientTest extends TestCase
             ->andReturn($response);
 
         $this->assertSame($ticket, $client->getAgentTicket(true));
+    }
+
+    public function testBuildAgentConfig()
+    {
+        $client = $this->mockApiClient(\EasyWeChat\Work\Jssdk\Client::class, 'agentConfigSignature');
+        $client->expects()->agentConfigSignature('agentId', null)->andReturn(['foo' => 'bar'])->twice();
+        $config = json_decode($client->buildAgentConfig(['api1', 'api2'], 'agentId'), true);
+
+        $this->assertArrayHasKey('debug', $config);
+        $this->assertArrayHasKey('beta', $config);
+        $this->assertArrayHasKey('jsApiList', $config);
+        $this->assertArrayHasKey('foo', $config);
+        $this->assertArrayHasKey('openTagList', $config);
+
+        $this->assertFalse($config['debug']);
+        $this->assertFalse($config['beta']);
+        $this->assertSame(['api1', 'api2'], $config['jsApiList']);
+        $this->assertSame('bar', $config['foo']);
+
+        // beta: true, debug: true, json:false
+        $config = $client->buildAgentConfig(['api1', 'api2'], 'agentId', true, true, false, ['foo', 'bar']);
+        $this->assertArrayHasKey('debug', $config);
+        $this->assertArrayHasKey('beta', $config);
+        $this->assertArrayHasKey('jsApiList', $config);
+        $this->assertArrayHasKey('foo', $config);
+        $this->assertArrayHasKey('openTagList', $config);
+
+        $this->assertTrue($config['debug']);
+        $this->assertTrue($config['beta']);
+        $this->assertSame(['api1', 'api2'], $config['jsApiList']);
+        $this->assertSame('bar', $config['foo']);
+        $this->assertSame(['foo', 'bar'], $config['openTagList']);
+    }
+
+    public function testGetAgentConfigArray()
+    {
+        $client = $this->mockApiClient(Client::class, 'buildAgentConfig');
+        $client->expects()->buildAgentConfig(['api1', 'api2'], 'agentId', true, true, false, [], null)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getAgentConfigArray(['api1', 'api2'], 'agentId', true, true));
     }
 }

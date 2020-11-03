@@ -24,8 +24,6 @@ class SubMerchantClient extends BaseClient
     /**
      * 添加子商户.
      *
-     * @param array $info
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -52,9 +50,6 @@ class SubMerchantClient extends BaseClient
 
     /**
      * 更新子商户.
-     *
-     * @param int   $merchantId
-     * @param array $info
      *
      * @return mixed
      *
@@ -86,8 +81,6 @@ class SubMerchantClient extends BaseClient
     /**
      * 获取子商户信息.
      *
-     * @param int $merchantId
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -100,10 +93,6 @@ class SubMerchantClient extends BaseClient
 
     /**
      * 批量获取子商户信息.
-     *
-     * @param int    $beginId
-     * @param int    $limit
-     * @param string $status
      *
      * @return mixed
      *

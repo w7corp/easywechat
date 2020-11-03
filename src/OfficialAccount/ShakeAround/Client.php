@@ -48,9 +48,6 @@ class Client extends BaseClient
     /**
      * Get shake info.
      *
-     * @param string $ticket
-     * @param bool   $needPoi
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -70,8 +67,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param string $ticket
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function userWithPoi(string $ticket)

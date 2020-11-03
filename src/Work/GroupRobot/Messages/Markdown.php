@@ -30,8 +30,6 @@ class Markdown extends Message
 
     /**
      * Markdown constructor.
-     *
-     * @param string $content
      */
     public function __construct(string $content)
     {

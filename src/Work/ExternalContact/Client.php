@@ -39,8 +39,6 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91555
      *
-     * @param string $userId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -57,8 +55,6 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91556
      *
-     * @param string $externalUserId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -71,12 +67,26 @@ class Client extends BaseClient
     }
 
     /**
+     * 修改客户备注信息.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92115
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function remark(array $data)
+    {
+        return $this->httpPostJson(
+            'cgi-bin/externalcontact/remark',
+            $data
+        );
+    }
+
+    /**
      * 获取离职成员的客户列表.
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91563
-     *
-     * @param int $pageId
-     * @param int $pageSize
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -96,10 +106,6 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91564
      *
-     * @param string $externalUserId
-     * @param string $handoverUserId
-     * @param string $takeoverUserId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -114,5 +120,129 @@ class Client extends BaseClient
         ];
 
         return $this->httpPostJson('cgi-bin/externalcontact/transfer', $params);
+    }
+
+    /**
+     * 获取客户群列表.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92120
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getGroupChats(array $params)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/groupchat/list', $params);
+    }
+
+    /**
+     * 获取客户群详情.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92122
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getGroupChat(string $chatId)
+    {
+        $params = [
+            'chat_id' => $chatId,
+        ];
+
+        return $this->httpPostJson('cgi-bin/externalcontact/groupchat/get', $params);
+    }
+
+    /**
+     * 获取企业标签库.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92117#获取企业标签库
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getCorpTags(array $tagIds = [])
+    {
+        $params = [
+            'tag_id' => $tagIds,
+        ];
+
+        return $this->httpPostJson('cgi-bin/externalcontact/get_corp_tag_list', $params);
+    }
+
+    /**
+     * 添加企业客户标签.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92117#添加企业客户标签
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function addCorpTag(array $params)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/add_corp_tag', $params);
+    }
+
+    /**
+     * 编辑企业客户标签.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92117#编辑企业客户标签
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function updateCorpTag(string $id, string $name, int $order = 1)
+    {
+        $params = [
+            'id' => $id,
+            'name' => $name,
+            'order' => $order,
+        ];
+
+        return $this->httpPostJson('cgi-bin/externalcontact/edit_corp_tag', $params);
+    }
+
+    /**
+     * 删除企业客户标签.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92117#删除企业客户标签
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function deleteCorpTag(array $tagId, array $groupId)
+    {
+        $params = [
+            'tag_id' => $tagId,
+            'group_id' => $groupId,
+        ];
+
+        return $this->httpPostJson('cgi-bin/externalcontact/del_corp_tag', $params);
+    }
+
+    /**
+     * 编辑客户企业标签.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92118
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function markTags(array $params)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/mark_tag', $params);
     }
 }

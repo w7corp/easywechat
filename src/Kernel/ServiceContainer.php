@@ -57,20 +57,16 @@ class ServiceContainer extends Container
 
     /**
      * Constructor.
-     *
-     * @param array       $config
-     * @param array       $prepends
-     * @param string|null $id
      */
     public function __construct(array $config = [], array $prepends = [], string $id = null)
     {
-        $this->registerProviders($this->getProviders());
+        $this->userConfig = $config;
 
         parent::__construct($prepends);
 
-        $this->userConfig = $config;
-
         $this->id = $id;
+
+        $this->registerProviders($this->getProviders());
 
         $this->aggregate();
 
@@ -155,9 +151,6 @@ class ServiceContainer extends Container
         $this->offsetSet($id, $value);
     }
 
-    /**
-     * @param array $providers
-     */
     public function registerProviders(array $providers)
     {
         foreach ($providers as $provider) {

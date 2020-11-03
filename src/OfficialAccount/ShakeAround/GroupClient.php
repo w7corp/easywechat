@@ -23,8 +23,6 @@ class GroupClient extends BaseClient
     /**
      * Add device group.
      *
-     * @param string $name
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -41,9 +39,6 @@ class GroupClient extends BaseClient
 
     /**
      * Update a device group name.
-     *
-     * @param int    $groupId
-     * @param string $name
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -63,8 +58,6 @@ class GroupClient extends BaseClient
     /**
      * Delete device group.
      *
-     * @param int $groupId
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -81,9 +74,6 @@ class GroupClient extends BaseClient
 
     /**
      * List all device groups.
-     *
-     * @param int $begin
-     * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -102,10 +92,6 @@ class GroupClient extends BaseClient
 
     /**
      * Get detail of a device group.
-     *
-     * @param int $groupId
-     * @param int $begin
-     * @param int $count
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -126,9 +112,6 @@ class GroupClient extends BaseClient
     /**
      * Add  one or more devices to a device group.
      *
-     * @param int   $groupId
-     * @param array $deviceIdentifiers
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -146,9 +129,6 @@ class GroupClient extends BaseClient
 
     /**
      * Remove one or more devices from a device group.
-     *
-     * @param int   $groupId
-     * @param array $deviceIdentifiers
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

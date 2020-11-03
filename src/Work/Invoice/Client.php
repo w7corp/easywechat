@@ -21,9 +21,6 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * @param string $cardId
-     * @param string $encryptCode
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -40,8 +37,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $invoices
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -57,10 +52,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param string $cardId
-     * @param string $encryptCode
-     * @param string $status
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -78,10 +69,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array  $invoices
-     * @param string $openid
-     * @param string $status
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

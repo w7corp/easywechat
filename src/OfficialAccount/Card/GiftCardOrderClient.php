@@ -23,8 +23,6 @@ class GiftCardOrderClient extends BaseClient
     /**
      * 查询-单个礼品卡订单信息接口.
      *
-     * @param string $orderId
-     *
      * @return mixed
      */
     public function get(string $orderId)
@@ -38,12 +36,6 @@ class GiftCardOrderClient extends BaseClient
 
     /**
      * 查询-批量查询礼品卡订单信息接口.
-     *
-     * @param int    $beginTime
-     * @param int    $endTime
-     * @param int    $offset
-     * @param int    $count
-     * @param string $sortType
      *
      * @return mixed
      */
@@ -62,8 +54,6 @@ class GiftCardOrderClient extends BaseClient
 
     /**
      * 退款接口.
-     *
-     * @param string $orderId
      *
      * @return mixed
      */

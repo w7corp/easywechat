@@ -18,14 +18,6 @@ namespace EasyWeChat\Kernel\Support;
  */
 class AES
 {
-    /**
-     * @param string $text
-     * @param string $key
-     * @param string $iv
-     * @param int    $option
-     *
-     * @return string
-     */
     public static function encrypt(string $text, string $key, string $iv, int $option = OPENSSL_RAW_DATA): string
     {
         self::validateKey($key);
@@ -35,13 +27,7 @@ class AES
     }
 
     /**
-     * @param string      $cipherText
-     * @param string      $key
-     * @param string      $iv
-     * @param int         $option
      * @param string|null $method
-     *
-     * @return string
      */
     public static function decrypt(string $cipherText, string $key, string $iv, int $option = OPENSSL_RAW_DATA, $method = null): string
     {
@@ -61,9 +47,6 @@ class AES
         return 'aes-'.(8 * strlen($key)).'-cbc';
     }
 
-    /**
-     * @param string $key
-     */
     public static function validateKey(string $key)
     {
         if (!in_array(strlen($key), [16, 24, 32], true)) {
@@ -72,8 +55,6 @@ class AES
     }
 
     /**
-     * @param string $iv
-     *
      * @throws \InvalidArgumentException
      */
     public static function validateIv(string $iv)

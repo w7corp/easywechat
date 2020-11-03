@@ -61,12 +61,6 @@ class Application extends ServiceContainer
 
     /**
      * Creates the officialAccount application.
-     *
-     * @param string                                                    $appId
-     * @param string|null                                               $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
-     *
-     * @return \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application
      */
     public function officialAccount(string $appId, string $refreshToken = null, AccessToken $accessToken = null): OfficialAccount
     {
@@ -88,12 +82,6 @@ class Application extends ServiceContainer
 
     /**
      * Creates the miniProgram application.
-     *
-     * @param string                                                    $appId
-     * @param string|null                                               $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
-     *
-     * @return \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application
      */
     public function miniProgram(string $appId, string $refreshToken = null, AccessToken $accessToken = null): MiniProgram
     {
@@ -111,10 +99,7 @@ class Application extends ServiceContainer
     /**
      * Return the pre-authorization login page url.
      *
-     * @param string            $callbackUrl
      * @param string|array|null $optional
-     *
-     * @return string
      */
     public function getPreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -138,10 +123,7 @@ class Application extends ServiceContainer
     /**
      * Return the pre-authorization login page url (mobile).
      *
-     * @param string            $callbackUrl
      * @param string|array|null $optional
-     *
-     * @return string
      */
     public function getMobilePreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -164,12 +146,6 @@ class Application extends ServiceContainer
         return 'https://mp.weixin.qq.com/safe/bindcomponent?'.http_build_query($queries).'#wechat_redirect';
     }
 
-    /**
-     * @param string      $appId
-     * @param string|null $refreshToken
-     *
-     * @return array
-     */
     protected function getAuthorizerConfig(string $appId, string $refreshToken = null): array
     {
         return $this['config']->merge([
@@ -179,11 +155,6 @@ class Application extends ServiceContainer
         ])->toArray();
     }
 
-    /**
-     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
-     *
-     * @return array
-     */
     protected function getReplaceServices(AccessToken $accessToken = null): array
     {
         $services = [

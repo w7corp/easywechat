@@ -26,8 +26,6 @@ class ServiceProvider implements ServiceProviderInterface
      *
      * This method should only be used to configure services and parameters.
      * It should not get services.
-     *
-     * @param \Pimple\Container $app
      */
     public function register(Container $app)
     {

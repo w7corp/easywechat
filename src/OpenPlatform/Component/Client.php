@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * 通过法人微信快速创建小程序.
      *
-     * @param array $params
-     *
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -37,10 +35,6 @@ class Client extends BaseClient
 
     /**
      * 查询创建任务状态.
-     *
-     * @param string $companyName
-     * @param string $legalPersonaWechat
-     * @param string $legalPersonaName
      *
      * @return array
      *

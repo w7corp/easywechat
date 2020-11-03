@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * Add broadcast goods.
      *
-     * @param array $goodsInfo
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -41,9 +39,6 @@ class Client extends BaseClient
 
     /**
      * Reset audit.
-     *
-     * @param int $auditId
-     * @param int $goodsId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -63,8 +58,6 @@ class Client extends BaseClient
     /**
      * Resubmit audit goods.
      *
-     * @param int $goodsId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -81,8 +74,6 @@ class Client extends BaseClient
 
     /**
      * Delete broadcast goods.
-     *
-     * @param int $goodsId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -101,8 +92,6 @@ class Client extends BaseClient
     /**
      * Update goods info.
      *
-     * @param array $goodsInfo
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -120,8 +109,6 @@ class Client extends BaseClient
     /**
      * Get goods information and review status.
      *
-     * @param array $goodsIdArray
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -133,6 +120,87 @@ class Client extends BaseClient
             'goods_ids' => $goodsIdArray,
         ];
 
-        return $this->httpGet('wxa/business/getgoodswarehouse', $params);
+        return $this->httpPostJson('wxa/business/getgoodswarehouse', $params);
+    }
+
+    /**
+     * Get goods list based on status.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getApproved(array $params)
+    {
+        return $this->httpGet('wxaapi/broadcast/goods/getapproved', $params);
+    }
+
+    /**
+     * Add goods to the designated live room.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function addGoods(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/addgoods', $params);
+    }
+
+    /**
+     * Get Room List.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @author onekb <1@1kb.ren>
+     */
+    public function getRooms(int $start = 0, int $limit = 10)
+    {
+        $params = [
+            'start' => $start,
+            'limit' => $limit,
+        ];
+
+        return $this->httpPostJson('wxa/business/getliveinfo', $params);
+    }
+
+    /**
+     * Get Playback List.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @author onekb <1@1kb.ren>
+     */
+    public function getPlaybacks(int $roomId, int $start = 0, int $limit = 10)
+    {
+        $params = [
+            'action' => 'get_replay',
+            'room_id' => $roomId,
+            'start' => $start,
+            'limit' => $limit,
+        ];
+
+        return $this->httpPostJson('wxa/business/getliveinfo', $params);
+    }
+
+    /**
+     * Create a live room.
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function createLiveRoom(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/create', $params);
     }
 }

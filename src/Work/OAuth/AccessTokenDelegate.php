@@ -26,9 +26,6 @@ class AccessTokenDelegate implements AccessTokenInterface
      */
     protected $app;
 
-    /**
-     * @param \EasyWeChat\Work\Application $app
-     */
     public function __construct(Application $app)
     {
         $this->app = $app;

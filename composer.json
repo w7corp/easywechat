@@ -1,60 +1,62 @@
 {
-    "name": "overtrue/wechat",
-    "description": "微信SDK",
-    "keywords": [
-        "easywechat",
-        "wechat",
-        "weixin",
-        "weixin-sdk",
-        "sdk"
-    ],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "overtrue",
-            "email": "anzhengchao@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=7.2",
-        "ext-fileinfo": "*",
-        "ext-openssl": "*",
-        "ext-simplexml": "*",
-        "easywechat-composer/easywechat-composer": "^1.1",
-        "guzzlehttp/guzzle": "^6.2",
-        "monolog/monolog": "^1.22 || ^2.0",
-        "overtrue/socialite": "~2.0",
-        "pimple/pimple": "^3.0",
-        "psr/simple-cache": "^1.0",
-        "symfony/cache": "^3.3 || ^4.3 || ^5.0",
-        "symfony/event-dispatcher": "^4.3 || ^5.0",
-        "symfony/http-foundation": "^2.7 || ^3.0 || ^4.0 || ^5.0",
-        "symfony/psr-http-message-bridge": "^0.3 || ^1.0 || ^2.0"
-    },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.15",
-        "mikey179/vfsstream": "^1.6",
-        "mockery/mockery": "^1.2.3",
-        "phpstan/phpstan": "^0.12.0",
-        "phpunit/phpunit": "^7.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "EasyWeChat\\": "src/"
-        },
-        "files": [
-            "src/Kernel/Support/Helpers.php",
-            "src/Kernel/Helpers.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "EasyWeChat\\Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "phpcs": "vendor/bin/php-cs-fixer fix",
-        "phpstan": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/phpunit"
+  "name": "overtrue/wechat",
+  "description": "微信SDK",
+  "keywords": [
+    "easywechat",
+    "wechat",
+    "weixin",
+    "weixin-sdk",
+    "sdk"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "overtrue",
+      "email": "anzhengchao@gmail.com"
     }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "ext-fileinfo": "*",
+    "ext-openssl": "*",
+    "ext-simplexml": "*",
+    "easywechat-composer/easywechat-composer": "^1.1",
+    "guzzlehttp/guzzle": "^6.2 || ^7.0",
+    "monolog/monolog": "^1.22 || ^2.0",
+    "overtrue/socialite": "~2.0",
+    "pimple/pimple": "^3.0",
+    "psr/simple-cache": "^1.0",
+    "symfony/cache": "^3.3 || ^4.3 || ^5.0",
+    "symfony/event-dispatcher": "^4.3 || ^5.0",
+    "symfony/http-foundation": "^2.7 || ^3.0 || ^4.0 || ^5.0",
+    "symfony/psr-http-message-bridge": "^0.3 || ^1.0 || ^2.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.15",
+    "mikey179/vfsstream": "^1.6",
+    "mockery/mockery": "^1.2.3",
+    "phpstan/phpstan": "^0.12.0",
+    "phpunit/phpunit": "^7.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "EasyWeChat\\": "src/"
+    },
+    "files": [
+      "src/Kernel/Support/Helpers.php",
+      "src/Kernel/Helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "EasyWeChat\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "phpcs": "vendor/bin/php-cs-fixer fix",
+    "phpstan": "vendor/bin/phpstan analyse",
+    "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php_cs --dry-run --ansi",
+    "fix-style": "php-cs-fixer fix --using-cache=no --config=.php_cs --ansi",
+    "test": "vendor/bin/phpunit --colors=always"
+  }
 }

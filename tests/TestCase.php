@@ -23,9 +23,8 @@ class TestCase extends BaseTestCase
     /**
      * Create API Client mock object.
      *
-     * @param string                                   $name
-     * @param array|string                             $methods
-     * @param \EasyWeChat\Kernel\ServiceContainer|null $app
+     * @param string       $name
+     * @param array|string $methods
      *
      * @return \Mockery\Mock
      */

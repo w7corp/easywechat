@@ -34,8 +34,6 @@ class BaseClient
 
     /**
      * Constructor.
-     *
-     * @param \EasyWeChat\Payment\Application $app
      */
     public function __construct(Application $app)
     {
@@ -57,10 +55,7 @@ class BaseClient
     /**
      * Make a API request.
      *
-     * @param string $endpoint
-     * @param array  $params
      * @param string $method
-     * @param array  $options
      * @param bool   $returnResponse
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
@@ -112,10 +107,7 @@ class BaseClient
     /**
      * Make a request and return raw response.
      *
-     * @param string $endpoint
-     * @param array  $params
      * @param string $method
-     * @param array  $options
      *
      * @return ResponseInterface
      *
@@ -134,12 +126,7 @@ class BaseClient
     /**
      * Make a request and return an array.
      *
-     * @param string $endpoint
-     * @param array  $params
      * @param string $method
-     * @param array  $options
-     *
-     * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -156,9 +143,7 @@ class BaseClient
      * Request with SSL.
      *
      * @param string $endpoint
-     * @param array  $params
      * @param string $method
-     * @param array  $options
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -178,10 +163,6 @@ class BaseClient
 
     /**
      * Wrapping an API endpoint.
-     *
-     * @param string $endpoint
-     *
-     * @return string
      */
     protected function wrap(string $endpoint): string
     {

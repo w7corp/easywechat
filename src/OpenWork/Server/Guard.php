@@ -34,9 +34,6 @@ class Guard extends ServerGuard
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     protected function shouldReturnRawResponse(): bool
     {
         return !is_null($this->app['request']->get('echostr'));
@@ -48,8 +45,6 @@ class Guard extends ServerGuard
     }
 
     /**
-     * @param array $message
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException

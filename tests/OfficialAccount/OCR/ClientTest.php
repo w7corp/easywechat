@@ -22,13 +22,13 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $path = '/foo/bar.jpg';
-        $client->expects()->httpGet('cv/ocr/idcard', [
+        $client->expects()->httpPost('cv/ocr/idcard', [
             'type' => 'photo',
             'img_url' => $path,
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->idCard($path, 'photo'));
 
-        $client->expects()->httpGet('cv/ocr/idcard', [
+        $client->expects()->httpPost('cv/ocr/idcard', [
             'type' => 'scan',
             'img_url' => $path,
         ])->andReturn('mock-result');
@@ -44,7 +44,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $path = '/foo/bar.jpg';
-        $client->expects()->httpGet('cv/ocr/bankcard', [
+        $client->expects()->httpPost('cv/ocr/bankcard', [
             'img_url' => $path,
         ])->andReturn('mock-result');
 
@@ -56,7 +56,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $path = '/foo/bar.jpg';
-        $client->expects()->httpGet('cv/ocr/driving', [
+        $client->expects()->httpPost('cv/ocr/drivinglicense', [
             'img_url' => $path,
         ])->andReturn('mock-result');
 

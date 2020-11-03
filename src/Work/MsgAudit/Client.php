@@ -9,70 +9,74 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Work\Calendar;
+namespace EasyWeChat\Work\MsgAudit;
 
 use EasyWeChat\Kernel\BaseClient;
 
 /**
  * Class Client.
  *
- * @author her-cat <i@her-cat.com>
+ * @author ZengJJ <z373522886@foxmail.com >
  */
 class Client extends BaseClient
 {
     /**
-     * Add a calendar.
+     * @param string|null $type
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function add(array $calendar)
+    public function getPermitUsers(string $type = null)
     {
-        return $this->httpPostJson('cgi-bin/oa/calendar/add', compact('calendar'));
+        return $this->httpPostJson('cgi-bin/msgaudit/get_permit_user_list', (empty($type) ? [] : ['type' => $type]));
     }
 
     /**
-     * Update the calendar.
+     * @param array $info 数组，格式: [[userid, exteranalopenid], [userid, exteranalopenid]]
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update(string $id, array $calendar)
+    public function getSingleAgreeStatus(array $info)
     {
-        $calendar += ['cal_id' => $id];
+        $params = [
+            'info' => $info
+        ];
 
-        return $this->httpPostJson('cgi-bin/oa/calendar/update', compact('calendar'));
+        return $this->httpPostJson('cgi-bin/msgaudit/check_single_agree', $params);
     }
 
     /**
-     * Get one or more calendars.
-     *
-     * @param string|array $ids
+     * @param string $roomid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get($ids)
+    public function getRoomAgreeStatus(string $roomId)
     {
-        return $this->httpPostJson('cgi-bin/oa/calendar/get', ['cal_id_list' => (array) $ids]);
+        $params = [
+            'roomid' => $roomId
+        ];
+
+        return $this->httpPostJson('cgi-bin/msgaudit/check_room_agree', $params);
     }
 
     /**
-     * Delete a calendar.
+     * @param string $roomid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function delete(string $id)
+    public function getRoom(string $roomId)
     {
-        return $this->httpPostJson('cgi-bin/oa/calendar/del', ['cal_id' => $id]);
+        $params = [
+            'roomid' => $roomId
+        ];
+
+        return $this->httpPostJson('cgi-bin/msgaudit/groupchat/get', $params);
     }
 }

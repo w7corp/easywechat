@@ -19,10 +19,6 @@ class Client extends BaseClient
     /**
      * Download bill history as a table file.
      *
-     * @param string $date
-     * @param string $type
-     * @param array  $optional
-     *
      * @return \EasyWeChat\Kernel\Http\StreamResponse|\Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException

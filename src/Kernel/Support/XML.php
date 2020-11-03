@@ -88,7 +88,6 @@ class XML
     /**
      * Object to array.
      *
-     *
      * @param SimpleXMLElement $obj
      *
      * @return array

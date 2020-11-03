@@ -21,8 +21,6 @@ class GeneralCardClient extends Client
     /**
      * 通用卡接口激活.
      *
-     * @param array $info
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -35,9 +33,6 @@ class GeneralCardClient extends Client
 
     /**
      * 通用卡撤销激活.
-     *
-     * @param string $cardId
-     * @param string $code
      *
      * @return mixed
      *
@@ -56,8 +51,6 @@ class GeneralCardClient extends Client
 
     /**
      * 更新会员信息.
-     *
-     * @param array $params
      *
      * @return mixed
      *

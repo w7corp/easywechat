@@ -47,9 +47,6 @@ class Client extends BaseClient
     /**
      * Add menu.
      *
-     * @param array $buttons
-     * @param array $matchRule
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -88,8 +85,6 @@ class Client extends BaseClient
 
     /**
      * Test conditional menu.
-     *
-     * @param string $userId
      *
      * @return mixed
      *

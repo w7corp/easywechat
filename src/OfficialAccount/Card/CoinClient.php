@@ -31,9 +31,6 @@ class CoinClient extends BaseClient
     }
 
     /**
-     * @param string $cardId
-     * @param int    $quantity
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -58,8 +55,6 @@ class CoinClient extends BaseClient
     }
 
     /**
-     * @param int $count
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -73,8 +68,6 @@ class CoinClient extends BaseClient
     }
 
     /**
-     * @param string $orderId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -86,8 +79,6 @@ class CoinClient extends BaseClient
     }
 
     /**
-     * @param array $filters
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -99,10 +90,6 @@ class CoinClient extends BaseClient
     }
 
     /**
-     * @param string $cardId
-     * @param string $orderId
-     * @param int    $quantity
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

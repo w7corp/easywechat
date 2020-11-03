@@ -26,8 +26,7 @@ use Psr\Http\Message\ResponseInterface;
 trait ResponseCastable
 {
     /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param string|null                         $type
+     * @param string|null $type
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

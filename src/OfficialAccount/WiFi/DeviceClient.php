@@ -23,10 +23,6 @@ class DeviceClient extends BaseClient
     /**
      * Add a password device.
      *
-     * @param int    $shopId
-     * @param string $ssid
-     * @param string $password
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -45,10 +41,6 @@ class DeviceClient extends BaseClient
 
     /**
      * Add a portal device.
-     *
-     * @param int    $shopId
-     * @param string $ssid
-     * @param bool   $reset
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -69,8 +61,6 @@ class DeviceClient extends BaseClient
     /**
      * Delete device by MAC address.
      *
-     * @param string $macAddress
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -83,9 +73,6 @@ class DeviceClient extends BaseClient
 
     /**
      * Get a list of devices.
-     *
-     * @param int $page
-     * @param int $size
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -104,10 +91,6 @@ class DeviceClient extends BaseClient
 
     /**
      * Get a list of devices by shop ID.
-     *
-     * @param int $shopId
-     * @param int $page
-     * @param int $size
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

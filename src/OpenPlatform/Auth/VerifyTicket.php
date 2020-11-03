@@ -31,8 +31,6 @@ class VerifyTicket
 
     /**
      * Constructor.
-     *
-     * @param \EasyWeChat\OpenPlatform\Application $app
      */
     public function __construct(Application $app)
     {
@@ -41,8 +39,6 @@ class VerifyTicket
 
     /**
      * Put the credential `component_verify_ticket` in cache.
-     *
-     * @param string $ticket
      *
      * @return $this
      *
@@ -64,8 +60,6 @@ class VerifyTicket
     /**
      * Get the credential `component_verify_ticket` from cache.
      *
-     * @return string
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -81,8 +75,6 @@ class VerifyTicket
 
     /**
      * Get cache key.
-     *
-     * @return string
      */
     protected function getCacheKey(): string
     {

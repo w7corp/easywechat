@@ -114,9 +114,6 @@ class Application extends ServiceContainer
     /**
      * setCertificate.
      *
-     * @param string $certificate
-     * @param string $serialNo
-     *
      * @return $this
      */
     public function setCertificate(string $certificate, string $serialNo)
@@ -131,8 +128,6 @@ class Application extends ServiceContainer
      * Returning true indicates that the verification is successful,
      * returning false indicates that the signature field does not exist or is empty,
      * and if the signature verification is wrong, the InvalidSignException will be thrown directly.
-     *
-     * @param array $data
      *
      * @return bool
      *

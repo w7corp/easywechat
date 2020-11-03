@@ -18,18 +18,9 @@ namespace EasyWeChat\Kernel\Contracts;
  */
 interface MessageInterface
 {
-    /**
-     * @return string
-     */
     public function getType(): string;
 
-    /**
-     * @return array
-     */
     public function transformForJsonRequest(): array;
 
-    /**
-     * @return string
-     */
     public function transformToXml(): string;
 }

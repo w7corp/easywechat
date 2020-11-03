@@ -12,9 +12,9 @@
 namespace EasyWeChat\Kernel\Messages;
 
 use EasyWeChat\Kernel\Contracts\MessageInterface;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Kernel\Traits\HasAttributes;
-use Mockery\Exception\BadMethodCallException;
 
 /**
  * Class Messages.
@@ -23,22 +23,24 @@ abstract class Message implements MessageInterface
 {
     use HasAttributes;
 
-    const TEXT = 2;
-    const IMAGE = 4;
-    const VOICE = 8;
-    const VIDEO = 16;
-    const SHORT_VIDEO = 32;
-    const LOCATION = 64;
-    const LINK = 128;
-    const DEVICE_EVENT = 256;
-    const DEVICE_TEXT = 512;
-    const FILE = 1024;
-    const TEXT_CARD = 2048;
-    const TRANSFER = 4096;
-    const EVENT = 1048576;
-    const MINIPROGRAM_PAGE = 2097152;
-    const ALL = self::TEXT | self::IMAGE | self::VOICE | self::VIDEO | self::SHORT_VIDEO | self::LOCATION | self::LINK
-                | self::DEVICE_EVENT | self::DEVICE_TEXT | self::FILE | self::TEXT_CARD | self::TRANSFER | self::EVENT | self::MINIPROGRAM_PAGE;
+    public const TEXT = 2;
+    public const IMAGE = 4;
+    public const VOICE = 8;
+    public const VIDEO = 16;
+    public const SHORT_VIDEO = 32;
+    public const LOCATION = 64;
+    public const LINK = 128;
+    public const DEVICE_EVENT = 256;
+    public const DEVICE_TEXT = 512;
+    public const FILE = 1024;
+    public const TEXT_CARD = 2048;
+    public const TRANSFER = 4096;
+    public const EVENT = 1048576;
+    public const MINIPROGRAM_PAGE = 2097152;
+    public const MINIPROGRAM_NOTICE = 4194304;
+    public const ALL = self::TEXT | self::IMAGE | self::VOICE | self::VIDEO | self::SHORT_VIDEO | self::LOCATION | self::LINK
+                | self::DEVICE_EVENT | self::DEVICE_TEXT | self::FILE | self::TEXT_CARD | self::TRANSFER | self::EVENT
+                | self::MINIPROGRAM_PAGE | self::MINIPROGRAM_NOTICE;
 
     /**
      * @var string
@@ -72,8 +74,6 @@ abstract class Message implements MessageInterface
 
     /**
      * Message constructor.
-     *
-     * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -82,17 +82,12 @@ abstract class Message implements MessageInterface
 
     /**
      * Return type name message.
-     *
-     * @return string
      */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     */
     public function setType(string $type)
     {
         $this->type = $type;
@@ -134,8 +129,6 @@ abstract class Message implements MessageInterface
     }
 
     /**
-     * @param array $appends
-     *
      * @return array
      */
     public function transformForJsonRequestWithoutType(array $appends = [])
@@ -144,10 +137,7 @@ abstract class Message implements MessageInterface
     }
 
     /**
-     * @param array $appends
-     * @param bool  $withType
-     *
-     * @return array
+     * @param bool $withType
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
@@ -164,12 +154,6 @@ abstract class Message implements MessageInterface
         return $data;
     }
 
-    /**
-     * @param array $appends
-     * @param bool  $returnAsArray
-     *
-     * @return string
-     */
     public function transformToXml(array $appends = [], bool $returnAsArray = false): string
     {
         $data = array_merge(['MsgType' => $this->getType()], $this->toXmlArray(), $appends);
@@ -178,11 +162,6 @@ abstract class Message implements MessageInterface
     }
 
     /**
-     * @param array $data
-     * @param array $aliases
-     *
-     * @return array
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function propertiesToArray(array $data, array $aliases = []): array
@@ -203,6 +182,6 @@ abstract class Message implements MessageInterface
 
     public function toXmlArray()
     {
-        throw new BadMethodCallException(sprintf('Class "%s" cannot support transform to XML message.', __CLASS__));
+        throw new RuntimeException(sprintf('Class "%s" cannot support transform to XML message.', __CLASS__));
     }
 }

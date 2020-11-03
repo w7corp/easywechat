@@ -24,8 +24,6 @@ class Client extends BaseClient
     /**
      * Get media.
      *
-     * @param string $mediaId
-     *
      * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -49,8 +47,6 @@ class Client extends BaseClient
     /**
      * Upload Image.
      *
-     * @param string $path
-     *
      * @return mixed
      */
     public function uploadImage(string $path)
@@ -60,8 +56,6 @@ class Client extends BaseClient
 
     /**
      * Upload Voice.
-     *
-     * @param string $path
      *
      * @return mixed
      */
@@ -73,8 +67,6 @@ class Client extends BaseClient
     /**
      * Upload Video.
      *
-     * @param string $path
-     *
      * @return mixed
      */
     public function uploadVideo(string $path)
@@ -85,8 +77,6 @@ class Client extends BaseClient
     /**
      * Upload File.
      *
-     * @param string $path
-     *
      * @return mixed
      */
     public function uploadFile(string $path)
@@ -96,9 +86,6 @@ class Client extends BaseClient
 
     /**
      * Upload media.
-     *
-     * @param string $type
-     * @param string $path
      *
      * @return mixed
      *

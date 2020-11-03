@@ -69,8 +69,6 @@ class LogManager implements LoggerInterface
 
     /**
      * LogManager constructor.
-     *
-     * @param \EasyWeChat\Kernel\ServiceContainer $app
      */
     public function __construct(ServiceContainer $app)
     {
@@ -80,7 +78,6 @@ class LogManager implements LoggerInterface
     /**
      * Create a new, on-demand aggregate logger instance.
      *
-     * @param array       $channels
      * @param string|null $channel
      *
      * @return \Psr\Log\LoggerInterface
@@ -192,8 +189,6 @@ class LogManager implements LoggerInterface
     /**
      * Call a custom driver creator.
      *
-     * @param array $config
-     *
      * @return mixed
      */
     protected function callCustomCreator(array $config)
@@ -203,8 +198,6 @@ class LogManager implements LoggerInterface
 
     /**
      * Create an aggregate log driver instance.
-     *
-     * @param array $config
      *
      * @return \Monolog\Logger
      *
@@ -228,8 +221,6 @@ class LogManager implements LoggerInterface
     /**
      * Create an instance of the single file log driver.
      *
-     * @param array $config
-     *
      * @return \Psr\Log\LoggerInterface
      *
      * @throws \Exception
@@ -250,8 +241,6 @@ class LogManager implements LoggerInterface
     /**
      * Create an instance of the daily file log driver.
      *
-     * @param array $config
-     *
      * @return \Psr\Log\LoggerInterface
      */
     protected function createDailyDriver(array $config)
@@ -270,8 +259,6 @@ class LogManager implements LoggerInterface
 
     /**
      * Create an instance of the Slack log driver.
-     *
-     * @param array $config
      *
      * @return \Psr\Log\LoggerInterface
      */
@@ -296,8 +283,6 @@ class LogManager implements LoggerInterface
     /**
      * Create an instance of the syslog log driver.
      *
-     * @param array $config
-     *
      * @return \Psr\Log\LoggerInterface
      */
     protected function createSyslogDriver(array $config)
@@ -313,8 +298,6 @@ class LogManager implements LoggerInterface
 
     /**
      * Create an instance of the "error log" log driver.
-     *
-     * @param array $config
      *
      * @return \Psr\Log\LoggerInterface
      */
@@ -333,8 +316,6 @@ class LogManager implements LoggerInterface
     /**
      * Prepare the handlers for usage by Monolog.
      *
-     * @param array $handlers
-     *
      * @return array
      */
     protected function prepareHandlers(array $handlers)
@@ -348,8 +329,6 @@ class LogManager implements LoggerInterface
 
     /**
      * Prepare the handler for usage by Monolog.
-     *
-     * @param \Monolog\Handler\HandlerInterface $handler
      *
      * @return \Monolog\Handler\HandlerInterface
      */
@@ -380,8 +359,6 @@ class LogManager implements LoggerInterface
     /**
      * Extract the log channel from the given configuration.
      *
-     * @param array $config
-     *
      * @return string
      */
     protected function parseChannel(array $config)
@@ -391,8 +368,6 @@ class LogManager implements LoggerInterface
 
     /**
      * Parse the string level into a Monolog constant.
-     *
-     * @param array $config
      *
      * @return int
      *
@@ -432,8 +407,7 @@ class LogManager implements LoggerInterface
     /**
      * Register a custom driver creator Closure.
      *
-     * @param string   $driver
-     * @param \Closure $callback
+     * @param string $driver
      *
      * @return $this
      */
@@ -448,7 +422,6 @@ class LogManager implements LoggerInterface
      * System is unusable.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -466,7 +439,6 @@ class LogManager implements LoggerInterface
      * trigger the SMS alerts and wake you up.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -483,7 +455,6 @@ class LogManager implements LoggerInterface
      * Example: Application component unavailable, unexpected exception.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -499,7 +470,6 @@ class LogManager implements LoggerInterface
      * be logged and monitored.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -517,7 +487,6 @@ class LogManager implements LoggerInterface
      * that are not necessarily wrong.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -532,7 +501,6 @@ class LogManager implements LoggerInterface
      * Normal but significant events.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -549,7 +517,6 @@ class LogManager implements LoggerInterface
      * Example: User logs in, SQL logs.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -564,7 +531,6 @@ class LogManager implements LoggerInterface
      * Detailed debug information.
      *
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *
@@ -580,7 +546,6 @@ class LogManager implements LoggerInterface
      *
      * @param mixed  $level
      * @param string $message
-     * @param array  $context
      *
      * @return mixed
      *

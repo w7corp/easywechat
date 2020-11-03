@@ -16,7 +16,7 @@ use EasyWeChat\OfficialAccount\TemplateMessage\Client as BaseClient;
 
 class Client extends BaseClient
 {
-    const API_SEND = 'cgi-bin/message/wxopen/template/uniform_send';
+    public const API_SEND = 'cgi-bin/message/wxopen/template/uniform_send';
 
     /**
      * {@inheritdoc}.
@@ -61,8 +61,6 @@ class Client extends BaseClient
     protected $required = ['touser', 'template_id', 'form_id', 'miniprogram', 'appid'];
 
     /**
-     * @param array $data
-     *
      * @return array
      *
      * @throws InvalidArgumentException
@@ -87,8 +85,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $data
-     *
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -103,8 +99,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $data
-     *
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException

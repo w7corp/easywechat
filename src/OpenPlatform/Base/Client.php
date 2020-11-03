@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * Get authorization info.
      *
-     * @param string|null $authCode
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -42,8 +40,6 @@ class Client extends BaseClient
 
     /**
      * Get authorizer info.
-     *
-     * @param string $appId
      *
      * @return mixed
      *
@@ -63,9 +59,6 @@ class Client extends BaseClient
     /**
      * Get options.
      *
-     * @param string $appId
-     * @param string $name
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -84,10 +77,6 @@ class Client extends BaseClient
 
     /**
      * Set authorizer option.
-     *
-     * @param string $appId
-     * @param string $name
-     * @param string $value
      *
      * @return mixed
      *

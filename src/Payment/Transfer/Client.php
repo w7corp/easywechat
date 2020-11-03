@@ -12,9 +12,9 @@
 namespace EasyWeChat\Payment\Transfer;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Payment\Kernel\BaseClient;
 use function EasyWeChat\Kernel\Support\get_server_ip;
 use function EasyWeChat\Kernel\Support\rsa_public_encrypt;
-use EasyWeChat\Payment\Kernel\BaseClient;
 
 /**
  * Class Client.
@@ -25,8 +25,6 @@ class Client extends BaseClient
 {
     /**
      * Query MerchantPay to balance.
-     *
-     * @param string $partnerTradeNo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -47,8 +45,6 @@ class Client extends BaseClient
 
     /**
      * Send MerchantPay to balance.
-     *
-     * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -74,8 +70,6 @@ class Client extends BaseClient
     /**
      * Query MerchantPay order to BankCard.
      *
-     * @param string $partnerTradeNo
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -94,8 +88,6 @@ class Client extends BaseClient
 
     /**
      * Send MerchantPay to BankCard.
-     *
-     * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

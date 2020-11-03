@@ -61,8 +61,6 @@ trait HasHttpRequests
 
     /**
      * Return current guzzle default settings.
-     *
-     * @return array
      */
     public static function getDefaultOptions(): array
     {
@@ -71,8 +69,6 @@ trait HasHttpRequests
 
     /**
      * Set GuzzleHttp\Client.
-     *
-     * @param \GuzzleHttp\ClientInterface $httpClient
      *
      * @return $this
      */
@@ -85,8 +81,6 @@ trait HasHttpRequests
 
     /**
      * Return GuzzleHttp\ClientInterface instance.
-     *
-     * @return ClientInterface
      */
     public function getHttpClient(): ClientInterface
     {
@@ -104,8 +98,7 @@ trait HasHttpRequests
     /**
      * Add a middleware.
      *
-     * @param callable $middleware
-     * @param string   $name
+     * @param string $name
      *
      * @return $this
      */
@@ -122,8 +115,6 @@ trait HasHttpRequests
 
     /**
      * Return all middlewares.
-     *
-     * @return array
      */
     public function getMiddlewares(): array
     {
@@ -136,8 +127,6 @@ trait HasHttpRequests
      * @param string $url
      * @param string $method
      * @param array  $options
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -160,8 +149,6 @@ trait HasHttpRequests
     }
 
     /**
-     * @param \GuzzleHttp\HandlerStack $handlerStack
-     *
      * @return $this
      */
     public function setHandlerStack(HandlerStack $handlerStack)
@@ -173,8 +160,6 @@ trait HasHttpRequests
 
     /**
      * Build a handler stack.
-     *
-     * @return \GuzzleHttp\HandlerStack
      */
     public function getHandlerStack(): HandlerStack
     {
@@ -191,11 +176,6 @@ trait HasHttpRequests
         return $this->handlerStack;
     }
 
-    /**
-     * @param array $options
-     *
-     * @return array
-     */
     protected function fixJsonIssue(array $options): array
     {
         if (isset($options['json']) && is_array($options['json'])) {

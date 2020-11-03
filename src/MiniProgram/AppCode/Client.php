@@ -24,9 +24,6 @@ class Client extends BaseClient
     /**
      * Get AppCode.
      *
-     * @param string $path
-     * @param array  $optional
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function get(string $path, array $optional = [])
@@ -40,9 +37,6 @@ class Client extends BaseClient
 
     /**
      * Get AppCode unlimit.
-     *
-     * @param string $scene
-     * @param array  $optional
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
@@ -58,9 +52,6 @@ class Client extends BaseClient
     /**
      * Create QrCode.
      *
-     * @param string   $path
-     * @param int|null $width
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
     public function getQrCode(string $path, int $width = null)
@@ -70,9 +61,6 @@ class Client extends BaseClient
 
     /**
      * Get stream.
-     *
-     * @param string $endpoint
-     * @param array  $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

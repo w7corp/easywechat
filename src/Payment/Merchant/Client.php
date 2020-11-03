@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * Add sub-merchant.
      *
-     * @param array $params
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -36,8 +34,6 @@ class Client extends BaseClient
 
     /**
      * Query sub-merchant by merchant id.
-     *
-     * @param string $id
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -55,8 +51,6 @@ class Client extends BaseClient
     /**
      * Query sub-merchant by wechat id.
      *
-     * @param string $id
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -71,9 +65,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $params
-     * @param array $query
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
