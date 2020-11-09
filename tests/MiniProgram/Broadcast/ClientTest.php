@@ -173,7 +173,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->deleteLiveRoom($params));
     }
 
-    public function testEditLiveRoom()
+    public function testUpdateLiveRoom()
     {
         $client = $this->mockApiClient(Client::class);
         $params = [
@@ -195,7 +195,7 @@ class ClientTest extends TestCase
             'feedsImg' => 'hw7zsntcr0rE-RBfBAaF553DqBk-J02UtWsP8VqrUh3tKu3jO_JwEO8n1cWTJ5TN'
         ];
         $client->expects()->httpPost('wxaapi/broadcast/room/editroom', $params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->editLiveRoom($params));
+        $this->assertSame('mock-result', $client->updateLiveRoom($params));
     }
 
     public function testGetPushUrl()
@@ -227,12 +227,12 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->addAssistant($params));
     }
 
-    public function testEditAssistant()
+    public function testUpdateAssistant()
     {
         $client = $this->mockApiClient(Client::class);
         $params = ['roomId' => 6474, 'username' => 'foo', 'nickname' => 'bar'];
         $client->expects()->httpPost('wxaapi/broadcast/room/modifyassistant', $params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->editAssistant($params));
+        $this->assertSame('mock-result', $client->updateAssistant($params));
     }
 
     public function testDeleteAssistant()
@@ -259,12 +259,12 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->addSubAnchor($params));
     }
 
-    public function testEditSubAnchor()
+    public function testUpdateSubAnchor()
     {
         $client = $this->mockApiClient(Client::class);
         $params = ['roomId' => 6474, 'username' => 'foo'];
         $client->expects()->httpPost('wxaapi/broadcast/room/modifysubanchor', $params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->editSubAnchor($params));
+        $this->assertSame('mock-result', $client->updateSubAnchor($params));
     }
 
     public function testDeleteSubAnchor()

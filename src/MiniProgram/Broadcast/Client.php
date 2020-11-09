@@ -231,13 +231,13 @@ class Client extends BaseClient
     }
 
     /**
-     * Edit a live room.
+     * Update a live room.
      *
      * @param array $params
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function editLiveRoom(array $params)
+    public function updateLiveRoom(array $params)
     {
         return $this->httpPost('wxaapi/broadcast/room/editroom', $params);
     }
@@ -279,13 +279,13 @@ class Client extends BaseClient
     }
 
     /**
-     * Edit a live room assistant.
+     * Update a live room assistant.
      *
      * @param array $params
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function editAssistant(array $params)
+    public function updateAssistant(array $params)
     {
         return $this->httpPost('wxaapi/broadcast/room/modifyassistant', $params);
     }
@@ -327,13 +327,13 @@ class Client extends BaseClient
     }
 
     /**
-     * Edit the sub anchor.
+     * Update the sub anchor.
      *
      * @param array $params
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function editSubAnchor(array $params)
+    public function updateSubAnchor(array $params)
     {
         return $this->httpPost('wxaapi/broadcast/room/modifysubanchor', $params);
     }
@@ -376,7 +376,7 @@ class Client extends BaseClient
 
     /**
      * Turn playback status on/off.
-     * 
+     *
      * @param array $params
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -388,7 +388,7 @@ class Client extends BaseClient
 
     /**
      * Turn customer service status on/off.
-     * 
+     *
      * @param array $params
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
