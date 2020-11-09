@@ -92,6 +92,28 @@ class Client extends BaseClient
         ]);
     }
 
+    /**
+     * 批量获取外部联系人详情.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90001/90143/93010
+     *
+     * @param string $externalUserId
+     * @param string $cursor
+     * @param int $limit
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function batchGetByUser(string $userid, string $cursor, int $limit)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', [
+            'userid' => $userid,
+            'cursor' => $cursor,
+            'limit' => $limit
+        ]);
+    }
+
 
     /**
      * 修改客户备注信息.
@@ -142,13 +164,40 @@ class Client extends BaseClient
      * @param string $externalUserId
      * @param string $handoverUserId
      * @param string $takeoverUserId
+     * @param string $transfer_success_msg
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function transfer(string $externalUserId, string $handoverUserId, string $takeoverUserId)
+    public function transfer(string $externalUserId, string $handoverUserId, string $takeoverUserId, string $transfer_success_msg)
+    {
+        $params = [
+            'external_userid' => $externalUserId,
+            'handover_userid' => $handoverUserId,
+            'takeover_userid' => $takeoverUserId,
+            'transfer_success_msg' => $transfer_success_msg
+        ];
+
+        return $this->httpPostJson('cgi-bin/externalcontact/transfer', $params);
+    }
+
+    /**
+     * 查询客户接替结果.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90001/90143/93009
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @param string $externalUserId
+     * @param string $handoverUserId
+     * @param string $takeoverUserId
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getTransferResult(string $externalUserId, string $handoverUserId, string $takeoverUserId)
     {
         $params = [
             'external_userid' => $externalUserId,
@@ -156,9 +205,8 @@ class Client extends BaseClient
             'takeover_userid' => $takeoverUserId,
         ];
 
-        return $this->httpPostJson('cgi-bin/externalcontact/transfer', $params);
+        return $this->httpPostJson('cgi-bin/externalcontact/get_transfer_result', $params);
     }
-
 
     /**
      * 获取客户群列表.
