@@ -217,4 +217,232 @@ class Client extends BaseClient
     {
         return $this->httpPost('wxaapi/broadcast/room/create', $params);
     }
+
+    /**
+     * Delete a live room.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function deleteLiveRoom(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/deleteroom', $params);
+    }
+
+    /**
+     * Update a live room.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function updateLiveRoom(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/editroom', $params);
+    }
+
+    /**
+     * Gets the live room push stream url.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getPushUrl(array $params)
+    {
+        return $this->httpGet('wxaapi/broadcast/room/getpushurl', $params);
+    }
+
+    /**
+     * Gets the live room share qrcode.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getShareQrcode(array $params)
+    {
+        return $this->httpGet('wxaapi/broadcast/room/getsharedcode', $params);
+    }
+
+    /**
+     * Add a live room assistant.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function addAssistant(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/addassistant', $params);
+    }
+
+    /**
+     * Update a live room assistant.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function updateAssistant(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/modifyassistant', $params);
+    }
+
+    /**
+     * Delete a live room assistant.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function deleteAssistant(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/removeassistant', $params);
+    }
+
+    /**
+     * Gets the assistant list.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getAssistantList(array $params)
+    {
+        return $this->httpGet('wxaapi/broadcast/room/getassistantlist', $params);
+    }
+
+    /**
+     * Add the sub anchor.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function addSubAnchor(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/addsubanchor', $params);
+    }
+
+    /**
+     * Update the sub anchor.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function updateSubAnchor(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/modifysubanchor', $params);
+    }
+
+    /**
+     * Delete the sub anchor.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function deleteSubAnchor(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/deletesubanchor', $params);
+    }
+
+    /**
+     * Gets the sub anchor info.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getSubAnchor(array $params)
+    {
+        return $this->httpGet('wxaapi/broadcast/room/getsubanchor', $params);
+    }
+
+    /**
+     * Turn official index on/off.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function updateFeedPublic(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/updatefeedpublic', $params);
+    }
+
+    /**
+     * Turn playback status on/off.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function updateReplay(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/updatereplay', $params);
+    }
+
+    /**
+     * Turn customer service status on/off.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function updateKf(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/updatekf', $params);
+    }
+
+    /**
+     * Turn global comments status on/off.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function updateComment(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/room/updatecomment', $params);
+    }
+
+    /**
+     * Add member role.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function addRole(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/role/addrole', $params);
+    }
+
+    /**
+     * Delete member role.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function deleteRole(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/role/deleterole', $params);
+    }
+
+    /**
+     * Gets the role list.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getRoleList(array $params)
+    {
+        return $this->httpGet('wxaapi/broadcast/role/getrolelist', $params);
+    }
 }

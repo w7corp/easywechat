@@ -53,6 +53,28 @@ class Client extends BaseClient
     }
 
     /**
+     * 批量获取客户详情.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92994
+     *
+     * @param string $userId
+     * @param string $cursor
+     * @param integer $limit
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function batchGet(string $userId, string $cursor = '', int $limit = 100)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', [
+            'userid' => $userId,
+            'cursor' => $cursor,
+            'limit' => $limit,
+        ]);
+    }
+
+    /**
      * 获取外部联系人详情.
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91556
