@@ -164,20 +164,20 @@ class Client extends BaseClient
      * @param string $externalUserId
      * @param string $handoverUserId
      * @param string $takeoverUserId
-     * @param string $transfer_success_msg
+     * @param string $transferSuccessMessage
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function transfer(string $externalUserId, string $handoverUserId, string $takeoverUserId, string $transfer_success_msg)
+    public function transfer(string $externalUserId, string $handoverUserId, string $takeoverUserId, string $transferSuccessMessage)
     {
         $params = [
             'external_userid' => $externalUserId,
             'handover_userid' => $handoverUserId,
             'takeover_userid' => $takeoverUserId,
-            'transfer_success_msg' => $transfer_success_msg
+            'transfer_success_msg' => $transferSuccessMessage
         ];
 
         return $this->httpPostJson('cgi-bin/externalcontact/transfer', $params);
