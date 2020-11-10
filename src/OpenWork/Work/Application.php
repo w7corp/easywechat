@@ -32,7 +32,7 @@ class Application extends Work
      */
     public function __construct(string $authCorpId, string $permanentCode, OpenWork $component, array $prepends = [])
     {
-        parent::__construct($component->getConfig(), $prepends + [
+        parent::__construct(\array_merge($component->getConfig(), ['corp_id' => $authCorpId]), $prepends + [
                 'access_token' => function ($app) use ($authCorpId, $permanentCode, $component) {
                     return new AccessToken($app, $authCorpId, $permanentCode, $component);
                 },
