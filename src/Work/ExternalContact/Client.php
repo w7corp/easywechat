@@ -185,6 +185,29 @@ class Client extends BaseClient
     }
 
     /**
+     * 离职成员的群再分配.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92127
+     *
+     * @param array $chatIds
+     * @param string $newOwner
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function transferGroupChat(array $chatIds, string $newOwner)
+    {
+        $params = [
+            'chat_id_list' => $chatIds,
+            'new_owner' => $newOwner
+        ];
+
+        return $this->httpPostJson('cgi-bin/groupchat/transfer', $params);
+    }
+
+    /**
      * 查询客户接替结果.
      *
      * @see https://work.weixin.qq.com/api/doc/90001/90143/93009
