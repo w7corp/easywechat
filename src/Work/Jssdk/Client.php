@@ -120,7 +120,7 @@ class Client extends BaseClient
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'url' => $url,
-            'signature' => $this->getTicketSignature($this->getAgentTicket()['ticket'], $nonce, $timestamp, $url),
+            'signature' => $this->getTicketSignature($this->getAgentTicket($agentId)['ticket'], $nonce, $timestamp, $url),
         ];
     }
 
@@ -162,20 +162,21 @@ class Client extends BaseClient
     }
 
     /**
+     * @param  int  $agentId
      * @param  bool  $refresh
      * @param  string  $type
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|mixed|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws RuntimeException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getAgentTicket(bool $refresh = false, string $type = 'agent_config')
+    public function getAgentTicket($agentId, bool $refresh = false, string $type = 'agent_config')
     {
-        $cacheKey = sprintf('easywechat.work.jssdk.ticket.%s.%s', $type, $this->getAppId());
+        $cacheKey = sprintf('easywechat.work.jssdk.ticket.%s.%s.%s', $agentId, $type, $this->getAppId());
 
         if (!$refresh && $this->getCache()->has($cacheKey)) {
             return $this->getCache()->get($cacheKey);
