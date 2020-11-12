@@ -14,12 +14,15 @@ namespace EasyWeChat\Tests;
 use EasyWeChat\Kernel\AccessToken;
 use EasyWeChat\Kernel\ServiceContainer;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 /**
  * class TestCase.
  */
 class TestCase extends BaseTestCase
 {
+    use ArraySubsetAsserts;
+
     /**
      * Create API Client mock object.
      *
@@ -50,7 +53,7 @@ class TestCase extends BaseTestCase
     /**
      * Tear down the test case.
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->finish();
         parent::tearDown();

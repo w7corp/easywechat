@@ -23,22 +23,22 @@ abstract class Message implements MessageInterface
 {
     use HasAttributes;
 
-    const TEXT = 2;
-    const IMAGE = 4;
-    const VOICE = 8;
-    const VIDEO = 16;
-    const SHORT_VIDEO = 32;
-    const LOCATION = 64;
-    const LINK = 128;
-    const DEVICE_EVENT = 256;
-    const DEVICE_TEXT = 512;
-    const FILE = 1024;
-    const TEXT_CARD = 2048;
-    const TRANSFER = 4096;
-    const EVENT = 1048576;
-    const MINIPROGRAM_PAGE = 2097152;
-    const MINIPROGRAM_NOTICE = 4194304;
-    const ALL = self::TEXT | self::IMAGE | self::VOICE | self::VIDEO | self::SHORT_VIDEO | self::LOCATION | self::LINK
+    public const TEXT = 2;
+    public const IMAGE = 4;
+    public const VOICE = 8;
+    public const VIDEO = 16;
+    public const SHORT_VIDEO = 32;
+    public const LOCATION = 64;
+    public const LINK = 128;
+    public const DEVICE_EVENT = 256;
+    public const DEVICE_TEXT = 512;
+    public const FILE = 1024;
+    public const TEXT_CARD = 2048;
+    public const TRANSFER = 4096;
+    public const EVENT = 1048576;
+    public const MINIPROGRAM_PAGE = 2097152;
+    public const MINIPROGRAM_NOTICE = 4194304;
+    public const ALL = self::TEXT | self::IMAGE | self::VOICE | self::VIDEO | self::SHORT_VIDEO | self::LOCATION | self::LINK
                 | self::DEVICE_EVENT | self::DEVICE_TEXT | self::FILE | self::TEXT_CARD | self::TRANSFER | self::EVENT
                 | self::MINIPROGRAM_PAGE | self::MINIPROGRAM_NOTICE;
 

@@ -21,13 +21,14 @@ class ClientTest extends TestCase
     public function testBuildConfig()
     {
         $client = $this->mockApiClient(Client::class, 'configSignature');
-        $client->expects()->configSignature()->andReturn(['foo' => 'bar'])->twice();
+        $client->expects()->configSignature(null)->andReturn(['foo' => 'bar'])->twice();
         $config = json_decode($client->buildConfig(['api1', 'api2']), true);
 
         $this->assertArrayHasKey('debug', $config);
         $this->assertArrayHasKey('beta', $config);
         $this->assertArrayHasKey('jsApiList', $config);
         $this->assertArrayHasKey('foo', $config);
+        $this->assertArrayHasKey('openTagList', $config);
 
         $this->assertFalse($config['debug']);
         $this->assertFalse($config['beta']);
@@ -35,22 +36,24 @@ class ClientTest extends TestCase
         $this->assertSame('bar', $config['foo']);
 
         // beta: true, debug: true, json:false
-        $config = $client->buildConfig(['api1', 'api2'], true, true, false);
+        $config = $client->buildConfig(['api1', 'api2'], true, true, false, ['foo', 'bar']);
         $this->assertArrayHasKey('debug', $config);
         $this->assertArrayHasKey('beta', $config);
         $this->assertArrayHasKey('jsApiList', $config);
         $this->assertArrayHasKey('foo', $config);
+        $this->assertArrayHasKey('openTagList', $config);
 
         $this->assertTrue($config['debug']);
         $this->assertTrue($config['beta']);
         $this->assertSame(['api1', 'api2'], $config['jsApiList']);
         $this->assertSame('bar', $config['foo']);
+        $this->assertSame(['foo', 'bar'], $config['openTagList']);
     }
 
     public function testGetConfigArray()
     {
         $client = $this->mockApiClient(Client::class, 'buildConfig');
-        $client->expects()->buildConfig(['api1', 'api2'], true, true, false)->andReturn('mock-result');
+        $client->expects()->buildConfig(['api1', 'api2'], true, true, false, [], null)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getConfigArray(['api1', 'api2'], true, true));
     }
@@ -129,7 +132,7 @@ class ClientTest extends TestCase
         $this->assertSame('123456', $signature['appId']);
         $this->assertSame(10, strlen($signature['nonceStr']), 'nonceStr length is 10');
         $this->assertSame($url, $signature['url']);
-        $this->assertInternalType('integer', $signature['timestamp']);
+        $this->assertIsInt($signature['timestamp']);
 
         // custom arguments
         $time = time();

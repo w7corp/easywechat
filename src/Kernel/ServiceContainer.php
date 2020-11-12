@@ -64,11 +64,11 @@ class ServiceContainer extends Container
      */
     public function __construct(array $config = [], array $prepends = [], string $id = null)
     {
-        $this->registerProviders($this->getProviders());
+        $this->userConfig = $config;
 
         parent::__construct($prepends);
 
-        $this->userConfig = $config;
+        $this->registerProviders($this->getProviders());
 
         $this->id = $id;
 

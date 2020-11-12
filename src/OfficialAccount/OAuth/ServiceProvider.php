@@ -28,7 +28,6 @@ class ServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['oauth'] = function ($app) {
-
             $wechat = [
                 'wechat' => [
                     'client_id' => $app['config']['app_id'],
@@ -44,7 +43,7 @@ class ServiceProvider implements ServiceProviderInterface
                 ] ;
             }
 
-            $socialite = (new Socialite($wechat))->driver('wechat');
+            $socialite = (new Socialite($wechat))->create('wechat');
 
             $scopes = (array)$app['config']->get('oauth.scopes', ['snsapi_userinfo']);
 

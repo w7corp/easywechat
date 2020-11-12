@@ -58,9 +58,10 @@ class ClientTest extends TestCase
             'external_userid' => 'mock-external-userid',
             'handover_userid' => 'mock-handover-userid',
             'takeover_userid' => 'mock-takeover-userid',
+            'transfer_success_msg' => 'message',
         ];
         $client->expects()->httpPostJson('cgi-bin/externalcontact/transfer', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->transfer('mock-external-userid', 'mock-handover-userid', 'mock-takeover-userid'));
+        $this->assertSame('mock-result', $client->transfer('mock-external-userid', 'mock-handover-userid', 'mock-takeover-userid', 'message'));
     }
 }

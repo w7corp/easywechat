@@ -83,7 +83,7 @@ class ObservableTest extends TestCase
         $c->push($handler2, 'foo');
 
         $this->assertArrayHasKey('foo', $c->getHandlers());
-        $this->assertInternalType('array', $c->getHandlers()['foo']);
+        $this->assertIsArray($c->getHandlers()['foo']);
         $this->assertCount(1, $c->getHandlers());
         $this->assertCount(2, $c->getHandlers()['foo']);
         $this->assertInstanceOf(Closure::class, $c->getHandlers()['foo'][0]);
@@ -99,7 +99,7 @@ class ObservableTest extends TestCase
         $c->push($handler2, 'foo' | 'bar');
 
         $this->assertArrayHasKey('foo' | 'bar', $c->getHandlers());
-        $this->assertInternalType('array', $c->getHandlers()['foo' | 'bar']);
+        $this->assertIsArray($c->getHandlers()['foo' | 'bar']);
         $this->assertCount(1, $c->getHandlers());
         $this->assertCount(2, $c->getHandlers()['foo' | 'bar']);
         $this->assertInstanceOf(Closure::class, $c->getHandlers()['foo' | 'bar'][0]);
@@ -367,14 +367,13 @@ class DummyHandlerClassForObservableTest implements EventHandlerInterface
 
 class DummyClassForObservableTest
 {
+    use Observable;
     protected $app;
 
     public function __construct(ServiceContainer $app = null)
     {
         $this->app = $app;
     }
-
-    use Observable;
 }
 
 class DummyHandlerClass

@@ -27,18 +27,18 @@ use Psr\Log\LogLevel;
  */
 class BaseClient
 {
-    use HasHttpRequests { request as performRequest; }
+    use HasHttpRequests {
+        request as performRequest;
+    }
 
     /**
      * @var \EasyWeChat\Kernel\ServiceContainer
      */
     protected $app;
-
     /**
-     * @var \EasyWeChat\Kernel\Contracts\AccessTokenInterface
+     * @var \EasyWeChat\Kernel\Contracts\AccessTokenInterface|null
      */
-    protected $accessToken;
-
+    protected $accessToken = null;
     /**
      * @var string
      */
@@ -133,7 +133,11 @@ class BaseClient
             $multipart[] = compact('name', 'contents');
         }
 
-        return $this->request($url, 'POST', ['query' => $query, 'multipart' => $multipart, 'connect_timeout' => 30, 'timeout' => 30, 'read_timeout' => 30]);
+        return $this->request(
+            $url,
+            'POST',
+            ['query' => $query, 'multipart' => $multipart, 'connect_timeout' => 30, 'timeout' => 30, 'read_timeout' => 30]
+        );
     }
 
     /**
@@ -245,27 +249,30 @@ class BaseClient
      */
     protected function retryMiddleware()
     {
-        return Middleware::retry(function (
-            $retries,
-            RequestInterface $request,
-            ResponseInterface $response = null
-        ) {
-            // Limit the number of retries to 2
-            if ($retries < $this->app->config->get('http.max_retries', 1) && $response && $body = $response->getBody()) {
-                // Retry on server errors
-                $response = json_decode($body, true);
+        return Middleware::retry(
+            function (
+                $retries,
+                RequestInterface $request,
+                ResponseInterface $response = null
+            ) {
+                // Limit the number of retries to 2
+                if ($retries < $this->app->config->get('http.max_retries', 1) && $response && $body = $response->getBody()) {
+                    // Retry on server errors
+                    $response = json_decode($body, true);
 
-                if (!empty($response['errcode']) && in_array(abs($response['errcode']), [40001, 40014, 42001], true)) {
-                    $this->accessToken->refresh();
-                    $this->app['logger']->debug('Retrying with refreshed access token.');
+                    if (!empty($response['errcode']) && in_array(abs($response['errcode']), [40001, 40014, 42001], true)) {
+                        $this->accessToken->refresh();
+                        $this->app['logger']->debug('Retrying with refreshed access token.');
 
-                    return true;
+                        return true;
+                    }
                 }
-            }
 
-            return false;
-        }, function () {
-            return abs($this->app->config->get('http.retry_delay', 500));
-        });
+                return false;
+            },
+            function () {
+                return abs($this->app->config->get('http.retry_delay', 500));
+            }
+        );
     }
 }

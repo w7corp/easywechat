@@ -56,10 +56,10 @@ trait Observable
 
         return $this->newClause($handler);
     }
-    
+
     /**
      * @param array $handlers
-     * 
+     *
      * @return $this
      */
     public function setHandlers(array $handlers = [])
@@ -157,7 +157,7 @@ trait Observable
                         case true === $response:
                             continue 2;
                         case false === $response:
-                            break 2;
+                            break 3;
                         case !empty($response) && !($result instanceof FinallyResult):
                             $result = $response;
                     }

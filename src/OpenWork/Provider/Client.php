@@ -25,7 +25,7 @@ class Client extends BaseClient
      * Client constructor.
      *
      *
-     * @param ServiceContainer $app
+     * @param  ServiceContainer  $app
      */
     public function __construct(ServiceContainer $app)
     {
@@ -35,9 +35,9 @@ class Client extends BaseClient
     /**
      * 单点登录 - 获取登录的地址.
      *
-     * @param string $redirectUri
-     * @param string $userType
-     * @param string $state
+     * @param  string  $redirectUri
+     * @param  string  $userType
+     * @param  string  $state
      *
      * @return string
      */
@@ -58,7 +58,7 @@ class Client extends BaseClient
     /**
      * 单点登录 - 获取登录用户信息.
      *
-     * @param string $authCode
+     * @param  string  $authCode
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -77,7 +77,7 @@ class Client extends BaseClient
     /**
      * 获取注册定制化URL.
      *
-     * @param string $registerCode
+     * @param  string  $registerCode
      *
      * @return string
      *
@@ -102,10 +102,10 @@ class Client extends BaseClient
     /**
      * 获取注册码.
      *
-     * @param string $corpName
-     * @param string $adminName
-     * @param string $adminMobile
-     * @param string $state
+     * @param  string  $corpName
+     * @param  string  $adminName
+     * @param  string  $adminMobile
+     * @param  string  $state
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -133,7 +133,7 @@ class Client extends BaseClient
      *
      * Desc:该API用于查询企业注册状态，企业注册成功返回注册信息.
      *
-     * @param string $registerCode
+     * @param  string  $registerCode
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -158,11 +158,11 @@ class Client extends BaseClient
      *      该接口只能使用注册完成回调事件或者查询注册状态返回的access_token。
      *      调用设置通讯录同步完成后或者access_token超过30分钟失效（即解除通讯录锁定状态）则不能继续调用该接口。
      *
-     * @param string $accessToken
-     * @param string $agentId
-     * @param array  $allowUser
-     * @param array  $allowParty
-     * @param array  $allowTag
+     * @param  string  $accessToken
+     * @param  string  $agentId
+     * @param  array  $allowUser
+     * @param  array  $allowParty
+     * @param  array  $allowTag
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -191,7 +191,7 @@ class Client extends BaseClient
      *
      * Desc:该API用于设置通讯录同步完成，解除通讯录锁定状态，同时使通讯录迁移access_token失效。
      *
-     * @param string $accessToken
+     * @param  string  $accessToken
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -202,5 +202,39 @@ class Client extends BaseClient
         $params = ['access_token' => $accessToken];
 
         return $this->httpGet('cgi-bin/sync/contact_sync_success', $params);
+    }
+
+    /**
+     * 通讯录单个搜索
+     *
+     * @param  string  $queryWord
+     * @param  int|string  $agentId
+     * @param  int  $offset
+     * @param  int  $limit
+     * @param  int  $queryType
+     * @param  null  $fullMatchField
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function searchContact(
+        string $queryWord,
+        $agentId,
+        int $offset = 0,
+        int $limit = 50,
+        int $queryType = 0,
+        $fullMatchField = null
+    ) {
+        $params = [];
+        $params['auth_corpid'] = $this->app['config']['corp_id'];
+        $params['query_word'] = $queryWord;
+        $params['query_type'] = $queryType;
+        $params['agentid'] = $agentId;
+        $params['offset'] = $offset;
+        $params['limit'] = $limit;
+        !empty($fullMatchField) && $params['full_match_field'] = $fullMatchField;
+
+        return $this->httpPostJson('cgi-bin/service/contact/search', $params);
     }
 }

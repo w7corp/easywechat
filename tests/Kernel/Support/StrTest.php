@@ -49,13 +49,13 @@ class StrTest extends TestCase
 
     public function testRandom()
     {
-        $this->assertInternalType('string', Str::random(10));
+        $this->assertIsString(Str::random(10));
         $this->assertTrue(16 === strlen(Str::random()));
     }
 
     public function testQuickRandom()
     {
-        $this->assertInternalType('string', Str::quickRandom(10));
+        $this->assertIsString(Str::quickRandom(10));
         $this->assertTrue(16 === strlen(Str::quickRandom()));
     }
 

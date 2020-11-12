@@ -3,16 +3,20 @@
 namespace EasyWeChat\Work\OAuth;
 
 use EasyWeChat\Work\Application;
-use Overtrue\Socialite\Providers\WeWork;
+use Overtrue\Socialite\Contracts\ProviderInterface;
 use Overtrue\Socialite\SocialiteManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+/**
+ * @method $this scopes(array $scopes)
+ * @method $this setAgentId(string $agentId)
+ */
 class Manager
 {
     protected $config;
 
     /**
-     * @var \Overtrue\Socialite\Providers\WeWork
+     * @var \Overtrue\Socialite\Contracts\ProviderInterface
      */
     protected $provider;
     protected $app;
@@ -35,9 +39,9 @@ class Manager
         return $this->getProvider()->userFromCode($this->app->request->get('code'));
     }
 
-    protected function getProvider(): WeWork
+    protected function getProvider(): ProviderInterface
     {
-        return $this->provider ?? $this->provider = (new SocialiteManager($this->config))->driver('wework');
+        return $this->provider ?? $this->provider = (new SocialiteManager($this->config))->create('wework');
     }
 
     public function __call($name, $arguments)

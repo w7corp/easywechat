@@ -34,13 +34,13 @@ class BaseClientTest extends TestCase
 
         $client->expects()->performRequest($api, $method, \Mockery::on(function ($options) {
             $this->assertSame('bar', $options['foo']);
-            $this->assertInternalType('string', $options['body']);
+            $this->assertIsString($options['body']);
 
             $bodyInOptions = Support\XML::parse($options['body']);
 
             $this->assertSame($bodyInOptions['foo'], $options['foo']);
-            $this->assertInternalType('string', $bodyInOptions['nonce_str']);
-            $this->assertInternalType('string', $bodyInOptions['sign']);
+            $this->assertIsString($bodyInOptions['nonce_str']);
+            $this->assertIsString($bodyInOptions['sign']);
 
             return true;
         }))->times(3)->andReturn($mockResponse);

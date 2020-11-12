@@ -45,12 +45,12 @@ class ServerGuard
     /**
      * Empty string.
      */
-    const SUCCESS_EMPTY_RESPONSE = 'success';
+    public const SUCCESS_EMPTY_RESPONSE = 'success';
 
     /**
      * @var array
      */
-    const MESSAGE_TYPE_MAPPING = [
+    public const MESSAGE_TYPE_MAPPING = [
         'text' => Message::TEXT,
         'image' => Message::IMAGE,
         'voice' => Message::VOICE,
