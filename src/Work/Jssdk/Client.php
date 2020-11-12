@@ -33,6 +33,14 @@ class Client extends BaseClient
     }
 
     /**
+     * @return string
+     */
+    protected function getAgentId()
+    {
+        return $this->app['config']->get('agent_id');
+    }
+
+    /**
      * @param array       $apis
      * @param             $agentId
      * @param bool        $debug
@@ -155,7 +163,7 @@ class Client extends BaseClient
      */
     public function getAgentTicket(bool $refresh = false, string $type = 'agent_config')
     {
-        $cacheKey = sprintf('easywechat.work.jssdk.ticket.%s.%s', $type, $this->getAppId());
+        $cacheKey = sprintf('easywechat.work.jssdk.ticket.%s.%s.%s', $type, $this->getAppId(), $this->getAgentId());
 
         if (!$refresh && $this->getCache()->has($cacheKey)) {
             return $this->getCache()->get($cacheKey);
