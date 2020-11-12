@@ -27,7 +27,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
     public function getFollowUsers()
     {
@@ -43,7 +43,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
     public function list(string $userId)
     {
@@ -63,7 +63,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
     public function batchGet(string $userId, string $cursor = '', int $limit = 100)
     {
@@ -83,7 +83,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
     public function get(string $externalUserId)
     {
@@ -97,18 +97,19 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90001/90143/93010
      *
-     * @param string $externalUserId
-     * @param string $cursor
-     * @param int $limit
+     * @param  string  $userId
+     * @param  string  $cursor
+     * @param  int  $limit
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function batchGetByUser(string $userid, string $cursor, int $limit)
+    public function batchGetByUser(string $userId, string $cursor, int $limit)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', [
-            'userid' => $userid,
+            'userid' => $userId,
             'cursor' => $cursor,
             'limit' => $limit
         ]);
@@ -124,7 +125,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
     public function remark(array $data)
     {
