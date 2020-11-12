@@ -97,7 +97,7 @@ class ClientTest extends TestCase
             ->requestRaw('cgi-bin/ticket/get', 'GET', ['query' => ['type' => 'agent_config']])
             ->andReturn($response);
 
-        $this->assertSame($ticket, $client->getAgentTicket());
+        $this->assertSame($ticket, $client->getAgentTicket(100023));
 
         // with refresh and cached
         $cache->expects()->has($cacheKey)->andReturn(true);
@@ -108,7 +108,7 @@ class ClientTest extends TestCase
             ->requestRaw('cgi-bin/ticket/get', 'GET', ['query' => ['type' => 'agent_config']])
             ->andReturn($response);
 
-        $this->assertSame($ticket, $client->getAgentTicket(true));
+        $this->assertSame($ticket, $client->getAgentTicket(100023, true));
     }
 
     public function testBuildAgentConfig()
