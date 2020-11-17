@@ -75,7 +75,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function batchGetByUser(array $data)
+    public function batchGetByUsers(array $data)
     {
         return $this->httpPostJson(
             'cgi-bin/externalcontact/batch/get_by_user',
