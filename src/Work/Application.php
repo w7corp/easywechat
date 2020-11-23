@@ -87,6 +87,8 @@ class Application extends ServiceContainer
 
     /**
      * Creates the miniProgram application.
+	 *
+	 * @return \EasyWeChat\Work\MiniProgram\Application
      */
     public function miniProgram(): MiniProgram
     {
