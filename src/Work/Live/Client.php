@@ -52,7 +52,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getLivingInfo(string $livingId)
+    public function getLiving(string $livingId)
     {
         $params = [
             'livingid' => $livingId,
