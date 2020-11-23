@@ -27,7 +27,7 @@ class ClientTest extends TestCase
             'limit' => 100
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getUserLivingId('mock-id', 1586136317, 1586236317));
+        $this->assertSame('mock-result', $client->getUserLivingId('mock-userid', 1586136317, 1586236317));
     }
 
     public function testGetLiving()
