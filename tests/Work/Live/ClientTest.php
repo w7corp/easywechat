@@ -37,7 +37,7 @@ class ClientTest extends TestCase
             'livingid' => 'mock-livingid'            
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result',$client->getLiving('mock-livingid'));
+        $this->assertSame('mock-result', $client->getLiving('mock-livingid'));
     }
 
     public function testGetWatchStat()
