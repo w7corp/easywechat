@@ -37,7 +37,7 @@ class Client extends BaseClient
             'begin_time' => $beginTime,
             'end_time' => $endTime,
             'next_key' => $nextKey,
-			'limit' => $limit
+            'limit' => $limit
         ];
 
         return $this->httpPostJson('cgi-bin/living/get_user_livingid', $params);
