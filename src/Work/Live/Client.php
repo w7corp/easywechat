@@ -80,5 +80,4 @@ class Client extends BaseClient
 
         return $this->httpPostJson('cgi-bin/living/get_watch_stat', $params);
     }
-
 }
