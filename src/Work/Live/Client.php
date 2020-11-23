@@ -34,8 +34,8 @@ class Client extends BaseClient
     {
         $params = [
             'userid' => $userId,
-            'begin_time'=> $beginTime,
-            'end_time'=> $endTime,
+            'begin_time' => $beginTime,
+            'end_time' => $endTime,
             'next_key' => $nextKey,
         ];
 
