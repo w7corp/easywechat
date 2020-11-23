@@ -22,7 +22,6 @@ class Client extends BaseClient
 {
     /**
      * 获取成员直播ID列表
-    .
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92735
      *
@@ -45,7 +44,6 @@ class Client extends BaseClient
 
     /**
      * 获取直播详情
-    .
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92734
      *
@@ -65,7 +63,6 @@ class Client extends BaseClient
 
     /**
      * 获取看直播统计
-    .
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92736
      *
