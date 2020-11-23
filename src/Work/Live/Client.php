@@ -30,13 +30,14 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getUserLivingId(string $userId, int $beginTime, int $endTime, string $nextKey)
+    public function getUserLivingId(string $userId, int $beginTime, int $endTime, string $nextKey = '0', int $limit = 100)
     {
         $params = [
             'userid' => $userId,
             'begin_time' => $beginTime,
             'end_time' => $endTime,
             'next_key' => $nextKey,
+			'limit' => $limit
         ];
 
         return $this->httpPostJson('cgi-bin/living/get_user_livingid', $params);
@@ -71,7 +72,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getWatchStat(string $livingId, string $nextKey)
+    public function getWatchStat(string $livingId, string $nextKey = '0')
     {
         $params = [
             'livingid' => $livingId,
