@@ -34,7 +34,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
         $client->expects()->httpPostJson('cgi-bin/living/get_living_info', [
-            'livingid' => 'mock-livingid'            
+            'livingid' => 'mock-livingid'
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getLiving('mock-livingid'));
