@@ -8,8 +8,6 @@
 [![Lint Status](https://github.com/w7corp/easywechat/workflows/Lint/badge.svg)](https://github.com/w7corp/easywechat/actions) 
 [![Latest Stable Version](https://poser.pugx.org/w7corp/easywechat/v/stable.svg)](https://packagist.org/packages/w7corp/easywechat) 
 [![Latest Unstable Version](https://poser.pugx.org/w7corp/easywechat/v/unstable.svg)](https://packagist.org/packages/w7corp/easywechat)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/w7corp/easywechat/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/w7corp/easywechat/?branch=master) 
-[![Code Coverage](https://scrutinizer-ci.com/g/w7corp/easywechat/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/w7corp/easywechat/?branch=master) 
 [![Total Downloads](https://poser.pugx.org/w7corp/easywechat/downloads)](https://packagist.org/packages/w7corp/easywechat) 
 [![License](https://poser.pugx.org/w7corp/easywechat/license)](https://packagist.org/packages/w7corp/easywechat) 
 
