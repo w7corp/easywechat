@@ -59,7 +59,7 @@ class Client extends BaseClient
             'livingid' => $livingId,
         ];
 
-        return $this->httpPostJson('cgi-bin/living/get_living_info', $params);
+        return $this->httpGet('cgi-bin/living/get_living_info', $params);
     }
 
     /**
