@@ -33,7 +33,7 @@ class ClientTest extends TestCase
     public function testGetLiving()
     {
         $client = $this->mockApiClient(Client::class);
-        $client->expects()->httpPostJson('cgi-bin/living/get_living_info', [
+        $client->expects()->httpGet('cgi-bin/living/get_living_info', [
             'livingid' => 'mock-livingid'
         ])->andReturn('mock-result');
 
