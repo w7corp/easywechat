@@ -56,7 +56,10 @@
     },
     "extra": {
         "hooks": {
-            "pre-commit": "composer check-style",
+            "pre-commit": [
+                "composer test",
+                "composer fix-style"
+            ],
             "pre-push": [
                 "composer test",
                 "composer fix-style"
