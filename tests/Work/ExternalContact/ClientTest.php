@@ -42,16 +42,16 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $params = [
-            'userid'=>'Eric',
-            'cursor'=>'',
-            'limit'=>100
+            'userid' => 'Eric',
+            'cursor' => '',
+            'limit' => 100
         ];
         $client->expects()->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', $params)->andReturn('mock-result');
-        
+
         $this->assertSame('mock-result', $client->batchGetUsers([
-            'userid'=>'Eric',
-            'cursor'=>'',
-            'limit'=>100
+            'userid' => 'Eric',
+            'cursor' => '',
+            'limit' => 100
         ]));
     }
 

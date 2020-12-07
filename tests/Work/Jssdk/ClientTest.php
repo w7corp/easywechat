@@ -67,6 +67,7 @@ class ClientTest extends TestCase
     public function testGetAgentTicket()
     {
         $app = new ServiceContainer([
+            'agent_id' => 'mock-agent_id',
             'corp_id' => 'mock-corp-id',
         ]);
 
@@ -77,7 +78,7 @@ class ClientTest extends TestCase
             'ticket' => 'mock-ticket',
             'expires_in' => 7200,
         ];
-        $cacheKey = 'easywechat.work.jssdk.ticket.agent_config.mock-corp-id';
+        $cacheKey = 'easywechat.work.jssdk.ticket.agent_config.mock-corp-id.mock-agent_id';
 
         // no refresh and cached
         $cache->expects()->has($cacheKey)->andReturn(true);
