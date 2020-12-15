@@ -17,6 +17,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\FormattableHandlerInterface;
 use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\NullHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\SlackWebhookHandler;
 use Monolog\Handler\StreamHandler;
@@ -78,7 +79,8 @@ class LogManager implements LoggerInterface
     /**
      * Create a new, on-demand aggregate logger instance.
      *
-     * @param string|null $channel
+     * @param  array  $channels
+     * @param  string|null  $channel
      *
      * @return \Psr\Log\LoggerInterface
      *
@@ -172,6 +174,16 @@ class LogManager implements LoggerInterface
     }
 
     /**
+     * Call a custom driver creator.
+     *
+     * @return mixed
+     */
+    protected function callCustomCreator(array $config)
+    {
+        return $this->customCreators[$config['driver']]($this->app, $config);
+    }
+
+    /**
      * Create an emergency log handler to avoid white screens of death.
      *
      * @return \Monolog\Logger
@@ -184,16 +196,6 @@ class LogManager implements LoggerInterface
             \sys_get_temp_dir().'/easywechat/easywechat.log',
             $this->level(['level' => 'debug'])
         )]));
-    }
-
-    /**
-     * Call a custom driver creator.
-     *
-     * @return mixed
-     */
-    protected function callCustomCreator(array $config)
-    {
-        return $this->customCreators[$config['driver']]($this->app, $config);
     }
 
     /**
@@ -311,6 +313,11 @@ class LogManager implements LoggerInterface
                 )
             ),
         ]);
+    }
+
+    protected function createNullDriver()
+    {
+        return new Monolog('EasyWeChat', [new NullHandler()]);
     }
 
     /**

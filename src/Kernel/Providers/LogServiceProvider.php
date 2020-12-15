@@ -54,11 +54,10 @@ class LogServiceProvider implements ServiceProviderInterface
         if (empty($app['config']->get('log'))) {
             return [
                 'log' => [
-                    'default' => 'errorlog',
+                    'default' => 'null',
                     'channels' => [
-                        'errorlog' => [
-                            'driver' => 'errorlog',
-                            'level' => 'debug',
+                        'null' => [
+                            'driver' => 'null',
                         ],
                     ],
                 ],
