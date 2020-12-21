@@ -177,13 +177,13 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, [], $app)->makePartial();
 
         $client->expects()->httpPostJson('cgi-bin/service/contact/search', [
-            'auth_corpid' => 'mock-corp-id',
+            'auth_corpid' => 'targetCorpId',
             'query_word' => 'user',
             'query_type' => 1, // 1：查询用户，返回用户userid列表 2：查询部门，返回部门id列表。 不填该字段或者填0代表同时查询部门跟用户
             'agentid' => 'mock-agent-id',
             'offset' => 0,
             'limit' => 50,
         ])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->searchContact('user', 'mock-agent-id', 0, 50, 1));
+        $this->assertSame('mock-result', $client->searchContact('targetCorpId', 'user', 'mock-agent-id', 0, 50, 1));
     }
 }
