@@ -178,6 +178,36 @@ class PaymentAPITest extends TestCase
         $this->assertEquals(100, $response['params']['total_fee']);
         $this->assertEquals(50, $response['params']['refund_fee']);
     }
+    
+    /**
+     * Test refund by service.
+     */
+    public function testRefundByService()
+    {
+        $api = $this->getAPI();
+
+        $response = $api->refundByService('1900000109', 'testTradeNo', 'testRefundNo', 100);
+        $this->assertEquals($api->wrapApi(API::API_REFUND), $response['api']);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
+        $this->assertEquals(100, $response['params']['total_fee']);
+        $this->assertEquals(100, $response['params']['refund_fee']);
+        $this->assertEquals('CNY', $response['params']['refund_fee_type']);
+        $this->assertEquals('testMerchantId', $response['params']['op_user_id']);
+        $this->assertEquals('testTradeNo', $response['params']['out_trade_no']);
+        $this->assertEquals('1900000109', $response['params']['sub_mch_id']);
+
+        $response = $api->refundByService('1900000109', 'testTradeNo', 'testRefundNo', 100, 50);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
+        $this->assertEquals(100, $response['params']['total_fee']);
+        $this->assertEquals(50, $response['params']['refund_fee']);
+        $this->assertEquals('1900000109', $response['params']['sub_mch_id']);
+
+        $response = $api->refundByService('1900000109', 'testTradeNo', 'testRefundNo', 100, 50);
+        $this->assertEquals('testRefundNo', $response['params']['out_refund_no']);
+        $this->assertEquals(100, $response['params']['total_fee']);
+        $this->assertEquals(50, $response['params']['refund_fee']);
+        $this->assertEquals('1900000109', $response['params']['sub_mch_id']);
+    }
 
     /**
      * Test queryRefund().
