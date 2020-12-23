@@ -243,6 +243,47 @@ class API extends AbstractAPI
 
         return $this->safeRequest($this->wrapApi(self::API_REFUND), $params);
     }
+    
+    /**
+     * Make a service refund request.
+     *
+     * @param $subMchId
+     * @param $orderNo
+     * @param $refundNo
+     * @param $totalFee
+     * @param  null  $refundFee
+     * @param  null  $opUserId
+     * @param  string  $type
+     * @param  string  $refundAccount
+     * @param  string  $refundReason
+     *
+     * @return Collection|ResponseInterface
+     */
+    public function refundByService(
+        $subMchId,
+        $orderNo,
+        $refundNo,
+        $totalFee,
+        $refundFee = null,
+        $opUserId = null,
+        $type = self::OUT_TRADE_NO,
+        $refundAccount = 'REFUND_SOURCE_UNSETTLED_FUNDS',
+        $refundReason = '')
+    {
+        $params = [
+            $type => $orderNo,
+            'sub_mch_id' => $subMchId,
+            'out_refund_no' => $refundNo,
+            'total_fee' => $totalFee,
+            'refund_fee' => $refundFee ?: $totalFee,
+            'refund_fee_type' => $this->merchant->fee_type,
+            'refund_account' => $refundAccount,
+            'refund_desc' => $refundReason,
+            'op_user_id' => $opUserId ?: $this->merchant->merchant_id,
+        ];
+
+        return $this->safeRequest($this->wrapApi(self::API_REFUND), $params);
+    }
 
     /**
      * Refund by transaction id.
