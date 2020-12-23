@@ -12,6 +12,7 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Traits\ResponseCastable;
 use EasyWeChat\MiniProgram\Encryptor;
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
@@ -37,6 +38,8 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
  */
 class Application extends ServiceContainer
 {
+    use ResponseCastable;
+
     /**
      * @var array
      */
@@ -139,7 +142,8 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
+            $response = $this->detectAndCastResponseToType($this->createPreAuthorizationCode(), 'array');
+            $optional['pre_auth_code'] = $response['pre_auth_code'];
         }
 
         $queries = \array_merge($optional, [
@@ -166,7 +170,8 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
+            $response = $this->detectAndCastResponseToType($this->createPreAuthorizationCode(), 'array');
+            $optional['pre_auth_code'] = $response['pre_auth_code'];
         }
 
         $queries = \array_merge(['auth_type' => 3], $optional, [

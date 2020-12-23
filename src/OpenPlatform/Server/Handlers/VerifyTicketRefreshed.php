@@ -12,6 +12,7 @@
 namespace EasyWeChat\OpenPlatform\Server\Handlers;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
+use EasyWeChat\Kernel\Traits\ResponseCastable;
 use EasyWeChat\OpenPlatform\Application;
 
 /**
@@ -21,6 +22,8 @@ use EasyWeChat\OpenPlatform\Application;
  */
 class VerifyTicketRefreshed implements EventHandlerInterface
 {
+    use ResponseCastable;
+
     /**
      * @var \EasyWeChat\OpenPlatform\Application
      */
@@ -41,6 +44,8 @@ class VerifyTicketRefreshed implements EventHandlerInterface
      */
     public function handle($payload = null)
     {
+        $payload = $this->detectAndCastResponseToType($payload, 'array');
+
         if (!empty($payload['ComponentVerifyTicket'])) {
             $this->app['verify_ticket']->setTicket($payload['ComponentVerifyTicket']);
         }
