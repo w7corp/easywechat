@@ -15,6 +15,8 @@ use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Traits\ResponseCastable;
 use EasyWeChat\OpenPlatform\Application;
 
+use function EasyWeChat\Kernel\data_get;
+
 /**
  * Class VerifyTicketRefreshed.
  *
@@ -44,10 +46,10 @@ class VerifyTicketRefreshed implements EventHandlerInterface
      */
     public function handle($payload = null)
     {
-        $payload = $this->detectAndCastResponseToType($payload, 'array');
+        $ticket = data_get($payload, 'ComponentVerifyTicket');
 
-        if (!empty($payload['ComponentVerifyTicket'])) {
-            $this->app['verify_ticket']->setTicket($payload['ComponentVerifyTicket']);
+        if (!empty($ticket)) {
+            $this->app['verify_ticket']->setTicket($ticket);
         }
     }
 }

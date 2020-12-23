@@ -21,6 +21,8 @@ use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client as Account
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 
+use function EasyWeChat\Kernel\data_get;
+
 /**
  * Class Application.
  *
@@ -133,6 +135,7 @@ class Application extends ServiceContainer
      * @param  string|array|null  $optional
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getPreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -142,8 +145,7 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $response = $this->detectAndCastResponseToType($this->createPreAuthorizationCode(), 'array');
-            $optional['pre_auth_code'] = $response['pre_auth_code'];
+            $optional['pre_auth_code'] = data_get($this->createPreAuthorizationCode(), 'pre_auth_code');
         }
 
         $queries = \array_merge($optional, [
@@ -161,6 +163,7 @@ class Application extends ServiceContainer
      * @param  string|array|null  $optional
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getMobilePreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -170,8 +173,7 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $response = $this->detectAndCastResponseToType($this->createPreAuthorizationCode(), 'array');
-            $optional['pre_auth_code'] = $response['pre_auth_code'];
+            $optional['pre_auth_code'] = data_get($this->createPreAuthorizationCode(), 'pre_auth_code');
         }
 
         $queries = \array_merge(['auth_type' => 3], $optional, [
