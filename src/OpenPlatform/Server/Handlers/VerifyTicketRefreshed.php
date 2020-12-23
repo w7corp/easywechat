@@ -14,6 +14,8 @@ namespace EasyWeChat\OpenPlatform\Server\Handlers;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\OpenPlatform\Application;
 
+use function EasyWeChat\Kernel\data_get;
+
 /**
  * Class VerifyTicketRefreshed.
  *
@@ -39,8 +41,10 @@ class VerifyTicketRefreshed implements EventHandlerInterface
      */
     public function handle($payload = null)
     {
-        if (!empty($payload['ComponentVerifyTicket'])) {
-            $this->app['verify_ticket']->setTicket($payload['ComponentVerifyTicket']);
+        $ticket = data_get($payload, 'ComponentVerifyTicket');
+
+        if (!empty($ticket)) {
+            $this->app['verify_ticket']->setTicket($ticket);
         }
     }
 }
