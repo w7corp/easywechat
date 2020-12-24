@@ -28,7 +28,7 @@ class Client extends BaseClient
     {
         parent::__construct($app, $accessToken);
 
-        $this->ticketEndpoint = $app->config->get('http.base_uri').'/cgi-bin/get_jsapi_ticket';
+        $this->ticketEndpoint = \rtrim($app->config->get('http.base_uri'), '/').'/cgi-bin/get_jsapi_ticket';
     }
 
     /**
