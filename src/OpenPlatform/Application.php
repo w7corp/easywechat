@@ -12,6 +12,7 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Traits\ResponseCastable;
 use EasyWeChat\MiniProgram\Encryptor;
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
@@ -19,6 +20,8 @@ use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client as AccountClient;
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
+
+use function EasyWeChat\Kernel\data_get;
 
 /**
  * Class Application.
@@ -37,6 +40,8 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
  */
 class Application extends ServiceContainer
 {
+    use ResponseCastable;
+
     /**
      * @var array
      */
@@ -130,6 +135,7 @@ class Application extends ServiceContainer
      * @param  string|array|null  $optional
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getPreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -139,7 +145,7 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
+            $optional['pre_auth_code'] = data_get($this->createPreAuthorizationCode(), 'pre_auth_code');
         }
 
         $queries = \array_merge($optional, [
@@ -157,6 +163,7 @@ class Application extends ServiceContainer
      * @param  string|array|null  $optional
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getMobilePreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -166,7 +173,7 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
+            $optional['pre_auth_code'] = data_get($this->createPreAuthorizationCode(), 'pre_auth_code');
         }
 
         $queries = \array_merge(['auth_type' => 3], $optional, [

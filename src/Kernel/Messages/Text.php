@@ -37,7 +37,7 @@ class Text extends Message
      *
      * @param string $content
      */
-    public function __construct(string $content = "")
+    public function __construct(string $content = '')
     {
         parent::__construct(compact('content'));
     }
