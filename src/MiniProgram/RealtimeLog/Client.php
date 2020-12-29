@@ -23,11 +23,6 @@ class Client extends BaseClient
     /**
      * Real time log query.
      *
-     * @param string $date
-     * @param int    $beginTime
-     * @param int    $endTime
-     * @param array  $options
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

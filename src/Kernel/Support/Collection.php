@@ -33,8 +33,6 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * set data.
-     *
-     * @param array $items
      */
     public function __construct(array $items = [])
     {
@@ -55,8 +53,6 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
 
     /**
      * Return specific items.
-     *
-     * @param array $keys
      *
      * @return \EasyWeChat\Kernel\Support\Collection
      */
@@ -344,9 +340,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *
      * @return array
      */
-    public function __set_state()
+    public static function __set_state(array $properties)
     {
-        return $this->all();
+        return (new static($properties))->all();
     }
 
     /**

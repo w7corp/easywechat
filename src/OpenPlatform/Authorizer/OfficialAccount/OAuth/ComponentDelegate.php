@@ -28,8 +28,6 @@ class ComponentDelegate implements WeChatComponentInterface
 
     /**
      * ComponentDelegate Constructor.
-     *
-     * @param \EasyWeChat\OpenPlatform\Application $app
      */
     public function __construct(Application $app)
     {

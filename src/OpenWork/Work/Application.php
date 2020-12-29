@@ -24,11 +24,6 @@ class Application extends Work
 {
     /**
      * Application constructor.
-     *
-     * @param string   $authCorpId
-     * @param string   $permanentCode
-     * @param OpenWork $component
-     * @param array    $prepends
      */
     public function __construct(string $authCorpId, string $permanentCode, OpenWork $component, array $prepends = [])
     {

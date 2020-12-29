@@ -35,8 +35,6 @@ class Client extends BaseClient
     /**
      * Get POI by ID.
      *
-     * @param int $poiId
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -49,9 +47,6 @@ class Client extends BaseClient
 
     /**
      * List POI.
-     *
-     * @param int $offset
-     * @param int $limit
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -71,8 +66,6 @@ class Client extends BaseClient
     /**
      * Create a POI.
      *
-     * @param array $baseInfo
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -90,8 +83,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $databaseInfo
-     *
      * @return int
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -108,9 +99,6 @@ class Client extends BaseClient
 
     /**
      * Update a POI.
-     *
-     * @param int   $poiId
-     * @param array $baseInfo
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -130,8 +118,6 @@ class Client extends BaseClient
 
     /**
      * Delete a POI.
-     *
-     * @param int $poiId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

@@ -23,8 +23,6 @@ class ShopClient extends BaseClient
     /**
      * Get shop Wi-Fi information.
      *
-     * @param int $shopId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -37,9 +35,6 @@ class ShopClient extends BaseClient
 
     /**
      * Get a list of Wi-Fi shops.
-     *
-     * @param int $page
-     * @param int $size
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -59,9 +54,6 @@ class ShopClient extends BaseClient
     /**
      * Update shop Wi-Fi information.
      *
-     * @param int   $shopId
-     * @param array $data
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -76,9 +68,6 @@ class ShopClient extends BaseClient
 
     /**
      * Clear shop network and equipment.
-     *
-     * @param int         $shopId
-     * @param string|null $ssid
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

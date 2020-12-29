@@ -31,7 +31,6 @@ class Text extends Message
     /**
      * Text constructor.
      *
-     * @param string       $content
      * @param string|array $userIds
      * @param string|array $mobiles
      */

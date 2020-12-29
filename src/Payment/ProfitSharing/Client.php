@@ -162,8 +162,6 @@ class Client extends BaseClient
      * Finish profit sharing.
      * 完结分账.
      *
-     * @param array $params
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException

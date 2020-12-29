@@ -23,8 +23,6 @@ class Client extends BaseClient
     /**
      * entrust official account.
      *
-     * @param array $params
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -40,8 +38,6 @@ class Client extends BaseClient
 
     /**
      * entrust app.
-     *
-     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -59,8 +55,6 @@ class Client extends BaseClient
     /**
      * entrust html 5.
      *
-     * @param array $params
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -77,8 +71,6 @@ class Client extends BaseClient
     /**
      * apply papay.
      *
-     * @param array $params
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -89,13 +81,11 @@ class Client extends BaseClient
     {
         $params['appid'] = $this->app['config']->app_id;
 
-        return $this->safeRequest('papay/pappayapply', $params);
+        return $this->safeRequest('pay/pappayapply', $params);
     }
 
     /**
      * delete papay contrace.
-     *
-     * @param array $params
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

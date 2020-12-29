@@ -19,9 +19,7 @@ class Client extends BaseClient
     /**
      * Download fundflow history as a table file.
      *
-     * @param string $date
-     * @param string $type
-     * @param array  $options
+     * @param array $options
      *
      * @return array|\EasyWeChat\Kernel\Http\Response|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

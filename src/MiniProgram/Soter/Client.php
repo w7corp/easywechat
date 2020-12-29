@@ -21,10 +21,6 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * @param string $openid
-     * @param string $json
-     * @param string $signature
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

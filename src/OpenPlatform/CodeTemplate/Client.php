@@ -36,8 +36,6 @@ class Client extends BaseClient
     /**
      * 将草稿箱的草稿选为小程序代码模版.
      *
-     * @param int $draftId
-     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

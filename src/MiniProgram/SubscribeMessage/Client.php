@@ -40,8 +40,6 @@ class Client extends BaseClient
     /**
      * Send a template message.
      *
-     * @param array $data
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -58,8 +56,6 @@ class Client extends BaseClient
     }
 
     /**
-     * @param array $data
-     *
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -78,7 +74,7 @@ class Client extends BaseClient
 
         foreach ($params['data'] as $key => $value) {
             if (is_array($value)) {
-                if (isset($value['value'])) {
+                if (\array_key_exists('value', $value)) {
                     $params['data'][$key] = ['value' => $value['value']];
 
                     continue;
@@ -113,10 +109,6 @@ class Client extends BaseClient
     /**
      * Combine templates and add them to your personal template library under your account.
      *
-     * @param string      $tid
-     * @param array       $kidList
-     * @param string|null $sceneDesc
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -133,8 +125,6 @@ class Client extends BaseClient
     /**
      * Delete personal template under account.
      *
-     * @param string $id
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -148,8 +138,6 @@ class Client extends BaseClient
     /**
      * Get keyword list under template title.
      *
-     * @param string $tid
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -162,10 +150,6 @@ class Client extends BaseClient
 
     /**
      * Get the title of the public template under the category to which the account belongs.
-     *
-     * @param array $ids
-     * @param int   $start
-     * @param int   $limit
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

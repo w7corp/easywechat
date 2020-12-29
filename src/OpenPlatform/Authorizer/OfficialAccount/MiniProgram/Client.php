@@ -36,10 +36,6 @@ class Client extends BaseClient
     /**
      * 关联小程序.
      *
-     * @param string $appId
-     * @param bool   $notifyUsers
-     * @param bool   $showProfile
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -58,8 +54,6 @@ class Client extends BaseClient
 
     /**
      * 解除已关联的小程序.
-     *
-     * @param string $appId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

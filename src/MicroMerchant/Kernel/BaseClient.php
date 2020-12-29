@@ -32,8 +32,6 @@ class BaseClient extends PaymentBaseClient
 
     /**
      * BaseClient constructor.
-     *
-     * @param \EasyWeChat\MicroMerchant\Application $app
      */
     public function __construct(Application $app)
     {
@@ -55,11 +53,7 @@ class BaseClient extends PaymentBaseClient
     /**
      * httpUpload.
      *
-     * @param string $url
-     * @param array  $files
-     * @param array  $form
-     * @param array  $query
-     * @param bool   $returnResponse
+     * @param bool $returnResponse
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -119,10 +113,7 @@ class BaseClient extends PaymentBaseClient
     /**
      * request.
      *
-     * @param string $endpoint
-     * @param array  $params
      * @param string $method
-     * @param array  $options
      * @param bool   $returnResponse
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -160,8 +151,6 @@ class BaseClient extends PaymentBaseClient
     /**
      * processing parameters contain fields that require sensitive information encryption.
      *
-     * @param array $params
-     *
      * @return array
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -187,8 +176,6 @@ class BaseClient extends PaymentBaseClient
 
     /**
      * To id card, mobile phone number and other fields sensitive information encryption.
-     *
-     * @param string $string
      *
      * @return string
      *
@@ -236,8 +223,6 @@ class BaseClient extends PaymentBaseClient
 
     /**
      * getSign.
-     *
-     * @param array $params
      *
      * @return string
      *

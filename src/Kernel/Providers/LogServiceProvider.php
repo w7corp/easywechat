@@ -32,7 +32,7 @@ class LogServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['logger'] = $pimple['log'] = function ($app) {
+        !isset($pimple['log']) && $pimple['log'] = function ($app) {
             $config = $this->formatLogConfig($app);
 
             if (!empty($config)) {
@@ -41,6 +41,8 @@ class LogServiceProvider implements ServiceProviderInterface
 
             return new LogManager($app);
         };
+
+        !isset($pimple['logger']) && $pimple['logger'] = $pimple['log'];
     }
 
     public function formatLogConfig($app)
@@ -52,11 +54,10 @@ class LogServiceProvider implements ServiceProviderInterface
         if (empty($app['config']->get('log'))) {
             return [
                 'log' => [
-                    'default' => 'errorlog',
+                    'default' => 'null',
                     'channels' => [
-                        'errorlog' => [
-                            'driver' => 'errorlog',
-                            'level' => 'debug',
+                        'null' => [
+                            'driver' => 'null',
                         ],
                     ],
                 ],

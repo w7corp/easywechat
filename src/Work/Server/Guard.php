@@ -30,17 +30,12 @@ class Guard extends ServerGuard
 
     /**
      * Check the request message safe mode.
-     *
-     * @return bool
      */
     protected function isSafeMode(): bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected function shouldReturnRawResponse(): bool
     {
         return !is_null($this->app['request']->get('echostr'));

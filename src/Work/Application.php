@@ -38,11 +38,12 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\ExternalContact\ContactWayClient $contact_way
  * @property \EasyWeChat\Work\ExternalContact\StatisticsClient $external_contact_statistics
  * @property \EasyWeChat\Work\ExternalContact\MessageClient    $external_contact_message
- * @property \EasyWeChat\Work\ExternalContact\SchoolClient     $school
  * @property \EasyWeChat\Work\GroupRobot\Client                $group_robot
  * @property \EasyWeChat\Work\GroupRobot\Messenger             $group_robot_messenger
  * @property \EasyWeChat\Work\Calendar\Client                  $calendar
  * @property \EasyWeChat\Work\Schedule\Client                  $schedule
+ * @property \EasyWeChat\Work\MsgAudit\Client                  $msg_audit
+ * @property \EasyWeChat\Work\ExternalContact\SchoolClient     $school
  *
  * @method mixed getCallbackIp()
  */
@@ -70,6 +71,7 @@ class Application extends ServiceContainer
         GroupRobot\ServiceProvider::class,
         Calendar\ServiceProvider::class,
         Schedule\ServiceProvider::class,
+        MsgAudit\ServiceProvider::class,
     ];
 
     /**
@@ -84,8 +86,6 @@ class Application extends ServiceContainer
 
     /**
      * Creates the miniProgram application.
-     *
-     * @return \EasyWeChat\Work\MiniProgram\Application
      */
     public function miniProgram(): MiniProgram
     {

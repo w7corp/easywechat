@@ -83,8 +83,6 @@ class Messenger
     }
 
     /**
-     * @param int $agentId
-     *
      * @return \EasyWeChat\Work\Message\Messenger
      */
     public function ofAgent(int $agentId)
@@ -138,7 +136,6 @@ class Messenger
 
     /**
      * @param array|string $ids
-     * @param string       $key
      *
      * @return \EasyWeChat\Work\Message\Messenger
      */

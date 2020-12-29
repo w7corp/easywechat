@@ -55,8 +55,6 @@ class MessageClient extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91560
      *
-     * @param array $msg
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -75,8 +73,6 @@ class MessageClient extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91561
      *
-     * @param string $msgId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -93,9 +89,6 @@ class MessageClient extends BaseClient
      * 发送新客户欢迎语.
      *
      * @see https://work.weixin.qq.com/api/doc#90000/90135/91688
-     *
-     * @param string $welcomeCode
-     * @param array  $msg
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -115,8 +108,6 @@ class MessageClient extends BaseClient
     }
 
     /**
-     * @param array $data
-     *
      * @return array
      *
      * @throws InvalidArgumentException
@@ -145,9 +136,6 @@ class MessageClient extends BaseClient
     }
 
     /**
-     * @param array $data
-     * @param array $default
-     *
      * @return array
      *
      * @throws InvalidArgumentException

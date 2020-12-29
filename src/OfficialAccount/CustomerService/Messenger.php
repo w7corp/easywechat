@@ -82,8 +82,6 @@ class Messenger
     /**
      * Set staff account to send message.
      *
-     * @param string $account
-     *
      * @return Messenger
      */
     public function by(string $account)
@@ -94,8 +92,6 @@ class Messenger
     }
 
     /**
-     * @param string $account
-     *
      * @return Messenger
      */
     public function from(string $account)
@@ -149,8 +145,6 @@ class Messenger
 
     /**
      * Return property.
-     *
-     * @param string $property
      *
      * @return mixed
      */

@@ -23,9 +23,6 @@ class ServiceProvider implements ServiceProviderInterface
 {
     protected $app;
 
-    /**
-     * @param Container $app
-     */
     public function register(Container $app)
     {
         $this->app = $app;

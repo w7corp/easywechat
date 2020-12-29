@@ -18,12 +18,6 @@ class Client extends BaseClient
     /**
      * Refund by out trade number.
      *
-     * @param string $number
-     * @param string $refundNumber
-     * @param int    $totalFee
-     * @param int    $refundFee
-     * @param array  $optional
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -35,12 +29,6 @@ class Client extends BaseClient
 
     /**
      * Refund by transaction id.
-     *
-     * @param string $transactionId
-     * @param string $refundNumber
-     * @param int    $totalFee
-     * @param int    $refundFee
-     * @param array  $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -54,8 +42,6 @@ class Client extends BaseClient
     /**
      * Query refund by transaction id.
      *
-     * @param string $transactionId
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -67,8 +53,6 @@ class Client extends BaseClient
 
     /**
      * Query refund by out trade number.
-     *
-     * @param string $outTradeNumber
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -82,8 +66,6 @@ class Client extends BaseClient
     /**
      * Query refund by out refund number.
      *
-     * @param string $outRefundNumber
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -95,8 +77,6 @@ class Client extends BaseClient
 
     /**
      * Query refund by refund id.
-     *
-     * @param string $refundId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -110,10 +90,7 @@ class Client extends BaseClient
     /**
      * Refund.
      *
-     * @param string $refundNumber
-     * @param int    $totalFee
-     * @param int    $refundFee
-     * @param array  $optional
+     * @param array $optional
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -137,9 +114,6 @@ class Client extends BaseClient
 
     /**
      * Query refund.
-     *
-     * @param string $number
-     * @param string $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

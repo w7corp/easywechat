@@ -25,8 +25,6 @@ class Client extends BaseClient
     /**
      * Upload material.
      *
-     * @param string $path
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException

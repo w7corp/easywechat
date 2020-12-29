@@ -20,7 +20,6 @@ namespace EasyWeChat\Kernel\Support;
 /**
  * Generate a signature.
  *
- * @param array  $attributes
  * @param string $key
  * @param string $encryptMethod
  *
@@ -36,9 +35,6 @@ function generate_sign(array $attributes, $key, $encryptMethod = 'md5')
 }
 
 /**
- * @param string $signType
- * @param string $secretKey
- *
  * @return \Closure|string
  */
 function get_encrypt_method(string $signType, string $secretKey = '')

@@ -76,8 +76,6 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @return array
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -90,10 +88,6 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @param bool $refresh
-     *
-     * @return array
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -105,11 +99,8 @@ abstract class AccessToken implements AccessTokenInterface
         $cacheKey = $this->getCacheKey();
         $cache = $this->getCache();
 
-        if (!$refresh && $cache->has($cacheKey)) {
-            $token = $cache->get($cacheKey);
-            if (!empty($token)){
-                return $token;
-            }
+        if (!$refresh && $cache->has($cacheKey) && $result = $cache->get($cacheKey)) {
+            return $result;
         }
 
         /** @var array $token */
@@ -123,11 +114,6 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @param string $token
-     * @param int    $lifetime
-     *
-     * @return \EasyWeChat\Kernel\Contracts\AccessTokenInterface
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -138,25 +124,15 @@ abstract class AccessToken implements AccessTokenInterface
             $this->tokenKey => $token,
             'expires_in' => $lifetime,
         ], $lifetime);
-        /*
+
         if (!$this->getCache()->has($this->getCacheKey())) {
-            \Csems_Log_Mail::setDebug(true,'ACCESS_TOKEN写入成功，但获取失败');
-            \Csems_Log_Mail::log('写入数据如下');
-            \Csems_Log_Mail::log('Key:' . $this->getCacheKey());
-            \Csems_Log_Mail::log('TOKEN_KEY:' . $this->tokenKey);
-            \Csems_Log_Mail::log('TOKEN:' . $token);
-            \Csems_Log_Mail::log('expires_in:' . $lifetime);
-            \Csems_Log_Mail::log('读取数据如下：');
-            \Csems_Log_Mail::log($this->getCache()->get($this->getCacheKey()));
             throw new RuntimeException('Failed to cache access token.');
         }
-        */
+
         return $this;
     }
 
     /**
-     * @return \EasyWeChat\Kernel\Contracts\AccessTokenInterface
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -171,8 +147,7 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @param array $credentials
-     * @param bool  $toArray
+     * @param bool $toArray
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -194,11 +169,6 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @param \Psr\Http\Message\RequestInterface $request
-     * @param array                              $requestOptions
-     *
-     * @return \Psr\Http\Message\RequestInterface
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -216,10 +186,6 @@ abstract class AccessToken implements AccessTokenInterface
 
     /**
      * Send http request.
-     *
-     * @param array $credentials
-     *
-     * @return ResponseInterface
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -244,8 +210,6 @@ abstract class AccessToken implements AccessTokenInterface
     /**
      * The request query will be used to add to the request.
      *
-     * @return array
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -258,8 +222,6 @@ abstract class AccessToken implements AccessTokenInterface
     }
 
     /**
-     * @return string
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getEndpoint(): string
@@ -281,8 +243,6 @@ abstract class AccessToken implements AccessTokenInterface
 
     /**
      * Credential for get token.
-     *
-     * @return array
      */
     abstract protected function getCredentials(): array;
 }

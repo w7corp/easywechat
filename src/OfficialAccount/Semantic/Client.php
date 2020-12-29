@@ -23,10 +23,6 @@ class Client extends BaseClient
     /**
      * Get the semantic content of giving string.
      *
-     * @param string $keyword
-     * @param string $categories
-     * @param array  $optional
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

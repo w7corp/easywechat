@@ -18,8 +18,6 @@ class Client extends BaseClient
     /**
      * Reverse order by out trade number.
      *
-     * @param string $outTradeNumber
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -32,8 +30,6 @@ class Client extends BaseClient
     /**
      * Reverse order by transaction_id.
      *
-     * @param string $transactionId
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -45,9 +41,6 @@ class Client extends BaseClient
 
     /**
      * Reverse order.
-     *
-     * @param string $number
-     * @param string $type
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

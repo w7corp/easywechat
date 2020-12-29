@@ -9,14 +9,14 @@
  * with this source code in the file LICENSE.
  */
 
-namespace EasyWeChat\Kernel\Contracts;
+namespace EasyWeChat\Kernel\Messages;
 
-/**
- * Interface MediaInterface.
- *
- * @author overtrue <i@overtrue.me>
- */
-interface MediaInterface extends MessageInterface
+class MiniprogramNotice extends Message
 {
-    public function getMediaId(): string;
+    protected $type = 'miniprogram_notice';
+
+    protected $properties = [
+        'appid',
+        'title',
+    ];
 }

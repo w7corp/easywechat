@@ -23,10 +23,6 @@ class ContactWayClient extends BaseClient
     /**
      * 配置客户联系「联系我」方式.
      *
-     * @param int   $type
-     * @param int   $scene
-     * @param array $config
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -45,8 +41,6 @@ class ContactWayClient extends BaseClient
     /**
      * 获取企业已配置的「联系我」方式.
      *
-     * @param string $configId
-     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
@@ -61,9 +55,6 @@ class ContactWayClient extends BaseClient
 
     /**
      * 更新企业已配置的「联系我」方式.
-     *
-     * @param string $configId
-     * @param array  $config
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -81,8 +72,6 @@ class ContactWayClient extends BaseClient
 
     /**
      * 删除企业已配置的「联系我」方式.
-     *
-     * @param string $configId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

@@ -53,8 +53,6 @@ class Application extends ServiceContainer
 
     /**
      * Creates the miniProgram application.
-     *
-     * @return \EasyWeChat\Work\MiniProgram\Application
      */
     public function miniProgram(): \EasyWeChat\Work\MiniProgram\Application
     {
@@ -64,8 +62,6 @@ class Application extends ServiceContainer
     /**
      * @param string $authCorpId    企业 corp_id
      * @param string $permanentCode 企业永久授权码
-     *
-     * @return Work
      */
     public function work(string $authCorpId, string $permanentCode): Work
     {

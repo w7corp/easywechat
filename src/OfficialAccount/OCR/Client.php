@@ -31,9 +31,6 @@ class Client extends BaseClient
     /**
      * ID card OCR.
      *
-     * @param string $path
-     * @param string $type
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -45,7 +42,7 @@ class Client extends BaseClient
             throw new InvalidArgumentException(sprintf("Unsupported type: '%s'", $type));
         }
 
-        return $this->httpGet('cv/ocr/idcard', [
+        return $this->httpPost('cv/ocr/idcard', [
             'type' => $type,
             'img_url' => $path,
         ]);
@@ -54,15 +51,13 @@ class Client extends BaseClient
     /**
      * Bank card OCR.
      *
-     * @param string $path
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function bankCard(string $path)
     {
-        return $this->httpGet('cv/ocr/bankcard', [
+        return $this->httpPost('cv/ocr/bankcard', [
             'img_url' => $path,
         ]);
     }
@@ -70,15 +65,13 @@ class Client extends BaseClient
     /**
      * Vehicle license OCR.
      *
-     * @param string $path
-     *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function vehicleLicense(string $path)
     {
-        return $this->httpGet('cv/ocr/driving', [
+        return $this->httpPost('cv/ocr/drivinglicense', [
             'img_url' => $path,
         ]);
     }
