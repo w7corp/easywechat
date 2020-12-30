@@ -343,4 +343,26 @@ class ClientTest extends TestCase
         $client->expects()->httpGet('wxaapi/broadcast/role/getrolelist', $params)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getRoleList($params));
     }
+
+    public function testGetFollowers()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'limit' => 200,
+            'page_break' => 0
+        ];
+        $client->expects()->httpPost('wxa/business/get_wxa_followers', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getFollowers($params));
+    }
+
+    public function testPushMessage()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'room_id' => 1,
+            'user_openid' => ['openid1', 'openid2', 'openid3']
+        ];
+        $client->expects()->httpPost('wxa/business/push_message', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->pushMessage($params));
+    }
 }

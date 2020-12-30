@@ -445,4 +445,30 @@ class Client extends BaseClient
     {
         return $this->httpGet('wxaapi/broadcast/role/getrolelist', $params);
     }
+
+    /**
+     * Gets long-term subscribers.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getFollowers(array $params)
+    {
+        return $this->httpPost('wxa/business/get_wxa_followers', $params);
+    }
+
+    /**
+     * Sending live broadcast start event to long-term subscribers.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function pushMessage(array $params)
+    {
+        return $this->httpPost('wxa/business/push_message', $params);
+    }
 }
