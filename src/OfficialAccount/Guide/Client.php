@@ -23,7 +23,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Client extends BaseClient
 {
-
     /**
      * 添加顾问
      * @param string $guideAccount

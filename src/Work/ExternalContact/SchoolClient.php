@@ -20,7 +20,6 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class SchoolClient extends BaseClient
 {
-
     /**
      * 创建部门
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92340
