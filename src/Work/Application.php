@@ -43,6 +43,7 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\Calendar\Client                  $calendar
  * @property \EasyWeChat\Work\Schedule\Client                  $schedule
  * @property \EasyWeChat\Work\MsgAudit\Client                  $msg_audit
+ * @property \EasyWeChat\Work\ExternalContact\SchoolClient     $school
  *
  * @method mixed getCallbackIp()
  */
