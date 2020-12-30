@@ -33,7 +33,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function addGuideAcct($guideAccount = '', $guideOpenid = '', $guideHeadImgUrl = '', $guideNickname = '')
+    public function createAdviser($guideAccount = '', $guideOpenid = '', $guideHeadImgUrl = '', $guideNickname = '')
     {
         $params = $this->selectAccountAndOpenid(array(), $guideAccount, $guideOpenid);
         if (!empty($guideHeadImgUrl)) {
@@ -53,7 +53,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideAcct($guideAccount = '', $guideOpenid = '')
+    public function getAdviser($guideAccount = '', $guideOpenid = '')
     {
         $params = $this->selectAccountAndOpenid(array(), $guideAccount, $guideOpenid);
 
@@ -69,7 +69,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function updateGuideAcct($guideAccount = '', $guideOpenid = '', $guideHeadImgUrl = '', $guideNickname = '')
+    public function updateAdviser($guideAccount = '', $guideOpenid = '', $guideHeadImgUrl = '', $guideNickname = '')
     {
         $params = $this->selectAccountAndOpenid(array(), $guideAccount, $guideOpenid);
         if (!empty($guideHeadImgUrl)) {
@@ -89,7 +89,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function deleteGuideAcct($guideAccount = '', $guideOpenid = '')
+    public function deleteAdviser($guideAccount = '', $guideOpenid = '')
     {
         $params = $this->selectAccountAndOpenid(array(), $guideAccount, $guideOpenid);
 
@@ -103,7 +103,7 @@ class Client extends BaseClient
      *
      * @throws InvalidConfigException
      */
-    public function getGuideAcctList($count, $page)
+    public function getAdvisers($count, $page)
     {
         $params = [
             'page' => $page,
@@ -174,7 +174,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function setGuideConfig($guideAccount = '', $guideOpenid = '', $isDelete = false, $fastReplyListArray = array(), $guideAutoReply = array(), $guideAutoReplyPlus = array())
+    public function setConfig($guideAccount = '', $guideOpenid = '', $isDelete = false, $fastReplyListArray = array(), $guideAutoReply = array(), $guideAutoReplyPlus = array())
     {
         $params = [
             'is_delete' => $isDelete
@@ -200,7 +200,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideConfig($guideAccount = '', $guideOpenid = '')
+    public function getConfig($guideAccount = '', $guideOpenid = '')
     {
         try {
             $params = $this->selectAccountAndOpenid(array(), $guideAccount, $guideOpenid);
@@ -219,7 +219,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function setGuideAcctConfig(bool $isDelete, array $blackKeyword = array(), array $guideAutoReply = array())
+    public function setAdviserConfig(bool $isDelete, array $blackKeyword = [], array $guideAutoReply = [])
     {
         $params = [
             'is_delete' => $isDelete
@@ -239,7 +239,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideAcctConfig()
+    public function getAdviserConfig()
     {
         return $this->httpPostJson('cgi-bin/guide/getguideacctconfig', array());
     }
@@ -251,7 +251,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function pushShowWxaPathMenu(string $wxaAppid, string $wxUsername)
+    public function allowCopyMiniAppPath(string $wxaAppid, string $wxUsername)
     {
         $params = [
             'wxa_appid' => $wxaAppid,
@@ -291,7 +291,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function newGuideGroup(string $groupName)
+    public function createGroup(string $groupName)
     {
         $params = [
             'group_name' => $groupName
@@ -305,7 +305,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideGroupList()
+    public function getGuideGroups()
     {
         return $this->httpPostJson('cgi-bin/guide/getguidegrouplist', array());
     }
@@ -318,7 +318,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGroupInfo(int $groupId, int $page, int $num)
+    public function getGroups(int $groupId, int $page, int $num)
     {
         $params = [
             'group_id' => $groupId,
@@ -336,7 +336,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function addGuideToGuideGroup(int $groupId, string $guideAccount)
+    public function addGroupGuide(int $groupId, string $guideAccount)
     {
         $params = [
             'group_id' => $groupId,
@@ -353,7 +353,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function delGuideToGuideGroup(int $groupId, string $guideAccount)
+    public function deleteGroupGuide(int $groupId, string $guideAccount)
     {
         $params = [
             'group_id' => $groupId,
@@ -369,7 +369,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGroupByGruide(string $guideAccount)
+    public function getGuideGroup(string $guideAccount)
     {
         $params = [
             'guide_account' => $guideAccount
@@ -384,7 +384,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function delGuideGroup(int $groupId)
+    public function deleteGroup(int $groupId)
     {
         $params = [
             'group_id' => $groupId
@@ -401,7 +401,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function addGuideBuyerRelation(string $guideAccount, string $guideOpenid, array $buyerList)
+    public function createBuyerRelation(string $guideAccount, string $guideOpenid, array $buyerList)
     {
         $params = [
             'buyer_list' => $buyerList
@@ -419,7 +419,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function delGuideBuyerRelation(string $guideAccount, string $guideOpenid, array $openidList)
+    public function deleteBuyerRelation(string $guideAccount, string $guideOpenid, array $openidList)
     {
         $params = [
             'openid_list' => $openidList
@@ -438,7 +438,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideBuyerRelationList(string $guideAccount, string $guideOpenid, int $page, int $num)
+    public function getBuyerRelations(string $guideAccount, string $guideOpenid, int $page, int $num)
     {
         $params = [
             'page' => $page,
@@ -458,7 +458,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function rebindGuideAcctForBuyer(string $oldGuideTarget, string $newGuideTarget, array $openidList, bool $useTargetOpenid = true)
+    public function rebindBuyerGuide(string $oldGuideTarget, string $newGuideTarget, array $openidList, bool $useTargetOpenid = true)
     {
         $params = [
             'openid_list' => $openidList
@@ -483,7 +483,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function updateGuideBuyerRelation(string $guideAccount, string $guideOpenid, string $openid, string $nickname)
+    public function updateBuyerRelation(string $guideAccount, string $guideOpenid, string $openid, string $nickname)
     {
         $params = [
             'openid' => $openid,
@@ -500,7 +500,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideBuyerRelationByBuyer(string $openid)
+    public function getBuyerRelation(string $openid)
     {
         $params = [
             'openid' => $openid
@@ -517,11 +517,12 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideBuyerRelation(string $guideAccount, string $guideOpenid, string $openid)
+    public function getBuyerRelationByGuide(string $guideAccount, string $guideOpenid, string $openid)
     {
         $params = [
             'openid' => $openid
         ];
+        $params = $this->selectAccountAndOpenid($params, $guideAccount, $guideOpenid);
 
         return $this->httpPostJson('cgi-bin/guide/getguidebuyerrelation', $params);
     }
@@ -533,7 +534,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function newGuideTagOption(string $tagName, array $tagValues)
+    public function newTagOption(string $tagName, array $tagValues)
     {
         $params = [
             'tag_name' => $tagName,
@@ -549,7 +550,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function delGuideTagOption(string $tagName)
+    public function deleteTagOption(string $tagName)
     {
         $params = [
             'tag_name' => $tagName
@@ -565,7 +566,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function addGuideTagOption(string $tagName, array $tagValues)
+    public function createTagOption(string $tagName, array $tagValues)
     {
         $params = [
             'tag_name' => $tagName,
@@ -580,7 +581,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideTagOption()
+    public function getTagOption()
     {
         return $this->httpPostJson('cgi-bin/guide/getguidetagoption', array());
     }
@@ -594,7 +595,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function addGuideBuyerTag(string $guideAccount, string $guideOpenid, array $openidList, string $tagValue)
+    public function setBuyersTag(string $guideAccount, string $guideOpenid, array $openidList, string $tagValue)
     {
         $params = [
             'tag_value' => $tagValue,
@@ -613,7 +614,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideBuyerTag(string $guideAccount, string $guideOpenid, string $openid)
+    public function getBuyerTags(string $guideAccount, string $guideOpenid, string $openid)
     {
         $params = [
             'openid' => $openid
@@ -632,7 +633,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function queryGuideBuyerByTag(string $guideAccount, string $guideOpenid, int $pushCount = 0, array $tagValues = array())
+    public function getBuyerByTag(string $guideAccount, string $guideOpenid, int $pushCount = 0, array $tagValues = array())
     {
         $params = $this->selectAccountAndOpenid(array(), $guideAccount, $guideOpenid);
         if ($pushCount > 0) {
@@ -654,7 +655,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function delGuideBuyerTag(string $guideAccount, string $guideOpenid, string $tagValue, array $openidList)
+    public function deleteBuyerTag(string $guideAccount, string $guideOpenid, string $tagValue, array $openidList)
     {
         $params = [
             'tag_value' => $tagValue
@@ -676,7 +677,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function addGuideBuyerDisplayTag(string $guideAccount, string $guideOpenid, string $openid, array $displayTagList)
+    public function setBuyerDisplayTags(string $guideAccount, string $guideOpenid, string $openid, array $displayTagList)
     {
         $params = [
             'openid' => $openid,
@@ -695,7 +696,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function getGuideBuyerDisplayTag(string $guideAccount, string $guideOpenid, string $openid)
+    public function getBuyerDisplayTags(string $guideAccount, string $guideOpenid, string $openid)
     {
         $params = [
             'openid' => $openid
@@ -715,7 +716,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function setCardMaterial(string $mediaId, string $title, string $path, string $appid, int $type = 0)
+    public function createCardMaterial(string $mediaId, string $title, string $path, string $appid, int $type = 0)
     {
         $params = [
             'media_id' => $mediaId,
@@ -771,7 +772,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function setImageMaterial(string $mediaId, int $type = 0)
+    public function createImageMaterial(string $mediaId, int $type = 0)
     {
         $params = [
             'media_id' => $mediaId,
@@ -824,7 +825,7 @@ class Client extends BaseClient
      * @return array|Collection|object|ResponseInterface|string
      * @throws InvalidConfigException
      */
-    public function setWordMaterial(int $type, string $word)
+    public function createWordMaterial(int $type, string $word)
     {
         $params = [
             'type' => $type,

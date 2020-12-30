@@ -34,18 +34,19 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function createDepartment(string $name,int $parentId,int $type,int $standardGrade,int $registerYear,int $order,array $departmentAdmins)
+    public function createDepartment(string $name, int $parentId, int $type, int $standardGrade, int $registerYear, int $order, array $departmentAdmins)
     {
         $params = [
-            'name'  => $name,
-            'parentid'  => $parentId,
-            'type'  => $type,
-            'standard_grade'    => $standardGrade,
-            'register_year'     => $registerYear,
+            'name' => $name,
+            'parentid' => $parentId,
+            'type' => $type,
+            'standard_grade' => $standardGrade,
+            'register_year' => $registerYear,
             'order' => $order,
             'department_admins' => $departmentAdmins
         ];
-        return $this->httpPostJson('cgi-bin/school/department/create',$params);
+
+        return $this->httpPostJson('cgi-bin/school/department/create', $params);
     }
 
     /**
@@ -62,20 +63,21 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function updateDepartment(int $id,string $name,int $parentId,int $type,int $standardGrade,int $registerYear,int $order,array $departmentAdmins)
+    public function updateDepartment(int $id, string $name, int $parentId, int $type, int $standardGrade, int $registerYear, int $order, array $departmentAdmins)
     {
         $params = [
-            'id'    => $id,
-            'name'  => $name,
-            'parentid'  => $parentId,
-            'type'  => $type,
-            'standard_grade'    => $standardGrade,
-            'register_year'     => $registerYear,
+            'id' => $id,
+            'name' => $name,
+            'parentid' => $parentId,
+            'type' => $type,
+            'standard_grade' => $standardGrade,
+            'register_year' => $registerYear,
             'order' => $order,
             'department_admins' => $departmentAdmins
         ];
         $params = $this->filterNullValue($params);
-        return $this->httpPostJson('cgi-bin/school/department/update',$params);
+
+        return $this->httpPostJson('cgi-bin/school/department/update', $params);
     }
 
     /**
@@ -87,8 +89,8 @@ class SchoolClient extends BaseClient
      */
     public function deleteDepartment(int $id)
     {
-        return $this->httpGet('cgi-bin/school/department/delete',[
-            'id'    => $id
+        return $this->httpGet('cgi-bin/school/department/delete', [
+            'id' => $id
         ]);
     }
 
@@ -99,19 +101,17 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function listDepartment(int $id)
+    public function getDepartments(int $id)
     {
-        if ($id > 0)
-        {
+        if ($id > 0) {
             $params = [
-                'id'    => $id
+                'id' => $id
             ];
-        }
-        else
-        {
+        } else {
             $params = [];
         }
-        return $this->httpGet('cgi-bin/school/department/list',$params);
+
+        return $this->httpGet('cgi-bin/school/department/list', $params);
     }
 
     /**
@@ -123,14 +123,15 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function createStudent(string $userId,string $name,array $department)
+    public function createStudent(string $userId, string $name, array $department)
     {
         $params = [
-            'student_userid'    => $userId,
-            'name'  => $name,
-            'department'    => $department
+            'student_userid' => $userId,
+            'name' => $name,
+            'department' => $department
         ];
-        return $this->httpPostJson('cgi-bin/school/user/create_student',$params);
+
+        return $this->httpPostJson('cgi-bin/school/user/create_student', $params);
     }
 
     /**
@@ -142,8 +143,8 @@ class SchoolClient extends BaseClient
      */
     public function deleteStudent(string $userId)
     {
-        return $this->httpGet('cgi-bin/school/user/delete_student',[
-            'userid'    => $userId
+        return $this->httpGet('cgi-bin/school/user/delete_student', [
+            'userid' => $userId
         ]);
     }
 
@@ -157,23 +158,22 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function updateStudent(string $userId,string $name,string $newUserId,array $department)
+    public function updateStudent(string $userId, string $name, string $newUserId, array $department)
     {
         $params = [
-            'student_userid'    => $userId
+            'student_userid' => $userId
         ];
-        if (! empty($name))
-        {
+        if (!empty($name)) {
             $params['name'] = $name;
         }
-        if (! empty($newUserId)){
+        if (!empty($newUserId)) {
             $params['new_student_userid'] = $newUserId;
         }
-        if (! empty($department))
-        {
+        if (!empty($department)) {
             $params['department'] = $department;
         }
-        return $this->httpPostJson('cgi-bin/school/user/update_student',$params);
+
+        return $this->httpPostJson('cgi-bin/school/user/update_student', $params);
     }
 
     /**
@@ -183,12 +183,13 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function batchCreateStudent(array $students)
+    public function batchCreateStudents(array $students)
     {
         $params = [
-            'students'  => $students
+            'students' => $students
         ];
-        return $this->httpPostJson('cgi-bin/school/user/batch_create_student',$params);
+
+        return $this->httpPostJson('cgi-bin/school/user/batch_create_student', $params);
     }
 
     /**
@@ -198,10 +199,10 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function batchDeleteStudent(array $useridList)
+    public function batchDeleteStudents(array $useridList)
     {
-        return $this->httpPostJson('cgi-bin/school/user/batch_delete_student',[
-            'useridlist'    => $useridList
+        return $this->httpPostJson('cgi-bin/school/user/batch_delete_student', [
+            'useridlist' => $useridList
         ]);
     }
 
@@ -212,10 +213,10 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function batchUpdateStudent(array $students)
+    public function batchUpdateStudents(array $students)
     {
-        return $this->httpPostJson('cgi-bin/school/user/batch_update_student',[
-            'students'  => $students
+        return $this->httpPostJson('cgi-bin/school/user/batch_update_student', [
+            'students' => $students
         ]);
     }
 
@@ -229,15 +230,16 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function createParent(string $userId,string $mobile,bool $toInvite,array $children)
+    public function createParent(string $userId, string $mobile, bool $toInvite, array $children)
     {
         $params = [
             'parent_userid' => $userId,
-            'mobile'        => $mobile,
-            'to_invite'     => $toInvite,
-            'children'      => $children
+            'mobile' => $mobile,
+            'to_invite' => $toInvite,
+            'children' => $children
         ];
-        return $this->httpPostJson('cgi-bin/school/user/create_parent',$params);
+
+        return $this->httpPostJson('cgi-bin/school/user/create_parent', $params);
     }
 
     /**
@@ -249,8 +251,8 @@ class SchoolClient extends BaseClient
      */
     public function deleteParent(string $userId)
     {
-        return $this->httpPostJson('cgi-bin/school/user/delete_parent',[
-            'userid'    => $userId
+        return $this->httpPostJson('cgi-bin/school/user/delete_parent', [
+            'userid' => $userId
         ]);
     }
 
@@ -264,23 +266,22 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function updateParent(string $userId,string $mobile,string $newUserId,array $children)
+    public function updateParent(string $userId, string $mobile, string $newUserId, array $children)
     {
         $params = [
             'parent_userid' => $userId
         ];
-        if (! empty($newUserId))
-        {
+        if (!empty($newUserId)) {
             $params['new_parent_userid'] = $newUserId;
         }
-        if (! empty($mobile)){
+        if (!empty($mobile)) {
             $params['mobile'] = $mobile;
         }
-        if (! empty($children))
-        {
+        if (!empty($children)) {
             $params['children'] = $children;
         }
-        return $this->httpPostJson('cgi-bin/school/user/update_parent',$params);
+
+        return $this->httpPostJson('cgi-bin/school/user/update_parent', $params);
     }
 
     /**
@@ -290,10 +291,10 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function batchCreateParent(array $parents)
+    public function batchCreateParents(array $parents)
     {
-        return $this->httpPostJson('cgi-bin/school/user/batch_create_parent',[
-            'parents'   => $parents
+        return $this->httpPostJson('cgi-bin/school/user/batch_create_parent', [
+            'parents' => $parents
         ]);
     }
 
@@ -304,10 +305,10 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function batchDeleteParent(array $userIdList)
+    public function batchDeleteParents(array $userIdList)
     {
-        return $this->httpPostJson('cgi-bin/school/user/batch_delete_parent',[
-            'useridlist'    => $userIdList
+        return $this->httpPostJson('cgi-bin/school/user/batch_delete_parent', [
+            'useridlist' => $userIdList
         ]);
     }
 
@@ -318,10 +319,10 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function batchUpdateParent(array $parents)
+    public function batchUpdateParents(array $parents)
     {
-        return $this->httpPostJson('cgi-bin/school/user/batch_update_parent',[
-            'parents'   => $parents
+        return $this->httpPostJson('cgi-bin/school/user/batch_update_parent', [
+            'parents' => $parents
         ]);
     }
 
@@ -332,10 +333,10 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function get(string $userId)
+    public function getUser(string $userId)
     {
-        return $this->httpGet('cgi-bin/school/user/get',[
-            'userid'    => $userId
+        return $this->httpGet('cgi-bin/school/user/get', [
+            'userid' => $userId
         ]);
     }
 
@@ -347,20 +348,18 @@ class SchoolClient extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function listStudent(int $departmentId,bool $fetchChild)
+    public function getStudents(int $departmentId, bool $fetchChild)
     {
         $params = [
             'department_id' => $departmentId
         ];
-        if ($fetchChild)
-        {
+        if ($fetchChild) {
             $params['fetch_child'] = 1;
-        }
-        else
-        {
+        } else {
             $params['fetch_child'] = 0;
         }
-        return $this->httpGet('cgi-bin/school/user/list',$params);
+
+        return $this->httpGet('cgi-bin/school/user/list', $params);
     }
 
     /**
@@ -383,8 +382,8 @@ class SchoolClient extends BaseClient
      */
     public function setSubscribeMode(int $mode)
     {
-        return $this->httpPostJson('cgi-bin/externalcontact/set_subscribe_mode',[
-            'subscribe_mode'    => $mode
+        return $this->httpPostJson('cgi-bin/externalcontact/set_subscribe_mode', [
+            'subscribe_mode' => $mode
         ]);
     }
 
@@ -408,7 +407,7 @@ class SchoolClient extends BaseClient
      */
     public function setTeacherViewMode(int $mode)
     {
-        return $this->httpPostJson('cgi-bin/school/set_teacher_view_mode',[
+        return $this->httpPostJson('cgi-bin/school/set_teacher_view_mode', [
             'view_mode' => $mode
         ]);
     }
@@ -432,11 +431,12 @@ class SchoolClient extends BaseClient
     protected function filterNullValue(array $data)
     {
         $returnData = [];
-        foreach ($data as $key => $value){
-            if ($value !== null){
+        foreach ($data as $key => $value) {
+            if ($value !== null) {
                 $returnData[$key] = trim($value);
             }
         }
+
         return $returnData;
     }
 }
