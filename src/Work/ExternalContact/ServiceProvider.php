@@ -41,5 +41,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['external_contact_message'] = function ($app) {
             return new MessageClient($app);
         };
+
+        $app['school'] = function ($app){
+            return new SchoolClient($app);
+        };
     }
 }
