@@ -19,7 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class Client.
  *
- * @author overtrue <i@overtrue.me>
+ * @author MillsGuo <millsguo@gmail.com>
  */
 class Client extends BaseClient
 {
