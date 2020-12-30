@@ -44,6 +44,7 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\Schedule\Client                  $schedule
  * @property \EasyWeChat\Work\MsgAudit\Client                  $msg_audit
  * @property \EasyWeChat\Work\Live\Client                      $live
+ * @property \EasyWeChat\Work\ExternalContact\SchoolClient     $school
  *
  * @method mixed getCallbackIp()
  */

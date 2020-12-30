@@ -12,6 +12,7 @@
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Traits\ResponseCastable;
 use EasyWeChat\MiniProgram\Encryptor;
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
@@ -20,13 +21,15 @@ use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account\Client as Account
 use EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application as OfficialAccount;
 use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 
+use function EasyWeChat\Kernel\data_get;
+
 /**
  * Class Application.
  *
- * @property \EasyWeChat\OpenPlatform\Server\Guard        $server
- * @property \EasyWeChat\OpenPlatform\Auth\AccessToken    $access_token
+ * @property \EasyWeChat\OpenPlatform\Server\Guard $server
+ * @property \EasyWeChat\OpenPlatform\Auth\AccessToken $access_token
  * @property \EasyWeChat\OpenPlatform\CodeTemplate\Client $code_template
- * @property \EasyWeChat\OpenPlatform\Component\Client    $component
+ * @property \EasyWeChat\OpenPlatform\Component\Client $component
  *
  * @method mixed handleAuthorize(string $authCode = null)
  * @method mixed getAuthorizer(string $appId)
@@ -37,6 +40,8 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
  */
 class Application extends ServiceContainer
 {
+    use ResponseCastable;
+
     /**
      * @var array
      */
@@ -61,21 +66,27 @@ class Application extends ServiceContainer
     /**
      * Creates the officialAccount application.
      *
-     * @param string                                                    $appId
-     * @param string|null                                               $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
+     * @param  string  $appId
+     * @param  string|null  $refreshToken
+     * @param  \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null  $accessToken
      *
      * @return \EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Application
      */
-    public function officialAccount(string $appId, string $refreshToken = null, AccessToken $accessToken = null): OfficialAccount
-    {
-        $application = new OfficialAccount($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
-            'encryptor' => $this['encryptor'],
+    public function officialAccount(
+        string $appId,
+        string $refreshToken = null,
+        AccessToken $accessToken = null
+    ): OfficialAccount {
+        $application = new OfficialAccount(
+            $this->getAuthorizerConfig($appId, $refreshToken),
+            $this->getReplaceServices($accessToken) + [
+                'encryptor' => $this['encryptor'],
 
-            'account' => function ($app) {
-                return new AccountClient($app, $this);
-            },
-        ]);
+                'account' => function ($app) {
+                    return new AccountClient($app, $this);
+                },
+            ]
+        );
 
         $application->extend('oauth', function ($socialite) {
             /* @var \Overtrue\Socialite\Providers\WeChat $socialite */
@@ -88,32 +99,43 @@ class Application extends ServiceContainer
     /**
      * Creates the miniProgram application.
      *
-     * @param string                                                    $appId
-     * @param string|null                                               $refreshToken
-     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
+     * @param  string  $appId
+     * @param  string|null  $refreshToken
+     * @param  \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null  $accessToken
      *
      * @return \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application
      */
-    public function miniProgram(string $appId, string $refreshToken = null, AccessToken $accessToken = null): MiniProgram
-    {
-        return new MiniProgram($this->getAuthorizerConfig($appId, $refreshToken), $this->getReplaceServices($accessToken) + [
-            'encryptor' => function () {
-                return new Encryptor($this['config']['app_id'], $this['config']['token'], $this['config']['aes_key']);
-            },
+    public function miniProgram(
+        string $appId,
+        string $refreshToken = null,
+        AccessToken $accessToken = null
+    ): MiniProgram {
+        return new MiniProgram(
+            $this->getAuthorizerConfig($appId, $refreshToken),
+            $this->getReplaceServices($accessToken) + [
+                'encryptor' => function () {
+                    return new Encryptor(
+                        $this['config']['app_id'],
+                        $this['config']['token'],
+                        $this['config']['aes_key']
+                    );
+                },
 
-            'auth' => function ($app) {
-                return new Client($app, $this);
-            },
-        ]);
+                'auth' => function ($app) {
+                    return new Client($app, $this);
+                },
+            ]
+        );
     }
 
     /**
      * Return the pre-authorization login page url.
      *
-     * @param string            $callbackUrl
-     * @param string|array|null $optional
+     * @param  string  $callbackUrl
+     * @param  string|array|null  $optional
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getPreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -123,7 +145,7 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
+            $optional['pre_auth_code'] = data_get($this->createPreAuthorizationCode(), 'pre_auth_code');
         }
 
         $queries = \array_merge($optional, [
@@ -137,10 +159,11 @@ class Application extends ServiceContainer
     /**
      * Return the pre-authorization login page url (mobile).
      *
-     * @param string            $callbackUrl
-     * @param string|array|null $optional
+     * @param  string  $callbackUrl
+     * @param  string|array|null  $optional
      *
      * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function getMobilePreAuthorizationUrl(string $callbackUrl, $optional = []): string
     {
@@ -150,10 +173,10 @@ class Application extends ServiceContainer
                 'pre_auth_code' => $optional,
             ];
         } else {
-            $optional['pre_auth_code'] = $this->createPreAuthorizationCode()['pre_auth_code'];
+            $optional['pre_auth_code'] = data_get($this->createPreAuthorizationCode(), 'pre_auth_code');
         }
 
-        $queries = \array_merge($optional, [
+        $queries = \array_merge(['auth_type' => 3], $optional, [
             'component_appid' => $this['config']['app_id'],
             'redirect_uri' => $callbackUrl,
             'action' => 'bindcomponent',
@@ -164,8 +187,8 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param string      $appId
-     * @param string|null $refreshToken
+     * @param  string  $appId
+     * @param  string|null  $refreshToken
      *
      * @return array
      */
@@ -180,7 +203,7 @@ class Application extends ServiceContainer
     }
 
     /**
-     * @param \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null $accessToken
+     * @param  \EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken|null  $accessToken
      *
      * @return array
      */
@@ -208,8 +231,8 @@ class Application extends ServiceContainer
     /**
      * Handle dynamic calls.
      *
-     * @param string $method
-     * @param array  $args
+     * @param  string  $method
+     * @param  array  $args
      *
      * @return mixed
      */

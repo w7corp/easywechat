@@ -56,12 +56,12 @@ class ApplicationTest extends TestCase
         });
 
         $this->assertSame(
-            'https://mp.weixin.qq.com/safe/bindcomponent?pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
+            'https://mp.weixin.qq.com/safe/bindcomponent?auth_type=3&pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
             $app->getMobilePreAuthorizationUrl('https://easywechat.com/callback')
         );
 
         $this->assertSame(
-            'https://mp.weixin.qq.com/safe/bindcomponent?pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
+            'https://mp.weixin.qq.com/safe/bindcomponent?auth_type=3&pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
             $app->getMobilePreAuthorizationUrl('https://easywechat.com/callback', 'auth-code@123456')
         );
     }
