@@ -25,10 +25,10 @@ class StatisticsClient extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92132
      *
-     * @param array $userIds
-     * @param array $partyIds
-     * @param int $startTime
-     * @param int $endTime
+     * @param array  $userIds
+     * @param string $from
+     * @param string $to
+     * @param array  $partyIds
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -36,13 +36,13 @@ class StatisticsClient extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getUserBehaviorData(array $userIds, array $partyIds, int $startTime, int $endTime)
+    public function userBehavior(array $userIds, string $from, string $to, array $partyIds = [])
     {
         $params = [
             'userid' => $userIds,
             'partyid' => $partyIds,
-            'start_time' => $startTime,
-            'end_time' => $endTime
+            'start_time' => $from,
+            'end_time' => $to,
         ];
         return $this->httpPostJson('cgi-bin/externalcontact/get_user_behavior_data', $params);
     }

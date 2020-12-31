@@ -21,14 +21,17 @@ class StatisticsTest extends TestCase
         $client = $this->mockApiClient(StatisticsClient::class);
 
         $params = [
-            'userid' => ['userid1', 'userid2'],
-            'partyid' => ['partyid1', 'partyid12'],
-            'start_time' => 1601789900,
-            'end_time' => 1602789900
+            'userid' => [
+                'zhangsan',
+                'lisi',
+            ],
+            'partyid' => [],
+            'start_time' => 1536508800,
+            'end_time' => 1536940800,
         ];
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_user_behavior_data', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getUserBehaviorData(['userid1', 'userid2'], ['partyid1', 'partyid12'], 1601789900, 1602789900));
+        $this->assertSame('mock-result', $client->userBehavior(['zhangsan', 'lisi'], 1536508800, 1536940800,[]));
     }
 
     public function testGroupChatStatistic(): void
