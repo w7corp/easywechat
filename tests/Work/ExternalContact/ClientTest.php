@@ -37,6 +37,63 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->getFollowUsers());
     }
 
+    public function testList(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'userid' => 'zhangsan'
+        ];
+        $client->expects()->httpGet('cgi-bin/externalcontact/list',$params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->list('zhangsan'));
+    }
+
+    public function testGet(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'external_userid' => 'woAJ2GCAAAXtWyujaWJHDDGi0mACH71w',
+        ];
+        $client->expects()->httpGet('cgi-bin/externalcontact/get',$params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->get('woAJ2GCAAAXtWyujaWJHDDGi0mACH71w'));
+    }
+
+
+    public function testBatchGet(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'userid' => 'rocky',
+            'cursor' => '',
+            'limit' => 1000,
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/batch/get_by_user',$params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->batchGet('rocky','',1000));
+    }
+
+    public function testRemark(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params  = [
+            'userid'=>'员工id',
+            'external_userid'=>'客户id',
+            'remark'=> '新备注',
+            'description'=>'新描述',
+            'remark_company'=>'新公司',
+            'remark_mobiles'=>[ '电话1','电话2'],
+            'remark_pic_mediaid'=> 'MEDIAID'
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/remark',$params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->remark($params));
+    }
+
     public function testGetUnassigned()
     {
         $client = $this->mockApiClient(Client::class);
@@ -63,5 +120,140 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/externalcontact/transfer', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->transfer('mock-external-userid', 'mock-handover-userid', 'mock-takeover-userid', 'message'));
+    }
+
+    public function testTransferGroupChat(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'chat_id_list' => ['群聊id1', '群聊id2'],
+            'new_owner' => '接替群主userid'
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/transfer', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->transferGroupChat(['群聊id1', '群聊id2'], '接替群主userid'));
+    }
+
+    public function testGetTransferResult(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'external_userid' => 'woAJ2GCAAAXtWyujaWJHDDGi0mACH71w',
+            'handover_userid' => 'zhangsan',
+            'takeover_userid' => 'lisi',
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/get_transfer_result', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getTransferResult('woAJ2GCAAAXtWyujaWJHDDGi0mACH71w', 'zhangsan', 'lisi'));
+    }
+
+    public function testGetGroupChats(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'status_filter' => 0,
+            'owner_filter' => [
+                'userid_list' => ['abel'],
+                'partyid_list' => [7]
+            ],
+            'offset' => 0,
+            'limit' => 100
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/list', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->GetGroupChats($params));
+    }
+
+    public function testGetGroupChat(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'chat_id' => 'CHAT_ID_1'
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/get', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getGroupChat('CHAT_ID_1'));
+    }
+
+    public function testGetCorpTags(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'tag_id' => ['TAG_ID_1', 'TAG_ID_2']
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/get_corp_tag_list', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getCorpTags(['TAG_ID_1', 'TAG_ID_2']));
+    }
+
+    public function testAddCorpTag(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'group_id' => 'GROUP_ID',
+            'group_name' => 'GROUP_NAME',
+            'order' => 1,
+            'tag' => [
+                [
+                    'name' => 'TAG_NAME_1',
+                    'order' => 1
+                ],
+                [
+                    'name' => 'TAG_NAME_2',
+                    'order' => 2
+                ]
+            ]
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/add_corp_tag', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->addCorpTag($params));
+    }
+
+    public function testUpdateCorpTag(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'id' => 'id1',
+            'name' => 'name',
+            'order' => 10000,
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/edit_corp_tag', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->updateCorpTag('id1', 'name', 10000));
+    }
+
+    public function testDeleteCorpTag(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'tag_id' => ['tagid1', 'tagid2'],
+            'group_id' => ['groupid1', 'groupid2']
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/del_corp_tag', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->deleteCorpTag(['tagid1', 'tagid2'], ['groupid1', 'groupid2']));
+    }
+
+    public function testMarkTags(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'userid' => 'zhangsan',
+            'external_userid' => 'woAJ2GCAAAd1NPGHKSD4wKmE8Aabj9AAA',
+            'add_tag' => ['TAGID1', 'TAGID2'],
+            'remove_tag' => ['TAGID3', 'TAGID4']
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/mark_tag', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->markTags($params));
     }
 }

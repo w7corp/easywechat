@@ -21,15 +21,50 @@ class StatisticsTest extends TestCase
         $client = $this->mockApiClient(StatisticsClient::class);
 
         $params = [
-            'userid' => [
-                'zhangsan',
-                'lisi',
-            ],
-            'start_time' => 1536508800,
-            'end_time' => 1536940800,
+            'userid' => ['userid1', 'userid2'],
+            'partyid' => ['partyid1', 'partyid12'],
+            'start_time' => 1601789900,
+            'end_time' => 1602789900
         ];
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_user_behavior_data', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->userBehavior(['zhangsan', 'lisi'], 1536508800, 1536940800));
+        $this->assertSame('mock-result', $client->getUserBehaviorData(['userid1', 'userid2'], ['partyid1', 'partyid12'], 1601789900, 1602789900));
+    }
+
+    public function testGroupChatStatistic(): void
+    {
+        $client = $this->mockApiClient(StatisticsClient::class);
+
+        $params = [
+            'day_begin_time' => 1600272000,
+            'day_end_time' => 1600444800,
+            'owner_filter' => [
+                'userid_list' => ['zhangsan']
+            ],
+            'order_by' => 2,
+            'order_asc' => 0,
+            'offset' => 0,
+            'limit' => 1000
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/statistic', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->groupChatStatistic($params));
+    }
+
+
+    public function testGroupChatStatisticGroupByDay(): void
+    {
+        $client = $this->mockApiClient(StatisticsClient::class);
+
+        $params = [
+            'day_begin_time' => 1600272000,
+            'day_end_time' => 1600444800,
+            'owner_filter' => [
+                'userid_list' => ['userid1', 'userid2']
+            ]
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/statistic_group_by_day', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->groupChatStatisticGroupByDay(1600272000, 1600444800, ['userid1', 'userid2']));
     }
 }

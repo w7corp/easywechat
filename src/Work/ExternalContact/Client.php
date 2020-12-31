@@ -384,5 +384,4 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/externalcontact/mark_tag', $params);
     }
-
 }

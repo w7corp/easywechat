@@ -25,8 +25,8 @@ class StatisticsClient extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92132
      *
-     * @param array $userids
-     * @param array $partyids
+     * @param array $userIds
+     * @param array $partyIds
      * @param int $startTime
      * @param int $endTime
      *
@@ -36,13 +36,13 @@ class StatisticsClient extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getUserBehaviorData(array $userids, array $partyids, int $startTime, int $endTime)
+    public function getUserBehaviorData(array $userIds, array $partyIds, int $startTime, int $endTime)
     {
         $params = [
-            "userid" => $userids,
-            "partyid" => $partyids,
-            "start_time" => $startTime,
-            "end_time" => $endTime
+            'userid' => $userIds,
+            'partyid' => $partyIds,
+            'start_time' => $startTime,
+            'end_time' => $endTime
         ];
         return $this->httpPostJson('cgi-bin/externalcontact/get_user_behavior_data', $params);
     }
@@ -74,7 +74,7 @@ class StatisticsClient extends BaseClient
      *
      * @param int $dayBeginTime
      * @param int $dayEndTime
-     * @param array $userids
+     * @param array $userIds
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -82,13 +82,13 @@ class StatisticsClient extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function groupChatStatisticGroupByDay(int $dayBeginTime, int $dayEndTime, array $userids)
+    public function groupChatStatisticGroupByDay(int $dayBeginTime, int $dayEndTime, array $userIds)
     {
         $params = [
-            "day_begin_time" => $dayBeginTime,
-            "day_end_time" => $dayEndTime,
-            "owner_filter" => [
-                "userid_list" => $userids
+            'day_begin_time' => $dayBeginTime,
+            'day_end_time' => $dayEndTime,
+            'owner_filter' => [
+                'userid_list' => $userIds
             ]
         ];
         return $this->httpPostJson('cgi-bin/externalcontact/groupchat/statistic_group_by_day', $params);
