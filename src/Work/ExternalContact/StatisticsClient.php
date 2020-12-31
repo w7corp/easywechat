@@ -82,7 +82,7 @@ class StatisticsClient extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function groupChatStatisticGroupByDay(int $dayBeginTime, int $dayEndTime, array $userIds)
+    public function groupChatStatisticGroupByDay(int $dayBeginTime, int $dayEndTime, array $userIds = [])
     {
         $params = [
             'day_begin_time' => $dayBeginTime,
@@ -93,5 +93,4 @@ class StatisticsClient extends BaseClient
         ];
         return $this->httpPostJson('cgi-bin/externalcontact/groupchat/statistic_group_by_day', $params);
     }
-
 }

@@ -44,7 +44,7 @@ class ClientTest extends TestCase
         $params = [
             'userid' => 'zhangsan'
         ];
-        $client->expects()->httpGet('cgi-bin/externalcontact/list',$params)->andReturn('mock-result');
+        $client->expects()->httpGet('cgi-bin/externalcontact/list', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list('zhangsan'));
     }
@@ -56,7 +56,7 @@ class ClientTest extends TestCase
         $params = [
             'external_userid' => 'woAJ2GCAAAXtWyujaWJHDDGi0mACH71w',
         ];
-        $client->expects()->httpGet('cgi-bin/externalcontact/get',$params)->andReturn('mock-result');
+        $client->expects()->httpGet('cgi-bin/externalcontact/get', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->get('woAJ2GCAAAXtWyujaWJHDDGi0mACH71w'));
     }
@@ -71,25 +71,25 @@ class ClientTest extends TestCase
             'cursor' => '',
             'limit' => 1000,
         ];
-        $client->expects()->httpPostJson('cgi-bin/externalcontact/batch/get_by_user',$params)->andReturn('mock-result');
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->batchGet('rocky','',1000));
+        $this->assertSame('mock-result', $client->batchGet('rocky', '', 1000));
     }
 
     public function testRemark(): void
     {
         $client = $this->mockApiClient(Client::class);
 
-        $params  = [
-            'userid'=>'员工id',
-            'external_userid'=>'客户id',
-            'remark'=> '新备注',
-            'description'=>'新描述',
-            'remark_company'=>'新公司',
-            'remark_mobiles'=>[ '电话1','电话2'],
-            'remark_pic_mediaid'=> 'MEDIAID'
+        $params = [
+            'userid' => '员工id',
+            'external_userid' => '客户id',
+            'remark' => '新备注',
+            'description' => '新描述',
+            'remark_company' => '新公司',
+            'remark_mobiles' => [ '电话1','电话2'],
+            'remark_pic_mediaid' => 'MEDIAID'
         ];
-        $client->expects()->httpPostJson('cgi-bin/externalcontact/remark',$params)->andReturn('mock-result');
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/remark', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->remark($params));
     }
