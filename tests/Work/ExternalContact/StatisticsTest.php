@@ -31,7 +31,7 @@ class StatisticsTest extends TestCase
         ];
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_user_behavior_data', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->userBehavior(['zhangsan', 'lisi'], 1536508800, 1536940800,[]));
+        $this->assertSame('mock-result', $client->userBehavior(['zhangsan', 'lisi'], 1536508800, 1536940800, []));
     }
 
     public function testGroupChatStatistic(): void
