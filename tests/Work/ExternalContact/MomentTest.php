@@ -16,7 +16,6 @@ use EasyWeChat\Work\ExternalContact\MomentClient;
 
 class MomentTest extends TestCase
 {
-
     public function testList(): void
     {
         $client = $this->mockApiClient(MomentClient::class);
@@ -55,7 +54,7 @@ class MomentTest extends TestCase
         $client = $this->mockApiClient(MomentClient::class);
 
         $params = [
-            'momemt_id' => 'momxxx',
+            'moment_id' => 'momxxx',
             'userid' => 'xxx',
             'cursor' => 'CURSOR',
             'limit' => 10
@@ -71,7 +70,7 @@ class MomentTest extends TestCase
         $client = $this->mockApiClient(MomentClient::class);
 
         $params = [
-            'momemt_id' => 'momxxx',
+            'moment_id' => 'momxxx',
             'userid' => 'xxx',
             'cursor' => 'CURSOR',
             'limit' => 10
