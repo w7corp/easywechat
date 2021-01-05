@@ -45,5 +45,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['school'] = function ($app) {
             return new SchoolClient($app);
         };
+
+        $app['external_contact_moment'] = function ($app) {
+            return new MomentClient($app);
+        };
     }
 }
