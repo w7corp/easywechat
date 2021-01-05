@@ -49,7 +49,7 @@ class MomentClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function task(string $momentId, string $cursor, int $limit)
+    public function getTasks(string $momentId, string $cursor, int $limit)
     {
         $params = [
             'moment_id' => $momentId,
@@ -74,7 +74,7 @@ class MomentClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function customers(string $momentId, string $userId, string $cursor, int $limit)
+    public function getCustomers(string $momentId, string $userId, string $cursor, int $limit)
     {
         $params = [
             'moment_id' => $momentId,
@@ -100,7 +100,7 @@ class MomentClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function sendResult(string $momentId, string $userId, string $cursor, int $limit)
+    public function getSendResult(string $momentId, string $userId, string $cursor, int $limit)
     {
         $params = [
             'moment_id' => $momentId,
@@ -124,7 +124,7 @@ class MomentClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function comments(string $momentId, string $userId)
+    public function getComments(string $momentId, string $userId)
     {
         $params = [
             'moment_id' => $momentId,

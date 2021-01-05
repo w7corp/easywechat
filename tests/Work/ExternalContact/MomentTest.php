@@ -46,7 +46,7 @@ class MomentTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_moment_task', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->task('momxxx', 'CURSOR', 10));
+        $this->assertSame('mock-result', $client->getTasks('momxxx', 'CURSOR', 10));
     }
 
     public function testCustomers(): void
@@ -62,7 +62,7 @@ class MomentTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_moment_customer_list', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->customers('momxxx', 'xxx', 'CURSOR', 10));
+        $this->assertSame('mock-result', $client->getCustomers('momxxx', 'xxx', 'CURSOR', 10));
     }
 
     public function testSendResult(): void
@@ -78,7 +78,7 @@ class MomentTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_moment_send_result', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->sendResult('momxxx', 'xxx', 'CURSOR', 10));
+        $this->assertSame('mock-result', $client->getSendResult('momxxx', 'xxx', 'CURSOR', 10));
     }
 
     public function testComments(): void
@@ -92,6 +92,6 @@ class MomentTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_moment_comments', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->comments('momxxx', 'xxx'));
+        $this->assertSame('mock-result', $client->getComments('momxxx', 'xxx'));
     }
 }
