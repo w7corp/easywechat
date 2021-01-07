@@ -20,7 +20,6 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class Client extends BaseClient
 {
-
     /**
      * 获取应用共享信息.
      *

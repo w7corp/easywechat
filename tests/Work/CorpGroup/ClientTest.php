@@ -11,7 +11,6 @@
 
 namespace EasyWeChat\Tests\Work\CorpGroup;
 
-use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Work\CorpGroup\Client;
 use EasyWeChat\Tests\TestCase;
 
@@ -44,7 +43,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/corpgroup/corp/gettoken', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getToken('wwd216fa8c4c5c0e7x',100001));
+        $this->assertSame('mock-result', $client->getToken('wwd216fa8c4c5c0e7x', 100001));
     }
 
     public function testGetMiniProgramTransferSession()
@@ -58,6 +57,6 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/miniprogram/transfer_session', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getMiniProgramTransferSession('wmAoNVCwAAUrSqEqz7oQpEIEMVWDrPeg','n8cnNEoyW1pxSRz6/Lwjwg=='));
+        $this->assertSame('mock-result', $client->getMiniProgramTransferSession('wmAoNVCwAAUrSqEqz7oQpEIEMVWDrPeg', 'n8cnNEoyW1pxSRz6/Lwjwg=='));
     }
 }
