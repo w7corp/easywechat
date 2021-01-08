@@ -30,7 +30,7 @@ class LinkedCorpClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAgentPerms()
+    public function getAgentPermissions()
     {
         return $this->httpPostJson('cgi-bin/linkedcorp/agent/get_perm_list');
     }
@@ -47,7 +47,7 @@ class LinkedCorpClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(string $userId)
+    public function getUser(string $userId)
     {
         $params = [
             'userid' => $userId
@@ -69,7 +69,7 @@ class LinkedCorpClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function userSimples(string $departmentId, bool $fetchChild = true)
+    public function getUsers(string $departmentId, bool $fetchChild = true)
     {
         $params = [
             'department_id' => $departmentId,
@@ -92,7 +92,7 @@ class LinkedCorpClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function users(string $departmentId, bool $fetchChild = true)
+    public function getDetailedUsers(string $departmentId, bool $fetchChild = true)
     {
         $params = [
             'department_id' => $departmentId,
@@ -114,7 +114,7 @@ class LinkedCorpClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function departments(string $departmentId)
+    public function getDepartments(string $departmentId)
     {
         $params = [
             'department_id' => $departmentId,

@@ -16,16 +16,16 @@ use EasyWeChat\Work\User\LinkedCorpClient;
 
 class LinkedCorpClientTest extends TestCase
 {
-    public function testGetAgentPerms()
+    public function testGetAgentPermissions()
     {
         $client = $this->mockApiClient(LinkedCorpClient::class);
 
         $client->expects()->httpPostJson('cgi-bin/linkedcorp/agent/get_perm_list')->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getAgentPerms());
+        $this->assertSame('mock-result', $client->getAgentPermissions());
     }
 
-    public function testGet()
+    public function testGetUser()
     {
         $client = $this->mockApiClient(LinkedCorpClient::class);
 
@@ -35,10 +35,10 @@ class LinkedCorpClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/linkedcorp/user/get', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->get('CORPID/USERID'));
+        $this->assertSame('mock-result', $client->getUser('CORPID/USERID'));
     }
 
-    public function testUserSimples()
+    public function testGetUsers()
     {
         $client = $this->mockApiClient(LinkedCorpClient::class);
 
@@ -49,10 +49,10 @@ class LinkedCorpClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/linkedcorp/user/simplelist', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->userSimples('LINKEDID/DEPARTMENTID', true));
+        $this->assertSame('mock-result', $client->getUsers('LINKEDID/DEPARTMENTID', true));
     }
 
-    public function testUsers()
+    public function testGetDetailedUsers()
     {
         $client = $this->mockApiClient(LinkedCorpClient::class);
 
@@ -63,10 +63,10 @@ class LinkedCorpClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/linkedcorp/user/list', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->users('LINKEDID/DEPARTMENTID', true));
+        $this->assertSame('mock-result', $client->getDetailedUsers('LINKEDID/DEPARTMENTID', true));
     }
 
-    public function testDepartments()
+    public function testGetDepartments()
     {
         $client = $this->mockApiClient(LinkedCorpClient::class);
 
@@ -76,6 +76,6 @@ class LinkedCorpClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/linkedcorp/department/list', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->departments('LINKEDID/DEPARTMENTID'));
+        $this->assertSame('mock-result', $client->getDepartments('LINKEDID/DEPARTMENTID'));
     }
 }
