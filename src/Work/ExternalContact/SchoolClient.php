@@ -424,6 +424,33 @@ class SchoolClient extends BaseClient
     }
 
     /**
+     * 获取外部联系人详情
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92322
+     * @param string $userId
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getDetail(string $userId)
+    {
+        return $this->httpGet('cgi-bin/externalcontact/get',[
+            'external_userid'   => $userId
+        ]);
+    }
+
+    /**
+     * 外部联系人OPENID转换
+     * @param string $userId
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function convertOpenid(string $userId)
+    {
+        return $this->httpGet('cgi-bin/externalcontact/convert_to_openid',[
+            'external_userid'   => $userId
+        ]);
+    }
+
+    /**
      * 过滤数组中值为NULL的键
      * @param array $data
      * @return array
@@ -439,4 +466,6 @@ class SchoolClient extends BaseClient
 
         return $returnData;
     }
+
+
 }
