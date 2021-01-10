@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Payment\Kernel;
 
@@ -18,11 +11,6 @@ use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class BaseClient.
- *
- * @author overtrue <i@overtrue.me>
- */
 class BaseClient
 {
     use HasHttpRequests { request as performRequest; }

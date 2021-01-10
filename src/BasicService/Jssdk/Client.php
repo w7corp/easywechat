@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\BasicService\Jssdk;
 
@@ -16,11 +9,6 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\Kernel\Traits\InteractsWithCache;
 
-/**
- * Class Client.
- *
- * @author overtrue <i@overtrue.me>
- */
 class Client extends BaseClient
 {
     use InteractsWithCache;
@@ -28,7 +16,7 @@ class Client extends BaseClient
     /**
      * @var string
      */
-    protected $ticketEndpoint = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
+    protected string  $ticketEndpoint = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
 
     /**
      * Current URI.
@@ -63,7 +51,11 @@ class Client extends BaseClient
     }
 
     /**
-     * Return jsapi config as a PHP array.
+     * Return jsapi config as a <?php
+
+declare(strict_types=1);
+
+ array.
      *
      * @param array       $apis
      * @param bool        $debug

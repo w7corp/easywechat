@@ -1,19 +1,10 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Messages;
 
 /**
- * Class Text.
- *
  * @property string $content
  */
 class Text extends Message
@@ -30,11 +21,9 @@ class Text extends Message
      *
      * @var array
      */
-    protected $properties = ['content'];
+    protected array $properties = ['content'];
 
     /**
-     * Text constructor.
-     *
      * @param string $content
      */
     public function __construct(string $content = '')

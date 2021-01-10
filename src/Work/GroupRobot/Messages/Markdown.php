@@ -1,36 +1,22 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Work\GroupRobot\Messages;
 
-/**
- * Class Markdown.
- *
- * @author her-cat <i@her-cat.com>
- */
 class Markdown extends Message
 {
     /**
      * @var string
      */
-    protected $type = 'markdown';
+    protected string  $type = 'markdown';
 
     /**
      * @var array
      */
-    protected $properties = ['content'];
+    protected array $properties = ['content'];
 
     /**
-     * Markdown constructor.
-     *
      * @param string $content
      */
     public function __construct(string $content)

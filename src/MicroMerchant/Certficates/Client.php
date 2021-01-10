@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\MicroMerchant\Certficates;
 
@@ -16,9 +9,6 @@ use EasyWeChat\MicroMerchant\Kernel\BaseClient;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidExtensionException;
 
 /**
- * Class Client.
- *
- * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-05-30  14:19
  */
 class Client extends BaseClient
@@ -26,7 +16,7 @@ class Client extends BaseClient
     /**
      * get certficates.
      *
-     * @param bool $returnRaw
+     * @param  bool  $returnRaw
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -49,10 +39,17 @@ class Client extends BaseClient
         $response = $this->requestArray('risk/getcertficates', $params);
 
         if ('SUCCESS' !== $response['return_code']) {
-            throw new InvalidArgumentException(sprintf('Failed to get certificate. return_code_msg: "%s" .', $response['return_code'].'('.$response['return_msg'].')'));
+            throw new InvalidArgumentException(
+                sprintf('Failed to get certificate. return_code_msg: "%s" .', $response['return_code'].'('.$response['return_msg'].')')
+            );
         }
         if ('SUCCESS' !== $response['result_code']) {
-            throw new InvalidArgumentException(sprintf('Failed to get certificate. result_err_code_desc: "%s" .', $response['result_code'].'('.$response['err_code'].'['.$response['err_code_desc'].'])'));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Failed to get certificate. result_err_code_desc: "%s" .',
+                    $response['result_code'].'('.$response['err_code'].'['.$response['err_code_desc'].'])'
+                )
+            );
         }
         $certificates = \GuzzleHttp\json_decode($response['certificates'], true)['data'][0];
         $ciphertext = $this->decrypt($certificates['encrypt_certificate']);
@@ -65,7 +62,7 @@ class Client extends BaseClient
     /**
      * decrypt ciphertext.
      *
-     * @param array $encryptCertificate
+     * @param  array  $encryptCertificate
      *
      * @return string
      *

@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel;
 
@@ -17,11 +10,6 @@ use EasyWeChat\Kernel\Support\XML;
 use Throwable;
 use function EasyWeChat\Kernel\Support\str_random;
 
-/**
- * Class Encryptor.
- *
- * @author overtrue <i@overtrue.me>
- */
 class Encryptor
 {
     public const ERROR_INVALID_SIGNATURE = -40001; // Signature verification failed
@@ -37,39 +25,11 @@ class Encryptor
     public const ERROR_XML_BUILD = -40011; // XML build failed
     public const ILLEGAL_BUFFER = -41003; // Illegal buffer
 
-    /**
-     * App id.
-     *
-     * @var string
-     */
-    protected $appId;
+    protected string $appId;
+    protected ?string $token;
+    protected string  $aesKey;
+    protected int $blockSize = 32;
 
-    /**
-     * App token.
-     *
-     * @var string
-     */
-    protected $token;
-
-    /**
-     * @var string
-     */
-    protected $aesKey;
-
-    /**
-     * Block size.
-     *
-     * @var int
-     */
-    protected $blockSize = 32;
-
-    /**
-     * Constructor.
-     *
-     * @param string      $appId
-     * @param string|null $token
-     * @param string|null $aesKey
-     */
     public function __construct(string $appId, string $token = null, string $aesKey = null)
     {
         $this->appId = $appId;
@@ -77,28 +37,12 @@ class Encryptor
         $this->aesKey = base64_decode($aesKey.'=', true);
     }
 
-    /**
-     * Get the app token.
-     *
-     * @return string
-     */
     public function getToken(): string
     {
         return $this->token;
     }
 
-    /**
-     * Encrypt the message and return XML.
-     *
-     * @param string $xml
-     * @param string $nonce
-     * @param int    $timestamp
-     *
-     * @return string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
-    public function encrypt($xml, $nonce = null, $timestamp = null): string
+    public function encrypt(string $xml, string|null $nonce = null, int $timestamp = null): string
     {
         try {
             $xml = $this->pkcs7Pad(str_random(16).pack('N', strlen($xml)).$xml.$this->appId, $this->blockSize);
@@ -125,23 +69,10 @@ class Encryptor
             'Nonce' => $nonce,
         ];
 
-        //生成响应xml
         return XML::build($response);
     }
 
-    /**
-     * Decrypt message.
-     *
-     * @param string $content
-     * @param string $msgSignature
-     * @param string $nonce
-     * @param string $timestamp
-     *
-     * @return string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
-    public function decrypt($content, $msgSignature, $nonce, $timestamp): string
+    public function decrypt(string $content, string $msgSignature, string $nonce, int $timestamp): string
     {
         $signature = $this->signature($this->token, $timestamp, $nonce, $content);
 
@@ -166,11 +97,6 @@ class Encryptor
         return substr($content, 4, $contentLen);
     }
 
-    /**
-     * Get SHA1.
-     *
-     * @return string
-     */
     public function signature(): string
     {
         $array = func_get_args();
@@ -179,16 +105,6 @@ class Encryptor
         return sha1(implode($array));
     }
 
-    /**
-     * PKCS#7 pad.
-     *
-     * @param string $text
-     * @param int    $blockSize
-     *
-     * @return string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
     public function pkcs7Pad(string $text, int $blockSize): string
     {
         if ($blockSize > 256) {
@@ -200,13 +116,6 @@ class Encryptor
         return $text.str_repeat($pattern, $padding);
     }
 
-    /**
-     * PKCS#7 unpad.
-     *
-     * @param string $text
-     *
-     * @return string
-     */
     public function pkcs7Unpad(string $text): string
     {
         $pad = ord(substr($text, -1));

@@ -1,27 +1,15 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Clauses;
 
-/**
- * Class Clause.
- *
- * @author mingyoung <mingyoungcheung@gmail.com>
- */
 class Clause
 {
     /**
      * @var array
      */
-    protected $clauses = [
+    protected array $clauses = [
         'where' => [],
     ];
 
@@ -38,24 +26,24 @@ class Clause
     }
 
     /**
-     * @param mixed $payload
+     * @param  mixed  $payload
      *
      * @return bool
      */
-    public function intercepted($payload)
+    public function intercepted(mixed $payload): bool
     {
         return (bool) $this->interceptWhereClause($payload);
     }
 
     /**
-     * @param mixed $payload
+     * @param  mixed  $payload
      *
      * @return bool
      */
-    protected function interceptWhereClause($payload)
+    protected function interceptWhereClause(mixed $payload): bool
     {
         foreach ($this->clauses['where'] as $item) {
-            list($key, $value) = $item;
+            [$key, $value] = $item;
             if (isset($payload[$key]) && $payload[$key] !== $value) {
                 return true;
             }

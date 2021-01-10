@@ -38,7 +38,7 @@ class AESTest extends TestCase
     public function testValidKey($length)
     {
         try {
-            $result = AES::validateKey(str_repeat('x', $length));
+            $result = AES::assertKeyIsValid(str_repeat('x', $length));
             if (in_array($length, [16, 24, 32], true)) {
                 $this->assertNull($result);
             } else {
@@ -60,7 +60,7 @@ class AESTest extends TestCase
     public function testValidateIv($length)
     {
         try {
-            $result = AES::validateIv(str_repeat('x', $length));
+            $result = AES::assertIvIsValid(str_repeat('x', $length));
             if (16 === $length) {
                 $this->assertNull($result);
             } else {

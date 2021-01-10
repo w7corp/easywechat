@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\MicroMerchant\Kernel;
 
@@ -18,9 +11,6 @@ use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
 use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
 
 /**
- * Class BaseClient.
- *
- * @author   liuml  <liumenglei0211@163.com>
  * @DateTime 2019-07-10  12:06
  */
 class BaseClient extends PaymentBaseClient
@@ -28,11 +18,9 @@ class BaseClient extends PaymentBaseClient
     /**
      * @var string
      */
-    protected $certificates;
+    protected string  $certificates;
 
     /**
-     * BaseClient constructor.
-     *
      * @param \EasyWeChat\MicroMerchant\Application $app
      */
     public function __construct(Application $app)

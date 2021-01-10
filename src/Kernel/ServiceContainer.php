@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel;
 
@@ -21,9 +14,6 @@ use EasyWeChatComposer\Traits\WithAggregator;
 use Pimple\Container;
 
 /**
- * Class ServiceContainer.
- *
- * @author overtrue <i@overtrue.me>
  *
  * @property \EasyWeChat\Kernel\Config                          $config
  * @property \Symfony\Component\HttpFoundation\Request          $request
@@ -35,33 +25,11 @@ class ServiceContainer extends Container
 {
     use WithAggregator;
 
-    /**
-     * @var string
-     */
-    protected $id;
+    protected ?string  $id;
+    protected array $providers = [];
+    protected array $defaultConfig = [];
+    protected array $userConfig = [];
 
-    /**
-     * @var array
-     */
-    protected $providers = [];
-
-    /**
-     * @var array
-     */
-    protected $defaultConfig = [];
-
-    /**
-     * @var array
-     */
-    protected $userConfig = [];
-
-    /**
-     * Constructor.
-     *
-     * @param array       $config
-     * @param array       $prepends
-     * @param string|null $id
-     */
     public function __construct(array $config = [], array $prepends = [], string $id = null)
     {
         $this->userConfig = $config;
@@ -77,18 +45,12 @@ class ServiceContainer extends Container
         $this->events->dispatch(new Events\ApplicationInitialized($this));
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id ?? $this->id = md5(json_encode($this->userConfig));
     }
 
-    /**
-     * @return array
-     */
-    public function getConfig()
+    public function getConfig(): array
     {
         $base = [
             // http://docs.guzzlephp.org/en/stable/request-options.html
@@ -101,12 +63,7 @@ class ServiceContainer extends Container
         return array_replace_recursive($base, $this->defaultConfig, $this->userConfig);
     }
 
-    /**
-     * Return all providers.
-     *
-     * @return array
-     */
-    public function getProviders()
+    public function getProviders(): array
     {
         return array_merge([
             ConfigServiceProvider::class,
@@ -118,24 +75,13 @@ class ServiceContainer extends Container
         ], $this->providers);
     }
 
-    /**
-     * @param string $id
-     * @param mixed  $value
-     */
-    public function rebind($id, $value)
+    public function rebind(string $id, mixed $value)
     {
         $this->offsetUnset($id);
         $this->offsetSet($id, $value);
     }
 
-    /**
-     * Magic get access.
-     *
-     * @param string $id
-     *
-     * @return mixed
-     */
-    public function __get($id)
+    public function __get($id): mixed
     {
         if ($this->shouldDelegate($id)) {
             return $this->delegateTo($id);
@@ -144,20 +90,11 @@ class ServiceContainer extends Container
         return $this->offsetGet($id);
     }
 
-    /**
-     * Magic set access.
-     *
-     * @param string $id
-     * @param mixed  $value
-     */
-    public function __set($id, $value)
+    public function __set(string $id, mixed $value)
     {
         $this->offsetSet($id, $value);
     }
 
-    /**
-     * @param array $providers
-     */
     public function registerProviders(array $providers)
     {
         foreach ($providers as $provider) {

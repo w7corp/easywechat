@@ -16,29 +16,31 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.0",
     "ext-fileinfo": "*",
     "ext-openssl": "*",
     "ext-simplexml": "*",
-    "easywechat-composer/easywechat-composer": "^1.1",
-    "guzzlehttp/guzzle": "^6.2 || ^7.0",
-    "monolog/monolog": "^1.22 || ^2.0",
-    "overtrue/socialite": "^3.0",
-    "pimple/pimple": "^3.0",
+    "ext-sodium": "*",
+    "ext-libxml": "*",
+    "ext-curl": "*",
+    "easywechat-composer/easywechat-composer": "^1.4",
+    "guzzlehttp/guzzle": "^7.2",
+    "monolog/monolog": "^2.2",
+    "overtrue/socialite": "^3.1",
+    "pimple/pimple": "^3.3",
     "psr/simple-cache": "^1.0",
-    "symfony/cache": "^3.3 || ^4.3 || ^5.0",
-    "symfony/event-dispatcher": "^4.3 || ^5.0",
-    "symfony/http-foundation": "^2.7 || ^3.0 || ^4.0 || ^5.0",
-    "symfony/psr-http-message-bridge": "^0.3 || ^1.0 || ^2.0"
+    "symfony/cache": "^5.2",
+    "symfony/event-dispatcher": "^5.2",
+    "symfony/http-foundation": "^5.2",
+    "symfony/psr-http-message-bridge": "^2.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.15",
-    "brainmaestro/composer-git-hooks": "^2.7",
+    "friendsofphp/php-cs-fixer": "^2.17",
+    "brainmaestro/composer-git-hooks": "^2.8",
     "mikey179/vfsstream": "^1.6",
-    "mockery/mockery": "^1.2.3",
-    "phpstan/phpstan": "^0.12.0",
-    "phpunit/phpunit": "^9.3",
-    "dms/phpunit-arraysubset-asserts": "^0.2.0"
+    "mockery/mockery": "^1.4",
+    "phpstan/phpstan": "^0.12",
+    "phpunit/phpunit": "^9.5"
   },
   "autoload": {
     "psr-4": {

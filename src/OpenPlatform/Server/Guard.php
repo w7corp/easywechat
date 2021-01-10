@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform\Server;
 
@@ -19,11 +12,6 @@ use EasyWeChat\OpenPlatform\Server\Handlers\VerifyTicketRefreshed;
 use Symfony\Component\HttpFoundation\Response;
 use function EasyWeChat\Kernel\data_get;
 
-/**
- * Class Guard.
- *
- * @author mingyoung <mingyoungcheung@gmail.com>
- */
 class Guard extends ServerGuard
 {
     public const EVENT_AUTHORIZED = 'authorized';

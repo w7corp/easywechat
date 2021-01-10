@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount\Card;
 
@@ -15,11 +8,6 @@ use EasyWeChat\BasicService\Jssdk\Client as Jssdk;
 use EasyWeChat\Kernel\Support\Arr;
 use function EasyWeChat\Kernel\Support\str_random;
 
-/**
- * Class Jssdk.
- *
- * @author overtrue <i@overtrue.me>
- */
 class JssdkClient extends Jssdk
 {
     /**

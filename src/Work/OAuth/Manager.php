@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Work\OAuth;
 
 use EasyWeChat\Work\Application;

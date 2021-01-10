@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
@@ -19,13 +12,13 @@ class Arr
     /**
      * Add an element to an array using "dot" notation if it doesn't exist.
      *
-     * @param array  $array
-     * @param string $key
-     * @param mixed  $value
+     * @param  array  $array
+     * @param  string|int  $key
+     * @param  mixed  $value
      *
      * @return array
      */
-    public static function add(array $array, $key, $value)
+    public static function add(array $array, string|int $key, mixed $value): array
     {
         if (is_null(static::get($array, $key))) {
             static::set($array, $key, $value);
@@ -37,11 +30,11 @@ class Arr
     /**
      * Cross join the given arrays, returning all possible permutations.
      *
-     * @param array ...$arrays
+     * @param  array  ...$arrays
      *
      * @return array
      */
-    public static function crossJoin(...$arrays)
+    public static function crossJoin(...$arrays): array
     {
         $results = [[]];
 
@@ -65,11 +58,11 @@ class Arr
     /**
      * Divide an array into two arrays. One with keys and the other with values.
      *
-     * @param array $array
+     * @param  array  $array
      *
      * @return array
      */
-    public static function divide(array $array)
+    public static function divide(array $array): array
     {
         return [array_keys($array), array_values($array)];
     }
@@ -77,12 +70,12 @@ class Arr
     /**
      * Flatten a multi-dimensional associative array with dots.
      *
-     * @param array  $array
-     * @param string $prepend
+     * @param  array  $array
+     * @param  string  $prepend
      *
      * @return array
      */
-    public static function dot(array $array, $prepend = '')
+    public static function dot(array $array, string $prepend = ''): array
     {
         $results = [];
 
@@ -100,12 +93,12 @@ class Arr
     /**
      * Get all of the given array except for a specified array of items.
      *
-     * @param array        $array
-     * @param array|string $keys
+     * @param  array  $array
+     * @param  array|string|int  $keys
      *
      * @return array
      */
-    public static function except(array $array, $keys)
+    public static function except(array $array, array|string|int $keys): array
     {
         static::forget($array, $keys);
 
@@ -115,12 +108,12 @@ class Arr
     /**
      * Determine if the given key exists in the provided array.
      *
-     * @param array      $array
-     * @param string|int $key
+     * @param  array  $array
+     * @param  string|int  $key
      *
      * @return bool
      */
-    public static function exists(array $array, $key)
+    public static function exists(array $array, string|int $key): bool
     {
         return array_key_exists($key, $array);
     }
@@ -128,13 +121,13 @@ class Arr
     /**
      * Return the first element in an array passing a given truth test.
      *
-     * @param array         $array
-     * @param callable|null $callback
-     * @param mixed         $default
+     * @param  array  $array
+     * @param  callable|null  $callback
+     * @param  mixed  $default
      *
      * @return mixed
      */
-    public static function first(array $array, callable $callback = null, $default = null)
+    public static function first(array $array, callable $callback = null, $default = null): mixed
     {
         if (is_null($callback)) {
             if (empty($array)) {
@@ -158,13 +151,13 @@ class Arr
     /**
      * Return the last element in an array passing a given truth test.
      *
-     * @param array         $array
-     * @param callable|null $callback
-     * @param mixed         $default
+     * @param  array  $array
+     * @param  callable|null  $callback
+     * @param  mixed  $default
      *
      * @return mixed
      */
-    public static function last(array $array, callable $callback = null, $default = null)
+    public static function last(array $array, callable $callback = null, $default = null): mixed
     {
         if (is_null($callback)) {
             return empty($array) ? $default : end($array);
@@ -176,37 +169,41 @@ class Arr
     /**
      * Flatten a multi-dimensional array into a single level.
      *
-     * @param array $array
-     * @param int   $depth
+     * @param  array  $array
+     * @param  int  $depth
      *
      * @return array
      */
-    public static function flatten(array $array, $depth = \PHP_INT_MAX)
+    public static function flatten(array $array, int $depth = \PHP_INT_MAX): array
     {
-        return array_reduce($array, function ($result, $item) use ($depth) {
-            $item = $item instanceof Collection ? $item->all() : $item;
+        return array_reduce(
+            $array,
+            function ($result, $item) use ($depth) {
+                $item = $item instanceof Collection ? $item->all() : $item;
 
-            if (!is_array($item)) {
-                return array_merge($result, [$item]);
-            } elseif (1 === $depth) {
-                return array_merge($result, array_values($item));
-            }
+                if (!is_array($item)) {
+                    return array_merge($result, [$item]);
+                } elseif (1 === $depth) {
+                    return array_merge($result, array_values($item));
+                }
 
-            return array_merge($result, static::flatten($item, $depth - 1));
-        }, []);
+                return array_merge($result, static::flatten($item, $depth - 1));
+            },
+            []
+        );
     }
 
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
-     * @param array        $array
-     * @param array|string $keys
+     * @param  array  $array
+     * @param  string|int|array  $keys
      */
-    public static function forget(array &$array, $keys)
+    public static function forget(array &$array, string|int|array $keys)
     {
         $original = &$array;
 
-        $keys = (array) $keys;
+        $keys = (array)$keys;
 
         if (0 === count($keys)) {
             return;
@@ -242,13 +239,13 @@ class Arr
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param array  $array
-     * @param string $key
-     * @param mixed  $default
+     * @param  array  $array
+     * @param  string|int  $key
+     * @param  mixed  $default
      *
      * @return mixed
      */
-    public static function get(array $array, $key, $default = null)
+    public static function get(array $array, string|int $key, $default = null)
     {
         if (is_null($key)) {
             return $array;
@@ -272,18 +269,18 @@ class Arr
     /**
      * Check if an item or items exist in an array using "dot" notation.
      *
-     * @param array        $array
-     * @param string|array $keys
+     * @param  array  $array
+     * @param  string|int|array  $keys
      *
      * @return bool
      */
-    public static function has(array $array, $keys)
+    public static function has(array $array, string|int|array $keys): bool
     {
         if (is_null($keys)) {
             return false;
         }
 
-        $keys = (array) $keys;
+        $keys = (array)$keys;
 
         if (empty($array)) {
             return false;
@@ -317,11 +314,11 @@ class Arr
      *
      * An array is "associative" if it doesn't have sequential numerical keys beginning with zero.
      *
-     * @param array $array
+     * @param  array  $array
      *
      * @return bool
      */
-    public static function isAssoc(array $array)
+    public static function isAssoc(array $array): bool
     {
         $keys = array_keys($array);
 
@@ -331,26 +328,26 @@ class Arr
     /**
      * Get a subset of the items from the given array.
      *
-     * @param array        $array
-     * @param array|string $keys
+     * @param  array  $array
+     * @param  string|int|array  $keys
      *
      * @return array
      */
-    public static function only(array $array, $keys)
+    public static function only(array $array, string|int|array $keys): array
     {
-        return array_intersect_key($array, array_flip((array) $keys));
+        return array_intersect_key($array, array_flip((array)$keys));
     }
 
     /**
      * Push an item onto the beginning of an array.
      *
-     * @param array $array
-     * @param mixed $value
-     * @param mixed $key
+     * @param  array  $array
+     * @param  mixed  $value
+     * @param  mixed  $key
      *
      * @return array
      */
-    public static function prepend(array $array, $value, $key = null)
+    public static function prepend(array $array, mixed $value, string|int|null $key = null)
     {
         if (is_null($key)) {
             array_unshift($array, $value);
@@ -364,13 +361,13 @@ class Arr
     /**
      * Get a value from the array, and remove it.
      *
-     * @param array  $array
-     * @param string $key
-     * @param mixed  $default
+     * @param  array  $array
+     * @param  string|int  $key
+     * @param  mixed  $default
      *
      * @return mixed
      */
-    public static function pull(array &$array, $key, $default = null)
+    public static function pull(array &$array, string|int $key, mixed $default = null): mixed
     {
         $value = static::get($array, $key, $default);
 
@@ -382,14 +379,14 @@ class Arr
     /**
      * Get a 1 value from an array.
      *
-     * @param array    $array
-     * @param int|null $amount
+     * @param  array  $array
+     * @param  int|null  $amount
      *
      * @return mixed
      *
      * @throws \InvalidArgumentException
      */
-    public static function random(array $array, int $amount = null)
+    public static function random(array $array, int $amount = null): mixed
     {
         if (is_null($amount)) {
             return $array[array_rand($array)];
@@ -399,7 +396,7 @@ class Arr
 
         $results = [];
 
-        foreach ((array) $keys as $key) {
+        foreach ((array)$keys as $key) {
             $results[] = $array[$key];
         }
 
@@ -411,13 +408,13 @@ class Arr
      *
      * If no key is given to the method, the entire array will be replaced.
      *
-     * @param array  $array
-     * @param string $key
-     * @param mixed  $value
+     * @param  array  $array
+     * @param  string  $key
+     * @param  mixed  $value
      *
      * @return array
      */
-    public static function set(array &$array, string $key, $value)
+    public static function set(array &$array, string $key, mixed $value): array
     {
         $keys = explode('.', $key);
 
@@ -442,12 +439,12 @@ class Arr
     /**
      * Filter the array using the given callback.
      *
-     * @param array    $array
-     * @param callable $callback
+     * @param  array  $array
+     * @param  callable  $callback
      *
      * @return array
      */
-    public static function where(array $array, callable $callback)
+    public static function where(array $array, callable $callback): array
     {
         return array_filter($array, $callback, ARRAY_FILTER_USE_BOTH);
     }
@@ -455,11 +452,11 @@ class Arr
     /**
      * If the given value is not an array, wrap it in one.
      *
-     * @param mixed $value
+     * @param  mixed  $value
      *
      * @return array
      */
-    public static function wrap($value)
+    public static function wrap(mixed $value): array
     {
         return !is_array($value) ? [$value] : $value;
     }

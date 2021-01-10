@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
@@ -19,26 +12,12 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 
-/**
- * Trait InteractsWithCache.
- *
- * @author overtrue <i@overtrue.me>
- */
+//TODO: PSR16 Cache
 trait InteractsWithCache
 {
-    /**
-     * @var \Psr\SimpleCache\CacheInterface
-     */
-    protected $cache;
+    protected SimpleCacheInterface $cache;
 
-    /**
-     * Get cache instance.
-     *
-     * @return \Psr\SimpleCache\CacheInterface
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function getCache()
+    public function getCache(): SimpleCacheInterface
     {
         if ($this->cache) {
             return $this->cache;
@@ -56,16 +35,7 @@ trait InteractsWithCache
         return $this->cache = $this->createDefaultCache();
     }
 
-    /**
-     * Set cache instance.
-     *
-     * @param \Psr\SimpleCache\CacheInterface|\Psr\Cache\CacheItemPoolInterface $cache
-     *
-     * @return $this
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function setCache($cache)
+    public function setCache(SimpleCacheInterface|CacheItemPoolInterface $cache): static
     {
         if (empty(\array_intersect([SimpleCacheInterface::class, CacheItemPoolInterface::class], \class_implements($cache)))) {
             throw new InvalidArgumentException(\sprintf('The cache instance must implements %s or %s interface.', SimpleCacheInterface::class, CacheItemPoolInterface::class));
@@ -83,10 +53,7 @@ trait InteractsWithCache
         return $this;
     }
 
-    /**
-     * @return \Psr\SimpleCache\CacheInterface
-     */
-    protected function createDefaultCache()
+    protected function createDefaultCache(): Psr16Cache|FilesystemCache
     {
         if ($this->isSymfony43OrHigher()) {
             return new Psr16Cache(new FilesystemAdapter('easywechat', 1500));
@@ -95,9 +62,6 @@ trait InteractsWithCache
         return new FilesystemCache();
     }
 
-    /**
-     * @return bool
-     */
     protected function isSymfony43OrHigher(): bool
     {
         return \class_exists('Symfony\Component\Cache\Psr16Cache');

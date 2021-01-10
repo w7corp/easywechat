@@ -1,38 +1,24 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Messages;
 
-/**
- * Class News.
- *
- * @author overtrue <i@overtrue.me>
- */
 class News extends Message
 {
     /**
      * @var string
      */
-    protected $type = 'news';
+    protected string  $type = 'news';
 
     /**
      * @var array
      */
-    protected $properties = [
+    protected array $properties = [
         'items',
     ];
 
     /**
-     * News constructor.
-     *
      * @param array $items
      */
     public function __construct(array $items = [])

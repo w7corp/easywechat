@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel;
 
@@ -25,26 +18,16 @@ use EasyWeChat\Kernel\Traits\ResponseCastable;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class ServerGuard.
- *
  * 1. url 里的 signature 只是将 token+nonce+timestamp 得到的签名，只是用于验证当前请求的，在公众号环境下一直有
  * 2. 企业号消息发送时是没有的，因为固定为完全模式，所以 url 里不会存在 signature, 只有 msg_signature 用于解密消息的
- *
- * @author overtrue <i@overtrue.me>
  */
 class ServerGuard
 {
     use Observable;
     use ResponseCastable;
 
-    /**
-     * @var bool
-     */
-    protected $alwaysValidate = false;
+    protected bool $alwaysValidate = false;
 
-    /**
-     * Empty string.
-     */
     public const SUCCESS_EMPTY_RESPONSE = 'success';
 
     /**
@@ -65,18 +48,8 @@ class ServerGuard
         'miniprogrampage' => Message::MINIPROGRAM_PAGE,
     ];
 
-    /**
-     * @var \EasyWeChat\Kernel\ServiceContainer
-     */
-    protected $app;
+    protected ServiceContainer $app;
 
-    /**
-     * Constructor.
-     *
-     * @codeCoverageIgnore
-     *
-     * @param \EasyWeChat\Kernel\ServiceContainer $app
-     */
     public function __construct(ServiceContainer $app)
     {
         $this->app = $app;
@@ -86,15 +59,6 @@ class ServerGuard
         }
     }
 
-    /**
-     * Handle and return response.
-     *
-     * @return Response
-     *
-     * @throws BadRequestException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
     public function serve(): Response
     {
         $this->app['logger']->debug('Request received:', [
@@ -111,12 +75,7 @@ class ServerGuard
         return $response;
     }
 
-    /**
-     * @return $this
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     */
-    public function validate()
+    public function validate(): static
     {
         if (!$this->alwaysValidate && !$this->isSafeMode()) {
             return $this;
@@ -133,27 +92,13 @@ class ServerGuard
         return $this;
     }
 
-    /**
-     * Force validate request.
-     *
-     * @return $this
-     */
-    public function forceValidate()
+    public function forceValidate(): static
     {
         $this->alwaysValidate = true;
 
         return $this;
     }
 
-    /**
-     * Get request message.
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|string
-     *
-     * @throws BadRequestException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
     public function getMessage()
     {
         $message = $this->parseMessage($this->app['request']->getContent(false));
@@ -178,15 +123,6 @@ class ServerGuard
         return $this->detectAndCastResponseToType($message, $this->app->config->get('response_type'));
     }
 
-    /**
-     * Resolve server request and return the response.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
     protected function resolve(): Response
     {
         $result = $this->handleRequest();
@@ -206,23 +142,11 @@ class ServerGuard
         return $response;
     }
 
-    /**
-     * @return string|null
-     */
-    protected function getToken()
+    protected function getToken(): string
     {
         return $this->app['config']['token'];
     }
 
-    /**
-     * @param string                                                   $to
-     * @param string                                                   $from
-     * @param \EasyWeChat\Kernel\Contracts\MessageInterface|string|int $message
-     *
-     * @return string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
     public function buildResponse(string $to, string $from, $message)
     {
         if (empty($message) || self::SUCCESS_EMPTY_RESPONSE === $message) {
@@ -248,15 +172,6 @@ class ServerGuard
         return $this->buildReply($to, $from, $message);
     }
 
-    /**
-     * Handle request.
-     *
-     * @return array
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
     protected function handleRequest(): array
     {
         $castedMessage = $this->getMessage();
@@ -272,15 +187,6 @@ class ServerGuard
         ];
     }
 
-    /**
-     * Build reply XML.
-     *
-     * @param string                                        $to
-     * @param string                                        $from
-     * @param \EasyWeChat\Kernel\Contracts\MessageInterface $message
-     *
-     * @return string
-     */
     protected function buildReply(string $to, string $from, MessageInterface $message): string
     {
         $prepends = [
@@ -300,28 +206,14 @@ class ServerGuard
         return $response;
     }
 
-    /**
-     * @param array $params
-     *
-     * @return string
-     */
-    protected function signature(array $params)
+    protected function signature(array $params): string
     {
         sort($params, SORT_STRING);
 
         return sha1(implode($params));
     }
 
-    /**
-     * Parse message array from raw php input.
-     *
-     * @param string $content
-     *
-     * @return array
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     */
-    protected function parseMessage($content)
+    protected function parseMessage(string $content): array
     {
         try {
             if (0 === stripos($content, '<')) {
@@ -340,29 +232,16 @@ class ServerGuard
         }
     }
 
-    /**
-     * Check the request message safe mode.
-     *
-     * @return bool
-     */
     protected function isSafeMode(): bool
     {
         return $this->app['request']->get('signature') && 'aes' === $this->app['request']->get('encrypt_type');
     }
 
-    /**
-     * @return bool
-     */
     protected function shouldReturnRawResponse(): bool
     {
         return false;
     }
 
-    /**
-     * @param array $message
-     *
-     * @return mixed
-     */
     protected function decryptMessage(array $message)
     {
         return $message = $this->app['encryptor']->decrypt(

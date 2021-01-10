@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
@@ -18,35 +11,15 @@ use EasyWeChat\Kernel\Decorators\TerminateResult;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 
-/**
- * Trait Observable.
- *
- * @author overtrue <i@overtrue.me>
- */
+//TODO: 重构
 trait Observable
 {
-    /**
-     * @var array
-     */
-    protected $handlers = [];
+    protected array $handlers = [];
+    protected array $clauses = [];
 
-    /**
-     * @var array
-     */
-    protected $clauses = [];
-
-    /**
-     * @param \Closure|EventHandlerInterface|callable|string $handler
-     * @param \Closure|EventHandlerInterface|callable|string $condition
-     *
-     * @return \EasyWeChat\Kernel\Clauses\Clause
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \ReflectionException
-     */
-    public function push($handler, $condition = '*')
+    public function push($handler, $condition = '*'): Clause
     {
-        list($handler, $condition) = $this->resolveHandlerAndCondition($handler, $condition);
+        [$handler, $condition] = $this->resolveHandlerAndCondition($handler, $condition);
 
         if (!isset($this->handlers[$condition])) {
             $this->handlers[$condition] = [];

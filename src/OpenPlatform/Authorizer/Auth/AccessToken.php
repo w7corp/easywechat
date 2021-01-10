@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform\Authorizer\Auth;
 
@@ -15,26 +8,19 @@ use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 use EasyWeChat\OpenPlatform\Application;
 use Pimple\Container;
 
-/**
- * Class AccessToken.
- *
- * @author mingyoung <mingyoungcheung@gmail.com>
- */
 class AccessToken extends BaseAccessToken
 {
     /**
      * @var string
      */
-    protected $requestMethod = 'POST';
+    protected string  $requestMethod = 'POST';
 
     /**
      * @var string
      */
-    protected $queryName = 'access_token';
+    protected string  $queryName = 'access_token';
 
-    /**
-     * {@inheritdoc}.
-     */
+
     protected $tokenKey = 'authorizer_access_token';
 
     /**
@@ -43,8 +29,6 @@ class AccessToken extends BaseAccessToken
     protected $component;
 
     /**
-     * AuthorizerAccessToken constructor.
-     *
      * @param \Pimple\Container                    $app
      * @param \EasyWeChat\OpenPlatform\Application $component
      */
@@ -55,9 +39,7 @@ class AccessToken extends BaseAccessToken
         $this->component = $component;
     }
 
-    /**
-     * {@inheritdoc}.
-     */
+
     protected function getCredentials(): array
     {
         return [

@@ -1,32 +1,22 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Messages;
 
-/**
- * Class Article.
- */
 class Article extends Message
 {
     /**
      * @var string
      */
-    protected $type = 'mpnews';
+    protected string  $type = 'mpnews';
 
     /**
      * Properties.
      *
      * @var array
      */
-    protected $properties = [
+    protected array $properties = [
         'thumb_media_id',
         'author',
         'title',
@@ -41,7 +31,7 @@ class Article extends Message
      *
      * @var array
      */
-    protected $jsonAliases = [
+    protected array $jsonAliases = [
         'content_source_url' => 'source_url',
         'show_cover_pic' => 'show_cover',
     ];
@@ -49,7 +39,7 @@ class Article extends Message
     /**
      * @var array
      */
-    protected $required = [
+    protected array $required = [
         'thumb_media_id',
         'title',
         'content',

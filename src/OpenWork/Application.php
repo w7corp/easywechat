@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
@@ -17,7 +10,6 @@ use EasyWeChat\OpenWork\Work\Application as Work;
 /**
  * Application.
  *
- * @author xiaomin <keacefull@gmail.com>
  *
  * @property \EasyWeChat\OpenWork\Server\Guard            $server
  * @property \EasyWeChat\OpenWork\Corp\Client             $corp
@@ -32,7 +24,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $providers = [
+    protected array $providers = [
         Auth\ServiceProvider::class,
         SuiteAuth\ServiceProvider::class,
         Server\ServiceProvider::class,
@@ -44,7 +36,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $defaultConfig = [
+    protected array $defaultConfig = [
         // http://docs.guzzlephp.org/en/stable/request-options.html
         'http' => [
             'base_uri' => 'https://qyapi.weixin.qq.com/',

@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Payment\Transfer;
 
@@ -16,11 +9,6 @@ use EasyWeChat\Payment\Kernel\BaseClient;
 use function EasyWeChat\Kernel\Support\get_server_ip;
 use function EasyWeChat\Kernel\Support\rsa_public_encrypt;
 
-/**
- * Class Client.
- *
- * @author AC <alexever@gmail.com>
- */
 class Client extends BaseClient
 {
     /**

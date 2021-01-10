@@ -1,93 +1,46 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Utils;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Trait HasHttpRequests.
- *
- * @author overtrue <i@overtrue.me>
- */
+//TODO: 重新设计
 trait HasHttpRequests
 {
     use ResponseCastable;
 
-    /**
-     * @var \GuzzleHttp\ClientInterface
-     */
-    protected $httpClient;
-
-    /**
-     * @var array
-     */
-    protected $middlewares = [];
-
-    /**
-     * @var \GuzzleHttp\HandlerStack
-     */
-    protected $handlerStack;
-
-    /**
-     * @var array
-     */
-    protected static $defaults = [
+    protected ClientInterface $httpClient;
+    protected array $middlewares = [];
+    protected HandlerStack $handlerStack;
+    protected static array $defaults = [
         'curl' => [
             CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
         ],
     ];
 
-    /**
-     * Set guzzle default settings.
-     *
-     * @param array $defaults
-     */
     public static function setDefaultOptions($defaults = [])
     {
         self::$defaults = $defaults;
     }
 
-    /**
-     * Return current guzzle default settings.
-     *
-     * @return array
-     */
     public static function getDefaultOptions(): array
     {
         return self::$defaults;
     }
 
-    /**
-     * Set GuzzleHttp\Client.
-     *
-     * @param \GuzzleHttp\ClientInterface $httpClient
-     *
-     * @return $this
-     */
-    public function setHttpClient(ClientInterface $httpClient)
+    public function setHttpClient(ClientInterface $httpClient): static
     {
         $this->httpClient = $httpClient;
 
         return $this;
     }
 
-    /**
-     * Return GuzzleHttp\ClientInterface instance.
-     *
-     * @return ClientInterface
-     */
     public function getHttpClient(): ClientInterface
     {
         if (!($this->httpClient instanceof ClientInterface)) {
@@ -101,15 +54,7 @@ trait HasHttpRequests
         return $this->httpClient;
     }
 
-    /**
-     * Add a middleware.
-     *
-     * @param callable $middleware
-     * @param string   $name
-     *
-     * @return $this
-     */
-    public function pushMiddleware(callable $middleware, string $name = null)
+    public function pushMiddleware(callable $middleware, string $name = null): static
     {
         if (!is_null($name)) {
             $this->middlewares[$name] = $middleware;
@@ -120,27 +65,11 @@ trait HasHttpRequests
         return $this;
     }
 
-    /**
-     * Return all middlewares.
-     *
-     * @return array
-     */
     public function getMiddlewares(): array
     {
         return $this->middlewares;
     }
 
-    /**
-     * Make a request.
-     *
-     * @param string $url
-     * @param string $method
-     * @param array  $options
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     public function request($url, $method = 'GET', $options = []): ResponseInterface
     {
         $method = strtoupper($method);
@@ -159,23 +88,13 @@ trait HasHttpRequests
         return $response;
     }
 
-    /**
-     * @param \GuzzleHttp\HandlerStack $handlerStack
-     *
-     * @return $this
-     */
-    public function setHandlerStack(HandlerStack $handlerStack)
+    public function setHandlerStack(HandlerStack $handlerStack): static
     {
         $this->handlerStack = $handlerStack;
 
         return $this;
     }
 
-    /**
-     * Build a handler stack.
-     *
-     * @return \GuzzleHttp\HandlerStack
-     */
     public function getHandlerStack(): HandlerStack
     {
         if ($this->handlerStack) {
@@ -191,11 +110,6 @@ trait HasHttpRequests
         return $this->handlerStack;
     }
 
-    /**
-     * @param array $options
-     *
-     * @return array
-     */
     protected function fixJsonIssue(array $options): array
     {
         if (isset($options['json']) && is_array($options['json'])) {
@@ -213,12 +127,7 @@ trait HasHttpRequests
         return $options;
     }
 
-    /**
-     * Get guzzle handler.
-     *
-     * @return callable
-     */
-    protected function getGuzzleHandler()
+    protected function getGuzzleHandler(): mixed
     {
         if (property_exists($this, 'app') && isset($this->app['guzzle_handler'])) {
             return is_string($handler = $this->app->raw('guzzle_handler'))
@@ -226,6 +135,6 @@ trait HasHttpRequests
                         : $handler;
         }
 
-        return \GuzzleHttp\choose_handler();
+        return Utils::chooseHandler();
     }
 }

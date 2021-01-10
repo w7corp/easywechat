@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork\Server;
 
@@ -17,14 +10,13 @@ use EasyWeChat\Kernel\ServerGuard;
 /**
  * Guard.
  *
- * @author xiaomin <keacefull@gmail.com>
  */
 class Guard extends ServerGuard
 {
     /**
      * @var bool
      */
-    protected $alwaysValidate = true;
+    protected bool $alwaysValidate = true;
 
     /**
      * @return $this

@@ -1,22 +1,12 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Messages;
 
 use EasyWeChat\Kernel\Contracts\MediaInterface;
 use EasyWeChat\Kernel\Support\Str;
 
-/**
- * Class Media.
- */
 class Media extends Message implements MediaInterface
 {
     /**
@@ -24,18 +14,16 @@ class Media extends Message implements MediaInterface
      *
      * @var array
      */
-    protected $properties = ['media_id'];
+    protected array $properties = ['media_id'];
 
     /**
      * @var array
      */
-    protected $required = [
+    protected array $required = [
         'media_id',
     ];
 
     /**
-     * MaterialClient constructor.
-     *
      * @param string $mediaId
      * @param string $type
      * @param array  $attributes
@@ -54,7 +42,7 @@ class Media extends Message implements MediaInterface
      */
     public function getMediaId(): string
     {
-        $this->checkRequiredAttributes();
+        $this->assertRequiredAttributesExists();
 
         return $this->get('media_id');
     }

@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount;
 
@@ -15,9 +8,6 @@ use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ServiceContainer;
 
 /**
- * Class Application.
- *
- * @author overtrue <i@overtrue.me>
  *
  * @property \EasyWeChat\BasicService\Media\Client                     $media
  * @property \EasyWeChat\BasicService\Url\Client                       $url
@@ -56,7 +46,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $providers = [
+    protected array $providers = [
         Auth\ServiceProvider::class,
         Server\ServiceProvider::class,
         User\ServiceProvider::class,

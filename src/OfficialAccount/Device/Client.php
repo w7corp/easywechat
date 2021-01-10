@@ -1,24 +1,14 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount\Device;
 
 use EasyWeChat\Kernel\BaseClient;
 
 /**
- * Class Client.
- *
  * @see http://iot.weixin.qq.com/wiki/new/index.html
  *
- * @author soone <66812590@qq.com>
  */
 class Client extends BaseClient
 {

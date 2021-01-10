@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
@@ -18,22 +11,9 @@ use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Trait ResponseCastable.
- *
- * @author overtrue <i@overtrue.me>
- */
 trait ResponseCastable
 {
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     * @param string|null                         $type
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
-    protected function castResponseToType(ResponseInterface $response, $type = null)
+    protected function castResponseToType(ResponseInterface $response, string|null $type = null)
     {
         $response = Response::buildFromPsrResponse($response);
         $response->getBody()->rewind();
@@ -56,16 +36,7 @@ trait ResponseCastable
         }
     }
 
-    /**
-     * @param mixed       $response
-     * @param string|null $type
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
-    protected function detectAndCastResponseToType($response, $type = null)
+    protected function detectAndCastResponseToType($response, string|null $type = null)
     {
         switch (true) {
             case $response instanceof ResponseInterface:

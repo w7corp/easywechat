@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Http;
 
@@ -16,17 +9,9 @@ use EasyWeChat\Kernel\Support\XML;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Psr\Http\Message\ResponseInterface;
 
-/**
- * Class Response.
- *
- * @author overtrue <i@overtrue.me>
- */
 class Response extends GuzzleResponse
 {
-    /**
-     * @return string
-     */
-    public function getBodyContents()
+    public function getBodyContents(): string
     {
         $this->getBody()->rewind();
         $contents = $this->getBody()->getContents();
@@ -35,12 +20,7 @@ class Response extends GuzzleResponse
         return $contents;
     }
 
-    /**
-     * @param \Psr\Http\Message\ResponseInterface $response
-     *
-     * @return \EasyWeChat\Kernel\Http\Response
-     */
-    public static function buildFromPsrResponse(ResponseInterface $response)
+    public static function buildFromPsrResponse(ResponseInterface $response): static
     {
         return new static(
             $response->getStatusCode(),
@@ -51,22 +31,12 @@ class Response extends GuzzleResponse
         );
     }
 
-    /**
-     * Build to json.
-     *
-     * @return string
-     */
-    public function toJson()
+    public function toJson(): string
     {
         return json_encode($this->toArray());
     }
 
-    /**
-     * Build to array.
-     *
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         $content = $this->removeControlCharacters($this->getBodyContents());
 
@@ -83,38 +53,22 @@ class Response extends GuzzleResponse
         return [];
     }
 
-    /**
-     * Get collection data.
-     *
-     * @return \EasyWeChat\Kernel\Support\Collection
-     */
-    public function toCollection()
+    public function toCollection(): Collection
     {
         return new Collection($this->toArray());
     }
 
-    /**
-     * @return object
-     */
-    public function toObject()
+    public function toObject(): object
     {
         return json_decode($this->toJson());
     }
 
-    /**
-     * @return bool|string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getBodyContents();
     }
 
-    /**
-     * @param string $content
-     *
-     * @return string
-     */
-    protected function removeControlCharacters(string $content)
+    protected function removeControlCharacters(string $content): string
     {
         return \preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', $content);
     }

@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Work\MiniProgram;
 
@@ -16,17 +9,12 @@ use EasyWeChat\Work\Auth\AccessToken;
 use EasyWeChat\Work\MiniProgram\Auth\Client;
 
 /**
- * Class Application.
- *
- * @author Caikeal <caikeal@qq.com>
  *
  * @property \EasyWeChat\Work\MiniProgram\Auth\Client $auth
  */
 class Application extends MiniProgram
 {
     /**
-     * Application constructor.
-     *
      * @param array $config
      * @param array $prepends
      */

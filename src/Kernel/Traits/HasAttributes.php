@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
@@ -15,59 +8,26 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Support\Str;
 
-/**
- * Trait Attributes.
- */
 trait HasAttributes
 {
-    /**
-     * @var array
-     */
-    protected $attributes = [];
+    protected array $attributes = [];
+    protected bool $snakeable = true;
 
-    /**
-     * @var bool
-     */
-    protected $snakeable = true;
-
-    /**
-     * Set Attributes.
-     *
-     * @param array $attributes
-     *
-     * @return $this
-     */
-    public function setAttributes(array $attributes = [])
+    public function setAttributes(array $attributes = []): static
     {
         $this->attributes = $attributes;
 
         return $this;
     }
 
-    /**
-     * Set attribute.
-     *
-     * @param string $attribute
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setAttribute($attribute, $value)
+    public function setAttribute(string $attribute, mixed $value): static
     {
         Arr::set($this->attributes, $attribute, $value);
 
         return $this;
     }
 
-    /**
-     * Get attribute.
-     *
-     * @param string $attribute
-     * @param mixed  $default
-     *
-     * @return mixed
-     */
-    public function getAttribute($attribute, $default = null)
+    public function getAttribute(string $attribute, mixed $default = null)
     {
         return Arr::get($this->attributes, $attribute, $default);
     }
@@ -77,28 +37,17 @@ trait HasAttributes
      *
      * @return bool
      */
-    public function isRequired($attribute)
+    public function isRequired(string $attribute): bool
     {
         return in_array($attribute, $this->getRequired(), true);
     }
 
-    /**
-     * @return array|mixed
-     */
-    public function getRequired()
+    public function getRequired(): array
     {
-        return property_exists($this, 'required') ? $this->required : [];
+        return property_exists($this, 'required') ? $this->required ?? [] : [];
     }
 
-    /**
-     * Set attribute.
-     *
-     * @param string $attribute
-     * @param mixed  $value
-     *
-     * @return $this
-     */
-    public function with($attribute, $value)
+    public function with(string $attribute, mixed $value): static
     {
         $this->snakeable && $attribute = Str::snake($attribute);
 
@@ -107,89 +56,43 @@ trait HasAttributes
         return $this;
     }
 
-    /**
-     * Override parent set() method.
-     *
-     * @param string $attribute
-     * @param mixed  $value
-     *
-     * @return $this
-     */
-    public function set($attribute, $value)
+    public function set(string $attribute, mixed $value): static
     {
         $this->setAttribute($attribute, $value);
 
         return $this;
     }
 
-    /**
-     * Override parent get() method.
-     *
-     * @param string $attribute
-     * @param mixed  $default
-     *
-     * @return mixed
-     */
-    public function get($attribute, $default = null)
+    public function get(string $attribute, mixed $default = null): mixed
     {
         return $this->getAttribute($attribute, $default);
     }
 
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function has(string $key)
+    public function has(string $attribute): bool
     {
-        return Arr::has($this->attributes, $key);
+        return Arr::has($this->attributes, $attribute);
     }
 
-    /**
-     * @param array $attributes
-     *
-     * @return $this
-     */
-    public function merge(array $attributes)
+    public function merge(array $attributes): static
     {
         $this->attributes = array_merge($this->attributes, $attributes);
 
         return $this;
     }
 
-    /**
-     * @param array|string $keys
-     *
-     * @return array
-     */
-    public function only($keys)
+    public function only($keys): array
     {
         return Arr::only($this->attributes, $keys);
     }
 
-    /**
-     * Return all items.
-     *
-     * @return array
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function all()
+    public function all(): array
     {
-        $this->checkRequiredAttributes();
+        $this->assertRequiredAttributesExists();
 
         return $this->attributes;
     }
 
-    /**
-     * Magic call.
-     *
-     * @param string $method
-     * @param array  $args
-     *
-     * @return $this
-     */
-    public function __call($method, $args)
+    public function __call(string $method, array $args)
     {
         if (0 === stripos($method, 'with')) {
             return $this->with(substr($method, 4), array_shift($args));
@@ -198,49 +101,22 @@ trait HasAttributes
         throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method));
     }
 
-    /**
-     * Magic get.
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    public function __get($property)
+    public function __get(string $attribute): mixed
     {
-        return $this->get($property);
+        return $this->get($attribute);
     }
 
-    /**
-     * Magic set.
-     *
-     * @param string $property
-     * @param mixed  $value
-     *
-     * @return $this
-     */
-    public function __set($property, $value)
+    public function __set(string $attribute, mixed $value): void
     {
-        return $this->with($property, $value);
+        $this->with($attribute, $value);
     }
 
-    /**
-     * Whether or not an data exists by key.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function __isset($key)
+    public function __isset(string $attribute): bool
     {
-        return isset($this->attributes[$key]);
+        return isset($this->attributes[$attribute]);
     }
 
-    /**
-     * Check required attributes.
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    protected function checkRequiredAttributes()
+    protected function assertRequiredAttributesExists()
     {
         foreach ($this->getRequired() as $attribute) {
             if (is_null($this->get($attribute))) {

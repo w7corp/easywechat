@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform\Authorizer\MiniProgram;
 
@@ -15,9 +8,6 @@ use EasyWeChat\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
 
 /**
- * Class Application.
- *
- * @author mingyoung <mingyoungcheung@gmail.com>
  *
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Account\Client  $account
  * @property \EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Code\Client     $code
@@ -29,8 +19,6 @@ use EasyWeChat\OpenPlatform\Authorizer\Aggregate\AggregateServiceProvider;
 class Application extends MiniProgram
 {
     /**
-     * Application constructor.
-     *
      * @param array $config
      * @param array $prepends
      */

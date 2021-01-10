@@ -1,67 +1,35 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
 use SimpleXMLElement;
 
-/**
- * Class XML.
- */
 class XML
 {
-    /**
-     * XML to array.
-     *
-     * @param string $xml XML string
-     *
-     * @return array
-     */
-    public static function parse($xml)
+    public static function parse(string $xml): array
     {
-        PHP_MAJOR_VERSION < 8 && $backup = libxml_disable_entity_loader(true);
-
-        $result = self::normalize(simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS));
-
-        PHP_MAJOR_VERSION < 8 && libxml_disable_entity_loader($backup);
-
-        return $result;
+        return self::normalize(
+            simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS)
+        );
     }
 
-    /**
-     * XML encode.
-     *
-     * @param mixed  $data
-     * @param string $root
-     * @param string $item
-     * @param string $attr
-     * @param string $id
-     *
-     * @return string
-     */
     public static function build(
-        $data,
-        $root = 'xml',
-        $item = 'item',
-        $attr = '',
-        $id = 'id'
-    ) {
+        array $data,
+        string $root = 'xml',
+        string $item = 'item',
+        string $attr = '',
+        string $id = 'id'
+    ): string {
         if (is_array($attr)) {
-            $_attr = [];
+            $segments = [];
 
             foreach ($attr as $key => $value) {
-                $_attr[] = "{$key}=\"{$value}\"";
+                $segments[] = "{$key}=\"{$value}\"";
             }
 
-            $attr = implode(' ', $_attr);
+            $attr = implode(' ', $segments);
         }
 
         $attr = trim($attr);
@@ -73,36 +41,21 @@ class XML
         return $xml;
     }
 
-    /**
-     * Build CDATA.
-     *
-     * @param string $string
-     *
-     * @return string
-     */
-    public static function cdata($string)
+    public static function cdata(string $string): string
     {
         return sprintf('<![CDATA[%s]]>', $string);
     }
 
-    /**
-     * Object to array.
-     *
-     *
-     * @param SimpleXMLElement $obj
-     *
-     * @return array
-     */
-    protected static function normalize($obj)
+    protected static function normalize(SimpleXMLElement $object): array
     {
         $result = null;
 
-        if (is_object($obj)) {
-            $obj = (array) $obj;
+        if (is_object($object)) {
+            $object = (array)$object;
         }
 
-        if (is_array($obj)) {
-            foreach ($obj as $key => $value) {
+        if (is_array($object)) {
+            foreach ($object as $key => $value) {
                 $res = self::normalize($value);
                 if (('@attributes' === $key) && ($key)) {
                     $result = $res; // @codeCoverageIgnore
@@ -111,22 +64,13 @@ class XML
                 }
             }
         } else {
-            $result = $obj;
+            $result = $object;
         }
 
         return $result;
     }
 
-    /**
-     * Array to XML.
-     *
-     * @param array  $data
-     * @param string $item
-     * @param string $id
-     *
-     * @return string
-     */
-    protected static function data2Xml($data, $item = 'item', $id = 'id')
+    protected static function data2Xml(array $data, string $item = 'item', string $id = 'id'): string
     {
         $xml = $attr = '';
 
@@ -139,7 +83,7 @@ class XML
             $xml .= "<{$key}{$attr}>";
 
             if ((is_array($val) || is_object($val))) {
-                $xml .= self::data2Xml((array) $val, $item, $id);
+                $xml .= self::data2Xml((array)$val, $item, $id);
             } else {
                 $xml .= is_numeric($val) ? $val : self::cdata($val);
             }
@@ -156,11 +100,11 @@ class XML
      * @see https://www.w3.org/TR/2008/REC-xml-20081126/#charsets - XML charset range
      * @see http://php.net/manual/en/regexp.reference.escape.php - escape in UTF-8 mode
      *
-     * @param string $xml
+     * @param  string  $xml
      *
      * @return string
      */
-    public static function sanitize($xml)
+    public static function sanitize(string $xml): string
     {
         return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml);
     }

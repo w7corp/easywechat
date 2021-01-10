@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform\Authorizer\OfficialAccount\Account;
 
@@ -15,11 +8,6 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Authorizer\Aggregate\Account\Client as BaseClient;
 
-/**
- * Class Client.
- *
- * @author Keal <caiyuezhang@gmail.com>
- */
 class Client extends BaseClient
 {
     /**
@@ -28,8 +16,6 @@ class Client extends BaseClient
     protected $component;
 
     /**
-     * Client constructor.
-     *
      * @param \EasyWeChat\Kernel\ServiceContainer  $app
      * @param \EasyWeChat\OpenPlatform\Application $component
      */

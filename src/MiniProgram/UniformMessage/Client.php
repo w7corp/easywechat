@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\MiniProgram\UniformMessage;
 
@@ -23,7 +16,7 @@ class Client extends BaseClient
      *
      * @var array
      */
-    protected $message = [
+    protected array $message = [
         'touser' => '',
     ];
 
@@ -32,7 +25,7 @@ class Client extends BaseClient
      *
      * @var array
      */
-    protected $weappMessage = [
+    protected array $weappMessage = [
         'template_id' => '',
         'page' => '',
         'form_id' => '',
@@ -45,7 +38,7 @@ class Client extends BaseClient
      *
      * @var array
      */
-    protected $mpMessage = [
+    protected array $mpMessage = [
         'appid' => '',
         'template_id' => '',
         'url' => '',
@@ -58,7 +51,7 @@ class Client extends BaseClient
      *
      * @var array
      */
-    protected $required = ['touser', 'template_id', 'form_id', 'miniprogram', 'appid'];
+    protected array $required = ['touser', 'template_id', 'form_id', 'miniprogram', 'appid'];
 
     /**
      * @param array $data

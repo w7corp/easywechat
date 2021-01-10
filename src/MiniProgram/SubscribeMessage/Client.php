@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\MiniProgram\SubscribeMessage;
 
@@ -15,16 +8,8 @@ use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use ReflectionClass;
 
-/**
- * Class Client.
- *
- * @author hugo <rabbitzhang52@gmail.com>
- */
 class Client extends BaseClient
 {
-    /**
-     * {@inheritdoc}.
-     */
     protected $message = [
         'touser' => '',
         'template_id' => '',
@@ -32,9 +17,7 @@ class Client extends BaseClient
         'data' => [],
     ];
 
-    /**
-     * {@inheritdoc}.
-     */
+
     protected $required = ['touser', 'template_id', 'data'];
 
     /**

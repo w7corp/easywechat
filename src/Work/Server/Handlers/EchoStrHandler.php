@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Work\Server\Handlers;
 
@@ -15,11 +8,6 @@ use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\ServiceContainer;
 
-/**
- * Class EchoStrHandler.
- *
- * @author overtrue <i@overtrue.me>
- */
 class EchoStrHandler implements EventHandlerInterface
 {
     /**
@@ -28,8 +16,6 @@ class EchoStrHandler implements EventHandlerInterface
     protected $app;
 
     /**
-     * EchoStrHandler constructor.
-     *
      * @param ServiceContainer $app
      */
     public function __construct(ServiceContainer $app)

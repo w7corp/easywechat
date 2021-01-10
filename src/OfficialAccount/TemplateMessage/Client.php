@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount\TemplateMessage;
 
@@ -15,11 +8,6 @@ use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use ReflectionClass;
 
-/**
- * Class Client.
- *
- * @author overtrue <i@overtrue.me>
- */
 class Client extends BaseClient
 {
     public const API_SEND = 'cgi-bin/message/template/send';
@@ -29,7 +17,7 @@ class Client extends BaseClient
      *
      * @var array
      */
-    protected $message = [
+    protected array $message = [
         'touser' => '',
         'template_id' => '',
         'url' => '',
@@ -42,7 +30,7 @@ class Client extends BaseClient
      *
      * @var array
      */
-    protected $required = ['touser', 'template_id'];
+    protected array $required = ['touser', 'template_id'];
 
     /**
      * Set industry.

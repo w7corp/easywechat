@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
@@ -24,8 +17,6 @@ use EasyWeChat\OpenPlatform\Authorizer\Server\Guard;
 use function EasyWeChat\Kernel\data_get;
 
 /**
- * Class Application.
- *
  * @property \EasyWeChat\OpenPlatform\Server\Guard $server
  * @property \EasyWeChat\OpenPlatform\Auth\AccessToken $access_token
  * @property \EasyWeChat\OpenPlatform\CodeTemplate\Client $code_template
@@ -45,7 +36,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $providers = [
+    protected array $providers = [
         Auth\ServiceProvider::class,
         Base\ServiceProvider::class,
         Server\ServiceProvider::class,
@@ -56,7 +47,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $defaultConfig = [
+    protected array $defaultConfig = [
         'http' => [
             'timeout' => 5.0,
             'base_uri' => 'https://api.weixin.qq.com/',

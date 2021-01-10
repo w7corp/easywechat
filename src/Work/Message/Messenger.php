@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Work\Message;
 
@@ -16,11 +9,6 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Message;
 use EasyWeChat\Kernel\Messages\Text;
 
-/**
- * Class MessageBuilder.
- *
- * @author overtrue <i@overtrue.me>
- */
 class Messenger
 {
     /**
@@ -31,7 +19,7 @@ class Messenger
     /**
      * @var array
      */
-    protected $to = ['touser' => '@all'];
+    protected array $to = ['touser' => '@all'];
 
     /**
      * @var int
@@ -49,8 +37,6 @@ class Messenger
     protected $client;
 
     /**
-     * MessageBuilder constructor.
-     *
      * @param \EasyWeChat\Work\Message\Client $client
      */
     public function __construct(Client $client)

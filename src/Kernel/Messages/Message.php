@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Messages;
 
@@ -16,9 +9,6 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 
-/**
- * Class Messages.
- */
 abstract class Message implements MessageInterface
 {
     use HasAttributes;
@@ -45,7 +35,7 @@ abstract class Message implements MessageInterface
     /**
      * @var string
      */
-    protected $type;
+    protected string  $type;
 
     /**
      * @var int
@@ -55,26 +45,24 @@ abstract class Message implements MessageInterface
     /**
      * @var string
      */
-    protected $to;
+    protected string  $to;
 
     /**
      * @var string
      */
-    protected $from;
+    protected string  $from;
 
     /**
      * @var array
      */
-    protected $properties = [];
+    protected array $properties = [];
 
     /**
      * @var array
      */
-    protected $jsonAliases = [];
+    protected array $jsonAliases = [];
 
     /**
-     * Message constructor.
-     *
      * @param array $attributes
      */
     public function __construct(array $attributes = [])
@@ -189,7 +177,7 @@ abstract class Message implements MessageInterface
      */
     protected function propertiesToArray(array $data, array $aliases = []): array
     {
-        $this->checkRequiredAttributes();
+        $this->assertRequiredAttributesExists();
 
         foreach ($this->attributes as $property => $value) {
             if (is_null($value) && !$this->isRequired($property)) {

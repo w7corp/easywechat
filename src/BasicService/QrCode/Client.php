@@ -1,29 +1,17 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\BasicService\QrCode;
 
 use EasyWeChat\Kernel\BaseClient;
 
-/**
- * Class Client.
- *
- * @author overtrue <i@overtrue.me>
- */
 class Client extends BaseClient
 {
     /**
      * @var string
      */
-    protected $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
+    protected string  $baseUri = 'https://api.weixin.qq.com/cgi-bin/';
 
     public const DAY = 86400;
     public const SCENE_MAX_VALUE = 100000;

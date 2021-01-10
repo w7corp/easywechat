@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\MicroMerchant;
 
@@ -17,9 +10,6 @@ use EasyWeChat\Kernel\Support;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\InvalidSignException;
 
 /**
- * Class Application.
- *
- * @author liuml <liumenglei0211@gmail.com>
  *
  * @property \EasyWeChat\MicroMerchant\Certficates\Client    $certficates
  * @property \EasyWeChat\MicroMerchant\Material\Client       $material
@@ -37,7 +27,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $providers = [
+    protected array $providers = [
         // Base services
         Base\ServiceProvider::class,
         Certficates\ServiceProvider::class,
@@ -50,7 +40,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $defaultConfig = [
+    protected array $defaultConfig = [
         'http' => [
             'base_uri' => 'https://api.mch.weixin.qq.com/',
         ],

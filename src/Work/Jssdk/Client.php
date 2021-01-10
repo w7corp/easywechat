@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Work\Jssdk;
 
@@ -17,11 +10,6 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 
-/**
- * Class Client.
- *
- * @author mingyoung <mingyoungcheung@gmail.com>
- */
 class Client extends BaseClient
 {
     public function __construct(ServiceContainer $app, AccessTokenInterface $accessToken = null)
@@ -40,7 +28,11 @@ class Client extends BaseClient
     }
 
     /**
-     * Return jsapi agent config as a PHP array.
+     * Return jsapi agent config as a <?php
+
+declare(strict_types=1);
+
+ array.
      *
      * @param  array  $apis
      * @param  int|string  $agentId

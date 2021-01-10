@@ -1,29 +1,15 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
 use finfo;
 
-/**
- * Class File.
- */
+//TODO: 改用 symfony/mime
 class File
 {
-    /**
-     * MIME mapping.
-     *
-     * @var array
-     */
-    protected static $extensionMap = [
+    protected static array $extensionMap = [
         'audio/wav' => '.wav',
         'audio/x-ms-wma' => '.wma',
         'video/x-ms-wmv' => '.wmv',
@@ -64,12 +50,7 @@ class File
         'application/vnd.ms-powerpoint.addin.macroEnabled.12' => '.ppam',
     ];
 
-    /**
-     * File header signatures.
-     *
-     * @var array
-     */
-    protected static $signatures = [
+    protected static array $signatures = [
         'ffd8ff' => '.jpg',
         '424d' => '.bmp',
         '47494638' => '.gif',

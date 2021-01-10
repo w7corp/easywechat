@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Payment;
 
@@ -19,8 +12,6 @@ use EasyWeChat\Kernel\Support;
 use EasyWeChat\OfficialAccount;
 
 /**
- * Class Application.
- *
  * @property \EasyWeChat\Payment\Bill\Client              $bill
  * @property \EasyWeChat\Payment\Fundflow\Client          $fundflow
  * @property \EasyWeChat\Payment\Jssdk\Client             $jssdk
@@ -44,7 +35,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $providers = [
+    protected array $providers = [
         OfficialAccount\Auth\ServiceProvider::class,
         BasicService\Url\ServiceProvider::class,
         Base\ServiceProvider::class,
@@ -67,7 +58,7 @@ class Application extends ServiceContainer
     /**
      * @var array
      */
-    protected $defaultConfig = [
+    protected array $defaultConfig = [
         'http' => [
             'base_uri' => 'https://api.mch.weixin.qq.com/',
         ],

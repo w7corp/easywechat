@@ -1,24 +1,12 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Work\ExternalContact;
 
 use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
-/**
- * Class MessageClient.
- *
- * @author milkmeowo <milkmeowo@gmail.com>
- */
 class MessageClient extends BaseClient
 {
     /**
@@ -26,7 +14,7 @@ class MessageClient extends BaseClient
      *
      * @var array
      */
-    protected $required = ['content', 'media_id', 'title', 'url', 'pic_media_id', 'appid', 'page'];
+    protected array $required = ['content', 'media_id', 'title', 'url', 'pic_media_id', 'appid', 'page'];
 
     protected $textMessage = [
         'content' => '',

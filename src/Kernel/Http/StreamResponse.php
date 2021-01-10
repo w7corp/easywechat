@@ -1,13 +1,6 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
+declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Http;
 
@@ -15,24 +8,9 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\File;
 
-/**
- * Class StreamResponse.
- *
- * @author overtrue <i@overtrue.me>
- */
 class StreamResponse extends Response
 {
-    /**
-     * @param string $directory
-     * @param string $filename
-     * @param bool   $appendSuffix
-     *
-     * @return bool|int
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
-    public function save(string $directory, string $filename = '', bool $appendSuffix = true)
+    public function save(string $directory, string $filename = '', bool $appendSuffix = true): bool|int|string
     {
         $this->getBody()->rewind();
 
@@ -69,17 +47,7 @@ class StreamResponse extends Response
         return $filename;
     }
 
-    /**
-     * @param string $directory
-     * @param string $filename
-     * @param bool   $appendSuffix
-     *
-     * @return bool|int
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
-    public function saveAs(string $directory, string $filename, bool $appendSuffix = true)
+    public function saveAs(string $directory, string $filename, bool $appendSuffix = true): bool|int|string
     {
         return $this->save($directory, $filename, $appendSuffix);
     }
