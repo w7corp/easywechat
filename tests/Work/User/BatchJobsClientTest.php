@@ -12,13 +12,13 @@
 namespace EasyWeChat\Tests\Work\User;
 
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Work\User\SyncClient;
+use EasyWeChat\Work\User\BatchJobsClient;
 
-class SyncClientTest extends TestCase
+class BatchJobsClientTest extends TestCase
 {
-    public function testBatchUpdateUser()
+    public function testBatchUpdateUsers()
     {
-        $client = $this->mockApiClient(SyncClient::class);
+        $client = $this->mockApiClient(BatchJobsClient::class);
 
         $params = [
             'media_id' => 'xxxxxx',
@@ -32,12 +32,12 @@ class SyncClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/batch/syncuser', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->batchUpdateUser($params));
+        $this->assertSame('mock-result', $client->batchUpdateUsers($params));
     }
 
-    public function testBatchReplaceUser()
+    public function testBatchReplaceUsers()
     {
-        $client = $this->mockApiClient(SyncClient::class);
+        $client = $this->mockApiClient(BatchJobsClient::class);
 
         $params = [
             'media_id' => 'xxxxxx',
@@ -51,12 +51,12 @@ class SyncClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/batch/replaceuser', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->batchReplaceUser($params));
+        $this->assertSame('mock-result', $client->batchReplaceUsers($params));
     }
 
-    public function testBatchReplaceDepartment()
+    public function testBatchReplaceDepartments()
     {
-        $client = $this->mockApiClient(SyncClient::class);
+        $client = $this->mockApiClient(BatchJobsClient::class);
 
         $params = [
             'media_id' => 'xxxxxx',
@@ -70,12 +70,12 @@ class SyncClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/batch/replaceparty', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->batchReplaceDepartment($params));
+        $this->assertSame('mock-result', $client->batchReplaceDepartments($params));
     }
 
     public function testGetJobStatus()
     {
-        $client = $this->mockApiClient(SyncClient::class);
+        $client = $this->mockApiClient(BatchJobsClient::class);
 
         $params = [
             'jobid' => 'jobidxxxx'

@@ -14,11 +14,11 @@ namespace EasyWeChat\Work\User;
 use EasyWeChat\Kernel\BaseClient;
 
 /**
- * Class SyncClient.
+ * Class BatchJobsClient.
  *
  * @author 读心印 <aa24615@qq.com>
  */
-class SyncClient extends BaseClient
+class BatchJobsClient extends BaseClient
 {
     /**
      * 增量更新成员.
@@ -32,7 +32,7 @@ class SyncClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function batchUpdateUser(array $params)
+    public function batchUpdateUsers(array $params)
     {
         return $this->httpPostJson('cgi-bin/batch/syncuser', $params);
     }
@@ -49,7 +49,7 @@ class SyncClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function batchReplaceUser(array $params)
+    public function batchReplaceUsers(array $params)
     {
         return $this->httpPostJson('cgi-bin/batch/replaceuser', $params);
     }
@@ -66,7 +66,7 @@ class SyncClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function batchReplaceDepartment(array $params)
+    public function batchReplaceDepartments(array $params)
     {
         return $this->httpPostJson('cgi-bin/batch/replaceparty', $params);
     }
