@@ -37,5 +37,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['linked_corp'] = function ($app) {
             return new LinkedCorpClient($app);
         };
+
+        $app['user_sync'] = function ($app) {
+            return new SyncClient($app);
+        };
     }
 }
