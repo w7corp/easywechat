@@ -424,6 +424,19 @@ class SchoolClient extends BaseClient
     }
 
     /**
+     * 外部联系人OPENID转换
+     * @param string $userId
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function convertOpenid(string $userId)
+    {
+        return $this->httpGet('cgi-bin/externalcontact/convert_to_openid',[
+            'external_userid'   => $userId
+        ]);
+    }
+
+    /**
      * 过滤数组中值为NULL的键
      * @param array $data
      * @return array
