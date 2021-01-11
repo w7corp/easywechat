@@ -29,5 +29,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['agent'] = function ($app) {
             return new Client($app);
         };
+
+        $app['agent_workbench'] = function ($app) {
+            return new WorkbenchClient($app);
+        };
     }
 }
