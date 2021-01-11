@@ -30,7 +30,7 @@
 ## Installation
 
 ```shell
-$ composer require "overtrue/wechat:^4.2" -vvv
+$ composer require "overtrue/wechat:^5.0" -vvv
 ```
 
 ## Usage
