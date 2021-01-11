@@ -452,6 +452,4 @@ class SchoolClient extends BaseClient
 
         return $returnData;
     }
-
-
 }
