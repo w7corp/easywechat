@@ -54,7 +54,7 @@ class SyncClientTest extends TestCase
         $this->assertSame('mock-result', $client->batchReplaceUser($params));
     }
 
-    public function testBatchReplaceParty()
+    public function testBatchReplaceDepartment()
     {
         $client = $this->mockApiClient(SyncClient::class);
 
@@ -70,10 +70,10 @@ class SyncClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/batch/replaceparty', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->batchReplaceParty($params));
+        $this->assertSame('mock-result', $client->batchReplaceDepartment($params));
     }
 
-    public function testGetResult()
+    public function testGetJobStatus()
     {
         $client = $this->mockApiClient(SyncClient::class);
 
@@ -83,6 +83,6 @@ class SyncClientTest extends TestCase
 
         $client->expects()->httpGet('cgi-bin/batch/getresult', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getResult('jobidxxxx'));
+        $this->assertSame('mock-result', $client->getJobStatus('jobidxxxx'));
     }
 }

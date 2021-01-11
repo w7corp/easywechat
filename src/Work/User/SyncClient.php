@@ -66,7 +66,7 @@ class SyncClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function batchReplaceParty(array $params)
+    public function batchReplaceDepartment(array $params)
     {
         return $this->httpPostJson('cgi-bin/batch/replaceparty', $params);
     }
@@ -83,7 +83,7 @@ class SyncClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getResult(string $jobId)
+    public function getJobStatus(string $jobId)
     {
         $params = [
             'jobid' => $jobId
