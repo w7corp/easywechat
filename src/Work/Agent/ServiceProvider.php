@@ -31,7 +31,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         $app['agent_workbench'] = function ($app) {
-            return new WorkBenchClient($app);
+            return new WorkbenchClient($app);
         };
     }
 }

@@ -14,13 +14,12 @@ namespace EasyWeChat\Work\Agent;
 use EasyWeChat\Kernel\BaseClient;
 
 /**
- * This is WeWork Agent WorkBenchClient.
+ * This is WeWork Agent WorkbenchClient.
  *
  * @author 读心印 <aa24615@qq.com>
  */
-class WorkBenchClient extends BaseClient
+class WorkbenchClient extends BaseClient
 {
-
     /**
      * 设置应用在工作台展示的模版.
      *
@@ -32,7 +31,7 @@ class WorkBenchClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function setWorkBenchTemplate(array $params)
+    public function setWorkbenchTemplate(array $params)
     {
         return $this->httpPostJson('cgi-bin/agent/set_workbench_template', $params);
     }
@@ -48,7 +47,7 @@ class WorkBenchClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function getWorkBenchTemplate(int $agentId)
+    public function getWorkbenchTemplate(int $agentId)
     {
         $params = [
             'agentid' => $agentId
@@ -68,7 +67,7 @@ class WorkBenchClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function setWorkBenchData(array $params)
+    public function setWorkbenchData(array $params)
     {
         return $this->httpPostJson('cgi-bin/agent/set_workbench_data', $params);
     }

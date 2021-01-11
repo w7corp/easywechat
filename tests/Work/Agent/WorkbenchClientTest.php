@@ -12,13 +12,13 @@
 namespace EasyWeChat\Tests\Work\Agent;
 
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Work\Agent\WorkBenchClient;
+use EasyWeChat\Work\Agent\WorkbenchClient;
 
-class WorkBenchClientTest extends TestCase
+class WorkbenchClientTest extends TestCase
 {
     public function testSetWorkBenchTemplate()
     {
-        $client = $this->mockApiClient(WorkBenchClient::class);
+        $client = $this->mockApiClient(WorkbenchClient::class);
 
         $params = [
             'agentid' => 1000005,
@@ -33,12 +33,12 @@ class WorkBenchClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/agent/set_workbench_template', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->setWorkBenchTemplate($params));
+        $this->assertSame('mock-result', $client->setWorkbenchTemplate($params));
     }
 
     public function testGetWorkBenchTemplate()
     {
-        $client = $this->mockApiClient(WorkBenchClient::class);
+        $client = $this->mockApiClient(WorkbenchClient::class);
 
         $params = [
             'agentid' => 100001
@@ -46,12 +46,12 @@ class WorkBenchClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/agent/get_workbench_template', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getWorkBenchTemplate(100001));
+        $this->assertSame('mock-result', $client->getWorkbenchTemplate(100001));
     }
 
     public function testSetWorkBenchData()
     {
-        $client = $this->mockApiClient(WorkBenchClient::class);
+        $client = $this->mockApiClient(WorkbenchClient::class);
 
         $params = [
             'agentid' => 1000005,
@@ -89,6 +89,6 @@ class WorkBenchClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/agent/set_workbench_data', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->setWorkBenchData($params));
+        $this->assertSame('mock-result', $client->setWorkbenchData($params));
     }
 }
