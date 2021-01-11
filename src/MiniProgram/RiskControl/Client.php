@@ -1,4 +1,5 @@
 <?php
+
 namespace EasyWeChat\MiniProgram\RiskControl;
 
 use EasyWeChat\Kernel\BaseClient;
@@ -15,7 +16,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Client extends BaseClient
 {
-
     /**
      * 获取用户的安全等级
      *

@@ -1,4 +1,5 @@
 <?php
+
 namespace EasyWeChat\MiniProgram\RiskControl;
 
 use Pimple\Container;
@@ -12,7 +13,6 @@ use Pimple\ServiceProviderInterface;
  */
 class ServiceProvider implements ServiceProviderInterface
 {
-
     /**
      * @inheritDoc
      */

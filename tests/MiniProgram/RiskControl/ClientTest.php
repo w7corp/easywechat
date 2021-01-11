@@ -7,7 +7,6 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
-
     public function testGetUserRiskRank()
     {
         $client = $this->mockApiClient(Client::class)->makePartial();
