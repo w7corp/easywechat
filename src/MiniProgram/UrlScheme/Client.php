@@ -27,6 +27,6 @@ class Client extends BaseClient
      */
     public function generate(array $param = [])
     {
-        return $this->httpPost('wxa/generatescheme', $param);
+        return $this->httpPostJson('wxa/generatescheme', $param);
     }
 }
