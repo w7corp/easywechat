@@ -15,7 +15,3 @@
 请正确使用 Markdown: https://guides.github.com/features/mastering-markdown
 
 -->
-
-
-<!-- Love wechat? Please consider supporting our collective:
-👉  https://opencollective.com/wechat/donate -->
