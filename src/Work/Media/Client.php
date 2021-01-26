@@ -53,7 +53,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function uploadImage(string $path)
+    public function uploadImage(string $path, array $form = [])
     {
         return $this->upload('image', $path);
     }
@@ -65,7 +65,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function uploadVoice(string $path)
+    public function uploadVoice(string $path, array $form = [])
     {
         return $this->upload('voice', $path);
     }
@@ -77,7 +77,7 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function uploadVideo(string $path)
+    public function uploadVideo(string $path, array $form = [])
     {
         return $this->upload('video', $path);
     }
@@ -89,9 +89,9 @@ class Client extends BaseClient
      *
      * @return mixed
      */
-    public function uploadFile(string $path)
+    public function uploadFile(string $path, array $form = [])
     {
-        return $this->upload('file', $path);
+        return $this->upload('file', $path, $form);
     }
 
     /**
@@ -105,12 +105,12 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function upload(string $type, string $path)
+    public function upload(string $type, string $path, array $form = [])
     {
         $files = [
             'media' => $path,
         ];
 
-        return $this->httpUpload('cgi-bin/media/upload', $files, [], compact('type'));
+        return $this->httpUpload('cgi-bin/media/upload', $files, $form, compact('type'));
     }
 }
