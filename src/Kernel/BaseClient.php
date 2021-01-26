@@ -121,11 +121,19 @@ class BaseClient
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = [])
     {
         $multipart = [];
+        $headers = [];
+
+        if(isset($form['filename'])){
+            $headers = [
+                'Content-Disposition' => 'form-data; name="media"; filename="'.$form['filename'].'"'
+            ];
+        }
 
         foreach ($files as $name => $path) {
             $multipart[] = [
                 'name' => $name,
                 'contents' => fopen($path, 'r'),
+                'headers' => $headers
             ];
         }
 
