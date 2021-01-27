@@ -29,7 +29,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getUserinfo(string $code)
+    public function getUser(string $code)
     {
         $params = [
             'code' => $code,
