@@ -76,6 +76,7 @@ class Application extends ServiceContainer
         MsgAudit\ServiceProvider::class,
         Live\ServiceProvider::class,
         CorpGroup\ServiceProvider::class,
+        Mobile\ServiceProvider::class
     ];
 
     /**

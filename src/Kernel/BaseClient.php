@@ -123,7 +123,7 @@ class BaseClient
         $multipart = [];
         $headers = [];
 
-        if(isset($form['filename'])){
+        if (isset($form['filename'])) {
             $headers = [
                 'Content-Disposition' => 'form-data; name="media"; filename="'.$form['filename'].'"'
             ];
