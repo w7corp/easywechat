@@ -50,42 +50,46 @@ class Client extends BaseClient
      * Upload Image.
      *
      * @param string $path
+     * @param array $form
      *
      * @return mixed
      */
     public function uploadImage(string $path, array $form = [])
     {
-        return $this->upload('image', $path);
+        return $this->upload('image', $path, $form);
     }
 
     /**
      * Upload Voice.
      *
      * @param string $path
+     * @param array $form
      *
      * @return mixed
      */
     public function uploadVoice(string $path, array $form = [])
     {
-        return $this->upload('voice', $path);
+        return $this->upload('voice', $path, $form);
     }
 
     /**
      * Upload Video.
      *
      * @param string $path
+     * @param array $form
      *
      * @return mixed
      */
     public function uploadVideo(string $path, array $form = [])
     {
-        return $this->upload('video', $path);
+        return $this->upload('video', $path, $form);
     }
 
     /**
      * Upload File.
      *
      * @param string $path
+     * @param array $form
      *
      * @return mixed
      */
@@ -99,6 +103,7 @@ class Client extends BaseClient
      *
      * @param string $type
      * @param string $path
+     * @param array $form
      *
      * @return mixed
      *
