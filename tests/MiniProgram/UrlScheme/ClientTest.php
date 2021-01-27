@@ -13,7 +13,7 @@ class ClientTest extends TestCase
 
         $expireTime = time() + (7 * 24 * 60 * 60);
 
-        $client->expects()->httpPost('wxa/generatescheme', [
+        $client->expects()->httpPostJson('wxa/generatescheme', [
             [
                 'path' => 'pages/home/index',
                 'query' => '1002',

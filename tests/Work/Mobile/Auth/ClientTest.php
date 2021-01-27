@@ -29,6 +29,6 @@ class ClientTest extends TestCase
             'code' => 'codexxxxxx'
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getUserinfo('codexxxxxx'));
+        $this->assertSame('mock-result', $client->getUser('codexxxxxx'));
     }
 }
