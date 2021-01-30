@@ -365,4 +365,63 @@ class ClientTest extends TestCase
         $client->expects()->httpPost('wxa/business/push_message', $params)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->pushMessage($params));
     }
+
+    public function testUpdateGoodsInRoom()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'roomId' => 6474,
+            'goodsId' => 1,
+            'onSale' => 0,
+        ];
+        $client->expects()->httpPost('wxaapi/broadcast/goods/onsale', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->updateGoodsInRoom($params));
+    }
+
+    public function testDeleteGoodsInRoom()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'roomId' => 6474,
+            'goodsId' => 1,
+        ];
+        $client->expects()->httpPost('wxaapi/broadcast/goods/deleteInRoom', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->deleteGoodsInRoom($params));
+    }
+
+    public function testPushGoods()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'roomId' => 6474,
+            'goodsId' => 1,
+        ];
+        $client->expects()->httpPost('wxaapi/broadcast/goods/push', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->pushGoods($params));
+    }
+
+    public function testSortGoods()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'roomId' => 6474,
+            'goods' => [
+                ['goodsId' => 123],
+                ['goodsId' => 234],
+            ]
+        ];
+        $client->expects()->httpPost('wxaapi/broadcast/goods/sort', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->sortGoods($params));
+    }
+
+    public function testDownloadGoodsExplanationVideo()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'roomId' => 6474,
+            'goodsId' => 1,
+        ];
+        $client->expects()->httpPost('wxaapi/broadcast/goods/getVideo', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->downloadGoodsExplanationVideo($params));
+    }
 }
