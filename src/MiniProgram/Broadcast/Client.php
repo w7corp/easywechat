@@ -457,4 +457,69 @@ class Client extends BaseClient
     {
         return $this->httpPost('wxa/business/push_message', $params);
     }
+
+    /**
+     * Change the status of goods on/off shelves in room.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function updateGoodsInRoom(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/goods/onsale', $params);
+    }
+
+    /**
+     * Delete goods in room.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function deleteGoodsInRoom(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/goods/deleteInRoom', $params);
+    }
+
+    /**
+     * Push goods in room.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function pushGoods(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/goods/push', $params);
+    }
+
+    /**
+     * Change goods sort in room.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function sortGoods(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/goods/sort', $params);
+    }
+
+    /**
+     * Download goods explanation video.
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function downloadGoodsExplanationVideo(array $params)
+    {
+        return $this->httpPost('wxaapi/broadcast/goods/getVideo', $params);
+    }
 }
