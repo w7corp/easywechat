@@ -26,14 +26,14 @@ class MessageClient extends BaseClient
      *
      * @var array
      */
-    protected $required = ['content', 'media_id', 'title', 'url', 'pic_media_id', 'appid', 'page'];
+    protected $required = ['content', 'title', 'url', 'pic_media_id', 'appid', 'page'];
 
     protected $textMessage = [
         'content' => '',
     ];
 
     protected $imageMessage = [
-        'media_id' => '',
+        
     ];
 
     protected $linkMessage = [
