@@ -24,7 +24,7 @@ class ServiceProvider implements ServiceProviderInterface
             if (!empty($app['config']['component_app_id'] && !empty($app['config']['component_app_token']))) {
                 $wechat['wechat']['component'] = [
                     'id' => $app['config']['component_app_id'],
-                    'token' => $app['config']['token'],
+                    'token' => $app['config']['component_app_token'],
                 ] ;
             }
 
