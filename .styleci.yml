@@ -1,6 +1,6 @@
 preset: symfony
 
-linting: true11
+linting: true
 
 enabled:
   - strict
