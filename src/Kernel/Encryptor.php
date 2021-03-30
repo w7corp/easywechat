@@ -107,7 +107,7 @@ class Encryptor
                 $xml,
                 $this->aesKey,
                 substr($this->aesKey, 0, 16),
-                OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING
+                OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING
             ));
             // @codeCoverageIgnoreStart
         } catch (Throwable $e) {
@@ -153,7 +153,7 @@ class Encryptor
             base64_decode($content, true),
             $this->aesKey,
             substr($this->aesKey, 0, 16),
-            OPENSSL_RAW_DATA|OPENSSL_ZERO_PADDING
+            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING
         );
         $result = $this->pkcs7Unpad($decrypted);
         $content = substr($result, 16, strlen($result));
