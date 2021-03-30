@@ -15,25 +15,26 @@ use EasyWeChat\Kernel\BaseClient;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
 /**
- * Class MessageClient.
+ * Class MessageTemplateClient.
  *
- * @author milkmeowo <milkmeowo@gmail.com>
+ * @author ljyljy0211 <ljyljy0211@gmail.com>
  */
-class MessageClient extends BaseClient
+class MessageTemplateClient extends BaseClient
 {
     /**
      * Required attributes.
      *
      * @var array
      */
-    protected $required = ['content', 'title', 'url', 'pic_media_id', 'appid', 'page'];
+    protected $required = ['title', 'url', 'pic_media_id', 'appid', 'page'];
 
     protected $textMessage = [
         'content' => '',
     ];
 
     protected $imageMessage = [
-
+        'media_id' => '',
+        'pic_url' => '',
     ];
 
     protected $linkMessage = [
@@ -51,75 +52,76 @@ class MessageClient extends BaseClient
     ];
 
     /**
-     * 添加企业群发消息模板
+     * 添加入群欢迎语素材.
      *
-     * @see https://work.weixin.qq.com/api/doc#90000/90135/91560
-     *
-     * @param array $msg
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92366
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function submit(array $msg)
+    public function create(array $msgTemplate)
     {
-        $params = $this->formatMessage($msg);
+        $params = $this->formatMessage($msgTemplate);
 
-        return $this->httpPostJson('cgi-bin/externalcontact/add_msg_template', $params);
+        return $this->httpPostJson('cgi-bin/externalcontact/group_welcome_template/add', $params);
     }
 
     /**
-     * 获取企业群发消息发送结果.
+     * 编辑入群欢迎语素材.
      *
-     * @see https://work.weixin.qq.com/api/doc#90000/90135/91561
-     *
-     * @param string $msgId
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function get(string $msgId)
-    {
-        return $this->httpPostJson('cgi-bin/externalcontact/get_group_msg_result', [
-            'msgid' => $msgId,
-        ]);
-    }
-
-    /**
-     * 发送新客户欢迎语.
-     *
-     * @see https://work.weixin.qq.com/api/doc#90000/90135/91688
-     *
-     * @param string $welcomeCode
-     * @param array  $msg
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92366
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function sendWelcome(string $welcomeCode, array $msg)
+    public function update(string $templateId, array $msgTemplate)
     {
-        $formattedMsg = $this->formatMessage($msg);
-
-        $params = array_merge($formattedMsg, [
-            'welcome_code' => $welcomeCode,
-        ]);
-
-        return $this->httpPostJson('cgi-bin/externalcontact/send_welcome_msg', $params);
+        $params = $this->formatMessage($msgTemplate);
+        $params = array_merge([
+            'template_id' => $templateId,
+        ], $params);
+        return $this->httpPostJson('cgi-bin/externalcontact/group_welcome_template/edit', $params);
     }
 
     /**
-     * @param array $data
+     * 获取入群欢迎语素材.
      *
-     * @return array
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92366
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function get(string $templateId)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/group_welcome_template/get', [
+            'template_id' => $templateId,
+        ]);
+    }
+
+    /**
+     * 删除入群欢迎语素材.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/92366
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     */
+    public function delete(string $templateId)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/group_welcome_template/del', [
+            'template_id' => $templateId,
+        ]);
+    }
+
+    /**
      * @throws InvalidArgumentException
+     * @return array
      */
     protected function formatMessage(array $data = [])
     {
@@ -145,12 +147,8 @@ class MessageClient extends BaseClient
     }
 
     /**
-     * @param array $data
-     * @param array $default
-     *
-     * @return array
-     *
      * @throws InvalidArgumentException
+     * @return array
      */
     protected function formatFields(array $data = [], array $default = [])
     {

@@ -84,7 +84,7 @@ class Application extends ServiceContainer
                 $socialite->withComponent(
                     [
                         'id' => $this['config']['app_id'],
-                        'token' => fn() => $this['access_token']->getToken()['component_access_token'],
+                        'token' => fn () => $this['access_token']->getToken()['component_access_token'],
                     ]
                 );
 

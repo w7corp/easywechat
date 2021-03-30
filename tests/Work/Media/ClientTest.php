@@ -65,7 +65,6 @@ class ClientTest extends TestCase
         $client->expects()->upload('image', '/foo/bar/image.jpg', ['filename' => 'image.jpg'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadImage('/foo/bar/image.jpg', ['filename' => 'image.jpg']));
-
     }
 
     public function testUploadVideo()
