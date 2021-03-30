@@ -61,7 +61,7 @@ class MessageTemplateClient extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function add(array $msgTemplate)
+    public function create(array $msgTemplate)
     {
         $params = $this->formatMessage($msgTemplate);
 
@@ -78,7 +78,7 @@ class MessageTemplateClient extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function edit(string $templateId, array $msgTemplate)
+    public function update(string $templateId, array $msgTemplate)
     {
         $params = $this->formatMessage($msgTemplate);
         $params = array_merge([
