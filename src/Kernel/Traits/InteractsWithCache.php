@@ -10,24 +10,34 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
-use Symfony\Component\Cache\Simple\FilesystemCache;
 
 //TODO: PSR16 Cache
 trait InteractsWithCache
 {
-    protected SimpleCacheInterface $cache;
+    /**
+     * @var \Psr\SimpleCache\CacheInterface|null
+     */
+    protected ?SimpleCacheInterface $cache = null;
 
+    /**
+     * @return \Psr\SimpleCache\CacheInterface
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function getCache(): SimpleCacheInterface
     {
         if ($this->cache) {
             return $this->cache;
         }
 
-        if (property_exists($this, 'app') && $this->app instanceof ServiceContainer && isset($this->app['cache'])) {
-            $this->setCache($this->app['cache']);
-
-            // Fix PHPStan error
-            assert($this->cache instanceof \Psr\SimpleCache\CacheInterface);
+        if (
+            property_exists($this, 'app')
+            &&
+            $this->app instanceof ServiceContainer
+            &&
+            $cache = $this->app['cache'] ?? null
+        ) {
+            $this->setCache($cache);
 
             return $this->cache;
         }
@@ -35,16 +45,30 @@ trait InteractsWithCache
         return $this->cache = $this->createDefaultCache();
     }
 
-    public function setCache(SimpleCacheInterface|CacheItemPoolInterface $cache): static
+    /**
+     * @param $cache
+     *
+     * @return $this
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function setCache($cache): static
     {
-        if (empty(\array_intersect([SimpleCacheInterface::class, CacheItemPoolInterface::class], \class_implements($cache)))) {
-            throw new InvalidArgumentException(\sprintf('The cache instance must implements %s or %s interface.', SimpleCacheInterface::class, CacheItemPoolInterface::class));
+        if (
+            !$cache instanceof SimpleCacheInterface
+            &&
+            !$cache instanceof CacheItemPoolInterface
+        ) {
+            throw new InvalidArgumentException(
+                \sprintf(
+                    'The cache instance must implements %s or %s interface.',
+                    SimpleCacheInterface::class,
+                    CacheItemPoolInterface::class
+                )
+            );
         }
 
         if ($cache instanceof CacheItemPoolInterface) {
-            if (!$this->isSymfony43OrHigher()) {
-                throw new InvalidArgumentException(sprintf('The cache instance must implements %s', SimpleCacheInterface::class));
-            }
             $cache = new Psr16Cache($cache);
         }
 
@@ -53,17 +77,30 @@ trait InteractsWithCache
         return $this;
     }
 
-    protected function createDefaultCache(): Psr16Cache|FilesystemCache
+    /**
+     * @param string $namespace
+     * @param int    $lifeTime
+     *
+     * @return \Symfony\Component\Cache\Psr16Cache
+     */
+    protected function createDefaultCache($namespace = 'easywechat', $lifeTime = 1500): Psr16Cache
     {
-        if ($this->isSymfony43OrHigher()) {
-            return new Psr16Cache(new FilesystemAdapter('easywechat', 1500));
+        if (
+            property_exists($this, 'app')
+            &&
+            $this->app instanceof ServiceContainer
+            &&
+            $cacheConfig = $this->app->getConfig()['cache'] ?? []
+        ) {
+            $namespace = $cacheConfig['namespace'];
+            $lifeTime = $cacheConfig['life_time'];
         }
 
-        return new FilesystemCache();
-    }
-
-    protected function isSymfony43OrHigher(): bool
-    {
-        return \class_exists('Symfony\Component\Cache\Psr16Cache');
+        return new Psr16Cache(
+            new FilesystemAdapter(
+                $namespace,
+                $lifeTime
+            )
+        );
     }
 }
