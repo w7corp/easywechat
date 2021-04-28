@@ -58,6 +58,10 @@ class ServiceContainer extends Container
                 'timeout' => 30.0,
                 'base_uri' => 'https://api.weixin.qq.com/',
             ],
+            'cache' => [
+                'namespace' => 'easywechat',
+                'life_time' => 1500,
+            ],
         ];
 
         return array_replace_recursive($base, $this->defaultConfig, $this->userConfig);
