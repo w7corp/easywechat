@@ -20,11 +20,11 @@ trait InteractsWithCache
     protected ?SimpleCacheInterface $cache = null;
 
     /**
-     * @return \Psr\SimpleCache\CacheInterface
+     * @return \Psr\SimpleCache\CacheInterface|null
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function getCache(): SimpleCacheInterface
+    public function getCache(): SimpleCacheInterface|null
     {
         if ($this->cache) {
             return $this->cache;
