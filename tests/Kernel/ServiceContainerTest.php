@@ -74,7 +74,7 @@ class ServiceContainerTest extends TestCase
 
 class DummyContainerForProviderTest extends ServiceContainer
 {
-    protected $providers = [
+    protected array $providers = [
         FooServiceProvider::class,
     ];
 }
