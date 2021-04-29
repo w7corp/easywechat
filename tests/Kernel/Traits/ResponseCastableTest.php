@@ -106,7 +106,7 @@ class DummyClassForResponseCastable
 
 class DummyClassForArrayableCast implements Arrayable
 {
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'hello' => 'world!',

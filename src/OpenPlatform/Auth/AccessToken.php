@@ -11,17 +11,17 @@ class AccessToken extends BaseAccessToken
     /**
      * @var string
      */
-    protected string  $requestMethod = 'POST';
+    protected string $requestMethod = 'POST';
 
     /**
      * @var string
      */
-    protected string  $tokenKey = 'component_access_token';
+    protected string $tokenKey = 'component_access_token';
 
     /**
      * @var string
      */
-    protected string  $endpointToGetToken = 'cgi-bin/component/api_component_token';
+    protected string $endpointToGetToken = 'cgi-bin/component/api_component_token';
 
     /**
      * @return array
@@ -31,7 +31,7 @@ class AccessToken extends BaseAccessToken
         return [
             'component_appid' => $this->app['config']['app_id'],
             'component_appsecret' => $this->app['config']['secret'],
-            'component_verify_ticket' => $this->app['verify_ticket']->getTicket(),
+            'component_verify_ticket' => $this->app['verify_ticket']?->getTicket(),
         ];
     }
 }

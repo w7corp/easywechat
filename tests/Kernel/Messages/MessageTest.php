@@ -132,9 +132,9 @@ class MessageTest extends TestCase
 
 class DummyMessageForMessageTest extends Message
 {
-    protected $type = 'dummy';
+    protected string $type = 'dummy';
 
-    protected $properties = [
+    protected array $properties = [
         'foo',
         'bar',
         'media_id',
@@ -142,21 +142,21 @@ class DummyMessageForMessageTest extends Message
         'required_id',
     ];
 
-    protected $jsonAliases = [
+    protected array $jsonAliases = [
         'foo_id' => 'foo',
         'bar_name' => 'bar',
     ];
 
-    protected $xmlAliases = [
+    protected array $xmlAliases = [
         'Foo' => 'foo',
         'Bar' => 'bar',
     ];
 
-    protected $required = [
+    protected array $required = [
         'media_id', 'required_id',
     ];
 
-    public function toXmlArray()
+    public function toXmlArray(): array
     {
         return [
             'MediaId' => $this->get('media_id'),

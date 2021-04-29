@@ -48,3 +48,26 @@ function data_to_array($data)
             throw new RuntimeException(sprintf('Can\'t transform data to array'));
     }
 }
+
+/**
+ * Throw the given exception if the given condition is true.
+ *
+ * @param  mixed  $condition
+ * @param  \Throwable|string  $exception
+ * @param  ...$parameters
+ * @return mixed
+ *
+ * @throws \Throwable
+ */
+function throw_if($condition, $exception = 'RuntimeException', ...$parameters): mixed
+{
+    if ($condition) {
+        if (is_string($exception) && class_exists($exception)) {
+            $exception = new $exception(...$parameters);
+        }
+
+        throw is_string($exception) ? new RuntimeException($exception) : $exception;
+    }
+
+    return $condition;
+}

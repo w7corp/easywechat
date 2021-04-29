@@ -13,33 +13,34 @@ class AccessToken extends BaseAccessToken
     /**
      * @var string
      */
-    protected string  $requestMethod = 'POST';
+    protected string $requestMethod = 'POST';
 
     /**
      * @var string
      */
-    protected string  $queryName = 'access_token';
-
-
-    protected $tokenKey = 'authorizer_access_token';
+    protected string $queryName = 'access_token';
 
     /**
-     * @var \EasyWeChat\OpenPlatform\Application
+     * @var string
      */
-    protected $component;
+    protected string $tokenKey = 'authorizer_access_token';
 
     /**
+     * AccessToken constructor.
+     *
      * @param \Pimple\Container                    $app
      * @param \EasyWeChat\OpenPlatform\Application $component
      */
-    public function __construct(Container $app, Application $component)
-    {
+    public function __construct(
+        Container $app,
+        public Application $component
+    ) {
         parent::__construct($app);
-
-        $this->component = $component;
     }
 
-
+    /**
+     * @return array
+     */
     protected function getCredentials(): array
     {
         return [
@@ -54,8 +55,10 @@ class AccessToken extends BaseAccessToken
      */
     public function getEndpoint(): string
     {
-        return 'cgi-bin/component/api_authorizer_token?'.http_build_query([
-            'component_access_token' => $this->component['access_token']->getToken()['component_access_token'],
+        $query = http_build_query([
+            'component_access_token' => $this->component['access_token']?->getToken()['component_access_token'],
         ]);
+
+        return 'cgi-bin/component/api_authorizer_token?'.$query;
     }
 }

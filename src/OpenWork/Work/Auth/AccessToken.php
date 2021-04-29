@@ -8,28 +8,12 @@ use EasyWeChat\Kernel\AccessToken as BaseAccessToken;
 use EasyWeChat\OpenWork\Application;
 use Pimple\Container;
 
-/**
- * AccessToken.
- *
- */
 class AccessToken extends BaseAccessToken
 {
     /**
      * @var string
      */
-    protected string  $requestMethod = 'POST';
-
-    /**
-     * @var string 授权方企业ID
-     */
-    protected $authCorpid;
-
-    /**
-     * @var string 授权方企业永久授权码，通过get_permanent_code获取
-     */
-    protected $permanentCode;
-
-    protected $component;
+    protected string $requestMethod = 'POST';
 
     /**
      * @param Container   $app
@@ -37,11 +21,12 @@ class AccessToken extends BaseAccessToken
      * @param string      $permanentCode
      * @param Application $component
      */
-    public function __construct(Container $app, string $authCorpId, string $permanentCode, Application $component)
-    {
-        $this->authCorpid = $authCorpId;
-        $this->permanentCode = $permanentCode;
-        $this->component = $component;
+    public function __construct(
+        Container $app,
+        public string $authCorpId,
+        public string $permanentCode,
+        public Application $component
+    ) {
         parent::__construct($app);
     }
 
@@ -53,7 +38,7 @@ class AccessToken extends BaseAccessToken
     protected function getCredentials(): array
     {
         return [
-            'auth_corpid' => $this->authCorpid,
+            'auth_corpid' => $this->authCorpId,
             'permanent_code' => $this->permanentCode,
         ];
     }
@@ -63,8 +48,10 @@ class AccessToken extends BaseAccessToken
      */
     public function getEndpoint(): string
     {
-        return 'cgi-bin/service/get_corp_token?'.http_build_query([
-                'suite_access_token' => $this->component['suite_access_token']->getToken()['suite_access_token'],
-            ]);
+        $query = http_build_query([
+            'suite_access_token' => $this->component['suite_access_token']?->getToken()['suite_access_token'],
+        ]);
+
+        return 'cgi-bin/service/get_corp_token?'.$query;
     }
 }
