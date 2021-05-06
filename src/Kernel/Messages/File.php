@@ -12,5 +12,5 @@ class File extends Media
     /**
      * @var string
      */
-    protected string  $type = 'file';
+    protected string $type = 'file';
 }

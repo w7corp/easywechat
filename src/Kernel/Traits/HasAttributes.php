@@ -7,12 +7,25 @@ namespace EasyWeChat\Kernel\Traits;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Support\Str;
+use function EasyWeChat\Kernel\throw_if;
 
 trait HasAttributes
 {
+    /**
+     * @var array
+     */
     protected array $attributes = [];
+
+    /**
+     * @var bool
+     */
     protected bool $snakeable = true;
 
+    /**
+     * @param array $attributes
+     *
+     * @return $this
+     */
     public function setAttributes(array $attributes = []): static
     {
         $this->attributes = $attributes;
@@ -20,6 +33,12 @@ trait HasAttributes
         return $this;
     }
 
+    /**
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return $this
+     */
     public function setAttribute(string $attribute, mixed $value): static
     {
         Arr::set($this->attributes, $attribute, $value);
@@ -27,7 +46,13 @@ trait HasAttributes
         return $this;
     }
 
-    public function getAttribute(string $attribute, mixed $default = null)
+    /**
+     * @param string     $attribute
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
+    public function getAttribute(string $attribute, mixed $default = null): mixed
     {
         return Arr::get($this->attributes, $attribute, $default);
     }
@@ -42,11 +67,20 @@ trait HasAttributes
         return in_array($attribute, $this->getRequired(), true);
     }
 
+    /**
+     * @return array
+     */
     public function getRequired(): array
     {
         return property_exists($this, 'required') ? $this->required ?? [] : [];
     }
 
+    /**
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return $this
+     */
     public function with(string $attribute, mixed $value): static
     {
         $this->snakeable && $attribute = Str::snake($attribute);
@@ -56,6 +90,12 @@ trait HasAttributes
         return $this;
     }
 
+    /**
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return $this
+     */
     public function set(string $attribute, mixed $value): static
     {
         $this->setAttribute($attribute, $value);
@@ -63,16 +103,32 @@ trait HasAttributes
         return $this;
     }
 
+    /**
+     * @param string     $attribute
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
     public function get(string $attribute, mixed $default = null): mixed
     {
         return $this->getAttribute($attribute, $default);
     }
 
+    /**
+     * @param string $attribute
+     *
+     * @return bool
+     */
     public function has(string $attribute): bool
     {
         return Arr::has($this->attributes, $attribute);
     }
 
+    /**
+     * @param array $attributes
+     *
+     * @return $this
+     */
     public function merge(array $attributes): static
     {
         $this->attributes = array_merge($this->attributes, $attributes);
@@ -80,11 +136,21 @@ trait HasAttributes
         return $this;
     }
 
+    /**
+     * @param $keys
+     *
+     * @return array
+     */
     public function only($keys): array
     {
         return Arr::only($this->attributes, $keys);
     }
 
+    /**
+     * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function all(): array
     {
         $this->assertRequiredAttributesExists();
@@ -92,36 +158,65 @@ trait HasAttributes
         return $this->attributes;
     }
 
-    public function __call(string $method, array $args)
+    /**
+     * @param string $method
+     * @param array  $args
+     *
+     * @return $this
+     *
+     * @throws \BadMethodCallException
+     */
+    public function __call(string $method, array $args): static
     {
-        if (0 === stripos($method, 'with')) {
-            return $this->with(substr($method, 4), array_shift($args));
-        }
+        throw_if(
+            0 !== stripos($method, 'with'),
+            \BadMethodCallException::class,
+            sprintf('Method "%s" does not exists.', $method)
+        );
 
-        throw new \BadMethodCallException(sprintf('Method "%s" does not exists.', $method));
+        return $this->with(substr($method, 4), array_shift($args));
     }
 
+    /**
+     * @param string $attribute
+     *
+     * @return mixed
+     */
     public function __get(string $attribute): mixed
     {
         return $this->get($attribute);
     }
 
+    /**
+     * @param string $attribute
+     * @param mixed  $value
+     */
     public function __set(string $attribute, mixed $value): void
     {
         $this->with($attribute, $value);
     }
 
+    /**
+     * @param string $attribute
+     *
+     * @return bool
+     */
     public function __isset(string $attribute): bool
     {
         return isset($this->attributes[$attribute]);
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     protected function assertRequiredAttributesExists()
     {
         foreach ($this->getRequired() as $attribute) {
-            if (is_null($this->get($attribute))) {
-                throw new InvalidArgumentException(sprintf('"%s" cannot be empty.', $attribute));
-            }
+            throw_if(
+                is_null($this->get($attribute)),
+                InvalidArgumentException::class,
+                sprintf('"%s" cannot be empty.', $attribute)
+            );
         }
     }
 }

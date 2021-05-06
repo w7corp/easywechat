@@ -19,7 +19,7 @@ class Music extends Message
      *
      * @var string
      */
-    protected $type = 'music';
+    protected string $type = 'music';
 
     /**
      * Properties.
@@ -45,6 +45,9 @@ class Music extends Message
         'hqmusicurl' => 'hq_url',
     ];
 
+    /**
+     * @return array
+     */
     public function toXmlArray()
     {
         $music = [
@@ -55,6 +58,7 @@ class Music extends Message
                 'HQMusicUrl' => $this->get('hq_url'),
             ],
         ];
+
         if ($thumbMediaId = $this->get('thumb_media_id')) {
             $music['Music']['ThumbMediaId'] = $thumbMediaId;
         }

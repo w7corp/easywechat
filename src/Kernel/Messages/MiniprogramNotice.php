@@ -6,9 +6,15 @@ namespace EasyWeChat\Kernel\Messages;
 
 class MiniprogramNotice extends Message
 {
-    protected $type = 'miniprogram_notice';
+    /**
+     * @var string
+     */
+    protected string $type = 'miniprogram_notice';
 
-    protected $properties = [
+    /**
+     * @var array
+     */
+    protected array $properties = [
         'appid',
         'title',
     ];

@@ -11,7 +11,7 @@ class Location extends Message
      *
      * @var string
      */
-    protected $type = 'location';
+    protected string $type = 'location';
 
     /**
      * Properties.

@@ -18,7 +18,7 @@ class TaskCard extends Message
      *
      * @var string
      */
-    protected $type = 'taskcard';
+    protected string $type = 'taskcard';
 
     /**
      * Properties.

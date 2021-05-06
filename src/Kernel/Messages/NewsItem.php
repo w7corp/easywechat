@@ -11,7 +11,7 @@ class NewsItem extends Message
      *
      * @var string
      */
-    protected $type = 'news';
+    protected string $type = 'news';
 
     /**
      * Properties.
@@ -25,7 +25,10 @@ class NewsItem extends Message
         'image',
     ];
 
-    public function toJsonArray()
+    /**
+     * @return array
+     */
+    public function toJsonArray(): array
     {
         return [
             'title' => $this->get('title'),
@@ -35,7 +38,10 @@ class NewsItem extends Message
         ];
     }
 
-    public function toXmlArray()
+    /**
+     * @return array
+     */
+    public function toXmlArray(): array
     {
         return [
             'Title' => $this->get('title'),
