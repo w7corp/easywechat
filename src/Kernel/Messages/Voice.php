@@ -14,7 +14,7 @@ class Voice extends Media
      *
      * @var string
      */
-    protected $type = 'voice';
+    protected string $type = 'voice';
 
     /**
      * Properties.

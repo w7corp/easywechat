@@ -18,7 +18,7 @@ class Video extends Media
      *
      * @var string
      */
-    protected $type = 'video';
+    protected string $type = 'video';
 
     /**
      * Properties.
@@ -41,7 +41,10 @@ class Video extends Media
         parent::__construct($mediaId, 'video', $attributes);
     }
 
-    public function toXmlArray()
+    /**
+     * @return array
+     */
+    public function toXmlArray(): array
     {
         return [
             'Video' => [

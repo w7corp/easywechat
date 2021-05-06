@@ -28,29 +28,42 @@ abstract class Message implements MessageInterface
     public const EVENT = 1048576;
     public const MINIPROGRAM_PAGE = 2097152;
     public const MINIPROGRAM_NOTICE = 4194304;
-    public const ALL = self::TEXT | self::IMAGE | self::VOICE | self::VIDEO | self::SHORT_VIDEO | self::LOCATION | self::LINK
-                | self::DEVICE_EVENT | self::DEVICE_TEXT | self::FILE | self::TEXT_CARD | self::TRANSFER | self::EVENT
-                | self::MINIPROGRAM_PAGE | self::MINIPROGRAM_NOTICE;
+    public const ALL =
+        self::TEXT
+        | self::IMAGE
+        | self::VOICE
+        | self::VIDEO
+        | self::SHORT_VIDEO
+        | self::LOCATION
+        | self::LINK
+        | self::DEVICE_EVENT
+        | self::DEVICE_TEXT
+        | self::FILE
+        | self::TEXT_CARD
+        | self::TRANSFER
+        | self::EVENT
+        | self::MINIPROGRAM_PAGE
+        | self::MINIPROGRAM_NOTICE;
 
     /**
      * @var string
      */
-    protected string  $type;
+    protected string $type;
 
     /**
      * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected string  $to;
+    protected string|null $from = null;
 
     /**
-     * @var string
+     * @var string|array|null
      */
-    protected string  $from;
+    protected string|array|null $to = null;
 
     /**
      * @var array
@@ -95,7 +108,7 @@ abstract class Message implements MessageInterface
      *
      * @return mixed
      */
-    public function __get($property)
+    public function __get(string $property)
     {
         if (property_exists($this, $property)) {
             return $this->$property;
@@ -112,7 +125,7 @@ abstract class Message implements MessageInterface
      *
      * @return Message
      */
-    public function __set($property, $value)
+    public function __set(string $property, mixed $value)
     {
         if (property_exists($this, $property)) {
             $this->$property = $value;
@@ -127,8 +140,10 @@ abstract class Message implements MessageInterface
      * @param array $appends
      *
      * @return array
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function transformForJsonRequestWithoutType(array $appends = [])
+    public function transformForJsonRequestWithoutType(array $appends = []): array
     {
         return $this->transformForJsonRequest($appends, false);
     }
@@ -146,23 +161,40 @@ abstract class Message implements MessageInterface
         if (!$withType) {
             return $this->propertiesToArray([], $this->jsonAliases);
         }
+
         $messageType = $this->getType();
-        $data = array_merge(['msgtype' => $messageType], $appends);
 
-        $data[$messageType] = array_merge($data[$messageType] ?? [], $this->propertiesToArray([], $this->jsonAliases));
-
-        return $data;
+        return array_merge(
+            [
+                'msgtype' => $messageType
+            ],
+            $appends,
+            [
+                $messageType => array_merge(
+                    $data[$messageType] ?? [],
+                    $this->propertiesToArray([], $this->jsonAliases)
+                )
+            ]
+        );
     }
 
     /**
      * @param array $appends
      * @param bool  $returnAsArray
      *
-     * @return string
+     * @return array|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function transformToXml(array $appends = [], bool $returnAsArray = false): string
+    public function transformToXml(array $appends = [], bool $returnAsArray = false): string|array
     {
-        $data = array_merge(['MsgType' => $this->getType()], $this->toXmlArray(), $appends);
+        $data = array_merge(
+            [
+                'MsgType' => $this->getType()
+            ],
+            $this->toXmlArray(),
+            $appends
+        );
 
         return $returnAsArray ? $data : XML::build($data);
     }
@@ -191,6 +223,9 @@ abstract class Message implements MessageInterface
         return $data;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
     public function toXmlArray()
     {
         throw new RuntimeException(sprintf('Class "%s" cannot support transform to XML message.', __CLASS__));

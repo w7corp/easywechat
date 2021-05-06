@@ -47,7 +47,10 @@ class Media extends Message implements MediaInterface
         return $this->get('media_id');
     }
 
-    public function toXmlArray()
+    /**
+     * @return array
+     */
+    public function toXmlArray(): array
     {
         return [
             Str::studly($this->getType()) => [

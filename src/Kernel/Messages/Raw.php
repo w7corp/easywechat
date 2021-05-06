@@ -9,7 +9,7 @@ class Raw extends Message
     /**
      * @var string
      */
-    protected string  $type = 'raw';
+    protected string $type = 'raw';
 
     /**
      * Properties.
@@ -39,7 +39,10 @@ class Raw extends Message
         return json_decode($this->content, true) ?? [];
     }
 
-    public function __toString()
+    /**
+     * @return string
+     */
+    public function __toString(): string
     {
         return $this->get('content') ?? '';
     }

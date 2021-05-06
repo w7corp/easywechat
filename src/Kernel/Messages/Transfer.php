@@ -15,7 +15,7 @@ class Transfer extends Message
      *
      * @var string
      */
-    protected $type = 'transfer_customer_service';
+    protected string $type = 'transfer_customer_service';
 
     /**
      * Properties.
@@ -34,7 +34,10 @@ class Transfer extends Message
         parent::__construct(compact('account'));
     }
 
-    public function toXmlArray()
+    /**
+     * @return array
+     */
+    public function toXmlArray(): array
     {
         return empty($this->get('account')) ? [] : [
             'TransInfo' => [

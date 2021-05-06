@@ -14,7 +14,7 @@ class DeviceEvent extends Message
      *
      * @var string
      */
-    protected $type = 'device_event';
+    protected string $type = 'device_event';
 
     /**
      * Properties.

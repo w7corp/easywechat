@@ -16,7 +16,7 @@ class TextCard extends Message
      *
      * @var string
      */
-    protected $type = 'textcard';
+    protected string $type = 'textcard';
 
     /**
      * Properties.

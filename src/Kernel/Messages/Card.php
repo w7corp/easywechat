@@ -2,23 +2,6 @@
 
 declare(strict_types=1);
 
-
-
-
-
-/**
- * Card.<?php
-
-declare(strict_types=1);
-
-.
- *
- * @copyright 2015 overtrue <i@overtrue.me>
- *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
- */
-
 namespace EasyWeChat\Kernel\Messages;
 
 class Card extends Message
@@ -28,7 +11,7 @@ class Card extends Message
      *
      * @var string
      */
-    protected $type = 'wxcard';
+    protected string $type = 'wxcard';
 
     /**
      * Properties.

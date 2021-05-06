@@ -14,5 +14,5 @@ class Image extends Media
      *
      * @var string
      */
-    protected $type = 'image';
+    protected string $type = 'image';
 }

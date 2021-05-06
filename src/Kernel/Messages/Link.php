@@ -11,7 +11,7 @@ class Link extends Message
      *
      * @var string
      */
-    protected $type = 'link';
+    protected string $type = 'link';
 
     /**
      * Properties.

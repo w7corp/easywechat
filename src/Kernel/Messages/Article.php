@@ -9,7 +9,7 @@ class Article extends Message
     /**
      * @var string
      */
-    protected string  $type = 'mpnews';
+    protected string $type = 'mpnews';
 
     /**
      * Properties.

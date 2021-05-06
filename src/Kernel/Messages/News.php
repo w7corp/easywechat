@@ -9,7 +9,7 @@ class News extends Message
     /**
      * @var string
      */
-    protected string  $type = 'news';
+    protected string $type = 'news';
 
     /**
      * @var array
@@ -41,6 +41,9 @@ class News extends Message
         }, $this->get('items'))];
     }
 
+    /**
+     * @return array
+     */
     public function toXmlArray()
     {
         $items = [];

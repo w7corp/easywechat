@@ -14,7 +14,7 @@ class Text extends Message
      *
      * @var string
      */
-    protected $type = 'text';
+    protected string $type = 'text';
 
     /**
      * Properties.
@@ -34,7 +34,7 @@ class Text extends Message
     /**
      * @return array
      */
-    public function toXmlArray()
+    public function toXmlArray(): array
     {
         return [
             'Content' => $this->get('content'),

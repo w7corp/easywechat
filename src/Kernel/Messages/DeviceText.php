@@ -14,7 +14,7 @@ class DeviceText extends Message
      *
      * @var string
      */
-    protected $type = 'device_text';
+    protected string $type = 'device_text';
 
     /**
      * Properties.
@@ -29,7 +29,10 @@ class DeviceText extends Message
         'open_id',
     ];
 
-    public function toXmlArray()
+    /**
+     * @return array
+     */
+    public function toXmlArray(): array
     {
         return [
             'DeviceType' => $this->get('device_type'),

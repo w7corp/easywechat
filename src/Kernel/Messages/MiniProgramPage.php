@@ -6,16 +6,25 @@ namespace EasyWeChat\Kernel\Messages;
 
 class MiniProgramPage extends Message
 {
-    protected $type = 'miniprogrampage';
+    /**
+     * @var string
+     */
+    protected string $type = 'miniprogrampage';
 
-    protected $properties = [
+    /**
+     * @var array
+     */
+    protected array $properties = [
         'title',
         'appid',
         'pagepath',
         'thumb_media_id',
     ];
 
-    protected $required = [
+    /**
+     * @var array
+     */
+    protected array $required = [
         'thumb_media_id', 'appid', 'pagepath',
     ];
 }
