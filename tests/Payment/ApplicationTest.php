@@ -38,7 +38,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Payment\Jssdk\Client::class, $app->jssdk);
 
         // test calling nonexistent method
-        $this->expectWarning();
+        $this->expectException(\TypeError::class);
         $app->noncexistentMethod('foo');
     }
 

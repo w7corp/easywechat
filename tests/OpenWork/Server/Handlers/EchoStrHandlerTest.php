@@ -28,12 +28,12 @@ class EchoStrHandlerTest extends TestCase
         ];
         $msgSignature = 'mock-signature';
         $nonce = 'mock-nonce';
-        $timeStamp = 'mock-timestamp';
+        $timeStamp = 1620317186;
 
         $request = Request::create(sprintf('foo/bar/server?msg_signature=%s&nonce=%s&timestamp=%s&echostr=mock-echo-str', $msgSignature, $nonce, $timeStamp));
 
         $encryptor_corp = \Mockery::mock(Encryptor::class);
-        $encryptor_corp->expects()->decrypt('mock-echo-str', 'mock-signature', 'mock-nonce', 'mock-timestamp')->andReturn('decrypted');
+        $encryptor_corp->expects()->decrypt('mock-echo-str', $msgSignature, $nonce, $timeStamp)->andReturn('decrypted');
         $app = new Application([$config], [
             'request' => $request,
             'encryptor_corp' => $encryptor_corp,

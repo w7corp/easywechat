@@ -15,7 +15,7 @@ trait HasHttpRequests
 {
     use ResponseCastable;
 
-    protected ClientInterface $httpClient;
+    protected ?ClientInterface $httpClient = null;
     protected array $middlewares = [];
     protected HandlerStack $handlerStack;
     protected static array $defaults = [

@@ -8,8 +8,12 @@ use SimpleXMLElement;
 
 class XML
 {
-    public static function parse(string $xml): array
+    public static function parse(?string $xml): array|null
     {
+        if (empty($xml)) {
+            return null;
+        }
+
         return self::normalize(
             simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS)
         );
@@ -41,12 +45,12 @@ class XML
         return $xml;
     }
 
-    public static function cdata(string $string): string
+    public static function cdata(?string $string): string
     {
         return sprintf('<![CDATA[%s]]>', $string);
     }
 
-    protected static function normalize(SimpleXMLElement $object): array
+    protected static function normalize(SimpleXMLElement $object): array|null
     {
         $result = null;
 
@@ -56,11 +60,14 @@ class XML
 
         if (is_array($object)) {
             foreach ($object as $key => $value) {
-                $res = self::normalize($value);
+                if ($value instanceof SimpleXMLElement) {
+                    $value = self::normalize($value);
+                }
+
                 if (('@attributes' === $key) && ($key)) {
-                    $result = $res; // @codeCoverageIgnore
+                    $result = $value; // @codeCoverageIgnore
                 } else {
-                    $result[$key] = $res;
+                    $result[$key] = $value;
                 }
             }
         } else {
@@ -100,12 +107,16 @@ class XML
      * @see https://www.w3.org/TR/2008/REC-xml-20081126/#charsets - XML charset range
      * @see http://php.net/manual/en/regexp.reference.escape.php - escape in UTF-8 mode
      *
-     * @param  string  $xml
+     * @param  ?string  $xml
      *
-     * @return string
+     * @return string|null
      */
-    public static function sanitize(string $xml): string
+    public static function sanitize(?string $xml): string|null
     {
+        if (empty($xml)) {
+            return $xml;
+        }
+
         return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml);
     }
 }

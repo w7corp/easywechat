@@ -16,6 +16,7 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Jssdk\Client;
+use Psr\SimpleCache\CacheInterface;
 
 class ClientTest extends TestCase
 {

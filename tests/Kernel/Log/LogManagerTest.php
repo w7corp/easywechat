@@ -181,7 +181,7 @@ class LogManagerTest extends TestCase
 
         $logger = \Mockery::mock(Logger::class);
 
-        $this->assertNull($log->getDefaultDriver());
+        $this->assertEmpty($log->getDefaultDriver());
 
         $log->setDefaultDriver('single');
 

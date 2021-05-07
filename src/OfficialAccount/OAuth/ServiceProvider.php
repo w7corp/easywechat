@@ -49,7 +49,7 @@ class ServiceProvider implements ServiceProviderInterface
      */
     private function prepareCallbackUrl($app)
     {
-        $callback = $app['config']->get('oauth.callback');
+        $callback = $app['config']->get('oauth.callback') ?: '';
         if (0 === stripos($callback, 'http')) {
             return $callback;
         }

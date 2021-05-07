@@ -11,7 +11,7 @@ class Guard extends ServerGuard
     /**
      * @return $this
      */
-    public function validate()
+    public function validate(): static
     {
         return $this;
     }
