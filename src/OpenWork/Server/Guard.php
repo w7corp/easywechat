@@ -21,7 +21,7 @@ class Guard extends ServerGuard
     /**
      * @return $this
      */
-    public function validate()
+    public function validate(): static
     {
         return $this;
     }
@@ -54,7 +54,7 @@ class Guard extends ServerGuard
             $message['Encrypt'],
             $this->app['request']->get('msg_signature'),
             $this->app['request']->get('nonce'),
-            $this->app['request']->get('timestamp')
+            (int) $this->app['request']->get('timestamp')
         );
     }
 }

@@ -39,7 +39,7 @@ class EchoStrHandler implements EventHandlerInterface
                 $decrypted,
                 $this->app['request']->get('msg_signature'),
                 $this->app['request']->get('nonce'),
-                $this->app['request']->get('timestamp')
+                (int) $this->app['request']->get('timestamp')
             );
 
             return new FinallyResult($str);

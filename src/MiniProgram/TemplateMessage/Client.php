@@ -10,8 +10,7 @@ class Client extends BaseClient
 {
     public const API_SEND = 'cgi-bin/message/wxopen/template/send';
 
-
-    protected $message = [
+    protected array $message = [
         'touser' => '',
         'template_id' => '',
         'page' => '',
@@ -20,8 +19,7 @@ class Client extends BaseClient
         'emphasis_keyword' => '',
     ];
 
-
-    protected $required = ['touser', 'template_id', 'form_id'];
+    protected array $required = ['touser', 'template_id', 'form_id'];
 
     /**
      * @param int $offset

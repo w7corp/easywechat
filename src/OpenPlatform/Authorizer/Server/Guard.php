@@ -13,7 +13,7 @@ class Guard extends ServerGuard
      *
      * @return string
      */
-    protected function getToken()
+    protected function getToken(): string
     {
         return $this->app['encryptor']->getToken();
     }

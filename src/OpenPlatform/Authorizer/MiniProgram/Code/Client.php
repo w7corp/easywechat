@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Code;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Http\Response;
 
 class Client extends BaseClient
 {
@@ -33,11 +34,8 @@ class Client extends BaseClient
      * @param string|null $path
      *
      * @return \EasyWeChat\Kernel\Http\Response
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getQrCode(string $path = null)
+    public function getQrCode(string $path = null): Response
     {
         return $this->requestRaw('wxa/get_qrcode', 'GET', [
             'query' => ['path' => $path],

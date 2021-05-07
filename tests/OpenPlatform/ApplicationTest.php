@@ -11,9 +11,11 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
+use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken as AuthorizerAccessToken;
 use EasyWeChat\Tests\TestCase;
+use Psr\SimpleCache\CacheInterface;
 
 class ApplicationTest extends TestCase
 {
@@ -68,9 +70,11 @@ class ApplicationTest extends TestCase
 
     public function testOfficialAccount()
     {
-        $app = new Application([
-            'app_id' => 'component-app-id', 'secret' => 'component-secret',
-            'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf',
+        $config = [
+            'app_id' => 'component-app-id',
+            'secret' => 'component-secret',
+            'token' => 'component-token',
+            'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf',
             'debug' => true,
             'response_type' => 'collection',
             'log' => [
@@ -78,7 +82,21 @@ class ApplicationTest extends TestCase
                 'permission' => 0777,
                 'file' => '/tmp/easywechat.log',
             ],
-        ]);
+        ];
+
+        $app = \Mockery::mock(
+            Application::class.'[getAuthorizerConfig]',
+            [$config],
+            function ($mock) use ($config) {
+                $mock->shouldAllowMockingProtectedMethods();
+                $mock->allows()->getAuthorizerConfig()->with('app-id', 'refresh-token')->andReturn(\array_merge($config, [
+                    'component_app_id' => 'component-app-id',
+                    'component_app_token' => 'app-token',
+                    'app_id' => 'app-id',
+                    'refresh_token' => 'refresh-token',
+                ]));
+            });
+
         $officialAccount = $app->officialAccount('app-id', 'refresh-token');
 
         $this->assertInstanceOf('EasyWeChat\OfficialAccount\Application', $officialAccount);
@@ -101,7 +119,34 @@ class ApplicationTest extends TestCase
 
     public function testOfficialAccountOAuth()
     {
-        $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
+        $app = new Application([
+            'app_id' => 'component-app-id',
+            'secret' => 'component-secret',
+            'token' => 'component-token',
+            'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf'
+        ]);
+
+        $cache = \Mockery::mock(CacheInterface::class);
+
+        $token = \Mockery::mock(
+            \EasyWeChat\Kernel\AccessToken::class.'[getCacheKey,getCache,requestToken,setToken,getCredentials]',
+            [new ServiceContainer()]
+        )->shouldAllowMockingProtectedMethods();
+
+        $token->allows()->getCredentials()->andReturn([
+            'foo' => 'foo',
+            'bar' => 'bar',
+        ]);
+        $token->allows()->getCacheKey()->andReturn('mock-cache-key');
+        $token->allows()->getCache()->andReturn($cache);
+
+        $cache->expects()->get('mock-cache-key')->andReturn([
+            'component_access_token' => 'component-token',
+            'expires_in' => 7200,
+        ])->times(2);
+
+        $app['access_token'] = $token;
+
         $officialAccount = $app->officialAccount('app-id', 'refresh-token');
 
         $this->assertInstanceOf('Overtrue\Socialite\Providers\WeChat', $officialAccount->oauth);
@@ -110,6 +155,28 @@ class ApplicationTest extends TestCase
     public function testMiniProgram()
     {
         $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
+
+        $cache = \Mockery::mock(CacheInterface::class);
+
+        $token = \Mockery::mock(
+            \EasyWeChat\Kernel\AccessToken::class.'[getCacheKey,getCache,requestToken,setToken,getCredentials]',
+            [new ServiceContainer()]
+        )->shouldAllowMockingProtectedMethods();
+
+        $token->allows()->getCredentials()->andReturn([
+            'foo' => 'foo',
+            'bar' => 'bar',
+        ]);
+        $token->allows()->getCacheKey()->andReturn('mock-cache-key');
+        $token->allows()->getCache()->andReturn($cache);
+
+        $cache->expects()->get('mock-cache-key')->andReturn([
+            'component_access_token' => 'component-token',
+            'expires_in' => 7200,
+        ]);
+
+        $app['access_token'] = $token;
+
         $miniProgram = $app->miniProgram('app-id', 'refresh-token');
 
         $this->assertInstanceOf('EasyWeChat\MiniProgram\Application', $miniProgram);

@@ -250,7 +250,7 @@ class LogManager implements LoggerInterface
         return $config['name'] ?? 'EasyWeChat';
     }
 
-    protected function level(array $config): string
+    protected function level(array $config): int
     {
         $level = $config['level'] ?? 'debug';
 

@@ -196,10 +196,10 @@ class Arr
     /**
      * Remove one or many array items from a given array using "dot" notation.
      *
-     * @param  array  $array
-     * @param  string|int|array  $keys
+     * @param  array                  $array
+     * @param  string|int|array|null  $keys
      */
-    public static function forget(array &$array, string|int|array $keys)
+    public static function forget(array &$array, string|int|array|null $keys)
     {
         $original = &$array;
 
@@ -239,13 +239,13 @@ class Arr
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param  array  $array
-     * @param  string|int  $key
-     * @param  mixed  $default
+     * @param  array            $array
+     * @param  string|int|null  $key
+     * @param  mixed            $default
      *
      * @return mixed
      */
-    public static function get(array $array, string|int $key, $default = null)
+    public static function get(array $array, string|int|null $key, $default = null)
     {
         if (is_null($key)) {
             return $array;
@@ -269,12 +269,12 @@ class Arr
     /**
      * Check if an item or items exist in an array using "dot" notation.
      *
-     * @param  array  $array
-     * @param  string|int|array  $keys
+     * @param  array                  $array
+     * @param  string|int|array|null  $keys
      *
      * @return bool
      */
-    public static function has(array $array, string|int|array $keys): bool
+    public static function has(array $array, string|int|array|null $keys): bool
     {
         if (is_null($keys)) {
             return false;
@@ -408,14 +408,18 @@ class Arr
      *
      * If no key is given to the method, the entire array will be replaced.
      *
-     * @param  array  $array
-     * @param  string  $key
-     * @param  mixed  $value
+     * @param array           $array
+     * @param string|int|null $key
+     * @param mixed           $value
      *
      * @return array
      */
-    public static function set(array &$array, string $key, mixed $value): array
+    public static function set(array &$array, string|int|null $key, mixed $value): array
     {
+        if (!\is_string($key)) {
+            $key = (string) $key;
+        }
+
         $keys = explode('.', $key);
 
         while (count($keys) > 1) {

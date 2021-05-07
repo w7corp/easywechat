@@ -15,6 +15,7 @@ use EasyWeChat\BasicService\Jssdk\Client;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
+use Psr\SimpleCache\CacheInterface;
 
 class ClientTest extends TestCase
 {

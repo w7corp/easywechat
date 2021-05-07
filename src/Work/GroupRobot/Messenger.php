@@ -45,7 +45,7 @@ class Messenger
     public function message($message)
     {
         if (is_string($message) || is_numeric($message)) {
-            $message = new Text($message);
+            $message = new Text((string) $message);
         }
 
         if (!($message instanceof  Message)) {

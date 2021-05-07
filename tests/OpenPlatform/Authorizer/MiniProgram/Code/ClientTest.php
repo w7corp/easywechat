@@ -11,6 +11,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform\Authorizer\MiniProgram\Code;
 
+use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Code\Client;
 use EasyWeChat\Tests\TestCase;
@@ -32,16 +33,20 @@ class ClientTest extends TestCase
 
     public function testGetQrCode()
     {
+        $response = \Mockery::mock(Response::class);
+
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
-        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => '']])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->getQrCode());
+        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => '']])->andReturn($response);
+        $this->assertSame($response, $client->getQrCode());
     }
 
     public function testGetQrCodeWithParamPath()
     {
+        $response = \Mockery::mock(Response::class);
+
         $client = $this->mockApiClient(Client::class, [], new ServiceContainer(['app_id' => 'app-id']));
-        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => 'page/index?action=1']])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->getQrCode('page/index?action=1'));
+        $client->expects()->requestRaw('wxa/get_qrcode', 'GET', ['query' => ['path' => 'page/index?action=1']])->andReturn($response);
+        $this->assertSame($response, $client->getQrCode('page/index?action=1'));
     }
 
     public function testGetCategory()
