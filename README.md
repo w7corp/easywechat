@@ -1,6 +1,6 @@
 <h1 align="left"><a href="https://www.easywechat.com">EasyWeChat</a></h1>
 
-📦 也许是世界上最好用的微信开发 SDK。
+📦 一个 PHP 微信开发 SDK。
 
 [![Test Status](https://github.com/w7corp/easywechat/workflows/Test/badge.svg)](https://github.com/w7corp/easywechat/actions) 
 [![Lint Status](https://github.com/w7corp/easywechat/workflows/Lint/badge.svg)](https://github.com/w7corp/easywechat/actions) 
