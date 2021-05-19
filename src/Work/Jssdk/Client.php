@@ -12,7 +12,9 @@
 namespace EasyWeChat\Work\Jssdk;
 
 use EasyWeChat\BasicService\Jssdk\Client as BaseClient;
+use EasyWeChat\Kernel\Contracts\AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 
 /**
@@ -22,7 +24,12 @@ use EasyWeChat\Kernel\Support;
  */
 class Client extends BaseClient
 {
-    protected $ticketEndpoint = 'https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket';
+    public function __construct(ServiceContainer $app, AccessTokenInterface $accessToken = null)
+    {
+        parent::__construct($app, $accessToken);
+
+        $this->ticketEndpoint = \rtrim($app->config->get('http.base_uri'), '/').'/cgi-bin/get_jsapi_ticket';
+    }
 
     /**
      * @return string

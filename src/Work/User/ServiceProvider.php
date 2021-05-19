@@ -33,5 +33,13 @@ class ServiceProvider implements ServiceProviderInterface
         $app['tag'] = function ($app) {
             return new TagClient($app);
         };
+
+        $app['linked_corp'] = function ($app) {
+            return new LinkedCorpClient($app);
+        };
+
+        $app['batch_jobs'] = function ($app) {
+            return new BatchJobsClient($app);
+        };
     }
 }

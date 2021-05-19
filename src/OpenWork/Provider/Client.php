@@ -207,6 +207,7 @@ class Client extends BaseClient
     /**
      * 通讯录单个搜索
      *
+     * @param  string  $corpId
      * @param  string  $queryWord
      * @param  int|string  $agentId
      * @param  int  $offset
@@ -219,6 +220,7 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function searchContact(
+        string $corpId,
         string $queryWord,
         $agentId,
         int $offset = 0,
@@ -227,7 +229,7 @@ class Client extends BaseClient
         $fullMatchField = null
     ) {
         $params = [];
-        $params['auth_corpid'] = $this->app['config']['corp_id'];
+        $params['auth_corpid'] = $corpId;
         $params['query_word'] = $queryWord;
         $params['query_type'] = $queryType;
         $params['agentid'] = $agentId;

@@ -62,4 +62,52 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->vehicleLicense($path));
     }
+
+    public function testDriving()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $path = '/foo/bar.jpg';
+        $client->expects()->httpPost('cv/ocr/driving', [
+            'img_url' => $path,
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->driving($path));
+    }
+
+    public function testBizLicense()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $path = '/foo/bar.jpg';
+        $client->expects()->httpPost('cv/ocr/bizlicense', [
+            'img_url' => $path,
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->bizLicense($path));
+    }
+
+    public function testCommon()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $path = '/foo/bar.jpg';
+        $client->expects()->httpPost('cv/ocr/comm', [
+            'img_url' => $path,
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->common($path));
+    }
+
+    public function testPlateNumber()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $path = '/foo/bar.jpg';
+        $client->expects()->httpPost('cv/ocr/platenum', [
+            'img_url' => $path,
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->plateNumber($path));
+    }
 }

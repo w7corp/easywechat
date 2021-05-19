@@ -23,6 +23,8 @@ class ServiceProvider implements ServiceProviderInterface
                 'wework' => [
                     'client_id' => $app['config']['corp_id'],
                     'client_secret' => null,
+                    'corp_id' => $app['config']['corp_id'],
+                    'corp_secret' => $app['config']['secret'],
                     'redirect' => $this->prepareCallbackUrl($app),
                 ],
             ], $app));

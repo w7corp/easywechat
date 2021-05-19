@@ -82,4 +82,68 @@ class Client extends BaseClient
             'img_url' => $path,
         ]);
     }
+
+    /**
+     * Driving OCR.
+     *
+     * @param string $path
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function driving(string $path)
+    {
+        return $this->httpPost('cv/ocr/driving', [
+            'img_url' => $path,
+        ]);
+    }
+
+    /**
+     * Biz License OCR.
+     *
+     * @param string $path
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function bizLicense(string $path)
+    {
+        return $this->httpPost('cv/ocr/bizlicense', [
+            'img_url' => $path,
+        ]);
+    }
+
+    /**
+     * Common OCR.
+     *
+     * @param string $path
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function common(string $path)
+    {
+        return $this->httpPost('cv/ocr/comm', [
+            'img_url' => $path,
+        ]);
+    }
+
+    /**
+     * Plate Number OCR.
+     *
+     * @param string $path
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function plateNumber(string $path)
+    {
+        return $this->httpPost('cv/ocr/platenum', [
+            'img_url' => $path,
+        ]);
+    }
 }

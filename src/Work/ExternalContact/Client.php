@@ -204,7 +204,7 @@ class Client extends BaseClient
             'new_owner' => $newOwner
         ];
 
-        return $this->httpPostJson('cgi-bin/groupchat/transfer', $params);
+        return $this->httpPostJson('cgi-bin/externalcontact/groupchat/transfer', $params);
     }
 
     /**
