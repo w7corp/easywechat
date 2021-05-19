@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace EasyWeChat\Kernel\Support;
 
@@ -23,7 +23,7 @@ class XML
         array $data,
         string $root = 'xml',
         string $item = 'item',
-        string $attr = '',
+        string | array $attr = '',
         string $id = 'id'
     ): string {
         if (is_array($attr)) {
@@ -60,9 +60,7 @@ class XML
 
         if (is_array($object)) {
             foreach ($object as $key => $value) {
-                if ($value instanceof SimpleXMLElement) {
-                    $value = self::normalize($value);
-                }
+                $res = \is_a($value, SimpleXMLElement::class) ? self::normalize($value) : $value;
 
                 if (('@attributes' === $key) && ($key)) {
                     $result = $value; // @codeCoverageIgnore

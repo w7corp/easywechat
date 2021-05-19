@@ -17,7 +17,7 @@ class UserAgent
         $disabledFunctions = explode(',', ini_get('disable_functions'));
 
         if (extension_loaded('curl') && function_exists('curl_version')) {
-            \array_push($value, 'curl/'.\curl_version()['version']);
+            \array_unshift($value, 'curl/'.\curl_version()['version']);
         }
 
         if (!ini_get('safe_mode')

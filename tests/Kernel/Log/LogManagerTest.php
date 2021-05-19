@@ -17,6 +17,7 @@ use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Tests\TestCase;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 class LogManagerTest extends TestCase
 {
@@ -87,11 +88,12 @@ class LogManagerTest extends TestCase
         ]);
 
         $log = new LogManager($app);
-        $log->extend('mylog', function () {
-            return 'mylog';
+        $logger = \Mockery::mock(LoggerInterface::class);
+        $log->extend('mylog', function () use ($logger) {
+            return $logger;
         });
 
-        $this->assertSame('mylog', $log->driver('custom'));
+        $this->assertSame($logger, $log->driver('custom'));
     }
 
     public function testUnsupportedDriver()
@@ -114,13 +116,14 @@ class LogManagerTest extends TestCase
         $emergencyLogger = \Mockery::mock(Logger::class);
         $log->shouldReceive('createEmergencyLogger')->andReturn($emergencyLogger);
         $emergencyLogger->shouldReceive('emergency')
-            ->with('Unable to create configured logger. Using emergency logger.', \Mockery::on(function ($data) {
+            ->withArgs(['Unable to create configured logger. Using emergency logger.', \Mockery::on(function ($data) {
                 $this->assertArrayHasKey('exception', $data);
                 $this->assertInstanceOf(\InvalidArgumentException::class, $data['exception']);
                 $this->assertSame('Driver [abcde] is not supported.', $data['exception']->getMessage());
 
                 return true;
-            }));
+            })]);
+
         $log->driver('custom');
     }
 

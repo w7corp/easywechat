@@ -44,7 +44,7 @@ class LogManager implements LoggerInterface
         return $this->createStackDriver(compact('channels', 'channel'));
     }
 
-    public function channel($channel = null): mixed
+    public function channel($channel = null): LoggerInterface
     {
         return $this->driver($channel);
     }
