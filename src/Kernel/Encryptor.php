@@ -42,7 +42,7 @@ class Encryptor
         return $this->token;
     }
 
-    public function encrypt(string $xml, string|null $nonce = null, int $timestamp = null): string
+    public function encrypt(string $xml, string | null $nonce = null, int $timestamp = null): string
     {
         try {
             $xml = $this->pkcs7Pad(str_random(16).pack('N', strlen($xml)).$xml.$this->appId, $this->blockSize);

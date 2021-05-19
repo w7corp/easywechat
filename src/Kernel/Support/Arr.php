@@ -18,7 +18,7 @@ class Arr
      *
      * @return array
      */
-    public static function add(array $array, string|int $key, mixed $value): array
+    public static function add(array $array, string | int $key, mixed $value): array
     {
         if (is_null(static::get($array, $key))) {
             static::set($array, $key, $value);
@@ -98,7 +98,7 @@ class Arr
      *
      * @return array
      */
-    public static function except(array $array, array|string|int $keys): array
+    public static function except(array $array, array | string | int $keys): array
     {
         static::forget($array, $keys);
 
@@ -113,7 +113,7 @@ class Arr
      *
      * @return bool
      */
-    public static function exists(array $array, string|int $key): bool
+    public static function exists(array $array, string | int $key): bool
     {
         return array_key_exists($key, $array);
     }
@@ -333,7 +333,7 @@ class Arr
      *
      * @return array
      */
-    public static function only(array $array, string|int|array $keys): array
+    public static function only(array $array, string | int | array $keys): array
     {
         return array_intersect_key($array, array_flip((array)$keys));
     }
@@ -347,7 +347,7 @@ class Arr
      *
      * @return array
      */
-    public static function prepend(array $array, mixed $value, string|int|null $key = null)
+    public static function prepend(array $array, mixed $value, string | int | null $key = null)
     {
         if (is_null($key)) {
             array_unshift($array, $value);
@@ -367,7 +367,7 @@ class Arr
      *
      * @return mixed
      */
-    public static function pull(array &$array, string|int $key, mixed $default = null): mixed
+    public static function pull(array &$array, string | int $key, mixed $default = null): mixed
     {
         $value = static::get($array, $key, $default);
 

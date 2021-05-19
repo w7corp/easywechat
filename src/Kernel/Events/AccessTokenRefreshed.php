@@ -10,5 +10,6 @@ class AccessTokenRefreshed
 {
     public function __construct(
         public AccessToken $accessToken
-    ) {}
+    ) {
+    }
 }

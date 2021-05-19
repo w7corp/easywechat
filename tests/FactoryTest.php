@@ -50,7 +50,7 @@ class FactoryTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            \EasyWeChat\Payment\Application::class,
+            \EasyWeChat\Pay\Application::class,
             Factory::payment(['appid' => 'appid@789'])
         );
 

@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Payment\ProfitSharing;
 
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\ProfitSharing\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\ProfitSharing\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

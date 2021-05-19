@@ -45,14 +45,7 @@ trait InteractsWithCache
         return $this->cache = $this->createDefaultCache();
     }
 
-    /**
-     * @param $cache
-     *
-     * @return $this
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function setCache($cache): static
+    public function setCache(SimpleCacheInterface | CacheItemPoolInterface $cache): static
     {
         if (
             !$cache instanceof SimpleCacheInterface
@@ -77,13 +70,7 @@ trait InteractsWithCache
         return $this;
     }
 
-    /**
-     * @param string $namespace
-     * @param int    $lifeTime
-     *
-     * @return \Symfony\Component\Cache\Psr16Cache
-     */
-    protected function createDefaultCache($namespace = 'easywechat', $lifeTime = 1500): Psr16Cache
+    protected function createDefaultCache(): Psr16Cache | FilesystemCache
     {
         if (
             property_exists($this, 'app')

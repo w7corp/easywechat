@@ -10,7 +10,7 @@ use EasyWeChat\Kernel\Support\File;
 
 class StreamResponse extends Response
 {
-    public function save(string $directory, string $filename = '', bool $appendSuffix = true): bool|int|string
+    public function save(string $directory, string $filename = '', bool $appendSuffix = true): bool | int | string
     {
         $this->getBody()->rewind();
 
@@ -47,7 +47,7 @@ class StreamResponse extends Response
         return $filename;
     }
 
-    public function saveAs(string $directory, string $filename, bool $appendSuffix = true): bool|int|string
+    public function saveAs(string $directory, string $filename, bool $appendSuffix = true): bool | int | string
     {
         return $this->save($directory, $filename, $appendSuffix);
     }

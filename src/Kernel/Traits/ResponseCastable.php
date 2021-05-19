@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 
 trait ResponseCastable
 {
-    protected function castResponseToType(ResponseInterface $response, string|null $type = null)
+    protected function castResponseToType(ResponseInterface $response, string | null $type = null)
     {
         $response = Response::buildFromPsrResponse($response);
         $response->getBody()->rewind();
@@ -36,7 +36,7 @@ trait ResponseCastable
         }
     }
 
-    protected function detectAndCastResponseToType($response, string|null $type = null)
+    protected function detectAndCastResponseToType($response, string | null $type = null)
     {
         switch (true) {
             case $response instanceof ResponseInterface:

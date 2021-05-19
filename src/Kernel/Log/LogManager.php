@@ -96,14 +96,15 @@ class LogManager implements LoggerInterface
     protected function createEmergencyLogger(): LoggerInterface
     {
         return new Monolog(
-            'EasyWeChat', $this->prepareHandlers(
-            [
+            'EasyWeChat',
+            $this->prepareHandlers(
+                [
                 new StreamHandler(
                     \sys_get_temp_dir().'/easywechat/easywechat.log',
                     $this->level(['level' => 'debug'])
                 ),
             ]
-        )
+            )
         );
     }
 
@@ -130,7 +131,8 @@ class LogManager implements LoggerInterface
     protected function createSingleDriver(array $config): LoggerInterface
     {
         return new Monolog(
-            $this->parseChannel($config), [
+            $this->parseChannel($config),
+            [
             $this->prepareHandler(
                 new StreamHandler(
                     $config['path'],
@@ -148,7 +150,8 @@ class LogManager implements LoggerInterface
     protected function createDailyDriver(array $config): LoggerInterface
     {
         return new Monolog(
-            $this->parseChannel($config), [
+            $this->parseChannel($config),
+            [
             $this->prepareHandler(
                 new RotatingFileHandler(
                     $config['path'],
@@ -167,7 +170,8 @@ class LogManager implements LoggerInterface
     protected function createSlackDriver(array $config): LoggerInterface
     {
         return new Monolog(
-            $this->parseChannel($config), [
+            $this->parseChannel($config),
+            [
             $this->prepareHandler(
                 new SlackWebhookHandler(
                     $config['url'],
@@ -190,7 +194,8 @@ class LogManager implements LoggerInterface
     protected function createSyslogDriver(array $config): LoggerInterface
     {
         return new Monolog(
-            $this->parseChannel($config), [
+            $this->parseChannel($config),
+            [
             $this->prepareHandler(
                 new SyslogHandler(
                     'EasyWeChat',
@@ -206,7 +211,8 @@ class LogManager implements LoggerInterface
     protected function createErrorlogDriver(array $config): LoggerInterface
     {
         return new Monolog(
-            $this->parseChannel($config), [
+            $this->parseChannel($config),
+            [
             $this->prepareHandler(
                 new ErrorLogHandler(
                     $config['type'] ?? ErrorLogHandler::OPERATING_SYSTEM,
@@ -298,7 +304,7 @@ class LogManager implements LoggerInterface
         $this->driver()->critical($message, $context);
     }
 
-    public function error($message, array $context = []):void
+    public function error($message, array $context = []): void
     {
         $this->driver()->error($message, $context);
     }

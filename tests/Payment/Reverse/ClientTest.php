@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Payment\Reverse;
 
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Reverse\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Reverse\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

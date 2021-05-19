@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat;
 
 /**
- * @method static \EasyWeChat\Payment\Application            payment(array $config)
+ * @method static \EasyWeChat\Pay\Application            payment(array $config)
  * @method static \EasyWeChat\MiniProgram\Application        miniProgram(array $config)
  * @method static \EasyWeChat\OpenPlatform\Application       openPlatform(array $config)
  * @method static \EasyWeChat\OfficialAccount\Application    officialAccount(array $config)

@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Payment\Transfer;
 
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Transfer\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Transfer\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
@@ -22,7 +22,7 @@ class ClientTest extends TestCase
      *
      * @param array $config
      *
-     * @return \EasyWeChat\Payment\Application
+     * @return \EasyWeChat\Pay\Application
      */
     private function makeApp($config = [])
     {

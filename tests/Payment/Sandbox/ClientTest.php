@@ -11,9 +11,9 @@
 
 namespace EasyWeChat\Tests\Payment\Sandbox;
 
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Kernel\Exceptions\SandboxException;
-use EasyWeChat\Payment\Sandbox\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Kernel\Exceptions\SandboxException;
+use EasyWeChat\Pay\Sandbox\Client;
 use EasyWeChat\Tests\TestCase;
 use Psr\SimpleCache\CacheInterface;
 

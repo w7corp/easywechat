@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Payment\Coupon;
 
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Coupon\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Coupon\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\Payment\Notify;
 
 use EasyWeChat\Kernel\Support\XML;
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Notify\Scanned;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Notify\Scanned;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

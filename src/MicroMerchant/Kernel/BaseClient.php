@@ -8,7 +8,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\MicroMerchant\Application;
 use EasyWeChat\MicroMerchant\Kernel\Exceptions\EncryptException;
-use EasyWeChat\Payment\Kernel\BaseClient as PaymentBaseClient;
+use EasyWeChat\Pay\Kernel\BaseClient as PaymentBaseClient;
 
 /**
  * @DateTime 2019-07-10  12:06

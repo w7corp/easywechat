@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\Payment\Redpack;
 
 use EasyWeChat\Kernel\Support;
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Redpack\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Redpack\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

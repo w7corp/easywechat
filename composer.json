@@ -32,10 +32,13 @@
     "symfony/cache": "^5.2",
     "symfony/event-dispatcher": "^5.2",
     "symfony/http-foundation": "^5.2",
-    "symfony/psr-http-message-bridge": "^2.0"
+    "symfony/psr-http-message-bridge": "^2.1",
+    "psr/http-client": "^1.0",
+    "nyholm/psr7": "^1.4",
+    "symfony/http-client": "5.x-dev"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.17",
+    "friendsofphp/php-cs-fixer": "^3.0",
     "brainmaestro/composer-git-hooks": "^2.8",
     "mikey179/vfsstream": "^1.6",
     "mockery/mockery": "^1.4",
@@ -79,8 +82,8 @@
       "cghooks update"
     ],
     "phpstan": "vendor/bin/phpstan analyse",
-    "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php_cs --dry-run --ansi",
-    "fix-style": "php-cs-fixer fix --using-cache=no --config=.php_cs --ansi",
+    "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --ansi",
+    "fix-style": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --ansi",
     "test": "vendor/bin/phpunit --colors=always --testdox"
   }
 }

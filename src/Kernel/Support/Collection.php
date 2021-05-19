@@ -43,7 +43,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return new static($return);
     }
 
-    public function except(array|int|string $keys): static
+    public function except(array | int | string $keys): static
     {
         $keys = is_array($keys) ? $keys : func_get_args();
 
@@ -61,7 +61,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return $clone;
     }
 
-    public function has(string|int $key): bool
+    public function has(string | int $key): bool
     {
         return !is_null(Arr::get($this->items, $key));
     }
@@ -80,22 +80,22 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return $end;
     }
 
-    public function add(string|int $key, mixed $value): void
+    public function add(string | int $key, mixed $value): void
     {
         Arr::set($this->items, $key, $value);
     }
 
-    public function set(string|int $key, mixed $value): void
+    public function set(string | int $key, mixed $value): void
     {
         Arr::set($this->items, $key, $value);
     }
 
-    public function get(string|int $key, mixed $default = null): mixed
+    public function get(string | int $key, mixed $default = null): mixed
     {
         return Arr::get($this->items, $key, $default);
     }
 
-    public function forget(string|int $key)
+    public function forget(string | int $key)
     {
         Arr::forget($this->items, $key);
     }
@@ -145,17 +145,17 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return $this->get($key);
     }
 
-    public function __set(string|int $key, mixed $value)
+    public function __set(string | int $key, mixed $value)
     {
         $this->set($key, $value);
     }
 
-    public function __isset(string|int $key): bool
+    public function __isset(string | int $key): bool
     {
         return $this->has($key);
     }
 
-    public function __unset(string|int $key)
+    public function __unset(string | int $key)
     {
         $this->forget($key);
     }

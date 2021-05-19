@@ -13,8 +13,8 @@ namespace EasyWeChat\Tests\Payment\Bill;
 
 use EasyWeChat\Kernel\Http\Response;
 use EasyWeChat\Kernel\Http\StreamResponse;
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Bill\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Bill\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

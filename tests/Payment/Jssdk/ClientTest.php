@@ -11,8 +11,8 @@
 
 namespace EasyWeChat\Tests\Payment\Jssdk;
 
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Jssdk\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Jssdk\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

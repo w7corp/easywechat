@@ -21,9 +21,9 @@ class BaseClient
     }
     protected string  $baseUri;
     protected ServiceContainer $app;
-    protected AccessTokenInterface|null $accessToken = null;
+    protected AccessTokenInterface | null $accessToken = null;
 
-    public function __construct(ServiceContainer $app, AccessTokenInterface|null $accessToken = null)
+    public function __construct(ServiceContainer $app, AccessTokenInterface | null $accessToken = null)
     {
         $this->app = $app;
         $this->accessToken = $accessToken ?? $this->app['access_token'];

@@ -12,9 +12,9 @@
 namespace EasyWeChat\Tests\Payment\Notify;
 
 use EasyWeChat\Kernel\Support\XML;
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Kernel\Exceptions\InvalidSignException;
-use EasyWeChat\Payment\Notify\Paid;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Kernel\Exceptions\InvalidSignException;
+use EasyWeChat\Pay\Notify\Paid;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

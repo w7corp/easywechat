@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\Payment\Order;
 
 use EasyWeChat\Kernel\Support;
-use EasyWeChat\Payment\Application;
-use EasyWeChat\Payment\Order\Client;
+use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Order\Client;
 use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase

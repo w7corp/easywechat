@@ -13,7 +13,7 @@ namespace EasyWeChat\Tests\Payment;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
-use EasyWeChat\Payment\Application;
+use EasyWeChat\Pay\Application;
 use EasyWeChat\Tests\TestCase;
 
 class ApplicationTest extends TestCase
@@ -27,15 +27,15 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(\EasyWeChat\BasicService\Url\Client::class, $app->url);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Auth\AccessToken::class, $app->access_token);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Coupon\Client::class, $app->coupon);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Bill\Client::class, $app->bill);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Order\Client::class, $app->order);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Refund\Client::class, $app->refund);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Reverse\Client::class, $app->reverse);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Sandbox\Client::class, $app->sandbox);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Redpack\Client::class, $app->redpack);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Transfer\Client::class, $app->transfer);
-        $this->assertInstanceOf(\EasyWeChat\Payment\Jssdk\Client::class, $app->jssdk);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Coupon\Client::class, $app->coupon);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Bill\Client::class, $app->bill);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Order\Client::class, $app->order);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Refund\Client::class, $app->refund);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Reverse\Client::class, $app->reverse);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Sandbox\Client::class, $app->sandbox);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Redpack\Client::class, $app->redpack);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Transfer\Client::class, $app->transfer);
+        $this->assertInstanceOf(\EasyWeChat\Pay\Jssdk\Client::class, $app->jssdk);
 
         // test calling nonexistent method
         $this->expectException(\TypeError::class);
@@ -102,7 +102,7 @@ class ApplicationTest extends TestCase
             'sandbox' => true,
             'key' => 'keyxxx',
         ]);
-        $sandbox = \Mockery::mock(\EasyWeChat\Payment\Sandbox\Client::class.'[getKey]', new ServiceContainer());
+        $sandbox = \Mockery::mock(\EasyWeChat\Pay\Sandbox\Client::class.'[getKey]', new ServiceContainer());
         $sandbox->expects()->getKey()->andReturn('88888888888888888888888888888888');
         $app['sandbox'] = $sandbox;
 
