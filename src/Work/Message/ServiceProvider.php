@@ -33,7 +33,7 @@ class ServiceProvider implements ServiceProviderInterface
         $app['messenger'] = function ($app) {
             $messenger = new Messenger($app['message']);
 
-            if (is_int($app['config']['agent_id'])) {
+            if (is_numeric($app['config']['agent_id'])) {
                 $messenger->ofAgent($app['config']['agent_id']);
             }
 
