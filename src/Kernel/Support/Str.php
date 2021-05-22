@@ -69,6 +69,11 @@ class Str
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
 
+    public static function kebab(string $value)
+    {
+        return static::snake($value, '-');
+    }
+
     public static function snake(string $value, string $delimiter = '_'): string
     {
         $key = $value.$delimiter;
