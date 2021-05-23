@@ -12,7 +12,6 @@ class Merchant implements MerchantInterface
         protected string $secretKey,
         protected string $certificate,
         protected string $certificateSerialNo,
-        protected ?MerchantInterface $subMerchant = null,
     ) {
     }
 
@@ -39,10 +38,5 @@ class Merchant implements MerchantInterface
     public function getSecretKey(): string
     {
         return $this->secretKey;
-    }
-
-    public function getSubMerchant(): ?MerchantInterface
-    {
-        return $this->subMerchant;
     }
 }
