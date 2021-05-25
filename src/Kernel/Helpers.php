@@ -12,7 +12,8 @@ use EasyWeChat\Kernel\Support\Collection;
 if (!\function_exists('dd')) {
     function dd()
     {
-        \dump(\func_get_args()); exit;
+        \dump(\func_get_args());
+        exit;
     }
 }
 

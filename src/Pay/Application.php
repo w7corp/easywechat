@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
-use Closure;
 use EasyWeChat\BasicService;
 use EasyWeChat\Kernel\ApiBuilder;
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\OfficialAccount;
