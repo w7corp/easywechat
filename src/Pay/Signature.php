@@ -22,12 +22,12 @@ class Signature
         }
 
         $message = $request->getMethod()."\n".
-                   $request->getRequestTarget()."\n".
+                   $request->getUri()->getPath()."\n".
                    $timestamp."\n".
                    $nonce."\n".
                    $body."\n";
 
-        $signature = \base64_encode(\openssl_sign($message, $sign, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption'));
+        \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
         return sprintf(
             'WECHATPAY2-SHA256-RSA2048 %s',
@@ -37,7 +37,7 @@ class Signature
                 $nonce,
                 $timestamp,
                 $this->merchant->getCertificateSerialNumber(),
-                $signature
+                \base64_encode($signature)
             )
         );
     }

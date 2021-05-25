@@ -25,6 +25,31 @@ class ApiBuilder
         return $this->uri;
     }
 
+    public function get(array $options = [])
+    {
+        return $this->client->request('GET', $this->getUri(), $options);
+    }
+
+    public function post(array $options = [])
+    {
+        return $this->client->request('POST', $this->getUri(), $options);
+    }
+
+    public function patch(array $options = [])
+    {
+        return $this->client->request('PATCH', $this->getUri(), $options);
+    }
+
+    public function put(array $options = [])
+    {
+        return $this->client->request('PUT', $this->getUri(), $options);
+    }
+
+    public function delete(array $options = [])
+    {
+        return $this->client->request('DELETE', $this->getUri(), $options);
+    }
+
     public function __get($name)
     {
         return $this->append($name);

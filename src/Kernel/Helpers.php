@@ -9,6 +9,13 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Support\Collection;
 
+if (!\function_exists('dd')) {
+    function dd()
+    {
+        \dump(\func_get_args()); exit;
+    }
+}
+
 function data_get($data, $key, $default = null)
 {
     switch (true) {

@@ -17,6 +17,8 @@ class Client implements HttpClientInterface
 
     protected HttpClientInterface $client;
 
+    protected array $defaultOptions = [];
+
     public const V3_URI_PREFIXES = [
         '/v3/',
         '/sandbox/v3/',
@@ -38,7 +40,7 @@ class Client implements HttpClientInterface
         $options['headers']['User-Agent'] = UserAgent::create([$options['headers']['User-Agent'] ?? '']);
 
         if ($this->isV3Request($request)) {
-            [$url, $options] = self::prepareRequest($method, $url, $options);
+            [, $options] = self::prepareRequest($method, $url, $options, $this->defaultOptions);
 
             if (!empty($options['body'])) {
                 $request->withBody($options['body']);
@@ -62,7 +64,7 @@ class Client implements HttpClientInterface
     public function isV3Request(RequestInterface $request): bool
     {
         foreach (self::V3_URI_PREFIXES as $prefix) {
-            if (\str_starts_with($request->getUri(), $prefix)) {
+            if (\str_starts_with($request->getUri()->getPath(), $prefix)) {
                 return true;
             }
         }
