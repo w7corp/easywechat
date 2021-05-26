@@ -216,10 +216,12 @@ abstract class AccessToken implements AccessTokenInterface
         ];
 
         return $this->setHttpClient(
-            $this->app['http_client'])->request($this->getEndpoint(),
-            $this->requestMethod,
-            $options
-        );
+            $this->app['http_client']
+        )->request(
+                $this->getEndpoint(),
+                $this->requestMethod,
+                $options
+            );
     }
 
     /**

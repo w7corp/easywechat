@@ -8,7 +8,7 @@ use SimpleXMLElement;
 
 class XML
 {
-    public static function parse(?string $xml): array|null
+    public static function parse(?string $xml): array | null
     {
         if (empty($xml)) {
             return null;
@@ -50,7 +50,7 @@ class XML
         return sprintf('<![CDATA[%s]]>', $string);
     }
 
-    protected static function normalize(SimpleXMLElement $object): array|null
+    protected static function normalize(SimpleXMLElement $object): array | null
     {
         $result = null;
 
@@ -109,7 +109,7 @@ class XML
      *
      * @return string|null
      */
-    public static function sanitize(?string $xml): string|null
+    public static function sanitize(?string $xml): string | null
     {
         if (empty($xml)) {
             return $xml;

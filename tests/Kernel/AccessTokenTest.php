@@ -140,7 +140,6 @@ class AccessTokenTest extends TestCase
         $this->expectExceptionMessage('Failed to cache access token.');
 
         $token->setToken('mock-token', 7000);
-
     }
 
     public function testRefresh()

@@ -414,7 +414,7 @@ class Arr
      *
      * @return array
      */
-    public static function set(array &$array, string|int|null $key, mixed $value): array
+    public static function set(array &$array, string | int | null $key, mixed $value): array
     {
         if (!\is_string($key)) {
             $key = (string) $key;

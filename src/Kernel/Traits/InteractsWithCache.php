@@ -24,7 +24,7 @@ trait InteractsWithCache
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function getCache(): SimpleCacheInterface|null
+    public function getCache(): SimpleCacheInterface | null
     {
         if ($this->cache) {
             return $this->cache;

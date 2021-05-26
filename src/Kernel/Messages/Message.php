@@ -58,12 +58,12 @@ abstract class Message implements MessageInterface
     /**
      * @var string|null
      */
-    protected string|null $from = null;
+    protected string | null $from = null;
 
     /**
      * @var string|array|null
      */
-    protected string|array|null $to = null;
+    protected string | array | null $to = null;
 
     /**
      * @var array
@@ -186,7 +186,7 @@ abstract class Message implements MessageInterface
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function transformToXml(array $appends = [], bool $returnAsArray = false): string|array
+    public function transformToXml(array $appends = [], bool $returnAsArray = false): string | array
     {
         $data = array_merge(
             [
