@@ -51,7 +51,7 @@ class ApiBuilder
         return \call_user_func_array([$this->client, $name], $arguments);
     }
 
-    protected function callWithShortcuts(string $method, string|array $uri = [], array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
+    protected function callWithShortcuts(string $method, string | array $uri = [], array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
     {
         if (\is_string($uri)) {
             $uri = $this->append($uri)->getUri();

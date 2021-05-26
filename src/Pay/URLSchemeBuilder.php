@@ -10,7 +10,7 @@ class URLSchemeBuilder
     {
     }
 
-    public function forProduct(string|int $productId, string $appId): string
+    public function forProduct(string | int $productId, string $appId): string
     {
         $params = [
             'appid' => $appId,
