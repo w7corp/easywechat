@@ -9,18 +9,11 @@ use EasyWeChat\Kernel\ApiBuilder;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support;
 use EasyWeChat\OfficialAccount;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Application extends ServiceContainer
+class Application
 {
-    /**
-     * @var array
-     */
-    protected array $providers = [
-        OfficialAccount\Auth\ServiceProvider::class,
-        BasicService\Url\ServiceProvider::class,
-    ];
-
     /**
      * @var array
      */
@@ -32,24 +25,38 @@ class Application extends ServiceContainer
     protected ?ApiBuilder $v3 = null;
     protected ?HttpClientInterface $client = null;
     protected Merchant $merchant;
+    protected array $config = [
+        'app_id' => null,
+        'secret_key' => '',
+        'private_key' => '',
+        'certificate' => '',
+        'certificate_serial_no' => '',
+    ];
 
-    public function __construct(array $config = [], array $prepends = [], string $id = null)
+    public function __construct(array $config = [])
     {
-        parent::__construct($config, $prepends, $id);
+        $this->config = $config;
+    }
 
-        $this->merchant = new Merchant(
-            appId: $config['app_id'],
-            secretKey: $config['secret_key'],
-            privateKey: $config['private_key'],
-            certificate: $config['certificate'],
-            certificateSerialNo: $config['certificate_serial_no'],
-        );
+    public function getMerchant()
+    {
+        if (!$this->merchant) {
+            $this->merchant = new Merchant(
+                appId: $this->config['app_id'],
+                secretKey: $this->config['secret_key'],
+                privateKey: $this->config['private_key'],
+                certificate: $this->config['certificate'],
+                certificateSerialNo: $this->config['certificate_serial_no'],
+            );
+        }
+
+        return $this->merchant;
     }
 
     public function getClient(): HttpClientInterface
     {
         if (!$this->client) {
-            $this->client = (new Client($this->merchant))
+            $this->client = (new Client($this->getMerchant()))
                 ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config['http'] ?? []));
         }
 
@@ -72,35 +79,5 @@ class Application extends ServiceContainer
         }
 
         return $this->v2;
-    }
-
-    /**
-     * @param string $productId
-     *
-     * @return string
-     */
-    public function scheme(string $productId): string
-    {
-        $params = [
-            'appid' => $this['config']->app_id,
-            'mch_id' => $this['config']->mch_id,
-            'time_stamp' => time(),
-            'nonce_str' => uniqid(),
-            'product_id' => $productId,
-        ];
-
-        $params['sign'] = Support\generate_sign($params, $this['config']->key);
-
-        return 'weixin://wxpay/bizpayurl?'.http_build_query($params);
-    }
-
-    /**
-     * @param string $codeUrl
-     *
-     * @return string
-     */
-    public function codeUrlScheme(string $codeUrl)
-    {
-        return \sprintf('weixin://wxpay/bizpayurl?sr=%s', $codeUrl);
     }
 }

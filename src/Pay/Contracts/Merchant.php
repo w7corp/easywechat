@@ -6,6 +6,7 @@ interface Merchant
 {
     public function getMerchantId(): int;
     public function getPrivateKey(): string;
+    public function getCertificate(): string;
     public function getCertificateSerialNumber(): string;
     public function getSecretKey(): string;
 }

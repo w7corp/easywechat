@@ -2,9 +2,11 @@
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+
 class LegacySignature
 {
-    public function __construct(protected Merchant $merchant)
+    public function __construct(protected MerchantInterface $merchant)
     {
     }
 

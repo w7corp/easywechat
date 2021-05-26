@@ -2,11 +2,12 @@
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Psr\Http\Message\RequestInterface;
 
 class Signature
 {
-    public function __construct(protected Merchant $merchant)
+    public function __construct(protected MerchantInterface $merchant)
     {
     }
 
