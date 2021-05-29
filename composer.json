@@ -35,7 +35,7 @@
     "symfony/psr-http-message-bridge": "^2.1",
     "psr/http-client": "^1.0",
     "nyholm/psr7": "^1.4",
-    "symfony/http-client": "5.x-dev"
+    "symfony/http-client": "^5.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.0",
