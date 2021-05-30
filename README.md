@@ -23,7 +23,7 @@
 
 ## Requirement
 
-1. PHP >= 7.4
+1. PHP >= 8
 2. **[Composer](https://getcomposer.org/)**
 3. openssl 拓展
 4. fileinfo 拓展（素材管理模块需要用到）
@@ -31,7 +31,7 @@
 ## Installation
 
 ```shell
-$ composer require "w7corp/easywechat:^5.0" -vvv
+$ composer require "w7corp/easywechat:dev-develop" -vvv
 ```
 
 ## Usage
