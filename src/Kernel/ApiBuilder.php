@@ -27,7 +27,7 @@ class ApiBuilder
 
         $segment = Str::kebab($segment);
 
-        $uri = \sprintf('/%s/%s', \trim($this->uri, '/'), \trim($segment, '/'));
+        $uri = \rtrim(\sprintf('/%s/%s', \trim($this->uri, '/'), \trim($segment, '/')), '/');
 
         return new ApiBuilder($this->client, $uri);
     }

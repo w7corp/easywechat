@@ -19,9 +19,9 @@ class Application
     protected ?ApiBuilder $v2 = null;
     protected ?ApiBuilder $v3 = null;
     protected ?HttpClientInterface $client = null;
-    protected Merchant $merchant;
+    protected ?Merchant $merchant = null;
     protected array $config = [
-        'app_id' => null,
+        'mch_id' => 0,
         'secret_key' => '',
         'private_key' => '',
         'certificate' => '',
@@ -30,16 +30,16 @@ class Application
 
     public function __construct(array $config = [])
     {
-        $this->config = $config;
+        $this->config = array_merge($this->config, $config);
     }
 
-    public function getMerchant()
+    public function getMerchant(): Merchant
     {
         if (!$this->merchant) {
             $this->merchant = new Merchant(
-                appId: $this->config['app_id'],
-                secretKey: $this->config['secret_key'],
+                mchId: $this->config['mch_id'],
                 privateKey: $this->config['private_key'],
+                secretKey: $this->config['secret_key'],
                 certificate: $this->config['certificate'],
                 certificateSerialNo: $this->config['certificate_serial_no'],
             );

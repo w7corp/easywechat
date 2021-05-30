@@ -7,7 +7,7 @@ use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 class Merchant implements MerchantInterface
 {
     public function __construct(
-        protected int $appId,
+        protected int $mchId,
         protected string $privateKey,
         protected string $secretKey,
         protected string $certificate,
@@ -17,7 +17,7 @@ class Merchant implements MerchantInterface
 
     public function getMerchantId(): int
     {
-        return $this->appId;
+        return $this->mchId;
     }
 
     public function getPrivateKey(): string

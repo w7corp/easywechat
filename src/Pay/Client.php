@@ -4,6 +4,7 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\UserAgent;
 use Psr\Http\Message\RequestInterface;
+use Symfony\Component\HttpClient\AsyncDecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\Psr18Client;
@@ -75,5 +76,16 @@ class Client implements HttpClientInterface
     public function stream($responses, float $timeout = null): ResponseStreamInterface
     {
         return $this->client->stream($responses, $timeout);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function withOptions(array $options): self
+    {
+        $clone = clone $this;
+        $clone->client = $this->client->withOptions($options);
+
+        return $clone;
     }
 }
