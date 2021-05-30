@@ -4,7 +4,6 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\UserAgent;
 use Psr\Http\Message\RequestInterface;
-use Symfony\Component\HttpClient\AsyncDecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\Psr18Client;
