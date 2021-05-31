@@ -17,7 +17,7 @@ class Client implements HttpClientInterface
 
     protected HttpClientInterface $client;
 
-    protected array $defaultOptions = [];
+    protected array $defaultOptions = self::OPTIONS_DEFAULTS;
 
     public const V3_URI_PREFIXES = [
         '/v3/',
@@ -25,9 +25,13 @@ class Client implements HttpClientInterface
         '/hk/v3/',
     ];
 
-    public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null)
+    public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, ?array $defaultOptions = [])
     {
         $this->client = $client ?? HttpClient::create();
+
+        if ($defaultOptions) {
+            [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
+        }
     }
 
     /**
@@ -75,16 +79,5 @@ class Client implements HttpClientInterface
     public function stream($responses, float $timeout = null): ResponseStreamInterface
     {
         return $this->client->stream($responses, $timeout);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function withOptions(array $options): self
-    {
-        $clone = clone $this;
-        $clone->client = $this->client->withOptions($options);
-
-        return $clone;
     }
 }
