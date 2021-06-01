@@ -8,25 +8,19 @@ use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\ServiceContainer;
 
-class EchoStrHandler implements EventHandlerInterface
+class ServerValidationHandler implements EventHandlerInterface
 {
-    /**
-     * @var ServiceContainer
-     */
-    protected $app;
-
     /**
      * @param ServiceContainer $app
      */
-    public function __construct(ServiceContainer $app)
-    {
-        $this->app = $app;
-    }
+    public function __construct(
+        public ServiceContainer $app
+    ) {}
 
     /**
-     * @param mixed $payload
+     * @param null $payload
      *
-     * @return FinallyResult|null
+     * @return \EasyWeChat\Kernel\Decorators\FinallyResult
      */
     public function handle($payload = null)
     {

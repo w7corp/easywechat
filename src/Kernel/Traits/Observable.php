@@ -4,229 +4,250 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Clauses\Clause;
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\Decorators\TerminateResult;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
+use function EasyWeChat\Kernel\throw_if;
 
-//TODO: 重构
 trait Observable
 {
+    /**
+     * @var array
+     */
     protected array $handlers = [];
-    protected array $clauses = [];
-
-    public function push($handler, $condition = '*'): Clause
-    {
-        [$handler, $condition] = $this->resolveHandlerAndCondition($handler, $condition);
-
-        if (!isset($this->handlers[$condition])) {
-            $this->handlers[$condition] = [];
-        }
-
-        array_push($this->handlers[$condition], $handler);
-
-        return $this->newClause($handler);
-    }
 
     /**
-     * @param array $handlers
-     *
-     * @return $this
+     * @var array
      */
-    public function setHandlers(array $handlers = [])
-    {
-        $this->handlers = $handlers;
-
-        return $this;
-    }
-
-    /**
-     * @param \Closure|EventHandlerInterface|string $handler
-     * @param \Closure|EventHandlerInterface|string $condition
-     *
-     * @return \EasyWeChat\Kernel\Clauses\Clause
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \ReflectionException
-     */
-    public function unshift($handler, $condition = '*')
-    {
-        list($handler, $condition) = $this->resolveHandlerAndCondition($handler, $condition);
-
-        if (!isset($this->handlers[$condition])) {
-            $this->handlers[$condition] = [];
-        }
-
-        array_unshift($this->handlers[$condition], $handler);
-
-        return $this->newClause($handler);
-    }
-
-    /**
-     * @param string                                $condition
-     * @param \Closure|EventHandlerInterface|string $handler
-     *
-     * @return \EasyWeChat\Kernel\Clauses\Clause
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \ReflectionException
-     */
-    public function observe($condition, $handler)
-    {
-        return $this->push($handler, $condition);
-    }
-
-    /**
-     * @param string                                $condition
-     * @param \Closure|EventHandlerInterface|string $handler
-     *
-     * @return \EasyWeChat\Kernel\Clauses\Clause
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \ReflectionException
-     */
-    public function on($condition, $handler)
-    {
-        return $this->push($handler, $condition);
-    }
-
-    /**
-     * @param string|int $event
-     * @param mixed      ...$payload
-     *
-     * @return mixed|null
-     */
-    public function dispatch($event, $payload)
-    {
-        return $this->notify($event, $payload);
-    }
-
-    /**
-     * @param string|int $event
-     * @param mixed      ...$payload
-     *
-     * @return mixed|null
-     */
-    public function notify($event, $payload)
-    {
-        $result = null;
-
-        foreach ($this->handlers as $condition => $handlers) {
-            if ('*' === $condition || ($condition & $event) === $event) {
-                foreach ($handlers as $handler) {
-                    if ($clause = $this->clauses[$this->getHandlerHash($handler)] ?? null) {
-                        if ($clause->intercepted($payload)) {
-                            continue;
-                        }
-                    }
-
-                    $response = $this->callHandler($handler, $payload);
-
-                    switch (true) {
-                        case $response instanceof TerminateResult:
-                            return $response->content;
-                        case true === $response:
-                            continue 2;
-                        case false === $response:
-                            break 3;
-                        case !empty($response) && !($result instanceof FinallyResult):
-                            $result = $response;
-                    }
-                }
-            }
-        }
-
-        return $result instanceof FinallyResult ? $result->content : $result;
-    }
+    protected array $removedHandlers = [];
 
     /**
      * @return array
      */
-    public function getHandlers()
+    public function getHandlers(): array
     {
         return $this->handlers;
     }
 
     /**
-     * @param mixed $handler
-     *
-     * @return \EasyWeChat\Kernel\Clauses\Clause
+     * @return array
      */
-    protected function newClause($handler): Clause
+    public function getRemoveHandlers(): array
     {
-        return $this->clauses[$this->getHandlerHash($handler)] = new Clause();
+        return $this->removedHandlers;
     }
 
     /**
-     * @param mixed $handler
+     * @param        $handler
+     *
+     * @return $this
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Throwable
+     */
+    public function withHandler($handler): static
+    {
+        $handler = $this->makeClosure($handler);
+
+        $this->handlers[$this->getHandlerHash($handler)] = $handler;
+
+        return $this;
+    }
+
+    /**
+     * @param array  $handlers
+     *
+     * @return $this
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Throwable
+     */
+    public function withHandlers(array $handlers): static
+    {
+        foreach (
+            $handlers as $handler
+        ) {
+            $this->withHandler($handler);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param        $handler
+     *
+     * @return $this
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Throwable
+     */
+    public function withoutHandler($handler): static
+    {
+        $handler = $this->makeClosure($handler);
+
+        unset($this->handlers[$this->getHandlerHash($handler)]);
+
+        \array_push($this->removedHandlers, $handler);
+
+        return $this;
+    }
+
+    /**
+     * @param array|null $handlers
+     *
+     * @return $this
+     *
+     * @throws \Throwable
+     */
+    public function withoutHandlers(array $handlers = null): static
+    {
+        if (!is_array($handlers)) {
+            $handlers = $this->handlers;
+        }
+
+        foreach ($handlers as $handler) {
+            $this->withoutHandler($handler);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param        $value
+     * @param null   $handler
+     *
+     * @return $this
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Throwable
+     */
+    public function when($value, $handler = null): static
+    {
+        if ($value instanceof \Closure) {
+            $value = $value->bindTo($this);
+        }
+
+        if ($value) {
+            return $this->withHandler($handler);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param        $value
+     * @param        $handler
+     *
+     * @return $this
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
+     * @throws \Throwable
+     */
+    public function unless($value, $handler): static
+    {
+        if ($value instanceof \Closure) {
+            $value = $value->bindTo($this);
+        }
+
+        return $this->when(!$value, $handler);
+    }
+
+    /**
+     * @param $payload
+     *
+     * @return false|mixed
+     */
+    public function handle($payload)
+    {
+        foreach ($this->handlers as $hashKey => $handler) {
+            if (
+                \in_array(
+                    $hashKey,
+                    $this->removedHandlers
+                )
+            ) {
+                continue;
+            }
+
+            try {
+                $response = \call_user_func_array($handler, [$payload]);
+
+                switch (true) {
+                    case $response instanceof TerminateResult:
+                        return $response->content;
+                    case true === $response:
+                        break;
+                    case false === $response:
+                        break 2;
+                    case $response && !(($result ?? null) instanceof FinallyResult):
+                        $result = $response;
+                }
+            } catch (\Exception $e) {
+                if (
+                    property_exists($this, 'app')
+                    &&
+                    $this->app instanceof ServiceContainer
+                ) {
+                    $this->app['logger']->error(
+                        $e->getCode().': '.$e->getMessage(),
+                        [
+                            'code' => $e->getCode(),
+                            'message' => $e->getMessage(),
+                            'file' => $e->getFile(),
+                            'line' => $e->getLine(),
+                        ]
+                    );
+                }
+            }
+        }
+
+        return ($result ?? null) instanceof FinallyResult ? $result->content : $result;
+    }
+
+    /**
+     * @param $handler
      *
      * @return string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Throwable
      */
-    protected function getHandlerHash($handler)
+    protected function getHandlerHash($handler): string
     {
         if (is_string($handler)) {
             return $handler;
         }
 
-        if (is_array($handler)) {
-            return is_string($handler[0])
-                ? $handler[0].'::'.$handler[1]
-                : get_class($handler[0]).$handler[1];
+        if (!\is_array($handler)) {
+            return spl_object_hash($handler);
         }
 
-        return spl_object_hash($handler);
+        throw_if(2 !== \count($handler), InvalidArgumentException::class);
+
+        return is_string($handler[0])
+                ? $handler[0].'::'.$handler[1] : get_class($handler[0]).$handler[1];
     }
 
     /**
-     * @param callable $handler
-     * @param mixed    $payload
-     *
-     * @return mixed
-     */
-    protected function callHandler(callable $handler, $payload)
-    {
-        try {
-            return call_user_func_array($handler, [$payload]);
-        } catch (\Exception $e) {
-            if (property_exists($this, 'app') && $this->app instanceof ServiceContainer) {
-                $this->app['logger']->error($e->getCode().': '.$e->getMessage(), [
-                    'code' => $e->getCode(),
-                    'message' => $e->getMessage(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                ]);
-            }
-        }
-    }
-
-    /**
-     * @param mixed $handler
+     * @param $handler
      *
      * @return \Closure
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
+     * @throws \Throwable
      */
-    protected function makeClosure($handler)
+    protected function makeClosure($handler): \Closure
     {
         if (is_callable($handler)) {
             return $handler;
-        }
-
-        if (is_string($handler) && '*' !== $handler) {
-            if (!class_exists($handler)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" not exists.', $handler));
-            }
-
-            if (!in_array(EventHandlerInterface::class, (new \ReflectionClass($handler))->getInterfaceNames(), true)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" not an instance of "%s".', $handler, EventHandlerInterface::class));
-            }
-
-            return function ($payload) use ($handler) {
-                return (new $handler($this->app ?? null))->handle($payload);
-            };
         }
 
         if ($handler instanceof EventHandlerInterface) {
@@ -235,24 +256,26 @@ trait Observable
             };
         }
 
-        throw new InvalidArgumentException('No valid handler is found in arguments.');
-    }
+        throw_if(
+            !\is_string($handler),
+            InvalidArgumentException::class,
+            'No valid handler is found in arguments.'
+        );
 
-    /**
-     * @param mixed $handler
-     * @param mixed $condition
-     *
-     * @return array
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \ReflectionException
-     */
-    protected function resolveHandlerAndCondition($handler, $condition): array
-    {
-        if (is_int($handler) || (is_string($handler) && !class_exists($handler))) {
-            list($handler, $condition) = [$condition, $handler];
-        }
+        throw_if(
+            !class_exists($handler),
+            InvalidArgumentException::class,
+            sprintf('Class "%s" not exists.', $handler)
+        );
 
-        return [$this->makeClosure($handler), $condition];
+        throw_if(
+            !in_array(EventHandlerInterface::class, (new \ReflectionClass($handler))->getInterfaceNames(), true),
+            InvalidArgumentException::class,
+            sprintf('Class "%s" not an instance of "%s".', $handler, EventHandlerInterface::class)
+        );
+
+        return function ($payload) use ($handler) {
+            return (new $handler($this->app ?? null))->handle($payload);
+        };
     }
 }

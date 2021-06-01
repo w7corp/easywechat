@@ -6,7 +6,12 @@ namespace EasyWeChat\Kernel\Decorators;
 
 class FinallyResult
 {
-    public function __construct(public mixed $content)
-    {
-    }
+    /**
+     * FinallyResult constructor.
+     *
+     * @param mixed $content
+     */
+    public function __construct(
+        public mixed $content
+    ) {}
 }
