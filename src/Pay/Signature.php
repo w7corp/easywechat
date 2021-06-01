@@ -18,8 +18,8 @@ class Signature
         $timestamp = \time();
 
         if ($request->getBody()->isSeekable()) {
-            $body = $request->getBody()->getContents();
             $request->getBody()->rewind();
+            $body = $request->getBody()->getContents();
         }
 
         $message = $request->getMethod()."\n".

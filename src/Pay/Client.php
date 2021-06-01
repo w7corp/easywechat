@@ -3,6 +3,7 @@
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\UserAgent;
+use Nyholm\Psr7\Stream;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
@@ -17,7 +18,7 @@ class Client implements HttpClientInterface
 
     protected HttpClientInterface $client;
 
-    protected array $defaultOptions = self::OPTIONS_DEFAULTS;
+    protected array $defaultOptions = [];
 
     public const V3_URI_PREFIXES = [
         '/v3/',
@@ -29,9 +30,17 @@ class Client implements HttpClientInterface
     {
         $this->client = $client ?? HttpClient::create();
 
-        if ($defaultOptions) {
-            [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
-        }
+        $defaultOptions = \array_merge(
+            self::OPTIONS_DEFAULTS,
+            [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ],
+            ]
+        );
+
+        [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
     }
 
     /**
@@ -47,7 +56,8 @@ class Client implements HttpClientInterface
             [, $options] = self::prepareRequest($method, $url, $options, $this->defaultOptions);
 
             if (!empty($options['body'])) {
-                $request->withBody($options['body']);
+                $request = $request->withBody(Stream::create($options['body']));
+                $request->getBody()->rewind();
             }
 
             $options['headers']['Authorization'] = (new Signature($this->merchant))->createHeader($request);
