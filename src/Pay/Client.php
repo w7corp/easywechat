@@ -57,7 +57,6 @@ class Client implements HttpClientInterface
 
             if (!empty($options['body'])) {
                 $request = $request->withBody(Stream::create($options['body']));
-                $request->getBody()->rewind();
             }
 
             $options['headers']['Authorization'] = (new Signature($this->merchant))->createHeader($request);
