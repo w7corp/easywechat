@@ -4,19 +4,17 @@ namespace EasyWeChat\Kernel\Server\Handlers;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
-use EasyWeChat\Kernel\Server\Request as ServerRequest;
-use EasyWeChat\Kernel\Server\Server;
-use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\Kernel\Server\BaseServer;
 
 class MessageValidationHandler implements EventHandlerInterface
 {
     /**
-     * SignatureValidationHandler constructor.
+     * MessageValidationHandler constructor.
      *
-     * @param \EasyWeChat\Kernel\ServiceContainer $app
+     * @param \EasyWeChat\Kernel\Server\BaseServer $server
      */
     public function __construct(
-        public ServiceContainer $app,
+        public BaseServer $server,
     ) {}
 
     /**
@@ -26,22 +24,20 @@ class MessageValidationHandler implements EventHandlerInterface
      */
     public function handle(mixed $payload = null)
     {
-        $request = ServerRequest::create($this->app);
-
         if (
-            !$request->isSafeMode()
+            !$this->server->isSafeMode()
         ) {
             return null;
         }
 
-        $signature = $request->get('signature');
+        $signature = $this->server->request->get('signature');
 
         if (
-            $signature !== Server::signature(
+            $signature !== BaseServer::signature(
                 [
-                    Server::getToken($this->app),
-                    $request->get('timestamp'),
-                    $request->get('nonce'),
+                    $this->server->getToken(),
+                    $this->server->request->get('timestamp'),
+                    $this->server->request->get('nonce'),
                 ]
             )
         ) {

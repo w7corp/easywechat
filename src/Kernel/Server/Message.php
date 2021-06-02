@@ -3,16 +3,15 @@
 namespace EasyWeChat\Kernel\Server;
 
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
-use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Support\XML;
 use function EasyWeChat\Kernel\throw_if;
 
 class Message implements \ArrayAccess
 {
     /**
-     * @var \EasyWeChat\Kernel\ServiceContainer
+     * @var \EasyWeChat\Kernel\Server\BaseServer
      */
-    public ServiceContainer $app;
+    public BaseServer $server;
 
     /**
      * @var array
@@ -23,28 +22,6 @@ class Message implements \ArrayAccess
      * @var string|null
      */
     public ?string $originContent = null;
-
-    // 消息类型
-    public const TEXT = 'text';
-    public const IMAGE = 'image';
-    public const VOICE = 'voice';
-    public const VIDEO = 'video';
-    public const SHORT_VIDEO = 'shortvideo';
-    public const LOCATION = 'location';
-    public const LINK = 'link';
-    public const DEVICE_EVENT = 'device_event';
-    public const DEVICE_TEXT = 'device_text';
-    public const EVENT = 'event';
-    public const DEVICE_FILE = 'file';
-    public const DEVICE_MINIPROGRAM_PAGE = 'miniprogrampage';
-
-    // 事件类型
-    public const SUBSCRIBE_EVENT = 'subscribe';
-    public const UNSUBSCRIBE_EVENT = 'unsubscribe';
-    public const SCAN_EVENT = 'SCAN';
-    public const LOCATION_EVENT = 'LOCATION';
-    public const CLICK_EVENT = 'CLICK';
-    public const VIEW_EVENT = 'VIEW';
 
     /**
      * Message constructor.
@@ -57,9 +34,9 @@ class Message implements \ArrayAccess
     public function __construct(
         public Request $request,
     ) {
-        $this->app = $request->app;
+        $this->server = $request->server;
 
-        $this->create();
+        $this->init();
     }
 
     /**
@@ -76,9 +53,9 @@ class Message implements \ArrayAccess
         $signature = $this->request->get('signature');
 
         if (
-            $signature !== Server::signature(
+            $signature !== BaseServer::signature(
                 [
-                    Server::getToken($this->app),
+                    $this->server->getToken(),
                     $this->request->get('timestamp'),
                     $this->request->get('nonce'),
                 ]
@@ -112,7 +89,7 @@ class Message implements \ArrayAccess
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      * @throws \Throwable
      */
-    public function create(): array
+    public function init(): array
     {
         $this->originContent = $this->request->getContent();
 
@@ -129,7 +106,7 @@ class Message implements \ArrayAccess
             &&
             $encrypt = $message['Encrypt'] ?? null
         ) {
-            $message = self::parse($this->request->decrypt($encrypt));
+            $message = self::parse($this->server->decrypt($encrypt));
         }
 
         $this->attributes = $message ?: [];

@@ -19,11 +19,6 @@ trait Observable
     protected array $handlers = [];
 
     /**
-     * @var array
-     */
-    protected array $removedHandlers = [];
-
-    /**
      * @return array
      */
     public function getHandlers(): array
@@ -32,15 +27,7 @@ trait Observable
     }
 
     /**
-     * @return array
-     */
-    public function getRemoveHandlers(): array
-    {
-        return $this->removedHandlers;
-    }
-
-    /**
-     * @param        $handler
+     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
      *
      * @return $this
      *
@@ -48,7 +35,9 @@ trait Observable
      * @throws \ReflectionException
      * @throws \Throwable
      */
-    public function withHandler($handler): static
+    public function withHandler(
+        callable|EventHandlerInterface|string $handler
+    ): static
     {
         $handler = $this->makeClosure($handler);
 
@@ -78,7 +67,7 @@ trait Observable
     }
 
     /**
-     * @param        $handler
+     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
      *
      * @return $this
      *
@@ -86,13 +75,13 @@ trait Observable
      * @throws \ReflectionException
      * @throws \Throwable
      */
-    public function withoutHandler($handler): static
+    public function withoutHandler(
+        callable|EventHandlerInterface|string $handler
+    ): static
     {
         $handler = $this->makeClosure($handler);
 
         unset($this->handlers[$this->getHandlerHash($handler)]);
-
-        \array_push($this->removedHandlers, $handler);
 
         return $this;
     }
@@ -118,8 +107,8 @@ trait Observable
     }
 
     /**
-     * @param        $value
-     * @param null   $handler
+     * @param                                                                    $value
+     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
      *
      * @return $this
      *
@@ -127,7 +116,10 @@ trait Observable
      * @throws \ReflectionException
      * @throws \Throwable
      */
-    public function when($value, $handler = null): static
+    public function when(
+        $value,
+        callable|EventHandlerInterface|string $handler
+    ): static
     {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
@@ -141,8 +133,8 @@ trait Observable
     }
 
     /**
-     * @param        $value
-     * @param        $handler
+     * @param                                                                    $value
+     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
      *
      * @return $this
      *
@@ -150,7 +142,10 @@ trait Observable
      * @throws \ReflectionException
      * @throws \Throwable
      */
-    public function unless($value, $handler): static
+    public function unless(
+        $value,
+        callable|EventHandlerInterface|string $handler
+    ): static
     {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
@@ -160,22 +155,13 @@ trait Observable
     }
 
     /**
-     * @param $payload
+     * @param array $payload
      *
-     * @return false|mixed
+     * @return mixed
      */
-    public function handle($payload)
+    public function handle(array $payload): mixed
     {
-        foreach ($this->handlers as $hashKey => $handler) {
-            if (
-                \in_array(
-                    $hashKey,
-                    $this->removedHandlers
-                )
-            ) {
-                continue;
-            }
-
+        foreach ($this->handlers as $handler) {
             try {
                 $response = \call_user_func_array($handler, [$payload]);
 
@@ -212,14 +198,15 @@ trait Observable
     }
 
     /**
-     * @param $handler
+     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
      *
      * @return string
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \Throwable
      */
-    protected function getHandlerHash($handler): string
+    protected function getHandlerHash(
+        callable|EventHandlerInterface|string $handler
+    ): string
     {
         if (is_string($handler)) {
             return $handler;
@@ -236,15 +223,16 @@ trait Observable
     }
 
     /**
-     * @param $handler
+     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
      *
      * @return \Closure
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Throwable
      */
-    protected function makeClosure($handler): \Closure
+    protected function makeClosure(
+        callable|EventHandlerInterface|string $handler
+    ): \Closure
     {
         if (is_callable($handler)) {
             return $handler;
@@ -275,7 +263,7 @@ trait Observable
         );
 
         return function ($payload) use ($handler) {
-            return (new $handler($this->app ?? null))->handle($payload);
+            return (new $handler($this))->handle($payload);
         };
     }
 }

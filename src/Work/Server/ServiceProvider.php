@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EasyWeChat\Work\Server;
 
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Work\Server\Handlers\EchoStrHandler;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -22,10 +21,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         !isset($app['server']) && $app['server'] = function ($app) {
-            $guard = new Guard($app);
-            $guard->push(new EchoStrHandler($app));
-
-            return $guard;
+            return new Server($app);
         };
     }
 }

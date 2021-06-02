@@ -2,27 +2,30 @@
 
 namespace EasyWeChat\Kernel\Server;
 
-use EasyWeChat\Kernel\ServiceContainer;
-
+/**
+ * Class Request
+ *
+ * @author finecho <liuhao25@foxmail.com>
+ */
 class Request
 {
     /**
      * Request constructor.
      *
-     * @param \EasyWeChat\Kernel\ServiceContainer $app
+     * @param \EasyWeChat\Kernel\Server\BaseServer $server
      */
     public function __construct(
-        public ServiceContainer $app
+        public BaseServer $server
     ) {}
 
     /**
-     * @param \EasyWeChat\Kernel\ServiceContainer $app
+     * @param \EasyWeChat\Kernel\Server\BaseServer $server
      *
      * @return \EasyWeChat\Kernel\Server\Request
      */
-    public static function create(ServiceContainer $app): Request
+    public static function create(BaseServer $server): Request
     {
-        return new self($app);
+        return new self($server);
     }
 
     /**
@@ -34,22 +37,6 @@ class Request
     public function getMessage(): Message
     {
         return new Message($this);
-    }
-
-    /**
-     * @param string $encrypt
-     *
-     * @return string
-     */
-    public function decrypt(string $encrypt): string
-    {
-        return
-            $this->app['encryptor']->decrypt(
-                $encrypt,
-                $this->get('msg_signature'),
-                $this->get('nonce'),
-                $this->get('timestamp')
-            );
     }
 
     /**
@@ -71,7 +58,7 @@ class Request
      */
     public function get(string $key, $default = null): mixed
     {
-        return $this->app['request']->get($key, $default);
+        return $this->server->app['request']->get($key, $default);
     }
 
     /**
@@ -81,6 +68,6 @@ class Request
      */
     public function getContent(bool $asResource = false): mixed
     {
-        return $this->app['request']->getContent($asResource);
+        return $this->server->app['request']->getContent($asResource);
     }
 }

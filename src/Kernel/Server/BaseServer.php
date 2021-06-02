@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Server;
 
 use EasyWeChat\Kernel\Contracts\MessageInterface;
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Messages\Message;
 use EasyWeChat\Kernel\Messages\News;
@@ -19,7 +20,7 @@ use EasyWeChat\Kernel\Server\Request as ServerRequest;
 use EasyWeChat\Kernel\Server\Response as ServerResponse;
 use EasyWeChat\Kernel\Server\Message as ServerMessage;
 
-class Server
+class BaseServer
 {
     use Observable;
 
@@ -51,8 +52,9 @@ class Server
             \array_map([$this, 'withHandler'], $observer);
         }
 
-        $this->request = ServerRequest::create($this->app);
+        $this->request = ServerRequest::create($this);
         $this->message = $this->request->getMessage();
+
         $this->withHandlers(
             [
                 MessageValidationHandler::class,
@@ -61,14 +63,14 @@ class Server
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response|\EasyWeChat\Kernel\Server\Response
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException|\Throwable
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function process(): Response
+    public function process(): Response|ServerResponse
     {
-        $response = $this->handle($this->message);
+        $response = $this->handle($this->message->toArray());
 
         if ($this->shouldReturnRawResponse()) {
             return new Response($response);
@@ -95,11 +97,13 @@ class Server
     }
 
     /**
-     * @return \EasyWeChat\Kernel\Server\Server
+     * @return $this
      *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \ReflectionException
      * @throws \Throwable
      */
-    public function withoutMessageValidationHandler(): Server
+    public function withoutMessageValidationHandler(): static
     {
         return $this->withoutHandler(MessageValidationHandler::class);
     }
@@ -222,13 +226,11 @@ class Server
     }
 
     /**
-     * @param \EasyWeChat\Kernel\ServiceContainer $app
-     *
      * @return string
      */
-    public static function getToken(ServiceContainer $app): string
+    public function getToken(): string
     {
-        return $app['config']['token'] ?? '';
+        return $this->app['config']['token'] ?? '';
     }
 
     /**
@@ -241,5 +243,36 @@ class Server
         sort($params, SORT_STRING);
 
         return sha1(implode($params));
+    }
+
+    /**
+     * @param string                            $encrypt
+     * @param \EasyWeChat\Kernel\Encryptor|null $encryptor
+     *
+     * @return string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function decrypt(string $encrypt, Encryptor $encryptor = null): string
+    {
+        if (!$encryptor) {
+            $encryptor = $this->app['encryptor'];
+        }
+
+        return
+            $encryptor->decrypt(
+                $encrypt,
+                $this->request->get('msg_signature'),
+                $this->request->get('nonce'),
+                $this->request->get('timestamp')
+            );
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSafeMode(): bool
+    {
+        return $this->request->isSafeMode();
     }
 }
