@@ -21,27 +21,6 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * Get the checkin rules.
-     *
-     * @param int   $datetime
-     * @param array $userList
-     *
-     * @return mixed
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function checkinRules(int $datetime, array $userList)
-    {
-        $params = [
-            'datetime' => $datetime,
-            'useridlist' => $userList,
-        ];
-
-        return $this->httpPostJson('cgi-bin/checkin/getcheckinoption', $params);
-    }
-
-    /**
      * Get the checkin data.
      *
      * @param int   $startTime
@@ -64,6 +43,27 @@ class Client extends BaseClient
         ];
 
         return $this->httpPostJson('cgi-bin/checkin/getcheckindata', $params);
+    }
+
+    /**
+     * Get the checkin rules.
+     *
+     * @param int   $datetime
+     * @param array $userList
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkinRules(int $datetime, array $userList)
+    {
+        $params = [
+            'datetime' => $datetime,
+            'useridlist' => $userList,
+        ];
+
+        return $this->httpPostJson('cgi-bin/checkin/getcheckinoption', $params);
     }
 
     /**
