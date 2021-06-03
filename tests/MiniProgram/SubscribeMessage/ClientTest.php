@@ -51,6 +51,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'page' => '',
             'data' => ['thing1' => ['value' => 'thing1.DATA']],
+            'miniprogram_state' => 'formal',
         ], $client->formatMessage([
             'touser' => 'mock-openid',
             'template_id' => 'mock-template_id',
@@ -63,6 +64,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'page' => '',
             'data' => ['thing1' => ['value' => 'thing1.DATA']],
+            'miniprogram_state' => 'formal',
         ], $client->formatMessage([
             'touser' => 'mock-openid',
             'template_id' => 'mock-template_id',
@@ -75,6 +77,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'page' => '',
             'data' => ['thing1' => ['value' => 'thing1.DATA']],
+            'miniprogram_state' => 'formal',
         ], $client->formatMessage([
             'touser' => 'mock-openid',
             'template_id' => 'mock-template_id',
@@ -87,6 +90,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'page' => '',
             'data' => ['thing1' => ['value' => 'thing1.DATA']],
+            'miniprogram_state' => 'formal',
         ], $client->formatMessage([
             'touser' => 'mock-openid',
             'template_id' => 'mock-template_id',
@@ -99,6 +103,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'page' => '',
             'data' => ['thing1' => ['value' => 'thing1.DATA']],
+            'miniprogram_state' => 'formal',
         ], $client->formatMessage([
             'touser' => 'mock-openid',
             'template_id' => 'mock-template_id',
@@ -111,6 +116,7 @@ class ClientTest extends TestCase
             'template_id' => 'mock-template_id',
             'page' => '',
             'data' => ['thing1' => ['value' => 'thing1.DATA']],
+            'miniprogram_state' => 'formal',
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->send(['touser' => 'mock-openid', 'template_id' => 'mock-template_id', 'data' => ['thing1' => 'thing1.DATA']]));
     }
