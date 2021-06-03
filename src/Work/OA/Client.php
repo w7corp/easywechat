@@ -21,24 +21,7 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * 获取企业所有打卡规则.
-     *
-     * @see https://open.work.weixin.qq.com/api/doc/90000/90135/93384
-     *
-     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @author 读心印 <aa24615@qq.com>
-     */
-    public function corpCheckinRules()
-    {
-        return $this->httpPostJson('cgi-bin/checkin/getcorpcheckinoption');
-    }
-
-    /**
-     * 获取员工打卡规则.
+     * Get the checkin rules.
      *
      * @param int   $datetime
      * @param array $userList
@@ -59,7 +42,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 获取打卡记录数据.
+     * Get the checkin data.
      *
      * @param int   $startTime
      * @param int   $endTime
@@ -81,6 +64,23 @@ class Client extends BaseClient
         ];
 
         return $this->httpPostJson('cgi-bin/checkin/getcheckindata', $params);
+    }
+
+    /**
+     * 获取企业所有打卡规则.
+     *
+     * @see https://open.work.weixin.qq.com/api/doc/90000/90135/93384
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @author 读心印 <aa24615@qq.com>
+     */
+    public function corpCheckinRules()
+    {
+        return $this->httpPostJson('cgi-bin/checkin/getcorpcheckinoption');
     }
 
     /**
