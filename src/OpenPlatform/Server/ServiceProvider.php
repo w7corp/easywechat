@@ -12,7 +12,7 @@ class ServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['encryptor'] = function ($app) {
+        !isset($app['encryptor']) && $app['encryptor'] = function ($app) {
             return new Encryptor(
                 $app['config']['app_id'],
                 $app['config']['token'],
@@ -20,8 +20,8 @@ class ServiceProvider implements ServiceProviderInterface
             );
         };
 
-        $app['server'] = function ($app) {
-            return new Guard($app);
+        !isset($app['server']) && $app['server'] = function ($app) {
+            return new Server($app);
         };
     }
 }
