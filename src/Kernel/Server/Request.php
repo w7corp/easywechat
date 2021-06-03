@@ -23,7 +23,7 @@ class Request
      *
      * @return \EasyWeChat\Kernel\Server\Request
      */
-    public static function create(BaseServer $server): Request
+    public static function createFromServer(BaseServer $server): Request
     {
         return new self($server);
     }
@@ -69,5 +69,32 @@ class Request
     public function getContent(bool $asResource = false): mixed
     {
         return $this->server->app['request']->getContent($asResource);
+    }
+
+    /**
+     * @return bool
+     */
+    public function validate(): bool
+    {
+        // 存在被 server 重写的情况，请勿直接使用 $this->isSafeMode()
+        if (!$this->server->isSafeMode()) {
+            return true;
+        }
+
+        $signature = $this->get('signature');
+
+        if (
+            $signature !== BaseServer::signature(
+                [
+                    $this->server->getToken(),
+                    $this->get('timestamp'),
+                    $this->get('nonce'),
+                ]
+            )
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

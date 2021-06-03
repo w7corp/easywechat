@@ -20,30 +20,18 @@ class MessageValidationHandler implements EventHandlerInterface
     /**
      * @param mixed|null $payload
      *
+     * @return bool
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
-    public function handle(mixed $payload = null)
+    public function handle(mixed $payload = null): bool
     {
         if (
-            !$this->server->isSafeMode()
-        ) {
-            return null;
-        }
-
-        $signature = $this->server->request->get('signature');
-
-        if (
-            $signature !== BaseServer::signature(
-                [
-                    $this->server->getToken(),
-                    $this->server->request->get('timestamp'),
-                    $this->server->request->get('nonce'),
-                ]
-            )
+            !$this->server->request->validate()
         ) {
             throw new BadRequestException('Invalid request signature.', 400);
         }
 
-        return null;
+        return true;
     }
 }

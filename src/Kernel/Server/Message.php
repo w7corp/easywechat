@@ -44,27 +44,7 @@ class Message implements \ArrayAccess
      */
     public function validate(): bool
     {
-        if (
-            !$this->request->isSafeMode()
-        ) {
-            return true;
-        }
-
-        $signature = $this->request->get('signature');
-
-        if (
-            $signature !== BaseServer::signature(
-                [
-                    $this->server->getToken(),
-                    $this->request->get('timestamp'),
-                    $this->request->get('nonce'),
-                ]
-            )
-        ) {
-            return false;
-        }
-
-        return true;
+        return $this->request->validate();
     }
 
     /**

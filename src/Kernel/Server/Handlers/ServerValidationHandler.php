@@ -22,9 +22,9 @@ class ServerValidationHandler implements EventHandlerInterface
     /**
      * @param null $payload
      *
-     * @return \EasyWeChat\Kernel\Decorators\FinallyResult
+     * @return bool|\EasyWeChat\Kernel\Decorators\FinallyResult
      */
-    public function handle($payload = null)
+    public function handle($payload = null): FinallyResult|bool
     {
         if (
             $str = $this->server->request->get('echostr')
@@ -32,6 +32,6 @@ class ServerValidationHandler implements EventHandlerInterface
             return new FinallyResult($str);
         }
 
-        return null;
+        return true;
     }
 }

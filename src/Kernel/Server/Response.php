@@ -15,4 +15,14 @@ class Response extends HttpResponse
     {
         return new HttpResponse(self::SUCCESS_EMPTY_RESPONSE);
     }
+
+    /**
+     * @param string $xml
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public static function reply(string $xml): HttpResponse
+    {
+        return new HttpResponse($xml, 200, ['Content-Type' => 'application/xml']);
+    }
 }

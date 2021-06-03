@@ -22,9 +22,9 @@ class ServerValidationHandler implements EventHandlerInterface
     /**
      * @param mixed $payload
      *
-     * @return FinallyResult|null
+     * @return FinallyResult|bool
      */
-    public function handle($payload = null)
+    public function handle($payload = null): FinallyResult|bool
     {
         if (
             $decrypted = $this->server->request->get('echostr')
@@ -44,6 +44,6 @@ class ServerValidationHandler implements EventHandlerInterface
             $this->server->app['suite_ticket']->setTicket($payload['SuiteTicket']);
         }
 
-        return null;
+        return true;
     }
 }

@@ -52,7 +52,7 @@ class BaseServer
             \array_map([$this, 'withHandler'], $observer);
         }
 
-        $this->request = ServerRequest::create($this);
+        $this->request = ServerRequest::createFromServer($this);
         $this->message = $this->request->getMessage();
 
         $this->withHandlers(
@@ -73,18 +73,14 @@ class BaseServer
         $response = $this->handle($this->message->toArray());
 
         if ($this->shouldReturnRawResponse()) {
-            return new Response($response);
+            return new ServerResponse($response);
         }
 
+        $response = $this->buildResponse($response);
+
         return
-            new Response(
-                $this->buildResponse(
-                    $this->message->to,
-                    $this->message->from,
-                    $response
-                ),
-                200,
-                ['Content-Type' => 'application/xml']
+            ServerResponse::reply(
+                $this->buildReply($this->message->to, $this->message->from, $response)
             );
     }
 
@@ -120,7 +116,9 @@ class BaseServer
      */
     public function addMessageListener(string $type, $handle): static
     {
-        if ($this->message->MsgType === $type) {
+        $msgType = $this->message->MsgType ?: $this->message->msgtype;
+
+        if ($msgType === $type) {
             $this->withHandler($handle);
         }
 
@@ -147,15 +145,13 @@ class BaseServer
     }
 
     /**
-     * @param string $to
-     * @param string $from
      * @param        $response
      *
-     * @return array|mixed|string
+     * @return mixed
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function buildResponse(string $to, string $from, $response)
+    public function buildResponse($response): mixed
     {
         if (
             empty($response)
@@ -191,7 +187,7 @@ class BaseServer
             );
         }
 
-        return $this->buildReply($to, $from, $response);
+        return $response;
     }
 
     /**
@@ -199,7 +195,7 @@ class BaseServer
      * @param string                              $from
      * @param \EasyWeChat\Kernel\Messages\Message $message
      *
-     * @return array|string
+     * @return string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
@@ -207,7 +203,7 @@ class BaseServer
         string $to,
         string $from,
         MessageInterface $message
-    ): array|string
+    ): string
     {
         $response = $message->transformToXml([
             'ToUserName' => $to,
@@ -216,7 +212,7 @@ class BaseServer
             'MsgType' => $message->getType(),
         ]);
 
-        if ($this->request->isSafeMode()) {
+        if ($this->isSafeMode()) {
             $this->app['logger']->debug('Messages safe mode is enabled.');
 
             $response = $this->app['encryptor']->encrypt($response);
