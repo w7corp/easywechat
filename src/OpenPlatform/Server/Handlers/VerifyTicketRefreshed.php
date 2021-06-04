@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenPlatform\Server\Handlers;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
-use EasyWeChat\Kernel\Server\BaseServer;
+use EasyWeChat\Kernel\Server\Server;
 
 use function EasyWeChat\Kernel\data_get;
 
@@ -14,11 +14,12 @@ class VerifyTicketRefreshed implements EventHandlerInterface
     /**
      * VerifyTicketRefreshed constructor.
      *
-     * @param \EasyWeChat\Kernel\Server\BaseServer $server
+     * @param \EasyWeChat\Kernel\Server\Server $server
      */
     public function __construct(
-        public BaseServer $server
-    ) {}
+        public Server $server
+    ) {
+    }
 
     /**
      * @param null $payload

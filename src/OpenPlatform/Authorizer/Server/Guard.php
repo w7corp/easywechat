@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform\Authorizer\Server;
 
-use EasyWeChat\Kernel\ServerGuard;
+use EasyWeChat\Kernel\Server;
 
-class Guard extends ServerGuard
+class Guard extends Server
 {
     /**
      * Get token from OpenPlatform encryptor.

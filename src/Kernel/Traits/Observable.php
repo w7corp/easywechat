@@ -36,9 +36,8 @@ trait Observable
      * @throws \Throwable
      */
     public function withHandler(
-        callable|EventHandlerInterface|string $handler
-    ): static
-    {
+        callable | EventHandlerInterface | string $handler
+    ): static {
         $handler = $this->makeClosure($handler);
 
         $this->handlers[$this->getHandlerHash($handler)] = $handler;
@@ -76,9 +75,8 @@ trait Observable
      * @throws \Throwable
      */
     public function withoutHandler(
-        callable|EventHandlerInterface|string $handler
-    ): static
-    {
+        callable | EventHandlerInterface | string $handler
+    ): static {
         $handler = $this->makeClosure($handler);
 
         unset($this->handlers[$this->getHandlerHash($handler)]);
@@ -118,9 +116,8 @@ trait Observable
      */
     public function when(
         $value,
-        callable|EventHandlerInterface|string $handler
-    ): static
-    {
+        callable | EventHandlerInterface | string $handler
+    ): static {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
         }
@@ -144,9 +141,8 @@ trait Observable
      */
     public function unless(
         $value,
-        callable|EventHandlerInterface|string $handler
-    ): static
-    {
+        callable | EventHandlerInterface | string $handler
+    ): static {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
         }
@@ -205,9 +201,8 @@ trait Observable
      * @throws \Throwable
      */
     protected function getHandlerHash(
-        callable|EventHandlerInterface|string $handler
-    ): string
-    {
+        callable | EventHandlerInterface | string $handler
+    ): string {
         if (is_string($handler)) {
             return $handler;
         }
@@ -231,9 +226,8 @@ trait Observable
      * @throws \Throwable
      */
     protected function makeClosure(
-        callable|EventHandlerInterface|string $handler
-    ): \Closure
-    {
+        callable | EventHandlerInterface | string $handler
+    ): \Closure {
         if (is_callable($handler)) {
             return $handler;
         }

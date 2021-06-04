@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork\Server;
 
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Server\BaseServer;
+use EasyWeChat\Kernel\Server\Server;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -36,7 +36,7 @@ class ServiceProvider implements ServiceProviderInterface
         };
 
         !isset($app['server']) && $app['server'] = function ($app) {
-            return new BaseServer($app);
+            return new Server($app);
         };
     }
 }

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work\Server;
 
-use EasyWeChat\Kernel\Server\BaseServer;
+use EasyWeChat\Kernel\Server\Server;
 use EasyWeChat\Kernel\Server\Handlers\MessageValidationHandler;
 use EasyWeChat\Kernel\ServiceContainer;
 
-class Server extends BaseServer
+class Server extends Server
 {
     /**
      * Server constructor.

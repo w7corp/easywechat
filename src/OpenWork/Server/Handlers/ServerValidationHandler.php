@@ -6,18 +6,19 @@ namespace EasyWeChat\OpenWork\Server\Handlers;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
-use EasyWeChat\Kernel\Server\BaseServer;
+use EasyWeChat\Kernel\Server\Server;
 
 class ServerValidationHandler implements EventHandlerInterface
 {
     /**
      * ServerValidationHandler constructor.
      *
-     * @param \EasyWeChat\Kernel\Server\BaseServer $server
+     * @param \EasyWeChat\Kernel\Server\Server $server
      */
     public function __construct(
-        public BaseServer $server
-    ){}
+        public Server $server
+    ) {
+    }
 
     /**
      * @param mixed $payload

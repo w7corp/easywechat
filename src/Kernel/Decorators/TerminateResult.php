@@ -13,5 +13,6 @@ class TerminateResult
      */
     public function __construct(
         public mixed $content
-    ) {}
+    ) {
+    }
 }

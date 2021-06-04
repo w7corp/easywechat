@@ -13,5 +13,6 @@ class FinallyResult
      */
     public function __construct(
         public mixed $content
-    ) {}
+    ) {
+    }
 }

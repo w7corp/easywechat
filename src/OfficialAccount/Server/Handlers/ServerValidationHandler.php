@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\Work\Server\Handlers;
+namespace EasyWeChat\Kernel\Server\Handlers;
 
 use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
@@ -21,22 +21,15 @@ class ServerValidationHandler implements EventHandlerInterface
     }
 
     /**
-     * @param mixed $payload
+     * @param null $payload
      *
-     * @return FinallyResult|null
+     * @return \EasyWeChat\Kernel\Decorators\FinallyResult
      */
     public function handle($payload = null)
     {
         if (
-            $decrypted = $this->server->request->get('echostr')
+            $str = $this->server->request->get('echostr')
         ) {
-            $str = $this->server->app['encryptor']->decrypt(
-                $decrypted,
-                $this->server->request->get('msg_signature'),
-                $this->server->request->get('nonce'),
-                $this->server->request->get('timestamp')
-            );
-
             return new FinallyResult($str);
         }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform\Server;
 
-use EasyWeChat\Kernel\Server\BaseServer;
+use EasyWeChat\Kernel\Server\Server;
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\OpenPlatform\Server\Handlers\Authorized;
 use EasyWeChat\OpenPlatform\Server\Handlers\Unauthorized;
@@ -13,7 +13,7 @@ use EasyWeChat\OpenPlatform\Server\Handlers\VerifyTicketRefreshed;
 use Symfony\Component\HttpFoundation\Response;
 use EasyWeChat\Kernel\Server\Response as ServerResponse;
 
-class Server extends BaseServer
+class Server extends Server
 {
     public const EVENT_AUTHORIZED = 'authorized';
     public const EVENT_UNAUTHORIZED = 'unauthorized';
