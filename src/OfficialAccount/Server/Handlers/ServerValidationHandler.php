@@ -2,37 +2,29 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\Kernel\Server\Handlers;
+namespace EasyWeChat\OfficialAccount\Server\Handlers;
 
-use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
-use EasyWeChat\Kernel\Server\Server;
+use EasyWeChat\OfficialAccount\Application;
+use EasyWeChat\OfficialAccount\Contracts\Handler;
+use EasyWeChat\OfficialAccount\Contracts\Message;
 
-class ServerValidationHandler implements EventHandlerInterface
+class ServerValidationHandler implements Handler
 {
-    /**
-     * ServerValidationHandler constructor.
-     *
-     * @param \EasyWeChat\Kernel\Server\Server $server
-     */
     public function __construct(
-        public Server $server
-    ) {
-    }
+        public Application $application
+    ) {}
 
-    /**
-     * @param null $payload
-     *
-     * @return \EasyWeChat\Kernel\Decorators\FinallyResult
-     */
-    public function handle($payload = null)
+    public function handle(Message $message): FinallyResult|bool
     {
+        $request = $this->application->getRequest();
+
         if (
-            $str = $this->server->request->get('echostr')
+            $request->isValidation()
         ) {
-            return new FinallyResult($str);
+            return new FinallyResult($request->get('echostr'));
         }
 
-        return null;
+        return true;
     }
 }
