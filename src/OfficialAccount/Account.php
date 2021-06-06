@@ -2,25 +2,34 @@
 
 namespace EasyWeChat\OfficialAccount;
 
-class Account implements \EasyWeChat\OfficialAccount\Contracts\Account
+use \EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
+
+class Account implements AccountContract
 {
+    public function __construct(
+        protected string $appId,
+        protected string $secret,
+        protected string $aesKey,
+        protected string $token
+    ) {}
+
     public function getAppId(): string
     {
-        // TODO: Implement getAppId() method.
+        return $this->appId;
     }
 
     public function getSecret(): string
     {
-        // TODO: Implement getSecret() method.
+        return $this->secret;
     }
 
     public function getToken(): string
     {
-        // TODO: Implement getToken() method.
+        return $this->token;
     }
 
     public function getAesKey(): string
     {
-        // TODO: Implement getAesKey() method.
+        return $this->aesKey;
     }
 }
