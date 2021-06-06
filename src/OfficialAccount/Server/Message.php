@@ -2,15 +2,18 @@
 
 namespace EasyWeChat\OfficialAccount\Server;
 
-class Message implements \EasyWeChat\OfficialAccount\Contracts\Message
+use \EasyWeChat\OfficialAccount\Contracts\Message as MessageContract;
+
+class Message implements MessageContract
 {
-    public function __construct(protected array $attributes = [], protected ?string $originContents = '')
-    {
-    }
+    public function __construct(
+        protected array $attributes = [],
+        protected ?string $originContent = ''
+    ) {}
 
     public function getOriginalContents(): ?string
     {
-        return $this->originContents;
+        return $this->originContent;
     }
 
     public function toArray(): array
@@ -23,35 +26,21 @@ class Message implements \EasyWeChat\OfficialAccount\Contracts\Message
         $this->attributes[$attribute] = $value;
     }
 
-    public function __get(string $attribute)
+    public function __get(string $attribute): mixed
     {
         return $this->attributes[$attribute] ?? null;
     }
 
-    /**
-     * @param mixed $offset
-     *
-     * @return bool
-     */
     public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->attributes);
     }
 
-    /**
-     * @param mixed $offset
-     *
-     * @return mixed
-     */
     public function offsetGet($offset): mixed
     {
         return $this->attributes[$offset];
     }
 
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
     public function offsetSet($offset, $value)
     {
         if (null === $offset) {
@@ -61,9 +50,6 @@ class Message implements \EasyWeChat\OfficialAccount\Contracts\Message
         }
     }
 
-    /**
-     * @param mixed $offset
-     */
     public function offsetUnset($offset)
     {
         unset($this->attributes[$offset]);
@@ -71,6 +57,6 @@ class Message implements \EasyWeChat\OfficialAccount\Contracts\Message
 
     public function __toString()
     {
-        return $this->getOriginalContents() ?: '';
+        return $this->getOriginalContents();
     }
 }

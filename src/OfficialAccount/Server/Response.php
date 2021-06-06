@@ -1,41 +1,51 @@
 <?php
 
-namespace EasyWeChat\Kernel\Server;
+namespace EasyWeChat\OfficialAccount\Server;
 
 use EasyWeChat\Kernel\Support\XML;
-use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationContract;
+use EasyWeChat\OfficialAccount\Contracts\Response as ResponseContract;
+use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
-class Response extends HttpResponse
+class Response extends GuzzleResponse implements ResponseContract
 {
     public const SUCCESS_EMPTY_RESPONSE = 'success';
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public static function success(): HttpResponse
+    public static function success(string $body = self::SUCCESS_EMPTY_RESPONSE): ResponseContract
     {
-        //todo: transform to psr response
-        return new HttpResponse(self::SUCCESS_EMPTY_RESPONSE);
+        return new self(200, [], $body);
     }
 
-    //TODO: 可能需要迁移为 factory 或者放入 Application / Account
-    public static function reply(array $attributes, bool $encrypt = false)
+    public static function failed($remark, $status = 200, $headers = []): ResponseContract
+    {
+        return new self($status, $headers, $remark);
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public static function replay(
+        array $attributes,
+        ApplicationContract $application,
+        array $appends = [],
+    ): Response
     {
         $xml = XML::build($attributes);
 
-        if ($encrypt) {
-            $time = \time();
-            $nonce = \uniqid();
+        if ($application->getRequest()->isSafeMode()) {
+            $time = $appends['time'] ?? \time();
+            $nonce = $appends['nonce'] ?? \uniqid();
+
             $xml = XML::build(
                 [
                     'MsgType' => $attributes['MsgType'] ?? 'text',
-                    'Encrypt' => $this->encryptor->encrypt($xml, $time, $nonce),
+                    'Encrypt' => $application->getEncryptor()->encrypt($xml, $nonce, $time),
                     'TimeStamp' => $time,
                     'Nonce' => $nonce,
                 ]
             );
         }
 
-        return new HttpResponse($xml);
+        return new self(200, ['Content-Type' => 'application/xml'], $xml);
     }
 }

@@ -4,21 +4,45 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount\Server;
 
-use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\OfficialAccount\Server\Handlers\MessageValidationHandler;
-use EasyWeChat\OfficialAccount\Server\Handlers\ServerValidationHandler;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Traits\Observable;
-use EasyWeChat\OfficialAccount\Contracts\Account;
-use Symfony\Component\HttpFoundation\Response;
-use EasyWeChat\Kernel\Server\Response as ServerResponse;
+use EasyWeChat\OfficialAccount\Application;
+use EasyWeChat\OfficialAccount\Server\Handlers\MessageValidationHandler;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
+use EasyWeChat\OfficialAccount\Contracts\Server as ServerContract;
+use EasyWeChat\OfficialAccount\Contracts\Request as RequestContract;
+use EasyWeChat\OfficialAccount\Contracts\Response as ResponseContract;
+use EasyWeChat\OfficialAccount\Server\Handlers\ServerValidationHandler;
+use function EasyWeChat\Kernel\throw_if;
 
-class Server
+class Server implements ServerContract
 {
     use Observable;
 
-    public Request $request;
+    protected AccountContract $account;
+    protected RequestContract $request;
 
-    public const SUCCESS_EMPTY_RESPONSE = 'success';
+    // 消息类型
+    public const TEXT = 'text';
+    public const IMAGE = 'image';
+    public const VOICE = 'voice';
+    public const VIDEO = 'video';
+    public const SHORT_VIDEO = 'shortvideo';
+    public const LOCATION = 'location';
+    public const LINK = 'link';
+    public const DEVICE_EVENT = 'device_event';
+    public const DEVICE_TEXT = 'device_text';
+    public const EVENT = 'event';
+    public const DEVICE_FILE = 'file';
+    public const DEVICE_MINIPROGRAM_PAGE = 'miniprogrampage';
+
+    // 事件类型
+    public const SUBSCRIBE_EVENT = 'subscribe';
+    public const UNSUBSCRIBE_EVENT = 'unsubscribe';
+    public const SCAN_EVENT = 'SCAN';
+    public const LOCATION_EVENT = 'LOCATION';
+    public const CLICK_EVENT = 'CLICK';
+    public const VIEW_EVENT = 'VIEW';
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
@@ -26,64 +50,84 @@ class Server
      * @throws \Throwable
      */
     public function __construct(
-        protected Account $account,
-        ?Request $request = null,
-        protected ?Encryptor $encryptor = null
+        protected Application $application,
     ) {
-        $this->request = $request ?? Request::create($this);
+        $this->account = $this->application->getAccount();
+        $this->request = $this->application->getRequest();
 
-        $this->withHandlers(
-            handlers: [
-                          MessageValidationHandler::class,
-                          ServerValidationHandler::class,
-                      ]
-        );
+        $this->withHandlers([
+            MessageValidationHandler::class,
+            ServerValidationHandler::class,
+        ]);
     }
 
-    public function process(): Response | ServerResponse
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function process(): ResponseContract
     {
-        $message = $this->request->getMessage();
-        $response = $this->handle($message->toArray());
+        $message = $this->request->getMessage($this->application->getEncryptor());
 
-        if ($this->shouldReturnRawResponse()) {
-            return new Response($response);
+        $response = $this->handle($message);
+
+        if (
+            $this->request->isValidation()
+            ||
+            empty($response)
+            ||
+            Response::SUCCESS_EMPTY_RESPONSE === $response
+        ) {
+            return Response::success($response);
         }
 
+        $response = $this->buildResponse($response);
+
+        $currentTime = \time();
+
         return
-            new Response(
-                $this->buildResponse(
-                    $message->to,
-                    $message->from,
+            Response::replay(
+                \array_merge(
+                    [
+                        'ToUserName' => $message->to,
+                        'FromUserName' => $message->from,
+                        'CreateTime' => $currentTime,
+                    ],
                     $response
                 ),
-                200,
-                ['Content-Type' => 'application/xml']
+                $this->application,
+                [
+                    'time' => $currentTime,
+                ]
             );
     }
 
     /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function buildResponse(string $to, string $from, array | string | null $message): array | string
+    public function buildResponse($response): array
     {
-        if (empty($message) || self::SUCCESS_EMPTY_RESPONSE === $message) {
-            return self::SUCCESS_EMPTY_RESPONSE;
+        if (\is_array($response)) {
+            throw_if(
+                !isset($response['MsgType']),
+                InvalidArgumentException::class,
+                'MsgType cannot be empty.'
+            );
+
+            return $response;
         }
 
-        $message = \array_merge(
-            [
-                'ToUserName' => $to,
-                'FromUserName' => $from,
-                'CreateTime' => time(),
-            ],
-            $message
+        if (is_string($response) || is_numeric($response)) {
+            return [
+                'MsgType' => self::TEXT,
+                'Content' => $response,
+            ];
+        }
+
+        throw new InvalidArgumentException(
+            sprintf('Invalid Response type "%s".', gettype($response))
         );
-
-        if ($this->request->isSafeMode()) {
-            $message = $this->encryptor->encrypt($message);
-        }
-
-        return $message;
     }
 
     /**

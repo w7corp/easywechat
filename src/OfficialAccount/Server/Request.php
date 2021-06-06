@@ -2,57 +2,79 @@
 
 namespace EasyWeChat\OfficialAccount\Server;
 
-use EasyWeChat\Kernel\Exceptions\BadRequestException;
+use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\XML;
-use EasyWeChat\OfficialAccount\Contracts\Message as MessageInterface;
 use EasyWeChat\OfficialAccount\Contracts\Request as RequestInterface;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use function EasyWeChat\Kernel\throw_if;
 
-class Request extends \Nyholm\Psr7\Request implements RequestInterface
+class Request extends SymfonyRequest implements RequestInterface
 {
-    protected array $query;
-
-    public function __construct(string $method, $uri, array $headers = [], $body = null, string $version = '1.1')
+    public function isValidation(): bool
     {
-        parent::__construct($method, $uri, $headers, $body, $version);
-
-        \parse_str($this->getUri()->getQuery(), $this->query);
+        return !is_null($this->get('echostr'));
     }
 
     public function isSafeMode(): bool
     {
-        return isset($this->query['echostr']) && isset($this->query['signature']);
+        return $this->get('signature') && 'aes' === $this->get('encrypt_type');
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function validate(string $token): bool
+    public function getMessage(Encryptor $encryptor = null): Message
     {
+        $originContent = $this->getContent();
+
+        $attributes = $this->parse($originContent);
+
         if (
-            $this->query['signature'] !== $this->signature(
-                [
-                    $token,
-                    $this->query['timestamp'],
-                    $this->query['nonce'],
-                ]
-            )
+            $this->isSafeMode()
+            &&
+            $encrypt = $attributes['Encrypt'] ?? null
         ) {
-            throw new BadRequestException('Invalid request signature.', 400);
+            throw_if(!$encryptor, InvalidArgumentException::class, 'Encryptor cannot be empty.');
+
+            $attributes = $this->parse(
+                $encryptor->decrypt(
+                    $encrypt,
+                    $this->get('msg_signature'),
+                    $this->get('nonce'),
+                    $this->get('timestamp')
+                )
+            );
         }
 
-        return true;
+        return new Message($attributes, $originContent);
     }
 
-    public function getMessage(): MessageInterface
+    public static function capture(): static
     {
-        $content = $this->getBody()->getContents();
-
-        $attributes = [];
-        // todo: 解密并获取消息内容返回消息实体
-        return new Message($attributes);
+        return static::createFromBase(SymfonyRequest::createFromGlobals());
     }
 
-    protected static function parse(string $content): ?array
+    public static function createFromBase(SymfonyRequest $symfonyRequest): static
+    {
+        $request = (new static)->duplicate(
+            $symfonyRequest->query->all(), $symfonyRequest->request->all(), $symfonyRequest->attributes->all(),
+            $symfonyRequest->cookies->all(), $symfonyRequest->files->all(), $symfonyRequest->server->all()
+        );
+
+        $request->headers->replace($symfonyRequest->headers->all());
+        $request->content = $symfonyRequest->content;
+        $request->request =
+            in_array(
+                $symfonyRequest->getRealMethod(),
+                ['GET', 'HEAD']
+            ) ? $symfonyRequest->query : $symfonyRequest->request;
+
+        return $request;
+    }
+
+    protected function parse(string $content): ?array
     {
         if (0 === stripos($content, '<')) {
             return XML::parse($content);
@@ -70,31 +92,5 @@ class Request extends \Nyholm\Psr7\Request implements RequestInterface
         }
 
         return $content ?? null;
-    }
-
-    public static function signature(array $params): string
-    {
-        sort($params, SORT_STRING);
-
-        return sha1(implode($params));
-    }
-
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
-    public function decrypt(string $ciphertext): string
-    {
-        return
-            $this->encryptor->decrypt(
-                $ciphertext,
-                $this->get('msg_signature'),
-                $this->get('nonce'),
-                $this->get('timestamp')
-            );
-    }
-
-    public function isValidation(): bool
-    {
-        // TODO: Implement isValidation() method.
     }
 }
