@@ -6,5 +6,4 @@ use EasyWeChat\Kernel\Contracts\Arrayable;
 
 interface Message extends Arrayable, \Stringable
 {
-    //
 }

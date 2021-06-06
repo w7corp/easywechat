@@ -2,11 +2,11 @@
 
 namespace EasyWeChat\OfficialAccount\Contracts;
 
-use Psr\Http\Message\RequestInterface;
+use EasyWeChat\Kernel\Encryptor;
 
-interface Request extends RequestInterface
+interface Request
 {
     public function isValidation(): bool;
     public function isSafeMode(): bool;
-    public function getMessage(): Message;
+    public function getMessage(Encryptor $encryptor = null): Message;
 }
