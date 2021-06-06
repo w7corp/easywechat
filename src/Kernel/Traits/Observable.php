@@ -4,39 +4,29 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Contracts\EventHandlerInterface;
 use EasyWeChat\Kernel\Decorators\FinallyResult;
 use EasyWeChat\Kernel\Decorators\TerminateResult;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\ServiceContainer;
+use EasyWeChat\OfficialAccount\Contracts\Handler;
+use EasyWeChat\OfficialAccount\Contracts\Message;
 use function EasyWeChat\Kernel\throw_if;
 
 trait Observable
 {
-    /**
-     * @var array
-     */
     protected array $handlers = [];
 
-    /**
-     * @return array
-     */
     public function getHandlers(): array
     {
         return $this->handlers;
     }
 
     /**
-     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
-     *
-     * @return $this
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Throwable
      */
     public function withHandler(
-        callable | EventHandlerInterface | string $handler
+        callable|Handler|string $handler
     ): static {
         $handler = $this->makeClosure($handler);
 
@@ -46,10 +36,6 @@ trait Observable
     }
 
     /**
-     * @param array  $handlers
-     *
-     * @return $this
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Throwable
@@ -66,16 +52,12 @@ trait Observable
     }
 
     /**
-     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
-     *
-     * @return $this
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Throwable
      */
     public function withoutHandler(
-        callable | EventHandlerInterface | string $handler
+        callable|Handler|string $handler
     ): static {
         $handler = $this->makeClosure($handler);
 
@@ -85,10 +67,6 @@ trait Observable
     }
 
     /**
-     * @param array|null $handlers
-     *
-     * @return $this
-     *
      * @throws \Throwable
      */
     public function withoutHandlers(array $handlers = null): static
@@ -105,18 +83,13 @@ trait Observable
     }
 
     /**
-     * @param                                                                    $value
-     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
-     *
-     * @return $this
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Throwable
      */
     public function when(
         $value,
-        callable | EventHandlerInterface | string $handler
+        callable|Handler|string $handler
     ): static {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
@@ -130,18 +103,13 @@ trait Observable
     }
 
     /**
-     * @param                                                                    $value
-     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
-     *
-     * @return $this
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \ReflectionException
      * @throws \Throwable
      */
     public function unless(
         $value,
-        callable | EventHandlerInterface | string $handler
+        callable|Handler|string $handler
     ): static {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
@@ -150,43 +118,20 @@ trait Observable
         return $this->when(!$value, $handler);
     }
 
-    /**
-     * @param array $payload
-     *
-     * @return mixed
-     */
-    public function handle(array $payload): mixed
+    public function handle(Message $payload): mixed
     {
         foreach ($this->handlers as $handler) {
-            try {
-                $response = \call_user_func_array($handler, [$payload]);
+            $response = \call_user_func_array($handler, [$payload]);
 
-                switch (true) {
-                    case $response instanceof TerminateResult:
-                        return $response->content;
-                    case true === $response:
-                        break;
-                    case false === $response:
-                        break 2;
-                    case $response && !(($result ?? null) instanceof FinallyResult):
-                        $result = $response;
-                }
-            } catch (\Exception $e) {
-                if (
-                    property_exists($this, 'app')
-                    &&
-                    $this->app instanceof ServiceContainer
-                ) {
-                    $this->app['logger']->error(
-                        $e->getCode().': '.$e->getMessage(),
-                        [
-                            'code' => $e->getCode(),
-                            'message' => $e->getMessage(),
-                            'file' => $e->getFile(),
-                            'line' => $e->getLine(),
-                        ]
-                    );
-                }
+            switch (true) {
+                case $response instanceof TerminateResult:
+                    return $response->content;
+                case true === $response:
+                    break;
+                case false === $response:
+                    break 2;
+                case $response && !(($result ?? null) instanceof FinallyResult):
+                    $result = $response;
             }
         }
 
@@ -194,14 +139,10 @@ trait Observable
     }
 
     /**
-     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
-     *
-     * @return string
-     *
      * @throws \Throwable
      */
     protected function getHandlerHash(
-        callable | EventHandlerInterface | string $handler
+        callable|Handler|string $handler
     ): string {
         if (is_string($handler)) {
             return $handler;
@@ -218,21 +159,17 @@ trait Observable
     }
 
     /**
-     * @param callable|\EasyWeChat\Kernel\Contracts\EventHandlerInterface|string $handler
-     *
-     * @return \Closure
-     *
      * @throws \ReflectionException
      * @throws \Throwable
      */
     protected function makeClosure(
-        callable | EventHandlerInterface | string $handler
+        callable|Handler|string $handler
     ): \Closure {
         if (is_callable($handler)) {
             return $handler;
         }
 
-        if ($handler instanceof EventHandlerInterface) {
+        if ($handler instanceof Handler) {
             return function () use ($handler) {
                 return $handler->handle(...func_get_args());
             };
@@ -251,13 +188,13 @@ trait Observable
         );
 
         throw_if(
-            !in_array(EventHandlerInterface::class, (new \ReflectionClass($handler))->getInterfaceNames(), true),
+            !in_array(Handler::class, (new \ReflectionClass($handler))->getInterfaceNames(), true),
             InvalidArgumentException::class,
-            sprintf('Class "%s" not an instance of "%s".', $handler, EventHandlerInterface::class)
+            sprintf('Class "%s" not an instance of "%s".', $handler, Handler::class)
         );
 
-        return function ($payload) use ($handler) {
-            return (new $handler($this))->handle($payload);
+        return function ($message) use ($handler) {
+            return (new $handler($this->application))->handle($message);
         };
     }
 }
