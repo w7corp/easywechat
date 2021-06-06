@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\ApiBuilder;
+use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationContract;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerContract;
@@ -19,21 +20,19 @@ class Application implements ApplicationContract
     protected ?RequestContract $request = null;
     protected ?ServerContract $server = null;
     protected ?Encryptor $encryptor = null;
+    protected ?Config $config = null;
 
     public function __construct(
-        protected string $appId,
-        protected string $secret,
-        protected string $aesKey,
-        protected string $token,
+        public array $userConfig
     ) {}
 
     public function getAccount(): Account
     {
         $this->account || $this->account = new Account(
-            $this->appId,
-            $this->secret,
-            $this->aesKey,
-            $this->token
+            $this->getConfig()->get('appId'),
+            $this->getConfig()->get('secret'),
+            $this->getConfig()->get('aesKey'),
+            $this->getToken()
         );
 
         return $this->account;
@@ -94,5 +93,31 @@ class Application implements ApplicationContract
     public function reply(array $attributes, $appends = []): Contracts\Response
     {
         return Response::replay($attributes, $this, $appends);
+    }
+
+    public function getConfig(): Config
+    {
+        if ($this->config) {
+            return $this->config;
+        }
+
+        $baseConfig = [
+            // http://docs.guzzlephp.org/en/stable/request-options.html
+            'http' => [
+                'timeout' => 30.0,
+                'base_uri' => 'https://api.weixin.qq.com/',
+            ],
+            'cache' => [
+                'namespace' => 'easywechat',
+                'life_time' => 1500,
+            ],
+        ];
+
+        return new Config(array_replace_recursive($baseConfig, $this->userConfig));
+    }
+
+    public function getToken(): string
+    {
+        //
     }
 }
