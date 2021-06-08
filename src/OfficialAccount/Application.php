@@ -22,16 +22,21 @@ class Application implements ApplicationContract
     protected ?Encryptor $encryptor = null;
     protected ?Config $config = null;
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function __construct(
         public array $userConfig
-    ) {}
+    ) {
+        $this->config = $this->getConfig();
+    }
 
     public function getAccount(): Account
     {
         $this->account || $this->account = new Account(
-            $this->getConfig()->get('appId'),
-            $this->getConfig()->get('secret'),
-            $this->getConfig()->get('aesKey'),
+            $this->config->get('appId'),
+            $this->config->get('secret'),
+            $this->config->get('aesKey'),
             $this->getToken()
         );
 
@@ -95,6 +100,9 @@ class Application implements ApplicationContract
         return Response::replay($attributes, $this, $appends);
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function getConfig(): Config
     {
         if ($this->config) {
@@ -113,7 +121,7 @@ class Application implements ApplicationContract
             ],
         ];
 
-        return new Config(array_replace_recursive($baseConfig, $this->userConfig));
+        return new Config(array_replace_recursive($baseConfig, $this->userConfig), ['appId', 'secret', 'aesKey']);
     }
 
     public function getToken(): string
