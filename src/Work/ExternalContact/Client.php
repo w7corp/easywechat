@@ -278,6 +278,7 @@ class Client extends BaseClient
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92117#获取企业标签库
      *
      * @param array $tagIds
+     * @param array $groupIds
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -285,10 +286,11 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getCorpTags(array $tagIds = [])
+    public function getCorpTags(array $tagIds = [], array $groupIds = [])
     {
         $params = [
-            'tag_id' => $tagIds
+            'tag_id' => $tagIds,
+            'group_id' => $groupIds
         ];
 
         return $this->httpPostJson('cgi-bin/externalcontact/get_corp_tag_list', $params);

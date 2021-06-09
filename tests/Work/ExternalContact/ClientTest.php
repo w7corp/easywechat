@@ -184,11 +184,12 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $params = [
-            'tag_id' => ['TAG_ID_1', 'TAG_ID_2']
+            'tag_id' => ['TAG_ID_1', 'TAG_ID_2'],
+            'group_id' => ['GROUP_ID_1', 'GROUP_ID_2']
         ];
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_corp_tag_list', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getCorpTags(['TAG_ID_1', 'TAG_ID_2']));
+        $this->assertSame('mock-result', $client->getCorpTags(['TAG_ID_1', 'TAG_ID_2'], ['GROUP_ID_1', 'GROUP_ID_2']));
     }
 
     public function testAddCorpTag(): void
