@@ -110,7 +110,7 @@ class ApplicationTest extends TestCase
     public function testMiniProgram()
     {
         $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
-        $miniProgram = $app->miniProgram('app-id', 'refresh-token');
+        $miniProgram = $app->miniProgram('app-id', 'refresh-token', null);
 
         $this->assertInstanceOf('EasyWeChat\MiniProgram\Application', $miniProgram);
         $this->assertInstanceOf('\EasyWeChat\MiniProgram\Encryptor', $miniProgram->encryptor);
