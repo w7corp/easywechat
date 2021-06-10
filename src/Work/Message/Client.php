@@ -62,7 +62,8 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      *
      */
-    public function updateTaskcard(array $userids, int $agentId, string $taskId, string $replaceName = '已收到'){
+    public function updateTaskcard(array $userids, int $agentId, string $taskId, string $replaceName = '已收到')
+    {
         $params = [
             'userids' => $userids,
             'agentid' => $agentId,

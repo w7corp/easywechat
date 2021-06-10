@@ -33,7 +33,8 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->send(['foo' => 'bar']));
     }
 
-    public function testUpdateTaskcard(){
+    public function testUpdateTaskcard()
+    {
         $client = $this->mockApiClient(Client::class);
 
         $params = [
@@ -45,6 +46,6 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/message/update_taskcard', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->updateTaskcard(['userid1','userid2'],1,'taskid1','已收到'));
+        $this->assertSame('mock-result', $client->updateTaskcard(['userid1','userid2'], 1, 'taskid1', '已收到'));
     }
 }
