@@ -8,3 +8,5 @@ sftp-config.json
 /composer.lock
 .php_cs.cache
 .phpunit.result.cache
+test2.php
+certs
