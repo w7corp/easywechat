@@ -22,21 +22,27 @@ class Application implements ApplicationContract
     protected ?Encryptor $encryptor = null;
     protected ?Config $config = null;
 
+    protected array $requiredConfigItems = [
+        'app_id',
+        'secret',
+        'aes_key',
+    ];
+
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __construct(
-        public array $userConfig
+        array $config
     ) {
-        $this->config = $this->getConfig();
+        $this->initConfig($config);
     }
 
     public function getAccount(): Account
     {
         $this->account || $this->account = new Account(
-            $this->config->get('appId'),
+            $this->config->get('app_id'),
             $this->config->get('secret'),
-            $this->config->get('aesKey'),
+            $this->config->get('aes_key'),
             $this->getToken()
         );
 
@@ -103,12 +109,8 @@ class Application implements ApplicationContract
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function getConfig(): Config
+    public function initConfig(array $config): Config
     {
-        if ($this->config) {
-            return $this->config;
-        }
-
         $baseConfig = [
             // http://docs.guzzlephp.org/en/stable/request-options.html
             'http' => [
@@ -121,11 +123,25 @@ class Application implements ApplicationContract
             ],
         ];
 
-        return new Config(array_replace_recursive($baseConfig, $this->userConfig), ['appId', 'secret', 'aesKey']);
+        $config = new Config(array_replace_recursive($baseConfig, $config));
+
+        $config->requiredVerify($this->requiredConfigItems);
+
+        return $this->config = $config;
+    }
+
+    public function getConfig(array $config = []): Config
+    {
+        return $this->config;
     }
 
     public function getToken(): string
     {
         //
+    }
+
+    public function setConfig(Config $config): Config
+    {
+        return $this->config = $config;
     }
 }

@@ -8,15 +8,9 @@ use EasyWeChat\Kernel\Support\Arr;
 
 class Config implements \ArrayAccess, ConfigContract
 {
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
     public function __construct(
         protected array $items = [],
-        protected array $requiredItems = []
-    ) {
-        $this->requiredVerify($this->requiredItems);
-    }
+    ) {}
 
     public function has(string $key): bool
     {
