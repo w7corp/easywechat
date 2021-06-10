@@ -11,7 +11,8 @@ class MessageValidationHandler implements Handler
 {
     public function __construct(
         public Application $application
-    ) {}
+    ) {
+    }
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException

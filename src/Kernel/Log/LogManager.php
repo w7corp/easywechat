@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Log;
 
+use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\ServiceContainer;
 use InvalidArgumentException;
 use Monolog\Formatter\FormatterInterface;
@@ -35,7 +36,7 @@ class LogManager implements LoggerInterface
     ];
 
     public function __construct(
-        public ServiceContainer $app
+        public Config $config
     ) {
     }
 
@@ -74,7 +75,7 @@ class LogManager implements LoggerInterface
 
     protected function resolve(string $name): LoggerInterface
     {
-        $config = $this->app['config']->get(\sprintf('log.channels.%s', $name));
+        $config = $this->config[\sprintf('channels.%s', $name)];
 
         if (is_null($config)) {
             throw new InvalidArgumentException(\sprintf('Log [%s] is not defined.', $name));
@@ -110,7 +111,7 @@ class LogManager implements LoggerInterface
 
     protected function callCustomCreator(array $config): LoggerInterface
     {
-        return $this->customCreators[$config['driver']]($this->app, $config);
+        return $this->customCreators[$config['driver']]($config);
     }
 
     protected function createStackDriver(array $config): LoggerInterface
@@ -269,7 +270,7 @@ class LogManager implements LoggerInterface
 
     public function getDefaultDriver(): string
     {
-        return $this->app['config']['log.default'] ?? '';
+        return $this->config['log.default'] ?? '';
     }
 
     /**
@@ -279,7 +280,7 @@ class LogManager implements LoggerInterface
      */
     public function setDefaultDriver(string $name)
     {
-        $this->app['config']['log.default'] = $name;
+        $this->config['log.default'] = $name;
     }
 
     public function extend(string $driver, \Closure $callback): static

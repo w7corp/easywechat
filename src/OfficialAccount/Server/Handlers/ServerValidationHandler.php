@@ -13,9 +13,10 @@ class ServerValidationHandler implements Handler
 {
     public function __construct(
         public Application $application
-    ) {}
+    ) {
+    }
 
-    public function handle(Message $message): FinallyResult|bool
+    public function handle(Message $message): FinallyResult | bool
     {
         $request = $this->application->getRequest();
 

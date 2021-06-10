@@ -28,8 +28,7 @@ class Response extends GuzzleResponse implements ResponseContract
         array $attributes,
         ApplicationContract $application,
         array $appends = [],
-    ): Response
-    {
+    ): Response {
         $xml = XML::build($attributes);
 
         if ($application->getRequest()->isSafeMode()) {

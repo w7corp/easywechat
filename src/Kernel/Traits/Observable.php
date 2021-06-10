@@ -26,7 +26,7 @@ trait Observable
      * @throws \Throwable
      */
     public function withHandler(
-        callable|Handler|string $handler
+        callable | Handler | string $handler
     ): static {
         $handler = $this->makeClosure($handler);
 
@@ -57,7 +57,7 @@ trait Observable
      * @throws \Throwable
      */
     public function withoutHandler(
-        callable|Handler|string $handler
+        callable | Handler | string $handler
     ): static {
         $handler = $this->makeClosure($handler);
 
@@ -89,7 +89,7 @@ trait Observable
      */
     public function when(
         $value,
-        callable|Handler|string $handler
+        callable | Handler | string $handler
     ): static {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
@@ -109,7 +109,7 @@ trait Observable
      */
     public function unless(
         $value,
-        callable|Handler|string $handler
+        callable | Handler | string $handler
     ): static {
         if ($value instanceof \Closure) {
             $value = $value->bindTo($this);
@@ -142,7 +142,7 @@ trait Observable
      * @throws \Throwable
      */
     protected function getHandlerHash(
-        callable|Handler|string $handler
+        callable | Handler | string $handler
     ): string {
         if (is_string($handler)) {
             return $handler;
@@ -163,7 +163,7 @@ trait Observable
      * @throws \Throwable
      */
     protected function makeClosure(
-        callable|Handler|string $handler
+        callable | Handler | string $handler
     ): \Closure {
         if (is_callable($handler)) {
             return $handler;
