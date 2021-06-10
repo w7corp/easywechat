@@ -404,8 +404,8 @@ class Client extends BaseClient
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92117#编辑企业客户标签
      *
      * @param string $id
-     * @param string $name
-     * @param int $order
+     * @param string|null $name
+     * @param int|null $order
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -413,13 +413,19 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function updateCorpTag(string $id, string $name, int $order = 1)
+    public function updateCorpTag(string $id, ?string $name = null, ?int $order = null)
     {
         $params = [
-            "id" => $id,
-            "name" => $name,
-            "order" => $order,
+            "id" => $id
         ];
+
+        if (!\is_null($name)){
+            $params['name'] = $name;
+        }
+
+        if (!\is_null($order)){
+            $params['order'] = $order;
+        }
 
         return $this->httpPostJson('cgi-bin/externalcontact/edit_corp_tag', $params);
     }
