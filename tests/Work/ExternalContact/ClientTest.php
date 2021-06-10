@@ -122,6 +122,35 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->transfer('mock-external-userid', 'mock-handover-userid', 'mock-takeover-userid', 'message'));
     }
 
+    public function testTransferCustomer()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'external_userid' => ['mock-external-userid'],
+            'handover_userid' => 'mock-handover-userid',
+            'takeover_userid' => 'mock-takeover-userid',
+            'transfer_success_msg' => 'message',
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/transfer_customer', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->transferCustomer(['mock-external-userid'], 'mock-handover-userid', 'mock-takeover-userid', 'message'));
+    }
+
+    public function testResignedTransferCustomer()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'external_userid' => ['mock-external-userid'],
+            'handover_userid' => 'mock-handover-userid',
+            'takeover_userid' => 'mock-takeover-userid',
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/resigned/transfer_customer', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->resignedTransferCustomer(['mock-external-userid'], 'mock-handover-userid', 'mock-takeover-userid'));
+    }
+
     public function testTransferGroupChat(): void
     {
         $client = $this->mockApiClient(Client::class);
@@ -133,6 +162,20 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/transfer', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->transferGroupChat(['群聊id1', '群聊id2'], '接替群主userid'));
+    }
+
+    public function testTransferResult(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'handover_userid' => 'zhangsan',
+            'takeover_userid' => 'lisi',
+            'cursor' => 'cursor',
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/get_transfer_result', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->transferResult('zhangsan', 'lisi', 'cursor'));
     }
 
     public function testGetTransferResult(): void
