@@ -3,20 +3,20 @@
 namespace EasyWeChat\OfficialAccount\Server;
 
 use EasyWeChat\Kernel\Support\XML;
-use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationContract;
-use EasyWeChat\OfficialAccount\Contracts\Response as ResponseContract;
+use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
+use EasyWeChat\OfficialAccount\Contracts\Response as ResponseInterface;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 
-class Response extends GuzzleResponse implements ResponseContract
+class Response extends GuzzleResponse implements ResponseInterface
 {
     public const SUCCESS_EMPTY_RESPONSE = 'success';
 
-    public static function success(string $body = self::SUCCESS_EMPTY_RESPONSE): ResponseContract
+    public static function success(string $body = self::SUCCESS_EMPTY_RESPONSE): ResponseInterface
     {
         return new self(200, [], $body);
     }
 
-    public static function failed($remark, $status = 200, $headers = []): ResponseContract
+    public static function failed($remark, $status = 200, $headers = []): ResponseInterface
     {
         return new self($status, $headers, $remark);
     }
@@ -26,7 +26,7 @@ class Response extends GuzzleResponse implements ResponseContract
      */
     public static function replay(
         array $attributes,
-        ApplicationContract $application,
+        ApplicationInterface $application,
         array $appends = [],
     ): Response {
         $xml = XML::build($attributes);

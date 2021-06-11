@@ -8,19 +8,19 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Traits\Observable;
 use EasyWeChat\OfficialAccount\Application;
 use EasyWeChat\OfficialAccount\Server\Handlers\MessageValidationHandler;
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
-use EasyWeChat\OfficialAccount\Contracts\Server as ServerContract;
-use EasyWeChat\OfficialAccount\Contracts\Request as RequestContract;
-use EasyWeChat\OfficialAccount\Contracts\Response as ResponseContract;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
+use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
+use EasyWeChat\OfficialAccount\Contracts\Request as RequestInterface;
+use EasyWeChat\OfficialAccount\Contracts\Response as ResponseInterface;
 use EasyWeChat\OfficialAccount\Server\Handlers\ServerValidationHandler;
 use function EasyWeChat\Kernel\throw_if;
 
-class Server implements ServerContract
+class Server implements ServerInterface
 {
     use Observable;
 
-    protected AccountContract $account;
-    protected RequestContract $request;
+    protected AccountInterface $account;
+    protected RequestInterface $request;
 
     // 消息类型
     public const TEXT = 'text';
@@ -65,7 +65,7 @@ class Server implements ServerContract
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function process(): ResponseContract
+    public function process(): ResponseInterface
     {
         $message = $this->request->getMessage($this->application->getEncryptor());
 

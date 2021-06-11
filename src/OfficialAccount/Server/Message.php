@@ -2,9 +2,9 @@
 
 namespace EasyWeChat\OfficialAccount\Server;
 
-use EasyWeChat\OfficialAccount\Contracts\Message as MessageContract;
+use EasyWeChat\OfficialAccount\Contracts\Message as MessageInterface;
 
-class Message implements MessageContract
+class Message implements MessageInterface
 {
     public function __construct(
         protected array $attributes = [],

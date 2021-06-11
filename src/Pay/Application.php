@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\ApiBuilder;
+use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Application
+class Application implements \EasyWeChat\Pay\Contracts\Application
 {
     /**
      * @var array
@@ -16,21 +17,22 @@ class Application
         'base_uri' => 'https://api.mch.weixin.qq.com/',
     ];
 
-    protected ?ApiBuilder $v2 = null;
-    protected ?ApiBuilder $v3 = null;
-    protected ?HttpClientInterface $client = null;
+    protected ?ApiBuilder $v2Client = null;
+    protected ?ApiBuilder $v3Client = null;
+    protected ?HttpClientInterface $httpClient = null;
     protected ?Merchant $merchant = null;
-    protected array $config = [
-        'mch_id' => 0,
-        'secret_key' => '',
-        'private_key' => '',
-        'certificate' => '',
-        'certificate_serial_no' => '',
-    ];
+    protected ?ConfigInterface $config = null;
 
-    public function __construct(array $config = [])
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function __construct(array | ConfigInterface $config)
     {
-        $this->config = array_merge($this->config, $config);
+        if (\is_array($config)) {
+            $config = new Config($config);
+        }
+
+        $this->config = $config;
     }
 
     public function getMerchant(): Merchant
@@ -48,31 +50,43 @@ class Application
         return $this->merchant;
     }
 
-    public function getClient(): HttpClientInterface
+    public function getHttpClient(): HttpClientInterface
     {
-        if (!$this->client) {
-            $this->client = (new Client($this->getMerchant()))
+        if (!$this->httpClient) {
+            $this->httpClient = (new HttpClient($this->getMerchant()))
                 ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config['http'] ?? []));
         }
 
-        return $this->client;
+        return $this->httpClient;
     }
 
-    public function v3(): ApiBuilder
+    public function getClient(): ApiBuilder
     {
-        if (!$this->v3) {
-            $this->v3 = new ApiBuilder($this->getClient(), '/v3/');
+        if (!$this->v3Client) {
+            $this->v3Client = new ApiBuilder($this->getHttpClient(), '/v3/');
         }
 
-        return $this->v3;
+        return $this->v3Client;
     }
 
-    public function v2(): ApiBuilder
+    public function getV2Client(): ApiBuilder
     {
-        if (!$this->v2) {
-            $this->v2 = new ApiBuilder($this->getClient(), '/');
+        if (!$this->v2Client) {
+            $this->v2Client = new ApiBuilder($this->getHttpClient(), '/');
         }
 
-        return $this->v2;
+        return $this->v2Client;
+    }
+
+    public function setConfig(ConfigInterface $config): static
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    public function getConfig(): ConfigInterface
+    {
+        return $this->config;
     }
 }

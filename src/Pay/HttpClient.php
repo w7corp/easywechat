@@ -5,14 +5,14 @@ namespace EasyWeChat\Pay;
 use EasyWeChat\Kernel\Support\UserAgent;
 use Nyholm\Psr7\Stream;
 use Psr\Http\Message\RequestInterface;
-use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-class Client implements HttpClientInterface
+class HttpClient implements HttpClientInterface
 {
     use HttpClientTrait;
 
@@ -28,7 +28,7 @@ class Client implements HttpClientInterface
 
     public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, ?array $defaultOptions = [])
     {
-        $this->client = $client ?? HttpClient::create();
+        $this->client = $client ?? SymfonyHttpClient::create();
 
         $defaultOptions = \array_merge(
             self::OPTIONS_DEFAULTS,
@@ -74,7 +74,7 @@ class Client implements HttpClientInterface
         return \call_user_func_array([$this->client, $name], $arguments);
     }
 
-    public function isV3Request(RequestInterface $request): bool
+    protected function isV3Request(RequestInterface $request): bool
     {
         foreach (self::V3_URI_PREFIXES as $prefix) {
             if (\str_starts_with($request->getUri()->getPath(), $prefix)) {

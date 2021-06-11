@@ -2,22 +2,29 @@
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Contracts\Config as ConfigContract;
+use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Arr;
 
-class Config implements \ArrayAccess, ConfigContract
+class Config implements \ArrayAccess, ConfigInterface
 {
+    protected array $requiredKeys = [];
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
     public function __construct(
         protected array $items = [],
-    ) {}
+    ) {
+        $this->checkMissingKeys();
+    }
 
     public function has(string $key): bool
     {
         return Arr::has($this->items, $key);
     }
 
-    public function get(array|string $key, mixed $default = null): mixed
+    public function get(array | string $key, mixed $default = null): mixed
     {
         if (is_array($key)) {
             return $this->getMany($key);
@@ -41,7 +48,7 @@ class Config implements \ArrayAccess, ConfigContract
         return $config;
     }
 
-    public function set(array|string $key, mixed $value = null)
+    public function set(array | string $key, mixed $value = null)
     {
         $keys = is_array($key) ? $key : [$key => $value];
 
@@ -73,32 +80,6 @@ class Config implements \ArrayAccess, ConfigContract
         return $this->items;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function requiredVerify(array $keys = []): bool
-    {
-        if (!$keys) {
-            return true;
-        }
-
-        $error = "";
-
-        foreach ($keys as $key) {
-            if (!$this->has($key)) {
-                $error .= sprintf("\"%s\" cannot be empty.\r\n", $key);
-            }
-        }
-
-        throw_if(
-            !empty($error),
-            InvalidArgumentException::class,
-            $error,
-        );
-
-        return true;
-    }
-
     public function offsetExists($key): bool
     {
         return $this->has($key);
@@ -117,5 +98,31 @@ class Config implements \ArrayAccess, ConfigContract
     public function offsetUnset($key)
     {
         $this->set($key, null);
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function checkMissingKeys(): bool
+    {
+        if (empty($this->requiredKeys)) {
+            return true;
+        }
+
+        $missingKeys = [];
+
+        foreach ($this->requiredKeys as $key) {
+            if (!$this->has($key)) {
+                $missingKeys[] = $key;
+            }
+        }
+
+        throw_if(
+            !empty($missingKeys),
+            InvalidArgumentException::class,
+            sprintf("\"%s\" cannot be empty.\r\n", \join(',', $missingKeys)),
+        );
+
+        return true;
     }
 }

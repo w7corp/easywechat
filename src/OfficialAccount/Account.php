@@ -2,9 +2,9 @@
 
 namespace EasyWeChat\OfficialAccount;
 
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 
-class Account implements AccountContract
+class Account implements AccountInterface
 {
     public function __construct(
         protected string $appId,

@@ -2,14 +2,15 @@
 
 namespace EasyWeChat\OfficialAccount;
 
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
+use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AccessToken implements \EasyWeChat\OfficialAccount\Contracts\AccessToken
 {
     public function __construct(
-        protected AccountContract $account,
+        protected AccountInterface $account,
         protected HttpClientInterface $client,
         protected CacheInterface $cache,
         protected ?string $key = null,
@@ -29,11 +30,12 @@ class AccessToken implements \EasyWeChat\OfficialAccount\Contracts\AccessToken
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getToken(): string
@@ -55,6 +57,10 @@ class AccessToken implements \EasyWeChat\OfficialAccount\Contracts\AccessToken
                 ],
             ]
         )->toArray();
+
+        if (empty($response['access_token'])) {
+            throw new HttpException('Failed to get access_token.');
+        }
 
         $this->cache->set($key, $response['access_token'], \abs($response['expires_in'] - 100));
 

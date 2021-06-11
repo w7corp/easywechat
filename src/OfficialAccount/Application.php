@@ -7,55 +7,66 @@ namespace EasyWeChat\OfficialAccount;
 use EasyWeChat\Kernel\ApiBuilder;
 use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\OfficialAccount\Contracts\AccessToken as AccessTokenContract;
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
-use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationContract;
-use EasyWeChat\OfficialAccount\Contracts\Server as ServerContract;
-use EasyWeChat\OfficialAccount\Contracts\Request as RequestContract;
+use EasyWeChat\OfficialAccount\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
+use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
+use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
+use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
+use EasyWeChat\OfficialAccount\Contracts\Request as RequestInterface;
+use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\OfficialAccount\Server\Request;
-use EasyWeChat\OfficialAccount\Server\Response;
 use EasyWeChat\OfficialAccount\Server\Server;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
-class Application implements ApplicationContract
+class Application implements ApplicationInterface
 {
-    protected ?AccountContract $account = null;
-    protected ?RequestContract $request = null;
-    protected ?ServerContract $server = null;
-    protected ?AccessTokenContract $accessToken = null;
-    protected ?CacheInterface $cache = null;
+    protected ?ApiBuilder $client = null;
     protected ?Encryptor $encryptor = null;
-    protected ?Config $config = null;
+    protected ?ServerInterface $server = null;
+    protected ?CacheInterface $cache = null;
+    protected ?ConfigInterface $config = null;
+    protected ?AccountInterface $account = null;
+    protected ?RequestInterface $request = null;
+    protected ?AccessTokenInterface $accessToken = null;
+    protected ?HttpClientInterface $httpClient = null;
 
-    protected array $requiredConfigItems = [
-        'app_id',
-        'secret',
-        'aes_key',
+    /**
+     * @var array
+     */
+    public const DEFAULT_HTTP_OPTIONS = [
+        'timeout' => 30.0,
+        'base_uri' => 'https://api.mch.weixin.qq.com/',
     ];
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function __construct(array $config) 
+    public function __construct(array | ConfigInterface $config)
     {
-        $this->initConfig($config);
+        if (\is_array($config)) {
+            $config = new Config($config);
+        }
+
+        $this->config = $config;
     }
 
-    public function getAccount(): AccountContract
+    public function getAccount(): AccountInterface
     {
-        $this->account || $this->account = new Account(
-            $this->config->get('app_id'),
-            $this->config->get('secret'),
-            $this->config->get('aes_key'),
-            $this->getToken()
-        );
+        if (!$this->account) {
+            $this->account = new Account(
+                appId: $this->config->get('app_id'),
+                secret: $this->config->get('secret'),
+                aesKey: $this->config->get('aes_key'),
+                token: $this->config->get('token')
+            );
+        }
 
         return $this->account;
     }
 
-    public function setAccount(AccountContract $account): static
+    public function setAccount(AccountInterface $account): static
     {
         $this->account = $account;
 
@@ -82,12 +93,14 @@ class Application implements ApplicationContract
 
     public function getRequest(): Request
     {
-        $this->request || $this->request = Request::capture();
+        if (!$this->request) {
+            $this->request = Request::capture();
+        }
 
         return $this->request;
     }
 
-    public function setRequest(RequestContract $request): static
+    public function setRequest(RequestInterface $request): static
     {
         $this->request = $request;
 
@@ -99,14 +112,16 @@ class Application implements ApplicationContract
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \Throwable
      */
-    public function getServer(): ServerContract
+    public function getServer(): ServerInterface
     {
-        $this->server || $this->server = new Server($this);
+        if (!$this->server) {
+            $this->server = new Server($this);
+        }
 
         return $this->server;
     }
 
-    public function setServer(ServerContract $server): static
+    public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
 
@@ -115,24 +130,32 @@ class Application implements ApplicationContract
 
     public function getClient(): ApiBuilder
     {
-        // TODO: Implement getClient() method.
+        if (!$this->client) {
+            $this->client = new ApiBuilder($this->getHttpClient()->withAccessToken($this->getAccessToken()));
+        }
+
+        return $this->client;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
-    public function reply(array $attributes, $appends = []): Contracts\Response
+    public function getHttpClient(): HttpClientInterface
     {
-        return Response::replay($attributes, $this, $appends);
+        if (!$this->httpClient) {
+            $this->httpClient = (new HttpClient())
+                ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config->get('http', [])));
+        }
+
+        return $this->httpClient;
     }
 
     public function getAccessToken(): AccessToken
     {
-        $this->accessToken || $this->accessToken = new AccessToken(
-            $this->getAccount(),
-            $this->getClient(),
-            $this->getCache(),
-        );
+        if (!$this->accessToken) {
+            $this->accessToken = new AccessToken(
+                $this->getAccount(),
+                $this->getClient(),
+                $this->getCache(),
+            );
+        }
 
         return $this->accessToken;
     }
@@ -146,47 +169,27 @@ class Application implements ApplicationContract
 
     public function getCache(): CacheInterface
     {
-        return new Psr16Cache(
-            new FilesystemAdapter(
-                $this->config->get('cache.namespace'),
-                $this->config->get('cache.lifetime'),
-            )
-        );
+        if (!$this->cache) {
+            $this->cache = new Psr16Cache(
+                new FilesystemAdapter(
+                    $this->config->get('cache.namespace', 'easywechat'),
+                    $this->config->get('cache.lifetime', 1500),
+                )
+            );
+        }
+
+        return $this->cache;
     }
-  
-    public function getConfig(): Config
+
+    public function getConfig(): ConfigInterface
     {
         return $this->config;
     }
 
-    public function setConfig(Config $config): static
+    public function setConfig(ConfigInterface $config): static
     {
         $this->config = $config;
 
         return $this;
-    }
-  
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    protected function initConfig(array $config): Config
-    {
-        $baseConfig = [
-            // http://docs.guzzlephp.org/en/stable/request-options.html
-            'http' => [
-                'timeout' => 30.0,
-                'base_uri' => 'https://api.weixin.qq.com/',
-            ],
-            'cache' => [
-                'namespace' => 'easywechat',
-                'lifetime' => 1500,
-            ],
-        ];
-
-        $config = new Config(array_replace_recursive($baseConfig, $config));
-
-        $config->requiredVerify($this->requiredConfigItems);
-
-        return $this->config = $config;
     }
 }
