@@ -14,6 +14,8 @@ interface Application
     public function getServer(): Server;
     public function getRequest(): Request;
     public function getClient(): ApiBuilder;
+    public function initConfig(array $config): Config;
+    public function setConfig(Config $config): Config;
     public function getConfig(): Config;
     public function getAccessToken(): AccessToken;
     public function getCache(): CacheInterface;

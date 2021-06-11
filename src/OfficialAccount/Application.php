@@ -29,17 +29,26 @@ class Application implements ApplicationContract
     protected ?Encryptor $encryptor = null;
     protected ?Config $config = null;
 
-    public function __construct(
-        public array $userConfig
-    ) {
+    protected array $requiredConfigItems = [
+        'app_id',
+        'secret',
+        'aes_key',
+    ];
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function __construct(array $config) 
+    {
+        $this->initConfig($config);
     }
 
     public function getAccount(): AccountContract
     {
         $this->account || $this->account = new Account(
-            $this->getConfig()->get('appId'),
-            $this->getConfig()->get('secret'),
-            $this->getConfig()->get('aesKey'),
+            $this->config->get('app_id'),
+            $this->config->get('secret'),
+            $this->config->get('aes_key'),
             $this->getToken()
         );
 
@@ -117,27 +126,6 @@ class Application implements ApplicationContract
         return Response::replay($attributes, $this, $appends);
     }
 
-    public function getConfig(): Config
-    {
-        if ($this->config) {
-            return $this->config;
-        }
-
-        $baseConfig = [
-            // http://docs.guzzlephp.org/en/stable/request-options.html
-            'http' => [
-                'timeout' => 30.0,
-                'base_uri' => 'https://api.weixin.qq.com/',
-            ],
-            'cache' => [
-                'namespace' => 'easywechat',
-                'lifetime' => 1500,
-            ],
-        ];
-
-        return new Config(array_replace_recursive($baseConfig, $this->userConfig));
-    }
-
     public function getAccessToken(): AccessToken
     {
         $this->accessToken || $this->accessToken = new AccessToken(
@@ -164,5 +152,41 @@ class Application implements ApplicationContract
                 $this->config->get('cache.lifetime'),
             )
         );
+    }
+  
+    public function getConfig(): Config
+    {
+        return $this->config;
+    }
+
+    public function setConfig(Config $config): static
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+  
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    protected function initConfig(array $config): Config
+    {
+        $baseConfig = [
+            // http://docs.guzzlephp.org/en/stable/request-options.html
+            'http' => [
+                'timeout' => 30.0,
+                'base_uri' => 'https://api.weixin.qq.com/',
+            ],
+            'cache' => [
+                'namespace' => 'easywechat',
+                'lifetime' => 1500,
+            ],
+        ];
+
+        $config = new Config(array_replace_recursive($baseConfig, $config));
+
+        $config->requiredVerify($this->requiredConfigItems);
+
+        return $this->config = $config;
     }
 }
