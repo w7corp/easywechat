@@ -2,14 +2,15 @@
 
 namespace EasyWeChat\OfficialAccount\Server;
 
-use \EasyWeChat\OfficialAccount\Contracts\Message as MessageContract;
+use EasyWeChat\OfficialAccount\Contracts\Message as MessageContract;
 
 class Message implements MessageContract
 {
     public function __construct(
         protected array $attributes = [],
         protected ?string $originContent = ''
-    ) {}
+    ) {
+    }
 
     public function getOriginalContents(): ?string
     {

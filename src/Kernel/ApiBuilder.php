@@ -3,6 +3,7 @@
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Support\Str;
+use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -11,12 +12,15 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * @method \Symfony\Contracts\HttpClient\ResponseInterface patch(string|array $uri = [], array $options = [])
  * @method \Symfony\Contracts\HttpClient\ResponseInterface put(string|array $uri = [], array $options = [])
  * @method \Symfony\Contracts\HttpClient\ResponseInterface delete(string|array $uri = [], array $options = [])
- * @method request(string $method, string $uri, array $options = [])
+ * @method \Symfony\Contracts\HttpClient\ResponseInterface request(string $method, string $url, array $options = [])
  */
-class ApiBuilder
+class ApiBuilder implements HttpClientInterface
 {
-    public function __construct(protected HttpClientInterface $client, protected string $uri = '/')
+    use DecoratorTrait;
+
+    public function __construct(HttpClientInterface $client, protected string $uri = '/')
     {
+        $this->client = $client;
     }
 
     public function append(string $segment): ApiBuilder
@@ -51,6 +55,9 @@ class ApiBuilder
         return \call_user_func_array([$this->client, $name], $arguments);
     }
 
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
     protected function callWithShortcuts(string $method, string | array $uri = [], array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
     {
         if (\is_string($uri)) {

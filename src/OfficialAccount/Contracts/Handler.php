@@ -7,5 +7,5 @@ use EasyWeChat\Kernel\Decorators\TerminateResult;
 
 interface Handler
 {
-    public function handle(Message $message): bool|FinallyResult|TerminateResult;
+    public function handle(Message $message): bool | FinallyResult | TerminateResult;
 }

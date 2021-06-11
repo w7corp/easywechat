@@ -2,7 +2,7 @@
 
 namespace EasyWeChat\OfficialAccount;
 
-use \EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
 
 class Account implements AccountContract
 {
@@ -11,7 +11,8 @@ class Account implements AccountContract
         protected string $secret,
         protected string $aesKey,
         protected string $token
-    ) {}
+    ) {
+    }
 
     public function getAppId(): string
     {

@@ -7,18 +7,25 @@ namespace EasyWeChat\OfficialAccount;
 use EasyWeChat\Kernel\ApiBuilder;
 use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\OfficialAccount\Contracts\AccessToken as AccessTokenContract;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountContract;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationContract;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerContract;
 use EasyWeChat\OfficialAccount\Contracts\Request as RequestContract;
 use EasyWeChat\OfficialAccount\Server\Request;
 use EasyWeChat\OfficialAccount\Server\Response;
 use EasyWeChat\OfficialAccount\Server\Server;
+use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 
 class Application implements ApplicationContract
 {
-    protected ?Account $account = null;
+    protected ?AccountContract $account = null;
     protected ?RequestContract $request = null;
     protected ?ServerContract $server = null;
+    protected ?AccessTokenContract $accessToken = null;
+    protected ?CacheInterface $cache = null;
     protected ?Encryptor $encryptor = null;
     protected ?Config $config = null;
 
@@ -31,13 +38,12 @@ class Application implements ApplicationContract
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function __construct(
-        array $config
-    ) {
+    public function __construct(array $config) 
+    {
         $this->initConfig($config);
     }
 
-    public function getAccount(): Account
+    public function getAccount(): AccountContract
     {
         $this->account || $this->account = new Account(
             $this->config->get('app_id'),
@@ -47,6 +53,13 @@ class Application implements ApplicationContract
         );
 
         return $this->account;
+    }
+
+    public function setAccount(AccountContract $account): static
+    {
+        $this->account = $account;
+
+        return $this;
     }
 
     public function getEncryptor(): Encryptor
@@ -93,6 +106,13 @@ class Application implements ApplicationContract
         return $this->server;
     }
 
+    public function setServer(ServerContract $server): static
+    {
+        $this->server = $server;
+
+        return $this;
+    }
+
     public function getClient(): ApiBuilder
     {
         // TODO: Implement getClient() method.
@@ -106,10 +126,50 @@ class Application implements ApplicationContract
         return Response::replay($attributes, $this, $appends);
     }
 
+    public function getAccessToken(): AccessToken
+    {
+        $this->accessToken || $this->accessToken = new AccessToken(
+            $this->getAccount(),
+            $this->getClient(),
+            $this->getCache(),
+        );
+
+        return $this->accessToken;
+    }
+
+    public function setCache(CacheInterface $cache): static
+    {
+        $this->cache = $cache;
+
+        return $this;
+    }
+
+    public function getCache(): CacheInterface
+    {
+        return new Psr16Cache(
+            new FilesystemAdapter(
+                $this->config->get('cache.namespace'),
+                $this->config->get('cache.lifetime'),
+            )
+        );
+    }
+  
+    public function getConfig(): Config
+    {
+        return $this->config;
+    }
+
+    public function setConfig(Config $config): static
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+  
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function initConfig(array $config): Config
+    protected function initConfig(array $config): Config
     {
         $baseConfig = [
             // http://docs.guzzlephp.org/en/stable/request-options.html
@@ -119,7 +179,7 @@ class Application implements ApplicationContract
             ],
             'cache' => [
                 'namespace' => 'easywechat',
-                'life_time' => 1500,
+                'lifetime' => 1500,
             ],
         ];
 
@@ -127,21 +187,6 @@ class Application implements ApplicationContract
 
         $config->requiredVerify($this->requiredConfigItems);
 
-        return $this->config = $config;
-    }
-
-    public function getConfig(array $config = []): Config
-    {
-        return $this->config;
-    }
-
-    public function getToken(): string
-    {
-        //
-    }
-
-    public function setConfig(Config $config): Config
-    {
         return $this->config = $config;
     }
 }

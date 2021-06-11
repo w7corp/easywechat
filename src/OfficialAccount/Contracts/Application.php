@@ -5,6 +5,7 @@ namespace EasyWeChat\OfficialAccount\Contracts;
 use EasyWeChat\Kernel\ApiBuilder;
 use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Encryptor;
+use Psr\SimpleCache\CacheInterface;
 
 interface Application
 {
@@ -16,5 +17,6 @@ interface Application
     public function initConfig(array $config): Config;
     public function setConfig(Config $config): Config;
     public function getConfig(): Config;
-    public function getToken(): string;
+    public function getAccessToken(): AccessToken;
+    public function getCache(): CacheInterface;
 }

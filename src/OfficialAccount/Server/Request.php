@@ -58,9 +58,13 @@ class Request extends SymfonyRequest implements RequestInterface
 
     public static function createFromBase(SymfonyRequest $symfonyRequest): static
     {
-        $request = (new static)->duplicate(
-            $symfonyRequest->query->all(), $symfonyRequest->request->all(), $symfonyRequest->attributes->all(),
-            $symfonyRequest->cookies->all(), $symfonyRequest->files->all(), $symfonyRequest->server->all()
+        $request = (new static())->duplicate(
+            $symfonyRequest->query->all(),
+            $symfonyRequest->request->all(),
+            $symfonyRequest->attributes->all(),
+            $symfonyRequest->cookies->all(),
+            $symfonyRequest->files->all(),
+            $symfonyRequest->server->all()
         );
 
         $request->headers->replace($symfonyRequest->headers->all());
