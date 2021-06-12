@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;

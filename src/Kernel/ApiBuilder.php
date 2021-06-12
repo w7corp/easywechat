@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Support\Str;
 use Symfony\Component\HttpClient\DecoratorTrait;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -18,22 +21,22 @@ class ApiBuilder implements HttpClientInterface
 {
     use DecoratorTrait;
 
-    public function __construct(HttpClientInterface $client, protected string $uri = '/')
+    public function __construct(protected string $uri = '/', ?HttpClientInterface $client = null)
     {
-        $this->client = $client;
+        $this->client = $client ?? HttpClient::create();
     }
 
     public function append(string $segment): ApiBuilder
     {
         if (\str_starts_with($segment, 'http://') || \str_starts_with($segment, 'https://')) {
-            return new ApiBuilder($this->client, $segment);
+            return new static(uri: $segment, client: $this->client);
         }
 
         $segment = Str::kebab($segment);
 
         $uri = \rtrim(\sprintf('/%s/%s', \trim($this->uri, '/'), \trim($segment, '/')), '/');
 
-        return new ApiBuilder($this->client, $uri);
+        return new static(uri: $uri, client: $this->client);
     }
 
     public function getUri(): string

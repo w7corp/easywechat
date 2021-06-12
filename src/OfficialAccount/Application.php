@@ -37,7 +37,7 @@ class Application implements ApplicationInterface
      */
     public const DEFAULT_HTTP_OPTIONS = [
         'timeout' => 30.0,
-        'base_uri' => 'https://api.mch.weixin.qq.com/',
+        'base_uri' => 'https://api.weixin.qq.com/',
     ];
 
     /**
@@ -58,8 +58,8 @@ class Application implements ApplicationInterface
             $this->account = new Account(
                 appId: $this->config->get('app_id'),
                 secret: $this->config->get('secret'),
+                token: $this->config->get('token'),
                 aesKey: $this->config->get('aes_key'),
-                token: $this->config->get('token')
             );
         }
 
@@ -75,11 +75,13 @@ class Application implements ApplicationInterface
 
     public function getEncryptor(): Encryptor
     {
-        $this->encryptor || $this->encryptor = new Encryptor(
-            $this->account->getAppId(),
-            $this->account->getToken(),
-            $this->account->getAesKey(),
-        );
+        if (!$this->encryptor) {
+            $this->encryptor = new Encryptor(
+                $this->getAccount()->getAppId(),
+                $this->getAccount()->getToken(),
+                $this->getAccount()->getAesKey(),
+            );
+        }
 
         return $this->encryptor;
     }
@@ -131,10 +133,17 @@ class Application implements ApplicationInterface
     public function getClient(): ApiBuilder
     {
         if (!$this->client) {
-            $this->client = new ApiBuilder($this->getHttpClient()->withAccessToken($this->getAccessToken()));
+            $this->client = new ApiBuilder(client: $this->getHttpClient()->withAccessToken($this->getAccessToken()));
         }
 
         return $this->client;
+    }
+
+    public function setClient(ApiBuilder $client): static
+    {
+        $this->client = $client;
+
+        return $this;
     }
 
     public function getHttpClient(): HttpClientInterface
@@ -147,17 +156,32 @@ class Application implements ApplicationInterface
         return $this->httpClient;
     }
 
-    public function getAccessToken(): AccessToken
+    public function setHttpClient(HttpClientInterface $httpClient): static
+    {
+        $this->httpClient = $httpClient;
+
+        return $this;
+    }
+
+    public function getAccessToken(): AccessTokenInterface
     {
         if (!$this->accessToken) {
             $this->accessToken = new AccessToken(
-                $this->getAccount(),
-                $this->getClient(),
-                $this->getCache(),
+                appId: $this->getAccount()->getAppId(),
+                secret: $this->getAccount()->getSecret(),
+                cache: $this->getCache(),
+                httpClient: $this->getHttpClient(),
             );
         }
 
         return $this->accessToken;
+    }
+
+    public function setAccessToken(AccessTokenInterface $accessToken): static
+    {
+        $this->accessToken = $accessToken;
+
+        return $this;
     }
 
     public function setCache(CacheInterface $cache): static

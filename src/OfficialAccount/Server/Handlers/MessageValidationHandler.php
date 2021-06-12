@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\OfficialAccount\Server\Handlers;
 
 use EasyWeChat\Kernel\Exceptions\BadRequestException;

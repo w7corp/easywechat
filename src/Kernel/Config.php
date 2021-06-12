@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;

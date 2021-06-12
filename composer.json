@@ -84,8 +84,8 @@
       "cghooks update"
     ],
     "phpstan": "vendor/bin/phpstan analyse",
-    "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --ansi",
-    "fix-style": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --ansi",
+    "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --allow-risky=yes --ansi",
+    "fix-style": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --allow-risky=yes --ansi",
     "test": "vendor/bin/phpunit --colors=always --testdox"
   }
 }

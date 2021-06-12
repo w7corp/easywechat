@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Pay;
 
 use EasyWeChat\Pay\Merchant;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the overtrue/wechat.
  *
@@ -13,8 +15,6 @@ namespace EasyWeChat\Tests\Kernel\Log;
 
 use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Log\LogManager;
-use EasyWeChat\Kernel\ServiceContainer;
-use EasyWeChat\Kernel\Support\Collection;
 use EasyWeChat\Tests\TestCase;
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;

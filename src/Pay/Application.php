@@ -63,7 +63,7 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     public function getClient(): ApiBuilder
     {
         if (!$this->v3Client) {
-            $this->v3Client = new ApiBuilder($this->getHttpClient(), '/v3/');
+            $this->v3Client = new ApiBuilder(uri: '/v3/', client: $this->getHttpClient());
         }
 
         return $this->v3Client;
@@ -72,7 +72,7 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     public function getV2Client(): ApiBuilder
     {
         if (!$this->v2Client) {
-            $this->v2Client = new ApiBuilder($this->getHttpClient(), '/');
+            $this->v2Client = new ApiBuilder(uri: '/', client: $this->getHttpClient());
         }
 
         return $this->v2Client;

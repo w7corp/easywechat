@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Kernel;
 
 use EasyWeChat\Kernel\ApiBuilder;
 use EasyWeChat\Tests\TestCase;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApiBuilderTest extends TestCase
@@ -12,7 +13,7 @@ class ApiBuilderTest extends TestCase
     public function test_uri_appends()
     {
         // without basic uri
-        $builer = new ApiBuilder(HttpClient::create());
+        $builer = new ApiBuilder();
 
         // basic
         $this->assertSame('/v3/pay/transactions/native', actual: $builer->v3->pay->transactions->native->getUri());
@@ -29,7 +30,7 @@ class ApiBuilderTest extends TestCase
 
 
         // with basic uri
-        $builer = new ApiBuilder(HttpClient::create(), 'v3/pay/');
+        $builer = new ApiBuilder(uri: 'v3/pay/');
 
         $this->assertSame('/v3/pay/transactions/native', actual: $builer->transactions->native->getUri());
     }
@@ -37,7 +38,7 @@ class ApiBuilderTest extends TestCase
     public function test_full_uri_call()
     {
         $client = \Mockery::mock(HttpClientInterface::class);
-        $builer = new ApiBuilder($client, 'v3');
+        $builer = new ApiBuilder(uri: 'v3', client: $client);
 
         $client->expects()->request('GET', 'https://api2.mch.weixin.qq.com/v3/certificates', [])->once();
         $builer->get('https://api2.mch.weixin.qq.com/v3/certificates');
@@ -45,8 +46,8 @@ class ApiBuilderTest extends TestCase
 
         $options = [
             'headers' => [
-                'accept' => 'application/json'
-            ]
+                'accept' => 'application/json',
+            ],
         ];
         $client->expects()->request('GET', 'https://api2.mch.weixin.qq.com/v3/certificates', $options)->once();
 
@@ -56,7 +57,7 @@ class ApiBuilderTest extends TestCase
     public function test_shortcuts_call()
     {
         $client = \Mockery::mock(HttpClientInterface::class);
-        $builer = new ApiBuilder($client, 'v3');
+        $builer = new ApiBuilder(uri: 'v3', client: $client);
 
         $client->expects()->request('GET', '/v3/certificates', [])->once();
         $builer->get('certificates');
@@ -64,8 +65,8 @@ class ApiBuilderTest extends TestCase
 
         $options = [
             'headers' => [
-                'accept' => 'application/json'
-            ]
+                'accept' => 'application/json',
+            ],
         ];
         $client->expects()->request('GET', '/v3/certificates', $options)->once();
 

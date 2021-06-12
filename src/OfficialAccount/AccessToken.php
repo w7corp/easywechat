@@ -1,25 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AccessToken implements \EasyWeChat\OfficialAccount\Contracts\AccessToken
 {
+    protected HttpClientInterface $httpClient;
+    protected CacheInterface $cache;
+
     public function __construct(
-        protected AccountInterface $account,
-        protected HttpClientInterface $client,
-        protected CacheInterface $cache,
+        protected string $appId,
+        protected string $secret,
         protected ?string $key = null,
+        ?CacheInterface $cache = null,
+        ?HttpClientInterface $httpClient = null,
     ) {
+        $this->httpClient = $httpClient ?? new HttpClient();
+        $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('official_account.access_token.%s', $this->account->getAppId());
+        return $this->key ?? $this->key = \sprintf('official_account.access_token.%s', $this->appId);
     }
 
     public function setKey(string $key): static
@@ -46,14 +55,14 @@ class AccessToken implements \EasyWeChat\OfficialAccount\Contracts\AccessToken
             return $token;
         }
 
-        $response = $this->client->request(
+        $response = $this->httpClient->request(
             'GET',
-            '/cgi-bin/token',
+            'cgi-bin/token',
             [
                 'query' => [
                     'grant_type' => 'client_credential',
-                    'appid' => $this->account->getAppId(),
-                    'secret' => $this->account->getSecret(),
+                    'appid' => $this->appId,
+                    'secret' => $this->secret,
                 ],
             ]
         )->toArray();

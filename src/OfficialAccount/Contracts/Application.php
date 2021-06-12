@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\OfficialAccount\Contracts;
 
 use EasyWeChat\Kernel\ApiBuilder;

@@ -1,35 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\OfficialAccount\Contracts\AccessToken as AccessTokenInterface;
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
-use Nyholm\Psr7\Stream;
-use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
-use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-class HttpClient implements HttpClientInterface
+class HttpClient implements \EasyWeChat\OfficialAccount\Contracts\HttpClient
 {
     use HttpClientTrait;
 
     protected HttpClientInterface $client;
 
-    protected array $defaultOptions = [];
+    protected array $defaultOptions = [
+        'base_uri' => 'https://api.mch.weixin.qq.com/',
+    ];
+
+    protected ?AccessTokenInterface $accessToken = null;
 
     public function __construct(
-        protected ?AccessTokenInterface $accessToken = null,
         ?HttpClientInterface $client = null,
-        ?array $defaultOptions = []
+        ?AccessTokenInterface $accessToken = null,
+        array $defaultOptions = []
     ) {
+        $this->accessToken = $accessToken;
         $this->client = $client ?? SymfonyHttpClient::create();
+        $this->defaultOptions = $defaultOptions;
 
-        $defaultOptions = \array_merge(
+        $options = \array_merge(
             self::OPTIONS_DEFAULTS,
             [
                 'headers' => [
@@ -39,12 +43,14 @@ class HttpClient implements HttpClientInterface
             ]
         );
 
-        [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
+        [, $this->defaultOptions] = self::prepareRequest(null, null, $options, $this->defaultOptions);
     }
 
-    public function withAccessToken(AccessTokenInterface $accessToken)
+    public function withAccessToken(AccessTokenInterface $accessToken): static
     {
         $this->accessToken = $accessToken;
+
+        return $this;
     }
 
     /**
@@ -52,6 +58,8 @@ class HttpClient implements HttpClientInterface
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
+        [, $options] = self::prepareRequest($method, $url, $options, $this->defaultOptions);
+
         $options['headers']['User-Agent'] = UserAgent::create([$options['headers']['User-Agent'] ?? '']);
 
         if ($this->accessToken) {

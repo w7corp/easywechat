@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\OfficialAccount\Contracts;
 
 interface Account
@@ -8,7 +10,7 @@ interface Account
 
     public function getSecret(): string;
 
-    public function getToken(): string;
+    public function getToken(): ?string;
 
-    public function getAesKey(): string;
+    public function getAesKey(): ?string;
 }

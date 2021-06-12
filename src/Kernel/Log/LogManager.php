@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Log;
 
 use EasyWeChat\Kernel\Config;
-use EasyWeChat\Kernel\ServiceContainer;
 use InvalidArgumentException;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
