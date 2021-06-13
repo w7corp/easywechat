@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\Kernel\Support\AES;
+use EasyWeChat\Kernel\Support\Aes;
 use EasyWeChat\Kernel\Support\XML;
 use Throwable;
 use function EasyWeChat\Kernel\Support\str_random;
@@ -47,7 +47,7 @@ class Encryptor
         try {
             $xml = $this->pkcs7Pad(str_random(16).pack('N', strlen($xml)).$xml.$this->appId, $this->blockSize);
 
-            $encrypted = base64_encode(AES::encrypt(
+            $encrypted = base64_encode(Aes::encrypt(
                 $xml,
                 $this->aesKey,
                 substr($this->aesKey, 0, 16),
@@ -80,7 +80,7 @@ class Encryptor
             throw new RuntimeException('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
-        $decrypted = AES::decrypt(
+        $decrypted = Aes::decrypt(
             base64_decode($content, true),
             $this->aesKey,
             substr($this->aesKey, 0, 16),

@@ -13,7 +13,6 @@ use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
 use EasyWeChat\OfficialAccount\Contracts\Request as RequestInterface;
 use EasyWeChat\OfficialAccount\Contracts\Response as ResponseInterface;
 use EasyWeChat\OfficialAccount\Server\Handlers\ServerValidationHandler;
-use function EasyWeChat\Kernel\throw_if;
 
 class Server implements ServerInterface
 {
@@ -104,16 +103,13 @@ class Server implements ServerInterface
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function buildResponse($response): array
     {
         if (\is_array($response)) {
-            throw_if(
-                !isset($response['MsgType']),
-                InvalidArgumentException::class,
-                'MsgType cannot be empty.'
-            );
+            if (!isset($response['MsgType'])) {
+                throw new InvalidArgumentException('MsgType cannot be empty.');
+            }
 
             return $response;
         }

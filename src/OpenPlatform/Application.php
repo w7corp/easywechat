@@ -6,7 +6,7 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\ServiceContainer;
 use EasyWeChat\Kernel\Traits\ResponseCastable;
-use EasyWeChat\MiniProgram\Encryptor;
+use EasyWeChat\MiniProgram\Decryptor;
 use EasyWeChat\OpenPlatform\Authorizer\Auth\AccessToken;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Application as MiniProgram;
 use EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Auth\Client;
@@ -96,7 +96,7 @@ class Application extends ServiceContainer
             $this->getAuthorizerConfig($appId, $refreshToken),
             $this->getReplaceServices($accessToken) + [
                 'encryptor' => function () {
-                    return new Encryptor(
+                    return new Decryptor(
                         $this['config']['app_id'],
                         $this['config']['token'],
                         $this['config']['aes_key']

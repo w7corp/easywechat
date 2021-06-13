@@ -9,7 +9,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\OfficialAccount\Contracts\Request as RequestInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
-use function EasyWeChat\Kernel\throw_if;
 
 class Request extends SymfonyRequest implements RequestInterface
 {
@@ -38,7 +37,9 @@ class Request extends SymfonyRequest implements RequestInterface
             &&
             $encrypt = $attributes['Encrypt'] ?? null
         ) {
-            throw_if(!$encryptor, InvalidArgumentException::class, 'Encryptor cannot be empty.');
+            if (!$encryptor) {
+                throw new InvalidArgumentException('Encryptor cannot be empty.');
+            }
 
             $attributes = $this->parse(
                 $encryptor->decrypt(

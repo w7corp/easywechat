@@ -103,7 +103,7 @@ class Config implements \ArrayAccess, ConfigInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function checkMissingKeys(): bool
     {
@@ -119,11 +119,9 @@ class Config implements \ArrayAccess, ConfigInterface
             }
         }
 
-        throw_if(
-            !empty($missingKeys),
-            InvalidArgumentException::class,
-            sprintf("\"%s\" cannot be empty.\r\n", \join(',', $missingKeys)),
-        );
+        if (!empty($missingKeys)) {
+            throw new InvalidArgumentException(sprintf("\"%s\" cannot be empty.\r\n", \join(',', $missingKeys)));
+        }
 
         return true;
     }

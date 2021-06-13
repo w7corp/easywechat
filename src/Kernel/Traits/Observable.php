@@ -9,7 +9,6 @@ use EasyWeChat\Kernel\Decorators\TerminateResult;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\OfficialAccount\Contracts\Handler;
 use EasyWeChat\OfficialAccount\Contracts\Message;
-use function EasyWeChat\Kernel\throw_if;
 
 trait Observable
 {
@@ -152,7 +151,9 @@ trait Observable
             return spl_object_hash($handler);
         }
 
-        throw_if(2 !== \count($handler), InvalidArgumentException::class);
+        if (2 !== \count($handler)) {
+            throw new InvalidArgumentException();
+        }
 
         return is_string($handler[0])
                 ? $handler[0].'::'.$handler[1] : get_class($handler[0]).$handler[1];
@@ -175,23 +176,17 @@ trait Observable
             };
         }
 
-        throw_if(
-            !\is_string($handler),
-            InvalidArgumentException::class,
-            'No valid handler is found in arguments.'
-        );
+        if (!\is_string($handler)) {
+            throw new InvalidArgumentException('No valid handler is found in arguments.');
+        }
 
-        throw_if(
-            !class_exists($handler),
-            InvalidArgumentException::class,
-            sprintf('Class "%s" not exists.', $handler)
-        );
+        if (!class_exists($handler)) {
+            throw new InvalidArgumentException(sprintf('Class "%s" not exists.', $handler));
+        }
 
-        throw_if(
-            !in_array(Handler::class, (new \ReflectionClass($handler))->getInterfaceNames(), true),
-            InvalidArgumentException::class,
-            sprintf('Class "%s" not an instance of "%s".', $handler, Handler::class)
-        );
+        if (!in_array(Handler::class, (new \ReflectionClass($handler))->getInterfaceNames(), true)) {
+            throw new InvalidArgumentException(sprintf('Class "%s" not an instance of "%s".', $handler, Handler::class));
+        }
 
         return function ($message) use ($handler) {
             return (new $handler($this->application))->handle($message);

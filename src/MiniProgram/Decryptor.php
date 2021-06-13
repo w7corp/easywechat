@@ -4,27 +4,18 @@ declare(strict_types=1);
 
 namespace EasyWeChat\MiniProgram;
 
-use EasyWeChat\Kernel\Encryptor as BaseEncryptor;
 use EasyWeChat\Kernel\Exceptions\DecryptException;
-use EasyWeChat\Kernel\Support\AES;
+use EasyWeChat\Kernel\Support\Aes;
 
-class Encryptor extends BaseEncryptor
+class Decryptor
 {
     /**
-     * Decrypt data.
-     *
-     * @param string $sessionKey
-     * @param string $iv
-     * @param string $encrypted
-     *
-     * @return array
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
      */
-    public function decryptData(string $sessionKey, string $iv, string $encrypted): array
+    public static function decrypt(string $sessionKey, string $iv, string $ciphertext): array
     {
-        $decrypted = AES::decrypt(
-            base64_decode($encrypted, false),
+        $decrypted = Aes::decrypt(
+            base64_decode($ciphertext, false),
             base64_decode($sessionKey, false),
             base64_decode($iv, false)
         );

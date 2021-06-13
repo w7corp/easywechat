@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Kernel\Support;
 
-use EasyWeChat\Kernel\Support\AES;
+use EasyWeChat\Kernel\Support\Aes;
 use EasyWeChat\Tests\TestCase;
 
 class AESTest extends TestCase
@@ -24,9 +24,9 @@ class AESTest extends TestCase
         $iv = substr($key, 0, 16);
 
         $expected = openssl_encrypt('foo', 'aes-256-cbc', $key, OPENSSL_RAW_DATA, $iv);
-        $this->assertSame($expected, AES::encrypt('foo', $key, $iv, OPENSSL_RAW_DATA));
+        $this->assertSame($expected, Aes::encrypt('foo', $key, $iv, OPENSSL_RAW_DATA));
 
-        $this->assertSame('foo', AES::decrypt($expected, $key, $iv, OPENSSL_RAW_DATA));
+        $this->assertSame('foo', Aes::decrypt($expected, $key, $iv, OPENSSL_RAW_DATA));
     }
 
     public function keyCases()
@@ -40,7 +40,7 @@ class AESTest extends TestCase
     public function testValidKey($length)
     {
         try {
-            $result = AES::assertKeyIsValid(str_repeat('x', $length));
+            $result = Aes::assertKeyIsValid(str_repeat('x', $length));
             if (in_array($length, [16, 24, 32], true)) {
                 $this->assertNull($result);
             } else {
@@ -62,7 +62,7 @@ class AESTest extends TestCase
     public function testValidateIv($length)
     {
         try {
-            $result = AES::assertIvIsValid(str_repeat('x', $length));
+            $result = Aes::assertIvIsValid(str_repeat('x', $length));
             if (16 === $length) {
                 $this->assertNull($result);
             } else {
