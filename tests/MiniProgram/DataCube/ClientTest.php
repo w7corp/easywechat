@@ -106,6 +106,35 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->userPortrait('2017-08-02', '2017-08-10'));
     }
 
+    public function testDevicePerformanceData()
+    {
+        $client = $this->mockApiClient(Client::class, ['query']);
+
+        $client->expects()->httpPostJson('wxa/business/performance/boot', [
+            'time' => [
+                'end_timestamp' => strtotime('2017-08-10'),
+                'begin_timestamp' => strtotime('2017-08-02'),
+            ],
+            'module' => '10016',
+            'params' => [
+                [
+                    'field' => 'networktype',
+                    'value' => '-1'
+                ],
+                [
+                    'field' => 'device_level',
+                    'value' => '-1'
+                ],
+                [
+                    'field' => 'device',
+                    'value' => '-1'
+                ],
+            ]
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->devicePerformanceData('2017-08-02', '2017-08-10', '10016'));
+    }
+
     public function testQuery()
     {
         $client = $this->mockApiClient(Client::class)->makePartial();
