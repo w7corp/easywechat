@@ -151,6 +151,35 @@ class Client extends BaseClient
     }
 
     /**
+     * get performance data
+     * @param string $from
+     * @param string $to
+     * @param string $module
+     * @param string $networktype
+     * @param string $device_level
+     * @param string $device
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function devicePerformanceData(string $from, string $to, string $module, string $networktype = '-1', string $device_level = '-1', string $device = '-1')
+    {
+        $payload = [
+            'time' => [
+                'end_timestamp' => strtotime($to),
+                'begin_timestamp' => strtotime($from),
+            ],
+            'module' => $module,
+            'params' => [
+                ['field' => 'networktype',  'value' => $networktype],
+                ['field' => 'device_level', 'value' => $device_level],
+                ['field' => 'device',       'value' => $device],
+            ]
+        ];
+        return $this->httpPostJson('wxa/business/performance/boot', $payload);
+    }
+
+    /**
      * Unify query.
      *
      * @param string $api
