@@ -13,7 +13,7 @@ class Config implements \ArrayAccess, ConfigInterface
     protected array $requiredKeys = [];
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __construct(
         protected array $items = [],
