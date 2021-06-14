@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\OfficialAccount;
 
-use EasyWeChat\Kernel\ApiBuilder;
+use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\OfficialAccount\AccessToken;
@@ -117,11 +117,11 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(ApiBuilder::class, $app->getClient());
+        $this->assertInstanceOf(UriBuilder::class, $app->getClient());
         $this->assertSame($app->getClient(), $app->getClient());
 
         // set
-        $client = new ApiBuilder();
+        $client = new UriBuilder();
         $app->setClient($client);
         $this->assertSame($client, $app->getClient());
     }

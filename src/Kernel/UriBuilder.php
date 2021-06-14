@@ -17,7 +17,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * @method \Symfony\Contracts\HttpClient\ResponseInterface delete(string|array $uri = [], array $options = [])
  * @method \Symfony\Contracts\HttpClient\ResponseInterface request(string $method, string $url, array $options = [])
  */
-class ApiBuilder implements HttpClientInterface
+class UriBuilder implements HttpClientInterface
 {
     use DecoratorTrait;
 
@@ -26,7 +26,7 @@ class ApiBuilder implements HttpClientInterface
         $this->client = $client ?? HttpClient::create();
     }
 
-    public function append(string $segment): ApiBuilder
+    public function append(string $segment): UriBuilder
     {
         if (\str_starts_with($segment, 'http://') || \str_starts_with($segment, 'https://')) {
             return new static(uri: $segment, client: $this->client);
