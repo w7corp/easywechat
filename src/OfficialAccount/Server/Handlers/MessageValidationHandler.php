@@ -6,10 +6,9 @@ namespace EasyWeChat\OfficialAccount\Server\Handlers;
 
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\OfficialAccount\Application;
-use EasyWeChat\OfficialAccount\Contracts\Handler;
 use EasyWeChat\OfficialAccount\Contracts\Message;
 
-class MessageValidationHandler implements Handler
+class MessageValidationHandler
 {
     public function __construct(
         public Application $application
@@ -19,12 +18,12 @@ class MessageValidationHandler implements Handler
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
-    public function handle(Message $message): bool
+    public function __invoke(Message $message, \Closure $next): bool
     {
         $request = $this->application->getRequest();
 
         if (!$request->isSafeMode()) {
-            return true;
+            return $next($message);
         }
 
         $signature = $request->get('signature');
@@ -41,7 +40,7 @@ class MessageValidationHandler implements Handler
             throw new BadRequestException('Invalid request signature.', 400);
         }
 
-        return true;
+        return $next($message);
     }
 
     /**
