@@ -73,7 +73,6 @@ trait InteractWithHandlers
     public function has(callable | string $handler): bool
     {
         return \array_key_exists($this->getHandlerHash($handler), $this->handlers);
-        ;
     }
 
     /**
