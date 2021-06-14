@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OfficialAccount\Server;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Traits\Observable;
+use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\OfficialAccount\Application;
 use EasyWeChat\OfficialAccount\Server\Handlers\MessageValidationHandler;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
@@ -16,36 +16,13 @@ use EasyWeChat\OfficialAccount\Server\Handlers\ServerValidationHandler;
 
 class Server implements ServerInterface
 {
-    use Observable;
+    use InteractWithHandlers;
 
     protected AccountInterface $account;
     protected RequestInterface $request;
 
-    // 消息类型
-    public const TEXT = 'text';
-    public const IMAGE = 'image';
-    public const VOICE = 'voice';
-    public const VIDEO = 'video';
-    public const SHORT_VIDEO = 'shortvideo';
-    public const LOCATION = 'location';
-    public const LINK = 'link';
-    public const DEVICE_EVENT = 'device_event';
-    public const DEVICE_TEXT = 'device_text';
-    public const EVENT = 'event';
-    public const DEVICE_FILE = 'file';
-    public const DEVICE_MINIPROGRAM_PAGE = 'miniprogrampage';
-
-    // 事件类型
-    public const SUBSCRIBE_EVENT = 'subscribe';
-    public const UNSUBSCRIBE_EVENT = 'unsubscribe';
-    public const SCAN_EVENT = 'SCAN';
-    public const LOCATION_EVENT = 'LOCATION';
-    public const CLICK_EVENT = 'CLICK';
-    public const VIEW_EVENT = 'VIEW';
-
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \ReflectionException
      * @throws \Throwable
      */
     public function __construct(
