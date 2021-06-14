@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Kernel;
 
-use EasyWeChat\Kernel\ApiBuilder;
+use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class ApiBuilderTest extends TestCase
+class UriBuilderTest extends TestCase
 {
     public function test_uri_appends()
     {
         // without basic uri
-        $builer = new ApiBuilder();
+        $builer = new UriBuilder();
 
         // basic
         $this->assertSame('/v3/pay/transactions/native', actual: $builer->v3->pay->transactions->native->getUri());
@@ -28,9 +28,8 @@ class ApiBuilderTest extends TestCase
             $builer->v3->combineTransactions->outTradeNo->$merchantId->close->getUri()
         );
 
-
         // with basic uri
-        $builer = new ApiBuilder(uri: 'v3/pay/');
+        $builer = new UriBuilder(uri: 'v3/pay/');
 
         $this->assertSame('/v3/pay/transactions/native', actual: $builer->transactions->native->getUri());
     }
@@ -38,7 +37,7 @@ class ApiBuilderTest extends TestCase
     public function test_full_uri_call()
     {
         $client = \Mockery::mock(HttpClientInterface::class);
-        $builer = new ApiBuilder(uri: 'v3', client: $client);
+        $builer = new UriBuilder(uri: 'v3', client: $client);
 
         $client->expects()->request('GET', 'https://api2.mch.weixin.qq.com/v3/certificates', [])->once();
         $builer->get('https://api2.mch.weixin.qq.com/v3/certificates');
@@ -57,7 +56,7 @@ class ApiBuilderTest extends TestCase
     public function test_shortcuts_call()
     {
         $client = \Mockery::mock(HttpClientInterface::class);
-        $builer = new ApiBuilder(uri: 'v3', client: $client);
+        $builer = new UriBuilder(uri: 'v3', client: $client);
 
         $client->expects()->request('GET', '/v3/certificates', [])->once();
         $builer->get('certificates');

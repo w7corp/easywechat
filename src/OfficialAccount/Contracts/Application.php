@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount\Contracts;
 
-use EasyWeChat\Kernel\ApiBuilder;
+use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Contracts\Config;
 use EasyWeChat\Kernel\Encryptor;
 use Psr\SimpleCache\CacheInterface;
@@ -19,7 +19,7 @@ interface Application
 
     public function getRequest(): Request;
 
-    public function getClient(): ApiBuilder;
+    public function getClient(): UriBuilder;
 
     public function getHttpClient(): HttpClient;
 

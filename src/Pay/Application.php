@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
-use EasyWeChat\Kernel\ApiBuilder;
+use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -17,8 +17,8 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         'base_uri' => 'https://api.mch.weixin.qq.com/',
     ];
 
-    protected ?ApiBuilder $v2Client = null;
-    protected ?ApiBuilder $v3Client = null;
+    protected ?UriBuilder $v2Client = null;
+    protected ?UriBuilder $v3Client = null;
     protected ?HttpClientInterface $httpClient = null;
     protected ?Merchant $merchant = null;
     protected ?ConfigInterface $config = null;
@@ -60,19 +60,19 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         return $this->httpClient;
     }
 
-    public function getClient(): ApiBuilder
+    public function getClient(): UriBuilder
     {
         if (!$this->v3Client) {
-            $this->v3Client = new ApiBuilder(uri: '/v3/', client: $this->getHttpClient());
+            $this->v3Client = new UriBuilder(uri: '/v3/', client: $this->getHttpClient());
         }
 
         return $this->v3Client;
     }
 
-    public function getV2Client(): ApiBuilder
+    public function getV2Client(): UriBuilder
     {
         if (!$this->v2Client) {
-            $this->v2Client = new ApiBuilder(uri: '/', client: $this->getHttpClient());
+            $this->v2Client = new UriBuilder(uri: '/', client: $this->getHttpClient());
         }
 
         return $this->v2Client;

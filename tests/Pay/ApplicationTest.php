@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Pay;
 
-use EasyWeChat\Kernel\ApiBuilder;
+use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Pay\Application;
 use EasyWeChat\Pay\HttpClient;
 use EasyWeChat\Pay\Merchant;
@@ -56,7 +56,7 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(ApiBuilder::class, $app->getClient());
+        $this->assertInstanceOf(UriBuilder::class, $app->getClient());
         $this->assertSame($app->getClient(), $app->getClient());
 
         $this->assertSame('/v3/', $app->getClient()->getUri());
@@ -74,7 +74,7 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(ApiBuilder::class, $app->getV2Client());
+        $this->assertInstanceOf(UriBuilder::class, $app->getV2Client());
         $this->assertSame($app->getV2Client(), $app->getV2Client());
 
         $this->assertSame('/', $app->getV2Client()->getUri());
