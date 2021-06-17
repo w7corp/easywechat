@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\OfficialAccount\Server;
+namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;

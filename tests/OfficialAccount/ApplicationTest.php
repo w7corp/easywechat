@@ -17,7 +17,7 @@ use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
 use EasyWeChat\OfficialAccount\HttpClient;
-use EasyWeChat\OfficialAccount\Server\Server;
+use EasyWeChat\OfficialAccount\Server;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;

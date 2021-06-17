@@ -13,7 +13,6 @@ use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
-use EasyWeChat\OfficialAccount\Server\Server;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
