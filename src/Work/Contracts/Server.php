@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\OfficialAccount\Contracts;
+namespace EasyWeChat\Work\Contracts;
 
 use Psr\Http\Message\ResponseInterface;
 

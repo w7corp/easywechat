@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\OfficialAccount\Contracts;
+namespace EasyWeChat\Work\Contracts;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

@@ -4,29 +4,27 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount;
 
+use EasyWeChat\Kernel\Traits\InteractWithCache;
+use EasyWeChat\Kernel\Traits\InteractWithConfig;
+use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\UriBuilder;
-use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\OfficialAccount\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
-use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\Psr16Cache;
 
 class Application implements ApplicationInterface
 {
+    use InteractWithConfig;
+    use InteractWithCache;
+    use InteractWithServerRequest;
+
     protected ?UriBuilder $client = null;
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
-    protected ?CacheInterface $cache = null;
-    protected ?ConfigInterface $config = null;
     protected ?AccountInterface $account = null;
-    protected ?ServerRequestInterface $request = null;
     protected ?AccessTokenInterface $accessToken = null;
     protected ?HttpClientInterface $httpClient = null;
 
@@ -37,18 +35,6 @@ class Application implements ApplicationInterface
         'timeout' => 30.0,
         'base_uri' => 'https://api.weixin.qq.com/',
     ];
-
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function __construct(array | ConfigInterface $config)
-    {
-        if (\is_array($config)) {
-            $config = new Config($config);
-        }
-
-        $this->config = $config;
-    }
 
     public function getAccount(): AccountInterface
     {
@@ -87,31 +73,6 @@ class Application implements ApplicationInterface
     public function setEncryptor(Encryptor $encryptor): static
     {
         $this->encryptor = $encryptor;
-
-        return $this;
-    }
-
-    public function getRequest(): ServerRequestInterface
-    {
-        if (!$this->request) {
-            $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
-
-            $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
-                serverRequestFactory: $psr17Factory,
-                uriFactory: $psr17Factory,
-                uploadedFileFactory: $psr17Factory,
-                streamFactory: $psr17Factory
-            );
-
-            $this->request = $creator->fromGlobals();
-        }
-
-        return $this->request;
-    }
-
-    public function setRequest(ServerRequestInterface $request): static
-    {
-        $this->request = $request;
 
         return $this;
     }
@@ -191,39 +152,6 @@ class Application implements ApplicationInterface
     public function setAccessToken(AccessTokenInterface $accessToken): static
     {
         $this->accessToken = $accessToken;
-
-        return $this;
-    }
-
-    public function setCache(CacheInterface $cache): static
-    {
-        $this->cache = $cache;
-
-        return $this;
-    }
-
-    public function getCache(): CacheInterface
-    {
-        if (!$this->cache) {
-            $this->cache = new Psr16Cache(
-                new FilesystemAdapter(
-                    $this->config->get('cache.namespace', 'easywechat'),
-                    $this->config->get('cache.lifetime', 1500),
-                )
-            );
-        }
-
-        return $this->cache;
-    }
-
-    public function getConfig(): ConfigInterface
-    {
-        return $this->config;
-    }
-
-    public function setConfig(ConfigInterface $config): static
-    {
-        $this->config = $config;
 
         return $this;
     }

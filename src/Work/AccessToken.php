@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\OfficialAccount;
+namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
@@ -17,7 +17,7 @@ class AccessToken implements AccessTokenInterface
     protected CacheInterface $cache;
 
     public function __construct(
-        protected string $appId,
+        protected string $corpId,
         protected string $secret,
         protected ?string $key = null,
         ?CacheInterface $cache = null,
@@ -29,7 +29,7 @@ class AccessToken implements AccessTokenInterface
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('official_account.access_token.%s', $this->appId);
+        return $this->key ?? $this->key = \sprintf('work.access_token.%s', $this->corpId);
     }
 
     public function setKey(string $key): static
@@ -58,12 +58,11 @@ class AccessToken implements AccessTokenInterface
 
         $response = $this->httpClient->request(
             'GET',
-            'cgi-bin/token',
+            '/cgi-bin/gettoken',
             [
                 'query' => [
-                    'grant_type' => 'client_credential',
-                    'appid' => $this->appId,
-                    'secret' => $this->secret,
+                    'corpid' => $this->corpId,
+                    'corpsecret' => $this->secret,
                 ],
             ]
         )->toArray();

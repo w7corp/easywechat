@@ -12,7 +12,7 @@ use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Application;
 use EasyWeChat\OfficialAccount\Config;
-use EasyWeChat\OfficialAccount\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;

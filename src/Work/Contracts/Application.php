@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\OfficialAccount\Contracts;
+namespace EasyWeChat\Work\Contracts;
 
 use EasyWeChat\Kernel\Contracts\AccessToken;
 use EasyWeChat\Kernel\UriBuilder;
