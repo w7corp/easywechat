@@ -37,55 +37,22 @@ class Server implements ServerInterface
         if (
             'GET' === \strtoupper($this->request->getMethod())
             &&
-            !!($str = $this->request->getQueryParams()['echostr'])
+            !!($str = $this->request->getQueryParams()['echostr'] ?? '')
         ) {
-            return new Response(200, $str);
+            return new Response(200, [], $str);
         }
 
         $this->withMessageValidationHandler();
 
         $message = Message::createFromRequest($this->request, $this->encryptor);
 
-        $response = $this->normalizeResponse($this->handle(Response::SUCCESS_EMPTY_RESPONSE, $message));
+        $response = $this->handle(Response::success(), $message);
 
-        $currentTime = \time();
-
-        return Response::xml(
-            attributes: \array_merge(
-                [
-                                'ToUserName' => $message->to,
-                                'FromUserName' => $message->from,
-                                'CreateTime' => $currentTime,
-                            ],
-                $response
-            ),
-            encryptor: $this->encryptor
-        );
-    }
-
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function normalizeResponse($response): array
-    {
-        if (\is_array($response)) {
-            if (!isset($response['MsgType'])) {
-                throw new InvalidArgumentException('MsgType cannot be empty.');
-            }
-
+        if ($response instanceof ResponseInterface) {
             return $response;
         }
 
-        if (is_string($response) || is_numeric($response)) {
-            return [
-                'MsgType' => 'text',
-                'Content' => $response,
-            ];
-        }
-
-        throw new InvalidArgumentException(
-            sprintf('Invalid Response type "%s".', gettype($response))
-        );
+        return $this->transformResponse($response, $message);
     }
 
     /**
@@ -141,5 +108,52 @@ class Server implements ServerInterface
         );
 
         return $this;
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function transformResponse($response, Message $message): Response
+    {
+        $response = $this->normalizeResponse($response);
+        $currentTime = \time();
+
+        return Response::xml(
+            attributes: \array_merge(
+                            [
+                                'ToUserName' => $message->FromUserName,
+                                'FromUserName' => $message->ToUserName,
+                                'CreateTime' => $currentTime,
+                            ],
+                            $response
+                        ),
+            encryptor: $this->encryptor
+        );
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function normalizeResponse($response): array
+    {
+        if (\is_array($response)) {
+            if (!isset($response['MsgType'])) {
+                throw new InvalidArgumentException('MsgType cannot be empty.');
+            }
+
+            return $response;
+        }
+
+        if (is_string($response) || is_numeric($response)) {
+            return [
+                'MsgType' => 'text',
+                'Content' => $response,
+            ];
+        }
+
+        throw new InvalidArgumentException(
+            sprintf('Invalid Response type "%s".', gettype($response))
+        );
     }
 }

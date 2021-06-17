@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class Response extends \Nyholm\Psr7\Response
 {
-    public const SUCCESS_EMPTY_RESPONSE = 'success';
+    public const SUCCESS_EMPTY_RESPONSE = 'SUCCESS';
 
     public static function success(string $body = self::SUCCESS_EMPTY_RESPONSE): ResponseInterface
     {

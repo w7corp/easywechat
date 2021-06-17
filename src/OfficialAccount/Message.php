@@ -75,7 +75,7 @@ class Message implements MessageInterface
      */
     public static function createFromRequest(ServerRequestInterface $request, ?Encryptor $encryptor = null): static
     {
-        $originContent = $request->getBody()->getContents();
+        $originContent = strval($request->getBody());
 
         if (0 === stripos($originContent, '<')) {
             $attributes = XML::parse($originContent);
