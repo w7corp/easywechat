@@ -15,12 +15,11 @@ use EasyWeChat\OfficialAccount\Config;
 use EasyWeChat\OfficialAccount\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
-use EasyWeChat\OfficialAccount\Contracts\Request as RequestInterface;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
 use EasyWeChat\OfficialAccount\HttpClient;
-use EasyWeChat\OfficialAccount\Server\Request;
 use EasyWeChat\OfficialAccount\Server\Server;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Psr16Cache;
 
@@ -77,11 +76,11 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(RequestInterface::class, $app->getRequest());
+        $this->assertInstanceOf(ServerRequestInterface::class, $app->getRequest());
         $this->assertSame($app->getRequest(), $app->getRequest());
 
         // set
-        $request = new Request();
+        $request = \Mockery::mock(ServerRequestInterface::class);
         $app->setRequest($request);
         $this->assertSame($request, $app->getRequest());
     }
@@ -101,7 +100,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getServer(), $app->getServer());
 
         // set
-        $server = new Server($app);
+        $server = new Server(\Mockery::mock(Account::class), \Mockery::mock(ServerRequestInterface::class));
         $app->setServer($server);
         $this->assertSame($server, $app->getServer());
     }

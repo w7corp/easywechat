@@ -46,20 +46,20 @@ class Server implements ServerInterface
 
         $message = Message::createFromRequest($this->request, $this->encryptor);
 
-        $response = $this->normalizeResponse($this->handle(Response::SUCCESS_EMPTY_RESPONSE, $this->request, $message));
+        $response = $this->normalizeResponse($this->handle(Response::SUCCESS_EMPTY_RESPONSE, $message));
 
         $currentTime = \time();
 
         return Response::xml(
-            \array_merge(
-                    [
-                        'ToUserName' => $message->to,
-                        'FromUserName' => $message->from,
-                        'CreateTime' => $currentTime,
-                    ],
-                    $response
-                ),
-            $this->encryptor
+            attributes: \array_merge(
+                            [
+                                'ToUserName' => $message->to,
+                                'FromUserName' => $message->from,
+                                'CreateTime' => $currentTime,
+                            ],
+                            $response
+                        ),
+            encryptor: $this->encryptor
         );
     }
 
@@ -94,21 +94,23 @@ class Server implements ServerInterface
      */
     public function withMessageValidationHandler(): static
     {
-        return $this->withHandler(function (MessageInterface $message, \Closure $next) {
-            $query = $this->request->getQueryParams();
+        return $this->withHandler(
+            function (MessageInterface $message, \Closure $next) {
+                $query = $this->request->getQueryParams();
 
-            if (!isset($query['signature']) || 'aes' !== ($query['encrypt_type'] ?? '')) {
-                return $next($message);
+                if (!isset($query['signature']) || 'aes' !== ($query['encrypt_type'] ?? '')) {
+                    return $next($message);
+                }
+
+                $params = [$this->account->getToken(), $query['timestamp'], $query['nonce']];
+
+                sort($params, SORT_STRING);
+
+                if ($query['signature'] !== sha1(implode($params))) {
+                    throw new BadRequestException('Invalid request signature.');
+                }
             }
-
-            $params = [$this->account->getToken(), $query['timestamp'], $query['nonce']];
-
-            sort($params, SORT_STRING);
-
-            if ($query['signature'] !== sha1(implode($params))) {
-                throw new BadRequestException('Invalid request signature.');
-            }
-        });
+        );
     }
 
     /**
@@ -132,9 +134,11 @@ class Server implements ServerInterface
      */
     public function addEventListener(string $event, $handler): static
     {
-        $this->withHandler(function (MessageInterface $message, \Closure $next) use ($event, $handler) {
-            return $message->Event === $event ? $handler($message) : $next($message);
-        });
+        $this->withHandler(
+            function (MessageInterface $message, \Closure $next) use ($event, $handler) {
+                return $message->Event === $event ? $handler($message) : $next($message);
+            }
+        );
 
         return $this;
     }

@@ -71,7 +71,7 @@ class Message implements MessageInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException|\EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException|\EasyWeChat\Kernel\Exceptions\RuntimeException|\EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public static function createFromRequest(ServerRequestInterface $request, ?Encryptor $encryptor = null): static
     {

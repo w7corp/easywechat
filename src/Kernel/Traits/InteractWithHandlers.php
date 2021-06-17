@@ -61,14 +61,13 @@ trait InteractWithHandlers
 
     public function handle($result, ...$payload): mixed
     {
-        $result = \is_callable($result) ? $result : fn () => $result;
+        $next = \is_callable($result) ? $result : fn ($result) => $result;
 
         foreach ($this->handlers as $handler) {
-            \array_push($payload, $result);
-            $result = fn ($payload) => $handler(...$payload);
+            $next = fn (...$payload) => $handler(...[...$payload, $next]);
         }
 
-        return $result();
+        return $next($result);
     }
 
     public function has(callable | string $handler): bool
