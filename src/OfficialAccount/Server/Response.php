@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount\Server;
 
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Support\XML;
-use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
-use EasyWeChat\OfficialAccount\Contracts\Response as ResponseInterface;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Psr\Http\Message\ResponseInterface;
 
-class Response extends GuzzleResponse implements ResponseInterface
+class Response extends \Nyholm\Psr7\Response
 {
     public const SUCCESS_EMPTY_RESPONSE = 'success';
 
@@ -26,21 +25,18 @@ class Response extends GuzzleResponse implements ResponseInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public static function replay(
-        array $attributes,
-        ApplicationInterface $application,
-        array $appends = [],
-    ): Response {
+    public static function xml(array $attributes, ?Encryptor $encryptor = null): Response
+    {
         $xml = XML::build($attributes);
 
-        if ($application->getRequest()->isSafeMode()) {
-            $time = $appends['time'] ?? \time();
-            $nonce = $appends['nonce'] ?? \uniqid();
+        if ($encryptor) {
+            $time = $attributes['CreateTime'] ?? \time();
+            $nonce = $attributes['nonce'] ?? \uniqid();
 
             $xml = XML::build(
                 [
                     'MsgType' => $attributes['MsgType'] ?? 'text',
-                    'Encrypt' => $application->getEncryptor()->encrypt($xml, $nonce, $time),
+                    'Encrypt' => $encryptor->encrypt($xml, $nonce, $time),
                     'TimeStamp' => $time,
                     'Nonce' => $nonce,
                 ]

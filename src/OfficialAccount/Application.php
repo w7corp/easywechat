@@ -12,10 +12,9 @@ use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
-use EasyWeChat\OfficialAccount\Contracts\Request as RequestInterface;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
-use EasyWeChat\OfficialAccount\Server\Request;
 use EasyWeChat\OfficialAccount\Server\Server;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -28,7 +27,7 @@ class Application implements ApplicationInterface
     protected ?CacheInterface $cache = null;
     protected ?ConfigInterface $config = null;
     protected ?AccountInterface $account = null;
-    protected ?RequestInterface $request = null;
+    protected ?ServerRequestInterface $request = null;
     protected ?AccessTokenInterface $accessToken = null;
     protected ?HttpClientInterface $httpClient = null;
 
@@ -41,7 +40,7 @@ class Application implements ApplicationInterface
     ];
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __construct(array | ConfigInterface $config)
     {
@@ -93,16 +92,25 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getRequest(): Request
+    public function getRequest(): ServerRequestInterface
     {
         if (!$this->request) {
-            $this->request = Request::capture();
+            $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+
+            $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
+                serverRequestFactory: $psr17Factory,
+                uriFactory: $psr17Factory,
+                uploadedFileFactory: $psr17Factory,
+                streamFactory: $psr17Factory
+            );
+
+            $this->request = $creator->fromGlobals();
         }
 
         return $this->request;
     }
 
-    public function setRequest(RequestInterface $request): static
+    public function setRequest(ServerRequestInterface $request): static
     {
         $this->request = $request;
 
@@ -117,7 +125,11 @@ class Application implements ApplicationInterface
     public function getServer(): ServerInterface
     {
         if (!$this->server) {
-            $this->server = new Server($this);
+            $this->server = new Server(
+                account: $this->getAccount(),
+                request: $this->getRequest(),
+                encryptor: $this->getEncryptor()
+            );
         }
 
         return $this->server;
