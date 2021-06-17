@@ -7,6 +7,7 @@ namespace EasyWeChat\OfficialAccount\Contracts;
 use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Contracts\Config;
 use EasyWeChat\Kernel\Encryptor;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 
 interface Application
@@ -17,7 +18,7 @@ interface Application
 
     public function getServer(): Server;
 
-    public function getRequest(): Request;
+    public function getRequest(): ServerRequestInterface;
 
     public function getClient(): UriBuilder;
 
