@@ -52,13 +52,13 @@ class Server implements ServerInterface
 
         return Response::xml(
             attributes: \array_merge(
-                            [
+                [
                                 'ToUserName' => $message->to,
                                 'FromUserName' => $message->from,
                                 'CreateTime' => $currentTime,
                             ],
-                            $response
-                        ),
+                $response
+            ),
             encryptor: $this->encryptor
         );
     }
