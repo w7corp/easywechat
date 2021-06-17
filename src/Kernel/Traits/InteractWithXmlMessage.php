@@ -42,8 +42,9 @@ trait InteractWithXmlMessage
         return $this->withHandler(
             function ($message, \Closure $next) {
                 $query = $this->request->getQueryParams();
+                $signature = $query['signature'] ?? $query['msg_signature'] ?? null;
 
-                if (!isset($query['signature']) || 'aes' !== ($query['encrypt_type'] ?? '')) {
+                if (!isset($signature) || 'aes' !== ($query['encrypt_type'] ?? '')) {
                     return $next($message);
                 }
 
@@ -51,7 +52,7 @@ trait InteractWithXmlMessage
 
                 sort($params, SORT_STRING);
 
-                if ($query['signature'] !== sha1(implode($params))) {
+                if ($signature !== sha1(implode($params))) {
                     throw new BadRequestException('Invalid request signature.');
                 }
             }
