@@ -4,7 +4,13 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount\Server;
 
+use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\OfficialAccount\Contracts\Message as MessageInterface;
+use JetBrains\PhpStorm\Pure;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Message implements MessageInterface
 {
@@ -58,8 +64,43 @@ class Message implements MessageInterface
         unset($this->attributes[$offset]);
     }
 
+    #[Pure]
     public function __toString()
     {
         return $this->getOriginalContents();
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException|\EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public static function createFromRequest(ServerRequestInterface $request, ?Encryptor $encryptor = null): static
+    {
+        $originContent = $request->getBody()->getContents();
+
+        if (0 === stripos($originContent, '<')) {
+            $attributes = XML::parse($originContent);
+        }
+
+        // Handle JSON format.
+        $dataSet = json_decode($originContent, true);
+
+        if (JSON_ERROR_NONE === json_last_error() && $originContent) {
+            $attributes = $dataSet;
+        }
+
+        if (empty($attributes)) {
+            throw new BadRequestException('Failed to decode request contents.');
+        }
+
+        $query = $request->getQueryParams();
+
+        if (isset($query['signature']) && 'aes' === ($query['encrypt_type'] ?? '') && $ciphertext = $attributes['Encrypt'] ?? null) {
+            if (!$encryptor) {
+                throw new InvalidArgumentException('$encryptor could not be empty in safety mode.');
+            }
+            $attributes = XML::parse($encryptor->decrypt($ciphertext, $query['msg_signature'], $query['nonce'], $query['timestamp']));
+        }
+
+        return new static($attributes, $originContent);
     }
 }
