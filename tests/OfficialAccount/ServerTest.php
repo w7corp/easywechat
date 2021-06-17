@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\OfficialAccount;
 
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Server;
 use EasyWeChat\Tests\TestCase;
-use Nyholm\Psr7\Request;
 use Nyholm\Psr7\ServerRequest;
 
 class ServerTest extends TestCase

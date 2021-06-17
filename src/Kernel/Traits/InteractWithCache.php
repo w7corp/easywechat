@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Config;
-use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;

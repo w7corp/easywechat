@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel;
 
-use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Support\XML;
 use Psr\Http\Message\ResponseInterface;
 

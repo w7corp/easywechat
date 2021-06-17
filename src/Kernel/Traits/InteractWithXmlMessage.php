@@ -1,17 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Config;
-use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Response;
-use EasyWeChat\OfficialAccount\Contracts\Message as MessageInterface;
 use EasyWeChat\OfficialAccount\Message;
 use Psr\Http\Message\ResponseInterface;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\Psr16Cache;
 
 trait InteractWithXmlMessage
 {
@@ -101,13 +97,13 @@ trait InteractWithXmlMessage
 
         return Response::xml(
             attributes: \array_merge(
-                            [
+                [
                                 'ToUserName' => $message->FromUserName,
                                 'FromUserName' => $message->ToUserName,
                                 'CreateTime' => $currentTime,
                             ],
-                            $response
-                        ),
+                $response
+            ),
             encryptor: $this->encryptor
         );
     }
