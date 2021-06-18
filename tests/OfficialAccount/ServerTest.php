@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\OfficialAccount;
 
-use EasyWeChat\Kernel\Support\XML;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Server;
 use EasyWeChat\Tests\TestCase;
@@ -66,7 +66,7 @@ class ServerTest extends TestCase
                 }
             )->process();
 
-        $response = XML::parse(\strval($response->getBody()));
+        $response = Xml::parse(\strval($response->getBody()));
 
         $this->assertSame('toUser', $response['FromUserName']);
         $this->assertSame('fromUser', $response['ToUserName']);
@@ -101,7 +101,7 @@ class ServerTest extends TestCase
                 }
             )->process();
 
-        $response = XML::parse(\strval($response->getBody()));
+        $response = Xml::parse(\strval($response->getBody()));
 
         $this->assertSame('toUser', $response['FromUserName']);
         $this->assertSame('fromUser', $response['ToUserName']);

@@ -7,7 +7,7 @@ namespace EasyWeChat\Work;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Support\XML;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use JetBrains\PhpStorm\Pure;
 use Psr\Http\Message\ServerRequestInterface;
@@ -42,7 +42,7 @@ class Message
         $originContent = strval($request->getBody());
 
         if (0 === stripos($originContent, '<')) {
-            $attributes = XML::parse($originContent);
+            $attributes = Xml::parse($originContent);
         }
 
         if (empty($attributes)) {
@@ -55,7 +55,7 @@ class Message
             if (!$encryptor) {
                 throw new InvalidArgumentException('$encryptor could not be empty in safety mode.');
             }
-            $attributes = XML::parse($encryptor->decrypt($ciphertext, $query['msg_signature'], $query['nonce'], $query['timestamp']));
+            $attributes = Xml::parse($encryptor->decrypt($ciphertext, $query['msg_signature'], $query['nonce'], $query['timestamp']));
         }
 
         return new static($attributes, $originContent);

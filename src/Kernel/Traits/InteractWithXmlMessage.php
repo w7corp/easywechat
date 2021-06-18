@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Response;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\OfficialAccount\Message;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,14 +18,14 @@ trait InteractWithXmlMessage
     public function process(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new Response(200, [], $str);
+            return new ServerResponse(200, [], $str);
         }
 
         $this->withMessageValidationHandler();
 
         $message = Message::createFromRequest($this->request, $this->encryptor);
 
-        $response = $this->handle(Response::success(), $message);
+        $response = $this->handle(ServerResponse::success(), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;
@@ -91,12 +91,12 @@ trait InteractWithXmlMessage
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function transformResponse($response, Message $message): Response
+    public function transformResponse($response, Message $message): ServerResponse
     {
         $response = $this->normalizeResponse($response);
         $currentTime = \time();
 
-        return Response::xml(
+        return ServerResponse::xml(
             attributes: \array_merge(
                 [
                                 'ToUserName' => $message->FromUserName,

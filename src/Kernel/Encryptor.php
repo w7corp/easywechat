@@ -6,7 +6,7 @@ namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Aes;
-use EasyWeChat\Kernel\Support\XML;
+use EasyWeChat\Kernel\Support\Xml;
 use Throwable;
 use function EasyWeChat\Kernel\Support\str_random;
 
@@ -69,7 +69,7 @@ class Encryptor
             'Nonce' => $nonce,
         ];
 
-        return XML::build($response);
+        return Xml::build($response);
     }
 
     public function decrypt(string $content, string $msgSignature, string $nonce, int $timestamp): string

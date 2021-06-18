@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\OfficialAccount;
+namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
@@ -58,11 +58,11 @@ class Message
 
         $query = $request->getQueryParams();
 
-        if (isset($query['signature']) && 'aes' === ($query['encrypt_type'] ?? '') && $ciphertext = $attributes['Encrypt'] ?? null) {
+        if (isset($query['msg_signature']) && 'aes' === ($query['encrypt_type'] ?? '') && $ciphertext = $attributes['Encrypt'] ?? null) {
             if (!$encryptor) {
                 throw new InvalidArgumentException('$encryptor could not be empty in safety mode.');
             }
-            $attributes = Xml::parse($encryptor->decrypt($ciphertext, $query['signature'], $query['nonce'], $query['timestamp']));
+            $attributes = Xml::parse($encryptor->decrypt($ciphertext, $query['msg_signature'], $query['nonce'], $query['timestamp']));
         }
 
         return new static($attributes, $originContent);

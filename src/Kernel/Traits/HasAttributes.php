@@ -6,9 +6,24 @@ namespace EasyWeChat\Kernel\Traits;
 
 trait HasAttributes
 {
-    protected $attributes = [];
+    protected array $attributes = [];
+
+    public function __construct(array $attributes)
+    {
+        $this->attributes = $attributes;
+    }
 
     public function toArray(): array
+    {
+        return $this->attributes;
+    }
+
+    public function toJson(): string
+    {
+        return \json_encode($this->attributes);
+    }
+
+    public function jsonSerialize(): array
     {
         return $this->attributes;
     }
