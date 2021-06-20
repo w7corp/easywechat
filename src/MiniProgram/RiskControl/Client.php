@@ -27,6 +27,6 @@ class Client extends BaseClient
      */
     public function getUserRiskRank(array $params)
     {
-        return $this->httpPost('wxa/getuserriskrank', $params);
+        return $this->httpPostJson('wxa/getuserriskrank', $params);
     }
 }
