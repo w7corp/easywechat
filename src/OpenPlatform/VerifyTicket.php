@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
