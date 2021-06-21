@@ -17,7 +17,7 @@ class ServerTest extends TestCase
         $request = (new ServerRequest('GET', 'http://easywechat.com/?echostr=abcdefghijklmn'))->withQueryParams(['echostr' => 'abcdefghijklmn']);
         $server = new Server(\Mockery::mock(Account::class), $request);
 
-        $response = $server->process();
+        $response = $server->serve();
 
         $this->assertSame('abcdefghijklmn', \strval($response->getBody()));
     }
@@ -35,7 +35,7 @@ class ServerTest extends TestCase
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
         $server = new Server(\Mockery::mock(Account::class), $request);
 
-        $response = $server->process();
+        $response = $server->serve();
 
         $this->assertSame('SUCCESS', \strval($response->getBody()));
     }
@@ -64,7 +64,7 @@ class ServerTest extends TestCase
                 function ($message) {
                     return 'world';
                 }
-            )->process();
+            )->serve();
 
         $response = Xml::parse(\strval($response->getBody()));
 
@@ -99,7 +99,7 @@ class ServerTest extends TestCase
                 function ($message) {
                     return 'world';
                 }
-            )->process();
+            )->serve();
 
         $response = Xml::parse(\strval($response->getBody()));
 

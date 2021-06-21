@@ -8,5 +8,5 @@ use Psr\Http\Message\ResponseInterface;
 
 interface Server
 {
-    public function process(): ResponseInterface;
+    public function serve(): ResponseInterface;
 }

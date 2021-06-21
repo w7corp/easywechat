@@ -15,7 +15,7 @@ trait InteractWithXmlMessage
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException|\EasyWeChat\Kernel\Exceptions\BadRequestException|\Throwable
      */
-    public function process(): ResponseInterface
+    public function serve(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
             return new ServerResponse(200, [], $str);
