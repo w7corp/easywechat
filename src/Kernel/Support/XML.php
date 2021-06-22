@@ -27,11 +27,11 @@ class XML
      */
     public static function parse($xml)
     {
-        $backup = libxml_disable_entity_loader(true);
+        PHP_MAJOR_VERSION < 8 && $backup = libxml_disable_entity_loader(true);
 
         $result = self::normalize(simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS));
 
-        libxml_disable_entity_loader($backup);
+        PHP_MAJOR_VERSION < 8 && libxml_disable_entity_loader($backup);
 
         return $result;
     }

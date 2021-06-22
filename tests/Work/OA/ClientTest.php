@@ -16,6 +16,93 @@ use EasyWeChat\Work\OA\Client;
 
 class ClientTest extends TestCase
 {
+    public function testCorpCheckinRecords()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/checkin/getcorpcheckinoption')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->corpCheckinRules());
+    }
+
+    public function testCheckinDayData()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/checkin/getcheckin_daydata', [
+            'starttime' => 1599062400,
+            'endtime' => 1599062400,
+            'useridlist' => [
+                'ZhangSan'
+            ]
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->checkinDayData(1599062400, 1599062400, ['ZhangSan']));
+    }
+
+    public function testCheckinMonthData()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/checkin/getcheckin_monthdata', [
+            'starttime' => 1599062400,
+            'endtime' => 1599062400,
+            'useridlist' => [
+                'ZhangSan'
+            ]
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->checkinMonthData(1599062400, 1599062400, ['ZhangSan']));
+    }
+
+    public function testCheckinSchedus()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/checkin/getcheckinschedulist', [
+            'starttime' => 1599062400,
+            'endtime' => 1599062400,
+            'useridlist' => [
+                'ZhangSan'
+            ]
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->checkinSchedus(1599062400, 1599062400, ['ZhangSan']));
+    }
+
+    public function testSetCheckinSchedus()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'groupid' => 226,
+            'items' => [
+                [
+                    'userid' => 'james',
+                    'day' => 5,
+                    'schedule_id' => 234
+                ]
+            ],
+            'yearmonth' => 202012
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/checkin/setcheckinschedulist', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->setCheckinSchedus($params));
+    }
+
+    public function testAddCheckinUserface()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/checkin/addcheckinuserface', [
+            'userid' => 'james',
+            'userface' => 'PLACE_HOLDER'
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->addCheckinUserface('james', 'PLACE_HOLDER'));
+    }
+
     public function testCheckinRecords()
     {
         $client = $this->mockApiClient(Client::class);

@@ -56,12 +56,12 @@ class ApplicationTest extends TestCase
         });
 
         $this->assertSame(
-            'https://mp.weixin.qq.com/safe/bindcomponent?pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
+            'https://mp.weixin.qq.com/safe/bindcomponent?auth_type=3&pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
             $app->getMobilePreAuthorizationUrl('https://easywechat.com/callback')
         );
 
         $this->assertSame(
-            'https://mp.weixin.qq.com/safe/bindcomponent?pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
+            'https://mp.weixin.qq.com/safe/bindcomponent?auth_type=3&pre_auth_code=auth-code%40123456&redirect_uri=https%3A%2F%2Feasywechat.com%2Fcallback&action=bindcomponent&no_scan=1#wechat_redirect',
             $app->getMobilePreAuthorizationUrl('https://easywechat.com/callback', 'auth-code@123456')
         );
     }
@@ -110,7 +110,7 @@ class ApplicationTest extends TestCase
     public function testMiniProgram()
     {
         $app = new Application(['app_id' => 'component-app-id', 'secret' => 'component-secret', 'token' => 'component-token', 'aes_key' => 'Qqx2S6jV3mp5prWPg5x3eBmeU1kLayZio4Q9ZxWTbmf']);
-        $miniProgram = $app->miniProgram('app-id', 'refresh-token');
+        $miniProgram = $app->miniProgram('app-id', 'refresh-token', null);
 
         $this->assertInstanceOf('EasyWeChat\MiniProgram\Application', $miniProgram);
         $this->assertInstanceOf('\EasyWeChat\MiniProgram\Encryptor', $miniProgram->encryptor);

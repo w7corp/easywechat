@@ -147,6 +147,6 @@ class CollectionTest extends TestCase
         $this->assertFalse(isset($c->title), 'isset $c->title');
 
         $c['name'] = 'Hello';
-        $this->assertSame(['name' => 'Hello', 'age' => 25], $c->__set_state());
+        $this->assertSame(['name' => 'Hello', 'age' => 25], $c->__set_state(['name' => 'Hello', 'age' => 25]));
     }
 }

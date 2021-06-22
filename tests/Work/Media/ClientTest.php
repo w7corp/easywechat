@@ -47,34 +47,90 @@ class ClientTest extends TestCase
 
     public function testUploadImage()
     {
-        $client = $this->mockApiClient(Client::class, ['upload']);
-        $client->expects()->upload('image', '/foo/bar/image.jpg')->andReturn('mock-result');
+
+        //无参
+        $client = $this->mockApiClient(Client::class);
+        $files = [
+            'media' => '/foo/bar/image.jpg',
+        ];
+        $form = [];
+        $type = 'image';
+
+        $client->expects()->httpUpload('cgi-bin/media/upload', $files, $form, compact('type'))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadImage('/foo/bar/image.jpg'));
+
+        //有参
+        $client = $this->mockApiClient(Client::class, ['upload']);
+        $client->expects()->upload('image', '/foo/bar/image.jpg', ['filename' => 'image.jpg'])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->uploadImage('/foo/bar/image.jpg', ['filename' => 'image.jpg']));
     }
 
     public function testUploadVideo()
     {
-        $client = $this->mockApiClient(Client::class, ['upload']);
-        $client->expects()->upload('video', '/foo/bar/video.mp4')->andReturn('mock-result');
+        //无参
+        $client = $this->mockApiClient(Client::class);
+
+        $files = [
+            'media' => '/foo/bar/video.mp4',
+        ];
+        $form = [];
+        $type = 'video';
+
+        $client->expects()->httpUpload('cgi-bin/media/upload', $files, $form, compact('type'))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadVideo('/foo/bar/video.mp4'));
+
+        //有参
+        $client = $this->mockApiClient(Client::class, ['upload']);
+        $client->expects()->upload('video', '/foo/bar/video.mp4', ['filename' => 'video.mp4'])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->uploadVideo('/foo/bar/video.mp4', ['filename' => 'video.mp4']));
     }
 
     public function testUploadVoice()
     {
-        $client = $this->mockApiClient(Client::class, ['upload']);
-        $client->expects()->upload('voice', '/foo/bar/voice.mp3')->andReturn('mock-result');
+        //无参
+        $client = $this->mockApiClient(Client::class);
+
+        $files = [
+            'media' => '/foo/bar/voice.mp3',
+        ];
+        $form = [];
+        $type = 'voice';
+
+        $client->expects()->httpUpload('cgi-bin/media/upload', $files, $form, compact('type'))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadVoice('/foo/bar/voice.mp3'));
+
+        //有参
+        $client = $this->mockApiClient(Client::class, ['upload']);
+        $client->expects()->upload('voice', '/foo/bar/voice.mp3', ['filename' => 'voice.mp3'])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->uploadVoice('/foo/bar/voice.mp3', ['filename' => 'voice.mp3']));
     }
 
     public function testUploadFile()
     {
-        $client = $this->mockApiClient(Client::class, ['upload']);
-        $client->expects()->upload('file', '/foo/bar/file.txt')->andReturn('mock-result');
+        //无参
+        $client = $this->mockApiClient(Client::class);
+
+        $files = [
+            'media' => '/foo/bar/file.txt',
+        ];
+        $form = [];
+        $type = 'file';
+
+        $client->expects()->httpUpload('cgi-bin/media/upload', $files, $form, compact('type'))->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadFile('/foo/bar/file.txt'));
+
+        //有参
+        $client = $this->mockApiClient(Client::class, ['upload']);
+        $client->expects()->upload('file', '/foo/bar/file.txt', ['filename' => 'file.jpg'])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->uploadFile('/foo/bar/file.txt', ['filename' => 'file.jpg']));
     }
 
     public function testUpload()
@@ -85,5 +141,12 @@ class ClientTest extends TestCase
         ], [], ['type' => 'voice'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->upload('voice', '/foo/bar/voice.mp3'));
+
+        //有参
+        $client->expects()->httpUpload('cgi-bin/media/upload', [
+            'media' => '/foo/bar/voice.mp3',
+        ], ['filename' => 'voice.mp3'], ['type' => 'voice'])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->upload('voice', '/foo/bar/voice.mp3', ['filename' => 'voice.mp3']));
     }
 }

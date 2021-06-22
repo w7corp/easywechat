@@ -1,8 +1,6 @@
-<img align="right" width="100" src="https://user-images.githubusercontent.com/1472352/49656357-1e874080-fa78-11e8-80ea-69e2103345cf.png" alt="EasyWeChat Logo" expires="2021-08-13" />
-
 <h1 align="left"><a href="https://www.easywechat.com">EasyWeChat</a></h1>
 
-📦 也许是世界上最好用的微信开发 SDK。
+📦 一个 PHP 微信开发 SDK。
 
 [![Test Status](https://github.com/w7corp/easywechat/workflows/Test/badge.svg)](https://github.com/w7corp/easywechat/actions) 
 [![Lint Status](https://github.com/w7corp/easywechat/workflows/Lint/badge.svg)](https://github.com/w7corp/easywechat/actions) 
@@ -19,7 +17,8 @@
 > - EasyWeChat 原作者 overtrue 将继续担任开源项目的核心开发者，继续参与项目的发展规划，共同打造更强大的开源生态社区。
 > - 项目从 6.0 版本开始将修改包名为 `w7corp/easywechat`，5.x 及以下版本不受影响。
 
-> 🚨 注意：当前为 6.0 分支，处于新版开发中，请 PR 时往 5.x 提交，感谢您的贡献！
+> 🚨 注意：请 PR 时往 5.x 提交，感谢您的贡献！
+
 
 ## Requirement
 
@@ -31,7 +30,7 @@
 ## Installation
 
 ```shell
-$ composer require "w7corp/easywechat:^5.0" -vvv
+$ composer require "overtrue/wechat:^5.0" -vvv
 ```
 
 ## Usage
@@ -62,7 +61,7 @@ $user = $app->user;
 $server->push(function($message) use ($user) {
     $fromUser = $user->get($message['FromUserName']);
 
-    return "{$fromUser->nickname} 您好！欢迎关注!";
+    return "{$fromUser->nickname} 您好！欢迎关注 overtrue!";
 });
 
 $server->serve()->send();
@@ -81,7 +80,7 @@ $server->serve()->send();
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
-<a href="https://github.com/w7corp/easywechat/graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
+<a href="https://github.com/overtrue/wechat/graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
 
 
 ## PHP 扩展包开发
@@ -94,3 +93,6 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 ## License
 
 MIT
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fovertrue%2Fwechat.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fovertrue%2Fwechat?ref=badge_large)
