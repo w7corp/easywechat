@@ -9,7 +9,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface as SymfonyResponseInterface;
 
 class Response extends \Nyholm\Psr7\Response implements SymfonyResponseInterface
 {
-    private SymfonyResponseInterface|null $symfonyResponse = null;
+    private ?SymfonyResponseInterface $symfonyResponse = null;
 
     public function getHeaders(bool $throw = true): array
     {
