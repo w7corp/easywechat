@@ -20,7 +20,7 @@ trait InteractWithXmlMessage
     public function serve(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new ServerResponse(200, [], $str);
+            return ServerResponse::success($str);
         }
 
         $this->withMessageValidationHandler();

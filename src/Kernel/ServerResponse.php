@@ -7,7 +7,7 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Kernel\Support\Xml;
 use Psr\Http\Message\ResponseInterface;
 
-class ServerResponse extends \Nyholm\Psr7\Response
+class ServerResponse extends Response
 {
     public const SUCCESS_EMPTY_RESPONSE = 'SUCCESS';
 
