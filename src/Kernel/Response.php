@@ -45,18 +45,18 @@ class Response extends \Nyholm\Psr7\Response implements SymfonyResponseInterface
 
         $content =
             json_decode(
-                $this->getContent(), true, 512, \JSON_BIGINT_AS_STRING | (\PHP_VERSION_ID >= 70300 ? \JSON_THROW_ON_ERROR : 0)
+                $this->getContent(), true, 512, JSON_BIGINT_AS_STRING | (PHP_VERSION_ID >= 70300 ? JSON_THROW_ON_ERROR : 0)
             );
 
         if (
-            \PHP_VERSION_ID < 70300
+            PHP_VERSION_ID < 70300
             &&
-            \JSON_ERROR_NONE !== json_last_error()
+            JSON_ERROR_NONE !== json_last_error()
         ) {
             throw new RuntimeException(json_last_error_msg());
         }
 
-        if (!\is_array($content)) {
+        if (!is_array($content)) {
             throw new RuntimeException(sprintf('JSON content was expected to decode to an array, "%s" returned.', get_debug_type($content)));
         }
 
