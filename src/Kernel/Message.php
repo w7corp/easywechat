@@ -55,5 +55,5 @@ abstract class Message
         return $attributes;
     }
 
-    abstract static function createFromRequest(ServerRequestInterface $request, ?Encryptor $encryptor = null): static;
+    abstract public static function createFromRequest(ServerRequestInterface $request, ?Encryptor $encryptor = null): static;
 }

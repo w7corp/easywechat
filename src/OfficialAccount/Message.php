@@ -19,8 +19,7 @@ class Message extends \EasyWeChat\Kernel\Message
     public static function createFromRequest(
         ServerRequestInterface $request,
         ?Encryptor $encryptor = null
-    ): static
-    {
+    ): static {
         $attributes = self::format($originContent = strval($request->getBody()));
 
         $query = $request->getQueryParams();
