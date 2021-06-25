@@ -58,7 +58,7 @@ trait AccessTokenHttpClientDecorator
         $options['headers']['User-Agent'] = UserAgent::create([$options['headers']['User-Agent'] ?? '']);
 
         if ($this->accessToken) {
-            $options['query'] = \array_merge($options['query'] ?? [], ['access_token' => $this->accessToken->getToken()]);
+            $options['query'] = \array_merge($options['query'] ?? [], $this->getAccessTokenQuery());
         }
 
         return $this->client->request($method, $url, $options);
@@ -72,5 +72,13 @@ trait AccessTokenHttpClientDecorator
     public function stream($responses, float $timeout = null): ResponseStreamInterface
     {
         return $this->client->stream($responses, $timeout);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAccessTokenQuery(): array
+    {
+        return ['access_token' => $this->accessToken->getToken()];
     }
 }

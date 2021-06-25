@@ -7,6 +7,7 @@ namespace EasyWeChat\OpenPlatform;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Traits\HasAttributes;
+use JetBrains\PhpStorm\Pure;
 
 class Authorization implements \ArrayAccess, Jsonable, Arrayable
 {
@@ -17,9 +18,10 @@ class Authorization implements \ArrayAccess, Jsonable, Arrayable
         return $this->attributes['authorizer_appid'] ?? null;
     }
 
-    public function getAccessToken(): ?string
+    #[Pure]
+    public function getAccessToken(): AuthorizerAccessToken
     {
-        return $this->attributes['authorizer_access_token'] ?? null;
+        return new AuthorizerAccessToken($this->attributes['authorizer_access_token'] ?? '');
     }
 
     public function getRefreshToken(): ?string

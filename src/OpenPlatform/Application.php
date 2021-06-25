@@ -28,7 +28,6 @@ class Application implements ApplicationInterface
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $componentAccessToken = null;
-    protected ?AccessTokenInterface $authorizerAccessToken = null;
     protected ?HttpClientInterface $httpClient = null;
     protected ?VerifyTicketInterface $verifyTicket = null;
 
@@ -125,7 +124,7 @@ class Application implements ApplicationInterface
     public function getClient(): UriBuilder
     {
         if (!$this->client) {
-            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getAccessToken()));
+            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getComponentAccessToken()));
         }
 
         return $this->client;

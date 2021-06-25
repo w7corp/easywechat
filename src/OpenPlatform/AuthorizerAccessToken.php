@@ -1,0 +1,23 @@
+<?php
+
+namespace EasyWeChat\OpenPlatform;
+
+use Stringable;
+use EasyWeChat\Kernel\Contracts\AccessToken;
+
+class AuthorizerAccessToken implements AccessToken, Stringable
+{
+    public function __construct(protected string $accessToken)
+    {
+    }
+
+    public function getToken(): string
+    {
+        return $this->accessToken;
+    }
+
+    public function __toString()
+    {
+        return $this->accessToken;
+    }
+}
