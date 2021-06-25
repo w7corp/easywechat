@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\ServerResponse;
-use EasyWeChat\OfficialAccount\Message;
 use Psr\Http\Message\ResponseInterface;
 
 trait InteractWithXmlMessage
@@ -23,13 +25,30 @@ trait InteractWithXmlMessage
 
         $this->withMessageValidationHandler();
 
-        $message = Message::createFromRequest($this->request, $this->encryptor);
+        $messageClass = \sprintf('%s\Message', (new \ReflectionClass($this))->getNamespaceName());
+
+        if (!\class_exists($messageClass)) {
+            throw new RuntimeException($messageClass . ' not found.');
+        }
+
+        $message = \call_user_func_array(
+            [
+                $messageClass,
+                'createFromRequest',
+            ],
+            [
+                $this->request,
+                $this->encryptor,
+            ]
+        );
 
         $response = $this->handle(ServerResponse::success(), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;
         }
+
+        $response = $this->normalizeResponse($response);
 
         return $this->transformResponse($response, $message);
     }
@@ -88,21 +107,19 @@ trait InteractWithXmlMessage
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function transformResponse($response, Message $message): ServerResponse
+    public function transformResponse(array $response, Message $message): ServerResponse
     {
-        $response = $this->normalizeResponse($response);
         $currentTime = \time();
 
         return ServerResponse::xml(
             attributes: \array_merge(
                 [
-                                'ToUserName' => $message->FromUserName,
-                                'FromUserName' => $message->ToUserName,
-                                'CreateTime' => $currentTime,
-                            ],
+                    'ToUserName' => $message->FromUserName,
+                    'FromUserName' => $message->ToUserName,
+                    'CreateTime' => $currentTime,
+                ],
                 $response
             ),
             encryptor: $this->encryptor

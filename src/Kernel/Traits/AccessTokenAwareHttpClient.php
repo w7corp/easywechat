@@ -12,7 +12,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-trait AccessTokenHttpClientDecorator
+trait AccessTokenAwareHttpClient
 {
     use HttpClientTrait;
 
