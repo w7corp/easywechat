@@ -71,12 +71,11 @@ class ConfigTest extends TestCase
     public function test_init_config_can_check_missing_keys()
     {
         $config = [
-            'app_id' => 'wx3cf0f39249111111',
             'secret' => 'mock-account-secret',
         ];
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(\sprintf('"%s" cannot be empty.', 'aes_key'));
+        $this->expectExceptionMessage(\sprintf('"%s" cannot be empty.', 'app_id'));
 
         new Config($config);
     }

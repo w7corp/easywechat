@@ -9,8 +9,13 @@ use EasyWeChat\Kernel\Contracts\AccessToken;
 
 class AuthorizerAccessToken implements AccessToken, Stringable
 {
-    public function __construct(protected string $accessToken)
+    public function __construct(protected string $appId, protected string $accessToken)
     {
+    }
+
+    public function getAppId(): string
+    {
+        return $this->appId;
     }
 
     public function getToken(): string

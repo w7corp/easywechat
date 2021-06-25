@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken;
 use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Contracts\Config;
 use EasyWeChat\Kernel\Encryptor;
+use Overtrue\Socialite\Providers\WeChat;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -30,4 +31,8 @@ interface Application
     public function getAccessToken(): AccessToken;
 
     public function getCache(): CacheInterface;
+
+    public function getOAuth(): WeChat;
+
+    public function setOAuthFactory(callable $factory): static;
 }

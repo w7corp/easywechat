@@ -21,7 +21,7 @@ class Authorization implements \ArrayAccess, Jsonable, Arrayable
     #[Pure]
     public function getAccessToken(): AuthorizerAccessToken
     {
-        return new AuthorizerAccessToken($this->attributes['authorizer_access_token'] ?? '');
+        return new AuthorizerAccessToken($this->getAppId(), $this->attributes['authorizer_access_token'] ?? '');
     }
 
     public function getRefreshToken(): ?string

@@ -11,11 +11,15 @@ use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\MiniApp\Application as MiniAppApplication;
+use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
+use EasyWeChat\OfficialAccount\Config as OfficialAccountConfig;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenPlatform\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OpenPlatform\Contracts\Server as ServerInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
+use Overtrue\Socialite\Providers\WeChat;
 
 class Application implements ApplicationInterface
 {
@@ -214,5 +218,77 @@ class Application implements ApplicationInterface
         }
 
         return $response;
+    }
+
+    public function getOAuth(): WeChat
+    {
+        return (new WeChat(
+            [
+                'client_id' => $this->getAccount()->getAppId(),
+                'client_secret' => $this->getAccount()->getSecret(),
+                'redirect_url' => $this->config->get('oauth.redirect_url'),
+            ]
+        ))->scopes($this->config->get('oauth.scopes', ['snsapi_userinfo']));
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getOfficialAccount(AuthorizerAccessToken $authorizerAccessToken, array $config = []): OfficialAccountApplication
+    {
+        $config = new OfficialAccountConfig(
+            \array_merge(
+                [
+                    'app_id' => $authorizerAccessToken->getAppId(),
+                    'logging' => $this->config->get('logging'),
+                ],
+                $config
+            )
+        );
+
+        $app = new OfficialAccountApplication($config);
+
+        $app->setAccessToken($authorizerAccessToken);
+        $app->setEncryptor($this->getEncryptor());
+        $app->setOAuthFactory($this->createAuthorizerOAuthFactory($authorizerAccessToken->getAppId(), $config));
+
+        return $app;
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getMiniApp(AuthorizerAccessToken $authorizerAccessToken, array $config = []): MiniAppApplication
+    {
+        $app = new MiniAppApplication(
+            \array_merge(
+                [
+                    'app_id' => $authorizerAccessToken->getAppId(),
+                    'logging' => $this->config->get('logging'),
+                ],
+                $config
+            )
+        );
+
+        $app->setAccessToken($authorizerAccessToken);
+        $app->setEncryptor($this->getEncryptor());
+
+        return $app;
+    }
+
+    protected function createAuthorizerOAuthFactory(string $authorizerAppId, OfficialAccountConfig $config): \Closure
+    {
+        return fn () => (new WeChat(
+            [
+                'client_id' => $authorizerAppId,
+
+                'component' => [
+                    'component_app_id' => $this->getAccount()->getAppId(),
+                    'component_access_token' => fn () => $this->getComponentAccessToken()->getToken(),
+                ],
+
+                'redirect_url' => $this->config->get('oauth.redirect_url'),
+            ]
+        ))->scopes($config->get('oauth.scopes', ['snsapi_userinfo']));
     }
 }

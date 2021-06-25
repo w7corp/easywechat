@@ -14,6 +14,7 @@ use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
+use Overtrue\Socialite\Providers\WeChat;
 
 class Application implements ApplicationInterface
 {
@@ -27,6 +28,7 @@ class Application implements ApplicationInterface
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $accessToken = null;
     protected ?HttpClientInterface $httpClient = null;
+    protected ?\Closure $oauthFactory;
 
     /**
      * @var array
@@ -154,5 +156,27 @@ class Application implements ApplicationInterface
         $this->accessToken = $accessToken;
 
         return $this;
+    }
+
+    public function setOAuthFactory(callable $factory): static
+    {
+        $this->oauthFactory = fn ($app) => $factory($app);
+
+        return $this;
+    }
+
+    public function getOAuth(): WeChat
+    {
+        if (!$this->oauthFactory) {
+            $this->oauthFactory = fn () => (new WeChat(
+                [
+                    'client_id' => $this->getAccount()->getAppId(),
+                    'client_secret' => $this->getAccount()->getSecret(),
+                    'redirect_url' => $this->config->get('oauth.redirect_url'),
+                ]
+            ))->scopes($this->config->get('oauth.scopes', ['snsapi_userinfo']));
+        }
+
+        return \call_user_func($this->oauthFactory, $this);
     }
 }
