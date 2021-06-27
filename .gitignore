@@ -2,6 +2,7 @@
 /vendor
 sftp-config.json
 /*.php
+!.php-cs-fixer.dist.php
 /.idea
 /coverage
 /.split
