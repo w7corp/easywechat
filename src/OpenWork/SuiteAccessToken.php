@@ -7,7 +7,6 @@ namespace EasyWeChat\OpenWork;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
-use EasyWeChat\OpenWork\Contracts\VerifyTicket as VerifyTicketInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;

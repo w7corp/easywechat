@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\Kernel\Traits\HasAttributes;
 use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -17,7 +16,6 @@ use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenWork\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OpenWork\Contracts\Server as ServerInterface;
-use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 
 class Application implements ApplicationInterface
 {
