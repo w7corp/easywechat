@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
+use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\Traits\HasAttributes;
 use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenWork\Contracts\HttpClient as HttpClientInterface;
 use EasyWeChat\OpenWork\Contracts\Server as ServerInterface;
+use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 
 class Application implements ApplicationInterface
 {
@@ -119,10 +123,10 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getAccessToken(): AccessTokenInterface
+    public function getProviderAccessToken(): AccessTokenInterface
     {
         if (!$this->accessToken) {
-            $this->accessToken = new AccessToken(
+            $this->accessToken = new ProviderAccessToken(
                 corpId: $this->getAccount()->getCorpId(),
                 providerSecret: $this->getAccount()->getProviderSecret(),
                 cache: $this->getCache(),
@@ -133,10 +137,56 @@ class Application implements ApplicationInterface
         return $this->accessToken;
     }
 
-    public function setAccessToken(AccessTokenInterface $accessToken): static
+    public function setProviderAccessToken(AccessTokenInterface $accessToken): static
     {
         $this->accessToken = $accessToken;
 
         return $this;
+    }
+
+    public function getAuthorization(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken): Authorization
+    {
+        $response = $this->getHttpClient()->request(
+            'POST',
+            'cgi-bin/service/get_auth_info',
+            [
+                'query' => [
+                    'suite_access_token' => $suiteAccessToken->getToken(),
+                ],
+                'json' => [
+                    'auth_corpid' => $corpId,
+                    'permanent_code' => $permanentCode,
+                ],
+            ]
+        )->toArray();
+
+        if (empty($response['auth_corp_info'])) {
+            throw new HttpException('Failed to get auth_corp_info.');
+        }
+
+        return new Authorization($response['auth_corp_info']);
+    }
+
+    public function getAuthorizerAccessToken(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken): Authorization
+    {
+        $response = $this->getHttpClient()->request(
+            'POST',
+            'cgi-bin/service/get_corp_token',
+            [
+                'query' => [
+                    'suite_access_token' => $suiteAccessToken->getToken(),
+                ],
+                'json' => [
+                    'auth_corpid' => $corpId,
+                    'permanent_code' => $permanentCode,
+                ],
+            ]
+        )->toArray();
+
+        if (empty($response['access_token'])) {
+            throw new HttpException('Failed to get access_token.');
+        }
+
+        return new AuthorizerAccessToken($corpId, accessToken: $response['access_token']);
     }
 }

@@ -13,7 +13,7 @@ trait InteractWithAccessTokenClient
     public function getClient(): UriBuilder
     {
         if (!$this->client) {
-            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getAccessToken()));
+            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getProviderAccessToken()));
         }
 
         return $this->client;

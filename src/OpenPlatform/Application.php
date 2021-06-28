@@ -67,7 +67,7 @@ class Application implements ApplicationInterface
     public function getVerifyTicket(): VerifyTicketInterface
     {
         if (!$this->verifyTicket) {
-            $this->verifyTicket = new VerifyTicket(appId: $this->getAccount()->getAppId());
+            $this->verifyTicket = new SuiteTicket(appId: $this->getAccount()->getAppId());
         }
 
         return $this->verifyTicket;
@@ -186,7 +186,7 @@ class Application implements ApplicationInterface
             'cgi-bin/component/api_query_auth',
             [
                 'json' => [
-                    'component_appid' => $this->account->getAppId(),
+                    'component_appid' => $this->getAccount()->getAppId(),
                     'authorization_code' => $authorizationCode,
                 ],
             ]

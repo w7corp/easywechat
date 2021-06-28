@@ -27,7 +27,7 @@ interface Application
 
     public function getConfig(): Config;
 
-    public function getAccessToken(): AccessToken;
+    public function getProviderAccessToken(): AccessToken;
 
     public function getCache(): CacheInterface;
 }

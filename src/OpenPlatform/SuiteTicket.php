@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
+use EasyWeChat\OpenPlatform\Contracts\SuiteTicket as VerifyTicketInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
-class VerifyTicket implements VerifyTicketInterface
+class SuiteTicket implements VerifyTicketInterface
 {
     protected CacheInterface $cache;
 
@@ -24,7 +24,7 @@ class VerifyTicket implements VerifyTicketInterface
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('official_account.access_token.%s', $this->appId);
+        return $this->key ?? $this->key = \sprintf('open_platform.verify_ticket.%s', $this->appId);
     }
 
     public function setKey(string $key): static

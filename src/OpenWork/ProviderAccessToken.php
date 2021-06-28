@@ -11,7 +11,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class AccessToken implements AccessTokenInterface
+class ProviderAccessToken implements AccessTokenInterface
 {
     protected HttpClientInterface $httpClient;
     protected CacheInterface $cache;
@@ -60,7 +60,7 @@ class AccessToken implements AccessTokenInterface
             'GET',
             'cgi-bin/service/get_provider_token',
             [
-                'query' => [
+                'json' => [
                     'corpid' => $this->corpId,
                     'provider_secret' => $this->providerSecret,
                 ],
