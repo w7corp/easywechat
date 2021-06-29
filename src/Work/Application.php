@@ -10,6 +10,7 @@ use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Work\Contracts\HttpClient as HttpClientInterface;
@@ -97,6 +98,22 @@ class Application implements ApplicationInterface
     public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
+
+        return $this;
+    }
+
+    public function getClient(): UriBuilder
+    {
+        if (!$this->client) {
+            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getAccessToken()));
+        }
+
+        return $this->client;
+    }
+
+    public function setClient(UriBuilder $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }
