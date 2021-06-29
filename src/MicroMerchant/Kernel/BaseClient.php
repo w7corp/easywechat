@@ -204,7 +204,7 @@ class BaseClient extends PaymentBaseClient
 
         $encrypted = '';
         $publicKeyResource = openssl_get_publickey($certificates);
-        $f = openssl_public_encrypt($string, $encrypted, $publicKeyResource);
+        $f = openssl_public_encrypt($string, $encrypted, $publicKeyResource, OPENSSL_NO_PADDING);
         openssl_free_key($publicKeyResource);
         if ($f) {
             return base64_encode($encrypted);
