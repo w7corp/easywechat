@@ -12,8 +12,8 @@ use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
-use EasyWeChat\OfficialAccount\Contracts\HttpClient as HttpClientInterface;
-use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Overtrue\Socialite\Providers\WeChat;
 
 class Application implements ApplicationInterface

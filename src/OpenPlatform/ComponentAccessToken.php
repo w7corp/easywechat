@@ -6,7 +6,8 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\OpenPlatform\Contracts\SuiteTicket as VerifyTicketInterface;
+use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -77,5 +78,11 @@ class ComponentAccessToken implements AccessTokenInterface
         $this->cache->set($key, $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));
 
         return $response['component_access_token'];
+    }
+
+    #[ArrayShape(['component_access_token' => "string"])]
+    public function toQuery(): array
+    {
+        return ['component_access_token' => $this->getToken()];
     }
 }

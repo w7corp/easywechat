@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork\Contracts;
 
 use EasyWeChat\Kernel\Contracts\AccessToken;
+use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient;
+use EasyWeChat\Kernel\Contracts\Server;
 use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Contracts\Config;
 use EasyWeChat\Kernel\Encryptor;
@@ -23,7 +25,7 @@ interface Application
 
     public function getClient(): UriBuilder;
 
-    public function getHttpClient(): HttpClient;
+    public function getHttpClient(): AccessTokenAwareHttpClient;
 
     public function getConfig(): Config;
 

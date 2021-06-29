@@ -8,7 +8,7 @@ use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
-use EasyWeChat\OfficialAccount\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface

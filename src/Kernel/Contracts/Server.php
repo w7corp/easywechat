@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\Work\Contracts;
+namespace EasyWeChat\Kernel\Contracts;
 
 use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\ServerResponse;

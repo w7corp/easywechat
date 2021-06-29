@@ -58,7 +58,7 @@ trait AccessTokenAwareHttpClient
         $options['headers']['User-Agent'] = UserAgent::create([$options['headers']['User-Agent'] ?? '']);
 
         if ($this->accessToken) {
-            $options['query'] = \array_merge($options['query'] ?? [], $this->getAccessTokenQuery());
+            $options['query'] = \array_merge($options['query'] ?? [], $this->accessToken->toQuery());
         }
 
         return $this->client->request($method, $url, $options);
@@ -72,13 +72,5 @@ trait AccessTokenAwareHttpClient
     public function stream($responses, float $timeout = null): ResponseStreamInterface
     {
         return $this->client->stream($responses, $timeout);
-    }
-
-    /**
-     * @return array
-     */
-    public function getAccessTokenQuery(): array
-    {
-        return ['access_token' => $this->accessToken->getToken()];
     }
 }

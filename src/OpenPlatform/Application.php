@@ -16,8 +16,8 @@ use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
 use EasyWeChat\OfficialAccount\Config as OfficialAccountConfig;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
-use EasyWeChat\OpenPlatform\Contracts\HttpClient as HttpClientInterface;
-use EasyWeChat\OpenPlatform\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use Overtrue\Socialite\Providers\WeChat;
 

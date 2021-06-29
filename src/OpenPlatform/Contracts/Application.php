@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenPlatform\Contracts;
 
 use EasyWeChat\Kernel\Contracts\AccessToken;
+use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient;
+use EasyWeChat\Kernel\Contracts\Server;
 use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Contracts\Config;
 use EasyWeChat\Kernel\Encryptor;
@@ -27,7 +29,7 @@ interface Application
 
     public function getClient(): UriBuilder;
 
-    public function getHttpClient(): HttpClient;
+    public function getHttpClient(): AccessTokenAwareHttpClient;
 
     public function getConfig(): Config;
 
@@ -37,13 +39,7 @@ interface Application
 
     public function getOAuth(): WeChat;
 
-    public function getOfficialAccount(
-        AuthorizerAccessToken $authorizerAccessToken,
-        array $config
-    ): OfficialAccountApplication;
+    public function getMiniApp(AuthorizerAccessToken $authorizerAccessToken, array $config): MiniAppApplication;
 
-    public function getMiniApp(
-        AuthorizerAccessToken $authorizerAccessToken,
-        array $config
-    ): MiniAppApplication;
+    public function getOfficialAccount(AuthorizerAccessToken $authorizerAccessToken, array $config): OfficialAccountApplication;
 }

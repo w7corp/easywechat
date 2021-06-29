@@ -8,7 +8,6 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Aes;
 use EasyWeChat\Kernel\Support\Xml;
 use Throwable;
-use function EasyWeChat\Kernel\Support\str_random;
 
 class Encryptor
 {
@@ -27,14 +26,14 @@ class Encryptor
 
     protected string $appId;
     protected ?string $token;
-    protected string  $aesKey;
+    protected string $aesKey;
     protected int $blockSize = 32;
 
     public function __construct(string $appId, string $token = null, string $aesKey = null)
     {
         $this->appId = $appId;
         $this->token = $token;
-        $this->aesKey = base64_decode($aesKey.'=', true);
+        $this->aesKey = base64_decode($aesKey . '=', true);
     }
 
     public function getToken(): string
@@ -45,14 +44,16 @@ class Encryptor
     public function encrypt(string $xml, string | null $nonce = null, int $timestamp = null): string
     {
         try {
-            $xml = $this->pkcs7Pad(str_random(16).pack('N', strlen($xml)).$xml.$this->appId, $this->blockSize);
+            $xml = $this->pkcs7Pad(\random_bytes(16) . pack('N', strlen($xml)) . $xml . $this->appId, $this->blockSize);
 
-            $encrypted = base64_encode(Aes::encrypt(
-                $xml,
-                $this->aesKey,
-                substr($this->aesKey, 0, 16),
-                OPENSSL_NO_PADDING
-            ));
+            $ciphertext = base64_encode(
+                Aes::encrypt(
+                    $xml,
+                    $this->aesKey,
+                    substr($this->aesKey, 0, 16),
+                    OPENSSL_NO_PADDING
+                )
+            );
             // @codeCoverageIgnoreStart
         } catch (Throwable $e) {
             throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
@@ -63,8 +64,8 @@ class Encryptor
         !is_null($timestamp) || $timestamp = time();
 
         $response = [
-            'Encrypt' => $encrypted,
-            'MsgSignature' => $this->signature($this->token, $timestamp, $nonce, $encrypted),
+            'Encrypt' => $ciphertext,
+            'MsgSignature' => $this->signature($this->token, $timestamp, $nonce, $ciphertext),
             'TimeStamp' => $timestamp,
             'Nonce' => $nonce,
         ];
@@ -72,29 +73,29 @@ class Encryptor
         return Xml::build($response);
     }
 
-    public function decrypt(string $content, string $msgSignature, string $nonce, int $timestamp): string
+    public function decrypt(string $ciphertext, string $msgSignature, string $nonce, int $timestamp): string
     {
-        $signature = $this->signature($this->token, $timestamp, $nonce, $content);
+        $signature = $this->signature($this->token, $timestamp, $nonce, $ciphertext);
 
         if ($signature !== $msgSignature) {
             throw new RuntimeException('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 
         $decrypted = Aes::decrypt(
-            base64_decode($content, true),
+            base64_decode($ciphertext, true),
             $this->aesKey,
             substr($this->aesKey, 0, 16),
             OPENSSL_NO_PADDING
         );
         $result = $this->pkcs7Unpad($decrypted);
-        $content = substr($result, 16, strlen($result));
-        $contentLen = unpack('N', substr($content, 0, 4))[1];
+        $ciphertext = substr($result, 16, strlen($result));
+        $contentLen = unpack('N', substr($ciphertext, 0, 4))[1];
 
-        if (trim(substr($content, $contentLen + 4)) !== $this->appId) {
+        if (trim(substr($ciphertext, $contentLen + 4)) !== $this->appId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
         }
 
-        return substr($content, 4, $contentLen);
+        return substr($ciphertext, 4, $contentLen);
     }
 
     public function signature(): string
@@ -113,7 +114,7 @@ class Encryptor
         $padding = $blockSize - (strlen($text) % $blockSize);
         $pattern = chr($padding);
 
-        return $text.str_repeat($pattern, $padding);
+        return $text . str_repeat($pattern, $padding);
     }
 
     public function pkcs7Unpad(string $text): string

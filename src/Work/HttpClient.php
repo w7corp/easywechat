@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
+use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
 use EasyWeChat\Kernel\Traits\AccessTokenAwareHttpClient;
 
-class HttpClient implements \EasyWeChat\Work\Contracts\HttpClient
+class HttpClient implements AccessTokenAwareHttpClientInterface
 {
     use AccessTokenAwareHttpClient;
 

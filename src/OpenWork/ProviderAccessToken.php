@@ -6,6 +6,7 @@ namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -74,5 +75,11 @@ class ProviderAccessToken implements AccessTokenInterface
         $this->cache->set($key, $response['provider_access_token'], \abs($response['expires_in'] - 100));
 
         return $response['provider_access_token'];
+    }
+
+    #[ArrayShape(['provider_access_token' => "string"])]
+    public function toQuery(): array
+    {
+        return ['provider_access_token' => $this->getToken()];
     }
 }

@@ -14,8 +14,8 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
-use EasyWeChat\OpenWork\Contracts\HttpClient as HttpClientInterface;
-use EasyWeChat\OpenWork\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 
 class Application implements ApplicationInterface
 {
