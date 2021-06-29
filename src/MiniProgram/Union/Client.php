@@ -173,4 +173,17 @@ class Client extends BaseClient
 
         return $this->httpGet('union/promoter/order/search', $params);
     }
+
+    /**
+     * Get featured products of union.
+     *
+     * @param  array  $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getFeaturedProducts(array $params)
+    {
+        return $this->httpGet('union/promoter/product/select', $params);
+    }
 }
