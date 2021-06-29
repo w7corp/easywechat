@@ -47,7 +47,7 @@ class Client extends BaseClient
     {
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_install'];
         $preAuthCode || $preAuthCode = $this->getPreAuthCode()['pre_auth_code'];
-        $state || $state = rand();
+        $state || $state = random_bytes(64);
 
         $params = [
             'suite_id' => $this->app['config']['suite_id'],
@@ -166,7 +166,7 @@ class Client extends BaseClient
     public function getOAuthRedirectUrl(string $redirectUri = '', string $scope = 'snsapi_userinfo', string $state = null)
     {
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_oauth'];
-        $state || $state = rand();
+        $state || $state = random_bytes(64);
         $params = [
             'appid' => $this->app['config']['suite_id'],
             'redirect_uri' => $redirectUri,
