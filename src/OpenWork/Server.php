@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Message;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
@@ -38,5 +41,10 @@ class Server implements ServerInterface
         );
 
         return $this;
+    }
+
+    public function transformResponse(array $response, Message $message): ResponseInterface
+    {
+        return ServerResponse::success();
     }
 }
