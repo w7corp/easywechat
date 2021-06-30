@@ -15,17 +15,17 @@ class Authorization implements \ArrayAccess, Jsonable, Arrayable
 
     public function getAppId(): ?string
     {
-        return $this->attributes['authorizer_appid'] ?? null;
+        return $this->attributes['authorization_info']['authorizer_appid'] ?? null;
     }
 
     #[Pure]
     public function getAccessToken(): AuthorizerAccessToken
     {
-        return new AuthorizerAccessToken($this->getAppId(), $this->attributes['authorizer_access_token'] ?? '');
+        return new AuthorizerAccessToken($this->getAppId(), $this->attributes['authorization_info']['authorizer_access_token'] ?? '');
     }
 
     public function getRefreshToken(): ?string
     {
-        return $this->attributes['authorizer_refresh_token'] ?? null;
+        return $this->attributes['authorization_info']['authorizer_refresh_token'] ?? null;
     }
 }

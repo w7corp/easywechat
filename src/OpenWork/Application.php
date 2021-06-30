@@ -162,10 +162,10 @@ class Application implements ApplicationInterface
             throw new HttpException('Failed to get auth_corp_info.');
         }
 
-        return new Authorization($response['auth_corp_info']);
+        return new Authorization($response);
     }
 
-    public function getAuthorizerAccessToken(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken): Authorization
+    public function getAuthorizerAccessToken(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken): AuthorizerAccessToken
     {
         $response = $this->getHttpClient()->request(
             'POST',

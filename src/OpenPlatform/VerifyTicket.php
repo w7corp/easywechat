@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\OpenPlatform\Contracts\SuiteTicket as VerifyTicketInterface;
+use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
-class SuiteTicket implements VerifyTicketInterface
+class VerifyTicket implements VerifyTicketInterface
 {
     protected CacheInterface $cache;
 

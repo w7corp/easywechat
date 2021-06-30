@@ -67,7 +67,7 @@ class Application implements ApplicationInterface
     public function getVerifyTicket(): VerifyTicketInterface
     {
         if (!$this->verifyTicket) {
-            $this->verifyTicket = new SuiteTicket(appId: $this->getAccount()->getAppId());
+            $this->verifyTicket = new VerifyTicket(appId: $this->getAccount()->getAppId());
         }
 
         return $this->verifyTicket;
@@ -164,6 +164,7 @@ class Application implements ApplicationInterface
             $this->componentAccessToken = new ComponentAccessToken(
                 appId: $this->getAccount()->getAppId(),
                 secret: $this->getAccount()->getSecret(),
+                verifyTicket: $this->getVerifyTicket(),
                 cache: $this->getCache(),
                 httpClient: $this->getHttpClient(),
             );
@@ -196,7 +197,7 @@ class Application implements ApplicationInterface
             throw new HttpException('Failed to get authorization_info.');
         }
 
-        return new Authorization($response['authorization_info']);
+        return new Authorization($response);
     }
 
     public function refreshAuthorizerToken(string $authorizerAppId, string $authorizerRefreshToken)
