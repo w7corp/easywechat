@@ -50,7 +50,79 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleBatchJobCompleted(callable | string $handler): static
+    public function handleUserCreated(callable | string $handler): static
+    {
+        $this->with(
+            function ($message, \Closure $next) use ($handler) {
+                return
+                    $message->Event === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message) : $next($message);
+            }
+        );
+
+        return $this;
+    }
+
+    public function handleUserUpdated(callable | string $handler): static
+    {
+        $this->with(
+            function ($message, \Closure $next) use ($handler) {
+                return
+                    $message->Event === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message) : $next($message);
+            }
+        );
+
+        return $this;
+    }
+
+    public function handleUserDeleted(callable | string $handler): static
+    {
+        $this->with(
+            function ($message, \Closure $next) use ($handler) {
+                return
+                    $message->Event === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message) : $next($message);
+            }
+        );
+
+        return $this;
+    }
+
+    public function handlePartyCreated(callable | string $handler): static
+    {
+        $this->with(
+            function ($message, \Closure $next) use ($handler) {
+                return
+                    $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message) : $next($message);
+            }
+        );
+
+        return $this;
+    }
+
+    public function handlePartyUpdated(callable | string $handler): static
+    {
+        $this->with(
+            function ($message, \Closure $next) use ($handler) {
+                return
+                    $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message) : $next($message);
+            }
+        );
+
+        return $this;
+    }
+
+    public function handlePartyDeleted(callable | string $handler): static
+    {
+        $this->with(
+            function ($message, \Closure $next) use ($handler) {
+                return
+                    $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message) : $next($message);
+            }
+        );
+
+        return $this;
+    }
+
+    public function handleBatchJobsFinished(callable | string $handler): static
     {
         $this->with(
             function ($message, \Closure $next) use ($handler) {
