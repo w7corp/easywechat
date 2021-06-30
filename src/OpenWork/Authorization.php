@@ -7,7 +7,6 @@ namespace EasyWeChat\OpenWork;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Traits\HasAttributes;
-use JetBrains\PhpStorm\Pure;
 
 class Authorization implements \ArrayAccess, Jsonable, Arrayable
 {
