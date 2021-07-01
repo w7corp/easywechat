@@ -7,8 +7,8 @@ namespace EasyWeChat\OfficialAccount;
 use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
+use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
-use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
@@ -22,13 +22,13 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithCache;
     use InteractWithServerRequest;
+    use InteractWithHttpClient;
     use InteractWithAccessTokenClient;
 
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $accessToken = null;
-    protected ?HttpClientInterface $httpClient = null;
     protected ?\Closure $oauthFactory;
 
     public function getAccount(): AccountInterface
@@ -93,23 +93,6 @@ class Application implements ApplicationInterface
     public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
-
-        return $this;
-    }
-
-    public function getHttpClient(): HttpClientInterface
-    {
-        if (!$this->httpClient) {
-            $this->httpClient = (new HttpClient())
-                ->withOptions($this->config->get('http', []));
-        }
-
-        return $this->httpClient;
-    }
-
-    public function setHttpClient(HttpClientInterface $httpClient): static
-    {
-        $this->httpClient = $httpClient;
 
         return $this;
     }

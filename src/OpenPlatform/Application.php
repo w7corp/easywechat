@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
+use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Kernel\Encryptor;
@@ -24,8 +25,9 @@ use Overtrue\Socialite\Providers\WeChat;
 
 class Application implements ApplicationInterface
 {
-    use InteractWithConfig;
     use InteractWithCache;
+    use InteractWithConfig;
+    use InteractWithHttpClient;
     use InteractWithServerRequest;
     use InteractWithAccessTokenClient;
 
@@ -33,16 +35,7 @@ class Application implements ApplicationInterface
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $componentAccessToken = null;
-    protected ?HttpClientInterface $httpClient = null;
     protected ?VerifyTicketInterface $verifyTicket = null;
-
-    /**
-     * @var array
-     */
-    public const DEFAULT_HTTP_OPTIONS = [
-        'timeout' => 30.0,
-        'base_uri' => 'https://api.weixin.qq.com/',
-    ];
 
     public function getAccount(): AccountInterface
     {
@@ -126,30 +119,9 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getClient(): UriBuilder
+    public function getAccessToken(): AccessTokenInterface
     {
-        if (!$this->client) {
-            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getComponentAccessToken()));
-        }
-
-        return $this->client;
-    }
-
-    public function getHttpClient(): HttpClientInterface
-    {
-        if (!$this->httpClient) {
-            $this->httpClient = (new HttpClient())
-                ->withOptions($this->config->get('http', []));
-        }
-
-        return $this->httpClient;
-    }
-
-    public function setHttpClient(HttpClientInterface $httpClient): static
-    {
-        $this->httpClient = $httpClient;
-
-        return $this;
+        return $this->getComponentAccessToken();
     }
 
     public function getComponentAccessToken(): AccessTokenInterface
@@ -194,7 +166,7 @@ class Application implements ApplicationInterface
         return new Authorization($response);
     }
 
-    public function refreshAuthorizerToken(string $authorizerAppId, string $authorizerRefreshToken)
+    public function refreshAuthorizerToken(string $authorizerAppId, string $authorizerRefreshToken): array
     {
         $response = $this->getHttpClient()->request(
             'POST',

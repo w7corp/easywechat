@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterfac
 use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
+use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
@@ -21,20 +22,12 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithCache;
     use InteractWithServerRequest;
+    use InteractWithHttpClient;
     use InteractWithAccessTokenClient;
 
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $accessToken = null;
-    protected ?HttpClientInterface $httpClient = null;
-
-    /**
-     * @var array
-     */
-    public const DEFAULT_HTTP_OPTIONS = [
-        'timeout' => 5.0,
-        'base_uri' => 'https://qyapi.weixin.qq.com/',
-    ];
 
     public function getAccount(): AccountInterface
     {
@@ -98,39 +91,6 @@ class Application implements ApplicationInterface
     public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
-
-        return $this;
-    }
-
-    public function getClient(): UriBuilder
-    {
-        if (!$this->client) {
-            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getAccessToken()));
-        }
-
-        return $this->client;
-    }
-
-    public function setClient(UriBuilder $client): static
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    public function getHttpClient(): HttpClientInterface
-    {
-        if (!$this->httpClient) {
-            $this->httpClient = (new HttpClient())
-                ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config->get('http', [])));
-        }
-
-        return $this->httpClient;
-    }
-
-    public function setHttpClient(HttpClientInterface $httpClient): static
-    {
-        $this->httpClient = $httpClient;
 
         return $this;
     }

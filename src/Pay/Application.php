@@ -24,7 +24,7 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     protected ?ConfigInterface $config = null;
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __construct(array | ConfigInterface $config)
     {

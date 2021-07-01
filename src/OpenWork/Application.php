@@ -8,9 +8,11 @@ use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
+use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
@@ -19,8 +21,9 @@ use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 
 class Application implements ApplicationInterface
 {
-    use InteractWithConfig;
     use InteractWithCache;
+    use InteractWithConfig;
+    use InteractWithHttpClient;
     use InteractWithServerRequest;
     use InteractWithAccessTokenClient;
 
@@ -28,15 +31,6 @@ class Application implements ApplicationInterface
     protected ?AccountInterface $account = null;
     protected ?Encryptor $encryptor = null;
     protected ?AccessTokenInterface $accessToken = null;
-    protected ?HttpClientInterface $httpClient = null;
-
-    /**
-     * @var array
-     */
-    public const DEFAULT_HTTP_OPTIONS = [
-        'timeout' => 5.0,
-        'base_uri' => 'https://qyapi.weixin.qq.com/',
-    ];
 
     public function getAccount(): AccountInterface
     {
@@ -104,21 +98,13 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getHttpClient(): HttpClientInterface
+    public function getClient(): UriBuilder
     {
-        if (!$this->httpClient) {
-            $this->httpClient = (new HttpClient())
-                ->withOptions($this->config->get('http', []));
+        if (!$this->client) {
+            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getProviderAccessToken()));
         }
 
-        return $this->httpClient;
-    }
-
-    public function setHttpClient(HttpClientInterface $httpClient): static
-    {
-        $this->httpClient = $httpClient;
-
-        return $this;
+        return $this->client;
     }
 
     public function getProviderAccessToken(): AccessTokenInterface
