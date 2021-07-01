@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount;
 
+use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
@@ -21,22 +22,14 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithCache;
     use InteractWithServerRequest;
+    use InteractWithAccessTokenClient;
 
-    protected ?UriBuilder $client = null;
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $accessToken = null;
     protected ?HttpClientInterface $httpClient = null;
     protected ?\Closure $oauthFactory;
-
-    /**
-     * @var array
-     */
-    public const DEFAULT_HTTP_OPTIONS = [
-        'timeout' => 30.0,
-        'base_uri' => 'https://api.weixin.qq.com/',
-    ];
 
     public function getAccount(): AccountInterface
     {
@@ -104,27 +97,11 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getClient(): UriBuilder
-    {
-        if (!$this->client) {
-            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getAccessToken()));
-        }
-
-        return $this->client;
-    }
-
-    public function setClient(UriBuilder $client): static
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
     public function getHttpClient(): HttpClientInterface
     {
         if (!$this->httpClient) {
             $this->httpClient = (new HttpClient())
-                ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config->get('http', [])));
+                ->withOptions($this->config->get('http', []));
         }
 
         return $this->httpClient;

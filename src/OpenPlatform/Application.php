@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
@@ -26,8 +27,8 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithCache;
     use InteractWithServerRequest;
+    use InteractWithAccessTokenClient;
 
-    protected ?UriBuilder $client = null;
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
@@ -134,18 +135,11 @@ class Application implements ApplicationInterface
         return $this->client;
     }
 
-    public function setClient(UriBuilder $client): static
-    {
-        $this->client = $client;
-
-        return $this;
-    }
-
     public function getHttpClient(): HttpClientInterface
     {
         if (!$this->httpClient) {
             $this->httpClient = (new HttpClient())
-                ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config->get('http', [])));
+                ->withOptions($this->config->get('http', []));
         }
 
         return $this->httpClient;

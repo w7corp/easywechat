@@ -54,7 +54,7 @@ trait AccessTokenAwareHttpClient
             $options['query'] = \array_merge($options['query'] ?? [], $this->accessToken->toQuery());
         }
 
-        return $this->client->request($method, $url, $options);
+        return $this->client->request($method, ltrim($url, '/'), $options);
     }
 
     public function __call(string $name, array $arguments)

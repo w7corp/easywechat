@@ -58,7 +58,7 @@ class ProviderAccessToken implements AccessTokenInterface
         }
 
         $response = $this->httpClient->request(
-            'GET',
+            'POST',
             'cgi-bin/service/get_provider_token',
             [
                 'json' => [
@@ -69,7 +69,7 @@ class ProviderAccessToken implements AccessTokenInterface
         )->toArray();
 
         if (empty($response['provider_access_token'])) {
-            throw new HttpException('Failed to get provider_access_token.');
+            throw new HttpException(\sprintf('Failed to get provider_access_token: %s.', \json_encode($response)));
         }
 
         $this->cache->set($key, $response['provider_access_token'], \abs($response['expires_in'] - 100));

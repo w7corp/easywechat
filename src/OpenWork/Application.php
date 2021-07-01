@@ -108,7 +108,7 @@ class Application implements ApplicationInterface
     {
         if (!$this->httpClient) {
             $this->httpClient = (new HttpClient())
-                ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config->get('http', [])));
+                ->withOptions($this->config->get('http', []));
         }
 
         return $this->httpClient;
