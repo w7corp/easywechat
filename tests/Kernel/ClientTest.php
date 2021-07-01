@@ -16,22 +16,22 @@ class ClientTest extends TestCase
         $client = new Client();
 
         // basic
-        $this->assertSame('/v3/pay/transactions/native', actual: $client->v3->pay->transactions->native->getUri());
+        $this->assertSame('v3/pay/transactions/native', actual: $client->v3->pay->transactions->native->getUri());
 
         // camel-case
-        $this->assertSame('/v3/merchant-service', $client->v3->merchantService->getUri());
+        $this->assertSame('v3/merchant-service', $client->v3->merchantService->getUri());
 
         // variable
         $merchantId = 11000000;
         $this->assertSame(
-            "/v3/combine-transactions/out-trade-no/{$merchantId}/close",
+            "v3/combine-transactions/out-trade-no/{$merchantId}/close",
             $client->v3->combineTransactions->outTradeNo->$merchantId->close->getUri()
         );
 
         // with basic uri
         $client = new Client(uri: 'v3/pay/');
 
-        $this->assertSame('/v3/pay/transactions/native', actual: $client->transactions->native->getUri());
+        $this->assertSame('v3/pay/transactions/native', actual: $client->transactions->native->getUri());
     }
 
     public function test_full_uri_call()

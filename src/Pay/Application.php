@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
-use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
+use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Application implements \EasyWeChat\Pay\Contracts\Application
 {
     use InteractWithConfig;
+    use InteractWithHttpClient;
 
-    public const DEFAULT_HTTP_OPTIONS = [
-        'base_uri' => 'https://api.mch.weixin.qq.com/',
-    ];
-
-    protected ?Client $v2Client = null;
-    protected ?Client $v3Client = null;
-    protected ?HttpClientInterface $httpClient = null;
+    protected ?HttpClientInterface $v2Client = null;
+    protected ?HttpClientInterface $v3Client = null;
     protected ?Merchant $merchant = null;
 
     public function getMerchant(): Merchant
@@ -37,29 +33,24 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         return $this->merchant;
     }
 
-    public function getHttpClient(): HttpClientInterface
+    public function decorateMerchantAwareHttpClient(HttpClientInterface $httpClient): MerchantAwareHttpClient
     {
-        if (!$this->httpClient) {
-            $this->httpClient = (new HttpClient($this->getMerchant()))
-                ->withOptions(\array_merge(self::DEFAULT_HTTP_OPTIONS, $this->config['http'] ?? []));
-        }
-
-        return $this->httpClient;
+        return new MerchantAwareHttpClient($this->getMerchant(), $httpClient, $this->config->get('http', []));
     }
 
-    public function getClient(): Client
+    public function getClient(): HttpClientInterface
     {
         if (!$this->v3Client) {
-            $this->v3Client = new Client(uri: '/v3/', client: $this->getHttpClient());
+            $this->v3Client = $this->decorateMerchantAwareHttpClient($this->getHttpClient())->withUri('v3');
         }
 
         return $this->v3Client;
     }
 
-    public function getV2Client(): Client
+    public function getV2Client(): HttpClientInterface
     {
         if (!$this->v2Client) {
-            $this->v2Client = new Client(uri: '/', client: $this->getHttpClient());
+            $this->v2Client = $this->decorateMerchantAwareHttpClient($this->getHttpClient());
         }
 
         return $this->v2Client;

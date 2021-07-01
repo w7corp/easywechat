@@ -15,7 +15,7 @@ trait InteractWithHttpClient
     public function getHttpClient(): HttpClientInterface
     {
         if (!$this->httpClient) {
-            $this->httpClient = $this->createHttpClient();
+            $this->httpClient = $this->withDefaultOptions($this->createHttpClient());
         }
 
         return $this->httpClient;
@@ -33,11 +33,19 @@ trait InteractWithHttpClient
         $scopedHttpClientClass = \sprintf('%s\HttpClient', (new \ReflectionClass($this))->getNamespaceName());
 
         if (\class_exists($scopedHttpClientClass)) {
-            $client = new $scopedHttpClientClass();
-        } else {
-            $client = HttpClient::create();
+            return new $scopedHttpClientClass();
         }
 
+        return HttpClient::create();
+    }
+
+    protected function getHttpClientDefaultOptions(): array
+    {
+        return [];
+    }
+
+    protected function withDefaultOptions(HttpClientInterface $client): HttpClientInterface
+    {
         $defaultOptions = $this->getHttpClientDefaultOptions();
 
         if (empty($defaultOptions['headers']['User-Agent'])) {
@@ -45,10 +53,5 @@ trait InteractWithHttpClient
         }
 
         return $client->withOptions($defaultOptions);
-    }
-
-    protected function getHttpClientDefaultOptions(): array
-    {
-        return [];
     }
 }

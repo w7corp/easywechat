@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Pay;
 
-use EasyWeChat\Kernel\Client;
 use EasyWeChat\Pay\Application;
-use EasyWeChat\Pay\HttpClient;
-use EasyWeChat\Pay\Merchant;
+use EasyWeChat\Pay\Contracts\Merchant;
+use EasyWeChat\Pay\MerchantAwareHttpClient;
 use EasyWeChat\Tests\TestCase;
+use Symfony\Component\HttpClient\CurlHttpClient;
 
 class ApplicationTest extends TestCase
 {
@@ -40,7 +40,7 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(HttpClient::class, $app->getHttpClient());
+        $this->assertInstanceOf(CurlHttpClient::class, $app->getHttpClient());
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
     }
 
@@ -56,10 +56,10 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(Client::class, $app->getClient());
+        $this->assertInstanceOf(MerchantAwareHttpClient::class, $app->getClient());
         $this->assertSame($app->getClient(), $app->getClient());
 
-        $this->assertSame('/v3/', $app->getClient()->getUri());
+        $this->assertSame('v3', $app->getClient()->getUri());
     }
 
     public function test_get_get_v2_client()
@@ -74,7 +74,7 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(Client::class, $app->getV2Client());
+        $this->assertInstanceOf(MerchantAwareHttpClient::class, $app->getV2Client());
         $this->assertSame($app->getV2Client(), $app->getV2Client());
 
         $this->assertSame('/', $app->getV2Client()->getUri());

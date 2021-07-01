@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Contracts\ChainableHttpClient as ChainableHttpClientInterface;
 use EasyWeChat\Kernel\Support\UserAgent;
+use EasyWeChat\Kernel\Traits\ChainableHttpClient;
 use Nyholm\Psr7\Stream;
 use Psr\Http\Message\RequestInterface;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
@@ -14,13 +16,20 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-class HttpClient implements HttpClientInterface
+class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClientInterface
 {
     use HttpClientTrait;
+    use ChainableHttpClient;
 
     protected HttpClientInterface $client;
 
-    protected array $defaultOptions = [];
+    protected array $defaultOptions = [
+        'base_uri' => 'https://api.mch.weixin.qq.com/',
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ],
+    ];
 
     public const V3_URI_PREFIXES = [
         '/v3/',
@@ -28,21 +37,9 @@ class HttpClient implements HttpClientInterface
         '/hk/v3/',
     ];
 
-    public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, ?array $defaultOptions = [])
+    public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, array $defaultOptions = [])
     {
-        $this->client = $client ?? SymfonyHttpClient::create();
-
-        $defaultOptions = \array_merge(
-            self::OPTIONS_DEFAULTS,
-            [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                ],
-            ]
-        );
-
-        [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
+        $this->client = ($client ?? SymfonyHttpClient::create())->withOptions(\array_merge($this->defaultOptions, $defaultOptions));
     }
 
     /**
@@ -55,8 +52,6 @@ class HttpClient implements HttpClientInterface
         $options['headers']['User-Agent'] = UserAgent::create([$options['headers']['User-Agent'] ?? '']);
 
         if ($this->isV3Request($request)) {
-            [, $options] = self::prepareRequest($method, $url, $options, $this->defaultOptions);
-
             if (!empty($options['body'])) {
                 $request = $request->withBody(Stream::create($options['body']));
             }
@@ -69,11 +64,6 @@ class HttpClient implements HttpClientInterface
         }
 
         return $this->client->request($method, $url, $options);
-    }
-
-    public function __call(string $name, array $arguments)
-    {
-        return \call_user_func_array([$this->client, $name], $arguments);
     }
 
     protected function isV3Request(RequestInterface $request): bool
