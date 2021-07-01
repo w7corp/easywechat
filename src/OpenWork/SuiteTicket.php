@@ -34,9 +34,6 @@ class SuiteTicket implements SuiteTicketInterface
         return $this;
     }
 
-    /**
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
     public function setTicket(string $ticket): static
     {
         $this->cache->set($this->getKey(), $ticket, 6000);
@@ -46,8 +43,7 @@ class SuiteTicket implements SuiteTicketInterface
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
+    src/Work/AccessToken.php*/
     public function getTicket(): string
     {
         $ticket = $this->cache->get($this->getKey());

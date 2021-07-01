@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterface;
+use EasyWeChat\Kernel\Support\UserAgent;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 trait InteractWithHttpClient
 {
@@ -27,7 +28,7 @@ trait InteractWithHttpClient
         return $this;
     }
 
-    protected function createHttpClient()
+    protected function createHttpClient(): HttpClientInterface
     {
         $scopedHttpClientClass = \sprintf('%s\HttpClient', (new \ReflectionClass($this))->getNamespaceName());
 
@@ -37,13 +38,17 @@ trait InteractWithHttpClient
             $client = HttpClient::create();
         }
 
-        $client->withOptions($this->getHttpClientDefaultOptions());
+        $defaultOptions = $this->getHttpClientDefaultOptions();
 
-        return $client;
+        if (empty($defaultOptions['headers']['User-Agent'])) {
+            $defaultOptions['headers']['User-Agent'] = UserAgent::create([$defaultOptions['headers']['User-Agent'] ?? '']);
+        }
+
+        return $client->withOptions($defaultOptions);
     }
 
-    protected function getHttpClientDefaultOptions()
+    protected function getHttpClientDefaultOptions(): array
     {
-        return $this->config->get('http', []);
+        return [];
     }
 }

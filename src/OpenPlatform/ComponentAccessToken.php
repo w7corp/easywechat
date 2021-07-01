@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
-use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -26,7 +26,7 @@ class ComponentAccessToken implements AccessTokenInterface
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null,
     ) {
-        $this->httpClient = $httpClient ?? new HttpClient();
+        $this->httpClient = $httpClient ?? new Client();
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
@@ -49,7 +49,6 @@ class ComponentAccessToken implements AccessTokenInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getToken(): string
     {
@@ -80,7 +79,7 @@ class ComponentAccessToken implements AccessTokenInterface
         return $response['component_access_token'];
     }
 
-    #[ArrayShape(['component_access_token' => "string"])]
+
     public function toQuery(): array
     {
         return ['component_access_token' => $this->getToken()];

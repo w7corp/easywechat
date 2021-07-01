@@ -41,7 +41,8 @@
     "mockery/mockery": "^1.4",
     "phpstan/phpstan": "^0.12",
     "phpunit/phpunit": "^9.5",
-    "symfony/var-dumper": "^5.2"
+    "symfony/var-dumper": "^5.2",
+    "vimeo/psalm": "^4.8"
   },
   "autoload": {
     "psr-4": {
@@ -57,6 +58,7 @@
     "hooks": {
       "pre-commit": [
         "composer check-style",
+        "composer psalm",
         "composer test"
       ],
       "pre-push": [
@@ -79,6 +81,7 @@
     "phpstan": "vendor/bin/phpstan analyse",
     "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --allow-risky=yes --ansi",
     "fix-style": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --allow-risky=yes --ansi",
-    "test": "vendor/bin/phpunit --colors=always --testdox"
+    "test": "vendor/bin/phpunit --colors=always --testdox",
+    "psalm": "vendor/bin/psalm"
   }
 }

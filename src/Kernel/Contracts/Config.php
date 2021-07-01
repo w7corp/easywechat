@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Contracts;
 
-interface Config
+interface Config extends \ArrayAccess
 {
     public function all(): array;
     public function has(string $key): bool;

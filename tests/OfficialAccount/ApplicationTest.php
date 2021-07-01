@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\OfficialAccount;
 
-use EasyWeChat\Kernel\UriBuilder;
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\OfficialAccount\AccessToken;
@@ -14,9 +14,8 @@ use EasyWeChat\OfficialAccount\Application;
 use EasyWeChat\OfficialAccount\Config;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
-use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
-use EasyWeChat\OfficialAccount\HttpClient;
 use EasyWeChat\OfficialAccount\Server;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
@@ -116,11 +115,11 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(UriBuilder::class, $app->getClient());
+        $this->assertInstanceOf(Client::class, $app->getClient());
         $this->assertSame($app->getClient(), $app->getClient());
 
         // set
-        $client = new UriBuilder();
+        $client = new Client();
         $app->setClient($client);
         $this->assertSame($client, $app->getClient());
     }
@@ -140,7 +139,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
 
         // set
-        $client = new HttpClient();
+        $client = new Client();
         $app->setHttpClient($client);
         $this->assertSame($client, $app->getHttpClient());
     }

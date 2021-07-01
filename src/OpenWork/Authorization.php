@@ -12,8 +12,8 @@ class Authorization implements \ArrayAccess, Jsonable, Arrayable
 {
     use HasAttributes;
 
-    public function getAppId(): ?string
+    public function getAppId(): string
     {
-        return $this->attributes['auth_corp_info']['corpid'] ?? null;
+        return $this->attributes['auth_corp_info']['corpid'];
     }
 }

@@ -59,12 +59,12 @@ trait InteractWithHandlers
         return $this;
     }
 
-    public function handle($result, $payload = null): mixed
+    public function handle(mixed $result, mixed $payload = null): mixed
     {
-        $next = \is_callable($result) ? $result : fn ($p) => $result;
+        $next = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
 
         foreach ($this->handlers as $handler) {
-            $next = fn ($p) => $handler($p, $next);
+            $next = fn (mixed $p): mixed => $handler($p, $next);
         }
 
         return $next($payload);

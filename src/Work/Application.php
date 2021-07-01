@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
-use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
+use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
@@ -21,8 +22,9 @@ class Application implements ApplicationInterface
     use InteractWithCache;
     use InteractWithServerRequest;
     use InteractWithHttpClient;
-    use InteractWithAccessTokenClient;
+    use InteractWithClient;
 
+    protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $accessToken = null;
@@ -112,5 +114,18 @@ class Application implements ApplicationInterface
         $this->accessToken = $accessToken;
 
         return $this;
+    }
+
+    public function createClient(): Client
+    {
+        return new Client($this->getHttpClient(), '', $this->getAccessToken());
+    }
+
+    protected function getHttpClientDefaultOptions(): array
+    {
+        return \array_merge(
+            ['base_uri' => 'https://qyapi.weixin.qq.com/',],
+            (array)$this->config->get('http', [])
+        );
     }
 }

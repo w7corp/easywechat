@@ -30,7 +30,7 @@ class Server implements ServerInterface
     public function handleContactChanged(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return $message->Event === 'change_contact' ? $handler($message) : $next($message);
             }
         );
@@ -41,7 +41,7 @@ class Server implements ServerInterface
     public function handleUserTagUpdated(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->Event === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler($message) : $next($message);
             }
@@ -53,7 +53,7 @@ class Server implements ServerInterface
     public function handleUserCreated(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->Event === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message) : $next($message);
             }
@@ -65,7 +65,7 @@ class Server implements ServerInterface
     public function handleUserUpdated(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->Event === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message) : $next($message);
             }
@@ -77,7 +77,7 @@ class Server implements ServerInterface
     public function handleUserDeleted(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->Event === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message) : $next($message);
             }
@@ -89,7 +89,7 @@ class Server implements ServerInterface
     public function handlePartyCreated(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message) : $next($message);
             }
@@ -101,7 +101,7 @@ class Server implements ServerInterface
     public function handlePartyUpdated(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message) : $next($message);
             }
@@ -113,7 +113,7 @@ class Server implements ServerInterface
     public function handlePartyDeleted(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message) : $next($message);
             }
@@ -125,7 +125,7 @@ class Server implements ServerInterface
     public function handleBatchJobsFinished(callable | string $handler): static
     {
         $this->with(
-            function ($message, \Closure $next) use ($handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return
                     $message->Event === 'batch_job_result' ? $handler($message) : $next($message);
             }

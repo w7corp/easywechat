@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
+use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
@@ -25,9 +26,9 @@ class Application implements ApplicationInterface
 {
     use InteractWithCache;
     use InteractWithConfig;
+    use InteractWithClient;
     use InteractWithHttpClient;
     use InteractWithServerRequest;
-    use InteractWithAccessTokenClient;
 
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
@@ -171,7 +172,7 @@ class Application implements ApplicationInterface
             'cgi-bin/component/api_authorizer_token',
             [
                 'json' => [
-                    'component_appid' => $this->account->getAppId(),
+                    'component_appid' => $this->getAccount()->getAppId(),
                     'authorizer_appid' => $authorizerAppId,
                     'authorizer_refresh_token' => $authorizerRefreshToken,
                 ],
@@ -255,5 +256,18 @@ class Application implements ApplicationInterface
                 'redirect_url' => $this->config->get('oauth.redirect_url'),
             ]
         ))->scopes($config->get('oauth.scopes', ['snsapi_userinfo']));
+    }
+
+    public function createClient(): Client
+    {
+        return new Client($this->getHttpClient(), '', $this->getComponentAccessToken());
+    }
+
+    protected function getHttpClientDefaultOptions(): array
+    {
+        return \array_merge(
+            ['base_uri' => 'https://api.weixin.qq.com/',],
+            (array)$this->config->get('http', [])
+        );
     }
 }

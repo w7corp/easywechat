@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount;
 
-use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
+use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
@@ -22,13 +23,13 @@ class Application implements ApplicationInterface
     use InteractWithCache;
     use InteractWithServerRequest;
     use InteractWithHttpClient;
-    use InteractWithAccessTokenClient;
+    use InteractWithClient;
 
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?AccessTokenInterface $accessToken = null;
-    protected ?\Closure $oauthFactory;
+    protected ?\Closure $oauthFactory = null;
 
     public function getAccount(): AccountInterface
     {
@@ -119,7 +120,7 @@ class Application implements ApplicationInterface
 
     public function setOAuthFactory(callable $factory): static
     {
-        $this->oauthFactory = fn ($app) => $factory($app);
+        $this->oauthFactory = fn (Application $app): WeChat => $factory($app);
 
         return $this;
     }
@@ -127,7 +128,7 @@ class Application implements ApplicationInterface
     public function getOAuth(): WeChat
     {
         if (!$this->oauthFactory) {
-            $this->oauthFactory = fn () => (new WeChat(
+            $this->oauthFactory = fn (self $app): WeChat => (new WeChat(
                 [
                     'client_id' => $this->getAccount()->getAppId(),
                     'client_secret' => $this->getAccount()->getSecret(),
@@ -137,5 +138,18 @@ class Application implements ApplicationInterface
         }
 
         return \call_user_func($this->oauthFactory, $this);
+    }
+
+    public function createClient(): Client
+    {
+        return new Client($this->getHttpClient(), '', $this->getAccessToken());
+    }
+
+    protected function getHttpClientDefaultOptions(): array
+    {
+        return \array_merge(
+            ['base_uri' => 'https://api.weixin.qq.com/'],
+            (array)$this->config->get('http', [])
+        );
     }
 }

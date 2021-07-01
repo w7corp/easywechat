@@ -9,7 +9,7 @@ use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 
 trait InteractWithConfig
 {
-    protected ?ConfigInterface $config = null;
+    protected ConfigInterface $config;
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException

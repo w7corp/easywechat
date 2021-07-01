@@ -38,17 +38,17 @@ trait HasAttributes
         return $this->attributes[$attribute] ?? null;
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists(string $offset): bool
     {
         return array_key_exists($offset, $this->attributes);
     }
 
-    public function offsetGet($offset): mixed
+    public function offsetGet(string $offset): mixed
     {
         return $this->attributes[$offset];
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(string $offset, mixed $value)
     {
         if (null === $offset) {
             $this->attributes[] = $value;
@@ -57,7 +57,7 @@ trait HasAttributes
         }
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(string $offset)
     {
         unset($this->attributes[$offset]);
     }

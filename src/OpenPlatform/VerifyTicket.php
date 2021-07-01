@@ -43,7 +43,6 @@ class VerifyTicket implements VerifyTicketInterface
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(): string
     {

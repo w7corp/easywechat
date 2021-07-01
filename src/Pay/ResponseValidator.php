@@ -16,5 +16,6 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
     public function validate(ResponseInterface $response): bool
     {
         //todo
+        return true;
     }
 }

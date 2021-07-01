@@ -33,7 +33,7 @@ class LegacySignature
         $attributes['key'] = $this->merchant->getSecretKey();
 
         if (!empty($params['sign_type']) && 'HMAC-SHA256' === $params['sign_type']) {
-            $signType = fn ($message) => hash_hmac('sha256', $message, $this->merchant->getSecretKey());
+            $signType = fn (string $message): string => hash_hmac('sha256', $message, $this->merchant->getSecretKey());
         } else {
             $signType = 'md5';
         }

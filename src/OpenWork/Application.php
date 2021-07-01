@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
+use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
-use EasyWeChat\Kernel\UriBuilder;
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
@@ -24,7 +24,7 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithHttpClient;
     use InteractWithServerRequest;
-    use InteractWithAccessTokenClient;
+    use InteractWithClient;
 
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
@@ -97,15 +97,6 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getClient(): UriBuilder
-    {
-        if (!$this->client) {
-            $this->client = new UriBuilder(client: $this->getHttpClient()->withAccessToken($this->getProviderAccessToken()));
-        }
-
-        return $this->client;
-    }
-
     public function getProviderAccessToken(): AccessTokenInterface
     {
         if (!$this->accessToken) {
@@ -171,5 +162,18 @@ class Application implements ApplicationInterface
         }
 
         return new AuthorizerAccessToken($corpId, accessToken: $response['access_token']);
+    }
+
+    public function createClient(): Client
+    {
+        return new Client($this->getHttpClient(), '', $this->getProviderAccessToken());
+    }
+
+    protected function getHttpClientDefaultOptions(): array
+    {
+        return \array_merge(
+            ['base_uri' => 'https://qyapi.weixin.qq.com/',],
+            (array)$this->config->get('http', [])
+        );
     }
 }

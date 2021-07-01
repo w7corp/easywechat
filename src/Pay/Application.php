@@ -4,36 +4,23 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
-use EasyWeChat\Kernel\UriBuilder;
+use EasyWeChat\Kernel\Traits\InteractWithConfig;
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Application implements \EasyWeChat\Pay\Contracts\Application
 {
-    /**
-     * @var array
-     */
+    use InteractWithConfig;
+
     public const DEFAULT_HTTP_OPTIONS = [
         'base_uri' => 'https://api.mch.weixin.qq.com/',
     ];
 
-    protected ?UriBuilder $v2Client = null;
-    protected ?UriBuilder $v3Client = null;
+    protected ?Client $v2Client = null;
+    protected ?Client $v3Client = null;
     protected ?HttpClientInterface $httpClient = null;
     protected ?Merchant $merchant = null;
-    protected ?ConfigInterface $config = null;
-
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function __construct(array | ConfigInterface $config)
-    {
-        if (\is_array($config)) {
-            $config = new Config($config);
-        }
-
-        $this->config = $config;
-    }
 
     public function getMerchant(): Merchant
     {
@@ -60,19 +47,19 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         return $this->httpClient;
     }
 
-    public function getClient(): UriBuilder
+    public function getClient(): Client
     {
         if (!$this->v3Client) {
-            $this->v3Client = new UriBuilder(uri: '/v3/', client: $this->getHttpClient());
+            $this->v3Client = new Client(uri: '/v3/', client: $this->getHttpClient());
         }
 
         return $this->v3Client;
     }
 
-    public function getV2Client(): UriBuilder
+    public function getV2Client(): Client
     {
         if (!$this->v2Client) {
-            $this->v2Client = new UriBuilder(uri: '/', client: $this->getHttpClient());
+            $this->v2Client = new Client(uri: '/', client: $this->getHttpClient());
         }
 
         return $this->v2Client;

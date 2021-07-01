@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork\Contracts;
 
 use EasyWeChat\Kernel\Contracts\AccessToken;
-use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient;
 use EasyWeChat\Kernel\Contracts\Server;
-use EasyWeChat\Kernel\UriBuilder;
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\Config;
 use EasyWeChat\Kernel\Encryptor;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 interface Application
 {
@@ -23,9 +23,9 @@ interface Application
 
     public function getRequest(): ServerRequestInterface;
 
-    public function getClient(): UriBuilder;
+    public function getClient(): Client;
 
-    public function getHttpClient(): AccessTokenAwareHttpClient;
+    public function getHttpClient(): HttpClientInterface;
 
     public function getConfig(): Config;
 

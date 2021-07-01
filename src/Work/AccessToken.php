@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use Psr\SimpleCache\CacheInterface;
@@ -23,7 +24,7 @@ class AccessToken implements AccessTokenInterface
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null,
     ) {
-        $this->httpClient = $httpClient ?? new HttpClient();
+        $this->httpClient = $httpClient ?? new Client();
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
@@ -40,13 +41,13 @@ class AccessToken implements AccessTokenInterface
     }
 
     /**
+     * @return string
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getToken(): string
     {
@@ -71,8 +72,14 @@ class AccessToken implements AccessTokenInterface
             throw new HttpException('Failed to get access_token.');
         }
 
-        $this->cache->set($key, $response['access_token'], \abs($response['expires_in'] - 100));
+        $this->cache->set($key, $response['access_token'], \intval($response['expires_in']));
 
         return $response['access_token'];
+    }
+
+
+    public function toQuery(): array
+    {
+        return ['access_token' => $this->getToken()];
     }
 }

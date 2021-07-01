@@ -10,7 +10,7 @@ class Account implements AccountInterface
 {
     public function __construct(
         protected string $appId,
-        protected ?string $secret,
+        protected string $secret,
         protected ?string $token = null,
         protected ?string $aesKey = null
     ) {
@@ -21,7 +21,7 @@ class Account implements AccountInterface
         return $this->appId;
     }
 
-    public function getSecret(): ?string
+    public function getSecret(): string
     {
         return $this->secret;
     }

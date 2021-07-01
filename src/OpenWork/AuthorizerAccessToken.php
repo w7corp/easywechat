@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
-use JetBrains\PhpStorm\ArrayShape;
 use Stringable;
 use EasyWeChat\Kernel\Contracts\AccessToken;
 
@@ -29,7 +28,7 @@ class AuthorizerAccessToken implements AccessToken, Stringable
         return $this->accessToken;
     }
 
-    #[ArrayShape(['access_token' => "string"])]
+
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];

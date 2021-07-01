@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Message;
-use EasyWeChat\Kernel\ServerResponse;
+use EasyWeChat\Kernel\Support\Xml;
+use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 trait InteractWithXmlMessage
@@ -20,7 +22,7 @@ trait InteractWithXmlMessage
     public function serve(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new ServerResponse(200, [], $str);
+            return new Response(200, [], $str);
         }
 
         $this->withMessageValidationHandler();
@@ -31,18 +33,14 @@ trait InteractWithXmlMessage
             throw new RuntimeException($messageClass . ' not found.');
         }
 
-        $message = \call_user_func_array(
-            [
-                $messageClass,
-                'createFromRequest',
-            ],
+        $message = \call_user_func_array([$messageClass, 'createFromRequest',],
             [
                 $this->request,
                 $this->encryptor,
             ]
         );
 
-        $response = $this->handle(ServerResponse::success(), $message);
+        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;
@@ -59,7 +57,7 @@ trait InteractWithXmlMessage
     public function withMessageValidationHandler(): static
     {
         return $this->withHandler(
-            function ($message, \Closure $next) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) {
                 $query = $this->request->getQueryParams();
                 $signature = $query['signature'] ?? $query['msg_signature'] ?? null;
 
@@ -81,10 +79,10 @@ trait InteractWithXmlMessage
     /**
      * @throws \Throwable
      */
-    public function addMessageListener(string $type, $handler): static
+    public function addMessageListener(string $type, callable | string $handler): static
     {
         $this->withHandler(
-            function ($message, \Closure $next) use ($type, $handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($type, $handler): mixed {
                 return $message->MsgType === $type ? $handler($message) : $next($message);
             }
         );
@@ -95,10 +93,10 @@ trait InteractWithXmlMessage
     /**
      * @throws \Throwable
      */
-    public function addEventListener(string $event, $handler): static
+    public function addEventListener(string $event, callable | string $handler): static
     {
         $this->withHandler(
-            function ($message, \Closure $next) use ($event, $handler) {
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($event, $handler): mixed {
                 return $message->Event === $event ? $handler($message) : $next($message);
             }
         );
@@ -106,21 +104,20 @@ trait InteractWithXmlMessage
         return $this;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
-    public function transformResponse(array $response, Message $message): ServerResponse
+    public function transformResponse(array $response, Message $message): ResponseInterface
     {
         $currentTime = \time();
 
-        return ServerResponse::xml(
-            attributes: \array_merge(
-                [
-                    'ToUserName' => $message->FromUserName,
-                    'FromUserName' => $message->ToUserName,
-                    'CreateTime' => $currentTime,
-                ],
-                $response
+        return $this->createXmlResponse(
+            attributes: array_filter(
+                \array_merge(
+                    [
+                                    'ToUserName' => $message->FromUserName,
+                                    'FromUserName' => $message->ToUserName,
+                                    'CreateTime' => $currentTime,
+                                ],
+                    $response
+                )
             ),
             encryptor: $this->encryptor
         );
@@ -129,7 +126,7 @@ trait InteractWithXmlMessage
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function normalizeResponse($response): array
+    public function normalizeResponse(mixed $response): array
     {
         if (\is_array($response)) {
             if (!isset($response['MsgType'])) {
@@ -149,5 +146,26 @@ trait InteractWithXmlMessage
         throw new InvalidArgumentException(
             sprintf('Invalid Response type "%s".', gettype($response))
         );
+    }
+
+    protected function createXmlResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface
+    {
+        $xml = Xml::build($attributes);
+
+        if ($encryptor) {
+            $time = $attributes['CreateTime'] ?? \time();
+            $nonce = $attributes['nonce'] ?? \uniqid();
+
+            $xml = Xml::build(
+                [
+                    'MsgType' => $attributes['MsgType'] ?? 'text',
+                    'Encrypt' => $encryptor->encrypt($xml, $nonce, $time),
+                    'TimeStamp' => $time,
+                    'Nonce' => $nonce,
+                ]
+            );
+        }
+
+        return new Response(200, ['Content-Type' => 'application/xml'], $xml);
     }
 }
