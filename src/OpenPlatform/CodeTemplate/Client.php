@@ -37,16 +37,18 @@ class Client extends BaseClient
      * 将草稿箱的草稿选为小程序代码模版.
      *
      * @param int $draftId
+     * @param int $templateType
      *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function createFromDraft(int $draftId)
+    public function createFromDraft(int $draftId, int $templateType = 0)
     {
         $params = [
             'draft_id' => $draftId,
+            'template_type' => $templateType,
         ];
 
         return $this->httpPostJson('wxa/addtotemplate', $params);
@@ -55,14 +57,20 @@ class Client extends BaseClient
     /**
      * 获取代码模版库中的所有小程序代码模版.
      *
+     * @param $templateType
+     *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function list()
+    public function list($templateType = null)
     {
-        return $this->httpGet('wxa/gettemplatelist');
+        $params = [
+            'template_type' => $templateType,
+        ];
+
+        return $this->httpGet('wxa/gettemplatelist', $params);
     }
 
     /**
