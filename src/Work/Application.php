@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
-use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterface;
 use EasyWeChat\Kernel\Traits\InteractWithAccessTokenClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -12,7 +11,6 @@ use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
-use EasyWeChat\Kernel\UriBuilder;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;

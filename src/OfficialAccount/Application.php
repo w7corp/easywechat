@@ -13,7 +13,6 @@ use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
-use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as HttpClientInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Overtrue\Socialite\Providers\WeChat;
 
