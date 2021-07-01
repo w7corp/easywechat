@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
 use EasyWeChat\Kernel\Client;
 
 trait InteractWithClient

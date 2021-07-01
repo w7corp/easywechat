@@ -33,7 +33,8 @@ trait InteractWithXmlMessage
             throw new RuntimeException($messageClass . ' not found.');
         }
 
-        $message = \call_user_func_array([$messageClass, 'createFromRequest',],
+        $message = \call_user_func_array(
+            [$messageClass, 'createFromRequest',],
             [
                 $this->request,
                 $this->encryptor,
