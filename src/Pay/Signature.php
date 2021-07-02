@@ -18,6 +18,7 @@ class Signature
         $body = '';
         $nonce = \uniqid('nonce');
         $timestamp = \time();
+        $path = '/'.\ltrim($request->getUri()->getPath(), '/');
 
         if ($request->getBody()->isSeekable()) {
             $body = \strval($request->getBody());
@@ -25,7 +26,7 @@ class Signature
         }
 
         $message = $request->getMethod()."\n".
-                   $request->getUri()->getPath()."\n".
+                   $path."\n".
                    $timestamp."\n".
                    $nonce."\n".
                    $body."\n";
