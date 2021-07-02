@@ -32,9 +32,9 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
     ];
 
     public const V3_URI_PREFIXES = [
-        'v3/',
-        'sandbox/v3/',
-        'hk/v3/',
+        '/v3/',
+        '/sandbox/v3/',
+        '/hk/v3/',
     ];
 
     public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, array $defaultOptions = [])
@@ -69,7 +69,7 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
     protected function isV3Request(RequestInterface $request): bool
     {
         foreach (self::V3_URI_PREFIXES as $prefix) {
-            if (\str_starts_with(ltrim($request->getUri()->getPath(), '/'), $prefix)) {
+            if (\str_starts_with('/'.ltrim($request->getUri()->getPath(), '/'), $prefix)) {
                 return true;
             }
         }
