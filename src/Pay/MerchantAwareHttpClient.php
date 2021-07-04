@@ -8,7 +8,7 @@ use EasyWeChat\Kernel\Contracts\ChainableHttpClient as ChainableHttpClientInterf
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Traits\ChainableHttpClient;
 use Nyholm\Psr7\Stream;
-use Psr\Http\Message\RequestInterface;
+use Nyholm\Psr7\Uri;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\Psr18Client;
@@ -47,11 +47,12 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
-        $request = (new Psr18Client())->createRequest($method, $url);
-
         $options['headers']['User-Agent'] = UserAgent::create([$options['headers']['User-Agent'] ?? '']);
 
-        if ($this->isV3Request($request)) {
+        if ($this->isV3Request($url)) {
+            [$url, $options] = self::prepareRequest($method, $url, $options, $this->defaultOptions);
+            $request = (new Psr18Client())->createRequest($method, $url);
+
             if (!empty($options['body'])) {
                 $request = $request->withBody(Stream::create($options['body']));
             }
@@ -66,10 +67,12 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
         return $this->client->request($method, $url, $options);
     }
 
-    protected function isV3Request(RequestInterface $request): bool
+    protected function isV3Request(string $url): bool
     {
+        $uri = new Uri($url);
+
         foreach (self::V3_URI_PREFIXES as $prefix) {
-            if (\str_starts_with('/'.ltrim($request->getUri()->getPath(), '/'), $prefix)) {
+            if (\str_starts_with('/'.ltrim($uri->getPath(), '/'), $prefix)) {
                 return true;
             }
         }
