@@ -47,9 +47,11 @@ trait InteractWithXmlMessage
             return $response;
         }
 
-        $response = $this->normalizeResponse($response);
+        $response = $this->transformResponse($this->normalizeResponse($response), $message);
 
-        return $this->transformResponse($response, $message);
+        $response->getBody()->rewind();
+
+        return $response;
     }
 
     /**
