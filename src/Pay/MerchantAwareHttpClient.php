@@ -50,8 +50,17 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
         $options['headers']['User-Agent'] = UserAgent::create([$options['headers']['User-Agent'] ?? '']);
 
         if ($this->isV3Request($url)) {
-            [$url, $options] = self::prepareRequest($method, $url, $options, $this->defaultOptions);
-            $request = (new Psr18Client())->createRequest($method, $url);
+            $psrRequestUrl = self::parseUrl($url, $options['query'] ?? []);
+
+            $baseUri = $options['base_uri'] ?? $this->defaultOptions['base_uri'] ?? null;
+
+            if (\is_string($baseUri ?? null)) {
+                $baseUri = self::parseUrl($baseUri);
+            }
+
+            $psrRequestUrl = implode('', self::resolveUrl($psrRequestUrl, $baseUri));
+
+            $request = (new Psr18Client())->createRequest($method, $psrRequestUrl);
 
             if (!empty($options['body'])) {
                 $request = $request->withBody(Stream::create($options['body']));
@@ -72,7 +81,7 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
         $uri = new Uri($url);
 
         foreach (self::V3_URI_PREFIXES as $prefix) {
-            if (\str_starts_with('/'.ltrim($uri->getPath(), '/'), $prefix)) {
+            if (\str_starts_with('/' . ltrim($uri->getPath(), '/'), $prefix)) {
                 return true;
             }
         }
