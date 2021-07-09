@@ -17,6 +17,7 @@ use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use Overtrue\Socialite\Providers\WeWork;
 
 class Application implements ApplicationInterface
 {
@@ -141,8 +142,11 @@ class Application implements ApplicationInterface
         return new Authorization($response);
     }
 
-    public function getAuthorizerAccessToken(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken): AuthorizerAccessToken
-    {
+    public function getAuthorizerAccessToken(
+        string $corpId,
+        string $permanentCode,
+        AccessTokenInterface $suiteAccessToken
+    ): AuthorizerAccessToken {
         $response = $this->getHttpClient()->request(
             'POST',
             'cgi-bin/service/get_corp_token',
@@ -167,6 +171,29 @@ class Application implements ApplicationInterface
     public function createClient(): Client
     {
         return new Client($this->getHttpClient(), '', $this->getProviderAccessToken());
+    }
+
+    public function getOAuth(string $suiteId, AccessTokenInterface $suiteAccessToken): WeWork
+    {
+        return (new WeWork(
+            [
+                'client_id' => $suiteId,
+                'redirect_url' => $this->config->get('oauth.redirect_url'),
+            ]
+        ))->withApiAccessToken($suiteAccessToken->getToken())
+            ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
+    }
+
+    public function getCorpOAuth(string $corpId, int $agentId, AccessTokenInterface $suiteAccessToken): WeWork
+    {
+        return (new WeWork(
+            [
+                'client_id' => $corpId,
+                'redirect_url' => $this->config->get('oauth.redirect_url'),
+            ]
+        ))->setAgentId($agentId)
+            ->withApiAccessToken($suiteAccessToken->getToken())
+            ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
     protected function getHttpClientDefaultOptions(): array

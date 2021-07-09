@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use Overtrue\Socialite\Providers\WeWork;
 
 class Application implements ApplicationInterface
 {
@@ -119,6 +120,18 @@ class Application implements ApplicationInterface
     public function createClient(): Client
     {
         return new Client($this->getHttpClient(), '', $this->getAccessToken());
+    }
+
+    public function getOAuth(): WeWork
+    {
+        return (new WeWork(
+            [
+                'client_id' => $this->getAccount()->getCorpId(),
+                'client_secret' => $this->getAccount()->getSecret(),
+                'redirect_url' => $this->config->get('oauth.redirect_url'),
+            ]
+        ))->withApiAccessToken($this->getAccessToken()->getToken())
+            ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
     protected function getHttpClientDefaultOptions(): array

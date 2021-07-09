@@ -18,18 +18,19 @@ class Signature
         $body = '';
         $nonce = \uniqid('nonce');
         $timestamp = \time();
-        $path = '/'.\ltrim($request->getUri()->getPath(), '/');
+        $query = $request->getUri()->getQuery();
+        $path = '/' . \ltrim((string)$request->getUri() . empty($query) ? '' : '?' . $query, '/');
 
         if ($request->getBody()->isSeekable()) {
             $body = \strval($request->getBody());
             $request->getBody()->rewind();
         }
 
-        $message = $request->getMethod()."\n".
-                   $path."\n".
-                   $timestamp."\n".
-                   $nonce."\n".
-                   $body."\n";
+        $message = $request->getMethod() . "\n" .
+            $path . "\n" .
+            $timestamp . "\n" .
+            $nonce . "\n" .
+            $body . "\n";
 
         \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
