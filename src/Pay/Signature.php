@@ -19,6 +19,8 @@ class Signature
         $nonce = \uniqid('nonce');
         $timestamp = \time();
         $path = '/'.\ltrim($request->getUri()->getPath(), '/');
+        $query = $request->getUri()->getQuery();
+        $fullUrl = $path.($query ? '?'.$query : '');
 
         if ($request->getBody()->isSeekable()) {
             $body = \strval($request->getBody());
@@ -26,7 +28,7 @@ class Signature
         }
 
         $message = $request->getMethod()."\n".
-                   $path."\n".
+                   $fullUrl."\n".
                    $timestamp."\n".
                    $nonce."\n".
                    $body."\n";
