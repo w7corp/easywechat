@@ -32,8 +32,6 @@ class Signature
             $nonce . "\n" .
             $body . "\n";
 
-        var_dump($message);
-
         \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
         return sprintf(
