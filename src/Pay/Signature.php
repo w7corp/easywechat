@@ -19,7 +19,7 @@ class Signature
         $nonce = \uniqid('nonce');
         $timestamp = \time();
         $query = $request->getUri()->getQuery();
-        $path = '/' . \ltrim((string)$request->getUri() . empty($query) ? '' : '?' . $query, '/');
+        $path = '/' . \ltrim((string)$request->getUri()->getPath() .(empty($query) ? '' : '?' . $query), '/');
 
         if ($request->getBody()->isSeekable()) {
             $body = \strval($request->getBody());
@@ -31,6 +31,8 @@ class Signature
             $timestamp . "\n" .
             $nonce . "\n" .
             $body . "\n";
+
+        var_dump($message);
 
         \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
