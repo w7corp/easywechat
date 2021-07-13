@@ -58,6 +58,7 @@ class Client extends BaseClient
             'total_num' => 1,
             'client_ip' => $params['client_ip'] ?? Support\get_server_ip(),
             'wxappid' => $this->app['config']->app_id,
+            'notify_way' => 'MINI_PROGRAM_JSAPI',
         ];
 
         return $this->safeRequest('mmpaymkttransfers/sendminiprogramhb', array_merge($base, $params));
