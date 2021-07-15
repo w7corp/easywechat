@@ -419,11 +419,11 @@ class Client extends BaseClient
             "id" => $id
         ];
 
-        if (!\is_null($name)){
+        if (!\is_null($name)) {
             $params['name'] = $name;
         }
 
-        if (!\is_null($order)){
+        if (!\is_null($order)) {
             $params['order'] = $order;
         }
 
