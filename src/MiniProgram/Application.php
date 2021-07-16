@@ -46,6 +46,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\UrlScheme\Client           $url_scheme
  * @property \EasyWeChat\MiniProgram\Union\Client               $union
  * @property \EasyWeChat\MiniProgram\Shop\Register\Client       $shop_register
+ * @property \EasyWeChat\MiniProgram\Shop\Basic\Client          $shop_basic
  */
 class Application extends ServiceContainer
 {
@@ -81,6 +82,7 @@ class Application extends ServiceContainer
         BasicService\ContentSecurity\ServiceProvider::class,
 
         Shop\Register\ServiceProvider::class,
+        Shop\Basic\ServiceProvider::class,
     ];
 
     /**
