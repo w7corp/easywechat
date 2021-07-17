@@ -29,7 +29,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->sceneCheck($scene));
     }
-    
+
     /**
      * 生成订单
      */
