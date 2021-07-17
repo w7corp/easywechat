@@ -49,7 +49,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Shop\Basic\Client          $shop_basic
  * @property \EasyWeChat\MiniProgram\Shop\Account\Client        $shop_account
  * @property \EasyWeChat\MiniProgram\Shop\Spu\Client            $shop_spu
- * @property \EasyWeChat\MiniProgram\Shop\Order\Client          $shop_order·
+ * @property \EasyWeChat\MiniProgram\Shop\Order\Client          $shop_order
  */
 class Application extends ServiceContainer
 {
