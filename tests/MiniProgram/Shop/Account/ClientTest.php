@@ -47,7 +47,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
         $path = 'pages/home/index';
-        $phone= '13904118888';
+        $phone = '13904118888';
 
         $client->expects()->httpPostJson('shop/account/update_info', [
             'service_agent_path' => $path,
