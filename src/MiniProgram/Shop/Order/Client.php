@@ -24,7 +24,7 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('shop/scene/check', ['scene' => $scene]);
     }
-    
+
     /**
      * 生成订单
      *
