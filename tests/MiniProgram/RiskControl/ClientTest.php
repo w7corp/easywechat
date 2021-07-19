@@ -11,7 +11,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class)->makePartial();
 
-        $client->expects()->httpPost('wxa/getuserriskrank', [
+        $client->expects()->httpPostJson('wxa/getuserriskrank', [
             'appid' => 'wx3cf0f39249eb0exx',
             'openid' => 'oahdg5c5ON6vtkUXLduLVKvzJzmM',
             'scene' => 0,
