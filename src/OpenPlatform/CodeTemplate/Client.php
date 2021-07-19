@@ -57,14 +57,14 @@ class Client extends BaseClient
     /**
      * 获取代码模版库中的所有小程序代码模版.
      *
-     * @param $templateType
+     * @param int $templateType
      *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function list($templateType = null)
+    public function list(int $templateType = null)
     {
         $params = [
             'template_type' => $templateType,

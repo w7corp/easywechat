@@ -14,7 +14,7 @@ namespace EasyWeChat\Kernel\Messages;
 /**
  * Class ReplyInteractiveTaskCard
  *
- * @property string replace_name
+ * @property array{'replace_name':string} $properties
  *
  * @description 专门为回复 InteractiveTaskCard 类型任务卡片消息而创建的类型
  * @author      xyj2156
