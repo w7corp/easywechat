@@ -52,6 +52,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Shop\Order\Client          $shop_order
  * @property \EasyWeChat\MiniProgram\Shop\Delivery\Client       $shop_delivery
  * @property \EasyWeChat\MiniProgram\Shop\Aftersale\Client      $shop_aftersale
+ * @property \EasyWeChat\MiniProgram\Business\Client            $business
  */
 class Application extends ServiceContainer
 {
