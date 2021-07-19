@@ -29,7 +29,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, []);
 
-        $client->expects()->httpPostJson('wxa/addtotemplate', ['draft_id' => 123])->andReturn('mock-result');
+        $client->expects()->httpPostJson('wxa/addtotemplate', ['draft_id' => 123, 'template_type' => 0])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->createFromDraft(123));
     }
@@ -38,7 +38,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class, []);
 
-        $client->expects()->httpGet('wxa/gettemplatelist')->andReturn('mock-result');
+        $client->expects()->httpGet('wxa/gettemplatelist', ['template_type' => null])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->list());
     }

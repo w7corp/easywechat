@@ -173,7 +173,7 @@ class ClientTest extends TestCase
             'takeover_userid' => 'lisi',
             'cursor' => 'cursor',
         ];
-        $client->expects()->httpPostJson('cgi-bin/externalcontact/get_transfer_result', $params)->andReturn('mock-result');
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/resigned/transfer_result', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->transferResult('zhangsan', 'lisi', 'cursor'));
     }
