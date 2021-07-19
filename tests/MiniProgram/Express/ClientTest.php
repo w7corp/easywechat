@@ -25,6 +25,15 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->listProviders());
     }
 
+    public function testGetAllAccount()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpGet('cgi-bin/express/business/account/getall')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getAllAccount());
+    }
+
     public function testCreateWaybill()
     {
         $client = $this->mockApiClient(Client::class);

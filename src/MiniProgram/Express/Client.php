@@ -31,6 +31,16 @@ class Client extends BaseClient
     }
 
     /**
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getAllAccount()
+    {
+        return $this->httpGet('cgi-bin/express/business/account/getall');
+    }
+
+    /**
      * @param array $params
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
