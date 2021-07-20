@@ -94,6 +94,7 @@ class Application extends ServiceContainer
         Shop\Order\ServiceProvider::class,
         Shop\Delivery\ServiceProvider::class,
         Shop\Aftersale\ServiceProvider::class,
+        Business\ServiceProvider::class,
     ];
 
     /**
