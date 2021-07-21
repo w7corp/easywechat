@@ -61,6 +61,7 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
             $psrRequestUrl = implode('', self::resolveUrl($psrRequestUrl, $baseUri));
 
             $request = (new Psr18Client())->createRequest($method, $psrRequestUrl);
+
             if (!empty($options['body'])) {
                 $request = $request->withBody(Stream::create($options['body']));
             } elseif (!empty($options['json'])) {
