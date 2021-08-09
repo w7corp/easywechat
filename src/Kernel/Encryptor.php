@@ -41,7 +41,7 @@ class Encryptor
         return $this->token;
     }
 
-    public function encrypt(string $xml, string | null $nonce = null, int $timestamp = null): string
+    public function encrypt(string $xml, string | null $nonce = null, int | string $timestamp = null): string
     {
         try {
             $xml = $this->pkcs7Pad(\random_bytes(16) . pack('N', strlen($xml)) . $xml . $this->appId, $this->blockSize);
@@ -73,7 +73,7 @@ class Encryptor
         return Xml::build($response);
     }
 
-    public function decrypt(string $ciphertext, string $msgSignature, string $nonce, int $timestamp): string
+    public function decrypt(string $ciphertext, string $msgSignature, string $nonce, int | string $timestamp): string
     {
         $signature = $this->signature($this->token, $timestamp, $nonce, $ciphertext);
 

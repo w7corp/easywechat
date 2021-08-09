@@ -151,6 +151,9 @@ trait InteractWithXmlMessage
         );
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
     protected function createXmlResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface
     {
         $xml = Xml::build($attributes);
