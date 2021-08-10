@@ -28,7 +28,6 @@ class AuthorizerAccessToken implements AccessToken, Stringable
         return $this->accessToken;
     }
 
-
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];

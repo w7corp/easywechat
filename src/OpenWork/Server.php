@@ -19,6 +19,8 @@ class Server implements ServerInterface
     use InteractWithHandlers;
     use InteractWithXmlMessage;
 
+    protected \Closure | null $defaultSuiteTicketHandler = null;
+
     /**
      * @throws \Throwable
      */
@@ -26,7 +28,17 @@ class Server implements ServerInterface
         protected AccountInterface $account,
         protected ServerRequestInterface $request,
         protected Encryptor $encryptor,
+        protected Encryptor $suiteEncryptor
     ) {
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function withDefaultSuiteTicketHandler(callable | string $handler)
+    {
+        $this->defaultSuiteTicketHandler = fn () => $handler(...\func_get_args());
+        $this->handleSuiteTicketRefreshed($this->defaultSuiteTicketHandler);
     }
 
     /**
@@ -34,6 +46,10 @@ class Server implements ServerInterface
      */
     public function handleSuiteTicketRefreshed(callable | string $handler): static
     {
+        if ($this->defaultSuiteTicketHandler) {
+            $this->withoutHandler($this->defaultSuiteTicketHandler);
+        }
+
         $this->with(
             function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
                 return $message->InfoType === 'suite_ticket' ? $handler($message) : $next($message);

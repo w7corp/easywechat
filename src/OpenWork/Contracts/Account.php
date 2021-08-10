@@ -10,6 +10,10 @@ interface Account
 
     public function getProviderSecret(): string;
 
+    public function getSuiteId(): string;
+
+    public function getSuiteSecret(): string;
+
     public function getToken(): ?string;
 
     public function getAesKey(): ?string;

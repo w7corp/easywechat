@@ -19,6 +19,8 @@ interface Application
 
     public function getEncryptor(): Encryptor;
 
+    public function getSuiteEncryptor(): Encryptor;
+
     public function getServer(): Server;
 
     public function getRequest(): ServerRequestInterface;
