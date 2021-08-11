@@ -103,13 +103,13 @@ trait InteractWithXmlMessage
         return $this->createXmlResponse(
             attributes: array_filter(
                 \array_merge(
-                                [
+                    [
                                     'ToUserName' => $message->FromUserName,
                                     'FromUserName' => $message->ToUserName,
                                     'CreateTime' => $currentTime,
                                 ],
-                                $response
-                            )
+                    $response
+                )
             ),
             encryptor: $this->encryptor
         );
