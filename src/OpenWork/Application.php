@@ -110,8 +110,8 @@ class Application implements ApplicationInterface
             $this->server = new Server(
                 account: $this->getAccount(),
                 request: $this->getRequest(),
-                encryptor: $this->getEncryptor(),
-                suiteEncryptor: $this->getSuiteEncryptor(),
+                encryptor: $this->getSuiteEncryptor(),
+                providerEncryptor: $this->getEncryptor(),
             );
 
             $this->server->withDefaultSuiteTicketHandler(function (\EasyWeChat\Kernel\Message $message, \Closure $next): mixed {

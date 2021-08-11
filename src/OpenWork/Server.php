@@ -11,6 +11,7 @@ use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Nyholm\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -28,7 +29,7 @@ class Server implements ServerInterface
         protected AccountInterface $account,
         protected ServerRequestInterface $request,
         protected Encryptor $encryptor,
-        protected Encryptor $suiteEncryptor
+        protected Encryptor $providerEncryptor
     ) {
     }
 
@@ -189,6 +190,14 @@ class Server implements ServerInterface
         );
 
         return $this;
+    }
+
+    protected function handleUrlValidate(RequestInterface $request, mixed $str): Response
+    {
+        $query = $this->request->getQueryParams();
+        $response = $this->providerEncryptor->decrypt($str, $query['msg_signature'], $query['nonce'], $query['timestamp']);
+
+        return new Response(200, [], $response);
     }
 
     public function transformResponse(array $response, Message $message): ResponseInterface

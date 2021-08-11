@@ -11,6 +11,7 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\Support\Xml;
 use Nyholm\Psr7\Response;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 trait InteractWithXmlMessage
@@ -22,24 +23,12 @@ trait InteractWithXmlMessage
     public function serve(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new Response(200, [], $str);
+            return $this->handleUrlValidate($this->request, $str);
         }
 
         $this->withMessageValidationHandler();
 
-        $messageClass = \sprintf('%s\Message', (new \ReflectionClass($this))->getNamespaceName());
-
-        if (!\class_exists($messageClass)) {
-            throw new RuntimeException($messageClass . ' not found.');
-        }
-
-        $message = \call_user_func_array(
-            [$messageClass, 'createFromRequest',],
-            [
-                $this->request,
-                $this->encryptor,
-            ]
-        );
+        $message = $this->createMessageFromRequest();
 
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
@@ -114,13 +103,13 @@ trait InteractWithXmlMessage
         return $this->createXmlResponse(
             attributes: array_filter(
                 \array_merge(
-                    [
+                                [
                                     'ToUserName' => $message->FromUserName,
                                     'FromUserName' => $message->ToUserName,
                                     'CreateTime' => $currentTime,
                                 ],
-                    $response
-                )
+                                $response
+                            )
             ),
             encryptor: $this->encryptor
         );
@@ -129,7 +118,7 @@ trait InteractWithXmlMessage
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function normalizeResponse(mixed $response): array
+    protected function normalizeResponse(mixed $response): array
     {
         if (\is_array($response)) {
             if (!isset($response['MsgType'])) {
@@ -173,5 +162,38 @@ trait InteractWithXmlMessage
         }
 
         return new Response(200, ['Content-Type' => 'application/xml'], $xml);
+    }
+
+    protected function getEncryptor(RequestInterface $request)
+    {
+        return $this->encryptor;
+    }
+
+    /**
+     * @return mixed
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    protected function createMessageFromRequest(): mixed
+    {
+        $messageClass = \sprintf('%s\Message', (new \ReflectionClass($this))->getNamespaceName());
+
+        if (!\class_exists($messageClass)) {
+            throw new RuntimeException($messageClass . ' not found.');
+        }
+
+        $message = \call_user_func_array(
+            [$messageClass, 'createFromRequest',],
+            [
+                $this->request,
+                $this->getEncryptor($this->request),
+            ]
+        );
+
+        return $message;
+    }
+
+    protected function handleUrlValidate(RequestInterface $request, mixed $str): Response
+    {
+        return new Response(200, [], $str);
     }
 }
