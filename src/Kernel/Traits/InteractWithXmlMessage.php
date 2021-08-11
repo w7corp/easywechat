@@ -36,11 +36,7 @@ trait InteractWithXmlMessage
             return $response;
         }
 
-        $response = $this->transformResponse($this->normalizeResponse($response), $message);
-
-        $response->getBody()->rewind();
-
-        return $response;
+        return $this->resolveResponse($response, $message);
     }
 
     /**
@@ -195,5 +191,21 @@ trait InteractWithXmlMessage
     protected function handleUrlValidate(RequestInterface $request, mixed $str): Response
     {
         return new Response(200, [], $str);
+    }
+
+    /**
+     * @param mixed $response
+     * @param mixed $message
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    protected function resolveResponse(mixed $response, mixed $message): ResponseInterface
+    {
+        $response = $this->transformResponse($this->normalizeResponse($response), $message);
+
+        $response->getBody()->rewind();
+
+        return $response;
     }
 }

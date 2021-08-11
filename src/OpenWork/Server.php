@@ -200,7 +200,7 @@ class Server implements ServerInterface
         return new Response(200, [], $response);
     }
 
-    public function transformResponse(array $response, Message $message): ResponseInterface
+    public function resolveResponse(array $response, Message $message): ResponseInterface
     {
         return new Response();
     }
