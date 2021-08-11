@@ -114,9 +114,11 @@ class Application implements ApplicationInterface
                 providerEncryptor: $this->getEncryptor(),
             );
 
-            $this->server->withDefaultSuiteTicketHandler(function (\EasyWeChat\Kernel\Message $message): mixed {
-                $this->getSuiteTicket()->setTicket($message->SuiteTicket);
-            });
+            $this->server->withDefaultSuiteTicketHandler(
+                function (\EasyWeChat\Kernel\Message $message) {
+                    $this->getSuiteTicket()->setTicket($message->SuiteTicket);
+                }
+            );
         }
 
         return $this->server;
