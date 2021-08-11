@@ -115,7 +115,7 @@ class Application implements ApplicationInterface
             );
 
             $this->server->withDefaultSuiteTicketHandler(function (\EasyWeChat\Kernel\Message $message): mixed {
-                $this->suiteTicket->setTicket($message['SuiteTicket']);
+                $this->getSuiteTicket()->setTicket($message['SuiteTicket']);
             });
         }
 
