@@ -338,6 +338,7 @@ class Client extends BaseClient
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92122
      *
      * @param string $chatId
+     * @param int $needName
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -345,10 +346,11 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
 
-    public function getGroupChat(string $chatId)
+    public function getGroupChat(string $chatId, int $needName = 0)
     {
         $params = [
-            'chat_id' => $chatId
+            'chat_id' => $chatId,
+            'need_name' => $needName,
         ];
 
         return $this->httpPostJson('cgi-bin/externalcontact/groupchat/get', $params);

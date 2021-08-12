@@ -215,11 +215,20 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $params = [
-            'chat_id' => 'CHAT_ID_1'
+            'chat_id' => 'CHAT_ID_1',
+            'need_name' => 0
         ];
         $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/get', $params)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getGroupChat('CHAT_ID_1'));
+
+        $params = [
+            'chat_id' => 'CHAT_ID_1',
+            'need_name' => 1
+        ];
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/groupchat/get', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getGroupChat('CHAT_ID_1', 1));
     }
 
     public function testGetCorpTags(): void
