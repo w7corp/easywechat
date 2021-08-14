@@ -40,6 +40,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Mall\ForwardsMall          $mall
  * @property \EasyWeChat\MiniProgram\SubscribeMessage\Client    $subscribe_message
  * @property \EasyWeChat\MiniProgram\RealtimeLog\Client         $realtime_log
+ * @property \EasyWeChat\MiniProgram\RiskControl\Client         $risk_control
  * @property \EasyWeChat\MiniProgram\Search\Client              $search
  * @property \EasyWeChat\MiniProgram\Live\Client                $live
  * @property \EasyWeChat\MiniProgram\Broadcast\Client           $broadcast
@@ -78,6 +79,7 @@ class Application extends ServiceContainer
         Mall\ServiceProvider::class,
         SubscribeMessage\ServiceProvider::class,
         RealtimeLog\ServiceProvider::class,
+        RiskControl\ServiceProvider::class,
         Search\ServiceProvider::class,
         Live\ServiceProvider::class,
         Broadcast\ServiceProvider::class,
