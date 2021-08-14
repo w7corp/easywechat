@@ -1,0 +1,23 @@
+{
+    "license": "MIT",
+    "dependencies": {
+        "@vue/component-compiler-utils": "^3.2.2",
+        "@vuepress/plugin-search": "^2.0.0-beta.24",
+        "@vuepress/shared-utils": "^1.8.2",
+        "@vuepress/theme-default": "^2.0.0-beta.23",
+        "autoprefixer": "^10.3.1",
+        "fs-extra": "^9.1.0",
+        "postcss-import": "^14.0.2",
+        "postcss-nested": "^5.0.6",
+        "tailwindcss": "^2.2.7",
+        "vuepress": "@next"
+    },
+    "devDependencies": {
+        "prettier": "2.2.1"
+    },
+    "scripts": {
+        "dev": "vuepress dev .",
+        "build": "vuepress build .",
+        "prettify": "prettier --write --tab-width=2 **/**/*.md **/*.js .vuepress/*.js"
+    }
+}
