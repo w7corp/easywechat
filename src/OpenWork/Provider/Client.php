@@ -44,7 +44,7 @@ class Client extends BaseClient
     public function getLoginUrl(string $redirectUri = '', string $userType = 'admin', string $state = '')
     {
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_single'];
-        $state || $state = rand();
+        $state || $state = random_bytes(64);
         $params = [
             'appid' => $this->app['config']['corp_id'],
             'redirect_uri' => $redirectUri,

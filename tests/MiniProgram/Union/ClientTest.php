@@ -130,4 +130,19 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $response);
     }
+
+    public function testGetFeaturedProducts()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'from' => 0,
+            'limit' => 10,
+            'minPrice' => 1
+        ];
+
+        $client->expects()->httpGet('union/promoter/product/select', $params)->andReturn('mock-result');
+        $response = $client->getFeaturedProducts($params);
+
+        $this->assertSame('mock-result', $response);
+    }
 }

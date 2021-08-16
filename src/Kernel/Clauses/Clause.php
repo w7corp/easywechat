@@ -56,7 +56,16 @@ class Clause
     {
         foreach ($this->clauses['where'] as $item) {
             list($key, $value) = $item;
-            if (isset($payload[$key]) && $payload[$key] !== $value) {
+
+            if (!isset($payload[$key])) {
+                continue;
+            }
+
+            if (is_array($value) && !in_array($payload[$key], $value)) {
+                return true;
+            }
+
+            if (!is_array($value) && $payload[$key] !== $value) {
                 return true;
             }
         }

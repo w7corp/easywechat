@@ -77,7 +77,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create($cardType = 'member_card', array $attributes)
+    public function create($cardType = 'member_card', array $attributes = [])
     {
         $params = [
             'card' => [

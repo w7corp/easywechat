@@ -133,6 +133,26 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->uploadFile('/foo/bar/file.txt', ['filename' => 'file.jpg']));
     }
 
+    public function testUploadImg()
+    {
+        //无参
+        $client = $this->mockApiClient(Client::class);
+        $files = [
+            'media' => '/foo/bar/image.jpg',
+        ];
+        $form = [];
+
+        $client->expects()->httpUpload('cgi-bin/media/uploadimg', $files, $form)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->uploadImg('/foo/bar/image.jpg'));
+
+        //有参
+        $client = $this->mockApiClient(Client::class, ['uploadImg']);
+        $client->expects()->uploadImg('/foo/bar/image.jpg', ['filename' => 'image.jpg'])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->uploadImg('/foo/bar/image.jpg', ['filename' => 'image.jpg']));
+    }
+
     public function testUpload()
     {
         $client = $this->mockApiClient(Client::class);
@@ -148,5 +168,31 @@ class ClientTest extends TestCase
         ], ['filename' => 'voice.mp3'], ['type' => 'voice'])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->upload('voice', '/foo/bar/voice.mp3', ['filename' => 'voice.mp3']));
+    }
+
+    public function testGetHdVoice()
+    {
+        $app = new ServiceContainer();
+        $client = $this->mockApiClient(Client::class, [], $app);
+
+        $mediaId = 'invalid-media-id';
+        $imageResponse = new \GuzzleHttp\Psr7\Response(200, ['content-type' => 'text/plain'], '{"error": "invalid media id hits."}');
+        $client->expects()->requestRaw('cgi-bin/media/get/jssdk', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ])->andReturn($imageResponse);
+
+        $this->assertSame(['error' => 'invalid media id hits.'], $client->getHdVoice($mediaId));
+
+        $mediaId = 'valid-media-id';
+        $imageResponse = new Response(200, [], 'valid data');
+        $client->expects()->requestRaw('cgi-bin/media/get/jssdk', 'GET', [
+            'query' => [
+                'media_id' => $mediaId,
+            ],
+        ])->andReturn($imageResponse);
+
+        $this->assertInstanceOf(StreamResponse::class, $client->getHdVoice($mediaId));
     }
 }
