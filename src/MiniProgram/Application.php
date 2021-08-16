@@ -54,6 +54,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Shop\Delivery\Client       $shop_delivery
  * @property \EasyWeChat\MiniProgram\Shop\Aftersale\Client      $shop_aftersale
  * @property \EasyWeChat\MiniProgram\Business\Client            $business
+ * @property \EasyWeChat\MiniProgram\UrlLink\Client             $url_link
  */
 class Application extends ServiceContainer
 {
@@ -84,6 +85,7 @@ class Application extends ServiceContainer
         Live\ServiceProvider::class,
         Broadcast\ServiceProvider::class,
         UrlScheme\ServiceProvider::class,
+        UrlLink\ServiceProvider::class,
         Union\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
