@@ -23,6 +23,10 @@ module.exports = {
     latest,
     navbar: [
       {
+        text: "首页",
+        link: '/',
+      },
+      {
         text: "文档",
         children: versions.map((version) => ({
           text: version,
