@@ -1,5 +1,7 @@
 import { defineClientAppEnhance } from '@vuepress/client'
 
+const versions = require("./versions");
+
 import home from './components/home'
 
 export default defineClientAppEnhance(({ app, router, siteData }) => {
@@ -7,12 +9,13 @@ export default defineClientAppEnhance(({ app, router, siteData }) => {
 
   router.beforeEach((to, from, next) => {
     const pathFragments = to.path.split("/");
-    const version = pathFragments[1];
-    const rest = pathFragments.splice(2).join("/");
+    let version = pathFragments[1];
+    const rest = pathFragments.splice(2).join("/") || 'index.html';
 
     // Used in the `Get Started` link of the index page
     if (version === "latest") {
-      return next({ path: `/${siteData.themeConfig.latest}/${rest}` });
+      version = versions[0]
+      return next({ path: `/${version}/${rest}` });
     }
 
     return next();

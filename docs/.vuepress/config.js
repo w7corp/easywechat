@@ -43,12 +43,12 @@ module.exports = {
     ),
   },
   plugins: [
-    [
-      "@vuepress/search",
-      {
-        searchMaxSuggestions: 10,
-        test: `/${latest}/`,
-      },
-    ],
+    // [
+    //   "@vuepress/search",
+    //   {
+    //     searchMaxSuggestions: 10,
+    //     test: `/${latest}/`,
+    //   },
+    // ],
   ],
 };

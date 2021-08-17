@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="bg-gray-800">
-      <header class="text-gray-100 body-font">
+    <div class="bg-gray-800 relative overflow-hidden">
+      <header class="text-gray-100 body-font z-10">
         <div
           class="
             container
@@ -25,49 +25,7 @@
               md:mb-0
             "
           >
-            <svg
-              viewBox="0 0 126 131"
-              class="h-8 w-8"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            >
-              <g
-                id="Page-1"
-                stroke="none"
-                stroke-width="1"
-                fill="none"
-                fill-rule="evenodd"
-              >
-                <g id="Brand" transform="translate(-182.000000, -30.000000)">
-                  <g id="icon" transform="translate(150.000000, 0.000000)">
-                    <polygon
-                      id="Rectangle-Copy-3"
-                      fill-opacity="0.882189764"
-                      fill="#5477F8"
-                      points="32.1818182 63 96 95 96 161 32 128.818182"
-                    ></polygon>
-                    <polygon
-                      id="Rectangle"
-                      fill="#A4C4FA"
-                      opacity="0.6"
-                      points="96 94.9393382 158 62 158 128.060662 96 161"
-                    ></polygon>
-                    <polygon
-                      id="Rectangle-Copy"
-                      fill="#F5F5F5"
-                      points="65 78.9393382 127 46 127 112.060662 65 145"
-                    ></polygon>
-                    <polygon
-                      id="Rectangle-Copy-2"
-                      fill-opacity="0.882189764"
-                      fill="#5477F8"
-                      points="32.1818182 63.2422018 96 30 96 95.9394495 32 129"
-                    ></polygon>
-                  </g>
-                </g>
-              </g>
-            </svg>
+            <img src="/logo-icon.svg" class="h-8 w-8" alt="" />
             <span class="ml-3 text-xl">EasyWeChat</span>
           </a>
           <nav
@@ -97,9 +55,13 @@
         </div>
       </header>
 
-      <section class="text-gray-600 body-font">
+      <section
+        class="text-gray-600 body-font h-screen relative overflow-hidden"
+      >
         <div
           class="
+            z-10
+            relative
             container
             mx-auto
             flex
@@ -148,8 +110,45 @@
               每一个功能设计，都经过精心打磨，只为了提供更好的开发体验
             </p>
             <div class="flex justify-center">
+              <button
+                class="
+                  mr-4
+                  inline-flex
+                  items-center
+                  space-around
+                  text-gray-700
+                  bg-gray-100
+                  border-0
+                  py-2
+                  px-6
+                  focus:outline-none
+                  hover:bg-gray-200
+                  rounded
+                  text-lg
+                "
+                data-clipboard-text="composer require w7corp/easywechat"
+                @click="copy"
+              >
+                <code class="text-gray-700 bg-transparent flex items-center">
+                  $ composer require w7corp/easywechat
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 ml-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                </code>
+              </button>
               <a
-                href="/docs"
+                href="/latest/"
                 class="
                   inline-flex
                   items-center
@@ -158,7 +157,7 @@
                   bg-indigo-500
                   border-0
                   py-2
-                  px-6
+                  px-8
                   focus:outline-none
                   hover:bg-indigo-600
                   rounded
@@ -181,52 +180,18 @@
                   />
                 </svg>
               </a>
-              <button
-                class="
-                  ml-4
-                  inline-flex
-                  items-center
-                  space-around
-                  text-gray-700
-                  bg-gray-100
-                  border-0
-                  py-2
-                  px-6
-                  focus:outline-none
-                  hover:bg-gray-200
-                  rounded
-                  text-lg
-                "
-              >
-                <code class="text-gray-700 bg-transparent flex items-center">
-                  $ composer require w7corp/easywechat
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 ml-2"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                    />
-                  </svg>
-                </code>
-              </button>
             </div>
           </div>
           <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-            <img
-              class="object-cover object-center rounded"
-              alt="hero"
-              src="https://dummyimage.com/720x600"
-            />
+            <img src="/3d-blocks.svg" alt="" class="py-4" />
           </div>
         </div>
       </section>
+      <div class="stars-bg absolute inset-0 z-0">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+      </div>
     </div>
     <section class="text-gray-600 body-font">
       <div class="container px-5 py-24 mx-auto">
@@ -269,69 +234,26 @@
               "
             >
               <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
                 fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-6 h-6"
                 viewBox="0 0 24 24"
-              >
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
-            </div>
-            <div class="flex-grow pl-6">
-              <h2 class="text-gray-900 text-lg title-font font-medium mb-2">
-                Shooting Stars
-              </h2>
-              <p class="leading-relaxed text-base">
-                Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-                taxidermy. Gastropub indxgo juice poutine, ramps microdosing
-                banh mi pug VHS try-hard ugh iceland kickstarter tumblr
-                live-edge tilde.
-              </p>
-            </div>
-          </div>
-          <div class="p-4 md:w-1/3 flex">
-            <div
-              class="
-                w-12
-                h-12
-                inline-flex
-                items-center
-                justify-center
-                rounded-full
-                bg-indigo-100
-                text-indigo-500
-                mb-4
-                flex-shrink-0
-              "
-            >
-              <svg
-                fill="none"
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-6 h-6"
-                viewBox="0 0 24 24"
               >
-                <circle cx="6" cy="6" r="3"></circle>
-                <circle cx="6" cy="18" r="3"></circle>
                 <path
-                  d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"
-                ></path>
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+                />
               </svg>
             </div>
             <div class="flex-grow pl-6">
               <h2 class="text-gray-900 text-lg title-font font-medium mb-2">
-                The Catalyzer
+                开箱即用
               </h2>
               <p class="leading-relaxed text-base">
-                Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-                taxidermy. Gastropub indxgo juice poutine, ramps microdosing
-                banh mi pug VHS try-hard ugh iceland kickstarter tumblr
-                live-edge tilde.
+                掩盖了开发者不需要关心的诸多细节，节省更多的时间专注于业务逻辑的开发。
               </p>
             </div>
           </div>
@@ -351,27 +273,65 @@
               "
             >
               <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
                 fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-6 h-6"
                 viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
+                />
               </svg>
             </div>
             <div class="flex-grow pl-6">
               <h2 class="text-gray-900 text-lg title-font font-medium mb-2">
-                Neptune
+                方便集成
               </h2>
               <p class="leading-relaxed text-base">
-                Blue bottle crucifix vinyl post-ironic four dollar toast vegan
-                taxidermy. Gastropub indxgo juice poutine, ramps microdosing
-                banh mi pug VHS try-hard ugh iceland kickstarter tumblr
-                live-edge tilde.
+                各模块设计完美适配 PSR 系列标准，可以更方面的集成到各种框架中。
+              </p>
+            </div>
+          </div>
+          <div class="p-4 md:w-1/3 flex">
+            <div
+              class="
+                w-12
+                h-12
+                inline-flex
+                items-center
+                justify-center
+                rounded-full
+                bg-indigo-100
+                text-indigo-500
+                mb-4
+                flex-shrink-0
+              "
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+            </div>
+            <div class="flex-grow pl-6">
+              <h2 class="text-gray-900 text-lg title-font font-medium mb-2">
+                快速上手
+              </h2>
+              <p class="leading-relaxed text-base">
+                仅封装复杂难懂的对接部分和简化接口调用方式，不做过度封装，降低学习成本。
               </p>
             </div>
           </div>
@@ -394,8 +354,6 @@
       >
         <a
           class="
-            flex
-            title-font
             font-medium
             items-center
             md:justify-start
@@ -403,21 +361,7 @@
             text-gray-900
           "
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
-            ></path>
-          </svg>
-          <span class="ml-3 text-xl">EasyWeChat</span>
+          <img src="/logo.svg" class="h-8" alt="" />
         </a>
         <p
           class="
@@ -430,7 +374,7 @@
             mt-4
           "
         >
-          EasyWeChat 是一个基于 MIT 协议开源的非官方微信 SDK。 © 2021 微擎
+          一个基于 MIT 协议开源的非官方微信 SDK。 © 2021 微擎
         </p>
         <span
           class="
@@ -508,3 +452,24 @@
     </footer>
   </div>
 </template>
+
+<script>
+import Clipboard from "clipboard";
+import { defineComponent, ref } from "vue";
+export default defineComponent({
+  setup() {
+    var clipboard = new Clipboard("[data-clipboard-text]");
+    clipboard.on("success", (e) => {
+      console.log("复制成功");
+      // 释放内存
+      clipboard.destroy();
+    });
+    clipboard.on("error", (e) => {
+      // 不支持复制
+      console.log("该浏览器不支持自动复制");
+      // 释放内存
+      clipboard.destroy();
+    });
+  },
+});
+</script>
