@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-gray-800 relative overflow-hidden">
+    <div class="bg-gray-800 relative overflow-hidden h-screen">
       <header class="text-gray-100 body-font relative z-10">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a href="/" class="flex title-font font-medium items-center text-gray-200 mb-4 md:mb-0">
@@ -15,18 +15,18 @@
         </div>
       </header>
 
-      <section class="text-gray-600 body-font h-screen relative overflow-hidden">
+      <section class="text-gray-600 body-font">
         <div class="z-10 relative container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-          <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+          <div class="lg:flex-1 md:w-2/3 lg:pr-12 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
             <h1
-              class="sm:text-4xl text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-400"
+              class="text-3xl md:text-5xl xl:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-400"
             >
-              微信开发，从未如此简单
+              微信开发，也可以更简单
             </h1>
-            <p class="mb-8 leading-relaxed text-gray-500">每一个功能设计，都经过精心打磨，只为了提供更好的开发体验</p>
-            <div class="flex justify-center">
+            <p class="mb-8 leading-relaxed text-gray-500">每一个细节，都经过精心打磨，只为了提供更好的开发体验</p>
+            <div class="mt-8 space-y-2 md:space-y-0 xl:flex justify-center">
               <button
-                class="mr-4 inline-flex items-center space-around text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
+                class="hidden xl:block mr-4 inline-flex items-center space-around text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
                 data-clipboard-text="composer require w7corp/easywechat"
                 @click="copy"
               >
@@ -49,8 +49,24 @@
                 </svg>
               </a>
             </div>
+            <div class="hidden mt-10 md:flex items-center space-x-6 xl:space-x-8">
+              <div class="py-6 flex items-center">
+                <img :src="$withBase('/overtrue.png')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
+                <div class="px-2 text-left text-gray-400">
+                  <div class="text-white font-semibold">overtrue</div>
+                  <small>核心开发者</small>
+                </div>
+              </div>
+              <div class="py-6 flex items-center">
+                <img :src="$withBase('/w7team.png')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
+                <div class="px-2 text-left text-gray-400">
+                  <div class="text-white font-semibold">微擎</div>
+                  <small>开源 Saas 平台提供商</small>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
+          <div class="w-1/3 lg:max-w-lg xl:w-1/2">
             <img src="/3d-blocks.svg" alt="" class="py-4" />
           </div>
         </div>
