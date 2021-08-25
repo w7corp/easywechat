@@ -1,4 +1,5 @@
 const versions = require("./versions");
+const path = require("path");
 const latest = versions[0];
 
 module.exports = {
@@ -47,6 +48,12 @@ module.exports = {
     ),
   },
   plugins: [
+    [
+      '@vuepress/plugin-register-components',
+      {
+        componentsDir: path.resolve(__dirname, './components'),
+      },
+    ],
     // [
     //   "@vuepress/search",
     //   {

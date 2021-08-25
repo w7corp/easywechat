@@ -4,8 +4,8 @@
       <header class="text-gray-100 body-font relative z-10">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a href="/" class="flex title-font font-medium items-center text-gray-200 mb-4 md:mb-0">
-            <img src="/logo-icon.svg" class="h-8 w-8" alt="" />
-            <span class="ml-3 text-xl">EasyWeChat</span>
+            <img src="/logo.svg" class="h-8" alt="EasyWeChat" />
+            <span class="ml-3 text-xl hidden">EasyWeChat</span>
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <a class="mr-5 text-gray-400 hover:text-gray-300" href="/latest"> 文档 </a>
@@ -43,7 +43,7 @@
                 </code>
               </button>
               <a
-                href="$withBase('/latest/')"
+                :href="$withBase('/latest/')"
                 class="inline-flex items-center space-around text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
               >
                 <span>立即开始</span>
@@ -53,24 +53,24 @@
               </a>
             </div>
             <div class="hidden mt-10 md:flex items-center space-x-6 xl:space-x-8">
-              <div class="py-6 flex items-center">
+              <a href="https://github.com/overtrue" target="_blank" class="py-6 flex items-center">
                 <img :src="$withBase('/overtrue.png')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
                 <div class="px-2 text-left text-gray-400">
                   <div class="text-white font-semibold">overtrue</div>
                   <small>核心开发者</small>
                 </div>
-              </div>
-              <div class="py-6 flex items-center">
+              </a>
+              <a href="https://www.w7.cc/" target="_blank" class="py-6 flex items-center">
                 <img :src="$withBase('/w7team.png')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
                 <div class="px-2 text-left text-gray-400">
                   <div class="text-white font-semibold">微擎</div>
                   <small>开源 Saas 平台提供商</small>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
           <div class="w-1/3 lg:max-w-lg xl:w-1/2">
-            <img src="$withBase('/3d-blocks.svg')" alt="" class="py-4" />
+            <img :src="$withBase('/3d-blocks.svg')" alt="" class="py-4" />
           </div>
         </div>
       </section>
@@ -80,7 +80,7 @@
         <div class="stars3"></div>
       </div>
 
-      <footer class="relative z-10"></footer>
+      <HomeFooter class="z-10"></HomeFooter>
     </div>
   </div>
 </template>

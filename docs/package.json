@@ -2,6 +2,7 @@
     "license": "MIT",
     "dependencies": {
         "@vue/component-compiler-utils": "^3.2.2",
+        "@vuepress/plugin-register-components": "^2.0.0-beta.24",
         "@vuepress/plugin-search": "^2.0.0-beta.24",
         "@vuepress/shared-utils": "^1.8.2",
         "@vuepress/theme-default": "^2.0.0-beta.23",

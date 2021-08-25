@@ -2,12 +2,7 @@ import { defineClientAppEnhance } from '@vuepress/client'
 
 const versions = require("./versions");
 
-import home from './components/home'
-import footer from './components/footer'
-
 export default defineClientAppEnhance(({ app, router, siteData }) => {
-  app.component('home', home)
-  app.component('footer', footer)
 
   router.beforeEach((to, from, next) => {
     const pathFragments = to.path.split("/");

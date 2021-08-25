@@ -1,43 +1,11 @@
 <template>
   <section class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto">
-      <h1
-        class="
-          sm:text-3xl
-          text-2xl
-          font-medium
-          title-font
-          text-center text-gray-900
-          mb-20
-        "
-      >
-        为什么选择 EasyWeChat ?
-      </h1>
-      <div
-        class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6"
-      >
+      <h1 class="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-20">为什么选择 EasyWeChat ?</h1>
+      <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4 md:space-y-0 space-y-6">
         <div class="p-4 md:w-1/3 flex">
-          <div
-            class="
-              w-12
-              h-12
-              inline-flex
-              items-center
-              justify-center
-              rounded-full
-              bg-indigo-100
-              text-indigo-500
-              mb-4
-              flex-shrink-0
-            "
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+          <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -47,36 +15,13 @@
             </svg>
           </div>
           <div class="flex-grow pl-6">
-            <h2 class="text-gray-900 text-lg title-font font-medium mb-2">
-              开箱即用
-            </h2>
-            <p class="leading-relaxed text-base">
-              掩盖了开发者不需要关心的诸多细节，节省更多的时间专注于业务逻辑的开发。
-            </p>
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-2">开箱即用</h2>
+            <p class="leading-relaxed text-base">掩盖了开发者不需要关心的诸多细节，节省更多的时间专注于业务逻辑的开发。</p>
           </div>
         </div>
         <div class="p-4 md:w-1/3 flex">
-          <div
-            class="
-              w-12
-              h-12
-              inline-flex
-              items-center
-              justify-center
-              rounded-full
-              bg-indigo-100
-              text-indigo-500
-              mb-4
-              flex-shrink-0
-            "
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+          <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -86,36 +31,13 @@
             </svg>
           </div>
           <div class="flex-grow pl-6">
-            <h2 class="text-gray-900 text-lg title-font font-medium mb-2">
-              方便集成
-            </h2>
-            <p class="leading-relaxed text-base">
-              各模块设计完美适配 PSR 系列标准，可以更方面的集成到各种框架中。
-            </p>
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-2">方便集成</h2>
+            <p class="leading-relaxed text-base">各模块设计完美适配 PSR 系列标准，可以更方面的集成到各种框架中。</p>
           </div>
         </div>
         <div class="p-4 md:w-1/3 flex">
-          <div
-            class="
-              w-12
-              h-12
-              inline-flex
-              items-center
-              justify-center
-              rounded-full
-              bg-indigo-100
-              text-indigo-500
-              mb-4
-              flex-shrink-0
-            "
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+          <div class="w-12 h-12 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4 flex-shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
@@ -125,12 +47,8 @@
             </svg>
           </div>
           <div class="flex-grow pl-6">
-            <h2 class="text-gray-900 text-lg title-font font-medium mb-2">
-              快速上手
-            </h2>
-            <p class="leading-relaxed text-base">
-              仅封装复杂难懂的对接部分和简化接口调用方式，不做过度封装，降低学习成本。
-            </p>
+            <h2 class="text-gray-900 text-lg title-font font-medium mb-2">快速上手</h2>
+            <p class="leading-relaxed text-base">仅封装复杂难懂的对接部分和简化接口调用方式，不做过度封装，降低学习成本。</p>
           </div>
         </div>
       </div>
