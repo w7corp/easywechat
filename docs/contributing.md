@@ -8,8 +8,8 @@
 
 请严格遵循以下代码标准:
 
->  - [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
->  - 使用 4 个空格作为缩进。
+> - [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
+> - 使用 4 个空格作为缩进。
 
 ### 流程
 
@@ -51,6 +51,6 @@
 
 ## 报告 Bug
 
-当你在使用过程中遇到问题，请查阅 [疑难解答](troubleshooting.html) 或者在这里提问 [GitHub](https://github.com/overtrue/wechat/issues). 如果还是不能解决你的问题，请到 GitHub 联系我们。
+当你在使用过程中遇到问题，请查阅 [疑难解答](/troubleshooting.html) 或者在这里提问 [GitHub](https://github.com/overtrue/wechat/issues). 如果还是不能解决你的问题，请到 GitHub 联系我们。
 
 [overtrue/wechat]: https://github.com/overtrue/wechat

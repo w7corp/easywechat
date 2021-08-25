@@ -2,9 +2,9 @@ module.exports = [
     {
         text: "开始使用",
         children: [
-            { text: "概述", link: "/6.x/overview" },
+            { text: "概述", link: "/6.x/" },
             { text: "安装", link: "/6.x/installation" },
-            { text: "常见问题汇总", link: "/6.x/troubleshooting" },
+            { text: "常见问题汇总", link: "/troubleshooting" },
         ]
     }, {
         text: "公众号",
@@ -23,9 +23,9 @@ module.exports = [
     }, {
         text: "小程序",
         children: [
-            { text: "入门", link: "/6.x/mini-program/index" },
-            { text: "配置", link: "/6.x/official-account/config" },
-            { text: "服务端", link: "/6.x/official-account/server" },
+            { text: "入门", link: "/6.x/mini-app/index" },
+            { text: "配置", link: "/6.x/mini-app/config" },
+            { text: "服务端", link: "/6.x/mini-app/server" },
         ]
     }, {
         text: "开放平台",
@@ -57,8 +57,8 @@ module.exports = [
     }, {
         text: "其他",
         children: [
-            { text: "常见问题", link: "/6.x/troubleshooting" },
-            { text: "参与贡献", link: "/6.x/contributing" },
+            { text: "常见问题", link: "/troubleshooting" },
+            { text: "参与贡献", link: "/contributing" },
         ]
     }
 ]
