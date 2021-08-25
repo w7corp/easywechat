@@ -4,7 +4,7 @@
       <header class="text-gray-100 body-font relative z-10">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a href="/" class="flex title-font font-medium items-center text-gray-200 mb-4 md:mb-0">
-            <img src="/logo.svg" class="h-8" alt="EasyWeChat" />
+            <img src="/logo-white.svg" class="h-8" alt="EasyWeChat" />
             <span class="ml-3 text-xl hidden">EasyWeChat</span>
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">

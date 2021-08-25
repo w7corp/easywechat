@@ -3,5 +3,10 @@ module.exports = {
         extend: {}
     },
     variants: {},
-    plugins: []
+    plugins: [],
+    purge: [
+        './**/*.html',
+        './**/*.vue',
+        './**/*.jsx',
+    ],
 }
