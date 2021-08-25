@@ -42,7 +42,10 @@
                   </svg>
                 </code>
               </button>
-              <a href="/latest/" class="inline-flex items-center space-around text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+              <a
+                href="$withBase('/latest/')"
+                class="inline-flex items-center space-around text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+              >
                 <span>立即开始</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -67,7 +70,7 @@
             </div>
           </div>
           <div class="w-1/3 lg:max-w-lg xl:w-1/2">
-            <img src="/3d-blocks.svg" alt="" class="py-4" />
+            <img src="$withBase('/3d-blocks.svg')" alt="" class="py-4" />
           </div>
         </div>
       </section>
