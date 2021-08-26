@@ -50,7 +50,7 @@ module.exports = [
                     { text: "网页授权", link: "/6.x/open-work/oauth.html" },
                 ]
             }, {
-                text: "通用模块",
+                text: "通用",
                 children: [
                     { text: "API 调用", link: "/6.x/common/client.html" },
                     { text: "网页授权", link: "/6.x/common/oauth.html" },
@@ -59,8 +59,8 @@ module.exports = [
             }, {
                 text: "其他",
                 children: [
-                    { text: "常见问题", link: "/troubleshooting.html" },
-                    { text: "参与贡献", link: "/contributing.html" },
+                    { text: "常见问题", link: "/6.x/troubleshooting.html" },
+                    { text: "参与贡献", link: "/6.x/contributing.html" },
                 ]
             }]
     }
