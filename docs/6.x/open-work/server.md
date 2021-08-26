@@ -26,7 +26,7 @@
 
 ## 自定义消息处理器
 
-> *消息处理器详细说明见：公众号开发 - 服务端一节*
+> _消息处理器详细说明见：公众号开发 - 服务端一节_
 
 ```php
 // 授权成功事件
@@ -62,4 +62,4 @@ $server->handleShareAgentChanged(callable | string $handler);
 $server->handleSuiteTicketRefreshed(callable | string $handler);
 ```
 
-> {warning} 注意：如果你自行处理了 SuiteTicket 推送，你必须同时设置 ProviderAccessToken 类，因为 ProviderAccessToken 依赖它。
+> 注意：如果你自行处理了 SuiteTicket 推送，你必须同时设置 ProviderAccessToken 类，因为 ProviderAccessToken 依赖它。

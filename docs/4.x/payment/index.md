@@ -46,7 +46,7 @@ $result = $app->pay([
 ]);
 ```
 
-## 授权码查询OPENID接口
+## 授权码查询 OPENID 接口
 
 ```php
 $app->authCodeToOpenid($authCode);
@@ -67,4 +67,4 @@ $app = Factory::payment([
 bool $app->inSandbox();
 ```
 
-> {warning} 特别注意，沙箱模式对于测试用例有严格要求，若使用的用例与规定不符，将导致测试失败。具体用例要求可关注公众号“微信支付商户接入验收助手”（WXPayAssist）查看。
+> 特别注意，沙箱模式对于测试用例有严格要求，若使用的用例与规定不符，将导致测试失败。具体用例要求可关注公众号“微信支付商户接入验收助手”（WXPayAssist）查看。

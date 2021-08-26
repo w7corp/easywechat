@@ -74,7 +74,7 @@ $app->server->push(function ($message) {
 ```php
     $message = $app->server->getMessage();
 ```
-> {warning} 注意：`$message` 的类型取决于你的配置中 `response_type`
+>  注意：`$message` 的类型取决于你的配置中 `response_type`
 
 ## 注册多个消息处理器
 
@@ -87,7 +87,7 @@ $app->server->push(OtherHandler::class);
 $app->server->push(...);
 ```
 
-> {warning} 注意：
+>
     1. 最后一个非空返回值将作为最终应答给用户的消息内容，如果中间某一个 handler 返回值 false, 则将终止整个调用链，不会调用后续的 handlers。
     2. 传入的自定义 Handler 类需要实现 `\EasyWeChat\Kernel\Contracts\EventHandlerInterface`。
 
@@ -136,7 +136,7 @@ $app->server->push(MediaMessageHandler::class, Message::VOICE|Message::VIDEO|Mes
 >  - `Format`         语音格式，如 amr，speex 等
 >  - `Recognition`  * 开通语音识别后才有
 
-  > {warning} 请注意，开通语音识别后，用户每次发送语音给公众号时，微信会在推送的语音消息XML数据包中，增加一个 `Recongnition` 字段
+  > 识别后，用户每次发送语音给公众号时，微信会在推送的语音消息XML数据包中，增加一个 `Recongnition` 字段
 
 ### 视频：
 

@@ -5,7 +5,7 @@
 ```php
 $config = [
     'corp_id' => 'xxxxxxxxxxxxxxxxx',
-    'secret'   => 'xxxxxxxxxx', 
+    'secret'   => 'xxxxxxxxxx',
     ...
 ];
 
@@ -63,14 +63,14 @@ $app->external_contact->getUnassigned($pageId, $pageSize);
 $externalUserId = 'woAJ2GCAAAXtWyujaWJHDDGi0mACH71w';
 $handoverUserId = 'zhangsan';
 $takeoverUserId = 'lisi';
- 
+
 $app->external_contact->transfer($externalUserId, $handoverUserId, $takeoverUserId);
 ```
 
 
 ## 配置客户联系「联系我」方式
 
-> {warning} 注意：
+>  注意：
 > 1. 通过API添加的「联系我」不会在管理端进行展示。
 > 2. 每个企业可通过API最多配置10万个「联系我」。
 > 3. 截止 2019-06-21 官方文档没有提供获取所有「联系我」列表的接口，请开发者注意自行保管处理 configId，避免无法溯源。

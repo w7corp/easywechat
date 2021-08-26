@@ -1,4 +1,5 @@
 # 卡券
+
 -
 
 ## 获取实例
@@ -6,7 +7,6 @@
 ```php
 $card = $app->card;
 ```
-
 
 ## 通用功能
 
@@ -22,16 +22,15 @@ $card->colors();
 $card->categories();
 ```
 
-
 ### 创建卡券
 
-创建卡券接口是微信卡券的基础接口，用于创建一类新的卡券，获取card_id，创建成功并通过审核后，商家可以通过文档提供的其他接口将卡券下发给用户，每次成功领取，库存数量相应扣除。
+创建卡券接口是微信卡券的基础接口，用于创建一类新的卡券，获取 card_id，创建成功并通过审核后，商家可以通过文档提供的其他接口将卡券下发给用户，每次成功领取，库存数量相应扣除。
 
 ```php
 $card->create($cardType = 'member_card', array $attributes);
 ```
 
->  - `attributes` array 卡券信息
+> - `attributes` array 卡券信息
 
 示例：
 
@@ -66,16 +65,15 @@ $result = $card->create($cardType, $attributes);
 $cardInfo = $card->get($cardId);
 ```
 
-
 ### 批量查询卡列表
 
 ```php
 $card->list($offset = 0, $count = 10, $statusList = 'CARD_STATUS_VERIFY_OK');
 ```
 
->  - `offset` int - 查询卡列表的起始偏移量，从0开始
->  - `count` int - 需要查询的卡片的数量
->  - `statusList` -  支持开发者拉出指定状态的卡券列表，详见 example
+> - `offset` int - 查询卡列表的起始偏移量，从 0 开始
+> - `count` int - 需要查询的卡片的数量
+> - `statusList` - 支持开发者拉出指定状态的卡券列表，详见 example
 
 示例：
 
@@ -89,7 +87,6 @@ $card->list($offset = 0, $count = 10, $statusList = 'CARD_STATUS_VERIFY_OK');
 $result = $card->list($offset, $count, 'CARD_STATUS_NOT_VERIFY');
 ```
 
-
 ### 更改卡券信息接口
 
 支持更新所有卡券类型的部分通用字段及特殊卡券中特定字段的信息。
@@ -98,7 +95,7 @@ $result = $card->list($offset, $count, 'CARD_STATUS_NOT_VERIFY');
 $card->update($cardId, $type, $attributes = []);
 ```
 
->  - `type` string - 卡券类型
+> - `type` string - 卡券类型
 
 示例：
 
@@ -141,7 +138,7 @@ $card->delete($cardId);
 $card->createQrCode($cards);
 ```
 
->  - `cards` array - 卡券相关信息
+> - `cards` array - 卡券相关信息
 
 示例：
 
@@ -182,15 +179,14 @@ $result = $card->createQrCode($cards);
 
 ```json
 {
- "errcode": 0,
- "errmsg": "ok",
- "ticket": "gQHB8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0JIV3lhX3psZmlvSDZmWGVMMTZvAAIEsNnKVQMEIAMAAA==",//获取ticket后需调用换取二维码接口获取二维码图片，详情见字段说明。
- "expire_seconds": 1800,
- "url": "http://weixin.qq.com/q/BHWya_zlfioH6fXeL16o ",
- "show_qrcode_url": "https://mp.weixin.qq.com/cgi-bin/showqrcode?  ticket=gQH98DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0czVzRlSWpsamlyM2plWTNKVktvAAIE6SfgVQMEgDPhAQ%3D%3D"
- }
+  "errcode": 0,
+  "errmsg": "ok",
+  "ticket": "gQHB8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0JIV3lhX3psZmlvSDZmWGVMMTZvAAIEsNnKVQMEIAMAAA==", //获取ticket后需调用换取二维码接口获取二维码图片，详情见字段说明。
+  "expire_seconds": 1800,
+  "url": "http://weixin.qq.com/q/BHWya_zlfioH6fXeL16o ",
+  "show_qrcode_url": "https://mp.weixin.qq.com/cgi-bin/showqrcode?  ticket=gQH98DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0czVzRlSWpsamlyM2plWTNKVktvAAIE6SfgVQMEgDPhAQ%3D%3D"
+}
 ```
-
 
 ### ticket 换取二维码图片
 
@@ -200,7 +196,7 @@ $result = $card->createQrCode($cards);
 $card->getQrCode($ticket);
 ```
 
->  - `ticket` string>  - 获取的二维码 ticket，凭借此 ticket 可以在有效时间内换取二维码。
+> - `ticket` string> - 获取的二维码 ticket，凭借此 ticket 可以在有效时间内换取二维码。
 
 示例：
 
@@ -208,7 +204,6 @@ $card->getQrCode($ticket);
 $ticket = 'gQFF8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL01VTzN0T0hsS1BwUlBBYUszbVN5AAIEughxVwMEAKd2AA==';
 $result = $card->getQrCode($ticket);
 ```
-
 
 ### ticket 换取二维码链接
 
@@ -231,11 +226,11 @@ $card->getQrCodeUrl($ticket);
 $card->createLandingPage($banner, $pageTitle, $canShare, $scene, $cards);
 ```
 
->  - `banner` string -页面的 banner 图;
->  - `pageTitle` string - 页面的 title
->  - `canShare` bool - 页面是不是可以分享，true 或 false
->  - `scene`  string - 投放页面的场景值，具体值请参考下面的 example
->  - `cards`  array - 卡券列表，每个元素有两个字段
+> - `banner` string -页面的 banner 图;
+> - `pageTitle` string - 页面的 title
+> - `canShare` bool - 页面是不是可以分享，true 或 false
+> - `scene` string - 投放页面的场景值，具体值请参考下面的 example
+> - `cards` array - 卡券列表，每个元素有两个字段
 
 示例：
 
@@ -261,10 +256,9 @@ $cardList = [
 $result = $card->createLandingPage($banner, $pageTitle, $canShare, $scene, $cardList);
 ```
 
-
 ### 图文消息群发卡券
 
-> {warning} 特别注意：目前该接口仅支持填入非自定义 code 的卡券,自定义 code 的卡券需先进行 code 导入后调用。
+> 特别注意：目前该接口仅支持填入非自定义 code 的卡券,自定义 code 的卡券需先进行 code 导入后调用。
 
 ```php
 $card->getHtml($cardId);
@@ -280,15 +274,15 @@ $result = $card->getHtml($cardId);
 
 ### 设置测试白名单
 
-同时支持“openid”、“username”两种字段设置白名单，总数上限为10个。
+同时支持“openid”、“username”两种字段设置白名单，总数上限为 10 个。
 
 ```php
 $card->setTestWhitelist($openids); // 使用 openid
 $card->setTestWhitelistByName($usernames); // 使用 username
 ```
 
->  - `openids` array - 测试的openid列表
->  - `usernames` array>  - 测试的微信号列表
+> - `openids` array - 测试的 openid 列表
+> - `usernames` array> - 测试的微信号列表
 
 示例：
 
@@ -304,7 +298,7 @@ $result = $card->setTestWhitelistByName($usernames);
 
 ### 获取用户已领取卡券接口
 
-用于获取用户卡包里的，属于该appid下所有**可用卡券，包括正常状态和未生效状态**。
+用于获取用户卡包里的，属于该 appid 下所有**可用卡券，包括正常状态和未生效状态**。
 
 ```php
 $card->getUserCards($openid, $cardId);
@@ -319,14 +313,13 @@ $cardId = ''; // 卡券ID。不填写时默认查询当前 appid 下的卡券。
 $result = $card->getUserCards($openid, $cardId);
 ```
 
-
 ### 设置微信买单接口
 
 ```php
 $card->setPayCell($cardId, $isOpen = true);
 ```
 
->  - `isOpen` string - 是否开启买单功能，填 true/false，不填默认 true
+> - `isOpen` string - 是否开启买单功能，填 true/false，不填默认 true
 
 示例：
 
@@ -337,8 +330,6 @@ $result = $card->setPayCell($cardId); // isOpen = true
 $result = $card->setPayCell($cardId, $isOpen);
 ```
 
-
-
 ### 修改库存接口
 
 ```php
@@ -346,8 +337,8 @@ $card->increaseStock($cardId, $amount); // 增加库存
 $card->reductStock($cardId, $amount); // 减少库存
 ```
 
->  - `cardId` string - 卡券 ID
->  - `amount` int - 修改多少库存
+> - `cardId` string - 卡券 ID
+> - `amount` int - 修改多少库存
 
 示例：
 
@@ -359,16 +350,16 @@ $result = $card->increaseStock($cardId, 100);
 
 ## 卡券 Code
 
-### 导入code接口
+### 导入 code 接口
 
-在自定义code卡券成功创建并且通过审核后，必须将自定义code按照与发券方的约定数量调用导入code接口导入微信后台。
+在自定义 code 卡券成功创建并且通过审核后，必须将自定义 code 按照与发券方的约定数量调用导入 code 接口导入微信后台。
 
 ```php
 $card->code->deposit($cardId, $codes);
 ```
 
->  - `cardId` string - 要导入code的卡券ID
->  - `codes` array - 要导入微信卡券后台的自定义 code，最多100个
+> - `cardId` string - 要导入 code 的卡券 ID
+> - `codes` array - 要导入微信卡券后台的自定义 code，最多 100 个
 
 示例：
 
@@ -379,9 +370,7 @@ $codes    = ['11111', '22222', '33333'];
 $result = $card->code->deposit($cardId, $codes);
 ```
 
-
-
-### 查询导入code数目
+### 查询导入 code 数目
 
 ```php
 $card->code->getDepositedCount($cardId);  // 要导入 code 的卡券 ID
@@ -394,8 +383,6 @@ $cardId = 'pdkJ9uLCEF_HSKO7JdQOUcZ-PUzo';
 
 $result = $card->code->getDepositedCount($cardId);
 ```
-
-
 
 ### 核查 code 接口
 
@@ -415,14 +402,13 @@ $codes = ['807732265476', '22222', '33333'];
 $result = $card->code->check($cardId, $codes);
 ```
 
-
 ### 查询 Code 接口
 
 ```php
 $card->code->get($code, $cardId, $checkConsume = true);
 ```
 
->  - checkConsume  是否校验code核销状态，true和false
+> - checkConsume 是否校验 code 核销状态，true 和 false
 
 示例：
 
@@ -434,9 +420,7 @@ $result = $card->code->get($code, $cardId);
 $result = $card->code->get($code, $cardId, false); // check_consume = false
 ```
 
-
-
-### 核销Code接口
+### 核销 Code 接口
 
 ```php
 $card->code->consume($code);
@@ -469,14 +453,13 @@ $encryptedCode = 'XXIzTtMqCxwOaawoE91+VJdsFmv7b8g0VZIZkqf4GWA60Fzpc8ksZ/5ZZ0DVkX
 $result = $card->code->decrypt($encryptedCode);
 ```
 
-
 ### 更改 Code 接口
 
 ```php
 $card->code->update($code, $newCode, $cardId);
 ```
 
->  - `newCode` string - 变更后的有效 Code 码
+> - `newCode` string - 变更后的有效 Code 码
 
 示例：
 
@@ -487,7 +470,6 @@ $cardId = '';
 
 $result = $card->code->update($code, $newCode, $cardId);
 ```
-
 
 ### 设置卡券失效
 
@@ -532,7 +514,7 @@ $result = $card->general_card->updateUser(array $info);
 $result = $card->member_card->activate($info);
 ```
 
->  - `info` - 需要激活的会员卡信息
+> - `info` - 需要激活的会员卡信息
 
 示例：
 
@@ -558,7 +540,7 @@ $result = $card->member_card->activate($info);
 $card->member_card->setActivationForm($cardId, $settings);
 ```
 
->  - `settings` array - 会员卡激活时的选项
+> - `settings` array - 会员卡激活时的选项
 
 示例：
 
@@ -589,8 +571,6 @@ $settings = [
 $result = $card->member_card->setActivationForm($cardId, $settings);
 ```
 
-
-
 ### 拉取会员信息
 
 ```php
@@ -606,15 +586,13 @@ $code    = '916679873278';
 $result = $card->member_card->getUser($cardId, $code);
 ```
 
-
-
 ### 更新会员信息
 
 ```php
 $card->member_card->updateUser($info);
 ```
 
->  - `info` array - 可以更新的会员信息
+> - `info` array - 可以更新的会员信息
 
 示例：
 
@@ -666,8 +644,8 @@ $result = $card->sub_merchant->create($attributes);
 $card->sub_merchant->update(int $merchantId, array $info);
 ```
 
->  - `$merchantId` int - 子商户 ID
->  - `$info` array - 参数与创建子商户参数一样
+> - `$merchantId` int - 子商户 ID
+> - `$info` array - 参数与创建子商户参数一样
 
 示例：
 
@@ -688,18 +666,15 @@ $card->boarding_pass->checkin(array $params);
 
 ### 更新会议门票 - 更新用户
 
-
 ```php
 $card->meeting_ticket->updateUser(array $params);
 ```
 
 ### 更新电影门票 - 更新用户
 
-
 ```php
 $card->movie_ticket->updateUser(array $params);
 ```
-
 
 ## JSAPI
 
@@ -716,12 +691,8 @@ $json = $card->jssdk->assign($cards); // 返回 json 格式
 返回 json，在模板里的用法：
 
 ```html
-wx.addCard({
-    cardList: <?= $json ?>, // 需要打开的卡券列表
-    success: function (res) {
-        var cardList = res.cardList; // 添加的卡券列表信息
-    }
-});
+wx.addCard({ cardList:
+<?= $json ?>, // 需要打开的卡券列表 success: function (res) { var cardList = res.cardList; // 添加的卡券列表信息 } });
 ```
 
 ### 获取 Ticket

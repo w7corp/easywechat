@@ -17,7 +17,8 @@ API:
 ```php
 mixed checkinRecords(int $startTime, int $endTime, array $userList, int $type = 3)
 ```
->  {info} $type: 打卡类型 1：上下班打卡；2：外出打卡；3：全部打卡
+
+> $type: 打卡类型 1：上下班打卡；2：外出打卡；3：全部打卡
 
 ```php
 // 全部打卡数据
@@ -38,7 +39,7 @@ API:
 mixed approvalRecords(int $startTime, int $endTime, int $nextNumber = null)
 ```
 
->  {info} $nextNumber: 第一个拉取的审批单号，不填从该时间段的第一个审批单拉取
+> $nextNumber: 第一个拉取的审批单号，不填从该时间段的第一个审批单拉取
 
 ```php
 $app->oa->approvalRecords(1492617600, 1492790400);

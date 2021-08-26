@@ -4,9 +4,9 @@
 
 没错，什么 H5 支付，公众号支付，扫码支付，支付中签约，全部都是用这个接口下单。
 
-> {info} 参数 `appid`, `mch_id`, `nonce_str`, `sign`, `sign_type` 可不用传入
+> 参数 `appid`, `mch_id`, `nonce_str`, `sign`, `sign_type` 可不用传入
 
-> 服务商模式下, 需使用 `sub_openid`, 并传入`sub_mch_id` 和`sub_appid` 
+> 服务商模式下, 需使用 `sub_openid`, 并传入`sub_mch_id` 和`sub_appid`
 
 ```php
 $result = $app->order->unify([
@@ -36,7 +36,7 @@ $result = $app->order->unify([
 
 **第二个参数**为是否[支付中签约](https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_13&index=5)，默认 `false`
 
-> {info} 支付中签约相关参数 `contract_mchid`, `contract_appid`, `request_serial` 可不用传入
+> 支付中签约相关参数 `contract_mchid`, `contract_appid`, `request_serial` 可不用传入
 
 ```php
 $isContract = true;
@@ -49,7 +49,7 @@ $result = $app->order->unify([
     'notify_url' => 'https://pay.weixin.qq.com/wxpay/pay.action', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
     'trade_type' => 'JSAPI', // 请对应换成你的支付方式对应的值类型
     'openid' => 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o',
-    
+
     'plan_id' => 123,// 协议模板id
     'contract_code' => 100001256,// 签约协议号
     'contract_display_account' => '腾讯充值中心',// 签约用户的名称
@@ -82,10 +82,10 @@ $result = $app->order->unify([
 
 需要调用查询接口的情况：
 
->  - 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
->  - 调用支付接口后，返回系统错误或未知交易状态情况；
->  - 调用被扫支付 API，返回 USERPAYING 的状态；
->  - 调用关单或撤销接口 API 之前，需确认支付状态；
+> - 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
+> - 调用支付接口后，返回系统错误或未知交易状态情况；
+> - 调用被扫支付 API，返回 USERPAYING 的状态；
+> - 调用关单或撤销接口 API 之前，需确认支付状态；
 
 ### 根据商户订单号查询
 
@@ -101,7 +101,7 @@ $app->order->queryByTransactionId("微信订单号（transaction_id）");
 
 ## 关闭订单
 
-> {warning} 注意：订单生成后不能马上调用关单接口，最短调用时间间隔为5分钟。
+> 注意：订单生成后不能马上调用关单接口，最短调用时间间隔为 5 分钟。
 
 ```php
 $app->order->close(商户系统内部的订单号（out_trade_no）);

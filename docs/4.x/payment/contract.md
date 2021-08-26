@@ -2,7 +2,7 @@
 
 ## 公众号签约
 
-> {info} 参数 `appid`, `version`, `timestamp`, `sign` 可不用传入
+> 参数 `appid`, `version`, `timestamp`, `sign` 可不用传入
 
 ```php
 $result = $app->contract->web([
@@ -14,13 +14,13 @@ $result = $app->contract->web([
 ]);
 ```
 
-## APP签约
+## APP 签约
 
 ```php
 $result = $app->contract->app(array $params);
 ```
 
-## H5签约
+## H5 签约
 
 ```php
 $result = $app->contract->h5(array $params);

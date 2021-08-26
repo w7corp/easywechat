@@ -18,7 +18,6 @@ $config = [
 $app = new Application($config);
 ```
 
-
 ## API
 
 Application 就是一个工厂类，所有的模块都是从 `$app` 中访问，并且几乎都提供了协议和 setter 可自定义修改。
@@ -41,7 +40,7 @@ $app->getServer();
 $app->getClient();
 ```
 
-:book: 更多说明请参阅：[API调用](/docs/{{version}}/common/client.md)
+:book: 更多说明请参阅：[API 调用](/docs/{{version}}/common/client.md)
 
 ### 配置
 
@@ -90,7 +89,6 @@ $account->getToken();
 $account->getAesKey();
 ```
 
-
 ## 第三方应用需要在打开的网页里面携带用户的身份信息
 
 > [点此查看官方文档](https://open.work.weixin.qq.com/api/doc/90001/90143/91120#%E6%9E%84%E9%80%A0%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%94%E7%94%A8oauth2%E9%93%BE%E6%8E%A5)
@@ -102,7 +100,6 @@ $oauth = $app->getOAuth(string $suiteId, AccessTokenInterface $suiteAccessToken)
 ```
 
 :book: 详情请参考：[网页授权](./oauth.md)
-
 
 ## 企业网页授权
 
@@ -116,7 +113,7 @@ $oauth = $app->getCorpOAuth(string $corpId, int $agentId, AccessTokenInterface $
 
 ## 使用授权码获取授权信息
 
-在用户在授权页授权流程完成后，授权页会自动跳转进入回调URI，并在URL参数中返回授权码和过期时间，如：(`https://easywechat.com/callback?auth_code=xxx&expires_in=600`)
+在用户在授权页授权流程完成后，授权页会自动跳转进入回调 URI，并在 URL 参数中返回授权码和过期时间，如：(`https://easywechat.com/callback?auth_code=xxx&expires_in=600`)
 
 ```php
 $permanentCode = '企业永久授权码';
@@ -200,7 +197,7 @@ $authorization->toJson();
 
 在公众号/小程序接口调用令牌（`authorizer_access_token`）失效时，可以使用刷新令牌（authorizer_refresh_token）获取新的接口调用令牌。
 
-> {warning} 注意： `authorizer_access_token` 有效期为 2 小时，开发者需要缓存 `authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。缓存方法可以参考：https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
+> 注意： `authorizer_access_token` 有效期为 2 小时，开发者需要缓存 `authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。缓存方法可以参考：https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
 
 ```php
 $permanentCode = '企业永久授权码';

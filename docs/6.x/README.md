@@ -16,7 +16,7 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 
 [EasyWeChat SDK 交流群](http://shang.qq.com/wpa/qunwpa?idkey=b4dcf3ec51a7e8c3c3a746cf450ce59895e5c4ec4fbcb0f80c2cd97c3c6e63e9) ID: 319502940
 
-> {warning} 请认真阅读微信官方文档与 SDK 使用文档再使用，否则提的低级问题不会有人理你
+> 请认真阅读微信官方文档与 SDK 使用文档再使用，否则提的低级问题不会有人理你
 
 你有以下两种方式加入到我们中来，为广大开发者提供更优质的免费开源的服务：
 
@@ -40,4 +40,4 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 
 我们专门针对一些容易出现的通用问题已经做了汇总： [疑难解答](/troubleshooting.md) ，如果你在问题疑难解答没找到你出现的问题，那么可以在这里提问 [GitHub](https://github.com/overtrue/wechat/issues)，提问请描述清楚你用的版本，你的做法是什么，不然别人没法帮你。
 
-> {warning} 最后，请有问题先审查代码，看文档, 再 Google，然后去群里提问题，带上你的代码，重现流程，大家有空的会帮忙你解答。谢谢合作！:pray:
+> 最后，请有问题先审查代码，看文档, 再 Google，然后去群里提问题，带上你的代码，重现流程，大家有空的会帮忙你解答。谢谢合作！:pray:

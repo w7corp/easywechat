@@ -11,7 +11,7 @@ $config = [
 
     // 指定 API 调用返回结果的类型：array(default)/collection/object/raw/自定义类名
     'response_type' => 'array',
-    
+
     //...
 ];
 
@@ -127,7 +127,7 @@ $app->logger->extend('mylog', function($app, $config){
 });
 ```
 
-> {info} 在你自定义的闭包函数中，可以使用 `EasyWeChat\Kernel\Log\LogManager` 中的方法，具体请查看 SDK 源代码。
+>  在你自定义的闭包函数中，可以使用 `EasyWeChat\Kernel\Log\LogManager` 中的方法，具体请查看 SDK 源代码。
 
 配置文件中在 `driver` 部分即可使用你自定义的驱动了：
 
@@ -139,7 +139,7 @@ $app->logger->extend('mylog', function($app, $config){
         'dev' => [
             'driver' => 'mylog',
             'path' => '/tmp/easywechat.log',
-            'level' => 'debug', 
+            'level' => 'debug',
             'days' => 5,
         ],
 

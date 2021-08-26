@@ -8,7 +8,7 @@
 $app->poi->create($baseInfo);
 ```
 
->  - `$baseInfo` 为门店的基本信息数组
+> - `$baseInfo` 为门店的基本信息数组
 
 示例：
 
@@ -42,14 +42,15 @@ $info = array(
 $result = $app->poi->create($info); // true or exception
 ```
 
-> {warning} 注意：新创建的门店在审核通过后,会以事件形式推送给商户填写的回调 URL
+> 注意：新创建的门店在审核通过后,会以事件形式推送给商户填写的回调 URL
 
 ## 获取指定门店信息
 
 ```php
 $app->poi->get($poiId);
 ```
->  - `$poiId` 为门店ID
+
+> - `$poiId` 为门店 ID
 
 示例：
 
@@ -63,8 +64,8 @@ $info = $app->poi->get(271262077);
 $app->poi->list($begin, $limit);// begin:0, limit:10
 ```
 
->  - `$begin` 就是查询起点，`MySQL` 里的 `offset`；
->  - `$limit` 查询条数，同 `MySQL` 里的 `limit`；
+> - `$begin` 就是查询起点，`MySQL` 里的 `offset`；
+> - `$limit` 查询条数，同 `MySQL` 里的 `limit`；
 
 > 两参数均可选
 
@@ -100,8 +101,8 @@ $pois = $app->poi->list(0, 2);// 取2条记录
 $app->poi->update($poiId, $data);
 ```
 
->  - `$poiId` 为门店ID
->  - `$data` 需要更新的部分数据，**若有填写内容则为覆盖更新,若无内容则视为不 修改,维持原有内容。photo_list 字段为全列表覆盖,若需要增加图片,需将之前图片同样放入 list 中,在其后增加新增图片。如:已有 A、B、C 三张图片,又要增加 D、E 两张图,则需要调 用该接口,photo_list 传入 A、B、C、D、E 五张图片的链接。**
+> - `$poiId` 为门店 ID
+> - `$data` 需要更新的部分数据，**若有填写内容则为覆盖更新,若无内容则视为不 修改,维持原有内容。photo_list 字段为全列表覆盖,若需要增加图片,需将之前图片同样放入 list 中,在其后增加新增图片。如:已有 A、B、C 三张图片,又要增加 D、E 两张图,则需要调 用该接口,photo_list 传入 A、B、C、D、E 五张图片的链接。**
 
 示例：
 

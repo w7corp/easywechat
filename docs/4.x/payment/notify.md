@@ -2,7 +2,7 @@
 
 ## 支付结果通知
 
-在用户成功支付后，微信服务器会向该 **订单中设置的回调URL** 发起一个 POST 请求，请求的内容为一个 XML。里面包含了所有的详细信息，具体请参考：[支付结果通知](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7)
+在用户成功支付后，微信服务器会向该 **订单中设置的回调 URL** 发起一个 POST 请求，请求的内容为一个 XML。里面包含了所有的详细信息，具体请参考：[支付结果通知](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7)
 
 而对于用户的退款操作，在退款成功之后也会有一个异步回调通知。
 
@@ -23,15 +23,16 @@ $response->send(); // Laravel 里请使用：return $response;
 
 这里需要注意的有几个点：
 
-  0. 退款结果通知和扫码支付通知的使用方法均类似。
-  1. `handlePaidNotify` 只接收一个 [`Closure`](http://php.net/manual/zh/class.closure.php) 匿名函数。
-  2. 该匿名函数接收两个参数，这两个参数分别为：
-  >  - `$message` 为微信推送过来的通知信息，为一个数组；
-  >  - `$fail` 为一个函数，触发该函数可向微信服务器返回对应的错误信息，**微信会稍后重试再通知**。
+0. 退款结果通知和扫码支付通知的使用方法均类似。
+1. `handlePaidNotify` 只接收一个 [`Closure`](http://php.net/manual/zh/class.closure.php) 匿名函数。
+2. 该匿名函数接收两个参数，这两个参数分别为：
 
-  3. 该函数返回值就是告诉微信 **“我是否处理完成”**。如果你触发 `$fail` 函数，那么微信会在稍后再次继续通知你，直到你明确的告诉它：“我已经处理完成了”，**只有**在函数里 `return true;` 才代表处理完成。
+   > - `$message` 为微信推送过来的通知信息，为一个数组；
+   > - `$fail` 为一个函数，触发该函数可向微信服务器返回对应的错误信息，**微信会稍后重试再通知**。
 
-  4. `handlePaidNotify` 返回值 `$response` 是一个 Response 对象，如果你要直接输出，使用 `$response->send()`, 在一些框架里（如 Laravel）不是输出而是返回：`return $response`。
+3. 该函数返回值就是告诉微信 **“我是否处理完成”**。如果你触发 `$fail` 函数，那么微信会在稍后再次继续通知你，直到你明确的告诉它：“我已经处理完成了”，**只有**在函数里 `return true;` 才代表处理完成。
+
+4. `handlePaidNotify` 返回值 `$response` 是一个 Response 对象，如果你要直接输出，使用 `$response->send()`, 在一些框架里（如 Laravel）不是输出而是返回：`return $response`。
 
 通常我们的处理逻辑大概是下面这样（**以下只是伪代码**）：
 
@@ -68,7 +69,7 @@ $response = $app->handlePaidNotify(function($message, $fail){
 $response->send(); // return $response;
 ```
 
->  {warning} 注意：请把 “支付成功与否” 与 “是否处理完成” 分开，它俩没有必然关系。
+> 注意：请把 “支付成功与否” 与 “是否处理完成” 分开，它俩没有必然关系。
 > 比如：微信通知你用户支付完成，但是支付失败了(result_code 为 'FAIL')，你应该**更新你的订单为支付失败**，但是要**告诉微信处理完成**。
 
 ## 退款结果通知

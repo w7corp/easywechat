@@ -1,6 +1,6 @@
 # 安全与风控
 
-> {info} EasyWeChat 4.0.7+
+> EasyWeChat 4.0.7+
 
 ## 获取 RSA 公钥
 

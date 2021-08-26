@@ -1,11 +1,10 @@
 # 素材管理
 
-
 在微信里的图片，音乐，视频等等都需要先上传到微信服务器作为素材才可以在消息中使用。
 
 ### 上传图片
 
-> {warning} 注意：微信图片上传服务有敏感检测系统，图片内容如果含有敏感内容，如色情，商品推广，虚假信息等，上传可能失败。
+> 注意：微信图片上传服务有敏感检测系统，图片内容如果含有敏感内容，如色情，商品推广，虚假信息等，上传可能失败。
 
 ```php
 $result = $app->material->uploadImage("/path/to/your/image.jpg");
@@ -69,9 +68,9 @@ $app->material->uploadArticle([$article, $article2, ...]);
 
 有三个参数：
 
->  - `$mediaId` 要更新的文章的 `mediaId`
->  - `$article` 文章内容，`Article` 实例或者 全字段数组
->  - `$index` 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义，单图片忽略此参数），第一篇为 0；
+> - `$mediaId` 要更新的文章的 `mediaId`
+> - `$article` 文章内容，`Article` 实例或者 全字段数组
+> - `$index` 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义，单图片忽略此参数），第一篇为 0；
 
 ```php
 $result = $app->material->updateArticle($mediaId, new Article(...));
@@ -91,7 +90,6 @@ $result = $app->material->updateArticle($mediaId, [
 // 指定更新多图文中的第 2 篇
 $result = $app->material->updateArticle($mediaId, new Article(...), 1); // 第 2 篇
 ```
-
 
 ### 上传图文消息图片
 
@@ -134,9 +132,9 @@ $resource = $app->material->get($mediaId);
 
 ```json
 {
-  "title":TITLE,
-  "description":DESCRIPTION,
-  "down_url":DOWN_URL,
+  "title": TITLE,
+  "description": DESCRIPTION,
+  "down_url": DOWN_URL
 }
 ```
 
@@ -156,9 +154,9 @@ if ($stream instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
 
 ### 获取永久素材列表
 
->  - `$type`   素材的类型，图片（`image`）、视频（`video`）、语音 （`voice`）、图文（`news`）
->  - `$offset` 从全部素材的该偏移位置开始返回，可选，默认 `0`，0 表示从第一个素材 返回
->  - `$count`  返回素材的数量，可选，默认 `20`, 取值在 1 到 20 之间
+> - `$type` 素材的类型，图片（`image`）、视频（`video`）、语音 （`voice`）、图文（`news`）
+> - `$offset` 从全部素材的该偏移位置开始返回，可选，默认 `0`，0 表示从第一个素材 返回
+> - `$count` 返回素材的数量，可选，默认 `20`, 取值在 1 到 20 之间
 
 ```php
 $app->material->list($type, $offset, $count);
@@ -174,16 +172,17 @@ $list = $app->material->list('image', 0, 10);
 
 ```json
 {
-   "total_count": TOTAL_COUNT,
-   "item_count": ITEM_COUNT,
-   "item": [{
-       "media_id": MEDIA_ID,
-       "name": NAME,
-       "update_time": UPDATE_TIME,
-       "url":URL
-   },
-   //可能会有多个素材
-   ]
+  "total_count": TOTAL_COUNT,
+  "item_count": ITEM_COUNT,
+  "item": [
+    {
+      "media_id": MEDIA_ID,
+      "name": NAME,
+      "update_time": UPDATE_TIME,
+      "url": URL
+    }
+    //可能会有多个素材
+  ]
 }
 ```
 
@@ -191,31 +190,32 @@ $list = $app->material->list('image', 0, 10);
 
 ```json
 {
-   "total_count": TOTAL_COUNT,
-   "item_count": ITEM_COUNT,
-   "item": [{
-       "media_id": MEDIA_ID,
-       "content": {
-           "news_item": [{
-               "title": TITLE,
-               "thumb_media_id": THUMB_MEDIA_ID,
-               "show_cover_pic": SHOW_COVER_PIC(0 / 1),
-               "author": AUTHOR,
-               "digest": DIGEST,
-               "content": CONTENT,
-               "url": URL,
-               "content_source_url": CONTETN_SOURCE_URL
-           },
-           //多图文消息会在此处有多篇文章
-           ]
-        },
-        "update_time": UPDATE_TIME
-    },
+  "total_count": TOTAL_COUNT,
+  "item_count": ITEM_COUNT,
+  "item": [
+    {
+      "media_id": MEDIA_ID,
+      "content": {
+        "news_item": [
+          {
+            "title": TITLE,
+            "thumb_media_id": THUMB_MEDIA_ID,
+            "show_cover_pic": SHOW_COVER_PIC(0 / 1),
+            "author": AUTHOR,
+            "digest": DIGEST,
+            "content": CONTENT,
+            "url": URL,
+            "content_source_url": CONTETN_SOURCE_URL
+          }
+          //多图文消息会在此处有多篇文章
+        ]
+      },
+      "update_time": UPDATE_TIME
+    }
     //可能有多个图文消息item结构
   ]
 }
 ```
-
 
 ### 获取素材计数
 

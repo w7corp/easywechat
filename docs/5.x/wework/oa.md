@@ -82,7 +82,6 @@ $app->oa->checkinSchedus(int $startTime, int $endTime, array $userids);
 $app->oa->addCheckinUserface(string $userid, string $userface)
 ```
 
-
 ## 获取审批数据
 
 API:
@@ -91,7 +90,7 @@ API:
 mixed approvalRecords(int $startTime, int $endTime, int $nextNumber = null)
 ```
 
->  {info} $nextNumber: 第一个拉取的审批单号，不填从该时间段的第一个审批单拉取
+> $nextNumber: 第一个拉取的审批单号，不填从该时间段的第一个审批单拉取
 
 ```php
 $app->oa->approvalRecords(1492617600, 1492790400);

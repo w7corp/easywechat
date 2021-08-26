@@ -2,7 +2,7 @@
 
 ### 模式一：先生成产品二维码，扫码下单后支付
 
->  {warning} 请务必先熟悉流程：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
+> 请务必先熟悉流程：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_4
 
 #### 生成产品二维码内容
 
@@ -14,9 +14,9 @@ $content = $app->scheme($productId); // $productId 为你的产品/商品ID，�
 
 将 `$content` 生成二维码，SDK 并不内置二维码生成库，使用你熟悉的工具创建二维码即可，比如 PHP 部分有以下工具可以选择：
 
->  - https://github.com/endroid/qr-code
->  - https://github.com/SimpleSoftwareIO/simple-qrcode
->  - https://github.com/aferrandini/PHPQRCode
+> - https://github.com/endroid/qr-code
+> - https://github.com/SimpleSoftwareIO/simple-qrcode
+> - https://github.com/aferrandini/PHPQRCode
 
 #### 处理回调
 
@@ -43,7 +43,7 @@ $response->send();
 
 ### 模式二：先下单，生成订单后创建二维码
 
->  {warning} 请务必先熟悉流程：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_5
+> ：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=6_5
 
 #### 根据用户选购的商品生成订单
 
@@ -59,7 +59,7 @@ $result = $app->order->unify([
 
 #### 生成二维码
 
->  {info} 版本 4.1.7+ 支持
+> 版本 4.1.7+ 支持
 
 从上一步得到的 `$result['code_url']` 得到二维码内容：
 

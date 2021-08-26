@@ -11,7 +11,7 @@
 - 授权成功 `authorized`
 - 授权更新 `updateauthorized`
 - 授权取消 `unauthorized`
-- VerifyTicket  `component_verify_ticket`
+- VerifyTicket `component_verify_ticket`
 
 SDK 默认会处理事件 `component_verify_ticket` ，并会缓存 `verify_ticket` 所以如果你暂时不需要处理其他事件，直接这样使用即可：
 
@@ -25,7 +25,7 @@ return $response;
 
 ## 自定义消息处理器
 
-> *消息处理器详细说明见公众号开发 - 服务端一节*
+> _消息处理器详细说明见公众号开发 - 服务端一节_
 
 ```php
 // 处理授权成功事件
@@ -41,11 +41,11 @@ $server->handleUnauthorized(callable | string $handler);
 $server->handleVerifyTicketRefreshed(callable | string $handler);
 ```
 
-> {warning} 注意：如果你自行处理了 VerifyTicket 推送，你必须同时设置 ComponentAccessToken 类，因为 ComponentAccessToken 依赖它。
+> 注意：如果你自行处理了 VerifyTicket 推送，你必须同时设置 ComponentAccessToken 类，因为 ComponentAccessToken 依赖它。
 
 ### 示例（Laravel 框架）
 
-> {warning} 注意：请注意为此类路由关闭 csrf 验证。
+> 类路由关闭 csrf 验证。
 
 ```php
 // 假设你的开放平台第三方平台设置的授权事件接收 URL 为: https://easywechat.com/open-platform （其他事件推送同样会推送到这个 URL）

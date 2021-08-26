@@ -6,14 +6,14 @@
 
 你可以配置多个日志的 `channel`，每个 `channel` 里的 `driver` 对应不同的日志驱动，内置可用的 `driver` 如下表：
 
-名称 | 描述
-------------- | -------------
-`stack` | 复合型，可以包含下面多种驱动的混合模式
-`single` | 基于 `StreamHandler` 的单一文件日志，参数有 `path`，`level`
-`daily` | 基于 `RotatingFileHandler` 按日期生成日志文件，参数有 `path`，`level`，`days`(默认 7 天)
-`slack` | 基于 `SlackWebhookHandler` 的 Slack 组件，参数请参考源码：[LogManager.php](https://github.com/w7corp/wechat/blob/master/src/Kernel/Log/LogManager.php#L247)
-`syslog` | 基于 `SyslogHandler` Monolog 驱动，参数有 `facility` 默认为 `LOG_USER`，`level`
-`errorlog` | 记录日志到系统错误日志，基于 `ErrorLogHandler`，参数有 `type`，默认为 `ErrorLogHandler::OPERATING_SYSTEM`
+| 名称       | 描述                                                                                                                                                        |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stack`    | 复合型，可以包含下面多种驱动的混合模式                                                                                                                      |
+| `single`   | 基于 `StreamHandler` 的单一文件日志，参数有 `path`，`level`                                                                                                 |
+| `daily`    | 基于 `RotatingFileHandler` 按日期生成日志文件，参数有 `path`，`level`，`days`(默认 7 天)                                                                    |
+| `slack`    | 基于 `SlackWebhookHandler` 的 Slack 组件，参数请参考源码：[LogManager.php](https://github.com/w7corp/wechat/blob/master/src/Kernel/Log/LogManager.php#L247) |
+| `syslog`   | 基于 `SyslogHandler` Monolog 驱动，参数有 `facility` 默认为 `LOG_USER`，`level`                                                                             |
+| `errorlog` | 记录日志到系统错误日志，基于 `ErrorLogHandler`，参数有 `type`，默认为 `ErrorLogHandler::OPERATING_SYSTEM`                                                   |
 
 ### 自定义日志驱动
 
@@ -34,7 +34,7 @@ $app->getLogger()->extend('mylog', function($app, $config){
 });
 ```
 
-> {info} 在你自定义的闭包函数中，可以使用 `EasyWeChat\Kernel\Log\LogManager` 中的方法，具体请查看 SDK 源代码。
+> 在你自定义的闭包函数中，可以使用 `EasyWeChat\Kernel\Log\LogManager` 中的方法，具体请查看 SDK 源代码。
 
 配置文件中在 `driver` 部分即可使用你自定义的驱动了：
 
@@ -54,4 +54,3 @@ $app->getLogger()->extend('mylog', function($app, $config){
     ],
 ],
 ```
-

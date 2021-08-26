@@ -41,7 +41,7 @@
   - `Recognition`  * 开通语音识别后才有
 ```
 
-> {warning} 请注意，开通语音识别后，用户每次发送语音给公众号时，微信会在推送的语音消息XML数据包中，增加一个 `Recongnition` 字段
+> 请注意，开通语音识别后，用户每次发送语音给公众号时，微信会在推送的语音消息 XML 数据包中，增加一个 `Recongnition` 字段
 
 ### 视频：
 
@@ -123,12 +123,11 @@
 
 ```json
 {
-    "touser":"OPENID",
-    "msgtype":"text",
-    "text":
-    {
-         "content":"Hello World"
-    }
+  "touser": "OPENID",
+  "msgtype": "text",
+  "text": {
+    "content": "Hello World"
+  }
 }
 ```
 
@@ -136,12 +135,11 @@
 
 ```json
 {
-    "touser":"OPENID",
-    "msgtype":"image",
-    "image":
-    {
-      "media_id":"MEDIA_ID"
-    }
+  "touser": "OPENID",
+  "msgtype": "image",
+  "image": {
+    "media_id": "MEDIA_ID"
+  }
 }
 ```
 
@@ -149,12 +147,11 @@
 
 ```json
 {
-    "touser":"OPENID",
-    "msgtype":"voice",
-    "voice":
-    {
-      "media_id":"MEDIA_ID"
-    }
+  "touser": "OPENID",
+  "msgtype": "voice",
+  "voice": {
+    "media_id": "MEDIA_ID"
+  }
 }
 ```
 
@@ -162,33 +159,30 @@
 
 ```json
 {
-    "touser":"OPENID",
-    "msgtype":"video",
-    "video":
-    {
-      "media_id":"MEDIA_ID",
-      "thumb_media_id":"MEDIA_ID",
-      "title":"TITLE",
-      "description":"DESCRIPTION"
-    }
+  "touser": "OPENID",
+  "msgtype": "video",
+  "video": {
+    "media_id": "MEDIA_ID",
+    "thumb_media_id": "MEDIA_ID",
+    "title": "TITLE",
+    "description": "DESCRIPTION"
+  }
 }
 ```
-
 
 ### 音乐消息
 
 ```json
 {
-    "touser":"OPENID",
-    "msgtype":"music",
-    "music":
-    {
-      "title":"MUSIC_TITLE",
-      "description":"MUSIC_DESCRIPTION",
-      "musicurl":"MUSIC_URL",
-      "hqmusicurl":"HQ_MUSIC_URL",
-      "thumb_media_id":"THUMB_MEDIA_ID"
-    }
+  "touser": "OPENID",
+  "msgtype": "music",
+  "music": {
+    "title": "MUSIC_TITLE",
+    "description": "MUSIC_DESCRIPTION",
+    "musicurl": "MUSIC_URL",
+    "hqmusicurl": "HQ_MUSIC_URL",
+    "thumb_media_id": "THUMB_MEDIA_ID"
+  }
 }
 ```
 
@@ -196,32 +190,30 @@
 
 ```json
 {
-    "touser":"OPENID",
-    "msgtype":"news",
-    "news":{
-        "articles": [
-         {
-             "title":"Happy Day",
-             "description":"Is Really A Happy Day",
-             "url":"URL",
-             "picurl":"PIC_URL"
-         }
-         ]
-    }
+  "touser": "OPENID",
+  "msgtype": "news",
+  "news": {
+    "articles": [
+      {
+        "title": "Happy Day",
+        "description": "Is Really A Happy Day",
+        "url": "URL",
+        "picurl": "PIC_URL"
+      }
+    ]
+  }
 }
 ```
-
 
 ### 图文消息（点击跳转到图文消息页面）
 
 ```json
 {
-    "touser":"OPENID",
-    "msgtype":"mpnews",
-    "mpnews":
-    {
-         "media_id":"MEDIA_ID"
-    }
+  "touser": "OPENID",
+  "msgtype": "mpnews",
+  "mpnews": {
+    "media_id": "MEDIA_ID"
+  }
 }
 ```
 
@@ -252,12 +244,11 @@
 
 ```json
 {
-  "touser":"OPENID",
-  "msgtype":"wxcard",
-  "wxcard":
-  {
-   "card_id":"123dsdajkasd231jhksad"
-   }
+  "touser": "OPENID",
+  "msgtype": "wxcard",
+  "wxcard": {
+    "card_id": "123dsdajkasd231jhksad"
+  }
 }
 ```
 

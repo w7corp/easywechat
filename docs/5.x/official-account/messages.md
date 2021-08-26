@@ -10,7 +10,7 @@
 
 另外还有一种特殊的消息类型：**素材消息**，用于群发或者客服时发送已有素材用。
 
-> {warning} 注意：回复消息与客服消息里的图文类型为：**图文**，群发与素材中的图文为**文章**
+> 注意：回复消息与客服消息里的图文类型为：**图文**，群发与素材中的图文为**文章**
 
 所有的消息类都在 `EasyWeChat\Kernel\Messages` 这个命名空间下， 下面我们来分开讲解：
 
@@ -18,7 +18,7 @@
 
 属性列表：
 
->  - `content` 文本内容
+> - `content` 文本内容
 
 ```php
 use EasyWeChat\Kernel\Messages\Text;
@@ -49,15 +49,14 @@ use EasyWeChat\Kernel\Messages\Image;
 $image = new Image($mediaId);
 ```
 
-
 ### 视频消息
 
 属性列表：
 
->  - `title` 标题
->  - `description` 描述
->  - `media_id` 媒体资源 ID
->  - `thumb_media_id` 封面资源 ID
+> - `title` 标题
+> - `description` 描述
+> - `media_id` 媒体资源 ID
+> - `thumb_media_id` 封面资源 ID
 
 ```php
 
@@ -73,7 +72,7 @@ $video = new Video($mediaId, [
 
 属性列表：
 
->  - `media_id` 媒体资源 ID
+> - `media_id` 媒体资源 ID
 
 ```php
 use EasyWeChat\Kernel\Messages\Voice;
@@ -83,24 +82,24 @@ $voice = new Voice($mediaId);
 
 ### 链接消息
 
->  {warning} 微信目前不支持回复链接消息
+> 复链接消息
 
 ### 坐标消息
 
->  {warning} 微信目前不支持回复坐标消息
+> 复坐标消息
 
 ### 图文消息
 
 图文消息分为 `NewsItem` 与 `News`，`NewsItem` 为图文内容条目。
 
-> {warning} [10月12日起，被动回复消息与客服消息接口的图文消息类型中图文数目只能为一条](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=115383153198yAvN&version=&lang=zh_CN&token=)
+> ，被动回复消息与客服消息接口的图文消息类型中图文数目只能为一条](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=115383153198yAvN&version=&lang=zh_CN&token=)
 
 `NewsItem` 属性：
 
->  - `title` 标题
->  - `description` 描述
->  - `image` 图片链接
->  - `url` 链接 URL
+> - `title` 标题
+> - `description` 描述
+> - `image` 图片链接
+> - `url` 链接 URL
 
 ```php
 use EasyWeChat\Kernel\Messages\News;
@@ -122,13 +121,13 @@ $news = new News($items);
 
 属性列表：
 
->  - `title` 标题
->  - `author` 作者
->  - `content` 具体内容
->  - `thumb_media_id` 图文消息的封面图片素材id（必须是永久mediaID）
->  - `digest` 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空
->  - `source_url` 来源 URL
->  - `show_cover` 是否显示封面，0 为 false，即不显示，1 为 true，即显示
+> - `title` 标题
+> - `author` 作者
+> - `content` 具体内容
+> - `thumb_media_id` 图文消息的封面图片素材 id（必须是永久 mediaID）
+> - `digest` 图文消息的摘要，仅有单图文消息才有摘要，多图文此处为空
+> - `source_url` 来源 URL
+> - `show_cover` 是否显示封面，0 为 false，即不显示，1 为 true，即显示
 
 ```php
 use EasyWeChat\Kernel\Messages\Article;
@@ -148,19 +147,18 @@ $article->content = '微信 SDK ...';
 // ...
 ```
 
-
 ### 素材消息
 
 素材消息用于群发与客服消息时使用。
+
 > 素材消息不支持被动回复，如需被动回复素材消息，首先组装后，再 News 方法返回。
 
 属性就一个：`media_id`。
 
 在构造时有两个参数：
 
->  - `$type` 素材类型，目前只支持：`mpnews`、 `mpvideo`、`voice`、`image` 等。
->  - `$mediaId` 素材 ID，从接口查询或者上传后得到。
-
+> - `$type` 素材类型，目前只支持：`mpnews`、 `mpvideo`、`voice`、`image` 等。
+> - `$mediaId` 素材 ID，从接口查询或者上传后得到。
 
 ```php
 use EasyWeChat\Kernel\Messages\Media;
@@ -170,7 +168,7 @@ $media = new Media($mediaId, 'mpnews');
 
 以上呢，是所有微信支持的基本消息类型。
 
-> {info} 需要注意的是，你不需要关心微信的消息字段叫啥，因为这里我们使用了更标准的命名，然后最终在中间做了转换，所以你不需要关注。
+> 需要注意的是，你不需要关心微信的消息字段叫啥，因为这里我们使用了更标准的命名，然后最终在中间做了转换，所以你不需要关注。
 
 ### 原始消息
 
@@ -190,7 +188,7 @@ $message = new Raw('<xml>
 </xml>');
 ```
 
-比如，你要用于客服消息(客服消息是JSON结构)：
+比如，你要用于客服消息(客服消息是 JSON 结构)：
 
 ```php
 use EasyWeChat\Kernel\Messages\Raw;
@@ -237,7 +235,7 @@ $app->server->push(function ($message) {
 
 #### 回复多图文消息
 
-> {warning} [10月12日起，被动回复消息与客服消息接口的图文消息类型中图文数目只能为一条](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=115383153198yAvN&version=&lang=zh_CN&token=)
+> ，被动回复消息与客服消息接口的图文消息类型中图文数目只能为一条](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=115383153198yAvN&version=&lang=zh_CN&token=)
 
 多图文消息其实就是单图文消息的一个数组而已了：
 
@@ -252,7 +250,6 @@ $app->server->push(function ($message) {
 });
 // ...
 ```
-
 
 ### 作为客服消息发送
 
@@ -269,7 +266,7 @@ $result = $app->customer_service->message($message)->to($openId)->send();
 
 #### 发送多图文消息
 
-> {warning} [10月12日起，被动回复消息与客服消息接口的图文消息类型中图文数目只能为一条](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=115383153198yAvN&version=&lang=zh_CN&token=)
+> ，被动回复消息与客服消息接口的图文消息类型中图文数目只能为一条](https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&announce_id=115383153198yAvN&version=&lang=zh_CN&token=)
 
 多图文消息其实就是单图文消息组成的一个 News 对象而已：
 

@@ -8,8 +8,8 @@
 
 请严格遵循以下代码标准:
 
->  - [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
->  - 使用 4 个空格作为缩进。
+> - [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
+> - 使用 4 个空格作为缩进。
 
 ### 流程
 
@@ -29,7 +29,7 @@
 
 5. 创建 Pull Request 并描述你完成的功能或者做出的修改。
 
-> {warning} 注意：注释请使用英文
+> 注意：注释请使用英文
 
 ## 更新文档
 
