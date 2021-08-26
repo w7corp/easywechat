@@ -8,5 +8,6 @@ module.exports = {
         './**/*.html',
         './**/*.vue',
         './**/*.jsx',
+        './**/*.scss',
     ],
 }
