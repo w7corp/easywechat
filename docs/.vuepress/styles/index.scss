@@ -16,6 +16,17 @@ pre>code {
   -webkit-font-smoothing: antialiased;
 }
 
+blockquote {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+
+p.sidebar-item:not(.sidebar-heading) {
+  font-size: 0.6em !important;
+  font-weight: 800 !important;
+  color: var(--c-text-lighter);
+}
+
 .site-name {
   display: none;
 }
