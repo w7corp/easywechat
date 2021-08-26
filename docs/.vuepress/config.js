@@ -49,20 +49,20 @@ module.exports = {
   },
   plugins: [
     [
-      '@vuepress/plugin-register-components',
+      '@vuepress/register-components',
       {
         componentsDir: path.resolve(__dirname, './components'),
       },
     ],
     [
       '@vuepress/google-analytics', { id: 'UA-64156348-1' },
-    ]
-    // [
-    //   "@vuepress/search",
-    //   {
-    //     searchMaxSuggestions: 10,
-    //     test: `/${latest}/`,
-    //   },
-    // ],
+    ],
+    [
+      "@vuepress/docsearch",
+      {
+        apiKey: '981093e0ff3b2e187aea7c340bc4d339',
+        indexName: 'easywechat',
+      },
+    ],
   ],
 };

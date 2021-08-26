@@ -3,10 +3,9 @@
     "dependencies": {
         "@fullhuman/postcss-purgecss": "^4.0.3",
         "@vue/component-compiler-utils": "^3.2.2",
+        "@vuepress/plugin-docsearch": "^2.0.0-beta.24",
         "@vuepress/plugin-google-analytics": "^2.0.0-beta.24",
         "@vuepress/plugin-register-components": "^2.0.0-beta.24",
-        "@vuepress/plugin-search": "^2.0.0-beta.24",
-        "@vuepress/shared-utils": "^1.8.2",
         "@vuepress/theme-default": "^2.0.0-beta.23",
         "autoprefixer": "^10.3.1",
         "clipboard": "^2.0.8",
