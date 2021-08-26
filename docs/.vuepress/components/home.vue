@@ -8,7 +8,7 @@
             <span class="ml-3 text-xl hidden">EasyWeChat</span>
           </a>
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <a class="mr-5 text-gray-400 hover:text-gray-300" href="/latest"> 文档 </a>
+            <a class="mr-5 text-gray-400 hover:text-gray-300" :href="$withBase(`/${latestVersion}/`)"> 文档 </a>
             <a class="mr-5 text-gray-400 hover:text-gray-300" target="_blank" href="https://github.com/w7corp/easywechat/discussions"> 论坛 </a>
             <a class="mr-5 text-gray-400 hover:text-gray-300" target="_blank" href="https://github.com/w7corp/easywechat/"> 源码 </a>
           </nav>
@@ -16,15 +16,15 @@
       </header>
 
       <section class="text-gray-600 body-font">
-        <div class="z-10 relative container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
+        <div class="z-10 relative container mx-auto flex px-5 py-12 md:py-24 md:flex-row flex-col items-center">
           <div class="lg:flex-1 md:w-2/3 lg:pr-12 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
             <h1
               class="text-3xl md:text-5xl xl:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-400"
             >
               微信开发，也可以更简单
             </h1>
-            <p class="mb-8 leading-relaxed text-gray-500">每一个细节，都经过精心打磨，只为了提供更好的开发体验</p>
-            <div class="mt-8 space-y-2 md:space-y-0 xl:flex justify-center">
+            <p class="mb-2 md:mb-8 leading-relaxed text-gray-500">每一个细节，都经过精心打磨，只为了提供更好的开发体验</p>
+            <div class="mt-2 md:mt-8 space-y-2 md:space-y-0 xl:flex justify-center">
               <button
                 class="hidden xl:block mr-4 inline-flex items-center space-around text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
                 data-clipboard-text="composer require w7corp/easywechat"
@@ -43,7 +43,7 @@
                 </code>
               </button>
               <a
-                :href="$withBase('/latest/')"
+                :href="$withBase(`/${latestVersion}/`)"
                 class="inline-flex items-center space-around text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
               >
                 <span>立即开始</span>
@@ -88,7 +88,15 @@
 <script>
 import Clipboard from "clipboard";
 import { defineComponent, ref } from "vue";
+const versions = require("../versions");
+const latestVersion = versions[0];
+
 export default defineComponent({
+  data() {
+    return {
+      latestVersion: latestVersion,
+    };
+  },
   setup() {
     var clipboard = new Clipboard("[data-clipboard-text]");
     clipboard.on("success", (e) => {
