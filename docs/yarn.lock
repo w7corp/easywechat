@@ -523,6 +523,15 @@
     "@vuepress/core" "2.0.0-beta.23"
     execa "^5.1.1"
 
+"@vuepress/plugin-google-analytics@^2.0.0-beta.24":
+  version "2.0.0-beta.24"
+  resolved "http://mirrors.tencent.com/npm/@vuepress%2fplugin-google-analytics/-/plugin-google-analytics-2.0.0-beta.24.tgz#87f26ee275aac35599a5abc01dc39e43071bab9b"
+  integrity sha512-oYKu9cdBDtEMG9u0ZBz1Yp8Kmg3/GU5GeIpbC0VMsXZq2lpAj79AmR9QyU2n3WBWKGERXVimmjqEGzjYIJyKgg==
+  dependencies:
+    "@vuepress/client" "2.0.0-beta.24"
+    "@vuepress/core" "2.0.0-beta.24"
+    "@vuepress/utils" "2.0.0-beta.24"
+
 "@vuepress/plugin-medium-zoom@2.0.0-beta.23":
   version "2.0.0-beta.23"
   resolved "http://mirrors.tencent.com/npm/@vuepress%2fplugin-medium-zoom/-/plugin-medium-zoom-2.0.0-beta.23.tgz#7d0b2950d1bb6b08eaeef4d998918b42f3b6521e"

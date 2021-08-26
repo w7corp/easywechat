@@ -54,6 +54,9 @@ module.exports = {
         componentsDir: path.resolve(__dirname, './components'),
       },
     ],
+    [
+      '@vuepress/google-analytics', { id: 'UA-64156348-1' },
+    ]
     // [
     //   "@vuepress/search",
     //   {

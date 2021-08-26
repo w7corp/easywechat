@@ -5,9 +5,7 @@ module.exports = {
     variants: {},
     plugins: [],
     purge: [
-        './**/*.html',
-        './**/*.vue',
-        './**/*.jsx',
-        './**/*.scss',
+        './.vuepress/components/*.vue',
+        './.vuepress/styles/*.scss',
     ],
 }
