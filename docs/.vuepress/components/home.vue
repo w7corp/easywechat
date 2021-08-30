@@ -69,7 +69,7 @@
               </a>
             </div>
             <div class="mt-10">
-              <a href="https://www.aliyundrive.com/s/6CwgtkiBqFV" target="_blank" class="flex items-center rounded bg-white hover:bg-gray-200 px-4 py-2">
+              <a href="https://www.aliyundrive.com/s/6CwgtkiBqFV" target="_blank" class="flex items-center rounded bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2">
                 🎁 免费下载 5.x 全部视频教程
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
