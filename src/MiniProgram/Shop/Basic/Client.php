@@ -26,17 +26,20 @@ class Client extends BaseClient
 
     /**
      * 上传图片
-     *   此接口目前只用于品牌申请和类目申请。
+     *   此接口目前只用于图片上传。
      *
-     * @param string $imageFilePath 图片文件地址
+     * @param string $imageFilePath 图片文件路径
+     * @param int $respType 返回类型
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function imgUpload(string $imageFilePath)
+    public function imgUpload(string $imageFilePath, int $respType = 1)
     {
         return $this->httpUpload('shop/img/upload', [
-            'media' => $imageFilePath
+            'media' => $imageFilePath,
+        ], [
+            'resp_type' => $respType,
         ]);
     }
 
