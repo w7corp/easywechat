@@ -118,8 +118,8 @@ class Client extends BaseClient
     public function shortUrl(string $long_url)
     {
         $params = [
-            'long_url'  =>  $long_url,
-            'action'    =>  'long2short'
+            'long_url' => $long_url,
+            'action' => 'long2short'
         ];
         return $this->httpPostJson('cgi-bin/shorturl', $params);
     }

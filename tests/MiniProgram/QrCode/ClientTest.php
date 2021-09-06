@@ -37,14 +37,14 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class);
 
         $params = [
-            'prefix'    =>  'https://www.qq.com/qr_code',
+            'prefix' => 'https://www.qq.com/qr_code',
             'permit_sub_rule' => 1,
-            'path'  =>  'pages/index/index',
+            'path' => 'pages/index/index',
             'open_version' => 1,
             'debug_url' => [
                 'https://www.qq.com/qr_code?id=1'
             ],
-            'is_edit'   =>  0,
+            'is_edit' => 0,
         ];
 
         $client->expects()->httpPostJson('cgi-bin/wxopen/qrcodejumpadd', $params)->andReturn('mock-result');
@@ -57,7 +57,7 @@ class ClientTest extends TestCase
 
         $prefix = 'https://www.qq.com/qr_code';
 
-        $client->expects()->httpPostJson('cgi-bin/wxopen/qrcodejumppublish', ['prefix'=>$prefix])->andReturn('mock-result');
+        $client->expects()->httpPostJson('cgi-bin/wxopen/qrcodejumppublish', ['prefix' => $prefix])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->publish($prefix));
     }
 
@@ -67,7 +67,7 @@ class ClientTest extends TestCase
 
         $prefix = 'https://www.qq.com/qr_code';
 
-        $client->expects()->httpPostJson('cgi-bin/wxopen/qrcodejumpdelete', ['prefix'=>$prefix])->andReturn('mock-result');
+        $client->expects()->httpPostJson('cgi-bin/wxopen/qrcodejumpdelete', ['prefix' => $prefix])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->delete($prefix));
     }
 
@@ -77,7 +77,7 @@ class ClientTest extends TestCase
 
         $long_url = 'https://www.qq.com/qr_code';
 
-        $client->expects()->httpPostJson('cgi-bin/shorturl', ['long_url'=>$long_url, 'action'=>'long2short'])->andReturn('mock-result');
+        $client->expects()->httpPostJson('cgi-bin/shorturl', ['long_url' => $long_url, 'action' => 'long2short'])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->shortUrl($long_url));
     }
 }

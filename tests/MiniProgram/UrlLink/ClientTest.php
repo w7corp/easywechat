@@ -2,7 +2,6 @@
 
 namespace EasyWeChat\Tests\MiniProgram\UrlLink;
 
-
 use EasyWeChat\MiniProgram\UrlLink\Client;
 use EasyWeChat\Tests\TestCase;
 
