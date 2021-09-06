@@ -55,6 +55,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Shop\Aftersale\Client      $shop_aftersale
  * @property \EasyWeChat\MiniProgram\Business\Client            $business
  * @property \EasyWeChat\MiniProgram\UrlLink\Client             $url_link
+ * @property \EasyWeChat\MiniProgram\QrCode\Client              $qr_code
  */
 class Application extends ServiceContainer
 {
@@ -72,6 +73,7 @@ class Application extends ServiceContainer
         ActivityMessage\ServiceProvider::class,
         OpenData\ServiceProvider::class,
         Plugin\ServiceProvider::class,
+        QrCode\ServiceProvider::class,
         Base\ServiceProvider::class,
         Express\ServiceProvider::class,
         NearbyPoi\ServiceProvider::class,
