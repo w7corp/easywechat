@@ -5,7 +5,7 @@
 常用的配置参数会比较少，因为除非你有特别的定制，否则基本上默认值就可以了：
 
 ```php
-use EasyWeChat\OfficialAccount\Application;
+use EasyWeChat\MiniApp\Application;
 
 $config = [
     'app_id' => 'wx3cf0f39249eb0exx',
