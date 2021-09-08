@@ -26,7 +26,7 @@
             <p class="mb-2 md:mb-8 leading-relaxed text-gray-500">每一个细节，都经过精心打磨，只为了提供更好的开发体验</p>
             <div class="mt-2 md:mt-8 space-y-2 md:space-y-0 xl:flex justify-center">
               <button
-                class="hidden xl:block mr-4 inline-flex items-center space-around text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg"
+                class="hidden xl:block mr-4 items-center space-around text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded lg:text-lg"
                 data-clipboard-text="composer require w7corp/easywechat"
                 @click="copy"
               >
