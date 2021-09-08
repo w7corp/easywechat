@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-gray-800 relative overflow-hidden h-screen">
+    <div class="bg-gray-800 relative overflow-hidden h-screen flex flex-col">
       <header class="text-gray-100 body-font relative z-10">
         <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a href="/" class="flex title-font font-medium items-center text-gray-200 mb-4 md:mb-0">
@@ -15,8 +15,8 @@
         </div>
       </header>
 
-      <section class="text-gray-600 body-font">
-        <div class="z-10 relative container mx-auto flex px-5 py-12 md:py-24 md:flex-row flex-col items-center">
+      <section class="text-gray-600 body-font flex-1 flex flex-col justify-center">
+        <div class="z-10 relative container mx-auto flex px-5 md:flex-row flex-col items-center">
           <div class="lg:flex-1 md:w-2/3 lg:pr-12 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
             <h1
               class="text-3xl md:text-5xl xl:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-400"
