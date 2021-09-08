@@ -15,7 +15,7 @@
         </div>
       </header>
 
-      <section class="text-gray-600 body-font flex-1 flex flex-col justify-center">
+      <section class="text-gray-600 body-font flex-1 flex flex-col justify-center pb-16">
         <div class="z-10 relative container mx-auto flex px-5 md:flex-row flex-col items-center">
           <div class="lg:flex-1 md:w-2/3 lg:pr-12 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
             <h1
