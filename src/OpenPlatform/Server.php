@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
-use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
@@ -31,11 +31,9 @@ class Server implements ServerInterface
      */
     public function handleAuthorized(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return $message->InfoType === 'authorized' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'authorized' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
@@ -45,11 +43,9 @@ class Server implements ServerInterface
      */
     public function handleUnauthorized(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return $message->InfoType === 'unauthorized' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'unauthorized' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
@@ -59,11 +55,9 @@ class Server implements ServerInterface
      */
     public function handleAuthorizeUpdated(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return $message->InfoType === 'updateauthorized' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'updateauthorized' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
@@ -73,11 +67,9 @@ class Server implements ServerInterface
      */
     public function handleVerifyTicketRefreshed(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return $message->InfoType === 'component_verify_ticket' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'component_verify_ticket' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }

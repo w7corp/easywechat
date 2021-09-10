@@ -73,6 +73,25 @@ class Encryptor
         return Xml::build($response);
     }
 
+    public function pkcs7Pad(string $text, int $blockSize): string
+    {
+        if ($blockSize > 256) {
+            throw new RuntimeException('$blockSize may not be more than 256');
+        }
+        $padding = $blockSize - (strlen($text) % $blockSize);
+        $pattern = chr($padding);
+
+        return $text . str_repeat($pattern, $padding);
+    }
+
+    public function signature(): string
+    {
+        $array = func_get_args();
+        sort($array, SORT_STRING);
+
+        return sha1(implode($array));
+    }
+
     public function decrypt(string $ciphertext, string $msgSignature, string $nonce, int | string $timestamp): string
     {
         $signature = $this->signature($this->token, $timestamp, $nonce, $ciphertext);
@@ -96,25 +115,6 @@ class Encryptor
         }
 
         return substr($ciphertext, 4, $contentLen);
-    }
-
-    public function signature(): string
-    {
-        $array = func_get_args();
-        sort($array, SORT_STRING);
-
-        return sha1(implode($array));
-    }
-
-    public function pkcs7Pad(string $text, int $blockSize): string
-    {
-        if ($blockSize > 256) {
-            throw new RuntimeException('$blockSize may not be more than 256');
-        }
-        $padding = $blockSize - (strlen($text) % $blockSize);
-        $pattern = chr($padding);
-
-        return $text . str_repeat($pattern, $padding);
     }
 
     public function pkcs7Unpad(string $text): string

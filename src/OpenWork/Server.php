@@ -51,143 +51,108 @@ class Server implements ServerInterface
             $this->withoutHandler($this->defaultSuiteTicketHandler);
         }
 
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return $message->InfoType === 'suite_ticket' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'suite_ticket' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleAuthCreated(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'create_auth' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'create_auth' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleAuthChanged(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_auth' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_auth' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleAuthCancelled(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'cancel_auth' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'cancel_auth' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleUserCreated(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleUserUpdated(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleUserDeleted(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handlePartyCreated(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handlePartyUpdated(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handlePartyDeleted(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleUserTagUpdated(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
 
     public function handleShareAgentChanged(callable | string $handler): static
     {
-        $this->with(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-                return
-                    $message->InfoType === 'share_agent_change' ? $handler($message) : $next($message);
-            }
-        );
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'share_agent_change' ? $handler($message, $next) : $next($message);
+        });
 
         return $this;
     }
@@ -202,6 +167,6 @@ class Server implements ServerInterface
 
     public function resolveResponse(mixed $response, Message $message): ResponseInterface
     {
-        return new Response();
+        return new Response(200, [], 'success');
     }
 }
