@@ -54,15 +54,15 @@ class Xml
     {
         $result = null;
 
-        if (is_object($object)) {
+        if (\is_object($object)) {
             $object = (array)$object;
         }
 
         if (is_array($object)) {
             foreach ($object as $key => $value) {
-                $res = \is_a($value, SimpleXMLElement::class) ? self::normalize($value) : $value;
+                $value = \is_a($value, SimpleXMLElement::class) ? self::normalize($value) : $value;
 
-                if (('@attributes' === $key) && ($key)) {
+                if ('@attributes' === $key) {
                     $result = $value; // @codeCoverageIgnore
                 } else {
                     $result[$key] = $value;
@@ -105,7 +105,7 @@ class Xml
      * @see https://www.w3.org/TR/2008/REC-xml-20081126/#charsets - XML charset range
      * @see http://php.net/manual/en/regexp.reference.escape.php - escape in UTF-8 mode
      *
-     * @param  ?string  $xml
+     * @param  ?string $xml
      *
      * @return string|null
      */
