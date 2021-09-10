@@ -6,7 +6,7 @@ namespace EasyWeChat\Kernel\Support;
 
 class Aes
 {
-    public static function encrypt(string $text, string $key, string $iv, int $option = OPENSSL_RAW_DATA): string
+    public static function encrypt(string $text, string $key, string $iv, int $option = OPENSSL_RAW_DATA): string | bool
     {
         self::assertKeyIsValid($key);
         self::assertIvIsValid($iv);
@@ -14,7 +14,7 @@ class Aes
         return openssl_encrypt($text, self::getMode($key), $key, $option, $iv);
     }
 
-    public static function decrypt(string $ciphertext, string $key, string $iv, int $option = OPENSSL_RAW_DATA, $method = null): string
+    public static function decrypt(string $ciphertext, string $key, string $iv, int $option = OPENSSL_RAW_DATA, $method = null): string | bool
     {
         self::assertKeyIsValid($key);
         self::assertIvIsValid($iv);

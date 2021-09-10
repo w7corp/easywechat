@@ -41,17 +41,20 @@ class Encryptor
         return $this->token;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
     public function encrypt(string $xml, string | null $nonce = null, int | string $timestamp = null): string
     {
         try {
-            $xml = $this->pkcs7Pad(\random_bytes(16) . pack('N', strlen($xml)) . $xml . $this->appId, $this->blockSize);
+            $xml = \random_bytes(16) . pack('N', strlen($xml)) . $xml . $this->appId;
 
             $ciphertext = base64_encode(
                 Aes::encrypt(
                     $xml,
                     $this->aesKey,
                     substr($this->aesKey, 0, 16),
-                    OPENSSL_NO_PADDING
+                    \OPENSSL_RAW_DATA
                 )
             );
             // @codeCoverageIgnoreStart
@@ -104,7 +107,7 @@ class Encryptor
             base64_decode($ciphertext, true),
             $this->aesKey,
             substr($this->aesKey, 0, 16),
-            OPENSSL_NO_PADDING
+            \OPENSSL_NO_PADDING
         );
         $result = $this->pkcs7Unpad($decrypted);
         $ciphertext = substr($result, 16, strlen($result));
