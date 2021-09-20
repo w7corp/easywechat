@@ -21,6 +21,7 @@ class ServiceProvider implements ServiceProviderInterface
         $app['oauth'] = function ($app) {
             $socialite = (new Manager([
                 'wework' => [
+                    'base_url' => $app['config']['http']['base_uri'],
                     'client_id' => $app['config']['corp_id'],
                     'client_secret' => null,
                     'corp_id' => $app['config']['corp_id'],
