@@ -46,4 +46,33 @@ class Signature
             )
         );
     }
+
+    /**
+     * get client call payment sign
+     *
+     * @param  string  $appId
+     * @param  string  $prepayId
+     * @return array
+     */
+    public function createPaymentSign(string $appId, string $prepayId): array
+    {
+        $package = 'prepay_id=' . $prepayId;
+        $nonce = \uniqid('nonce');
+        $timestamp = \time();
+
+        $message = $appId . "\n" .
+            $timestamp . "\n" .
+            $nonce . "\n" .
+            $package . "\n";
+
+        \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
+
+        return [
+            'timeStamp' => (string) $timestamp,
+            'nonceStr'  => $nonce,
+            'package'   => $package,
+            'signType'  => 'RSA',
+            'paySign'   => \base64_encode($signature),
+        ];
+    }
 }
