@@ -22,17 +22,22 @@ class Utils
         'signType'  => "string",
         'paySign'   => "string",
     ])]
-    public function buildBridgeConfig(string $prepayId, string $appId, $signType = 'RSA'): array
+    public function buildBridgeConfig(string $prepayId, string $appId): array
     {
         $params = [
             'appId'     => $appId,
             'timeStamp' => strval(time()),
             'nonceStr'  => uniqid(),
             'package'   => "prepay_id=$prepayId",
-            'signType'  => strtoupper($signType),
+            'signType'  => 'RSA',
         ];
 
-        $params['paySign'] = $this->createSignature($params, $signType);
+        $message = $params['appId'] . "\n" .
+            $params['timeStamp'] . "\n" .
+            $params['nonceStr'] . "\n" .
+            $params['package'] . "\n";
+
+        $params['paySign'] = $this->createSignature($message);
 
         return $params;
     }
@@ -49,14 +54,9 @@ class Utils
         'paySign'   => "string",
         'timestamp' => "string",
     ])]
-    public function buildSdkConfig(string $prepayId, string $appId, $signType = 'RSA'): array
+    public function buildSdkConfig(string $prepayId, string $appId): array
     {
-        $config = $this->buildBridgeConfig($prepayId, $appId, $signType);
-
-        $config['timestamp'] = $config['timeStamp'];
-        unset($config['timeStamp']);
-
-        return $config;
+        return $this->buildBridgeConfig($prepayId, $appId);
     }
 
     /**
@@ -70,9 +70,9 @@ class Utils
         'signType'  => "string",
         'paySign'   => "string",
     ])]
-    public function buildMiniAppConfig(string $prepayId, string $appId, $signType = 'RSA'): array
+    public function buildMiniAppConfig(string $prepayId, string $appId): array
     {
-        return $this->buildBridgeConfig($prepayId, $appId, $signType);
+        return $this->buildBridgeConfig($prepayId, $appId);
     }
 
     /**
@@ -87,7 +87,7 @@ class Utils
         'package'   => "string",
         'sign'      => "string",
     ])]
-    public function buildAppConfig(string $prepayId, string $appId, $signType = 'RSA'): array
+    public function buildAppConfig(string $prepayId, string $appId): array
     {
         $params = [
             'appid'     => $appId,
@@ -98,37 +98,20 @@ class Utils
             'package'   => 'Sign=WXPay',
         ];
 
-        $params['sign'] = $this->createSignature($params, $signType);
+        $message = $params['appId'] . "\n" .
+            $params['timeStamp'] . "\n" .
+            $params['nonceStr'] . "\n" .
+            $params['prepayid'] . "\n";
+
+        $params['sign'] = $this->createSignature($message);
 
         return $params;
     }
 
-    protected function createSignature(array $attributes, $algorithm = 'RSA'): string
+    protected function createSignature(string $message): string
     {
-        return call_user_func_array(
-            [$this, 'create' . strtoupper($algorithm) . 'Signature'],
-            [$attributes]
-        );
-    }
-
-    protected function createRSASignature(array $attributes): string
-    {
-        $message = $attributes['appId'] . "\n" .
-            $attributes['timeStamp'] . "\n" .
-            $attributes['nonceStr'] . "\n" .
-            $attributes['package'] . "\n";
-
         \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
         return \base64_encode($signature);
-    }
-
-    protected function createMD5Signature(array $attributes): string
-    {
-        ksort($attributes);
-
-        $attributes['key'] = $this->merchant->getSecretKey();
-
-        return strtoupper(md5(urldecode(http_build_query($attributes))));
     }
 }
