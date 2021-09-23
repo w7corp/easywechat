@@ -19,9 +19,11 @@ $utils = $app->getUtils();
 
 ## 生成支付 JS 配置
 
-有三种发起支付的方式：[WeixinJSBridge](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6), [JSSDK](https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_1), [小程序](https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7)
+有三种发起支付的方式：WeixinJSBridge, JSSDK, 小程序
 
 ### WeixinJSBridge
+
+:book: [官方文档 - WeixinJSBridge](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6)
 
  ```php
  $appId = '商户申请的公众号对应的appid，由微信支付生成，可在公众号后台查看';
@@ -53,6 +55,8 @@ $utils = $app->getUtils();
 
 ### JSSDK
 
+:book: [官方文档 - JSSDK](https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml)
+
  ```php
  $appId = '商户申请的公众号对应的appid，由微信支付生成，可在公众号后台查看';
  $config = $utils->buildSdkConfig($prepayId, $appId); // 返回数组
@@ -75,9 +79,11 @@ $utils = $app->getUtils();
 
 ### 小程序
 
+:book: [官方文档 - 小程序支付](https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html)
+
  ```php
  $appId = '商户申请的小程序对应的appid，由微信支付生成，可在小程序后台查看';
- $config = $utils->buildBridgeConfig($prepayId, , $appId); 
+ $config = $utils->buildMiniAppConfig($prepayId, , $appId); 
  ```
 
 调用示例：

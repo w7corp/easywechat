@@ -51,6 +51,22 @@ class Utils
     }
 
     /**
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
+     */
+    #[ArrayShape([
+        'appId' => "string",
+        'timeStamp' => "string",
+        'nonceStr' => "string",
+        'package' => "string",
+        'signType' => "string",
+        'paySign' => "string"
+    ])]
+    public function buildMiniAppConfig(string $prepayId, string $appId): array
+    {
+        return $this->buildBridgeConfig($prepayId, $appId);
+    }
+
+    /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
      */
     #[ArrayShape([
