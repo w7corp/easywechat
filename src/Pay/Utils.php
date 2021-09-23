@@ -5,7 +5,7 @@ namespace EasyWeChat\Pay;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use JetBrains\PhpStorm\ArrayShape;
 
-class Jssdk
+class Utils
 {
     public function __construct(protected MerchantInterface $merchant)
     {

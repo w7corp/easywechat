@@ -60,9 +60,9 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         return $this->v2Client;
     }
 
-    public function getJssdk(): Jssdk
+    public function getUtils(): Utils
     {
-        return new Jssdk($this->getMerchant());
+        return new Utils($this->getMerchant());
     }
 
     /**
