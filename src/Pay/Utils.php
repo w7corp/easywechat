@@ -3,6 +3,7 @@
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use JetBrains\PhpStorm\ArrayShape;
 
 class Utils
 {
@@ -12,11 +13,15 @@ class Utils
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
-     * @param  string  $prepayId
-     * @param  string  $appId
-     * @param  string  $signType
-     * @return array
      */
+    #[ArrayShape([
+        'appId'     => "string",
+        'timeStamp' => "string",
+        'nonceStr'  => "string",
+        'package'   => "string",
+        'signType'  => "string",
+        'paySign'   => "string",
+    ])]
     public function buildBridgeConfig(string $prepayId, string $appId, $signType = 'RSA'): array
     {
         $params = [
@@ -34,11 +39,16 @@ class Utils
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
-     * @param  string  $prepayId
-     * @param  string  $appId
-     * @param  string  $signType
-     * @return array
      */
+    #[ArrayShape([
+        'appId'     => "string",
+        'timeStamp' => "string",
+        'nonceStr'  => "string",
+        'package'   => "string",
+        'signType'  => "string",
+        'paySign'   => "string",
+        'timestamp' => "string",
+    ])]
     public function buildSdkConfig(string $prepayId, string $appId, $signType = 'RSA'): array
     {
         $config = $this->buildBridgeConfig($prepayId, $appId, $signType);
@@ -51,10 +61,6 @@ class Utils
 
     /**
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
-     * @param  string  $prepayId
-     * @param  string  $appId
-     * @param  string  $signType
-     * @return array
      */
     public function buildMiniAppConfig(string $prepayId, string $appId, $signType = 'RSA'): array
     {
@@ -63,11 +69,16 @@ class Utils
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
-     * @param  string  $prepayId
-     * @param  string  $appId
-     * @param  string  $signType
-     * @return array
      */
+    #[ArrayShape([
+        'appid'     => "string",
+        'partnerid' => "int",
+        'prepayid'  => "string",
+        'noncestr'  => "string",
+        'timestamp' => "int",
+        'package'   => "string",
+        'sign'      => "string",
+    ])]
     public function buildAppConfig(string $prepayId, string $appId, $signType = 'RSA'): array
     {
         $params = [
@@ -84,12 +95,7 @@ class Utils
         return $params;
     }
 
-    /**
-     * @param $attributes
-     * @param  string  $algorithm
-     * @return string
-     */
-    protected function createSignature($attributes, $algorithm = 'RSA'): string
+    protected function createSignature(array $attributes, $algorithm = 'RSA'): string
     {
         return call_user_func_array(
             [$this, 'create' . $algorithm . 'Signature'],
@@ -97,11 +103,7 @@ class Utils
         );
     }
 
-    /**
-     * @param $attributes
-     * @return string
-     */
-    protected function createRSASignature($attributes): string
+    protected function createRSASignature(array $attributes): string
     {
         $message = $attributes['appId'] . "\n" .
             $attributes['timeStamp'] . "\n" .
@@ -113,11 +115,7 @@ class Utils
         return \base64_encode($signature);
     }
 
-    /**
-     * @param $attributes
-     * @return string
-     */
-    protected function createMD5Signature($attributes): string
+    protected function createMD5Signature(array $attributes): string
     {
         ksort($attributes);
 
