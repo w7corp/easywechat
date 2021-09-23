@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
+use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Application implements \EasyWeChat\Pay\Contracts\Application
 {
     use InteractWithConfig;
     use InteractWithHttpClient;
+    use InteractWithServerRequest;
 
+    protected ?ServerInterface $server = null;
     protected ?HttpClientInterface $v2Client = null;
     protected ?HttpClientInterface $v3Client = null;
     protected ?Merchant $merchant = null;
@@ -54,6 +58,35 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         }
 
         return $this->v2Client;
+    }
+
+    public function getUtils(): Utils
+    {
+        return new Utils($this->getMerchant());
+    }
+
+    /**
+     * @throws \ReflectionException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Throwable
+     */
+    public function getServer(): ServerInterface
+    {
+        if (!$this->server) {
+            $this->server = new Server(
+                merchant: $this->getMerchant(),
+                request: $this->getRequest(),
+            );
+        }
+
+        return $this->server;
+    }
+
+    public function setServer(ServerInterface $server): static
+    {
+        $this->server = $server;
+
+        return $this;
     }
 
     public function setConfig(ConfigInterface $config): static

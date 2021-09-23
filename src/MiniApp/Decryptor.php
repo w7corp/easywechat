@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace EasyWeChat\MiniApp;
 
 use EasyWeChat\Kernel\Exceptions\DecryptException;
-use EasyWeChat\Kernel\Support\Aes;
+use EasyWeChat\Kernel\Support\AesCbc;
 
 class Decryptor
 {
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
+     * @throws \EasyWeChat\Kernel\Exceptions\DecryptException|\EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public static function decrypt(string $sessionKey, string $iv, string $ciphertext): array
     {
-        $decrypted = Aes::decrypt(
+        $decrypted = AesCbc::decrypt(
             base64_decode($ciphertext, false),
             base64_decode($sessionKey, false),
             base64_decode($iv, false)

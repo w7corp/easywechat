@@ -3,7 +3,6 @@
 namespace EasyWeChat\Tests\Kernel;
 
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\XML;
 use EasyWeChat\Tests\TestCase;
 
@@ -65,13 +64,6 @@ class EncryptorTest extends TestCase
         $this->assertNotEmpty($array['Encrypt']);
         $this->assertNotEmpty($array['MsgSignature']);
         $this->assertSame($raw, XML::parse($this->getEncryptor()->decrypt($array['Encrypt'], $array['MsgSignature'], $array['Nonce'], $array['TimeStamp'])));
-    }
-
-    public function testPkcs7padWithToolongBlockSize()
-    {
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('$blockSize may not be more than 256');
-        $this->getEncryptor()->pkcs7Pad('xxx', 257);
     }
 
     public function testGetToken()

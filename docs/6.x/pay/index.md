@@ -49,6 +49,16 @@ $app->getV2Client(); // v2
 
 :book: 更多说明请参阅：[API 调用](../common/client.md)
 
+### 工具
+
+为了方便开发者生成各种调起支付所需配置，你可以使用工具类：
+
+```php
+$app->getUtils(); 
+```
+
+:book: 更多说明请参阅：[工具](utils.md)
+
 ### 配置
 
 ```php
