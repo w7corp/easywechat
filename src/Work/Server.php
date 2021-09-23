@@ -22,7 +22,7 @@ class Server implements ServerInterface
     public function __construct(
         protected AccountInterface $account,
         protected ServerRequestInterface $request,
-        protected Encryptor $encryptor,
+        protected ?Encryptor $encryptor = null,
     ) {
     }
 
