@@ -15,24 +15,29 @@ class Utils
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
      */
     #[ArrayShape([
-        'appId' => "string",
+        'appId'     => "string",
         'timeStamp' => "string",
-        'nonceStr' => "string",
-        'package' => "string",
-        'signType' => "string",
-        'paySign' => "string"
+        'nonceStr'  => "string",
+        'package'   => "string",
+        'signType'  => "string",
+        'paySign'   => "string",
     ])]
     public function buildBridgeConfig(string $prepayId, string $appId): array
     {
         $params = [
-            'appId' => $appId,
+            'appId'     => $appId,
             'timeStamp' => strval(time()),
-            'nonceStr' => uniqid(),
-            'package' => "prepay_id=$prepayId",
-            'signType' => 'MD5',
+            'nonceStr'  => uniqid(),
+            'package'   => "prepay_id=$prepayId",
+            'signType'  => 'RSA',
         ];
 
-        $params['paySign'] = $this->createSignature($params, $this->merchant->getSecretKey(), 'md5');
+        $message = $params['appId'] . "\n" .
+            $params['timeStamp'] . "\n" .
+            $params['nonceStr'] . "\n" .
+            $params['package'] . "\n";
+
+        $params['paySign'] = $this->createSignature($message);
 
         return $params;
     }
@@ -40,26 +45,30 @@ class Utils
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
      */
+    #[ArrayShape([
+        'appId'     => "string",
+        'timeStamp' => "string",
+        'nonceStr'  => "string",
+        'package'   => "string",
+        'signType'  => "string",
+        'paySign'   => "string",
+        'timestamp' => "string",
+    ])]
     public function buildSdkConfig(string $prepayId, string $appId): array
     {
-        $config = $this->buildBridgeConfig($prepayId, $appId);
-
-        $config['timestamp'] = $config['timeStamp'];
-        unset($config['timeStamp']);
-
-        return $config;
+        return $this->buildBridgeConfig($prepayId, $appId);
     }
 
     /**
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      */
     #[ArrayShape([
-        'appId' => "string",
+        'appId'     => "string",
         'timeStamp' => "string",
-        'nonceStr' => "string",
-        'package' => "string",
-        'signType' => "string",
-        'paySign' => "string"
+        'nonceStr'  => "string",
+        'package'   => "string",
+        'signType'  => "string",
+        'paySign'   => "string",
     ])]
     public function buildMiniAppConfig(string $prepayId, string $appId): array
     {
@@ -70,36 +79,39 @@ class Utils
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
      */
     #[ArrayShape([
-        'appid' => "string",
+        'appid'     => "string",
         'partnerid' => "int",
-        'prepayid' => "string",
-        'noncestr' => "string",
+        'prepayid'  => "string",
+        'noncestr'  => "string",
         'timestamp' => "int",
-        'package' => "string",
-        'sign' => "string"
+        'package'   => "string",
+        'sign'      => "string",
     ])]
     public function buildAppConfig(string $prepayId, string $appId): array
     {
         $params = [
-            'appid' => $appId,
+            'appid'     => $appId,
             'partnerid' => $this->merchant->getMerchantId(),
-            'prepayid' => $prepayId,
-            'noncestr' => uniqid(),
+            'prepayid'  => $prepayId,
+            'noncestr'  => uniqid(),
             'timestamp' => time(),
-            'package' => 'Sign=WXPay',
+            'package'   => 'Sign=WXPay',
         ];
 
-        $params['sign'] = $this->createSignature($params, $this->merchant->getSecretKey());
+        $message = $params['appId'] . "\n" .
+            $params['timeStamp'] . "\n" .
+            $params['nonceStr'] . "\n" .
+            $params['prepayid'] . "\n";
+
+        $params['sign'] = $this->createSignature($message);
 
         return $params;
     }
 
-    protected function createSignature($attributes, $key, $algorithm = 'md5'): string
+    protected function createSignature(string $message): string
     {
-        ksort($attributes);
+        \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
-        $attributes['key'] = $key;
-
-        return strtoupper(call_user_func_array($algorithm, [urldecode(http_build_query($attributes))]));
+        return \base64_encode($signature);
     }
 }

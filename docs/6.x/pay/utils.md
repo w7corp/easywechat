@@ -19,15 +19,15 @@ $utils = $app->getUtils();
 
 ## 生成支付 JS 配置
 
-有三种发起支付的方式：WeixinJSBridge, JSSDK, 小程序
+有三种发起支付的方式：JSSDK(WeixinJSBridge) 支付, APP 支付, 小程序支付
 
-### WeixinJSBridge
+### JSSDK
 
-:book: [官方文档 - WeixinJSBridge](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6)
+:book: [官方文档 - JSAPI 调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_4.shtml)
 
  ```php
- $appId = '商户申请的公众号对应的appid，由微信支付生成，可在公众号后台查看';
- $config = $utils->buildBridgeConfig($prepayId, $appId); // 返回 json 字符串，如果想返回数组，传第二个参数 false
+ $appId = '商户申请的公众号对应的 appid，由微信支付生成，可在公众号后台查看';
+ $config = $utils->buildSdkConfig($prepayId, $appId); // 返回数组
  ```
 
 调用示例
@@ -53,37 +53,13 @@ $utils = $app->getUtils();
  ...
  ```
 
-### JSSDK
+### 小程序调起支付 API
 
-:book: [官方文档 - JSSDK](https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml)
-
- ```php
- $appId = '商户申请的公众号对应的appid，由微信支付生成，可在公众号后台查看';
- $config = $utils->buildSdkConfig($prepayId, $appId); // 返回数组
- ```
-
-调用示例：
-
- ```js
- wx.chooseWXPay({
-     timestamp: <?= $config['timestamp'] ?>,
-     nonceStr: '<?= $config['nonceStr'] ?>',
-     package: '<?= $config['package'] ?>',
-     signType: '<?= $config['signType'] ?>',
-     paySign: '<?= $config['paySign'] ?>', // 支付签名
-     success: function (res) {
-         // 支付成功后的回调函数
-     }
- });
- ```
-
-### 小程序
-
-:book: [官方文档 - 小程序支付](https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html)
+:book: [官方文档 - 小程序调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_4.shtml)
 
  ```php
  $appId = '商户申请的小程序对应的appid，由微信支付生成，可在小程序后台查看';
- $config = $utils->buildMiniAppConfig($prepayId, , $appId); 
+ $config = $utils->buildMiniAppConfig($prepayId, $appId); // 返回数组
  ```
 
 调用示例：
@@ -101,14 +77,18 @@ $utils = $app->getUtils();
  });
  ```
 
-## 生成 APP 支付配置
 
-```php
-$appId = '微信开放平台审核通过的移动应用appid';
-$config = $utils->buildAppConfig($prepayId, $appId);
-```
+### APP 调起支付 API
 
-`$config` 为数组格式，你可以用 API 返回给客户端
+:book: [官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_4.shtml)
+
+ ```php
+ $appId = '商户申请的公众号对应的appid，由微信支付生成，可在公众号后台查看';
+ $config = $utils->buildAppConfig($prepayId, $appId); // 返回数组
+ ```
+
+调用示例：[官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_4.shtml)
+
 
 # 二维码生成工具推荐
 
