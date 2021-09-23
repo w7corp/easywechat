@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EasyWeChat\Pay\Contracts;
 
 use EasyWeChat\Kernel\Contracts\Config;
-use EasyWeChat\Pay\Utils;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 interface Application
