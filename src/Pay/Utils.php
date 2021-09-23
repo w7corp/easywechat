@@ -42,7 +42,7 @@ class Utils
      */
     public function buildSdkConfig(string $prepayId, string $appId): array
     {
-        $config = $this->buildSdkConfig($prepayId, $appId);
+        $config = $this->buildBridgeConfig($prepayId, $appId);
 
         $config['timestamp'] = $config['timeStamp'];
         unset($config['timeStamp']);
