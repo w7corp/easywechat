@@ -3,6 +3,8 @@
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Nyholm\Psr7\Response;
@@ -22,6 +24,10 @@ class Server implements ServerInterface
     ) {
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
     public function serve(): ResponseInterface
     {
         $message = $this->createMessageFromRequest();
@@ -61,12 +67,27 @@ class Server implements ServerInterface
         return $this;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
     protected function createMessageFromRequest(): Message
     {
         $originContent = $this->request->getBody()->getContents();
         $attributes = \json_decode($originContent, true);
 
-        //todo: decode
+        if (empty($attributes['resource']['ciphertext'])) {
+            throw new RuntimeException('Invalid request.');
+        }
+
+        $attributes = \json_decode(
+            AesGcm::decrypt(
+                $attributes['resource']['ciphertext'],
+                $this->merchant->getSecretKey(),
+                $attributes['resource']['nonce'],
+                $attributes['resource']['associated_data'],
+            ),
+        );
 
         return new Message($attributes, $originContent);
     }
