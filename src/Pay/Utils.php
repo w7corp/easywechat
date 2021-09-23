@@ -62,6 +62,14 @@ class Utils
     /**
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      */
+    #[ArrayShape([
+        'appId'     => "string",
+        'timeStamp' => "string",
+        'nonceStr'  => "string",
+        'package'   => "string",
+        'signType'  => "string",
+        'paySign'   => "string",
+    ])]
     public function buildMiniAppConfig(string $prepayId, string $appId, $signType = 'RSA'): array
     {
         return $this->buildBridgeConfig($prepayId, $appId, $signType);
@@ -98,7 +106,7 @@ class Utils
     protected function createSignature(array $attributes, $algorithm = 'RSA'): string
     {
         return call_user_func_array(
-            [$this, 'create' . $algorithm . 'Signature'],
+            [$this, 'create' . strtoupper($algorithm) . 'Signature'],
             [$attributes]
         );
     }
