@@ -33,9 +33,10 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/business/update', [
             'business_id' => 1,
             'nickname' => '小小超',
+            'icon_media_id' => 'test_id',
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->update(1, '小小超'));
+        $this->assertSame('mock-result', $client->update(1, '小小超', 'test_id'));
     }
 
     public function testGetBusiness()

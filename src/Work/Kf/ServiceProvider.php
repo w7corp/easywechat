@@ -31,5 +31,13 @@ class ServiceProvider implements ServiceProviderInterface
         $app['kf_account'] = function ($app) {
             return new AccountClient($app);
         };
+
+        $app['kf_servicer'] = function ($app) {
+            return new ServicerClient($app);
+        };
+
+        $app['kf_message'] = function ($app) {
+            return new MessageClient($app);
+        };
     }
 }

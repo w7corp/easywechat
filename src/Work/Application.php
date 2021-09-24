@@ -48,6 +48,8 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\ExternalContact\SchoolClient          $school
  * @property \EasyWeChat\Work\ExternalContact\MessageTemplateClient $external_contact_message_template
  * @property \EasyWeChat\Work\Kf\AccountClient                      $kf_account
+ * @property \EasyWeChat\Work\Kf\ServicerClient                     $kf_servicer
+ * @property \EasyWeChat\Work\Kf\MessageClient                      $kf_message
  *
  * @method mixed getCallbackIp()
  */
