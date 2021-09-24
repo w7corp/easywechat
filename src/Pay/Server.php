@@ -33,9 +33,16 @@ class Server implements ServerInterface
         $message = $this->createMessageFromRequest();
 
         try {
-            return $this->handle(new Response(200, [], 'SUCCESS'), $message);
+            return $this->handle(
+                new Response(200, [], json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)),
+                $message
+            );
         } catch (\Exception $e) {
-            return new Response(500, [], $e->getMessage());
+            return new Response(
+                500,
+                [],
+                json_encode(['code' => 'ERROR', 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE)
+            );
         }
     }
 
