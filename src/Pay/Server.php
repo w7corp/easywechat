@@ -45,7 +45,8 @@ class Server implements ServerInterface
     public function handlePaid(callable | string $handler): static
     {
         $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-            return $message->event_type === 'TRANSACTION.SUCCESS' ? $handler($message, $next) : $next($message);
+            return $message->getEventType() === 'TRANSACTION.SUCCESS' && $message->trade_state === 'SUCCESS'
+                ? $handler($message, $next) : $next($message);
         });
 
         return $this;
@@ -57,7 +58,7 @@ class Server implements ServerInterface
     public function handleRefunded(callable | string $handler): static
     {
         $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-            return in_array($message->event_type, [
+            return in_array($message->getEventType(), [
                 'REFUND.SUCCESS',
                 'REFUND.ABNORMAL',
                 'REFUND.CLOSED',
@@ -87,6 +88,7 @@ class Server implements ServerInterface
                 $attributes['resource']['nonce'],
                 $attributes['resource']['associated_data'],
             ),
+            true
         );
 
         return new Message($attributes, $originContent);
