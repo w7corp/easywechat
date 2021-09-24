@@ -43,11 +43,10 @@ class Utils
     }
 
     /**
-     * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
+     * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
      */
     #[ArrayShape([
         'appId'     => "string",
-        'timeStamp' => "string",
         'nonceStr'  => "string",
         'package'   => "string",
         'signType'  => "string",
@@ -56,7 +55,12 @@ class Utils
     ])]
     public function buildSdkConfig(string $prepayId, string $appId): array
     {
-        return $this->buildBridgeConfig($prepayId, $appId);
+        $params = $this->buildBridgeConfig($prepayId, $appId);
+
+        $params['timestamp'] = $params['timeStamp'];
+        unset($params['timeStamp']);
+
+        return $params;
     }
 
     /**
