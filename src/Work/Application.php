@@ -47,6 +47,9 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\CorpGroup\Client                      $corp_group
  * @property \EasyWeChat\Work\ExternalContact\SchoolClient          $school
  * @property \EasyWeChat\Work\ExternalContact\MessageTemplateClient $external_contact_message_template
+ * @property \EasyWeChat\Work\Kf\AccountClient                      $kf_account
+ * @property \EasyWeChat\Work\Kf\ServicerClient                     $kf_servicer
+ * @property \EasyWeChat\Work\Kf\MessageClient                      $kf_message
  *
  * @method mixed getCallbackIp()
  */
@@ -77,7 +80,8 @@ class Application extends ServiceContainer
         MsgAudit\ServiceProvider::class,
         Live\ServiceProvider::class,
         CorpGroup\ServiceProvider::class,
-        Mobile\ServiceProvider::class
+        Mobile\ServiceProvider::class,
+        Kf\ServiceProvider::class,
     ];
 
     /**
