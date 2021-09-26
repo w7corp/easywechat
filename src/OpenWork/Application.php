@@ -18,7 +18,7 @@ use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
-use Overtrue\Socialite\Providers\WeWork;
+use Overtrue\Socialite\Providers\OpenWeWork;
 
 class Application implements ApplicationInterface
 {
@@ -249,30 +249,31 @@ class Application implements ApplicationInterface
         return new Client($this->getHttpClient(), '', $this->getProviderAccessToken());
     }
 
-    public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): WeWork
+    public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): OpenWeWork
     {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
-        return (new WeWork(
+        return (new OpenWeWork(
             [
-                'client_id' => $suiteId,
-                'redirect_url' => $this->config->get('oauth.redirect_url'),
-            ]
-        ))->withApiAccessToken($suiteAccessToken->getToken())
+                    'client_id' => $suiteId,
+                    'redirect_url' => $this->config->get('oauth.redirect_url'),
+                ]
+        ))->withSuiteTicket($this->getSuiteTicket()->getTicket())
+            ->withSuiteAccessToken($suiteAccessToken->getToken())
             ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
-    public function getCorpOAuth(string $corpId, int $agentId, ?AccessTokenInterface $suiteAccessToken = null): WeWork
+    public function getCorpOAuth(string $corpId, ?AccessTokenInterface $suiteAccessToken = null): OpenWeWork
     {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
-        return (new WeWork(
+        return (new OpenWeWork(
             [
-                'client_id' => $corpId,
-                'redirect_url' => $this->config->get('oauth.redirect_url'),
-            ]
-        ))->setAgentId($agentId)
-            ->withApiAccessToken($suiteAccessToken->getToken())
+                    'client_id' => $corpId,
+                    'redirect_url' => $this->config->get('oauth.redirect_url'),
+                ]
+        ))->withSuiteTicket($this->getSuiteTicket()->getTicket())
+            ->withSuiteAccessToken($suiteAccessToken->getToken())
             ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
     }
 

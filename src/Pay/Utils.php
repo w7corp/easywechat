@@ -15,21 +15,21 @@ class Utils
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
      */
     #[ArrayShape([
-        'appId'     => "string",
+        'appId' => "string",
         'timeStamp' => "string",
-        'nonceStr'  => "string",
-        'package'   => "string",
-        'signType'  => "string",
-        'paySign'   => "string",
+        'nonceStr' => "string",
+        'package' => "string",
+        'signType' => "string",
+        'paySign' => "string",
     ])]
     public function buildBridgeConfig(string $prepayId, string $appId): array
     {
         $params = [
-            'appId'     => $appId,
+            'appId' => $appId,
             'timeStamp' => strval(time()),
-            'nonceStr'  => uniqid(),
-            'package'   => "prepay_id=$prepayId",
-            'signType'  => 'RSA',
+            'nonceStr' => uniqid(),
+            'package' => "prepay_id=$prepayId",
+            'signType' => 'RSA',
         ];
 
         $message = $params['appId'] . "\n" .
@@ -46,11 +46,11 @@ class Utils
      * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
      */
     #[ArrayShape([
-        'appId'     => "string",
-        'nonceStr'  => "string",
-        'package'   => "string",
-        'signType'  => "string",
-        'paySign'   => "string",
+        'appId' => "string",
+        'nonceStr' => "string",
+        'package' => "string",
+        'signType' => "string",
+        'paySign' => "string",
         'timestamp' => "string",
     ])]
     public function buildSdkConfig(string $prepayId, string $appId): array
@@ -67,12 +67,12 @@ class Utils
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      */
     #[ArrayShape([
-        'appId'     => "string",
+        'appId' => "string",
         'timeStamp' => "string",
-        'nonceStr'  => "string",
-        'package'   => "string",
-        'signType'  => "string",
-        'paySign'   => "string",
+        'nonceStr' => "string",
+        'package' => "string",
+        'signType' => "string",
+        'paySign' => "string",
     ])]
     public function buildMiniAppConfig(string $prepayId, string $appId): array
     {
@@ -83,23 +83,23 @@ class Utils
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
      */
     #[ArrayShape([
-        'appid'     => "string",
+        'appid' => "string",
         'partnerid' => "int",
-        'prepayid'  => "string",
-        'noncestr'  => "string",
+        'prepayid' => "string",
+        'noncestr' => "string",
         'timestamp' => "int",
-        'package'   => "string",
-        'sign'      => "string",
+        'package' => "string",
+        'sign' => "string",
     ])]
     public function buildAppConfig(string $prepayId, string $appId): array
     {
         $params = [
-            'appid'     => $appId,
+            'appid' => $appId,
             'partnerid' => $this->merchant->getMerchantId(),
-            'prepayid'  => $prepayId,
-            'noncestr'  => uniqid(),
+            'prepayid' => $prepayId,
+            'noncestr' => uniqid(),
             'timestamp' => time(),
-            'package'   => 'Sign=WXPay',
+            'package' => 'Sign=WXPay',
         ];
 
         $message = $params['appId'] . "\n" .
