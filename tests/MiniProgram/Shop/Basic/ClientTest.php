@@ -36,6 +36,8 @@ class ClientTest extends TestCase
 
         $client->expects()->httpUpload('shop/img/upload', [
             'media' => '/foo/bar/image.jpg',
+            ], [
+            'resp_type' => 1,
         ])->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->imgUpload('/foo/bar/image.jpg'));

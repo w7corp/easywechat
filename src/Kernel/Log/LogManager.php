@@ -27,16 +27,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Class LogManager.
- * 
- * @method void emergency($message, array $context = [])
- * @method void alert($message, array $context = [])
- * @method void critical($message, array $context = [])
- * @method void error($message, array $context = [])
- * @method void warning($message, array $context = [])
- * @method void notice($message, array $context = [])
- * @method void info($message, array $context = [])
- * @method void debug($message, array $context = [])
- * @method void log($level, $message, array $context = [])
+ *
+ * @author overtrue <i@overtrue.me>
  */
 class LogManager implements LoggerInterface
 {
@@ -279,9 +271,10 @@ class LogManager implements LoggerInterface
     /**
      * Create an instance of the Slack log driver.
      *
-     * @param array $config
+     * @param  array  $config
      *
      * @return \Psr\Log\LoggerInterface
+     * @throws \Monolog\Handler\MissingExtensionException
      */
     protected function createSlackDriver(array $config)
     {
@@ -345,7 +338,7 @@ class LogManager implements LoggerInterface
      *
      * @return array
      */
-    protected function prepareHandlers(array $handlers)
+    protected function prepareHandlers(array $handlers): array
     {
         foreach ($handlers as $key => $handler) {
             $handlers[$key] = $this->prepareHandler($handler);
@@ -357,7 +350,8 @@ class LogManager implements LoggerInterface
     /**
      * Prepare the handler for usage by Monolog.
      *
-     * @param \Monolog\Handler\HandlerInterface $handler
+     * @param  \Monolog\Handler\HandlerInterface  $handler
+     * @param  array  $config
      *
      * @return \Monolog\Handler\HandlerInterface
      */
@@ -392,7 +386,7 @@ class LogManager implements LoggerInterface
      *
      * @return string
      */
-    protected function parseChannel(array $config)
+    protected function parseChannel(array $config): string
     {
         return $config['name'] ?? 'EasyWeChat';
     }
@@ -406,7 +400,7 @@ class LogManager implements LoggerInterface
      *
      * @throws InvalidArgumentException
      */
-    protected function level(array $config)
+    protected function level(array $config): int
     {
         $level = $config['level'] ?? 'debug';
 
@@ -422,7 +416,7 @@ class LogManager implements LoggerInterface
      *
      * @return string
      */
-    public function getDefaultDriver()
+    public function getDefaultDriver(): ?string
     {
         return $this->app['config']['log.default'];
     }
@@ -440,12 +434,12 @@ class LogManager implements LoggerInterface
     /**
      * Register a custom driver creator Closure.
      *
-     * @param string   $driver
+     * @param  string  $driver
      * @param \Closure $callback
      *
      * @return $this
      */
-    public function extend($driver, \Closure $callback)
+    public function extend(string $driver, \Closure $callback): LogManager
     {
         $this->customCreators[$driver] = $callback->bindTo($this, $this);
 
@@ -453,12 +447,143 @@ class LogManager implements LoggerInterface
     }
 
     /**
+     * System is unusable.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    public function emergency($message, array $context = []): void
+    {
+        $this->driver()->emergency($message, $context);
+    }
+
+    /**
+     * Action must be taken immediately.
+     *
+     * Example: Entire website down, database unavailable, etc. This should
+     * trigger the SMS alerts and wake you up.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
+    public function alert($message, array $context = []): void
+    {
+        $this->driver()->alert($message, $context);
+    }
+
+    /**
+     * Critical conditions.
+     *
+     * Example: Application component unavailable, unexpected exception.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws \Exception
+     */
+    public function critical($message, array $context = []): void
+    {
+        $this->driver()->critical($message, $context);
+    }
+
+    /**
+     * Runtime errors that do not require immediate action but should typically
+     * be logged and monitored.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws \Exception
+     */
+    public function error($message, array $context = []): void
+    {
+        $this->driver()->error($message, $context);
+    }
+
+    /**
+     * Exceptional occurrences that are not errors.
+     *
+     * Example: Use of deprecated APIs, poor use of an API, undesirable things
+     * that are not necessarily wrong.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws \Exception
+     */
+    public function warning($message, array $context = []): void
+    {
+        $this->driver()->warning($message, $context);
+    }
+
+    /**
+     * Normal but significant events.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws \Exception
+     */
+    public function notice($message, array $context = []): void
+    {
+        $this->driver()->notice($message, $context);
+    }
+
+    /**
+     * Interesting events.
+     *
+     * Example: User logs in, SQL logs.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws \Exception
+     */
+    public function info($message, array $context = []): void
+    {
+        $this->driver()->info($message, $context);
+    }
+
+    /**
+     * Detailed debug information.
+     *
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws \Exception
+     */
+    public function debug($message, array $context = []): void
+    {
+        $this->driver()->debug($message, $context);
+    }
+
+    /**
+     * Logs with an arbitrary level.
+     *
+     * @param mixed  $level
+     * @param string $message
+     * @param array  $context
+     *
+     * @throws \Exception
+     */
+    public function log($level, $message, array $context = []): void
+    {
+        $this->driver()->log($level, $message, $context);
+    }
+
+    /**
      * Dynamically call the default driver instance.
      *
      * @param string $method
      * @param array  $parameters
-     *
-     * @return mixed
      *
      * @throws \Exception
      */

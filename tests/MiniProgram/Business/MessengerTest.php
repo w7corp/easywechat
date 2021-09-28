@@ -22,6 +22,7 @@ class MessengerTest extends TestCase
         // without by
         $client->expects()->send([
             'touser' => 'mock-openid',
+            'businessid' => 1,
             'msgtype' => 'text',
             'text' => ['content' => 'text message.'],
         ]);
