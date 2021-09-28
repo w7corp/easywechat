@@ -164,10 +164,11 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getGroupChat(string $chatId)
+    public function getGroupChat(string $chatId, int $needName = 0)
     {
         $params = [
             'chat_id' => $chatId,
+            'need_name' => $needName,
         ];
 
         return $this->httpPostJson('cgi-bin/externalcontact/groupchat/get', $params);
