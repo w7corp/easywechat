@@ -27,7 +27,7 @@ class AesCbc implements Aes
     public static function decrypt(string $ciphertext, string $key, string $iv = null): string
     {
         $plaintext = \openssl_decrypt(
-            \base64_decode($ciphertext, true),
+            $ciphertext,
             "aes-128-cbc",
             $key,
             \OPENSSL_RAW_DATA,

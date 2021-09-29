@@ -106,7 +106,7 @@ $oauth = $app->getOAuth(string $suiteId, AccessTokenInterface $suiteAccessToken)
 > [点此查看官方文档](https://open.work.weixin.qq.com/api/doc/90001/90143/91120#%E6%9E%84%E9%80%A0%E4%BC%81%E4%B8%9Aoauth2%E9%93%BE%E6%8E%A5)
 
 ```php
-$oauth = $app->getCorpOAuth(string $corpId, int $agentId, AccessTokenInterface $suiteAccessToken);
+$oauth = $app->getCorpOAuth(string $corpId, AccessTokenInterface $suiteAccessToken);
 ```
 
 :book: 详情请参考：[网页授权](./oauth.md)

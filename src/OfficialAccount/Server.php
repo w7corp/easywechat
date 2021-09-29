@@ -25,4 +25,32 @@ class Server implements ServerInterface
         protected ?Encryptor $encryptor = null,
     ) {
     }
+
+    /**
+     * @throws \Throwable
+     */
+    public function addMessageListener(string $type, callable | string $handler): static
+    {
+        $this->withHandler(
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($type, $handler): mixed {
+                return $message->MsgType === $type ? $handler($message, $next) : $next($message);
+            }
+        );
+
+        return $this;
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function addEventListener(string $event, callable | string $handler): static
+    {
+        $this->withHandler(
+            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($event, $handler): mixed {
+                return $message->Event === $event ? $handler($message, $next) : $next($message);
+            }
+        );
+
+        return $this;
+    }
 }

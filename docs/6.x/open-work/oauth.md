@@ -23,11 +23,13 @@ $app = new Application($config);
 请根据你的场景选择对应的方法获取 OAuth 实例：
 
 ```php
-# 第三方应用网页授权
+// 第三方应用网页授权
 $oauth = $app->getOAuth(string $suiteId, AccessTokenInterface $suiteAccessToken);
 
-# 企业网页授权
-$oauth = $app->getCorpOAuth(string $corpId, int $agentId, AccessTokenInterface $suiteAccessToken);
+// 企业网页授权
+$oauth = $app->getCorpOAuth(string $corpId, AccessTokenInterface $suiteAccessToken);
+// 如需指定应用ID
+$oauth = $oauth->withAgentId($agentId);
 ```
 
 ## 跳转授权

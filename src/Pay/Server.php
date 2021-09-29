@@ -33,9 +33,16 @@ class Server implements ServerInterface
         $message = $this->createMessageFromRequest();
 
         try {
-            return $this->handle(new Response(200, [], 'SUCCESS'), $message);
+            return $this->handle(
+                new Response(200, [], json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)),
+                $message
+            );
         } catch (\Exception $e) {
-            return new Response(500, [], $e->getMessage());
+            return new Response(
+                500,
+                [],
+                json_encode(['code' => 'ERROR', 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE)
+            );
         }
     }
 
@@ -45,7 +52,8 @@ class Server implements ServerInterface
     public function handlePaid(callable | string $handler): static
     {
         $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-            return $message->event_type === 'TRANSACTION.SUCCESS' ? $handler($message, $next) : $next($message);
+            return $message->getEventType() === 'TRANSACTION.SUCCESS' && $message->trade_state === 'SUCCESS'
+                ? $handler($message, $next) : $next($message);
         });
 
         return $this;
@@ -57,7 +65,7 @@ class Server implements ServerInterface
     public function handleRefunded(callable | string $handler): static
     {
         $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
-            return in_array($message->event_type, [
+            return in_array($message->getEventType(), [
                 'REFUND.SUCCESS',
                 'REFUND.ABNORMAL',
                 'REFUND.CLOSED',
@@ -87,6 +95,7 @@ class Server implements ServerInterface
                 $attributes['resource']['nonce'],
                 $attributes['resource']['associated_data'],
             ),
+            true
         );
 
         return new Message($attributes, $originContent);
