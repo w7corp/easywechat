@@ -72,7 +72,7 @@ $server->serve()->send();
 
 ## Documentation
 
-[官网](https://www.easywechat.com)  · [教程](https://www.easywechat.com/tutorials)  ·  [讨论](https://yike.io/)  ·  [微信公众平台](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official](http://admin.wechat.com/wiki)
+[官网](https://www.easywechat.com)  · [教程](https://www.aliyundrive.com/s/6CwgtkiBqFV)  ·  [讨论](https://github.com/w7corp/easywechat/discussions)  ·  [微信公众平台](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official](http://admin.wechat.com/wiki)
 
 ## Integration
 
