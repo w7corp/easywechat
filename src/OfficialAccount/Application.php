@@ -153,7 +153,7 @@ class Application implements ApplicationInterface
                 appId: $this->getAccount()->getAppId(),
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
-                httpClient: $this->getHttpClient(),
+                httpClient: $this->getClient(),
             );
         }
 
