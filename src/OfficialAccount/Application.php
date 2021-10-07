@@ -26,9 +26,15 @@ class Application implements ApplicationInterface
     use InteractWithClient;
 
     protected ?Encryptor $encryptor = null;
+
     protected ?ServerInterface $server = null;
+
     protected ?AccountInterface $account = null;
+
     protected ?AccessTokenInterface $accessToken = null;
+
+    protected ?JSApiTicket $ticket = null;
+
     protected ?\Closure $oauthFactory = null;
 
     public function getAccount(): AccountInterface
@@ -120,7 +126,7 @@ class Application implements ApplicationInterface
 
     public function setOAuthFactory(callable $factory): static
     {
-        $this->oauthFactory = fn (Application $app): WeChat => $factory($app);
+        $this->oauthFactory = fn(Application $app): WeChat => $factory($app);
 
         return $this;
     }
@@ -128,16 +134,35 @@ class Application implements ApplicationInterface
     public function getOAuth(): WeChat
     {
         if (!$this->oauthFactory) {
-            $this->oauthFactory = fn (self $app): WeChat => (new WeChat(
+            $this->oauthFactory = fn(self $app): WeChat => (new WeChat(
                 [
-                    'client_id' => $this->getAccount()->getAppId(),
+                    'client_id'     => $this->getAccount()->getAppId(),
                     'client_secret' => $this->getAccount()->getSecret(),
-                    'redirect_url' => $this->config->get('oauth.redirect_url'),
+                    'redirect_url'  => $this->config->get('oauth.redirect_url'),
                 ]
             ))->scopes($this->config->get('oauth.scopes', ['snsapi_userinfo']));
         }
 
         return \call_user_func($this->oauthFactory, $this);
+    }
+
+    public function getTicket(): JSApiTicket
+    {
+        if (!$this->ticket) {
+            $this->ticket = new JSApiTicket(
+                appId: $this->getAccount()->getAppId(),
+                secret: $this->getAccount()->getSecret(),
+                cache: $this->getCache(),
+                httpClient: $this->getHttpClient(),
+            );
+        }
+
+        return $this->ticket;
+    }
+
+    public function getUtils(): Utils
+    {
+        return new Utils($this->getTicket());
     }
 
     public function createClient(): Client
@@ -149,7 +174,7 @@ class Application implements ApplicationInterface
     {
         return \array_merge(
             ['base_uri' => 'https://api.weixin.qq.com/'],
-            (array)$this->config->get('http', [])
+            (array) $this->config->get('http', [])
         );
     }
 }
