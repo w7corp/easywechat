@@ -17,8 +17,7 @@ $utils = $app->getUtils();
 
 ## 生成 JS-SDK 签名
 
-:
-book: [官方文档 - JS-SDK说明文档](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html)
+:book: [官方文档 - JS-SDK说明文档](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html)
 
 ```php
 $config = $utils->buildJsSdkConfig(
