@@ -16,6 +16,7 @@ module.exports = [
                     { text: "服务端", link: "/6.x/official-account/server.html" },
                     { text: "消息", link: "/6.x/official-account/message.html" },
                     { text: "网页授权", link: "/6.x/common/oauth.html" },
+                    { text: "工具", link: "/6.x/official-account/utils.html" },
                 ]
             }, {
                 text: "微信支付",

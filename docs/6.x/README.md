@@ -38,6 +38,6 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 - [断言：不懂《提问的智慧》的人不会从初级程序员水平毕业](https://learnku.com/laravel/t/535/assertion-people-who-do-not-understand-the-wisdom-of-asking-questions-will-not-graduate-from-junior-programmers)
 - [PHP 之道](http://laravel-china.github.io/php-the-right-way/)
 
-我们专门针对一些容易出现的通用问题已经做了汇总： [疑难解答](/troubleshooting.md) ，如果你在问题疑难解答没找到你出现的问题，那么可以在这里提问 [GitHub](https://github.com/overtrue/wechat/issues)，提问请描述清楚你用的版本，你的做法是什么，不然别人没法帮你。
+我们专门针对一些容易出现的通用问题已经做了汇总： [疑难解答](/troubleshooting.md)，如果你在问题疑难解答没找到你出现的问题，那么可以在这里提问 [GitHub](https://github.com/w7corp/easywechat/issues)，提问请描述清楚你用的版本，你的做法是什么，不然别人没法帮你。
 
 > 最后，请有问题先审查代码，看文档, 再 Google，然后去群里提问题，带上你的代码，重现流程，大家有空的会帮忙你解答。谢谢合作！:pray:
