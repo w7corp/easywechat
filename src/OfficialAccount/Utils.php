@@ -4,20 +4,18 @@ namespace EasyWeChat\OfficialAccount;
 
 class Utils
 {
-    public function __construct(protected JSApiTicket $ticket)
+    public function __construct(protected Application $app)
     {
     }
 
-    public function buildJsSdkConfig(string $url, array $jsApiList = [], array $openTagList = [], $debug = false, $json = false)
+    public function buildJsSdkConfig(string $url, array $jsApiList = [], array $openTagList = [], $debug = false)
     {
         $nonceStr = uniqid();
         $timestamp = time();
 
-        $config = array_merge(
+        return array_merge(
             compact('jsApiList', 'openTagList', 'debug'),
-            $this->ticket->configSignature($url, $nonceStr, $timestamp)
+            $this->app->getTicket()->configSignature($url, $nonceStr, $timestamp)
         );
-
-        return $json ? json_encode($config) : $config;
     }
 }

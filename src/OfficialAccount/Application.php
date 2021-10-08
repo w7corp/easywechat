@@ -33,7 +33,7 @@ class Application implements ApplicationInterface
 
     protected ?AccessTokenInterface $accessToken = null;
 
-    protected ?JSApiTicket $ticket = null;
+    protected ?JsApiTicket $ticket = null;
 
     protected ?\Closure $oauthFactory = null;
 
@@ -146,10 +146,10 @@ class Application implements ApplicationInterface
         return \call_user_func($this->oauthFactory, $this);
     }
 
-    public function getTicket(): JSApiTicket
+    public function getTicket(): JsApiTicket
     {
         if (!$this->ticket) {
-            $this->ticket = new JSApiTicket(
+            $this->ticket = new JsApiTicket(
                 appId: $this->getAccount()->getAppId(),
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
@@ -162,7 +162,7 @@ class Application implements ApplicationInterface
 
     public function getUtils(): Utils
     {
-        return new Utils($this->getTicket());
+        return new Utils($this);
     }
 
     public function createClient(): Client
@@ -174,7 +174,7 @@ class Application implements ApplicationInterface
     {
         return \array_merge(
             ['base_uri' => 'https://api.weixin.qq.com/'],
-            (array) $this->config->get('http', [])
+            (array)$this->config->get('http', [])
         );
     }
 }

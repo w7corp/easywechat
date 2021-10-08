@@ -6,7 +6,7 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
 
-class JSApiTicket extends AccessToken
+class JsApiTicket extends AccessToken
 {
     public function getTicket(): string
     {

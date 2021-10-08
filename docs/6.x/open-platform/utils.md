@@ -16,13 +16,26 @@ $utils = $app->getUtils();
 ```
 
 ## 生成 JS-SDK 签名
-:book: [官方文档 - JS-SDK说明文档](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html)
+
+:
+book: [官方文档 - JS-SDK说明文档](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html)
+
 ```php
-$utils->buildJsSdkConfig(
+$config = $utils->buildJsSdkConfig(
     url: $url, 
     jsApiList: [],
     openTagList: [], 
     debug: false, 
-    json: false
 );
+
+// print
+[
+    "appId" => "wx...",
+    "jsApiList" => [],
+    "nonceStr" => "string",
+    "openTagList" => [],
+    "signature" =>  "sign",
+    "timestamp" =>  "timestamp"
+];
+
 ```
