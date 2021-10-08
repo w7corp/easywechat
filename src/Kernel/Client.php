@@ -26,15 +26,6 @@ class Client implements AccessTokenAwareHttpClientInterface, ChainableHttpClient
 
     protected ?AccessTokenInterface $accessToken;
 
-    public function withAccessToken(AccessTokenInterface $accessToken): static
-    {
-        $clone = clone $this;
-
-        $clone->accessToken = $accessToken;
-
-        return $clone;
-    }
-
     public function __construct(
         ?HttpClientInterface $client = null,
         string $uri = '/',
@@ -43,6 +34,15 @@ class Client implements AccessTokenAwareHttpClientInterface, ChainableHttpClient
         $this->uri = $uri;
         $this->client = $client ?? HttpClient::create();
         $this->accessToken = $accessToken;
+    }
+
+    public function withAccessToken(AccessTokenInterface $accessToken): static
+    {
+        $clone = clone $this;
+
+        $clone->accessToken = $accessToken;
+
+        return $clone;
     }
 
     /**

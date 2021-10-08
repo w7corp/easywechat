@@ -23,8 +23,7 @@ $utils = $app->getUtils();
 
 ### WeixinJSBridge 调起支付 API
 
-:
-book: [官方文档 - WeixinJSBridge 调起支付](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_4.shtml)
+:book: [官方文档 - WeixinJSBridge 调起支付](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_4.shtml)
 
  ```php
  $appId = '商户申请的公众号对应的 appid，由微信支付生成，可在公众号后台查看';
@@ -54,8 +53,7 @@ book: [官方文档 - WeixinJSBridge 调起支付](https://pay.weixin.qq.com/wik
 
 ### JSSDK 调起支付 API
 
-:
-book: [官方文档 - wx.chooseWXPay 调起支付](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58)
+:book: [官方文档 - wx.chooseWXPay 调起支付](https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58)
 
  ```php
  $appId = '商户申请的公众号对应的 appid，由微信支付生成，可在公众号后台查看';
@@ -79,8 +77,7 @@ wx.chooseWXPay({
 
 ### 小程序调起支付 API
 
-:
-book: [官方文档 - 小程序调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_4.shtml)
+:book: [官方文档 - 小程序调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_4.shtml)
 
  ```php
  $appId = '商户申请的小程序对应的appid，由微信支付生成，可在小程序后台查看';
@@ -104,8 +101,7 @@ book: [官方文档 - 小程序调起支付 API](https://pay.weixin.qq.com/wiki/
 
 ### APP 调起支付 API
 
-:
-book: [官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_4.shtml)
+:book: [官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_4.shtml)
 
  ```php
  $appId = '商户申请的公众号对应的appid，由微信支付生成，可在公众号后台查看';
