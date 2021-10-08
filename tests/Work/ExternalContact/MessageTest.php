@@ -50,6 +50,33 @@ class MessageTest extends TestCase
         ]));
     }
 
+    public function testGetGroupmsgListV2()
+    {
+        $client = $this->mockApiClient(MessageClient::class);
+
+        $client->shouldReceive('httpPostJson')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getGroupmsgListV2('single', 1605171726, 1605172726, 'zhangshan', 1, 50, 'CURSOR'));
+    }
+
+    public function testGetGroupmsgTask()
+    {
+        $client = $this->mockApiClient(MessageClient::class);
+
+        $client->shouldReceive('httpPostJson')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getGroupmsgTask('msgGCAAAXtWyujaWJHDDGi0mACAAAA', 50, 'CURSOR'));
+    }
+
+    public function testGetGroupmsgSendResult()
+    {
+        $client = $this->mockApiClient(MessageClient::class);
+
+        $client->shouldReceive('httpPostJson')->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getGroupmsgSendResult('single', 'zhangshan', 50, 'CURSOR'));
+    }
+
     public function testSubmitWithoutTextContent()
     {
         $client = $this->mockApiClient(MessageClient::class);
