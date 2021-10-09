@@ -120,7 +120,7 @@ class MessageClient extends BaseClient
             'cursor' => $cursor,
         ];
         $writableData = array_filter($data, function (string $key) use ($data) {
-            return $data[$key] === null ? false : true;
+            return !is_null($data[$key]);
         }, ARRAY_FILTER_USE_KEY);
         return $this->httpPostJson('cgi-bin/externalcontact/get_groupmsg_list_v2', $writableData);
     }
@@ -148,7 +148,7 @@ class MessageClient extends BaseClient
             'cursor' => $cursor,
         ];
         $writableData = array_filter($data, function (string $key) use ($data) {
-            return $data[$key] === null ? false : true;
+            return !is_null($data[$key]);
         }, ARRAY_FILTER_USE_KEY);
         return $this->httpPostJson('cgi-bin/externalcontact/get_groupmsg_task', $writableData);
     }
@@ -178,7 +178,7 @@ class MessageClient extends BaseClient
             'cursor' => $cursor,
         ];
         $writableData = array_filter($data, function (string $key) use ($data) {
-            return $data[$key] === null ? false : true;
+            return !is_null($data[$key]);
         }, ARRAY_FILTER_USE_KEY);
         return $this->httpPostJson('cgi-bin/externalcontact/get_groupmsg_send_result', $writableData);
     }
