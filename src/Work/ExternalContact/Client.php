@@ -158,7 +158,7 @@ class Client extends BaseClient
             'cursor' => $cursor,
         ];
         $writableParams = array_filter($params, function (string $key) use ($params) {
-            return $params[$key] ?? null;
+            return !is_null($params[$key]);
         }, ARRAY_FILTER_USE_KEY);
         return $this->httpPostJson('cgi-bin/externalcontact/get_unassigned_list', $writableParams);
     }
