@@ -5,21 +5,17 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\Psr16Cache;
 
 class VerifyTicket implements VerifyTicketInterface
 {
-    protected CacheInterface $cache;
+    use InteractWithCache;
 
     public function __construct(
         protected string $appId,
-        ?CacheInterface $cache = null,
         protected ?string $key = null,
     ) {
-        $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
     public function getKey(): string
@@ -34,19 +30,23 @@ class VerifyTicket implements VerifyTicketInterface
         return $this;
     }
 
+    /**
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
     public function setTicket(string $ticket): static
     {
-        $this->cache->set($this->getKey(), $ticket, 6000);
+        $this->getCache()->set($this->getKey(), $ticket, 6000);
 
         return $this;
     }
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTicket(): string
     {
-        $ticket = $this->cache->get($this->getKey());
+        $ticket = $this->getCache()->get($this->getKey());
 
         if (!$ticket) {
             throw new RuntimeException('No component_verify_ticket found.');

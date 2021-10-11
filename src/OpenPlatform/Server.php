@@ -6,9 +6,12 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
@@ -72,5 +75,10 @@ class Server implements ServerInterface
         });
 
         return $this;
+    }
+
+    public function resolveResponse(mixed $response, Message $message): ResponseInterface
+    {
+        return new Response(200, [], 'success');
     }
 }

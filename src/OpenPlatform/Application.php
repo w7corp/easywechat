@@ -126,13 +126,13 @@ class Application implements ApplicationInterface
     public function getComponentAccessToken(): AccessTokenInterface
     {
         if (!$this->componentAccessToken) {
-            $this->componentAccessToken = new ComponentAccessToken(
+            $this->componentAccessToken = (new ComponentAccessToken(
                 appId: $this->getAccount()->getAppId(),
                 secret: $this->getAccount()->getSecret(),
                 verifyTicket: $this->getVerifyTicket(),
-                cache: $this->getCache(),
-                httpClient: $this->getHttpClient(),
-            );
+            ))
+            ->setCache($this->getCache())
+            ->setHttpClient($this->getHttpClient());
         }
 
         return $this->componentAccessToken;

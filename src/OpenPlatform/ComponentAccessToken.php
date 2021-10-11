@@ -4,30 +4,24 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\Traits\InteractWithCache;
+use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Adapter\FilesystemAdapter;
-use Symfony\Component\Cache\Psr16Cache;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ComponentAccessToken implements AccessTokenInterface
 {
-    protected HttpClientInterface $httpClient;
-    protected CacheInterface $cache;
+    use InteractWithCache;
+    use InteractWithHttpClient;
 
     public function __construct(
         protected string $appId,
         protected string $secret,
         protected VerifyTicketInterface $verifyTicket,
         protected ?string $key = null,
-        ?CacheInterface $cache = null,
-        ?HttpClientInterface $httpClient = null,
     ) {
-        $this->httpClient = $httpClient ?? new Client();
-        $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
     public function getKey(): string
@@ -49,12 +43,13 @@ class ComponentAccessToken implements AccessTokenInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getToken(): string
     {
         $key = $this->getKey();
 
-        if ($token = $this->cache->get($key)) {
+        if ($token = $this->getCache()->get($key)) {
             return $token;
         }
 
@@ -74,12 +69,13 @@ class ComponentAccessToken implements AccessTokenInterface
             throw new HttpException('Failed to get component_access_token.');
         }
 
-        $this->cache->set($key, $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));
+        $this->getCache()->set($key, $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));
 
         return $response['component_access_token'];
     }
 
 
+    #[ArrayShape(['component_access_token' => "string"])]
     public function toQuery(): array
     {
         return ['component_access_token' => $this->getToken()];
