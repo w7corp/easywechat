@@ -5,9 +5,19 @@ declare(strict_types=1);
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use JetBrains\PhpStorm\ArrayShape;
 
 class JsApiTicket extends AccessToken
 {
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
     public function getTicket(): string
     {
         $key = $this->getKey();
@@ -28,13 +38,20 @@ class JsApiTicket extends AccessToken
         return $response['ticket'];
     }
 
+    #[ArrayShape([
+        'url' => "string",
+        'nonceStr' => "string",
+        'timestamp' => "int",
+        'appId' => "string",
+        'signature' => "string"
+    ])]
     public function configSignature(string $url, string $nonce, int $timestamp): array
     {
         return [
-            'url'       => $url,
-            'nonceStr'  => $nonce,
+            'url' => $url,
+            'nonceStr' => $nonce,
             'timestamp' => $timestamp,
-            'appId'     => $this->appId,
+            'appId' => $this->appId,
             'signature' => sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $this->getTicket(), $nonce, $timestamp, $url)),
         ];
     }

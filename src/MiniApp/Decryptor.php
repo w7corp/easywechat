@@ -15,7 +15,7 @@ class Decryptor
     public static function decrypt(string $sessionKey, string $iv, string $ciphertext): array
     {
         $decrypted = AesCbc::decrypt(
-            base64_decode($ciphertext, false),
+            $ciphertext,
             base64_decode($sessionKey, false),
             base64_decode($iv, false)
         );

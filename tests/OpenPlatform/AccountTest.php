@@ -1,19 +1,14 @@
 <?php
 
-declare(strict_types=1);
+namespace EasyWeChat\Tests\OpenPlatform;
 
-namespace EasyWeChat\Tests\OfficialAccount;
-
-use EasyWeChat\OfficialAccount\Account;
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
-use EasyWeChat\OfficialAccount\Application;
+use EasyWeChat\OpenPlatform\Account;
+use EasyWeChat\OpenPlatform\Application;
+use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use PHPUnit\Framework\TestCase;
 
 class AccountTest extends TestCase
 {
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
     public function test_application_can_create_account_instance()
     {
         $app = new Application(

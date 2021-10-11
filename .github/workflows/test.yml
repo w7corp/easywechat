@@ -13,8 +13,6 @@ jobs:
         perfer:
           - stable
           - lowest
-    container:
-      image: nauxliu/php-ci-image:${{ matrix.php_version }}
     steps:
     - uses: actions/checkout@master
     - name: Install Dependencies

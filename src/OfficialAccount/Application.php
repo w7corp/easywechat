@@ -126,7 +126,7 @@ class Application implements ApplicationInterface
 
     public function setOAuthFactory(callable $factory): static
     {
-        $this->oauthFactory = fn(Application $app): WeChat => $factory($app);
+        $this->oauthFactory = fn (Application $app): WeChat => $factory($app);
 
         return $this;
     }
@@ -134,11 +134,11 @@ class Application implements ApplicationInterface
     public function getOAuth(): WeChat
     {
         if (!$this->oauthFactory) {
-            $this->oauthFactory = fn(self $app): WeChat => (new WeChat(
+            $this->oauthFactory = fn (self $app): WeChat => (new WeChat(
                 [
-                    'client_id'     => $this->getAccount()->getAppId(),
+                    'client_id' => $this->getAccount()->getAppId(),
                     'client_secret' => $this->getAccount()->getSecret(),
-                    'redirect_url'  => $this->config->get('oauth.redirect_url'),
+                    'redirect_url' => $this->config->get('oauth.redirect_url'),
                 ]
             ))->scopes($this->config->get('oauth.scopes', ['snsapi_userinfo']));
         }

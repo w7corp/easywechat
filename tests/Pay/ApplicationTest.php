@@ -44,7 +44,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
     }
 
-    public function test_get_get_client()
+    public function test_get_v3_client()
     {
         $app = new Application(
             [
@@ -62,7 +62,7 @@ class ApplicationTest extends TestCase
         $this->assertSame('v3', $app->getClient()->getUri());
     }
 
-    public function test_get_get_v2_client()
+    public function test_get_v2_client()
     {
         $app = new Application(
             [

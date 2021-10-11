@@ -8,14 +8,11 @@ class Utils
     {
     }
 
-    public function buildJsSdkConfig(string $url, array $jsApiList = [], array $openTagList = [], $debug = false)
+    public function buildJsSdkConfig(string $url, array $jsApiList = [], array $openTagList = [], $debug = false): array
     {
-        $nonceStr = uniqid();
-        $timestamp = time();
-
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug'),
-            $this->app->getTicket()->configSignature($url, $nonceStr, $timestamp)
+            $this->app->getTicket()->configSignature($url, \uniqid(), \time())
         );
     }
 }

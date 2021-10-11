@@ -4,23 +4,17 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\OfficialAccount;
 
-use EasyWeChat\Kernel\Client;
-use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\OfficialAccount\AccessToken;
 use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Application;
-use EasyWeChat\OfficialAccount\Config;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\OfficialAccount\Server;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\SimpleCache\CacheInterface;
-use Symfony\Component\Cache\Psr16Cache;
 
 class ApplicationTest extends TestCase
 {
@@ -64,26 +58,6 @@ class ApplicationTest extends TestCase
         $this->assertSame($encryptor, $app->getEncryptor());
     }
 
-    public function test_get_and_set_request()
-    {
-        $app = new Application(
-            [
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]
-        );
-
-        $this->assertInstanceOf(ServerRequestInterface::class, $app->getRequest());
-        $this->assertSame($app->getRequest(), $app->getRequest());
-
-        // set
-        $request = \Mockery::mock(ServerRequestInterface::class);
-        $app->setRequest($request);
-        $this->assertSame($request, $app->getRequest());
-    }
-
     public function test_get_and_set_server()
     {
         $app = new Application(
@@ -104,46 +78,6 @@ class ApplicationTest extends TestCase
         $this->assertSame($server, $app->getServer());
     }
 
-    public function test_get_and_set_client()
-    {
-        $app = new Application(
-            [
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]
-        );
-
-        $this->assertInstanceOf(Client::class, $app->getClient());
-        $this->assertSame($app->getClient(), $app->getClient());
-
-        // set
-        $client = new Client();
-        $app->setClient($client);
-        $this->assertSame($client, $app->getClient());
-    }
-
-    public function test_get_and_set_http_client()
-    {
-        $app = new Application(
-            [
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]
-        );
-
-        $this->assertInstanceOf(HttpClientInterface::class, $app->getHttpClient());
-        $this->assertSame($app->getHttpClient(), $app->getHttpClient());
-
-        // set
-        $client = new Client();
-        $app->setHttpClient($client);
-        $this->assertSame($client, $app->getHttpClient());
-    }
-
     public function test_get_and_set_access_token()
     {
         $app = new Application(
@@ -156,58 +90,10 @@ class ApplicationTest extends TestCase
         );
 
         $this->assertInstanceOf(AccessTokenInterface::class, $app->getAccessToken());
-        $this->assertSame($app->getAccessToken(), $app->getAccessToken());
 
         // set
         $accessToken = new AccessToken('wx3cf0f39249000060', 'mock-secret');
         $app->setAccessToken($accessToken);
         $this->assertSame($accessToken, $app->getAccessToken());
-    }
-
-    public function test_get_and_set_cache()
-    {
-        $app = new Application(
-            [
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]
-        );
-
-        $this->assertInstanceOf(CacheInterface::class, $app->getCache());
-        $this->assertSame($app->getCache(), $app->getCache());
-
-        // set
-        $cache = \Mockery::mock(Psr16Cache::class);
-        $app->setCache($cache);
-        $this->assertSame($cache, $app->getCache());
-    }
-
-    public function test_get_and_set_config()
-    {
-        $app = new Application(
-            [
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]
-        );
-
-        $this->assertInstanceOf(ConfigInterface::class, $app->getConfig());
-        $this->assertSame($app->getConfig(), $app->getConfig());
-
-        // set
-        $config = new Config(
-            [
-                'app_id' => 'wx3cf0f39249000060-2',
-                'secret' => 'mock-secret-2',
-                'token' => 'mock-token-2',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]
-        );
-        $app->setConfig($config);
-        $this->assertSame($config, $app->getConfig());
     }
 }
