@@ -39,7 +39,7 @@
     "friendsofphp/php-cs-fixer": "^3.0",
     "brainmaestro/composer-git-hooks": "^2.8",
     "mikey179/vfsstream": "^1.6",
-    "mockery/mockery": "^1.4",
+    "mockery/mockery": "^1.4.4",
     "phpstan/phpstan": "^0.12",
     "phpunit/phpunit": "^9.5",
     "symfony/var-dumper": "^5.2",

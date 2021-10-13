@@ -16,7 +16,7 @@ class InteractWithHandlersTest extends TestCase
     {
         $m = \Mockery::mock(InteractWithHandlers::class);
 
-        $c = new class () {
+        $c = new class() {
             public function hello()
             {
             }
