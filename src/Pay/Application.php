@@ -9,8 +9,12 @@ use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
+use EasyWeChat\Pay\V3\Api;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+/**
+ * @property-read Api v3
+ */
 class Application implements \EasyWeChat\Pay\Contracts\Application
 {
     use InteractWithConfig;
@@ -99,5 +103,12 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     public function getConfig(): ConfigInterface
     {
         return $this->config;
+    }
+
+    public function __get($name)
+    {
+        if ($name === "v3") {
+            return new Api($this->getMerchant(), $this->getClient());
+        }
     }
 }
