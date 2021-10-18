@@ -89,7 +89,7 @@ class Application implements ApplicationInterface
             $this->server = new Server(
                 account: $this->getAccount(),
                 request: $this->getRequest(),
-                encryptor: $this->getEncryptor()
+                encryptor: $this->getAccount()->getAesKey() ? $this->getEncryptor() : null
             );
         }
 

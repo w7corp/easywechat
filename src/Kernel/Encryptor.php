@@ -25,11 +25,11 @@ class Encryptor
     public const ILLEGAL_BUFFER = -41003; // Illegal buffer
 
     protected string $appId;
-    protected ?string $token;
+    protected string $token;
     protected string $aesKey;
     protected int $blockSize = 32;
 
-    public function __construct(string $appId, string $token = null, string $aesKey = null)
+    public function __construct(string $appId, string $token, string $aesKey)
     {
         $this->appId = $appId;
         $this->token = $token;
