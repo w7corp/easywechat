@@ -49,8 +49,8 @@ trait InteractWithXmlMessage
                 $query = $this->request->getQueryParams();
                 $signature = $query['signature'] ?? $query['msg_signature'] ?? null;
 
-                if (!isset($signature) || 'aes' !== ($query['encrypt_type'] ?? '')) {
-                    return $next($message);
+                if (!isset($signature)) {
+                    throw new BadRequestException('Invalid request signature.');
                 }
 
                 $params = [$this->account->getToken(), $query['timestamp'], $query['nonce']];
@@ -60,6 +60,8 @@ trait InteractWithXmlMessage
                 if ($signature !== sha1(implode($params))) {
                     throw new BadRequestException('Invalid request signature.');
                 }
+
+                return $next($message);
             }
         );
     }
@@ -119,14 +121,7 @@ trait InteractWithXmlMessage
             $time = $attributes['CreateTime'] ?? \time();
             $nonce = $attributes['nonce'] ?? \uniqid();
 
-            $xml = Xml::build(
-                [
-                    'MsgType' => $attributes['MsgType'] ?? 'text',
-                    'Encrypt' => $encryptor->encrypt($xml, $nonce, $time),
-                    'TimeStamp' => $time,
-                    'Nonce' => $nonce,
-                ]
-            );
+            $xml = $encryptor->encrypt($xml, $nonce, $time);
         }
 
         return new Response(200, ['Content-Type' => 'application/xml'], $xml);
