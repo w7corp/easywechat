@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Kernel\Support\Xml;
@@ -48,6 +50,7 @@ class ServerTest extends TestCase
             <UserID><![CDATA[zhangsan]]></UserID>
         </xml>';
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
+
         $server = new Server(\Mockery::mock(Account::class), $request);
 
         $response = $server
@@ -85,6 +88,7 @@ class ServerTest extends TestCase
             <UserID><![CDATA[zhangsan]]></UserID>
         </xml>';
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
+
         $server = new Server(\Mockery::mock(Account::class), $request);
 
         $response = $server
