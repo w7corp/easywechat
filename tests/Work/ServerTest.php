@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Kernel\Support\Xml;
@@ -7,6 +9,7 @@ use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Server;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
+use function GuzzleHttp\Psr7\str;
 
 class ServerTest extends TestCase
 {
@@ -48,6 +51,7 @@ class ServerTest extends TestCase
             <UserID><![CDATA[zhangsan]]></UserID>
         </xml>';
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
+
         $server = new Server(\Mockery::mock(Account::class), $request);
 
         $response = $server

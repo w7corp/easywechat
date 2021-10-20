@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Kernel\Client;
