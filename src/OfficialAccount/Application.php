@@ -160,6 +160,13 @@ class Application implements ApplicationInterface
         return $this->ticket;
     }
 
+    public function setTicket(JsApiTicket $ticket): static
+    {
+        $this->ticket = $ticket;
+
+        return $this;
+    }
+
     public function getUtils(): Utils
     {
         return new Utils($this);
