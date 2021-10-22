@@ -5,7 +5,7 @@
 ```php
 $agentId = 100001;
 
-$app->msg_audit->getAppShareInfo(int $agentId);
+$app->corp_group->getAppShareInfo(int $agentId);
 ```
 
 ### 获取下级企业的access_token
@@ -14,7 +14,7 @@ $app->msg_audit->getAppShareInfo(int $agentId);
 $corpId = 'wwd216fa8c4c5c0e7x';
 $agentId = 100001;
 
-$app->msg_audit->getToken(string $corpId, int $agentId)
+$app->corp_group->getToken(string $corpId, int $agentId)
 ```
 
 ### 获取下级企业的小程序session
@@ -24,5 +24,5 @@ $app->msg_audit->getToken(string $corpId, int $agentId)
 $userId = 'wmAoNVCwAAUrSqEqz7oQpEIEMVWDrPeg';
 $sessionKey = 'n8cnNEoyW1pxSRz6/Lwjwg==';
 
-$app->msg_audit->getMiniProgramTransferSession(string $userId, string $sessionKey);
+$app->corp_group->getMiniProgramTransferSession(string $userId, string $sessionKey);
 ```
