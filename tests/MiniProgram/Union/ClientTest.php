@@ -145,4 +145,41 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $response);
     }
+
+    public function testGetTargetPlanInfo()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'planInvitationUrl' => 'https://foo.bar'
+        ];
+        $client->expects()->httpGet('union/promoter/target/plan_info', $params)->andReturn('mock-result');
+        $response = $client->getTargetPlanInfo($params);
+
+        $this->assertSame('mock-result', $response);
+    }
+
+    public function testApplyJoinTargetPlan()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'planId' => '123456',
+            'applyReason' => 'foo'
+        ];
+        $client->expects()->httpPostJson('union/promoter/target/apply_target', $params)->andReturn('mock-result');
+        $response = $client->applyJoinTargetPlan($params);
+
+        $this->assertSame('mock-result', $response);
+    }
+
+    public function testGetTargetPlanStatus()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $params = [
+            'planId' => '123456'
+        ];
+        $client->expects()->httpGet('union/promoter/target/apply_status', $params)->andReturn('mock-result');
+        $response = $client->getTargetPlanStatus($params);
+
+        $this->assertSame('mock-result', $response);
+    }
 }
