@@ -475,4 +475,50 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/externalcontact/mark_tag', $params);
     }
+
+    /**
+     * 外部联系人unionid转换.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90001/90143/93274
+     *
+     * @param string|null $unionid 微信客户的unionid
+     * @param string|null $openid 微信客户的openid
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function unionidToExternalUserid(?string $unionid = null, ?string $openid = null)
+    {
+        return $this->httpPostJson(
+            'cgi-bin/externalcontact/unionid_to_external_userid',
+            [
+                'unionid' => $unionid,
+                'openid' => $openid,
+            ]
+        );
+    }
+
+    /**
+     * 代开发应用external_userid转换.
+     *
+     * @see https://work.weixin.qq.com/api/doc/90001/90143/95195
+     *
+     * @param string $externalUserid 代开发自建应用获取到的外部联系人ID
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function toServiceExternalUserid(string $externalUserid)
+    {
+        return $this->httpPostJson(
+            'cgi-bin/externalcontact/to_service_external_userid',
+            [
+                'external_userid' => $externalUserid,
+            ]
+        );
+    }
 }
