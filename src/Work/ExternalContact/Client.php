@@ -479,7 +479,7 @@ class Client extends BaseClient
     /**
      * 外部联系人unionid转换.
      *
-     * @see https://work.weixin.qq.com/api/doc/90000/90135/92115
+     * @see https://work.weixin.qq.com/api/doc/90001/90143/93274
      *
      * @param string|null $unionid 微信客户的unionid
      * @param string|null $openid 微信客户的openid
@@ -503,7 +503,7 @@ class Client extends BaseClient
     /**
      * 代开发应用external_userid转换.
      *
-     * @see https://work.weixin.qq.com/api/doc/90000/90135/92115
+     * @see https://work.weixin.qq.com/api/doc/90001/90143/95195
      *
      * @param string $externalUserid 代开发自建应用获取到的外部联系人ID
      *
