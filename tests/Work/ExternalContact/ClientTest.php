@@ -309,4 +309,21 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->markTags($params));
     }
+
+    public function testUnionidToExternalUserid(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+        $unionid = 'unionid';
+        $openid = 'openid';
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/unionid_to_external_userid', ['unionid' => $unionid, 'openid' => $openid])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->unionidToExternalUserid($unionid, $openid));
+    }
+
+    public function testToServiceExternalUserid(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+        $externalUserid = 'externalUserid';
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/to_service_external_userid', ['external_userid' => $externalUserid])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->toServiceExternalUserid($externalUserid));
+    }
 }
