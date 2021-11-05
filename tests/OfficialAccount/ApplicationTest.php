@@ -99,7 +99,8 @@ class ApplicationTest extends TestCase
         $this->assertSame($accessToken, $app->getAccessToken());
     }
 
-    public function test_get_and_set_ticket(){
+    public function test_get_and_set_ticket()
+    {
         $app = new Application(
             [
                 'app_id' => 'wx3cf0f39249000060',
@@ -112,7 +113,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(JsApiTicket::class, $app->getTicket());
 
         // set
-        $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-secret','mock-token',$app->getCache(),$app->getClient());
+        $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-secret', 'mock-token', $app->getCache(), $app->getClient());
         $app->setTicket($ticket);
         $this->assertSame($ticket, $app->getTicket());
     }

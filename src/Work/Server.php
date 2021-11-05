@@ -6,15 +6,19 @@ namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
-use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
+use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
 {
+    use DecryptXmlMessage;
+    use RespondXmlMessage;
     use InteractWithHandlers;
-    use InteractWithXmlMessage;
 
     /**
      * @throws \Throwable
@@ -24,6 +28,34 @@ class Server implements ServerInterface
         protected ServerRequestInterface $request,
         protected ?Encryptor $encryptor = null,
     ) {
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException|\EasyWeChat\Kernel\Exceptions\BadRequestException|\Throwable
+     */
+    public function serve(): ResponseInterface
+    {
+        if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
+            return new Response(200, [], $str);
+        }
+
+        $message = Message::createFromRequest($this->request);
+
+        $this->withHandler(function (\EasyWeChat\Kernel\Message $message, \Closure $next) {
+            $query = $this->request->getQueryParams();
+            $this->decryptMessage($message, $this->encryptor, $query['msg_signature'], $query['timestamp'], $query['nonce']);
+
+            return $next($message);
+        });
+
+        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
+
+        if ($response instanceof ResponseInterface) {
+            return $response;
+        }
+
+        return $this->transformResponse($response, $message);
     }
 
     // 成员变更通知 + 部门变更通知 + 标签变更通知

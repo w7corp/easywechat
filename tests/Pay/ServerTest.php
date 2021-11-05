@@ -13,8 +13,11 @@ class ServerTest extends TestCase
 {
     public function test_it_will_handle_validation_request()
     {
-        $request = (new ServerRequest('POST', 'http://easywechat.com/',[],
-            fopen(__DIR__.'/../stubs/files/pay_demo.json','r')
+        $request = (new ServerRequest(
+            'POST',
+            'http://easywechat.com/',
+            [],
+            fopen(__DIR__.'/../stubs/files/pay_demo.json', 'r')
         ));
 
         $merchant = \Mockery::mock(Merchant::class);
