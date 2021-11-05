@@ -169,4 +169,9 @@ class Server implements ServerInterface
     {
         return new Response(200, [], 'success');
     }
+
+    public function defaultResponse()
+    {
+        return new Response(200, [], 'success');
+    }
 }

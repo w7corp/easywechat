@@ -30,7 +30,7 @@ trait InteractWithXmlMessage
 
         $message = $this->createMessageFromRequest();
 
-        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
+        $response = $this->handle($this->defaultResponse(), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;
@@ -53,7 +53,7 @@ trait InteractWithXmlMessage
                     throw new BadRequestException('Invalid request signature.');
                 }
                 $attributes = $message->format($message->getOriginalContents());
-                $params = [$this->account->getToken(), $query['timestamp'], $query['nonce'], $attributes['Encrypt']??''];
+                $params = [$this->account->getToken(), $query['timestamp'], $query['nonce'], $attributes['Encrypt'] ?? ''];
 
                 sort($params, SORT_STRING);
 
@@ -174,5 +174,10 @@ trait InteractWithXmlMessage
         $response->getBody()->rewind();
 
         return $response;
+    }
+
+    public function defaultResponse()
+    {
+        return new Response(200, [], 'SUCCESS');
     }
 }
