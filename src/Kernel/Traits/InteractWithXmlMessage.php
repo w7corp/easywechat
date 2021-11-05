@@ -52,8 +52,8 @@ trait InteractWithXmlMessage
                 if (!isset($signature)) {
                     throw new BadRequestException('Invalid request signature.');
                 }
-
-                $params = [$this->account->getToken(), $query['timestamp'], $query['nonce']];
+                $attributes = $message->format($message->getOriginalContents());
+                $params = [$this->account->getToken(), $query['timestamp'], $query['nonce'], $attributes['Encrypt']??''];
 
                 sort($params, SORT_STRING);
 
@@ -74,10 +74,10 @@ trait InteractWithXmlMessage
             attributes: array_filter(
                 \array_merge(
                     [
-                                    'ToUserName' => $message->FromUserName,
-                                    'FromUserName' => $message->ToUserName,
-                                    'CreateTime' => $currentTime,
-                                ],
+                        'ToUserName' => $message->FromUserName,
+                        'FromUserName' => $message->ToUserName,
+                        'CreateTime' => $currentTime,
+                    ],
                     $response
                 )
             ),
