@@ -11,7 +11,11 @@ use Psr\Http\Message\ResponseInterface;
 
 trait RespondXmlMessage
 {
-    public function transformResponse(array $response, Message $message, ?Encryptor $encryptor): ResponseInterface
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function transformToReply($response, Message $message, ?Encryptor $encryptor): ResponseInterface
     {
         return $this->createXmlResponse(
             attributes: array_filter(
@@ -21,7 +25,7 @@ trait RespondXmlMessage
                         'FromUserName' => $message->ToUserName,
                         'CreateTime' => \time(),
                     ],
-                    $response
+                    $this->normalizeResponse($response),
                 )
             ),
             encryptor: $encryptor
@@ -67,6 +71,10 @@ trait RespondXmlMessage
             $xml = $encryptor->encrypt($xml, $nonce, $time);
         }
 
-        return new Response(200, ['Content-Type' => 'application/xml'], $xml);
+        $response = new Response(200, ['Content-Type' => 'application/xml'], $xml);
+
+        $response->getBody()->rewind();
+
+        return $response;
     }
 }

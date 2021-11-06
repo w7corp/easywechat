@@ -6,15 +6,19 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
-use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
+use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
 {
     use InteractWithHandlers;
-    use InteractWithXmlMessage;
+    use RespondXmlMessage;
+    use DecryptXmlMessage;
 
     /**
      * @throws \Throwable
@@ -24,6 +28,36 @@ class Server implements ServerInterface
         protected ServerRequestInterface $request,
         protected ?Encryptor $encryptor = null,
     ) {
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function serve(): ResponseInterface
+    {
+        if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
+            return new Response(200, [], $str);
+        }
+
+        $message = Message::createFromRequest($this->request);
+        $query = $this->request->getQueryParams();
+
+        $this->when(!empty($query['msg_signature']), function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
+            $this->decryptMessage($message, $this->encryptor, $query['msg_signature'], $query['timestamp'], $query['nonce']);
+
+            return $next($message);
+        });
+
+        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
+
+        if ($response instanceof ResponseInterface) {
+            $response->getBody()->rewind();
+            return $response;
+        }
+
+        return $this->transformToReply($response, $message, $this->encryptor);
     }
 
     /**

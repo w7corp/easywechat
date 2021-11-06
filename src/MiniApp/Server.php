@@ -6,5 +6,4 @@ namespace EasyWeChat\MiniApp;
 
 class Server extends \EasyWeChat\OfficialAccount\Server
 {
-    //
 }

@@ -52,6 +52,7 @@ class Server implements ServerInterface
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
         if ($response instanceof ResponseInterface) {
+            $response->getBody()->rewind();
             return $response;
         }
 

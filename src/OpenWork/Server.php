@@ -6,8 +6,9 @@ namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Message;
+use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
-use EasyWeChat\Kernel\Traits\InteractWithXmlMessage;
+use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Nyholm\Psr7\Response;
@@ -18,7 +19,8 @@ use Psr\Http\Message\ServerRequestInterface;
 class Server implements ServerInterface
 {
     use InteractWithHandlers;
-    use InteractWithXmlMessage;
+    use RespondXmlMessage;
+    use DecryptXmlMessage;
 
     protected \Closure | null $defaultSuiteTicketHandler = null;
 
@@ -31,6 +33,35 @@ class Server implements ServerInterface
         protected Encryptor $encryptor,
         protected Encryptor $providerEncryptor
     ) {
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function serve(): ResponseInterface
+    {
+        if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
+            return new Response(200, [], $str);
+        }
+
+        $message = \EasyWeChat\OpenWork\Message::createFromRequest($this->request);
+        $query = $this->request->getQueryParams();
+
+        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
+            $this->decryptMessage($message, $this->encryptor, $query['msg_signature'], $query['timestamp'], $query['nonce']);
+
+            return $next($message);
+        });
+
+        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
+
+        if ($response instanceof ResponseInterface) {
+            return $response;
+        }
+
+        return $this->transformToReply($response, $message, $this->encryptor);
     }
 
     /**
