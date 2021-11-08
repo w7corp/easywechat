@@ -16,7 +16,7 @@ use EasyWeChat\Kernel\BaseClient;
 /**
  * Class Client.
  *
- * @author ClouderSky <clouder.flow@gmail.com>
+ * @author lujunyi <lujunyi@shopex.cn>
  */
 class Client extends BaseClient
 {
