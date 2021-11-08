@@ -17,6 +17,10 @@ trait RespondXmlMessage
      */
     public function transformToReply($response, Message $message, ?Encryptor $encryptor): ResponseInterface
     {
+        if (\empty($response)) {
+            return new Response(200, [], 'success');
+        }
+
         return $this->createXmlResponse(
             attributes: array_filter(
                 \array_merge(
