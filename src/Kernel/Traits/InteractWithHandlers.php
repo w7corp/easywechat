@@ -70,10 +70,10 @@ trait InteractWithHandlers
 
     public function handle(mixed $result, mixed $payload = null): mixed
     {
-        $next = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
+        $next = $result = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
 
         foreach ($this->handlers as $item) {
-            $next = fn (mixed $p): mixed => $item['handler']($p, $next);
+            $next = fn (mixed $p): mixed => $item['handler']($p, $next) ?? $result;
         }
 
         return $next($payload);
