@@ -55,7 +55,7 @@ class Server implements ServerInterface
             return $next($message);
         });
 
-        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
+        $response = $this->handle(new Response(200, [], 'success'), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;
