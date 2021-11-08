@@ -46,6 +46,7 @@ class Application extends MiniProgram
             Setting\ServiceProvider::class,
             Tester\ServiceProvider::class,
             Material\ServiceProvider::class,
+            Privacy\ServiceProvider::class,
         ];
 
         foreach ($providers as $provider) {
