@@ -26,7 +26,7 @@ class Server implements ServerInterface
     public function __construct(
         protected AccountInterface $account,
         protected ServerRequestInterface $request,
-        protected ?Encryptor $encryptor = null,
+        protected Encryptor $encryptor,
     ) {
     }
 
@@ -36,8 +36,12 @@ class Server implements ServerInterface
      */
     public function serve(): ResponseInterface
     {
-        if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new Response(200, [], $str);
+        $query = $this->request->getQueryParams();
+
+        if (!!($str = $query['echostr'] ?? '')) {
+            $response = $this->encryptor->decrypt($str, $query['msg_signature'], $query['nonce'], $query['timestamp']);
+
+            return new Response(200, [], $response);
         }
 
         $message = Message::createFromRequest($this->request);
@@ -56,7 +60,7 @@ class Server implements ServerInterface
             return $response;
         }
 
-        return $this->transformResponse($response, $message);
+        return $this->transformToReply($response, $message);
     }
 
     // 成员变更通知 + 部门变更通知 + 标签变更通知

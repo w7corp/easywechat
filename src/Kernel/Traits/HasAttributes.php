@@ -23,6 +23,13 @@ trait HasAttributes
         return \json_encode($this->attributes);
     }
 
+    public function merge(array $attributes): static
+    {
+        $this->attributes = \array_merge($this->attributes, $attributes);
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return $this->attributes;

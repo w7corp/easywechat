@@ -19,14 +19,14 @@ trait DecryptXmlMessage
 
         $this->validateSignature($encryptor->getToken(), $ciphertext, $signature, $timestamp, $nonce);
 
-        $message->attributes = Xml::parse(
+        $message->merge(Xml::parse(
             $encryptor->decrypt(
                 ciphertext: $ciphertext,
                 msgSignature: $signature,
                 nonce: $nonce,
                 timestamp: $timestamp
             )
-        );
+        ));
 
         return $message;
     }
