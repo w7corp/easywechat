@@ -15,7 +15,7 @@ trait DecryptXmlMessage
      */
     public function decryptMessage(Message $message, Encryptor $encryptor, string $signature, int | string $timestamp, string $nonce): Message
     {
-        $ciphertext = $message->attributes['Encrypt'];
+        $ciphertext = $message->Encrypt;
 
         $this->validateSignature($encryptor->getToken(), $ciphertext, $signature, $timestamp, $nonce);
 
