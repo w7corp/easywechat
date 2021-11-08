@@ -115,8 +115,9 @@ class Application implements ApplicationInterface
             );
 
             $this->server->withDefaultSuiteTicketHandler(
-                function (\EasyWeChat\Kernel\Message $message) {
+                function (\EasyWeChat\Kernel\Message $message, \Closure $next) {
                     $this->getSuiteTicket()->setTicket($message->SuiteTicket);
+                    return $next($message);
                 }
             );
         }
@@ -255,9 +256,9 @@ class Application implements ApplicationInterface
 
         return (new OpenWeWork(
             [
-                    'client_id' => $suiteId,
-                    'redirect_url' => $this->config->get('oauth.redirect_url'),
-                ]
+                'client_id' => $suiteId,
+                'redirect_url' => $this->config->get('oauth.redirect_url'),
+            ]
         ))->withSuiteTicket($this->getSuiteTicket()->getTicket())
             ->withSuiteAccessToken($suiteAccessToken->getToken())
             ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
@@ -269,9 +270,9 @@ class Application implements ApplicationInterface
 
         return (new OpenWeWork(
             [
-                    'client_id' => $corpId,
-                    'redirect_url' => $this->config->get('oauth.redirect_url'),
-                ]
+                'client_id' => $corpId,
+                'redirect_url' => $this->config->get('oauth.redirect_url'),
+            ]
         ))->withSuiteTicket($this->getSuiteTicket()->getTicket())
             ->withSuiteAccessToken($suiteAccessToken->getToken())
             ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
