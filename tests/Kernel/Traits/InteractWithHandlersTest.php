@@ -63,6 +63,36 @@ class InteractWithHandlersTest extends TestCase
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
+    public function test_it_will_run_by_sort()
+    {
+        $m = \Mockery::mock(InteractWithHandlers::class);
+
+        $h1 = function ($payload, $next) {
+            return 'h1'.$next($payload);
+        };
+
+        $h2 = function ($payload, $next) {
+            return 'h2'.$next($payload);
+        };
+
+        $h3 = function ($payload, $next) {
+            return 'h3'.$next($payload);
+        };
+
+        $h4 = function ($payload, $next) {
+            return 'h4';
+        };
+
+        $m->with($h1);
+        $m->with($h2);
+        $m->with($h3);
+        $m->with($h4);
+        $this->assertSame('h1h2h3h4', $m->handle('success'));
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function test_it_can_push_with_conditions()
     {
         $m = \Mockery::mock(InteractWithHandlers::class);
@@ -91,19 +121,19 @@ class InteractWithHandlersTest extends TestCase
     {
         $m = \Mockery::mock(InteractWithHandlers::class);
 
-        $h1 = function ($payload, $next) use (&$log) {
+        $h1 = function ($payload, $next) {
             return $next($payload);
         };
 
-        $h2 = function ($payload, $next) use (&$log) {
+        $h2 = function ($payload, $next) {
             return $next($payload);
         };
 
-        $h3 = function ($payload, $next) use (&$log) {
+        $h3 = function ($payload, $next) {
             return "final result";
         };
 
-        $h4 = function ($payload, $next) use (&$log) {
+        $h4 = function ($payload, $next) {
             return $next($payload);
         };
 
@@ -116,6 +146,45 @@ class InteractWithHandlersTest extends TestCase
 
         $m->without($h3);
         $this->assertSame('SUCCESS', $m->handle('SUCCESS'));
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function test_it_can_handle_with_default_value()
+    {
+        $m = \Mockery::mock(InteractWithHandlers::class);
+
+        $h1 = function ($payload, $next) {
+            return $next($payload);
+        };
+
+        $h2 = function ($payload, $next) {
+            return $next($payload);
+        };
+
+        $h3 = function ($payload, $next) {
+            return null;
+        };
+
+        $h4 = function ($payload, $next) {
+            return 'hello';
+        };
+
+        $m->with($h1);
+        $m->with($h2);
+        $m->with($h3);
+        $m->with($h4);
+
+        // null
+        $this->assertSame('default value', $m->handle('default value'));
+        // closure
+        $h5 = fn() => 'h5';
+        $this->assertSame('h5', $m->handle($h5));
+
+        // return $h4
+        $m->without($h3);
+        $this->assertSame('hello', $m->handle('default value'));
     }
 }
 

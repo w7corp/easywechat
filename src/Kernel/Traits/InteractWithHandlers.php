@@ -58,8 +58,8 @@ trait InteractWithHandlers
     {
         $next = $result = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
 
-        foreach ($this->handlers as $item) {
-            $next = fn (mixed $p): mixed => ($item['handler']($p, $next)) ?? $result($p);
+        foreach (\array_reverse($this->handlers) as $item) {
+            $next = fn (mixed $p): mixed => $item['handler']($p, $next) ?? $result($p);
         }
 
         return $next($payload);
