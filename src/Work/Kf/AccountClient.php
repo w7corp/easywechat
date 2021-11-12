@@ -126,6 +126,6 @@ class AccountClient extends BaseClient
             'scene' => $scene
         ];
 
-        return $this->httpPostJson('cgi-bin/kf/account/add_contact_way', $params);
+        return $this->httpPostJson('cgi-bin/kf/add_contact_way', $params);
     }
 }

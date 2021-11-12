@@ -67,7 +67,7 @@ class AccountClientTest extends TestCase
     public function testGetAccountLink()
     {
         $client = $this->mockApiClient(AccountClient::class);
-        $client->expects()->httpPostJson('cgi-bin/kf/account/add_contact_way', [
+        $client->expects()->httpPostJson('cgi-bin/kf/add_contact_way', [
             'open_kfid' => 'OPEN_KFID',
             'scene' => '12345'
         ])->andReturn('mock-result');
