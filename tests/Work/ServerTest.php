@@ -7,9 +7,7 @@ namespace EasyWeChat\Tests\Work;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Application;
-use EasyWeChat\Work\Server;
 use Nyholm\Psr7\ServerRequest;
 
 class ServerTest extends TestCase
@@ -138,7 +136,7 @@ class ServerTest extends TestCase
         $this->assertSame('sys', $response['ToUserName']);
         $this->assertSame('toUser', $response['FromUserName']);
         $this->assertSame('text', $response['MsgType']);
-        $this->assertSame('world', $response['Content']);
+        $this->assertSame('hello', $response['Content']);
     }
 
     public function test_it_will_respond_from_event_handlers()

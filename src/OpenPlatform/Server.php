@@ -6,7 +6,6 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -27,7 +26,7 @@ class Server implements ServerInterface
     public function __construct(
         protected AccountInterface $account,
         protected ServerRequestInterface $request,
-        protected ?Encryptor $encryptor = null,
+        protected Encryptor $encryptor,
     ) {
     }
 
@@ -124,5 +123,5 @@ class Server implements ServerInterface
 
             return $next($message);
         };
-}
+    }
 }

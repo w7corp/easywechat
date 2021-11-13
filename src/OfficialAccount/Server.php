@@ -97,5 +97,5 @@ class Server implements ServerInterface
 
             return $next($message);
         };
-}
+    }
 }
