@@ -23,6 +23,11 @@ trait HasAttributes
         return \json_encode($this->attributes);
     }
 
+    public function has(string $key): bool
+    {
+        return \array_key_exists($key, $this->attributes);
+    }
+
     public function merge(array $attributes): static
     {
         $this->attributes = \array_merge($this->attributes, $attributes);

@@ -15,9 +15,9 @@ trait RespondXmlMessage
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function transformToReply($response, Message $message, ?Encryptor $encryptor): ResponseInterface
+    public function transformToReply($response, Message $message, ?Encryptor $encryptor = null): ResponseInterface
     {
-        if (\empty($response)) {
+        if (empty($response)) {
             return new Response(200, [], 'success');
         }
 
@@ -68,14 +68,7 @@ trait RespondXmlMessage
     {
         $xml = Xml::build($attributes);
 
-        if ($encryptor) {
-            $time = $attributes['CreateTime'] ?? \time();
-            $nonce = $attributes['nonce'] ?? \uniqid();
-
-            $xml = $encryptor->encrypt($xml, $nonce, $time);
-        }
-
-        $response = new Response(200, ['Content-Type' => 'application/xml'], $xml);
+        $response = new Response(200, ['Content-Type' => 'application/xml'], $encryptor ? $encryptor->encrypt($xml) : $xml);
 
         $response->getBody()->rewind();
 

@@ -42,14 +42,9 @@ class Server implements ServerInterface
             return new Response(200, [], $str);
         }
 
-        $message = \EasyWeChat\OpenPlatform\Message::createFromRequest($this->request);
-        $query = $this->request->getQueryParams();
+        $message = Message::createFromRequest($this->request);
 
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
-            $this->decryptMessage($message, $this->encryptor, $query['msg_signature'], $query['timestamp'], $query['nonce']);
-
-            return $next($message);
-        });
+        $this->with($this->decryptRequestMessage());
 
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
@@ -113,4 +108,21 @@ class Server implements ServerInterface
     {
         return new Response(200, [], 'success');
     }
+
+    protected function decryptRequestMessage(): \Closure
+    {
+        $query = $this->request->getQueryParams();
+
+        return function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
+            $this->decryptMessage(
+                $message,
+                $this->encryptor,
+                $query['msg_signature'] ?? '',
+                $query['timestamp'] ?? '',
+                $query['nonce'] ?? ''
+            );
+
+            return $next($message);
+        };
+}
 }

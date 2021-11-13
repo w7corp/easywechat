@@ -75,13 +75,13 @@ class InteractWithHandlersTest extends TestCase
         $m->when(fn () => false, $h1);
         $m->when(fn () => true, $h2);
         $m->when('bool-value-true', $h3);
-        $m->unless(fn () => false, $h4);
+        $m->when(fn () => 0, $h4);
 
-        $this->assertCount(3, $m->getHandlers());
+        $this->assertCount(2, $m->getHandlers());
         $this->assertFalse($m->has($h1));
         $this->assertTrue($m->has($h2));
         $this->assertTrue($m->has($h3));
-        $this->assertTrue($m->has($h4));
+        $this->assertFalse($m->has($h4));
     }
 
     /**

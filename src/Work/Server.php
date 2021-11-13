@@ -38,20 +38,20 @@ class Server implements ServerInterface
     {
         $query = $this->request->getQueryParams();
 
-        if (!!($str = $query['echostr'] ?? '')) {
-            $response = $this->encryptor->decrypt($str, $query['msg_signature'], $query['nonce'], $query['timestamp']);
+        if (!empty($query['echostr'])) {
+            $response = $this->encryptor->decrypt(
+                $query['echostr'],
+                $query['msg_signature'] ?? '',
+                $query['nonce'] ?? '',
+                $query['timestamp'] ?? ''
+            );
 
             return new Response(200, [], $response);
         }
 
         $message = Message::createFromRequest($this->request);
 
-        $this->withHandler(function (\EasyWeChat\Kernel\Message $message, \Closure $next) {
-            $query = $this->request->getQueryParams();
-            $this->decryptMessage($message, $this->encryptor, $query['msg_signature'], $query['timestamp'], $query['nonce']);
-
-            return $next($message);
-        });
+        $this->when($message->has('Encrypt'), $this->decryptRequestMessage());
 
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
@@ -60,7 +60,7 @@ class Server implements ServerInterface
             return $response;
         }
 
-        return $this->transformToReply($response, $message);
+        return $this->transformToReply($response, $message, $this->encryptor);
     }
 
     // 成员变更通知 + 部门变更通知 + 标签变更通知
@@ -171,5 +171,36 @@ class Server implements ServerInterface
         );
 
         return $this;
+    }
+
+    protected function validateUrl(): \Closure
+    {
+        return function (\EasyWeChat\Kernel\Message $message, \Closure $next) {
+            $query = $this->request->getQueryParams();
+            $response = $this->encryptor->decrypt(
+                $query['echostr'],
+                $query['msg_signature'] ?? '',
+                $query['nonce'] ?? '',
+                $query['timestamp'] ?? ''
+            );
+
+            return new Response(200, [], $response);
+        };
+    }
+
+    protected function decryptRequestMessage(): \Closure
+    {
+        return function (\EasyWeChat\Kernel\Message $message, \Closure $next) {
+            $query = $this->request->getQueryParams();
+            $this->decryptMessage(
+                $message,
+                $this->encryptor,
+                $query['msg_signature'] ?? '',
+                $query['timestamp'] ?? '',
+                $query['nonce'] ?? ''
+            );
+
+            return $next($message);
+        };
     }
 }

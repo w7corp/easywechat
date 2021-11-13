@@ -44,11 +44,7 @@ class Server implements ServerInterface
         $message = Message::createFromRequest($this->request);
         $query = $this->request->getQueryParams();
 
-        $this->when(!empty($query['msg_signature']), function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
-            $this->decryptMessage($message, $this->encryptor, $query['msg_signature'], $query['timestamp'], $query['nonce']);
-
-            return $next($message);
-        });
+        $this->when(!empty($query['msg_signature']), $this->decryptRequestMessage($query));
 
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
@@ -87,4 +83,19 @@ class Server implements ServerInterface
 
         return $this;
     }
+
+    protected function decryptRequestMessage(array $query): \Closure
+    {
+        return function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
+            $this->decryptMessage(
+                $message,
+                $this->encryptor,
+                $query['msg_signature'] ?? '',
+                $query['timestamp'] ?? '',
+                $query['nonce'] ?? ''
+            );
+
+            return $next($message);
+        };
+}
 }

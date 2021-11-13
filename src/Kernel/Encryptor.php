@@ -61,8 +61,8 @@ class Encryptor
             throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
 
-        !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
-        !is_null($timestamp) || $timestamp = time();
+        !is_null($nonce) || $nonce = \uniqid();
+        !is_null($timestamp) || $timestamp = \time();
 
         $response = [
             'Encrypt' => $ciphertext,

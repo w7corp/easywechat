@@ -54,20 +54,6 @@ trait InteractWithHandlers
         return $this;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function unless($value, callable | string $handler): static
-    {
-        if (\is_callable($value)) {
-            $value = \call_user_func($value, $this);
-        }
-
-        !$value && $this->withHandler($handler);
-
-        return $this;
-    }
-
     public function handle(mixed $result, mixed $payload = null): mixed
     {
         $next = $result = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
@@ -84,7 +70,7 @@ trait InteractWithHandlers
      */
     public function has(callable | string $handler): bool
     {
-        return !!$this->indexOf($handler);
+        return $this->indexOf($handler) > -1;
     }
 
     /**
