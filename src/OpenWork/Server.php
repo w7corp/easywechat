@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -50,14 +50,14 @@ class Server implements ServerInterface
                 $query['timestamp'] ?? ''
             );
 
-            return new Response(200, [], $response);
+            return new ServerResponse(200, [], $response);
         }
 
         $message = Message::createFromRequest($this->request);
 
         $this->with($this->decryptRequestMessage());
 
-        $response = $this->handle(new Response(200, [], 'success'), $message);
+        $response = $this->handle(new ServerResponse(200, [], 'success'), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;

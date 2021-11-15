@@ -33,6 +33,10 @@ trait ChainableHttpClient
         return $this->withUri(\strval($name));
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
     public function __call(string $name, array $arguments)
     {
         if (\in_array(\strtoupper($name), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])) {
@@ -44,6 +48,7 @@ trait ChainableHttpClient
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     protected function callWithShortcuts(
         string $method,

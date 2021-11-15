@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Tests\Kernel\Traits;
 
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class InteractWithHandlersTest extends TestCase
 {

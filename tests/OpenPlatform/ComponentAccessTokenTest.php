@@ -4,7 +4,7 @@ namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\OpenPlatform\ComponentAccessToken;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;

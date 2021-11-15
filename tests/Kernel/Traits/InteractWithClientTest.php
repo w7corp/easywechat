@@ -4,7 +4,7 @@ namespace EasyWeChat\Tests\Kernel\Traits;
 
 use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class InteractWithClientTest extends TestCase
 {

@@ -5,8 +5,8 @@ namespace EasyWeChat\Kernel\Traits;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Message;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Support\Xml;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 trait RespondXmlMessage
@@ -18,7 +18,7 @@ trait RespondXmlMessage
     public function transformToReply($response, Message $message, ?Encryptor $encryptor = null): ResponseInterface
     {
         if (empty($response)) {
-            return new Response(200, [], 'success');
+            return new ServerResponse(200, [], 'success');
         }
 
         return $this->createXmlResponse(
@@ -41,6 +41,10 @@ trait RespondXmlMessage
      */
     protected function normalizeResponse(mixed $response): array
     {
+        if (\is_callable($response)) {
+            $response = $response();
+        }
+
         if (\is_array($response)) {
             if (!isset($response['MsgType'])) {
                 throw new InvalidArgumentException('MsgType cannot be empty.');
@@ -68,10 +72,6 @@ trait RespondXmlMessage
     {
         $xml = Xml::build($attributes);
 
-        $response = new Response(200, ['Content-Type' => 'application/xml'], $encryptor ? $encryptor->encrypt($xml) : $xml);
-
-        $response->getBody()->rewind();
-
-        return $response;
+        return new ServerResponse(200, ['Content-Type' => 'application/xml'], $encryptor ? $encryptor->encrypt($xml) : $xml);
     }
 }

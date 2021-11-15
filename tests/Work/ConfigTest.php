@@ -8,7 +8,7 @@ use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Config;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class ConfigTest extends TestCase
 {

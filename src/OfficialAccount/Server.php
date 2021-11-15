@@ -6,11 +6,11 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -38,7 +38,7 @@ class Server implements ServerInterface
     public function serve(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new Response(200, [], $str);
+            return new ServerResponse(200, [], $str);
         }
 
         $message = Message::createFromRequest($this->request);
@@ -46,10 +46,9 @@ class Server implements ServerInterface
 
         $this->when(!empty($query['msg_signature']), $this->decryptRequestMessage($query));
 
-        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
+        $response = $this->handle(new ServerResponse(200, [], 'success'), $message);
 
         if ($response instanceof ResponseInterface) {
-            $response->getBody()->rewind();
             return $response;
         }
 

@@ -15,7 +15,7 @@ use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\OfficialAccount\JsApiTicket;
 use EasyWeChat\OfficialAccount\Server;
 use EasyWeChat\OfficialAccount\Utils;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ApplicationTest extends TestCase

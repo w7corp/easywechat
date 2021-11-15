@@ -16,7 +16,7 @@ use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Account as AccountInterface;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Psr16Cache;

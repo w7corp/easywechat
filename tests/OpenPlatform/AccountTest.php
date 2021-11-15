@@ -5,7 +5,7 @@ namespace EasyWeChat\Tests\OpenPlatform;
 use EasyWeChat\OpenPlatform\Account;
 use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class AccountTest extends TestCase
 {

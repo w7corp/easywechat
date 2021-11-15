@@ -4,7 +4,7 @@ namespace EasyWeChat\Tests\MiniApp;
 
 use EasyWeChat\Kernel\Exceptions\DecryptException;
 use EasyWeChat\MiniApp\Decryptor;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class DecryptorTest extends TestCase
 {

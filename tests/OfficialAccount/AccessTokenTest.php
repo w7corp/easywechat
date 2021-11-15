@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Tests\OfficialAccount;
 
 use EasyWeChat\OfficialAccount\AccessToken;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

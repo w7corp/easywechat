@@ -3,7 +3,7 @@
 namespace EasyWeChat\Tests\Kernel\Traits;
 
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

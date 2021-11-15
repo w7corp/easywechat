@@ -7,7 +7,7 @@ namespace EasyWeChat\Tests\Pay;
 use EasyWeChat\Pay\Contracts\Merchant;
 use EasyWeChat\Pay\Server;
 use Nyholm\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class ServerTest extends TestCase
 {

@@ -6,6 +6,7 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -38,17 +39,16 @@ class Server implements ServerInterface
     public function serve(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new Response(200, [], $str);
+            return new ServerResponse(200, [], $str);
         }
 
         $message = Message::createFromRequest($this->request);
 
         $this->with($this->decryptRequestMessage());
 
-        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
+        $response = $this->handle(new ServerResponse(200, [], 'success'), $message);
 
         if ($response instanceof ResponseInterface) {
-            $response->getBody()->rewind();
             return $response;
         }
 

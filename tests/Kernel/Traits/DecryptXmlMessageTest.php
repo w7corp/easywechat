@@ -5,8 +5,8 @@ namespace EasyWeChat\Tests\Kernel\Traits;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
+use EasyWeChat\Tests\TestCase;
 use Nyholm\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
 
 class DecryptXmlMessageTest extends TestCase
 {
@@ -22,7 +22,7 @@ class DecryptXmlMessageTest extends TestCase
         $message = DummyMessage::createFromRequest(new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
 
         $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
-        $message = $this->decryptRequestMessage($message, $encryptor, '477715d11cdb4164915debcba66cb864d751f3e6', '1409659813', '1372623149');
+        $message = $this->decryptMessage($message, $encryptor, '477715d11cdb4164915debcba66cb864d751f3e6', '1409659813', '1372623149');
 
         $this->assertSame([
             "ToUserName" => "wx5823bf96d3bd56c7",

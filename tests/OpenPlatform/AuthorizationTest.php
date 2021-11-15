@@ -4,7 +4,7 @@ namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class AuthorizationTest extends TestCase
 {
