@@ -189,6 +189,6 @@ class ServerTest extends TestCase
         $this->assertSame('sys', $response['ToUserName']);
         $this->assertSame('toUser', $response['FromUserName']);
         $this->assertSame('text', $response['MsgType']);
-        $this->assertSame('world', $response['Content']);
+        $this->assertSame('hello', $response['Content']);
     }
 }

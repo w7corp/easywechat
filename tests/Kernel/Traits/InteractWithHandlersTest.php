@@ -179,7 +179,7 @@ class InteractWithHandlersTest extends TestCase
         // null
         $this->assertSame('default value', $m->handle('default value'));
         // closure
-        $h5 = fn() => 'h5';
+        $h5 = fn () => 'h5';
         $this->assertSame('h5', $m->handle($h5));
 
         // return $h4

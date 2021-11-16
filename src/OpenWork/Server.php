@@ -55,7 +55,7 @@ class Server implements ServerInterface
 
         $message = Message::createFromRequest($this->request);
 
-        $this->with($this->decryptRequestMessage());
+        $this->prepend($this->decryptRequestMessage());
 
         $response = $this->handle(new ServerResponse(200, [], 'success'), $message);
 

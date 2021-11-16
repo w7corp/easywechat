@@ -52,7 +52,7 @@ class Server implements ServerInterface
 
         $message = Message::createFromRequest($this->request);
 
-        $this->when($message->has('Encrypt'), $this->decryptRequestMessage());
+        $this->prepend($this->decryptRequestMessage());
 
         $response = $this->handle(new ServerResponse(200, [], 'SUCCESS'), $message);
 
