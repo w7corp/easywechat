@@ -157,10 +157,11 @@ class Application implements ApplicationInterface
     {
         if (!$this->suiteAccessToken) {
             $this->suiteAccessToken = new SuiteAccessToken(
-                suiteId: $this->getAccount()->getSuiteId(),
+                suiteId    : $this->getAccount()->getSuiteId(),
                 suiteSecret: $this->getAccount()->getSuiteSecret(),
                 suiteTicket: $this->getSuiteTicket(),
-                httpClient: $this->getHttpClient(),
+                cache      : $this->getCache(),
+                httpClient : $this->getHttpClient(),
             );
         }
 
