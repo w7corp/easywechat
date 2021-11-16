@@ -16,6 +16,9 @@ use Pimple\ServiceProviderInterface;
 class ServiceProvider implements ServiceProviderInterface
 {
 
+    /**
+     * {@inheritdoc}.
+     */
     public function register(Container $app)
     {
         $app['subscribe_message'] = function ($app) {
