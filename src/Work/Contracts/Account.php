@@ -10,7 +10,7 @@ interface Account
 
     public function getSecret(): string;
 
-    public function getToken(): ?string;
+    public function getToken(): string;
 
-    public function getAesKey(): ?string;
+    public function getAesKey(): string;
 }

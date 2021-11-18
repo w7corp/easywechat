@@ -34,6 +34,7 @@ class ApplicationTest extends TestCase
                 'app_id' => 'wx3cf0f39249000060',
                 'secret' => 'mock-secret',
                 'token' => 'mock-token',
+                'aes_key' => 'mock-aes_key',
             ]);
 
         $this->assertInstanceOf(ApplicationInterface::class, $app);
@@ -41,7 +42,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getAccount(), $app->getAccount());
 
         // set
-        $account = new Account(appId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token');
+        $account = new Account(appId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token', aesKey: 'mock-aes_key');
         $app->setAccount($account);
         $this->assertSame($account, $app->getAccount());
     }

@@ -60,7 +60,7 @@ trait HasAttributes
         return $this->attributes[$offset];
     }
 
-    public function offsetSet(mixed $offset, mixed $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (null === $offset) {
             $this->attributes[] = $value;
@@ -69,7 +69,7 @@ trait HasAttributes
         }
     }
 
-    public function offsetUnset(mixed $offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->attributes[$offset]);
     }

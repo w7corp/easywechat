@@ -55,7 +55,7 @@ class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClien
             $baseUri = $options['base_uri'] ?? $this->defaultOptions['base_uri'] ?? null;
 
             if (\is_string($baseUri ?? null)) {
-                $baseUri = self::parseUrl($baseUri);
+                $baseUri = self::parseUrl((string) $baseUri);
             }
 
             $psrRequestUrl = implode('', self::resolveUrl($psrRequestUrl, $baseUri));

@@ -53,7 +53,7 @@ class ComponentAccessToken implements AccessTokenInterface
             return $token;
         }
 
-        $response = $this->httpClient->request(
+        $response = $this->getHttpClient()->request(
             'POST',
             'cgi-bin/component/api_component_token',
             [
@@ -75,6 +75,15 @@ class ComponentAccessToken implements AccessTokenInterface
     }
 
 
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
     #[ArrayShape(['component_access_token' => "string"])]
     public function toQuery(): array
     {

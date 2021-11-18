@@ -30,12 +30,6 @@ trait InteractWithHttpClient
 
     protected function createHttpClient(): HttpClientInterface
     {
-        $scopedHttpClientClass = \sprintf('%s\HttpClient', (new \ReflectionClass($this))->getNamespaceName());
-
-        if (\class_exists($scopedHttpClientClass)) {
-            return new $scopedHttpClientClass();
-        }
-
         return HttpClient::create();
     }
 

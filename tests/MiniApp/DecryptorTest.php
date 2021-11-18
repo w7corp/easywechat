@@ -28,8 +28,11 @@ class DecryptorTest extends TestCase
                 /Hz7saL8xz+W//FRAUid1OksQaQx4CMs8LOddcQhULW4ucetDf96JcR3g0gfRK4PC7E/r7Z6xNrXd2UIeorGj5Ef7b1pJAYB6Y5anaHqZ9J6nKEBvB4DnNLIVWSgARns
                 /8wR2SiRS7MNACwTyrGvt9ts8p12PKFdlqYTopNHR1Vf7XjfhQlVsAJdNiKdYmYVoKlaRv85IfVunYzO0IKXsyl7JCUjCpoG20f0a04COwfneQAGGwd5oa+T8yO5hzuyDb/XcxxmK01EpqOyuxINew==';
 
-        $this->expectException(DecryptException::class);
-        $this->expectExceptionMessage('The given payload is invalid.');
-        Decryptor::decrypt('tiihtNczf5v6AKRyjwEUhQ==', 'r7BXXKkLb8qrSNn05n0qiA==', $encryptedData);
+        try {
+            Decryptor::decrypt('tiihtNczf5v6AKRyjwEUhQ==', 'r7BXXKkLb8qrSNn05n0qiA==', $encryptedData);
+        } catch (\Throwable $e) {
+            $this->assertInstanceOf(DecryptException::class, $e);
+            $this->assertStringStartsWith('The given payload is invalid:', $e->getMessage());
+        }
     }
 }

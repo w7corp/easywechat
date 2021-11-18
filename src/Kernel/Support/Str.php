@@ -69,7 +69,7 @@ class Str
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
     }
 
-    public static function kebab(string $value)
+    public static function kebab(string $value): string
     {
         return static::snake($value, '-');
     }

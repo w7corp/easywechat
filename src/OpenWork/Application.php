@@ -115,7 +115,7 @@ class Application implements ApplicationInterface
             );
 
             $this->server->withDefaultSuiteTicketHandler(
-                function (\EasyWeChat\Kernel\Message $message, \Closure $next) {
+                function (Message $message, \Closure $next): mixed {
                     $this->getSuiteTicket()->setTicket($message->SuiteTicket);
                     return $next($message);
                 }
@@ -175,7 +175,7 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getSuiteTicket(): ?SuiteTicketInterface
+    public function getSuiteTicket(): SuiteTicketInterface
     {
         if (!$this->suiteTicket) {
             $this->suiteTicket = new SuiteTicket(
@@ -187,7 +187,7 @@ class Application implements ApplicationInterface
         return $this->suiteTicket;
     }
 
-    public function setSuiteTicket(SuiteTicketInterface $suiteTicket): ?SuiteTicketInterface
+    public function setSuiteTicket(SuiteTicketInterface $suiteTicket): SuiteTicketInterface
     {
         $this->suiteTicket = $suiteTicket;
 

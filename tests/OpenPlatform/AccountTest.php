@@ -16,6 +16,7 @@ class AccountTest extends TestCase
                 'app_id' => 'wx3cf0f39249000060',
                 'secret' => 'mock-secret',
                 'token' => 'mock-token',
+                'aes_key' => 'mock-account-aes-key',
             ]
         );
 
@@ -41,26 +42,21 @@ class AccountTest extends TestCase
             aesKey: $accountConfig['aes_key']
         );
 
-        $applicationConfig = [
+        $config = [
             'app_id' => 'wx3cf0f39249000060',
             'secret' => 'mock-secret',
             'token' => 'mock-token',
+            'aes_key' => 'mock-aes_key',
         ];
 
-        $app = new Application(
-            [
-                'app_id' => $applicationConfig['app_id'],
-                'secret' => $applicationConfig['secret'],
-                'token' => $applicationConfig['token'],
-            ]
-        );
+        $app = new Application($config);
 
         $this->assertInstanceOf(AccountInterface::class, $app->getAccount());
-        $this->assertSame($applicationConfig['app_id'], $app->getAccount()->getAppId());
+        $this->assertSame($config['app_id'], $app->getAccount()->getAppId());
 
         $app->setAccount($account);
 
-        $this->assertNotSame($applicationConfig['app_id'], $app->getAccount()->getAppId());
+        $this->assertNotSame($config['app_id'], $app->getAccount()->getAppId());
         $this->assertSame($accountConfig['app_id'], $app->getAccount()->getAppId());
     }
 

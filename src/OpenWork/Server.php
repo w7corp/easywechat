@@ -69,9 +69,9 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function withDefaultSuiteTicketHandler(callable | string $handler)
+    public function withDefaultSuiteTicketHandler(callable | string $handler): void
     {
-        $this->defaultSuiteTicketHandler = fn () => $handler(...\func_get_args());
+        $this->defaultSuiteTicketHandler = fn (): mixed => $handler(...\func_get_args());
         $this->handleSuiteTicketRefreshed($this->defaultSuiteTicketHandler);
     }
 
@@ -84,7 +84,7 @@ class Server implements ServerInterface
             $this->withoutHandler($this->defaultSuiteTicketHandler);
         }
 
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'suite_ticket' ? $handler($message, $next) : $next($message);
         });
 
@@ -93,7 +93,7 @@ class Server implements ServerInterface
 
     public function handleAuthCreated(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'create_auth' ? $handler($message, $next) : $next($message);
         });
 
@@ -102,7 +102,7 @@ class Server implements ServerInterface
 
     public function handleAuthChanged(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_auth' ? $handler($message, $next) : $next($message);
         });
 
@@ -111,7 +111,7 @@ class Server implements ServerInterface
 
     public function handleAuthCancelled(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'cancel_auth' ? $handler($message, $next) : $next($message);
         });
 
@@ -120,7 +120,7 @@ class Server implements ServerInterface
 
     public function handleUserCreated(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message, $next) : $next($message);
         });
 
@@ -129,7 +129,7 @@ class Server implements ServerInterface
 
     public function handleUserUpdated(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message, $next) : $next($message);
         });
 
@@ -138,7 +138,7 @@ class Server implements ServerInterface
 
     public function handleUserDeleted(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message, $next) : $next($message);
         });
 
@@ -147,7 +147,7 @@ class Server implements ServerInterface
 
     public function handlePartyCreated(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message, $next) : $next($message);
         });
 
@@ -156,7 +156,7 @@ class Server implements ServerInterface
 
     public function handlePartyUpdated(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message, $next) : $next($message);
         });
 
@@ -165,7 +165,7 @@ class Server implements ServerInterface
 
     public function handlePartyDeleted(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message, $next) : $next($message);
         });
 
@@ -174,7 +174,7 @@ class Server implements ServerInterface
 
     public function handleUserTagUpdated(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler($message, $next) : $next($message);
         });
 
@@ -183,7 +183,7 @@ class Server implements ServerInterface
 
     public function handleShareAgentChanged(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'share_agent_change' ? $handler($message, $next) : $next($message);
         });
 
@@ -193,7 +193,7 @@ class Server implements ServerInterface
     protected function decryptRequestMessage(): \Closure
     {
         $query = $this->request->getQueryParams();
-        return function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
+        return function (Message $message, \Closure $next) use ($query): mixed {
             $this->decryptMessage(
                 $message,
                 $this->encryptor,

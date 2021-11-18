@@ -102,9 +102,9 @@ class Utils
             'package' => 'Sign=WXPay',
         ];
 
-        $message = $params['appId'] . "\n" .
-            $params['timeStamp'] . "\n" .
-            $params['nonceStr'] . "\n" .
+        $message = $params['appid'] . "\n" .
+            $params['timestamp'] . "\n" .
+            $params['noncestr'] . "\n" .
             $params['prepayid'] . "\n";
 
         $params['sign'] = $this->createSignature($message);

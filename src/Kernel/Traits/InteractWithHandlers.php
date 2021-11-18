@@ -43,7 +43,7 @@ trait InteractWithHandlers
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function when($value, callable | string $handler): static
+    public function when(mixed $value, callable | string $handler): static
     {
         if (\is_callable($value)) {
             $value = \call_user_func($value, $this);
@@ -76,7 +76,7 @@ trait InteractWithHandlers
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function indexOf(callable | string $handler): ?int
+    public function indexOf(callable | string $handler): int
     {
         foreach ($this->handlers as $index => $item) {
             if ($item['hash'] === $this->getHandlerHash($this->makeClosure($handler))) {
@@ -84,7 +84,7 @@ trait InteractWithHandlers
             }
         }
 
-        return null;
+        return -1;
     }
 
     /**
@@ -103,7 +103,7 @@ trait InteractWithHandlers
      */
     public function prependHandler(callable | string $handler): static
     {
-        $this->handlers = [$this->createHandlerItem($handler), ...$this->handlers];
+        \array_unshift($this->handlers, $this->createHandlerItem($handler));
 
         return $this;
     }
@@ -139,7 +139,11 @@ trait InteractWithHandlers
      */
     public function withoutHandler(callable | string $handler): static
     {
-        unset($this->handlers[$this->indexOf($handler)]);
+        $index = $this->indexOf($handler);
+
+        if ($index > -1) {
+            unset($this->handlers[$this->indexOf($handler)]);
+        }
 
         return $this;
     }

@@ -44,7 +44,9 @@ class Server implements ServerInterface
         $message = Message::createFromRequest($this->request);
         $query = $this->request->getQueryParams();
 
-        $this->when(!empty($query['msg_signature']), $this->decryptRequestMessage($query));
+        if ($this->encryptor && !empty($query['msg_signature'])) {
+            $this->prepend($this->decryptRequestMessage($query));
+        }
 
         $response = $this->handle(new ServerResponse(200, [], 'success'), $message);
 
@@ -61,7 +63,7 @@ class Server implements ServerInterface
     public function addMessageListener(string $type, callable | string $handler): static
     {
         $this->withHandler(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($type, $handler): mixed {
+            function (Message $message, \Closure $next) use ($type, $handler): mixed {
                 return $message->MsgType === $type ? $handler($message, $next) : $next($message);
             }
         );
@@ -75,7 +77,7 @@ class Server implements ServerInterface
     public function addEventListener(string $event, callable | string $handler): static
     {
         $this->withHandler(
-            function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($event, $handler): mixed {
+            function (Message $message, \Closure $next) use ($event, $handler): mixed {
                 return $message->Event === $event ? $handler($message, $next) : $next($message);
             }
         );
@@ -83,9 +85,12 @@ class Server implements ServerInterface
         return $this;
     }
 
+    /**
+     * @psalm-suppress PossiblyNullArgument
+     */
     protected function decryptRequestMessage(array $query): \Closure
     {
-        return function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
+        return function (Message $message, \Closure $next) use ($query): mixed {
             $this->decryptMessage(
                 $message,
                 $this->encryptor,

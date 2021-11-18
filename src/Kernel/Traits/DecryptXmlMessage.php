@@ -26,7 +26,7 @@ trait DecryptXmlMessage
                 nonce: $nonce,
                 timestamp: $timestamp
             )
-        ));
+        ) ?? []);
 
         return $message;
     }
@@ -34,7 +34,7 @@ trait DecryptXmlMessage
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
-    protected function validateSignature(string $token, string $ciphertext, string $signature, int | string $timestamp, string $nonce)
+    protected function validateSignature(string $token, string $ciphertext, string $signature, int | string $timestamp, string $nonce): void
     {
         if (empty($signature)) {
             throw new BadRequestException('Request signature must not be empty.');

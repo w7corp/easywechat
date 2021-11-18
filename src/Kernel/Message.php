@@ -7,6 +7,7 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\HasAttributes;
+use JetBrains\PhpStorm\Pure;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class Message
@@ -24,9 +25,10 @@ abstract class Message
     }
 
 
+    #[Pure]
     public function __toString()
     {
-        return $this->getOriginalContents();
+        return $this->getOriginalContents() ?? '';
     }
 
     /**

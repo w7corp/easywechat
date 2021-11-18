@@ -50,7 +50,7 @@ class Config implements \ArrayAccess, ConfigInterface
         return $config;
     }
 
-    public function set(array | string $key, mixed $value = null)
+    public function set(array | string $key, mixed $value = null): void
     {
         $keys = is_array($key) ? $key : [$key => $value];
 
@@ -59,7 +59,7 @@ class Config implements \ArrayAccess, ConfigInterface
         }
     }
 
-    public function prepend(string $key, mixed $value)
+    public function prepend(string $key, mixed $value): void
     {
         $array = $this->get($key);
 
@@ -68,7 +68,7 @@ class Config implements \ArrayAccess, ConfigInterface
         $this->set($key, $array);
     }
 
-    public function push(string $key, mixed $value)
+    public function push(string $key, mixed $value): void
     {
         $array = $this->get($key);
 

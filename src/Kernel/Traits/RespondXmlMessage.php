@@ -15,7 +15,7 @@ trait RespondXmlMessage
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function transformToReply($response, Message $message, ?Encryptor $encryptor = null): ResponseInterface
+    public function transformToReply(mixed $response, Message $message, ?Encryptor $encryptor = null): ResponseInterface
     {
         if (empty($response)) {
             return new ServerResponse(200, [], 'success');

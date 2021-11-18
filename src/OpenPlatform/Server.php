@@ -60,7 +60,7 @@ class Server implements ServerInterface
      */
     public function handleAuthorized(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'authorized' ? $handler($message, $next) : $next($message);
         });
 
@@ -72,7 +72,7 @@ class Server implements ServerInterface
      */
     public function handleUnauthorized(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'unauthorized' ? $handler($message, $next) : $next($message);
         });
 
@@ -84,7 +84,7 @@ class Server implements ServerInterface
      */
     public function handleAuthorizeUpdated(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'updateauthorized' ? $handler($message, $next) : $next($message);
         });
 
@@ -96,7 +96,7 @@ class Server implements ServerInterface
      */
     public function handleVerifyTicketRefreshed(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'component_verify_ticket' ? $handler($message, $next) : $next($message);
         });
 
@@ -112,7 +112,7 @@ class Server implements ServerInterface
     {
         $query = $this->request->getQueryParams();
 
-        return function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($query) {
+        return function (Message $message, \Closure $next) use ($query): mixed {
             $this->decryptMessage(
                 $message,
                 $this->encryptor,

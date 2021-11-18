@@ -74,7 +74,7 @@ class Encryptor
         return Xml::build($response);
     }
 
-    public function createSignature(...$attributes): string
+    public function createSignature(mixed ...$attributes): string
     {
         sort($attributes, \SORT_STRING);
 
