@@ -40,7 +40,7 @@
     "brainmaestro/composer-git-hooks": "^2.8",
     "mikey179/vfsstream": "^1.6",
     "mockery/mockery": "^1.4.4",
-    "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan": "^1.0",
     "phpunit/phpunit": "^9.5",
     "symfony/var-dumper": "^5.2",
     "vimeo/psalm": "^4.10",

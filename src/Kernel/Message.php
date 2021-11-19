@@ -26,7 +26,7 @@ abstract class Message
 
     public function __toString()
     {
-        return $this->toJson() ?? '';
+        return $this->toJson();
     }
 
     /**
