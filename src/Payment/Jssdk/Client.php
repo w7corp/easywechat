@@ -144,4 +144,32 @@ class Client extends JssdkClient
 
         return $params;
     }
+
+    /**
+     * Generate js config for biz red packet of mini program.
+     *
+     * @param  string $package
+     * @return array
+     */
+    public function miniprogramRedpackConfig(string $package): array
+    {
+        $param = [
+            'appId' => $this->app['config']->app_id,
+            'timeStamp' => '' . time(),
+            'nonceStr' => uniqid(),
+            'package' => urlencode($package),
+        ];
+        ksort($param);
+
+        $buff = '';
+        foreach ($param as $k => $v) {
+            $buff .= $k . "=" . $v . "&";
+        }
+
+        $param['paySign'] = md5($buff . 'key=' . $this->app['config']->key);
+        $param['signType'] = 'MD5';
+        unset($param['appId']);
+
+        return $param;
+    }
 }

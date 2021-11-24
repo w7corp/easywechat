@@ -57,7 +57,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92994
      *
-     * @param string $userId
+     * @param array $userIdList
      * @param string $cursor
      * @param integer $limit
      *
@@ -65,10 +65,10 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function batchGet(string $userId, string $cursor = '', int $limit = 100)
+    public function batchGet(array $userIdList, string $cursor = '', int $limit = 100)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', [
-            'userid' => $userId,
+            'userid_list' => $userIdList,
             'cursor' => $cursor,
             'limit' => $limit,
         ]);
@@ -97,7 +97,7 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90001/90143/93010
      *
-     * @param string $userId
+     * @param array $userIdList
      * @param string $cursor
      * @param int $limit
      *
@@ -106,10 +106,10 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function batchGetByUser(string $userId, string $cursor, int $limit)
+    public function batchGetByUser(array $userIdList, string $cursor, int $limit)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/batch/get_by_user', [
-            'userid' => $userId,
+            'userid_list' => $userIdList,
             'cursor' => $cursor,
             'limit' => $limit
         ]);
