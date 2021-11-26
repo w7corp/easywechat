@@ -38,7 +38,7 @@ class Application implements ApplicationInterface
                 secret: $this->config->get('secret'),
                 token: $this->config->get('token'),
                 aesKey: $this->config->get('aes_key'),
-                agentId: $this->config->get('agent_id'),
+                agentId: $this->config->get('agent_id')
             );
         }
 

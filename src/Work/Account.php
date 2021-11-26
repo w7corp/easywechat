@@ -13,7 +13,7 @@ class Account implements AccountInterface
         protected string $secret,
         protected ?string $token = null,
         protected ?string $aesKey = null,
-        protected ?int $agentId = null,
+        protected ?int $agentId = null
     ) {
     }
 
