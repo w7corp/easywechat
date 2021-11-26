@@ -11,8 +11,8 @@ class Account implements AccountInterface
     public function __construct(
         protected string $appId,
         protected string $secret,
-        protected ?string $token = null,
-        protected ?string $aesKey = null
+        protected string $token,
+        protected string $aesKey
     ) {
     }
 
@@ -26,12 +26,12 @@ class Account implements AccountInterface
         return $this->secret;
     }
 
-    public function getToken(): ?string
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    public function getAesKey(): ?string
+    public function getAesKey(): string
     {
         return $this->aesKey;
     }

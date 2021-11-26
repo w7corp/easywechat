@@ -3,7 +3,7 @@
 namespace EasyWeChat\Tests\Kernel\Traits;
 
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
 class InteractWithServerRequestTest extends TestCase

@@ -13,8 +13,8 @@ class Account implements AccountInterface
         protected string $providerSecret,
         protected string $suiteId,
         protected string $suiteSecret,
-        protected ?string $token = null,
-        protected ?string $aesKey = null
+        protected string $token,
+        protected string $aesKey
     ) {
     }
 
@@ -38,12 +38,12 @@ class Account implements AccountInterface
         return $this->suiteSecret;
     }
 
-    public function getToken(): ?string
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    public function getAesKey(): ?string
+    public function getAesKey(): string
     {
         return $this->aesKey;
     }

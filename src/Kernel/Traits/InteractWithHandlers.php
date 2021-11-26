@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use JetBrains\PhpStorm\ArrayShape;
 
 trait InteractWithHandlers
 {
@@ -26,6 +27,14 @@ trait InteractWithHandlers
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
+    public function prepend(callable | string $handler): static
+    {
+        return $this->prependHandler(...\func_get_args());
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function without(callable | string $handler): static
     {
         return $this->withoutHandler(...\func_get_args());
@@ -34,7 +43,7 @@ trait InteractWithHandlers
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function when($value, callable | string $handler): static
+    public function when(mixed $value, callable | string $handler): static
     {
         if (\is_callable($value)) {
             $value = \call_user_func($value, $this);
@@ -45,46 +54,72 @@ trait InteractWithHandlers
         return $this;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function unless($value, callable | string $handler): static
-    {
-        if (\is_callable($value)) {
-            $value = \call_user_func($value, $this);
-        }
-
-        !$value && $this->withHandler($handler);
-
-        return $this;
-    }
-
     public function handle(mixed $result, mixed $payload = null): mixed
     {
-        $next = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
+        $next = $result = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
 
-        foreach ($this->handlers as $handler) {
-            $next = fn (mixed $p): mixed => $handler($p, $next);
+        foreach (\array_reverse($this->handlers) as $item) {
+            $next = fn (mixed $p): mixed => $item['handler']($p, $next) ?? $result($p);
         }
 
         return $next($payload);
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function has(callable | string $handler): bool
     {
-        return \array_key_exists($this->getHandlerHash($handler), $this->handlers);
+        return $this->indexOf($handler) > -1;
     }
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
+    public function indexOf(callable | string $handler): int
+    {
+        foreach ($this->handlers as $index => $item) {
+            if ($item['hash'] === $this->getHandlerHash($this->makeClosure($handler))) {
+                return $index;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     *
+     */
     public function withHandler(callable | string $handler): static
+    {
+        $this->handlers[] = $this->createHandlerItem($handler);
+
+        return $this;
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function prependHandler(callable | string $handler): static
+    {
+        \array_unshift($this->handlers, $this->createHandlerItem($handler));
+
+        return $this;
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    #[ArrayShape(['hash' => "string", 'handler' => "callable|string"])]
+    public function createHandlerItem(callable | string $handler): array
     {
         $handler = $this->makeClosure($handler);
 
-        $this->handlers[$this->getHandlerHash($handler)] = $handler;
-
-        return $this;
+        return [
+            'hash' => $this->getHandlerHash($handler),
+            'handler' => $handler,
+        ];
     }
 
     /**
@@ -104,9 +139,11 @@ trait InteractWithHandlers
      */
     public function withoutHandler(callable | string $handler): static
     {
-        $handler = $this->makeClosure($handler);
+        $index = $this->indexOf($handler);
 
-        unset($this->handlers[$this->getHandlerHash($handler)]);
+        if ($index > -1) {
+            unset($this->handlers[$this->indexOf($handler)]);
+        }
 
         return $this;
     }

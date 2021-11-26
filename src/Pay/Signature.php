@@ -19,7 +19,7 @@ class Signature
         $nonce = \uniqid('nonce');
         $timestamp = \time();
         $query = $request->getUri()->getQuery();
-        $path = '/' . \ltrim((string)$request->getUri()->getPath() .(empty($query) ? '' : '?' . $query), '/');
+        $path = '/' . \ltrim($request->getUri()->getPath() .(empty($query) ? '' : '?' . $query), '/');
 
         if ($request->getBody()->isSeekable()) {
             $body = \strval($request->getBody());

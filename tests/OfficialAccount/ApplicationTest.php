@@ -12,8 +12,10 @@ use EasyWeChat\OfficialAccount\Application;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\OfficialAccount\JsApiTicket;
 use EasyWeChat\OfficialAccount\Server;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\OfficialAccount\Utils;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ApplicationTest extends TestCase
@@ -95,5 +97,38 @@ class ApplicationTest extends TestCase
         $accessToken = new AccessToken('wx3cf0f39249000060', 'mock-secret');
         $app->setAccessToken($accessToken);
         $this->assertSame($accessToken, $app->getAccessToken());
+    }
+
+    public function test_get_and_set_ticket()
+    {
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $this->assertInstanceOf(JsApiTicket::class, $app->getTicket());
+
+        // set
+        $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-secret', 'mock-token', $app->getCache(), $app->getClient());
+        $app->setTicket($ticket);
+        $this->assertSame($ticket, $app->getTicket());
+    }
+
+    public function test_get_utils()
+    {
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $this->assertInstanceOf(Utils::class, $app->getUtils());
     }
 }

@@ -2,10 +2,10 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\OpenPlatform\Account;
 use EasyWeChat\OpenPlatform\Server;
-use Nyholm\Psr7\ServerRequest;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class ServerTest extends TestCase
 {
@@ -21,8 +21,14 @@ class ServerTest extends TestCase
               <PreAuthCode>预授权码</PreAuthCode>
             </xml>
         ';
-        $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
+
+        $server = new Server(
+            \Mockery::mock(Account::class),
+            $request,
+            $encryptor
+        );
 
         $handleResult = null;
         $response = $server->handleAuthorized(function ($message) use (&$handleResult) {
@@ -42,8 +48,14 @@ class ServerTest extends TestCase
               <AuthorizerAppid>公众号appid</AuthorizerAppid>
             </xml>
         ';
-        $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
+
+        $server = new Server(
+            \Mockery::mock(Account::class),
+            $request,
+            $encryptor
+        );
 
         $handleResult = null;
         $response = $server->handleUnauthorized(function ($message) use (&$handleResult) {
@@ -66,8 +78,14 @@ class ServerTest extends TestCase
               <PreAuthCode>预授权码</PreAuthCode>
             </xml>
         ';
-        $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
+
+        $server = new Server(
+            \Mockery::mock(Account::class),
+            $request,
+            $encryptor
+        );
 
         $handleResult = null;
         $response = $server->handleAuthorizeUpdated(function ($message) use (&$handleResult) {
@@ -87,8 +105,14 @@ class ServerTest extends TestCase
             <ComponentVerifyTicket>some_verify_ticket</ComponentVerifyTicket>
             </xml>
         ';
-        $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
+
+        $server = new Server(
+            \Mockery::mock(Account::class),
+            $request,
+            $encryptor
+        );
 
         $handleResult = null;
         $response = $server->handleVerifyTicketRefreshed(function ($message) use (&$handleResult) {

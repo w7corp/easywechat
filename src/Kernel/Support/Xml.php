@@ -47,9 +47,12 @@ class Xml
 
     public static function cdata(?string $string): string
     {
-        return sprintf('<![CDATA[%s]]>', $string);
+        return sprintf('<![CDATA[%s]]>', $string ?? '');
     }
 
+    /**
+     * @psalm-suppress RedundantCondition
+     */
     protected static function normalize(SimpleXMLElement $object): array | null
     {
         $result = null;
@@ -107,12 +110,12 @@ class Xml
      *
      * @param  ?string $xml
      *
-     * @return string|null
+     * @return string
      */
-    public static function sanitize(?string $xml): string | null
+    public static function sanitize(?string $xml): string
     {
         if (empty($xml)) {
-            return $xml;
+            return '';
         }
 
         return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml);

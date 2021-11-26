@@ -4,10 +4,10 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -34,11 +34,11 @@ class Server implements ServerInterface
 
         try {
             return $this->handle(
-                new Response(200, [], json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)),
+                new ServerResponse(200, [], json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)),
                 $message
             );
         } catch (\Exception $e) {
-            return new Response(
+            return new ServerResponse(
                 500,
                 [],
                 json_encode(['code' => 'ERROR', 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE)
@@ -51,7 +51,7 @@ class Server implements ServerInterface
      */
     public function handlePaid(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->getEventType() === 'TRANSACTION.SUCCESS' && $message->trade_state === 'SUCCESS'
                 ? $handler($message, $next) : $next($message);
         });
@@ -64,7 +64,7 @@ class Server implements ServerInterface
      */
     public function handleRefunded(callable | string $handler): static
     {
-        $this->with(function (\EasyWeChat\Kernel\Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return in_array($message->getEventType(), [
                 'REFUND.SUCCESS',
                 'REFUND.ABNORMAL',

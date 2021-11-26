@@ -25,11 +25,11 @@ class Encryptor
     public const ILLEGAL_BUFFER = -41003; // Illegal buffer
 
     protected string $appId;
-    protected ?string $token;
+    protected string $token;
     protected string $aesKey;
     protected int $blockSize = 32;
 
-    public function __construct(string $appId, string $token = null, string $aesKey = null)
+    public function __construct(string $appId, string $token, string $aesKey)
     {
         $this->appId = $appId;
         $this->token = $token;
@@ -61,8 +61,8 @@ class Encryptor
             throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
 
-        !is_null($nonce) || $nonce = substr($this->appId, 0, 10);
-        !is_null($timestamp) || $timestamp = time();
+        !is_null($nonce) || $nonce = \uniqid();
+        !is_null($timestamp) || $timestamp = \time();
 
         $response = [
             'Encrypt' => $ciphertext,
@@ -74,7 +74,7 @@ class Encryptor
         return Xml::build($response);
     }
 
-    public function createSignature(...$attributes): string
+    public function createSignature(mixed ...$attributes): string
     {
         sort($attributes, \SORT_STRING);
 

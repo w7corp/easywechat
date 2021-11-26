@@ -38,12 +38,12 @@ class LogManager implements LoggerInterface
     ) {
     }
 
-    public function stack(array $channels, $channel = null): LoggerInterface
+    public function stack(array $channels, ?string $channel = null): LoggerInterface
     {
         return $this->createStackDriver(compact('channels', 'channel'));
     }
 
-    public function channel($channel = null): LoggerInterface
+    public function channel(?string $channel = null): LoggerInterface
     {
         return $this->driver($channel);
     }
@@ -117,7 +117,9 @@ class LogManager implements LoggerInterface
         $handlers = [];
 
         foreach ($config['channels'] ?? [] as $channel) {
-            $handlers = \array_merge($handlers, $this->channel($channel)->getHandlers());
+            $channel = $this->channel($channel);
+            $channelHandlers = \is_callable([$channel, 'getHandlers']) ? $channel->getHandlers() : [];
+            $handlers = \array_merge($handlers, $channelHandlers);
         }
 
         if ($config['ignore_exceptions'] ?? false) {
@@ -274,9 +276,9 @@ class LogManager implements LoggerInterface
     /**
      * Set the default log driver name.
      *
-     * @param  string  $name
+     * @param string  $name
      */
-    public function setDefaultDriver(string $name)
+    public function setDefaultDriver(string $name): void
     {
         $this->config['log.default'] = $name;
     }
@@ -333,7 +335,7 @@ class LogManager implements LoggerInterface
         $this->driver()->log($level, $message, $context);
     }
 
-    public function __call($method, $parameters): mixed
+    public function __call(string $method, array $parameters): mixed
     {
         return $this->driver()->$method(...$parameters);
     }

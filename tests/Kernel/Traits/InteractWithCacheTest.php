@@ -3,7 +3,7 @@
 namespace EasyWeChat\Tests\Kernel\Traits;
 
 use EasyWeChat\Kernel\Traits\InteractWithCache;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Psr16Cache;
 

@@ -16,11 +16,7 @@ trait InteractWithConfig
      */
     public function __construct(array | ConfigInterface $config)
     {
-        if (\is_array($config)) {
-            $config = new Config($config);
-        }
-
-        $this->config = $config;
+        $this->config = \is_array($config) ? new Config($config) : $config;
     }
 
     public function getConfig(): ConfigInterface

@@ -4,7 +4,7 @@ namespace EasyWeChat\Tests\Kernel\Traits;
 
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class InteractWithConfigTest extends TestCase
 {

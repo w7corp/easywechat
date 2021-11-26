@@ -28,11 +28,15 @@ trait ChainableHttpClient
         return $this->uri;
     }
 
-    public function __get(string | int $name)
+    public function __get(string | int $name): static
     {
         return $this->withUri(\strval($name));
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
     public function __call(string $name, array $arguments)
     {
         if (\in_array(\strtoupper($name), ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])) {
@@ -44,6 +48,7 @@ trait ChainableHttpClient
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     protected function callWithShortcuts(
         string $method,
@@ -62,12 +67,15 @@ trait ChainableHttpClient
         return $this->request(\strtoupper($method), $uri, $options);
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function replaceUriVariables(string $uri, array $options): array
     {
         return [
             \preg_replace_callback(
-                pattern: '~\$(?<name>[a-z0-9_]+)~i',
-                callback: function ($matches) use (&$options) {
+                pattern : '~\$(?<name>[a-z0-9_]+)~i',
+                callback: function (array $matches) use (&$options): string {
                     if (empty($options[$matches['name']])) {
                         throw new InvalidArgumentException(\sprintf('Missing url variables "%s".', $matches['name']));
                     }
@@ -78,7 +86,7 @@ trait ChainableHttpClient
 
                     return $value;
                 },
-                subject: $uri
+                subject : $uri
             ),
             $options,
         ];

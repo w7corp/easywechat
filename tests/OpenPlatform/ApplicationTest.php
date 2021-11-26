@@ -21,7 +21,7 @@ use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use EasyWeChat\OpenPlatform\Server;
 use EasyWeChat\OpenPlatform\VerifyTicket;
 use Overtrue\Socialite\Providers\WeChat;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -34,6 +34,7 @@ class ApplicationTest extends TestCase
                 'app_id' => 'wx3cf0f39249000060',
                 'secret' => 'mock-secret',
                 'token' => 'mock-token',
+                'aes_key' => 'mock-aes_key',
             ]);
 
         $this->assertInstanceOf(ApplicationInterface::class, $app);
@@ -41,7 +42,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getAccount(), $app->getAccount());
 
         // set
-        $account = new Account(appId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token');
+        $account = new Account(appId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token', aesKey: 'mock-aes_key');
         $app->setAccount($account);
         $this->assertSame($account, $app->getAccount());
     }
@@ -81,7 +82,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getServer(), $app->getServer());
 
         // set
-        $server = new Server(\Mockery::mock(Account::class), \Mockery::mock(ServerRequestInterface::class));
+        $server = new Server(\Mockery::mock(Account::class), \Mockery::mock(ServerRequestInterface::class), \Mockery::mock(Encryptor::class));
         $app->setServer($server);
         $this->assertSame($server, $app->getServer());
     }

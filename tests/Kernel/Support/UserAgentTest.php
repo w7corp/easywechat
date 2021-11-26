@@ -6,7 +6,7 @@ namespace EasyWeChat\Tests\Kernel\Support;
 
 use Composer\InstalledVersions;
 use EasyWeChat\Kernel\Support\UserAgent;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class UserAgentTest extends TestCase
 {

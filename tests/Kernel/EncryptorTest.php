@@ -3,7 +3,7 @@
 namespace EasyWeChat\Tests\Kernel;
 
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Support\XML;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Tests\TestCase;
 
 class EncryptorTest extends TestCase
@@ -16,8 +16,8 @@ class EncryptorTest extends TestCase
     public function testDecrypt()
     {
         $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
-        $encrypt = XML::parse($encrypted);
-        $decrypted = XML::parse($this->getEncryptor()->decrypt($encrypt['Encrypt'], '4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676'));
+        $encrypt = Xml::parse($encrypted);
+        $decrypted = Xml::parse($this->getEncryptor()->decrypt($encrypt['Encrypt'], '4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676'));
 
         $this->assertSame('asdasdasd', $decrypted['ToUserName']);
         $this->assertSame('asdasdasdsadasd', $decrypted['FromUserName']);
@@ -29,7 +29,7 @@ class EncryptorTest extends TestCase
     {
         $this->expectExceptionMessage('Invalid Signature.');
         $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
-        $encrypt = XML::parse($encrypted);
+        $encrypt = Xml::parse($encrypted);
         $this->getEncryptor()->decrypt($encrypt['Encrypt'], 'invalid-signature', '260774613', '1458300676');
     }
 
@@ -38,7 +38,7 @@ class EncryptorTest extends TestCase
         $this->expectExceptionMessage('Invalid appId.');
         $encrypted = "<xml>\n    <ToUserName><![CDATA[asdasdasd]]></ToUserName>\n    <Encrypt><![CDATA[rTNFcsut4LfGuAFKEUVVpwcaCOTJzOd9twZdIW910jb3k+iicx2uvhttIZ3Qg9Qgty3BEF2xbOrz6boTfb30dMomcgrkTqdFPwnhqbk+kIQ7rZiwny9D7NUrTgA5kpX3KsZvrXzUZyP2x9YOlxbgm572lmxKvM7HAQQhIQ/p6HBmoY30bGXFK0BtIu1pW9TjhOYrLQoU18nWYjWqDA1ynkmOytpv7QRI1P1+0NoxL0q2zO1DgeSvnE8CZGo/o5Ap/WHK5W2RAsinpzN4/LjPnmB6U01I5XCoJoC0GK/yMZycd2Oh8Nq6+wBkC1U85oy0ktOY4nLvsQMLrourmMGdZHuTbqpeJ8Ao/5PRYJ+WBvRUwPfGKBL2+2IKZF49vAJqkcGWSHGE76ZN2erXeuNazf/o9o3lIE3q739o4c8t9QGPe31GT2Go/rOz1BsrASwvauNulCh+++yz+CQzBIuikA==]]></Encrypt>\n</xml>\n";
         $encryptor = new Encryptor('invalid appid', 'pamtest', 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
-        $encrypt = XML::parse($encrypted);
+        $encrypt = Xml::parse($encrypted);
         $encryptor->decrypt($encrypt['Encrypt'], '4f3ad57b6989f09f4eb392acce4f9e93942ed890', '260774613', '1458300676');
     }
 
@@ -55,15 +55,15 @@ class EncryptorTest extends TestCase
                 'Description' => 'testCallBackReplyVideo',
             ],
         ];
-        $xml = XML::build($raw);
+        $xml = Xml::build($raw);
         $encrypted = $this->getEncryptor()->encrypt($xml, 'xxxxxx', '1407743423');
 
-        $array = XML::parse($encrypted);
+        $array = Xml::parse($encrypted);
         $this->assertSame('1407743423', $array['TimeStamp']);
         $this->assertSame('xxxxxx', $array['Nonce']);
         $this->assertNotEmpty($array['Encrypt']);
         $this->assertNotEmpty($array['MsgSignature']);
-        $this->assertSame($raw, XML::parse($this->getEncryptor()->decrypt($array['Encrypt'], $array['MsgSignature'], $array['Nonce'], $array['TimeStamp'])));
+        $this->assertSame($raw, Xml::parse($this->getEncryptor()->decrypt($array['Encrypt'], $array['MsgSignature'], $array['Nonce'], $array['TimeStamp'])));
     }
 
     public function testGetToken()

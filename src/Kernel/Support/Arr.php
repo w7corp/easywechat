@@ -18,7 +18,7 @@ class Arr
         return $array;
     }
 
-    public static function crossJoin(...$arrays): array
+    public static function crossJoin(array ...$arrays): array
     {
         $results = [[]];
 
@@ -71,16 +71,14 @@ class Arr
         return array_key_exists($key, $array);
     }
 
-    public static function first(array $array, callable $callback = null, $default = null): mixed
+    public static function first(array $array, callable $callback = null, mixed $default = null): mixed
     {
         if (is_null($callback)) {
             if (empty($array)) {
                 return $default;
             }
 
-            foreach ($array as $item) {
-                return $item;
-            }
+            return \reset($array);
         }
 
         foreach ($array as $key => $value) {
@@ -92,7 +90,7 @@ class Arr
         return $default;
     }
 
-    public static function last(array $array, callable $callback = null, $default = null): mixed
+    public static function last(array $array, callable $callback = null, mixed $default = null): mixed
     {
         if (is_null($callback)) {
             return empty($array) ? $default : end($array);
@@ -105,7 +103,7 @@ class Arr
     {
         return array_reduce(
             $array,
-            function ($result, $item) use ($depth) {
+            function (array $result, mixed $item) use ($depth): array {
                 $item = $item instanceof Collection ? $item->all() : $item;
 
                 if (!is_array($item)) {
@@ -120,6 +118,9 @@ class Arr
         );
     }
 
+    /**
+     * @return void
+     */
     public static function forget(array &$array, string | int | array | null $keys = null)
     {
         $original = &$array;
@@ -138,7 +139,7 @@ class Arr
                 continue;
             }
 
-            $parts = explode('.', $key);
+            $parts = explode('.', (string)$key);
 
             // clean up before each pass
             $array = &$original;
@@ -157,7 +158,7 @@ class Arr
         }
     }
 
-    public static function get(array $array, string | int | null $key, $default = null)
+    public static function get(array $array, string | int | null $key, array|null $default = null): mixed
     {
         if (is_null($key)) {
             return $array;
@@ -167,7 +168,7 @@ class Arr
             return $array[$key];
         }
 
-        foreach (explode('.', $key) as $segment) {
+        foreach (explode('.', (string) $key) as $segment) {
             if (static::exists($array, $segment)) {
                 $array = $array[$segment];
             } else {
@@ -201,7 +202,7 @@ class Arr
                 continue;
             }
 
-            foreach (explode('.', $key) as $segment) {
+            foreach (explode('.', (string) $key) as $segment) {
                 if (static::exists($subKeyArray, $segment)) {
                     $subKeyArray = $subKeyArray[$segment];
                 } else {
@@ -225,7 +226,7 @@ class Arr
         return array_intersect_key($array, array_flip((array) $keys));
     }
 
-    public static function prepend(array $array, mixed $value, string | int | null $key = null)
+    public static function prepend(array $array, mixed $value, string | int | null $key = null): array
     {
         if (is_null($key)) {
             array_unshift($array, $value);
@@ -247,6 +248,10 @@ class Arr
 
     public static function random(array $array, int $amount = null): mixed
     {
+        if (empty($array)) {
+            return [];
+        }
+
         if (is_null($amount)) {
             return $array[array_rand($array)];
         }

@@ -7,7 +7,7 @@ namespace EasyWeChat\Tests\OfficialAccount;
 use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Application;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class AccountTest extends TestCase
 {

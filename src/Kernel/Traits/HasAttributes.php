@@ -23,6 +23,18 @@ trait HasAttributes
         return \json_encode($this->attributes);
     }
 
+    public function has(string $key): bool
+    {
+        return \array_key_exists($key, $this->attributes);
+    }
+
+    public function merge(array $attributes): static
+    {
+        $this->attributes = \array_merge($this->attributes, $attributes);
+
+        return $this;
+    }
+
     public function jsonSerialize(): array
     {
         return $this->attributes;
@@ -48,7 +60,7 @@ trait HasAttributes
         return $this->attributes[$offset];
     }
 
-    public function offsetSet(mixed $offset, mixed $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (null === $offset) {
             $this->attributes[] = $value;
@@ -57,7 +69,7 @@ trait HasAttributes
         }
     }
 
-    public function offsetUnset(mixed $offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->attributes[$offset]);
     }

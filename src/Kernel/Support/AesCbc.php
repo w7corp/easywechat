@@ -12,7 +12,7 @@ class AesCbc implements Aes
      */
     public static function encrypt(string $plaintext, string $key, string $iv = null): string
     {
-        $ciphertext = \openssl_encrypt($plaintext, "aes-128-cbc", $key, \OPENSSL_RAW_DATA, $iv);
+        $ciphertext = \openssl_encrypt($plaintext, "aes-128-cbc", $key, \OPENSSL_RAW_DATA, (string) $iv);
 
         if (false === $ciphertext) {
             throw new InvalidArgumentException(\openssl_error_string());
@@ -26,15 +26,9 @@ class AesCbc implements Aes
      */
     public static function decrypt(string $ciphertext, string $key, string $iv = null): string
     {
-        $plaintext = \openssl_decrypt(
-            \base64_decode($ciphertext),
-            "aes-128-cbc",
-            $key,
-            \OPENSSL_RAW_DATA,
-            $iv
-        );
+        $plaintext = \openssl_decrypt(\base64_decode($ciphertext), "aes-128-cbc", $key, \OPENSSL_RAW_DATA, (string) $iv);
 
-        if (false === $ciphertext) {
+        if (false === $plaintext) {
             throw new InvalidArgumentException(\openssl_error_string());
         }
 

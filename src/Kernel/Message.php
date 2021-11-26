@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,7 +26,7 @@ abstract class Message
 
     public function __toString()
     {
-        return $this->getOriginalContents();
+        return $this->toJson();
     }
 
     /**
@@ -54,30 +53,14 @@ abstract class Message
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     *
+     * @return \EasyWeChat\Kernel\Message
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public static function createFromRequest(ServerRequestInterface $request, ?Encryptor $encryptor = null): static
+    public static function createFromRequest(ServerRequestInterface $request): Message
     {
         $attributes = self::format($originContent = strval($request->getBody()));
-
-        $query = $request->getQueryParams();
-        $signature = $query['msg_signature'] ?? $query['signature'] ?? null;
-
-        if ($signature && $ciphertext = $attributes['Encrypt'] ?? null) {
-            if (!$encryptor) {
-                throw new InvalidArgumentException('$encryptor could not be empty in safety mode.');
-            }
-            $attributes = Xml::parse(
-                $encryptor->decrypt(
-                    ciphertext: $ciphertext,
-                    msgSignature: $signature,
-                    nonce: $query['nonce'],
-                    timestamp: $query['timestamp']
-                )
-            );
-        }
 
         return new static($attributes, $originContent);
     }

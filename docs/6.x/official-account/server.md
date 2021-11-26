@@ -19,7 +19,7 @@ $server = $app->getServer();
 ```php
 $server->with(function($message, \Closure $next) {
     // 你的自定义逻辑
-    return $next($message)
+    return $next($message);
 });
 
 $response = $server->serve();
@@ -31,15 +31,15 @@ $response = $server->serve();
 $server
     ->with(function($message, \Closure $next) {
         // 你的自定义逻辑1
-        return $next($message)
+        return $next($message);
     })
     ->with(function($message, \Closure $next) {
         // 你的自定义逻辑2
-        return $next($message)
+        return $next($message);
     })
     ->with(function($message, \Closure $next) {
         // 你的自定义逻辑3
-        return $next($message)
+        return $next($message);
     });
 
 $response = $server->serve();
@@ -53,7 +53,7 @@ $response = $server->serve();
 ```php
 function($message, \Closure $next) {
     // 你的自定义逻辑3
-    return $next($message)
+    return $next($message);
 }
 ```
 

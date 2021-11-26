@@ -37,7 +37,7 @@ class ServerTest extends TestCase
 
         $response = $server->serve();
 
-        $this->assertSame('SUCCESS', \strval($response->getBody()));
+        $this->assertSame('success', \strval($response->getBody()));
     }
 
     public function test_it_will_respond_from_message_handlers()

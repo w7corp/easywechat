@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Application;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 
 class AccountTest extends TestCase
 {
@@ -49,26 +51,21 @@ class AccountTest extends TestCase
             agentId: $accountConfig['agent_id']
         );
 
-        $applicationConfig = [
+        $config = [
             'corp_id' => 'wx3cf0f39249000060',
             'secret' => 'mock-secret',
             'token' => 'mock-token',
+            'aes_key' => 'mock-aes_key',
         ];
 
-        $app = new Application(
-            [
-                'corp_id' => $applicationConfig['corp_id'],
-                'secret' => $applicationConfig['secret'],
-                'token' => $applicationConfig['token'],
-            ]
-        );
+        $app = new Application($config);
 
         $this->assertInstanceOf(AccountInterface::class, $app->getAccount());
-        $this->assertSame($applicationConfig['corp_id'], $app->getAccount()->getCorpId());
+        $this->assertSame($config['corp_id'], $app->getAccount()->getCorpId());
 
         $app->setAccount($account);
 
-        $this->assertNotSame($applicationConfig['corp_id'], $app->getAccount()->getCorpId());
+        $this->assertNotSame($config['corp_id'], $app->getAccount()->getCorpId());
         $this->assertSame($accountConfig['corp_id'], $app->getAccount()->getCorpId());
     }
 

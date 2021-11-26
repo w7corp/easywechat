@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Kernel\Client;
@@ -14,7 +16,7 @@ use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Account as AccountInterface;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
-use PHPUnit\Framework\TestCase;
+use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Psr16Cache;
@@ -98,7 +100,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getServer(), $app->getServer());
 
         // set
-        $server = new Server(\Mockery::mock(Account::class), \Mockery::mock(ServerRequestInterface::class));
+        $server = new Server(\Mockery::mock(Account::class), \Mockery::mock(ServerRequestInterface::class), $app->getEncryptor());
         $app->setServer($server);
         $this->assertSame($server, $app->getServer());
     }

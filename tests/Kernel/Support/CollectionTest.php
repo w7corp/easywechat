@@ -138,8 +138,5 @@ class CollectionTest extends TestCase
         $c->set('title', 'mock-title');
         unset($c->title);
         $this->assertFalse(isset($c->title), 'isset $c->title');
-
-        $c['name'] = 'Hello';
-        $this->assertSame(['name' => 'Hello', 'age' => 25], $c->__set_state(['name' => 'Hello', 'age' => 25]));
     }
 }

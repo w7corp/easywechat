@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -58,14 +59,19 @@ class Application implements ApplicationInterface
         return $this;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
     public function getEncryptor(): Encryptor
     {
         if (!$this->encryptor) {
-            $this->encryptor = new Encryptor(
-                $this->getAccount()->getAppId(),
-                $this->getAccount()->getToken(),
-                $this->getAccount()->getAesKey(),
-            );
+            $token = $this->getAccount()->getToken();
+            $aesKey = $this->getAccount()->getAesKey();
+            if (empty($token) || empty($aesKey)) {
+                throw new InvalidConfigException('token or aes_key cannot be empty.');
+            }
+
+            $this->encryptor = new Encryptor($this->getAccount()->getAppId(), $token, $aesKey);
         }
 
         return $this->encryptor;
@@ -89,7 +95,7 @@ class Application implements ApplicationInterface
             $this->server = new Server(
                 account: $this->getAccount(),
                 request: $this->getRequest(),
-                encryptor: $this->getEncryptor()
+                encryptor: $this->getAccount()->getAesKey() ? $this->getEncryptor() : null
             );
         }
 
@@ -158,6 +164,13 @@ class Application implements ApplicationInterface
         }
 
         return $this->ticket;
+    }
+
+    public function setTicket(JsApiTicket $ticket): static
+    {
+        $this->ticket = $ticket;
+
+        return $this;
     }
 
     public function getUtils(): Utils
