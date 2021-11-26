@@ -75,7 +75,7 @@ class ConfigTest extends TestCase
             'secret' => 'mock-account-secret',
             'token' => 'mock-account-token',
             'aes_key' => 'mock-account-aes_key',
-            'agent_id' => 1000001,
+            'agent_id' => 1000001
         ];
 
         $this->expectException(InvalidArgumentException::class);

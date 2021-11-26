@@ -20,7 +20,7 @@ class AccountTest extends TestCase
                 'secret' => 'mock-secret',
                 'token' => 'mock-token',
                 'aes_key' => 'mock-aes_key',
-                'agent_id' => 1000001,
+                'agent_id' => 1000001
             ]
         );
 
@@ -38,7 +38,7 @@ class AccountTest extends TestCase
             'secret' => 'mock-account-secret',
             'token' => 'mock-account-token',
             'aes_key' => 'mock-account-aes-key',
-            'agent_id' => 1000001,
+            'agent_id' => 1000001
         ];
 
         $account = new Account(
