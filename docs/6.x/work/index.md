@@ -12,7 +12,8 @@ $config = [
   'corp_id' => 'wx3cf0f39249eb0exx',
   'secret' => 'f1c242f4f28f735d4687abb469072axx',
   'token' => 'easywechat',
-  'aes_key' => '......'
+  'aes_key' => '......',
+  'ageint_id' => 100001
 ];
 
 $app = new Application($config);
@@ -78,6 +79,7 @@ $account->getCorpId();
 $account->getSecret();
 $account->getToken();
 $account->getAesKey();
+$account->getAgentId();
 ```
 
 ## 企业网页授权
