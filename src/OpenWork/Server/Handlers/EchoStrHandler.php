@@ -53,7 +53,7 @@ class EchoStrHandler implements EventHandlerInterface
             return new FinallyResult($str);
         }
         //把SuiteTicket缓存起来
-        if (!empty($payload['SuiteTicket']) && $this->app['config']['suite_id'] == $payload['SuiteId']) {
+        if (!empty($payload['SuiteTicket']) && !empty($payload['SuiteId']) && $this->app['config']['suite_id'] == $payload['SuiteId']) {
             $this->app['suite_ticket']->setTicket($payload['SuiteTicket']);
         }
     }
