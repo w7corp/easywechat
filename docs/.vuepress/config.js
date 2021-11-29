@@ -1,42 +1,46 @@
-const versions = require("./versions");
-const path = require("path");
-const latest = versions[0];
+const versions = require('./versions')
+const path = require('path')
+const latest = versions[0]
 
 module.exports = {
   debug: true,
-  title: "EasyWeChat",
-  description: "一个 PHP 微信开发 SDK",
+  title: 'EasyWeChat',
+  description: '一个 PHP 微信开发 SDK',
   head: [
     [
-      "link",
+      'link',
       {
-        rel: "icon",
-        href: "/favicon.png",
+        rel: 'icon',
+        href: '/favicon.png',
       },
     ],
   ],
   themeConfig: {
-    defaultTheme: "light",
-    logo: "/logo.svg",
+    defaultTheme: 'light',
+    logo: '/logo.svg',
     editLinks: true, //  "Edit this page" at the bottom of each page
-    repo: "w7corp/EasyWeChat", //  Github repo
-    docsDir: "docs/", //  Github repo docs folder
+    repo: 'w7corp/EasyWeChat', //  Github repo
+    docsDir: 'docs/', //  Github repo docs folder
     latest,
     navbar: [
       {
-        text: "首页",
+        text: '首页',
         link: '/',
       },
       {
-        text: "文档",
+        text: '文档',
         children: versions.map((version) => ({
           text: version,
           link: `/${version}/`,
         })),
       },
       {
-        text: "讨论",
-        link: "https://github.com/w7corp/easywechat/discussions",
+        text: '视频教程',
+        link: 'https://wiki.w7.cc/college/collectiondetail/3',
+      },
+      {
+        text: '讨论',
+        link: 'https://github.com/w7corp/easywechat/discussions',
       },
     ],
     sidebar: versions.reduce(
@@ -54,15 +58,13 @@ module.exports = {
         componentsDir: path.resolve(__dirname, './components'),
       },
     ],
+    ['@vuepress/google-analytics', { id: 'UA-64156348-1' }],
     [
-      '@vuepress/google-analytics', { id: 'UA-64156348-1' },
-    ],
-    [
-      "@vuepress/docsearch",
+      '@vuepress/docsearch',
       {
         apiKey: '981093e0ff3b2e187aea7c340bc4d339',
         indexName: 'easywechat',
       },
     ],
   ],
-};
+}

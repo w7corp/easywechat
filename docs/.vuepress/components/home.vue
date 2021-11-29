@@ -10,6 +10,7 @@
           <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
             <a class="mr-5 text-gray-400 hover:text-gray-300" :href="$withBase(`/${latestVersion}/`)"> 文档 </a>
             <a class="mr-5 text-gray-400 hover:text-gray-300" target="_blank" href="https://github.com/w7corp/easywechat/discussions"> 论坛 </a>
+            <a class="mr-5 text-gray-400 hover:text-gray-300" target="_blank" href="https://wiki.w7.cc/college/collectiondetail/3"> 视频教程 </a>
             <a class="mr-5 text-gray-400 hover:text-gray-300" target="_blank" href="https://github.com/w7corp/easywechat/"> 源码 </a>
           </nav>
         </div>
@@ -54,26 +55,18 @@
             </div>
             <div class="hidden mt-10 md:flex items-center space-x-6 xl:space-x-8">
               <a href="https://github.com/overtrue" target="_blank" class="py-6 flex items-center">
-                <img :src="$withBase('/overtrue.png')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
+                <img :src="$withBase('/overtrue.jpg')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
                 <div class="px-2 text-left text-gray-400">
                   <div class="text-white font-semibold">overtrue</div>
                   <small>核心开发者</small>
                 </div>
               </a>
               <a href="https://www.w7.cc/" target="_blank" class="py-6 flex items-center">
-                <img :src="$withBase('/w7team.png')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
+                <img :src="$withBase('/w7team.jpg')" alt="overtrue" class="h-12 w-12 rounded-full border-2 border-blue-200 p-0.5" />
                 <div class="px-2 text-left text-gray-400">
                   <div class="text-white font-semibold">微擎</div>
                   <small>开源 Saas 平台提供商</small>
                 </div>
-              </a>
-            </div>
-            <div class="mt-10">
-              <a href="https://www.aliyundrive.com/s/6CwgtkiBqFV" target="_blank" class="flex items-center rounded bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2">
-                🎁 免费下载 5.x 全部视频教程
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
               </a>
             </div>
           </div>
@@ -94,30 +87,30 @@
 </template>
 
 <script>
-import Clipboard from "clipboard";
-import { defineComponent, ref } from "vue";
-const versions = require("../versions");
-const latestVersion = versions[0];
+import Clipboard from 'clipboard'
+import { defineComponent, ref } from 'vue'
+const versions = require('../versions')
+const latestVersion = versions[0]
 
 export default defineComponent({
   data() {
     return {
       latestVersion: latestVersion,
-    };
+    }
   },
   setup() {
-    var clipboard = new Clipboard("[data-clipboard-text]");
-    clipboard.on("success", (e) => {
-      console.log("复制成功");
+    var clipboard = new Clipboard('[data-clipboard-text]')
+    clipboard.on('success', (e) => {
+      console.log('复制成功')
       // 释放内存
-      clipboard.destroy();
-    });
-    clipboard.on("error", (e) => {
+      clipboard.destroy()
+    })
+    clipboard.on('error', (e) => {
       // 不支持复制
-      alert("该浏览器不支持自动复制，请手动选择复制");
+      alert('该浏览器不支持自动复制，请手动选择复制')
       // 释放内存
-      clipboard.destroy();
-    });
+      clipboard.destroy()
+    })
   },
-});
+})
 </script>
