@@ -15,7 +15,6 @@ use Pimple\ServiceProviderInterface;
 
 class ServiceProvider implements ServiceProviderInterface
 {
-
     /**
      * {@inheritdoc}.
      */

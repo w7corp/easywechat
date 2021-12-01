@@ -119,7 +119,7 @@ class Messenger
     /**
      * Set target business id.
      *
-     * @param string $businessId
+     * @param int $businessId
      *
      * @return Messenger
      */

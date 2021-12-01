@@ -452,7 +452,7 @@ class LogManager implements LoggerInterface
      * @param string $message
      * @param array  $context
      *
-     * @return mixed
+     * @return void
      *
      * @throws \Exception
      */
@@ -470,7 +470,7 @@ class LogManager implements LoggerInterface
      * @param string $message
      * @param array  $context
      *
-     * @return mixed
+     * @return void
      *
      * @throws \Exception
      */
