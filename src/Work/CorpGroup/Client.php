@@ -98,7 +98,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function corpToOpenCorpid(string $corpId)
+    public function getOpenCorpid(string $corpId)
     {
         return $this->httpPostJson('cgi-bin/corp/to_open_corpid', ['corpid' => $corpId]);
     }
