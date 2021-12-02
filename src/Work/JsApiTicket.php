@@ -72,7 +72,7 @@ class JsApiTicket extends AccessToken
             'url' => $url,
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
-            'appId' => $this->appId,
+            'appId' => $this->corpId,
             'signature' => sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $this->getTicket(), $nonce, $timestamp, $url)),
         ];
     }
@@ -84,7 +84,7 @@ class JsApiTicket extends AccessToken
 
     public function getAgentKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s.%s', $this->corpId,$this->);
+        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s.%s', $this->corpId,$this->agentId);
     }
 
 
