@@ -83,6 +83,6 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/batch/userid_to_openuserid', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->batchUseridToOpenuserid(['aaa', 'bbb']));
+        $this->assertSame('mock-result', $client->batchUseridToOpenUserid(['aaa', 'bbb']));
     }
 }

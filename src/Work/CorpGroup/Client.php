@@ -114,7 +114,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function batchUseridToOpenuserid(array $useridList)
+    public function batchUseridToOpenUserid(array $useridList)
     {
         return $this->httpPostJson('cgi-bin/batch/userid_to_openuserid', ['userid_list' => $useridList]);
     }
