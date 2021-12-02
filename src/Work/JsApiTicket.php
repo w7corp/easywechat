@@ -84,7 +84,7 @@ class JsApiTicket extends AccessToken
 
     public function getAgentKey(): string
     {
-        return $this->agentKey ?? $this->agentKey = \sprintf('work.jsapi_ticket.%s', $this->corpId);
+        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s.%s', $this->corpId,$this->);
     }
 
 

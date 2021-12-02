@@ -145,6 +145,7 @@ class Application implements ApplicationInterface
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
                 httpClient: $this->getClient(),
+                agentId: $this->getAccount()->get
             );
         }
 

@@ -23,7 +23,7 @@ class AccessToken implements AccessTokenInterface
         protected ?string $key = null,
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null,
-        protected ?string $agentKey = null,
+        protected ?string $agentId = null,
     ) {
         $this->httpClient = $httpClient ?? new Client();
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
