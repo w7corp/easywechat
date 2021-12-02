@@ -27,9 +27,7 @@ class UserAgent
             && !in_array('php_uname', $disabledFunctions, true)
         ) {
             $osName = 'OS/'.php_uname('s').'/'.php_uname('r');
-            if (!empty($osName)) {
-                array_unshift($value, $osName);
-            }
+            array_unshift($value, $osName);
         }
 
         if (\class_exists(InstalledVersions::class)) {

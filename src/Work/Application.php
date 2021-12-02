@@ -12,6 +12,8 @@ use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Work\AccessToken;
+use EasyWeChat\Work\JsApiTicket;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
@@ -28,6 +30,7 @@ class Application implements ApplicationInterface
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
+    protected ?JsApiTicket $ticket = null;
     protected ?AccessTokenInterface $accessToken = null;
 
     public function getAccount(): AccountInterface
@@ -132,6 +135,27 @@ class Application implements ApplicationInterface
             ]
         ))->withApiAccessToken($this->getAccessToken()->getToken())
             ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
+    }
+
+    public function getTicket(): JsApiTicket
+    {
+        if (!$this->ticket) {
+            $this->ticket = new JsApiTicket(
+                corpId: $this->getAccount()->getCorpId(),
+                secret: $this->getAccount()->getSecret(),
+                cache: $this->getCache(),
+                httpClient: $this->getClient(),
+            );
+        }
+
+        return $this->ticket;
+    }
+
+    public function setTicket(JsApiTicket $ticket): static
+    {
+        $this->ticket = $ticket;
+
+        return $this;
     }
 
     protected function getHttpClientDefaultOptions(): array
