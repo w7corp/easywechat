@@ -88,7 +88,7 @@ class Client extends BaseClient
     }
 
     /**
-     * 将自建应用获取的corpid转换为第三方应用获取的corpid（仅代开发自建应用或第三方应用可调用）
+     * 将明文corpid转换为第三方应用获取的corpid（仅限第三方服务商，转换已获授权企业的corpid）
      *
      * @see https://open.work.weixin.qq.com/api/doc/90001/90143/95327#1.4%20corpid%E8%BD%AC%E6%8D%A2
      *
