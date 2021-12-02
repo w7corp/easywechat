@@ -11,5 +11,6 @@ class Config extends \EasyWeChat\Kernel\Config
         'secret',
         'token',
         'aes_key',
+        'agent_id'
     ];
 }

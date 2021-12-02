@@ -13,4 +13,6 @@ interface Account
     public function getToken(): string;
 
     public function getAesKey(): string;
+
+    public function getAgentId(): ?int;
 }
