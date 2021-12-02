@@ -70,7 +70,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/corp/to_open_corpid', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->corpToOpenCorpid('xxxxxxxx'));
+        $this->assertSame('mock-result', $client->getOpenCorpid('xxxxxxxx'));
     }
 
     public function testBatchUseridToOpenuserid()
