@@ -28,7 +28,7 @@ class ServicerClient extends BaseClient
      * @see https://open.work.weixin.qq.com/api/doc/90000/90135/94646
      *
      * @param string $openKfId
-     * @param string $userIds
+     * @param array $userIds
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
@@ -51,7 +51,7 @@ class ServicerClient extends BaseClient
      * @see https://open.work.weixin.qq.com/api/doc/90000/90135/94647
      *
      * @param string $openKfId
-     * @param string $userIds
+     * @param array $userIds
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *

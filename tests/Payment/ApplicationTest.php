@@ -36,10 +36,6 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Payment\Redpack\Client::class, $app->redpack);
         $this->assertInstanceOf(\EasyWeChat\Payment\Transfer\Client::class, $app->transfer);
         $this->assertInstanceOf(\EasyWeChat\Payment\Jssdk\Client::class, $app->jssdk);
-
-        // test calling nonexistent method
-        $this->expectErrorMessageMatches('/does not have a method \"noncexistentMethod\"/');
-        $app->noncexistentMethod('foo');
     }
 
     public function testScheme()

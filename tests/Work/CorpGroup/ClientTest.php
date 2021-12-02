@@ -59,4 +59,30 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->getMiniProgramTransferSession('wmAoNVCwAAUrSqEqz7oQpEIEMVWDrPeg', 'n8cnNEoyW1pxSRz6/Lwjwg=='));
     }
+
+    public function testCorpToOpenCorpid()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'corpid' => 'xxxxxxxx',
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/corp/to_open_corpid', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getOpenCorpid('xxxxxxxx'));
+    }
+
+    public function testBatchUseridToOpenuserid()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            "userid_list" => ['aaa', 'bbb'],
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/batch/userid_to_openuserid', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->batchUseridToOpenUserid(['aaa', 'bbb']));
+    }
 }
