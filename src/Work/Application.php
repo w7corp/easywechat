@@ -28,6 +28,7 @@ class Application implements ApplicationInterface
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
+    protected ?JsApiTicket $ticket = null;
     protected ?AccessTokenInterface $accessToken = null;
 
     public function getAccount(): AccountInterface
@@ -133,6 +134,28 @@ class Application implements ApplicationInterface
             ]
         ))->withApiAccessToken($this->getAccessToken()->getToken())
             ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
+    }
+
+    public function getTicket(): JsApiTicket
+    {
+        if (!$this->ticket) {
+            $this->ticket = new JsApiTicket(
+                corpId: $this->getAccount()->getCorpId(),
+                secret: $this->getAccount()->getSecret(),
+                cache: $this->getCache(),
+                httpClient: $this->getClient(),
+                agentId: $this->getAccount()->getAgentId()
+            );
+        }
+
+        return $this->ticket;
+    }
+
+    public function setTicket(JsApiTicket $ticket): static
+    {
+        $this->ticket = $ticket;
+
+        return $this;
     }
 
     protected function getHttpClientDefaultOptions(): array

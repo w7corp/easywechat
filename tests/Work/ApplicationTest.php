@@ -11,6 +11,7 @@ use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Work\AccessToken;
+use EasyWeChat\Work\JsApiTicket;
 use EasyWeChat\Work\Server;
 use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Account as AccountInterface;
@@ -212,5 +213,25 @@ class ApplicationTest extends TestCase
         );
         $app->setConfig($config);
         $this->assertSame($config, $app->getConfig());
+    }
+
+    public function test_get_and_set_ticket()
+    {
+        $app = new Application(
+            [
+                'corp_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+                'agent_id' => 100001,
+            ]
+        );
+
+        $this->assertInstanceOf(JsApiTicket::class, $app->getTicket());
+
+        // set
+        $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-secret', 'mock-token', $app->getCache(), $app->getClient(), 100001);
+        $app->setTicket($ticket);
+        $this->assertSame($ticket, $app->getTicket());
     }
 }
