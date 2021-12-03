@@ -41,7 +41,7 @@ class JsApiTicket extends AccessToken
 
     public function getAgentTicket(): string
     {
-        $key = $this->getKey();
+        $key = $this->getAgentKey();
 
         if ($ticket = $this->cache->get($key)) {
             return $ticket;
@@ -69,13 +69,27 @@ class JsApiTicket extends AccessToken
     public function configSignature(string $url, string $nonce, int $timestamp): array
     {
         return [
-            'url' => $url,
+            'appId' => $this->corpId,
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
-            'appId' => $this->corpId,
-            'signature' => sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $this->getTicket(), $nonce, $timestamp, $url)),
+            'url' => $url,
+            'signature' => $this->getTicketSignature($this->getTicket(), $nonce, $timestamp, $url),
         ];
     }
+
+
+    public function agentConfigSignature(string $url = null, string $nonce = null, $timestamp = null): array
+    {
+        return [
+            'appId' => $this->corpId,
+            'agentid' => $this->agentId,
+            'nonceStr' => $nonce,
+            'timestamp' => $timestamp,
+            'url' => $url,
+            'signature' => $this->getTicketSignature($this->getAgentTicket(), $nonce, $timestamp, $url),
+        ];
+    }
+
 
     public function getKey(): string
     {
@@ -87,6 +101,19 @@ class JsApiTicket extends AccessToken
         return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s.%s', $this->corpId,$this->agentId);
     }
 
+
+    /**
+     * Sign the params.
+     *
+     * @param string $ticket
+     * @param string $nonce
+     * @param int    $timestamp
+     * @param string $url
+     */
+    public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
+    {
+        return sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $ticket, $nonce, $timestamp, $url));
+    }
 
 
 }
