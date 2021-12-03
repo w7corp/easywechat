@@ -326,4 +326,59 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/externalcontact/to_service_external_userid', ['external_userid' => $externalUserid])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->toServiceExternalUserid($externalUserid));
     }
+
+    /**
+     * testGetNewExternalUserid.
+     *
+     * @return void
+     *
+     * @author 读心印 <aa24615@qq.com>
+     */
+    public function testGetNewExternalUserid(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $externalUserIds = ['externalUserid1'];
+
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/get_new_external_userid', ['external_userid_list' => $externalUserIds])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getNewExternalUserid($externalUserIds));
+    }
+
+    /**
+     * testFinishExternalUseridMigration.
+     *
+     * @return void
+     *
+     * @author 读心印 <aa24615@qq.com>
+     */
+    public function testFinishExternalUseridMigration(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $corpid = 'xxxx1323';
+
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/finish_external_userid_migration', ['corpid' => $corpid])->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->finishExternalUseridMigration($corpid));
+    }
+
+    /**
+     * testUnionidToexternalUserid3rd.
+     *
+     * @return void
+     *
+     * @author 读心印 <aa24615@qq.com>
+     */
+    public function testUnionidToexternalUserid3rd(): void
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'unionid' => 'unionid-test',
+            'openid' => 'openid-test',
+            'corpid' => 'corpid-test'
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/unionid_to_external_userid_3rd', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->unionidToexternalUserid3rd('unionid-test', 'openid-test', 'corpid-test'));
+    }
 }
