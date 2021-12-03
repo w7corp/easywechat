@@ -57,6 +57,8 @@ class EchoStrHandler implements EventHandlerInterface
         //把SuiteTicket缓存起来
         if (!empty($payload['SuiteTicket'])) {
             $this->app['suite_ticket']->setTicket($payload['SuiteTicket']);
+
+            return new FinallyResult("success");
         }
 
         return null;
