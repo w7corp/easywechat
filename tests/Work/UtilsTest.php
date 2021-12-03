@@ -32,7 +32,7 @@ class UtilsTest extends TestCase
         ];
 
         $ticket = \Mockery::mock(JsApiTicket::class);
-        $ticket->shouldReceive('configSignature')->andReturn($signatue);
+        $ticket->shouldReceive('createConfigSignature')->andReturn($signatue);
 
         $app = \Mockery::mock(Application::class);
         $app->allows()->getTicket()->andReturn($ticket);
@@ -69,14 +69,14 @@ class UtilsTest extends TestCase
         ];
 
         $ticket = \Mockery::mock(JsApiTicket::class);
-        $ticket->shouldReceive('agentConfigSignature')->andReturn($signatue);
+        $ticket->shouldReceive('createAgentConfigSignature')->andReturn($signatue);
 
         $app = \Mockery::mock(Application::class);
         $app->allows()->getTicket()->andReturn($ticket);
 
         $utils = new Utils($app);
 
-        $result = $utils->buildJsSdkAgentConfig('https://www.easywechat.com/', ['api1','api2'], ['openTag1','openTag2'], true, true);
+        $result = $utils->buildJsSdkAgentConfig(100001, 'https://www.easywechat.com/', ['api1','api2'], ['openTag1','openTag2'], true, true);
 
         $this->assertSame($data, $result);
     }

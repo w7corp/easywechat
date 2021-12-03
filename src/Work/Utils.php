@@ -8,18 +8,48 @@ class Utils
     {
     }
 
-    public function buildJsSdkConfig(string $url, array $jsApiList, array $openTagList = [], bool $debug = false, bool $beta = false, )
-    {
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function buildJsSdkConfig(
+        string $url,
+        array $jsApiList,
+        array $openTagList = [],
+        bool $debug = false,
+        bool $beta = false,
+    ): array {
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug', 'beta'),
-            $this->app->getTicket()->configSignature($url, \uniqid(), \time())
+            $this->app->getTicket()->createConfigSignature($url, \uniqid(), \time())
         );
     }
-    public function buildJsSdkAgentConfig(string $url, array $jsApiList, array $openTagList = [], bool $debug = false, bool $beta = false, )
-    {
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function buildJsSdkAgentConfig(
+        int $agentId,
+        string $url,
+        array $jsApiList,
+        array $openTagList = [],
+        bool $debug = false,
+        bool $beta = false,
+    ): array {
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug', 'beta'),
-            $this->app->getTicket()->agentConfigSignature($url, \uniqid(), \time())
+            $this->app->getTicket()->createAgentConfigSignature($agentId, $url, \uniqid(), \time())
         );
     }
 }

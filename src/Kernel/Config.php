@@ -82,22 +82,22 @@ class Config implements \ArrayAccess, ConfigInterface
         return $this->items;
     }
 
-    public function offsetExists($key): bool
+    public function offsetExists(mixed $key): bool
     {
         return $this->has($key);
     }
 
-    public function offsetGet($key): mixed
+    public function offsetGet(mixed $key): mixed
     {
         return $this->get($key);
     }
 
-    public function offsetSet($key, mixed $value)
+    public function offsetSet(mixed $key, mixed $value): void
     {
         $this->set($key, $value);
     }
 
-    public function offsetUnset($key)
+    public function offsetUnset(mixed $key): void
     {
         $this->set($key, null);
     }

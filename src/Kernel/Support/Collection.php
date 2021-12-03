@@ -9,10 +9,10 @@ use ArrayIterator;
 use Countable;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use IteratorAggregate;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
-use Serializable;
 
-class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable, Arrayable
+class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Arrayable
 {
     protected array $items = [];
 
@@ -100,6 +100,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         Arr::forget($this->items, $key);
     }
 
+    #[Pure]
     public function toArray(): array
     {
         return $this->all();
@@ -120,9 +121,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return $this->items;
     }
 
-    public function serialize(): string
+    public function __serialize(): array
     {
-        return serialize($this->items);
+        return $this->items;
     }
 
     public function getIterator(): ArrayIterator
@@ -135,9 +136,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return count($this->items);
     }
 
-    public function unserialize($serialized)
+    public function __unserialize($serialized)
     {
-        $this->items = unserialize($serialized);
+        $this->items = $serialized;
     }
 
     public function __get(string | int $key): mixed
@@ -165,24 +166,24 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return (new self($properties));
     }
 
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return $this->has($offset);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         if ($this->offsetExists($offset)) {
             $this->forget($offset);
         }
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->offsetExists($offset) ? $this->get($offset) : null;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->set($offset, $value);
     }

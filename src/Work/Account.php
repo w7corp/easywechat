@@ -13,7 +13,6 @@ class Account implements AccountInterface
         protected string $secret,
         protected string $token,
         protected string $aesKey,
-        protected ?int $agentId = null
     ) {
     }
 
@@ -35,10 +34,5 @@ class Account implements AccountInterface
     public function getAesKey(): string
     {
         return $this->aesKey;
-    }
-
-    public function getAgentId(): int
-    {
-        return $this->agentId;
     }
 }

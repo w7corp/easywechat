@@ -230,7 +230,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(JsApiTicket::class, $app->getTicket());
 
         // set
-        $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-secret', 'mock-token', $app->getCache(), $app->getClient(), 100001);
+        $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-token', $app->getCache(), $app->getClient());
         $app->setTicket($ticket);
         $this->assertSame($ticket, $app->getTicket());
     }

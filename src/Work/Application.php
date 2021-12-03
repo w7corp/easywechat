@@ -39,7 +39,6 @@ class Application implements ApplicationInterface
                 secret: $this->config->get('secret'),
                 token: $this->config->get('token'),
                 aesKey: $this->config->get('aes_key'),
-                agentId: $this->config->get('agent_id')
             );
         }
 
@@ -141,10 +140,8 @@ class Application implements ApplicationInterface
         if (!$this->ticket) {
             $this->ticket = new JsApiTicket(
                 corpId: $this->getAccount()->getCorpId(),
-                secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
                 httpClient: $this->getClient(),
-                agentId: $this->getAccount()->getAgentId()
             );
         }
 

@@ -4,11 +4,61 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
+use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use JetBrains\PhpStorm\ArrayShape;
+use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class JsApiTicket extends AccessToken
+class JsApiTicket
 {
+    protected HttpClientInterface $httpClient;
+    protected CacheInterface $cache;
+
+    public function __construct(
+        protected string $corpId,
+        protected ?string $key = null,
+        ?CacheInterface $cache = null,
+        ?HttpClientInterface $httpClient = null
+    ) {
+        $this->httpClient = $httpClient ?? new Client();
+        $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    #[ArrayShape([
+        'url' => "string",
+        'nonceStr' => "string",
+        'timestamp' => "int",
+        'appId' => "string",
+        'signature' => "string",
+    ])]
+    public function createConfigSignature(string $url, string $nonce, int $timestamp): array
+    {
+        return [
+            'appId' => $this->corpId,
+            'nonceStr' => $nonce,
+            'timestamp' => $timestamp,
+            'url' => $url,
+            'signature' => $this->getTicketSignature($this->getTicket(), $nonce, $timestamp, $url),
+        ];
+    }
+
+    public function getTicketSignature(string $ticket, string $nonce, int $timestamp, string $url): string
+    {
+        return sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $ticket, $nonce, $timestamp, $url));
+    }
+
     /**
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
@@ -26,8 +76,7 @@ class JsApiTicket extends AccessToken
             return $ticket;
         }
 
-        $response = $this->httpClient->request('GET', '/cgi-bin/get_jsapi_ticket')
-                                     ->toArray();
+        $response = $this->httpClient->request('GET', '/cgi-bin/get_jsapi_ticket')->toArray();
 
         if (empty($response['ticket'])) {
             throw new HttpException('Failed to get jssdk ticket.');
@@ -38,17 +87,66 @@ class JsApiTicket extends AccessToken
         return $response['ticket'];
     }
 
-
-    public function getAgentTicket(): string
+    public function setKey(string $key): static
     {
-        $key = $this->getAgentKey();
+        $this->key = $key;
+
+        return $this;
+    }
+
+    public function getKey(): string
+    {
+        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s', $this->corpId);
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    #[ArrayShape([
+        'appId' => "string",
+        'agentid' => "int|null",
+        'nonceStr' => "null|string",
+        'timestamp' => "int|null",
+        'url' => "null|string",
+        'signature' => "string",
+    ])]
+    public function createAgentConfigSignature(int $agentId, string $url, string $nonce, int $timestamp): array
+    {
+        return [
+            'appId' => $this->corpId,
+            'agentid' => $agentId,
+            'nonceStr' => $nonce,
+            'timestamp' => $timestamp,
+            'url' => $url,
+            'signature' => $this->getTicketSignature($this->getAgentTicket($agentId), $nonce, $timestamp, $url),
+        ];
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function getAgentTicket(int $agentId): string
+    {
+        $key = $this->getAgentKey($agentId);
 
         if ($ticket = $this->cache->get($key)) {
             return $ticket;
         }
 
         $response = $this->httpClient->request('GET', '/cgi-bin/ticket/get', ['query' => ['type' => 'agent_config']])
-            ->toArray();
+                                     ->toArray();
 
         if (empty($response['ticket'])) {
             throw new HttpException('Failed to get jssdk agentTicket.');
@@ -59,59 +157,8 @@ class JsApiTicket extends AccessToken
         return $response['ticket'];
     }
 
-    #[ArrayShape([
-        'url' => "string",
-        'nonceStr' => "string",
-        'timestamp' => "int",
-        'appId' => "string",
-        'signature' => "string"
-    ])]
-    public function configSignature(string $url, string $nonce, int $timestamp): array
+    public function getAgentKey(int $agentId): string
     {
-        return [
-            'appId' => $this->corpId,
-            'nonceStr' => $nonce,
-            'timestamp' => $timestamp,
-            'url' => $url,
-            'signature' => $this->getTicketSignature($this->getTicket(), $nonce, $timestamp, $url),
-        ];
-    }
-
-
-    public function agentConfigSignature(string $url = null, string $nonce = null, $timestamp = null): array
-    {
-        return [
-            'appId' => $this->corpId,
-            'agentid' => $this->agentId,
-            'nonceStr' => $nonce,
-            'timestamp' => $timestamp,
-            'url' => $url,
-            'signature' => $this->getTicketSignature($this->getAgentTicket(), $nonce, $timestamp, $url),
-        ];
-    }
-
-
-    public function getKey(): string
-    {
-        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s', $this->corpId);
-    }
-
-    public function getAgentKey(): string
-    {
-        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s.%s', $this->corpId, $this->agentId);
-    }
-
-
-    /**
-     * Sign the params.
-     *
-     * @param string $ticket
-     * @param string $nonce
-     * @param int    $timestamp
-     * @param string $url
-     */
-    public function getTicketSignature($ticket, $nonce, $timestamp, $url): string
-    {
-        return sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $ticket, $nonce, $timestamp, $url));
+        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s.%s', $this->corpId, $agentId);
     }
 }

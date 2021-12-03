@@ -10,6 +10,7 @@ jobs:
       matrix:
         php_version:
           - 8.0
+          - 8.1
         perfer:
           - stable
           - lowest

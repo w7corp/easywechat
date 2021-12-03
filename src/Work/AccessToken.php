@@ -22,8 +22,7 @@ class AccessToken implements AccessTokenInterface
         protected string $secret,
         protected ?string $key = null,
         ?CacheInterface $cache = null,
-        ?HttpClientInterface $httpClient = null,
-        protected ?int $agentId = null,
+        ?HttpClientInterface $httpClient = null
     ) {
         $this->httpClient = $httpClient ?? new Client();
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
@@ -44,6 +43,7 @@ class AccessToken implements AccessTokenInterface
     /**
      * @return string
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
