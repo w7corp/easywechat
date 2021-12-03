@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Work\AccessToken;
@@ -12,41 +11,40 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class JsApiTicketTest extends TestCase
 {
+    public function test_get_key()
+    {
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret');
 
-    public function test_get_key(){
+        $this->assertInstanceOf(AccessToken::class, $ticket);
 
-        $ticket  = new JsApiTicket('mock-corpid','mock-secret');
-
-        $this->assertInstanceOf(AccessToken::class,$ticket);
-
-        $this->assertSame("work.jsapi_ticket.mock-corpid",$ticket->getKey());
-
-        $ticket->setKey("mock-key");
-        $this->assertSame("mock-key",$ticket->getKey());
-
-        $ticket  = new JsApiTicket('mock-corpid','mock-secret','test-key');
-        $this->assertSame("test-key",$ticket->getKey());
-    }
-
-    public function test_get_agent_key(){
-
-        $ticket  = new JsApiTicket('mock-corpid','mock-secret',null,null,null,100001);
-
-        $this->assertInstanceOf(AccessToken::class,$ticket);
-
-        $this->assertSame("work.jsapi_ticket.mock-corpid.100001",$ticket->getAgentKey());
+        $this->assertSame("work.jsapi_ticket.mock-corpid", $ticket->getKey());
 
         $ticket->setKey("mock-key");
-        $this->assertSame("mock-key",$ticket->getAgentKey());
+        $this->assertSame("mock-key", $ticket->getKey());
 
-        $ticket  = new JsApiTicket('mock-corpid','mock-secret','test-key');
-        $this->assertSame("test-key",$ticket->getAgentKey());
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret', 'test-key');
+        $this->assertSame("test-key", $ticket->getKey());
+    }
+
+    public function test_get_agent_key()
+    {
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret', null, null, null, 100001);
+
+        $this->assertInstanceOf(AccessToken::class, $ticket);
+
+        $this->assertSame("work.jsapi_ticket.mock-corpid.100001", $ticket->getAgentKey());
+
+        $ticket->setKey("mock-key");
+        $this->assertSame("mock-key", $ticket->getAgentKey());
+
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret', 'test-key');
+        $this->assertSame("test-key", $ticket->getAgentKey());
     }
 
 
 
-    public function test_get_ticket(){
-
+    public function test_get_ticket()
+    {
         $cacheKey = 'work.jsapi_ticket.mock-corpid';
 
         $ticket = [
@@ -62,23 +60,22 @@ class JsApiTicketTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn($ticket['ticket']);
 
-        $jsApiTicket  = new JsApiTicket('mock-corpid','mock-secret',null,$cache,$client);
+        $jsApiTicket = new JsApiTicket('mock-corpid', 'mock-secret', null, $cache, $client);
         $this->assertSame($ticket['ticket'], $jsApiTicket->getTicket());
 
         //设为过期
         $cache->expects()->get($cacheKey)->andReturn(false);
-        $cache->expects()->set($cacheKey,$ticket['ticket'],$ticket['expires_in'])->andReturn(true);
+        $cache->expects()->set($cacheKey, $ticket['ticket'], $ticket['expires_in'])->andReturn(true);
 
-        $client->allows()->request('GET','/cgi-bin/get_jsapi_ticket')
+        $client->allows()->request('GET', '/cgi-bin/get_jsapi_ticket')
             ->andReturn($response);
 
         $this->assertSame($ticket['ticket'], $jsApiTicket->getTicket());
-
     }
 
 
-    public function test_get_agent_ticket(){
-
+    public function test_get_agent_ticket()
+    {
         $cacheKey = 'work.jsapi_ticket.mock-corpid.100001';
 
         $ticket = [
@@ -94,23 +91,22 @@ class JsApiTicketTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn($ticket['ticket']);
 
-        $jsApiTicket  = new JsApiTicket('mock-corpid','mock-secret',null,$cache,$client,100001);
+        $jsApiTicket = new JsApiTicket('mock-corpid', 'mock-secret', null, $cache, $client, 100001);
 
         $this->assertSame($ticket['ticket'], $jsApiTicket->getAgentTicket());
 
         //设为过期
         $cache->expects()->get($cacheKey)->andReturn(false);
-        $cache->expects()->set($cacheKey,$ticket['ticket'],$ticket['expires_in'])->andReturn(true);
+        $cache->expects()->set($cacheKey, $ticket['ticket'], $ticket['expires_in'])->andReturn(true);
 
-        $client->allows()->request('GET','/cgi-bin/ticket/get', ['query' => ['type' => 'agent_config']])
+        $client->allows()->request('GET', '/cgi-bin/ticket/get', ['query' => ['type' => 'agent_config']])
             ->andReturn($response);
 
         $this->assertSame($ticket['ticket'], $jsApiTicket->getAgentTicket());
-
     }
 
-    public function test_config_signature(){
-
+    public function test_config_signature()
+    {
         $nonce = 'mock-nonce';
         $timestamp = 1601234567;
 
@@ -119,9 +115,9 @@ class JsApiTicketTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn('mock-ticket');
 
-        $ticket = new JsApiTicket('mock-corpid','mock-secret',null,$cache);
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret', null, $cache);
 
-        $result = $ticket->configSignature('https://www.easywechat.com/',$nonce,$timestamp);
+        $result = $ticket->configSignature('https://www.easywechat.com/', $nonce, $timestamp);
 
         $data = [
             'appId' => 'mock-corpid',
@@ -131,12 +127,12 @@ class JsApiTicketTest extends TestCase
             'signature' => '22772d2fb393ab9f7f6a5a54168a566fbf1ab767'
         ];
 
-        $this->assertSame($data,$result);
+        $this->assertSame($data, $result);
     }
 
 
-    public function test_agent_config_signature(){
-
+    public function test_agent_config_signature()
+    {
         $nonce = 'mock-nonce';
         $timestamp = 1601234567;
 
@@ -145,9 +141,9 @@ class JsApiTicketTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn('mock-ticket');
 
-        $ticket = new JsApiTicket('mock-corpid','mock-secret',null,$cache,null,100001);
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret', null, $cache, null, 100001);
 
-        $result = $ticket->agentConfigSignature('https://www.easywechat.com/',$nonce,$timestamp);
+        $result = $ticket->agentConfigSignature('https://www.easywechat.com/', $nonce, $timestamp);
 
         $data = [
             'appId' => 'mock-corpid',
@@ -158,13 +154,14 @@ class JsApiTicketTest extends TestCase
             'signature' => '22772d2fb393ab9f7f6a5a54168a566fbf1ab767'
         ];
 
-        $this->assertSame($data,$result);
+        $this->assertSame($data, $result);
     }
 
-    public function test_get_ticket_signature(){
-        $ticket = new JsApiTicket('mock-corpid','mock-secret',null,null,null,100001);
+    public function test_get_ticket_signature()
+    {
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret', null, null, null, 100001);
 
-        $sign = $ticket->getTicketSignature('mock-ticket','mock-nonce',1601234567,'https://www.easywechat.com/');
-        $this->assertSame('22772d2fb393ab9f7f6a5a54168a566fbf1ab767',$sign);
+        $sign = $ticket->getTicketSignature('mock-ticket', 'mock-nonce', 1601234567, 'https://www.easywechat.com/');
+        $this->assertSame('22772d2fb393ab9f7f6a5a54168a566fbf1ab767', $sign);
     }
 }

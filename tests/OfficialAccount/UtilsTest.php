@@ -1,8 +1,6 @@
 <?php
 
-
 namespace EasyWeChat\Tests\OfficialAccount;
-
 
 use EasyWeChat\OfficialAccount\Application;
 use EasyWeChat\OfficialAccount\JsApiTicket;
@@ -11,9 +9,8 @@ use EasyWeChat\Tests\TestCase;
 
 class UtilsTest extends TestCase
 {
-
-    public function test_build_js_sdk_config(){
-
+    public function test_build_js_sdk_config()
+    {
         $data = [
             'jsApiList' => ['api1','api2'],
             'openTagList' => ['openTag1','openTag2'],
@@ -41,8 +38,8 @@ class UtilsTest extends TestCase
 
         $utils = new Utils($app);
 
-        $result = $utils->buildJsSdkConfig('https://www.easywechat.com/',['api1','api2'],['openTag1','openTag2'],true);
+        $result = $utils->buildJsSdkConfig('https://www.easywechat.com/', ['api1','api2'], ['openTag1','openTag2'], true);
 
-        $this->assertSame($data,$result);
+        $this->assertSame($data, $result);
     }
 }

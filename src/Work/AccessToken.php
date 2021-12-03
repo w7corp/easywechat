@@ -83,7 +83,4 @@ class AccessToken implements AccessTokenInterface
     {
         return ['access_token' => $this->getToken()];
     }
-
-
-
 }
