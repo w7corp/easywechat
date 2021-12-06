@@ -38,11 +38,12 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @property \EasyWeChat\MiniProgram\QRCode\QRCode $qrcode
  * @property \EasyWeChat\MiniProgram\Material\Temporary $material_temporary
  * @property \EasyWeChat\MiniProgram\Stats\Stats $stats
- * @property \EasyWeChat\MiniProgram\Transaction\Transaction $transaction
- * @property \EasyWeChat\MiniProgram\Transaction\Order\Order $order
- * @property \EasyWeChat\MiniProgram\Transaction\Spu\Product $product
- * @property \EasyWeChat\MiniProgram\Transaction\Delivery\Delivery $delivery
- * @property \EasyWeChat\MiniProgram\Transaction\AfterSale\AfterSale $aftersale
+ * @property \EasyWeChat\MiniProgram\Transactions\Transactions $transactions
+ * @property \EasyWeChat\MiniProgram\Transactions\Order\Order $order
+ * @property \EasyWeChat\MiniProgram\Transactions\Spu\Product $product
+ * @property \EasyWeChat\MiniProgram\Transactions\Delivery\Delivery $delivery
+ * @property \EasyWeChat\MiniProgram\Transactions\AfterSale\AfterSale $aftersale
+ * @property \EasyWeChat\MiniProgram\Transactions\Coupon\Coupon $coupon
  */
 class MiniProgram
 {

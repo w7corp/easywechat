@@ -6,7 +6,7 @@
  * Time: 4:44 PM
  */
 
-namespace EasyWeChat\MiniProgram\Transaction\Order;
+namespace EasyWeChat\MiniProgram\Transactions\Order;
 
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\MiniProgram\Core\AbstractMiniProgram;
@@ -19,6 +19,9 @@ class Order extends AbstractMiniProgram
     const API_POST_ORDER_TICKET = 'https://api.weixin.qq.com/shop/order/add';
     const API_POST_ORDER_PAY = 'https://api.weixin.qq.com/shop/order/pay';
     const API_POST_ORDER_GET = 'https://api.weixin.qq.com/shop/order/get';
+    const API_POST_ORDER_GET_LIST = 'https://api.weixin.qq.com/shop/order/get_list';
+    const API_POST_ORDER_BY_FINDER = 'https://api.weixin.qq.com/shop/order/get_list_by_finder';
+    const API_POST_ORDER_BY_SHARE = 'https://api.weixin.qq.com/shop/order/get_list_by_sharer';
 
 
     /** 获取场景
@@ -43,20 +46,27 @@ class Order extends AbstractMiniProgram
      * @param array $addressInfo
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function createOrder(string $create_time, int $type, string $outOrderId, string $openId, string $path, string $outUserId, array $orderDetail, array $deliveryDetail, array $addressInfo)
+    public function createOrder(array $params)
     {
-        $params = [
-            "create_time" => $create_time,
-            "type" => $type,
-            "out_order_id" => $outOrderId,
-            "openid" => $openId,
-            "path" => $path,
-            "out_user_id" => $outUserId,
-            "order_detail" => $orderDetail,
-            "delivery_detail" => $deliveryDetail,
-            "address_info" => $addressInfo,
-        ];
         return $this->getStream(self::API_POST_ORDER_TICKET, $params);
+    }
+
+    /**按照推广员获取订单
+     * @param array $params
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function getListByFinder(array $params)
+    {
+        return $this->getStream(self::API_POST_ORDER_BY_FINDER, $params);
+    }
+
+    /**按照推广员获取订单
+     * @param array $params
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function getListByShare(array $params)
+    {
+        return $this->getStream(self::API_POST_ORDER_BY_SHARE, $params);
     }
 
     /** 同步支付结果
@@ -69,17 +79,8 @@ class Order extends AbstractMiniProgram
      * @param string $payTime
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function payOrder(string $orderId = "", string $outOrderId = "", string $openId, int $actionType, string $actionRemark = "", string $transactionId = "", string $payTime = "")
+    public function payOrder(array $params)
     {
-        $params = [
-            "order_id" => $orderId,
-            "out_order_id" => $outOrderId,
-            "openid" => $openId,
-            "action_type" => $actionType,
-            "action_remark" => $actionRemark,
-            "transaction_id" => $transactionId,
-            "pay_time" => $payTime,
-        ];
         return $this->getStream(self::API_POST_ORDER_PAY, $params);
     }
 
@@ -89,7 +90,7 @@ class Order extends AbstractMiniProgram
      * @param string $openId
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function orderGet(string $orderId = "", string $outOrderId = "", string $openId)
+    public function orderGet(string $openId, string $orderId = "", string $outOrderId = "")
     {
         $params = [
             "order_id" => $orderId,
@@ -99,6 +100,16 @@ class Order extends AbstractMiniProgram
         return $this->getStream(self::API_POST_ORDER_GET, $params);
     }
 
+    /** 获取订单列表
+     * @param string $orderId
+     * @param string $outOrderId
+     * @param string $openId
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function orders(array $params)
+    {
+        return $this->getStream(self::API_POST_ORDER_GET_LIST, $params);
+    }
 
     /**
      * Get stream.
@@ -110,6 +121,6 @@ class Order extends AbstractMiniProgram
      */
     protected function getStream($endpoint, $params)
     {
-        return json_decode(strval($this->getHttp()->json($endpoint, $params)->getBody()),true);
+        return json_decode(strval($this->getHttp()->json($endpoint, $params)->getBody()), true);
     }
 }

@@ -6,7 +6,7 @@
  * Time: 1:40 PM
  */
 
-namespace EasyWeChat\MiniProgram\Transaction\AfterSale;
+namespace EasyWeChat\MiniProgram\Transactions\AfterSale;
 
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\MiniProgram\Core\AbstractMiniProgram;
@@ -19,19 +19,8 @@ class AfterSale extends AbstractMiniProgram
     const API_POST_SHOP_GET = 'https://api.weixin.qq.com/shop/aftersale/get';
     const API_POST_SHOP_UPDATE = 'https://api.weixin.qq.com/shop/aftersale/update';
 
-    public function add(string $outOrderId, string $outAfterSaleId, string $openId, int $type, string $createTime, int $status, int $finishAllAfterSale, string $path, array $productInfos)
+    public function add(array $params)
     {
-        $params = [
-            "out_order_id" => $outOrderId,
-            "out_aftersale_id" => $outAfterSaleId,
-            "openid" => $openId,
-            "type" => $type,
-            "create_time" => $createTime,
-            "status" => $status,
-            "finish_all_aftersale" => $finishAllAfterSale,
-            "path" => $path,
-            "product_infos" => $productInfos,
-        ];
         return $this->getStream(self::API_POST_SHOP_ADD, $params);
     }
 
@@ -45,15 +34,8 @@ class AfterSale extends AbstractMiniProgram
         return $this->getStream(self::API_POST_SHOP_GET, $params);
     }
 
-    public function update(string $outOrderId, string $orderId, string $outAfterSaleId, int $status, int $finishAllAfterSale)
+    public function update($params)
     {
-        $params = [
-            "order_id" => $orderId,
-            "out_order_id" => $outOrderId,
-            "out_aftersale_id" => $outAfterSaleId,
-            "status" => $status,
-            "finish_all_aftersale" => $finishAllAfterSale,
-        ];
         return $this->getStream(self::API_POST_SHOP_UPDATE, $params);
     }
 

@@ -6,7 +6,7 @@
  * Time: 5:38 PM
  */
 
-namespace EasyWeChat\MiniProgram\Transaction\Delivery;
+namespace EasyWeChat\MiniProgram\Transactions\Delivery;
 
 use EasyWeChat\Core\Exceptions\HttpException;
 use EasyWeChat\MiniProgram\Core\AbstractMiniProgram;
@@ -24,7 +24,7 @@ class Delivery extends AbstractMiniProgram
     /**获取快递公司信息
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getCompanyList()
+    public function getCompanies()
     {
         $params = [];
         return $this->getStream(self::API_POST_DELIVERY_LIST, $params);
@@ -46,15 +46,12 @@ class Delivery extends AbstractMiniProgram
         return $this->getStream(self::API_POST_DELIVERY_TAKE, $params);
     }
 
-    public function send(string $orderId, string $outOrderId, string $openId, int $finishAllDelivery, array $deliveryList)
+    /**订单发货
+     * @param $params
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function sendDelivery($params)
     {
-        $params = [
-            "order_id" => $orderId,
-            "out_order_id" => $outOrderId,
-            "openid" => $openId,
-            "finish_all_delivery" => $finishAllDelivery,
-            "delivery_list" => $deliveryList,
-        ];
         return $this->getStream(self::API_POST_DELIVERY_SEND, $params);
     }
 
@@ -69,6 +66,6 @@ class Delivery extends AbstractMiniProgram
      */
     protected function getStream($endpoint, $params)
     {
-        return json_decode(strval($this->getHttp()->json($endpoint, $params)->getBody()),true);
+        return json_decode(strval($this->getHttp()->json($endpoint, $params)->getBody()), true);
     }
 }
