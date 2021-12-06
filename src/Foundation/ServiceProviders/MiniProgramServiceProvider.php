@@ -33,6 +33,12 @@ use EasyWeChat\MiniProgram\Sns\Sns;
 use EasyWeChat\MiniProgram\Staff\Staff;
 use EasyWeChat\MiniProgram\Stats\Stats;
 use EasyWeChat\MiniProgram\SubscribeMessage\SubscribeMessage;
+use EasyWeChat\MiniProgram\Transactions\AfterSale\AfterSale;
+use EasyWeChat\MiniProgram\Transactions\Coupon\Coupon;
+use EasyWeChat\MiniProgram\Transactions\Delivery\Delivery;
+use EasyWeChat\MiniProgram\Transactions\Order\Order;
+use EasyWeChat\MiniProgram\Transactions\Spu\Product;
+use EasyWeChat\MiniProgram\Transactions\Transactions;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -93,7 +99,43 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
                 $pimple['config']['mini_program']
             );
         };
+        $pimple['mini_program.transaction'] = function ($pimple) {
+            return new Transactions(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.product'] = function ($pimple) {
+            return new Product(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
 
+        $pimple['mini_program.order'] = function ($pimple) {
+            return new Order(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.delivery'] = function ($pimple) {
+            return new Delivery(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.aftersale'] = function ($pimple) {
+            return new AfterSale(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.coupon'] = function ($pimple) {
+            return new Coupon(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
         $pimple['mini_program.sns'] = function ($pimple) {
             return new Sns(
                 $pimple['mini_program.access_token'],
