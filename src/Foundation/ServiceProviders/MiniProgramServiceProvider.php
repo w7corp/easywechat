@@ -33,6 +33,11 @@ use EasyWeChat\MiniProgram\Sns\Sns;
 use EasyWeChat\MiniProgram\Staff\Staff;
 use EasyWeChat\MiniProgram\Stats\Stats;
 use EasyWeChat\MiniProgram\SubscribeMessage\SubscribeMessage;
+use EasyWeChat\MiniProgram\Transaction\AfterSale\AfterSale;
+use EasyWeChat\MiniProgram\Transaction\Delivery\Delivery;
+use EasyWeChat\MiniProgram\Transaction\Order\Order;
+use EasyWeChat\MiniProgram\Transaction\Spu\Product;
+use EasyWeChat\MiniProgram\Transaction\Transaction;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -89,6 +94,37 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
 
         $pimple['mini_program.stats'] = function ($pimple) {
             return new Stats(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.transaction'] = function ($pimple) {
+            return new Transaction(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.product'] = function ($pimple) {
+            return new Product(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+
+        $pimple['mini_program.order'] = function ($pimple) {
+            return new Order(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.delivery'] = function ($pimple) {
+            return new Delivery(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.aftersale'] = function ($pimple) {
+            return new AfterSale(
                 $pimple['mini_program.access_token'],
                 $pimple['config']['mini_program']
             );
