@@ -109,7 +109,7 @@ class JsApiTicket
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
     #[ArrayShape([
-        'appId' => "string",
+        'corpid' => "string",
         'agentid' => "int|null",
         'nonceStr' => "null|string",
         'timestamp' => "int|null",
@@ -119,7 +119,7 @@ class JsApiTicket
     public function createAgentConfigSignature(int $agentId, string $url, string $nonce, int $timestamp): array
     {
         return [
-            'appId' => $this->corpId,
+            'corpid' => $this->corpId,
             'agentid' => $agentId,
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,

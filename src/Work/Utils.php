@@ -22,7 +22,7 @@ class Utils
         array $jsApiList,
         array $openTagList = [],
         bool $debug = false,
-        bool $beta = false,
+        bool $beta = true,
     ): array {
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug', 'beta'),
@@ -44,11 +44,10 @@ class Utils
         string $url,
         array $jsApiList,
         array $openTagList = [],
-        bool $debug = false,
-        bool $beta = false,
+        bool $debug = false
     ): array {
         return array_merge(
-            compact('jsApiList', 'openTagList', 'debug', 'beta'),
+            compact('jsApiList', 'openTagList', 'debug'),
             $this->app->getTicket()->createAgentConfigSignature($agentId, $url, \uniqid(), \time())
         );
     }

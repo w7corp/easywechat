@@ -43,6 +43,7 @@ module.exports = [
                     { text: "入门", link: "/6.x/work/index.html" },
                     { text: "服务端", link: "/6.x/work/server.html" },
                     { text: "网页授权", link: "/6.x/work/oauth.html" },
+                    { text: "工具", link: "/6.x/work/utils.html" },
                 ]
             }, {
                 text: "企业微信开放平台",

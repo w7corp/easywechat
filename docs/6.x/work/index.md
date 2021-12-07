@@ -13,7 +13,6 @@ $config = [
   'secret' => 'f1c242f4f28f735d4687abb469072axx',
   'token' => 'easywechat',
   'aes_key' => '', // 明文模式请勿填写 EncodingAESKey
-  'ageint_id' => 100001
 ];
 
 $app = new Application($config);
