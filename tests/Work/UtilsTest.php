@@ -52,11 +52,11 @@ class UtilsTest extends TestCase
             'jsApiList' => ['api1','api2'],
             'openTagList' => ['openTag1','openTag2'],
             'debug' => true,
-            'beta' => true,
             'url' => 'https://www.easywechat.com/',
             'nonceStr' => 'mock-nonce',
             'timestamp' => 1601234567,
-            'appId' => 'mock-appid',
+            'corpid' => 'mock-corpid',
+            'agentid' => 100001,
             'signature' => '22772d2fb393ab9f7f6a5a54168a566fbf1ab767'
         ];
 
@@ -64,7 +64,8 @@ class UtilsTest extends TestCase
             'url' => 'https://www.easywechat.com/',
             'nonceStr' => 'mock-nonce',
             'timestamp' => 1601234567,
-            'appId' => 'mock-appid',
+            'corpid' => 'mock-corpid',
+            'agentid' => 100001,
             'signature' => '22772d2fb393ab9f7f6a5a54168a566fbf1ab767'
         ];
 
@@ -76,7 +77,7 @@ class UtilsTest extends TestCase
 
         $utils = new Utils($app);
 
-        $result = $utils->buildJsSdkAgentConfig(100001, 'https://www.easywechat.com/', ['api1','api2'], ['openTag1','openTag2'], true, true);
+        $result = $utils->buildJsSdkAgentConfig(100001, 'https://www.easywechat.com/', ['api1','api2'], ['openTag1','openTag2'], true);
 
         $this->assertSame($data, $result);
     }

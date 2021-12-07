@@ -145,7 +145,7 @@ class JsApiTicketTest extends TestCase
         $result = $ticket->createAgentConfigSignature(100001, 'https://www.easywechat.com/', $nonce, $timestamp);
 
         $data = [
-            'appId' => 'mock-corpid',
+            'corpid' => 'mock-corpid',
             'agentid' => 100001,
             'nonceStr' => 'mock-nonce',
             'timestamp' => 1601234567,
@@ -158,7 +158,7 @@ class JsApiTicketTest extends TestCase
 
     public function test_get_ticket_signature()
     {
-        $ticket = new JsApiTicket('mock-corpid', 'mock-secret', null, null, null, 100001);
+        $ticket = new JsApiTicket('mock-corpid', 'mock-secret');
 
         $sign = $ticket->getTicketSignature('mock-ticket', 'mock-nonce', 1601234567, 'https://www.easywechat.com/');
         $this->assertSame('22772d2fb393ab9f7f6a5a54168a566fbf1ab767', $sign);

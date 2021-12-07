@@ -111,6 +111,7 @@ module.exports = [{
                 { text: "JSSDK", link: "/5.x/wework/jssdk.html" },
                 { text: "群机器人", link: "/5.x/wework/group-robot.html" },
                 { text: "移动端", link: "/5.x/wework/mobile.html" },
+                { text: "企微帐号ID转换", link: "/5.x/wework/to-account.html" },
             ],
         },
         {
