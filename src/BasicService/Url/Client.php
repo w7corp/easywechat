@@ -21,11 +21,6 @@ use EasyWeChat\Kernel\BaseClient;
 class Client extends BaseClient
 {
     /**
-     * @var string
-     */
-    protected $baseUri = 'https://api.weixin.qq.com/';
-
-    /**
      * Shorten the url.
      *
      * @param string $url

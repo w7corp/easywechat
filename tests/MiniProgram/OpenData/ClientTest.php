@@ -23,7 +23,7 @@ class ClientTest extends TestCase
         $data = [
             'key' => ['mock-key'],
         ];
-        $client->expects()->httpPostJson('remove_user_storage', $data, [
+        $client->expects()->httpPostJson('/wxa/remove_user_storage', $data, [
             'openid' => 'mock-openid',
             'sig_method' => 'hmac_sha256',
             'signature' => hash_hmac('sha256', json_encode($data), 'mock-session-key'),
@@ -48,7 +48,7 @@ class ClientTest extends TestCase
                 ],
             ],
         ];
-        $client->expects()->httpPostJson('set_user_storage', $data, [
+        $client->expects()->httpPostJson('/wxa/set_user_storage', $data, [
             'openid' => 'mock-openid',
             'sig_method' => 'hmac_sha256',
             'signature' => hash_hmac('sha256', json_encode($data), 'mock-session-key'),
