@@ -57,7 +57,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, ['httpUpload']);
 
         $path = STUBS_ROOT.'/files/image.jpg';
-        $client->expects()->httpUpload('media/upload', ['media' => $path], ['type' => 'image'])->andReturn('mock-response');
+        $client->expects()->httpUpload('/cgi-bin/media/upload', ['media' => $path], ['type' => 'image'])->andReturn('mock-response');
 
         $client->upload('image', $path);
 
@@ -103,7 +103,7 @@ class ClientTest extends TestCase
         $mediaId = 'mock-media-id';
         $title = 'mock-title';
         $description = 'mock-description';
-        $client->expects()->httpPostJson('media/uploadvideo', [
+        $client->expects()->httpPostJson('/cgi-bin/media/uploadvideo', [
             'media_id' => $mediaId,
             'title' => $title,
             'description' => $description,
@@ -119,7 +119,7 @@ class ClientTest extends TestCase
 
         $mediaId = 'invalid-media-id';
         $imageResponse = new Response(200, ['content-type' => 'text/plain'], '{"error": "invalid media id hits."}');
-        $client->expects()->requestRaw('media/get', 'GET', [
+        $client->expects()->requestRaw('/cgi-bin/media/get', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
             ],
@@ -129,7 +129,7 @@ class ClientTest extends TestCase
 
         $mediaId = 'valid-media-id';
         $imageResponse = new Response(200, ['content-disposition' => 'attachment'], 'valid data');
-        $client->expects()->requestRaw('media/get', 'GET', [
+        $client->expects()->requestRaw('/cgi-bin/media/get', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
             ],
@@ -145,7 +145,7 @@ class ClientTest extends TestCase
 
         $mediaId = 'invalid-media-id';
         $imageResponse = new Response(200, ['content-type' => 'text/plain'], '{"error": "invalid media id hits."}');
-        $client->expects()->requestRaw('media/get/jssdk', 'GET', [
+        $client->expects()->requestRaw('/cgi-bin/media/get/jssdk', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
             ],
@@ -155,7 +155,7 @@ class ClientTest extends TestCase
 
         $mediaId = 'valid-media-id';
         $imageResponse = new Response(200, ['content-disposition' => 'attachment'], 'valid data');
-        $client->expects()->requestRaw('media/get/jssdk', 'GET', [
+        $client->expects()->requestRaw('/cgi-bin/media/get/jssdk', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
             ],

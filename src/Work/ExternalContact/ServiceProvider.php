@@ -42,7 +42,7 @@ class ServiceProvider implements ServiceProviderInterface
             return new MessageClient($app);
         };
 
-        $app['school'] = function ($app){
+        $app['school'] = function ($app) {
             return new SchoolClient($app);
         };
     }

@@ -28,7 +28,7 @@ class Client extends BaseClient
     /**
      * @var string
      */
-    protected $ticketEndpoint = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket';
+    protected $ticketEndpoint = '/cgi-bin/ticket/getticket';
 
     /**
      * Current URI.

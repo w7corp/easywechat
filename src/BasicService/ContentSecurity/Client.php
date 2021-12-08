@@ -22,11 +22,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 class Client extends BaseClient
 {
     /**
-     * @var string
-     */
-    protected $baseUri = 'https://api.weixin.qq.com/wxa/';
-
-    /**
      * Text content security check.
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -40,7 +35,7 @@ class Client extends BaseClient
             'content' => $text,
         ];
 
-        return $this->httpPostJson('msg_sec_check', $params);
+        return $this->httpPostJson('/wxa/msg_sec_check', $params);
     }
 
     /**
@@ -53,7 +48,7 @@ class Client extends BaseClient
      */
     public function checkImage(string $path)
     {
-        return $this->httpUpload('img_sec_check', ['media' => $path]);
+        return $this->httpUpload('/wxa/img_sec_check', ['media' => $path]);
     }
 
     /**
@@ -81,7 +76,7 @@ class Client extends BaseClient
             'media_type' => $mediaType,
         ];
 
-        return $this->httpPostJson('media_check_async', $params);
+        return $this->httpPostJson('/wxa/media_check_async', $params);
     }
 
     /**

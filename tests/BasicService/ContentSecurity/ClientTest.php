@@ -21,7 +21,7 @@ class ClientTest extends TestCase
         $client = $this->mockApiClient(Client::class, 'checkText')->shouldAllowMockingProtectedMethods();
         $client->makePartial();
 
-        $client->expects()->httpPostJson('msg_sec_check', [
+        $client->expects()->httpPostJson('/wxa/msg_sec_check', [
             'content' => 'foo',
         ])->andReturn('mock-result');
 
@@ -35,7 +35,7 @@ class ClientTest extends TestCase
 
         $imagePath = 'foo';
 
-        $client->expects()->httpUpload('img_sec_check', [
+        $client->expects()->httpUpload('/wxa/img_sec_check', [
             'media' => $imagePath,
         ])->andReturn('mock-result');
 
