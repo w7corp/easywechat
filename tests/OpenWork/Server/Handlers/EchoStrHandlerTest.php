@@ -46,7 +46,9 @@ class EchoStrHandlerTest extends TestCase
     public function testHandleWithSuiteTicket()
     {
         $request = Request::create('foo/bar/server');
-        $app = new Application([], [
+        $app = new Application([
+            'suite_id' => 'mock-suite-id'
+        ], [
             'request' => $request,
         ]);
 

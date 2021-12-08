@@ -22,7 +22,7 @@ use EasyWeChat\Kernel\Support;
  */
 class Client extends BaseClient
 {
-    protected $ticketEndpoint = 'https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket';
+    protected $ticketEndpoint = '/cgi-bin/get_jsapi_ticket';
 
     /**
      * @return string
