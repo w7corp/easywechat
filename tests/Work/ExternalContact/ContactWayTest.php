@@ -85,4 +85,19 @@ class ContactWayTest extends TestCase
 
         $this->assertSame('mock-result', $client->delete($configId));
     }
+
+    public function testList()
+    {
+        $client = $this->mockApiClient(ContactWayClient::class);
+        $params = [
+            'start_time' => 1638892800,
+            'end_time' => 1638979200,
+            'cursor' => 'CURSOR',
+            'limit' => 1000
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/list_contact_way', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->list('CURSOR', 1000, 1638892800, 1638979200));
+    }
 }
