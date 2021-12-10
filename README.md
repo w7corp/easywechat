@@ -12,8 +12,8 @@
 
 ## 环境需求
 
-1. PHP >= 8.0.2
-2. **[Composer](https://getcomposer.org/)** >= 2.0
+- PHP >= 8.0.2
+- [Composer](https://getcomposer.org/) >= 2.0
 
 ## 安装
 
