@@ -2,7 +2,7 @@
 
 <h1 align="left"><a href="https://www.easywechat.com">EasyWeChat</a></h1>
 
-📦 一个 PHP 微信开发 SDK。
+📦 一个 PHP 微信开发 SDK，开源 Saas 平台提供商 [微擎](https://www.easywechat.com/w7team.jpg) 旗下开源产品。
 
 [![Test Status](https://github.com/w7corp/easywechat/workflows/Test/badge.svg)](https://github.com/w7corp/easywechat/actions) 
 [![Lint Status](https://github.com/w7corp/easywechat/workflows/Lint/badge.svg)](https://github.com/w7corp/easywechat/actions) 
@@ -14,7 +14,7 @@
 
 ## 环境需求
 
-1. PHP >= 8
+1. PHP >= 8.0.2
 2. **[Composer](https://getcomposer.org/)** >= 2.0
 
 ## 安装
@@ -35,7 +35,7 @@ use EasyWeChat\OfficialAccount\Application;
 $config = [
     'app_id' => 'wx3cf0f39249eb0exxx',
     'secret' => 'f1c242f4f28f735d4687abb469072xxx',
-    'aes_key => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+    'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
     'token' => 'easywechat',
 ];
 
