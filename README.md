@@ -1,6 +1,4 @@
-<img align="right" width="100" src="https://user-images.githubusercontent.com/1472352/49656357-1e874080-fa78-11e8-80ea-69e2103345cf.png" alt="EasyWeChat Logo" expires="2021-08-13" />
-
-<h1 align="left"><a href="https://www.easywechat.com">EasyWeChat</a></h1>
+# [EasyWeChat](https://www.easywechat.com)
 
 📦 一个 PHP 微信开发 SDK，开源 Saas 平台提供商 [微擎](https://www.easywechat.com/w7team.jpg) 旗下开源产品。
 
