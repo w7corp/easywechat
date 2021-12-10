@@ -12,63 +12,64 @@
 [![License](https://poser.pugx.org/w7corp/easywechat/license)](https://packagist.org/packages/w7corp/easywechat) 
 
 
-## Requirement
+## 环境需求
 
 1. PHP >= 8
-2. **[Composer](https://getcomposer.org/)**
-3. openssl 拓展
-4. fileinfo 拓展（素材管理模块需要用到）
+2. **[Composer](https://getcomposer.org/)** >= 2.0
 
-## Installation
+## 安装
 
-```shell
-$ composer require "w7corp/easywechat:dev-develop" -vvv
+```bash
+$ composer require w7corp/easywechat
 ```
 
-## Usage
+## 使用示例
 
 基本使用（以服务端为例）:
 
 ```php
 <?php
 
-use EasyWeChat\Factory;
+use EasyWeChat\OfficialAccount\Application;
 
-$options = [
-    'app_id'    => 'wx3cf0f39249eb0exxx',
-    'secret'    => 'f1c242f4f28f735d4687abb469072xxx',
-    'token'     => 'easywechat',
-    'log' => [
-        'level' => 'debug',
-        'file'  => '/tmp/easywechat.log',
-    ],
-    // ...
+$config = [
+    'app_id' => 'wx3cf0f39249eb0exxx',
+    'secret' => 'f1c242f4f28f735d4687abb469072xxx',
+    'aes_key => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+    'token' => 'easywechat',
 ];
 
-$app = Factory::officialAccount($options);
+$app = new Application($config);
 
-$server = $app->server;
-$user = $app->user;
-
-$server->push(function($message) use ($user) {
-    $fromUser = $user->get($message['FromUserName']);
-
-    return "{$fromUser->nickname} 您好！欢迎关注!";
+$app->getServer()->with(function($message) {
+    return "您好！EasyWeChat！";
 });
 
-$server->serve()->send();
+$response = $server->serve();
+
+$response->send();
 ```
 
-更多请参考 [https://www.easywechat.com/](https://www.easywechat.com/)。
+## 文档和链接
 
-## Documentation
+[官网](https://www.easywechat.com)  ·  [讨论](https://github.com/w7corp/easywechat/discussions)  ·  [更新策略](https://github.com/w7corp/easywechat/security/policy)
 
-[官网](https://www.easywechat.com)  · [教程](https://www.aliyundrive.com/s/6CwgtkiBqFV)  ·  [讨论](https://github.com/w7corp/easywechat/discussions)  ·  [微信公众平台](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official](http://admin.wechat.com/wiki)  ·  [更新策略](https://github.com/w7corp/easywechat/security/policy)
+## 贡献者们
 
-## Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/w7corp/easywechat/graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
+
+## :heart: 支持我
+
+[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
+
+如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
+
+## 由 JetBrains 赞助
+
+Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
+
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/overtrue)
 
 
 ## License
