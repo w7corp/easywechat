@@ -11,15 +11,6 @@
 [![Total Downloads](https://poser.pugx.org/w7corp/easywechat/downloads)](https://packagist.org/packages/w7corp/easywechat) 
 [![License](https://poser.pugx.org/w7corp/easywechat/license)](https://packagist.org/packages/w7corp/easywechat) 
 
-> 📣 **公告**
-> 
->  为了更好的推进项目发展，保障项目更新迭代速度，EasyWeChat 正式并入微擎旗下，加上微擎团队的助力，将会为大家提供更强大更稳固更多元化的开源项目。
->
-> - 微擎与 EasyWeChat 结合，基于微擎技术资源方面的优势，将积极发展 EasyWeChat 的开源社区，将为 EasyWeChat 开源项目注入巨大活力。
-> - EasyWeChat 原作者 overtrue 将继续担任开源项目的核心开发者，继续参与项目的发展规划，共同打造更强大的开源生态社区。
-> - 项目从 6.0 版本开始将修改包名为 `w7corp/easywechat`，5.x 及以下版本不受影响。
-
-> 🚨 注意：当前为 6.0 分支，处于新版开发中，请 PR 时往 5.x 提交，感谢您的贡献！
 
 ## Requirement
 
@@ -72,23 +63,12 @@ $server->serve()->send();
 
 ## Documentation
 
-[官网](https://www.easywechat.com)  · [教程](https://www.aliyundrive.com/s/6CwgtkiBqFV)  ·  [讨论](https://github.com/w7corp/easywechat/discussions)  ·  [微信公众平台](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official](http://admin.wechat.com/wiki)
-
-## Integration
-
-[Laravel 5 拓展包: overtrue/laravel-wechat](https://github.com/overtrue/laravel-wechat)
+[官网](https://www.easywechat.com)  · [教程](https://www.aliyundrive.com/s/6CwgtkiBqFV)  ·  [讨论](https://github.com/w7corp/easywechat/discussions)  ·  [微信公众平台](https://mp.weixin.qq.com/wiki)  ·  [WeChat Official](http://admin.wechat.com/wiki)  ·  [更新策略](https://github.com/w7corp/easywechat/security/policy)
 
 ## Contributors
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/w7corp/easywechat/graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
-
-
-## PHP 扩展包开发
-
-> 想知道如何从零开始构建 PHP 扩展包？
->
-> 请关注我的实战课程，我会在此课程中分享一些扩展开发经验 —— [《PHP 扩展包实战教程 - 从入门到发布》](https://learnku.com/courses/creating-package)
 
 
 ## License
