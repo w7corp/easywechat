@@ -141,8 +141,8 @@ class Client extends BaseClient
      *
      * @see https://work.weixin.qq.com/api/doc/90000/90135/92124
      *
-     * @param int $pageId
-     * @param int $pageSize
+     * @param null|int $pageId
+     * @param null|int $pageSize
      * @param string $cursor
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
@@ -150,7 +150,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getUnassigned(int $pageId = 0, int $pageSize = 1000, ?string $cursor = null)
+    public function getUnassigned(?int $pageId = null, ?int $pageSize = 1000, ?string $cursor = null)
     {
         $params = [
             'page_id' => $pageId,
