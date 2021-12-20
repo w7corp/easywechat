@@ -41,5 +41,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Device\Client::class, $app->device);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\ShakeAround\Client::class, $app->shake_around);
         $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Base\Client::class, $app->base);
+        $this->assertInstanceOf(\EasyWeChat\OfficialAccount\Draft\Client::class, $app->draft);
+        $this->assertInstanceOf(\EasyWeChat\OfficialAccount\FreePublish\Client::class, $app->free_publish);
     }
 }
