@@ -22,6 +22,7 @@ module.exports = [
                 text: "微信支付",
                 children: [
                     { text: "入门", link: "/6.x/pay/index.html" },
+                    { text: "回调通知", link: "/6.x/pay/notify.html" },
                     { text: "工具", link: "/6.x/pay/utils.html" },
                 ]
             }, {
