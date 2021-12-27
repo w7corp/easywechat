@@ -7,3 +7,7 @@ sftp-config.json
 /.split
 /composer.lock
 .php_cs.cache
+.phpunit.result.cache
+cghooks.lock
+.vercel/
+docs
