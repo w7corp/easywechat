@@ -50,6 +50,7 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\Kf\AccountClient                      $kf_account
  * @property \EasyWeChat\Work\Kf\ServicerClient                     $kf_servicer
  * @property \EasyWeChat\Work\Kf\MessageClient                      $kf_message
+ * @property \EasyWeChat\Work\GroupWelcomeTemplate\Client           $group_welcome_templage
  *
  * @method mixed getCallbackIp()
  */
@@ -82,6 +83,7 @@ class Application extends ServiceContainer
         CorpGroup\ServiceProvider::class,
         Mobile\ServiceProvider::class,
         Kf\ServiceProvider::class,
+        GroupWelcomeTemplate\ServiceProvider::class,
     ];
 
     /**
