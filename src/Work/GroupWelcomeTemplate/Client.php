@@ -12,7 +12,6 @@
 namespace EasyWeChat\Work\GroupWelcomeTemplate;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Kernel\Messages\Message;
 
 /**
  * 入群欢迎语素材管理
@@ -22,7 +21,6 @@ use EasyWeChat\Kernel\Messages\Message;
  */
 class Client extends BaseClient
 {
-
     /**
      * 添加入群欢迎语素材
      *
@@ -51,7 +49,8 @@ class Client extends BaseClient
     public function edit(string $templateId, array $data)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/group_welcome_template/edit', array_merge(
-            ['template_id' => $templateId], $data
+            ['template_id' => $templateId],
+            $data
         ));
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace EasyWeChat\Tests\Work\GroupWelcomeTemplate;
 
 use EasyWeChat\Tests\TestCase;
