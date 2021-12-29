@@ -107,6 +107,13 @@ class Application implements ApplicationInterface
                 encryptor: $this->getEncryptor()
             );
         }
+        
+        $this->server->withDefaultVerifyTicketHandler(
+            function (Message $message, \Closure $next) {
+                $this->getVerifyTicket()->setTicket($message->ComponentVerifyTicket);
+                return $next($message);
+            }
+        );
 
         return $this->server;
     }

@@ -11,7 +11,6 @@ use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -20,6 +19,8 @@ class Server implements ServerInterface
     use InteractWithHandlers;
     use RespondXmlMessage;
     use DecryptXmlMessage;
+
+    protected \Closure | null $defaultVerifyTicketHandler = null;
 
     /**
      * @throws \Throwable
@@ -90,12 +91,25 @@ class Server implements ServerInterface
 
         return $this;
     }
+    
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function withDefaultVerifyTicketHandler(callable | string $handler): void
+    {
+        $this->defaultVerifyTicketHandler = fn () => $handler(...\func_get_args());
+        $this->handleVerifyTicketRefreshed($this->defaultVerifyTicketHandler);
+    }
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function handleVerifyTicketRefreshed(callable | string $handler): static
     {
+        if ($this->defaultVerifyTicketHandler) {
+            $this->withoutHandler($this->defaultVerifyTicketHandler);
+        }
+        
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'component_verify_ticket' ? $handler($message, $next) : $next($message);
         });
@@ -105,7 +119,7 @@ class Server implements ServerInterface
 
     public function resolveResponse(mixed $response, Message $message): ResponseInterface
     {
-        return new Response(200, [], 'success');
+        return new ServerResponse(200, [], 'success');
     }
 
     protected function decryptRequestMessage(): \Closure
