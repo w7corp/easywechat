@@ -91,7 +91,7 @@ class Server implements ServerInterface
 
         return $this;
     }
-    
+
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
@@ -109,7 +109,7 @@ class Server implements ServerInterface
         if ($this->defaultVerifyTicketHandler) {
             $this->withoutHandler($this->defaultVerifyTicketHandler);
         }
-        
+
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'component_verify_ticket' ? $handler($message, $next) : $next($message);
         });
