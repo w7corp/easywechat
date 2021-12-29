@@ -130,6 +130,9 @@ class ApplicationTest extends TestCase
                 'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
             ]);
 
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
         $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
         $tokenResponse = [
                 'component_access_token' => 'mock-access-token',
@@ -178,6 +181,9 @@ class ApplicationTest extends TestCase
             'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
         ]);
 
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
         $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
         $tokenResponse = [
                 'component_access_token' => 'mock-access-token',
@@ -216,6 +222,9 @@ class ApplicationTest extends TestCase
                 'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
             ]);
 
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
         $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
         $tokenResponse = [
                     'component_access_token' => 'mock-access-token',
@@ -266,6 +275,9 @@ class ApplicationTest extends TestCase
             'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
         ]);
 
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
         $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
         $tokenResponse = [
                 'component_access_token' => 'mock-access-token',
