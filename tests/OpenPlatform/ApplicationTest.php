@@ -130,6 +130,20 @@ class ApplicationTest extends TestCase
                 'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
             ]);
 
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
+        $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
+        $tokenResponse = [
+                'component_access_token' => 'mock-access-token',
+                'expires_in' => 2700,
+            ];
+        // token http client
+        $mockTokenResponse = new MockResponse(\json_encode($tokenResponse));
+        $tokenHttpClient = new MockHttpClient($mockTokenResponse, 'https://api.weixin.qq.com/');
+        $token->setHttpClient($tokenHttpClient);
+        $app->setComponentAccessToken($token);
+
         $mockResponse = new MockResponse(
             \json_encode([
                 'authorization_info' => ['authorizer_appid' => 'mock-appid'],
@@ -144,7 +158,10 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(Authorization::class, $app->getAuthorization('mock-auth-code'));
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
-        $this->assertSame('https://api.weixin.qq.com/cgi-bin/component/api_query_auth', $mockResponse->getRequestUrl());
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=mock-access-token',
+            $mockResponse->getRequestUrl()
+        );
         $this->assertSame(
             \json_encode([
                 'component_appid' => 'wx3cf0f39249000060',
@@ -152,7 +169,31 @@ class ApplicationTest extends TestCase
             ]),
             $mockResponse->getRequestOptions()['body']
         );
+        $this->test_get_authorization_exception();
+    }
 
+    private function test_get_authorization_exception()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
+        $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
+        $tokenResponse = [
+                'component_access_token' => 'mock-access-token',
+                'expires_in' => 2700,
+            ];
+        // token http client
+        $mockTokenResponse = new MockResponse(\json_encode($tokenResponse));
+        $tokenHttpClient = new MockHttpClient($mockTokenResponse, 'https://api.weixin.qq.com/');
+        $token->setHttpClient($tokenHttpClient);
+        $app->setComponentAccessToken($token);
 
         // exception
         $mockResponse = new MockResponse(
@@ -181,6 +222,19 @@ class ApplicationTest extends TestCase
                 'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
             ]);
 
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
+        $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
+        $tokenResponse = [
+                    'component_access_token' => 'mock-access-token',
+                    'expires_in' => 2700,
+                ];
+        // token http client
+        $mockTokenResponse = new MockResponse(\json_encode($tokenResponse));
+        $tokenHttpClient = new MockHttpClient($mockTokenResponse, 'https://api.weixin.qq.com/');
+        $token->setHttpClient($tokenHttpClient);
+        $app->setComponentAccessToken($token);
         $mockResponse = new MockResponse(
             \json_encode([
                 'authorizer_access_token' => 'mock-access-token',
@@ -198,7 +252,7 @@ class ApplicationTest extends TestCase
 
         $this->assertSame('POST', $mockResponse->getRequestMethod());
         $this->assertSame(
-            'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token',
+            'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=mock-access-token',
             $mockResponse->getRequestUrl()
         );
         $this->assertSame(
@@ -209,7 +263,31 @@ class ApplicationTest extends TestCase
             ]),
             $mockResponse->getRequestOptions()['body']
         );
+        $this->test_refresh_authorizer_token_exception();
+    }
 
+    private function test_refresh_authorizer_token_exception()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
+        $verifyTicket->setTicket('mock-verify-ticket');
+        $app->setVerifyTicket($verifyTicket);
+        $token = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
+        $tokenResponse = [
+                'component_access_token' => 'mock-access-token',
+                'expires_in' => 2700,
+            ];
+        // token http client
+        $mockTokenResponse = new MockResponse(\json_encode($tokenResponse));
+        $tokenHttpClient = new MockHttpClient($mockTokenResponse, 'https://api.weixin.qq.com/');
+        $token->setHttpClient($tokenHttpClient);
+        $app->setComponentAccessToken($token);
 
         // exception
         $mockResponse = new MockResponse(
