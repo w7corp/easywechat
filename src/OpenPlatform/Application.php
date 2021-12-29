@@ -108,6 +108,13 @@ class Application implements ApplicationInterface
             );
         }
 
+        $this->server->withDefaultVerifyTicketHandler(
+            function (Message $message, \Closure $next) {
+                $this->getVerifyTicket()->setTicket($message->ComponentVerifyTicket);
+                return $next($message);
+            }
+        );
+
         return $this->server;
     }
 
