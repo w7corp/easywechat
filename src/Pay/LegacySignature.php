@@ -38,7 +38,7 @@ class LegacySignature
             $signType = 'md5';
         }
 
-        $params['sign'] = strtoupper(call_user_func_array($signType, [urldecode(http_build_query($params))]));
+        $params['sign'] = strtoupper(call_user_func_array($signType, [urldecode(http_build_query($attributes))]));
 
         return $params;
     }
