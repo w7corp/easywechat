@@ -19,7 +19,6 @@ class LegacySignature
         $params = $attributes = array_filter(
             \array_merge(
                 [
-                    'mch_id' => $this->merchant->getMerchantId(),
                     'nonce_str' => $nonce,
                     'sub_mch_id' => $params['sub_mch_id'] ?? null,
                     'sub_appid' => $params['sub_appid'] ?? null,
