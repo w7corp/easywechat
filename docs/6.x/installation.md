@@ -15,5 +15,5 @@ EasyWeChat 是一个通用的 Composer 包，所以不需要对框架单独做�
 使用 [composer](http://getcomposer.org/):
 
 ```shell
-composer require w7corp/easywechat:^6.0-beta8 -vvv
+composer require w7corp/easywechat:^6.0-beta10 -vvv
 ```
