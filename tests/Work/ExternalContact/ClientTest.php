@@ -381,4 +381,15 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('cgi-bin/externalcontact/unionid_to_external_userid_3rd', $params)->andReturn('mock-result');
         $this->assertSame('mock-result', $client->unionidToexternalUserid3rd('unionid-test', 'openid-test', 'corpid-test'));
     }
+
+    public function testOpengidToChatid()
+    {
+        $client = $this->mockApiClient(Client::class);
+        
+        $client->expects()->httpPostJson('cgi-bin/externalcontact/opengid_to_chatid', [
+            'opengid' => 'msg2MgBEgAATurBYDPgS32DfSt5vdzaHA'
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->opengidToChatid('msg2MgBEgAATurBYDPgS32DfSt5vdzaHA'));
+    }
 }
