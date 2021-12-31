@@ -24,8 +24,7 @@ class ClientTest extends TestCase
             'publish_id' => 'mock-publish-id'
         ])->andReturn('mock-result');
 
-        $result = $client->get('mock-publish-id');
-        $this->assertIsArray($result);
+        $this->assertSame('mock-result', $client->get('mock-publish-id'));
     }
 
     public function testSubmit()
