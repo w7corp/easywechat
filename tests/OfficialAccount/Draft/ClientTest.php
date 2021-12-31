@@ -51,7 +51,7 @@ class ClientTest extends TestCase
                 $article2,
             ],
         ])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->add(['articles'=>[$article1, $article2]]));
+        $this->assertSame('mock-result', $client->add(['articles' => [$article1, $article2]]));
     }
 
     public function testGet()
@@ -88,7 +88,6 @@ class ClientTest extends TestCase
             'articles' => $article,
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->update('mock-media-id', 3, $article));
-
     }
 
     public function testCount()

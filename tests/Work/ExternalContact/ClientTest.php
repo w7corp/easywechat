@@ -385,7 +385,7 @@ class ClientTest extends TestCase
     public function testOpengidToChatid()
     {
         $client = $this->mockApiClient(Client::class);
-        
+
         $client->expects()->httpPostJson('cgi-bin/externalcontact/opengid_to_chatid', [
             'opengid' => 'msg2MgBEgAATurBYDPgS32DfSt5vdzaHA'
         ])->andReturn('mock-result');

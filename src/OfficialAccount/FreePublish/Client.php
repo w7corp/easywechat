@@ -12,8 +12,6 @@
 namespace EasyWeChat\OfficialAccount\FreePublish;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Http\StreamResponse;
 use EasyWeChat\Kernel\Messages\Article;
 
 /**
