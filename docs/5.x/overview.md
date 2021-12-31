@@ -24,7 +24,7 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 你有以下两种方式加入到我们中来，为广大开发者提供更优质的免费开源的服务：
 
 > - **贡献代码**：我们的代码都在 [overtrue/wechat](https://github.com/overtrue/wechat) ，你可以提交 PR 到任何一个项目，当然，前提是代码质量必须是 OK 的。
-> - **翻译或补充文档**：我们的文档在：[EasyWeChat/docs](https://github.com/easywechat/docs/)，你可以选择补充文档或者参与英文文档的翻译，目前有 `zh-cn` 与 `en` 两个分支，你可以提交对应的 PR 到目标分支参与翻译工作。
+> - **翻译或补充文档**：我们的文档在：[w7corp/EasyWeChat](https://github.com/w7corp/easywechat/tree/master/docs)，你可以选择补充文档或者参与英文文档的翻译，目前有 `zh-cn` 与 `en` 两个分支，你可以提交对应的 PR 到目标分支参与翻译工作。
 
 ### 开始之前
 
