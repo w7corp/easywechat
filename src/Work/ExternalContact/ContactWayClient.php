@@ -115,8 +115,12 @@ class ContactWayClient extends BaseClient
             'cursor' => $cursor,
             'limit' => $limit,
         ];
-        if ($startTime) $data['start_time'] = $startTime;
-        if ($endTime) $data['end_time'] = $endTime;
+        if ($startTime) {
+            $data['start_time'] = $startTime;
+        }
+        if ($endTime) {
+            $data['end_time'] = $endTime;
+        }
         return $this->httpPostJson('cgi-bin/externalcontact/list_contact_way', $data);
     }
 }
