@@ -51,7 +51,7 @@ class ClientTest extends TestCase
                 $article2,
             ],
         ])->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->add([$article1, $article2]));
+        $this->assertSame('mock-result', $client->add(['articles'=>[$article1, $article2]]));
     }
 
     public function testGet()
@@ -62,8 +62,7 @@ class ClientTest extends TestCase
             'media_id' => 'mock-media-id'
         ])->andReturn('mock-result');
 
-        $result = $client->get('mock-media-id');
-        $this->assertIsArray($result);
+        $this->assertSame('mock-result', $client->get('mock-media-id'));
     }
 
     public function testUpdate()
@@ -98,8 +97,7 @@ class ClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/draft/count')->andReturn('mock-result');
 
-        $result = $client->count();
-        $this->assertIsArray($result);
+        $this->assertSame('mock-result', $client->count());
     }
 
     public function testBatchGet()
