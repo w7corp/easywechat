@@ -35,7 +35,7 @@ class JssdkClientTest extends TestCase
         $cache->expects()->has($cacheKey)->twice()->andReturns(false, true);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
-        $client->expects()->requestRaw('/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'wx_card']])->andReturn($response);
+        $client->expects()->requestRaw('cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'wx_card']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket());
     }
