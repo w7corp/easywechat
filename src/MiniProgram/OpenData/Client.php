@@ -37,7 +37,7 @@ class Client extends BaseClient
             'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
         ];
 
-        return $this->httpPostJson('/wxa/remove_user_storage', $data, $query);
+        return $this->httpPostJson('wxa/remove_user_storage', $data, $query);
     }
 
     /**
@@ -59,7 +59,7 @@ class Client extends BaseClient
             'signature' => hash_hmac('sha256', json_encode($data), $sessionKey),
         ];
 
-        return $this->httpPostJson('/wxa/set_user_storage', $data, $query);
+        return $this->httpPostJson('wxa/set_user_storage', $data, $query);
     }
 
     /**
