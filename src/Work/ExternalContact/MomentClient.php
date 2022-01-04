@@ -20,6 +20,37 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class MomentClient extends BaseClient
 {
+
+    /**
+     * 创建发表任务
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/95094#%E5%88%9B%E5%BB%BA%E5%8F%91%E8%A1%A8%E4%BB%BB%E5%8A%A1
+     * @param array $param
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function add(array $param)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/add_moment_task', $param);
+    }
+
+    /**
+     * 获取任务创建结果
+     *
+     * @see https://work.weixin.qq.com/api/doc/90000/90135/95094#%E8%8E%B7%E5%8F%96%E4%BB%BB%E5%8A%A1%E5%88%9B%E5%BB%BA%E7%BB%93%E6%9E%9C
+     *
+     * @param string $jobId 异步任务id
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getAddResult(string $jobId)
+    {
+        return $this->httpGet('cgi-bin/externalcontact/get_moment_task_result', ['jobid' => $jobId]);
+    }
+
+
     /**
      * 获取企业全部的发表列表.
      *
