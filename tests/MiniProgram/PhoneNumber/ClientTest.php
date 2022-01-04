@@ -20,7 +20,7 @@ class ClientTest extends TestCase
     {
         $client = $this->mockApiClient(Client::class);
 
-        $client->expects()->httpPostJson('/wxa/business/getuserphonenumber', [
+        $client->expects()->httpPostJson('wxa/business/getuserphonenumber', [
             'code' => 'test'
         ])->andReturn('mock-result');
 

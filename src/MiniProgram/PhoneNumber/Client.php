@@ -42,6 +42,6 @@ class Client extends BaseClient
             'code' => $code
         ];
 
-        return $this->httpPostJson('/wxa/business/getuserphonenumber', $params);
+        return $this->httpPostJson('wxa/business/getuserphonenumber', $params);
     }
 }
