@@ -62,7 +62,7 @@ class ClientTest extends TestCase
         $client->makePartial();
 
         // temporary = true, expireSeconds = null
-        $client->expects()->httpPostJson('/cgi-bin/qrcode/create', [
+        $client->expects()->httpPostJson('cgi-bin/qrcode/create', [
             'action_name' => Client::SCENE_QR_CARD,
             'action_info' => ['scene' => ['foo' => 'bar']],
             'expire_seconds' => 7 * Client::DAY,
@@ -71,7 +71,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->create(Client::SCENE_QR_CARD, ['foo' => 'bar']));
 
         // temporary = false, expireSeconds = null
-        $client->expects()->httpPostJson('/cgi-bin/qrcode/create', [
+        $client->expects()->httpPostJson('cgi-bin/qrcode/create', [
             'action_name' => Client::SCENE_QR_FOREVER,
             'action_info' => ['scene' => ['foo' => 'bar']],
         ])->andReturn('mock-result');
@@ -79,7 +79,7 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->create(Client::SCENE_QR_FOREVER, ['foo' => 'bar'], false));
 
         // temporary = false, expireSeconds = 500
-        $client->expects()->httpPostJson('/cgi-bin/qrcode/create', [
+        $client->expects()->httpPostJson('cgi-bin/qrcode/create', [
             'action_name' => Client::SCENE_QR_TEMPORARY_STR,
             'action_info' => ['scene' => ['foo' => 'bar']],
             'expire_seconds' => 500,

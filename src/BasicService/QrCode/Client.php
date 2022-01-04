@@ -110,6 +110,6 @@ class Client extends BaseClient
             $params['expire_seconds'] = min($expireSeconds, 30 * self::DAY);
         }
 
-        return $this->httpPostJson('/cgi-bin/qrcode/create', $params);
+        return $this->httpPostJson('cgi-bin/qrcode/create', $params);
     }
 }

@@ -83,7 +83,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->twice()->andReturns(false, true);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
-        $client->expects()->requestRaw('/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
+        $client->expects()->requestRaw('cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket());
 
@@ -91,7 +91,7 @@ class ClientTest extends TestCase
         $cache->expects()->has($cacheKey)->andReturn(true);
         $cache->expects()->get($cacheKey)->never();
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
-        $client->expects()->requestRaw('/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
+        $client->expects()->requestRaw('cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $this->assertSame($ticket, $client->getTicket(true));
 
@@ -101,7 +101,7 @@ class ClientTest extends TestCase
 
         $cache->expects()->set($cacheKey, $ticket, $ticket['expires_in'] - 500);
         $cache->expects()->has($cacheKey)->andReturn(false);
-        $client->expects()->requestRaw('/cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
+        $client->expects()->requestRaw('cgi-bin/ticket/getticket', 'GET', ['query' => ['type' => 'jsapi']])->andReturn($response);
 
         $client->getTicket(true);
     }
