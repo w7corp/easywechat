@@ -80,7 +80,7 @@ class MomentClient extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function getTasks(string $momentId, string $cursor, int $limit)
+    public function getTasks(string $momentId, string $cursor = '', int $limit = 500)
     {
         $params = [
             'moment_id' => $momentId,
