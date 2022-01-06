@@ -88,7 +88,7 @@ class Server implements ServerInterface
             throw new RuntimeException('Invalid request.');
         }
 
-        $attributes = \json_decode(
+        $attributes = array_merge($attributes, \json_decode(
             AesGcm::decrypt(
                 $attributes['resource']['ciphertext'],
                 $this->merchant->getSecretKey(),
@@ -96,7 +96,7 @@ class Server implements ServerInterface
                 $attributes['resource']['associated_data'],
             ),
             true
-        );
+        ));
 
         return new Message($attributes, $originContent);
     }
