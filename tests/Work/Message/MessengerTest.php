@@ -79,13 +79,13 @@ class MessengerTest extends TestCase
         $this->assertSame(['touser' => 'overtrue'], $messenger->toUser('overtrue')->to);
         $this->assertSame(['touser' => 'overtrue|iovertrue'], $messenger->toUser(['overtrue', 'iovertrue'])->to);
 
-        // to party
-        $this->assertSame(['toparty' => 'party1'], $messenger->toParty('party1')->to);
-        $this->assertSame(['toparty' => 'party1|party2'], $messenger->toParty(['party1', 'party2'])->to);
+        // to user and to to party
+        $this->assertSame(['touser' => 'overtrue|iovertrue', 'toparty' => 'party1'], $messenger->toParty('party1')->to);
+        $this->assertSame(['touser' => 'overtrue|iovertrue', 'toparty' => 'party1|party2'], $messenger->toParty(['party1', 'party2'])->to);
 
-        // to tag
-        $this->assertSame(['totag' => 'tag1'], $messenger->toTag('tag1')->to);
-        $this->assertSame(['totag' => 'tag1|tag2'], $messenger->toTag(['tag1', 'tag2'])->to);
+        // to user and to to party and to tag
+        $this->assertSame(['touser' => 'overtrue|iovertrue', 'toparty' => 'party1|party2', 'totag' => 'tag1'], $messenger->toTag('tag1')->to);
+        $this->assertSame(['touser' => 'overtrue|iovertrue', 'toparty' => 'party1|party2', 'totag' => 'tag1|tag2'], $messenger->toTag(['tag1', 'tag2'])->to);
     }
 
     public function testSecretive()
