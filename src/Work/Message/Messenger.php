@@ -15,6 +15,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Messages\Message;
 use EasyWeChat\Kernel\Messages\Text;
+use EasyWeChat\Kernel\Support\Arr;
 
 /**
  * Class MessageBuilder.
@@ -137,6 +138,16 @@ class Messenger
     }
 
     /**
+     * verify recipient is '@all' or not
+     *
+     * @return bool
+     */
+    protected function isBroadcast(): bool
+    {
+        return Arr::get($this->to, 'touser') === '@all';
+    }
+
+    /**
      * @param array|string $ids
      * @param string       $key
      *
@@ -148,7 +159,7 @@ class Messenger
             $ids = implode('|', $ids);
         }
 
-        $this->to = [$key => $ids];
+        $this->to = $this->isBroadcast() ? [$key => $ids] : array_merge($this->to, [$key => $ids]);
 
         return $this;
     }
