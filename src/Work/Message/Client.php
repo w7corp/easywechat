@@ -43,4 +43,17 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/message/send', $message);
     }
+    
+    /**
+     * @param string $msgid
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function recall(string $msgid)
+    {
+        return $this->httpPostJson('cgi-bin/message/recall', ['msgid' => $msgid]);
+    }
 }

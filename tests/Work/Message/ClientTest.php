@@ -32,4 +32,13 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->send(['foo' => 'bar']));
     }
+
+    public function testRecall()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $client->expects()->httpPostJson('cgi-bin/message/recall', ['msgid' => 'bar'])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->recall('bar'));
+    }
 }
