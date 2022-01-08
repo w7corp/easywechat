@@ -181,6 +181,21 @@ class Messenger
 
         return $this->client->send($message);
     }
+    
+    /**
+     * @param string $msgid
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws RuntimeException
+     */
+    public function recall(string $msgid)
+    {
+        if (empty($msgid)) {
+            throw new RuntimeException('No msgid specified.');
+        }
+        return $this->client->recall($msgid);
+    }
 
     /**
      * Return property.

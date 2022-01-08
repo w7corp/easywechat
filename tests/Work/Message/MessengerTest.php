@@ -182,4 +182,22 @@ class MessengerTest extends TestCase
 
         $this->assertSame('mock-result', $messenger->ofAgent(123456)->send('hello world!'));
     }
+    
+    public function testRecall()
+    {
+        $client = \Mockery::mock(Client::class);
+        $messenger = new Messenger($client);
+    
+        // empty msgid
+        try {
+            $messenger->recall('');
+            $this->fail('No expected exception thrown.');
+        } catch (\Exception $e) {
+            $this->assertSame('No msgid specified.', $e->getMessage());
+        }
+        
+        $client->expects()->recall('1234567')->andReturn('mock-result');
+        
+        $this->assertSame('mock-result', $messenger->recall('1234567'));
+    }
 }
