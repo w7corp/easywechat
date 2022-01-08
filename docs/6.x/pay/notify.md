@@ -24,7 +24,7 @@ return $server->serve();
 
 ### 示例（Laravel 框架）
 
-> 类路由关闭 csrf 验证。
+> 记得需要将此类路由关闭 csrf 验证。
 
 ```php
 // 假设你设置的通知地址notify_url为: https://easywechat.com/payment_notify 
