@@ -9,7 +9,7 @@ class Message extends \EasyWeChat\Kernel\Message
 {
     public function getOriginalAttributes(): array
     {
-        return json_decode((string) $this, true);
+        return json_decode($this->getOriginalContents(), true);
     }
 
     public function getEventType(): ?string
