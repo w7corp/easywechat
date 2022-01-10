@@ -30,7 +30,7 @@ class MomentClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function add(array $param)
+    public function createTask(array $param)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/add_moment_task', $param);
     }
@@ -45,7 +45,7 @@ class MomentClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAddResult(string $jobId)
+    public function getTask(string $jobId)
     {
         return $this->httpGet('cgi-bin/externalcontact/get_moment_task_result', ['jobid' => $jobId]);
     }
