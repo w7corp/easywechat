@@ -119,6 +119,71 @@ class MessengerTest extends TestCase
         $this->assertFalse($messenger->secretive);
     }
 
+    public function testEnableIdTrans()
+    {
+        $client = \Mockery::mock(Client::class);
+        $messenger = new Messenger($client);
+
+        $this->assertFalse($messenger->enableIdTrans);
+        $this->assertTrue($messenger->enableIdTrans()->enableIdTrans);
+
+        $message = new Raw(json_encode([
+            'touser' => '@all',
+            'msgtype' => 'text',
+            'agentid' => 123456,
+            'safe' => 0,
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ]));
+        $client->expects()->send([
+            'touser' => '@all',
+            'msgtype' => 'text',
+            'agentid' => 123456,
+            'safe' => 0,
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ])->andReturn('mock-result');
+
+        $messenger->message($message)->ofAgent(123456)->send();
+        $this->assertFalse($messenger->enableIdTrans);
+    }
+
+    public function testEnableDuplicateCheck()
+    {
+        $client = \Mockery::mock(Client::class);
+        $messenger = new Messenger($client);
+
+        $this->assertFalse($messenger->enableDuplicateCheck);
+        $this->assertSame(1800, $messenger->duplicateCheckInterval);
+        $messenger->enableDuplicateCheck(3000);
+        $this->assertTrue($messenger->enableDuplicateCheck);
+        $this->assertSame(3000, $messenger->duplicateCheckInterval);
+
+        $message = new Raw(json_encode([
+            'touser' => '@all',
+            'msgtype' => 'text',
+            'agentid' => 123456,
+            'safe' => 0,
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ]));
+        $client->expects()->send([
+            'touser' => '@all',
+            'msgtype' => 'text',
+            'agentid' => 123456,
+            'safe' => 0,
+            'text' => [
+                'content' => 'hello world!',
+            ],
+        ])->andReturn('mock-result');
+
+        $messenger->message($message)->ofAgent(123456)->send();
+        $this->assertFalse($messenger->enableDuplicateCheck);
+    }
+
     public function testSend()
     {
         $client = \Mockery::mock(Client::class);
@@ -151,6 +216,9 @@ class MessengerTest extends TestCase
             'msgtype' => 'text',
             'agentid' => 123456,
             'safe' => 0,
+            'enable_id_trans' => 0,
+            'enable_duplicate_check' => 0,
+            'duplicate_check_interval' => 1800,
             'text' => [
                 'content' => 'hello world!',
             ],
@@ -160,6 +228,9 @@ class MessengerTest extends TestCase
             'msgtype' => 'text',
             'agentid' => 123456,
             'safe' => 0,
+            'enable_id_trans' => 0,
+            'enable_duplicate_check' => 0,
+            'duplicate_check_interval' => 1800,
             'text' => [
                 'content' => 'hello world!',
             ],
@@ -175,6 +246,9 @@ class MessengerTest extends TestCase
             'msgtype' => 'text',
             'agentid' => 123456,
             'safe' => 0,
+            'enable_id_trans' => 0,
+            'enable_duplicate_check' => 0,
+            'duplicate_check_interval' => 1800,
             'text' => [
                 'content' => 'hello world!',
             ],

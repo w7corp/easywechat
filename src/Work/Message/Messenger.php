@@ -45,6 +45,21 @@ class Messenger
     protected $secretive = false;
 
     /**
+     * @var bool
+     */
+    protected $enableIdTrans = false;
+
+    /**
+     * @var bool
+     */
+    protected $enableDuplicateCheck = false;
+
+    /**
+     * @var int
+     */
+    protected $duplicateCheckInterval = 1800;
+
+    /**
      * @var \EasyWeChat\Work\Message\Client
      */
     protected $client;
@@ -138,6 +153,32 @@ class Messenger
     }
 
     /**
+     * 开启 id 转译
+     *
+     * @return \EasyWeChat\Work\Message\Messenger
+     */
+    public function enableIdTrans()
+    {
+        $this->enableIdTrans = true;
+
+        return $this;
+    }
+
+    /**
+     * 开启重复消息检查
+     *
+     * @param int $interval 重复消息检查的时间间隔，默认1800s
+     * @return \EasyWeChat\Work\Message\Messenger
+     */
+    public function enableDuplicateCheck(int $interval = 1800)
+    {
+        $this->enableDuplicateCheck = true;
+        $this->duplicateCheckInterval = $interval;
+
+        return $this;
+    }
+
+    /**
      * verify recipient is '@all' or not
      *
      * @return bool
@@ -189,11 +230,24 @@ class Messenger
         $message = $this->message->transformForJsonRequest(array_merge([
             'agentid' => $this->agentId,
             'safe' => intval($this->secretive),
+            'enable_id_trans' => intval($this->enableIdTrans),
+            'enable_duplicate_check' => intval($this->enableDuplicateCheck),
+            'duplicate_check_interval' => $this->duplicateCheckInterval,
         ], $this->to));
 
-        $this->secretive = false;
+        $this->resetProperties();
 
         return $this->client->send($message);
+    }
+
+    /**
+     * reset properties
+     */
+    protected function resetProperties()
+    {
+        $this->secretive = false;
+        $this->enableIdTrans = false;
+        $this->enableDuplicateCheck = false;
     }
 
     /**
