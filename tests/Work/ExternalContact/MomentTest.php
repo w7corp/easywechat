@@ -44,8 +44,7 @@ class MomentTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/add_moment_task', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->add($params));
-
+        $this->assertSame('mock-result', $client->createTask($params));
     }
 
     public function testGetTask(): void
@@ -54,10 +53,9 @@ class MomentTest extends TestCase
 
         $jobId = 'UsqkaVyEEV4_Ep5xHLllO9Lr38FTm3AhlO0wthHAQ_o';
 
-        $client->expects()->httpGet'cgi-bin/externalcontact/get_moment_task_result', ['jobid' => $jobId])->andReturn('mock-result');
+        $client->expects()->httpGet('cgi-bin/externalcontact/get_moment_task_result', ['jobid' => $jobId])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getAddResult($jobId));
-
+        $this->assertSame('mock-result', $client->getTask($jobId));
     }
 
     public function testList(): void
