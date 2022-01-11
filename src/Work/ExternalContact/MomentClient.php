@@ -20,7 +20,6 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class MomentClient extends BaseClient
 {
-
     /**
      * 创建发表任务
      *
