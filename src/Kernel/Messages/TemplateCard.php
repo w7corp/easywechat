@@ -13,7 +13,7 @@ namespace EasyWeChat\Kernel\Messages;
 
 /**
  * 模板卡片消息
- * 
+ *
  * @link https://work.weixin.qq.com/api/doc/90000/90135/90236#%E6%A8%A1%E6%9D%BF%E5%8D%A1%E7%89%87%E6%B6%88%E6%81%AF
  */
 class TemplateCard extends Message
