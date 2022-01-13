@@ -111,7 +111,7 @@ class Client extends BaseClient
             throw new InvalidArgumentException(sprintf("Unsupported media type: '%s'", $type));
         }
 
-        return $this->httpUpload('/cgi-bin/media/upload', ['media' => $path], ['type' => $type]);
+        return $this->httpUpload('cgi-bin/media/upload', ['media' => $path], ['type' => $type]);
     }
 
     /**
@@ -150,7 +150,7 @@ class Client extends BaseClient
      */
     public function createVideoForBroadcasting(string $mediaId, string $title, string $description)
     {
-        return $this->httpPostJson('/cgi-bin/media/uploadvideo', [
+        return $this->httpPostJson('cgi-bin/media/uploadvideo', [
             'media_id' => $mediaId,
             'title' => $title,
             'description' => $description,
@@ -169,7 +169,7 @@ class Client extends BaseClient
      */
     public function get(string $mediaId)
     {
-        $response = $this->requestRaw('/cgi-bin/media/get', 'GET', [
+        $response = $this->requestRaw('cgi-bin/media/get', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
             ],
@@ -192,7 +192,7 @@ class Client extends BaseClient
      */
     public function getJssdkMedia(string $mediaId)
     {
-        $response = $this->requestRaw('/cgi-bin/media/get/jssdk', 'GET', [
+        $response = $this->requestRaw('cgi-bin/media/get/jssdk', 'GET', [
             'query' => [
                 'media_id' => $mediaId,
             ],
