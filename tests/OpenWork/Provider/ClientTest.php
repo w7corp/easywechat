@@ -186,4 +186,23 @@ class ClientTest extends TestCase
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->searchContact('targetCorpId', 'user', 'mock-agent-id', 0, 50, 1));
     }
+
+    public function testGetCustomizedAuthUrl()
+    {
+        $app = new ServiceContainer(['corp_id' => 'mock-corp-id']);
+
+        $app['provider_access_token'] = \Mockery::mock(AccessToken::class);
+
+        $client = $this->mockApiClient(Client::class, [], $app)->makePartial();
+
+        $client->expects()->httpPostJson('cgi-bin/service/get_customized_auth_url', [
+            'state' => 'test',
+            'templateid_list' => ['dk1', 'dk2'],
+        ])->andReturn('mock-result');
+        $params = [
+            'state' => 'test',
+            'templateid_list' => ['dk1', 'dk2'],
+        ];
+        $this->assertSame('mock-result', $client->getCustomizedAuthUrl($params));
+    }
 }
