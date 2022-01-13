@@ -49,7 +49,7 @@ class Client extends BaseClient
      * Update article
      * @param string $mediaId
      * @param int $index
-     * @param $article
+     * @param mixed $article
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException

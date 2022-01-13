@@ -610,7 +610,7 @@ class Client extends BaseClient
      * @see https://work.weixin.qq.com/api/doc/90000/90135/95098
      * @param string $path 附件资源路径
      * @param string $mediaType 媒体文件类型
-     * @param string attachmentType 附件类型
+     * @param string $attachmentType 附件类型
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
