@@ -10,7 +10,6 @@ use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
-use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
@@ -56,9 +55,9 @@ class Application implements ApplicationInterface
     {
         if (!$this->encryptor) {
             $this->encryptor = new Encryptor(
-                $this->getAccount()->getCorpId(),
-                $this->getAccount()->getToken(),
-                $this->getAccount()->getAesKey(),
+                corpId: $this->getAccount()->getCorpId(),
+                token: $this->getAccount()->getToken(),
+                aesKey: $this->getAccount()->getAesKey(),
             );
         }
 

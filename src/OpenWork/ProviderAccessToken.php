@@ -47,6 +47,7 @@ class ProviderAccessToken implements AccessTokenInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getToken(): string
     {
