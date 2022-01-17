@@ -11,14 +11,6 @@
 [![Total Downloads](https://poser.pugx.org/w7corp/easywechat/downloads)](https://packagist.org/packages/w7corp/easywechat) 
 [![License](https://poser.pugx.org/w7corp/easywechat/license)](https://packagist.org/packages/w7corp/easywechat) 
 
-> 📣 **公告**
-> 
->  为了更好的推进项目发展，保障项目更新迭代速度，EasyWeChat 正式并入微擎旗下，加上微擎团队的助力，将会为大家提供更强大更稳固更多元化的开源项目。
->
-> - 微擎与 EasyWeChat 结合，基于微擎技术资源方面的优势，将积极发展 EasyWeChat 的开源社区，将为 EasyWeChat 开源项目注入巨大活力。
-> - EasyWeChat 原作者 overtrue 将继续担任开源项目的核心开发者，继续参与项目的发展规划，共同打造更强大的开源生态社区。
-> - 项目从 6.0 版本开始将修改包名为 `w7corp/easywechat`，5.x 及以下版本不受影响。
-
 > 🚨 注意：当前为 6.0 分支，处于新版开发中，请 PR 时往 5.x 提交，感谢您的贡献！
 
 ## Requirement
@@ -31,7 +23,7 @@
 ## Installation
 
 ```shell
-$ composer require "w7corp/easywechat:dev-develop" -vvv
+$ composer require "w7corp/easywechat:dev-master" -vvv
 ```
 
 ## Usage
@@ -41,31 +33,27 @@ $ composer require "w7corp/easywechat:dev-develop" -vvv
 ```php
 <?php
 
-use EasyWeChat\Factory;
+use EasyWeChat\OfficialAccount\Application;
 
-$options = [
-    'app_id'    => 'wx3cf0f39249eb0exxx',
-    'secret'    => 'f1c242f4f28f735d4687abb469072xxx',
-    'token'     => 'easywechat',
-    'log' => [
-        'level' => 'debug',
-        'file'  => '/tmp/easywechat.log',
-    ],
-    // ...
+$config = [
+    'app_id' => 'wx3cf0f39249eb0exx',
+    'secret' => 'f1c242f4f28f735d4687abb469072axx',
+    'token' => 'easywechat',
+    'aes_key' => '' // 明文模式请勿填写 EncodingAESKey
+    //...
 ];
 
-$app = Factory::officialAccount($options);
+$app = new Application($config);
 
-$server = $app->server;
-$user = $app->user;
+$server = $app->getServer();
 
-$server->push(function($message) use ($user) {
-    $fromUser = $user->get($message['FromUserName']);
-
-    return "{$fromUser->nickname} 您好！欢迎关注!";
+$server->addEventListener('subscribe', function($message, \Closure $next) {
+    return '感谢您关注 EasyWeChat!';
 });
 
-$server->serve()->send();
+$response = $server->serve();
+
+return $response;
 ```
 
 更多请参考 [https://www.easywechat.com/](https://www.easywechat.com/)。
