@@ -7,7 +7,6 @@ namespace EasyWeChat\OpenWork;
 use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
-use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
@@ -31,7 +30,7 @@ class Application implements ApplicationInterface
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
     protected ?Encryptor $encryptor = null;
-    protected ?Encryptor $suiteEncryptor = null;
+    protected ?SuiteEncryptor $suiteEncryptor = null;
     protected ?SuiteTicketInterface $suiteTicket = null;
     protected ?AccessTokenInterface $accessToken = null;
     protected ?AccessTokenInterface $suiteAccessToken = null;
@@ -63,9 +62,9 @@ class Application implements ApplicationInterface
     {
         if (!$this->encryptor) {
             $this->encryptor = new Encryptor(
-                $this->getAccount()->getCorpId(),
-                $this->getAccount()->getToken(),
-                $this->getAccount()->getAesKey(),
+                corpId: $this->getAccount()->getCorpId(),
+                token: $this->getAccount()->getToken(),
+                aesKey: $this->getAccount()->getAesKey(),
             );
         }
 
@@ -79,20 +78,20 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getSuiteEncryptor(): Encryptor
+    public function getSuiteEncryptor(): SuiteEncryptor
     {
         if (!$this->suiteEncryptor) {
-            $this->suiteEncryptor = new Encryptor(
-                $this->getAccount()->getSuiteId(),
-                $this->getAccount()->getToken(),
-                $this->getAccount()->getAesKey(),
+            $this->suiteEncryptor = new SuiteEncryptor(
+                suiteId: $this->getAccount()->getSuiteId(),
+                token: $this->getAccount()->getToken(),
+                aesKey: $this->getAccount()->getAesKey(),
             );
         }
 
         return $this->suiteEncryptor;
     }
 
-    public function setSuiteEncryptor(Encryptor $encryptor): static
+    public function setSuiteEncryptor(SuiteEncryptor $encryptor): static
     {
         $this->suiteEncryptor = $encryptor;
 
@@ -195,6 +194,14 @@ class Application implements ApplicationInterface
         return $this->suiteTicket;
     }
 
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
     public function getAuthorization(
         string $corpId,
         string $permanentCode,
@@ -219,6 +226,14 @@ class Application implements ApplicationInterface
         return new Authorization($response);
     }
 
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
     public function getAuthorizerAccessToken(
         string $corpId,
         string $permanentCode,

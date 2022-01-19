@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -80,6 +81,7 @@ class SuiteAccessToken implements AccessTokenInterface
     }
 
 
+    #[ArrayShape(['suite_access_token' => "string"])]
     public function toQuery(): array
     {
         return ['suite_access_token' => $this->getToken()];

@@ -67,11 +67,17 @@ class Application implements ApplicationInterface
         if (!$this->encryptor) {
             $token = $this->getAccount()->getToken();
             $aesKey = $this->getAccount()->getAesKey();
+
             if (empty($token) || empty($aesKey)) {
                 throw new InvalidConfigException('token or aes_key cannot be empty.');
             }
 
-            $this->encryptor = new Encryptor($this->getAccount()->getAppId(), $token, $aesKey);
+            $this->encryptor = new Encryptor(
+                appId: $this->getAccount()->getAppId(),
+                token: $token,
+                aesKey: $aesKey,
+                receiveId: $this->getAccount()->getAppId()
+            );
         }
 
         return $this->encryptor;
