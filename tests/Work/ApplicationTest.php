@@ -9,8 +9,8 @@ use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
-use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Work\AccessToken;
+use EasyWeChat\Work\Encryptor;
 use EasyWeChat\Work\JsApiTicket;
 use EasyWeChat\Work\Server;
 use EasyWeChat\Work\Account;
@@ -61,7 +61,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getEncryptor(), $app->getEncryptor());
 
         // set
-        $encryptor = new Encryptor(appId: 'wx3cf0f39249000060', token: 'mock-token', aesKey: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
+        $encryptor = new Encryptor(corpId: 'wx3cf0f39249000060', token: 'mock-token', aesKey: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
         $app->setEncryptor($encryptor);
         $this->assertSame($encryptor, $app->getEncryptor());
     }

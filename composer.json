@@ -36,7 +36,7 @@
     "symfony/mime": "^6.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.0",
+    "friendsofphp/php-cs-fixer": "^3.5.0",
     "brainmaestro/composer-git-hooks": "^2.8",
     "mikey179/vfsstream": "^1.6",
     "mockery/mockery": "^1.4.4",
@@ -86,5 +86,10 @@
     "test": "phpunit --colors",
     "psalm": "psalm --show-info=true --no-cache",
     "psalm-fix": "psalm --no-cache --alter --issues=MissingReturnType,MissingParamType"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
   }
 }

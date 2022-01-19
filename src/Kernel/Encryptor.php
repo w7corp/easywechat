@@ -28,11 +28,13 @@ class Encryptor
     protected string $token;
     protected string $aesKey;
     protected int $blockSize = 32;
+    protected ?string $receiveId = null;
 
-    public function __construct(string $appId, string $token, string $aesKey)
+    public function __construct(string $appId, string $token, string $aesKey, ?string $receiveId = null)
     {
         $this->appId = $appId;
         $this->token = $token;
+        $this->receiveId = $receiveId;
         $this->aesKey = base64_decode($aesKey.'=', true);
     }
 
@@ -105,7 +107,7 @@ class Encryptor
         $plaintext = substr($plaintext, 16);
         $contentLength = unpack('N', substr($plaintext, 0, 4))[1];
 
-        if (trim(substr($plaintext, $contentLength + 4)) !== $this->appId) {
+        if ($this->receiveId && trim(substr($plaintext, $contentLength + 4)) !== $this->receiveId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
         }
 

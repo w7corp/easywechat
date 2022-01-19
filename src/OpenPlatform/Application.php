@@ -77,9 +77,10 @@ class Application implements ApplicationInterface
     {
         if (!$this->encryptor) {
             $this->encryptor = new Encryptor(
-                $this->getAccount()->getAppId(),
-                $this->getAccount()->getToken(),
-                $this->getAccount()->getAesKey(),
+                appId: $this->getAccount()->getAppId(),
+                token: $this->getAccount()->getToken(),
+                aesKey: $this->getAccount()->getAesKey(),
+                receiveId: $this->getAccount()->getAppId(),
             );
         }
 
