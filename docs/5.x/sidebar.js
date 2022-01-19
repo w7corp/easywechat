@@ -79,7 +79,10 @@ module.exports = [{
                 { text: "订阅消息", link: "/5.x/mini-program/subscribe_message.html" },
                 { text: "直播", link: "/5.x/mini-program/live.html" },
                 { text: "安全风控", link: "/5.x/mini-program/safety_control.html" },
-                { text: "URL Scheme", link: "/5.x/mini-program/url_scheme_generate.html" },
+                { text: "URL Scheme", link: "/5.x/mini-program/url_scheme.html" },
+                { text: "URL Link", link: "/5.x/mini-program/url_link.html" },
+                { text: "Short Link", link: "/5.x/mini-program/short_link.html" },
+                { text: "手机号", link: "/5.x/mini-program/phone_number.html" },
             ],
         },
         {
@@ -111,6 +114,7 @@ module.exports = [{
                 { text: "JSSDK", link: "/5.x/wework/jssdk.html" },
                 { text: "群机器人", link: "/5.x/wework/group-robot.html" },
                 { text: "移动端", link: "/5.x/wework/mobile.html" },
+                { text: "企微帐号ID转换", link: "/5.x/wework/to-account.html" },
             ],
         },
         {

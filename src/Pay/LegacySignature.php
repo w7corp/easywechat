@@ -19,7 +19,6 @@ class LegacySignature
         $params = $attributes = array_filter(
             \array_merge(
                 [
-                    'mch_id' => $this->merchant->getMerchantId(),
                     'nonce_str' => $nonce,
                     'sub_mch_id' => $params['sub_mch_id'] ?? null,
                     'sub_appid' => $params['sub_appid'] ?? null,
@@ -38,7 +37,7 @@ class LegacySignature
             $signType = 'md5';
         }
 
-        $params['sign'] = strtoupper(call_user_func_array($signType, [urldecode(http_build_query($params))]));
+        $params['sign'] = strtoupper(call_user_func_array($signType, [urldecode(http_build_query($attributes))]));
 
         return $params;
     }

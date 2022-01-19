@@ -33,11 +33,14 @@
 
 ## 更新文档
 
-我们的文档也是开源的，源代码在 [w7corp/easywechat](https://github.com/w7corp/easywechat)
+我们的文档也是开源的，源代码在 [w7corp/EasyWeChat/docs](https://github.com/w7corp/easywechat/tree/master/docs)
+
+
+
 
 ### 流程
 
-1. Fork [w7corp/easywechat](https://github.com/w7corp/easywechat)
+1. Fork [w7corp/EasyWeChat](https://github.com/w7corp/easywechat)
 2. Clone 到你的电脑：
 
 ```shell

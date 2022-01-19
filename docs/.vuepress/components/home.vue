@@ -22,7 +22,7 @@
             <h1
               class="text-3xl md:text-5xl xl:text-6xl font-extrabold leading-tighter tracking-tighter mb-4 aos-init aos-animate bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-400"
             >
-              微信开发，也可以更简单
+              微信开发，可以更简单
             </h1>
             <p class="mb-2 md:mb-8 leading-relaxed text-gray-500">每一个细节，都经过精心打磨，只为了提供更好的开发体验</p>
             <div class="mt-2 md:mt-8 space-y-2 md:space-y-0 xl:flex justify-center">

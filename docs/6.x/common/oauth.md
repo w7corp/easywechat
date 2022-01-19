@@ -173,7 +173,7 @@ $config = [
 
 $app = new Application($config);
 
-$oauth = $oauth;
+$oauth = $app->getOauth();
 
 // 获取 OAuth 授权用户信息
 $user = $oauth->userFromCode($_GET['code']);
