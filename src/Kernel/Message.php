@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel;
 
+use ArrayAccess;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use Psr\Http\Message\ServerRequestInterface;
 
-abstract class Message
+abstract class Message implements ArrayAccess
 {
     use HasAttributes;
 
