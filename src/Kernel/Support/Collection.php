@@ -229,9 +229,23 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @return mixed data which can be serialized by <b>json_encode</b>,
      *               which is a value of any type other than a resource
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->items;
+    }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * String representation of object.
+     *
+     * @see http://php.net/manual/en/serializable.serialize.php
+     *
+     * @return string the string representation of the object or null
+     */
+    public function __serialize()
+    {
+        return serialize($this->items);
     }
 
     /**
@@ -256,6 +270,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @return \ArrayIterator An instance of an object implementing <b>Iterator</b> or
      *                        <b>Traversable</b>
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new ArrayIterator($this->items);
@@ -272,10 +287,29 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *             <p>
      *             The return value is cast to an integer
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->items);
     }
+
+    /**
+     * (PHP 5 &gt;= 5.1.0)<br/>
+     * Constructs the object.
+     *
+     * @see  http://php.net/manual/en/serializable.unserialize.php
+     *
+     * @param string $serialized <p>
+     *                           The string representation of the object.
+     *                           </p>
+     *
+     * @return mixed|void
+     */
+    public function __unserialize($serialized)
+    {
+        return $this->items = unserialize($serialized);
+    }
+
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
@@ -364,6 +398,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @return bool true on success or false on failure.
      *              The return value will be casted to boolean if non-boolean was returned
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return $this->has($offset);
@@ -379,6 +414,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *                      The offset to unset.
      *                      </p>
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         if ($this->offsetExists($offset)) {
@@ -398,6 +434,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *
      * @return mixed Can return all value types
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->offsetExists($offset) ? $this->get($offset) : null;
@@ -416,6 +453,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      *                      The value to set.
      *                      </p>
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->set($offset, $value);
