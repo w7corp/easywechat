@@ -33,7 +33,7 @@
     "ext-libxml": "*"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.15",
+    "friendsofphp/php-cs-fixer": "^3.5.0",
     "brainmaestro/composer-git-hooks": "^2.7",
     "mikey179/vfsstream": "^1.6",
     "mockery/mockery": "^1.2.3",
@@ -77,8 +77,8 @@
       "cghooks update"
     ],
     "phpstan": "vendor/bin/phpstan analyse",
-    "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=.php_cs --dry-run --ansi",
-    "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php_cs --ansi",
+    "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --ansi",
+    "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --ansi",
     "test": "vendor/bin/phpunit --colors=always --testdox"
   }
 }
