@@ -235,17 +235,9 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return $this->items;
     }
 
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * String representation of object.
-     *
-     * @see http://php.net/manual/en/serializable.serialize.php
-     *
-     * @return string the string representation of the object or null
-     */
-    public function __serialize()
+    public function __serialize(): array
     {
-        return serialize($this->items);
+        return $this->items;
     }
 
     /**
@@ -293,23 +285,10 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return count($this->items);
     }
 
-    /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Constructs the object.
-     *
-     * @see  http://php.net/manual/en/serializable.unserialize.php
-     *
-     * @param string $serialized <p>
-     *                           The string representation of the object.
-     *                           </p>
-     *
-     * @return mixed|void
-     */
-    public function __unserialize($serialized)
+    public function __unserialize(array $data): void
     {
-        return $this->items = unserialize($serialized);
+        $this->items = $data;
     }
-
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
