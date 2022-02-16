@@ -32,9 +32,6 @@ trait InteractWithHandlers
         return $this->prependHandler(...\func_get_args());
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
     public function without(callable | string $handler): static
     {
         return $this->withoutHandler(...\func_get_args());
@@ -65,21 +62,15 @@ trait InteractWithHandlers
         return $next($payload);
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
     public function has(callable | string $handler): bool
     {
         return $this->indexOf($handler) > -1;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
     public function indexOf(callable | string $handler): int
     {
         foreach ($this->handlers as $index => $item) {
-            if ($item['hash'] === $this->getHandlerHash($this->makeClosure($handler))) {
+            if ($item['hash'] === $this->getHandlerHash($handler)) {
                 return $index;
             }
         }
@@ -89,7 +80,6 @@ trait InteractWithHandlers
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     *
      */
     public function withHandler(callable | string $handler): static
     {
@@ -114,11 +104,9 @@ trait InteractWithHandlers
     #[ArrayShape(['hash' => "string", 'handler' => "callable|string"])]
     public function createHandlerItem(callable | string $handler): array
     {
-        $handler = $this->makeClosure($handler);
-
         return [
             'hash' => $this->getHandlerHash($handler),
-            'handler' => $handler,
+            'handler' => $this->makeClosure($handler),
         ];
     }
 
@@ -134,23 +122,17 @@ trait InteractWithHandlers
         return $this;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
     public function withoutHandler(callable | string $handler): static
     {
         $index = $this->indexOf($handler);
 
         if ($index > -1) {
-            unset($this->handlers[$this->indexOf($handler)]);
+            unset($this->handlers[$index]);
         }
 
         return $this;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
     public function withoutHandlers(array $handlers = null): static
     {
         if (!is_array($handlers)) {
@@ -183,7 +165,7 @@ trait InteractWithHandlers
         }
 
         if (class_exists($handler) && \method_exists($handler, '__invoke')) {
-            return $handler;
+            return fn (): mixed => (new $handler())(...\func_get_args());
         }
 
         throw new InvalidArgumentException(sprintf('Invalid handler: %s.', $handler));

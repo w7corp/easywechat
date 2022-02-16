@@ -19,14 +19,18 @@ class InteractWithHandlersTest extends TestCase
         $c = new class () {
             public function hello()
             {
+                return 'hello';
             }
         };
         $m->with([$c, 'hello']);
         $this->assertCount(1, $m->getHandlers());
+        $this->assertSame('hello', $m->handle('result'));
 
         // remove
         $m->withoutHandler([$c, 'hello']);
         $this->assertCount(0, $m->getHandlers());
+
+        $this->assertSame('result', $m->handle('result'));
     }
 
     /**
@@ -39,10 +43,12 @@ class InteractWithHandlersTest extends TestCase
         $h = fn () => 'hello';
         $m->with($h);
         $this->assertCount(1, $m->getHandlers());
+        $this->assertSame('hello', $m->handle('result'));
 
         // remove
         $m->withoutHandler($h);
         $this->assertCount(0, $m->getHandlers());
+        $this->assertSame('result', $m->handle('result'));
     }
 
     /**
@@ -54,10 +60,13 @@ class InteractWithHandlersTest extends TestCase
 
         $m->with(DummyClassBasedHandler::class);
         $this->assertCount(1, $m->getHandlers());
+        $this->assertSame('hello', $m->handle('result'));
 
         // remove
         $m->withoutHandler(DummyClassBasedHandler::class);
+
         $this->assertCount(0, $m->getHandlers());
+        $this->assertSame('result', $m->handle('result'));
     }
 
     /**

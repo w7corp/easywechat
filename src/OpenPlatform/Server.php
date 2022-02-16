@@ -97,7 +97,7 @@ class Server implements ServerInterface
      */
     public function withDefaultVerifyTicketHandler(callable | string $handler): void
     {
-        $this->defaultVerifyTicketHandler = fn () => $handler(...\func_get_args());
+        $this->defaultVerifyTicketHandler = fn (): mixed => $handler(...\func_get_args());
         $this->handleVerifyTicketRefreshed($this->defaultVerifyTicketHandler);
     }
 

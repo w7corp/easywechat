@@ -19,9 +19,9 @@ abstract class Message implements ArrayAccess
         $this->attributes = $attributes;
     }
 
-    public function getOriginalContents(): ?string
+    public function getOriginalContents(): string
     {
-        return $this->originContent;
+        return $this->originContent ?? '';
     }
 
 
