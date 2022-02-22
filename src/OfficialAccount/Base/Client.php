@@ -34,7 +34,6 @@ class Client extends BaseClient
     public function getQuota(string $cgiPath)
     {
         $params = [
-            'appid' => $this->app['config']['app_id'],
             'cgi_path' => $cgiPath,
         ];
         
