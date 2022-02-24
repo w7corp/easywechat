@@ -259,7 +259,7 @@ class Application implements ApplicationInterface
 
     public function createClient(): Client
     {
-        return new Client($this->getHttpClient(), '', $this->getProviderAccessToken());
+        return new Client($this->getHttpClient(), $this->getProviderAccessToken());
     }
 
     public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): OpenWeWork

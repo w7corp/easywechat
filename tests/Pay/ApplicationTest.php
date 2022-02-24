@@ -6,7 +6,6 @@ namespace EasyWeChat\Tests\Pay;
 
 use EasyWeChat\Pay\Application;
 use EasyWeChat\Pay\Contracts\Merchant;
-use EasyWeChat\Pay\MerchantAwareHttpClient;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpClient\CurlHttpClient;
 
