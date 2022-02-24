@@ -18,8 +18,7 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     use InteractWithServerRequest;
 
     protected ?ServerInterface $server = null;
-    protected ?HttpClientInterface $v2Client = null;
-    protected ?HttpClientInterface $v3Client = null;
+    protected ?HttpClientInterface $client = null;
     protected ?Merchant $merchant = null;
 
     public function getMerchant(): Merchant
@@ -35,29 +34,6 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         }
 
         return $this->merchant;
-    }
-
-    public function decorateMerchantAwareHttpClient(HttpClientInterface $httpClient): MerchantAwareHttpClient
-    {
-        return new MerchantAwareHttpClient($this->getMerchant(), $httpClient, $this->config->get('http', []));
-    }
-
-    public function getClient(): HttpClientInterface
-    {
-        if (!$this->v3Client) {
-            $this->v3Client = $this->decorateMerchantAwareHttpClient($this->getHttpClient())->withUri('v3');
-        }
-
-        return $this->v3Client;
-    }
-
-    public function getV2Client(): HttpClientInterface
-    {
-        if (!$this->v2Client) {
-            $this->v2Client = $this->decorateMerchantAwareHttpClient($this->getHttpClient());
-        }
-
-        return $this->v2Client;
     }
 
     public function getUtils(): Utils
@@ -99,5 +75,15 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     public function getConfig(): ConfigInterface
     {
         return $this->config;
+    }
+
+    public function getClient(): HttpClientInterface
+    {
+        return $this->client ?? $this->client = $this->decorateMerchantAwareHttpClient($this->getHttpClient());
+    }
+
+    protected function decorateMerchantAwareHttpClient(HttpClientInterface $httpClient): MerchantAwareHttpClient
+    {
+        return new MerchantAwareHttpClient($this->getMerchant(), $httpClient, $this->config->get('http', []));
     }
 }

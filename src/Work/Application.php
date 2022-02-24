@@ -119,7 +119,7 @@ class Application implements ApplicationInterface
 
     public function createClient(): Client
     {
-        return new Client($this->getHttpClient(), '', $this->getAccessToken());
+        return new Client($this->getHttpClient(), $this->getAccessToken());
     }
 
     public function getOAuth(): WeWork

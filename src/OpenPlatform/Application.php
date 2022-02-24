@@ -268,7 +268,7 @@ class Application implements ApplicationInterface
 
     public function createClient(): Client
     {
-        return new Client($this->getHttpClient(), '', $this->getComponentAccessToken());
+        return new Client($this->getHttpClient(), $this->getComponentAccessToken());
     }
 
     protected function getHttpClientDefaultOptions(): array

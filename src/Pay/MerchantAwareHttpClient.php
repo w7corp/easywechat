@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
-use EasyWeChat\Kernel\Contracts\ChainableHttpClient as ChainableHttpClientInterface;
 use EasyWeChat\Kernel\Support\UserAgent;
-use EasyWeChat\Kernel\Traits\ChainableHttpClient;
 use Nyholm\Psr7\Stream;
 use Nyholm\Psr7\Uri;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
@@ -16,10 +14,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-class MerchantAwareHttpClient implements HttpClientInterface, ChainableHttpClientInterface
+class MerchantAwareHttpClient implements HttpClientInterface
 {
     use HttpClientTrait;
-    use ChainableHttpClient;
 
     protected HttpClientInterface $client;
 
