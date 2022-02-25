@@ -14,3 +14,4 @@ docs/dist/
 docs/.vuepress/.temp/
 docs/.vuepress/.cache/
 .vercel
+.phplint-cache
