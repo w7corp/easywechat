@@ -51,8 +51,8 @@ var_dump($response->toArray());
 
 在你动手写代码之前，建议您首先阅读以下内容：
 
-- [关于 6.x](introduction.md)
-- [API 调用](client.md)
+- [关于 6.x](./introduction.md)
+- [API 调用](./client.md)
 
 ## 参与贡献
 
