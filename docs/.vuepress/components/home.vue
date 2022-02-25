@@ -75,12 +75,6 @@
           </div>
         </div>
       </section>
-      <div class="stars-bg absolute inset-0 z-0">
-        <div class="stars"></div>
-        <div class="stars2"></div>
-        <div class="stars3"></div>
-      </div>
-
       <HomeFooter class="z-10"></HomeFooter>
     </div>
   </div>
