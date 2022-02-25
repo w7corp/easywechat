@@ -51,12 +51,12 @@ var_dump($response->toArray());
 
 在你动手写代码之前，建议您首先阅读以下内容：
 
-- [关于 6.x](/docs/{{version}}/introduction.md)
-- [API 调用](/docs/{{version}}/client.md)
+- [关于 6.x](./introduction.md)
+- [API 调用](./client.md)
 
 ## 参与贡献
 
-我们欢迎广大开发者贡献大家的智慧，让我们共同让它变得更完美。您可以在 GitHub 上提交 Pull Request，我们会尽快审核并公布。更多信息请参考 [贡献指南](/docs/{{version}}/contributing.md)。
+我们欢迎广大开发者贡献大家的智慧，让我们共同让它变得更完美。您可以在 GitHub 上提交 Pull Request，我们会尽快审核并公布。更多信息请参考 [贡献指南](contributing.md)。
 
 ## 开发者交流群
 
