@@ -17,6 +17,7 @@ use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
+use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\OpenWeWork;
 
 class Application implements ApplicationInterface
@@ -262,7 +263,7 @@ class Application implements ApplicationInterface
         return new Client($this->getHttpClient(), $this->getProviderAccessToken());
     }
 
-    public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): OpenWeWork
+    public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): SocialiteProviderInterface
     {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
@@ -274,7 +275,7 @@ class Application implements ApplicationInterface
            ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
-    public function getCorpOAuth(string $corpId, ?AccessTokenInterface $suiteAccessToken = null): OpenWeWork
+    public function getCorpOAuth(string $corpId, ?AccessTokenInterface $suiteAccessToken = null): SocialiteProviderInterface
     {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 

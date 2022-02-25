@@ -16,6 +16,8 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use JetBrains\PhpStorm\Pure;
+use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
 
 class Application implements ApplicationInterface
@@ -143,10 +145,10 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getOAuth(): WeChat
+    public function getOAuth(): SocialiteProviderInterface
     {
         if (!$this->oauthFactory) {
-            $this->oauthFactory = fn (self $app): WeChat => (new WeChat(
+            $this->oauthFactory = fn (self $app): SocialiteProviderInterface => (new WeChat(
                 [
                     'client_id' => $this->getAccount()->getAppId(),
                     'client_secret' => $this->getAccount()->getSecret(),
@@ -179,6 +181,7 @@ class Application implements ApplicationInterface
         return $this;
     }
 
+    #[Pure]
     public function getUtils(): Utils
     {
         return new Utils($this);

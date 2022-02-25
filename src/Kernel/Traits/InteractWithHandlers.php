@@ -165,6 +165,7 @@ trait InteractWithHandlers
         }
 
         if (class_exists($handler) && \method_exists($handler, '__invoke')) {
+            /** @psalm-suppress InvalidFunctionCall */
             return fn (): mixed => (new $handler())(...\func_get_args());
         }
 

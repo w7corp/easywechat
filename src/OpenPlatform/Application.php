@@ -20,6 +20,7 @@ use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
+use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
 
 class Application implements ApplicationInterface
@@ -109,12 +110,17 @@ class Application implements ApplicationInterface
             );
         }
 
-        $this->server->withDefaultVerifyTicketHandler(
-            function (Message $message, \Closure $next): mixed {
-                $this->getVerifyTicket()->setTicket($message->ComponentVerifyTicket);
-                return $next($message);
-            }
-        );
+        if ($this->server instanceof Server) {
+            $this->server->withDefaultVerifyTicketHandler(
+                function (Message $message, \Closure $next): mixed {
+                    $ticket = $this->getVerifyTicket();
+                    if (\is_callable([$ticket, 'setTicket'])) {
+                        $ticket->setTicket($message->ComponentVerifyTicket);
+                    }
+                    return $next($message);
+                }
+            );
+        }
 
         return $this->server;
     }
@@ -173,6 +179,14 @@ class Application implements ApplicationInterface
         return new Authorization($response);
     }
 
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
     public function refreshAuthorizerToken(string $authorizerAppId, string $authorizerRefreshToken): array
     {
         $response = $this->createClient()->request(
@@ -194,7 +208,10 @@ class Application implements ApplicationInterface
         return $response;
     }
 
-    public function getOAuth(): WeChat
+    /**
+     * @throws \Overtrue\Socialite\Exceptions\InvalidArgumentException
+     */
+    public function getOAuth(): SocialiteProviderInterface
     {
         return (new WeChat(
             [

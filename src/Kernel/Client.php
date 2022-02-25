@@ -115,7 +115,7 @@ class Client implements AccessTokenAwareHttpClientInterface
         return new class ($mockResponse, $baseUri) {
             use DecoratorTrait;
 
-            public function __construct(public MockResponse $mockResponse, $baseUri)
+            public function __construct(public MockResponse $mockResponse, string $baseUri)
             {
                 $this->client = new Client(new MockHttpClient($this->mockResponse, $baseUri));
             }
@@ -126,19 +126,19 @@ class Client implements AccessTokenAwareHttpClientInterface
             }
 
             #[Pure]
-            public function getRequestMethod()
+            public function getRequestMethod(): string
             {
                 return $this->mockResponse->getRequestMethod();
             }
 
             #[Pure]
-            public function getRequestUrl()
+            public function getRequestUrl(): string
             {
                 return $this->mockResponse->getRequestUrl();
             }
 
             #[Pure]
-            public function getRequestOptions()
+            public function getRequestOptions(): array
             {
                 return $this->mockResponse->getRequestOptions();
             }

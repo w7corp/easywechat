@@ -136,7 +136,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         return count($this->items);
     }
 
-    public function __unserialize($serialized)
+    public function __unserialize(array $serialized)
     {
         $this->items = $serialized;
     }

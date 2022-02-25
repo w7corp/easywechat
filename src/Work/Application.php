@@ -14,6 +14,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeWork;
 
 class Application implements ApplicationInterface
@@ -122,7 +123,7 @@ class Application implements ApplicationInterface
         return new Client($this->getHttpClient(), $this->getAccessToken());
     }
 
-    public function getOAuth(): WeWork
+    public function getOAuth(): SocialiteProviderInterface
     {
         return (new WeWork(
             [
