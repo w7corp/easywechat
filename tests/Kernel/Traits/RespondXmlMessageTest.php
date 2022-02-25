@@ -16,7 +16,7 @@ class RespondXmlMessageTest extends TestCase
         $response = $this->transformToReply('', \Mockery::mock(Message::class));
 
         $this->assertSame(200, $response->getStatusCode());
-        $this->assertSame('success', $response->getBody()->getContents());
+        $this->assertSame('success', \strval($response->getBody()));
     }
 
     public function test_it_will_handle_array_response()
@@ -33,7 +33,7 @@ class RespondXmlMessageTest extends TestCase
                     .'<MsgType><\!\[CDATA\[text\]\]></MsgType>'
                     .'<Content><\!\[CDATA\[Hello\]\]></Content>'
                     .'</xml>~',
-            $response->getBody()->getContents()
+            \strval($response->getBody())
         );
     }
 
@@ -49,7 +49,7 @@ class RespondXmlMessageTest extends TestCase
             .'<MsgType><\!\[CDATA\[text\]\]></MsgType>'
             .'<Content><\!\[CDATA\[Hello\]\]></Content>'
             .'</xml>~',
-            $response->getBody()->getContents()
+            \strval($response->getBody())
         );
     }
 

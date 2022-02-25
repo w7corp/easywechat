@@ -10,6 +10,11 @@ use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @property string $FromUserName
+ * @property string $ToUserName
+ * @property string $Encrypt
+ */
 abstract class Message implements ArrayAccess
 {
     use HasAttributes;

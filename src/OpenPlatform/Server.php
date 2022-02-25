@@ -6,11 +6,11 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
+use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -40,14 +40,14 @@ class Server implements ServerInterface
     public function serve(): ResponseInterface
     {
         if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
-            return new ServerResponse(200, [], $str);
+            return new Response(200, [], $str);
         }
 
         $message = Message::createFromRequest($this->request);
 
         $this->prepend($this->decryptRequestMessage());
 
-        $response = $this->handle(new ServerResponse(200, [], 'success'), $message);
+        $response = $this->handle(new Response(200, [], 'success'), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;
@@ -119,7 +119,7 @@ class Server implements ServerInterface
 
     public function resolveResponse(mixed $response, Message $message): ResponseInterface
     {
-        return new ServerResponse(200, [], 'success');
+        return new Response(200, [], 'success');
     }
 
     protected function decryptRequestMessage(): \Closure

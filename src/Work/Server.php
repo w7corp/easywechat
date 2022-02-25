@@ -6,11 +6,11 @@ namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
+use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -46,14 +46,14 @@ class Server implements ServerInterface
                 $query['timestamp'] ?? ''
             );
 
-            return new ServerResponse(200, [], $response);
+            return new Response(200, [], $response);
         }
 
         $message = Message::createFromRequest($this->request);
 
         $this->prepend($this->decryptRequestMessage());
 
-        $response = $this->handle(new ServerResponse(200, [], 'SUCCESS'), $message);
+        $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
         if ($response instanceof ResponseInterface) {
             return $response;
@@ -174,7 +174,7 @@ class Server implements ServerInterface
 
     protected function validateUrl(): \Closure
     {
-        return function (Message $message, \Closure $next): ServerResponse {
+        return function (Message $message, \Closure $next): Response {
             $query = $this->request->getQueryParams();
             $response = $this->encryptor->decrypt(
                 $query['echostr'],
@@ -183,7 +183,7 @@ class Server implements ServerInterface
                 $query['timestamp'] ?? ''
             );
 
-            return new ServerResponse(200, [], $response);
+            return new Response(200, [], $response);
         };
     }
 

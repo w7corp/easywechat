@@ -12,18 +12,4 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-
-    <issueHandlers>
-        <InvalidExtendClass>
-            <errorLevel type="suppress">
-                <file name="src/Kernel/ServerResponse.php" />
-            </errorLevel>
-        </InvalidExtendClass>
-
-        <MethodSignatureMismatch>
-            <errorLevel type="suppress">
-                <file name="src/Kernel/ServerResponse.php" />
-            </errorLevel>
-        </MethodSignatureMismatch>
-    </issueHandlers>
 </psalm>
