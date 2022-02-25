@@ -10,7 +10,6 @@ use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\Config;
 use EasyWeChat\Kernel\Encryptor;
 use Overtrue\Socialite\Contracts\ProviderInterface;
-use Overtrue\Socialite\Providers\WeChat;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
