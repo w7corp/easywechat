@@ -1,6 +1,6 @@
 # 服务端
 
-第三方平台的服务端推送和公众号一样，请参考：[公众号：服务端](/docs/{{version}}/official-account/server.md)
+第三方平台的服务端推送和公众号一样，请参考：[公众号：服务端](../official-account/server.md)
 
 ## 第三方平台推送事件
 

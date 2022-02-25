@@ -1,6 +1,6 @@
 # 服务端
 
-企业微信服务端推送和公众号一样，请参考：[公众号：服务端](/docs/{{version}}/official-account/server.md)
+企业微信服务端推送和公众号一样，请参考：[公众号：服务端](../official-account/server.md)
 
 ## 第三方平台推送事件
 
@@ -19,7 +19,6 @@
     - 标签变更
       - 成员标签变更 `update_tag`
 - 批量任务执行完成 `batch_job_result`
-
 
 ## 自定义消息处理器
 

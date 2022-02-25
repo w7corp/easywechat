@@ -2,13 +2,12 @@
 
 📦 一个 PHP 微信开发 SDK，开源 Saas 平台提供商 [微擎](https://www.easywechat.com/w7team.jpg) 旗下开源产品。
 
-[![Test Status](https://github.com/w7corp/easywechat/workflows/Test/badge.svg)](https://github.com/w7corp/easywechat/actions) 
-[![Lint Status](https://github.com/w7corp/easywechat/workflows/Lint/badge.svg)](https://github.com/w7corp/easywechat/actions) 
-[![Latest Stable Version](https://poser.pugx.org/w7corp/easywechat/v/stable.svg)](https://packagist.org/packages/w7corp/easywechat) 
+[![Test Status](https://github.com/w7corp/easywechat/workflows/Test/badge.svg)](https://github.com/w7corp/easywechat/actions)
+[![Lint Status](https://github.com/w7corp/easywechat/workflows/Lint/badge.svg)](https://github.com/w7corp/easywechat/actions)
+[![Latest Stable Version](https://poser.pugx.org/w7corp/easywechat/v/stable.svg)](https://packagist.org/packages/w7corp/easywechat)
 [![Latest Unstable Version](https://poser.pugx.org/w7corp/easywechat/v/unstable.svg)](https://packagist.org/packages/w7corp/easywechat)
-[![Total Downloads](https://poser.pugx.org/w7corp/easywechat/downloads)](https://packagist.org/packages/w7corp/easywechat) 
-[![License](https://poser.pugx.org/w7corp/easywechat/license)](https://packagist.org/packages/w7corp/easywechat) 
-
+[![Total Downloads](https://poser.pugx.org/w7corp/easywechat/downloads)](https://packagist.org/packages/w7corp/easywechat)
+[![License](https://poser.pugx.org/w7corp/easywechat/license)](https://packagist.org/packages/w7corp/easywechat)
 
 ## 环境需求
 
@@ -18,12 +17,12 @@
 ## 安装
 
 ```bash
-$ composer require w7corp/easywechat
+composer require w7corp/easywechat
 ```
 
 ## 使用示例
 
-基本使用（以服务端为例）:
+基本使用（以公众号服务端为例）:
 
 ```php
 <?php
@@ -48,12 +47,7 @@ $response->send();
 
 ## 文档和链接
 
-[官网](https://www.easywechat.com)  ·  [讨论](https://github.com/w7corp/easywechat/discussions)  ·  [更新策略](https://github.com/w7corp/easywechat/security/policy)
-
-## 贡献者们
-
-
-<a href="https://github.com/w7corp/easywechat/graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
+[官网](https://www.easywechat.com) · [讨论](https://github.com/w7corp/easywechat/discussions) · [更新策略](https://github.com/w7corp/easywechat/security/policy)
 
 ## :heart: 支持我
 
@@ -67,6 +61,9 @@ $response->send();
 
 [![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/overtrue)
 
+## 可爱的贡献者们
+
+<a href="https://github.com/w7corp/easywechat/graphs/contributors"><img src="https://opencollective.com/wechat/contributors.svg?width=890" /></a>
 
 ## License
 

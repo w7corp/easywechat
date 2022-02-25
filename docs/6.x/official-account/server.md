@@ -11,7 +11,6 @@ $app = new Application($config);
 $server = $app->getServer();
 ```
 
-
 ### 中间件模式
 
 与 5.x 的设计类似，服务端使用中间件模式来依次调用开发者注册的中间件：
@@ -44,7 +43,6 @@ $server
 
 $response = $server->serve();
 ```
-
 
 ### 回复消息
 
@@ -137,8 +135,8 @@ $server->addMessageListener('text', function() { ... });
 
 **参数**
 
- - 参数 1 为消息类型，也就是 message 中的 `MsgType` 字段，例如：`image`;
- - 参数 2 是中间件，也就是上面讲到的多种类型的中间件。
+- 参数 1 为消息类型，也就是 message 中的 `MsgType` 字段，例如：`image`;
+- 参数 2 是中间件，也就是上面讲到的多种类型的中间件。
 
 ### 处理事件消息
 
@@ -150,11 +148,10 @@ $server->addEventListener('subscribe', function() { ... });
 
 **参数**
 
- - 参数 1 为事件类型，也就是 message 中的 `Event` 字段，例如：`subscribe`;
- - 参数 2 是中间件，也就是上面讲到的多种类型的中间件。
+- 参数 1 为事件类型，也就是 message 中的 `Event` 字段，例如：`subscribe`;
+- 参数 2 是中间件，也就是上面讲到的多种类型的中间件。
 
 关于回复消息的结构，可以查阅 **[消息](message.md)** 章节了解更多。
-
 
 ## 完整示例
 

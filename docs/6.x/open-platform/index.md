@@ -139,7 +139,7 @@ $authorization->toJson();
 
 在公众号/小程序接口调用令牌（`authorizer_access_token`）失效时，可以使用刷新令牌（authorizer_refresh_token）获取新的接口调用令牌。
 
-> horizer_access_token`有效期为 2 小时，开发者需要缓存`authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。缓存方法可以参考：https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
+> horizer_access_token`有效期为 2 小时，开发者需要缓存`authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。缓存方法可以参考：<https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html>
 
 ```php
 $authorizerAppId = '授权方 appid';
@@ -186,7 +186,7 @@ $officialAccount = $app->getOfficialAccount($authorizerAccessToken);
 $users = $officialAccount->getClient()->cgiBin->users->list->get()->toArray();
 ```
 
-:book: 更多公众号用法请参考：[公众号](/docs/{{version}}/official-account/index.md)
+:book: 更多公众号用法请参考：[公众号](../official-account/index.md)
 
 **获取小程序实例**
 
@@ -198,4 +198,4 @@ $miniApp = $app->getMiniApp($authorizerAccessToken);
 $users = $miniApp->getClient()->cgiBin->users->list->get()->toArray();
 ```
 
-:book: 更多小程序用法请参考：[小程序](/docs/{{version}}/mini-app/index.md)
+:book: 更多小程序用法请参考：[小程序](../mini-app/index.md)

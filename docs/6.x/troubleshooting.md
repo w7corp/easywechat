@@ -139,19 +139,3 @@ xdebug.max_nesting_level=200
 ```php
 'expire'     => 0,
 ```
-
-## 替换 Handler，让 easywechat 支持协程
-
-在 Swoft、IMI 等基于 Swoole 的协程框架中使用 easywechat 时，不免会有一个问题，就是 guzzle 客户端内置的 handler 不支持协程的问题。
-这里，提供一个办法主动替换容器内的 guzzle_handler.
-
-```php
-$app = Factory::miniProgram($config);
-$app['guzzle_handler'] = CoroutineHandler::class;
-```
-
-鉴于有些同学找不到可用的 `CoroutineHandler`，这里提供几个，供大家使用。
-
-- hyperf/guzzle
-- yurunsoft/guzzle-swoole
-- mix/guzzle-hook

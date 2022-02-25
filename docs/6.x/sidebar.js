@@ -4,9 +4,9 @@ module.exports = [
             {
                 text: "开始使用",
                 children: [
-                    { text: "概述", link: "/6.x/index.html" },
-                    { text: "安装", link: "/6.x/installation.html" },
+                    { text: "立即开始", link: "/6.x/index.html" },
                     { text: "常见问题汇总", link: "/6.x/troubleshooting.html" },
+                    { text: "参与贡献", link: "/6.x/contributing.html" },
                 ]
             }, {
                 text: "公众号",
@@ -59,12 +59,6 @@ module.exports = [
                     { text: "API 调用", link: "/6.x/common/client.html" },
                     { text: "网页授权", link: "/6.x/common/oauth.html" },
                     { text: "日志", link: "/6.x/common/logging.html" },
-                ]
-            }, {
-                text: "其他",
-                children: [
-                    { text: "常见问题", link: "/6.x/troubleshooting.html" },
-                    { text: "参与贡献", link: "/6.x/contributing.html" },
                 ]
             }]
     }

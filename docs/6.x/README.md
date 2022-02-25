@@ -1,8 +1,6 @@
 # EasyWeChat
 
-EasyWeChat 是一个开源的 [微信](http://www.wechat.com) 非官方 SDK。
-
-EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https://getcomposer.org/) 包，这意味着任何满足下列安装条件的 PHP 项目支持 Composer 都可以使用它。
+EasyWeChat 是一个开源的 [微信](http://www.wechat.com) 非官方 SDK。安装非常简单，因为它是一个标准的 [Composer](https://getcomposer.org/) 包，这意味着任何满足下列安装条件的 PHP 项目支持 Composer 都可以使用它。
 
 ## 环境需求
 
@@ -12,32 +10,52 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 - [PHP SimpleXML 扩展](http://php.net/manual/en/book.simplexml.php)
 - [PHP fileinfo 拓展](http://php.net/manual/en/book.fileinfo.php)
 
-## 加入我们
+## 安装
+
+使用 [composer](http://getcomposer.org/):
+
+```shell
+composer require w7corp/easywechat
+```
+
+## 使用
+
+从 6.x 起，EasyWeChat 依然保持了它开箱即用的特性，同样只需要传入一个配置，初始化一个模块实例即可：
+
+```php
+use EasyWeChat\OfficialAccount\Application;
+
+$config = [
+    'app_id' => 'wx3cf0f39249eb0exx',
+    'secret' => 'f1c242f4f28f735d4687abb469072axx',
+    'token' => 'easywechat',
+    'aes_key' => '' // 明文模式请勿填写 EncodingAESKey
+    //...
+];
+
+$app = new Application($config);
+```
+
+在创建实例后，所有的方法都几乎可以有 IDE 自动补全，当然，建议先阅读各模块的文档了解一下他们的区别，比如我们以调用公众号获取用户资料为例：
+
+```php
+$response = $app->getClient()->get("/cgi-bin/user/info?openid=${$openid}&lang=zh_CN");
+
+# 查看返回结果
+var_dump($response->toArray());
+```
+
+## 开始之前
+
+在你动手写代码之前，建议您首先阅读以下内容：
+
+- [关于 6.x](docs/6.x/introduction.md)
+- [API 调用](docs/6.x/client.md)
+
+## 参与贡献
+
+我们欢迎广大开发者贡献大家的智慧，让我们共同让它变得更完美。您可以在 GitHub 上提交 Pull Request，我们会尽快审核并公布。更多信息请参考 [贡献指南](docs/6.x/contributing.md)。
+
+## 开发者交流群
 
 [EasyWeChat SDK 交流群](http://shang.qq.com/wpa/qunwpa?idkey=b4dcf3ec51a7e8c3c3a746cf450ce59895e5c4ec4fbcb0f80c2cd97c3c6e63e9) ID: 319502940
-
-> 请认真阅读微信官方文档与 SDK 使用文档再使用，否则提的低级问题不会有人理你
-
-你有以下两种方式加入到我们中来，为广大开发者提供更优质的免费开源的服务：
-
-- **贡献代码**：我们的代码都在 [w7corp/easywechat](https://github.com/w7corp/easywechat) ，你可以提交 PR 到任何一个项目，当然，前提是代码质量必须是 OK 的。
-- **完善文档**：我们的文档在：[w7corp/EasyWeChat/docs](https://github.com/w7corp/easywechat/tree/master/docs)，你可以提交对应的 PR 到目标分支参与完善工作。
-
-### 开始之前
-
-本 SDK 不是一个全新再造的东西，你完全有必要在使用本 SDK 前做好以下工作：
-
-- 熟悉 PHP 常见的知识：自动加载、Composer 的使用、JSON 处理、cURL 的使用等；
-- **仔细阅读并看懂** [微信官方文档](https://developers.weixin.qq.com/doc/)；
-- 明白微信接口的组成，自有服务器、微信服务器、公众号（还有其它各种号）、测试号、以及通信原理（交互过程）；
-- 了解基本的 HTTP 协议，Header 头、请求方式（GET\POST\PUT\PATCH\DELETE）等；
-- 基本的 debug 技能，查看 PHP 日志，Nginx 日志等。
-
-另外请正确提问：
-
-- [断言：不懂《提问的智慧》的人不会从初级程序员水平毕业](https://learnku.com/laravel/t/535/assertion-people-who-do-not-understand-the-wisdom-of-asking-questions-will-not-graduate-from-junior-programmers)
-- [PHP 之道](http://laravel-china.github.io/php-the-right-way/)
-
-我们专门针对一些容易出现的通用问题已经做了汇总： [疑难解答](/troubleshooting.md)，如果你在问题疑难解答没找到你出现的问题，那么可以在这里提问 [GitHub](https://github.com/w7corp/easywechat/issues)，提问请描述清楚你用的版本，你的做法是什么，不然别人没法帮你。
-
-> 最后，请有问题先审查代码，看文档, 再 Google，然后去群里提问题，带上你的代码，重现流程，大家有空的会帮忙你解答。谢谢合作！:pray:

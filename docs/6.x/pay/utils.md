@@ -43,9 +43,9 @@ $utils = $app->getUtils();
   },
   function (res) {
     if (res.err_msg == "get_brand_wcpay_request:ok") {
-// 使用以上方式判断前端返回,微信团队郑重提示：
-// res.err_msg将在用户支付成功后返回
-// ok，但并不保证它绝对可靠。
+      // 使用以上方式判断前端返回,微信团队郑重提示：
+      // res.err_msg将在用户支付成功后返回
+      // ok，但并不保证它绝对可靠。
     }
   }
 );
@@ -94,7 +94,7 @@ wx.chooseWXPay({
   signType: "<?= $config['signType'] ?>",
   paySign: "<?= $config['paySign'] ?>",
   success: function (res) {
-// 支付成功后的回调函数
+    // 支付成功后的回调函数
   }
 });
  ```
@@ -114,12 +114,7 @@ wx.chooseWXPay({
 
 你也许需要生成二维码，那么以下这些供参考：
 
-> - https://github.com/endroid/QrCode
-    >
-
-- https://github.com/Bacon/BaconQrCode
-
-> - https://github.com/SimpleSoftwareIO/simple-qrcode (Bacon/BaconQrCode 的 Laravel 版本)
-    >
-
-- https://github.com/aferrandini/PHPQRCode
+- [endroid/QrCode](https://github.com/endroid/QrCode)
+- [Bacon/BaconQrCode](https://github.com/Bacon/BaconQrCode)
+- [SimpleSoftwareIO/simple-qrcode](https://github.com/SimpleSoftwareIO/simple-qrcode) Bacon/BaconQrCode 的 Laravel 版本
+- [aferrandini/PHPQRCode](https://github.com/aferrandini/PHPQRCode)

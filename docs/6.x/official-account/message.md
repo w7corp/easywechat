@@ -17,14 +17,14 @@
   - `MsgId`        消息 ID（64位整型）
 ```
 
-### 文本：
+### 文本
 
 ```
   - `MsgType`  text
   - `Content`  文本消息内容
 ```
 
-### 图片：
+### 图片
 
 ```
   - `MsgType`  image
@@ -32,7 +32,7 @@
   - `PicUrl`   图片链接
 ```
 
-### 语音：
+### 语音
 
 ```
   - `MsgType`        voice
@@ -43,7 +43,7 @@
 
 > 请注意，开通语音识别后，用户每次发送语音给公众号时，微信会在推送的语音消息 XML 数据包中，增加一个 `Recongnition` 字段
 
-### 视频：
+### 视频
 
 ```
   - `MsgType`       video
@@ -51,7 +51,7 @@
   - `ThumbMediaId`  视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据。
 ```
 
-### 小视频：
+### 小视频
 
 ```
   - `MsgType`     shortvideo
@@ -87,7 +87,7 @@
   - `EventKey`    事件KEY值，与自定义菜单接口中KEY值对应，如：CUSTOM_KEY_001, www.qq.com
 ```
 
-### 地理位置：
+### 地理位置
 
 ```
   - `MsgType`     location
@@ -97,7 +97,7 @@
   - `Label`       地理位置信息
 ```
 
-### 链接：
+### 链接
 
 ```
   - `MsgType`      link
@@ -106,7 +106,7 @@
   - `Url`          消息链接
 ```
 
-### 文件：
+### 文件
 
 ```
   - `MsgType`      file

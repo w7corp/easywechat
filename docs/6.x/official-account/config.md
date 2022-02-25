@@ -26,31 +26,6 @@
     ],
 
     /**
-     * 日志配置 (默认不启用日志)
-     *
-     * level: 日志级别, 可选为：
-     *         debug/info/notice/warning/error/critical/alert/emergency
-     * path：日志文件位置(绝对路径!!!)，要求可写权限
-     */
-    // 'logging' => [
-    //     'default' => 'dev', // 默认使用的 channel，生产环境可以改为下面的 prod
-    //     'channels' => [
-    //         // 测试环境
-    //         'dev' => [
-    //             'driver' => 'single',
-    //             'path' => '/tmp/easywechat.log',
-    //             'level' => 'debug',
-    //         ],
-    //         // 生产环境
-    //         'prod' => [
-    //             'driver' => 'daily',
-    //             'path' => '/tmp/easywechat.log',
-    //             'level' => 'info',
-    //         ],
-    //     ],
-    // ],
-
-    /**
      * 接口请求相关配置，超时时间等，具体可用参数请参考：
      * https://github.com/symfony/symfony/blob/5.3/src/Symfony/Contracts/HttpClient/HttpClientInterface.php
      */

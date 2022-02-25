@@ -197,7 +197,7 @@ $authorization->toJson();
 
 在公众号/小程序接口调用令牌（`authorizer_access_token`）失效时，可以使用刷新令牌（authorizer_refresh_token）获取新的接口调用令牌。
 
-> 注意： `authorizer_access_token` 有效期为 2 小时，开发者需要缓存 `authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。缓存方法可以参考：https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
+> 注意： `authorizer_access_token` 有效期为 2 小时，开发者需要缓存 `authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。缓存方法可以参考：<https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html>
 
 ```php
 $permanentCode = '企业永久授权码';
@@ -215,7 +215,3 @@ $authorizerAccessToken = $app->getAuthorizerAccessToken($corpId, $permanentCode,
 
 $authorizerAccessToken->getToken(); // string
 ```
-
----
-
-todo: 调用企业 API
