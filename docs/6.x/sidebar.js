@@ -56,7 +56,7 @@ module.exports = [
             }, {
                 text: "通用",
                 children: [
-                    { text: "API 调用", link: "/6.x/common/client.html" },
+                    { text: "API 调用", link: "/6.x/client.html" },
                     { text: "网页授权", link: "/6.x/common/oauth.html" },
                     { text: "日志", link: "/6.x/common/logging.html" },
                 ]

@@ -18,7 +18,6 @@ $config = [
 $app = new Application($config);
 ```
 
-
 ## API
 
 Application 就是一个工厂类，所有的模块都是从 `$app` 中访问，并且几乎都提供了协议和 setter 可自定义修改。
@@ -41,7 +40,7 @@ $app->getServer();
 $app->getClient();
 ```
 
-:book: 更多说明请参阅：[API调用](../common/client.md)
+:book: 更多说明请参阅：[API 调用](../client.md)
 
 ### 配置
 
