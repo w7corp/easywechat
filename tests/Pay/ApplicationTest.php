@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EasyWeChat\Tests\Pay;
 
 use EasyWeChat\Pay\Application;
+use EasyWeChat\Pay\Client;
 use EasyWeChat\Pay\Contracts\Merchant;
 use EasyWeChat\Tests\TestCase;
-use Symfony\Component\HttpClient\CurlHttpClient;
 
 class ApplicationTest extends TestCase
 {
@@ -39,7 +39,7 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(CurlHttpClient::class, $app->getHttpClient());
+        $this->assertInstanceOf(Client::class, $app->getClient());
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
     }
 }

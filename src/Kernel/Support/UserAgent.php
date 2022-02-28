@@ -34,6 +34,6 @@ class UserAgent
             array_unshift($value, 'easywechat-sdk/'. ((string) InstalledVersions::getVersion('w7corp/easywechat')));
         }
 
-        return \join(' ', $value);
+        return trim(\join(' ', $value));
     }
 }

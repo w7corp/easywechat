@@ -6,16 +6,18 @@ namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
-use JetBrains\PhpStorm\Pure;
+use EasyWeChat\Kernel\Traits\HttpClientMethods;
+use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\MockHttpClient;
-use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Client implements AccessTokenAwareHttpClientInterface
 {
     use DecoratorTrait;
+    use HttpClientMethods;
+    use MockableHttpClient;
 
     public function __construct(
         ?HttpClientInterface $client = null,
@@ -45,103 +47,13 @@ class Client implements AccessTokenAwareHttpClientInterface
         return $this->client->request($method, ltrim($url, '/'), $options);
     }
 
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    public function get(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
-    {
-        return $this->request('GET', $url, $options);
-    }
-
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    public function post(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
-    {
-        if (!\array_key_exists('body', $options) && !\array_key_exists('json', $options)) {
-            $options['body'] = $options;
-        }
-
-        return $this->request('POST', $url, $options);
-    }
-
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    public function patch(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
-    {
-        if (!\array_key_exists('body', $options) && !\array_key_exists('json', $options)) {
-            $options['body'] = $options;
-        }
-
-        return $this->request('PATCH', $url, $options);
-    }
-
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    public function put(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
-    {
-        if (!\array_key_exists('body', $options) && !\array_key_exists('json', $options)) {
-            $options['body'] = $options;
-        }
-
-        return $this->request('PUT', $url, $options);
-    }
-
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    public function delete(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
-    {
-        return $this->request('DELETE', $url, $options);
-    }
-
     public function __call(string $name, array $arguments)
     {
         return \call_user_func_array([$this->client, $name], $arguments);
     }
 
-    public static function mock(string $response = '', ?int $status = 200, ?string $contentType = 'application/json', array $headers = [], string $baseUri = 'https://example.com'): object
+    public static function createMockClient(MockHttpClient $mockHttpClient): HttpClientInterface
     {
-        $mockResponse = new MockResponse(
-            $response,
-            array_merge([
-                'http_code' => $status,
-                'content_type' => $contentType,
-            ], $headers)
-        );
-
-        return new class ($mockResponse, $baseUri) {
-            use DecoratorTrait;
-
-            public function __construct(public MockResponse $mockResponse, string $baseUri)
-            {
-                $this->client = new Client(new MockHttpClient($this->mockResponse, $baseUri));
-            }
-
-            public function __call(string $name, array $arguments)
-            {
-                return \call_user_func_array([$this->client, $name], $arguments);
-            }
-
-            #[Pure]
-            public function getRequestMethod(): string
-            {
-                return $this->mockResponse->getRequestMethod();
-            }
-
-            #[Pure]
-            public function getRequestUrl(): string
-            {
-                return $this->mockResponse->getRequestUrl();
-            }
-
-            #[Pure]
-            public function getRequestOptions(): array
-            {
-                return $this->mockResponse->getRequestOptions();
-            }
-        };
+        return new self($mockHttpClient);
     }
 }

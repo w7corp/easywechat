@@ -79,11 +79,13 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
 
     public function getClient(): HttpClientInterface
     {
-        return $this->client ?? $this->client = $this->decorateMerchantAwareHttpClient($this->getHttpClient());
+        return $this->client ?? $this->client = new Client($this->getMerchant(), $this->getHttpClient(), $this->config->get('http', []));
     }
 
-    protected function decorateMerchantAwareHttpClient(HttpClientInterface $httpClient): MerchantAwareHttpClient
+    public function setClient(HttpClientInterface $client): static
     {
-        return new MerchantAwareHttpClient($this->getMerchant(), $httpClient, $this->config->get('http', []));
+        $this->client = $client;
+
+        return $this;
     }
 }

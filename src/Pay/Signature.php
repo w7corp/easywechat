@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
-use Psr\Http\Message\RequestInterface;
+use Nyholm\Psr7\Uri;
 
 class Signature
 {
@@ -13,20 +13,20 @@ class Signature
     {
     }
 
-    public function createHeader(RequestInterface $request): string
+    public function createHeader(string $method, string $url, array $options): string
     {
+        $uri = new Uri($url);
         $body = '';
-        $nonce = \uniqid('nonce');
+        $query = $uri->getQuery();
         $timestamp = \time();
-        $query = $request->getUri()->getQuery();
-        $path = '/' . \ltrim($request->getUri()->getPath() .(empty($query) ? '' : '?' . $query), '/');
+        $nonce = \uniqid('nonce');
+        $path = '/' . \ltrim($uri->getPath() .(empty($query) ? '' : '?' . $query), '/');
 
-        if ($request->getBody()->isSeekable()) {
-            $body = \strval($request->getBody());
-            $request->getBody()->rewind();
+        if (!empty($options['body'])) {
+            $body = \strval($options['body']);
         }
 
-        $message = $request->getMethod() . "\n" .
+        $message = \strtoupper($method) . "\n" .
             $path . "\n" .
             $timestamp . "\n" .
             $nonce . "\n" .
