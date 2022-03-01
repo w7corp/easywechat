@@ -13,5 +13,4 @@ interface Application
     public function getConfig(): Config;
     public function getHttpClient(): HttpClientInterface;
     public function getClient(): HttpClientInterface;
-    public function setClient(HttpClientInterface $client): Application;
 }
