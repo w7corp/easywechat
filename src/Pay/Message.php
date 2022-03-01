@@ -7,6 +7,9 @@ namespace EasyWeChat\Pay;
  */
 class Message extends \EasyWeChat\Kernel\Message
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function getOriginalAttributes(): array
     {
         return json_decode($this->getOriginalContents(), true);

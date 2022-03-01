@@ -28,6 +28,7 @@ class JsApiTicket
     }
 
     /**
+     * @return array<string, mixed>
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
@@ -100,6 +101,8 @@ class JsApiTicket
     }
 
     /**
+     * @return array<string, mixed>
+     *
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
@@ -110,11 +113,11 @@ class JsApiTicket
      */
     #[ArrayShape([
         'corpid' => "string",
-        'agentid' => "int|null",
-        'nonceStr' => "null|string",
-        'timestamp' => "int|null",
-        'url' => "null|string",
-        'signature' => "string",
+        'agentid' => "int",
+        'nonceStr' => "string",
+        'timestamp' => "int",
+        'url' => "string",
+        'signature' => "string"
     ])]
     public function createAgentConfigSignature(int $agentId, string $url, string $nonce, int $timestamp): array
     {

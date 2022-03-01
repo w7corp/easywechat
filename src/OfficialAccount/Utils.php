@@ -8,6 +8,12 @@ class Utils
     {
     }
 
+    /**
+     * @param  array<string>   $jsApiList
+     * @param  array<string>   $openTagList
+     *
+     * @return array<string, mixed>
+     */
     public function buildJsSdkConfig(string $url, array $jsApiList = [], array $openTagList = [], bool $debug = false): array
     {
         return array_merge(

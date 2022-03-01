@@ -20,7 +20,7 @@ class Server implements ServerInterface
     use RespondXmlMessage;
     use DecryptXmlMessage;
 
-    protected \Closure | null $defaultVerifyTicketHandler = null;
+    protected ?\Closure $defaultVerifyTicketHandler = null;
 
     /**
      * @throws \Throwable
@@ -59,7 +59,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function handleAuthorized(callable | string $handler): static
+    public function handleAuthorized(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'authorized' ? $handler($message, $next) : $next($message);
@@ -71,7 +71,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function handleUnauthorized(callable | string $handler): static
+    public function handleUnauthorized(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'unauthorized' ? $handler($message, $next) : $next($message);
@@ -83,7 +83,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function handleAuthorizeUpdated(callable | string $handler): static
+    public function handleAuthorizeUpdated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'updateauthorized' ? $handler($message, $next) : $next($message);
@@ -95,7 +95,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function withDefaultVerifyTicketHandler(callable | string $handler): void
+    public function withDefaultVerifyTicketHandler(callable $handler): void
     {
         $this->defaultVerifyTicketHandler = fn (): mixed => $handler(...\func_get_args());
         $this->handleVerifyTicketRefreshed($this->defaultVerifyTicketHandler);
@@ -104,7 +104,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function handleVerifyTicketRefreshed(callable | string $handler): static
+    public function handleVerifyTicketRefreshed(callable $handler): static
     {
         if ($this->defaultVerifyTicketHandler) {
             $this->withoutHandler($this->defaultVerifyTicketHandler);

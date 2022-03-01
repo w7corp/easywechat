@@ -188,6 +188,7 @@ class Application implements ApplicationInterface
     }
 
     /**
+     * @return array<string, mixed>
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
@@ -296,6 +297,9 @@ class Application implements ApplicationInterface
         return new Client($this->getHttpClient(), $this->getComponentAccessToken());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getHttpClientDefaultOptions(): array
     {
         return \array_merge(

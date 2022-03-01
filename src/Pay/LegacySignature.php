@@ -12,6 +12,11 @@ class LegacySignature
     {
     }
 
+    /**
+     * @param  array<string, mixed>  $params
+     *
+     * @return array<string, mixed>
+     */
     public function sign(array $params): array
     {
         $nonce = \uniqid('nonce');

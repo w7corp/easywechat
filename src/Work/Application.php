@@ -155,6 +155,9 @@ class Application implements ApplicationInterface
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getHttpClientDefaultOptions(): array
     {
         return \array_merge(

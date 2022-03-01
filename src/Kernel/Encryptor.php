@@ -35,7 +35,7 @@ class Encryptor
         $this->appId = $appId;
         $this->token = $token;
         $this->receiveId = $receiveId;
-        $this->aesKey = base64_decode($aesKey.'=', true);
+        $this->aesKey = \base64_decode($aesKey.'=', true) ?: '';
     }
 
     public function getToken(): string
@@ -49,22 +49,22 @@ class Encryptor
     public function encrypt(string $plaintext, string | null $nonce = null, int | string $timestamp = null): string
     {
         try {
-            $plaintext = Pkcs7::padding(\random_bytes(16).pack('N', strlen($plaintext)).$plaintext.$this->appId, 32);
-            $ciphertext = base64_encode(
+            $plaintext = Pkcs7::padding(\random_bytes(16).\pack('N', \strlen($plaintext)).$plaintext.$this->appId, 32);
+            $ciphertext = \base64_encode(
                 \openssl_encrypt(
                     $plaintext,
                     "aes-256-cbc",
                     $this->aesKey,
                     \OPENSSL_NO_PADDING,
-                    substr($this->aesKey, 0, 16)
-                )
+                    \substr($this->aesKey, 0, 16)
+                ) ?: ''
             );
         } catch (Throwable $e) {
             throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
 
-        !is_null($nonce) || $nonce = \uniqid();
-        !is_null($timestamp) || $timestamp = \time();
+        $nonce ??= \uniqid();
+        $timestamp ??= \time();
 
         $response = [
             'Encrypt' => $ciphertext,
@@ -78,9 +78,9 @@ class Encryptor
 
     public function createSignature(mixed ...$attributes): string
     {
-        sort($attributes, \SORT_STRING);
+        \sort($attributes, \SORT_STRING);
 
-        return sha1(implode($attributes));
+        return \sha1(\implode($attributes));
     }
 
     /**
@@ -96,21 +96,21 @@ class Encryptor
 
         $plaintext = Pkcs7::unpadding(
             \openssl_decrypt(
-                \base64_decode($ciphertext, true),
+                \base64_decode($ciphertext, true) ?: '',
                 "aes-256-cbc",
                 $this->aesKey,
                 \OPENSSL_NO_PADDING,
                 substr($this->aesKey, 0, 16)
-            ),
+            ) ?: '',
             32
         );
-        $plaintext = substr($plaintext, 16);
-        $contentLength = unpack('N', substr($plaintext, 0, 4))[1];
+        $plaintext = \substr($plaintext, 16);
+        $contentLength = (\unpack('N', \substr($plaintext, 0, 4)) ?: [])[1];
 
-        if ($this->receiveId && trim(substr($plaintext, $contentLength + 4)) !== $this->receiveId) {
+        if ($this->receiveId && \trim(\substr($plaintext, $contentLength + 4)) !== $this->receiveId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
         }
 
-        return substr($plaintext, 4, $contentLength);
+        return \substr($plaintext, 4, $contentLength);
     }
 }

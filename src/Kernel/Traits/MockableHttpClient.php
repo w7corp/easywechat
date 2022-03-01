@@ -3,6 +3,7 @@
 namespace EasyWeChat\Kernel\Traits;
 
 use JetBrains\PhpStorm\Pure;
+use Mockery\Mock;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -15,6 +16,9 @@ trait MockableHttpClient
         return new self($mockHttpClient);
     }
 
+    /**
+     * @param  array<string,mixed>     $headers
+     */
     public static function mock(string $response = '', ?int $status = 200, array $headers = [], string $baseUri = 'https://example.com'): object
     {
         $mockResponse = new MockResponse(
@@ -30,14 +34,17 @@ trait MockableHttpClient
         return new class ($client, $mockResponse) {
             use DecoratorTrait;
 
-            public function __construct(HttpClientInterface $client, public MockResponse $mockResponse)
+            public function __construct(Mock|HttpClientInterface $client, public MockResponse $mockResponse)
             {
                 $this->client = $client;
             }
 
-            public function __call(string $name, array $arguments)
+            /**
+             * @param array<string,mixed> $arguments
+             */
+            public function __call(string $name, array $arguments): mixed
             {
-                return \call_user_func_array([$this->client, $name], $arguments);
+                return $this->client->$name(...$arguments);
             }
 
             #[Pure]
@@ -52,6 +59,9 @@ trait MockableHttpClient
                 return $this->mockResponse->getRequestUrl();
             }
 
+            /**
+             * @return array<string, mixed>
+             */
             #[Pure]
             public function getRequestOptions(): array
             {

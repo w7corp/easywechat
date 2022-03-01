@@ -60,7 +60,7 @@ class Server implements ServerInterface
     /**
      * @throws \Throwable
      */
-    public function addMessageListener(string $type, callable | string $handler): static
+    public function addMessageListener(string $type, callable $handler): static
     {
         $this->withHandler(
             function (Message $message, \Closure $next) use ($type, $handler): mixed {
@@ -74,7 +74,7 @@ class Server implements ServerInterface
     /**
      * @throws \Throwable
      */
-    public function addEventListener(string $event, callable | string $handler): static
+    public function addEventListener(string $event, callable $handler): static
     {
         $this->withHandler(
             function (Message $message, \Closure $next) use ($event, $handler): mixed {
@@ -86,11 +86,16 @@ class Server implements ServerInterface
     }
 
     /**
+     * @param array<string,string> $query
      * @psalm-suppress PossiblyNullArgument
      */
     protected function decryptRequestMessage(array $query): \Closure
     {
         return function (Message $message, \Closure $next) use ($query): mixed {
+            if (!$this->encryptor) {
+                return null;
+            }
+
             $this->decryptMessage(
                 $message,
                 $this->encryptor,

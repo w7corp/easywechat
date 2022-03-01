@@ -15,7 +15,7 @@ class AesEcb implements Aes
         $ciphertext = \openssl_encrypt($plaintext, "aes-256-ecb", $key, \OPENSSL_RAW_DATA, (string) $iv);
 
         if (false === $ciphertext) {
-            throw new InvalidArgumentException(\openssl_error_string());
+            throw new InvalidArgumentException(\openssl_error_string() ?: 'Encrypt AES ECB failed.');
         }
 
         return \base64_encode($ciphertext);
@@ -26,10 +26,10 @@ class AesEcb implements Aes
      */
     public static function decrypt(string $ciphertext, string $key, string $iv = null): string
     {
-        $plaintext = \openssl_decrypt(\base64_decode($ciphertext, true), "aes-256-ecb", $key, \OPENSSL_RAW_DATA, (string) $iv);
+        $plaintext = \openssl_decrypt(\base64_decode($ciphertext, true) ?: '', "aes-256-ecb", $key, \OPENSSL_RAW_DATA, (string) $iv);
 
         if (false === $plaintext) {
-            throw new InvalidArgumentException(\openssl_error_string());
+            throw new InvalidArgumentException(\openssl_error_string() ?: 'Decrypt AES ECB failed.');
         }
 
         return $plaintext;

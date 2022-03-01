@@ -7,6 +7,7 @@ namespace EasyWeChat\Work;
 use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -79,6 +80,17 @@ class AccessToken implements AccessTokenInterface
     }
 
 
+    /**
+     * @return array<string, string>
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    #[ArrayShape(['access_token' => "string"])]
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];

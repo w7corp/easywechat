@@ -4,12 +4,20 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Contracts;
 
+/**
+ * @extends \ArrayAccess<string, mixed>
+ */
 interface Config extends \ArrayAccess
 {
+    /**
+     * @return array<string,mixed>
+     */
     public function all(): array;
     public function has(string $key): bool;
-    public function set(array | string $key, mixed $value = null): void;
+    public function set(string $key, mixed $value = null): void;
+
+    /**
+     * @param  array<string>|string  $key
+     */
     public function get(array | string $key, mixed $default = null): mixed;
-    public function prepend(string $key, mixed $value): void;
-    public function push(string $key, mixed $value): void;
 }

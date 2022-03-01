@@ -287,6 +287,9 @@ class Application implements ApplicationInterface
            ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function getHttpClientDefaultOptions(): array
     {
         return \array_merge(

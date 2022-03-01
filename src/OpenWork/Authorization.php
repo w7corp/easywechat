@@ -8,6 +8,9 @@ use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 
+/**
+ * @implements \ArrayAccess<string, mixed>
+ */
 class Authorization implements \ArrayAccess, Jsonable, Arrayable
 {
     use HasAttributes;

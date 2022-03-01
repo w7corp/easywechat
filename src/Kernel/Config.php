@@ -7,12 +7,20 @@ namespace EasyWeChat\Kernel;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Arr;
+use JetBrains\PhpStorm\Pure;
 
+/**
+ * @implements \ArrayAccess<mixed, mixed>
+ */
 class Config implements \ArrayAccess, ConfigInterface
 {
+    /**
+     * @var array<string>
+     */
     protected array $requiredKeys = [];
 
     /**
+     * @param array<string, mixed> $items
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __construct(
@@ -21,11 +29,16 @@ class Config implements \ArrayAccess, ConfigInterface
         $this->checkMissingKeys();
     }
 
+    #[Pure]
     public function has(string $key): bool
     {
         return Arr::has($this->items, $key);
     }
 
+    /**
+     * @param  array<string>|string  $key
+     */
+    #[Pure]
     public function get(array | string $key, mixed $default = null): mixed
     {
         if (is_array($key)) {
@@ -35,6 +48,12 @@ class Config implements \ArrayAccess, ConfigInterface
         return Arr::get($this->items, $key, $default);
     }
 
+    /**
+     * @param  array<string>  $keys
+     *
+     * @return  array<string, mixed>
+     */
+    #[Pure]
     public function getMany(array $keys): array
     {
         $config = [];
@@ -50,56 +69,43 @@ class Config implements \ArrayAccess, ConfigInterface
         return $config;
     }
 
-    public function set(array | string $key, mixed $value = null): void
+    /**
+     * @param  string  $key
+     * @param  mixed|null  $value
+     */
+    public function set(string $key, mixed $value = null): void
     {
-        $keys = is_array($key) ? $key : [$key => $value];
-
-        foreach ($keys as $key => $value) {
-            Arr::set($this->items, $key, $value);
-        }
+        Arr::set($this->items, $key, $value);
     }
 
-    public function prepend(string $key, mixed $value): void
-    {
-        $array = $this->get($key);
-
-        array_unshift($array, $value);
-
-        $this->set($key, $array);
-    }
-
-    public function push(string $key, mixed $value): void
-    {
-        $array = $this->get($key);
-
-        $array[] = $value;
-
-        $this->set($key, $array);
-    }
-
+    /**
+     * @return  array<string, mixed>
+     */
     public function all(): array
     {
         return $this->items;
     }
 
+    #[Pure]
     public function offsetExists(mixed $key): bool
     {
-        return $this->has($key);
+        return $this->has(\strval($key));
     }
 
+    #[Pure]
     public function offsetGet(mixed $key): mixed
     {
-        return $this->get($key);
+        return $this->get(\strval($key));
     }
 
     public function offsetSet(mixed $key, mixed $value): void
     {
-        $this->set($key, $value);
+        $this->set(\strval($key), $value);
     }
 
     public function offsetUnset(mixed $key): void
     {
-        $this->set($key, null);
+        $this->set(\strval($key), null);
     }
 
     /**

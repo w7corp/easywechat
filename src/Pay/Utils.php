@@ -13,6 +13,7 @@ class Utils
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
+     * @return array<string, mixed>
      */
     #[ArrayShape([
         'appId' => "string",
@@ -44,6 +45,7 @@ class Utils
 
     /**
      * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
+     * @return array<string, mixed>
      */
     #[ArrayShape([
         'appId' => "string",
@@ -65,6 +67,7 @@ class Utils
 
     /**
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
+     * @return array<string, mixed>
      */
     #[ArrayShape([
         'appId' => "string",
@@ -81,6 +84,7 @@ class Utils
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
+     * @return array<string, mixed>
      */
     #[ArrayShape([
         'appid' => "string",

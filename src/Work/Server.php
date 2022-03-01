@@ -62,8 +62,10 @@ class Server implements ServerInterface
         return $this->transformToReply($response, $message, $this->encryptor);
     }
 
-    // 成员变更通知 + 部门变更通知 + 标签变更通知
-    public function handleContactChanged(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleContactChanged(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->Event === 'change_contact' ? $handler($message, $next) : $next($message);
@@ -72,7 +74,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserTagUpdated(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleUserTagUpdated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->Event === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler($message, $next) : $next($message);
@@ -81,7 +86,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserCreated(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleUserCreated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->Event === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message, $next) : $next($message);
@@ -90,7 +98,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserUpdated(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleUserUpdated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->Event === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message, $next) : $next($message);
@@ -99,7 +110,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserDeleted(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleUserDeleted(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->Event === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message, $next) : $next($message);
@@ -108,7 +122,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handlePartyCreated(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handlePartyCreated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message, $next) : $next($message);
@@ -117,7 +134,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handlePartyUpdated(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handlePartyUpdated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message, $next) : $next($message);
@@ -126,7 +146,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handlePartyDeleted(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handlePartyDeleted(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message, $next) : $next($message);
@@ -135,7 +158,10 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleBatchJobsFinished(callable | string $handler): static
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleBatchJobsFinished(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->Event === 'batch_job_result' ? $handler($message, $next) : $next($message);
@@ -147,7 +173,7 @@ class Server implements ServerInterface
     /**
      * @throws \Throwable
      */
-    public function addMessageListener(string $type, callable | string $handler): static
+    public function addMessageListener(string $type, callable $handler): static
     {
         $this->withHandler(
             function (Message $message, \Closure $next) use ($type, $handler): mixed {
@@ -161,7 +187,7 @@ class Server implements ServerInterface
     /**
      * @throws \Throwable
      */
-    public function addEventListener(string $event, callable | string $handler): static
+    public function addEventListener(string $event, callable $handler): static
     {
         $this->withHandler(
             function (Message $message, \Closure $next) use ($event, $handler): mixed {

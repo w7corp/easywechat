@@ -12,6 +12,7 @@ trait InteractWithConfig
     protected ConfigInterface $config;
 
     /**
+     * @param array<string,mixed>|ConfigInterface $config
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __construct(array | ConfigInterface $config)

@@ -15,7 +15,7 @@ class AesCbc implements Aes
         $ciphertext = \openssl_encrypt($plaintext, "aes-128-cbc", $key, \OPENSSL_RAW_DATA, (string) $iv);
 
         if (false === $ciphertext) {
-            throw new InvalidArgumentException(\openssl_error_string());
+            throw new InvalidArgumentException(\openssl_error_string() ?: 'Encrypt AES CBC error.');
         }
 
         return base64_encode($ciphertext);
@@ -29,7 +29,7 @@ class AesCbc implements Aes
         $plaintext = \openssl_decrypt(\base64_decode($ciphertext), "aes-128-cbc", $key, \OPENSSL_RAW_DATA, (string) $iv);
 
         if (false === $plaintext) {
-            throw new InvalidArgumentException(\openssl_error_string());
+            throw new InvalidArgumentException(\openssl_error_string() ?: 'Decrypt AES CBC error.');
         }
 
         return $plaintext;

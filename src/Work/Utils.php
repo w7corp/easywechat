@@ -9,6 +9,10 @@ class Utils
     }
 
     /**
+     * @param  array<string>  $jsApiList
+     * @param  array<string>  $openTagList
+     * @return array<string, mixed>
+     *
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
@@ -31,6 +35,10 @@ class Utils
     }
 
     /**
+     * @param  array<string>  $jsApiList
+     * @param  array<string>  $openTagList
+     * @return array<string, mixed>
+     *
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface

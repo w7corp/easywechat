@@ -13,6 +13,9 @@ class Signature
     {
     }
 
+    /**
+     * @param  array<string,mixed>   $options
+     */
     public function createHeader(string $method, string $url, array $options): string
     {
         $uri = new Uri($url);

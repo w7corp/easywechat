@@ -36,6 +36,7 @@ class Client implements AccessTokenAwareHttpClientInterface
     }
 
     /**
+     * @param array<string, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function request(string $method, string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
@@ -47,9 +48,12 @@ class Client implements AccessTokenAwareHttpClientInterface
         return $this->client->request($method, ltrim($url, '/'), $options);
     }
 
-    public function __call(string $name, array $arguments)
+    /**
+     * @param  array<string, mixed>  $arguments
+     */
+    public function __call(string $name, array $arguments): mixed
     {
-        return \call_user_func_array([$this->client, $name], $arguments);
+        return $this->client->$name(...$arguments);
     }
 
     public static function createMockClient(MockHttpClient $mockHttpClient): HttpClientInterface

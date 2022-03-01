@@ -7,20 +7,33 @@ use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
 class Form
 {
+    /**
+     * @param  array<string,mixed>  $fields
+     */
     public function __construct(protected array $fields)
     {
     }
 
+    /**
+     * @param  array<string,mixed>  $fields
+     */
     public static function create(array $fields): Form
     {
         return new self($fields);
     }
 
+    /**
+     * @return  array<string,mixed>
+     */
+    #[ArrayShape(['headers' => "array", 'body' => "string"])]
     public function toArray(): array
     {
         return $this->toOptions();
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     #[ArrayShape(['headers' => "array", 'body' => "string"])]
     public function toOptions(): array
     {

@@ -81,6 +81,16 @@ class SuiteAccessToken implements AccessTokenInterface
     }
 
 
+    /**
+     * @return array<string, string>
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
     #[ArrayShape(['suite_access_token' => "string"])]
     public function toQuery(): array
     {

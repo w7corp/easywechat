@@ -10,6 +10,7 @@ use EasyWeChat\Kernel\Support\AesCbc;
 class Decryptor
 {
     /**
+     * @return array<string, mixed>
      * @throws \EasyWeChat\Kernel\Exceptions\DecryptException
      */
     public static function decrypt(string $sessionKey, string $iv, string $ciphertext): array

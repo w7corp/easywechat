@@ -37,6 +37,7 @@ trait RespondXmlMessage
     }
 
     /**
+     * @return array<string, mixed>
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     protected function normalizeResponse(mixed $response): array
@@ -66,6 +67,7 @@ trait RespondXmlMessage
     }
 
     /**
+     * @param array<string, mixed> $attributes
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     protected function createXmlResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface

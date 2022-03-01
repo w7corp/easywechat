@@ -76,6 +76,7 @@ class ComponentAccessToken implements AccessTokenInterface
 
 
     /**
+     * @return array<string, string>
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface

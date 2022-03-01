@@ -24,12 +24,12 @@ class Merchant implements MerchantInterface
 
     public function getPrivateKey(): string
     {
-        return file_exists($this->privateKey) ? \file_get_contents($this->privateKey) : $this->privateKey;
+        return file_exists($this->privateKey) ? (\file_get_contents($this->privateKey) ?: '') : $this->privateKey;
     }
 
     public function getCertificate(): string
     {
-        return file_exists($this->certificate) ? \file_get_contents($this->certificate) : $this->certificate;
+        return file_exists($this->certificate) ? (\file_get_contents($this->certificate) ?: '') : $this->certificate;
     }
 
     public function getCertificateSerialNumber(): string

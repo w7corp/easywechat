@@ -5,6 +5,7 @@ namespace EasyWeChat\Kernel\Traits;
 trait HttpClientMethods
 {
     /**
+     * @param array<string, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function get(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
@@ -13,6 +14,7 @@ trait HttpClientMethods
     }
 
     /**
+     * @param array<string, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function post(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
@@ -25,6 +27,7 @@ trait HttpClientMethods
     }
 
     /**
+     * @param array<string, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function patch(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
@@ -37,6 +40,7 @@ trait HttpClientMethods
     }
 
     /**
+     * @param array<string, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function put(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
@@ -49,6 +53,7 @@ trait HttpClientMethods
     }
 
     /**
+     * @param array<string, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function delete(string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface

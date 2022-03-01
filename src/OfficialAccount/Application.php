@@ -192,6 +192,9 @@ class Application implements ApplicationInterface
         return new Client($this->getHttpClient(), $this->getAccessToken());
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     protected function getHttpClientDefaultOptions(): array
     {
         return \array_merge(

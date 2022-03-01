@@ -17,7 +17,7 @@ class AesGcm implements Aes
         $ciphertext = \openssl_encrypt($plaintext, 'aes-256-gcm', $key, \OPENSSL_RAW_DATA, (string) $iv, $tag, $aad, self::BLOCK_SIZE);
 
         if (false === $ciphertext) {
-            throw new InvalidArgumentException(\openssl_error_string());
+            throw new InvalidArgumentException(\openssl_error_string() ?: 'Encrypt failed');
         }
 
         return \base64_encode($ciphertext.$tag);
@@ -37,7 +37,7 @@ class AesGcm implements Aes
         $plaintext = \openssl_decrypt($ciphertext, 'aes-256-gcm', $key, \OPENSSL_RAW_DATA, (string) $iv, $tag, $aad);
 
         if (false === $plaintext) {
-            throw new InvalidArgumentException(\openssl_error_string());
+            throw new InvalidArgumentException(\openssl_error_string() ?: 'Decrypt failed');
         }
 
         return $plaintext;

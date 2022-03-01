@@ -8,17 +8,33 @@ use SimpleXMLElement;
 
 class Xml
 {
-    public static function parse(?string $xml): array | null
+    /**
+     * @return array<int|string,mixed>|null
+     */
+    public static function parse(string $xml): array | null
     {
         if (empty($xml)) {
             return null;
         }
 
-        return self::normalize(
-            simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS)
-        );
+        $xml = simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS);
+
+        if (!$xml) {
+            throw new \InvalidArgumentException('Invalid XML');
+        }
+
+        return self::normalize($xml);
     }
 
+    /**
+     * @param  array<int|string, mixed>         $data
+     * @param  string        $root
+     * @param  string        $item
+     * @param  string|array<string, mixed>  $attr
+     * @param  string        $id
+     *
+     * @return string
+     */
     public static function build(
         array $data,
         string $root = 'xml',
@@ -52,8 +68,10 @@ class Xml
 
     /**
      * @psalm-suppress RedundantCondition
+     * @param array<SimpleXMLElement>|SimpleXMLElement $object
+     * @return array<int|string, mixed>|null
      */
-    protected static function normalize(SimpleXMLElement $object): array | null
+    protected static function normalize(SimpleXMLElement|array $object): array | null
     {
         $result = null;
 
@@ -63,7 +81,7 @@ class Xml
 
         if (is_array($object)) {
             foreach ($object as $key => $value) {
-                $value = \is_a($value, SimpleXMLElement::class) ? self::normalize($value) : $value;
+                $value = $value instanceof SimpleXMLElement ? self::normalize($value) : $value;
 
                 if ('@attributes' === $key) {
                     $result = $value; // @codeCoverageIgnore
@@ -71,20 +89,25 @@ class Xml
                     $result[$key] = $value;
                 }
             }
-        } else {
-            $result = $object;
         }
 
         return $result;
     }
 
+    /**
+     * @param  array<int|string,mixed>   $data
+     * @param  string  $item
+     * @param  string  $id
+     *
+     * @return string
+     */
     protected static function data2Xml(array $data, string $item = 'item', string $id = 'id'): string
     {
         $xml = $attr = '';
 
         foreach ($data as $key => $val) {
             if (is_numeric($key)) {
-                $id && $attr = " {$id}=\"{$key}\"";
+                $attr = " {$id}=\"{$key}\"";
                 $key = $item;
             }
 
@@ -118,6 +141,6 @@ class Xml
             return '';
         }
 
-        return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml);
+        return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml) ?? '';
     }
 }

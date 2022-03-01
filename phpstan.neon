@@ -1,5 +1,8 @@
 parameters:
-    level: 3
+    level: 8
     paths:
         - src
     inferPrivatePropertyTypeFromConstructor: true
+    ignoreErrors:
+        - message: '#class@anonymous\/Kernel\/Traits\/MockableHttpClient#'
+          path: src/

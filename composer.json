@@ -43,7 +43,6 @@
     "phpstan/phpstan": "^1.0",
     "phpunit/phpunit": "^9.5",
     "symfony/var-dumper": "^5.2",
-    "vimeo/psalm": "^4.10",
     "jetbrains/phpstorm-attributes": "^1.0"
   },
   "autoload": {
@@ -60,7 +59,7 @@
     "hooks": {
       "pre-commit": [
         "composer check-style",
-        "composer psalm",
+        "composer phpstan",
         "composer test"
       ],
       "pre-push": [
@@ -83,9 +82,7 @@
     "phpstan": "phpstan analyse",
     "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --allow-risky=yes --ansi",
     "fix-style": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --allow-risky=yes --ansi",
-    "test": "phpunit --colors",
-    "psalm": "psalm --show-info=true --no-cache",
-    "psalm-fix": "psalm --no-cache --alter --issues=MissingReturnType,MissingParamType"
+    "test": "phpunit --colors"
   },
   "config": {
     "allow-plugins": {

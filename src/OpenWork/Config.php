@@ -6,6 +6,9 @@ namespace EasyWeChat\OpenWork;
 
 class Config extends \EasyWeChat\Kernel\Config
 {
+    /**
+     * @var array<string>
+     */
     protected array $requiredKeys = [
         'corp_id',
         'suite_id',

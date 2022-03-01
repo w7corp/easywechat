@@ -69,7 +69,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function withDefaultSuiteTicketHandler(callable | string $handler): void
+    public function withDefaultSuiteTicketHandler(callable $handler): void
     {
         $this->defaultSuiteTicketHandler = fn (): mixed => $handler(...\func_get_args());
         $this->handleSuiteTicketRefreshed($this->defaultSuiteTicketHandler);
@@ -78,7 +78,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function handleSuiteTicketRefreshed(callable | string $handler): static
+    public function handleSuiteTicketRefreshed(callable $handler): static
     {
         if ($this->defaultSuiteTicketHandler) {
             $this->withoutHandler($this->defaultSuiteTicketHandler);
@@ -91,7 +91,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleAuthCreated(callable | string $handler): static
+    public function handleAuthCreated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'create_auth' ? $handler($message, $next) : $next($message);
@@ -100,7 +100,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleAuthChanged(callable | string $handler): static
+    public function handleAuthChanged(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_auth' ? $handler($message, $next) : $next($message);
@@ -109,7 +109,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleAuthCancelled(callable | string $handler): static
+    public function handleAuthCancelled(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'cancel_auth' ? $handler($message, $next) : $next($message);
@@ -118,7 +118,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserCreated(callable | string $handler): static
+    public function handleUserCreated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message, $next) : $next($message);
@@ -127,7 +127,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserUpdated(callable | string $handler): static
+    public function handleUserUpdated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message, $next) : $next($message);
@@ -136,7 +136,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserDeleted(callable | string $handler): static
+    public function handleUserDeleted(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message, $next) : $next($message);
@@ -145,7 +145,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handlePartyCreated(callable | string $handler): static
+    public function handlePartyCreated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message, $next) : $next($message);
@@ -154,7 +154,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handlePartyUpdated(callable | string $handler): static
+    public function handlePartyUpdated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message, $next) : $next($message);
@@ -163,7 +163,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handlePartyDeleted(callable | string $handler): static
+    public function handlePartyDeleted(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message, $next) : $next($message);
@@ -172,7 +172,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleUserTagUpdated(callable | string $handler): static
+    public function handleUserTagUpdated(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler($message, $next) : $next($message);
@@ -181,7 +181,7 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function handleShareAgentChanged(callable | string $handler): static
+    public function handleShareAgentChanged(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->InfoType === 'share_agent_change' ? $handler($message, $next) : $next($message);

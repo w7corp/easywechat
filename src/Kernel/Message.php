@@ -14,28 +14,35 @@ use Psr\Http\Message\ServerRequestInterface;
  * @property string $FromUserName
  * @property string $ToUserName
  * @property string $Encrypt
+ * @implements \ArrayAccess<string,mixed>
  */
 abstract class Message implements ArrayAccess
 {
     use HasAttributes;
 
+    /**
+     * @param  array<string,string>  $attributes
+     */
     final public function __construct(array $attributes = [], protected ?string $originContent = '')
     {
         $this->attributes = $attributes;
     }
 
-    public function getOriginalContents(): string
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     *
+     * @return \EasyWeChat\Kernel\Message
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     */
+    public static function createFromRequest(ServerRequestInterface $request): Message
     {
-        return $this->originContent ?? '';
-    }
+        $attributes = self::format($originContent = strval($request->getBody()));
 
-
-    public function __toString()
-    {
-        return $this->toJson();
+        return new static($attributes, $originContent);
     }
 
     /**
+     * @return array<string,string>
      * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
      */
     public static function format(string $originContent): array
@@ -58,16 +65,13 @@ abstract class Message implements ArrayAccess
         return $attributes;
     }
 
-    /**
-     * @param  \Psr\Http\Message\ServerRequestInterface  $request
-     *
-     * @return \EasyWeChat\Kernel\Message
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     */
-    public static function createFromRequest(ServerRequestInterface $request): Message
+    public function getOriginalContents(): string
     {
-        $attributes = self::format($originContent = strval($request->getBody()));
+        return $this->originContent ?? '';
+    }
 
-        return new static($attributes, $originContent);
+    public function __toString()
+    {
+        return $this->toJson();
     }
 }

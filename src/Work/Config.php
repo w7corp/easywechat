@@ -6,6 +6,9 @@ namespace EasyWeChat\Work;
 
 class Config extends \EasyWeChat\Kernel\Config
 {
+    /**
+     * @var array<string>
+     */
     protected array $requiredKeys = [
         'corp_id',
         'secret',

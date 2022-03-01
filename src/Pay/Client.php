@@ -32,6 +32,9 @@ class Client implements HttpClientInterface
 
     protected HttpClientInterface $client;
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $defaultOptions = [
         'base_uri' => 'https://api.mch.weixin.qq.com/',
         'headers' => [
@@ -46,6 +49,9 @@ class Client implements HttpClientInterface
         '/hk/v3/',
     ];
 
+    /**
+     * @param  array<string, mixed> $defaultOptions
+     */
     public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, array $defaultOptions = [])
     {
         $this->defaultOptions = array_merge(self::OPTIONS_DEFAULTS, $this->defaultOptions);
@@ -58,6 +64,7 @@ class Client implements HttpClientInterface
     }
 
     /**
+     * @param array<array-key, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
@@ -94,24 +101,34 @@ class Client implements HttpClientInterface
         return $this->client->stream($responses, $timeout);
     }
 
-    public function reset()
+    public function reset(): void
     {
         if ($this->client instanceof ResetInterface) {
             $this->client->reset();
         }
     }
 
-    public function __call(string $name, array $arguments)
+    /**
+     * @param array<string, mixed> $arguments
+     */
+    public function __call(string $name, array $arguments): mixed
     {
-        return \call_user_func_array([$this->client, $name], $arguments);
+        return $this->client->$name(...$arguments);
     }
 
+    /**
+     * @param array<string, mixed>  $options
+     */
     protected function createSignature(string $method, string $url, array $options): string
     {
         return (new Signature($this->merchant))->createHeader($method, $url, $options);
     }
 
-    protected function attachLegacySignature($body): array
+    /**
+     * @param array<string, mixed>  $body
+     * @return array<string, mixed>
+     */
+    protected function attachLegacySignature(array $body): array
     {
         return (new LegacySignature($this->merchant))->sign($body);
     }

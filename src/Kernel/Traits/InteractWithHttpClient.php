@@ -33,6 +33,9 @@ trait InteractWithHttpClient
         return HttpClient::create();
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     protected function getHttpClientDefaultOptions(): array
     {
         return [];

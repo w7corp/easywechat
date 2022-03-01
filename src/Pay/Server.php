@@ -34,14 +34,14 @@ class Server implements ServerInterface
 
         try {
             return $this->handle(
-                new Response(200, [], json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)),
+                new Response(200, [], \strval(\json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE))),
                 $message
             );
         } catch (\Exception $e) {
             return new Response(
                 500,
                 [],
-                json_encode(['code' => 'ERROR', 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE)
+                \strval(\json_encode(['code' => 'ERROR', 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE))
             );
         }
     }
@@ -49,7 +49,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function handlePaid(callable | string $handler): static
+    public function handlePaid(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return $message->getEventType() === 'TRANSACTION.SUCCESS' && $message->trade_state === 'SUCCESS'
@@ -62,7 +62,7 @@ class Server implements ServerInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function handleRefunded(callable | string $handler): static
+    public function handleRefunded(callable $handler): static
     {
         $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
             return in_array($message->getEventType(), [
