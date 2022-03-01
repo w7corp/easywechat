@@ -19,8 +19,10 @@ module.exports = {
     defaultTheme: 'light',
     logo: '/logo.svg',
     editLinks: true, //  "Edit this page" at the bottom of each page
+    editLinkText: '帮助我们改善此页面！',
     repo: 'w7corp/EasyWeChat', //  Github repo
     docsDir: 'docs/', //  Github repo docs folder
+    docsBranch: 'master', //  Github repo docs branch
     latest,
     navbar: [
       {
