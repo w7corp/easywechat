@@ -7,6 +7,7 @@ namespace EasyWeChat\Tests\Pay;
 use EasyWeChat\Pay\Application;
 use EasyWeChat\Pay\Client;
 use EasyWeChat\Pay\Contracts\Merchant;
+use EasyWeChat\Pay\Server;
 use EasyWeChat\Tests\TestCase;
 
 class ApplicationTest extends TestCase
@@ -41,5 +42,21 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(Client::class, $app->getClient());
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
+    }
+
+    public function test_get_server()
+    {
+        $app = new Application(
+            [
+                'mch_id' => 101111111,
+                'secret_key' => 'mock-secret-key',
+                'private_key' => 'mock-private-key',
+                'certificate' => '/path/to/certificate.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO',
+            ]
+        );
+
+        $this->assertInstanceOf(Server::class, $app->getServer());
+        $this->assertSame($app->getServer(), $app->getServer());
     }
 }

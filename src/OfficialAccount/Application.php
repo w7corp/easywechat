@@ -97,7 +97,7 @@ class Application implements ApplicationInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \Throwable
      */
-    public function getServer(): ServerInterface
+    public function getServer(): Server|ServerInterface
     {
         if (!$this->server) {
             $this->server = new Server(
