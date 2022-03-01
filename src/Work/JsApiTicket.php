@@ -76,10 +76,10 @@ class JsApiTicket
             return $ticket;
         }
 
-        $response = $this->httpClient->request('GET', '/cgi-bin/get_jsapi_ticket')->toArray();
+        $response = $this->httpClient->request('GET', '/cgi-bin/get_jsapi_ticket')->toArray(false);
 
         if (empty($response['ticket'])) {
-            throw new HttpException('Failed to get jssdk ticket.');
+            throw new HttpException('Failed to get jssdk ticket: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($key, $response['ticket'], \intval($response['expires_in']));
@@ -146,10 +146,10 @@ class JsApiTicket
         }
 
         $response = $this->httpClient->request('GET', '/cgi-bin/ticket/get', ['query' => ['type' => 'agent_config']])
-                                     ->toArray();
+                                     ->toArray(false);
 
         if (empty($response['ticket'])) {
-            throw new HttpException('Failed to get jssdk agentTicket.');
+            throw new HttpException('Failed to get jssdk agentTicket: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($key, $response['ticket'], \intval($response['expires_in']));

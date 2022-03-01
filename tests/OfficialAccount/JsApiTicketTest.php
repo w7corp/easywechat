@@ -36,7 +36,7 @@ class JsApiTicketTest extends TestCase
         ];
 
         $response = \Mockery::mock(ResponseInterface::class);
-        $response->allows()->toArray()->andReturn($ticket);
+        $response->allows()->toArray(false)->andReturn($ticket);
 
         $client = \Mockery::mock(HttpClientInterface::class);
 

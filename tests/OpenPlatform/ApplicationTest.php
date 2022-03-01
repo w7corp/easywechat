@@ -169,10 +169,9 @@ class ApplicationTest extends TestCase
             ]),
             $mockResponse->getRequestOptions()['body']
         );
-        $this->test_get_authorization_exception();
     }
 
-    private function test_get_authorization_exception()
+    public function test_get_authorization_exception()
     {
         $app = new Application([
             'app_id' => 'wx3cf0f39249000060',
@@ -209,7 +208,7 @@ class ApplicationTest extends TestCase
         $app->setHttpClient($httpClient);
 
         $this->expectException(HttpException::class);
-        $this->expectExceptionMessage('Failed to get authorization_info.');
+        $this->expectExceptionMessage('Failed to get authorization_info: {"error_code":100029}');
         $app->getAuthorization('mock-auth-code');
     }
 
@@ -263,10 +262,9 @@ class ApplicationTest extends TestCase
             ]),
             $mockResponse->getRequestOptions()['body']
         );
-        $this->test_refresh_authorizer_token_exception();
     }
 
-    private function test_refresh_authorizer_token_exception()
+    public function test_refresh_authorizer_token_exception()
     {
         $app = new Application([
             'app_id' => 'wx3cf0f39249000060',
@@ -303,7 +301,7 @@ class ApplicationTest extends TestCase
         $app->setHttpClient($httpClient);
 
         $this->expectException(HttpException::class);
-        $this->expectExceptionMessage('Failed to get authorizer_access_token.');
+        $this->expectExceptionMessage('Failed to get authorizer_access_token: {"error_code":100029}');
         $app->refreshAuthorizerToken('mock-authorizer-appid', 'mock-refresh-token');
     }
 

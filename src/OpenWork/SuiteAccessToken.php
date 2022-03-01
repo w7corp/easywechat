@@ -69,10 +69,10 @@ class SuiteAccessToken implements AccessTokenInterface
                     'suite_ticket' => $this->suiteTicket->getTicket(),
                 ],
             ]
-        )->toArray();
+        )->toArray(false);
 
         if (empty($response['suite_access_token'])) {
-            throw new HttpException('Failed to get suite_access_token.');
+            throw new HttpException('Failed to get suite_access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($key, $response['suite_access_token'], \abs(\intval($response['expires_in']) - 100));

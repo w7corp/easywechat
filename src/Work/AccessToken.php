@@ -67,10 +67,10 @@ class AccessToken implements AccessTokenInterface
                     'corpsecret' => $this->secret,
                 ],
             ]
-        )->toArray();
+        )->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token.');
+            throw new HttpException('Failed to get access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($key, $response['access_token'], \intval($response['expires_in']));

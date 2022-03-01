@@ -218,10 +218,10 @@ class Application implements ApplicationInterface
                 'auth_corpid' => $corpId,
                 'permanent_code' => $permanentCode,
             ],
-        ])->toArray();
+        ])->toArray(false);
 
         if (empty($response['auth_corp_info'])) {
-            throw new HttpException('Failed to get auth_corp_info.');
+            throw new HttpException('Failed to get auth_corp_info: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         return new Authorization($response);
@@ -249,10 +249,10 @@ class Application implements ApplicationInterface
                 'auth_corpid' => $corpId,
                 'permanent_code' => $permanentCode,
             ],
-        ])->toArray();
+        ])->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token.');
+            throw new HttpException('Failed to get access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         return new AuthorizerAccessToken($corpId, accessToken: $response['access_token']);

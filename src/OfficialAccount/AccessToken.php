@@ -7,6 +7,7 @@ namespace EasyWeChat\OfficialAccount;
 use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -47,6 +48,7 @@ class AccessToken implements AccessTokenInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getToken(): string
     {
@@ -66,10 +68,10 @@ class AccessToken implements AccessTokenInterface
                     'secret' => $this->secret,
                 ],
             ]
-        )->toArray();
+        )->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token.');
+            throw new HttpException('Failed to get access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($key, $response['access_token'], \intval($response['expires_in']));
@@ -78,6 +80,7 @@ class AccessToken implements AccessTokenInterface
     }
 
 
+    #[ArrayShape(['access_token' => "string"])]
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];

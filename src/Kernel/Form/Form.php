@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Kernel\Form;
 
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
 class Form
@@ -20,6 +21,7 @@ class Form
         return $this->toOptions();
     }
 
+    #[ArrayShape(['headers' => "array", 'body' => "string"])]
     public function toOptions(): array
     {
         $formData = new FormDataPart($this->fields);

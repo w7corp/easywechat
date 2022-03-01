@@ -27,10 +27,10 @@ class JsApiTicket extends AccessToken
         }
 
         $response = $this->httpClient->request('GET', '/cgi-bin/ticket/getticket', ['query' => ['type' => 'jsapi']])
-                                     ->toArray();
+                                     ->toArray(false);
 
         if (empty($response['ticket'])) {
-            throw new HttpException('Failed to get jssdk ticket.');
+            throw new HttpException('Failed to get jssdk ticket: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($key, $response['ticket'], \intval($response['expires_in']));

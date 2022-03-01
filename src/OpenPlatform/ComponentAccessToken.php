@@ -63,10 +63,10 @@ class ComponentAccessToken implements AccessTokenInterface
                     'component_verify_ticket' => $this->verifyTicket->getTicket(),
                 ],
             ]
-        )->toArray();
+        )->toArray(false);
 
         if (empty($response['component_access_token'])) {
-            throw new HttpException('Failed to get component_access_token.');
+            throw new HttpException('Failed to get component_access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->getCache()->set($key, $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));

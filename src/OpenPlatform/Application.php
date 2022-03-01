@@ -159,6 +159,14 @@ class Application implements ApplicationInterface
         return $this;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
     public function getAuthorization(string $authorizationCode): Authorization
     {
         $response = $this->createClient()->request(
@@ -170,10 +178,10 @@ class Application implements ApplicationInterface
                     'authorization_code' => $authorizationCode,
                 ],
             ]
-        )->toArray();
+        )->toArray(false);
 
         if (empty($response['authorization_info'])) {
-            throw new HttpException('Failed to get authorization_info.');
+            throw new HttpException('Failed to get authorization_info: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         return new Authorization($response);
@@ -199,10 +207,10 @@ class Application implements ApplicationInterface
                     'authorizer_refresh_token' => $authorizerRefreshToken,
                 ],
             ]
-        )->toArray();
+        )->toArray(false);
 
         if (empty($response['authorizer_access_token'])) {
-            throw new HttpException('Failed to get authorizer_access_token.');
+            throw new HttpException('Failed to get authorizer_access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         return $response;

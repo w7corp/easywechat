@@ -22,7 +22,7 @@ class AccessTokenTest extends TestCase
             'expires_in' => '1500',
         ];
 
-        $response->allows()->toArray()->andReturn($result);
+        $response->allows()->toArray(false)->andReturn($result);
 
         $config = [
             'corp_id' => 'wx3cf0f39249000060',
