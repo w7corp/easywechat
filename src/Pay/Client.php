@@ -9,6 +9,7 @@ use EasyWeChat\Kernel\Traits\HttpClientMethods;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Mockery\Mock;
 use Nyholm\Psr7\Uri;
+use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -26,11 +27,11 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 class Client implements HttpClientInterface
 {
+    use DecoratorTrait {
+        DecoratorTrait::withOptions insteadof HttpClientTrait;}
     use HttpClientTrait;
     use HttpClientMethods;
     use MockableHttpClient;
-
-    protected HttpClientInterface $client;
 
     /**
      * @var array<string, mixed>
@@ -94,18 +95,6 @@ class Client implements HttpClientInterface
         }
 
         return false;
-    }
-
-    public function stream(ResponseInterface|iterable $responses, float $timeout = null): ResponseStreamInterface
-    {
-        return $this->client->stream($responses, $timeout);
-    }
-
-    public function reset(): void
-    {
-        if ($this->client instanceof ResetInterface) {
-            $this->client->reset();
-        }
     }
 
     /**
