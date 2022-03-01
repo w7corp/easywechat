@@ -26,7 +26,7 @@ $config = [
     'secret_key' => 'Sx7cSGLXszB9I1iKJvgDNzNxxxxx',
 ];
 
-$app = new  \EasyWeChat\Pay\Application($config);
+$app = new \EasyWeChat\Pay\Application($config);
 
 $response = $app->getClient()->post("v3/pay/transactions/jsapi", [
    "mchid" => "1518700000", // <---- 请修改为您的商户号

@@ -2,6 +2,8 @@ const versions = require('./versions')
 const path = require('path')
 const latest = versions[0]
 
+const versions = require("./versions");
+
 module.exports = {
   debug: true,
   title: 'EasyWeChat',
@@ -22,7 +24,7 @@ module.exports = {
     editLinkText: '帮助我们改善此页面！',
     repo: 'w7corp/EasyWeChat', //  Github repo
     docsDir: 'docs/', //  Github repo docs folder
-    docsBranch: 'master', //  Github repo docs branch
+    docsBranch: versions[0], //  Github repo docs branch
     latest,
     navbar: [
       {
