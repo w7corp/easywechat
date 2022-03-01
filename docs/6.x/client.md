@@ -118,12 +118,18 @@ $headers = $response->getHeaders();
 
 // 获取响应原始内容
 $content = $response->getContent();
+// 获取响应原始内容（不抛出异常）
+$content = $response->getContent(false);
 
 // 获取 json 转换后的数组格式
 $content = $response->toArray();
+// 获取 json 转换后的数组格式（不抛出异常）
+$content = $response->toArray(false);
 
 // 将内容转换成 Stream 返回
 $content = $response->toStream();
+// 将内容转换成 Stream 返回 (不抛出异常)
+$content = $response->toStream(false);
 
 // 获取其他信息，如："response_headers", "redirect_count", "start_time", "redirect_url" 等.
 $httpInfo = $response->getInfo();
