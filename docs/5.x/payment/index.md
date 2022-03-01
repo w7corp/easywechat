@@ -2,6 +2,8 @@
 
 你在阅读本文之前确认你已经仔细阅读了：[微信支付 | 商户平台开发文档](https://pay.weixin.qq.com/wiki/doc/api/index.html)。
 
+> 🚨 此版本仅支持微信支付 V2 版接口，V3 版接口请使用 6.x 版本或在支付模块独立使用 [wechatpay/wechatpay](https://packagist.org/packages/wechatpay/wechatpay) 来支持 v2+v3 支付接口。
+
 ## 配置
 
 配置在前面的例子中已经提到过了，支付的相关配置如下：
