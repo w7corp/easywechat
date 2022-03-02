@@ -6,6 +6,7 @@ namespace EasyWeChat\Kernel;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Pkcs7;
+use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Kernel\Support\Xml;
 use Throwable;
 
@@ -45,6 +46,7 @@ class Encryptor
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Exception
      */
     public function encrypt(string $plaintext, string | null $nonce = null, int | string $timestamp = null): string
     {
@@ -63,7 +65,7 @@ class Encryptor
             throw new RuntimeException($e->getMessage(), self::ERROR_ENCRYPT_AES);
         }
 
-        $nonce ??= \uniqid();
+        $nonce ??= Str::random();
         $timestamp ??= \time();
 
         $response = [

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 
 class URLSchemeBuilder
@@ -12,13 +13,16 @@ class URLSchemeBuilder
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function forProduct(string | int $productId, string $appId): string
     {
         $params = [
             'appid' => $appId,
             'mch_id' => $this->merchant->getMerchantId(),
             'time_stamp' => time(),
-            'nonce_str' => uniqid(),
+            'nonce_str' => Str::random(),
             'product_id' => $productId,
         ];
 

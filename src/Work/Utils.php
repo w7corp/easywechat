@@ -2,6 +2,8 @@
 
 namespace EasyWeChat\Work;
 
+use EasyWeChat\Kernel\Support\Str;
+
 class Utils
 {
     public function __construct(protected Application $app)
@@ -11,6 +13,7 @@ class Utils
     /**
      * @param  array<string>  $jsApiList
      * @param  array<string>  $openTagList
+     *
      * @return array<string, mixed>
      *
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
@@ -20,6 +23,7 @@ class Utils
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Exception
      */
     public function buildJsSdkConfig(
         string $url,
@@ -30,13 +34,14 @@ class Utils
     ): array {
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug', 'beta'),
-            $this->app->getTicket()->createConfigSignature($url, \uniqid(), \time())
+            $this->app->getTicket()->createConfigSignature($url, Str::random(), \time())
         );
     }
 
     /**
      * @param  array<string>  $jsApiList
      * @param  array<string>  $openTagList
+     *
      * @return array<string, mixed>
      *
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
@@ -46,6 +51,7 @@ class Utils
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Exception
      */
     public function buildJsSdkAgentConfig(
         int $agentId,
@@ -56,7 +62,7 @@ class Utils
     ): array {
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug'),
-            $this->app->getTicket()->createAgentConfigSignature($agentId, $url, \uniqid(), \time())
+            $this->app->getTicket()->createAgentConfigSignature($agentId, $url, Str::random(), \time())
         );
     }
 }

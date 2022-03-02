@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 
 class LegacySignature
@@ -16,10 +17,11 @@ class LegacySignature
      * @param  array<string, mixed>  $params
      *
      * @return array<string, mixed>
+     * @throws \Exception
      */
     public function sign(array $params): array
     {
-        $nonce = \uniqid('nonce');
+        $nonce = Str::random();
 
         $params = $attributes = array_filter(
             \array_merge(

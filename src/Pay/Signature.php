@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Nyholm\Psr7\Uri;
 
@@ -14,7 +15,9 @@ class Signature
     }
 
     /**
-     * @param  array<string,mixed>   $options
+     * @param  array<string,mixed>  $options
+     *
+     * @throws \Exception
      */
     public function createHeader(string $method, string $url, array $options): string
     {
@@ -22,7 +25,7 @@ class Signature
         $body = '';
         $query = $uri->getQuery();
         $timestamp = \time();
-        $nonce = \uniqid('nonce');
+        $nonce = Str::random();
         $path = '/' . \ltrim($uri->getPath() .(empty($query) ? '' : '?' . $query), '/');
 
         if (!empty($options['body'])) {

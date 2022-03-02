@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -14,6 +15,7 @@ class Utils
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
      * @return array<string, mixed>
+     * @throws \Exception
      */
     #[ArrayShape([
         'appId' => "string",
@@ -28,7 +30,7 @@ class Utils
         $params = [
             'appId' => $appId,
             'timeStamp' => strval(time()),
-            'nonceStr' => uniqid(),
+            'nonceStr' => Str::random(),
             'package' => "prepay_id=$prepayId",
             'signType' => 'RSA',
         ];
@@ -46,6 +48,7 @@ class Utils
     /**
      * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
      * @return array<string, mixed>
+     * @throws \Exception
      */
     #[ArrayShape([
         'appId' => "string",
@@ -68,6 +71,7 @@ class Utils
     /**
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      * @return array<string, mixed>
+     * @throws \Exception
      */
     #[ArrayShape([
         'appId' => "string",
@@ -85,6 +89,7 @@ class Utils
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
      * @return array<string, mixed>
+     * @throws \Exception
      */
     #[ArrayShape([
         'appid' => "string",
@@ -101,8 +106,8 @@ class Utils
             'appid' => $appId,
             'partnerid' => $this->merchant->getMerchantId(),
             'prepayid' => $prepayId,
-            'noncestr' => uniqid(),
-            'timestamp' => time(),
+            'noncestr' => Str::random(),
+            'timestamp' => \time(),
             'package' => 'Sign=WXPay',
         ];
 

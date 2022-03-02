@@ -63,8 +63,10 @@ class Client implements HttpClientInterface
     }
 
     /**
-     * @param array<array-key, mixed> $options
+     * @param  array<array-key, mixed>  $options
+     *
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Exception
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
@@ -104,7 +106,9 @@ class Client implements HttpClientInterface
     }
 
     /**
-     * @param array<string, mixed>  $options
+     * @param  array<string, mixed>  $options
+     *
+     * @throws \Exception
      */
     protected function createSignature(string $method, string $url, array $options): string
     {
