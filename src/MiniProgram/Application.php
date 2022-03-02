@@ -31,7 +31,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Plugin\DevClient           $plugin_dev
  * @property \EasyWeChat\MiniProgram\UniformMessage\Client      $uniform_message
  * @property \EasyWeChat\MiniProgram\ActivityMessage\Client     $activity_message
- * @property \EasyWeChat\MiniProgram\Express\Client             $logistics
+ * @property \EasyWeChat\MiniProgram\Express\Client             $express
  * @property \EasyWeChat\MiniProgram\NearbyPoi\Client           $nearby_poi
  * @property \EasyWeChat\MiniProgram\OCR\Client                 $ocr
  * @property \EasyWeChat\MiniProgram\Soter\Client               $soter

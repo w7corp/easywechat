@@ -16,6 +16,21 @@ use EasyWeChat\Tests\TestCase;
 
 class ClientTest extends TestCase
 {
+    public function testBind()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $data = [
+            'type' => 'bind',
+            'biz_id' => '123456',
+            'delivery_id' => 'YUNDA',
+            'password' => '123456789123456789'
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/business/account/bind', $data)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->bind($data));
+    }
+
     public function testListProviders()
     {
         $client = $this->mockApiClient(Client::class);

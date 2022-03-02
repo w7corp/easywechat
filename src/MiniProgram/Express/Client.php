@@ -12,6 +12,7 @@
 namespace EasyWeChat\MiniProgram\Express;
 
 use EasyWeChat\Kernel\BaseClient;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
 /**
  * Class Client.
@@ -20,6 +21,22 @@ use EasyWeChat\Kernel\BaseClient;
  */
 class Client extends BaseClient
 {
+
+    /**
+     * 绑定、解绑物流账号
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function bind(array $params = [])
+    {
+        if (empty($params['type']) || empty($params['biz_id']) || empty($params['delivery_id'])) {
+            throw new InvalidArgumentException('Missing parameter.');
+        }
+
+        return $this->httpPostJson('cgi-bin/express/business/account/bind', $params);
+    }
     /**
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *

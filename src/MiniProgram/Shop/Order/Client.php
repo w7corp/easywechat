@@ -53,6 +53,18 @@ class Client extends BaseClient
     }
 
     /**
+     * 获取订单列表
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getList(array $data)
+    {
+        return $this->httpPostJson('shop/order/get_list', $data);
+    }
+
+    /**
      * 同步订单支付结果
      *
      * @param array $pay

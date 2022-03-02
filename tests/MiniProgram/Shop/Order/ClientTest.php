@@ -70,6 +70,24 @@ class ClientTest extends TestCase
     }
 
     /**
+     * 获取订单详情
+     */
+    public function testGetList()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'page'       => 1,
+            'page_size'  => 100,
+            'sort_order' => 1
+        ];
+
+        $client->expects()->httpPostJson('shop/order/get_list', $data)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getList($data));
+    }
+
+    /**
      * 同步订单支付结果
      */
     public function testPay()
