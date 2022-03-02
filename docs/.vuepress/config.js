@@ -2,8 +2,6 @@ const versions = require('./versions')
 const path = require('path')
 const latest = versions[0]
 
-const versions = require("./versions");
-
 module.exports = {
   debug: true,
   title: 'EasyWeChat',
