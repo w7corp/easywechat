@@ -88,7 +88,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     // },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/w7crop/easywechat/' },
+      { icon: 'github', link: 'https://github.com/w7corp/easywechat/' },
       { icon: 'twitter', link: 'https://twitter.com/overtrue' }
       // { icon: 'weibo', link: 'https://weibo.com/44294631' }
     ],
