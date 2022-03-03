@@ -40,7 +40,7 @@ $user->getId(); // 对应企业微信英文名（userid）
 $user->getRaw(); // 获取企业微信接口返回的原始信息
 ```
 
-:book: OAuth 详情请参考：[网页授权](../common/oauth.md)
+:book: OAuth 详情请参考：[网页授权](../oauth.md)
 
 获取用户其他信息需调用通讯录接口，参考：[企业微信通讯录 API](https://github.com/EasyWeChat/docs/blob/master/wework/contacts.md)
 

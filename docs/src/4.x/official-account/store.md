@@ -14,7 +14,7 @@ $app->store->categories();
 $app->store->createMerchant($baseInfo);
 ```
 
-> - `$baseInfo` 为门店小程序的基本信息数组，**`qualification_list` 字段为类目相关证件的临时素材 `mediaid` 如果 `second_catid` 对应的 `sensitive_type` 为 1 ，则 `qualification_list` 字段需要填 支持 0~5 个 `mediaid`，例如 `mediaid1`。`headimg_mediaid` 字段为头像 --- 临时素材 `mediaid`。`mediaid` 用现有的 `media/upload` 接口得到的,获取链接： [临时素材](media) ( 支持 PNG\JPEG\JPG\GIF 格式的图片，后续加上其他格式)**
+> - `$baseInfo` 为门店小程序的基本信息数组，**`qualification_list` 字段为类目相关证件的临时素材 `mediaid` 如果 `second_catid` 对应的 `sensitive_type` 为 1 ，则 `qualification_list` 字段需要填 支持 0~5 个 `mediaid`，例如 `mediaid1`。`headimg_mediaid` 字段为头像 --- 临时素材 `mediaid`。`mediaid` 用现有的 `media/upload` 接口得到的,获取链接： [临时素材](../basic-services/media.md) ( 支持 PNG\JPEG\JPG\GIF 格式的图片，后续加上其他格式)**
 
 示例：
 

@@ -16,16 +16,16 @@
 1. Fork [overtrue/wechat](https://github.com/overtrue/wechat) 到本地.
 2. 创建新的分支：
 
-   {% code %}
-   $ git checkout -b new_feature
-   {% endcode %}
+   ```bash
+   git checkout -b new_feature
+   ```
 
 3. 编写代码。
 4. Push 到你的分支:
 
-   {% code %}
-   $ git push origin new_feature
-   {% endcode %}
+   ```bash
+   git push origin new_feature
+   ```
 
 5. 创建 Pull Request 并描述你完成的功能或者做出的修改。
 
@@ -40,10 +40,10 @@
 1. Fork [w7corp/EasyWeChat](https://github.com/w7corp/EasyWeChat)
 2. Clone 到你的电脑：
 
-   {% code %}
-   $ git clone https://github.com/[你的账号]/EasyWeChat
-   $ cd docs
-   {% endcode %}
+   ```bash
+   git clone https://github.com/[你的账号]/EasyWeChat
+   cd docs
+   ```
 
 3. 创建新的分支，编辑文档
 4. Push 到你的分支。

@@ -56,10 +56,10 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 > - "为啥我的报这个错啊：Class XXXX not found..."
 > - ...
 
-我们专门针对一些容易出现的通用问题已经做了汇总： [疑难解答](/docs/master/troubleshooting) ，如果你在问题疑难解答没找到你出现的问题，那么可以在这里提问 [GitHub](https://github.com/overtrue/wechat/issues)，提问请描述清楚你用的版本，你的做法是什么，不然别人没法帮你。
+我们专门针对一些容易出现的通用问题已经做了汇总： [疑难解答](troubleshooting) ，如果你在问题疑难解答没找到你出现的问题，那么可以在这里提问 [GitHub](https://github.com/overtrue/wechat/issues)，提问请描述清楚你用的版本，你的做法是什么，不然别人没法帮你。
 
 > 要在 QQ 单独找我提问\*\*，除非你是发现了明显的 bug。有问题先审查代码，看文档, 再 google，然后 去群里发个问题，带上你的代码，重现流程，大家有空的会帮忙你解答。谢谢合作！:pray:
 
 ### 打赏支持
 
-这是一个开源的项目，我们没有收费服务，你如果觉得你从中获益，简化了你的开发工作，你可以 [打赏](/donate) 来支持我们。
+这是一个开源的项目，我们没有收费服务，你如果觉得你从中获益，简化了你的开发工作，你可以 [打赏](https://github.com/sponsors/overtrue) 来支持我们。

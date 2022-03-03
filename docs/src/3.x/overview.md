@@ -1,6 +1,5 @@
 # EasyWeChat
 
-
 ## EasyWeChat 是什么？
 
 EasyWeChat 是一个开源的 [微信](http://www.wechat.com) 非官方 SDK。
@@ -13,7 +12,6 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 - [PHP cURL 扩展](http://php.net/manual/en/book.curl.php)
 - [PHP OpenSSL 扩展](http://php.net/manual/en/book.openssl.php)
 - [PHP fileinfo 拓展](http://php.net/manual/en/book.fileinfo.php) 素材管理模块需要用到
-
 
 ### 加入我们
 
@@ -33,7 +31,7 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 
 本 SDK 不是一个全新再造的东西，所以我不会从 0 开始教会你开发微信，你完全有必要在使用本 SDK 前做好以下工作：
 
-- 具备 PHP 基础知识，不要连闭包是啥都不明白，可以参考我在知乎的回答: [想要开发自己的PHP框架需要那些知识储备？](http://www.zhihu.com/question/26635323/answer/33812516)
+- 具备 PHP 基础知识，不要连闭包是啥都不明白，可以参考我在知乎的回答: [想要开发自己的 PHP 框架需要那些知识储备？](http://www.zhihu.com/question/26635323/answer/33812516)
 - 熟悉 PHP 常见的知识：自动加载、composer 的使用、JSON 处理、Curl 的使用等；
 - **仔细阅读并看懂** （不是**看过**，是**看明白+看完** :exclamation:） [微信官方文档](http://mp.weixin.qq.com/wiki/13/80a1a25adbc46faf2716774c423b3151.html) [微信开放平台文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419318292&token=&lang=zh_CN)；
 - 明白微信接口的组成，自有服务器、微信服务器、公众号（还有其它各种号）、测试号、以及通信原理（交互过程）；
@@ -51,17 +49,16 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 
 - "为啥我的不行啊，请问服务器日志怎么看啊？"
 - "请问这是什么原因啊？[结果/报错截图]"
-- "请问这个SDK怎么用啊？"
-- "谁能告诉我这个SDK是怎么安装的啊？"
+- "请问这个 SDK 怎么用啊？"
+- "谁能告诉我这个 SDK 是怎么安装的啊？"
 - "怎么接收用户发的消息啊？"
 - "为啥我的报这个错啊：Class XXXX not found..."
 - ...
 
 我们专门针对一些容易出现的通用问题已经做了汇总： [疑难解答](troubleshooting) ，如果你在问题疑难解答没找到你出现的问题，那么可以在这里提问 [GitHub](https://github.com/overtrue/wechat/issues)，提问请描述清楚你用的版本，你的做法是什么，不然别人没法帮你。
 
-最后，请 **不要在QQ单独找我提问**，除非你是发现了明显的bug。有问题先审查代码，看文档, 再 google，然后 去群里发个问题，带上你的代码，重现流程，大家有空的会帮忙你解答。谢谢合作！:pray:
-
+最后，请 **不要在 QQ 单独找我提问**，除非你是发现了明显的 bug。有问题先审查代码，看文档, 再 google，然后 去群里发个问题，带上你的代码，重现流程，大家有空的会帮忙你解答。谢谢合作！:pray:
 
 ### 打赏支持
 
-这是一个开源的项目，我们没有收费服务，你如果觉得你从中获益，简化了你的开发工作，你可以 [打赏](/donate) 来支持我们。
+这是一个开源的项目，我们没有收费服务，你如果觉得你从中获益，简化了你的开发工作，你可以 [打赏](https://github.com/sponsors/overtrue) 来支持我们。

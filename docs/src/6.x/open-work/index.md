@@ -40,7 +40,7 @@ $app->getServer();
 $app->getClient();
 ```
 
-:book: 更多说明请参阅：[API 调用](/docs/{{version}}/client.md)
+:book: 更多说明请参阅：[API 调用](../client.md)
 
 ### 配置
 

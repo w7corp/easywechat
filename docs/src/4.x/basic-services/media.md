@@ -51,7 +51,7 @@ $app->media->uploadVideoForBroadcasting($path, $title, $description);
 
 ## 创建群发消息
 
-不要与上面 **上传群发视频** 搞混了，上面一个是上传视频得到 `media_id`，这个是使用该 `media_id` 加标题描述 **创建一条消息素材** 用来发送给用户。详情参见：[消息群发](broadcasting)
+不要与上面 **上传群发视频** 搞混了，上面一个是上传视频得到 `media_id`，这个是使用该 `media_id` 加标题描述 **创建一条消息素材** 用来发送给用户。详情参见：[消息群发](../official-account/broadcasting.md)
 
 ```php
 $app->media->createVideoForBroadcasting($mediaId, $title, $description);

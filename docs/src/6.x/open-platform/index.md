@@ -40,7 +40,7 @@ $app->getServer();
 $app->getClient();
 ```
 
-:book: 更多说明请参阅：[API 调用](/docs/{{version}}/client.md)
+:book: 更多说明请参阅：[API 调用](../client.md)
 
 ### 配置
 
@@ -99,7 +99,7 @@ $account->getAesKey();
 $oauth = $app->getOAuth();
 ```
 
-:book: 详情请参考：[网页授权](../common/oauth.md)
+:book: 详情请参考：[网页授权](../oauth.md)
 
 ## 使用授权码获取授权信息
 
