@@ -1,26 +1,34 @@
 {
-    "license": "MIT",
-    "dependencies": {
-        "@fullhuman/postcss-purgecss": "^4.0.3",
-        "@vue/component-compiler-utils": "^3.2.2",
-        "@vuepress/plugin-docsearch": "^2.0.0-beta.24",
-        "@vuepress/plugin-google-analytics": "^2.0.0-beta.24",
-        "@vuepress/plugin-register-components": "^2.0.0-beta.24",
-        "@vuepress/theme-default": "^2.0.0-beta.23",
-        "autoprefixer": "^10.3.1",
-        "clipboard": "^2.0.8",
-        "fs-extra": "^9.1.0",
-        "postcss-import": "^14.0.2",
-        "postcss-nested": "^5.0.6",
-        "tailwindcss": "^2.2.7",
-        "vuepress": "@next"
-    },
-    "devDependencies": {
-        "prettier": "2.2.1"
-    },
-    "scripts": {
-        "dev": "vuepress dev .",
-        "build": "vuepress build .",
-        "prettify": "prettier --write --tab-width=2 **/**/*.md **/*.js .vuepress/*.js"
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "serve": "vitepress serve",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "dependencies": {
+    "@overtrue/easywechat-theme": "1.0.3",
+    "autoprefixer": "^10.4.2",
+    "clipboard": "^2.0.10",
+    "dynamics.js": "^1.1.5",
+    "gsap": "^3.9.1",
+    "postcss": "^8.4.7",
+    "postcss-import": "^14.0.2",
+    "tailwindcss": "^3.0.23",
+    "vitepress": "0.22.2",
+    "vue": "^3.2.31"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
+    "@types/node": "^16.11.26"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search",
+        "react",
+        "react-dom",
+        "@types/react"
+      ]
     }
+  }
 }

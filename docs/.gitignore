@@ -1,4 +1,3 @@
 node_modules/
-website/.vuepress/dist
 package-lock.json
 yarn-error.log

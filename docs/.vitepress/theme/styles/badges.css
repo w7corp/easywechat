@@ -1,0 +1,28 @@
+.vt-badge.wip:before {
+  content: 'WIP';
+}
+
+.vt-badge.ts {
+  background-color: #3178c6;
+}
+.vt-badge.ts:before {
+  content: 'TS';
+}
+
+.vt-badge.dev-only,
+.vt-badge.experimental {
+  color: var(--vt-c-text-light-1);
+  background-color: var(--vt-c-yellow);
+}
+
+.vt-badge.dev-only:before {
+  content: 'Dev only';
+}
+
+.vt-badge.experimental:before {
+  content: 'Experimental';
+}
+
+.vt-badge[data-text]:before {
+  content: attr(data-text);
+}

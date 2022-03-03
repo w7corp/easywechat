@@ -1,0 +1,15 @@
+/* always show anchors on /api/ and /style-guide/ pages */
+.vt-doc.api h2 .header-anchor,
+.vt-doc.style-guide h2 .header-anchor {
+  opacity: 1;
+}
+
+.vt-doc.sponsor h3 {
+  text-align: center;
+  padding-bottom: 1em;
+  border-bottom: 1px solid var(--vt-c-divider-light);
+}
+
+.vt-doc.sponsor h3 .header-anchor {
+  display: none;
+}

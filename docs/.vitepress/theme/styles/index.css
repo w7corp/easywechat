@@ -1,0 +1,11 @@
+@import './layout.css';
+@import './pages.css';
+@import './badges.css';
+@import './options-boxes.css';
+@import './inline-demo.css';
+@import './utilities.css';
+@import './style-guide.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

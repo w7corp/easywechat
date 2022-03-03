@@ -1,0 +1,61 @@
+.style-example {
+  border-radius: 8px 8px 12px 12px;
+  margin: 1.6em 0;
+  padding: 1.6em 1.6em 0.1px;
+  position: relative;
+  border: 1px solid transparent;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.vt-doc .style-example h3 {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.style-example-bad {
+  background: #f7e8e8;
+}
+.dark .style-example-bad {
+  background: transparent;
+  border-color: var(--vt-c-red);
+}
+
+.style-example-bad h3 {
+  color: var(--vt-c-red);
+}
+
+.style-example-good {
+  background: #ecfaf7;
+}
+.dark .style-example-good {
+  background: transparent;
+  border-color: var(--vt-c-green);
+}
+
+.style-example-good h3 {
+  color: var(--vt-c-green);
+}
+
+.details summary {
+  font-weight: bold !important;
+}
+
+.style-verb {
+  font-size: 0.6em;
+  display: inline-block;
+  border-radius: 6px;
+  font-size: 0.65em;
+  line-height: 1;
+  font-weight: 600;
+  padding: 0.35em 0.4em 0.3em;
+  position: relative;
+  top: -0.15em;
+  margin-right: 0.5em;
+  color: var(--vt-c-bg);
+  transition: color 0.5s;
+  background-color: var(--vt-c-brand);
+}
+
+.style-verb.avoid {
+  background-color: var(--vt-c-red);
+}
