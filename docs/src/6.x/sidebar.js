@@ -2,6 +2,7 @@ exports = module.exports = [
   {
     text: '开始使用',
     items: [
+      { text: '关于6.x', link: '/6.x/introduction.html' },
       { text: '立即开始', link: '/6.x/index.html' },
       { text: '常见问题汇总', link: '/6.x/troubleshooting.html' },
       { text: '参与贡献', link: '/6.x/contributing.html' }
