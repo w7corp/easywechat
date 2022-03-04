@@ -24,11 +24,12 @@ $config = [
         'base_uri' => 'https://api.mch.weixin.qq.com/',
     ],
 
-    // v2 API 秘钥
+    // v2 API 密钥
     //'secret_key' => '26db3e15cfedb44abfbb5fe94fxxxxx',
-    // v3
+    // v3 
     'secret_key' => '43A03299A3C3FED3D8CE7B820Fxxxxx',
 
+    //注意 v2与v3接口 密钥不要用混了
 ];
 
 $app = new Application($config);
