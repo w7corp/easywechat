@@ -15,7 +15,7 @@ $config = [
     // 必要配置
     'app_id'             => 'xxxx',
     'mch_id'             => 'your-mch-id',
-    'key'                => 'key-for-signature',   // API 密钥
+    'key'                => 'key-for-signature',   // API v2 密钥 (注意: 是v2密钥 是v2密钥 是v2密钥)
 
     // 如需使用敏感接口（如退款、发送红包等）需要配置 API 证书路径(登录商户平台下载 API 证书)
     'cert_path'          => 'path/to/your/cert.pem', // XXX: 绝对路径！！！！
