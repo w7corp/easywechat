@@ -88,7 +88,7 @@ let latestVersion = versions[0]
       <a
         href="https://github.com/overtrue"
         target="_blank"
-        class="flex items-center group hover:bg-gray-200 dark:hover:bg-indigo-500 xl:w-64 px-6 py-2 rounded"
+        class="flex items-center group hover:bg-gray-200 dark:hover:bg-indigo-500 xl:w-64 px-6 py-2 rounded-lg"
       >
         <div
           class="h-12 w-12 rounded-full border-2 border-blue-200 group-hover:border-blue-400 dark:group-hover:border-gray-300 p-0.5"
@@ -103,7 +103,7 @@ let latestVersion = versions[0]
       <a
         href="https://www.w7.cc/"
         target="_blank"
-        class="flex items-center group hover:bg-gray-200 dark:hover:bg-indigo-500 xl:w-64 px-6 py-2 rounded"
+        class="flex items-center group hover:bg-gray-200 dark:hover:bg-indigo-500 xl:w-64 px-6 py-2 rounded-lg"
       >
         <div
           class="h-12 w-12 rounded-full border-2 border-blue-200 group-hover:border-blue-400 dark:group-hover:border-gray-300 p-0.5"
