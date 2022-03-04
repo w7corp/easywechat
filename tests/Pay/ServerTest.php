@@ -17,7 +17,7 @@ class ServerTest extends TestCase
             'POST',
             'http://easywechat.com/',
             [],
-            fopen(__DIR__.'/../stubs/files/pay_demo.json', 'r')
+            fopen(__DIR__.'/../fixtures/files/pay_demo.json', 'r')
         ));
 
         $merchant = \Mockery::mock(Merchant::class);

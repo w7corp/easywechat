@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 
@@ -36,10 +37,14 @@ class LegacySignature
 
         ksort($attributes);
 
-        $attributes['key'] = $this->merchant->getSecretKey();
+        $attributes['key'] = $this->merchant->getV2SecretKey();
+
+        if (empty($attributes['key'])) {
+            throw new InvalidConfigException('Missing V2 API key.');
+        }
 
         if (!empty($params['sign_type']) && 'HMAC-SHA256' === $params['sign_type']) {
-            $signType = fn (string $message): string => hash_hmac('sha256', $message, $this->merchant->getSecretKey());
+            $signType = fn (string $message): string => hash_hmac('sha256', $message, $attributes['key']);
         } else {
             $signType = 'md5';
         }

@@ -8,5 +8,8 @@ use Psr\Http\Message\ResponseInterface;
 
 interface ResponseValidator
 {
-    public function validate(ResponseInterface $response): bool;
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException if the response is not successful.
+     */
+    public function validate(ResponseInterface $response): void;
 }

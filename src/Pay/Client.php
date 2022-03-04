@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Support\PrivateKey;
+use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Traits\HttpClientMethods;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
@@ -128,10 +130,10 @@ class Client implements HttpClientInterface
     {
         $mockMerchant = new Merchant(
             'mch_id',
-            'mock-key',
-            'mock-secret_key',
-            'mock-certificate_path',
-            'mock-certificate_serial_no',
+            \Mockery::mock(PrivateKey::class),
+            \Mockery::mock(PublicKey::class),
+            'mock-v3-key',
+            'mock-v2-key',
         );
 
         return \Mockery::mock(static::class, [$mockMerchant, $mockHttpClient])

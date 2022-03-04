@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Support\PrivateKey;
+use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
@@ -21,15 +23,20 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     protected ?HttpClientInterface $client = null;
     protected ?Merchant $merchant = null;
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
     public function getMerchant(): Merchant
     {
         if (!$this->merchant) {
             $this->merchant = new Merchant(
                 mchId: $this->config['mch_id'],
-                privateKey: $this->config['private_key'],
+                privateKey: new PrivateKey($this->config['private_key']),
                 secretKey: $this->config['secret_key'],
-                certificate: $this->config['certificate'],
-                certificateSerialNo: $this->config['certificate_serial_no'],
+                v2SecretKey: $this->config['v2_secret_key'],
+                certificate: new PublicKey($this->config['certificate']),
+                platformCerts: $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [],
             );
         }
 

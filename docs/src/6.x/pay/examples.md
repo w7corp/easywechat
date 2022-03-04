@@ -6,28 +6,6 @@
 > 官方文档：<https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_1.shtml>
 
 ```php
-$config = [
-    'mch_id' => 1518700000,
-
-    'private_key' => __DIR__ . '/certs/apiclient_key.pem',
-    'certificate' => __DIR__ . '/certs/apiclient_cert.pem',
-
-    /**
-     * 证书序列号，可通过命令从证书获取：
-     * `openssl x509 -in apiclient_cert.pem -noout -serial`
-     */
-    'certificate_serial_no' => '69701D37B35989A9195D21E9C8xxxxxxxx',
-
-    'http' => [
-        'base_uri' => 'https://api.mch.weixin.qq.com/',
-    ],
-
-    // v3
-    'secret_key' => 'Sx7cSGLXszB9I1iKJvgDNzNxxxxx',
-];
-
-$app = new \EasyWeChat\Pay\Application($config);
-
 $response = $app->getClient()->post("v3/pay/transactions/jsapi", [
    "mchid" => "1518700000", // <---- 请修改为您的商户号
    "out_trade_no" => "native12177525012012070352333'.rand(1,1000).'",
@@ -47,3 +25,65 @@ $response = $app->getClient()->post("v3/pay/transactions/jsapi", [
 ```
 
 </details>
+
+
+<details>
+    <summary>Native 下单</summary>
+
+```php
+$response = $app->getClient()->post('pay/transactions/native', [
+    'mchid' => (string)$app->getMerchant()->getMerchantId(),
+    'out_trade_no' => 'native20210720xxx',
+    'appid' => 'wxe2fb06xxxxxxxxxx6',
+    'description' => 'Image形象店-深圳腾大-QQ公仔',
+    'notify_url' => 'https://weixin.qq.com/',
+    'amount' => [
+        'total' => 1,
+        'currency' => 'CNY',
+    ]
+]);
+
+print_r($response->toArray());
+```
+</details>
+
+
+<details>
+    <summary>查询订单（商户订单号）</summary>
+
+```php
+
+$outTradeNo = 'native20210720xxx';
+$response = $app->getClient()->get("pay/transactions/out-trade-no/{$outTradeNo}", [
+    'query'=>[
+        'mchid' =>  $app->getMerchant()->getMerchantId()
+    ]
+]);
+
+print_r($response->toArray());
+```
+</details>
+
+
+<details>
+    <summary>查询订单（微信订单号）</summary>
+
+```php
+$transactionId = '217752501201407033233368018';
+$response = $app->getClient()->get("pay/transactions/id/{$transactionId}", [
+    'query'=>[
+        'mchid' =>  $app->getMerchant()->getMerchantId()
+    ]
+]);
+
+print_r($response->toArray());
+```
+</details>
+
+
+<!--
+<details>
+    <summary>标题</summary>
+内容
+</details>
+-->

@@ -14,6 +14,5 @@ class Config extends \EasyWeChat\Kernel\Config
         'secret_key',
         'private_key',
         'certificate',
-        'certificate_serial_no',
     ];
 }
