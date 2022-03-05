@@ -76,7 +76,7 @@ export default defineConfigWithTheme<ThemeConfig>({
     algolia: {
       indexName: 'easywechat',
       appId: 'X3KJL5SQXD',
-      apiKey: '981093e0ff3b2e187aea7c340bc4d339'
+      apiKey: '5c5ba71b35c48411f245bef4c695fc36'
       // searchParameters: {
       //   facetFilters: ['version:v3']
       // }
