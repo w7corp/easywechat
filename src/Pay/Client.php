@@ -130,7 +130,9 @@ class Client implements HttpClientInterface
     {
         $mockMerchant = new Merchant(
             'mch_id',
+            /** @phpstan-ignore-next-line*/
             \Mockery::mock(PrivateKey::class),
+            /** @phpstan-ignore-next-line*/
             \Mockery::mock(PublicKey::class),
             'mock-v3-key',
             'mock-v2-key',

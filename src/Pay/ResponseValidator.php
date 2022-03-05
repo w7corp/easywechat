@@ -62,7 +62,7 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
         if (false === \openssl_verify(
             $message,
             \base64_decode($signature),
-            $publicKey,
+            \strval($publicKey),
             \OPENSSL_ALGO_SHA256
         )) {
             throw new BadResponseException('Invalid Signature', $response);
