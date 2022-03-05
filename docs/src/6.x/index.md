@@ -38,7 +38,7 @@ $config = [
 $app = new Application($config);
 ```
 
-在创建实例后，所有的方法都几乎可以有 IDE 自动补全，当然，建议先阅读各模块的文档了解一下他们的区别，比如我们以调用公众号获取用户资料为例：
+在创建实例后，所有的方法都几乎可以有 IDE 自动补全，当然，建议先阅读各模块的文档了解一下它们的区别，这里我们以调用公众号获取用户资料为例：
 
 ```php
 $response = $app->getClient()->get("/cgi-bin/user/info?openid=${$openid}&lang=zh_CN");
