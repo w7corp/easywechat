@@ -219,4 +219,70 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->unbindPrinter('myopenid'));
     }
+
+    public function testCreateReturn()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'shop_order_id' => 'xxx',
+            'biz_addr' => [
+                'name' => '张三',
+                'mobile' => '13600000000',
+                'country' => '中国',
+                'province' => '广东省',
+                'city' => '广州市',
+                'area' => '海珠区',
+                'address' => 'xx路xx号'
+            ],
+            'user_addr' => [
+                'name' => '李四',
+                'mobile' => '13600000000',
+                'country' => '中国',
+                'province' => '广东省',
+                'city' => '广州市',
+                'area' => '海珠区',
+                'address' => 'xx路xx号'
+            ],
+            'openid' => 'xxx',
+            'order_path' => 'xxx',
+            'goods_list' => [
+                '0' => [
+                    'name' => 'xxx',
+                    'url' => 'xxx'
+                ]
+            ],
+            'order_price' => 1
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/delivery/return/add', $data)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->createReturn($data));
+    }
+
+    public function testGetReturn()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'return_id' => '1935761508265738242',
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/delivery/return/get', $data)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->getReturn('1935761508265738242'));
+    }
+
+    public function testUnbindReturn()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $data = [
+            'return_id' => '1935761508265738242',
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/express/delivery/return/unbind', $data)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->unbindReturn('1935761508265738242'));
+    }
 }
