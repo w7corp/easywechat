@@ -37,6 +37,7 @@ class Client extends BaseClient
 
         return $this->httpPostJson('cgi-bin/express/business/account/bind', $params);
     }
+
     /**
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
@@ -166,6 +167,43 @@ class Client extends BaseClient
         return $this->httpPostJson('cgi-bin/express/business/printer/update', [
             'update_type' => 'unbind',
             'openid' => $openid,
+        ]);
+    }
+
+    /**
+     * 创建退货 ID
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function createReturn(array $params = [])
+    {
+        return $this->httpPostJson('cgi-bin/express/delivery/return/add', $params);
+    }
+
+    /**
+     * 查询退货 ID 状态
+     * @param string $returnId
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getReturn(string $returnId)
+    {
+        return $this->httpPostJson('cgi-bin/express/delivery/return/get', [
+            'return_id' => $returnId
+        ]);
+    }
+
+    /**
+     * 解绑退货 ID
+     * @param string $returnId
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function unbindReturn(string $returnId)
+    {
+        return $this->httpPostJson('cgi-bin/express/delivery/return/unbind', [
+            'return_id' => $returnId
         ]);
     }
 }
