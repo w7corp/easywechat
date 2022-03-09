@@ -179,23 +179,40 @@ $authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
 **获取公众号实例**
 
 ```php
-// $officialAccount 为 EasyWeChat\OfficialAccount\Application 实例
-$officialAccount = $app->getOfficialAccount($authorizerAccessToken);
+
+// 公众号配置
+$officialAccountConfig = [
+  'app_id' => 'wx3cf0f39249eb0exx',
+  'secret' => 'f1c242f4f28f735d4687abb469072axx',
+  'token' => 'easywechat',
+  'aes_key' => '' 
+];
+
+$officialAccount = $app->getOfficialAccount($authorizerAccessToken, $officialAccountConfig);
 
 // 调用公众号接口
-$users = $officialAccount->getClient()->cgiBin->users->list->get()->toArray();
+$users = $officialAccount->getClient()->get('cgi-bin/users/list')->toArray();
 ```
+
+> `$officialAccount` 为 `EasyWeChat\OfficialAccount\Application` 实例
 
 :book: 更多公众号用法请参考：[公众号](../official-account/index.md)
 
 **获取小程序实例**
 
 ```php
-// $miniApp 为 EasyWeChat\MiniApp\Application 实例
-$miniApp = $app->getMiniApp($authorizerAccessToken);
+// 小程序配置
+$officialAccountConfig = [
+  'app_id' => 'wx3cf0f39249eb0exx',
+  'secret' => 'f1c242f4f28f735d4687abb469072axx',
+  'token' => 'easywechat',
+  'aes_key' => '' 
+];
+
+$miniApp = $app->getMiniApp($authorizerAccessToken, $miniAppConfig);
 
 // 调用小程序接口
-$users = $miniApp->getClient()->cgiBin->users->list->get()->toArray();
+$users = $miniApp->getClient()->getClient()->get('cgi-bin/users/list')->toArray();
 ```
 
 :book: 更多小程序用法请参考：[小程序](../mini-app/index.md)
