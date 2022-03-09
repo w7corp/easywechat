@@ -1,6 +1,6 @@
 # [EasyWeChat](https://www.easywechat.com)
 
-📦 一个 PHP 微信开发 SDK，开源 Saas 平台提供商 [微擎](https://www.easywechat.com/w7team.jpg) 旗下开源产品。
+📦 一个 PHP 微信开发 SDK，开源 SaaS 平台提供商 [微擎](https://www.easywechat.com/w7team.jpg) 旗下开源产品。
 
 [![Test Status](https://github.com/w7corp/easywechat/workflows/Test/badge.svg)](https://github.com/w7corp/easywechat/actions)
 [![Lint Status](https://github.com/w7corp/easywechat/workflows/Lint/badge.svg)](https://github.com/w7corp/easywechat/actions)
