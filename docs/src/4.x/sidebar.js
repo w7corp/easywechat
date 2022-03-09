@@ -103,7 +103,6 @@ exports = module.exports = [
         text: '订阅消息',
         link: '/4.x/mini-program/subscribe_message.html'
       },
-      { text: '直播', link: '/4.x/mini-program/live.html' },
       { text: '安全风控', link: '/4.x/mini-program/safety_control.html' },
       {
         text: 'URL Scheme',
