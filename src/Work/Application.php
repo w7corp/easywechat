@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
-use EasyWeChat\Kernel\Client;
-use EasyWeChat\Kernel\Traits\InteractWithClient;
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
+use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
-use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
-use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeWork;
 
@@ -118,9 +118,9 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function createClient(): Client
+    public function createClient(): AccessTokenAwareClient
     {
-        return new Client($this->getHttpClient(), $this->getAccessToken());
+        return new AccessTokenAwareClient($this->getHttpClient(), $this->getAccessToken());
     }
 
     public function getOAuth(): SocialiteProviderInterface

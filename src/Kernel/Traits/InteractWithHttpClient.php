@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Support\UserAgent;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
+use Psr\Log\LoggerAwareInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -15,7 +16,7 @@ trait InteractWithHttpClient
     public function getHttpClient(): HttpClientInterface
     {
         if (!$this->httpClient) {
-            $this->httpClient = $this->withDefaultOptions($this->createHttpClient());
+            $this->httpClient = $this->createHttpClient();
         }
 
         return $this->httpClient;
@@ -25,12 +26,16 @@ trait InteractWithHttpClient
     {
         $this->httpClient = $httpClient;
 
+        if ($this instanceof LoggerAwareInterface && $httpClient instanceof LoggerAwareInterface && \property_exists($this, 'logger') && $this->logger) {
+            $httpClient->setLogger($this->logger);
+        }
+
         return $this;
     }
 
     protected function createHttpClient(): HttpClientInterface
     {
-        return HttpClient::create();
+        return HttpClient::create(RequestUtil::formatDefaultOptions($this->getHttpClientDefaultOptions()));
     }
 
     /**
@@ -39,16 +44,5 @@ trait InteractWithHttpClient
     protected function getHttpClientDefaultOptions(): array
     {
         return [];
-    }
-
-    protected function withDefaultOptions(HttpClientInterface $client): HttpClientInterface
-    {
-        $defaultOptions = $this->getHttpClientDefaultOptions();
-
-        if (empty($defaultOptions['headers']['User-Agent'])) {
-            $defaultOptions['headers']['User-Agent'] = UserAgent::create([$defaultOptions['headers']['User-Agent'] ?? '']);
-        }
-
-        return $client->withOptions($defaultOptions);
     }
 }

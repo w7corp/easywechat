@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
-use EasyWeChat\Kernel\Client;
-use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\RefreshableAccessToken;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class AccessToken implements AccessTokenInterface
+class AccessToken implements RefreshableAccessToken
 {
     protected HttpClientInterface $httpClient;
     protected CacheInterface $cache;
@@ -25,7 +25,7 @@ class AccessToken implements AccessTokenInterface
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null
     ) {
-        $this->httpClient = $httpClient ?? new Client();
+        $this->httpClient = $httpClient ?? new AccessTokenAwareClient();
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
@@ -53,30 +53,11 @@ class AccessToken implements AccessTokenInterface
      */
     public function getToken(): string
     {
-        $key = $this->getKey();
-
-        if ($token = $this->cache->get($key)) {
+        if ($token = $this->cache->get($this->getKey())) {
             return $token;
         }
 
-        $response = $this->httpClient->request(
-            'GET',
-            '/cgi-bin/gettoken',
-            [
-                'query' => [
-                    'corpid' => $this->corpId,
-                    'corpsecret' => $this->secret,
-                ],
-            ]
-        )->toArray(false);
-
-        if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
-        }
-
-        $this->cache->set($key, $response['access_token'], \intval($response['expires_in']));
-
-        return $response['access_token'];
+        return $this->refresh();
     }
 
 
@@ -94,5 +75,32 @@ class AccessToken implements AccessTokenInterface
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function refresh(): string
+    {
+        $response = $this->httpClient->request('GET', '/cgi-bin/gettoken', [
+                'query' => [
+                    'corpid' => $this->corpId,
+                    'corpsecret' => $this->secret,
+                ],
+            ])->toArray(false);
+
+        if (empty($response['access_token'])) {
+            throw new HttpException('Failed to get access_token: '.\json_encode($response, \JSON_UNESCAPED_UNICODE));
+        }
+
+        $this->cache->set($this->getKey(), $response['access_token'], \intval($response['expires_in']));
+
+        return $response['access_token'];
     }
 }

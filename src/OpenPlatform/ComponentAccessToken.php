@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use JetBrains\PhpStorm\ArrayShape;
 
-class ComponentAccessToken implements AccessTokenInterface
+class ComponentAccessToken implements RefreshableAccessTokenInterface
 {
     use InteractWithCache;
     use InteractWithHttpClient;
@@ -47,31 +47,11 @@ class ComponentAccessToken implements AccessTokenInterface
      */
     public function getToken(): string
     {
-        $key = $this->getKey();
-
-        if ($token = $this->getCache()->get($key)) {
+        if ($token = $this->getCache()->get($this->getKey())) {
             return $token;
         }
 
-        $response = $this->getHttpClient()->request(
-            'POST',
-            'cgi-bin/component/api_component_token',
-            [
-                'json' => [
-                    'component_appid' => $this->appId,
-                    'component_appsecret' => $this->secret,
-                    'component_verify_ticket' => $this->verifyTicket->getTicket(),
-                ],
-            ]
-        )->toArray(false);
-
-        if (empty($response['component_access_token'])) {
-            throw new HttpException('Failed to get component_access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
-        }
-
-        $this->getCache()->set($key, $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));
-
-        return $response['component_access_token'];
+        return $this->refresh();
     }
 
 
@@ -89,5 +69,37 @@ class ComponentAccessToken implements AccessTokenInterface
     public function toQuery(): array
     {
         return ['component_access_token' => $this->getToken()];
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function refresh(): string
+    {
+        $response = $this->getHttpClient()->request(
+            'POST',
+            'cgi-bin/component/api_component_token',
+            [
+                'json' => [
+                    'component_appid' => $this->appId,
+                    'component_appsecret' => $this->secret,
+                    'component_verify_ticket' => $this->verifyTicket->getTicket(),
+                ],
+            ]
+        )->toArray(false);
+
+        if (empty($response['component_access_token'])) {
+            throw new HttpException('Failed to get component_access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
+        }
+
+        $this->getCache()->set($this->getKey(), $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));
+
+        return $response['component_access_token'];
     }
 }

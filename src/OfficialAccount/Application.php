@@ -4,21 +4,26 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount;
 
-use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
-use EasyWeChat\Kernel\Traits\InteractWithClient;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
+use EasyWeChat\Kernel\HttpClient\AccessTokenExpiredRetryStrategy;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
+use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
-use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
-use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use JetBrains\PhpStorm\Pure;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
+use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\HttpClient\Response\AsyncContext;
+use Symfony\Component\HttpClient\RetryableHttpClient;
 
 class Application implements ApplicationInterface
 {
@@ -27,6 +32,7 @@ class Application implements ApplicationInterface
     use InteractWithServerRequest;
     use InteractWithHttpClient;
     use InteractWithClient;
+    use LoggerAwareTrait;
 
     protected ?Encryptor $encryptor = null;
 
@@ -187,9 +193,25 @@ class Application implements ApplicationInterface
         return new Utils($this);
     }
 
-    public function createClient(): Client
+    public function createClient(): AccessTokenAwareClient
     {
-        return new Client($this->getHttpClient(), $this->getAccessToken());
+        $httpClient = $this->getHttpClient();
+
+        if (!!$this->config->get('http.retry', false)) {
+            $httpClient = new RetryableHttpClient($httpClient, $this->getRetryStrategy(), $this->config->get('http.max_retries', 2));
+        }
+
+        return new AccessTokenAwareClient($httpClient, $this->getAccessToken());
+    }
+
+    public function getRetryStrategy(): AccessTokenExpiredRetryStrategy
+    {
+        $retryConfig = RequestUtil::mergeDefaultRetryOptions($this->config->get('http.retry', []));
+
+        return (new AccessTokenExpiredRetryStrategy($retryConfig))
+                ->decideUsing(function (AsyncContext $context, ?string $responseContent): bool {
+                    return !empty($responseContent) && \str_contains($responseContent, '42001') && \str_contains($responseContent, 'access_token expired');
+                });
     }
 
     /**

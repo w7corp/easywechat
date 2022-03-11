@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\Tests\Kernel;
+namespace EasyWeChat\Tests\Kernel\HttpClient;
 
-use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Tests\TestCase;
 
-class ClientTest extends TestCase
+class AccessTokenAwareClientTest extends TestCase
 {
     public function test_full_uri_call()
     {
-        $client = Client::mock();
+        $client = AccessTokenAwareClient::mock();
 
         $options = [
             'headers' => [
@@ -28,7 +28,7 @@ class ClientTest extends TestCase
 
     public function test_shortcuts_call()
     {
-        $client = Client::mock();
+        $client = AccessTokenAwareClient::mock();
 
         $client->get('v3/certificates', [
             'headers' => [
@@ -43,7 +43,7 @@ class ClientTest extends TestCase
 
     public function test_it_will_auto_wrap_body()
     {
-        $client = Client::mock();
+        $client = AccessTokenAwareClient::mock();
 
         $client->post('v3/certificates', [
             'body' => [
@@ -56,7 +56,7 @@ class ClientTest extends TestCase
         $this->assertSame('foo=bar', $client->getRequestOptions()['body']);
 
         // post without body key
-        $client = Client::mock();
+        $client = AccessTokenAwareClient::mock();
         $client->post('v3/certificates', [
             'foo' => 'bar',
         ]);
@@ -66,7 +66,7 @@ class ClientTest extends TestCase
         $this->assertSame('foo=bar', $client->getRequestOptions()['body']);
 
         // patch without body key
-        $client = Client::mock();
+        $client = AccessTokenAwareClient::mock();
         $client->patch('v3/certificates', [
             'foo' => 'bar',
         ]);
@@ -76,7 +76,7 @@ class ClientTest extends TestCase
         $this->assertSame('foo=bar', $client->getRequestOptions()['body']);
 
         // put without body key
-        $client = Client::mock();
+        $client = AccessTokenAwareClient::mock();
         $client->put('v3/certificates', [
             'foo' => 'bar',
         ]);

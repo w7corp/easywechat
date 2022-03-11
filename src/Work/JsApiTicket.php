@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
-use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -23,7 +23,7 @@ class JsApiTicket
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null
     ) {
-        $this->httpClient = $httpClient ?? new Client();
+        $this->httpClient = $httpClient ?? new AccessTokenAwareClient();
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 

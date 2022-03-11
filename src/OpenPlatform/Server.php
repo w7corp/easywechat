@@ -127,7 +127,7 @@ class Server implements ServerInterface
         $query = $this->request->getQueryParams();
 
         return function (Message $message, \Closure $next) use ($query): mixed {
-            $this->decryptMessage(
+            $message = $this->decryptMessage(
                 $message,
                 $this->encryptor,
                 $query['msg_signature'] ?? '',

@@ -2,7 +2,7 @@
 
 namespace EasyWeChat\Tests\Kernel\Traits;
 
-use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Tests\TestCase;
 
@@ -12,11 +12,11 @@ class InteractWithClientTest extends TestCase
     {
         $app = new DummyClassForInteractWithClientTest();
 
-        $this->assertInstanceOf(Client::class, $app->getClient());
+        $this->assertInstanceOf(AccessTokenAwareClient::class, $app->getClient());
         $this->assertSame($app->getClient(), $app->getClient());
 
         // set
-        $client = new Client();
+        $client = new AccessTokenAwareClient();
         $app->setClient($client);
         $this->assertSame($client, $app->getClient());
     }
@@ -26,8 +26,8 @@ class DummyClassForInteractWithClientTest
 {
     use InteractWithClient;
 
-    public function createClient(): Client
+    public function createClient(): AccessTokenAwareClient
     {
-        return new Client();
+        return new AccessTokenAwareClient();
     }
 }

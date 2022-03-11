@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
-use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 
 trait InteractWithClient
 {
-    protected ?Client $client = null;
+    protected ?AccessTokenAwareClient $client = null;
 
-    public function getClient(): Client
+    public function getClient(): AccessTokenAwareClient
     {
         if (!$this->client) {
             $this->client = $this->createClient();
@@ -19,12 +19,12 @@ trait InteractWithClient
         return $this->client;
     }
 
-    public function setClient(Client $client): static
+    public function setClient(AccessTokenAwareClient $client): static
     {
         $this->client = $client;
 
         return $this;
     }
 
-    abstract public function createClient(): Client;
+    abstract public function createClient(): AccessTokenAwareClient;
 }

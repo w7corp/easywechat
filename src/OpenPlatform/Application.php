@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
-use EasyWeChat\Kernel\Client;
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\Kernel\Traits\InteractWithClient;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
+use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
-use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\MiniApp\Application as MiniAppApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
 use EasyWeChat\OfficialAccount\Config as OfficialAccountConfig;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
-use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
@@ -292,9 +292,9 @@ class Application implements ApplicationInterface
         ))->scopes($config->get('oauth.scopes', ['snsapi_userinfo']));
     }
 
-    public function createClient(): Client
+    public function createClient(): AccessTokenAwareClient
     {
-        return new Client($this->getHttpClient(), $this->getComponentAccessToken());
+        return new AccessTokenAwareClient($this->getHttpClient(), $this->getComponentAccessToken());
     }
 
     /**

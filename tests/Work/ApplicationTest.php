@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Work;
 
-use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Config;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\AccessToken;
-use EasyWeChat\Work\Encryptor;
-use EasyWeChat\Work\JsApiTicket;
-use EasyWeChat\Work\Server;
 use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Account as AccountInterface;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
-use EasyWeChat\Tests\TestCase;
+use EasyWeChat\Work\Encryptor;
+use EasyWeChat\Work\JsApiTicket;
+use EasyWeChat\Work\Server;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Psr16Cache;
@@ -118,11 +118,11 @@ class ApplicationTest extends TestCase
             ]
         );
 
-        $this->assertInstanceOf(Client::class, $app->getClient());
+        $this->assertInstanceOf(AccessTokenAwareClient::class, $app->getClient());
         $this->assertSame($app->getClient(), $app->getClient());
 
         // set
-        $client = new Client();
+        $client = new AccessTokenAwareClient();
         $app->setClient($client);
         $this->assertSame($client, $app->getClient());
     }
@@ -143,7 +143,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
 
         // set
-        $client = new Client();
+        $client = new AccessTokenAwareClient();
         $app->setHttpClient($client);
         $this->assertSame($client, $app->getHttpClient());
     }
