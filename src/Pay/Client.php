@@ -49,6 +49,7 @@ class Client implements HttpClientInterface
         '/v3/',
         '/sandbox/v3/',
         '/hk/v3/',
+        '/global/v3/',
     ];
 
     /**
