@@ -97,7 +97,9 @@ class Client implements HttpClientInterface
                 $options['body'] = Xml::build($this->attachLegacySignature($options['body']));
             }
 
-            $options['headers']['Content-Type'] = 'text/xml';
+            if (!isset($options['headers']['Content-Type'])) {
+                $options['headers']['Content-Type'] = 'text/xml';
+            }
         }
 
         return $this->client->request($method, $url, $options);
