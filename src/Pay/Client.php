@@ -7,6 +7,7 @@ namespace EasyWeChat\Pay;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Support\UserAgent;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\HttpClientMethods;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Mockery\Mock;
@@ -65,7 +66,7 @@ class Client implements HttpClientInterface
     }
 
     /**
-     * @param  array<array-key, mixed>  $options
+     * @param  array<string, mixed>  $options
      *
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \Exception
@@ -77,10 +78,26 @@ class Client implements HttpClientInterface
         if ($this->isV3Request($url)) {
             [, $options] = $this->prepareRequest($method, $url, $options, $this->defaultOptions, true);
             $options['headers']['Authorization'] = $this->createSignature($method, $url, $options);
-        } elseif (!empty($options['json']) && \is_array($options['json'])) {
-            $options['json'] = $this->attachLegacySignature($options['json']);
-        } elseif (!empty($options['body']) && \is_array($options['body'])) {
-            $options['body'] = $this->attachLegacySignature($options['body']);
+        } else {
+            // v2 全部为 xml 请求
+            if (!empty($options['xml'])) {
+                if (\is_array($options['xml'])) {
+                    $options['xml'] = Xml::build($this->attachLegacySignature($options['xml']));
+                }
+
+                if (!\is_string($options['xml'])) {
+                    throw new \InvalidArgumentException('The `xml` option must be a string or array.');
+                }
+
+                $options['body'] = $options['xml'];
+                unset($options['xml']);
+            }
+
+            if (!empty($options['body']) && \is_array($options['body'])) {
+                $options['body'] = Xml::build($this->attachLegacySignature($options['body']));
+            }
+
+            $options['headers']['Content-Type'] = 'text/xml';
         }
 
         return $this->client->request($method, $url, $options);
@@ -118,14 +135,20 @@ class Client implements HttpClientInterface
     }
 
     /**
-     * @param array<string, mixed>  $body
+     * @param  array<string, mixed>  $body
+     *
      * @return array<string, mixed>
+     * @throws \Exception
      */
     protected function attachLegacySignature(array $body): array
     {
         return (new LegacySignature($this->merchant))->sign($body);
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
     public static function createMockClient(MockHttpClient $mockHttpClient): HttpClientInterface|Mock
     {
         $mockMerchant = new Merchant(

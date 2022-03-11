@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Pay;
 
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Pay\Client;
 use EasyWeChat\Tests\TestCase;
 
@@ -28,7 +29,7 @@ class ClientTest extends TestCase
         $this->assertSame('accept: application/json', $client->getRequestOptions()['headers'][0]);
     }
 
-    public function test_v2_request()
+    public function test_v2_request_with_array()
     {
         $client = Client::mock();
         $client->shouldReceive('createSignature')->never();
@@ -37,13 +38,78 @@ class ClientTest extends TestCase
         ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature']);
 
         $client->post('certificates', [
-            'body' => \json_encode([
+            'body' => [
                 'foo' => 'bar',
-            ]),
+            ],
         ]);
 
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: application/json', $client->getRequestOptions()['headers'][1]);
+        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertSame(Xml::build(['foo' => 'bar', 'sign' => 'mock-signature']), $client->getRequestOptions()['body']);
+    }
+
+    public function test_v2_request_without_body()
+    {
+        $client = Client::mock();
+        $client->shouldReceive('createSignature')->never();
+        $client->shouldReceive('attachLegacySignature')->with([
+            'foo' => 'bar',
+        ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature']);
+
+        $client->post('certificates', ['foo' => 'bar']);
+
+        $this->assertSame('POST', $client->getRequestMethod());
+        $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
+        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertSame(Xml::build(['foo' => 'bar', 'sign' => 'mock-signature']), $client->getRequestOptions()['body']);
+    }
+
+    public function test_v2_request_with_xml_option()
+    {
+        $client = Client::mock();
+        $client->shouldReceive('createSignature')->never();
+        $client->shouldReceive('attachLegacySignature')->with([
+            'foo' => 'bar',
+        ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature']);
+
+        $client->post('certificates', ['xml' => ['foo' => 'bar']]);
+
+        $this->assertSame('POST', $client->getRequestMethod());
+        $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
+        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertSame(Xml::build(['foo' => 'bar', 'sign' => 'mock-signature']), $client->getRequestOptions()['body']);
+    }
+
+    public function test_v2_request_with_xml_string()
+    {
+        $client = Client::mock();
+        $client->shouldReceive('createSignature')->never();
+        $client->shouldReceive('attachLegacySignature')->with([
+            'foo' => 'bar',
+        ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature']);
+
+        $client->post('certificates', ['xml' => Xml::build(['foo' => 'bar'])]);
+
+        $this->assertSame('POST', $client->getRequestMethod());
+        $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
+        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertSame(Xml::build(['foo' => 'bar']), $client->getRequestOptions()['body']);
+    }
+
+    public function test_v2_request_with_xml_string_as_body()
+    {
+        $client = Client::mock();
+        $client->shouldReceive('createSignature')->never();
+        $client->shouldReceive('attachLegacySignature')->with([
+            'foo' => 'bar',
+        ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature']);
+
+        $client->post('certificates', ['body' => Xml::build(['foo' => 'bar'])]);
+
+        $this->assertSame('POST', $client->getRequestMethod());
+        $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
+        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertSame(Xml::build(['foo' => 'bar']), $client->getRequestOptions()['body']);
     }
 }
