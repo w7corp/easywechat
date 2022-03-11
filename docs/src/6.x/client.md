@@ -67,6 +67,45 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
     ]);
 ```
 
+或者指定 xml 格式：
+
+```php
+$response = $api->post('/mmpaymkttransfers/promotion/transfers', [
+    'xml' => [
+        'mch_appid' => $app->getConfig()['app_id'], 
+        'mchid' => $app->getConfig()['mch_id'], 
+        'partner_trade_no' => '202203081646729819743', 
+        'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx',
+        'check_name' => 'FORCE_CHECK',
+        're_user_name'=> 'overtrue', 
+        'amount' => 100, 
+        'desc' => '理赔',
+    ]]);
+```
+
+#### 请求证书
+
+你可以在请求支付时指定证书，以微信支付 V2 为例：
+
+```php
+$response = $api->post('/mmpaymkttransfers/promotion/transfers', [
+    'xml' => [
+        'mch_appid' => $app->getConfig()['app_id'], 
+        'mchid' => $app->getConfig()['mch_id'], 
+        'partner_trade_no' => '202203081646729819743', 
+        'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx',
+        'check_name' => 'FORCE_CHECK',
+        're_user_name'=> 'overtrue', 
+        'amount' => 100, 
+        'desc' => '理赔',
+    ],
+    'local_cert' => $app->getConfig()['cert_path'],
+    'local_pk' => $app->getConfig()['key_path'],
+    ]);
+```
+
+> 参考：[symfony/http-client#options](https://symfony.com/doc/current/reference/configuration/framework.html#local-cert)
+
 #### 文件上传
 
 你有两种上传文件的方式可以选择：
