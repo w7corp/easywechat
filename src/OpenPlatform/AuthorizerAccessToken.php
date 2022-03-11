@@ -20,7 +20,7 @@ class AuthorizerAccessToken implements AccessToken, Stringable
         return $this->appId;
     }
 
-    public function getToken(bool $forceRefresh = false): string
+    public function getToken(): string
     {
         return $this->accessToken;
     }
