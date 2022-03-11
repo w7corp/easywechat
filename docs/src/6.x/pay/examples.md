@@ -84,23 +84,19 @@ print_r($response->toArray());
    <summary>付款（V2）</summary>
 
 ```php
-$params = [
-  'mch_appid' => $app->getConfig()['app_id'], //注意在配置文件中加上app_id
-  'mchid' => $app->getConfig()['mch_id'], //商户号
-  'partner_trade_no' => '202203081646729819743', // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)
-  'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx', //用户openid
-  'check_name' => 'FORCE_CHECK',// NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
-  're_user_name'=> '彭旭', // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
-  'amount' => '100', //金额
-  'desc' => '理赔', // 企业付款操作说明信息。必填
-  ];
-  
-$params = (new \EasyWeChat\Pay\LegacySignature($app->getMerchant()))->sign($params);
-
 $response = $api->post('/mmpaymkttransfers/promotion/transfers', [
-  'body' => \EasyWeChat\Kernel\Support\Xml::build($params), //参数转xml
-  'local_cert' => $app->getConfig()['certificate'], //证书
-  'local_pk' => $app->getConfig()['private_key'], //证书密钥
+    'body' => [
+        'mch_appid' => $app->getConfig()['app_id'],     //注意在配置文件中加上app_id
+        'mchid' => $app->getConfig()['mch_id'],         //商户号
+        'partner_trade_no' => '202203081646729819743',  // 商户订单号，需保持唯一性(只能是字母或者数字，不能包含有符号)
+        'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx',     //用户openid
+        'check_name' => 'FORCE_CHECK',                  // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
+        're_user_name'=> '用户真实姓名',                  // 如果 check_name 设置为 FORCE_CHECK 则必填用户真实姓名
+        'amount' => '100',                              //金额
+        'desc' => '理赔',                                // 企业付款操作说明信息。必填
+    ],
+    'local_cert' => $app->getConfig()['certificate'], //v2证书绝对路径
+    'local_pk' => $app->getConfig()['private_key'],   //v2证书密钥绝对路径
 ]);
 
 print_r(\EasyWeChat\Kernel\Support\Xml::parse($response->getContent()));
