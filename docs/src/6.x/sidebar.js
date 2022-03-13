@@ -26,7 +26,7 @@ exports = module.exports = [
     items: [
       { text: '入门', link: '/6.x/pay/index.html' },
       { text: 'API 调用', link: '/6.x/client.html' },
-      { text: '回调通知', link: '/6.x/pay/notify.html' },
+      { text: '回调通知', link: '/6.x/pay/server.html' },
       { text: '工具', link: '/6.x/pay/utils.html' },
       { text: '代码示例', link: '/6.x/pay/examples.html' }
     ]

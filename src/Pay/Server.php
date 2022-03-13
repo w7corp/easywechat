@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @link https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay4_1.shtml
+ * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
  */
 class Server implements ServerInterface
 {
@@ -36,7 +37,7 @@ class Server implements ServerInterface
      */
     public function serve(): ResponseInterface
     {
-        $message = $this->createMessageFromRequest();
+        $message = $this->getMessageFromRequest();
 
         try {
             return $this->handle(
@@ -53,6 +54,7 @@ class Server implements ServerInterface
     }
 
     /**
+     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function handlePaid(callable $handler): static
@@ -66,6 +68,7 @@ class Server implements ServerInterface
     }
 
     /**
+     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function handleRefunded(callable $handler): static
@@ -82,10 +85,38 @@ class Server implements ServerInterface
     }
 
     /**
+     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleTradeStateChanged(callable $handler): static
+    {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+            return \str_starts_with($message->getEventType() ?? '', 'TRANSACTION.')
+                ? $handler($message, $next) : $next($message);
+        });
+
+        return $this;
+    }
+
+    /**
+     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function handleRefundStateChanged(callable $handler): static
+    {
+        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+            return \str_starts_with($message->getEventType() ?? '', 'REFUND.')
+                ? $handler($message, $next) : $next($message);
+        });
+
+        return $this;
+    }
+
+    /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    protected function createMessageFromRequest(): Message
+    public function getMessageFromRequest(): Message
     {
         $originContent = $this->request->getBody()->getContents();
         $attributes = \json_decode($originContent, true);

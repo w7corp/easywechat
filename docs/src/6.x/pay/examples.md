@@ -1,5 +1,9 @@
 # 示例
 
+> 👏🏻 欢迎点击本页下方 "帮助我们改善此页面！" 链接参与贡献更多的使用示例！
+
+
+
 <details>
     <summary>JSAPI 下单</summary>
 
@@ -77,6 +81,42 @@ $response = $app->getClient()->get("pay/transactions/id/{$transactionId}", [
 ]);
 
 print_r($response->toArray());
+```
+</details>
+
+<details>
+    <summary>Laravel 中处理微信支付回调</summary>
+
+> 记得需要将此类路由关闭 csrf 验证。
+
+```php
+// 假设你设置的通知地址notify_url为: https://easywechat.com/payment_notify
+
+// 注意：通知地址notify_url必须为https协议
+
+Route::post('payment_notify', function () {
+    // $app 为你实例化的支付对象，此处省略实例化步骤
+    $server = $app->getServer();
+
+    // 处理支付结果事件
+    $server->handlePaid(function ($message) {
+        // $message 为微信推送的通知结果，详看微信官方文档
+
+        // 微信支付订单号 $message['transaction_id']
+        // 商户订单号 $message['out_trade_no']
+        // 商户号 $message['mchid']
+        // 具体看微信官方文档...
+        // 进行业务处理，如存数据库等...
+    });
+
+    // 处理退款结果事件
+    $server->handleRefunded(function ($message) {
+        // 同上，$message 详看微信官方文档
+        // 进行业务处理，如存数据库等...
+    });
+
+    return $server->serve();
+});
 ```
 </details>
 
