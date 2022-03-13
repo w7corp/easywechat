@@ -14,6 +14,7 @@ use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class Server implements ServerInterface
 {
@@ -46,9 +47,10 @@ class Server implements ServerInterface
         }
 
         $message = $this->getRequestMessage($this->request);
+        $query = $this->request->getQueryParams();
 
         if ($this->encryptor && !empty($query['msg_signature'])) {
-            $this->prepend($this->decryptRequestMessage($this->request->getQueryParams()));
+            $this->prepend($this->decryptRequestMessage($query));
         }
 
         $response = $this->handle(new Response(200, [], 'success'), $message);
