@@ -14,7 +14,6 @@ use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class Server implements ServerInterface
 {
