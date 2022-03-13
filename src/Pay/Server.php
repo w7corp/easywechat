@@ -85,34 +85,6 @@ class Server implements ServerInterface
     }
 
     /**
-     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function handleTradeStateChanged(callable $handler): static
-    {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return \str_starts_with($message->getEventType() ?? '', 'TRANSACTION.')
-                ? $handler($message, $next) : $next($message);
-        });
-
-        return $this;
-    }
-
-    /**
-     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     */
-    public function handleRefundStateChanged(callable $handler): static
-    {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return \str_starts_with($message->getEventType() ?? '', 'REFUND.')
-                ? $handler($message, $next) : $next($message);
-        });
-
-        return $this;
-    }
-
-    /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
