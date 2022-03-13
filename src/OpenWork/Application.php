@@ -109,9 +109,9 @@ class Application implements ApplicationInterface
         if (!$this->server) {
             $this->server = new Server(
                 account: $this->getAccount(),
-                request: $this->getRequest(),
                 encryptor: $this->getSuiteEncryptor(),
                 providerEncryptor: $this->getEncryptor(),
+                request: $this->getRequest(),
             );
 
             $this->server->withDefaultSuiteTicketHandler(function (Message $message, \Closure $next): mixed {

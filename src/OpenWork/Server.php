@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -20,6 +21,7 @@ class Server implements ServerInterface
     use RespondXmlMessage;
     use DecryptXmlMessage;
 
+    protected ServerRequestInterface $request;
     protected \Closure | null $defaultSuiteTicketHandler = null;
 
     /**
@@ -27,10 +29,11 @@ class Server implements ServerInterface
      */
     public function __construct(
         protected AccountInterface $account,
-        protected ServerRequestInterface $request,
         protected Encryptor $encryptor,
-        protected Encryptor $providerEncryptor
+        protected Encryptor $providerEncryptor,
+        ?ServerRequestInterface $request = null,
     ) {
+        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
 
     /**

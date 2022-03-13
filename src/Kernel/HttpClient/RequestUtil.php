@@ -20,7 +20,7 @@ class RequestUtil
             'status_codes' => GenericRetryStrategy::DEFAULT_RETRY_STATUS_CODES,
             'delay' => 1000,
             'max_delay' => 0,
-            'max_retries' => 2,
+            'max_retries' => 3,
             'multiplier' => 2.0,
             'jitter' => 0.1,
         ], $options);
@@ -89,5 +89,19 @@ class RequestUtil
         }
 
         return $options;
+    }
+
+    public static function createDefaultServerRequest(): \Psr\Http\Message\ServerRequestInterface
+    {
+        $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+
+        $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
+            serverRequestFactory: $psr17Factory,
+            uriFactory: $psr17Factory,
+            uploadedFileFactory: $psr17Factory,
+            streamFactory: $psr17Factory
+        );
+
+        return $creator->fromGlobals();
     }
 }

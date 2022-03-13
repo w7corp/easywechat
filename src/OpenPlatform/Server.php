@@ -6,6 +6,7 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -21,15 +22,17 @@ class Server implements ServerInterface
     use DecryptXmlMessage;
 
     protected ?\Closure $defaultVerifyTicketHandler = null;
+    protected ServerRequestInterface $request;
 
     /**
      * @throws \Throwable
      */
     public function __construct(
         protected AccountInterface $account,
-        protected ServerRequestInterface $request,
         protected Encryptor $encryptor,
+        ?ServerRequestInterface $request = null,
     ) {
+        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
 
     /**
@@ -43,7 +46,7 @@ class Server implements ServerInterface
             return new Response(200, [], $str);
         }
 
-        $message = Message::createFromRequest($this->request);
+        $message = $this->getRequestMessage($this->request);
 
         $this->prepend($this->decryptRequestMessage());
 
@@ -117,11 +120,6 @@ class Server implements ServerInterface
         return $this;
     }
 
-    public function resolveResponse(mixed $response, Message $message): ResponseInterface
-    {
-        return new Response(200, [], 'success');
-    }
-
     protected function decryptRequestMessage(): \Closure
     {
         $query = $this->request->getQueryParams();
@@ -137,5 +135,13 @@ class Server implements ServerInterface
 
             return $next($message);
         };
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     */
+    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    {
+        return Message::createFromRequest($request ?? $this->request);
     }
 }

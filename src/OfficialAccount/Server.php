@@ -6,6 +6,7 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -16,18 +17,21 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
 {
-    use InteractWithHandlers;
     use RespondXmlMessage;
     use DecryptXmlMessage;
+    use InteractWithHandlers;
+
+    protected ServerRequestInterface $request;
 
     /**
      * @throws \Throwable
      */
     public function __construct(
         protected AccountInterface $account,
-        protected ServerRequestInterface $request,
+        ?ServerRequestInterface $request = null,
         protected ?Encryptor $encryptor = null,
     ) {
+        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
 
     /**
@@ -41,11 +45,10 @@ class Server implements ServerInterface
             return new Response(200, [], $str);
         }
 
-        $message = Message::createFromRequest($this->request);
-        $query = $this->request->getQueryParams();
+        $message = $this->getRequestMessage($this->request);
 
         if ($this->encryptor && !empty($query['msg_signature'])) {
-            $this->prepend($this->decryptRequestMessage($query));
+            $this->prepend($this->decryptRequestMessage($this->request->getQueryParams()));
         }
 
         $response = $this->handle(new Response(200, [], 'success'), $message);
@@ -106,5 +109,13 @@ class Server implements ServerInterface
 
             return $next($message);
         };
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     */
+    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    {
+        return Message::createFromRequest($request ?? $this->request);
     }
 }

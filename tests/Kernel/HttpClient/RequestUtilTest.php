@@ -15,7 +15,7 @@ class RequestUtilTest extends TestCase
             'status_codes' => GenericRetryStrategy::DEFAULT_RETRY_STATUS_CODES,
             'delay' => 1000,
             'max_delay' => 0,
-            'max_retries' => 2,
+            'max_retries' => 3,
             'multiplier' => 2.0,
             'jitter' => 0.1,
         ];

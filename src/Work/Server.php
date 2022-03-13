@@ -6,6 +6,7 @@ namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -20,14 +21,17 @@ class Server implements ServerInterface
     use RespondXmlMessage;
     use InteractWithHandlers;
 
+    protected ServerRequestInterface $request;
+
     /**
      * @throws \Throwable
      */
     public function __construct(
         protected AccountInterface $account,
-        protected ServerRequestInterface $request,
         protected Encryptor $encryptor,
+        ?ServerRequestInterface $request = null,
     ) {
+        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
 
     /**

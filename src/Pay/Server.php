@@ -4,6 +4,7 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
@@ -17,14 +18,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class Server implements ServerInterface
 {
     use InteractWithHandlers;
+    protected ServerRequestInterface $request;
 
     /**
      * @throws \Throwable
      */
     public function __construct(
         protected MerchantInterface $merchant,
-        protected ServerRequestInterface $request,
+        ?ServerRequestInterface $request,
     ) {
+        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
 
     /**

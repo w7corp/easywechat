@@ -33,9 +33,9 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
             $this->merchant = new Merchant(
                 mchId: $this->config['mch_id'],
                 privateKey: new PrivateKey($this->config['private_key']),
+                certificate: new PublicKey($this->config['certificate']),
                 secretKey: $this->config['secret_key'],
                 v2SecretKey: $this->config['v2_secret_key'],
-                certificate: new PublicKey($this->config['certificate']),
                 platformCerts: $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [],
             );
         }
@@ -43,6 +43,10 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         return $this->merchant;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
     public function getUtils(): Utils
     {
         return new Utils($this->getMerchant());

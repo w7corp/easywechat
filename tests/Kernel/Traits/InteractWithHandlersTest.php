@@ -195,6 +195,37 @@ class InteractWithHandlersTest extends TestCase
         $m->without($h3);
         $this->assertSame('hello', $m->handle('default value'));
     }
+
+    public function test_it_can_prepend_handlers()
+    {
+        $m = \Mockery::mock(InteractWithHandlers::class);
+
+        $h1 = function ($payload, $next) {
+            return 'h1'.$next($payload);
+        };
+
+        $h2 = function ($payload, $next) {
+            return 'h2'.$next($payload);
+        };
+
+        $h3 = function ($payload, $next) {
+            return 'h3'.$next($payload);
+        };
+
+        $h4 = function ($payload, $next) {
+            return 'h4';
+        };
+
+        $m->with($h1);
+        $m->with($h4);
+        $this->assertSame('h1h4', $m->handle('success'));
+
+        $m->prepend($h2);
+        $this->assertSame('h2h1h4', $m->handle('success'));
+
+        $m->prepend($h3);
+        $this->assertSame('h3h2h1h4', $m->handle('success'));
+    }
 }
 
 class DummyClassBasedHandler

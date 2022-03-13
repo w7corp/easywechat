@@ -8,14 +8,14 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
 use EasyWeChat\Kernel\Traits\HttpClientMethods;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
-use Symfony\Component\HttpClient\DecoratorTrait;
+use Symfony\Component\HttpClient\AsyncDecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 {
-    use DecoratorTrait;
+    use AsyncDecoratorTrait;
     use HttpClientMethods;
     use RetryableClient;
     use MockableHttpClient;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Kernel\HttpClient;
 
+use EasyWeChat\Kernel\Contracts\AccessToken;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Tests\TestCase;
 
@@ -84,5 +85,26 @@ class AccessTokenAwareClientTest extends TestCase
         $this->assertSame('PUT', $client->getRequestMethod());
         $this->assertSame('https://example.com/v3/certificates', $client->getRequestUrl());
         $this->assertSame('foo=bar', $client->getRequestOptions()['body']);
+    }
+
+    public function test_it_will_apply_access_token_to_query()
+    {
+        $client = AccessTokenAwareClient::mock();
+
+        $client->withAccessToken(new class () implements AccessToken {
+            public function getToken(): string
+            {
+                return 'mock-access-token';
+            }
+
+            public function toQuery(): array
+            {
+                return ['access_token' => 'mock-access-token'];
+            }
+        });
+
+        $client->get('v3/certificates', ['foo' => 'bar']);
+
+        $this->assertSame('https://example.com/v3/certificates?access_token=mock-access-token', $client->getRequestUrl());
     }
 }

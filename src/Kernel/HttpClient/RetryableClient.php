@@ -27,7 +27,7 @@ trait RetryableClient
         return $this->retryUsing($strategy, $config['max_retries']);
     }
 
-    public function retryUsing(RetryStrategyInterface $strategy, int $maxRetries = 2, LoggerInterface $logger = null): static
+    public function retryUsing(RetryStrategyInterface $strategy, int $maxRetries = 3, LoggerInterface $logger = null): static
     {
         $this->client = new RetryableHttpClient($this->client, $strategy, $maxRetries, $logger);
 
