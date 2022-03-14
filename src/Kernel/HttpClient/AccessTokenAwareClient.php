@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace EasyWeChat\Kernel;
+namespace EasyWeChat\Kernel\HttpClient;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
 use EasyWeChat\Kernel\Traits\HttpClientMethods;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
-use Symfony\Component\HttpClient\DecoratorTrait;
+use Symfony\Component\HttpClient\AsyncDecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Client implements AccessTokenAwareHttpClientInterface
+class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 {
-    use DecoratorTrait;
+    use AsyncDecoratorTrait;
     use HttpClientMethods;
+    use RetryableClient;
     use MockableHttpClient;
 
     public function __construct(
@@ -28,11 +29,9 @@ class Client implements AccessTokenAwareHttpClientInterface
 
     public function withAccessToken(AccessTokenInterface $accessToken): static
     {
-        $clone = clone $this;
+        $this->accessToken = $accessToken;
 
-        $clone->accessToken = $accessToken;
-
-        return $clone;
+        return $this;
     }
 
     /**
@@ -45,11 +44,13 @@ class Client implements AccessTokenAwareHttpClientInterface
             $options['query'] = \array_merge($options['query'] ?? [], $this->accessToken->toQuery());
         }
 
+        $options = RequestUtil::formatBody($options);
+
         return $this->client->request($method, ltrim($url, '/'), $options);
     }
 
     /**
-     * @param  array<string, mixed>  $arguments
+     * @param array<string, mixed> $arguments
      */
     public function __call(string $name, array $arguments): mixed
     {

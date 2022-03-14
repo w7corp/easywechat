@@ -11,6 +11,18 @@ $app = new Application($config);
 $server = $app->getServer();
 ```
 
+## 自助处理推送消息
+
+你可以通过下面的方式获取来自微信服务器的推送消息：
+
+```php
+$message = $server->getRequestMessage();
+```
+
+`$message` 为一个 `EasyWeChat\OfficialAccount\Message` 实例。
+
+你可以在处理完逻辑后自行创建一个响应，当然，在不同的框架里，响应写法也不一样，请自行实现，我建议使用下面的中间件模式来完成会更简单方便。
+
 ### 中间件模式
 
 与 5.x 的设计类似，服务端使用中间件模式来依次调用开发者注册的中间件：

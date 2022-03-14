@@ -4,6 +4,7 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
@@ -13,18 +14,21 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @link https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay4_1.shtml
+ * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
  */
 class Server implements ServerInterface
 {
     use InteractWithHandlers;
+    protected ServerRequestInterface $request;
 
     /**
      * @throws \Throwable
      */
     public function __construct(
         protected MerchantInterface $merchant,
-        protected ServerRequestInterface $request,
+        ?ServerRequestInterface $request,
     ) {
+        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
 
     /**
@@ -33,7 +37,7 @@ class Server implements ServerInterface
      */
     public function serve(): ResponseInterface
     {
-        $message = $this->createMessageFromRequest();
+        $message = $this->getMessageFromRequest();
 
         try {
             return $this->handle(
@@ -50,6 +54,7 @@ class Server implements ServerInterface
     }
 
     /**
+     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function handlePaid(callable $handler): static
@@ -63,6 +68,7 @@ class Server implements ServerInterface
     }
 
     /**
+     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function handleRefunded(callable $handler): static
@@ -82,7 +88,7 @@ class Server implements ServerInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    protected function createMessageFromRequest(): Message
+    public function getMessageFromRequest(): Message
     {
         $originContent = $this->request->getBody()->getContents();
         $attributes = \json_decode($originContent, true);

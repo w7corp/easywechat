@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
-use EasyWeChat\Kernel\Client;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -109,9 +109,9 @@ class Application implements ApplicationInterface
         if (!$this->server) {
             $this->server = new Server(
                 account: $this->getAccount(),
-                request: $this->getRequest(),
                 encryptor: $this->getSuiteEncryptor(),
                 providerEncryptor: $this->getEncryptor(),
+                request: $this->getRequest(),
             );
 
             $this->server->withDefaultSuiteTicketHandler(function (Message $message, \Closure $next): mixed {
@@ -258,9 +258,9 @@ class Application implements ApplicationInterface
         return new AuthorizerAccessToken($corpId, accessToken: $response['access_token']);
     }
 
-    public function createClient(): Client
+    public function createClient(): AccessTokenAwareClient
     {
-        return new Client($this->getHttpClient(), $this->getProviderAccessToken());
+        return new AccessTokenAwareClient($this->getHttpClient(), $this->getProviderAccessToken());
     }
 
     public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): SocialiteProviderInterface

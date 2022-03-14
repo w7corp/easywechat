@@ -20,27 +20,98 @@
       - 成员标签变更 `update_tag`
 - 批量任务执行完成 `batch_job_result`
 
-## 自定义消息处理器
+## 内置消息处理器
 
-> *消息处理器详细说明见：公众号开发 - 服务端一节*
+### 处理通讯录变更事件（包括成员变更、部门变更、成员标签变更）
 
 ```php
-// 处理通讯录变更事件（包括成员变更、部门变更、成员标签变更）
-$server->handleContactChanged(callable | string $handler);
-
-// 处理任务执行完成事件
-$server->handleBatchJobsFinished(callable | string $handler);
-
-// 成员变更事件
-$server->handleUserCreated(callable | string $handler);
-$server->handleUserUpdated(callable | string $handler);
-$server->handleUserDeleted(callable | string $handler);
-
-// 部门变更事件
-$server->handlePartyCreated(callable | string $handler);
-$server->handlePartyUpdated(callable | string $handler);
-$server->handlePartyDeleted(callable | string $handler);
-
-// 成员标签变更事件
-$server->handleUserTagUpdated(callable | string $handler);
+$server->handleContactChanged(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
 ```
+
+### 处理任务执行完成事件
+
+```php
+$server->handleBatchJobsFinished(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+```
+
+### 成员变更事件
+
+```php
+// 新增成员
+$server->handleUserCreated(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+
+// 更新成员
+$server->handleUserUpdated(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+
+// 删除成员
+$server->handleUserDeleted(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+```
+
+### 部门变更事件
+
+```php
+// 新增部门
+$server->handlePartyCreated(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+
+// 更新部门
+$server->handlePartyUpdated(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+
+// 删除部门
+$server->handlePartyDeleted(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+```
+
+### 成员标签变更事件
+
+```php
+$server->handleUserTagUpdated(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+```
+
+## 其它事件处理
+
+以上便捷方法都只处理了特定事件，其它状态，可以通过自定义事件处理中间件的形式处理：
+
+```php
+$server->with(function($message, \Closure $next) {
+    // $message->event_type 事件类型
+    return $next($message);
+});
+```
+
+## 自助处理推送消息
+
+你可以通过下面的方式获取来自微信服务器的推送消息：
+
+```php
+$message = $server->getRequestMessage();
+```
+
+`$message` 为一个 `EasyWeChat\OpenWork\Message` 实例。
+
+你可以在处理完逻辑后自行创建一个响应，当然，在不同的框架里，响应写法也不一样，请自行实现。

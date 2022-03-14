@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,16 +16,7 @@ trait InteractWithServerRequest
     public function getRequest(): ServerRequestInterface
     {
         if (!$this->request) {
-            $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
-
-            $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
-                serverRequestFactory: $psr17Factory,
-                uriFactory: $psr17Factory,
-                uploadedFileFactory: $psr17Factory,
-                streamFactory: $psr17Factory
-            );
-
-            $this->request = $creator->fromGlobals();
+            $this->request = RequestUtil::createDefaultServerRequest();
         }
 
         return $this->request;

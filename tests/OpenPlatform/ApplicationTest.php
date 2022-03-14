@@ -82,7 +82,11 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getServer(), $app->getServer());
 
         // set
-        $server = new Server(\Mockery::mock(Account::class), \Mockery::mock(ServerRequestInterface::class), \Mockery::mock(Encryptor::class));
+        $server = new Server(
+            account: \Mockery::mock(Account::class),
+            encryptor: \Mockery::mock(Encryptor::class),
+            request: \Mockery::mock(ServerRequestInterface::class)
+        );
         $app->setServer($server);
         $this->assertSame($server, $app->getServer());
     }

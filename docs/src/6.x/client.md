@@ -11,7 +11,7 @@ $response = $api->post('/cgi-bin/user/info/updateremark', ['body' => [
 ]]);
 ```
 
-#### 语法说明
+## 语法说明
 
 ```php
 Symfony\Contracts\HttpClient\ResponseInterface {get/post/patch/put/delete}($uri, $options = [])
@@ -24,9 +24,9 @@ Symfony\Contracts\HttpClient\ResponseInterface {get/post/patch/put/delete}($uri,
 
 ---
 
-#### 请求参数
+## 请求参数
 
-##### GET
+### GET
 
 ```php
 $users = $api->get('/cgi-bin/user/list'， [
@@ -36,7 +36,7 @@ $users = $api->get('/cgi-bin/user/list'， [
     ])->toArray();
 ```
 
-#### POST
+### POST
 
 ```php
 $response = $api->post('/cgi-bin/user/info/updateremark', [
@@ -72,31 +72,31 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
 ```php
 $response = $api->post('/mmpaymkttransfers/promotion/transfers', [
     'xml' => [
-        'mch_appid' => $app->getConfig()['app_id'], 
-        'mchid' => $app->getConfig()['mch_id'], 
-        'partner_trade_no' => '202203081646729819743', 
+        'mch_appid' => $app->getConfig()['app_id'],
+        'mchid' => $app->getConfig()['mch_id'],
+        'partner_trade_no' => '202203081646729819743',
         'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx',
         'check_name' => 'FORCE_CHECK',
-        're_user_name'=> 'overtrue', 
-        'amount' => 100, 
+        're_user_name'=> 'overtrue',
+        'amount' => 100,
         'desc' => '理赔',
     ]]);
 ```
 
-#### 请求证书
+### 请求证书
 
 你可以在请求支付时指定证书，以微信支付 V2 为例：
 
 ```php
 $response = $api->post('/mmpaymkttransfers/promotion/transfers', [
     'xml' => [
-        'mch_appid' => $app->getConfig()['app_id'], 
-        'mchid' => $app->getConfig()['mch_id'], 
-        'partner_trade_no' => '202203081646729819743', 
+        'mch_appid' => $app->getConfig()['app_id'],
+        'mchid' => $app->getConfig()['mch_id'],
+        'partner_trade_no' => '202203081646729819743',
         'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx',
         'check_name' => 'FORCE_CHECK',
-        're_user_name'=> 'overtrue', 
-        'amount' => 100, 
+        're_user_name'=> 'overtrue',
+        'amount' => 100,
         'desc' => '理赔',
     ],
     'local_cert' => $app->getConfig()['cert_path'],
@@ -106,11 +106,11 @@ $response = $api->post('/mmpaymkttransfers/promotion/transfers', [
 
 > 参考：[symfony/http-client#options](https://symfony.com/doc/current/reference/configuration/framework.html#local-cert)
 
-#### 文件上传
+### 文件上传
 
 你有两种上传文件的方式可以选择：
 
-##### 从指定路径上传
+#### 从指定路径上传
 
 ```php
 use EasyWeChat\Kernel\Form\File;
@@ -125,7 +125,7 @@ $options = Form::create(
 $response = $api->post('cgi-bin/media/upload?type=image', $options);
 ```
 
-##### 从二进制内容上传
+#### 从二进制内容上传
 
 ```php
 use EasyWeChat\Kernel\Form\File;
@@ -231,6 +231,78 @@ $responses = [
 
 // 访问任意一个 $response 时将执行并发请求：
 $responses['users']->toArray();
+```
+
+## 失败重试
+
+默认在公众号、小程序开启了重试机制，你可以通过全局配置或者手动开启重试特性。
+
+> 🚨 不建议在支付模块使用重试功能，因为一旦重试导致支付数据异常，可能造成无法挽回的损失。
+
+### 方式一：全局配置
+
+在支持重试的模块里增加如下配置可以完成重试机制的配置
+
+```php
+    'http' => [
+        'timeout' => 5,
+
+        'retry' => true, // 使用默认配置
+        // 'retry' => [
+        //     // 仅以下状态码重试
+        //     'http_codes' => [429, 500]
+        //     'max_retries' => 3
+        //     // 请求间隔 (毫秒)
+        //     'delay' => 1000,
+        //     // 如果设置，每次重试的等待时间都会增加这个系数
+        //     // (例如. 首次:1000ms; 第二次: 3 * 1000ms; etc.)
+        //     'multiplier' => 0.1
+        // ],
+    ],
+```
+
+### 方式二：手动开启
+
+如果你不想使用基于配置的全局重试机制，你可以使用 `HttpClient::retry()` 方法来开启失败重试能力：
+
+```php
+$app->getClient()->retry()->get('/foo/bar');
+```
+
+当然，你可以在 `retry` 配置中自定义重试的配置，如下所示：
+
+```php
+$app->getClient()->retry([
+    'max_retries' => 2,
+    //...
+])->get('/foo/bar');
+```
+
+### 自定义重试策略
+
+如果觉得参数不能满足需求，你还可以自己实现 [`Symfony\Component\HttpClient\RetryStrategyInterface`](https://github.com/symfony/symfony/blob/6.1/src/Symfony/Component/HttpClient/Retry/RetryStrategyInterface.php) 接口来自定义重试策略，然后调用 `retryUsing` 方法来使用它。
+
+> 💡 建议继承基类来拓展，以实现默认重试类的基础功能。
+
+```php
+class MyRetryStrategy extends \Symfony\Component\HttpClient\Retry\GenericRetryStrategy
+{
+    public function shouldRetry(AsyncContext $context, ?string $responseContent, ?TransportExceptionInterface $exception): ?bool
+    {
+        // 你的自定义逻辑
+        // if (...) {
+        //     return false;
+        // }
+
+        return parent::shouldRetry($context, $responseContent, $exception);
+    }
+}
+```
+
+使用自定义重试策略：
+
+```php
+$app->getClient()->retryUsing(new MyRetryStrategy())->get('/foo/bar');
 ```
 
 ## 更多使用方法

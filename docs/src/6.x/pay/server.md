@@ -1,63 +1,68 @@
-# 微信支付的回调通知
+# 服务端
 
-## 微信官方文档
+支付推送和公众号几乎一样，请参考：[公众号：服务端](../official-account/server.md)。
+
+## 官方文档
 
 - [基础下单支付结果通知文档](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml)
 - [合单支付结果通知文档](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter5_1_13.shtml)
 - [退款结果通知文档](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml)
 
-## 通知处理器
+## 内置事件处理器
 
-- 支付结果通知 `handlePaid`
-- 退款结果通知 `handleRefunded`
+SDK 内置了两个便捷方法以便于开发者快速处理支付推送事件：
 
-```php
-$server = $app->getServer();
+> `$message` 属性已经默认解密，可直接访问解密后的属性。
 
-// 处理支付结果事件
-$server->handlePaid(callable | string $handler);
+### 支付成功事件
 
-// 处理退款结果事件
-$server->handleRefunded(callable | string $handler);
-
-return $server->serve();
-```
-
-### 示例（Laravel 框架）
-
-> 记得需要将此类路由关闭 csrf 验证。
+> :book: 官方文档：支付结果通知 <https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml>
 
 ```php
-// 假设你设置的通知地址notify_url为: https://easywechat.com/payment_notify
-
-// 注意：通知地址notify_url必须为https协议
-
-Route::post('payment_notify', function () {
-    // $app 为你实例化的支付对象，此处省略实例化步骤
-    $server = $app->getServer();
-
-    // 处理支付结果事件
-    $server->handlePaid(function ($message) {
-        // $message 为微信推送的通知结果，详看微信官方文档
-
-        // 微信支付订单号 $message['transaction_id']
-        // 商户订单号 $message['out_trade_no']
-        // 商户号 $message['mchid']
-        // 具体看微信官方文档...
-        // 进行业务处理，如存数据库等...
-    });
-
-    // 处理退款结果事件
-    $server->handleRefunded(function ($message) {
-        // 同上，$message 详看微信官方文档
-        // 进行业务处理，如存数据库等...
-    });
-
-    return $server->serve();
+$server->handlePaid(function (Message $message, \Closure $next) {
+    // $message->out_trade_no 获取商户订单号
+    // $message->payer['openid'] 获取支付者 openid
+    return $next($message);
 });
 ```
 
-#### 回调消息
+### 退款成功事件
+
+> :book: 官方文档：退款结果通知 <https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml>
+
+```php
+$server->handleRefunded(function (Message $message, \Closure $next) {
+    // $message->out_trade_no 获取商户订单号
+    // $message->payer['openid'] 获取支付者 openid
+    return $next($message);
+});
+```
+
+## 其它事件处理
+
+以上便捷方法都只处理了**成功状态**，其它状态，可以通过自定义事件处理中间件的形式处理：
+
+```php
+$server->with(function($message, \Closure $next) {
+    // $message->event_type 事件类型
+    return $next($message);
+});
+```
+
+## 自助处理推送消息
+
+你可以通过下面的方式获取来自微信服务器的推送消息：
+
+```php
+$message = $server->getRequestMessage();
+```
+
+`$message` 为一个 `EasyWeChat\OpenWork\Message` 实例。
+
+你可以在处理完逻辑后自行创建一个响应，当然，在不同的框架里，响应写法也不一样，请自行实现。
+
+
+## 回调消息
 
 微信推送的回调消息是默认密文的，可[参考文档](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml)，但是 SDK 已经帮你解密好了，所以以上例子中的 `$message` 默认访问的属性都是明文的，例如：
 
