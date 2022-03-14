@@ -5,22 +5,23 @@
 ```php
 $api = $app->getClient();
 
-$response = $api->post('/cgi-bin/user/info/updateremark', ['body' => [
+$response = $api->post('/cgi-bin/user/info/updateremark', [
     "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
     "remark" => "pangzi"
-]]);
+]);
 ```
 
 ## 语法说明
 
 ```php
-Symfony\Contracts\HttpClient\ResponseInterface {get/post/patch/put/delete}($uri, $options = [])
+get(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+post(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+patch(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+put(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+delete(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 ```
 
-**参数说明：**
-
-- `$uri` 为需要请求的 `path`；
-- `$options` 为请求参数，可以指定 `query` / `body` / `headers` 等等，具体请参考：[Symfony\Contracts\HttpClient\HttpClientInterface::OPTIONS_DEFAULTS](https://github.com/symfony/symfony/blob/5.3/src/Symfony/Contracts/HttpClient/HttpClientInterface.php)
+`$options` 为请求参数，可以指定 `query`/`body`/`json`/`xml`/`headers` 等等，具体请参考：[HttpClientInterface::OPTIONS_DEFAULTS](https://github.com/symfony/symfony/blob/6.1/src/Symfony/Contracts/HttpClient/HttpClientInterface.php)
 
 ---
 
@@ -190,10 +191,10 @@ $httpLogs = $response->getInfo('debug');
 
 ```php
 // 这段代码会立即执行，并不会发起网络请求
-$response = $api->post('/cgi-bin/user/info/updateremark', ['body' => [
+$response = $api->post('/cgi-bin/user/info/updateremark', [
     "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
     "remark" => "pangzi"
-]])
+])
 
 // 当你尝试访问 $response 的信息时，才会发起请求并等待返回
 $contentType = $response->getHeaders()['content-type'][0];
@@ -224,7 +225,7 @@ foreach ($responses as $response) {
 
 ```php
 $responses = [
-    'users'=> $api->get('/cgi-bin/user/get'),
+    'users' => $api->get('/cgi-bin/user/get'),
     'remark' => $api->post('/cgi-bin/user/info/updateremark', ['body' => ...]),
     'message' => $api->post('/cgi-bin/user/message/custom/send', ['body' => ...]),
 ];
@@ -233,7 +234,7 @@ $responses = [
 $responses['users']->toArray();
 ```
 
-## 失败重试
+## 失败重试 <version-tag>6.1.0+</version-tag>
 
 默认在公众号、小程序开启了重试机制，你可以通过全局配置或者手动开启重试特性。
 
