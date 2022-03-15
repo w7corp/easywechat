@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Contracts;
 
-use ArrayAccess;
-
-/**
- * @extends \ArrayAccess<mixed, mixed>
- */
-interface Arrayable extends ArrayAccess
+interface Arrayable
 {
     /**
      * @return array<int|string, mixed>

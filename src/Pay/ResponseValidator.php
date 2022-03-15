@@ -28,12 +28,12 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
     public function validate(ResponseInterface $response): void
     {
         if ($response->getStatusCode() !== 200) {
-            throw new BadResponseException('Request Failed', $response);
+            throw new BadResponseException('Request Failed');
         }
 
         foreach ([self::HEADER_SIGNATURE, self::HEADER_TIMESTAMP, self::HEADER_SERIAL, self::HEADER_NONCE] as $header) {
             if (!$response->hasHeader($header)) {
-                throw new BadResponseException("Missing Header: {$header}", $response);
+                throw new BadResponseException("Missing Header: {$header}");
             }
         }
 
@@ -47,7 +47,7 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
         $message = "{$timestamp}\n{$nonce}\n{$body}\n";
 
         if (\time() - \intval($timestamp) > self::MAX_ALLOWED_CLOCK_OFFSET) {
-            throw new BadResponseException('Clock Offset Exceeded', $response);
+            throw new BadResponseException('Clock Offset Exceeded');
         }
 
         $publicKey = $this->merchant->getPlatformCert($serial);
@@ -65,7 +65,7 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
             \strval($publicKey),
             \OPENSSL_ALGO_SHA256
         )) {
-            throw new BadResponseException('Invalid Signature', $response);
+            throw new BadResponseException('Invalid Signature');
         }
     }
 }

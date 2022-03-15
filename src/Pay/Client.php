@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Support\UserAgent;
@@ -103,7 +104,7 @@ class Client implements HttpClientInterface
             }
         }
 
-        return $this->client->request($method, $url, $options);
+        return new Response($this->client->request($method, $url, $options));
     }
 
     protected function isV3Request(string $url): bool

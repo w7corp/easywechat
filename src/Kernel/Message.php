@@ -72,6 +72,6 @@ abstract class Message implements ArrayAccess
 
     public function __toString()
     {
-        return $this->toJson();
+        return $this->toJson() ?: '';
     }
 }

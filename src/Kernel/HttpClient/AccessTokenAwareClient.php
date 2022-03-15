@@ -46,7 +46,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 
         $options = RequestUtil::formatBody($options);
 
-        return $this->client->request($method, ltrim($url, '/'), $options);
+        return new Response($this->client->request($method, ltrim($url, '/'), $options));
     }
 
     /**

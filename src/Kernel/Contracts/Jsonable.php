@@ -4,12 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Contracts;
 
-use ArrayAccess;
-
-/**
- * @extends ArrayAccess<string, mixed>
- */
-interface Jsonable extends ArrayAccess
+interface Jsonable
 {
-    public function toJson(): string;
+    public function toJson(): string|false;
 }

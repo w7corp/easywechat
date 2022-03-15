@@ -27,9 +27,9 @@ trait HasAttributes
         return $this->attributes;
     }
 
-    public function toJson(): string
+    public function toJson(): string|false
     {
-        return \json_encode($this->attributes) ?: '';
+        return \json_encode($this->attributes);
     }
 
     public function has(string $key): bool
