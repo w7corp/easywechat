@@ -39,6 +39,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Work\OAuth\Manager::class, $app->oauth);
         $this->assertInstanceOf(\EasyWeChat\Work\ExternalContact\Client::class, $app->external_contact);
         $this->assertInstanceOf(\EasyWeChat\Work\ExternalContact\ContactWayClient::class, $app->contact_way);
+        $this->assertInstanceOf(\EasyWeChat\Work\ExternalContact\GroupChatWayClient::class, $app->group_chat_way);
         $this->assertInstanceOf(\EasyWeChat\Work\ExternalContact\StatisticsClient::class, $app->external_contact_statistics);
         $this->assertInstanceOf(\EasyWeChat\Work\ExternalContact\MessageClient::class, $app->external_contact_message);
         $this->assertInstanceOf(\EasyWeChat\Work\Live\Client::class, $app->live);
