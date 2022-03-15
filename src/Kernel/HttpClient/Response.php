@@ -55,7 +55,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
-    public function offsetExists(mixed $offset)
+    public function offsetExists(mixed $offset): bool
     {
         return $this->toArray()[$offset] ?? false;
     }
@@ -68,7 +68,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
-    public function offsetGet(mixed $offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->toArray()[$offset] ?? null;
     }
@@ -76,7 +76,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\BadMethodCallException
      */
-    public function offsetSet(mixed $offset, mixed $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         throw new BadMethodCallException('Response is immutable.');
     }
@@ -84,7 +84,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\BadMethodCallException
      */
-    public function offsetUnset(mixed $offset)
+    public function offsetUnset(mixed $offset): void
     {
         throw new BadMethodCallException('Response is immutable.');
     }
