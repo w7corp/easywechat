@@ -139,7 +139,7 @@ $response = $api->post('/mmpaymkttransfers/promotion/transfers', [
     'local_pk' => $app->getConfig()['private_key'],   //v2证书密钥绝对路径
 ]);
 
-print_r(\EasyWeChat\Kernel\Support\Xml::parse($response->getContent()));
+print_r($response->toArray());
 ```
 </details>
   

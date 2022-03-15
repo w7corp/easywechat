@@ -156,48 +156,49 @@ EasyWeChat 增强了 API 响应对象，比如增加了数组式访问，你可�
 $response = $api->get('/foo/bar');
 
 $response['foo']; // "bar"
+isset($response['foo']); // true
 ```
 
 ### 获取状态码
+
 ```php
-$statusCode = $response->getStatusCode();
+$response->getStatusCode();
+// 200
 ```
 
 ### 获取响应头
+
 ```php
-$headers = $response->getHeaders(); 
+$response->getHeaders(); 
 // ['content-type' => ['application/json;encoding=utf-8'], '...']
 
-$header = $response->getHeader('content-type'); 
+$response->getHeader('content-type'); 
 // ['application/json;encoding=utf-8']
 
-$headerLine = $response->getHeaderLine('content-type'); 
+$response->getHeaderLine('content-type'); 
 // 'application/json;encoding=utf-8'
 ```
 
 ### 获取响应内容
 
 ```php
-$content = $response->getContent();
-// {"foo":"bar"}
-
-// 获取响应原始内容（不抛出异常）
-$content = $response->getContent(false);
+$response->getContent();
+$response->getContent(false); // 失败不抛出异常
 // {"foo":"bar"}
 
 // 获取 json 转换后的数组格式
-$content = $response->toArray();
-$content = $response->toArray(false); // 不抛出异常
+$response->toArray();
+$response->toArray(false); // 失败不抛出异常
 // ["foo" => "bar"]
 
 // 获取 json 
-$content = $response->toJson();
-$content = $response->toJson(false);
+$response->toJson();
+$response->toJson(false);
 // {"foo":"bar"}
 
-// 将内容转换成 Stream 返回
-$content = $response->toStream();
-$content = $response->toStream(false); // 不抛出异常
+// 将内容转换成流返回
+$response->toStream();
+$response->toStream(false); // 失败不抛出异常
 ```
 
 ### 获取其他上下文信息
