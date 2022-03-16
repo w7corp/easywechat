@@ -35,10 +35,10 @@ class Application implements ApplicationInterface
     {
         if (!$this->account) {
             $this->account = new Account(
-                corpId: $this->config->get('corp_id'),
-                secret: $this->config->get('secret'),
-                token: $this->config->get('token'),
-                aesKey: $this->config->get('aes_key'),
+                corpId: (string) $this->config->get('corp_id'), /** @phpstan-ignore-line */
+                secret: (string) $this->config->get('secret'),  /** @phpstan-ignore-line */
+                token: (string) $this->config->get('token'),    /** @phpstan-ignore-line */
+                aesKey: (string) $this->config->get('aes_key'), /** @phpstan-ignore-line */
             );
         }
 
@@ -132,7 +132,7 @@ class Application implements ApplicationInterface
                 'redirect_url' => $this->config->get('oauth.redirect_url'),
             ]
         ))->withApiAccessToken($this->getAccessToken()->getToken())
-            ->scopes($this->config->get('oauth.scopes', ['snsapi_base']));
+            ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
     public function getTicket(): JsApiTicket

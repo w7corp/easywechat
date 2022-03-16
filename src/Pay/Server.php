@@ -40,10 +40,10 @@ class Server implements ServerInterface
         $message = $this->getMessageFromRequest();
 
         try {
-            return $this->handle(
-                new Response(200, [], \strval(\json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE))),
-                $message
-            );
+            $defaultResponse = new Response(200, [], \strval(\json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)));
+            $response = $this->handle($defaultResponse, $message);
+
+            return $response instanceof ResponseInterface ? $response : $defaultResponse;
         } catch (\Exception $e) {
             return new Response(
                 500,
@@ -93,6 +93,10 @@ class Server implements ServerInterface
         $originContent = $this->request->getBody()->getContents();
         $attributes = \json_decode($originContent, true);
 
+        if (!\is_array($attributes)) {
+            throw new RuntimeException('Invalid request body.');
+        }
+
         if (empty($attributes['resource']['ciphertext'])) {
             throw new RuntimeException('Invalid request.');
         }
@@ -106,6 +110,10 @@ class Server implements ServerInterface
             ),
             true
         );
+
+        if (!\is_array($attributes)) {
+            throw new RuntimeException('Failed to decrypt request message.');
+        }
 
         return new Message($attributes, $originContent);
     }

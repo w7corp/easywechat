@@ -31,12 +31,12 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     {
         if (!$this->merchant) {
             $this->merchant = new Merchant(
-                mchId: $this->config['mch_id'],
-                privateKey: new PrivateKey($this->config['private_key']),
-                certificate: new PublicKey($this->config['certificate']),
-                secretKey: $this->config['secret_key'],
-                v2SecretKey: $this->config['v2_secret_key'],
-                platformCerts: $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [],
+                mchId: $this->config['mch_id'], /** @phpstan-ignore-line */
+                privateKey: new PrivateKey((string) $this->config['private_key']),  /** @phpstan-ignore-line */
+                certificate: new PublicKey((string) $this->config['certificate']),  /** @phpstan-ignore-line */
+                secretKey: (string) $this->config['secret_key'],    /** @phpstan-ignore-line */
+                v2SecretKey: (string) $this->config['v2_secret_key'],   /** @phpstan-ignore-line */
+                platformCerts: $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [], /** @phpstan-ignore-line */
             );
         }
 
@@ -88,9 +88,13 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         return $this->config;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
     public function getClient(): HttpClientInterface
     {
-        return $this->client ?? $this->client = new Client($this->getMerchant(), $this->getHttpClient(), $this->config->get('http', []));
+        return $this->client ?? $this->client = new Client($this->getMerchant(), $this->getHttpClient(), (array) $this->config->get('http', []));
     }
 
     public function setClient(HttpClientInterface $client): static

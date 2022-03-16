@@ -72,8 +72,9 @@ class JsApiTicket
     public function getTicket(): string
     {
         $key = $this->getKey();
+        $ticket = $this->cache->get($key);
 
-        if ($ticket = $this->cache->get($key)) {
+        if (!!$ticket && \is_string($ticket)) {
             return $ticket;
         }
 
@@ -143,8 +144,9 @@ class JsApiTicket
     public function getAgentTicket(int $agentId): string
     {
         $key = $this->getAgentKey($agentId);
+        $ticket = $this->cache->get($key);
 
-        if ($ticket = $this->cache->get($key)) {
+        if (!!$ticket && \is_string($ticket)) {
             return $ticket;
         }
 

@@ -46,6 +46,7 @@ class Xml
             $segments = [];
 
             foreach ($attr as $key => $value) {
+                /** @phpstan-ignore-next-line */
                 $segments[] = "{$key}=\"{$value}\"";
             }
 
@@ -116,6 +117,7 @@ class Xml
             if ((is_array($val) || is_object($val))) {
                 $xml .= self::data2Xml((array)$val, $item, $id);
             } else {
+                /** @phpstan-ignore-next-line */
                 $xml .= is_numeric($val) ? $val : self::cdata($val);
             }
 

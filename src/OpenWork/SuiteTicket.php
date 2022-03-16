@@ -52,7 +52,7 @@ class SuiteTicket implements SuiteTicketInterface
     {
         $ticket = $this->cache->get($this->getKey());
 
-        if (!$ticket) {
+        if (!$ticket || !\is_string($ticket)) {
             throw new RuntimeException('No suite_ticket found.');
         }
 

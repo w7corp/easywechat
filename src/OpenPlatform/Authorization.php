@@ -18,20 +18,25 @@ class Authorization implements \ArrayAccess, Jsonable, Arrayable
 
     public function getAppId(): string
     {
-        return $this->attributes['authorization_info']['authorizer_appid'];
+        /** @phpstan-ignore-next-line */
+        return (string) $this->attributes['authorization_info']['authorizer_appid'] ?? '';
     }
 
     #[Pure]
     public function getAccessToken(): AuthorizerAccessToken
     {
         return new AuthorizerAccessToken(
-            $this->attributes['authorization_info']['authorizer_appid'],
+            /** @phpstan-ignore-next-line */
+            $this->attributes['authorization_info']['authorizer_appid'] ?? '',
+
+            /** @phpstan-ignore-next-line */
             $this->attributes['authorization_info']['authorizer_access_token'] ?? ''
         );
     }
 
     public function getRefreshToken(): string
     {
-        return $this->attributes['authorization_info']['authorizer_refresh_token'];
+        /** @phpstan-ignore-next-line */
+        return $this->attributes['authorization_info']['authorizer_refresh_token'] ?? '';
     }
 }

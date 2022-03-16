@@ -57,7 +57,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      */
     public function offsetExists(mixed $offset): bool
     {
-        return $this->toArray()[$offset] ?? false;
+        return \array_key_exists($offset, $this->toArray());
     }
 
     /**

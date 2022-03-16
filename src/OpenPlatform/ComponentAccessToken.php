@@ -47,7 +47,9 @@ class ComponentAccessToken implements RefreshableAccessTokenInterface
      */
     public function getToken(): string
     {
-        if ($token = $this->getCache()->get($this->getKey())) {
+        $token = $this->getCache()->get($this->getKey());
+
+        if (!!$token && \is_string($token)) {
             return $token;
         }
 

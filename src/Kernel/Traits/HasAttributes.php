@@ -65,32 +65,17 @@ trait HasAttributes
         return $this->attributes[$attribute] ?? null;
     }
 
-    /**
-     * @param  mixed  $offset
-     *
-     * @return bool
-     */
     public function offsetExists(mixed $offset): bool
     {
+        /** @phpstan-ignore-next-line */
         return array_key_exists($offset, $this->attributes);
     }
 
-    /**
-     * @param  mixed  $offset
-     *
-     * @return bool
-     */
     public function offsetGet(mixed $offset): mixed
     {
         return $this->attributes[$offset];
     }
 
-    /**
-     * @param  mixed  $offset
-     * @param  mixed  $value
-     *
-     * @return void
-     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         if (null === $offset) {
@@ -100,11 +85,6 @@ trait HasAttributes
         }
     }
 
-    /**
-     * @param  mixed  $offset
-     *
-     * @return void
-     */
     public function offsetUnset(mixed $offset): void
     {
         unset($this->attributes[$offset]);

@@ -24,7 +24,7 @@ class Decryptor
 
             $decrypted = \json_decode($decrypted, true);
 
-            if (!$decrypted) {
+            if (!$decrypted || !\is_array($decrypted)) {
                 throw new DecryptException('The given payload is invalid.');
             }
         } catch (\Throwable $e) {

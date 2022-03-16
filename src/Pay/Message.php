@@ -12,11 +12,19 @@ class Message extends \EasyWeChat\Kernel\Message
      */
     public function getOriginalAttributes(): array
     {
-        return json_decode($this->getOriginalContents(), true);
+        $attributes = \json_decode($this->getOriginalContents(), true);
+
+        return \is_array($attributes) ? $attributes : [];
     }
 
     public function getEventType(): ?string
     {
-        return $this->getOriginalAttributes()['event_type'] ?? null;
+        $eventType = $this->getOriginalAttributes()['event_type'];
+
+        if (!\is_string($eventType)) {
+            throw new \RuntimeException('Invalid event type.');
+        }
+
+        return $eventType;
     }
 }

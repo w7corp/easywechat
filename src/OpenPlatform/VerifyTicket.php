@@ -48,7 +48,7 @@ class VerifyTicket implements VerifyTicketInterface
     {
         $ticket = $this->getCache()->get($this->getKey());
 
-        if (!$ticket) {
+        if (!$ticket || !\is_string($ticket)) {
             throw new RuntimeException('No component_verify_ticket found.');
         }
 

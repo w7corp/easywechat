@@ -27,7 +27,9 @@ class Arr
         }
 
         foreach (explode('.', (string)$key) as $segment) {
+            /** @phpstan-ignore-next-line */
             if (static::exists($array, $segment)) {
+                /** @phpstan-ignore-next-line */
                 $array = $array[$segment];
             } else {
                 return $default;
@@ -38,7 +40,7 @@ class Arr
     }
 
     /**
-     * @param  array<int|string>  $array
+     * @param  array<int|string, mixed>  $array
      * @param  string|int    $key
      *
      * @return bool
@@ -128,12 +130,16 @@ class Arr
         foreach ($keys as $key) {
             $subKeyArray = $array;
 
+            /** @phpstan-ignore-next-line */
             if (static::exists($array, $key)) {
                 continue;
             }
 
+            /** @phpstan-ignore-next-line */
             foreach (explode('.', (string)$key) as $segment) {
+                /** @phpstan-ignore-next-line */
                 if (static::exists($subKeyArray, $segment)) {
+                    /** @phpstan-ignore-next-line */
                     $subKeyArray = $subKeyArray[$segment];
                 } else {
                     return false;

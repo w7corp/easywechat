@@ -17,6 +17,7 @@ class Authorization implements \ArrayAccess, Jsonable, Arrayable
 
     public function getAppId(): string
     {
-        return $this->attributes['auth_corp_info']['corpid'];
+        /** @phpstan-ignore-next-line */
+        return (string) $this->attributes['auth_corp_info']['corpid'];
     }
 }

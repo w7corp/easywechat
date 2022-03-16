@@ -52,7 +52,9 @@ class AccessToken implements RefreshableAccessTokenInterface
      */
     public function getToken(): string
     {
-        if ($token = $this->cache->get($this->getKey())) {
+        $token = $this->cache->get($this->getKey());
+
+        if (!!$token && \is_string($token)) {
             return $token;
         }
 

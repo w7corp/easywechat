@@ -4,6 +4,7 @@ namespace EasyWeChat\Kernel\HttpClient;
 
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpClient\Retry\GenericRetryStrategy;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -14,6 +15,14 @@ class RequestUtil
      *
      * @return array<string, mixed>
      */
+    #[ArrayShape([
+        'status_codes' => 'array',
+        'delay' => 'int',
+        'max_delay' => 'int',
+        'max_retries' => 'int',
+        'multiplier' => 'float',
+        'jitter' => 'float',
+    ])]
     public static function mergeDefaultRetryOptions(array $options): array
     {
         return \array_merge([
@@ -27,9 +36,9 @@ class RequestUtil
     }
 
     /**
-     * @param array<string, mixed> $options
+     * @param array<string, array|mixed> $options
      *
-     * @return array<string, mixed>
+     * @return array<string, array|mixed>
      */
     public static function formatDefaultOptions(array $options): array
     {
@@ -39,7 +48,9 @@ class RequestUtil
             mode: \ARRAY_FILTER_USE_KEY
         );
 
+        /** @phpstan-ignore-next-line */
         if (!isset($options['headers']['User-Agent']) && !isset($options['headers']['user-agent'])) {
+            /** @phpstan-ignore-next-line */
             $defaultOptions['headers']['User-Agent'] = UserAgent::create();
         }
 
@@ -47,9 +58,9 @@ class RequestUtil
     }
 
     /**
-     * @param  array<string, mixed>  $options
+     * @param  array<string, array<string,mixed>|mixed>  $options
      *
-     * @return array<string, mixed>
+     * @return array<string, array|mixed>
      */
     public static function formatBody(array $options): array
     {
@@ -62,7 +73,9 @@ class RequestUtil
                 throw new \InvalidArgumentException('The type of `xml` must be string or array.');
             }
 
+            /** @phpstan-ignore-next-line */
             if (!isset($options['headers']['Content-Type']) && !isset($options['headers']['content-type'])) {
+                /** @phpstan-ignore-next-line */
                 $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: text/xml'];
             }
 
@@ -80,7 +93,9 @@ class RequestUtil
                 throw new \InvalidArgumentException('The type of `json` must be string or array.');
             }
 
+            /** @phpstan-ignore-next-line */
             if (!isset($options['headers']['Content-Type']) && !isset($options['headers']['content-type'])) {
+                /** @phpstan-ignore-next-line */
                 $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: application/json'];
             }
 

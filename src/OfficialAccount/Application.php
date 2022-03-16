@@ -7,6 +7,7 @@ namespace EasyWeChat\OfficialAccount;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\HttpClient\AccessTokenExpiredRetryStrategy;
@@ -35,25 +36,20 @@ class Application implements ApplicationInterface
     use LoggerAwareTrait;
 
     protected ?Encryptor $encryptor = null;
-
     protected ?ServerInterface $server = null;
-
     protected ?AccountInterface $account = null;
-
     protected ?AccessTokenInterface $accessToken = null;
-
     protected ?JsApiTicket $ticket = null;
-
     protected ?\Closure $oauthFactory = null;
 
     public function getAccount(): AccountInterface
     {
         if (!$this->account) {
             $this->account = new Account(
-                appId: $this->config->get('app_id'),
-                secret: $this->config->get('secret'),
-                token: $this->config->get('token'),
-                aesKey: $this->config->get('aes_key'),
+                appId: (string) $this->config->get('app_id'),    /** @phpstan-ignore-line */
+                secret: (string) $this->config->get('secret'),   /** @phpstan-ignore-line */
+                token: (string) $this->config->get('token'),     /** @phpstan-ignore-line */
+                aesKey: (string) $this->config->get('aes_key'),  /** @phpstan-ignore-line */
             );
         }
 
@@ -151,6 +147,9 @@ class Application implements ApplicationInterface
         return $this;
     }
 
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
     public function getOAuth(): SocialiteProviderInterface
     {
         if (!$this->oauthFactory) {
@@ -160,10 +159,16 @@ class Application implements ApplicationInterface
                     'client_secret' => $this->getAccount()->getSecret(),
                     'redirect_url' => $this->config->get('oauth.redirect_url'),
                 ]
-            ))->scopes($this->config->get('oauth.scopes', ['snsapi_userinfo']));
+            ))->scopes((array) $this->config->get('oauth.scopes', ['snsapi_userinfo']));
         }
 
-        return \call_user_func($this->oauthFactory, $this);
+        $provider = \call_user_func($this->oauthFactory, $this);
+
+        if (!$provider instanceof SocialiteProviderInterface) {
+            throw new InvalidArgumentException(\sprintf('The factory must return a %s instance.', SocialiteProviderInterface::class));
+        }
+
+        return $provider;
     }
 
     public function getTicket(): JsApiTicket
@@ -198,7 +203,8 @@ class Application implements ApplicationInterface
         $httpClient = $this->getHttpClient();
 
         if (!!$this->config->get('http.retry', false)) {
-            $httpClient = new RetryableHttpClient($httpClient, $this->getRetryStrategy(), $this->config->get('http.max_retries', 2));
+            /** @phpstan-ignore-next-line */
+            $httpClient = new RetryableHttpClient($httpClient, $this->getRetryStrategy(), (int) $this->config->get('http.max_retries', 2));
         }
 
         return new AccessTokenAwareClient($httpClient, $this->getAccessToken());
@@ -206,7 +212,7 @@ class Application implements ApplicationInterface
 
     public function getRetryStrategy(): AccessTokenExpiredRetryStrategy
     {
-        $retryConfig = RequestUtil::mergeDefaultRetryOptions($this->config->get('http.retry', []));
+        $retryConfig = RequestUtil::mergeDefaultRetryOptions((array) $this->config->get('http.retry', []));
 
         return (new AccessTokenExpiredRetryStrategy($retryConfig))
                 ->decideUsing(function (AsyncContext $context, ?string $responseContent): bool {

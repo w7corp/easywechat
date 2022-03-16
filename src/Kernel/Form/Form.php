@@ -3,19 +3,20 @@
 namespace EasyWeChat\Kernel\Form;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
 class Form
 {
     /**
-     * @param  array<string,mixed>  $fields
+     * @param array<string|array|DataPart> $fields
      */
     public function __construct(protected array $fields)
     {
     }
 
     /**
-     * @param  array<string,mixed>  $fields
+     * @param array<string|array|DataPart> $fields
      */
     public static function create(array $fields): Form
     {
