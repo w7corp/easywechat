@@ -48,7 +48,9 @@ $app->getClient();
 $config = $app->getConfig();
 ```
 
-你可以轻松使用 `$config->get($key, $default)` 读取配置，或使用 `$config->set($key, $value)` 在调用前修改配置项。
+你可以轻松使用 `$config->all()` 获取整个配置的数组。
+
+还可以使用 `$config->get($key, $default)` 读取单个配置，或使用 `$config->set($key, $value)` 在调用前修改配置项。
 
 ### ComponentAccessToken
 
@@ -173,22 +175,15 @@ $authorizerAccessToken = $authorization->getAccessToken();
 第二种方式：从数据库提取出来的授权码
 
 ```php
+// $token 为你存到数据库的授权码 authorizer_access_token
 $authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
 ```
 
 **获取公众号实例**
 
 ```php
-
-// 公众号配置
-$officialAccountConfig = [
-  'app_id' => 'wx3cf0f39249eb0exx',
-  'secret' => 'f1c242f4f28f735d4687abb469072axx',
-  'token' => 'easywechat',
-  'aes_key' => '' 
-];
-
-$officialAccount = $app->getOfficialAccount($authorizerAccessToken, $officialAccountConfig);
+$config = $app->getConfig->all(); // 开放平台配置
+$officialAccount = $app->getOfficialAccount($authorizerAccessToken, $config);
 
 // 调用公众号接口
 $users = $officialAccount->getClient()->get('cgi-bin/users/list')->toArray();
@@ -201,18 +196,13 @@ $users = $officialAccount->getClient()->get('cgi-bin/users/list')->toArray();
 **获取小程序实例**
 
 ```php
-// 小程序配置
-$officialAccountConfig = [
-  'app_id' => 'wx3cf0f39249eb0exx',
-  'secret' => 'f1c242f4f28f735d4687abb469072axx',
-  'token' => 'easywechat',
-  'aes_key' => '' 
-];
-
-$miniApp = $app->getMiniApp($authorizerAccessToken, $miniAppConfig);
+$config = $app->getConfig->all(); // 开放平台配置
+$miniApp = $app->getMiniApp($authorizerAccessToken, $config);
 
 // 调用小程序接口
-$users = $miniApp->getClient()->getClient()->get('cgi-bin/users/list')->toArray();
+$users = $miniApp->getClient()->get('cgi-bin/users/list')->toArray();
 ```
+
+- [微信官方文档 - 开放平台代小程序实现小程序登录接口](https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/others/WeChat_login.html#请求地址)
 
 :book: 更多小程序用法请参考：[小程序](../mini-app/index.md)
