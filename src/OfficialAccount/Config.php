@@ -11,6 +11,5 @@ class Config extends \EasyWeChat\Kernel\Config
      */
     protected array $requiredKeys = [
         'app_id',
-        'secret',
     ];
 }

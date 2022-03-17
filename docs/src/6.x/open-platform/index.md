@@ -158,49 +158,47 @@ $app->refreshAuthorizerToken($authorizerAppId, $authorizerRefreshToken)
 
 ---
 
-## 代替公众号/小程序请求公众平台 API
+## 代替公众号/小程序请求 API
 
 代替公众号/小程序请求，需要首先拿到 `EasyWeChat\OpenPlatform\AuthorizerAccessToken`。
 
-**获取 AuthorizerAccessToken**
+### 获取 AuthorizerAccessToken
 
-第一种方式：开放平台永久授权码换取授权者信息
+- 第一种方式：开放平台永久授权码换取授权者信息
+
+  ```php
+  $authorizationCode = '授权成功时返回给第三方平台的授权码';
+  $authorization = $app->getAuthorization($authorizationCode);
+  $authorizerAccessToken = $authorization->getAccessToken();
+  ```
+
+- 第二种方式：从数据库提取出来的授权码
+
+  ```php
+  // $token 为你存到数据库的授权码 authorizer_access_token
+  $authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
+  ```
+
+### 获取公众号实例
 
 ```php
-$authorizationCode = '授权成功时返回给第三方平台的授权码';
-$authorization = $app->getAuthorization($authorizationCode);
-$authorizerAccessToken = $authorization->getAccessToken();
-```
-
-第二种方式：从数据库提取出来的授权码
-
-```php
-// $token 为你存到数据库的授权码 authorizer_access_token
-$authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
-```
-
-**获取公众号实例**
-
-```php
-$config = $app->getConfig->all(); // 开放平台配置
-$officialAccount = $app->getOfficialAccount($authorizerAccessToken, $config);
+$officialAccount = $app->getOfficialAccount($authorizerAccessToken);
 
 // 调用公众号接口
-$users = $officialAccount->getClient()->get('cgi-bin/users/list')->toArray();
+$response = $officialAccount->getClient()->get('cgi-bin/users/list');
 ```
 
 > `$officialAccount` 为 `EasyWeChat\OfficialAccount\Application` 实例
 
 :book: 更多公众号用法请参考：[公众号](../official-account/index.md)
 
-**获取小程序实例**
+### 获取小程序实例
 
 ```php
-$config = $app->getConfig->all(); // 开放平台配置
-$miniApp = $app->getMiniApp($authorizerAccessToken, $config);
+$miniApp = $app->getMiniApp($authorizerAccessToken);
 
 // 调用小程序接口
-$users = $miniApp->getClient()->get('cgi-bin/users/list')->toArray();
+$response = $miniApp->getClient()->get('cgi-bin/users/list');
 ```
 
 - [微信官方文档 - 开放平台代小程序实现小程序登录接口](https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/others/WeChat_login.html#请求地址)

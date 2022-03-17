@@ -234,7 +234,7 @@ class Application implements ApplicationInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function getOfficialAccount(AuthorizerAccessToken $authorizerAccessToken, array $config): OfficialAccountApplication
+    public function getOfficialAccount(AuthorizerAccessToken $authorizerAccessToken, array $config = []): OfficialAccountApplication
     {
         $config = new OfficialAccountConfig(
             \array_merge(
@@ -258,7 +258,7 @@ class Application implements ApplicationInterface
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function getMiniApp(AuthorizerAccessToken $authorizerAccessToken, array $config): MiniAppApplication
+    public function getMiniApp(AuthorizerAccessToken $authorizerAccessToken, array $config = []): MiniAppApplication
     {
         $app = new MiniAppApplication(
             \array_merge(
