@@ -16,12 +16,16 @@ SDK 内置了两个便捷方法以便于开发者快速处理支付推送事件�
 
 ### 支付成功事件
 
+🚨 切记：推送信息不一定靠谱，可能是伪造的，所以拿到推送通知，只取订单号等必要信息，其它信息忽略，拿订单号重新查询微信支付订单的最新状态再做处理。
+
 > :book: 官方文档：支付结果通知 <https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml>
 
 ```php
 $server->handlePaid(function (Message $message, \Closure $next) {
     // $message->out_trade_no 获取商户订单号
     // $message->payer['openid'] 获取支付者 openid
+    // 🚨🚨🚨 注意：推送信息不一定靠谱哈，请务必验证
+    // 建议是拿订单号调用微信支付查询接口，以查询到的订单状态为准
     return $next($message);
 });
 ```
