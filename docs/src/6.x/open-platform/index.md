@@ -179,6 +179,8 @@ $app->refreshAuthorizerToken($authorizerAppId, $authorizerRefreshToken)
 - 第二种方式：从数据库提取出来的授权码
 
   ```php
+  use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
+  
   // $token 为你存到数据库的授权码 authorizer_access_token
   $authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
   ```
