@@ -10,7 +10,7 @@ class Account implements AccountInterface
 {
     public function __construct(
         protected string $appId,
-        protected string $secret,
+        protected ?string $secret,
         protected ?string $token = null,
         protected ?string $aesKey = null
     ) {
@@ -23,6 +23,10 @@ class Account implements AccountInterface
 
     public function getSecret(): string
     {
+        if (null === $this->secret) {
+            throw new \RuntimeException('No secret configured.');
+        }
+
         return $this->secret;
     }
 
