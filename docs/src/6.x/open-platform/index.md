@@ -143,9 +143,9 @@ $authorization->toJson();
 
 ## 获取/刷新接口调用令牌
 
-在公众号/小程序接口调用令牌（`authorizer_access_token`）失效时，可以使用刷新令牌（authorizer_refresh_token）获取新的接口调用令牌。
+在公众号/小程序接口调用令牌 `authorizer_access_token` 失效时，可以使用刷新令牌 `authorizer_refresh_token` 获取新的接口调用令牌。
 
-> horizer_access_token`有效期为 2 小时，开发者需要缓存`authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。缓存方法可以参考：<https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html>
+> authorizer_access_token`有效期为 2 小时，开发者需要缓存 `authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。
 
 ```php
 $authorizerAppId = '授权方 appid';
@@ -164,28 +164,30 @@ $app->refreshAuthorizerToken($authorizerAppId, $authorizerRefreshToken)
 
 ## 代替公众号/小程序请求 API
 
-代替公众号/小程序请求，需要首先拿到 `EasyWeChat\OpenPlatform\AuthorizerAccessToken`。
+代替公众号/小程序请求，需要首先拿到 `EasyWeChat\OpenPlatform\AuthorizerAccessToken`，用以代替公众号的 Access Token，官方流程说明：[开发前必读 /Token生成介绍](https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/creat_token.html) 。
 
 ### 获取 AuthorizerAccessToken
 
-- 第一种方式：开放平台永久授权码换取授权者信息
+你可以使用开放 **平台永久授权码** 换取授权者信息，然后换取 Authorizer Access Token：
 
-  ```php
-  $authorizationCode = '授权成功时返回给第三方平台的授权码';
-  $authorization = $app->getAuthorization($authorizationCode);
-  $authorizerAccessToken = $authorization->getAccessToken();
-  ```
+```php
+$authorizationCode = '授权成功时返回给第三方平台的授权码';
+$authorization = $app->getAuthorization($authorizationCode);
+$authorizerAccessToken = $authorization->getAccessToken();
+```
 
-- 第二种方式：从数据库提取出来的授权码
+> 🚨 Authorizer Access Token 只有 2 小时有效期，不建议将它存储到数据库，当然如果你不得不这么做，请记得参考上面 「**获取/刷新接口调用令牌**」章节刷新。
 
-  ```php
-  use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
-  
-  // $token 为你存到数据库的授权码 authorizer_access_token
-  $authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
-  ```
+如果想要使用缓存的 `authorizer_access_token`，那么你也可以从缓存中取出它来初始化一个 AuthorizerAccessToken： 
 
-### 获取公众号实例
+```php
+use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
+
+// $token 为你存到数据库的授权码 authorizer_access_token
+$authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
+```
+
+### 代公众号调用
 
 ```php
 $officialAccount = $app->getOfficialAccount($authorizerAccessToken);
@@ -198,7 +200,7 @@ $response = $officialAccount->getClient()->get('cgi-bin/users/list');
 
 :book: 更多公众号用法请参考：[公众号](../official-account/index.md)
 
-### 获取小程序实例
+### 代小程序调用
 
 ```php
 $miniApp = $app->getMiniApp($authorizerAccessToken);
