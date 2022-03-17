@@ -31,6 +31,25 @@ Route::post('open-platform', function () {
 ```
 </details>
 
+<details>
+  <summary>Laravel 开放平台代公众号处理回调事件</summary>
+
+```php
+// 代公众号处理回调事件
+Route::any('callback/{appid}', function ($appid) {
+    // $app 为你实例化的开放平台对象，此处省略实例化步骤
+    // $token 为授权后你缓存的 authorizer_access_token，此处省略获取步骤
+    $server = $app->getOfficialAccount(new AuthorizerAccessToken($appid, $token))->getServer();
+
+    $server->addMessageListener('text', function ($message) {
+        return sprintf("你对overtrue说：“%s”", $message->Content);
+    });
+
+    return $server->serve();
+});
+```
+</details>
+
 
 <!--
 <details>
