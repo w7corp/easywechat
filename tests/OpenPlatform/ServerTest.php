@@ -3,7 +3,6 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\OpenPlatform\Account;
 use EasyWeChat\OpenPlatform\Server;
 use EasyWeChat\Tests\TestCase;
 
@@ -24,7 +23,7 @@ class ServerTest extends TestCase
         $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
         $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
 
-        $server = new Server(account: \Mockery::mock(Account::class), encryptor: $encryptor, request: $request);
+        $server = new Server(encryptor: $encryptor, request: $request);
 
         $handleResult = null;
         $response = $server->handleAuthorized(function ($message) use (&$handleResult) {
@@ -47,7 +46,7 @@ class ServerTest extends TestCase
         $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
         $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
 
-        $server = new Server(account: \Mockery::mock(Account::class), encryptor: $encryptor, request: $request);
+        $server = new Server(encryptor: $encryptor, request: $request);
 
         $handleResult = null;
         $response = $server->handleUnauthorized(function ($message) use (&$handleResult) {
@@ -73,7 +72,7 @@ class ServerTest extends TestCase
         $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
         $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
 
-        $server = new Server(account: \Mockery::mock(Account::class), encryptor: $encryptor, request: $request);
+        $server = new Server(encryptor: $encryptor, request: $request);
 
         $handleResult = null;
         $response = $server->handleAuthorizeUpdated(function ($message) use (&$handleResult) {
@@ -97,7 +96,6 @@ class ServerTest extends TestCase
         $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
 
         $server = new Server(
-            account: \Mockery::mock(Account::class),
             encryptor: $encryptor,
             request: $request
         );

@@ -104,7 +104,6 @@ class Application implements ApplicationInterface
     {
         if (!$this->server) {
             $this->server = new Server(
-                account: $this->getAccount(),
                 encryptor: $this->getEncryptor(),
                 request: $this->getRequest()
             );
@@ -240,7 +239,10 @@ class Application implements ApplicationInterface
             \array_merge(
                 [
                     'app_id' => $authorizerAccessToken->getAppId(),
+                    'token' => $this->config->get('token'),
+                    'aes_key' => $this->config->get('aes_key'),
                     'logging' => $this->config->get('logging'),
+                    'http' => $this->config->get('http'),
                 ],
                 $config
             )
@@ -264,7 +266,10 @@ class Application implements ApplicationInterface
             \array_merge(
                 [
                     'app_id' => $authorizerAccessToken->getAppId(),
+                    'token' => $this->config->get('token'),
+                    'aes_key' => $this->config->get('aes_key'),
                     'logging' => $this->config->get('logging'),
+                    'http' => $this->config->get('http'),
                 ],
                 $config
             )

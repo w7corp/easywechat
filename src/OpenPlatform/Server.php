@@ -11,7 +11,6 @@ use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
-use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -29,7 +28,6 @@ class Server implements ServerInterface
      * @throws \Throwable
      */
     public function __construct(
-        protected AccountInterface $account,
         protected Encryptor $encryptor,
         ?ServerRequestInterface $request = null,
     ) {

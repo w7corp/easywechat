@@ -83,7 +83,6 @@ class ApplicationTest extends TestCase
 
         // set
         $server = new Server(
-            account: \Mockery::mock(Account::class),
             encryptor: \Mockery::mock(Encryptor::class),
             request: \Mockery::mock(ServerRequestInterface::class)
         );

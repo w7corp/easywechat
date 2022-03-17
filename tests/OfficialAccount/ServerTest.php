@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EasyWeChat\Tests\OfficialAccount;
 
 use EasyWeChat\Kernel\Support\Xml;
-use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Server;
 use EasyWeChat\Tests\TestCase;
 use Nyholm\Psr7\ServerRequest;
@@ -15,7 +14,7 @@ class ServerTest extends TestCase
     public function test_it_will_handle_validation_request()
     {
         $request = (new ServerRequest('GET', 'http://easywechat.com/?echostr=abcdefghijklmn'))->withQueryParams(['echostr' => 'abcdefghijklmn']);
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $server = new Server($request);
 
         $response = $server->serve();
 
@@ -33,7 +32,7 @@ class ServerTest extends TestCase
           <MsgId>1234567890123456</MsgId>
         </xml>';
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $server = new Server($request);
 
         $response = $server->serve();
 
@@ -51,7 +50,7 @@ class ServerTest extends TestCase
           <MsgId>1234567890123456</MsgId>
         </xml>';
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $server = new Server($request);
 
         $response = $server
             ->addMessageListener(
@@ -86,7 +85,7 @@ class ServerTest extends TestCase
           <Ticket><![CDATA[TICKET]]></Ticket>
         </xml>';
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body));
-        $server = new Server(\Mockery::mock(Account::class), $request);
+        $server = new Server($request);
 
         $response = $server
             ->addMessageListener(

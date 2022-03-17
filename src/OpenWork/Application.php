@@ -108,7 +108,6 @@ class Application implements ApplicationInterface
     {
         if (!$this->server) {
             $this->server = new Server(
-                account: $this->getAccount(),
                 encryptor: $this->getSuiteEncryptor(),
                 providerEncryptor: $this->getEncryptor(),
                 request: $this->getRequest(),

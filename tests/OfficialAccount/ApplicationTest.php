@@ -75,7 +75,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getServer(), $app->getServer());
 
         // set
-        $server = new Server(\Mockery::mock(Account::class), \Mockery::mock(ServerRequestInterface::class));
+        $server = new Server(\Mockery::mock(ServerRequestInterface::class));
         $app->setServer($server);
         $this->assertSame($server, $app->getServer());
     }
