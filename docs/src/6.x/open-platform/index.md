@@ -4,19 +4,23 @@
 
 ## 实例化
 
+请按如下格式配置你的开放平台账号信息，并实例化一个开放平台对象：
+
 ```php
 <?php
 use EasyWeChat\OpenPlatform\Application;
 
 $config = [
-  'app_id' => 'wx3cf0f39249eb0exx',
-  'secret' => 'f1c242f4f28f735d4687abb469072axx',
-  'token' => 'easywechat',
-  'aes_key' => '' // 明文模式请勿填写 EncodingAESKey
+  'app_id' => 'wx3cf0f39249eb0exx', // 开放平台账号的 appid
+  'secret' => 'f1c242f4f28f735d4687abb469072axx',   // 开放平台账号的 secret
+  'token' => 'easywechat',  // 开放平台账号的 token
+  'aes_key' => ''   // 明文模式请勿填写 EncodingAESKey
 ];
 
 $app = new Application($config);
 ```
+
+> Tips: 如果你的公众号没有开放平台权限，请确认你的公众号是否已经开通了开放平台权限。
 
 ## API
 
