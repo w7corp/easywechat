@@ -5,6 +5,7 @@ namespace EasyWeChat\Pay;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
@@ -43,7 +44,11 @@ class Server implements ServerInterface
             $defaultResponse = new Response(200, [], \strval(\json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)));
             $response = $this->handle($defaultResponse, $message);
 
-            return $response instanceof ResponseInterface ? $response : $defaultResponse;
+            if (!($response instanceof ResponseInterface)) {
+                $response = $defaultResponse;
+            }
+
+            return ServerResponse::make($response);
         } catch (\Exception $e) {
             return new Response(
                 500,

@@ -7,6 +7,7 @@ namespace EasyWeChat\Work;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
+use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -59,11 +60,11 @@ class Server implements ServerInterface
 
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
-        if ($response instanceof ResponseInterface) {
-            return $response;
+        if (!($response instanceof ResponseInterface)) {
+            $response = $this->transformToReply($response, $message, $this->encryptor);
         }
 
-        return $this->transformToReply($response, $message, $this->encryptor);
+        return ServerResponse::make($response);
     }
 
     /**
