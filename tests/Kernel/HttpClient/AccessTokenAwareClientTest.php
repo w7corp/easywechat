@@ -105,6 +105,6 @@ class AccessTokenAwareClientTest extends TestCase
 
         $client->get('v3/certificates', ['foo' => 'bar']);
 
-        $this->assertSame('https://example.com/v3/certificates?access_token=mock-access-token', $client->getRequestUrl());
+        $this->assertSame('https://example.com/v3/certificates?foo=bar&access_token=mock-access-token', $client->getRequestUrl());
     }
 }

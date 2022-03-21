@@ -57,6 +57,32 @@ class RequestUtil
         return $defaultOptions;
     }
 
+    public static function formatOptions(array $options, string $method): array
+    {
+        if (\array_key_exists('query', $options)
+            || \array_key_exists('body', $options)
+            || \array_key_exists('json', $options)
+            || \array_key_exists('xml', $options)
+        ) {
+            return $options;
+        }
+
+        $name = \in_array($method, ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
+
+        if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'application/json') {
+            $name = 'json';
+        }
+
+        foreach ($options as $key => $value) {
+            if (!\array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS)) {
+                $options[$name][$key] = $value;
+                unset($options[$key]);
+            }
+        }
+
+        return $options;
+    }
+
     /**
      * @param  array<string, array<string,mixed>|mixed>  $options
      *

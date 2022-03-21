@@ -47,6 +47,58 @@ class RequestUtilTest extends TestCase
         $this->assertSame(UserAgent::create(), $formatted['headers']['User-Agent']);
     }
 
+    public function test_format_options()
+    {
+        // GET
+        $options = ['overtrue' => 'true', 'hello' => 'world', 'headers' => ['User-Agent' => 'EasyWeChat']];
+        $formatted = RequestUtil::formatOptions($options, 'GET');
+
+        $this->assertArrayNotHasKey('overtrue', $formatted);
+        $this->assertArrayNotHasKey('hello', $formatted);
+        $this->assertArrayHasKey('query', $formatted);
+        $this->assertSame('true', $formatted['query']['overtrue']);
+        $this->assertSame('world', $formatted['query']['hello']);
+
+        // DELETE
+        $options = ['overtrue' => 'true', 'hello' => 'world', 'headers' => ['User-Agent' => 'EasyWeChat']];
+        $formatted = RequestUtil::formatOptions($options, 'DELETE');
+
+        $this->assertArrayNotHasKey('overtrue', $formatted);
+        $this->assertArrayNotHasKey('hello', $formatted);
+        $this->assertArrayHasKey('query', $formatted);
+        $this->assertSame('true', $formatted['query']['overtrue']);
+        $this->assertSame('world', $formatted['query']['hello']);
+
+        // POST
+        $options = ['overtrue' => 'true', 'hello' => 'world', 'headers' => ['User-Agent' => 'EasyWeChat']];
+        $formatted = RequestUtil::formatOptions($options, 'POST');
+
+        $this->assertArrayNotHasKey('overtrue', $formatted);
+        $this->assertArrayNotHasKey('hello', $formatted);
+        $this->assertArrayHasKey('body', $formatted);
+        $this->assertSame('true', $formatted['body']['overtrue']);
+        $this->assertSame('world', $formatted['body']['hello']);
+
+        // POST with json
+        $options = ['overtrue' => 'true', 'hello' => 'world', 'headers' => ['User-Agent' => 'EasyWeChat', 'content-type' => 'application/json']];
+        $formatted = RequestUtil::formatOptions($options, 'POST');
+
+        $this->assertArrayNotHasKey('overtrue', $formatted);
+        $this->assertArrayNotHasKey('hello', $formatted);
+        $this->assertArrayHasKey('json', $formatted);
+        $this->assertSame(['overtrue' => 'true', 'hello' => 'world'], $formatted['json']);
+
+        // PATCH
+        $options = ['overtrue' => 'true', 'hello' => 'world', 'headers' => ['User-Agent' => 'EasyWeChat']];
+        $formatted = RequestUtil::formatOptions($options, 'PATCH');
+
+        $this->assertArrayNotHasKey('overtrue', $formatted);
+        $this->assertArrayNotHasKey('hello', $formatted);
+        $this->assertArrayHasKey('body', $formatted);
+        $this->assertSame('true', $formatted['body']['overtrue']);
+        $this->assertSame('world', $formatted['body']['hello']);
+    }
+
     public function test_format_xml_body()
     {
         // xml string

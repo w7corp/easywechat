@@ -64,7 +64,10 @@
       ],
       "pre-push": [
         "composer check-style"
-      ]
+      ],
+      "config": {
+        "stop-on-failure": ["pre-commit", "pre-push"]
+      }
     }
   },
   "scripts": {
@@ -80,8 +83,8 @@
       "cghooks update"
     ],
     "phpstan": "phpstan analyse",
-    "check-style": "php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --allow-risky=yes --ansi",
-    "fix-style": "php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --allow-risky=yes --ansi",
+    "check-style": "php-cs-fixer fix --using-cache=no --diff --dry-run --allow-risky=yes --ansi",
+    "fix-style": "php-cs-fixer fix --using-cache=no --allow-risky=yes --ansi",
     "test": "phpunit --colors"
   },
   "config": {

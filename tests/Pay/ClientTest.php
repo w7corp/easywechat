@@ -83,11 +83,24 @@ class ClientTest extends TestCase
 
     public function test_v2_request_with_xml_string()
     {
+        // XML array will attach signature
         $client = Client::mock();
         $client->shouldReceive('createSignature')->never();
         $client->shouldReceive('attachLegacySignature')->with([
             'foo' => 'bar',
-        ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature']);
+        ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature'])->once();
+
+        $client->post('certificates', ['xml' => ['foo' => 'bar']]);
+
+        $this->assertSame('POST', $client->getRequestMethod());
+        $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
+        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertSame('<xml><foo><![CDATA[bar]]></foo><sign><![CDATA[mock-signature]]></sign></xml>', $client->getRequestOptions()['body']);
+
+        // XML string will not attach signature
+        $client = Client::mock();
+        $client->shouldReceive('createSignature')->never();
+        $client->shouldReceive('attachLegacySignature')->never();
 
         $client->post('certificates', ['xml' => Xml::build(['foo' => 'bar'])]);
 
