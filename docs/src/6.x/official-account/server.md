@@ -11,6 +11,14 @@ $app = new Application($config);
 $server = $app->getServer();
 ```
 
+## 服务端验证
+
+SDK 已经内置了服务端验证的实现，你不需要自己再去关心 `echostr` 怎么返回，直接像下面这样就可以完成服务端验证：
+
+```php
+return $server->serve();
+```
+
 ## 自助处理推送消息
 
 你可以通过下面的方式获取来自微信服务器的推送消息：
