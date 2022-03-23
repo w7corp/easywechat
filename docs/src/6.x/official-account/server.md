@@ -31,7 +31,7 @@ $message = $server->getRequestMessage();
 
 你可以在处理完逻辑后自行创建一个响应，当然，在不同的框架里，响应写法也不一样，请自行实现，我建议使用下面的中间件模式来完成会更简单方便。
 
-### 中间件模式
+## 中间件模式
 
 与 5.x 的设计类似，服务端使用中间件模式来依次调用开发者注册的中间件：
 
@@ -100,7 +100,7 @@ function($message, \Closure $next) {
 }
 ```
 
-#### 怎么发送多条消息？
+### 怎么发送多条消息？
 
 服务端只能回复一条消息，如果你想在接收到消息时向用户发送多条消息，你可以调用 **[客服消息](https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Service_Center_messages.html)** 接口来发送多条。
 
