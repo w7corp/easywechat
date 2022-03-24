@@ -27,13 +27,13 @@ OAuth 是一个关于授权（authorization）的开放网络标准，在全世�
 
 > - **公众平台网页授权获取用户信息**
 
-    **授权 URL**: `https://open.weixin.qq.com/connect/oauth2/authorize`
-    **Scopes**: `snsapi_base` 与 `snsapi_userinfo`
+**授权 URL**: `https://open.weixin.qq.com/connect/oauth2/authorize`  
+**Scopes**: `snsapi_base` 与 `snsapi_userinfo`
 
 > - **开放平台网页登录**
 
-    **授权 URL**: `https://open.weixin.qq.com/connect/qrconnect`
-    **Scopes**: `snsapi_login`
+**授权 URL**: `https://open.weixin.qq.com/connect/qrconnect`  
+**Scopes**: `snsapi_login`
 
 他们的逻辑都一样：
 
@@ -107,7 +107,7 @@ $user = $oauth->userFromCode($code);
 - `$user->getExpiresIn(); ` `expires_in`，Access Token 过期时间
 - `$user->getTokenResponse(); ` 返回 `access_token` 时的响应值
 
-> r`里没有`openid`， `$user->id` 便是 `openid`.
+> `$user` 里没有`openid`， `$user->id` 便是 `openid`.
 > 如果你想拿微信返回给你的原样的全部信息，请使用：$user->getRaw();
 
 当 `scope` 为 `snsapi_base` 时 `$oauth->userFromCode($code);` 对象里只有 `id`，没有其它信息。
