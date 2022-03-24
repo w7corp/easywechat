@@ -33,7 +33,8 @@
     "symfony/http-foundation": "^5.4|^6.0",
     "symfony/psr-http-message-bridge": "^2.1.2",
     "symfony/http-client": "^5.4|^6.0",
-    "symfony/mime": "^5.4|^6.0"
+    "symfony/mime": "^5.4|^6.0",
+    "symfony/polyfill-php81": "^1.25"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.5.0",
