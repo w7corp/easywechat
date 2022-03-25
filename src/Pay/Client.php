@@ -152,7 +152,6 @@ class Client implements HttpClientInterface
      */
     protected function attachLegacySignature(array $body): array
     {
-        \var_dump($body);
         return (new LegacySignature($this->merchant))->sign($body);
     }
 
