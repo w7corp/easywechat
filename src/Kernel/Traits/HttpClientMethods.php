@@ -29,7 +29,7 @@ trait HttpClientMethods
     {
         $options['headers']['Content-Type'] = 'application/json';
 
-        return $this->request('POST', $url, $options);
+        return $this->request('POST', $url, RequestUtil::formatOptions($options, 'POST'));
     }
 
     /**
