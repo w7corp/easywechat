@@ -6,9 +6,11 @@
 $api = $app->getClient();
 
 $response = $api->post('/cgi-bin/user/info/updateremark', [
-    "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
-    "remark" => "pangzi"
-]);
+    'json' => [
+            "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
+            "remark" => "pangzi"
+        ]
+    ]);
 ```
 
 ## 语法说明
@@ -16,6 +18,7 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
 ```php
 get(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 post(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+postJson(string $url, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 patch(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 put(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 delete(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
@@ -51,7 +54,7 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
 或者可以简写为：
 
 ```php
-$response = $api->post('/cgi-bin/user/info/updateremark', [
+$response = $api->postJson('/cgi-bin/user/info/updateremark', [
         "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
         "remark" => "pangzi"
     ]);
@@ -225,7 +228,7 @@ $httpLogs = $response->getInfo('debug');
 
 ```php
 // 这段代码会立即执行，并不会发起网络请求
-$response = $api->post('/cgi-bin/user/info/updateremark', [
+$response = $api->postJson('/cgi-bin/user/info/updateremark', [
     "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
     "remark" => "pangzi"
 ]);
