@@ -5,10 +5,10 @@
 ```php
 $api = $app->getClient();
 
-$response = $api->post('/cgi-bin/user/info/updateremark', json_encode([
+$response = $api->post('/cgi-bin/user/info/updateremark', [
     "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
     "remark" => "pangzi"
-]));
+]);
 ```
 
 ## 语法说明
@@ -51,10 +51,10 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
 或者可以简写为：
 
 ```php
-$response = $api->post('/cgi-bin/user/info/updateremark', json_encode([
+$response = $api->post('/cgi-bin/user/info/updateremark', [
         "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
         "remark" => "pangzi"
-    ]));
+    ]);
 ```
 
 或者指定 json 格式：
