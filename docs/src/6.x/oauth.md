@@ -133,14 +133,15 @@ $config = [
 
 $app = new Application($config);
 
-$oauth = $oauth;
+$oauth = $app->getOauth();
 
 // 未登录
+//callback_url 是授权回调的URL
 if (empty($_SESSION['wechat_user'])) {
 
   $_SESSION['intend_url'] = 'user/profile';
-
-  $redirectUrl = $oauth->redirect();
+  //生成完整的授权URL
+  $redirectUrl = $oauth->redirect('callback_url');
 
   header("Location: {$redirectUrl}");
   exit;
