@@ -69,7 +69,8 @@ class RequestUtil
 
         $name = \in_array($method, ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
 
-        if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'application/json') {
+        $contentType = $options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null;
+        if ($contentType === 'application/json' || $contentType === null) {
             $name = 'json';
         }
 
