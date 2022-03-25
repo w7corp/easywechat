@@ -187,6 +187,39 @@ use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
 $authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
 ```
 
+### 代公众号/小程序调用前授权实例
+
+```php
+//第三方平台component_access_token
+$componentAccessToken = $app->getComponentAccessToken()->getToken(); 
+
+$response = $api->post('/cgi-bin/component/api_create_preauthcode',['json' => [
+	'component_access_token' => $componentAccessToken,
+	'component_appid'        => $account->getAppId()
+]]);
+
+$content = $response->toArray();
+
+//判断请求是否拿到 pre_auth_code 码
+if(isset($content['errcode'])){
+	return abort($content['errcode'],$content['errmsg']);
+}
+
+//获取开放平台账户
+$account = $app->getAccount();
+$queries = [
+	'component_appid' => $account->getAppId(),
+	'pre_auth_code'   => $content['pre_auth_code'],
+	'redirect_uri'    => '//:callback_url',
+	'auth_type'       => $auth_type,
+];
+$redirectUrl = 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?'.http_build_query($queries);
+//PHP原生写法
+header("Location: {$redirectUrl}");
+//Laravel 写法:
+return \redirect($redirectUrl);
+```
+
 ### 代公众号调用
 
 ```php
