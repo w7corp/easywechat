@@ -225,10 +225,10 @@ $httpLogs = $response->getInfo('debug');
 
 ```php
 // 这段代码会立即执行，并不会发起网络请求
-$response = $api->post('/cgi-bin/user/info/updateremark', json_encode([
+$response = $api->post('/cgi-bin/user/info/updateremark', [
     "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
     "remark" => "pangzi"
-]));
+]);
 
 // 当你尝试访问 $response 的信息时，才会发起请求并等待返回
 $contentType = $response->getHeaders()['content-type'][0];
