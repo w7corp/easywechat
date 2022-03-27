@@ -90,4 +90,4 @@ $account->getAesKey();
 $utils = $app->getUtils();
 ```
 
-:book: 更多说明请参阅：[工具类](../utils.md)
+:book: 更多说明请参阅：[工具类](utils.md)
