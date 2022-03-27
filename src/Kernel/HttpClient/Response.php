@@ -181,4 +181,22 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     {
         return $this->hasHeader($name, $throw) ? implode(',', $this->getHeader($name)) : '';
     }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
+     */
+    public function saveAs(string $filename): string
+    {
+        try {
+            \file_put_contents($filename, $this->response->getContent(true));
+        } catch (\Throwable $e) {
+            throw new BadResponseException(\sprintf('Cannot save response to %s: %s', $filename, $this->response->getContent(false)), $e->getCode(), $e);
+        }
+
+        return '';
+    }
 }

@@ -78,4 +78,32 @@ class ResponseTest extends TestCase
         $this->assertSame(['text/xml; encoding=utf-8'], $response->getHeader('content-type'));
         $this->assertSame('max-age=3600,public', $response->getHeaderLine('cache-control'));
     }
+
+    public function test_it_can_save_content_to_files()
+    {
+        $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
+            $mock->shouldReceive('getHeaders')->andReturns([]);
+            $mock->shouldReceive('getContent')->andReturns('{"foo":"bar"}');
+            $mock->shouldReceive('toArray')->andReturns(['foo' => 'bar']);
+        });
+
+        $response = (new Response($response));
+        $tmpFile = \sys_get_temp_dir().'/'.\uniqid('', true);
+        $response->saveAs($tmpFile);
+
+        $this->assertSame('{"foo":"bar"}', \file_get_contents($tmpFile));
+        @\unlink($tmpFile);
+
+        // throw when response get content failed
+        $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
+            $mock->shouldReceive('getContent')->with(true)->andThrow(new \Exception('mock-exception'))->once();
+            $mock->shouldReceive('getContent')->with(false)->andReturns('{"errcode":40029, "errmsg":"invalid code"}')->once();
+        });
+        $response = (new Response($response));
+
+        $this->expectException(BadResponseException::class);
+        $this->expectExceptionMessageMatches('/Cannot save response to .*?: {"errcode":40029, "errmsg":"invalid code"}/');
+
+        $response->saveAs($tmpFile);
+    }
 }
