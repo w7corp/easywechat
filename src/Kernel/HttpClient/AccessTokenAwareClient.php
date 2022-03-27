@@ -23,6 +23,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
     public function __construct(
         ?HttpClientInterface $client = null,
         protected ?AccessTokenInterface $accessToken = null,
+        protected ?\Closure $failureJudge = null
     ) {
         $this->client = $client ?? HttpClient::create();
     }
@@ -46,7 +47,10 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 
         $options = RequestUtil::formatBody($options);
 
-        return new Response($this->client->request($method, ltrim($url, '/'), $options));
+        return new Response(
+            response: $this->client->request($method, ltrim($url, '/'), $options),
+            failureJudge: $this->failureJudge
+        );
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace EasyWeChat\Kernel\HttpClient;
 
 use ArrayAccess;
+use Closure;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Exceptions\BadMethodCallException;
@@ -16,8 +17,28 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
 {
-    public function __construct(protected ResponseInterface $response)
+    public function __construct(protected ResponseInterface $response, protected ?Closure $failureJudge = null)
     {
+    }
+
+    public function judgeFailureUsing(callable $callback): static
+    {
+        $this->failureJudge = $callback instanceof Closure ? $callback : fn (Response $response) => $callback($response);
+
+        return $this;
+    }
+
+    public function isFailed(): bool
+    {
+        if ($this->failureJudge) {
+            return (bool) ($this->failureJudge)($this);
+        }
+
+        try {
+            return 400 <= $this->getStatusCode();
+        } catch (\Throwable $e) {
+            return true;
+        }
     }
 
     /**
@@ -198,5 +219,16 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
         }
 
         return '';
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
+    public function toDataUrl(): string
+    {
+        return 'data:'.$this->getHeaderLine('Content-Type').';base64,'.\base64_encode($this->getContent());
     }
 }

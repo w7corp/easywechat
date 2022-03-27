@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
+use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -259,7 +260,11 @@ class Application implements ApplicationInterface
 
     public function createClient(): AccessTokenAwareClient
     {
-        return new AccessTokenAwareClient($this->getHttpClient(), $this->getProviderAccessToken());
+        return new AccessTokenAwareClient(
+            client: $this->getHttpClient(),
+            accessToken: $this->getProviderAccessToken(),
+            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0)
+        );
     }
 
     public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): SocialiteProviderInterface

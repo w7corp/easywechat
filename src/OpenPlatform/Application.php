@@ -9,6 +9,7 @@ use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
+use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -299,7 +300,11 @@ class Application implements ApplicationInterface
 
     public function createClient(): AccessTokenAwareClient
     {
-        return new AccessTokenAwareClient($this->getHttpClient(), $this->getComponentAccessToken());
+        return new AccessTokenAwareClient(
+            client: $this->getHttpClient(),
+            accessToken: $this->getComponentAccessToken(),
+            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0)
+        );
     }
 
     /**

@@ -11,6 +11,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\HttpClient\AccessTokenExpiredRetryStrategy;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
+use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -152,7 +153,11 @@ class Application implements ApplicationInterface
             $httpClient = new RetryableHttpClient($httpClient, $this->getRetryStrategy(), (int) $this->config->get('http.max_retries', 2));
         }
 
-        return new AccessTokenAwareClient($httpClient, $this->getAccessToken());
+        return new AccessTokenAwareClient(
+            client: $httpClient,
+            accessToken: $this->getAccessToken(),
+            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0)
+        );
     }
 
     public function getRetryStrategy(): AccessTokenExpiredRetryStrategy

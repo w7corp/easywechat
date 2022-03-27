@@ -106,4 +106,46 @@ class ResponseTest extends TestCase
 
         $response->saveAs($tmpFile);
     }
+
+    public function test_it_can_transform_to_data_url()
+    {
+        $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
+            $mock->shouldReceive('getHeaders')->andReturns(['Content-Type' => ['application/json;encoding=utf-8']]);
+            $mock->shouldReceive('getContent')->andReturns('{"foo":"bar"}');
+            $mock->shouldReceive('toArray')->andReturns(['foo' => 'bar']);
+        });
+
+        $response = (new Response($response));
+
+        $this->assertSame('data:application/json;encoding=utf-8;base64,eyJmb28iOiJiYXIifQ==', $response->toDataUrl());
+    }
+
+    public function test_it_can_judge_failure_with_custom_callback()
+    {
+        // from http code
+        $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
+            $mock->shouldReceive('getStatusCode')->andReturns(200, 400)->twice();
+        });
+
+        $response = (new Response($response));
+
+        $this->assertFalse($response->isFailed());  // 200
+        $this->assertTrue($response->isFailed());   // 400
+
+        // custom callback
+        $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
+            $mock->shouldReceive('getStatusCode')->never();
+            $mock->shouldReceive('getHeaders')->andReturns(['Content-Type' => ['application/json;encoding=utf-8']]);
+            $mock->shouldReceive('getContent')->andReturns(\json_encode(['errcode' => 40029, 'errmsg' => 'invalid code']));
+            $mock->shouldReceive('toArray')->andReturns(['errcode' => 40029, 'errmsg' => 'invalid code']);
+        });
+
+        $response = (new Response($response));
+
+        $response->judgeFailureUsing(function ($response) {
+            return !empty($response->toArray()['errcode'] ?? null);
+        });
+
+        $this->assertTrue($response->isFailed());
+    }
 }
