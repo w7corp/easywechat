@@ -38,6 +38,7 @@ exports = module.exports = [
       { text: 'API 调用', link: '/6.x/client.html' },
       { text: '配置', link: '/6.x/mini-app/config.html' },
       { text: '服务端', link: '/6.x/mini-app/server.html' },
+      { text: '工具', link: '/6.x/mini-app/utils.html' },
       { text: '代码示例', link: '/6.x/mini-app/examples.html' }
     ]
   },

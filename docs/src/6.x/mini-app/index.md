@@ -80,3 +80,14 @@ $account->getSecret();
 $account->getToken();
 $account->getAesKey();
 ```
+
+
+### 工具类
+
+对于一些高频接口，我们提供了一个简单的工具类来简化大家的开发工作，可以通过下面的方法获取：
+
+```php
+$utils = $app->getUtils();
+```
+
+:book: 更多说明请参阅：[工具类](../utils.md)

@@ -17,8 +17,21 @@ class DecryptorTest extends TestCase
 
         $decrypted = Decryptor::decrypt('tiihtNczf5v6AKRyjwEUhQ==', 'r7BXXKkLb8qrSNn05n0qiA==', $encryptedData);
 
-        $this->assertSame('oGZUI0egBJY1zhBYw2KhdUfwVJJE', $decrypted['openId']);
-        $this->assertSame('ocMvos6NjeKLIBqg5Mr9QjxrP1FA', $decrypted['unionId']);
+        $this->assertSame([
+            'openId' => 'oGZUI0egBJY1zhBYw2KhdUfwVJJE',
+            'nickName' => 'Band',
+            'gender' => 1,
+            'language' => 'zh_CN',
+            'city' => 'Guangzhou',
+            'province' => 'Guangdong',
+            'country' => 'CN',
+            'avatarUrl' => 'http://wx.qlogo.cn/mmopen/vi_32/aSKcBBPpibyKNicHNTMM0qJVh8Kjgiak2AHWr8MHM4WgMEm7GFhsf8OYrySdbvAMvTsw3mo8ibKicsnfN5pRjl1p8HQ/0',
+            'unionId' => 'ocMvos6NjeKLIBqg5Mr9QjxrP1FA',
+            'watermark' => [
+                'timestamp' => 1477314187,
+                'appid' => 'wx4f4bc4dec97d474b',
+            ],
+        ], $decrypted);
     }
 
     public function test_it_will_throw_exception_when_payload_is_invalid()
