@@ -17,7 +17,6 @@ try {
     ]);
     
     $path = $response->saveAs('/tmp/wxacode-123.png');
-]);
 } catch (\Throwable $e) {
     // 失败
     echo $e->getMessage();
