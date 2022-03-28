@@ -11,6 +11,12 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
             "remark" => "pangzi"
         ]
     ]);
+
+// or
+$response = $api->postJson('/cgi-bin/user/info/updateremark', [
+    "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
+    "remark" => "pangzi"
+]);
 ```
 
 ## 语法说明
@@ -150,7 +156,6 @@ $response = $api->post('cgi-bin/media/upload?type=image', $options);
 
 API Client 基于 [symfony/http-client](https://github.com/symfony/http-client) 实现，你可以通过以下方式对响应值进行访问：
 
-
 ### 数组式访问
 
 EasyWeChat 增强了 API 响应对象，比如增加了数组式访问，你可以不用每次 `toArray` 后再取值，更加便捷美观：
@@ -169,16 +174,24 @@ $response->getStatusCode();
 // 200
 ```
 
+### 判断业务逻辑是否成功 <version-tag>6.3.0+</version-tag>
+
+比如状态码是 200，但是公众号接口返回 40029 code 错误：
+
+```php
+$response->isFaild();
+```
+
 ### 获取响应头
 
 ```php
-$response->getHeaders(); 
+$response->getHeaders();
 // ['content-type' => ['application/json;encoding=utf-8'], '...']
 
-$response->getHeader('content-type'); 
+$response->getHeader('content-type');
 // ['application/json;encoding=utf-8']
 
-$response->getHeaderLine('content-type'); 
+$response->getHeaderLine('content-type');
 // 'application/json;encoding=utf-8'
 ```
 
@@ -194,7 +207,7 @@ $response->toArray();
 $response->toArray(false); // 失败不抛出异常
 // ["foo" => "bar"]
 
-// 获取 json 
+// 获取 json
 $response->toJson();
 $response->toJson(false);
 // {"foo":"bar"}
@@ -202,6 +215,24 @@ $response->toJson(false);
 // 将内容转换成流返回
 $response->toStream();
 $response->toStream(false); // 失败不抛出异常
+```
+
+### 保存到文件 <version-tag>6.3.0+</version-tag>
+
+你可以方便的将内容直接存储到文件：
+
+```php
+$path = $response->saveAs('/path/to/file.jpg');
+// /path/to/file.jpg
+```
+
+### 转换为 Data URI <version-tag>6.3.0+</version-tag>
+
+你可以将内容转换为[Data URLs](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Data_URIs)
+
+```php
+$dataUrl = $response->toDataUrl();
+// data:image/png,%89PNG%0D%0A...
 ```
 
 ### 获取其他上下文信息
