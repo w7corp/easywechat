@@ -179,7 +179,7 @@ $response->getStatusCode();
 比如状态码是 200，但是公众号接口返回 40029 code 错误：
 
 ```php
-$response->isFaild();
+$response->isFailed();
 ```
 
 ### 获取响应头
