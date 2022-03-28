@@ -33,7 +33,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function add(array $order)
+    public function create(array $order)
     {
         return $this->httpPostJson('shop/order/add', $order);
     }
@@ -50,6 +50,19 @@ class Client extends BaseClient
     public function get(string $openid, array $orderId)
     {
         return $this->httpPostJson('shop/order/get', array_merge($orderId, ['openid' => $openid]));
+    }
+
+    /**
+     * 关闭订单
+     *
+     * @param array $params 请求参数
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function close(array $params)
+    {
+        return $this->httpPostJson('shop/order/close', $params);
     }
 
     /**
@@ -72,8 +85,47 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function pay(array $pay)
+    public function syncPayState(array $pay)
     {
         return $this->httpPostJson('shop/order/pay', $pay);
+    }
+
+    /**
+     * 同步订单支付结果
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getPayInfo(array $params)
+    {
+        return $this->httpPostJson('shop/order/getpaymentparams', $params);
+    }
+
+    /**
+     * 获取推广员订单
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getFinderOrders(array $params)
+    {
+        return $this->httpPostJson('shop/order/get_list_by_finder', $params);
+    }
+
+    /**
+     * 获取分享员订单
+     *
+     * @param array $params
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getSharerOrders(array $params)
+    {
+        return $this->httpPostJson('shop/order/get_list_by_sharer', $params);
     }
 }
