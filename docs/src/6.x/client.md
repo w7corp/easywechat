@@ -226,7 +226,7 @@ $path = $response->saveAs('/path/to/file.jpg');
 // /path/to/file.jpg
 ```
 
-### 转换为 Data URI <version-tag>6.3.0+</version-tag>
+### 转换为 Data URLs <version-tag>6.3.0+</version-tag>
 
 你可以将内容转换为[Data URLs](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Data_URIs)
 
