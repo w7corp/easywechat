@@ -12,7 +12,6 @@
 namespace EasyWeChat\Work\Message;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Kernel\Messages\Message;
 
 /**
  * Class Client.

@@ -239,4 +239,19 @@ class Client extends BaseClient
 
         return $this->httpPostJson('cgi-bin/service/contact/search', $params);
     }
+
+    /**
+     * 自建应用代开发获取带参授权链接
+     *
+     * @see https://developer.work.weixin.qq.com/document/path/95436
+     *
+     * @param array $params 请求参数
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getCustomizedAuthUrl(array $params)
+    {
+        return $this->httpPostJson('cgi-bin/service/get_customized_auth_url', $params);
+    }
 }

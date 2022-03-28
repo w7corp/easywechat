@@ -34,6 +34,10 @@ class ServiceProvider implements ServiceProviderInterface
             return new ContactWayClient($app);
         };
 
+        $app['group_chat_way'] = function ($app) {
+            return new GroupChatWayClient($app);
+        };
+
         $app['external_contact_statistics'] = function ($app) {
             return new StatisticsClient($app);
         };

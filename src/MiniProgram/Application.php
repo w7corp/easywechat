@@ -31,7 +31,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\Plugin\DevClient           $plugin_dev
  * @property \EasyWeChat\MiniProgram\UniformMessage\Client      $uniform_message
  * @property \EasyWeChat\MiniProgram\ActivityMessage\Client     $activity_message
- * @property \EasyWeChat\MiniProgram\Express\Client             $logistics
+ * @property \EasyWeChat\MiniProgram\Express\Client             $express
  * @property \EasyWeChat\MiniProgram\NearbyPoi\Client           $nearby_poi
  * @property \EasyWeChat\MiniProgram\OCR\Client                 $ocr
  * @property \EasyWeChat\MiniProgram\Soter\Client               $soter
@@ -57,6 +57,7 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\MiniProgram\UrlLink\Client             $url_link
  * @property \EasyWeChat\MiniProgram\QrCode\Client              $qr_code
  * @property \EasyWeChat\MiniProgram\PhoneNumber\Client         $phone_number
+ * @property \EasyWeChat\MiniProgram\ShortLink\Client           $short_link
  */
 class Application extends ServiceContainer
 {
@@ -91,6 +92,7 @@ class Application extends ServiceContainer
         UrlLink\ServiceProvider::class,
         Union\ServiceProvider::class,
         PhoneNumber\ServiceProvider::class,
+        ShortLink\ServiceProvider::class,
         // Base services
         BasicService\Media\ServiceProvider::class,
         BasicService\ContentSecurity\ServiceProvider::class,
