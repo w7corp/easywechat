@@ -23,7 +23,7 @@ class ClientTest extends TestCase
 
         $outOrderId = '456abc';
 
-        $client->expects()->httpPostJson('shop/aftersale/add', [
+        $client->expects()->httpPostJson('shop/ecaftersale/add', [
             'out_order_id' => $outOrderId
         ])->andReturn('mock-result');
 
@@ -41,7 +41,7 @@ class ClientTest extends TestCase
 
         $outOrderId = '456abc';
 
-        $client->expects()->httpPostJson('shop/aftersale/get', [
+        $client->expects()->httpPostJson('shop/ecaftersale/get', [
             'out_order_id' => $outOrderId
         ])->andReturn('mock-result');
 
@@ -59,7 +59,7 @@ class ClientTest extends TestCase
 
         $outOrderId = '456abc';
 
-        $client->expects()->httpPostJson('shop/aftersale/update', [
+        $client->expects()->httpPostJson('shop/ecaftersale/update', [
             'out_order_id' => $outOrderId,
             'out_aftersale_id' => 1,
         ])->andReturn('mock-result');
