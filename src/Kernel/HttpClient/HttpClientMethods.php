@@ -1,8 +1,7 @@
 <?php
 
-namespace EasyWeChat\Kernel\Traits;
+namespace EasyWeChat\Kernel\HttpClient;
 
-use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use Symfony\Contracts\HttpClient\ResponseInterface as ResponseInterfaceAlias;
 
 trait HttpClientMethods
@@ -38,6 +37,13 @@ trait HttpClientMethods
      */
     public function patch(string $url, array $options = []): ResponseInterfaceAlias
     {
+        return $this->request('PATCH', $url, RequestUtil::formatOptions($options, 'PATCH'));
+    }
+
+    public function patchJson(string $url, array $options = []): ResponseInterfaceAlias
+    {
+        $options['headers']['Content-Type'] = 'application/json';
+
         return $this->request('PATCH', $url, RequestUtil::formatOptions($options, 'PATCH'));
     }
 

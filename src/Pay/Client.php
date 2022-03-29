@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\HttpClient\HttpClientMethods;
 use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
-use EasyWeChat\Kernel\Traits\HttpClientMethods;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Mockery\Mock;
 use Nyholm\Psr7\Uri;

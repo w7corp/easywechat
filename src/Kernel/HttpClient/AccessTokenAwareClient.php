@@ -6,7 +6,6 @@ namespace EasyWeChat\Kernel\HttpClient;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
-use EasyWeChat\Kernel\Traits\HttpClientMethods;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Symfony\Component\HttpClient\AsyncDecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
