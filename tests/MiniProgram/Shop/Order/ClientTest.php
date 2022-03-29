@@ -33,6 +33,24 @@ class ClientTest extends TestCase
     /**
      * 生成订单
      */
+    public function testAdd()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $outOrderId = '456abc';
+
+        $client->expects()->httpPostJson('shop/order/add', [
+            'out_order_id' => $outOrderId
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->create([
+            'out_order_id' => $outOrderId
+        ]));
+    }
+
+    /**
+     * 生成订单
+     */
     public function testCreate()
     {
         $client = $this->mockApiClient(Client::class);
@@ -85,6 +103,24 @@ class ClientTest extends TestCase
         $client->expects()->httpPostJson('shop/order/get_list', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getList($data));
+    }
+
+    /**
+     * 同步订单支付结果
+     */
+    public function testPay()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $outOrderId = '456abc';
+
+        $client->expects()->httpPostJson('shop/order/pay', [
+            'out_order_id' => $outOrderId,
+        ])->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->syncPayState([
+            'out_order_id' => $outOrderId
+        ]));
     }
 
     /**

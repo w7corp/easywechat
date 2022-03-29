@@ -39,6 +39,19 @@ class Client extends BaseClient
     }
 
     /**
+     * 生成订单
+     *
+     * @param array $order
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function add(array $order)
+    {
+        return $this->httpPostJson('shop/order/add', $order);
+    }
+
+    /**
      * 获取订单详情
      *
      * @param string $openid 用户的openid
@@ -75,6 +88,19 @@ class Client extends BaseClient
     public function getList(array $data)
     {
         return $this->httpPostJson('shop/order/get_list', $data);
+    }
+
+    /**
+     * 同步订单支付结果
+     *
+     * @param array $pay
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function pay(array $pay)
+    {
+        return $this->httpPostJson('shop/order/pay', $pay);
     }
 
     /**
