@@ -361,26 +361,6 @@ class ClientTest extends TestCase
         $this->assertSame('mock-result', $client->finishExternalUseridMigration($corpid));
     }
 
-    /**
-     * testUnionidToexternalUserid3rd.
-     *
-     * @return void
-     *
-     * @author 读心印 <aa24615@qq.com>
-     */
-    public function testUnionidToexternalUserid3rd(): void
-    {
-        $client = $this->mockApiClient(Client::class);
-
-        $params = [
-            'unionid' => 'unionid-test',
-            'openid' => 'openid-test',
-            'corpid' => 'corpid-test'
-        ];
-
-        $client->expects()->httpPostJson('cgi-bin/externalcontact/unionid_to_external_userid_3rd', $params)->andReturn('mock-result');
-        $this->assertSame('mock-result', $client->unionidToexternalUserid3rd('unionid-test', 'openid-test', 'corpid-test'));
-    }
 
     public function testOpengidToChatid()
     {

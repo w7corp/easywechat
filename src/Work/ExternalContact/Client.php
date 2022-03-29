@@ -561,33 +561,6 @@ class Client extends BaseClient
         return $this->httpPostJson('cgi-bin/externalcontact/finish_external_userid_migration', ['corpid' => $corpid]);
     }
 
-    /**
-     * unionid查询external_userid
-     *
-     * @see https://open.work.weixin.qq.com/api/doc/90001/90143/95327
-     *
-     * @param string $unionid
-     * @param string $openid
-     * @param string $corpid
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
-     * @author 读心印 <aa24615@qq.com>
-     */
-
-    public function unionidToexternalUserid3rd(string $unionid, string $openid, string $corpid = '')
-    {
-        $params = [
-            'unionid' => $unionid,
-            'openid' => $openid,
-            'corpid' => $corpid
-        ];
-
-        return $this->httpPostJson('cgi-bin/externalcontact/unionid_to_external_userid_3rd', $params);
-    }
-
 
     /**
      * 客户群opengid转换
