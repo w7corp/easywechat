@@ -15,14 +15,14 @@ class Client extends BaseClient
     /**
      * 创建售后
      *
-     * @param array $ecaftersale
+     * @param array $aftersale
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function add(array $ecaftersale)
+    public function add(array $aftersale)
     {
-        return $this->httpPostJson('shop/ecaftersale/add', $ecaftersale);
+        return $this->httpPostJson('shop/ecaftersale/add', $aftersale);
     }
 
     /**
@@ -42,13 +42,13 @@ class Client extends BaseClient
      * 更新售后
      *
      * @param array $order 订单数据
-     * @param array $ecaftersale 售后数据
+     * @param array $aftersale 售后数据
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function update(array $order, array $ecaftersale)
+    public function update(array $order, array $aftersale)
     {
-        return $this->httpPostJson('shop/ecaftersale/update', array_merge($order, $ecaftersale));
+        return $this->httpPostJson('shop/ecaftersale/update', array_merge($order, $aftersale));
     }
 }
