@@ -91,7 +91,7 @@ class OpenPlatfromController extends controller{
   }
 
   public function getUserList(string $appid){
-      return $this->officalAccount($appid)
+      return $this->officialAccount($appid)
                   ->getClient()
                   ->get('cgi-bin/users/list')
                   ->toArray();
