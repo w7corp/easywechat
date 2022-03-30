@@ -174,12 +174,13 @@ $response->getStatusCode();
 // 200
 ```
 
-### 判断业务是否失败 <version-tag>6.3.0+</version-tag>
+### 判断业务是否成功/失败 <version-tag>6.3.0+</version-tag>
 
 比如状态码是 200，但是公众号接口返回 40029 code 错误：
 
 ```php
-$response->isFailed();
+$response->isSuccessful();  // false
+$response->isFailed();      // true
 ```
 
 ### 获取响应头

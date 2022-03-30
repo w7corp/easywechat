@@ -122,15 +122,24 @@ class ResponseTest extends TestCase
 
     public function test_it_can_judge_failure_with_custom_callback()
     {
-        // from http code
+        // from http code 200
         $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
-            $mock->shouldReceive('getStatusCode')->andReturns(200, 400)->twice();
+            $mock->shouldReceive('getStatusCode')->andReturns(200)->times(2);
         });
 
         $response = (new Response($response));
 
         $this->assertFalse($response->isFailed());  // 200
+        $this->assertTrue($response->isSuccessful());
+
+        // from http code 400
+        $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
+            $mock->shouldReceive('getStatusCode')->andReturns(400)->times(2);
+        });
+
+        $response = (new Response($response));
         $this->assertTrue($response->isFailed());   // 400
+        $this->assertFalse($response->isSuccessful());
 
         // custom callback
         $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
@@ -147,5 +156,6 @@ class ResponseTest extends TestCase
         });
 
         $this->assertTrue($response->isFailed());
+        $this->assertFalse($response->isSuccessful());
     }
 }

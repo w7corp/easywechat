@@ -28,6 +28,11 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
         return $this;
     }
 
+    public function isSuccessful(): bool
+    {
+        return !$this->isFailed();
+    }
+
     public function isFailed(): bool
     {
         if ($this->failureJudge) {
