@@ -246,14 +246,15 @@ class Application implements ApplicationInterface
      */
     public function getOfficialAccountWithRefreshToken(string $appId, string $refreshToken, array $config = []): OfficialAccountApplication
     {
-        $cacheKey = "open-platform.authorizer_access_token.{$appId}.{$refreshToken}";
+        $cacheKey = "open-platform.authorizer_access_token.{$appId}";
 
         /** @phpstan-ignore-next-line */
         $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
 
         if (!$authorizerAccessToken) {
-            $authorizerAccessToken = $this->refreshAuthorizerToken($appId, $refreshToken)['authorizer_access_token'];
-            $this->getCache()->set($cacheKey, $authorizerAccessToken);
+            $response = $this->refreshAuthorizerToken($appId, $refreshToken);
+            $authorizerAccessToken = $response['authorizer_access_token'];
+            $this->getCache()->set($cacheKey, $authorizerAccessToken, intval($response['expires_in'] ?? 7200) - 500);
         }
 
         /** @phpstan-ignore-next-line */
