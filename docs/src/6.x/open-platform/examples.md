@@ -32,7 +32,7 @@ Route::post('open-platform', function () {
 </details>
 
 <details>
-  <summary>Laravel 开放平台PC版预授权<version-tag>（6.2.4+）</version-tag></summary>
+  <summary>Laravel 开放平台PC版预授权<version-tag>6.3.0+</version-tag></summary>
 
 官方文档： https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/Authorization_Process_Technical_Description.html
 
@@ -64,7 +64,7 @@ Route::any('open-platform/preauth', function(){
 </details>
 
 <details>
-  <summary>Laravel 开放平台代公众号/小程序代调用实例示例<version-tag>（6.2.4+）</version-tag></summary>
+  <summary>Laravel 开放平台代公众号/小程序代调用实例示例<version-tag>6.3.0+</version-tag></summary>
 
 ```php
 Route::any('open-platform/miniapp/get-phone-number', 'OpenPlatfromController@getPhoneNumber');
