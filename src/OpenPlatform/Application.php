@@ -173,7 +173,7 @@ class Application implements ApplicationInterface
      */
     public function getAuthorization(string $authorizationCode): Authorization
     {
-        $response = $this->getHttpClient()->request(
+        $response = $this->getClient()->request(
             'POST',
             'cgi-bin/component/api_query_auth',
             [
@@ -202,7 +202,7 @@ class Application implements ApplicationInterface
      */
     public function refreshAuthorizerToken(string $authorizerAppId, string $authorizerRefreshToken): array
     {
-        $response = $this->getHttpClient()->request(
+        $response = $this->getClient()->request(
             'POST',
             'cgi-bin/component/api_authorizer_token',
             [
@@ -231,7 +231,7 @@ class Application implements ApplicationInterface
      */
     public function createPreAuthorizationCode(): array 
     {
-        $response = $this->getHttpClient()->request(
+        $response = $this->getClient()->request(
             'POST',
             'cgi-bin/component/api_create_preauthcode',
             [
