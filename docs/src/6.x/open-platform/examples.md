@@ -74,7 +74,7 @@ Route::any('open-platform/officialAccount/get-user-list', 'OpenPlatformControlle
 ```php
 use App\Http\Controllers\Controller;
 
-class OpenPlatformController extends controller{
+class OpenPlatformController extends Controller{
 
   public function mini(string $appid): \EasyWeChat\MiniApp\Application {
     $refreshToken = '授权后在缓存或数据库获取';
