@@ -232,6 +232,40 @@ class Application implements ApplicationInterface
     }
 
     /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getOfficialAccountWithRefreshToken(string $appId, string $refreshToken, array $config = []): OfficialAccountApplication
+    {
+        $cacheKey = "easywechat.open-platform.authorizer_access_token.{$appId}.{$refreshToken}";
+
+        /** @phpstan-ignore-next-line */
+        $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
+
+        if (!$authorizerAccessToken) {
+            $authorizerAccessToken = $this->refreshAuthorizerToken($appId, $refreshToken)['authorizer_access_token'];
+            $this->getCache()->set($cacheKey, $authorizerAccessToken);
+        }
+
+        /** @phpstan-ignore-next-line */
+        return $this->getOfficialAccountWithAccessToken($appId, $authorizerAccessToken, $config);
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getOfficialAccountWithAccessToken(string $appId, string $accessToken, array $config = []): OfficialAccountApplication
+    {
+        return $this->getOfficialAccount(new AuthorizerAccessToken($appId, $accessToken), $config);
+    }
+
+    /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function getOfficialAccount(AuthorizerAccessToken $authorizerAccessToken, array $config = []): OfficialAccountApplication
