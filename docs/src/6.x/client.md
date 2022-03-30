@@ -182,7 +182,6 @@ $config = [
 ```php
 $response = $api->get('/cgi-bin/user/get', [
     'query' => [
-        'access_token' => $token,
         'openid' => 'oDF3iY9ffA-hqb2vVvbr7qxf6A0Q',
     ]
 ]);
@@ -353,8 +352,7 @@ $responses['users']->toArray();
 
 ```php
     'http' => [
-        'timeout' => 5,
-
+        //...
         'retry' => true, // 使用默认配置
         // 'retry' => [
         //     // 仅以下状态码重试
