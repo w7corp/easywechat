@@ -36,10 +36,10 @@ class Client extends BaseClient
         $params = [
             'cgi_path' => $cgiPath,
         ];
-        
+
         return $this->httpPostJson('cgi-bin/openapi/quota/get', $params);
     }
-    
+
     /**
      * Clear quota.
      *

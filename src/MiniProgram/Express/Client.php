@@ -21,7 +21,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
  */
 class Client extends BaseClient
 {
-
     /**
      * 绑定、解绑物流账号
      * @param array $params
