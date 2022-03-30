@@ -37,7 +37,7 @@ class ClientTest extends TestCase
         ]);
         $app['suite_access_token'] = \Mockery::mock(AccessToken::class);
 
-        $client = $this->mockApiClient(Client::class.'[getPreAuthCode]', [], $app);
+        $client = $this->mockApiClient(Client::class . '[getPreAuthCode]', [], $app);
         $client->allows()->getPreAuthCode()->andReturn(['pre_auth_code' => 'mock-pre-auth-code']);
 
         $expected = 'https://open.work.weixin.qq.com/3rdapp/install?suite_id=mock-suit-id&redirect_uri=mock-redirect-uri&pre_auth_code=mock-pre-auth-code&state=mock-state';
@@ -166,5 +166,22 @@ class ClientTest extends TestCase
             'user_ticket' => 'mock-user-ticket',
         ])->andReturn('mock-result');
         $this->assertSame('mock-result', $client->getUserByTicket('mock-user-ticket'));
+    }
+
+    public function testUnionidToExternalUserid()
+    {
+        $app = new ServiceContainer([
+            'suite_id' => 'mock-suit-id',
+        ]);
+        $app['suite_access_token'] = \Mockery::mock(AccessToken::class);
+        $client = $this->mockApiClient(Client::class, [], $app)->makePartial();
+        $params = [
+            'unionid' => 'xxxxx',
+            'openid' => 'xxxxx',
+            'corpid' => 'xxxxx'
+        ];
+        $client->expects()->httpPostJson('cgi-bin/service/externalcontact/unionid_to_external_userid_3rd', $params)
+            ->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->unionidToExternalUserid($params['unionid'], $params['openid'], $params['corpid']));
     }
 }
