@@ -62,7 +62,10 @@ class Application implements ApplicationInterface
     public function getVerifyTicket(): VerifyTicketInterface
     {
         if (!$this->verifyTicket) {
-            $this->verifyTicket = new VerifyTicket(appId: $this->getAccount()->getAppId());
+            $this->verifyTicket = new VerifyTicket(
+                appId: $this->getAccount()->getAppId(),
+                cache: $this->getCache(),
+            );
         }
 
         return $this->verifyTicket;
@@ -243,7 +246,7 @@ class Application implements ApplicationInterface
      */
     public function getOfficialAccountWithRefreshToken(string $appId, string $refreshToken, array $config = []): OfficialAccountApplication
     {
-        $cacheKey = "easywechat.open-platform.authorizer_access_token.{$appId}.{$refreshToken}";
+        $cacheKey = "open-platform.authorizer_access_token.{$appId}.{$refreshToken}";
 
         /** @phpstan-ignore-next-line */
         $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
