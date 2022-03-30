@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\HttpClient\HttpClientMethods;
+use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
@@ -65,7 +66,7 @@ class Client implements HttpClientInterface
         $this->throw = !!($defaultOptions['throw'] ?? true);
 
         if (!empty($defaultOptions)) {
-            [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
+            [, $this->defaultOptions] = self::prepareRequest(null, null, RequestUtil::formatDefaultOptions($defaultOptions), $this->defaultOptions);
         }
 
         $this->client = ($client ?? SymfonyHttpClient::create())->withOptions($this->defaultOptions);
