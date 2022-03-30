@@ -22,7 +22,7 @@ class Client extends BaseClient
      */
     public function add(array $aftersale)
     {
-        return $this->httpPostJson('shop/aftersale/add', $aftersale);
+        return $this->httpPostJson('shop/ecaftersale/add', $aftersale);
     }
 
     /**
@@ -35,7 +35,7 @@ class Client extends BaseClient
      */
     public function get(array $order)
     {
-        return $this->httpPostJson('shop/aftersale/get', $order);
+        return $this->httpPostJson('shop/ecaftersale/get', $order);
     }
 
     /**
@@ -49,6 +49,6 @@ class Client extends BaseClient
      */
     public function update(array $order, array $aftersale)
     {
-        return $this->httpPostJson('shop/aftersale/update', array_merge($order, $aftersale));
+        return $this->httpPostJson('shop/ecaftersale/update', array_merge($order, $aftersale));
     }
 }
