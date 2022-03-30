@@ -23,11 +23,9 @@ class ComponentAccessTokenTest extends TestCase
 
     public function test_get_token_from_cache()
     {
-        $token = new ComponentAccessToken('mock-app-id', 'mock-secret', \Mockery::mock(VerifyTicket::class));
-
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get('open_platform.component_access_token.mock-app-id')->andReturns('mock-cached-access-token')->twice();
-        $token->setCache($cache);
+        $token = new ComponentAccessToken('mock-app-id', 'mock-secret', \Mockery::mock(VerifyTicket::class), cache: $cache);
 
         $this->assertSame('mock-cached-access-token', $token->getToken());
 
@@ -41,23 +39,21 @@ class ComponentAccessTokenTest extends TestCase
     {
         $verifyTicket = \Mockery::mock(VerifyTicket::class);
         $verifyTicket->expects()->getTicket()->andReturns('mock-verify-ticket');
-        $token = new ComponentAccessToken('mock-app-id', 'mock-secret', $verifyTicket);
-
         $response = [
             'component_access_token' => 'mock-access-token',
             'expires_in' => 2700,
         ];
 
-        // http client
-        $mockResponse = new MockResponse(\json_encode($response));
-        $httpClient = new MockHttpClient($mockResponse, 'https://api.weixin.qq.com/');
-        $token->setHttpClient($httpClient);
-
         // cache client
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get('open_platform.component_access_token.mock-app-id')->andReturns(null)->once();
         $cache->expects()->set('open_platform.component_access_token.mock-app-id', 'mock-access-token', 2700 - 100)->once();
-        $token->setCache($cache);
+
+        // http client
+        $mockResponse = new MockResponse(\json_encode($response));
+        $httpClient = new MockHttpClient($mockResponse, 'https://api.weixin.qq.com/');
+
+        $token = new ComponentAccessToken('mock-app-id', 'mock-secret', $verifyTicket, httpClient: $httpClient, cache: $cache);
 
         $this->assertSame('mock-access-token', $token->getToken());
 

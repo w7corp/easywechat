@@ -6,22 +6,29 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\Kernel\Traits\InteractWithCache;
-use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Cache\Psr16Cache;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ComponentAccessToken implements RefreshableAccessTokenInterface
 {
-    use InteractWithCache;
-    use InteractWithHttpClient;
+    protected HttpClientInterface $httpClient;
+    protected CacheInterface $cache;
 
     public function __construct(
         protected string $appId,
         protected string $secret,
         protected VerifyTicketInterface $verifyTicket,
         protected ?string $key = null,
+        ?CacheInterface $cache = null,
+        ?HttpClientInterface $httpClient = null,
     ) {
+        $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://api.weixin.qq.com/']);
+        $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
     public function getKey(): string
@@ -47,7 +54,7 @@ class ComponentAccessToken implements RefreshableAccessTokenInterface
      */
     public function getToken(): string
     {
-        $token = $this->getCache()->get($this->getKey());
+        $token = $this->cache->get($this->getKey());
 
         if (!!$token && \is_string($token)) {
             return $token;
@@ -84,7 +91,7 @@ class ComponentAccessToken implements RefreshableAccessTokenInterface
      */
     public function refresh(): string
     {
-        $response = $this->getHttpClient()->request(
+        $response = $this->httpClient->request(
             'POST',
             'cgi-bin/component/api_component_token',
             [
@@ -100,7 +107,7 @@ class ComponentAccessToken implements RefreshableAccessTokenInterface
             throw new HttpException('Failed to get component_access_token: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->getCache()->set($this->getKey(), $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));
+        $this->cache->set($this->getKey(), $response['component_access_token'], \abs(\intval($response['expires_in']) - 100));
 
         return $response['component_access_token'];
     }

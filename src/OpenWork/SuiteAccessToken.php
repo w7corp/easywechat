@@ -6,12 +6,12 @@ namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SuiteAccessToken implements RefreshableAccessTokenInterface
@@ -27,7 +27,7 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null,
     ) {
-        $this->httpClient = $httpClient ?? new AccessTokenAwareClient();
+        $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://qyapi.weixin.qq.com/']);
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
 
