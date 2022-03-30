@@ -25,14 +25,14 @@ class Utils
         'signType' => "string",
         'paySign' => "string",
     ])]
-    public function buildBridgeConfig(string $prepayId, string $appId): array
+    public function buildBridgeConfig(string $prepayId, string $appId, string $signType='RSA'): array
     {
         $params = [
             'appId' => $appId,
             'timeStamp' => strval(time()),
             'nonceStr' => Str::random(),
             'package' => "prepay_id=$prepayId",
-            'signType' => 'RSA',
+            'signType' => $signType,
         ];
 
         $message = $params['appId'] . "\n" .
@@ -58,9 +58,9 @@ class Utils
         'paySign' => "string",
         'timestamp' => "string",
     ])]
-    public function buildSdkConfig(string $prepayId, string $appId): array
+    public function buildSdkConfig(string $prepayId, string $appId, string $signType = 'RSA'): array
     {
-        $params = $this->buildBridgeConfig($prepayId, $appId);
+        $params = $this->buildBridgeConfig($prepayId, $appId, $signType);
 
         $params['timestamp'] = $params['timeStamp'];
         unset($params['timeStamp']);
@@ -81,9 +81,9 @@ class Utils
         'signType' => "string",
         'paySign' => "string",
     ])]
-    public function buildMiniAppConfig(string $prepayId, string $appId): array
+    public function buildMiniAppConfig(string $prepayId, string $appId, string $signType = 'RSA'): array
     {
-        return $this->buildBridgeConfig($prepayId, $appId);
+        return $this->buildBridgeConfig($prepayId, $appId, $signType);
     }
 
     /**
