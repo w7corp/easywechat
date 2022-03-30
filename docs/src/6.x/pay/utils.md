@@ -27,7 +27,8 @@ $utils = $app->getUtils();
 
  ```php
  $appId = '商户申请的公众号对应的 appid，由微信支付生成，可在公众号后台查看';
- $config = $utils->buildBridgeConfig($prepayId, $appId); // 返回数组
+ $signType = 'RSA'; // 默认RSA，v2要传MD5
+ $config = $utils->buildBridgeConfig($prepayId, $appId, $signType); // 返回数组
  ```
 
 调用示例
@@ -57,7 +58,8 @@ $utils = $app->getUtils();
 
  ```php
  $appId = '商户申请的公众号对应的 appid，由微信支付生成，可在公众号后台查看';
- $config = $utils->buildSdkConfig($prepayId, $appId); // 返回数组
+ $signType = 'RSA'; // 默认RSA，v2要传MD5
+ $config = $utils->buildSdkConfig($prepayId, $appId, $signType); // 返回数组
  ```
 
 调用实例:
@@ -81,7 +83,8 @@ wx.chooseWXPay({
 
  ```php
  $appId = '商户申请的小程序对应的appid，由微信支付生成，可在小程序后台查看';
- $config = $utils->buildMiniAppConfig($prepayId, $appId); // 返回数组
+ $signType = 'RSA'; // 默认RSA，v2要传MD5
+ $config = $utils->buildMiniAppConfig($prepayId, $appId, $signType); // 返回数组
  ```
 
 调用示例：
