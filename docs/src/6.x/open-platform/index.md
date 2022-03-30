@@ -164,7 +164,7 @@ $authorization->toJson();
 
 ```
 
-## 创建预授权码
+## 创建预授权码 <version>6.3.0+</version>
 
 你可以通过下面的方式创建预授权码：
 
@@ -176,7 +176,7 @@ $reponse = $app->createPreAuthorizationCode();
 // }
 ```
 
-## 生成授权页地址
+## 生成授权页地址 <version>6.3.0+</version>
 
 你可以通过下面方法生成一个授权页地址，引导用户进行授权：
 
@@ -228,7 +228,7 @@ $authorizerAccessToken = $authorization->getAccessToken();
 
 ### 代公众号调用
 
-**方式一：使用 authorizer_refresh_token**
+**方式一：使用 authorizer_refresh_token** <version>6.3.0+</version>
 
 此方式适用于大部分场景，将授权信息存储到数据库中，代替调用时取出对应公众号的 authorizer_refresh_token 即可。
 
@@ -237,7 +237,7 @@ $authorizerRefreshToken = '公众号授权时得到的 authorizer_refresh_token'
 $officialAccount = $app->getOfficialAccountWithRefreshToken($appId, $authorizerRefreshToken);
 ```
 
-**方式二：使用 authorizer_access_token**
+**方式二：使用 authorizer_access_token** <version>6.3.0+</version>
 
 此方案适用于使用独立的中央授权服务单独维护授权信息的方式。
 
