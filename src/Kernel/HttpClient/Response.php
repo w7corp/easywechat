@@ -17,8 +17,25 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
 {
-    public function __construct(protected ResponseInterface $response, protected ?Closure $failureJudge = null)
+    public function __construct(protected ResponseInterface $response, protected ?Closure $failureJudge = null, protected bool $throw = true)
     {
+    }
+
+    public function throw(bool $throw = true): static
+    {
+        $this->throw = $throw;
+
+        return $this;
+    }
+
+    public function throwOnFailure(): static
+    {
+        return $this->throw(true);
+    }
+
+    public function quietly(): static
+    {
+        return $this->throw(false);
     }
 
     public function judgeFailureUsing(callable $callback): static
@@ -54,8 +71,10 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
-    public function toArray(bool $throw = true): array
+    public function toArray(?bool $throw = null): array
     {
+        $throw ??= $this->throw;
+
         if ('' === $content = $this->response->getContent($throw)) {
             throw new BadResponseException('Response body is empty.');
         }
@@ -123,9 +142,9 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
-    public function toJson(): string|false
+    public function toJson(?bool $throw = null): string|false
     {
-        return \json_encode($this->toArray(), \JSON_UNESCAPED_UNICODE);
+        return \json_encode($this->toArray($throw), \JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -141,14 +160,14 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
         return $this->response->getStatusCode();
     }
 
-    public function getHeaders(bool $throw = true): array
+    public function getHeaders(?bool $throw = null): array
     {
-        return $this->response->getHeaders($throw);
+        return $this->response->getHeaders($throw ?? $this->throw);
     }
 
-    public function getContent(bool $throw = true): string
+    public function getContent(?bool $throw = null): string
     {
-        return $this->response->getContent($throw);
+        return $this->response->getContent($throw ?? $this->throw);
     }
 
     public function cancel(): void
@@ -180,7 +199,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      */
-    public function hasHeader(string $name, bool $throw = true): bool
+    public function hasHeader(string $name, ?bool $throw = null): bool
     {
         return isset($this->getHeaders($throw)[$name]);
     }
@@ -192,8 +211,10 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      */
-    public function getHeader(string $name, bool $throw = true): array
+    public function getHeader(string $name, ?bool $throw = null): array
     {
+        $throw ??= $this->throw;
+
         return $this->hasHeader($name, $throw) ? $this->getHeaders($throw)[$name] : [];
     }
 
@@ -203,9 +224,11 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      */
-    public function getHeaderLine(string $name, bool $throw = true): string
+    public function getHeaderLine(string $name, ?bool $throw = null): string
     {
-        return $this->hasHeader($name, $throw) ? implode(',', $this->getHeader($name)) : '';
+        $throw ??= $this->throw;
+
+        return $this->hasHeader($name, $throw) ? implode(',', $this->getHeader($name, $throw)) : '';
     }
 
     /**

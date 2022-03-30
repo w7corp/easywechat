@@ -5,6 +5,8 @@ namespace EasyWeChat\Tests\Kernel\HttpClient;
 use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Tests\TestCase;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ResponseTest extends TestCase
@@ -157,5 +159,34 @@ class ResponseTest extends TestCase
 
         $this->assertTrue($response->isFailed());
         $this->assertFalse($response->isSuccessful());
+    }
+
+    public function test_it_can_has_global_throw_settings()
+    {
+        $httpClient = new MockHttpClient(new MockResponse('{"foo":"bar"}', ['http_code' => 403]));
+        $response = (new Response($httpClient->request('GET', '/foo'), throw: false));
+
+        // global throw setting is false
+        try {
+            $this->assertSame(['foo' => 'bar'], $response->toArray());
+            $this->assertSame('{"foo":"bar"}', $response->getContent());
+        } catch (\Exception $e) {
+            $this->fail('should not throw exception');
+        }
+
+        // global throw setting is ignored
+        try {
+            $response->toArray(true);
+            $this->fail('should throw exception');
+        } catch (\Exception $e) {
+            $this->assertSame('HTTP 403 returned for "https://example.com/foo".', $e->getMessage());
+        }
+
+        try {
+            $response->getContent(true);
+            $this->fail('should throw exception');
+        } catch (\Exception $e) {
+            $this->assertSame('HTTP 403 returned for "https://example.com/foo".', $e->getMessage());
+        }
     }
 }

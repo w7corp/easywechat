@@ -410,7 +410,8 @@ class Application implements ApplicationInterface
         return new AccessTokenAwareClient(
             client: $this->getHttpClient(),
             accessToken: $this->getComponentAccessToken(),
-            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0)
+            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0),
+            throw: !!$this->config->get('http.throw', true),
         );
     }
 

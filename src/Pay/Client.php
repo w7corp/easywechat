@@ -53,12 +53,16 @@ class Client implements HttpClientInterface
         '/global/v3/',
     ];
 
+    protected bool $throw = true;
+
     /**
      * @param  array<string, mixed> $defaultOptions
      */
     public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, array $defaultOptions = [])
     {
         $this->defaultOptions = array_merge(self::OPTIONS_DEFAULTS, $this->defaultOptions);
+
+        $this->throw = $defaultOptions['throw'] ?? true;
 
         if (!empty($defaultOptions)) {
             [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
@@ -110,7 +114,7 @@ class Client implements HttpClientInterface
             }
         }
 
-        return new Response($this->client->request($method, $url, $options));
+        return new Response($this->client->request($method, $url, $options), throw: $this->throw);
     }
 
     protected function isV3Request(string $url): bool

@@ -157,6 +157,7 @@ class Application implements ApplicationInterface
             client: $httpClient,
             accessToken: $this->getAccessToken(),
             failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0) || !\is_null($response->toArray()['error'] ?? null),
+            throw: !!$this->config->get('http.throw', true),
         );
     }
 

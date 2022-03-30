@@ -15,6 +15,29 @@ $config = [
   'secret' => 'f1c242f4f28f735d4687abb469072axx',   // 开放平台账号的 secret
   'token' => 'easywechat',  // 开放平台账号的 token
   'aes_key' => ''   // 明文模式请勿填写 EncodingAESKey
+
+  /**
+   * 接口请求相关配置，超时时间等，具体可用参数请参考：
+   * https://github.com/symfony/symfony/blob/5.3/src/Symfony/Contracts/HttpClient/HttpClientInterface.php
+   */
+  'http' => [
+      'throw'  => true, // 状态码非 200、300 时是否抛出异常，默认为开启
+      'timeout' => 5.0,
+      // 'base_uri' => 'https://api.weixin.qq.com/', // 如果你在国外想要覆盖默认的 url 的时候才使用，根据不同的模块配置不同的 uri
+
+      'retry' => true, // 使用默认重试配置
+      //  'retry' => [
+      //      // 仅以下状态码重试
+      //      'http_codes' => [429, 500]
+      //       // 最大重试次数
+      //      'max_retries' => 3,
+      //      // 请求间隔 (毫秒)
+      //      'delay' => 1000,
+      //      // 如果设置，每次重试的等待时间都会增加这个系数
+      //      // (例如. 首次:1000ms; 第二次: 3 * 1000ms; etc.)
+      //      'multiplier' => 3
+      //  ],
+  ],
 ];
 
 $app = new Application($config);
@@ -174,7 +197,7 @@ $url = $app->createPreAuthorizationUrl('http://easywechat.com/callback', $preAut
 
 ```php
 $authorizerAppId = '授权方 appid';
-$authorizerRefreshToken = '刷新令牌，上一步得到的 authorizer_refresh_token';
+$authorizerRefreshToken = '上一步得到的 authorizer_refresh_token';
 
 $app->refreshAuthorizerToken($authorizerAppId, $authorizerRefreshToken)
 
@@ -207,10 +230,10 @@ $authorizerAccessToken = $authorization->getAccessToken();
 
 **方式一：使用 authorizer_refresh_token**
 
-此方式适用于大部分场景，将授权信息存储到数据库中，代替调用时去除对应公众号的 authorizer_refresh_token 即可。
+此方式适用于大部分场景，将授权信息存储到数据库中，代替调用时取出对应公众号的 authorizer_refresh_token 即可。
 
 ```php
-$authorizerRefreshToken = '刷新令牌，公众号授权时得到的 authorizer_refresh_token';
+$authorizerRefreshToken = '公众号授权时得到的 authorizer_refresh_token';
 $officialAccount = $app->getOfficialAccountWithRefreshToken($appId, $authorizerRefreshToken);
 ```
 
@@ -219,7 +242,7 @@ $officialAccount = $app->getOfficialAccountWithRefreshToken($appId, $authorizerR
 此方案适用于使用独立的中央授权服务单独维护授权信息的方式。
 
 ```php
-$authorizerAccessToken = '刷新令牌，公众号授权时得到的 authorizer_access_token';
+$authorizerAccessToken = '公众号授权时得到的 authorizer_access_token';
 $officialAccount = $app->getOfficialAccountWithAccessToken($appId, $authorizerAccessToken);
 ```
 
@@ -249,11 +272,11 @@ $response = $officialAccount->getClient()->get('cgi-bin/users/list');
 
 ```php
 // 方式一：使用 authorizer_refresh_token
-$authorizerRefreshToken = '刷新令牌，公众号授权时得到的 authorizer_refresh_token';
+$authorizerRefreshToken = '公众号授权时得到的 authorizer_refresh_token';
 $officialAccount = $app->getOfficialAccountWithRefreshToken($appId, $authorizerRefreshToken);
 
 // 方式二：使用 authorizer_access_token
-$authorizerAccessToken = '刷新令牌，公众号授权时得到的 authorizer_access_token';
+$authorizerAccessToken = '公众号授权时得到的 authorizer_access_token';
 $officialAccount = $app->getOfficialAccountWithAccessToken($appId, $authorizerAccessToken);
 
 // 方式三：不推荐
