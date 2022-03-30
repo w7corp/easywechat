@@ -173,7 +173,7 @@ class Application implements ApplicationInterface
      */
     public function getAuthorization(string $authorizationCode): Authorization
     {
-        $response = $this->createClient()->request(
+        $response = $this->getHttpClient()->request(
             'POST',
             'cgi-bin/component/api_query_auth',
             [
@@ -202,7 +202,7 @@ class Application implements ApplicationInterface
      */
     public function refreshAuthorizerToken(string $authorizerAppId, string $authorizerRefreshToken): array
     {
-        $response = $this->createClient()->request(
+        $response = $this->getHttpClient()->request(
             'POST',
             'cgi-bin/component/api_authorizer_token',
             [
@@ -222,9 +222,6 @@ class Application implements ApplicationInterface
     }
 
     /**
-     * Create pre-authorization code.
-     *
-     * @return Array
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
@@ -232,9 +229,9 @@ class Application implements ApplicationInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      */
-    public function createPreAuthorizationCode()
+    public function createPreAuthorizationCode(): array 
     {
-        $response = $this->createClient()->request(
+        $response = $this->getHttpClient()->request(
             'POST',
             'cgi-bin/component/api_create_preauthcode',
             [
@@ -247,19 +244,18 @@ class Application implements ApplicationInterface
         if (empty($response['pre_auth_code'])) {
             throw new HttpException('Failed to get authorizer_access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
+        
         return $response;
     }
 
     /**
-     * Return the pre-authorization login page url.
-     *
      * @param  string             $callbackUrl
      * @param  string|array|null  $optional
      *
      * @return string
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function getPreAuthorizationUrl(string $callbackUrl, $optional = []): string
+    public function createPreAuthorizationUrl(string $callbackUrl, array|string $optional = []): string
     {
         // 兼容旧版 API 设计
         if (\is_string($optional)) {
