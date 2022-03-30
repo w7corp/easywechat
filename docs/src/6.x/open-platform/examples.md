@@ -5,10 +5,13 @@
 
 <details>
   <summary>Laravel 开放平台处理推送消息</summary>
-> 类路由关闭 csrf 验证。
+
+> 注意：对应路由需要关闭 csrf 验证。
+  
+假设你的开放平台第三方平台设置的授权事件接收 URL 为: https://easywechat.com/open-platform （其他事件推送同样会推送到这个 URL）
 
 ```php
-// 假设你的开放平台第三方平台设置的授权事件接收 URL 为: https://easywechat.com/open-platform （其他事件推送同样会推送到这个 URL）
+// routes/web.php
 Route::post('open-platform', function () {
     // $app 为你实例化的开放平台对象，此处省略实例化步骤
     return $app->server->serve(); // Done!
@@ -37,7 +40,10 @@ Route::post('open-platform', function () {
 官方文档： https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/Authorization_Process_Technical_Description.html
 
 用例：
+  
 ```php
+// routes/web.php
+
 // 授权落地页
 Route::any('open-platform/auth', function(){
         $auth_code = request()->get('auth_code');
@@ -66,50 +72,59 @@ Route::any('open-platform/preauth', function(){
 <details>
   <summary>Laravel 开放平台代公众号/小程序代调用实例示例<version-tag>6.3.0+</version-tag></summary>
 
+路由配置：
+
 ```php
+// routes/web.php
 Route::any('open-platform/miniapp/get-phone-number', 'OpenPlatformController@getPhoneNumber');
-Route::any('open-platform/officialAccount/get-user-list', 'OpenPlatformController@getUserList');
+Route::any('open-platform/officialAccount/get-user-list', 'OpenPlatformController@getUsers');
 ```
 
+对应控制器：`app/Http/Controllers/OpenPlatformController`：
+  
 ```php
 use App\Http\Controllers\Controller;
 
-class OpenPlatformController extends Controller{
+class OpenPlatformController extends Controller
+{
+    public function mini(string $appid): \EasyWeChat\MiniApp\Application 
+    {
+        $refreshToken = '授权后在缓存或数据库获取';
+    
+        // $app 为你实例化的开放平台对象，此处省略实例化步骤
+        return $app->getMiniAppWithRefreshToken($appid, $refreshToken);
+    }
 
-  public function mini(string $appid): \EasyWeChat\MiniApp\Application {
-    $refreshToken = '授权后在缓存或数据库获取';
-    // $app 为你实例化的开放平台对象，此处省略实例化步骤
-    $app = $app->getMiniAppWithRefreshToken($appid, $refreshToken);
-    return $app;
-  }
+    public function officialAccount(string $appid): \EasyWeChat\OfficialAccount\Application 
+    {
+        $refreshToken = '授权后在缓存或数据库获取';
+        
+        // $app 为你实例化的开放平台对象，此处省略实例化步骤
+        return $app->getOfficialAccountWithRefreshToken($appid, $refreshToken);
+    }
 
-  public function officialAccount(string $appid): \EasyWeChat\OfficialAccount\Application {
-    $refreshToken = '授权后在缓存或数据库获取';
-    // $app 为你实例化的开放平台对象，此处省略实例化步骤
-    $app = $app->getOfficialAccountWithRefreshToken($appid, $refreshToken);
-    return $app;
-  }
+    public function getUsers(string $appid)
+    {
+        return $this->officialAccount($appid)
+                    ->getClient()
+                    ->get('cgi-bin/users/list')
+                    ->toArray();
+    }
 
-  public function getUserList(string $appid){
-      return $this->officialAccount($appid)
-                  ->getClient()
-                  ->get('cgi-bin/users/list')
-                  ->toArray();
-  }
-
-  public function getPhoneNumber(string $appid){
-      $data = [
-        'code' => (string) request()->get('code'),
-      ];
-      return $this->mini($appid)
-                  ->getClient()
-                  ->postJson('wxa/business/getuserphonenumber', $data)
-                  ->toArray();
-  }
+    public function getPhoneNumber(string $appid)
+    {
+        $data = [
+          'code' => (string) request()->get('code'),
+        ];
+  
+        return $this->mini($appid)
+                    ->getClient()
+                    ->postJson('wxa/business/getuserphonenumber', $data)
+                    ->toArray();
+    }
 }
-
-
 ```  
+
 </details>
 
 <details>
@@ -117,14 +132,16 @@ class OpenPlatformController extends Controller{
 
 ```php
 // 代公众号处理回调事件
-Route::any('callback/{appid}', function ($appid) {
+Route::any('callback/{appid}', function ($appId) {
     // $app 为你实例化的开放平台对象，此处省略实例化步骤
     // $refreshToken 为授权后你缓存或数据库中的 authorizer_refresh_token，此处省略获取步骤
+    
     $refreshToken = '你已缓存或数据库中的 authorizer_refresh_token';
-    $server = $app->getOfficialAccountWithRefreshToken($appid, $refreshToken)->getServer();
+    
+    $server = $app->getOfficialAccountWithRefreshToken($appId, $refreshToken)->getServer();
 
     $server->addMessageListener('text', function ($message) {
-        return sprintf("你对overtrue说：“%s”", $message->Content);
+        return sprintf("你对 overtrue 说：“%s”", $message->Content);
     });
 
     return $server->serve();
