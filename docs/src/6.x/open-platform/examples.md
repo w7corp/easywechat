@@ -93,7 +93,8 @@ class OpenPlatfromController extends controller{
   public function getUserList($appid){
       return $this->officalAccount($appid)
                   ->getClient()
-                  ->get('cgi-bin/users/list');
+                  ->get('cgi-bin/users/list')
+                  ->toArray();
   }
 
   public function getPhoneNumber($appid){
@@ -102,7 +103,8 @@ class OpenPlatfromController extends controller{
       ];
       return $this->mini($appid)
                   ->getClient()
-                  ->postJson('wxa/business/getuserphonenumber', $data);
+                  ->postJson('wxa/business/getuserphonenumber', $data)
+                  ->toArray();
   }
 }
 
