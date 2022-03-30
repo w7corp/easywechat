@@ -47,7 +47,7 @@ Route::post('open-platform', function () {
 // 授权落地页
 Route::any('open-platform/auth', function(){
         $auth_code = request()->get('auth_code');
-        // 完成授权写入数据的逻辑省略。。。
+        // 完成授权写入数据库的逻辑省略。。。
 })->name('open_platform.auth');
 
 // 授权跳转页
@@ -70,14 +70,16 @@ Route::any('open-platform/preauth', function(){
 </details>
 
 <details>
-  <summary>Laravel 开放平台代公众号/小程序代调用实例示例<version-tag>6.3.0+</version-tag></summary>
+  <summary>Laravel 开放平台代公众号/小程序代调用示例<version-tag>6.3.0+</version-tag></summary>
 
 路由配置：
 
 ```php
 // routes/web.php
-Route::any('open-platform/miniapp/get-phone-number', 'OpenPlatformController@getPhoneNumber');
-Route::any('open-platform/officialAccount/get-user-list', 'OpenPlatformController@getUsers');
+// 例如：https://yourdomain.com/open-platform/miniapp/get-phone-number/wx123212312313abc
+
+Route::any('open-platform/miniapp/get-phone-number/{appid}', 'OpenPlatformController@getPhoneNumber');
+Route::any('open-platform/officialAccount/get-user-list/{appid}', 'OpenPlatformController@getUsers');
 ```
 
 对应控制器：`app/Http/Controllers/OpenPlatformController`：
