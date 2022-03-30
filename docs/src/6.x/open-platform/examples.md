@@ -90,14 +90,14 @@ class OpenPlatfromController extends controller{
     return $app;
   }
 
-  public function getUserList($appid){
+  public function getUserList(string $appid){
       return $this->officalAccount($appid)
                   ->getClient()
                   ->get('cgi-bin/users/list')
                   ->toArray();
   }
 
-  public function getPhoneNumber($appid){
+  public function getPhoneNumber(string $appid){
       $data = [
         'code' => (string) request()->get('code'),
       ];
