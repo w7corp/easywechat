@@ -67,14 +67,14 @@ Route::any('open-platform/preauth', function(){
   <summary>Laravel 开放平台代公众号/小程序代调用实例示例<version-tag>6.3.0+</version-tag></summary>
 
 ```php
-Route::any('open-platform/miniapp/get-phone-number', 'OpenPlatfromController@getPhoneNumber');
-Route::any('open-platform/officialAccount/get-user-list', 'OpenPlatfromController@getUserList');
+Route::any('open-platform/miniapp/get-phone-number', 'OpenPlatformController@getPhoneNumber');
+Route::any('open-platform/officialAccount/get-user-list', 'OpenPlatformController@getUserList');
 ```
 
 ```php
 use App\Http\Controllers\Controller;
 
-class OpenPlatfromController extends controller{
+class OpenPlatformController extends controller{
 
   public function mini(string $appid): \EasyWeChat\MiniApp\Application {
     $refreshToken = '授权后在缓存或数据库获取';
