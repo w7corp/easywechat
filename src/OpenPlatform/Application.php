@@ -246,19 +246,7 @@ class Application implements ApplicationInterface
      */
     public function getOfficialAccountWithRefreshToken(string $appId, string $refreshToken, array $config = []): OfficialAccountApplication
     {
-        $cacheKey = "open-platform.authorizer_access_token.{$appId}";
-
-        /** @phpstan-ignore-next-line */
-        $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
-
-        if (!$authorizerAccessToken) {
-            $response = $this->refreshAuthorizerToken($appId, $refreshToken);
-            $authorizerAccessToken = $response['authorizer_access_token'];
-            $this->getCache()->set($cacheKey, $authorizerAccessToken, intval($response['expires_in'] ?? 7200) - 500);
-        }
-
-        /** @phpstan-ignore-next-line */
-        return $this->getOfficialAccountWithAccessToken($appId, $authorizerAccessToken, $config);
+        return $this->getOfficialAccountWithAccessToken($appId, $this->getAuthorizerAccessToken($appId, $refreshToken), $config);
     }
 
     /**
@@ -294,6 +282,29 @@ class Application implements ApplicationInterface
         $app->setOAuthFactory($this->createAuthorizerOAuthFactory($authorizerAccessToken->getAppId(), $config));
 
         return $app;
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getMiniAppWithRefreshToken(string $appId, string $refreshToken, array $config = []): MiniAppApplication
+    {
+        return $this->getMiniAppWithAccessToken($appId, $this->getAuthorizerAccessToken($appId, $refreshToken), $config);
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     */
+    public function getMiniAppWithAccessToken(string $appId, string $accessToken, array $config = []): MiniAppApplication
+    {
+        return $this->getMiniApp(new AuthorizerAccessToken($appId, $accessToken), $config);
     }
 
     /**
@@ -343,6 +354,31 @@ class Application implements ApplicationInterface
             accessToken: $this->getComponentAccessToken(),
             failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0)
         );
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function getAuthorizerAccessToken(string $appId, string $refreshToken): string
+    {
+        $cacheKey = "open-platform.authorizer_access_token.{$appId}";
+
+        /** @phpstan-ignore-next-line */
+        $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
+
+        if (!$authorizerAccessToken) {
+            $response = $this->refreshAuthorizerToken($appId, $refreshToken);
+            $authorizerAccessToken = (string) $response['authorizer_access_token']; // @phpstan-ignore-line
+            $this->getCache()->set($cacheKey, $authorizerAccessToken, intval($response['expires_in'] ?? 7200) - 500);
+        }
+
+        return $authorizerAccessToken;
     }
 
     /**
