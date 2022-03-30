@@ -156,7 +156,7 @@ $response = $api->post('cgi-bin/media/upload?type=image', $options);
 
 API Client 基于 [symfony/http-client](https://github.com/symfony/http-client) 实现，你可以通过以下方式对响应值进行访问：
 
-### 异常处理 <version>6.3.0+</version>
+### 异常处理 <version-tag>6.3.0+</version-tag>
 
 当请求失败，例如状态码不为 200 时，默认访问响应内容都会抛出异常：
 
