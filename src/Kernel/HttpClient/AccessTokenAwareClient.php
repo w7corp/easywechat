@@ -23,7 +23,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
         ?HttpClientInterface $client = null,
         protected ?AccessTokenInterface $accessToken = null,
         protected ?\Closure $failureJudge = null,
-        protected ?bool $throw = true
+        protected bool $throw = true
     ) {
         $this->client = $client ?? HttpClient::create();
     }
