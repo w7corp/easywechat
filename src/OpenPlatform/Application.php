@@ -229,7 +229,7 @@ class Application implements ApplicationInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      */
-    public function createPreAuthorizationCode(): array 
+    public function createPreAuthorizationCode(): array
     {
         $response = $this->getClient()->request(
             'POST',
@@ -244,16 +244,17 @@ class Application implements ApplicationInterface
         if (empty($response['pre_auth_code'])) {
             throw new HttpException('Failed to get authorizer_access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
-        
+
         return $response;
     }
 
     /**
-     * @param  string             $callbackUrl
-     * @param  string|array|null  $optional
-     *
-     * @return string
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      */
     public function createPreAuthorizationUrl(string $callbackUrl, array|string $optional = []): string
     {

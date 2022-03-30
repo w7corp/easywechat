@@ -141,11 +141,36 @@ $authorization->toJson();
 
 ```
 
+## 创建预授权码
+
+你可以通过下面的方式创建预授权码：
+
+```php
+$reponse = $app->createPreAuthorizationCode();
+// {
+//   "pre_auth_code": "Cx_Dk6qiBE0Dmx4eKM-2SuzA...",
+//   "expires_in": 600
+// }
+```
+
+## 生成授权页地址
+
+你可以通过下面方法生成一个授权页地址，引导用户进行授权：
+
+```php
+// 自动获取预授权码模式
+$url = $app->createPreAuthorizationUrl('http://easywechat.com/callback');
+
+// 或者指定预授权码
+$preAuthCode = 'createPreAuthorizationCode 得到的预授权码 pre_auth_code';
+$url = $app->createPreAuthorizationUrl('http://easywechat.com/callback', $preAuthCode);
+```
+
 ## 获取/刷新接口调用令牌
 
 在公众号/小程序接口调用令牌 `authorizer_access_token` 失效时，可以使用刷新令牌 `authorizer_refresh_token` 获取新的接口调用令牌。
 
-> authorizer_access_token`有效期为 2 小时，开发者需要缓存 `authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。
+> `authorizer_access_token` 有效期为 2 小时，开发者需要缓存 `authorizer_access_token`，避免获取/刷新接口调用令牌的 API 调用触发每日限额。
 
 ```php
 $authorizerAppId = '授权方 appid';
@@ -164,7 +189,7 @@ $app->refreshAuthorizerToken($authorizerAppId, $authorizerRefreshToken)
 
 ## 代替公众号/小程序请求 API
 
-代替公众号/小程序请求，需要首先拿到 `EasyWeChat\OpenPlatform\AuthorizerAccessToken`，用以代替公众号的 Access Token，官方流程说明：[开发前必读 /Token生成介绍](https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/creat_token.html) 。
+代替公众号/小程序请求，需要首先拿到 `EasyWeChat\OpenPlatform\AuthorizerAccessToken`，用以代替公众号的 Access Token，官方流程说明：[开发前必读 /Token 生成介绍](https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/creat_token.html) 。
 
 ### 获取 AuthorizerAccessToken
 
@@ -178,19 +203,37 @@ $authorizerAccessToken = $authorization->getAccessToken();
 
 > 🚨 Authorizer Access Token 只有 2 小时有效期，不建议将它存储到数据库，当然如果你不得不这么做，请记得参考上面 「**获取/刷新接口调用令牌**」章节刷新。
 
-如果想要使用缓存的 `authorizer_access_token`，那么你也可以从缓存中取出它来初始化一个 AuthorizerAccessToken： 
-
-```php
-use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
-
-// $token 为你存到数据库的授权码 authorizer_access_token
-$authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
-```
-
 ### 代公众号调用
 
+**方式一：使用 authorizer_refresh_token**
+
+此方式适用于大部分场景，将授权信息存储到数据库中，代替调用时去除对应公众号的 authorizer_refresh_token 即可。
+
 ```php
+$authorizerRefreshToken = '刷新令牌，公众号授权时得到的 authorizer_refresh_token';
+$officialAccount = $app->getOfficialAccountWithRefreshToken($appId, $authorizerRefreshToken);
+```
+
+**方式二：使用 authorizer_access_token**
+
+此方案适用于使用独立的中央授权服务单独维护授权信息的方式。
+
+```php
+$authorizerAccessToken = '刷新令牌，公众号授权时得到的 authorizer_access_token';
+$officialAccount = $app->getOfficialAccountWithAccessToken($appId, $authorizerAccessToken);
+```
+
+**方式三：使用 AuthorizerAccessToken 类**
+
+不推荐，请使用方式一或者二，此方法由于设计之初没有充分考虑到使用场景，导致使用很麻烦。
+
+```php
+// $token 为你存到数据库的授权码 authorizer_access_token
+$authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
 $officialAccount = $app->getOfficialAccount($authorizerAccessToken);
+
+
+使用以上方式初始化公众号对象后，可以直接调用公众号的 API 方法，如：
 
 // 调用公众号接口
 $response = $officialAccount->getClient()->get('cgi-bin/users/list');
@@ -202,7 +245,20 @@ $response = $officialAccount->getClient()->get('cgi-bin/users/list');
 
 ### 代小程序调用
 
+小程序和公众号使用方式一样，同样有三种方式：
+
 ```php
+// 方式一：使用 authorizer_refresh_token
+$authorizerRefreshToken = '刷新令牌，公众号授权时得到的 authorizer_refresh_token';
+$officialAccount = $app->getOfficialAccountWithRefreshToken($appId, $authorizerRefreshToken);
+
+// 方式二：使用 authorizer_access_token
+$authorizerAccessToken = '刷新令牌，公众号授权时得到的 authorizer_access_token';
+$officialAccount = $app->getOfficialAccountWithAccessToken($appId, $authorizerAccessToken);
+
+// 方式三：不推荐
+// $token 为你存到数据库的授权码 authorizer_access_token
+$authorizerAccessToken = new AuthorizerAccessToken($authorizerAppId, $token);
 $miniApp = $app->getMiniApp($authorizerAccessToken);
 
 // 调用小程序接口
