@@ -10,6 +10,7 @@ use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\HttpClient\Response;
+use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -218,6 +219,66 @@ class Application implements ApplicationInterface
         }
 
         return $response;
+    }
+
+    /**
+     * Create pre-authorization code.
+     *
+     * @return Array
+     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
+    public function createPreAuthorizationCode()
+    {
+        $response = $this->createClient()->request(
+            'POST',
+            'cgi-bin/component/api_create_preauthcode',
+            [
+                'json' => [
+                    'component_appid' => $this->getAccount()->getAppId(),
+                ],
+            ]
+        )->toArray(false);
+
+        if (empty($response['pre_auth_code'])) {
+            throw new HttpException('Failed to get authorizer_access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
+        }
+        return $response;
+    }
+
+    /**
+     * Return the pre-authorization login page url.
+     *
+     * @param  string             $callbackUrl
+     * @param  string|array|null  $optional
+     *
+     * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function getPreAuthorizationUrl(string $callbackUrl, $optional = []): string
+    {
+        // 兼容旧版 API 设计
+        if (\is_string($optional)) {
+            $optional = [
+                'pre_auth_code' => $optional,
+            ];
+        } else {
+            $optional['pre_auth_code'] = Arr::get($this->createPreAuthorizationCode(), 'pre_auth_code');
+        }
+
+        $queries = \array_merge(
+            $optional,
+            [
+                'component_appid' => $this->getAccount()->getAppId(),
+                'redirect_uri' => $callbackUrl,
+            ]
+        );
+
+        return 'https://mp.weixin.qq.com/cgi-bin/componentloginpage?'.http_build_query($queries);
     }
 
     /**
