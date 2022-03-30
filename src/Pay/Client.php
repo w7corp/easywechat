@@ -61,12 +61,13 @@ class Client implements HttpClientInterface
      */
     public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, array $defaultOptions = [])
     {
-        $this->defaultOptions = array_merge(self::OPTIONS_DEFAULTS, $this->defaultOptions);
-
         $this->throw = !!($defaultOptions['throw'] ?? true);
 
+        $this->defaultOptions = array_merge(self::OPTIONS_DEFAULTS, $this->defaultOptions);
+
         if (!empty($defaultOptions)) {
-            [, $this->defaultOptions] = self::prepareRequest(null, null, RequestUtil::formatDefaultOptions($defaultOptions), $this->defaultOptions);
+            $defaultOptions = RequestUtil::formatDefaultOptions($this->defaultOptions);
+            [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
         }
 
         $this->client = ($client ?? SymfonyHttpClient::create())->withOptions($this->defaultOptions);
