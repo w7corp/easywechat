@@ -25,7 +25,7 @@ class Utils
         'signType' => "string",
         'paySign' => "string",
     ])]
-    public function buildBridgeConfig(string $prepayId, string $appId, string $signType='RSA'): array
+    public function buildBridgeConfig(string $prepayId, string $appId, string $signType = 'RSA'): array
     {
         $params = [
             'appId' => $appId,
