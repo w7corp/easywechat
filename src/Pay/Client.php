@@ -62,7 +62,7 @@ class Client implements HttpClientInterface
     {
         $this->defaultOptions = array_merge(self::OPTIONS_DEFAULTS, $this->defaultOptions);
 
-        $this->throw = $defaultOptions['throw'] ?? true;
+        $this->throw = !!($defaultOptions['throw'] ?? true);
 
         if (!empty($defaultOptions)) {
             [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
