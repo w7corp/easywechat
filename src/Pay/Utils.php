@@ -42,6 +42,11 @@ class Utils
 
         $params['paySign'] = $this->createSignature($message);
 
+        if ($signType != 'RSA') {
+            $signMethod = $this->get_encrypt_method($signType, $this->merchant->getV2SecretKey());
+            $params['paySign'] = $this->generate_sign($params, $this->merchant->getV2SecretKey(), $signMethod);
+        }
+
         return $params;
     }
 
@@ -126,5 +131,40 @@ class Utils
         \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
         return \base64_encode($signature);
+    }
+
+    /**
+     * Generate a signature.
+     *
+     * @param array  $attributes
+     * @param string $key
+     * @param string $encryptMethod
+     *
+     * @return string
+     */
+    public function generate_sign(array $attributes, string $key, $encryptMethod = 'md5'): string
+    {
+        ksort($attributes);
+
+        $attributes['key'] = $key;
+
+        return strtoupper(call_user_func_array($encryptMethod, [urldecode(http_build_query($attributes))]));
+    }
+
+    /**
+     * @param string $signType
+     * @param string $secretKey
+     *
+     * @return \Closure|string
+     */
+    public function get_encrypt_method(string $signType, string $secretKey = ''): \Closure | string
+    {
+        if ('HMAC-SHA256' === $signType) {
+            return function ($str) use ($secretKey) {
+                return hash_hmac('sha256', $str, $secretKey);
+            };
+        }
+
+        return 'md5';
     }
 }
