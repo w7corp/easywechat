@@ -41,10 +41,9 @@ class Utils
                    $params['nonceStr'] . "\n" .
                    $params['package'] . "\n";
 
-
         // v2
         if ($signType != 'RSA') {
-            $params = $this->createV2Signature($signType, $params);
+            $params['paySign'] = $this->createV2Signature($params);
         } else {
             // v3
             $params['paySign'] = $this->createSignature($message);
@@ -139,7 +138,7 @@ class Utils
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function createV2Signature(string $signType, array $params): array
+    public function createV2Signature(array $params): string
     {
         $method = 'md5';
         $secretKey = $this->merchant->getV2SecretKey();
@@ -148,7 +147,7 @@ class Utils
             throw new InvalidConfigException('Missing v2 secret key.');
         }
 
-        if ('HMAC-SHA256' === $signType) {
+        if ('HMAC-SHA256' === $params['signType']) {
             $method = function ($str) use ($secretKey) {
                 return hash_hmac('sha256', $str, $secretKey);
             };
@@ -157,9 +156,8 @@ class Utils
         ksort($params);
 
         $params['key'] = $secretKey;
-        // @phpstan-ignore-next-line
-        $params['paySign'] = \strtoupper((string) \call_user_func_array($method, [\urldecode(\http_build_query($params))]));
 
-        return $params;
+        // @phpstan-ignore-next-line
+        return \strtoupper((string) \call_user_func_array($method, [\urldecode(\http_build_query($params))]));
     }
 }
