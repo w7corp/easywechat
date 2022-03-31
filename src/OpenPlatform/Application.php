@@ -426,7 +426,7 @@ class Application implements ApplicationInterface
      */
     public function getAuthorizerAccessToken(string $appId, string $refreshToken): string
     {
-        $cacheKey = "open-platform.authorizer_access_token.{$appId}";
+        $cacheKey = "open-platform.authorizer_access_token.{$appId}.{$refreshToken}";
 
         /** @phpstan-ignore-next-line */
         $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
