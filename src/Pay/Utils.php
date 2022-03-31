@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use JetBrains\PhpStorm\ArrayShape;
@@ -36,11 +37,17 @@ class Utils
         ];
 
         $message = $params['appId'] . "\n" .
-            $params['timeStamp'] . "\n" .
-            $params['nonceStr'] . "\n" .
-            $params['package'] . "\n";
+                   $params['timeStamp'] . "\n" .
+                   $params['nonceStr'] . "\n" .
+                   $params['package'] . "\n";
 
-        $params['paySign'] = $this->createSignature($message);
+        // v2
+        if ($signType != 'RSA') {
+            $params['paySign'] = $this->createV2Signature($params);
+        } else {
+            // v3
+            $params['paySign'] = $this->createSignature($message);
+        }
 
         return $params;
     }
@@ -112,9 +119,9 @@ class Utils
         ];
 
         $message = $params['appid'] . "\n" .
-            $params['timestamp'] . "\n" .
-            $params['noncestr'] . "\n" .
-            $params['prepayid'] . "\n";
+                   $params['timestamp'] . "\n" .
+                   $params['noncestr'] . "\n" .
+                   $params['prepayid'] . "\n";
 
         $params['sign'] = $this->createSignature($message);
 
@@ -126,5 +133,31 @@ class Utils
         \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
         return \base64_encode($signature);
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function createV2Signature(array $params): string
+    {
+        $method = 'md5';
+        $secretKey = $this->merchant->getV2SecretKey();
+
+        if (empty($secretKey)) {
+            throw new InvalidConfigException('Missing v2 secret key.');
+        }
+
+        if ('HMAC-SHA256' === $params['signType']) {
+            $method = function ($str) use ($secretKey) {
+                return hash_hmac('sha256', $str, $secretKey);
+            };
+        }
+
+        ksort($params);
+
+        $params['key'] = $secretKey;
+
+        // @phpstan-ignore-next-line
+        return \strtoupper((string) \call_user_func_array($method, [\urldecode(\http_build_query($params))]));
     }
 }
