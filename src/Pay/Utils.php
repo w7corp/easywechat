@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use JetBrains\PhpStorm\ArrayShape;
@@ -36,15 +37,17 @@ class Utils
         ];
 
         $message = $params['appId'] . "\n" .
-            $params['timeStamp'] . "\n" .
-            $params['nonceStr'] . "\n" .
-            $params['package'] . "\n";
+                   $params['timeStamp'] . "\n" .
+                   $params['nonceStr'] . "\n" .
+                   $params['package'] . "\n";
 
-        $params['paySign'] = $this->createSignature($message);
 
+        // v2
         if ($signType != 'RSA') {
-            $signMethod = $this->get_encrypt_method($signType, $this->merchant->getV2SecretKey());
-            $params['paySign'] = $this->generate_sign($params, $this->merchant->getV2SecretKey(), $signMethod);
+            $params = $this->createV2Signature($signType, $params);
+        } else {
+            // v3
+            $params['paySign'] = $this->createSignature($message);
         }
 
         return $params;
@@ -117,9 +120,9 @@ class Utils
         ];
 
         $message = $params['appid'] . "\n" .
-            $params['timestamp'] . "\n" .
-            $params['noncestr'] . "\n" .
-            $params['prepayid'] . "\n";
+                   $params['timestamp'] . "\n" .
+                   $params['noncestr'] . "\n" .
+                   $params['prepayid'] . "\n";
 
         $params['sign'] = $this->createSignature($message);
 
@@ -134,37 +137,29 @@ class Utils
     }
 
     /**
-     * Generate a signature.
-     *
-     * @param array  $attributes
-     * @param string $key
-     * @param string $encryptMethod
-     *
-     * @return string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function generate_sign(array $attributes, string $key, $encryptMethod = 'md5'): string
+    public function createV2Signature(string $signType, array $params): array
     {
-        ksort($attributes);
+        $method = 'md5';
+        $secretKey = $this->merchant->getV2SecretKey();
 
-        $attributes['key'] = $key;
+        if (empty($secretKey)) {
+            throw new InvalidConfigException('Missing v2 secret key.');
+        }
 
-        return strtoupper(call_user_func_array($encryptMethod, [urldecode(http_build_query($attributes))]));
-    }
-
-    /**
-     * @param string $signType
-     * @param string $secretKey
-     *
-     * @return \Closure|string
-     */
-    public function get_encrypt_method(string $signType, string $secretKey = ''): \Closure | string
-    {
         if ('HMAC-SHA256' === $signType) {
-            return function ($str) use ($secretKey) {
+            $method = function ($str) use ($secretKey) {
                 return hash_hmac('sha256', $str, $secretKey);
             };
         }
 
-        return 'md5';
+        ksort($params);
+
+        $params['key'] = $secretKey;
+        // @phpstan-ignore-next-line
+        $params['paySign'] = \strtoupper((string) \call_user_func_array($method, [\urldecode(\http_build_query($params))]));
+
+        return $params;
     }
 }
