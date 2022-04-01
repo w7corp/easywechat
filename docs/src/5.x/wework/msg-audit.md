@@ -4,6 +4,11 @@
 > 原文: https://work.weixin.qq.com/api/doc/90000/90135/91614
 
 
+### 会话存档相关SDK
+
+- [wework-msgaudit](https://github.com/aa24615/wework-msgaudit)
+
+
 ### 获取会话内容存档开启成员列表
 ```php
 $type = 1;
