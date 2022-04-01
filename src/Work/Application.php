@@ -39,6 +39,8 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\ExternalContact\GroupChatWayClient    $group_chat_way
  * @property \EasyWeChat\Work\ExternalContact\StatisticsClient      $external_contact_statistics
  * @property \EasyWeChat\Work\ExternalContact\MessageClient         $external_contact_message
+ * @property \EasyWeChat\Work\ExternalContact\InterceptClient       $intercept
+ * @property \EasyWeChat\Work\ExternalContact\ProductClient         $product
  * @property \EasyWeChat\Work\GroupRobot\Client                     $group_robot
  * @property \EasyWeChat\Work\GroupRobot\Messenger                  $group_robot_messenger
  * @property \EasyWeChat\Work\Calendar\Client                       $calendar
