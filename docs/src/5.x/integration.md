@@ -18,7 +18,8 @@ EasyWeChat 是一个通用的 Composer 包，所以不需要对框架单独做�
 
 ## ThinkPHP
 
->  - [naixiaoxin/think-wechat](https://github.com/qiqizjl/think-wechat)
+>  - [naixiaoxin/think-wechat](https://github.com/qiqizjl/think-wechat) 适用于 EasyWeChat 4.x
+>  - [zyan/think-wechat](https://github.com/aa24615/think-wechat) 适用于 EasyWeChat 4.x/5.x
 
 ## CI
 

@@ -165,6 +165,8 @@ exports = module.exports = [
       { text: '通讯录', link: '/5.x/wework/contacts.html' },
       { text: '网页授权', link: '/5.x/wework/oauth.html' },
       { text: '客户联系', link: '/5.x/wework/external-contact.html' },
+      { text: '产品图册', link: '/5.x/wework/product.html' },
+      { text: '聊天敏感词', link: '/5.x/wework/intercept.html' },
       { text: '微信客服', link: '/5.x/wework/kf.html' },
       { text: '自定义菜单', link: '/5.x/wework/menu.html' },
       { text: '素材管理', link: '/5.x/wework/media.html' },
