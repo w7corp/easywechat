@@ -173,18 +173,18 @@ $config = [
     'throw' => false,
     //...
   ],
-  ]
 ];
 ```
 
 这样，你就可以在调用 API 时，自己处理异常：
 
 ```php
-$response = $api->get('/cgi-bin/user/get', [
+$options = [
     'query' => [
         'openid' => 'oDF3iY9ffA-hqb2vVvbr7qxf6A0Q',
     ]
-]);
+];
+$response = $api->get('/cgi-bin/user/get', $options);
 
 if ($response->isFailed()) {
     // 出错了，处理异常
@@ -193,6 +193,17 @@ if ($response->isFailed()) {
 return $response;
 ```
 
+或者不改变默认配置的情况下，在调用请求时单独设置`throw(false)`，若该请求失败，也可以自己处理异常。
+```php
+// $options 同上文，这里省略
+$response = $api->get('/cgi-bin/user/get', $options)->throw(false);
+
+if ($response->isFailed()) {
+    // 出错了，处理异常
+}
+
+return $response;
+```
 ### 数组式访问
 
 EasyWeChat 增强了 API 响应对象，比如增加了数组式访问，你可以不用每次 `toArray` 后再取值，更加便捷美观：
