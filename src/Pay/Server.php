@@ -38,7 +38,7 @@ class Server implements ServerInterface
      */
     public function serve(): ResponseInterface
     {
-        $message = $this->getMessageFromRequest();
+        $message = $this->getRequestMessage();
 
         try {
             $defaultResponse = new Response(200, [], \strval(\json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)));
@@ -93,9 +93,9 @@ class Server implements ServerInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function getMessageFromRequest(): Message
+    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
-        $originContent = $this->request->getBody()->getContents();
+        $originContent = ($request ?? $this->request)->getBody()->getContents();
         $attributes = \json_decode($originContent, true);
 
         if (!\is_array($attributes)) {
