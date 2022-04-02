@@ -87,9 +87,8 @@ $app->server->push(OtherHandler::class);
 $app->server->push(...);
 ```
 
->
-    1. 最后一个非空返回值将作为最终应答给用户的消息内容，如果中间某一个 handler 返回值 false, 则将终止整个调用链，不会调用后续的 handlers。
-    2. 传入的自定义 Handler 类需要实现 `\EasyWeChat\Kernel\Contracts\EventHandlerInterface`。
+1. 最后一个非空返回值将作为最终应答给用户的消息内容，如果中间某一个 handler 返回值 false, 则将终止整个调用链，不会调用后续的 handlers。
+2. 传入的自定义 Handler 类需要实现 `\EasyWeChat\Kernel\Contracts\EventHandlerInterface`。
 
 ## 注册指定消息类型的消息处理器
 
