@@ -115,7 +115,9 @@ wx.chooseWXPay({
 
 # 二维码生成工具推荐
 
-你也许需要生成二维码，那么以下这些供参考：
+> :heart: 建议由前端生成二维码
+
+确实需要用PHP生成二维码，那么以下这些供参考：
 
 - [endroid/QrCode](https://github.com/endroid/QrCode)
 - [Bacon/BaconQrCode](https://github.com/Bacon/BaconQrCode)
