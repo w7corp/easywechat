@@ -39,7 +39,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
      * @param array<string, mixed> $options
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    public function request(string $method, string $url, array $options = []): \Symfony\Contracts\HttpClient\ResponseInterface
+    public function request(string $method, string $url, array $options = []): Response
     {
         if ($this->accessToken) {
             $options['query'] = \array_merge((array) ($options['query'] ?? []), $this->accessToken->toQuery());
