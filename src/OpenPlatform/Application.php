@@ -192,13 +192,13 @@ class Application implements ApplicationInterface
     }
 
     /**
-     * @return array<string, mixed>
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
     public function refreshAuthorizerToken(string $authorizerAppId, string $authorizerRefreshToken): array
     {
@@ -423,6 +423,7 @@ class Application implements ApplicationInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
     public function getAuthorizerAccessToken(string $appId, string $refreshToken): string
     {
@@ -433,7 +434,7 @@ class Application implements ApplicationInterface
 
         if (!$authorizerAccessToken) {
             $response = $this->refreshAuthorizerToken($appId, $refreshToken);
-            $authorizerAccessToken = (string) $response['authorizer_access_token']; // @phpstan-ignore-line
+            $authorizerAccessToken = (string) $response['authorizer_access_token'];
             $this->getCache()->set($cacheKey, $authorizerAccessToken, intval($response['expires_in'] ?? 7200) - 500);
         }
 
