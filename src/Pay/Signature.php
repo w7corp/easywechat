@@ -22,6 +22,10 @@ class Signature
     public function createHeader(string $method, string $url, array $options): string
     {
         $uri = new Uri($url);
+
+        \parse_str($uri->getQuery(), $query);
+        $uri = $uri->withQuery(\http_build_query(array_merge($query, (array) $options['query'])));
+
         $body = '';
         $query = $uri->getQuery();
         $timestamp = \time();
