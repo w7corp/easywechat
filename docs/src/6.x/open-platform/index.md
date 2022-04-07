@@ -272,12 +272,12 @@ $response = $officialAccount->getClient()->get('cgi-bin/users/list');
 
 ```php
 // 方式一：使用 authorizer_refresh_token
-$authorizerRefreshToken = '公众号授权时得到的 authorizer_refresh_token';
-$officialAccount = $app->getOfficialAccountWithRefreshToken($appId, $authorizerRefreshToken);
+$authorizerRefreshToken = '小程序授权时得到的 authorizer_refresh_token';
+$officialAccount = $app->getMiniAppWithRefreshToken($appId, $authorizerRefreshToken);
 
 // 方式二：使用 authorizer_access_token
-$authorizerAccessToken = '公众号授权时得到的 authorizer_access_token';
-$officialAccount = $app->getOfficialAccountWithAccessToken($appId, $authorizerAccessToken);
+$authorizerAccessToken = '小程序授权时得到的 authorizer_access_token';
+$officialAccount = $app->getMiniAppWithAccessToken($appId, $authorizerAccessToken);
 
 // 方式三：不推荐
 // $token 为你存到数据库的授权码 authorizer_access_token
