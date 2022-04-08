@@ -45,14 +45,26 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
         return $this;
     }
 
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
     public function isSuccessful(): bool
     {
         return !$this->isFailed();
     }
 
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
     public function isFailed(): bool
     {
-        if ($this->failureJudge) {
+        if ($this->is('text') && $this->failureJudge) {
             return (bool) ($this->failureJudge)($this);
         }
 
@@ -258,5 +270,29 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     public function toDataUrl(): string
     {
         return 'data:'.$this->getHeaderLine('Content-Type').';base64,'.\base64_encode($this->getContent());
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     */
+    public function is(string $type): bool
+    {
+        $contentType = $this->getHeaderLine('Content-Type');
+
+        return match (\strtolower($type)) {
+            'json' => \str_contains($contentType, '/json') !== false,
+            'xml' => \str_contains($contentType, '/xml') !== false,
+            'html' => \str_contains($contentType, '/html') !== false,
+            'image' => \str_contains($contentType, 'image/') !== false,
+            'audio' => \str_contains($contentType, 'audio/') !== false,
+            'video' => \str_contains($contentType, 'video/') !== false,
+            'text' => \str_contains($contentType, 'text/') !== false
+                      || \str_contains($contentType, '/json') !== false
+                      || \str_contains($contentType, '/xml') !== false,
+            default => false,
+        };
     }
 }

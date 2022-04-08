@@ -127,6 +127,7 @@ class ResponseTest extends TestCase
         // from http code 200
         $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
             $mock->shouldReceive('getStatusCode')->andReturns(200)->times(2);
+            $mock->shouldReceive('getHeaders')->andReturns(['Content-Type' => ['application/json;encoding=utf-8']]);
         });
 
         $response = (new Response($response));
@@ -136,6 +137,7 @@ class ResponseTest extends TestCase
 
         // from http code 400
         $response = \Mockery::mock(ResponseInterface::class, function ($mock) {
+            $mock->shouldReceive('getHeaders')->andReturns(['Content-Type' => ['application/json;encoding=utf-8']]);
             $mock->shouldReceive('getStatusCode')->andReturns(400)->times(2);
         });
 
