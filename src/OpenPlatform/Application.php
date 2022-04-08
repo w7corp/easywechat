@@ -170,6 +170,7 @@ class Application implements ApplicationInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
     public function getAuthorization(string $authorizationCode): Authorization
     {
@@ -228,6 +229,7 @@ class Application implements ApplicationInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
     public function createPreAuthorizationCode(): array
     {
@@ -301,6 +303,7 @@ class Application implements ApplicationInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
     public function getOfficialAccountWithRefreshToken(string $appId, string $refreshToken, array $config = []): OfficialAccountApplication
     {
@@ -351,6 +354,7 @@ class Application implements ApplicationInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
      */
     public function getMiniAppWithRefreshToken(string $appId, string $refreshToken, array $config = []): MiniAppApplication
     {
@@ -427,7 +431,7 @@ class Application implements ApplicationInterface
      */
     public function getAuthorizerAccessToken(string $appId, string $refreshToken): string
     {
-        $cacheKey = "open-platform.authorizer_access_token.{$appId}.{$refreshToken}";
+        $cacheKey = \sprintf('open-platform.authorizer_access_token.%s.%s', $appId, \md5($refreshToken));
 
         /** @phpstan-ignore-next-line */
         $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
