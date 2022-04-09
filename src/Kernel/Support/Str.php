@@ -23,4 +23,9 @@ class Str
 
         return $string;
     }
+
+    public static function snakeCase(string $string): string
+    {
+        return \trim(\strtolower((string) \preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', $string)), '_');
+    }
 }

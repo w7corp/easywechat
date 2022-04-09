@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
-use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -27,29 +27,29 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getMerchant(): Merchant
+    public function getUtils(): Utils
     {
-        if (!$this->merchant) {
-            $this->merchant = new Merchant(
-                mchId: $this->config['mch_id'], /** @phpstan-ignore-line */
-                privateKey: new PrivateKey((string) $this->config['private_key']),  /** @phpstan-ignore-line */
-                certificate: new PublicKey((string) $this->config['certificate']),  /** @phpstan-ignore-line */
-                secretKey: (string) $this->config['secret_key'],    /** @phpstan-ignore-line */
-                v2SecretKey: (string) $this->config['v2_secret_key'],   /** @phpstan-ignore-line */
-                platformCerts: $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [], /** @phpstan-ignore-line */
-            );
-        }
-
-        return $this->merchant;
+        return new Utils($this->getMerchant());
     }
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getUtils(): Utils
+    public function getMerchant(): Merchant
     {
-        return new Utils($this->getMerchant());
+        if (!$this->merchant) {
+            $this->merchant = new Merchant(
+                mchId: $this->config['mch_id'], /** @phpstan-ignore-line */
+                privateKey: new PrivateKey((string) $this->config['private_key']), /** @phpstan-ignore-line */
+                certificate: new PublicKey((string) $this->config['certificate']), /** @phpstan-ignore-line */
+                secretKey: (string) $this->config['secret_key'], /** @phpstan-ignore-line */
+                v2SecretKey: (string) $this->config['v2_secret_key'], /** @phpstan-ignore-line */
+                platformCerts: $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [],/** @phpstan-ignore-line */
+            );
+        }
+
+        return $this->merchant;
     }
 
     /**
@@ -94,7 +94,11 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
      */
     public function getClient(): HttpClientInterface
     {
-        return $this->client ?? $this->client = new Client($this->getMerchant(), $this->getHttpClient(), (array) $this->config->get('http', []));
+        return $this->client ?? $this->client = (new Client(
+            $this->getMerchant(),
+            $this->getHttpClient(),
+            (array) $this->config->get('http', [])
+        ))->setPresets($this->config->all());
     }
 
     public function setClient(HttpClientInterface $client): static

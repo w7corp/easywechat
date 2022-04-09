@@ -6,6 +6,7 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\HttpClient\HttpClientMethods;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
+use EasyWeChat\Kernel\HttpClient\RequestWithPresets;
 use EasyWeChat\Kernel\HttpClient\Response;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
@@ -35,6 +36,7 @@ class Client implements HttpClientInterface
     use HttpClientTrait;
     use HttpClientMethods;
     use MockableHttpClient;
+    use RequestWithPresets;
 
     /**
      * @var array<string, mixed>

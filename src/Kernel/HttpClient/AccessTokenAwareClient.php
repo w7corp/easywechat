@@ -18,6 +18,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
     use HttpClientMethods;
     use RetryableClient;
     use MockableHttpClient;
+    use RequestWithPresets;
 
     public function __construct(
         ?HttpClientInterface $client = null,
@@ -45,7 +46,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
             $options['query'] = \array_merge((array) ($options['query'] ?? []), $this->accessToken->toQuery());
         }
 
-        $options = RequestUtil::formatBody($options);
+        $options = RequestUtil::formatBody($this->mergeThenResetPrepends($options));
 
         return new Response(
             response: $this->client->request($method, ltrim($url, '/'), $options),

@@ -91,7 +91,7 @@ class RequestUtil
     public static function formatBody(array $options): array
     {
         if (isset($options['xml'])) {
-            if (is_array($options['xml'])) {
+            if (\is_array($options['xml'])) {
                 $options['xml'] = Xml::build($options['xml']);
             }
 

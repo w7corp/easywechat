@@ -153,12 +153,12 @@ class Application implements ApplicationInterface
             $httpClient = new RetryableHttpClient($httpClient, $this->getRetryStrategy(), (int) $this->config->get('http.max_retries', 2));
         }
 
-        return new AccessTokenAwareClient(
+        return (new AccessTokenAwareClient(
             client: $httpClient,
             accessToken: $this->getAccessToken(),
-            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0) || !\is_null($response->toArray()['error'] ?? null),
+            failureJudge: fn (Response $response) => dd($response->toArray()),
             throw: !!$this->config->get('http.throw', true),
-        );
+        ))->setPresets($this->config->all());
     }
 
     public function getRetryStrategy(): AccessTokenExpiredRetryStrategy
