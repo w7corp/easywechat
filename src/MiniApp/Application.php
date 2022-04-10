@@ -156,7 +156,7 @@ class Application implements ApplicationInterface
         return (new AccessTokenAwareClient(
             client: $httpClient,
             accessToken: $this->getAccessToken(),
-            failureJudge: fn (Response $response) => dd($response->toArray()),
+            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0) || !\is_null($response->toArray()['error'] ?? null),
             throw: !!$this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
     }
