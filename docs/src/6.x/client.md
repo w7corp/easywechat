@@ -40,17 +40,15 @@ delete(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseI
 
 ```php
 $response = $api->get('/cgi-bin/user/list'， [
-    'query' => [
-            'next_openid' => 'OPENID1',
-        ]
-    ]);
+    'next_openid' => 'OPENID1',
+]);
 ```
 
 ### POST
 
 ```php
 $response = $api->post('/cgi-bin/user/info/updateremark', [
-    'body' => json_encode([
+    'body' => \json_encode([
             "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
             "remark" => "pangzi"
         ])
@@ -61,36 +59,24 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
 
 ```php
 $response = $api->postJson('/cgi-bin/user/info/updateremark', [
-        "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
-        "remark" => "pangzi"
-    ]);
-```
-
-或者指定 json 格式：
-
-```php
-$response = $api->post('/cgi-bin/user/info/updateremark', [
-    'json' => [
-            "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
-            "remark" => "pangzi"
-        ]
-    ]);
+    "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
+    "remark" => "pangzi"
+]);
 ```
 
 或者指定 xml 格式：
 
 ```php
-$response = $api->post('/mmpaymkttransfers/promotion/transfers', [
-    'xml' => [
-        'mch_appid' => $app->getConfig()['app_id'],
-        'mchid' => $app->getConfig()['mch_id'],
-        'partner_trade_no' => '202203081646729819743',
-        'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx',
-        'check_name' => 'FORCE_CHECK',
-        're_user_name'=> 'overtrue',
-        'amount' => 100,
-        'desc' => '理赔',
-    ]]);
+$response = $api->postXml('/mmpaymkttransfers/promotion/transfers', [
+    'mch_appid' => $app->getConfig()['app_id'],
+    'mchid' => $app->getConfig()['mch_id'],
+    'partner_trade_no' => '202203081646729819743',
+    'openid' => 'ogn1H45HCRxVRiEMLbLLuABbxxxx',
+    'check_name' => 'FORCE_CHECK',
+    're_user_name'=> 'overtrue',
+    'amount' => 100,
+    'desc' => '理赔',
+ ]);
 ```
 
 ### 请求证书
@@ -148,6 +134,63 @@ $options = Form::create(
 )->toArray();
 
 $response = $api->post('cgi-bin/media/upload?type=image', $options);
+```
+
+#### 简化写法 <version-tag>6.4.0+</version-tag>
+
+上面的两种传法都可以简写为下面的方式：
+
+```php
+// withFile(string $localPath, string $formName = 'file', string $filename = null)
+$media = $client->withFile($path, 'media')->post('cgi-bin/media/upload?type=image');
+
+// withFileContents(string $contents, string $formName = 'file', string $filename = null)
+$media = $client->withFileContents($contents, 'media', 'filename.png')->post('cgi-bin/media/upload?type=image');
+```
+
+## 预置参数的传递 <version-tag>6.4.0+</version-tag>
+
+在调用 API 的时候难免有的需要传递账号的一些信息，尤其是支付相关的 API，例如[查询订单](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_2.shtml)：
+
+```php
+$client->get('v3/pay/transactions/id/1217752501201407033233368018', [
+    'mchid' => $app->getAccount()->getMchid(),
+]);
+```
+
+不得不把商户号这种基础信息再读取传递一遍，比较麻烦，设计了如下的简化方案：
+
+```php
+$client->withMchid()->get('v3/pay/transactions/id/1217752501201407033233368018');
+```
+
+原理就是 `with` + `配置 key`：
+
+```php
+$client->withAppid()->post('/path/to/resources', [...]);
+$client->withAppid()->withMchid()->post('/path/to/resources', [...]);
+```
+
+也可以自定义值：
+
+```php
+$client->withAppid('12345678')->post('/path/to/resources', [...]);
+// or 
+$client->with('appid', '123456')->post('/path/to/resources', [...]);
+```
+
+还可以设置别名：把 `appid` 作为参数 `mch_appid` 值使用：
+
+```php
+$client->withAppidAs('mch_appid')->post('/path/to/resources', [...]);
+```
+
+其它通用方法：
+
+```php
+$client->with('appid')->post(...)
+$client->with(['appid', 'mchid'])->post(...)
+$client->with(['appid' => '1234565', 'mchid'])->post(...)
 ```
 
 ---
