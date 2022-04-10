@@ -225,6 +225,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      */
     public function getHeader(string $name, ?bool $throw = null): array
     {
+        $name = \strtolower($name);
         $throw ??= $this->throw;
 
         return $this->hasHeader($name, $throw) ? $this->getHeaders($throw)[$name] : [];
@@ -238,6 +239,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      */
     public function getHeaderLine(string $name, ?bool $throw = null): string
     {
+        $name = \strtolower($name);
         $throw ??= $this->throw;
 
         return $this->hasHeader($name, $throw) ? implode(',', $this->getHeader($name, $throw)) : '';
@@ -269,7 +271,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      */
     public function toDataUrl(): string
     {
-        return 'data:'.$this->getHeaderLine('Content-Type').';base64,'.\base64_encode($this->getContent());
+        return 'data:'.$this->getHeaderLine('content-type').';base64,'.\base64_encode($this->getContent());
     }
 
     /**
@@ -280,18 +282,18 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
      */
     public function is(string $type): bool
     {
-        $contentType = $this->getHeaderLine('Content-Type');
+        $contentType = $this->getHeaderLine('content-type');
 
         return match (\strtolower($type)) {
-            'json' => \str_contains($contentType, '/json') !== false,
-            'xml' => \str_contains($contentType, '/xml') !== false,
-            'html' => \str_contains($contentType, '/html') !== false,
-            'image' => \str_contains($contentType, 'image/') !== false,
-            'audio' => \str_contains($contentType, 'audio/') !== false,
-            'video' => \str_contains($contentType, 'video/') !== false,
-            'text' => \str_contains($contentType, 'text/') !== false
-                      || \str_contains($contentType, '/json') !== false
-                      || \str_contains($contentType, '/xml') !== false,
+            'json' => \str_contains($contentType, '/json'),
+            'xml' => \str_contains($contentType, '/xml'),
+            'html' => \str_contains($contentType, '/html'),
+            'image' => \str_contains($contentType, 'image/'),
+            'audio' => \str_contains($contentType, 'audio/'),
+            'video' => \str_contains($contentType, 'video/'),
+            'text' => \str_contains($contentType, 'text/')
+                      || \str_contains($contentType, '/json')
+                      || \str_contains($contentType, '/xml'),
             default => false,
         };
     }
