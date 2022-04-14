@@ -19,6 +19,10 @@ $result = $app->order->unify([
     'openid' => 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o',
 ]);
 
+//如trade_type = APP
+//需要进行二次签名
+(new \EasyWeChat\Payment\Jssdk\Client($app))->appConfig($result['prepay_id']);
+
 // $result:
 //{
 //    "return_code": "SUCCESS",
