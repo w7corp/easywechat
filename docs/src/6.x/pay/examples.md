@@ -10,7 +10,7 @@
 > 官方文档：<https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_1.shtml>
 
 ```php
-$response = $app->getClient()->post("v3/pay/transactions/jsapi", [
+$response = $app->getClient()->postJson("v3/pay/transactions/jsapi", [
    "mchid" => "1518700000", // <---- 请修改为您的商户号
    "out_trade_no" => "native12177525012012070352333'.rand(1,1000).'",
    "appid" => "wx6222e9f48a0xxxxx", // <---- 请修改为服务号的 appid
