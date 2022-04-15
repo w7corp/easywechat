@@ -43,6 +43,7 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @property \EasyWeChat\MiniProgram\Transactions\Spu\Product $product
  * @property \EasyWeChat\MiniProgram\Transactions\Delivery\Delivery $delivery
  * @property \EasyWeChat\MiniProgram\Transactions\AfterSale\AfterSale $aftersale
+ * @property \EasyWeChat\MiniProgram\Transactions\AfterSale\EcAfterSale $ecAftersale
  * @property \EasyWeChat\MiniProgram\Transactions\Coupon\Coupon $coupon
  */
 class MiniProgram
