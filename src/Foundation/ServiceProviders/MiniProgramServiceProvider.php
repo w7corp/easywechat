@@ -34,6 +34,7 @@ use EasyWeChat\MiniProgram\Staff\Staff;
 use EasyWeChat\MiniProgram\Stats\Stats;
 use EasyWeChat\MiniProgram\SubscribeMessage\SubscribeMessage;
 use EasyWeChat\MiniProgram\Transactions\AfterSale\AfterSale;
+use EasyWeChat\MiniProgram\Transactions\AfterSale\EcAfterSale;
 use EasyWeChat\MiniProgram\Transactions\Coupon\Coupon;
 use EasyWeChat\MiniProgram\Transactions\Delivery\Delivery;
 use EasyWeChat\MiniProgram\Transactions\Order\Order;
@@ -126,6 +127,12 @@ class MiniProgramServiceProvider implements ServiceProviderInterface
         };
         $pimple['mini_program.aftersale'] = function ($pimple) {
             return new AfterSale(
+                $pimple['mini_program.access_token'],
+                $pimple['config']['mini_program']
+            );
+        };
+        $pimple['mini_program.ecAftersale'] = function ($pimple) {
+            return new EcAfterSale(
                 $pimple['mini_program.access_token'],
                 $pimple['config']['mini_program']
             );
