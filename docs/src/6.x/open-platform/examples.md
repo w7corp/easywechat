@@ -37,8 +37,6 @@ Route::post('open-platform', function () {
 <details>
     <summary>webman 开放平台处理推送消息</summary>
 
-[官方文档：phonenumber.getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html)
-
 ```php
 namespace app\controller;
 
