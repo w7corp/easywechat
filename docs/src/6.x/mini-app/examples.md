@@ -24,6 +24,26 @@ try {
 ```
 </details>
 
+<details>
+    <summary>获取手机号（phonenumber.getPhoneNumber）</summary>
+
+[官方文档：phonenumber.getPhoneNumber](https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html)
+
+```php
+// routes/api.php
+use EasyWeChat\MiniApp\Application;
+Route::post('getPhoneNumber', function () {
+    // $app 实例化步骤这里省略 
+    $data = [
+      'code' => (string) request()->get('code'),
+    ];
+
+    return $app->getClient()->postJson('wxa/business/getuserphonenumber', $data);
+  }
+}
+```
+</details>
+
 <!--
 <details>
     <summary>标题</summary>

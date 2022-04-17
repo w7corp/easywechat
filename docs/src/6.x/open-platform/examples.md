@@ -31,8 +31,39 @@ Route::post('open-platform', function () {
     return $server->serve();
 });
 ```
-
 </details>
+
+
+<details>
+    <summary>webman 开放平台处理推送消息</summary>
+
+```php
+namespace app\controller;
+
+use EasyWeChat\OpenPlatform\Application;
+use support\Request;
+use Symfony\Component\HttpFoundation\HeaderBag;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+
+// 授权事件回调地址：http://yourdomain.com/openPlatform/server
+
+class OpenPlatform
+{
+    public function server(Request $request)
+    {
+        $config = config('wechatv6.open_platform');
+        $app = new Application($config);
+        $symfony_request = new SymfonyRequest($request->get(), $request->post(), [], $request->cookie(), [], [], $request->rawBody());
+        $symfony_request->headers = new HeaderBag($request->header());
+        $app->setRequestFromSymfonyRequest($symfony_request);
+        $server = $app->getServer();
+        $response = $server->serve();
+        return $response->getBody()->getContents();
+    }
+}
+```
+</details>
+
 
 <details>
   <summary>Laravel 开放平台PC版预授权<version-tag>6.3.0+</version-tag></summary>
