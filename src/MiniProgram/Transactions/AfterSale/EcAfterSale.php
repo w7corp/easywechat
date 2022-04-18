@@ -14,7 +14,7 @@ class EcAfterSale extends AbstractMiniProgram
 {
     const API_POST_SHOP_ADD = 'https://api.weixin.qq.com/shop/ecaftersale/add';
     const API_POST_SHOP_CANCEL = 'https://api.weixin.qq.com/shop/ecaftersale/cancel';
-    const API_POST_SHOP_UPLOAD_RETURNiNFO = 'https://api.weixin.qq.com/shop/ecaftersale/uploadreturninfo';
+    const API_POST_SHOP_UPLOAD_RETURNINFO = 'https://api.weixin.qq.com/shop/ecaftersale/uploadreturninfo';
     const API_POST_SHOP_GET = 'https://api.weixin.qq.com/shop/ecaftersale/get';
     const API_POST_SHOP_GET_LIST = 'https://api.weixin.qq.com/shop/ecaftersale/get_list';
     const API_POST_SHOP_ACCEPT_REFUND = 'https://api.weixin.qq.com/shop/ecaftersale/acceptrefund';
@@ -70,7 +70,7 @@ class EcAfterSale extends AbstractMiniProgram
             "waybill_id" => $waybillId,
             "delivery_name" => $deliveryName,
         ];
-        return $this->getStream(self::API_POST_SHOP_UPLOAD_RETURNiNFO, $params);
+        return $this->getStream(self::API_POST_SHOP_UPLOAD_RETURNINFO, $params);
     }
 
     /**
