@@ -22,6 +22,7 @@ class Order extends AbstractMiniProgram
     const API_POST_ORDER_GET_LIST = 'https://api.weixin.qq.com/shop/order/get_list';
     const API_POST_ORDER_BY_FINDER = 'https://api.weixin.qq.com/shop/order/get_list_by_finder';
     const API_POST_ORDER_BY_SHARE = 'https://api.weixin.qq.com/shop/order/get_list_by_sharer';
+    const API_POST_ORDER_PARAMS = 'https://api.weixin.qq.com/shop/order/getpaymentparams';
 
 
     /** 获取场景
@@ -109,6 +110,22 @@ class Order extends AbstractMiniProgram
     public function orders(array $params)
     {
         return $this->getStream(self::API_POST_ORDER_GET_LIST, $params);
+    }
+
+    /** 生成支付参数
+     * @param string $orderId
+     * @param string $outOrderId
+     * @param string $openId
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function getPaymentParams(string $openId, string $orderId = "", string $outOrderId = "")
+    {
+        $params = [
+            "order_id" => $orderId,
+            "out_order_id" => $outOrderId,
+            "openid" => $openId
+        ];
+        return $this->getStream(self::API_POST_ORDER_PARAMS, $params);
     }
 
     /**
