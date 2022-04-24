@@ -36,7 +36,7 @@ abstract class Message implements ArrayAccess
      */
     public static function createFromRequest(ServerRequestInterface $request): Message
     {
-        $attributes = self::format($originContent = strval($request->getBody()));
+        $attributes = self::format($originContent = strval((string) $request->getBody()));
 
         return new static($attributes, $originContent);
     }
