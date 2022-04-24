@@ -35,6 +35,28 @@ Route::post('open-platform', function () {
 
 
 <details>
+    <summary>Laravel Octane(swoole) 开放平台处理推送消息</summary>
+
+```php
+// routes/web.php
+
+use EasyWeChat\OpenPlatform\Application;
+
+// 授权事件回调地址：http://yourdomain.com/open-platform/server
+Route::post('open-platform/server', function () {
+        $config = config('wechatv6.open_platform');
+        $app = new Application($config);
+
+        // 兼容octane
+        $app->setRequestFromSymfonyRequest(request());
+
+        $server = $app->getServer();
+        return $server->serve();
+});
+```
+</details>
+
+<details>
     <summary>webman 开放平台处理推送消息</summary>
 
 ```php
