@@ -41,8 +41,6 @@ Route::post('open-platform', function () {
 // routes/web.php
 
 use EasyWeChat\OpenPlatform\Application;
-use Symfony\Component\HttpFoundation\HeaderBag;
-use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
 // 授权事件回调地址：http://yourdomain.com/open-platform/server
 Route::post('open-platform/server', function () {
@@ -50,9 +48,7 @@ Route::post('open-platform/server', function () {
         $app = new Application($config);
 
         // 兼容octane
-        $symfony_request = new SymfonyRequest(request()->query(), request()->post(), [], request()->cookie(), [], [], request()->getContent());
-        $symfony_request->headers = new HeaderBag(request()->header());
-        $app->setRequestFromSymfonyRequest($symfony_request);
+        $app->setRequestFromSymfonyRequest(request());
 
         $server = $app->getServer();
         return $server->serve();
