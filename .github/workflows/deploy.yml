@@ -32,13 +32,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2.1.0
         with:
-          node-version: 16.x
-          cache: 'npm'
-      - run: npm install
-      - run: npm run build --if-present
+          version: 6.0.2
+          run_install: true
       - name: install coscmd
         run: |
           python -m pip install --upgrade pip
