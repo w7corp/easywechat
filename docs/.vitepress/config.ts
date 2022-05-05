@@ -22,7 +22,7 @@ const nav = [
     }))
   },
   {
-    text: '视频教程',
+    text: '视频',
     link: 'https://wiki.w7.cc/college/collectiondetail/3'
   },
   {
