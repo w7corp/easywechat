@@ -10,6 +10,7 @@
     "autoprefixer": "^10.4.2",
     "clipboard": "^2.0.10",
     "dynamics.js": "^1.1.5",
+    "easywechat-theme:^1.0.5": "link:@overtrue/easywechat-theme:^1.0.5",
     "gsap": "^3.9.1",
     "postcss": "^8.4.7",
     "postcss-import": "^14.0.2",
