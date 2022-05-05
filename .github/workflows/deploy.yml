@@ -1,0 +1,54 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the 6.x branch
+  push:
+    branches: [ 6.x ]
+  pull_request:
+    branches: [ 6.x ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    
+    env:
+      local_dir: .vitepress/dist/
+      remote_dir: /
+      thread: 10
+      region: ap-guangzhou
+      bucket: "easywechat-1252049834"
+      ignore: "./.git*,*.DS_Store"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'npm'
+      - run: npm install
+      - run: npm run build --if-present
+      - name: install coscmd
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install setuptools coscmd
+
+      - name: install coscmd
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install setuptools coscmd
+      - name: upload to cos
+        run: |
+          coscmd config -a "${{secrets.COS_SECRET_ID}}" -s "${{secrets.COS_SECRET_KEY}}" -b $bucket -r $region -m $thread 
+          coscmd upload -r -s $local_dir $remote_dir --ignore "$ignore"
