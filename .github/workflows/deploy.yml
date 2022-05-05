@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      local_dir: .vitepress/dist/
+      local_dir: ./.vitepress/dist/
       remote_dir: /
       thread: 10
       region: ap-guangzhou
