@@ -36,16 +36,13 @@ jobs:
         with:
           version: 6.0.2
           run_install: true
-      - name: install coscmd
+      - name: Build 
+        run: pnpm run build
+      - name: Install coscmd
         run: |
           python -m pip install --upgrade pip
           python -m pip install setuptools coscmd
-
-      - name: install coscmd
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install setuptools coscmd
-      - name: upload to cos
+      - name: Upload to cos
         run: |
           coscmd config -a "${{secrets.COS_SECRET_ID}}" -s "${{secrets.COS_SECRET_KEY}}" -b $bucket -r $region -m $thread 
           coscmd upload -r -s $local_dir $remote_dir --ignore "$ignore"
