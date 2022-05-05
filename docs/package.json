@@ -6,7 +6,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "@overtrue/easywechat-theme": "1.0.4",
+    "@overtrue/easywechat-theme": "^1.0.5",
     "autoprefixer": "^10.4.2",
     "clipboard": "^2.0.10",
     "dynamics.js": "^1.1.5",

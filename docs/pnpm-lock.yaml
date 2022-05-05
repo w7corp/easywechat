@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@overtrue/easywechat-theme': 1.0.4
+  '@overtrue/easywechat-theme': ^1.0.5
   '@types/markdown-it': ^12.2.3
   '@types/node': ^16.11.26
   autoprefixer: ^10.4.2
@@ -16,7 +16,7 @@ specifiers:
   vue: ^3.2.31
 
 dependencies:
-  '@overtrue/easywechat-theme': 1.0.4_vue@3.2.31
+  '@overtrue/easywechat-theme': 1.0.5_vue@3.2.31
   autoprefixer: 10.4.2_postcss@8.4.7
   clipboard: 2.0.10
   dynamics.js: 1.1.5
@@ -233,8 +233,8 @@ packages:
       fastq: 1.13.0
     dev: false
 
-  /@overtrue/easywechat-theme/1.0.4_vue@3.2.31:
-    resolution: {integrity: sha512-SL/Sm4J/p49PqJ6d/iBs75HscDuwtpqSlG73s5rUMsPzn9C5C37LsC/J8Uf30qT+Ls0w99hWS/8ABIzkSMOdEg==}
+  /@overtrue/easywechat-theme/1.0.5_vue@3.2.31:
+    resolution: {integrity: sha512-lAhge9nsO1rmfstWMd30qF8vWt3x2SuA1rc/i6FbctvGv7NzoN5p4Z4gIfxutcMiVJqdWYsCTFlTXH4bM5sPxg==}
     dependencies:
       '@docsearch/css': 3.0.0
       '@docsearch/js': 3.0.0
