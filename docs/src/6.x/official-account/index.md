@@ -11,7 +11,7 @@ $config = [
     'app_id' => 'wx3cf0f39249eb0exx',
     'secret' => 'f1c242f4f28f735d4687abb469072axx',
     'token' => 'easywechat',
-    'aes_key' => '' // 明文模式请勿填写 EncodingAESKey
+    'aes_key' => '', // 明文模式请勿填写 EncodingAESKey
 
     /**
      * OAuth 配置
