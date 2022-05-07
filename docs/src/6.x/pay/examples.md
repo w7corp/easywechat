@@ -35,7 +35,7 @@ $response = $app->getClient()->postJson("v3/pay/transactions/jsapi", [
     <summary>Native 下单</summary>
 
 ```php
-$response = $app->getClient()->post('pay/transactions/native', [
+$response = $app->getClient()->postJson('v3/pay/transactions/native', [
     'mchid' => (string)$app->getMerchant()->getMerchantId(),
     'out_trade_no' => 'native20210720xxx',
     'appid' => 'wxe2fb06xxxxxxxxxx6',
@@ -47,7 +47,7 @@ $response = $app->getClient()->post('pay/transactions/native', [
     ]
 ]);
 
-print_r($response->toArray());
+print_r($response->toArray(false));
 ```
 </details>
 
@@ -58,7 +58,7 @@ print_r($response->toArray());
 ```php
 
 $outTradeNo = 'native20210720xxx';
-$response = $app->getClient()->get("pay/transactions/out-trade-no/{$outTradeNo}", [
+$response = $app->getClient()->get("v3/pay/transactions/out-trade-no/{$outTradeNo}", [
     'query'=>[
         'mchid' =>  $app->getMerchant()->getMerchantId()
     ]
