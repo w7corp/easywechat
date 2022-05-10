@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\HttpClient\HttpClientMethods;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\HttpClient\RequestWithPresets;
@@ -13,14 +15,20 @@ use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
+use Exception;
+use Mockery;
 use Mockery\Mock;
 use Nyholm\Psr7\Uri;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use function is_array;
+use function is_string;
+use function str_starts_with;
 
 /**
  * @method ResponseInterface get(string $uri, array $options = [])
@@ -32,7 +40,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class Client implements HttpClientInterface
 {
     use DecoratorTrait {
-        DecoratorTrait::withOptions insteadof HttpClientTrait;}
+        DecoratorTrait::withOptions insteadof HttpClientTrait;
+    }
     use HttpClientTrait;
     use HttpClientMethods;
     use MockableHttpClient;
@@ -59,10 +68,13 @@ class Client implements HttpClientInterface
     protected bool $throw = true;
 
     /**
-     * @param  array<string, mixed> $defaultOptions
+     * @param  array<string, mixed>  $defaultOptions
      */
-    public function __construct(protected Merchant $merchant, ?HttpClientInterface $client = null, array $defaultOptions = [])
-    {
+    public function __construct(
+        protected Merchant $merchant,
+        ?HttpClientInterface $client = null,
+        array $defaultOptions = []
+    ) {
         $this->throw = !!($defaultOptions['throw'] ?? true);
 
         $this->defaultOptions = array_merge(self::OPTIONS_DEFAULTS, $this->defaultOptions);
@@ -78,8 +90,8 @@ class Client implements HttpClientInterface
     /**
      * @param  array<string, array|mixed>  $options
      *
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Exception
+     * @throws TransportExceptionInterface
+     * @throws Exception
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
@@ -96,11 +108,11 @@ class Client implements HttpClientInterface
         } else {
             // v2 全部为 xml 请求
             if (!empty($options['xml'])) {
-                if (\is_array($options['xml'])) {
+                if (is_array($options['xml'])) {
                     $options['xml'] = Xml::build($this->attachLegacySignature($options['xml']));
                 }
 
-                if (!\is_string($options['xml'])) {
+                if (!is_string($options['xml'])) {
                     throw new \InvalidArgumentException('The `xml` option must be a string or array.');
                 }
 
@@ -108,13 +120,13 @@ class Client implements HttpClientInterface
                 unset($options['xml']);
             }
 
-            if (!empty($options['body']) && \is_array($options['body'])) {
+            if (!empty($options['body']) && is_array($options['body'])) {
                 $options['body'] = Xml::build($this->attachLegacySignature($options['body']));
             }
 
             /** @phpstan-ignore-next-line */
             if (!isset($options['headers']['Content-Type']) && !isset($options['headers']['content-type'])) {
-                $options['headers']['Content-Type'] = 'text/xml'; /** @phpstan-ignore-line */
+                $options['headers']['Content-Type'] = 'text/xml';/** @phpstan-ignore-line */
             }
         }
 
@@ -126,7 +138,7 @@ class Client implements HttpClientInterface
         $uri = new Uri($url);
 
         foreach (self::V3_URI_PREFIXES as $prefix) {
-            if (\str_starts_with('/' . ltrim($uri->getPath(), '/'), $prefix)) {
+            if (str_starts_with('/'.ltrim($uri->getPath(), '/'), $prefix)) {
                 return true;
             }
         }
@@ -135,7 +147,7 @@ class Client implements HttpClientInterface
     }
 
     /**
-     * @param array<string, mixed> $arguments
+     * @param  array<string, mixed>  $arguments
      */
     public function __call(string $name, array $arguments): mixed
     {
@@ -145,7 +157,7 @@ class Client implements HttpClientInterface
     /**
      * @param  array<string, mixed>  $options
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function createSignature(string $method, string $url, array $options): string
     {
@@ -156,7 +168,7 @@ class Client implements HttpClientInterface
      * @param  array<string, mixed>  $body
      *
      * @return array<string, mixed>
-     * @throws \Exception
+     * @throws Exception
      */
     protected function attachLegacySignature(array $body): array
     {
@@ -164,22 +176,22 @@ class Client implements HttpClientInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigException
      */
     public static function createMockClient(MockHttpClient $mockHttpClient): HttpClientInterface|Mock
     {
         $mockMerchant = new Merchant(
             'mch_id',
-            /** @phpstan-ignore-next-line*/
-            \Mockery::mock(PrivateKey::class),
-            /** @phpstan-ignore-next-line*/
-            \Mockery::mock(PublicKey::class),
+            /** @phpstan-ignore-next-line */
+            Mockery::mock(PrivateKey::class),
+            /** @phpstan-ignore-next-line */
+            Mockery::mock(PublicKey::class),
             'mock-v3-key',
             'mock-v2-key',
         );
 
-        return \Mockery::mock(static::class, [$mockMerchant, $mockHttpClient])
+        return Mockery::mock(static::class, [$mockMerchant, $mockHttpClient])
             ->shouldAllowMockingProtectedMethods()
             ->makePartial();
     }

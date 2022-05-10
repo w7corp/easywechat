@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\HttpClient;
 
+use Closure;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Symfony\Component\HttpClient\AsyncDecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function array_merge;
 
 class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 {
@@ -23,7 +26,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
     public function __construct(
         ?HttpClientInterface $client = null,
         protected ?AccessTokenInterface $accessToken = null,
-        protected ?\Closure $failureJudge = null,
+        protected ?Closure $failureJudge = null,
         protected bool $throw = true
     ) {
         $this->client = $client ?? HttpClient::create();
@@ -37,13 +40,13 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
     }
 
     /**
-     * @param array<string, mixed> $options
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @param  array<string, mixed>  $options
+     * @throws TransportExceptionInterface
      */
     public function request(string $method, string $url, array $options = []): Response
     {
         if ($this->accessToken) {
-            $options['query'] = \array_merge((array) ($options['query'] ?? []), $this->accessToken->toQuery());
+            $options['query'] = array_merge((array) ($options['query'] ?? []), $this->accessToken->toQuery());
         }
 
         $options = RequestUtil::formatBody($this->mergeThenResetPrepends($options));
@@ -56,7 +59,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
     }
 
     /**
-     * @param array<string, mixed> $arguments
+     * @param  array<string, mixed>  $arguments
      */
     public function __call(string $name, array $arguments): mixed
     {

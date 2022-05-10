@@ -9,7 +9,22 @@ use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Exceptions\BadMethodCallException;
 use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\Support\Xml;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+use Throwable;
+use function array_key_exists;
+use function base64_encode;
+use function file_put_contents;
+use function json_encode;
+use function sprintf;
+use function str_contains;
+use function str_starts_with;
+use function strtolower;
+use const JSON_UNESCAPED_UNICODE;
 
 /**
  * @implements \ArrayAccess<array-key, mixed>
@@ -17,8 +32,11 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
 {
-    public function __construct(protected ResponseInterface $response, protected ?Closure $failureJudge = null, protected bool $throw = true)
-    {
+    public function __construct(
+        protected ResponseInterface $response,
+        protected ?Closure $failureJudge = null,
+        protected bool $throw = true
+    ) {
     }
 
     public function throw(bool $throw = true): static
@@ -46,10 +64,10 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function isSuccessful(): bool
     {
@@ -57,10 +75,10 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function isFailed(): bool
     {
@@ -70,18 +88,18 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
 
         try {
             return 400 <= $this->getStatusCode();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return true;
         }
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws BadResponseException
      */
     public function toArray(?bool $throw = null): array
     {
@@ -93,10 +111,12 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
 
         $contentType = $this->getHeaderLine('content-type', $throw);
 
-        if (\str_contains($contentType, 'text/xml') || \str_contains($contentType, 'application/xml') || \str_starts_with($content, '<xml>')) {
+        if (str_contains($contentType, 'text/xml')
+            || str_contains($contentType, 'application/xml')
+            || str_starts_with($content, '<xml>')) {
             try {
                 return Xml::parse($content) ?? [];
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 throw new BadResponseException('Response body is not valid xml.', 400, $e);
             }
         }
@@ -105,25 +125,25 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws BadResponseException
      */
     public function offsetExists(mixed $offset): bool
     {
-        return \array_key_exists($offset, $this->toArray());
+        return array_key_exists($offset, $this->toArray());
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws BadResponseException
      */
     public function offsetGet(mixed $offset): mixed
     {
@@ -131,7 +151,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -139,7 +159,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\BadMethodCallException
+     * @throws BadMethodCallException
      */
     public function offsetUnset(mixed $offset): void
     {
@@ -147,20 +167,20 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws BadResponseException
      */
     public function toJson(?bool $throw = null): string|false
     {
-        return \json_encode($this->toArray($throw), \JSON_UNESCAPED_UNICODE);
+        return json_encode($this->toArray($throw), JSON_UNESCAPED_UNICODE);
     }
 
     /**
-     * @param array<array-key, mixed> $arguments
+     * @param  array<array-key, mixed>  $arguments
      */
     public function __call(string $name, array $arguments): mixed
     {
@@ -193,12 +213,12 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws BadResponseException
      */
     public function __toString(): string
     {
@@ -206,10 +226,10 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function hasHeader(string $name, ?bool $throw = null): bool
     {
@@ -218,82 +238,86 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface
 
     /**
      * @return array<array-key, mixed>
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function getHeader(string $name, ?bool $throw = null): array
     {
-        $name = \strtolower($name);
+        $name = strtolower($name);
         $throw ??= $this->throw;
 
         return $this->hasHeader($name, $throw) ? $this->getHeaders($throw)[$name] : [];
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function getHeaderLine(string $name, ?bool $throw = null): string
     {
-        $name = \strtolower($name);
+        $name = strtolower($name);
         $throw ??= $this->throw;
 
         return $this->hasHeader($name, $throw) ? implode(',', $this->getHeader($name, $throw)) : '';
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws BadResponseException
      */
     public function saveAs(string $filename): string
     {
         try {
-            \file_put_contents($filename, $this->response->getContent(true));
-        } catch (\Throwable $e) {
-            throw new BadResponseException(\sprintf('Cannot save response to %s: %s', $filename, $this->response->getContent(false)), $e->getCode(), $e);
+            file_put_contents($filename, $this->response->getContent(true));
+        } catch (Throwable $e) {
+            throw new BadResponseException(sprintf(
+                'Cannot save response to %s: %s',
+                $filename,
+                $this->response->getContent(false)
+            ), $e->getCode(), $e);
         }
 
         return '';
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function toDataUrl(): string
     {
-        return 'data:'.$this->getHeaderLine('content-type').';base64,'.\base64_encode($this->getContent());
+        return 'data:'.$this->getHeaderLine('content-type').';base64,'.base64_encode($this->getContent());
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
      */
     public function is(string $type): bool
     {
         $contentType = $this->getHeaderLine('content-type');
 
-        return match (\strtolower($type)) {
-            'json' => \str_contains($contentType, '/json'),
-            'xml' => \str_contains($contentType, '/xml'),
-            'html' => \str_contains($contentType, '/html'),
-            'image' => \str_contains($contentType, 'image/'),
-            'audio' => \str_contains($contentType, 'audio/'),
-            'video' => \str_contains($contentType, 'video/'),
-            'text' => \str_contains($contentType, 'text/')
-                      || \str_contains($contentType, '/json')
-                      || \str_contains($contentType, '/xml'),
+        return match (strtolower($type)) {
+            'json' => str_contains($contentType, '/json'),
+            'xml' => str_contains($contentType, '/xml'),
+            'html' => str_contains($contentType, '/html'),
+            'image' => str_contains($contentType, 'image/'),
+            'audio' => str_contains($contentType, 'audio/'),
+            'video' => str_contains($contentType, 'video/'),
+            'text' => str_contains($contentType, 'text/')
+                || str_contains($contentType, '/json')
+                || str_contains($contentType, '/xml'),
             default => false,
         };
     }

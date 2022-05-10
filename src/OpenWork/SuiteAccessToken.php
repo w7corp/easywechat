@@ -13,6 +13,10 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function abs;
+use function intval;
+use function json_encode;
+use const JSON_UNESCAPED_UNICODE;
 
 class SuiteAccessToken implements RefreshableAccessTokenInterface
 {
@@ -91,21 +95,24 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
     public function refresh(): string
     {
         $response = $this->httpClient->request('POST', 'cgi-bin/service/get_suite_token', [
-                'json' => [
-                    'suite_id' => $this->suiteId,
-                    'suite_secret' => $this->suiteSecret,
-                    'suite_ticket' => $this->suiteTicket->getTicket(),
-                ],
-            ])->toArray(false);
+            'json' => [
+                'suite_id' => $this->suiteId,
+                'suite_secret' => $this->suiteSecret,
+                'suite_ticket' => $this->suiteTicket->getTicket(),
+            ],
+        ])->toArray(false);
 
         if (empty($response['suite_access_token'])) {
-            throw new HttpException('Failed to get suite_access_token: '.\json_encode($response, \JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Failed to get suite_access_token: '.json_encode(
+                $response,
+                JSON_UNESCAPED_UNICODE
+            ));
         }
 
         $this->cache->set(
             $this->getKey(),
             $response['suite_access_token'],
-            \abs(\intval($response['expires_in']) - 100)
+            abs(intval($response['expires_in']) - 100)
         );
 
         return $response['suite_access_token'];

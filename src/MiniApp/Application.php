@@ -23,6 +23,9 @@ use JetBrains\PhpStorm\Pure;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpClient\Response\AsyncContext;
 use Symfony\Component\HttpClient\RetryableHttpClient;
+use function array_merge;
+use function is_null;
+use function str_contains;
 
 /**
  * @psalm-suppress PropertyNotSetInConstructor
@@ -45,10 +48,10 @@ class Application implements ApplicationInterface
     {
         if (!$this->account) {
             $this->account = new Account(
-                appId: (string) $this->config->get('app_id'),    /** @phpstan-ignore-line */
-                secret: (string) $this->config->get('secret'),   /** @phpstan-ignore-line */
-                token: (string) $this->config->get('token'),     /** @phpstan-ignore-line */
-                aesKey: (string) $this->config->get('aes_key'),  /** @phpstan-ignore-line */
+                appId: (string) $this->config->get('app_id'), /** @phpstan-ignore-line */
+                secret: (string) $this->config->get('secret'), /** @phpstan-ignore-line */
+                token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
+                aesKey: (string) $this->config->get('aes_key'),/** @phpstan-ignore-line */
             );
         }
 
@@ -149,14 +152,19 @@ class Application implements ApplicationInterface
         $httpClient = $this->getHttpClient();
 
         if (!!$this->config->get('http.retry', false)) {
-            /** @phpstan-ignore-next-line */
-            $httpClient = new RetryableHttpClient($httpClient, $this->getRetryStrategy(), (int) $this->config->get('http.max_retries', 2));
+            $httpClient = new RetryableHttpClient(
+                $httpClient,
+                $this->getRetryStrategy(),
+                (int) $this->config->get('http.max_retries', 2) // @phpstan-ignore-line
+            );
         }
 
         return (new AccessTokenAwareClient(
             client: $httpClient,
             accessToken: $this->getAccessToken(),
-            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0) || !\is_null($response->toArray()['error'] ?? null),
+            failureJudge: fn (
+                Response $response
+            ) => !!($response->toArray()['errcode'] ?? 0) || !is_null($response->toArray()['error'] ?? null),
             throw: !!$this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
     }
@@ -167,7 +175,9 @@ class Application implements ApplicationInterface
 
         return (new AccessTokenExpiredRetryStrategy($retryConfig))
             ->decideUsing(function (AsyncContext $context, ?string $responseContent): bool {
-                return !empty($responseContent) && \str_contains($responseContent, '42001') && \str_contains($responseContent, 'access_token expired');
+                return !empty($responseContent)
+                    && str_contains($responseContent, '42001')
+                    && str_contains($responseContent, 'access_token expired');
             });
     }
 
@@ -176,9 +186,9 @@ class Application implements ApplicationInterface
      */
     protected function getHttpClientDefaultOptions(): array
     {
-        return \array_merge(
+        return array_merge(
             ['base_uri' => 'https://api.weixin.qq.com/'],
-            (array)$this->config->get('http', [])
+            (array) $this->config->get('http', [])
         );
     }
 }

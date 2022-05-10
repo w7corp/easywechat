@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
+use ArrayAccess;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 
 /**
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class Authorization implements \ArrayAccess, Jsonable, Arrayable
+class Authorization implements ArrayAccess, Jsonable, Arrayable
 {
     use HasAttributes;
 

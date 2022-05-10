@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Kernel\HttpClient;
 
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface as ResponseInterfaceAlias;
 
 trait HttpClientMethods
@@ -10,8 +11,8 @@ trait HttpClientMethods
      * @param  string  $url
      * @param  array<string, mixed>  $options
      *
-     * @return \EasyWeChat\Kernel\HttpClient\Response|\Symfony\Contracts\HttpClient\ResponseInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @return Response|ResponseInterfaceAlias
+     * @throws TransportExceptionInterface
      */
     public function get(string $url, array $options = []): Response|ResponseInterfaceAlias
     {
@@ -19,8 +20,8 @@ trait HttpClientMethods
     }
 
     /**
-     * @param array<string, mixed> $options
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @param  array<string, mixed>  $options
+     * @throws TransportExceptionInterface
      */
     public function post(string $url, array $options = []): Response|ResponseInterfaceAlias
     {
@@ -28,7 +29,7 @@ trait HttpClientMethods
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function postJson(string $url, array $options = []): Response|ResponseInterfaceAlias
     {
@@ -38,7 +39,7 @@ trait HttpClientMethods
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function postXml(string $url, array $options = []): Response|ResponseInterfaceAlias
     {
@@ -48,8 +49,8 @@ trait HttpClientMethods
     }
 
     /**
-     * @param array<string, mixed> $options
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @param  array<string, mixed>  $options
+     * @throws TransportExceptionInterface
      */
     public function patch(string $url, array $options = []): Response|ResponseInterfaceAlias
     {
@@ -57,7 +58,7 @@ trait HttpClientMethods
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function patchJson(string $url, array $options = []): Response|ResponseInterfaceAlias
     {
@@ -67,8 +68,8 @@ trait HttpClientMethods
     }
 
     /**
-     * @param array<string, mixed> $options
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @param  array<string, mixed>  $options
+     * @throws TransportExceptionInterface
      */
     public function put(string $url, array $options = []): Response|ResponseInterfaceAlias
     {
@@ -76,8 +77,8 @@ trait HttpClientMethods
     }
 
     /**
-     * @param array<string, mixed> $options
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @param  array<string, mixed>  $options
+     * @throws TransportExceptionInterface
      */
     public function delete(string $url, array $options = []): Response|ResponseInterfaceAlias
     {

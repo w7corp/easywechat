@@ -4,8 +4,19 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
+use Closure;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
+use function array_reverse;
+use function array_unshift;
+use function call_user_func;
+use function func_get_args;
+use function gettype;
+use function is_array;
+use function is_callable;
+use function is_string;
+use function method_exists;
+use function spl_object_hash;
 
 trait InteractWithHandlers
 {
@@ -24,7 +35,7 @@ trait InteractWithHandlers
 
     /**
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function with(callable|string $handler): static
     {
@@ -32,7 +43,7 @@ trait InteractWithHandlers
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function withHandler(callable|string $handler): static
     {
@@ -45,7 +56,7 @@ trait InteractWithHandlers
      * @param  callable|string  $handler
      *
      * @return array{hash: string, handler: callable}
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[ArrayShape(['hash' => "string", 'handler' => "callable"])]
     public function createHandlerItem(callable|string $handler): array
@@ -57,22 +68,22 @@ trait InteractWithHandlers
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function getHandlerHash(callable|string $handler): string
     {
         return match (true) {
-            \is_string($handler) => $handler,
-            \is_array($handler) => is_string($handler[0]) ? $handler[0].'::'.$handler[1] : get_class(
+            is_string($handler) => $handler,
+            is_array($handler) => is_string($handler[0]) ? $handler[0].'::'.$handler[1] : get_class(
                 $handler[0]
             ).$handler[1],
-            $handler instanceof \Closure => \spl_object_hash($handler),
-            default => throw new InvalidArgumentException('Invalid handler: '.\gettype($handler)),
+            $handler instanceof Closure => spl_object_hash($handler),
+            default => throw new InvalidArgumentException('Invalid handler: '.gettype($handler)),
         };
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function makeClosure(callable|string $handler): callable
     {
@@ -80,19 +91,19 @@ trait InteractWithHandlers
             return $handler;
         }
 
-        if (class_exists($handler) && \method_exists($handler, '__invoke')) {
+        if (class_exists($handler) && method_exists($handler, '__invoke')) {
             /**
              * @psalm-suppress InvalidFunctionCall
              * @phpstan-ignore-next-line https://github.com/phpstan/phpstan/issues/5867
              */
-            return fn (): mixed => (new $handler())(...\func_get_args());
+            return fn (): mixed => (new $handler())(...func_get_args());
         }
 
         throw new InvalidArgumentException(sprintf('Invalid handler: %s.', $handler));
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function prepend(callable|string $handler): static
     {
@@ -101,18 +112,18 @@ trait InteractWithHandlers
 
     /**
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function prependHandler(callable|string $handler): static
     {
-        \array_unshift($this->handlers, $this->createHandlerItem($handler));
+        array_unshift($this->handlers, $this->createHandlerItem($handler));
 
         return $this;
     }
 
     /**
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function without(callable|string $handler): static
     {
@@ -120,7 +131,7 @@ trait InteractWithHandlers
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function withoutHandler(callable|string $handler): static
     {
@@ -135,7 +146,7 @@ trait InteractWithHandlers
 
     /**
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function indexOf(callable|string $handler): int
     {
@@ -150,12 +161,12 @@ trait InteractWithHandlers
 
     /**
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function when(mixed $value, callable|string $handler): static
     {
-        if (\is_callable($value)) {
-            $value = \call_user_func($value, $this);
+        if (is_callable($value)) {
+            $value = call_user_func($value, $this);
         }
 
         if ($value) {
@@ -167,9 +178,9 @@ trait InteractWithHandlers
 
     public function handle(mixed $result, mixed $payload = null): mixed
     {
-        $next = $result = \is_callable($result) ? $result : fn (mixed $p): mixed => $result;
+        $next = $result = is_callable($result) ? $result : fn (mixed $p): mixed => $result;
 
-        foreach (\array_reverse($this->handlers) as $item) {
+        foreach (array_reverse($this->handlers) as $item) {
             $next = fn (mixed $p): mixed => $item['handler']($p, $next) ?? $result($p);
         }
 
@@ -178,7 +189,7 @@ trait InteractWithHandlers
 
     /**
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function has(callable|string $handler): bool
     {

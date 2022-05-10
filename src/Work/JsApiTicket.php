@@ -7,10 +7,19 @@ namespace EasyWeChat\Work;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function intval;
+use function is_string;
+use function sprintf;
 
 class JsApiTicket
 {
@@ -29,13 +38,13 @@ class JsApiTicket
 
     /**
      * @return array<string, mixed>
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws HttpException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
      */
     #[ArrayShape([
         'url' => "string",
@@ -61,20 +70,20 @@ class JsApiTicket
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws TransportExceptionInterface
+     * @throws HttpException
+     * @throws ServerExceptionInterface
      */
     public function getTicket(): string
     {
         $key = $this->getKey();
         $ticket = $this->cache->get($key);
 
-        if (!!$ticket && \is_string($ticket)) {
+        if (!!$ticket && is_string($ticket)) {
             return $ticket;
         }
 
@@ -84,7 +93,7 @@ class JsApiTicket
             throw new HttpException('Failed to get jssdk ticket: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->cache->set($key, $response['ticket'], \intval($response['expires_in']));
+        $this->cache->set($key, $response['ticket'], intval($response['expires_in']));
 
         return $response['ticket'];
     }
@@ -98,19 +107,19 @@ class JsApiTicket
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s', $this->corpId);
+        return $this->key ?? $this->key = sprintf('work.jsapi_ticket.%s', $this->corpId);
     }
 
     /**
      * @return array<string, mixed>
      *
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws TransportExceptionInterface
+     * @throws HttpException
+     * @throws ServerExceptionInterface
      */
     #[ArrayShape([
         'corpid' => "string",
@@ -133,37 +142,37 @@ class JsApiTicket
     }
 
     /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws ClientExceptionInterface
+     * @throws HttpException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
      */
     public function getAgentTicket(int $agentId): string
     {
         $key = $this->getAgentKey($agentId);
         $ticket = $this->cache->get($key);
 
-        if (!!$ticket && \is_string($ticket)) {
+        if (!!$ticket && is_string($ticket)) {
             return $ticket;
         }
 
         $response = $this->httpClient->request('GET', '/cgi-bin/ticket/get', ['query' => ['type' => 'agent_config']])
-                                     ->toArray(false);
+            ->toArray(false);
 
         if (empty($response['ticket'])) {
             throw new HttpException('Failed to get jssdk agentTicket: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->cache->set($key, $response['ticket'], \intval($response['expires_in']));
+        $this->cache->set($key, $response['ticket'], intval($response['expires_in']));
 
         return $response['ticket'];
     }
 
     public function getAgentKey(int $agentId): string
     {
-        return $this->key ?? $this->key = \sprintf('work.jsapi_ticket.%s.%s', $this->corpId, $agentId);
+        return $this->key ?? $this->key = sprintf('work.jsapi_ticket.%s.%s', $this->corpId, $agentId);
     }
 }

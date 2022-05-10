@@ -20,6 +20,7 @@ use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\OpenWeWork;
+use function array_merge;
 
 class Application implements ApplicationInterface
 {
@@ -46,7 +47,7 @@ class Application implements ApplicationInterface
                 suiteId: (string) $this->config->get('suite_id'), /** @phpstan-ignore-line */
                 suiteSecret: (string) $this->config->get('suite_secret'), /** @phpstan-ignore-line */
                 token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
-                aesKey: (string) $this->config->get('aes_key'), /** @phpstan-ignore-line */
+                aesKey: (string) $this->config->get('aes_key'),/** @phpstan-ignore-line */
             );
         }
 
@@ -268,28 +269,32 @@ class Application implements ApplicationInterface
         ))->setPresets($this->config->all());
     }
 
-    public function getOAuth(string $suiteId, ?AccessTokenInterface $suiteAccessToken = null): SocialiteProviderInterface
-    {
+    public function getOAuth(
+        string $suiteId,
+        ?AccessTokenInterface $suiteAccessToken = null
+    ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
         return (new OpenWeWork([
             'client_id' => $suiteId,
             'redirect_url' => $this->config->get('oauth.redirect_url'),
         ]))->withSuiteTicket($this->getSuiteTicket()->getTicket())
-           ->withSuiteAccessToken($suiteAccessToken->getToken())
-           ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
+            ->withSuiteAccessToken($suiteAccessToken->getToken())
+            ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
-    public function getCorpOAuth(string $corpId, ?AccessTokenInterface $suiteAccessToken = null): SocialiteProviderInterface
-    {
+    public function getCorpOAuth(
+        string $corpId,
+        ?AccessTokenInterface $suiteAccessToken = null
+    ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
         return (new OpenWeWork([
             'client_id' => $corpId,
             'redirect_url' => $this->config->get('oauth.redirect_url'),
         ]))->withSuiteTicket($this->getSuiteTicket()->getTicket())
-           ->withSuiteAccessToken($suiteAccessToken->getToken())
-           ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
+            ->withSuiteAccessToken($suiteAccessToken->getToken())
+            ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
     }
 
     /**
@@ -297,7 +302,7 @@ class Application implements ApplicationInterface
      */
     protected function getHttpClientDefaultOptions(): array
     {
-        return \array_merge(
+        return array_merge(
             ['base_uri' => 'https://qyapi.weixin.qq.com/',],
             (array) $this->config->get('http', [])
         );

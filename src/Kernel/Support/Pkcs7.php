@@ -7,7 +7,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 class Pkcs7
 {
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function padding(string $contents, int $blockSize): string
     {

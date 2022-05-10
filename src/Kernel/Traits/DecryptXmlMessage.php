@@ -11,10 +11,15 @@ trait DecryptXmlMessage
 {
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws BadRequestException
      */
-    public function decryptMessage(Message $message, Encryptor $encryptor, string $signature, int | string $timestamp, string $nonce): Message
-    {
+    public function decryptMessage(
+        Message $message,
+        Encryptor $encryptor,
+        string $signature,
+        int|string $timestamp,
+        string $nonce
+    ): Message {
         $ciphertext = $message->Encrypt;
 
         $this->validateSignature($encryptor->getToken(), $ciphertext, $signature, $timestamp, $nonce);
@@ -32,10 +37,15 @@ trait DecryptXmlMessage
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws BadRequestException
      */
-    protected function validateSignature(string $token, string $ciphertext, string $signature, int | string $timestamp, string $nonce): void
-    {
+    protected function validateSignature(
+        string $token,
+        string $ciphertext,
+        string $signature,
+        int|string $timestamp,
+        string $nonce
+    ): void {
         if (empty($signature)) {
             throw new BadRequestException('Request signature must not be empty.');
         }

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
+use Closure;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
@@ -14,6 +18,7 @@ use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use function func_get_args;
 
 class Server implements ServerInterface
 {
@@ -22,7 +27,7 @@ class Server implements ServerInterface
     use DecryptXmlMessage;
 
     protected ServerRequestInterface $request;
-    protected \Closure | null $defaultSuiteTicketHandler = null;
+    protected Closure|null $defaultSuiteTicketHandler = null;
 
     /**
      * @throws \Throwable
@@ -36,9 +41,9 @@ class Server implements ServerInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws BadRequestException
+     * @throws RuntimeException
      */
     public function serve(): ResponseInterface
     {
@@ -55,7 +60,7 @@ class Server implements ServerInterface
             return new Response(200, [], $response);
         }
 
-        $message = Message::createFromRequest($this->request);
+        $message = $this->getRequestMessage($this->request);
 
         $this->prepend($this->decryptRequestMessage());
 
@@ -69,16 +74,16 @@ class Server implements ServerInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function withDefaultSuiteTicketHandler(callable $handler): void
     {
-        $this->defaultSuiteTicketHandler = fn (): mixed => $handler(...\func_get_args());
+        $this->defaultSuiteTicketHandler = fn (): mixed => $handler(...func_get_args());
         $this->handleSuiteTicketRefreshed($this->defaultSuiteTicketHandler);
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function handleSuiteTicketRefreshed(callable $handler): static
     {
@@ -86,7 +91,7 @@ class Server implements ServerInterface
             $this->withoutHandler($this->defaultSuiteTicketHandler);
         }
 
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
             return $message->InfoType === 'suite_ticket' ? $handler($message, $next) : $next($message);
         });
 
@@ -95,7 +100,7 @@ class Server implements ServerInterface
 
     public function handleAuthCreated(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
             return $message->InfoType === 'create_auth' ? $handler($message, $next) : $next($message);
         });
 
@@ -104,7 +109,7 @@ class Server implements ServerInterface
 
     public function handleAuthChanged(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
             return $message->InfoType === 'change_auth' ? $handler($message, $next) : $next($message);
         });
 
@@ -113,7 +118,7 @@ class Server implements ServerInterface
 
     public function handleAuthCancelled(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
             return $message->InfoType === 'cancel_auth' ? $handler($message, $next) : $next($message);
         });
 
@@ -122,8 +127,11 @@ class Server implements ServerInterface
 
     public function handleUserCreated(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_user' ? $handler($message, $next) : $next($message);
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_user' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
@@ -131,8 +139,11 @@ class Server implements ServerInterface
 
     public function handleUserUpdated(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_user' ? $handler($message, $next) : $next($message);
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_user' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
@@ -140,8 +151,11 @@ class Server implements ServerInterface
 
     public function handleUserDeleted(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler($message, $next) : $next($message);
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_user' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
@@ -149,8 +163,11 @@ class Server implements ServerInterface
 
     public function handlePartyCreated(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler($message, $next) : $next($message);
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
@@ -158,8 +175,11 @@ class Server implements ServerInterface
 
     public function handlePartyUpdated(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler($message, $next) : $next($message);
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
@@ -167,8 +187,11 @@ class Server implements ServerInterface
 
     public function handlePartyDeleted(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler($message, $next) : $next($message);
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
@@ -176,8 +199,11 @@ class Server implements ServerInterface
 
     public function handleUserTagUpdated(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler($message, $next) : $next($message);
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_tag' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
@@ -185,17 +211,17 @@ class Server implements ServerInterface
 
     public function handleShareAgentChanged(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
             return $message->InfoType === 'share_agent_change' ? $handler($message, $next) : $next($message);
         });
 
         return $this;
     }
 
-    protected function decryptRequestMessage(): \Closure
+    protected function decryptRequestMessage(): Closure
     {
         $query = $this->request->getQueryParams();
-        return function (Message $message, \Closure $next) use ($query): mixed {
+        return function (Message $message, Closure $next) use ($query): mixed {
             $this->decryptMessage(
                 $message,
                 $this->encryptor,
@@ -206,5 +232,32 @@ class Server implements ServerInterface
 
             return $next($message);
         };
+    }
+
+    /**
+     * @throws BadRequestException
+     */
+    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    {
+        return Message::createFromRequest($request ?? $this->request);
+    }
+
+    /**
+     * @throws BadRequestException
+     * @throws RuntimeException
+     */
+    public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    {
+        $request = $request ?? $this->request;
+        $message = $this->getRequestMessage($request);
+        $query = $request->getQueryParams();
+
+        return $this->decryptMessage(
+            message: $message,
+            encryptor: $this->encryptor,
+            signature: $query['msg_signature'] ?? '',
+            timestamp: $query['timestamp'] ?? '',
+            nonce: $query['nonce'] ?? ''
+        );
     }
 }

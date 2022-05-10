@@ -8,14 +8,14 @@ use Psr\Http\Message\ResponseInterface;
 
 class HttpException extends Exception
 {
-    public ?\Psr\Http\Message\ResponseInterface $response;
+    public ?ResponseInterface $response;
 
     /**
      * HttpException constructor.
      *
-     * @param string                                   $message
-     * @param \Psr\Http\Message\ResponseInterface|null $response
-     * @param int                                      $code
+     * @param  string  $message
+     * @param  ResponseInterface|null  $response
+     * @param  int  $code
      */
     public function __construct(string $message, ResponseInterface $response = null, int $code = 0)
     {

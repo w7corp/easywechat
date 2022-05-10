@@ -2,16 +2,24 @@
 
 namespace EasyWeChat\Pay;
 
+use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use Exception;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
+use function is_array;
+use function json_decode;
+use function json_encode;
+use function strval;
 
 /**
  * @link https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay4_1.shtml
@@ -20,10 +28,11 @@ use Psr\Http\Message\ServerRequestInterface;
 class Server implements ServerInterface
 {
     use InteractWithHandlers;
+
     protected ServerRequestInterface $request;
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function __construct(
         protected MerchantInterface $merchant,
@@ -33,15 +42,19 @@ class Server implements ServerInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function serve(): ResponseInterface
     {
         $message = $this->getRequestMessage();
 
         try {
-            $defaultResponse = new Response(200, [], \strval(\json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE)));
+            $defaultResponse = new Response(
+                200,
+                [],
+                strval(json_encode(['code' => 'SUCCESS', 'message' => '成功'], JSON_UNESCAPED_UNICODE))
+            );
             $response = $this->handle($defaultResponse, $message);
 
             if (!($response instanceof ResponseInterface)) {
@@ -49,22 +62,22 @@ class Server implements ServerInterface
             }
 
             return ServerResponse::make($response);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new Response(
                 500,
                 [],
-                \strval(\json_encode(['code' => 'ERROR', 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE))
+                strval(json_encode(['code' => 'ERROR', 'message' => $e->getMessage()], JSON_UNESCAPED_UNICODE))
             );
         }
     }
 
     /**
      * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function handlePaid(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
             return $message->getEventType() === 'TRANSACTION.SUCCESS' && $message->trade_state === 'SUCCESS'
                 ? $handler($message, $next) : $next($message);
         });
@@ -74,11 +87,11 @@ class Server implements ServerInterface
 
     /**
      * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function handleRefunded(callable $handler): static
     {
-        $this->with(function (Message $message, \Closure $next) use ($handler): mixed {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
             return in_array($message->getEventType(), [
                 'REFUND.SUCCESS',
                 'REFUND.ABNORMAL',
@@ -90,15 +103,15 @@ class Server implements ServerInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
-    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
-        $originContent = (string)($request ?? $this->request)->getBody();
-        $attributes = \json_decode($originContent, true);
+        $originContent = (string) ($request ?? $this->request)->getBody();
+        $attributes = json_decode($originContent, true);
 
-        if (!\is_array($attributes)) {
+        if (!is_array($attributes)) {
             throw new RuntimeException('Invalid request body.');
         }
 
@@ -106,7 +119,7 @@ class Server implements ServerInterface
             throw new RuntimeException('Invalid request.');
         }
 
-        $attributes = \json_decode(
+        $attributes = json_decode(
             AesGcm::decrypt(
                 $attributes['resource']['ciphertext'],
                 $this->merchant->getSecretKey(),
@@ -116,10 +129,19 @@ class Server implements ServerInterface
             true
         );
 
-        if (!\is_array($attributes)) {
+        if (!is_array($attributes)) {
             throw new RuntimeException('Failed to decrypt request message.');
         }
 
         return new Message($attributes, $originContent);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
+    public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
+    {
+        return $this->getRequestMessage($request);
     }
 }

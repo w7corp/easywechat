@@ -12,6 +12,8 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function intval;
+use const JSON_UNESCAPED_UNICODE;
 
 class ProviderAccessToken implements RefreshableAccessTokenInterface
 {
@@ -90,20 +92,20 @@ class ProviderAccessToken implements RefreshableAccessTokenInterface
     public function refresh(): string
     {
         $response = $this->httpClient->request('POST', 'cgi-bin/service/get_provider_token', [
-                'json' => [
-                    'corpid' => $this->corpId,
-                    'provider_secret' => $this->providerSecret,
-                ],
-            ])->toArray(false);
+            'json' => [
+                'corpid' => $this->corpId,
+                'provider_secret' => $this->providerSecret,
+            ],
+        ])->toArray(false);
 
         if (empty($response['provider_access_token'])) {
             throw new HttpException('Failed to get provider_access_token: '.\json_encode(
                 $response,
-                \JSON_UNESCAPED_UNICODE
+                JSON_UNESCAPED_UNICODE
             ));
         }
 
-        $this->cache->set($this->getKey(), $response['provider_access_token'], \intval($response['expires_in']));
+        $this->cache->set($this->getKey(), $response['provider_access_token'], intval($response['expires_in']));
 
         return $response['provider_access_token'];
     }

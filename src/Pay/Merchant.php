@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use function array_is_list;
+use function intval;
+use function is_string;
 
 class Merchant implements MerchantInterface
 {
@@ -19,11 +23,11 @@ class Merchant implements MerchantInterface
     /**
      * @param  array<int|string, string|PublicKey>  $platformCerts
      *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigException
      */
     public function __construct(
-        protected int | string $mchId,
+        protected int|string $mchId,
         protected PrivateKey $privateKey,
         protected PublicKey $certificate,
         protected string $secretKey,
@@ -35,7 +39,7 @@ class Merchant implements MerchantInterface
 
     public function getMerchantId(): int
     {
-        return \intval($this->mchId);
+        return intval($this->mchId);
     }
 
     public function getPrivateKey(): PrivateKey
@@ -67,15 +71,15 @@ class Merchant implements MerchantInterface
      * @param  array<array-key, string|PublicKey>  $platformCerts
      *
      * @return array<string, PublicKey>
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigException
      */
     protected function normalizePlatformCerts(array $platformCerts): array
     {
         $certs = [];
-        $isList = \array_is_list($platformCerts);
+        $isList = array_is_list($platformCerts);
         foreach ($platformCerts as $index => $publicKey) {
-            if (\is_string($publicKey)) {
+            if (is_string($publicKey)) {
                 $publicKey = new PublicKey($publicKey);
             }
 

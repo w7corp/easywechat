@@ -4,34 +4,40 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
+use InvalidArgumentException;
 use SimpleXMLElement;
+use function is_object;
 
 class Xml
 {
     /**
      * @return array<int|string,mixed>|null
      */
-    public static function parse(string $xml): array | null
+    public static function parse(string $xml): array|null
     {
         if (empty($xml)) {
             return null;
         }
 
-        $xml = simplexml_load_string(self::sanitize($xml), 'SimpleXMLElement', LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS);
+        $xml = simplexml_load_string(
+            self::sanitize($xml),
+            'SimpleXMLElement',
+            LIBXML_COMPACT | LIBXML_NOCDATA | LIBXML_NOBLANKS
+        );
 
         if (!$xml) {
-            throw new \InvalidArgumentException('Invalid XML');
+            throw new InvalidArgumentException('Invalid XML');
         }
 
         return self::normalize($xml);
     }
 
     /**
-     * @param  array<int|string, mixed>         $data
-     * @param  string        $root
-     * @param  string        $item
+     * @param  array<int|string, mixed>  $data
+     * @param  string  $root
+     * @param  string  $item
      * @param  string|array<string, mixed>  $attr
-     * @param  string        $id
+     * @param  string  $id
      *
      * @return string
      */
@@ -39,7 +45,7 @@ class Xml
         array $data,
         string $root = 'xml',
         string $item = 'item',
-        string | array $attr = '',
+        string|array $attr = '',
         string $id = 'id'
     ): string {
         if (is_array($attr)) {
@@ -69,15 +75,15 @@ class Xml
 
     /**
      * @psalm-suppress RedundantCondition
-     * @param array<SimpleXMLElement>|SimpleXMLElement $object
+     * @param  array<SimpleXMLElement>|SimpleXMLElement  $object
      * @return array<int|string, mixed>|null
      */
-    protected static function normalize(SimpleXMLElement|array $object): array | null
+    protected static function normalize(SimpleXMLElement|array $object): array|null
     {
         $result = null;
 
-        if (\is_object($object)) {
-            $object = (array)$object;
+        if (is_object($object)) {
+            $object = (array) $object;
         }
 
         if (is_array($object)) {
@@ -96,7 +102,7 @@ class Xml
     }
 
     /**
-     * @param  array<int|string,mixed>   $data
+     * @param  array<int|string,mixed>  $data
      * @param  string  $item
      * @param  string  $id
      *
@@ -115,7 +121,7 @@ class Xml
             $xml .= "<{$key}{$attr}>";
 
             if ((is_array($val) || is_object($val))) {
-                $xml .= self::data2Xml((array)$val, $item, $id);
+                $xml .= self::data2Xml((array) $val, $item, $id);
             } else {
                 /** @phpstan-ignore-next-line */
                 $xml .= is_numeric($val) ? $val : self::cdata($val);
@@ -133,7 +139,7 @@ class Xml
      * @see https://www.w3.org/TR/2008/REC-xml-20081126/#charsets - XML charset range
      * @see http://php.net/manual/en/regexp.reference.escape.php - escape in UTF-8 mode
      *
-     * @param  ?string $xml
+     * @param  ?string  $xml
      *
      * @return string
      */
@@ -143,6 +149,10 @@ class Xml
             return '';
         }
 
-        return preg_replace('/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u', '', $xml) ?? '';
+        return preg_replace(
+            '/[^\x{9}\x{A}\x{D}\x{20}-\x{D7FF}\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]+/u',
+            '',
+            $xml
+        ) ?? '';
     }
 }

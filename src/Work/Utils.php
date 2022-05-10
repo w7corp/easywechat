@@ -2,7 +2,16 @@
 
 namespace EasyWeChat\Work;
 
+use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Support\Str;
+use Exception;
+use Psr\SimpleCache\InvalidArgumentException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use function time;
 
 class Utils
 {
@@ -16,14 +25,14 @@ class Utils
      *
      * @return array<string, mixed>
      *
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Exception
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws ClientExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws HttpException
+     * @throws ServerExceptionInterface
+     * @throws Exception
      */
     public function buildJsSdkConfig(
         string $url,
@@ -34,7 +43,7 @@ class Utils
     ): array {
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug', 'beta'),
-            $this->app->getTicket()->createConfigSignature($url, Str::random(), \time())
+            $this->app->getTicket()->createConfigSignature($url, Str::random(), time())
         );
     }
 
@@ -44,14 +53,14 @@ class Utils
      *
      * @return array<string, mixed>
      *
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Exception
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws TransportExceptionInterface
+     * @throws HttpException
+     * @throws ServerExceptionInterface
+     * @throws Exception
      */
     public function buildJsSdkAgentConfig(
         int $agentId,
@@ -62,7 +71,7 @@ class Utils
     ): array {
         return array_merge(
             compact('jsApiList', 'openTagList', 'debug'),
-            $this->app->getTicket()->createAgentConfigSignature($agentId, $url, Str::random(), \time())
+            $this->app->getTicket()->createAgentConfigSignature($agentId, $url, Str::random(), time())
         );
     }
 }

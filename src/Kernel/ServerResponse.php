@@ -5,6 +5,16 @@ namespace EasyWeChat\Kernel;
 use JetBrains\PhpStorm\Pure;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use function array_keys;
+use function array_map;
+use function count;
+use function header;
+use function max;
+use function sprintf;
+use function ucwords;
+use const PHP_OUTPUT_HANDLER_CLEANABLE;
+use const PHP_OUTPUT_HANDLER_FLUSHABLE;
+use const PHP_OUTPUT_HANDLER_REMOVABLE;
 
 class ServerResponse implements ResponseInterface
 {
@@ -125,12 +135,17 @@ class ServerResponse implements ResponseInterface
             $replace = 0 === \strcasecmp($name, 'Content-Type');
 
             foreach ($values as $value) {
-                \header($name.': '.$value, $replace, $this->getStatusCode());
+                header($name.': '.$value, $replace, $this->getStatusCode());
             }
         }
 
-        \header(
-            header: \sprintf('HTTP/%s %s %s', $this->getProtocolVersion(), $this->getStatusCode(), $this->getReasonPhrase()),
+        header(
+            header: sprintf(
+                'HTTP/%s %s %s',
+                $this->getProtocolVersion(),
+                $this->getStatusCode(),
+                $this->getReasonPhrase()
+            ),
             replace: true,
             response_code: $this->getStatusCode()
         );
@@ -156,8 +171,8 @@ class ServerResponse implements ResponseInterface
     public static function closeOutputBuffers(int $targetLevel, bool $flush): void
     {
         $status = ob_get_status(true);
-        $level = \count($status);
-        $flags = \PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? \PHP_OUTPUT_HANDLER_FLUSHABLE : \PHP_OUTPUT_HANDLER_CLEANABLE);
+        $level = count($status);
+        $flags = PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE);
 
         while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || ($s['flags'] & $flags) === $flags : $s['del'])) {
             if ($flush) {
@@ -174,18 +189,23 @@ class ServerResponse implements ResponseInterface
 
         ksort($headers);
 
-        $max = \max(\array_map('strlen', \array_keys($headers))) + 1;
+        $max = max(array_map('strlen', array_keys($headers))) + 1;
         $headersString = '';
 
         foreach ($headers as $name => $values) {
-            $name = \ucwords($name, '-');
+            $name = ucwords($name, '-');
             foreach ($values as $value) {
-                $headersString .= \sprintf("%-{$max}s %s\r\n", $name.':', $value);
+                $headersString .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
             }
         }
 
-        return sprintf('HTTP/%s %s %s', $this->getProtocolVersion(), $this->getStatusCode(), $this->getReasonPhrase())."\r\n".
-                $headersString."\r\n".
-                $this->getBody();
+        return sprintf(
+            'HTTP/%s %s %s',
+            $this->getProtocolVersion(),
+            $this->getStatusCode(),
+            $this->getReasonPhrase()
+        )."\r\n".
+            $headersString."\r\n".
+            $this->getBody();
     }
 }

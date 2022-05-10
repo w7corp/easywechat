@@ -6,6 +6,7 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use JetBrains\PhpStorm\ArrayShape;
+use function sprintf;
 
 class JsApiTicket extends AccessToken
 {
@@ -28,7 +29,7 @@ class JsApiTicket extends AccessToken
         }
 
         $response = $this->httpClient->request('GET', '/cgi-bin/ticket/getticket', ['query' => ['type' => 'jsapi']])
-                                     ->toArray(false);
+            ->toArray(false);
 
         if (empty($response['ticket'])) {
             throw new HttpException('Failed to get jssdk ticket: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
@@ -63,12 +64,18 @@ class JsApiTicket extends AccessToken
             'nonceStr' => $nonce,
             'timestamp' => $timestamp,
             'appId' => $this->appId,
-            'signature' => sha1(sprintf('jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s', $this->getTicket(), $nonce, $timestamp, $url)),
+            'signature' => sha1(sprintf(
+                'jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s',
+                $this->getTicket(),
+                $nonce,
+                $timestamp,
+                $url
+            )),
         ];
     }
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('official_account.jsapi_ticket.%s', $this->appId);
+        return $this->key ?? $this->key = sprintf('official_account.jsapi_ticket.%s', $this->appId);
     }
 }

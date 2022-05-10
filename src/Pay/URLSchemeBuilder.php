@@ -6,6 +6,8 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use Exception;
+use function sprintf;
 
 class URLSchemeBuilder
 {
@@ -14,9 +16,9 @@ class URLSchemeBuilder
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
-    public function forProduct(string | int $productId, string $appId): string
+    public function forProduct(string|int $productId, string $appId): string
     {
         $params = [
             'appid' => $appId,
@@ -33,6 +35,6 @@ class URLSchemeBuilder
 
     public function forCodeUrl(string $codeUrl): string
     {
-        return \sprintf('weixin://wxpay/bizpayurl?sr=%s', $codeUrl);
+        return sprintf('weixin://wxpay/bizpayurl?sr=%s', $codeUrl);
     }
 }

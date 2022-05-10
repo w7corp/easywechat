@@ -3,9 +3,18 @@
 namespace EasyWeChat\Kernel\HttpClient;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Form\File;
 use EasyWeChat\Kernel\Form\Form;
 use EasyWeChat\Kernel\Support\Str;
+use function array_merge;
+use function in_array;
+use function is_file;
+use function is_string;
+use function str_ends_with;
+use function str_starts_with;
+use function strtoupper;
+use function substr;
 
 trait RequestWithPresets
 {
@@ -25,7 +34,7 @@ trait RequestWithPresets
     protected array $presets = [];
 
     /**
-     * @param array<string, mixed> $presets
+     * @param  array<string, mixed>  $presets
      */
     public function setPresets(array $presets): static
     {
@@ -51,7 +60,7 @@ trait RequestWithPresets
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function with(string|array $key, mixed $value = null): static
     {
@@ -59,7 +68,7 @@ trait RequestWithPresets
             // $client->with(['appid', 'mchid'])
             // $client->with(['appid' => 'wx1234567', 'mchid'])
             foreach ($key as $k => $v) {
-                if (\is_int($k) && \is_string($v)) {
+                if (\is_int($k) && is_string($v)) {
                     [$k, $v] = [$v, null];
                 }
 
@@ -75,12 +84,15 @@ trait RequestWithPresets
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function withFile(string $pathOrContents, string $formName = 'file', string $filename = null): static
     {
-        $file = \is_file($pathOrContents) ? File::fromPath($pathOrContents, $filename) : File::withContents($pathOrContents, $filename);
+        $file = is_file($pathOrContents) ? File::fromPath(
+            $pathOrContents,
+            $filename
+        ) : File::withContents($pathOrContents, $filename);
 
         /**
          * @var array{headers: array<string, string>, body: array<string, mixed>}
@@ -99,8 +111,8 @@ trait RequestWithPresets
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function withFileContents(string $contents, string $formName = 'file', string $filename = null): static
     {
@@ -108,8 +120,8 @@ trait RequestWithPresets
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function withFiles(array $files): static
     {
@@ -122,7 +134,7 @@ trait RequestWithPresets
 
     public function mergeThenResetPrepends(array $options, string $method = 'GET'): array
     {
-        $name = \in_array(\strtoupper($method), ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
+        $name = in_array(strtoupper($method), ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
 
         if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'application/json' || !empty($options['json'])) {
             $name = 'json';
@@ -133,11 +145,11 @@ trait RequestWithPresets
         }
 
         if (!empty($this->prependParts)) {
-            $options[$name] = \array_merge($this->prependParts, $options[$name] ?? []);
+            $options[$name] = array_merge($this->prependParts, $options[$name] ?? []);
         }
 
         if (!empty($this->prependHeaders)) {
-            $options['headers'] = \array_merge($this->prependHeaders, $options['headers'] ?? []);
+            $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
         }
 
         $this->prependParts = [];
@@ -147,24 +159,24 @@ trait RequestWithPresets
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function handleMagicWithCall(string $method, mixed $value = null): static
     {
         // $client->withAppid();
         // $client->withAppid('wxf8b4f85f3a794e77');
         // $client->withAppidAs('sub_appid');
-        if (!\str_starts_with($method, 'with')) {
+        if (!str_starts_with($method, 'with')) {
             throw new InvalidArgumentException(sprintf('The method "%s" is not supported.', $method));
         }
 
-        $key = Str::snakeCase(\substr($method, 4));
+        $key = Str::snakeCase(substr($method, 4));
 
         // $client->withAppidAs('sub_appid');
-        if (\str_ends_with($key, '_as')) {
-            $key = \substr($key, 0, -3);
+        if (str_ends_with($key, '_as')) {
+            $key = substr($key, 0, -3);
 
-            [$key, $value] = [\is_string($value) ? $value : $key, $this->presets[$key] ?? null];
+            [$key, $value] = [is_string($value) ? $value : $key, $this->presets[$key] ?? null];
         }
 
         return $this->with($key, $value);

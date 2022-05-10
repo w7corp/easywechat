@@ -109,7 +109,13 @@ $server->with(function($message, \Closure $next) {
 你可以通过下面的方式获取来自微信服务器的推送消息：
 
 ```php
-$message = $server->getRequestMessage();
+$message = $server->getRequestMessage(); // 原始消息
+```
+
+你也可以获取解密后的消息 <version-tag>6.5.0+</version-tag>
+
+```php
+$message = $server->getDecryptedMessage();
 ```
 
 `$message` 为一个 `EasyWeChat\OpenWork\Message` 实例。

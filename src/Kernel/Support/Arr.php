@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Support;
 
 use JetBrains\PhpStorm\Pure;
+use function is_string;
 
 class Arr
 {
     /**
      * @param  array<string|int, mixed>  $array
-     * @param  string|int|null    $key
-     * @param  mixed              $default
+     * @param  string|int|null  $key
+     * @param  mixed  $default
      *
      * @return mixed
      */
@@ -26,7 +27,7 @@ class Arr
             return $array[$key];
         }
 
-        foreach (explode('.', (string)$key) as $segment) {
+        foreach (explode('.', (string) $key) as $segment) {
             /** @phpstan-ignore-next-line */
             if (static::exists($array, $segment)) {
                 /** @phpstan-ignore-next-line */
@@ -41,7 +42,7 @@ class Arr
 
     /**
      * @param  array<int|string, mixed>  $array
-     * @param  string|int    $key
+     * @param  string|int  $key
      *
      * @return bool
      */
@@ -51,16 +52,16 @@ class Arr
     }
 
     /**
-     * @param  array<string|int, mixed>     $array
+     * @param  array<string|int, mixed>  $array
      * @param  string|int|null  $key
-     * @param  mixed            $value
+     * @param  mixed  $value
      *
      * @return array<string|int, mixed>
      */
     public static function set(array &$array, string|int|null $key, mixed $value): array
     {
-        if (!\is_string($key)) {
-            $key = (string)$key;
+        if (!is_string($key)) {
+            $key = (string) $key;
         }
 
         $keys = explode('.', $key);
@@ -85,7 +86,7 @@ class Arr
 
     /**
      * @param  array<string|int, mixed>  $array
-     * @param  string             $prepend
+     * @param  string  $prepend
      *
      * @return array<string|int, mixed>
      */
@@ -105,7 +106,7 @@ class Arr
     }
 
     /**
-     * @param  array<string|int, mixed>                  $array
+     * @param  array<string|int, mixed>  $array
      * @param  string|int|array<string|int, mixed>|null  $keys
      *
      * @return bool
@@ -117,7 +118,7 @@ class Arr
             return false;
         }
 
-        $keys = (array)$keys;
+        $keys = (array) $keys;
 
         if (empty($array)) {
             return false;
@@ -136,7 +137,7 @@ class Arr
             }
 
             /** @phpstan-ignore-next-line */
-            foreach (explode('.', (string)$key) as $segment) {
+            foreach (explode('.', (string) $key) as $segment) {
                 /** @phpstan-ignore-next-line */
                 if (static::exists($subKeyArray, $segment)) {
                     /** @phpstan-ignore-next-line */

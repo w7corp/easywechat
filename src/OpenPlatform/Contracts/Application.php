@@ -40,12 +40,15 @@ interface Application
     public function getOAuth(): ProviderInterface;
 
     /**
-     * @param  array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function getMiniApp(AuthorizerAccessToken $authorizerAccessToken, array $config): MiniAppApplication;
 
     /**
-     * @param  array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
-    public function getOfficialAccount(AuthorizerAccessToken $authorizerAccessToken, array $config): OfficialAccountApplication;
+    public function getOfficialAccount(
+        AuthorizerAccessToken $authorizerAccessToken,
+        array $config
+    ): OfficialAccountApplication;
 }

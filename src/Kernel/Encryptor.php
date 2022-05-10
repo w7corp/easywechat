@@ -8,7 +8,24 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Pkcs7;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Kernel\Support\Xml;
+use Exception;
 use Throwable;
+use function base64_decode;
+use function base64_encode;
+use function implode;
+use function openssl_decrypt;
+use function openssl_encrypt;
+use function pack;
+use function random_bytes;
+use function sha1;
+use function sort;
+use function strlen;
+use function substr;
+use function time;
+use function trim;
+use function unpack;
+use const OPENSSL_NO_PADDING;
+use const SORT_STRING;
 
 class Encryptor
 {
@@ -36,7 +53,7 @@ class Encryptor
         $this->appId = $appId;
         $this->token = $token;
         $this->receiveId = $receiveId;
-        $this->aesKey = \base64_decode($aesKey.'=', true) ?: '';
+        $this->aesKey = base64_decode($aesKey.'=', true) ?: '';
     }
 
     public function getToken(): string
@@ -45,20 +62,20 @@ class Encryptor
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     * @throws \Exception
+     * @throws RuntimeException
+     * @throws Exception
      */
-    public function encrypt(string $plaintext, string | null $nonce = null, int | string $timestamp = null): string
+    public function encrypt(string $plaintext, string|null $nonce = null, int|string $timestamp = null): string
     {
         try {
-            $plaintext = Pkcs7::padding(\random_bytes(16).\pack('N', \strlen($plaintext)).$plaintext.$this->appId, 32);
-            $ciphertext = \base64_encode(
-                \openssl_encrypt(
+            $plaintext = Pkcs7::padding(random_bytes(16).pack('N', strlen($plaintext)).$plaintext.$this->appId, 32);
+            $ciphertext = base64_encode(
+                openssl_encrypt(
                     $plaintext,
                     "aes-256-cbc",
                     $this->aesKey,
-                    \OPENSSL_NO_PADDING,
-                    \substr($this->aesKey, 0, 16)
+                    OPENSSL_NO_PADDING,
+                    substr($this->aesKey, 0, 16)
                 ) ?: ''
             );
         } catch (Throwable $e) {
@@ -66,7 +83,7 @@ class Encryptor
         }
 
         $nonce ??= Str::random();
-        $timestamp ??= \time();
+        $timestamp ??= time();
 
         $response = [
             'Encrypt' => $ciphertext,
@@ -80,15 +97,15 @@ class Encryptor
 
     public function createSignature(mixed ...$attributes): string
     {
-        \sort($attributes, \SORT_STRING);
+        sort($attributes, SORT_STRING);
 
-        return \sha1(\implode($attributes));
+        return sha1(implode($attributes));
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
-    public function decrypt(string $ciphertext, string $msgSignature, string $nonce, int | string $timestamp): string
+    public function decrypt(string $ciphertext, string $msgSignature, string $nonce, int|string $timestamp): string
     {
         $signature = $this->createSignature($this->token, $timestamp, $nonce, $ciphertext);
 
@@ -97,22 +114,22 @@ class Encryptor
         }
 
         $plaintext = Pkcs7::unpadding(
-            \openssl_decrypt(
-                \base64_decode($ciphertext, true) ?: '',
+            openssl_decrypt(
+                base64_decode($ciphertext, true) ?: '',
                 "aes-256-cbc",
                 $this->aesKey,
-                \OPENSSL_NO_PADDING,
+                OPENSSL_NO_PADDING,
                 substr($this->aesKey, 0, 16)
             ) ?: '',
             32
         );
-        $plaintext = \substr($plaintext, 16);
-        $contentLength = (\unpack('N', \substr($plaintext, 0, 4)) ?: [])[1];
+        $plaintext = substr($plaintext, 16);
+        $contentLength = (unpack('N', substr($plaintext, 0, 4)) ?: [])[1];
 
-        if ($this->receiveId && \trim(\substr($plaintext, $contentLength + 4)) !== $this->receiveId) {
+        if ($this->receiveId && trim(substr($plaintext, $contentLength + 4)) !== $this->receiveId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
         }
 
-        return \substr($plaintext, 4, $contentLength);
+        return substr($plaintext, 4, $contentLength);
     }
 }

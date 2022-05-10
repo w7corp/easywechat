@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
+use function array_key_exists;
+use function array_merge;
+use function json_encode;
+
 trait HasAttributes
 {
     /**
-     * @var  array<int|string,mixed>  $attributes
+     * @var  array<int|string,mixed> $attributes
      */
     protected array $attributes = [];
 
@@ -29,12 +33,12 @@ trait HasAttributes
 
     public function toJson(): string|false
     {
-        return \json_encode($this->attributes);
+        return json_encode($this->attributes);
     }
 
     public function has(string $key): bool
     {
-        return \array_key_exists($key, $this->attributes);
+        return array_key_exists($key, $this->attributes);
     }
 
     /**
@@ -42,7 +46,7 @@ trait HasAttributes
      */
     public function merge(array $attributes): static
     {
-        $this->attributes = \array_merge($this->attributes, $attributes);
+        $this->attributes = array_merge($this->attributes, $attributes);
 
         return $this;
     }

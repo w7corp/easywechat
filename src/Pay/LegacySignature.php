@@ -8,6 +8,12 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use function call_user_func_array;
+use function hash_hmac;
+use function http_build_query;
+use function is_string;
+use function strtoupper;
+use function urldecode;
 
 class LegacySignature
 {
@@ -45,18 +51,18 @@ class LegacySignature
         }
 
         if (!empty($params['sign_type']) && 'HMAC-SHA256' === $params['sign_type']) {
-            $signType = fn (string $message): string => \hash_hmac('sha256', $message, $attributes['key']);
+            $signType = fn (string $message): string => hash_hmac('sha256', $message, $attributes['key']);
         } else {
             $signType = 'md5';
         }
 
-        $sign = \call_user_func_array($signType, [\urldecode(\http_build_query($attributes))]);
+        $sign = call_user_func_array($signType, [urldecode(http_build_query($attributes))]);
 
-        if (!\is_string($sign)) {
+        if (!is_string($sign)) {
             throw new RuntimeException('Failed to sign the request.');
         }
 
-        $params['sign'] = \strtoupper($sign);
+        $params['sign'] = strtoupper($sign);
 
         return $params;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
+use RuntimeException;
 
 class Account implements AccountInterface
 {
@@ -24,7 +25,7 @@ class Account implements AccountInterface
     public function getSecret(): string
     {
         if (null === $this->secret) {
-            throw new \RuntimeException('No secret configured.');
+            throw new RuntimeException('No secret configured.');
         }
 
         return $this->secret;

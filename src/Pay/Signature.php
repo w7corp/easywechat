@@ -6,7 +6,16 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use Exception;
 use Nyholm\Psr7\Uri;
+use function base64_encode;
+use function http_build_query;
+use function ltrim;
+use function openssl_sign;
+use function parse_str;
+use function strtoupper;
+use function strval;
+use function time;
 
 class Signature
 {
@@ -17,32 +26,32 @@ class Signature
     /**
      * @param  array<string,mixed>  $options
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function createHeader(string $method, string $url, array $options): string
     {
         $uri = new Uri($url);
 
-        \parse_str($uri->getQuery(), $query);
-        $uri = $uri->withQuery(\http_build_query(array_merge($query, (array) $options['query'])));
+        parse_str($uri->getQuery(), $query);
+        $uri = $uri->withQuery(http_build_query(array_merge($query, (array) $options['query'])));
 
         $body = '';
         $query = $uri->getQuery();
-        $timestamp = \time();
+        $timestamp = time();
         $nonce = Str::random();
-        $path = '/' . \ltrim($uri->getPath() .(empty($query) ? '' : '?' . $query), '/');
+        $path = '/'.ltrim($uri->getPath().(empty($query) ? '' : '?'.$query), '/');
 
         if (!empty($options['body'])) {
-            $body = \strval($options['body']);
+            $body = strval($options['body']);
         }
 
-        $message = \strtoupper($method) . "\n" .
-            $path . "\n" .
-            $timestamp . "\n" .
-            $nonce . "\n" .
-            $body . "\n";
+        $message = strtoupper($method)."\n".
+            $path."\n".
+            $timestamp."\n".
+            $nonce."\n".
+            $body."\n";
 
-        \openssl_sign($message, $signature, $this->merchant->getPrivateKey()->getKey(), 'sha256WithRSAEncryption');
+        openssl_sign($message, $signature, $this->merchant->getPrivateKey()->getKey(), 'sha256WithRSAEncryption');
 
         return sprintf(
             'WECHATPAY2-SHA256-RSA2048 %s',
@@ -52,7 +61,7 @@ class Signature
                 $nonce,
                 $timestamp,
                 $this->merchant->getCertificate()->getSerialNo(),
-                \base64_encode($signature)
+                base64_encode($signature)
             )
         );
     }

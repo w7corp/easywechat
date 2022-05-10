@@ -4,14 +4,26 @@ namespace EasyWeChat\Kernel\HttpClient;
 
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
+use InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7Server\ServerRequestCreator;
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpClient\Retry\GenericRetryStrategy;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use function array_key_exists;
+use function in_array;
+use function is_array;
+use function is_string;
+use function json_encode;
+use const ARRAY_FILTER_USE_KEY;
+use const JSON_FORCE_OBJECT;
+use const JSON_UNESCAPED_UNICODE;
 
 class RequestUtil
 {
     /**
-     * @param array<string, mixed> $options
+     * @param  array<string, mixed>  $options
      *
      * @return array<string, mixed>
      */
@@ -36,7 +48,7 @@ class RequestUtil
     }
 
     /**
-     * @param array<string, array|mixed> $options
+     * @param  array<string, array|mixed>  $options
      *
      * @return array<string, array|mixed>
      */
@@ -44,8 +56,8 @@ class RequestUtil
     {
         $defaultOptions = \array_filter(
             array: $options,
-            callback: fn ($key) => \array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS),
-            mode: \ARRAY_FILTER_USE_KEY
+            callback: fn ($key) => array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS),
+            mode: ARRAY_FILTER_USE_KEY
         );
 
         /** @phpstan-ignore-next-line */
@@ -59,22 +71,22 @@ class RequestUtil
 
     public static function formatOptions(array $options, string $method): array
     {
-        if (\array_key_exists('query', $options)
-            || \array_key_exists('body', $options)
-            || \array_key_exists('json', $options)
-            || \array_key_exists('xml', $options)
+        if (array_key_exists('query', $options)
+            || array_key_exists('body', $options)
+            || array_key_exists('json', $options)
+            || array_key_exists('xml', $options)
         ) {
             return $options;
         }
 
-        $name = \in_array($method, ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
+        $name = in_array($method, ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
 
         if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'application/json') {
             $name = 'json';
         }
 
         foreach ($options as $key => $value) {
-            if (!\array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS)) {
+            if (!array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS)) {
                 $options[$name][$key] = $value;
                 unset($options[$key]);
             }
@@ -91,12 +103,12 @@ class RequestUtil
     public static function formatBody(array $options): array
     {
         if (isset($options['xml'])) {
-            if (\is_array($options['xml'])) {
+            if (is_array($options['xml'])) {
                 $options['xml'] = Xml::build($options['xml']);
             }
 
-            if (!\is_string($options['xml'])) {
-                throw new \InvalidArgumentException('The type of `xml` must be string or array.');
+            if (!is_string($options['xml'])) {
+                throw new InvalidArgumentException('The type of `xml` must be string or array.');
             }
 
             /** @phpstan-ignore-next-line */
@@ -112,11 +124,14 @@ class RequestUtil
         if (isset($options['json'])) {
             if (is_array($options['json'])) {
                 /** XXX: 微信的 JSON 是比较奇葩的，比如菜单不能把中文 encode 为 unicode */
-                $options['json'] = \json_encode($options['json'], empty($options['json']) ? \JSON_FORCE_OBJECT : \JSON_UNESCAPED_UNICODE);
+                $options['json'] = json_encode(
+                    $options['json'],
+                    empty($options['json']) ? JSON_FORCE_OBJECT : JSON_UNESCAPED_UNICODE
+                );
             }
 
-            if (!\is_string($options['json'])) {
-                throw new \InvalidArgumentException('The type of `json` must be string or array.');
+            if (!is_string($options['json'])) {
+                throw new InvalidArgumentException('The type of `json` must be string or array.');
             }
 
             /** @phpstan-ignore-next-line */
@@ -132,11 +147,11 @@ class RequestUtil
         return $options;
     }
 
-    public static function createDefaultServerRequest(): \Psr\Http\Message\ServerRequestInterface
+    public static function createDefaultServerRequest(): ServerRequestInterface
     {
-        $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
+        $psr17Factory = new Psr17Factory();
 
-        $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
+        $creator = new ServerRequestCreator(
             serverRequestFactory: $psr17Factory,
             uriFactory: $psr17Factory,
             uploadedFileFactory: $psr17Factory,

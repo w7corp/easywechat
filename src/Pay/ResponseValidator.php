@@ -8,6 +8,9 @@ use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Psr\Http\Message\ResponseInterface;
+use function base64_decode;
+use function strval;
+use const OPENSSL_ALGO_SHA256;
 
 class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
 {
@@ -61,9 +64,9 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
 
         if (false === \openssl_verify(
             $message,
-            \base64_decode($signature),
-            \strval($publicKey),
-            \OPENSSL_ALGO_SHA256
+            base64_decode($signature),
+            strval($publicKey),
+            OPENSSL_ALGO_SHA256
         )) {
             throw new BadResponseException('Invalid Signature');
         }

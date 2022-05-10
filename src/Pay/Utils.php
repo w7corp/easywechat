@@ -5,7 +5,15 @@ namespace EasyWeChat\Pay;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use Exception;
 use JetBrains\PhpStorm\ArrayShape;
+use function base64_encode;
+use function call_user_func_array;
+use function http_build_query;
+use function openssl_sign;
+use function strtoupper;
+use function time;
+use function urldecode;
 
 class Utils
 {
@@ -16,7 +24,7 @@ class Utils
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
      * @return array<string, mixed>
-     * @throws \Exception
+     * @throws Exception
      */
     #[ArrayShape([
         'appId' => "string",
@@ -36,10 +44,10 @@ class Utils
             'signType' => $signType,
         ];
 
-        $message = $params['appId'] . "\n" .
-                   $params['timeStamp'] . "\n" .
-                   $params['nonceStr'] . "\n" .
-                   $params['package'] . "\n";
+        $message = $params['appId']."\n".
+            $params['timeStamp']."\n".
+            $params['nonceStr']."\n".
+            $params['package']."\n";
 
         // v2
         if ($signType != 'RSA') {
@@ -55,7 +63,7 @@ class Utils
     /**
      * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
      * @return array<string, mixed>
-     * @throws \Exception
+     * @throws Exception
      */
     #[ArrayShape([
         'appId' => "string",
@@ -78,7 +86,7 @@ class Utils
     /**
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      * @return array<string, mixed>
-     * @throws \Exception
+     * @throws Exception
      */
     #[ArrayShape([
         'appId' => "string",
@@ -96,7 +104,7 @@ class Utils
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
      * @return array<string, mixed>
-     * @throws \Exception
+     * @throws Exception
      */
     #[ArrayShape([
         'appid' => "string",
@@ -114,14 +122,14 @@ class Utils
             'partnerid' => $this->merchant->getMerchantId(),
             'prepayid' => $prepayId,
             'noncestr' => Str::random(),
-            'timestamp' => \time(),
+            'timestamp' => time(),
             'package' => 'Sign=WXPay',
         ];
 
-        $message = $params['appid'] . "\n" .
-                   $params['timestamp'] . "\n" .
-                   $params['noncestr'] . "\n" .
-                   $params['prepayid'] . "\n";
+        $message = $params['appid']."\n".
+            $params['timestamp']."\n".
+            $params['noncestr']."\n".
+            $params['prepayid']."\n";
 
         $params['sign'] = $this->createSignature($message);
 
@@ -130,13 +138,13 @@ class Utils
 
     protected function createSignature(string $message): string
     {
-        \openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
+        openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
 
-        return \base64_encode($signature);
+        return base64_encode($signature);
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function createV2Signature(array $params): string
     {
@@ -158,6 +166,6 @@ class Utils
         $params['key'] = $secretKey;
 
         // @phpstan-ignore-next-line
-        return \strtoupper((string) \call_user_func_array($method, [\urldecode(\http_build_query($params))]));
+        return strtoupper((string) call_user_func_array($method, [urldecode(http_build_query($params))]));
     }
 }

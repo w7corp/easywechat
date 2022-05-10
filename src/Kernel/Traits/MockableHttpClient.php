@@ -17,10 +17,14 @@ trait MockableHttpClient
     }
 
     /**
-     * @param  array<string,mixed>     $headers
+     * @param  array<string,mixed>  $headers
      */
-    public static function mock(string $response = '', ?int $status = 200, array $headers = [], string $baseUri = 'https://example.com'): object
-    {
+    public static function mock(
+        string $response = '',
+        ?int $status = 200,
+        array $headers = [],
+        string $baseUri = 'https://example.com'
+    ): object {
         $mockResponse = new MockResponse(
             $response,
             array_merge([
@@ -40,7 +44,7 @@ trait MockableHttpClient
             }
 
             /**
-             * @param array<string,mixed> $arguments
+             * @param  array<string,mixed>  $arguments
              */
             public function __call(string $name, array $arguments): mixed
             {

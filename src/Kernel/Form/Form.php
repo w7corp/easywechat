@@ -9,14 +9,14 @@ use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 class Form
 {
     /**
-     * @param array<string|array|DataPart> $fields
+     * @param  array<string|array|DataPart>  $fields
      */
     public function __construct(protected array $fields)
     {
     }
 
     /**
-     * @param array<string|array|DataPart> $fields
+     * @param  array<string|array|DataPart>  $fields
      */
     public static function create(array $fields): Form
     {

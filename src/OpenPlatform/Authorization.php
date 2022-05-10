@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
+use ArrayAccess;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use JetBrains\PhpStorm\Pure;
 
 /**
- * @implements \ArrayAccess<string, mixed>
+ * @implements ArrayAccess<string, mixed>
  */
-class Authorization implements \ArrayAccess, Jsonable, Arrayable
+class Authorization implements ArrayAccess, Jsonable, Arrayable
 {
     use HasAttributes;
 
@@ -26,7 +27,7 @@ class Authorization implements \ArrayAccess, Jsonable, Arrayable
     public function getAccessToken(): AuthorizerAccessToken
     {
         return new AuthorizerAccessToken(
-            /** @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line */
             $this->attributes['authorization_info']['authorizer_appid'] ?? '',
 
             /** @phpstan-ignore-next-line */

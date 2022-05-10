@@ -17,6 +17,7 @@ use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeWork;
+use function array_merge;
 
 class Application implements ApplicationInterface
 {
@@ -37,9 +38,9 @@ class Application implements ApplicationInterface
         if (!$this->account) {
             $this->account = new Account(
                 corpId: (string) $this->config->get('corp_id'), /** @phpstan-ignore-line */
-                secret: (string) $this->config->get('secret'),  /** @phpstan-ignore-line */
-                token: (string) $this->config->get('token'),    /** @phpstan-ignore-line */
-                aesKey: (string) $this->config->get('aes_key'), /** @phpstan-ignore-line */
+                secret: (string) $this->config->get('secret'), /** @phpstan-ignore-line */
+                token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
+                aesKey: (string) $this->config->get('aes_key'),/** @phpstan-ignore-line */
             );
         }
 
@@ -165,9 +166,9 @@ class Application implements ApplicationInterface
      */
     protected function getHttpClientDefaultOptions(): array
     {
-        return \array_merge(
+        return array_merge(
             ['base_uri' => 'https://qyapi.weixin.qq.com/',],
-            (array)$this->config->get('http', [])
+            (array) $this->config->get('http', [])
         );
     }
 }

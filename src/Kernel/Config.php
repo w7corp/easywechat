@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel;
 
+use ArrayAccess;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Arr;
 use JetBrains\PhpStorm\Pure;
+use function join;
+use function strval;
 
 /**
- * @implements \ArrayAccess<mixed, mixed>
+ * @implements ArrayAccess<mixed, mixed>
  */
-class Config implements \ArrayAccess, ConfigInterface
+class Config implements ArrayAccess, ConfigInterface
 {
     /**
      * @var array<string>
@@ -20,8 +23,8 @@ class Config implements \ArrayAccess, ConfigInterface
     protected array $requiredKeys = [];
 
     /**
-     * @param array<string, mixed> $items
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @param  array<string, mixed>  $items
+     * @throws InvalidArgumentException
      */
     public function __construct(
         protected array $items = [],
@@ -39,7 +42,7 @@ class Config implements \ArrayAccess, ConfigInterface
      * @param  array<string>|string  $key
      */
     #[Pure]
-    public function get(array | string $key, mixed $default = null): mixed
+    public function get(array|string $key, mixed $default = null): mixed
     {
         if (is_array($key)) {
             return $this->getMany($key);
@@ -89,27 +92,27 @@ class Config implements \ArrayAccess, ConfigInterface
     #[Pure]
     public function offsetExists(mixed $key): bool
     {
-        return $this->has(\strval($key));
+        return $this->has(strval($key));
     }
 
     #[Pure]
     public function offsetGet(mixed $key): mixed
     {
-        return $this->get(\strval($key));
+        return $this->get(strval($key));
     }
 
     public function offsetSet(mixed $key, mixed $value): void
     {
-        $this->set(\strval($key), $value);
+        $this->set(strval($key), $value);
     }
 
     public function offsetUnset(mixed $key): void
     {
-        $this->set(\strval($key), null);
+        $this->set(strval($key), null);
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function checkMissingKeys(): bool
     {
@@ -126,7 +129,7 @@ class Config implements \ArrayAccess, ConfigInterface
         }
 
         if (!empty($missingKeys)) {
-            throw new InvalidArgumentException(sprintf("\"%s\" cannot be empty.\r\n", \join(',', $missingKeys)));
+            throw new InvalidArgumentException(sprintf("\"%s\" cannot be empty.\r\n", join(',', $missingKeys)));
         }
 
         return true;

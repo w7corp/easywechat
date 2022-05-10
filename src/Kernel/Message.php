@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @property string $FromUserName
  * @property string $ToUserName
  * @property string $Encrypt
- * @implements \ArrayAccess<string,mixed>
+ * @implements ArrayAccess<array-key, mixed>
  */
 abstract class Message implements ArrayAccess
 {
@@ -29,10 +29,10 @@ abstract class Message implements ArrayAccess
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     * @param  ServerRequestInterface  $request
      *
-     * @return \EasyWeChat\Kernel\Message
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @return Message
+     * @throws BadRequestException
      */
     public static function createFromRequest(ServerRequestInterface $request): Message
     {
@@ -43,7 +43,7 @@ abstract class Message implements ArrayAccess
 
     /**
      * @return array<string,string>
-     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws BadRequestException
      */
     public static function format(string $originContent): array
     {
