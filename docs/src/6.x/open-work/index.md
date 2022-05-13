@@ -12,7 +12,7 @@ $config = [
   'corp_id' => 'wx3cf0f39249eb0exx',
   'provider_secret' => 'f1c242f4f28f735d4687abb469072axx',
   'token' => 'easywechat',
-  'aes_key' => '' // 明文模式请勿填写 EncodingAESKey
+  'aes_key' => '', // 明文模式请勿填写 EncodingAESKey
 
   /**
    * 接口请求相关配置，超时时间等，具体可用参数请参考：
