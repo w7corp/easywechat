@@ -12,7 +12,6 @@
 namespace EasyWeChat\OpenPlatform\Authorizer\MiniProgram\Security;
 
 use EasyWeChat\Kernel\BaseClient;
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 
 /**
  * Class Client.

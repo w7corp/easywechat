@@ -9,7 +9,6 @@
  * with this source code in the file LICENSE.
  */
 
-
 namespace EasyWeChat\Tests\Work\ExternalContact;
 
 use EasyWeChat\Tests\TestCase;
@@ -31,19 +30,19 @@ class ProductClientTest extends TestCase
      *
      * @author 读心印 <aa24615@qq.com>
      */
-    public function testCreateProductAlbum(){
-
+    public function testCreateProductAlbum()
+    {
         $client = $this->mockApiClient(ProductClient::class);
 
         $params = [
-            'description'=>'世界上最好的商品',
-            'price'=>30000,
-            'product_sn'=>'xxxxxxxx',
-            'attachments'=>[
+            'description' => '世界上最好的商品',
+            'price' => 30000,
+            'product_sn' => 'xxxxxxxx',
+            'attachments' => [
                 [
-                    'type'=> 'image',
-                    'image'=> [
-                    'media_id'=> 'MEDIA_ID'
+                    'type' => 'image',
+                    'image' => [
+                    'media_id' => 'MEDIA_ID'
                     ]
                 ]
             ]
@@ -61,20 +60,20 @@ class ProductClientTest extends TestCase
      *
      * @author 读心印 <aa24615@qq.com>
      */
-    public function testUpdateProductAlbum(){
-
+    public function testUpdateProductAlbum()
+    {
         $client = $this->mockApiClient(ProductClient::class);
 
         $params = [
             'product_id' => 'test_id',
-            'description'=>'世界上最好的商品',
-            'price'=>30000,
-            'product_sn'=>'xxxxxxxx',
-            'attachments'=>[
+            'description' => '世界上最好的商品',
+            'price' => 30000,
+            'product_sn' => 'xxxxxxxx',
+            'attachments' => [
                 [
-                    'type'=> 'image',
-                    'image'=> [
-                        'media_id'=> 'MEDIA_ID'
+                    'type' => 'image',
+                    'image' => [
+                        'media_id' => 'MEDIA_ID'
                     ]
                 ]
             ]
@@ -92,8 +91,8 @@ class ProductClientTest extends TestCase
      *
      * @author 读心印 <aa24615@qq.com>
      */
-    public function testGetProductAlbums(){
-
+    public function testGetProductAlbums()
+    {
         $client = $this->mockApiClient(ProductClient::class);
 
         $params = [
@@ -103,7 +102,7 @@ class ProductClientTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_product_album_list', $params)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->getProductAlbums(50,'xxx123'));
+        $this->assertSame('mock-result', $client->getProductAlbums(50, 'xxx123'));
     }
 
     /**
@@ -113,8 +112,8 @@ class ProductClientTest extends TestCase
      *
      * @author 读心印 <aa24615@qq.com>
      */
-    public function testGetProductAlbum(){
-
+    public function testGetProductAlbum()
+    {
         $client = $this->mockApiClient(ProductClient::class);
 
         $params = [
@@ -133,8 +132,8 @@ class ProductClientTest extends TestCase
      *
      * @author 读心印 <aa24615@qq.com>
      */
-    public function testDeleteProductAlbum(){
-
+    public function testDeleteProductAlbum()
+    {
         $client = $this->mockApiClient(ProductClient::class);
 
         $params = [

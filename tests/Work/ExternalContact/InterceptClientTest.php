@@ -23,7 +23,6 @@ use EasyWeChat\Work\ExternalContact\InterceptClient;
  */
 class InterceptClientTest extends TestCase
 {
-
     /**
      * testCreateInterceptRule.
      *
