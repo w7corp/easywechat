@@ -20,9 +20,8 @@ use EasyWeChat\Kernel\BaseClient;
  *
  * @author 读心印 <aa24615@qq.com>
  */
-class ProductClient  extends BaseClient
+class ProductClient extends BaseClient
 {
-
     /**
      * 创建商品图册.
      *
@@ -37,8 +36,9 @@ class ProductClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function createProductAlbum(array $params){
-        return $this->httpPostJson('cgi-bin/externalcontact/add_product_album',$params);
+    public function createProductAlbum(array $params)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/add_product_album', $params);
     }
 
     /**
@@ -55,13 +55,13 @@ class ProductClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getProductAlbumDetails(string $productId){
-
+    public function getProductAlbumDetails(string $productId)
+    {
         $params = [
             'product_id' => $productId
         ];
 
-        return $this->httpPostJson('cgi-bin/externalcontact/get_product_album',$params);
+        return $this->httpPostJson('cgi-bin/externalcontact/get_product_album', $params);
     }
 
     /**
@@ -79,14 +79,14 @@ class ProductClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getProductAlbums(int $limit, string $cursor){
-
+    public function getProductAlbums(int $limit, string $cursor)
+    {
         $params = [
             'limit' => $limit,
             'cursor' => $cursor,
         ];
 
-        return $this->httpPostJson('cgi-bin/externalcontact/get_product_album_list',$params);
+        return $this->httpPostJson('cgi-bin/externalcontact/get_product_album_list', $params);
     }
 
     /**
@@ -103,8 +103,9 @@ class ProductClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function updateProductAlbum(array $params){
-        return $this->httpPostJson('cgi-bin/externalcontact/update_product_album',$params);
+    public function updateProductAlbum(array $params)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/update_product_album', $params);
     }
 
     /**
@@ -121,12 +122,12 @@ class ProductClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function deleteProductAlbum(string $productId){
-
+    public function deleteProductAlbum(string $productId)
+    {
         $params = [
             'product_id' => $productId
         ];
 
-        return $this->httpPostJson('cgi-bin/externalcontact/delete_product_album',$params);
+        return $this->httpPostJson('cgi-bin/externalcontact/delete_product_album', $params);
     }
 }

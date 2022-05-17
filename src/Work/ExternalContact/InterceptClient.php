@@ -20,9 +20,8 @@ use EasyWeChat\Kernel\BaseClient;
  *
  * @author 读心印 <aa24615@qq.com>
  */
-class InterceptClient  extends BaseClient
+class InterceptClient extends BaseClient
 {
-
     /**
      * 新建敏感词规则.
      *
@@ -37,7 +36,8 @@ class InterceptClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function createInterceptRule(array $params){
+    public function createInterceptRule(array $params)
+    {
         return $this->httpPostJson('cgi-bin/externalcontact/add_intercept_rule', $params);
     }
 
@@ -53,7 +53,8 @@ class InterceptClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getInterceptRules(){
+    public function getInterceptRules()
+    {
         return $this->httpGet('cgi-bin/externalcontact/get_intercept_rule_list');
     }
 
@@ -71,13 +72,13 @@ class InterceptClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getInterceptRuleDetails(string $ruleId){
-
+    public function getInterceptRuleDetails(string $ruleId)
+    {
         $params = [
             'rule_id' => $ruleId
         ];
 
-        return $this->httpPostJson('cgi-bin/externalcontact/get_intercept_rule',$params);
+        return $this->httpPostJson('cgi-bin/externalcontact/get_intercept_rule', $params);
     }
 
     /**
@@ -94,12 +95,12 @@ class InterceptClient  extends BaseClient
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function deleteInterceptRule(string $ruleId){
-
+    public function deleteInterceptRule(string $ruleId)
+    {
         $params = [
             'rule_id' => $ruleId
         ];
 
-        return $this->httpPostJson('cgi-bin/externalcontact/del_intercept_rule',$params);
+        return $this->httpPostJson('cgi-bin/externalcontact/del_intercept_rule', $params);
     }
 }
