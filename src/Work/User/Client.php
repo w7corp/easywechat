@@ -262,7 +262,7 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('cgi-bin/user/list_member_auth', [
             'cursor' => $cursor,
-            'limit' - $limit
+            'limit' => $limit
         ]);
     }
 
