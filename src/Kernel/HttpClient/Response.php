@@ -4,12 +4,16 @@ namespace EasyWeChat\Kernel\HttpClient;
 
 use ArrayAccess;
 use Closure;
+use Http\Discovery\Exception\NotFoundException;
+use Http\Discovery\Psr17FactoryDiscovery;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Exceptions\BadMethodCallException;
 use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\Support\Xml;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpClient\Response\StreamableInterface;
 use Symfony\Component\HttpClient\Response\StreamWrapper;
@@ -179,8 +183,10 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
 
             try {
                 $psr17Factory = class_exists(Psr17Factory::class, false) ? new Psr17Factory() : null;
-                $responseFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findResponseFactory();
-                $streamFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findStreamFactory();
+                $responseFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findResponseFactory(); /** @phpstan-ignore-line */
+                $streamFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findStreamFactory(); /** @phpstan-ignore-line */
+
+            /** @phpstan-ignore-next-line */
             } catch (NotFoundException $e) {
                 throw new \LogicException('You cannot use the "Symfony\Component\HttpClient\HttplugClient" as no PSR-17 factories have been found. Try running "composer require nyholm/psr7".', 0, $e);
             }
