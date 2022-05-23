@@ -60,7 +60,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         return $this->httpGet('cgi-bin/department/delete', compact('id'));
     }
@@ -74,7 +74,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function list($id = null)
+    public function list(?int $id = null)
     {
         return $this->httpGet('cgi-bin/department/list', compact('id'));
     }
@@ -82,13 +82,13 @@ class Client extends BaseClient
     /**
      * Get sub department lists.
      *
-     * @param $id
+     * @param null|int $id
      *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function simpleList($id = null)
+    public function simpleList(?int $id = null)
     {
         return $this->httpGet('cgi-bin/department/simplelist', compact('id'));
     }
@@ -96,13 +96,13 @@ class Client extends BaseClient
     /**
      * Get department details.
      *
-     * @param $id
+     * @param int $id
      *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function get($id)
+    public function get(int $id)
     {
         return $this->httpGet('cgi-bin/department/get', compact('id'));
     }
