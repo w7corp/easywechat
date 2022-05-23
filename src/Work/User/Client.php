@@ -248,4 +248,36 @@ class Client extends BaseClient
 
         return $this->httpGet('cgi-bin/corp/get_join_qrcode', ['size_type' => $sizeType]);
     }
+
+    /**
+     * @param string|null $cursor
+     * @param int $limit
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getMemberAuthList(?string $cursor = null, int $limit = 1000)
+    {
+        return $this->httpPostJson('cgi-bin/user/list_member_auth', [
+            'cursor' => $cursor,
+            'limit' - $limit
+        ]);
+    }
+
+    /**
+     * @param string $openUserId
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function checkMemberAuth(string $openUserId)
+    {
+        return $this->httpPostJson('cgi-bin/user/check_member_auth', [
+            'open_userid' => $openUserId
+        ]);
+    }
 }
