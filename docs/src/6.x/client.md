@@ -175,7 +175,7 @@ $client->withAppid()->withMchid()->post('/path/to/resources', [...]);
 
 ```php
 $client->withAppid('12345678')->post('/path/to/resources', [...]);
-// or 
+// or
 $client->with('appid', '123456')->post('/path/to/resources', [...]);
 ```
 
@@ -237,6 +237,7 @@ return $response;
 ```
 
 或者不改变默认配置的情况下，在调用请求时单独设置`throw(false)`，若该请求失败，也可以自己处理异常。
+
 ```php
 // $options 同上文，这里省略
 $response = $api->get('/cgi-bin/user/get', $options)->throw(false);
@@ -247,6 +248,7 @@ if ($response->isFailed()) {
 
 return $response;
 ```
+
 ### 数组式访问
 
 EasyWeChat 增强了 API 响应对象，比如增加了数组式访问，你可以不用每次 `toArray` 后再取值，更加便捷美观：
@@ -307,6 +309,20 @@ $response->toJson(false);
 // 将内容转换成流返回
 $response->toStream();
 $response->toStream(false); // 失败不抛出异常
+```
+
+### 转换为 PSR-7 Response <version-tag>6.6.0+</version-tag>
+
+如果你希望直接将 API 响应转换成 [PSR-7 规范](https://www.php-fig.org/psr/psr-7/) Response，可以使用 `toPsrResponse` 方法：
+
+```php
+$psrResponse = $response->toPsrResponse();
+```
+
+比如在 Laravel 中就可以这样使用：
+
+```php
+return $response->toPsrResponse();
 ```
 
 ### 保存到文件 <version-tag>6.3.0+</version-tag>
