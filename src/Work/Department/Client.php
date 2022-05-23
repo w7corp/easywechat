@@ -78,4 +78,32 @@ class Client extends BaseClient
     {
         return $this->httpGet('cgi-bin/department/list', compact('id'));
     }
+
+    /**
+     * Get sub department lists.
+     *
+     * @param $id
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function simpleList($id = null)
+    {
+        return $this->httpGet('cgi-bin/department/simplelist', compact('id'));
+    }
+
+    /**
+     * Get department details.
+     *
+     * @param $id
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function get($id)
+    {
+        return $this->httpGet('cgi-bin/department/get', compact('id'));
+    }
 }
