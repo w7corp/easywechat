@@ -123,4 +123,27 @@ class ContactWayClient extends BaseClient
         }
         return $this->httpPostJson('cgi-bin/externalcontact/list_contact_way', $data);
     }
+
+    /**
+     * 结束临时会话
+     *
+     * 将指定的企业成员和客户之前的临时会话断开，断开前会自动下发已配置的结束语。
+     *
+     * <b>注意：请保证传入的企业成员和客户之间有仍然有效的临时会话, 通过其他方式的添加外部联系人无法通过此接口关闭会话。</b>
+     * @param string $userId         企业成员的user_id
+     * @param string $externalUserId 客户的外部联系人user_id
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @noinspection PhpFullyQualifiedNameUsageInspection
+     */
+    public function closeTempChat(string $userId, string $externalUserId)
+    {
+        return $this->httpPostJson('cgi-bin/externalcontact/close_temp_chat', [
+            'userid' => $userId,
+            'external_userid' => $externalUserId
+        ]);
+    }
 }
