@@ -27,6 +27,8 @@ use EasyWeChat\OpenWork\Work\Application as Work;
  * @property \EasyWeChat\OpenWork\SuiteAuth\SuiteTicket   $suite_ticket
  * @property \EasyWeChat\OpenWork\MiniProgram\Client      $mini_program
  * @property \EasyWeChat\OpenWork\Media\Client            $media
+ * @property \EasyWeChat\OpenWork\Contact\Client          $contact
+ * @noinspection PhpFullyQualifiedNameUsageInspection
  */
 class Application extends ServiceContainer
 {
@@ -41,6 +43,7 @@ class Application extends ServiceContainer
         Provider\ServiceProvider::class,
         MiniProgram\ServiceProvider::class,
         Media\ServiceProvider::class,
+        Contact\ServiceProvider::class,
     ];
 
     /**
