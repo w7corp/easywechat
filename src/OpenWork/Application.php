@@ -29,6 +29,7 @@ use EasyWeChat\OpenWork\Work\Application as Work;
  * @property \EasyWeChat\OpenWork\Media\Client            $media
  * @property \EasyWeChat\OpenWork\Contact\Client          $contact
  * @property \EasyWeChat\OpenWork\License\Client          $license_order
+ * @property \EasyWeChat\OpenWork\License\Account         $license_account
  * @noinspection PhpFullyQualifiedNameUsageInspection
  */
 class Application extends ServiceContainer

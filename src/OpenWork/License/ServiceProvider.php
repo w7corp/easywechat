@@ -29,5 +29,9 @@ class ServiceProvider implements ServiceProviderInterface
         !isset($app['license_order']) && $app['license_order'] = function ($app) {
             return new Client($app);
         };
+
+        !isset($app['license_account']) && $app['license_account'] = function ($app) {
+            return new Account($app);
+        };
     }
 }
