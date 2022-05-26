@@ -88,6 +88,7 @@ class Client extends BaseClient
      *
      * @param int $offset 用于分页拉取数据，表示偏移量
      * @param int $limit  用于分页拉取数据，表示请求的数据条数
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
