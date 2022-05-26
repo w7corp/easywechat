@@ -86,7 +86,7 @@ class MessageClient extends BaseClient
      * @noinspection PhpFullyQualifiedNameUsageInspection
      * @noinspection SpellCheckingInspection
      */
-    public function get(string $msgId,int $limit = 10000, ?string $cursor = null)
+    public function get(string $msgId, int $limit = 10000, ?string $cursor = null)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/get_group_msg_result', [
             'msgid' => $msgId,

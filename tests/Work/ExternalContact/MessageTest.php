@@ -211,7 +211,7 @@ class MessageTest extends TestCase
             'cursor' => null
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->get('mock-msgid',100,null));
+        $this->assertSame('mock-result', $client->get('mock-msgid', 100, null));
     }
 
     public function testSendWelcome()
