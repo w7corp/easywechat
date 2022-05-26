@@ -33,7 +33,7 @@ class ProviderAccessToken implements RefreshableAccessTokenInterface
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('open_work.access_token.%s', $this->corpId);
+        return $this->key ?? $this->key = \sprintf('open_work.access_token.%s.%s', $this->corpId, $this->providerSecret);
     }
 
     public function setKey(string $key): static

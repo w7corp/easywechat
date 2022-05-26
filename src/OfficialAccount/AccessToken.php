@@ -41,7 +41,7 @@ class AccessToken implements RefreshableAccessTokenInterface
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = sprintf('official_account.access_token.%s', $this->appId);
+        return $this->key ?? $this->key = sprintf('official_account.access_token.%s.%s', $this->appId, $this->secret);
     }
 
     public function setKey(string $key): static
