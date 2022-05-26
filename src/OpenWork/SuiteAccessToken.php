@@ -37,7 +37,7 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = \sprintf('open_work.suite_access_token.%s', $this->suiteId);
+        return $this->key ?? $this->key = \sprintf('open_work.suite_access_token.%s.%s', $this->suiteId, $this->suiteSecret);
     }
 
     public function setKey(string $key): static
