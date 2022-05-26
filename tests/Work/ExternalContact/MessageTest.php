@@ -207,9 +207,11 @@ class MessageTest extends TestCase
 
         $client->expects()->httpPostJson('cgi-bin/externalcontact/get_group_msg_result', [
             'msgid' => 'mock-msgid',
+            'limit' => 100,
+            'cursor' => null
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->get('mock-msgid'));
+        $this->assertSame('mock-result', $client->get('mock-msgid',100,null));
     }
 
     public function testSendWelcome()

@@ -73,19 +73,25 @@ class MessageClient extends BaseClient
     /**
      * 获取企业群发消息发送结果.
      *
-     * @see https://work.weixin.qq.com/api/doc#90000/90135/91561
+     * @see https://developer.work.weixin.qq.com/document/16251
      *
-     * @param string $msgId
+     * @param string      $msgId  群发消息的id，通过{@see MessageClient::submit() 添加企业群发消息模板}接口返回
+     * @param int         $limit  返回的最大记录数，整型，最大值10000，默认值10000
+     * @param string|null $cursor 用于分页查询的游标，字符串类型，由上一次调用返回，首次调用可不填
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @noinspection PhpFullyQualifiedNameUsageInspection
+     * @noinspection SpellCheckingInspection
      */
-    public function get(string $msgId)
+    public function get(string $msgId,int $limit = 10000, ?string $cursor = null)
     {
         return $this->httpPostJson('cgi-bin/externalcontact/get_group_msg_result', [
             'msgid' => $msgId,
+            'limit' => $limit,
+            'cursor' => $cursor
         ]);
     }
 
