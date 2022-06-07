@@ -62,13 +62,14 @@ class Transactions extends AbstractMiniProgram
 
     /**
      * @param $path
+     * @param string $resp_type =1 新版上传接口 =0兼容旧接口
      * @return \EasyWeChat\Support\Collection
      * @throws HttpException
      * @throws InvalidArgumentException
      */
-    public function uploadImg($path)
+    public function uploadImg($path,$resp_type = 0)
     {
-        return $this->uploadMedia('image', $path);
+        return $this->uploadMedia('image', $path,$resp_type);
     }
 
     /**
@@ -76,6 +77,7 @@ class Transactions extends AbstractMiniProgram
      *
      * @param string $type
      * @param string $path
+     * @param string $resp_type =1 新版上传接口 =0兼容旧接口
      * @param array $form
      *
      * @return \EasyWeChat\Support\Collection
@@ -83,12 +85,17 @@ class Transactions extends AbstractMiniProgram
      * @throws InvalidArgumentException
      * @throws \EasyWeChat\Core\Exceptions\HttpException
      */
-    protected function uploadMedia($type, $path, array $form = [])
+    protected function uploadMedia($type, $path, $resp_type, array $form = [])
     {
         if (!file_exists($path) || !is_readable($path)) {
             throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
         }
-        $form['type'] = $type;
+        if($resp_type == 0){
+            $form['type'] = $type;
+        }else if($resp_type == 1){
+            $form['resp_type'] = $resp_type;
+            $form['upload_type'] = 0;
+        }
 
         return $this->parseJSON('upload', [$this->getAPIByType($type), ['media' => $path], $form]);
     }
