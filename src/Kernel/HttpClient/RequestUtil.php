@@ -71,8 +71,11 @@ class RequestUtil
 
     public static function formatOptions(array $options, string $method): array
     {
-        if (array_key_exists('query', $options)
-            || array_key_exists('body', $options)
+        if (array_key_exists('query', $options) && is_array($options['query']) && empty($options['query'])) {
+            return $options;
+        }
+
+        if (array_key_exists('body', $options)
             || array_key_exists('json', $options)
             || array_key_exists('xml', $options)
         ) {
@@ -87,7 +90,7 @@ class RequestUtil
 
         foreach ($options as $key => $value) {
             if (!array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS)) {
-                $options[$name][$key] = $value;
+                $options[$name][trim($key, '"')] = $value;
                 unset($options[$key]);
             }
         }

@@ -97,6 +97,20 @@ class RequestUtilTest extends TestCase
         $this->assertArrayHasKey('body', $formatted);
         $this->assertSame('true', $formatted['body']['overtrue']);
         $this->assertSame('world', $formatted['body']['hello']);
+
+
+        // POST with `query`
+        $options = ['overtrue' => 'true', 'hello' => 'world', '"query"' => 'id=1'];
+        $formatted = RequestUtil::formatOptions($options, 'POST');
+
+        $this->assertArrayNotHasKey('overtrue', $formatted);
+        $this->assertArrayNotHasKey('hello', $formatted);
+        $this->assertArrayHasKey('body', $formatted);
+        $this->assertArrayNotHasKey('query', $formatted);
+        $this->assertArrayHasKey('query', $formatted['body']);
+        $this->assertSame('id=1', $formatted['body']['query']);
+        $this->assertSame('true', $formatted['body']['overtrue']);
+        $this->assertSame('world', $formatted['body']['hello']);
     }
 
     public function test_format_xml_body()
