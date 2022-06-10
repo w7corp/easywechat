@@ -444,7 +444,7 @@ class Guard
     {
         sort($request, SORT_STRING);
 
-        return sha1(implode($request));
+        return sha1(implode('', $request));
     }
 
     /**

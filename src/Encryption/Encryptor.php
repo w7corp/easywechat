@@ -147,7 +147,7 @@ class Encryptor
             $array = func_get_args();
             sort($array, SORT_STRING);
 
-            return sha1(implode($array));
+            return sha1(implode('', $array));
         } catch (BaseException $e) {
             throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_CALC_SIGNATURE);
         }

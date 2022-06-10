@@ -251,7 +251,7 @@ class Card extends AbstractAPI
         $params = func_get_args();
         sort($params, SORT_STRING);
 
-        return sha1(implode($params));
+        return sha1(implode('', $params));
     }
 
     /**
