@@ -99,6 +99,84 @@ class InvoiceClient extends BaseClient
     }
 
     /**
+     * 创建卡券发票模板
+     *
+     * @param string $orderId
+     * @param string $appId
+     *
+     * @return mixed
+     */
+    public function createCard(array $params)
+    {
+        return $this->httpPostJson('/card/invoice/platform/createcard', $params);
+    }
+
+    /**
+     * 电子发票卡券插入用户卡包
+     *
+     * @param string $orderId
+     * @param string $appId
+     *
+     * @return mixed
+     */
+    public function insert(array $params)
+    {
+        return $this->httpPostJson('/card/invoice/insert', $params);
+    }
+
+    /**
+     * 更新发票卡券状态
+     *
+     * @param string $orderId
+     * @param string $appId
+     *
+     * @return mixed
+     */
+    public function updatestatus(array $params)
+    {
+        return $this->httpPostJson('/card/invoice/platform/updatestatus', $params);
+    }
+
+    /**
+     * 设置授权页字段信息接口.
+     *
+     * @param array $userData
+     * @param array $bizData
+     *
+     * @return mixed
+     */
+    public function setContact(array $params)
+    {
+        return $this->setBizAttr('set_contact', $params);
+    }
+
+    /**
+     * 获取授权页链接
+     *
+     * @param string $orderId
+     * @param string $appId
+     *
+     * @return mixed
+     */
+    public function getauthurl(array $params)
+    {
+        return $this->httpPostJson('/card/invoice/getauthurl', $params);
+    }
+
+    /**
+     * 创建卡券发票模板
+     *
+     * @param string $orderId
+     * @param string $appId
+     *
+     * @return mixed
+     */
+    public function setUrl()
+    {
+        return $this->httpPostJson('/card/invoice/seturl', []);
+    }
+
+    /**
      * @param string $action
      * @param array  $params
      *

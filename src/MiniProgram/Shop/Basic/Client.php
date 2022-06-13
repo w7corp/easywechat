@@ -34,13 +34,22 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function imgUpload(string $imageFilePath, int $respType = 1)
+    public function imgUpload(string $imageFilePath, int $respType = 1, int $upload_type = 0)
     {
-        return $this->httpUpload('shop/img/upload', [
-            'media' => $imageFilePath,
-        ], [
-            'resp_type' => $respType,
-        ]);
+        if ($upload_type == 0) {
+            return $this->httpUpload('shop/img/upload', [
+                'media' => $imageFilePath,
+            ], [
+                'resp_type' => $respType,
+            ]);
+        } else {
+
+            return $this->httpPostJson('shop/img/upload', [],[
+                'img_url' => $imageFilePath,
+                'resp_type' => $respType,
+                'upload_type' => $upload_type
+            ]);
+        }
     }
 
     /**
