@@ -43,7 +43,6 @@ class Client extends BaseClient
                 'resp_type' => $respType,
             ]);
         } else {
-
             return $this->httpPostJson('shop/img/upload', [],[
                 'img_url' => $imageFilePath,
                 'resp_type' => $respType,
