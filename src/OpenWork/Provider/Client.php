@@ -116,7 +116,8 @@ class Client extends BaseClient
         string $corpName = '',
         string $adminName = '',
         string $adminMobile = '',
-        string $state = ''
+        string $state = '',
+        string $templateId = ''
     ) {
         $params = [];
         $params['template_id'] = $this->app['config']['reg_template_id'];
@@ -124,6 +125,7 @@ class Client extends BaseClient
         !empty($adminName) && $params['admin_name'] = $adminName;
         !empty($adminMobile) && $params['admin_mobile'] = $adminMobile;
         !empty($state) && $params['state'] = $state;
+        !empty($templateId) && $params['template_id'] = $templateId;
 
         return $this->httpPostJson('cgi-bin/service/get_register_code', $params);
     }
