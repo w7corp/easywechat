@@ -129,6 +129,11 @@ class Client implements HttpClientInterface
                 $options['headers']['Content-Type'] = 'text/xml';/** @phpstan-ignore-line */
             }
         }
+        
+        // 合并通过 withHeader 和 withHeaders 设置的信息
+        if (!empty($this->prependHeaders)) {
+            $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
+        }
 
         return new Response($this->client->request($method, $url, $options), throw: $this->throw);
     }
