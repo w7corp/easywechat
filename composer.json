@@ -80,5 +80,10 @@
     "check-style": "vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=.php-cs-fixer.dist.php --dry-run --ansi",
     "fix-style": "vendor/bin/php-cs-fixer fix --using-cache=no --config=.php-cs-fixer.dist.php --ansi",
     "test": "vendor/bin/phpunit --colors=always --testdox"
+  },
+  "config": {
+    "allow-plugins": {
+      "easywechat-composer/easywechat-composer": true
+    }
   }
 }

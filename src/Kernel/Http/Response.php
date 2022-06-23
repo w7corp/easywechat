@@ -116,6 +116,6 @@ class Response extends GuzzleResponse
      */
     protected function removeControlCharacters(string $content)
     {
-        return \preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', $content);
+        return \preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', \mb_convert_encoding($content, 'UTF-8', 'UTF-8'));
     }
 }
