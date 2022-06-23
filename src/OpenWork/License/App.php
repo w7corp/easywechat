@@ -40,7 +40,7 @@ class App extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function get(string $corpid, string $suite_id ,string $appid='')
+    public function get(string $corpid, string $suite_id, string $appid='')
     {
         return $this->httpPostJson('cgi-bin/license/get_app_license_info', [
             'corpid' => $corpid,
