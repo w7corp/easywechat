@@ -47,6 +47,8 @@ jobs:
         run: |
           coscmd config -a "${{secrets.COS_SECRET_ID}}" -s "${{secrets.COS_SECRET_KEY}}" -b $bucket -r $region -m $thread 
           coscmd upload -r -s $local_dir $remote_dir --ignore "$ignore"
+      - name: Refresh CDN
+        run: |
           tccli configure set secretId "${{secrets.COS_SECRET_ID}}"
           tccli configure set secretKey "${{secrets.COS_SECRET_KEY}}"
           tccli cdn PurgePathCache --cli-unfold-argument --Paths $domain --FlushType flush
