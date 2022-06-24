@@ -35,6 +35,7 @@ trait MockableHttpClient
 
         $client = self::createMockClient(new MockHttpClient($mockResponse, $baseUri));
 
+        // @phpstan-ignore-next-line
         return new class ($client, $mockResponse) {
             use DecoratorTrait;
 

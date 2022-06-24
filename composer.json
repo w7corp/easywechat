@@ -67,7 +67,10 @@
         "composer check-style"
       ],
       "config": {
-        "stop-on-failure": ["pre-commit", "pre-push"]
+        "stop-on-failure": [
+          "pre-commit",
+          "pre-push"
+        ]
       }
     }
   },
@@ -83,7 +86,7 @@
       "cghooks add --ignore-lock",
       "cghooks update"
     ],
-    "phpstan": "phpstan analyse",
+    "phpstan": "phpstan analyse --memory-limit=-1",
     "check-style": "php-cs-fixer fix --using-cache=no --diff --dry-run --allow-risky=yes --ansi",
     "fix-style": "php-cs-fixer fix --using-cache=no --allow-risky=yes --ansi",
     "test": "phpunit --colors"
