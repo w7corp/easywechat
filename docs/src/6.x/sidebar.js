@@ -1,6 +1,7 @@
 exports = module.exports = [
   {
     text: '开始使用',
+    collapsible: true,
     items: [
       { text: '关于6.x', link: '/6.x/introduction.html' },
       { text: '立即开始', link: '/6.x/index.html' },
@@ -10,6 +11,7 @@ exports = module.exports = [
   },
   {
     text: '公众号',
+    collapsible: true,
     items: [
       { text: '入门', link: '/6.x/official-account/index.html' },
       { text: '配置', link: '/6.x/official-account/config.html' },
@@ -23,6 +25,7 @@ exports = module.exports = [
   },
   {
     text: '微信支付',
+    collapsible: true,
     items: [
       { text: '入门', link: '/6.x/pay/index.html' },
       { text: 'API 调用', link: '/6.x/client.html' },
@@ -33,6 +36,7 @@ exports = module.exports = [
   },
   {
     text: '小程序',
+    collapsible: true,
     items: [
       { text: '入门', link: '/6.x/mini-app/index.html' },
       { text: 'API 调用', link: '/6.x/client.html' },
@@ -44,6 +48,7 @@ exports = module.exports = [
   },
   {
     text: '开放平台',
+    collapsible: true,
     items: [
       { text: '入门', link: '/6.x/open-platform/index.html' },
       { text: 'API 调用', link: '/6.x/client.html' },
@@ -53,6 +58,7 @@ exports = module.exports = [
   },
   {
     text: '企业微信',
+    collapsible: true,
     items: [
       { text: '入门', link: '/6.x/work/index.html' },
       { text: 'API 调用', link: '/6.x/client.html' },
@@ -64,6 +70,7 @@ exports = module.exports = [
   },
   {
     text: '企业微信开放平台',
+    collapsible: true,
     items: [
       { text: '入门', link: '/6.x/open-work/index.html' },
       { text: 'API 调用', link: '/6.x/client.html' },
@@ -74,6 +81,7 @@ exports = module.exports = [
   },
   {
     text: '通用',
+    collapsible: true,
     items: [
       { text: 'API 调用', link: '/6.x/client.html' },
       { text: '网页授权', link: '/6.x/oauth.html' },

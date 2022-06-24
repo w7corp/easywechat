@@ -1,6 +1,7 @@
 exports = module.exports = [
   {
     text: '开始使用',
+    collapsible: true,
     items: [
       { text: '概述', link: '/5.x/overview.html' },
       { text: '安装', link: '/5.x/installation.html' },
@@ -10,6 +11,7 @@ exports = module.exports = [
   },
   {
     text: '公众号',
+    collapsible: true,
     items: [
       { text: '入门', link: '/5.x/official-account/index.html' },
       {
@@ -78,6 +80,7 @@ exports = module.exports = [
   },
   {
     text: '微信支付',
+    collapsible: true,
     items: [
       { text: '入门', link: '/5.x/payment/index.html' },
       { text: '订单', link: '/5.x/payment/order.html' },
@@ -95,6 +98,7 @@ exports = module.exports = [
   },
   {
     text: '小程序',
+    collapsible: true,
     items: [
       { text: '入门', link: '/5.x/mini-program/index.html' },
       { text: '小程序码', link: '/5.x/mini-program/app_code.html' },
@@ -146,6 +150,7 @@ exports = module.exports = [
   },
   {
     text: '开放平台',
+    collapsible: true,
     items: [
       { text: '入门', link: '/5.x/open-platform/index.html' },
       { text: '服务端', link: '/5.x/open-platform/server.html' },
@@ -157,6 +162,7 @@ exports = module.exports = [
   },
   {
     text: '企业微信',
+    collapsible: true,
     items: [
       { text: '入门', link: '/5.x/wework/index.html' },
       { text: '服务端', link: '/5.x/wework/server.html' },
@@ -183,6 +189,7 @@ exports = module.exports = [
   },
   {
     text: '企业微信开放平台',
+    collapsible: true,
     items: [
       { text: '入门', link: '/5.x/open-work/index.html' },
       { text: '服务商接口', link: '/5.x/open-work/provider.html' },
@@ -193,6 +200,7 @@ exports = module.exports = [
   },
   {
     text: '小微商户',
+    collapsible: true,
     items: [
       { text: '入门', link: '/5.x/micro-merchant/index.html' },
       {
@@ -218,6 +226,7 @@ exports = module.exports = [
   },
   {
     text: '自定义',
+    collapsible: true,
     items: [
       {
         text: 'Access Token',
@@ -229,6 +238,7 @@ exports = module.exports = [
   },
   {
     text: '其他',
+    collapsible: true,
     items: [
       { text: '常见问题', link: '/5.x/troubleshooting.html' },
       { text: '参与贡献', link: '/5.x/contributing.html' }

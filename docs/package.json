@@ -7,19 +7,19 @@
   },
   "dependencies": {
     "@overtrue/easywechat-theme": "^1.0.5",
-    "autoprefixer": "^10.4.2",
-    "clipboard": "^2.0.10",
+    "autoprefixer": "^10.4.7",
+    "clipboard": "^2.0.11",
     "dynamics.js": "^1.1.5",
-    "gsap": "^3.9.1",
-    "postcss": "^8.4.7",
-    "postcss-import": "^14.0.2",
-    "tailwindcss": "^3.0.23",
-    "vitepress": "0.22.2",
-    "vue": "^3.2.31"
+    "gsap": "^3.10.4",
+    "postcss": "^8.4.14",
+    "postcss-import": "^14.1.0",
+    "tailwindcss": "^3.1.4",
+    "vitepress": "1.0.0-alpha.4",
+    "vue": "^3.2.37"
   },
   "devDependencies": {
     "@types/markdown-it": "^12.2.3",
-    "@types/node": "^16.11.26"
+    "@types/node": "^16.11.41"
   },
   "pnpm": {
     "peerDependencyRules": {

@@ -1,9 +1,4 @@
-import fs from 'fs'
 import path from 'path'
-import { defineConfigWithTheme } from 'vitepress'
-import type { Config as ThemeConfig } from '@overtrue/easywechat-theme'
-import baseConfig from '@overtrue/easywechat-theme/config'
-import { headerPlugin } from './headerMdPlugin'
 import versions from './versions'
 
 const latest = versions[0]
@@ -46,9 +41,7 @@ export const sidebar = versions.reduce(
   {}
 )
 
-export default defineConfigWithTheme<ThemeConfig>({
-  extends: baseConfig,
-
+export default {
   lang: 'zh-CN',
   title: 'EasyWeChat',
   description: '一个 PHP 微信开发 SDK',
@@ -73,6 +66,8 @@ export default defineConfigWithTheme<ThemeConfig>({
     nav,
     sidebar,
 
+    logo: '/logo-icon.svg',
+
     algolia: {
       indexName: 'easywechat',
       appId: 'X3KJL5SQXD',
@@ -88,30 +83,21 @@ export default defineConfigWithTheme<ThemeConfig>({
     // },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/w7corp/easywechat/' },
+      { icon: 'github', link: 'https://github.com/w7corp/easywechat' },
       { icon: 'twitter', link: 'https://twitter.com/overtrue' }
-      // { icon: 'weibo', link: 'https://weibo.com/44294631' }
     ],
 
     editLink: {
-      repo: 'w7corp/EasyWeChat#6.x',
-      dir: 'docs/',
+      pattern:
+        'https://github.com/w7corp/EasyWeChat/edit/6.x/docs/src/:path',
       text: '帮助我们改善此页面！'
     },
 
-    footer: {
-      license: {
-        text: 'MIT License',
-        link: 'https://opensource.org/licenses/MIT'
-      },
-      copyright: `Copyright © 2013-${new Date().getFullYear()} 微擎 <a class="ml-4" href="https://beian.miit.gov.cn/" target="_blank">皖ICP备19002904号-6</a>`
-    }
-  },
-
-  markdown: {
-    config(md) {
-      md.use(headerPlugin)
-    }
+    license: {
+      text: 'MIT License',
+      link: 'https://opensource.org/licenses/MIT'
+    },
+    copyright: `Copyright © 2013-${new Date().getFullYear()} 微擎 <a class="ml-4" href="https://beian.miit.gov.cn/" target="_blank">皖ICP备19002904号-6</a>`
   },
 
   vite: {
@@ -145,4 +131,4 @@ export default defineConfigWithTheme<ThemeConfig>({
   vue: {
     reactivityTransform: true
   }
-})
+}

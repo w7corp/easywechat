@@ -6,6 +6,7 @@ module.exports = {
   variants: {},
   plugins: [],
   content: [
+    './src/**/*.md',
     './.vitepress/theme/components/*.vue',
     './.vitepress/theme/styles/*.scss',
   ],
