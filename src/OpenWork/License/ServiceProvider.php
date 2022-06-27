@@ -37,9 +37,5 @@ class ServiceProvider implements ServiceProviderInterface
         !isset($app['license_app']) && $app['license_app'] = function ($app) {
             return new App($app);
         };
-
-        !isset($app['license_auto_active']) && $app['license_app'] = function ($app) {
-            return new AutoActive($app);
-        };
     }
 }
