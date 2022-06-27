@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
@@ -43,7 +44,7 @@ class Application implements ApplicationInterface
     protected ?Encryptor $encryptor = null;
     protected ?ServerInterface $server = null;
     protected ?AccountInterface $account = null;
-    protected ?AccessTokenInterface $accessToken = null;
+    protected AccessTokenInterface|RefreshableAccessTokenInterface|null $accessToken = null;
     protected ?JsApiTicket $ticket = null;
     protected ?\Closure $oauthFactory = null;
 
@@ -123,7 +124,7 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getAccessToken(): AccessTokenInterface
+    public function getAccessToken(): AccessTokenInterface|RefreshableAccessTokenInterface
     {
         if (!$this->accessToken) {
             $this->accessToken = new AccessToken(
@@ -137,7 +138,7 @@ class Application implements ApplicationInterface
         return $this->accessToken;
     }
 
-    public function setAccessToken(AccessTokenInterface $accessToken): static
+    public function setAccessToken(AccessTokenInterface|RefreshableAccessTokenInterface $accessToken): static
     {
         $this->accessToken = $accessToken;
 
