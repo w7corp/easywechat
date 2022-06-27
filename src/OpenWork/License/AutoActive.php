@@ -65,6 +65,5 @@ class AutoActive extends BaseClient
         return $this->httpPostJson('cgi-bin/license/get_auto_active_status', [
             'corpid' => $corpid
         ]);
-        
     }
 }
