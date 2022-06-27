@@ -28,14 +28,14 @@ class AutoActive extends BaseClient
     /**
      * 设置企业的许可自动激活状态
      * 服务商可以调用该接口设置授权企业的许可自动激活状态。设置为自动激活后，对应授权企业的员工使用服务商应用时，接口许可表现为自动激活。
-     * 
+     *
      * @link https://developer.work.weixin.qq.com/document/path/95873
      *
      * @param string $corpid    企业ID
      * @param integer $status   许可自动激活状态。0：关闭，1：打开
-     * 
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     * 
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -50,13 +50,13 @@ class AutoActive extends BaseClient
     /**
      * 查询企业的许可自动激活状态
      * 服务商可以调用该接口查询授权企业的许可自动激活状态。
-     * 
+     *
      * @link https://developer.work.weixin.qq.com/document/path/95874
      *
      * @param string $corpid    企业ID
-     * 
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     * 
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

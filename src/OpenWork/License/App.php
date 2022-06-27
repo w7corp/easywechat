@@ -28,15 +28,15 @@ class App extends BaseClient
     /**
      * 获取应用的接口许可状态
      * 服务商可获取某个授权企业的应用接口许可试用期，免费试用期为企业首次安装应用后的90天。
-     * 
+     *
      * @link https://developer.work.weixin.qq.com/document/path/95844
      *
      * @param string $corpid    企业id
      * @param string $suite_id  套件id
      * @param string $appid     旧的多应用套件中的应用id，新开发者请忽略
-     * 
+     *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     * 
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
