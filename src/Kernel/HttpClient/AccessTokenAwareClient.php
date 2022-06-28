@@ -25,14 +25,14 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 
     public function __construct(
         ?HttpClientInterface $client = null,
-        protected ?AccessTokenInterface $accessToken = null,
+        protected AccessTokenInterface|string|null $accessToken = null,
         protected ?Closure $failureJudge = null,
         protected bool $throw = true
     ) {
         $this->client = $client ?? HttpClient::create();
     }
 
-    public function withAccessToken(AccessTokenInterface $accessToken): static
+    public function withAccessToken(AccessTokenInterface|string $accessToken): static
     {
         $this->accessToken = $accessToken;
 
@@ -46,7 +46,10 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
     public function request(string $method, string $url, array $options = []): Response
     {
         if ($this->accessToken) {
-            $options['query'] = array_merge((array) ($options['query'] ?? []), $this->accessToken->toQuery());
+            $options['query'] = array_merge(
+                (array) ($options['query'] ?? []),
+                is_string($this->accessToken) ? ['access_token' => $this->accessToken] : $this->accessToken->toQuery()
+            );
         }
 
         $options = RequestUtil::formatBody($this->mergeThenResetPrepends($options));

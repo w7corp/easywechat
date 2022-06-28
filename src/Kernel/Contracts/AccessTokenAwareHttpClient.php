@@ -9,5 +9,5 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 interface AccessTokenAwareHttpClient extends HttpClientInterface
 {
-    public function withAccessToken(AccessTokenInterface $accessToken): static;
+    public function withAccessToken(AccessTokenInterface|string $accessToken): static;
 }
