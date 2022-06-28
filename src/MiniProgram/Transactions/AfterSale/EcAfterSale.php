@@ -36,17 +36,21 @@ class EcAfterSale extends AbstractMiniProgram
     /**
      * 用户取消售后单
      * @param string $outAftersaleId
-     * @param string $aftersaleId
+     * @param int $aftersaleId
      * @param string $openId
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function cancel(string $outAftersaleId, string $aftersaleId, string $openId)
+    public function cancel(string $outAftersaleId, int $aftersaleId, string $openId)
     {
         $params = [
             "out_aftersale_id" => $outAftersaleId,
             "aftersale_id" => $aftersaleId,
             "openid" => $openId,
         ];
+        // 与out_aftersale_id二选一
+        if($outAftersaleId){
+            unset($params['aftersale_id']);
+        }
         return $this->getStream(self::API_POST_SHOP_CANCEL, $params);
     }
 
@@ -75,16 +79,11 @@ class EcAfterSale extends AbstractMiniProgram
 
     /**
      * 获取售后单详情
-     * @param string $outAftersaleId
-     * @param string $aftersaleId
+     * @param array $params
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function get(string $outAftersaleId, string $aftersaleId)
+    public function get(array $params)
     {
-        $params = [
-            "out_aftersale_id" => $outAftersaleId,
-            "aftersale_id" => $aftersaleId,
-        ];
         return $this->getStream(self::API_POST_SHOP_GET, $params);
     }
     
@@ -100,14 +99,11 @@ class EcAfterSale extends AbstractMiniProgram
 
     /**
      * 同意退款
-     * @param string $outAftersaleId
+     * @param array $params
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function acceptRefund(string $outAftersaleId)
+    public function acceptRefund(array $params)
     {
-        $params = [
-            "out_aftersale_id" => $outAftersaleId,
-        ];
         return $this->getStream(self::API_POST_SHOP_ACCEPT_REFUND, $params);
     }
 
@@ -126,10 +122,10 @@ class EcAfterSale extends AbstractMiniProgram
      * @param string $aftersaleId
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function reject(string $aftersaleId)
+    public function reject(string $out_aftersale_id)
     {
         $params = [
-            "aftersale_id" => $aftersaleId,
+            "out_aftersale_id" => $out_aftersale_id,
         ];
         return $this->getStream(self::API_POST_SHOP_REJECT, $params);
     }

@@ -24,12 +24,19 @@ class Transactions extends AbstractMiniProgram
     const API_SHOP_AUDIT = 'https://api.weixin.qq.com/shop/audit/audit_brand';
     const API_SHOP_AUDIT_CATEGORY = 'https://api.weixin.qq.com/shop/audit/audit_category';
     const API_GET_MINIAPP_CERTIFICATE = 'https://api.weixin.qq.com/shop/audit/get_miniapp_certificate';
+    const API_GET_REGISTER_SCENE = 'https://api.weixin.qq.com/shop/register/apply_scene';
 
 
     public function shopRegister(int $actionType)
     {
         $params = ["action_type" => $actionType];
         return $this->getStream(self::API_GET_REGISTER, $params);
+    }
+
+    public function shopRegisterScene(int $sceneGroupId)
+    {
+        $params = ["scene_group_id" => $sceneGroupId];
+        return $this->getStream(self::API_GET_REGISTER_SCENE, $params);
     }
 
     public function checkRegister()
@@ -62,14 +69,14 @@ class Transactions extends AbstractMiniProgram
 
     /**
      * @param $path
-     * @param string $resp_type =1 新版上传接口 =0兼容旧接口
+     * @param string $respType =1 新版上传接口 =0兼容旧接口
      * @return \EasyWeChat\Support\Collection
      * @throws HttpException
      * @throws InvalidArgumentException
      */
-    public function uploadImg($path,$resp_type = 0)
+    public function uploadImg($path, $respType = 0)
     {
-        return $this->uploadMedia('image', $path,$resp_type);
+        return $this->uploadMedia('image', $path, $respType);
     }
 
     /**
@@ -77,7 +84,7 @@ class Transactions extends AbstractMiniProgram
      *
      * @param string $type
      * @param string $path
-     * @param string $resp_type =1 新版上传接口 =0兼容旧接口
+     * @param string $respType =1 新版上传接口 =0兼容旧接口
      * @param array $form
      *
      * @return \EasyWeChat\Support\Collection
@@ -85,15 +92,15 @@ class Transactions extends AbstractMiniProgram
      * @throws InvalidArgumentException
      * @throws \EasyWeChat\Core\Exceptions\HttpException
      */
-    protected function uploadMedia($type, $path, $resp_type, array $form = [])
+    protected function uploadMedia($type, $path, $respType, array $form = [])
     {
         if (!file_exists($path) || !is_readable($path)) {
             throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
         }
-        if($resp_type == 0){
+        if ($respType == 0) {
             $form['type'] = $type;
-        }else if($resp_type == 1){
-            $form['resp_type'] = $resp_type;
+        } else if($respType == 1) {
+            $form['resp_type'] = $respType;
             $form['upload_type'] = 0;
         }
 
