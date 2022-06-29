@@ -36,6 +36,8 @@ use function str_starts_with;
  * @method ResponseInterface put(string $uri, array $options = [])
  * @method ResponseInterface patch(string $uri, array $options = [])
  * @method ResponseInterface delete(string $uri, array $options = [])
+ * @method HttpClientInterface withMchId(string $value = null)
+ * @method HttpClientInterface withMchIdAs(string $key)
  */
 class Client implements HttpClientInterface
 {
