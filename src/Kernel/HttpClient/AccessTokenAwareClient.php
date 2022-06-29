@@ -15,6 +15,14 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use function array_merge;
 
+/**
+ * Class AccessTokenAwareClient.
+ *
+ * @package EasyWeChat\Kernel\HttpClient
+ *
+ * @method HttpClientInterface withAppId(string $value = null)
+ *
+ */
 class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 {
     use AsyncDecoratorTrait;
