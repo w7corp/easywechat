@@ -170,20 +170,22 @@ $client->get('v3/pay/transactions/id/1217752501201407033233368018', [
 不得不把商户号这种基础信息再读取传递一遍，比较麻烦，设计了如下的简化方案：
 
 ```php
-$client->withMchid()->get('v3/pay/transactions/id/1217752501201407033233368018');
+$client->withMchId()->get('v3/pay/transactions/id/1217752501201407033233368018');
 ```
 
 原理就是 `with` + `配置 key`：
 
+> 注意: 如果配置key含有下划线的，如 `app_id` 应该转换为大写 `withAppId`
+
 ```php
-$client->withAppid()->post('/path/to/resources', [...]);
-$client->withAppid()->withMchid()->post('/path/to/resources', [...]);
+$client->withAppId()->post('/path/to/resources', [...]);
+$client->withAppId()->withMchid()->post('/path/to/resources', [...]);
 ```
 
 也可以自定义值：
 
 ```php
-$client->withAppid('12345678')->post('/path/to/resources', [...]);
+$client->withAppId('12345678')->post('/path/to/resources', [...]);
 // or
 $client->with('appid', '123456')->post('/path/to/resources', [...]);
 ```
@@ -191,7 +193,7 @@ $client->with('appid', '123456')->post('/path/to/resources', [...]);
 还可以设置别名：把 `appid` 作为参数 `mch_appid` 值使用：
 
 ```php
-$client->withAppidAs('mch_appid')->post('/path/to/resources', [...]);
+$client->withAppIdAs('mch_appid')->post('/path/to/resources', [...]);
 ```
 
 其它通用方法：
