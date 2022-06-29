@@ -15,7 +15,7 @@ EasyWeChat 是一个开源的 [微信](http://www.wechat.com) 非官方 SDK。�
 ## 安装
 
 ```shell
-composer require w7corp/easywechat
+composer require w7corp/easywechat:^6.7
 ```
 
 ## 使用
