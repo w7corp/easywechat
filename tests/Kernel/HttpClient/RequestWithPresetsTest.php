@@ -170,6 +170,38 @@ class RequestWithPresetsTest extends TestCase
             ['headers' => ['X-foo' => 'bar', 'content-type' => 'application/json'], 'json' => ['appid' => 'wx123456']],
             $client->mergeThenResetPrepends(['headers' => ['content-type' => 'application/json']], 'POST')
         );
+
+        // 带下划线
+        $client->setPresets([
+            'app_id' => 'wx123456',
+            'secret' => 'helloworld',
+            'bar' => 'balabala',
+            'name' => 'w7corp',
+        ]);
+
+        // GET/HEAD/DELETE
+        $client->withAppId()->withSecret();
+        $this->assertSame(['query' => ['app_id' => 'wx123456', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([]));
+        $client->withAppId()->withSecret();
+        $this->assertSame(['query' => ['app_id' => 'wx123456', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([], 'HEAD'));
+        $client->withAppId()->withSecret();
+        $this->assertSame(['query' => ['app_id' => 'wx123456', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([], 'DELETE'));
+
+        // POST/PUT/PATCH
+        $client->withAppId()->withSecret();
+        $this->assertSame(['body' => ['app_id' => 'wx123456', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([], 'POST'));
+        $client->withAppId()->withSecret();
+        $this->assertSame(['body' => ['app_id' => 'wx123456', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([], 'PUT'));
+        $client->withAppId()->withSecret();
+        $this->assertSame(['body' => ['app_id' => 'wx123456', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([], 'PATCH'));
+
+        // test As
+        $client->withAppIdAs('test')->withSecret();
+        $this->assertSame(['query' => ['test' => 'wx123456', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([]));
+
+        // test key/value
+        $client->withAppId('test')->withSecret();
+        $this->assertSame(['query' => ['app_id' => 'test', 'secret' => 'helloworld']], $client->mergeThenResetPrepends([]));
     }
 
     public function test_it_can_with_headers()
