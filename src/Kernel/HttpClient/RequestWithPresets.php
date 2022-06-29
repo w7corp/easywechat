@@ -95,19 +95,15 @@ trait RequestWithPresets
         ) : File::withContents($pathOrContents, $filename);
 
         /**
-         * @var array{headers: array<string, string>, body: array<string, mixed>}
+         * @var array{headers: array<string, string>, body: string}
          */
         $options = Form::create([$formName => $file])->toOptions();
 
-        foreach ($options['headers'] as $key => $value) {
-            $this->withHeader($key, $value);
-        }
+        $this->withHeaders($options['headers']);
 
-        foreach ($options['body'] as $key => $value) {
-            $this->with($key, $value);
-        }
-
-        return $this;
+        return $this->withOptions([
+            'body' => $options['body'],
+        ]);
     }
 
     /**
