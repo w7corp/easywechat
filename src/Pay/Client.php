@@ -156,6 +156,9 @@ class Client implements HttpClientInterface
      */
     public function __call(string $name, array $arguments): mixed
     {
+        if (\str_starts_with($name, 'with')) {
+            return $this->handleMagicWithCall($name, $arguments[0] ?? null);
+        }
         return $this->client->$name(...$arguments);
     }
 
