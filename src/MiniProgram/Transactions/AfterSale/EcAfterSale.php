@@ -48,7 +48,7 @@ class EcAfterSale extends AbstractMiniProgram
             "openid" => $openId,
         ];
         // 与out_aftersale_id二选一
-        if($outAftersaleId){
+        if ($outAftersaleId) {
             unset($params['aftersale_id']);
         }
         return $this->getStream(self::API_POST_SHOP_CANCEL, $params);
@@ -119,13 +119,13 @@ class EcAfterSale extends AbstractMiniProgram
 
     /**
      * 拒绝售后
-     * @param string $aftersaleId
+     * @param string $outAftersaleId
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function reject(string $out_aftersale_id)
+    public function reject(string $outAftersaleId)
     {
         $params = [
-            "out_aftersale_id" => $out_aftersale_id,
+            "out_aftersale_id" => $outAftersaleId,
         ];
         return $this->getStream(self::API_POST_SHOP_REJECT, $params);
     }
