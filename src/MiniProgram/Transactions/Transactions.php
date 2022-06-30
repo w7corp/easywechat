@@ -76,7 +76,7 @@ class Transactions extends AbstractMiniProgram
      */
     public function uploadImg($path, $respType = 0)
     {
-        return $this->uploadMedia('image', $path, $respType);
+        return $this->uploadMedia('image', $path, [], $respType);
     }
 
     /**
@@ -92,7 +92,7 @@ class Transactions extends AbstractMiniProgram
      * @throws InvalidArgumentException
      * @throws \EasyWeChat\Core\Exceptions\HttpException
      */
-    protected function uploadMedia($type, $path, $respType, array $form = [])
+    protected function uploadMedia($type, $path, array $form = [], $respType = 0)
     {
         if (!file_exists($path) || !is_readable($path)) {
             throw new InvalidArgumentException("File does not exist, or the file is unreadable: '$path'");
