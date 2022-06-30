@@ -36,17 +36,18 @@ class EcAfterSale extends AbstractMiniProgram
     /**
      * 用户取消售后单
      * @param string $outAftersaleId
-     * @param int $aftersaleId
+     * @param string $aftersaleId
      * @param string $openId
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function cancel(string $outAftersaleId, int $aftersaleId, string $openId)
+    public function cancel(string $outAftersaleId, string $aftersaleId, string $openId)
     {
         $params = [
             "out_aftersale_id" => $outAftersaleId,
             "aftersale_id" => $aftersaleId,
             "openid" => $openId,
         ];
+
         // 与out_aftersale_id二选一
         if ($outAftersaleId) {
             unset($params['aftersale_id']);
