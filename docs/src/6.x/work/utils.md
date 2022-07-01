@@ -1,4 +1,4 @@
-# 工具
+# 工具<version-tag>6.7.1+</version-tag>
 
 提供企业微信网页开发 JS-SDK 相关方法
 
@@ -17,8 +17,7 @@ $utils = $app->getUtils();
 
 ## 生成 config 接口配置
 
-:book: [官方文档 - config接口配置 说明文档](https://open.work.weixin.qq.com/api/doc/90001/90144/90547)
-
+:book: [官方文档 - config 接口配置 说明文档](https://open.work.weixin.qq.com/api/doc/90001/90144/90547)
 
 ```php
 $config = $utils->buildJsSdkConfig(
@@ -45,8 +44,7 @@ $config = $utils->buildJsSdkConfig(
 
 ## 生成 agentConfig 接口配置
 
-:book: [官方文档 - agentConfig接口配置 说明文档](https://open.work.weixin.qq.com/api/doc/90001/90144/94325)
-
+:book: [官方文档 - agentConfig 接口配置 说明文档](https://open.work.weixin.qq.com/api/doc/90001/90144/94325)
 
 ```php
 $config = $utils->buildJsSdkAgentConfig(
