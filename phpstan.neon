@@ -4,5 +4,3 @@ parameters:
         - src
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
-    ignoreErrors:
-        - '#^Property\s+class@anonymous/Kernel/Traits/MockableHttpClient\.php.*$#is'

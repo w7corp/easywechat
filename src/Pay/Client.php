@@ -154,7 +154,7 @@ class Client implements HttpClientInterface
     }
 
     /**
-     * @param  array<string, mixed>  $arguments
+     * @param  array<int, mixed>  $arguments
      */
     public function __call(string $name, array $arguments): mixed
     {
