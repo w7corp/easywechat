@@ -119,6 +119,11 @@ class Application implements ApplicationInterface
         return $this;
     }
 
+    public function getUtils(): Utils
+    {
+        return new Utils($this);
+    }
+
     public function createClient(): AccessTokenAwareClient
     {
         return (new AccessTokenAwareClient(

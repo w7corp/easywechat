@@ -70,7 +70,7 @@ class Server implements ServerInterface
      */
     public function addMessageListener(string $type, callable|string $handler): static
     {
-        $handler =  $this->makeClosure($handler);
+        $handler = $this->makeClosure($handler);
         $this->withHandler(
             function (Message $message, Closure $next) use ($type, $handler): mixed {
                 return $message->MsgType === $type ? $handler($message, $next) : $next($message);
@@ -85,7 +85,7 @@ class Server implements ServerInterface
      */
     public function addEventListener(string $event, callable|string $handler): static
     {
-        $handler =  $this->makeClosure($handler);
+        $handler = $this->makeClosure($handler);
         $this->withHandler(
             function (Message $message, Closure $next) use ($event, $handler): mixed {
                 return $message->Event === $event ? $handler($message, $next) : $next($message);

@@ -12,12 +12,13 @@ use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\AccessToken;
 use EasyWeChat\Work\Account;
-use EasyWeChat\Work\Account as AccountInterface;
+use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Work\Encryptor;
 use EasyWeChat\Work\JsApiTicket;
 use EasyWeChat\Work\Server;
+use EasyWeChat\Work\Utils;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Psr16Cache;
@@ -236,5 +237,20 @@ class ApplicationTest extends TestCase
         $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-token', $app->getCache(), $app->getClient());
         $app->setTicket($ticket);
         $this->assertSame($ticket, $app->getTicket());
+    }
+
+    public function test_get_utils()
+    {
+        $app = new Application(
+            [
+                        'corp_id' => 'wx3cf0f39249000060',
+                        'secret' => 'mock-secret',
+                        'token' => 'mock-token',
+                        'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+                        'agent_id' => 100001,
+                    ]
+        );
+
+        $this->assertInstanceOf(Utils::class, $app->getUtils());
     }
 }
