@@ -35,45 +35,21 @@ class EcAfterSale extends AbstractMiniProgram
 
     /**
      * 用户取消售后单
-     * @param string $outAftersaleId
-     * @param int $aftersaleId
-     * @param string $openId
+     * @param array $params
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function cancel(string $outAftersaleId, int $aftersaleId, string $openId)
+    public function cancel(array $params)
     {
-        $params = [
-            "out_aftersale_id" => $outAftersaleId,
-            "aftersale_id" => $aftersaleId,
-            "openid" => $openId,
-        ];
-        // 与out_aftersale_id二选一
-        if ($outAftersaleId) {
-            unset($params['aftersale_id']);
-        }
         return $this->getStream(self::API_POST_SHOP_CANCEL, $params);
     }
 
     /**
      * 用户上传物流信息
-     * @param string $outAftersaleId
-     * @param string $aftersaleId
-     * @param string $openId
-     * @param string $deliveryId
-     * @param string $waybillId
-     * @param string $deliveryName
+     * @param array $params
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function uploadReturnInfo(string $outAftersaleId, string $aftersaleId, string $openId, string $deliveryId, string $waybillId, string $deliveryName)
+    public function uploadReturnInfo(array $params)
     {
-        $params = [
-            "out_aftersale_id" => $outAftersaleId,
-            "aftersale_id" => $aftersaleId,
-            "openid" => $openId,
-            "delivery_id" => $deliveryId,
-            "waybill_id" => $waybillId,
-            "delivery_name" => $deliveryName,
-        ];
         return $this->getStream(self::API_POST_SHOP_UPLOAD_RETURNINFO, $params);
     }
 
@@ -119,14 +95,11 @@ class EcAfterSale extends AbstractMiniProgram
 
     /**
      * 拒绝售后
-     * @param string $outAftersaleId
+     * @param array $params
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function reject(string $outAftersaleId)
+    public function reject(array $params)
     {
-        $params = [
-            "out_aftersale_id" => $outAftersaleId,
-        ];
         return $this->getStream(self::API_POST_SHOP_REJECT, $params);
     }
 
