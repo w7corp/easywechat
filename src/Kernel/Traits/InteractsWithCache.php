@@ -15,6 +15,8 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\ServiceContainer;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
+use PsrExt\Cache\CacheItemPoolInterface as PsrExtCacheItemPoolInterface;
+use PsrExt\SimpleCache\CacheInterface as PsrExtSimpleCacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Cache\Simple\FilesystemCache;
@@ -67,7 +69,7 @@ trait InteractsWithCache
      */
     public function setCache($cache)
     {
-        if (empty(\array_intersect([SimpleCacheInterface::class, CacheItemPoolInterface::class], \class_implements($cache)))) {
+        if (empty(\array_intersect([SimpleCacheInterface::class, CacheItemPoolInterface::class, PsrExtCacheItemPoolInterface::class, PsrExtSimpleCacheInterface::class], \class_implements($cache)))) {
             throw new InvalidArgumentException(\sprintf('The cache instance must implements %s or %s interface.', SimpleCacheInterface::class, CacheItemPoolInterface::class));
         }
 
