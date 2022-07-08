@@ -54,6 +54,7 @@ use EasyWeChat\Work\MiniProgram\Application as MiniProgram;
  * @property \EasyWeChat\Work\Kf\ServicerClient                     $kf_servicer
  * @property \EasyWeChat\Work\Kf\MessageClient                      $kf_message
  * @property \EasyWeChat\Work\GroupWelcomeTemplate\Client           $group_welcome_templage
+ * @property \EasyWeChat\Work\Wedrive\Wedrive                       $wedrive
  *
  * @method mixed getCallbackIp()
  */
@@ -87,6 +88,7 @@ class Application extends ServiceContainer
         Mobile\ServiceProvider::class,
         Kf\ServiceProvider::class,
         GroupWelcomeTemplate\ServiceProvider::class,
+        Wedrive\ServiceProvider::class,
     ];
 
     /**
