@@ -35,9 +35,9 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E6%96%B0%E5%BB%BA%E7%A9%BA%E9%97%B4
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E6%96%B0%E5%BB%BA%E7%A9%BA%E9%97%B4
      */
-    public function create($userid, $spaceName, $authInfo = [], $spaceSubType = 1)
+    public function create($userid, $spaceName, $authInfo = [], $spaceSubType = 0)
     {
         $data = [
             'userid' => $userid,
@@ -61,7 +61,7 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E9%87%8D%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E9%87%8D%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4
      */
     public function rename($userid, $spaceid, $spaceName)
     {
@@ -85,7 +85,7 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E8%A7%A3%E6%95%A3%E7%A9%BA%E9%97%B4
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E8%A7%A3%E6%95%A3%E7%A9%BA%E9%97%B4
      */
     public function dismiss($userid, $spaceid)
     {
@@ -103,7 +103,7 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E8%8E%B7%E5%8F%96%E7%A9%BA%E9%97%B4%E7%9B%B8%E5%86%8C%E4%BF%A1%E6%81%AF
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E8%8E%B7%E5%8F%96%E7%A9%BA%E9%97%B4%E7%9B%B8%E5%86%8C%E4%BF%A1%E6%81%AF
      */
     public function info($userid, $spaceid)
     {
@@ -121,7 +121,7 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E8%8E%B7%E5%8F%96%E9%82%80%E8%AF%B7%E9%93%BE%E6%8E%A5
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E8%8E%B7%E5%8F%96%E9%82%80%E8%AF%B7%E9%93%BE%E6%8E%A5
      */
     public function share($userid, $spaceid)
     {
@@ -140,13 +140,13 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE
      */
     public function setting($userid, $spaceid, $settings)
     {
         $data = array_merge(compact('userid', 'spaceid'), $settings);
 
-        return $this->httpPostJson('cgi-bin/wedrive/space_share', $data);
+        return $this->httpPostJson('cgi-bin/wedrive/space_setting', $data);
     }
 
     /**
@@ -161,7 +161,7 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E9%83%A8%E9%97%A8
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E9%83%A8%E9%97%A8
      */
     public function aclAdd($userid, $spaceid, $authInfo)
     {
@@ -186,7 +186,7 @@ class SpaceClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E9%83%A8%E9%97%A8
+     * @see https://developer.work.weixin.qq.com/document/path/93656#%E6%B7%BB%E5%8A%A0%E6%88%90%E5%91%98%E9%83%A8%E9%97%A8
      */
     public function aclDel($userid, $spaceid, $authInfo)
     {

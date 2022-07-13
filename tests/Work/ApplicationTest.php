@@ -44,6 +44,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(\EasyWeChat\Work\ExternalContact\MessageClient::class, $app->external_contact_message);
         $this->assertInstanceOf(\EasyWeChat\Work\Live\Client::class, $app->live);
         $this->assertInstanceOf(\EasyWeChat\Work\CorpGroup\Client::class, $app->corp_group);
+        $this->assertInstanceOf(\EasyWeChat\Work\Wedrive\Wedrive::class, $app->wedrive);
     }
 
     public function testMiniProgram()

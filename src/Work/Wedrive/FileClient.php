@@ -36,7 +36,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E6%96%87%E6%A1%A3
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E6%96%B0%E5%BB%BA%E6%96%87%E4%BB%B6%E6%96%87%E6%A1%A3
      */
     public function create($userid, $spaceid, $fatherid, $fileType, $fileName)
     {
@@ -63,7 +63,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6
      */
     public function rename($userid, $fileid, $name)
     {
@@ -89,7 +89,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6
      */
     public function move($userid, $fileid, $fatherid, $replace = false)
     {
@@ -109,7 +109,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6
      */
     public function delete($userid, $fileid)
     {
@@ -133,7 +133,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8
      */
     public function list($userid, $spaceid, $fatherid = null, $start = 0, $limit = 1000, $sort = 1)
     {
@@ -160,7 +160,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF
      */
     public function info($userid, $fileid)
     {
@@ -181,7 +181,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6
      */
     public function upload($userid, $spaceid, $fatherid, $fileName, $fileContent)
     {
@@ -208,7 +208,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/95856#%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6
+     * @see https://developer.work.weixin.qq.com/document/path/93657#%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6
      */
     public function download($userid, $fileid, $download = false)
     {
@@ -236,7 +236,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E8%8E%B7%E5%8F%96%E5%88%86%E4%BA%AB%E9%93%BE%E6%8E%A5
+     * @see https://developer.work.weixin.qq.com/document/path/93658#%E8%8E%B7%E5%8F%96%E5%88%86%E4%BA%AB%E9%93%BE%E6%8E%A5
      */
     public function share($userid, $fileid)
     {
@@ -249,14 +249,16 @@ class FileClient extends BaseClient
      * @param string $userid
      * @param string $fileid
      * @param int $authScope    权限范围：1:指定人 2:企业内 3:企业外
-     * @param int $auth         权限信息
+     * @param int $auth         权限信息 权限信息
+     * 普通文档： 1:仅浏览（可下载) 4:仅预览（仅专业版企业可设置）；如果不填充此字段为保持原有状态
+     * 微文档： 1:仅浏览（可下载） 2:可编辑；如果不填充此字段为保持原有状态
      * 
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      * 
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E5%88%86%E4%BA%AB%E8%AE%BE%E7%BD%AE
+     * @see https://developer.work.weixin.qq.com/document/path/93658#%E5%88%86%E4%BA%AB%E8%AE%BE%E7%BD%AE
      */
     public function setting($userid, $fileid, $authScope, $auth = null)
     {
@@ -282,7 +284,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E6%96%B0%E5%A2%9E%E6%88%90%E5%91%98
+     * @see https://developer.work.weixin.qq.com/document/path/93658#%E6%96%B0%E5%A2%9E%E6%88%90%E5%91%98
      */
     public function aclAdd($userid, $fileid, $authInfo)
     {
@@ -307,7 +309,7 @@ class FileClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * 
-     * @see https://developer.work.weixin.qq.com/document/path/90664#%E5%88%A0%E9%99%A4%E6%88%90%E5%91%98
+     * @see https://developer.work.weixin.qq.com/document/path/93658#%E5%88%A0%E9%99%A4%E6%88%90%E5%91%98
      */
     public function aclDel($userid, $fileid, $authInfo)
     {
