@@ -26,13 +26,14 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
     public function __construct(
         protected string $suiteId,
         protected string $suiteSecret,
-        protected SuiteTicketInterface $suiteTicket,
+        protected ?SuiteTicketInterface $suiteTicket = null,
         protected ?string $key = null,
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null,
     ) {
         $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://qyapi.weixin.qq.com/']);
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
+        $this->suiteTicket ??= new SuiteTicket($this->suiteId, $this->cache);
     }
 
     public function getKey(): string
@@ -98,7 +99,7 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
             'json' => [
                 'suite_id' => $this->suiteId,
                 'suite_secret' => $this->suiteSecret,
-                'suite_ticket' => $this->suiteTicket->getTicket(),
+                'suite_ticket' => $this->suiteTicket?->getTicket(),
             ],
         ])->toArray(false);
 
