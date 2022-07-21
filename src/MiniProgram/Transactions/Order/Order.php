@@ -23,6 +23,7 @@ class Order extends AbstractMiniProgram
     const API_POST_ORDER_BY_FINDER = 'https://api.weixin.qq.com/shop/order/get_list_by_finder';
     const API_POST_ORDER_BY_SHARE = 'https://api.weixin.qq.com/shop/order/get_list_by_sharer';
     const API_POST_ORDER_PARAMS = 'https://api.weixin.qq.com/shop/order/getpaymentparams';
+    const API_POST_ORDER_CLOSE = 'https://api.weixin.qq.com/shop/order/close';
 
 
     /** 获取场景
@@ -126,6 +127,15 @@ class Order extends AbstractMiniProgram
             "openid" => $openId
         ];
         return $this->getStream(self::API_POST_ORDER_PARAMS, $params);
+    }
+
+    /** 关闭订单
+     * @param string $params
+     * @return \Psr\Http\Message\StreamInterface
+     */
+    public function close(array $params)
+    {
+        return $this->getStream(self::API_POST_ORDER_CLOSE, $params);
     }
 
     /**
