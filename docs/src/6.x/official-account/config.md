@@ -22,7 +22,7 @@
      */
     'oauth' => [
         'scopes'   => ['snsapi_userinfo'],
-        'callback' => '/examples/oauth_callback.php',
+        'redirect_url' => '/examples/oauth_callback.php',
     ],
 
     /**
