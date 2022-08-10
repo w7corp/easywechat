@@ -23,6 +23,7 @@ SDK 内置了两个便捷方法以便于开发者快速处理支付推送事件�
 > :book: 官方文档：支付结果通知 <https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml>
 
 ```php
+$server = $app->getServer();
 $server->handlePaid(function (Message $message, \Closure $next) {
     // $message->out_trade_no 获取商户订单号
     // $message->payer['openid'] 获取支付者 openid
@@ -30,6 +31,9 @@ $server->handlePaid(function (Message $message, \Closure $next) {
     // 建议是拿订单号调用微信支付查询接口，以查询到的订单状态为准
     return $next($message);
 });
+
+// 默认返回 ['code' => 'SUCCESS', 'message' => '成功']
+return $server->serve();
 ```
 
 ### 退款成功事件
@@ -37,11 +41,15 @@ $server->handlePaid(function (Message $message, \Closure $next) {
 > :book: 官方文档：退款结果通知 <https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml>
 
 ```php
+$server = $app->getServer();
 $server->handleRefunded(function (Message $message, \Closure $next) {
     // $message->out_trade_no 获取商户订单号
     // $message->payer['openid'] 获取支付者 openid
     return $next($message);
 });
+
+// 默认返回 ['code' => 'SUCCESS', 'message' => '成功']
+return $server->serve();
 ```
 
 ## 其它事件处理
