@@ -173,6 +173,6 @@ class JsApiTicket
 
     public function getAgentKey(int $agentId): string
     {
-        return sprintf('work.jsapi_ticket.%s.%s', $this->corpId, $agentId);
+        return sprintf('%s.%s', $this->getKey(), $agentId);
     }
 }
