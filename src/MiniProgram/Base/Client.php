@@ -35,4 +35,19 @@ class Client extends BaseClient
     {
         return $this->httpGet('wxa/getpaidunionid', compact('openid') + $options);
     }
+
+    /**
+     * Get user phone number by code
+     *
+     * @param string $code
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getPhoneNumber($code)
+    {
+        return $this->httpPostJson('wxa/business/getuserphonenumber', ['code' => $code]);
+    }
 }
