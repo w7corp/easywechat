@@ -14,12 +14,12 @@ use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
-use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\OpenWeWork;
+
 use function array_merge;
 
 class Application implements ApplicationInterface

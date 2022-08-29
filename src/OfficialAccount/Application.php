@@ -27,6 +27,7 @@ use Overtrue\Socialite\Providers\WeChat;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpClient\Response\AsyncContext;
 use Symfony\Component\HttpClient\RetryableHttpClient;
+
 use function array_merge;
 use function call_user_func;
 use function sprintf;

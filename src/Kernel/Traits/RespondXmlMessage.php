@@ -9,6 +9,7 @@ use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\Support\Xml;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
+
 use function array_merge;
 use function is_array;
 use function is_callable;

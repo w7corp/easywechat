@@ -3,6 +3,7 @@
 namespace EasyWeChat\Kernel\Support;
 
 use Exception;
+
 use function base64_encode;
 use function preg_replace;
 use function random_bytes;

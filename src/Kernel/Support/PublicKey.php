@@ -3,6 +3,7 @@
 namespace EasyWeChat\Kernel\Support;
 
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
+
 use function file_exists;
 use function file_get_contents;
 use function openssl_x509_parse;

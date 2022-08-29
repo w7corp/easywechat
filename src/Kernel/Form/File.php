@@ -5,12 +5,14 @@ namespace EasyWeChat\Kernel\Form;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\Mime\Part\DataPart;
+
 use function file_put_contents;
 use function md5;
 use function pathinfo;
 use function strtolower;
 use function sys_get_temp_dir;
 use function tempnam;
+
 use const PATHINFO_EXTENSION;
 
 class File extends DataPart

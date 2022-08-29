@@ -9,6 +9,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+
 use function array_is_list;
 use function intval;
 use function is_string;

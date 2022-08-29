@@ -6,6 +6,7 @@ namespace EasyWeChat\Kernel\Support;
 
 use InvalidArgumentException;
 use SimpleXMLElement;
+
 use function is_object;
 
 class Xml

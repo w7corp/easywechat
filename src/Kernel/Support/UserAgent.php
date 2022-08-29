@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Support;
 
 use Composer\InstalledVersions;
+
 use function array_map;
 use function array_unshift;
 use function class_exists;

@@ -6,6 +6,7 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use JetBrains\PhpStorm\ArrayShape;
+
 use function sprintf;
 
 class JsApiTicket extends AccessToken

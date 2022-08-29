@@ -7,6 +7,7 @@ namespace EasyWeChat\MiniApp;
 use EasyWeChat\Kernel\Exceptions\DecryptException;
 use EasyWeChat\Kernel\Support\AesCbc;
 use Throwable;
+
 use function base64_decode;
 use function is_array;
 use function json_decode;

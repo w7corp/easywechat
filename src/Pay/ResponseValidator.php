@@ -8,8 +8,10 @@ use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Psr\Http\Message\ResponseInterface;
+
 use function base64_decode;
 use function strval;
+
 use const OPENSSL_ALGO_SHA256;
 
 class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator

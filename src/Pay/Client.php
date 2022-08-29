@@ -26,6 +26,7 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+
 use function is_array;
 use function is_string;
 use function str_starts_with;
