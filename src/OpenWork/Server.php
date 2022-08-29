@@ -18,6 +18,7 @@ use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+
 use function func_get_args;
 
 class Server implements ServerInterface

@@ -13,9 +13,11 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 use function abs;
 use function intval;
 use function json_encode;
+
 use const JSON_UNESCAPED_UNICODE;
 
 class SuiteAccessToken implements RefreshableAccessTokenInterface

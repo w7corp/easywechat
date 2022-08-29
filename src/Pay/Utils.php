@@ -7,6 +7,7 @@ use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
+
 use function base64_encode;
 use function call_user_func_array;
 use function http_build_query;

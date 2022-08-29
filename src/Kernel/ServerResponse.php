@@ -5,6 +5,7 @@ namespace EasyWeChat\Kernel;
 use JetBrains\PhpStorm\Pure;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+
 use function array_keys;
 use function array_map;
 use function count;
@@ -12,6 +13,7 @@ use function header;
 use function max;
 use function sprintf;
 use function ucwords;
+
 use const PHP_OUTPUT_HANDLER_CLEANABLE;
 use const PHP_OUTPUT_HANDLER_FLUSHABLE;
 use const PHP_OUTPUT_HANDLER_REMOVABLE;

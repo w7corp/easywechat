@@ -7,6 +7,7 @@ namespace EasyWeChat\Kernel\Traits;
 use Closure;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
+
 use function array_reverse;
 use function array_unshift;
 use function call_user_func;

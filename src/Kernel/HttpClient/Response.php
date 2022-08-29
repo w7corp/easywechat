@@ -24,6 +24,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Throwable;
+
 use function array_key_exists;
 use function base64_encode;
 use function file_put_contents;
@@ -32,6 +33,7 @@ use function sprintf;
 use function str_contains;
 use function str_starts_with;
 use function strtolower;
+
 use const JSON_UNESCAPED_UNICODE;
 
 /**
@@ -186,7 +188,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
                 $responseFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findResponseFactory(); /** @phpstan-ignore-line */
                 $streamFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findStreamFactory(); /** @phpstan-ignore-line */
 
-            /** @phpstan-ignore-next-line */
+                /** @phpstan-ignore-next-line */
             } catch (NotFoundException $e) {
                 throw new \LogicException('You cannot use the "Symfony\Component\HttpClient\HttplugClient" as no PSR-17 factories have been found. Try running "composer require nyholm/psr7".', 0, $e);
             }
