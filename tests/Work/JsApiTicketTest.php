@@ -34,10 +34,10 @@ class JsApiTicketTest extends TestCase
         $this->assertSame("work.jsapi_ticket.mock-corpid.100001", $ticket->getAgentKey(100001));
 
         $ticket->setKey("mock-key");
-        $this->assertSame("mock-key", $ticket->getAgentKey(100001));
+        $this->assertSame("mock-key.100001", $ticket->getAgentKey(100001));
 
         $ticket = new JsApiTicket('mock-corpid', 'test-key');
-        $this->assertSame("test-key", $ticket->getAgentKey(100001));
+        $this->assertSame("test-key.100001", $ticket->getAgentKey(100001));
     }
 
 
