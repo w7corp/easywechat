@@ -135,13 +135,14 @@ class Application implements ApplicationInterface
         ))->setPresets($this->config->all());
     }
 
-    public function getOAuth(): SocialiteProviderInterface
+    public function getOAuth($agent_id = ''): SocialiteProviderInterface
     {
         return (new WeWork(
             [
                 'client_id' => $this->getAccount()->getCorpId(),
                 'client_secret' => $this->getAccount()->getSecret(),
                 'redirect_url' => $this->config->get('oauth.redirect_url'),
+                'agent_id' => $agent_id,
             ]
         ))->withApiAccessToken($this->getAccessToken()->getToken())
             ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
