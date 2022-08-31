@@ -297,6 +297,23 @@ class Application implements ApplicationInterface
         ))->setPresets($this->config->all());
     }
 
+    /**
+     * @throws HttpException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function getJsApiTicket(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): JsApiTicket
+    {
+        return new JsApiTicket(
+            corpId: $corpId,
+            cache: $this->getCache(),
+            httpClient: $this->getAuthorizerClient($corpId, $permanentCode, $suiteAccessToken),
+        );
+    }
+
     public function getOAuth(
         string $suiteId,
         ?AccessTokenInterface $suiteAccessToken = null
