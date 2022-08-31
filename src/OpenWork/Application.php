@@ -43,6 +43,8 @@ class Application implements ApplicationInterface
 
     protected ?AccessTokenInterface $suiteAccessToken = null;
 
+    protected ?AuthorizerAccessToken $authorizerAccessToken = null;
+
     public function getAccount(): AccountInterface
     {
         if (! $this->account) {
@@ -247,21 +249,18 @@ class Application implements ApplicationInterface
         ?AccessTokenInterface $suiteAccessToken = null
     ): AuthorizerAccessToken {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
-        $response = $this->getHttpClient()->request('POST', 'cgi-bin/service/get_corp_token', [
-            'query' => [
-                'suite_access_token' => $suiteAccessToken->getToken(),
-            ],
-            'json' => [
-                'auth_corpid' => $corpId,
-                'permanent_code' => $permanentCode,
-            ],
-        ])->toArray(false);
 
-        if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
+        if (!$this->authorizerAccessToken) {
+            $this->authorizerAccessToken = new AuthorizerAccessToken(
+                corpId: $corpId,
+                permanentCodeOrAccessToken: $permanentCode,
+                suiteAccessToken: $suiteAccessToken,
+                cache: $this->getCache(),
+                httpClient: $this->getHttpClient(),
+            );
         }
 
-        return new AuthorizerAccessToken($corpId, accessToken: $response['access_token']);
+        return $this->authorizerAccessToken;
     }
 
     public function createClient(): AccessTokenAwareClient
