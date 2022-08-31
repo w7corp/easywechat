@@ -21,6 +21,12 @@ use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\OpenWeWork;
 
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+
 class Application implements ApplicationInterface
 {
     use InteractWithCache;
@@ -270,6 +276,24 @@ class Application implements ApplicationInterface
             accessToken: $this->getProviderAccessToken(),
             failureJudge: fn (Response $response) => (bool) ($response->toArray()['errcode'] ?? 0),
             throw: (bool) $this->config->get('http.throw', true),
+        ))->setPresets($this->config->all());
+    }
+
+    /**
+     * @throws HttpException
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function getAuthorizerClient(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): AccessTokenAwareClient
+    {
+        return (new AccessTokenAwareClient(
+            client: $this->getHttpClient(),
+            accessToken: $this->getAuthorizerAccessToken($corpId, $permanentCode, $suiteAccessToken),
+            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0),
+            throw: !!$this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
     }
 
