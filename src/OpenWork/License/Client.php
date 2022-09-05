@@ -172,4 +172,27 @@ class Client extends BaseClient
             'cursor' => $cursor
         ]);
     }
+
+    /**
+     * 取消订单
+     *
+     * 取消接口许可购买和续费订单，只可取消未支付且未失效的订单。
+     *
+     * @param string $corpId 企业id，只支持加密的corpid
+     * @param string $orderId 订单号
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @noinspection SpellCheckingInspection
+     * @noinspection PhpFullyQualifiedNameUsageInspection
+     */
+    public function cancel(string $corpId, string $orderId)
+    {
+        return $this->httpPostJson('cgi-bin/license/cancel_order', [
+            'corpid' => $corpId,
+            'order_id' => $orderId,
+        ]);
+    }
 }
