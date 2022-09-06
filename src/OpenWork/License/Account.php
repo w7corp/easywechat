@@ -203,4 +203,33 @@ class Account extends BaseClient
             'transfer_list' => $transferList
         ]);
     }
+
+    /**
+     * 分配激活码给下游企业
+     *
+     * >服务商可调用该接口将为上游企业购买的激活码分配给下游企业使用。
+     *
+     * @param string $fromCorpid 上游企业corpid。支持明文或者密文的corpid
+     * @param string $toCorpid   下游企业corpid。支持明文或者密文的corpid
+     * @param array  $activeCode 分享的接口许可激活码。单次分享激活码不可超过1000个，累计分享给同一下游企业的激活码总数不可超过上下游通讯录中该下游企业人数的2倍
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @noinspection PhpFullyQualifiedNameUsageInspection
+     * @noinspection SpellCheckingInspection
+     */
+    public function share(string $fromCorpid, string $toCorpid, array $activeCode)
+    {
+        return $this->httpPostJson('cgi-bin/license/batch_share_active_code', [
+            'from_corpid' => $fromCorpid,
+            'to_corpid' => $toCorpid,
+            'share_list' => array_map(function ($code) {
+                return [
+                    'active_code' => $code,
+                ];
+            }, $activeCode),
+        ]);
+    }
 }
