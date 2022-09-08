@@ -100,7 +100,7 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = sprintf('open_work.authorizer.access_token.%s', $this->corpId);
+        return $this->key ?? $this->key = sprintf('open_work.authorizer.access_token.%s.%s', $this->corpId, $this->permanentCodeOrAccessToken);
     }
 
     public function setKey(string $key): static
