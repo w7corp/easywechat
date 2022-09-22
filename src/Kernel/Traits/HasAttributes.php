@@ -28,7 +28,7 @@ trait HasAttributes
      */
     public function toArray(): array
     {
-        return $this->attributes;
+        return json_decode(json_encode($this->attributes), true);
     }
 
     public function toJson(): string|false
