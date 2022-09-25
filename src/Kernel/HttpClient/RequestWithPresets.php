@@ -2,13 +2,12 @@
 
 namespace EasyWeChat\Kernel\HttpClient;
 
+use function array_merge;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Form\File;
 use EasyWeChat\Kernel\Form\Form;
 use EasyWeChat\Kernel\Support\Str;
-
-use function array_merge;
 use function in_array;
 use function is_file;
 use function is_string;
@@ -133,19 +132,19 @@ trait RequestWithPresets
     {
         $name = in_array(strtoupper($method), ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
 
-        if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'application/json' || !empty($options['json'])) {
+        if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'application/json' || ! empty($options['json'])) {
             $name = 'json';
         }
 
-        if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'text/xml' || !empty($options['xml'])) {
+        if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'text/xml' || ! empty($options['xml'])) {
             $name = 'xml';
         }
 
-        if (!empty($this->prependParts)) {
+        if (! empty($this->prependParts)) {
             $options[$name] = array_merge($this->prependParts, $options[$name] ?? []);
         }
 
-        if (!empty($this->prependHeaders)) {
+        if (! empty($this->prependHeaders)) {
             $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
         }
 
@@ -163,7 +162,7 @@ trait RequestWithPresets
         // $client->withAppid();
         // $client->withAppid('wxf8b4f85f3a794e77');
         // $client->withAppidAs('sub_appid');
-        if (!str_starts_with($method, 'with')) {
+        if (! str_starts_with($method, 'with')) {
             throw new InvalidArgumentException(sprintf('The method "%s" is not supported.', $method));
         }
 

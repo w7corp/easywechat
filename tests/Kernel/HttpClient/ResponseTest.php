@@ -31,8 +31,9 @@ class ResponseTest extends TestCase
         $this->assertSame(['foo' => 'bar'], (new Response($response))->toArray());
         $this->assertSame(['foo' => 'bar'], (new Response($response))->toArray());
 
-        $this->expectException(BadResponseException::class);
-        (new Response($response))->toArray();
+        $response = (new Response($response))->toArray();
+        $this->assertIsArray($response);
+        $this->assertEmpty($response);
     }
 
     public function test_it_support_array_access()
@@ -156,7 +157,7 @@ class ResponseTest extends TestCase
         $response = (new Response($response));
 
         $response->judgeFailureUsing(function ($response) {
-            return !empty($response->toArray()['errcode'] ?? null);
+            return ! empty($response->toArray()['errcode'] ?? null);
         });
 
         $this->assertTrue($response->isFailed());

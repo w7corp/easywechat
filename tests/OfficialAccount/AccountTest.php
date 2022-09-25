@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EasyWeChat\Tests\OfficialAccount;
 
 use EasyWeChat\OfficialAccount\Account;
-use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Application;
+use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\Tests\TestCase;
 
 class AccountTest extends TestCase

@@ -16,7 +16,7 @@ trait InteractWithServerRequest
 
     public function getRequest(): ServerRequestInterface
     {
-        if (!$this->request) {
+        if (! $this->request) {
             $this->request = RequestUtil::createDefaultServerRequest();
         }
 

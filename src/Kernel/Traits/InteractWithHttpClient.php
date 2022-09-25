@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
+use function property_exists;
 use Psr\Log\LoggerAwareInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-
-use function property_exists;
 
 trait InteractWithHttpClient
 {
@@ -17,7 +16,7 @@ trait InteractWithHttpClient
 
     public function getHttpClient(): HttpClientInterface
     {
-        if (!$this->httpClient) {
+        if (! $this->httpClient) {
             $this->httpClient = $this->createHttpClient();
         }
 

@@ -48,7 +48,7 @@ class ServerTest extends TestCase
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body))->withQueryParams([
             'msg_signature' => '477715d11cdb4164915debcba66cb864d751f3e6',
             'timestamp' => '1409659813',
-            'nonce' => '1372623149'
+            'nonce' => '1372623149',
         ]);
 
         $app = new Application([
@@ -76,7 +76,7 @@ class ServerTest extends TestCase
         $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body))->withQueryParams([
             'msg_signature' => '477715d11cdb4164915debcba66cb864d751f3e6',
             'timestamp' => '1409659813',
-            'nonce' => '1372623149'
+            'nonce' => '1372623149',
         ]);
 
         $app = new Application([

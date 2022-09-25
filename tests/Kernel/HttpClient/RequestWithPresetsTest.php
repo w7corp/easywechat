@@ -39,7 +39,7 @@ class RequestWithPresetsTest extends TestCase
             'secret' => null,
             'age' => 12,
             'name' => 'overtrue',
-            'items' => ['foo', 'bar']
+            'items' => ['foo', 'bar'],
         ], $client->getPrependsParts());
     }
 
@@ -244,6 +244,6 @@ class DummyClassForRequestWithPresetsTest
             return $this->handleMagicWithCall($name, $arguments[0] ?? null);
         }
 
-        throw new \BadMethodCallException('Call to undefined method ' . __CLASS__ . '::' . $name . '()');
+        throw new \BadMethodCallException('Call to undefined method '.__CLASS__.'::'.$name.'()');
     }
 }

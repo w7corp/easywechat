@@ -6,13 +6,12 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
+use function is_string;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
+use function sprintf;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
-
-use function is_string;
-use function sprintf;
 
 class VerifyTicket implements VerifyTicketInterface
 {
@@ -56,7 +55,7 @@ class VerifyTicket implements VerifyTicketInterface
     {
         $ticket = $this->cache->get($this->getKey());
 
-        if (!$ticket || !is_string($ticket)) {
+        if (! $ticket || ! is_string($ticket)) {
             throw new RuntimeException('No component_verify_ticket found.');
         }
 

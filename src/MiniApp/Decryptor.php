@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace EasyWeChat\MiniApp;
 
+use function base64_decode;
 use EasyWeChat\Kernel\Exceptions\DecryptException;
 use EasyWeChat\Kernel\Support\AesCbc;
-use Throwable;
-
-use function base64_decode;
 use function is_array;
 use function json_decode;
 use function sprintf;
+use Throwable;
 
 class Decryptor
 {
     /**
      * @return array<string, mixed>
+     *
      * @throws DecryptException
      */
     public static function decrypt(string $sessionKey, string $iv, string $ciphertext): array
@@ -30,7 +30,7 @@ class Decryptor
 
             $decrypted = json_decode($decrypted, true);
 
-            if (!$decrypted || !is_array($decrypted)) {
+            if (! $decrypted || ! is_array($decrypted)) {
                 throw new DecryptException('The given payload is invalid.');
             }
         } catch (Throwable $e) {

@@ -34,17 +34,18 @@
     "symfony/psr-http-message-bridge": "^2.1.2",
     "symfony/http-client": "^5.4|^6.0",
     "symfony/mime": "^5.4|^6.0",
-    "symfony/polyfill-php81": "^1.25"
+    "symfony/polyfill-php81": "^1.25",
+    "thenorthmemory/xml": "^1.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.5.0",
     "brainmaestro/composer-git-hooks": "^2.8",
     "mikey179/vfsstream": "^1.6",
     "mockery/mockery": "^1.4.4",
     "phpstan/phpstan": "^1.0",
     "phpunit/phpunit": "^9.5",
     "symfony/var-dumper": "^5.2",
-    "jetbrains/phpstorm-attributes": "^1.0"
+    "jetbrains/phpstorm-attributes": "^1.0",
+    "laravel/pint": "^1.2"
   },
   "autoload": {
     "psr-4": {
@@ -87,8 +88,8 @@
       "cghooks update"
     ],
     "phpstan": "phpstan analyse --memory-limit=-1",
-    "check-style": "php-cs-fixer fix --using-cache=no --diff --dry-run --allow-risky=yes --ansi",
-    "fix-style": "php-cs-fixer fix --using-cache=no --allow-risky=yes --ansi",
+    "check-style": "vendor/bin/pint --test",
+    "fix-style": "vendor/bin/pint",
     "test": "phpunit --colors"
   },
   "config": {

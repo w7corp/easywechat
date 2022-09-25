@@ -12,15 +12,14 @@ use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
-use Nyholm\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Throwable;
-
 use function is_array;
 use function json_decode;
 use function json_encode;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use function strval;
+use Throwable;
 
 /**
  * @link https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay4_1.shtml
@@ -58,7 +57,7 @@ class Server implements ServerInterface
             );
             $response = $this->handle($defaultResponse, $message);
 
-            if (!($response instanceof ResponseInterface)) {
+            if (! ($response instanceof ResponseInterface)) {
                 $response = $defaultResponse;
             }
 
@@ -74,6 +73,7 @@ class Server implements ServerInterface
 
     /**
      * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
+     *
      * @throws InvalidArgumentException
      */
     public function handlePaid(callable $handler): static
@@ -88,6 +88,7 @@ class Server implements ServerInterface
 
     /**
      * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml
+     *
      * @throws InvalidArgumentException
      */
     public function handleRefunded(callable $handler): static
@@ -112,7 +113,7 @@ class Server implements ServerInterface
         $originContent = (string) ($request ?? $this->request)->getBody();
         $attributes = json_decode($originContent, true);
 
-        if (!is_array($attributes)) {
+        if (! is_array($attributes)) {
             throw new RuntimeException('Invalid request body.');
         }
 
@@ -130,7 +131,7 @@ class Server implements ServerInterface
             true
         );
 
-        if (!is_array($attributes)) {
+        if (! is_array($attributes)) {
             throw new RuntimeException('Failed to decrypt request message.');
         }
 

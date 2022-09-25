@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
+use EasyWeChat\Kernel\Contracts\AccessToken;
 use JetBrains\PhpStorm\ArrayShape;
 use JetBrains\PhpStorm\Pure;
 use Stringable;
-use EasyWeChat\Kernel\Contracts\AccessToken;
 
 class AuthorizerAccessToken implements AccessToken, Stringable
 {
@@ -30,12 +30,11 @@ class AuthorizerAccessToken implements AccessToken, Stringable
         return $this->accessToken;
     }
 
-
     /**
      * @return array<string, string>
      */
     #[Pure]
-    #[ArrayShape(['access_token' => "string"])]
+    #[ArrayShape(['access_token' => 'string'])]
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];

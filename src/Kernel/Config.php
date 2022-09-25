@@ -9,8 +9,6 @@ use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Arr;
 use JetBrains\PhpStorm\Pure;
-
-use function join;
 use function strval;
 
 /**
@@ -25,6 +23,7 @@ class Config implements ArrayAccess, ConfigInterface
 
     /**
      * @param  array<string, mixed>  $items
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -54,7 +53,6 @@ class Config implements ArrayAccess, ConfigInterface
 
     /**
      * @param  array<string>  $keys
-     *
      * @return  array<string, mixed>
      */
     #[Pure]
@@ -124,13 +122,13 @@ class Config implements ArrayAccess, ConfigInterface
         $missingKeys = [];
 
         foreach ($this->requiredKeys as $key) {
-            if (!$this->has($key)) {
+            if (! $this->has($key)) {
                 $missingKeys[] = $key;
             }
         }
 
-        if (!empty($missingKeys)) {
-            throw new InvalidArgumentException(sprintf("\"%s\" cannot be empty.\r\n", join(',', $missingKeys)));
+        if (! empty($missingKeys)) {
+            throw new InvalidArgumentException(sprintf("\"%s\" cannot be empty.\r\n", implode(',', $missingKeys)));
         }
 
         return true;

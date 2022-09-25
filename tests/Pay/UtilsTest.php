@@ -38,7 +38,7 @@ class UtilsTest extends TestCase
             'appId' => 'mock-appid',
             'timeStamp' => 1601234567,
             'nonceStr' => 'mock-nonce',
-            'package' => "prepay_id=mock-prepay-id",
+            'package' => 'prepay_id=mock-prepay-id',
             'signType' => 'MD5',
         ];
 

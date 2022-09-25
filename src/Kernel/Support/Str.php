@@ -2,9 +2,8 @@
 
 namespace EasyWeChat\Kernel\Support;
 
-use Exception;
-
 use function base64_encode;
+use Exception;
 use function preg_replace;
 use function random_bytes;
 use function str_replace;
@@ -17,6 +16,7 @@ class Str
 {
     /**
      * From https://github.com/laravel/framework/blob/9.x/src/Illuminate/Support/Str.php#L632-L644
+     *
      * @throws Exception
      */
     public static function random(int $length = 16): string

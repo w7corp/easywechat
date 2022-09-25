@@ -2,21 +2,19 @@
 
 namespace EasyWeChat\Kernel;
 
-use JetBrains\PhpStorm\Pure;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-
 use function array_keys;
 use function array_map;
 use function count;
 use function header;
+use JetBrains\PhpStorm\Pure;
 use function max;
-use function sprintf;
-use function ucwords;
-
 use const PHP_OUTPUT_HANDLER_CLEANABLE;
 use const PHP_OUTPUT_HANDLER_FLUSHABLE;
 use const PHP_OUTPUT_HANDLER_REMOVABLE;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
+use function sprintf;
+use function ucwords;
 
 class ServerResponse implements ResponseInterface
 {
@@ -119,7 +117,7 @@ class ServerResponse implements ResponseInterface
             \fastcgi_finish_request();
         } elseif (\function_exists('litespeed_finish_request')) {
             \litespeed_finish_request();
-        } elseif (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true)) {
+        } elseif (! \in_array(\PHP_SAPI, ['cli', 'phpdbg'], true)) {
             static::closeOutputBuffers(0, true);
         }
 
@@ -176,7 +174,7 @@ class ServerResponse implements ResponseInterface
         $level = count($status);
         $flags = PHP_OUTPUT_HANDLER_REMOVABLE | ($flush ? PHP_OUTPUT_HANDLER_FLUSHABLE : PHP_OUTPUT_HANDLER_CLEANABLE);
 
-        while ($level-- > $targetLevel && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || ($s['flags'] & $flags) === $flags : $s['del'])) {
+        while ($level-- > $targetLevel && ($s = $status[$level]) && (! isset($s['del']) ? ! isset($s['flags']) || ($s['flags'] & $flags) === $flags : $s['del'])) {
             if ($flush) {
                 ob_end_flush();
             } else {

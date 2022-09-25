@@ -2,17 +2,16 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
+use function array_merge;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\Support\Xml;
-use Nyholm\Psr7\Response;
-use Psr\Http\Message\ResponseInterface;
-
-use function array_merge;
 use function is_array;
 use function is_callable;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use function time;
 
 trait RespondXmlMessage
@@ -44,6 +43,7 @@ trait RespondXmlMessage
 
     /**
      * @return array<string, mixed>
+     *
      * @throws InvalidArgumentException
      */
     protected function normalizeResponse(mixed $response): array
@@ -53,7 +53,7 @@ trait RespondXmlMessage
         }
 
         if (is_array($response)) {
-            if (!isset($response['MsgType'])) {
+            if (! isset($response['MsgType'])) {
                 throw new InvalidArgumentException('MsgType cannot be empty.');
             }
 
@@ -74,6 +74,7 @@ trait RespondXmlMessage
 
     /**
      * @param  array<string, mixed>  $attributes
+     *
      * @throws RuntimeException
      */
     protected function createXmlResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface

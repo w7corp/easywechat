@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use function base64_encode;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
-use Nyholm\Psr7\Uri;
-
-use function base64_encode;
 use function http_build_query;
 use function ltrim;
+use Nyholm\Psr7\Uri;
 use function openssl_sign;
 use function parse_str;
 use function strtoupper;
@@ -42,7 +41,7 @@ class Signature
         $nonce = Str::random();
         $path = '/'.ltrim($uri->getPath().(empty($query) ? '' : '?'.$query), '/');
 
-        if (!empty($options['body'])) {
+        if (! empty($options['body'])) {
             $body = strval($options['body']);
         }
 

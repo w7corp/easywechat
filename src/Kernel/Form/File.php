@@ -3,17 +3,15 @@
 namespace EasyWeChat\Kernel\Form;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use Symfony\Component\Mime\MimeTypes;
-use Symfony\Component\Mime\Part\DataPart;
-
 use function file_put_contents;
 use function md5;
 use function pathinfo;
+use const PATHINFO_EXTENSION;
 use function strtolower;
+use Symfony\Component\Mime\MimeTypes;
+use Symfony\Component\Mime\Part\DataPart;
 use function sys_get_temp_dir;
 use function tempnam;
-
-use const PATHINFO_EXTENSION;
 
 class File extends DataPart
 {
@@ -34,7 +32,7 @@ class File extends DataPart
                 $contentType = $mimeTypes->getMimeTypes($ext)[0] ?? 'application/octet-stream';
             } else {
                 $tmp = tempnam(sys_get_temp_dir(), 'easywechat');
-                if (!$tmp) {
+                if (! $tmp) {
                     throw new RuntimeException('Failed to create temporary file.');
                 }
 

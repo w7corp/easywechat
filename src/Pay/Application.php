@@ -20,7 +20,9 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     use InteractWithServerRequest;
 
     protected ?ServerInterface $server = null;
+
     protected ?HttpClientInterface $client = null;
+
     protected ?Merchant $merchant = null;
 
     /**
@@ -38,7 +40,7 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
      */
     public function getMerchant(): Merchant
     {
-        if (!$this->merchant) {
+        if (! $this->merchant) {
             $this->merchant = new Merchant(
                 mchId: $this->config['mch_id'], /** @phpstan-ignore-line */
                 privateKey: new PrivateKey((string) $this->config['private_key']), /** @phpstan-ignore-line */
@@ -59,7 +61,7 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
      */
     public function getServer(): Server|ServerInterface
     {
-        if (!$this->server) {
+        if (! $this->server) {
             $this->server = new Server(
                 merchant: $this->getMerchant(),
                 request: $this->getRequest(),

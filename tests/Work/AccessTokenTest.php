@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Work;
 
-use EasyWeChat\Work\AccessToken;
 use EasyWeChat\Tests\TestCase;
+use EasyWeChat\Work\AccessToken;
 use Psr\SimpleCache\CacheInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class AccessTokenTest extends TestCase
 {

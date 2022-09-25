@@ -38,7 +38,7 @@ class AuthorizationTest extends TestCase
         $authorization = new Authorization([
             'authorization_info' => [
                 'authorizer_appid' => 'mock-app-id',
-                'authorizer_refresh_token' => 'mock-refresh-token'
+                'authorizer_refresh_token' => 'mock-refresh-token',
             ],
         ]);
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Work;
 
-use EasyWeChat\Work\Account;
-use EasyWeChat\Work\Contracts\Account as AccountInterface;
-use EasyWeChat\Work\Application;
 use EasyWeChat\Tests\TestCase;
+use EasyWeChat\Work\Account;
+use EasyWeChat\Work\Application;
+use EasyWeChat\Work\Contracts\Account as AccountInterface;
 
 class AccountTest extends TestCase
 {
@@ -22,13 +22,12 @@ class AccountTest extends TestCase
                 'secret' => 'mock-secret',
                 'token' => 'mock-token',
                 'aes_key' => 'mock-aes_key',
-                'agent_id' => 1000001
+                'agent_id' => 1000001,
             ]
         );
 
         $this->assertInstanceOf(AccountInterface::class, $app->getAccount());
     }
-
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException

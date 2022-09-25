@@ -2,31 +2,28 @@
 
 namespace EasyWeChat\Kernel\HttpClient;
 
+use const ARRAY_FILTER_USE_KEY;
+use function array_key_exists;
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
+use function in_array;
 use InvalidArgumentException;
+use function is_array;
+use function is_string;
 use JetBrains\PhpStorm\ArrayShape;
+use function json_encode;
+use const JSON_FORCE_OBJECT;
+use const JSON_UNESCAPED_UNICODE;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpClient\Retry\GenericRetryStrategy;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-use function array_key_exists;
-use function in_array;
-use function is_array;
-use function is_string;
-use function json_encode;
-
-use const ARRAY_FILTER_USE_KEY;
-use const JSON_FORCE_OBJECT;
-use const JSON_UNESCAPED_UNICODE;
-
 class RequestUtil
 {
     /**
      * @param  array<string, mixed>  $options
-     *
      * @return array<string, mixed>
      */
     #[ArrayShape([
@@ -51,7 +48,6 @@ class RequestUtil
 
     /**
      * @param  array<string, array|mixed>  $options
-     *
      * @return array<string, array|mixed>
      */
     public static function formatDefaultOptions(array $options): array
@@ -63,7 +59,7 @@ class RequestUtil
         );
 
         /** @phpstan-ignore-next-line */
-        if (!isset($options['headers']['User-Agent']) && !isset($options['headers']['user-agent'])) {
+        if (! isset($options['headers']['User-Agent']) && ! isset($options['headers']['user-agent'])) {
             /** @phpstan-ignore-next-line */
             $defaultOptions['headers']['User-Agent'] = UserAgent::create();
         }
@@ -91,7 +87,7 @@ class RequestUtil
         }
 
         foreach ($options as $key => $value) {
-            if (!array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS)) {
+            if (! array_key_exists($key, HttpClientInterface::OPTIONS_DEFAULTS)) {
                 $options[$name][trim($key, '"')] = $value;
                 unset($options[$key]);
             }
@@ -102,7 +98,6 @@ class RequestUtil
 
     /**
      * @param  array<string, array<string,mixed>|mixed>  $options
-     *
      * @return array<string, array|mixed>
      */
     public static function formatBody(array $options): array
@@ -112,12 +107,12 @@ class RequestUtil
                 $options['xml'] = Xml::build($options['xml']);
             }
 
-            if (!is_string($options['xml'])) {
+            if (! is_string($options['xml'])) {
                 throw new InvalidArgumentException('The type of `xml` must be string or array.');
             }
 
             /** @phpstan-ignore-next-line */
-            if (!isset($options['headers']['Content-Type']) && !isset($options['headers']['content-type'])) {
+            if (! isset($options['headers']['Content-Type']) && ! isset($options['headers']['content-type'])) {
                 /** @phpstan-ignore-next-line */
                 $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: text/xml'];
             }
@@ -135,12 +130,12 @@ class RequestUtil
                 );
             }
 
-            if (!is_string($options['json'])) {
+            if (! is_string($options['json'])) {
                 throw new InvalidArgumentException('The type of `json` must be string or array.');
             }
 
             /** @phpstan-ignore-next-line */
-            if (!isset($options['headers']['Content-Type']) && !isset($options['headers']['content-type'])) {
+            if (! isset($options['headers']['Content-Type']) && ! isset($options['headers']['content-type'])) {
                 /** @phpstan-ignore-next-line */
                 $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: application/json'];
             }

@@ -7,8 +7,8 @@ namespace EasyWeChat\Tests\OfficialAccount;
 use EasyWeChat\OfficialAccount\AccessToken;
 use EasyWeChat\Tests\TestCase;
 use Psr\SimpleCache\CacheInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class AccessTokenTest extends TestCase
 {

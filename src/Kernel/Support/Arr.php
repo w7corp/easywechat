@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
-use JetBrains\PhpStorm\Pure;
-
 use function is_string;
+use JetBrains\PhpStorm\Pure;
 
 class Arr
 {
@@ -14,7 +13,6 @@ class Arr
      * @param  array<string|int, mixed>  $array
      * @param  string|int|null  $key
      * @param  mixed  $default
-     *
      * @return mixed
      */
     #[Pure]
@@ -44,7 +42,6 @@ class Arr
     /**
      * @param  array<int|string, mixed>  $array
      * @param  string|int  $key
-     *
      * @return bool
      */
     public static function exists(array $array, string|int $key): bool
@@ -56,12 +53,11 @@ class Arr
      * @param  array<string|int, mixed>  $array
      * @param  string|int|null  $key
      * @param  mixed  $value
-     *
      * @return array<string|int, mixed>
      */
     public static function set(array &$array, string|int|null $key, mixed $value): array
     {
-        if (!is_string($key)) {
+        if (! is_string($key)) {
             $key = (string) $key;
         }
 
@@ -73,7 +69,7 @@ class Arr
             // If the key doesn't exist at this depth, we will just create an empty array
             // to hold the next value, allowing us to create the arrays to hold final
             // values at the correct depth. Then we'll keep digging into the array.
-            if (!isset($array[$key]) || !is_array($array[$key])) {
+            if (! isset($array[$key]) || ! is_array($array[$key])) {
                 $array[$key] = [];
             }
 
@@ -88,7 +84,6 @@ class Arr
     /**
      * @param  array<string|int, mixed>  $array
      * @param  string  $prepend
-     *
      * @return array<string|int, mixed>
      */
     public static function dot(array $array, string $prepend = ''): array
@@ -96,7 +91,7 @@ class Arr
         $results = [];
 
         foreach ($array as $key => $value) {
-            if (is_array($value) && !empty($value)) {
+            if (is_array($value) && ! empty($value)) {
                 $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
             } else {
                 $results[$prepend.$key] = $value;
@@ -109,7 +104,6 @@ class Arr
     /**
      * @param  array<string|int, mixed>  $array
      * @param  string|int|array<string|int, mixed>|null  $keys
-     *
      * @return bool
      */
     #[Pure]

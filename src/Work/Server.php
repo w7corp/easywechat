@@ -46,7 +46,7 @@ class Server implements ServerInterface
     {
         $query = $this->request->getQueryParams();
 
-        if (!empty($query['echostr'])) {
+        if (! empty($query['echostr'])) {
             $response = $this->encryptor->decrypt(
                 $query['echostr'],
                 $query['msg_signature'] ?? '',
@@ -63,7 +63,7 @@ class Server implements ServerInterface
 
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
-        if (!($response instanceof ResponseInterface)) {
+        if (! ($response instanceof ResponseInterface)) {
             $response = $this->transformToReply($response, $message, $this->encryptor);
         }
 

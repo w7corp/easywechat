@@ -4,25 +4,24 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
+use function abs;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
+use function intval;
 use JetBrains\PhpStorm\ArrayShape;
+use function json_encode;
+use const JSON_UNESCAPED_UNICODE;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-use function abs;
-use function intval;
-use function json_encode;
-
-use const JSON_UNESCAPED_UNICODE;
-
 class SuiteAccessToken implements RefreshableAccessTokenInterface
 {
     protected HttpClientInterface $httpClient;
+
     protected CacheInterface $cache;
 
     public function __construct(
@@ -62,16 +61,16 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
     {
         $token = $this->cache->get($this->getKey());
 
-        if (!!$token && \is_string($token)) {
+        if ((bool) $token && \is_string($token)) {
             return $token;
         }
 
         return $this->refresh();
     }
 
-
     /**
      * @return array<string, string>
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
@@ -80,7 +79,7 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
-    #[ArrayShape(['suite_access_token' => "string"])]
+    #[ArrayShape(['suite_access_token' => 'string'])]
     public function toQuery(): array
     {
         return ['suite_access_token' => $this->getToken()];

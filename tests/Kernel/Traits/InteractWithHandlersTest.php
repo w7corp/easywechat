@@ -16,7 +16,8 @@ class InteractWithHandlersTest extends TestCase
     {
         $m = \Mockery::mock(InteractWithHandlers::class);
 
-        $c = new class () {
+        $c = new class()
+        {
             public function hello()
             {
                 return 'hello';
@@ -139,7 +140,7 @@ class InteractWithHandlersTest extends TestCase
         };
 
         $h3 = function ($payload, $next) {
-            return "final result";
+            return 'final result';
         };
 
         $h4 = function ($payload, $next) {

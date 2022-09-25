@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\MiniApp;
 
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\MiniApp\AccessToken;
 use EasyWeChat\MiniApp\Account;
 use EasyWeChat\MiniApp\Account as AccountInterface;
 use EasyWeChat\MiniApp\Application;
-use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\MiniApp\Contracts\Application as ApplicationInterface;
-use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\MiniApp\Server;
 use EasyWeChat\MiniApp\Utils;
 use EasyWeChat\Tests\TestCase;

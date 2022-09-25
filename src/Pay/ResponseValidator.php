@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use function base64_decode;
 use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
-use Psr\Http\Message\ResponseInterface;
-
-use function base64_decode;
-use function strval;
-
 use const OPENSSL_ALGO_SHA256;
+use Psr\Http\Message\ResponseInterface;
+use function strval;
 
 class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
 {
     public const  MAX_ALLOWED_CLOCK_OFFSET = 300;
+
     public const  HEADER_TIMESTAMP = 'Wechatpay-Timestamp';
+
     public const  HEADER_NONCE = 'Wechatpay-Nonce';
+
     public const  HEADER_SERIAL = 'Wechatpay-Serial';
+
     public const  HEADER_SIGNATURE = 'Wechatpay-Signature';
 
     public function __construct(protected MerchantInterface $merchant)
@@ -37,7 +39,7 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
         }
 
         foreach ([self::HEADER_SIGNATURE, self::HEADER_TIMESTAMP, self::HEADER_SERIAL, self::HEADER_NONCE] as $header) {
-            if (!$response->hasHeader($header)) {
+            if (! $response->hasHeader($header)) {
                 throw new BadResponseException("Missing Header: {$header}");
             }
         }
@@ -57,7 +59,7 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
 
         $publicKey = $this->merchant->getPlatformCert($serial);
 
-        if (!$publicKey) {
+        if (! $publicKey) {
             throw new InvalidConfigException(
                 "No platform certs found for serial: {$serial}, 
                 please download from wechat pay and set it in merchant config with key `certs`."

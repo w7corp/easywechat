@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
+use function abs;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
+use function intval;
 use JetBrains\PhpStorm\ArrayShape;
+use function json_encode;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-use function abs;
-use function intval;
-use function json_encode;
-
 class ComponentAccessToken implements RefreshableAccessTokenInterface
 {
     protected HttpClientInterface $httpClient;
+
     protected CacheInterface $cache;
 
     public function __construct(
@@ -60,16 +60,16 @@ class ComponentAccessToken implements RefreshableAccessTokenInterface
     {
         $token = $this->cache->get($this->getKey());
 
-        if (!!$token && \is_string($token)) {
+        if ((bool) $token && \is_string($token)) {
             return $token;
         }
 
         return $this->refresh();
     }
 
-
     /**
      * @return array<string, string>
+     *
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
@@ -78,7 +78,7 @@ class ComponentAccessToken implements RefreshableAccessTokenInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
-    #[ArrayShape(['component_access_token' => "string"])]
+    #[ArrayShape(['component_access_token' => 'string'])]
     public function toQuery(): array
     {
         return ['component_access_token' => $this->getToken()];

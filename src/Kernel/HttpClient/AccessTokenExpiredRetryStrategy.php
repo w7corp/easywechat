@@ -34,9 +34,9 @@ class AccessTokenExpiredRetryStrategy extends GenericRetryStrategy
         ?string $responseContent,
         ?TransportExceptionInterface $exception
     ): ?bool {
-        if (!!$responseContent && $this->decider && ($this->decider)($context, $responseContent, $exception)) {
+        if ((bool) $responseContent && $this->decider && ($this->decider)($context, $responseContent, $exception)) {
             if ($this->accessToken instanceof RefreshableAccessTokenInterface) {
-                return !!$this->accessToken->refresh();
+                return (bool) $this->accessToken->refresh();
             }
 
             return false;

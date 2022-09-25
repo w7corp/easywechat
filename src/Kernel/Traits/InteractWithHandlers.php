@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
-use Closure;
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use JetBrains\PhpStorm\ArrayShape;
-
 use function array_reverse;
 use function array_unshift;
 use function call_user_func;
+use Closure;
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use function func_get_args;
 use function gettype;
 use function is_array;
 use function is_callable;
 use function is_string;
+use JetBrains\PhpStorm\ArrayShape;
 use function method_exists;
 use function spl_object_hash;
 
@@ -35,7 +34,6 @@ trait InteractWithHandlers
     }
 
     /**
-     *
      * @throws InvalidArgumentException
      */
     public function with(callable|string $handler): static
@@ -55,11 +53,11 @@ trait InteractWithHandlers
 
     /**
      * @param  callable|string  $handler
-     *
      * @return array{hash: string, handler: callable}
+     *
      * @throws InvalidArgumentException
      */
-    #[ArrayShape(['hash' => "string", 'handler' => "callable"])]
+    #[ArrayShape(['hash' => 'string', 'handler' => 'callable'])]
     public function createHandlerItem(callable|string $handler): array
     {
         return [
@@ -112,7 +110,6 @@ trait InteractWithHandlers
     }
 
     /**
-     *
      * @throws InvalidArgumentException
      */
     public function prependHandler(callable|string $handler): static
@@ -123,7 +120,6 @@ trait InteractWithHandlers
     }
 
     /**
-     *
      * @throws InvalidArgumentException
      */
     public function without(callable|string $handler): static
@@ -146,7 +142,6 @@ trait InteractWithHandlers
     }
 
     /**
-     *
      * @throws InvalidArgumentException
      */
     public function indexOf(callable|string $handler): int
@@ -161,7 +156,6 @@ trait InteractWithHandlers
     }
 
     /**
-     *
      * @throws InvalidArgumentException
      */
     public function when(mixed $value, callable|string $handler): static
@@ -189,7 +183,6 @@ trait InteractWithHandlers
     }
 
     /**
-     *
      * @throws InvalidArgumentException
      */
     public function has(callable|string $handler): bool

@@ -6,9 +6,9 @@ namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\Application;
 use EasyWeChat\Work\Config;
-use EasyWeChat\Tests\TestCase;
 
 class ConfigTest extends TestCase
 {
@@ -39,7 +39,7 @@ class ConfigTest extends TestCase
             'secret' => 'mock-account-secret',
             'token' => 'mock-account-token',
             'aes_key' => 'mock-account-aes-key',
-            'agent_id' => 1000001
+            'agent_id' => 1000001,
         ];
 
         $config = new Config($config);
@@ -75,7 +75,7 @@ class ConfigTest extends TestCase
             'secret' => 'mock-account-secret',
             'token' => 'mock-account-token',
             'aes_key' => 'mock-account-aes_key',
-            'agent_id' => 1000001
+            'agent_id' => 1000001,
         ];
 
         $this->expectException(InvalidArgumentException::class);

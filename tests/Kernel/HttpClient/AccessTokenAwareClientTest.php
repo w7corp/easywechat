@@ -91,7 +91,8 @@ class AccessTokenAwareClientTest extends TestCase
     {
         $client = AccessTokenAwareClient::mock();
 
-        $client->withAccessToken(new class () implements AccessToken {
+        $client->withAccessToken(new class() implements AccessToken
+        {
             public function getToken(): string
             {
                 return 'mock-access-token';

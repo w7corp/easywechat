@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
+use function array_merge;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
@@ -20,8 +21,6 @@ use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\OpenWeWork;
 
-use function array_merge;
-
 class Application implements ApplicationInterface
 {
     use InteractWithCache;
@@ -31,16 +30,22 @@ class Application implements ApplicationInterface
     use InteractWithClient;
 
     protected ?ServerInterface $server = null;
+
     protected ?AccountInterface $account = null;
+
     protected ?Encryptor $encryptor = null;
+
     protected ?SuiteEncryptor $suiteEncryptor = null;
+
     protected ?SuiteTicketInterface $suiteTicket = null;
+
     protected ?AccessTokenInterface $accessToken = null;
+
     protected ?AccessTokenInterface $suiteAccessToken = null;
 
     public function getAccount(): AccountInterface
     {
-        if (!$this->account) {
+        if (! $this->account) {
             $this->account = new Account(
                 corpId: (string) $this->config->get('corp_id'), /** @phpstan-ignore-line */
                 providerSecret: (string) $this->config->get('provider_secret'), /** @phpstan-ignore-line */
@@ -63,7 +68,7 @@ class Application implements ApplicationInterface
 
     public function getEncryptor(): Encryptor
     {
-        if (!$this->encryptor) {
+        if (! $this->encryptor) {
             $this->encryptor = new Encryptor(
                 corpId: $this->getAccount()->getCorpId(),
                 token: $this->getAccount()->getToken(),
@@ -83,7 +88,7 @@ class Application implements ApplicationInterface
 
     public function getSuiteEncryptor(): SuiteEncryptor
     {
-        if (!$this->suiteEncryptor) {
+        if (! $this->suiteEncryptor) {
             $this->suiteEncryptor = new SuiteEncryptor(
                 suiteId: $this->getAccount()->getSuiteId(),
                 token: $this->getAccount()->getToken(),
@@ -108,7 +113,7 @@ class Application implements ApplicationInterface
      */
     public function getServer(): Server|ServerInterface
     {
-        if (!$this->server) {
+        if (! $this->server) {
             $this->server = new Server(
                 encryptor: $this->getSuiteEncryptor(),
                 providerEncryptor: $this->getEncryptor(),
@@ -136,7 +141,7 @@ class Application implements ApplicationInterface
 
     public function getProviderAccessToken(): AccessTokenInterface
     {
-        if (!$this->accessToken) {
+        if (! $this->accessToken) {
             $this->accessToken = new ProviderAccessToken(
                 corpId: $this->getAccount()->getCorpId(),
                 providerSecret: $this->getAccount()->getProviderSecret(),
@@ -157,7 +162,7 @@ class Application implements ApplicationInterface
 
     public function getSuiteAccessToken(): AccessTokenInterface
     {
-        if (!$this->suiteAccessToken) {
+        if (! $this->suiteAccessToken) {
             $this->suiteAccessToken = new SuiteAccessToken(
                 suiteId: $this->getAccount()->getSuiteId(),
                 suiteSecret: $this->getAccount()->getSuiteSecret(),
@@ -179,7 +184,7 @@ class Application implements ApplicationInterface
 
     public function getSuiteTicket(): SuiteTicketInterface
     {
-        if (!$this->suiteTicket) {
+        if (! $this->suiteTicket) {
             $this->suiteTicket = new SuiteTicket(
                 suiteId: $this->getAccount()->getSuiteId(),
                 cache: $this->getCache(),
@@ -264,8 +269,8 @@ class Application implements ApplicationInterface
         return (new AccessTokenAwareClient(
             client: $this->getHttpClient(),
             accessToken: $this->getProviderAccessToken(),
-            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0),
-            throw: !!$this->config->get('http.throw', true),
+            failureJudge: fn (Response $response) => (bool) ($response->toArray()['errcode'] ?? 0),
+            throw: (bool) $this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
     }
 
@@ -303,7 +308,7 @@ class Application implements ApplicationInterface
     protected function getHttpClientDefaultOptions(): array
     {
         return array_merge(
-            ['base_uri' => 'https://qyapi.weixin.qq.com/',],
+            ['base_uri' => 'https://qyapi.weixin.qq.com/'],
             (array) $this->config->get('http', [])
         );
     }

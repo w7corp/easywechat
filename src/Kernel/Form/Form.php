@@ -26,7 +26,7 @@ class Form
     /**
      * @return  array<string,mixed>
      */
-    #[ArrayShape(['headers' => "array", 'body' => "string"])]
+    #[ArrayShape(['headers' => 'array', 'body' => 'string'])]
     public function toArray(): array
     {
         return $this->toOptions();
@@ -35,7 +35,7 @@ class Form
     /**
      * @return array<string,mixed>
      */
-    #[ArrayShape(['headers' => "array", 'body' => "string"])]
+    #[ArrayShape(['headers' => 'array', 'body' => 'string'])]
     public function toOptions(): array
     {
         $formData = new FormDataPart($this->fields);

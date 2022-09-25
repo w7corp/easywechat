@@ -2,15 +2,14 @@
 
 namespace EasyWeChat\Pay;
 
+use function base64_encode;
+use function call_user_func_array;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
-use JetBrains\PhpStorm\ArrayShape;
-
-use function base64_encode;
-use function call_user_func_array;
 use function http_build_query;
+use JetBrains\PhpStorm\ArrayShape;
 use function openssl_sign;
 use function strtoupper;
 use function time;
@@ -24,16 +23,18 @@ class Utils
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
+     *
      * @return array<string, mixed>
+     *
      * @throws Exception
      */
     #[ArrayShape([
-        'appId' => "string",
-        'timeStamp' => "string",
-        'nonceStr' => "string",
-        'package' => "string",
-        'signType' => "string",
-        'paySign' => "string",
+        'appId' => 'string',
+        'timeStamp' => 'string',
+        'nonceStr' => 'string',
+        'package' => 'string',
+        'signType' => 'string',
+        'paySign' => 'string',
     ])]
     public function buildBridgeConfig(string $prepayId, string $appId, string $signType = 'RSA'): array
     {
@@ -63,16 +64,18 @@ class Utils
 
     /**
      * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
+     *
      * @return array<string, mixed>
+     *
      * @throws Exception
      */
     #[ArrayShape([
-        'appId' => "string",
-        'nonceStr' => "string",
-        'package' => "string",
-        'signType' => "string",
-        'paySign' => "string",
-        'timestamp' => "string",
+        'appId' => 'string',
+        'nonceStr' => 'string',
+        'package' => 'string',
+        'signType' => 'string',
+        'paySign' => 'string',
+        'timestamp' => 'string',
     ])]
     public function buildSdkConfig(string $prepayId, string $appId, string $signType = 'RSA'): array
     {
@@ -86,16 +89,18 @@ class Utils
 
     /**
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
+     *
      * @return array<string, mixed>
+     *
      * @throws Exception
      */
     #[ArrayShape([
-        'appId' => "string",
-        'timeStamp' => "string",
-        'nonceStr' => "string",
-        'package' => "string",
-        'signType' => "string",
-        'paySign' => "string",
+        'appId' => 'string',
+        'timeStamp' => 'string',
+        'nonceStr' => 'string',
+        'package' => 'string',
+        'signType' => 'string',
+        'paySign' => 'string',
     ])]
     public function buildMiniAppConfig(string $prepayId, string $appId, string $signType = 'RSA'): array
     {
@@ -104,17 +109,19 @@ class Utils
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
+     *
      * @return array<string, mixed>
+     *
      * @throws Exception
      */
     #[ArrayShape([
-        'appid' => "string",
-        'partnerid' => "int",
-        'prepayid' => "string",
-        'noncestr' => "string",
-        'timestamp' => "int",
-        'package' => "string",
-        'sign' => "string",
+        'appid' => 'string',
+        'partnerid' => 'int',
+        'prepayid' => 'string',
+        'noncestr' => 'string',
+        'timestamp' => 'int',
+        'package' => 'string',
+        'sign' => 'string',
     ])]
     public function buildAppConfig(string $prepayId, string $appId): array
     {

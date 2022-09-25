@@ -13,11 +13,11 @@ class UtilsTest extends TestCase
     public function test_code_to_session()
     {
         $response = [
-            "openid" => "o6_bmjrPTlm6_2sgVt7hMZOPxxxx",
-            "session_key" => "tiihtNczf5v6AKRyjwExxxx=",
-            "unionid" => "o6_bmasdasdsad6_2sgVt7hMZOxxxx",
-            "errcode" => 0,
-            "errmsg" => "ok",
+            'openid' => 'o6_bmjrPTlm6_2sgVt7hMZOPxxxx',
+            'session_key' => 'tiihtNczf5v6AKRyjwExxxx=',
+            'unionid' => 'o6_bmasdasdsad6_2sgVt7hMZOxxxx',
+            'errcode' => 0,
+            'errmsg' => 'ok',
         ];
 
         $httpClient = new MockHttpClient(new MockResponse(json_encode($response)));
@@ -41,7 +41,7 @@ class UtilsTest extends TestCase
     {
         $sessionKey = 'tiihtNczf5v6AKRyjwEUhQ==';
 
-        $encryptedData = "CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
+        $encryptedData = 'CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
                 QmRzooG2xrDcvSnxIMXFufNstNGTyaGS
                 9uT5geRa0W4oTOb1WT7fJlAC+oNPdbB+
                 3hVbJSRgv+4lGOETKUQz6OYStslQ142d
@@ -57,7 +57,7 @@ class UtilsTest extends TestCase
                 lqYTopNHR1Vf7XjfhQlVsAJdNiKdYmYV
                 oKlaRv85IfVunYzO0IKXsyl7JCUjCpoG
                 20f0a04COwfneQAGGwd5oa+T8yO5hzuy
-                Db/XcxxmK01EpqOyuxINew==";
+                Db/XcxxmK01EpqOyuxINew==';
 
         $iv = 'r7BXXKkLb8qrSNn05n0qiA==';
 

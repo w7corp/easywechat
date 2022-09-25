@@ -30,8 +30,8 @@ class RespondXmlMessageTest extends TestCase
         $this->assertMatchesRegularExpression(
             '~<xml>'
                     .'<CreateTime>\d{10}</CreateTime>'
-                    .'<MsgType><\!\[CDATA\[text\]\]></MsgType>'
-                    .'<Content><\!\[CDATA\[Hello\]\]></Content>'
+                    .'<MsgType>text</MsgType>'
+                    .'<Content>Hello</Content>'
                     .'</xml>~',
             \strval($response->getBody())
         );
@@ -46,8 +46,8 @@ class RespondXmlMessageTest extends TestCase
         $this->assertMatchesRegularExpression(
             '~<xml>'
             .'<CreateTime>\d{10}</CreateTime>'
-            .'<MsgType><\!\[CDATA\[text\]\]></MsgType>'
-            .'<Content><\!\[CDATA\[Hello\]\]></Content>'
+            .'<MsgType>text</MsgType>'
+            .'<Content>Hello</Content>'
             .'</xml>~',
             \strval($response->getBody())
         );

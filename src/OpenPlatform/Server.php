@@ -15,11 +15,10 @@ use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
+use function func_get_args;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-use function func_get_args;
 
 class Server implements ServerInterface
 {
@@ -28,6 +27,7 @@ class Server implements ServerInterface
     use DecryptXmlMessage;
 
     protected ?Closure $defaultVerifyTicketHandler = null;
+
     protected ServerRequestInterface $request;
 
     /**
@@ -47,7 +47,7 @@ class Server implements ServerInterface
      */
     public function serve(): ResponseInterface
     {
-        if (!!($str = $this->request->getQueryParams()['echostr'] ?? '')) {
+        if ((bool) ($str = $this->request->getQueryParams()['echostr'] ?? '')) {
             return new Response(200, [], $str);
         }
 
@@ -57,7 +57,7 @@ class Server implements ServerInterface
 
         $response = $this->handle(new Response(200, [], 'success'), $message);
 
-        if (!($response instanceof ResponseInterface)) {
+        if (! ($response instanceof ResponseInterface)) {
             $response = $this->transformToReply($response, $message, $this->encryptor);
         }
 

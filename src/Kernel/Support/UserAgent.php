@@ -4,24 +4,21 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
-use Composer\InstalledVersions;
-
 use function array_map;
 use function array_unshift;
 use function class_exists;
+use Composer\InstalledVersions;
 use function curl_version;
 use function defined;
 use function explode;
 use function extension_loaded;
 use function function_exists;
 use function ini_get;
-use function join;
 
 class UserAgent
 {
     /**
      * @param  array<string>  $appends
-     *
      * @return string
      */
     public static function create(array $appends = []): string
@@ -38,9 +35,9 @@ class UserAgent
             array_unshift($value, 'curl/'.(curl_version() ?: ['version' => 'unknown'])['version']);
         }
 
-        if (!ini_get('safe_mode')
+        if (! ini_get('safe_mode')
             && function_exists('php_uname')
-            && !in_array('php_uname', $disabledFunctions, true)
+            && ! in_array('php_uname', $disabledFunctions, true)
         ) {
             $osName = 'OS/'.php_uname('s').'/'.php_uname('r');
             array_unshift($value, $osName);
@@ -50,6 +47,6 @@ class UserAgent
             array_unshift($value, 'easywechat-sdk/'.((string) InstalledVersions::getVersion('w7corp/easywechat')));
         }
 
-        return trim(join(' ', $value));
+        return trim(implode(' ', $value));
     }
 }

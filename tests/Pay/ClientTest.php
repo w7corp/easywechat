@@ -95,7 +95,7 @@ class ClientTest extends TestCase
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
         $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
-        $this->assertSame('<xml><foo><![CDATA[bar]]></foo><sign><![CDATA[mock-signature]]></sign></xml>', $client->getRequestOptions()['body']);
+        $this->assertSame('<xml><foo>bar</foo><sign>mock-signature</sign></xml>', $client->getRequestOptions()['body']);
 
         // XML string will not attach signature
         $client = Client::mock();

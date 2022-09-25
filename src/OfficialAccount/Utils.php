@@ -10,7 +10,6 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-
 use function time;
 
 class Utils
@@ -24,8 +23,8 @@ class Utils
      * @param  array<string>  $jsApiList
      * @param  array<string>  $openTagList
      * @param  bool  $debug
-     *
      * @return array<string, mixed>
+     *
      * @throws HttpException
      * @throws InvalidArgumentException
      * @throws ClientExceptionInterface

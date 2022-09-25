@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
+use function array_merge;
 use Closure;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
@@ -24,19 +25,17 @@ use EasyWeChat\OfficialAccount\Config as OfficialAccountConfig;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
+use function is_string;
+use function md5;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
 use Psr\SimpleCache\InvalidArgumentException;
+use function sprintf;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-
-use function array_merge;
-use function is_string;
-use function md5;
-use function sprintf;
 
 class Application implements ApplicationInterface
 {
@@ -47,14 +46,18 @@ class Application implements ApplicationInterface
     use InteractWithServerRequest;
 
     protected ?Encryptor $encryptor = null;
+
     protected ?ServerInterface $server = null;
+
     protected ?AccountInterface $account = null;
+
     protected ?AccessTokenInterface $componentAccessToken = null;
+
     protected ?VerifyTicketInterface $verifyTicket = null;
 
     public function getAccount(): AccountInterface
     {
-        if (!$this->account) {
+        if (! $this->account) {
             $this->account = new Account(
                 appId: (string) $this->config->get('app_id'), /** @phpstan-ignore-line */
                 secret: (string) $this->config->get('secret'), /** @phpstan-ignore-line */
@@ -75,7 +78,7 @@ class Application implements ApplicationInterface
 
     public function getVerifyTicket(): VerifyTicketInterface
     {
-        if (!$this->verifyTicket) {
+        if (! $this->verifyTicket) {
             $this->verifyTicket = new VerifyTicket(
                 appId: $this->getAccount()->getAppId(),
                 cache: $this->getCache(),
@@ -94,7 +97,7 @@ class Application implements ApplicationInterface
 
     public function getEncryptor(): Encryptor
     {
-        if (!$this->encryptor) {
+        if (! $this->encryptor) {
             $this->encryptor = new Encryptor(
                 appId: $this->getAccount()->getAppId(),
                 token: $this->getAccount()->getToken(),
@@ -120,7 +123,7 @@ class Application implements ApplicationInterface
      */
     public function getServer(): Server|ServerInterface
     {
-        if (!$this->server) {
+        if (! $this->server) {
             $this->server = new Server(
                 encryptor: $this->getEncryptor(),
                 request: $this->getRequest()
@@ -134,6 +137,7 @@ class Application implements ApplicationInterface
                     if (\is_callable([$ticket, 'setTicket'])) {
                         $ticket->setTicket($message->ComponentVerifyTicket);
                     }
+
                     return $next($message);
                 }
             );
@@ -156,7 +160,7 @@ class Application implements ApplicationInterface
 
     public function getComponentAccessToken(): AccessTokenInterface
     {
-        if (!$this->componentAccessToken) {
+        if (! $this->componentAccessToken) {
             $this->componentAccessToken = new ComponentAccessToken(
                 appId: $this->getAccount()->getAppId(),
                 secret: $this->getAccount()->getSecret(),
@@ -458,8 +462,8 @@ class Application implements ApplicationInterface
         return (new AccessTokenAwareClient(
             client: $this->getHttpClient(),
             accessToken: $this->getComponentAccessToken(),
-            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0),
-            throw: !!$this->config->get('http.throw', true),
+            failureJudge: fn (Response $response) => (bool) ($response->toArray()['errcode'] ?? 0),
+            throw: (bool) $this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
     }
 
@@ -480,7 +484,7 @@ class Application implements ApplicationInterface
         /** @phpstan-ignore-next-line */
         $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);
 
-        if (!$authorizerAccessToken) {
+        if (! $authorizerAccessToken) {
             $response = $this->refreshAuthorizerToken($appId, $refreshToken);
             $authorizerAccessToken = (string) $response['authorizer_access_token'];
             $this->getCache()->set($cacheKey, $authorizerAccessToken, intval($response['expires_in'] ?? 7200) - 500);
@@ -495,7 +499,7 @@ class Application implements ApplicationInterface
     protected function getHttpClientDefaultOptions(): array
     {
         return array_merge(
-            ['base_uri' => 'https://api.weixin.qq.com/',],
+            ['base_uri' => 'https://api.weixin.qq.com/'],
             (array) $this->config->get('http', [])
         );
     }

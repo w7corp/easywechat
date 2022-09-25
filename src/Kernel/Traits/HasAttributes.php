@@ -11,7 +11,7 @@ use function json_encode;
 trait HasAttributes
 {
     /**
-     * @var  array<int|string,mixed> $attributes
+     * @var  array<int|string,mixed>
      */
     protected array $attributes = [];
 

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Pay;
 
+use function array_is_list;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
-
-use function array_is_list;
 use function intval;
 use function is_string;
 
@@ -70,8 +69,8 @@ class Merchant implements MerchantInterface
 
     /**
      * @param  array<array-key, string|PublicKey>  $platformCerts
-     *
      * @return array<string, PublicKey>
+     *
      * @throws InvalidArgumentException
      * @throws InvalidConfigException
      */
@@ -84,7 +83,7 @@ class Merchant implements MerchantInterface
                 $publicKey = new PublicKey($publicKey);
             }
 
-            if (!$publicKey instanceof PublicKey) {
+            if (! $publicKey instanceof PublicKey) {
                 throw new InvalidArgumentException('Invalid platform certficate.');
             }
 

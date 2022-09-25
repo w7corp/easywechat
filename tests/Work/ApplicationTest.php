@@ -12,8 +12,8 @@ use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\AccessToken;
 use EasyWeChat\Work\Account;
-use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Application;
+use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use EasyWeChat\Work\Encryptor;
 use EasyWeChat\Work\JsApiTicket;
@@ -110,7 +110,6 @@ class ApplicationTest extends TestCase
         $this->assertSame($server, $app->getServer());
     }
 
-
     public function test_get_and_set_client()
     {
         $app = new Application(
@@ -130,7 +129,6 @@ class ApplicationTest extends TestCase
         $app->setClient($client);
         $this->assertSame($client, $app->getClient());
     }
-
 
     public function test_get_and_set_http_client()
     {
@@ -243,12 +241,12 @@ class ApplicationTest extends TestCase
     {
         $app = new Application(
             [
-                        'corp_id' => 'wx3cf0f39249000060',
-                        'secret' => 'mock-secret',
-                        'token' => 'mock-token',
-                        'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-                        'agent_id' => 100001,
-                    ]
+                'corp_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+                'agent_id' => 100001,
+            ]
         );
 
         $this->assertInstanceOf(Utils::class, $app->getUtils());

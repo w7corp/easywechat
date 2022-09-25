@@ -17,13 +17,13 @@ class JsApiTicketTest extends TestCase
 
         $this->assertInstanceOf(AccessToken::class, $ticket);
 
-        $this->assertSame("official_account.jsapi_ticket.mock-appid", $ticket->getKey());
+        $this->assertSame('official_account.jsapi_ticket.mock-appid', $ticket->getKey());
 
-        $ticket->setKey("mock-key");
-        $this->assertSame("mock-key", $ticket->getKey());
+        $ticket->setKey('mock-key');
+        $this->assertSame('mock-key', $ticket->getKey());
 
         $ticket = new JsApiTicket('mock-appid', 'mock-secret', 'test-key');
-        $this->assertSame("test-key", $ticket->getKey());
+        $this->assertSame('test-key', $ticket->getKey());
     }
 
     public function test_get_ticket()
@@ -75,7 +75,7 @@ class JsApiTicketTest extends TestCase
             'nonceStr' => 'mock-nonce',
             'timestamp' => 1601234567,
             'appId' => 'mock-appid',
-            'signature' => '22772d2fb393ab9f7f6a5a54168a566fbf1ab767'
+            'signature' => '22772d2fb393ab9f7f6a5a54168a566fbf1ab767',
         ];
 
         $this->assertSame($data, $result);

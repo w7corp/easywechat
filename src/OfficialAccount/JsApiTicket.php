@@ -6,7 +6,6 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use JetBrains\PhpStorm\ArrayShape;
-
 use function sprintf;
 
 class JsApiTicket extends AccessToken
@@ -25,7 +24,7 @@ class JsApiTicket extends AccessToken
         $key = $this->getKey();
         $ticket = $this->cache->get($key);
 
-        if (!!$ticket && \is_string($ticket)) {
+        if ((bool) $ticket && \is_string($ticket)) {
             return $ticket;
         }
 
@@ -43,6 +42,7 @@ class JsApiTicket extends AccessToken
 
     /**
      * @return array<string,mixed>
+     *
      * @throws \EasyWeChat\Kernel\Exceptions\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
@@ -52,11 +52,11 @@ class JsApiTicket extends AccessToken
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     #[ArrayShape([
-        'url' => "string",
-        'nonceStr' => "string",
-        'timestamp' => "int",
-        'appId' => "string",
-        'signature' => "string"
+        'url' => 'string',
+        'nonceStr' => 'string',
+        'timestamp' => 'int',
+        'appId' => 'string',
+        'signature' => 'string',
     ])]
     public function configSignature(string $url, string $nonce, int $timestamp): array
     {

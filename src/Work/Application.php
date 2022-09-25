@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
+use function array_merge;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
@@ -18,8 +19,6 @@ use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeWork;
 
-use function array_merge;
-
 class Application implements ApplicationInterface
 {
     use InteractWithConfig;
@@ -29,14 +28,18 @@ class Application implements ApplicationInterface
     use InteractWithClient;
 
     protected ?Encryptor $encryptor = null;
+
     protected ?ServerInterface $server = null;
+
     protected ?AccountInterface $account = null;
+
     protected ?JsApiTicket $ticket = null;
+
     protected ?AccessTokenInterface $accessToken = null;
 
     public function getAccount(): AccountInterface
     {
-        if (!$this->account) {
+        if (! $this->account) {
             $this->account = new Account(
                 corpId: (string) $this->config->get('corp_id'), /** @phpstan-ignore-line */
                 secret: (string) $this->config->get('secret'), /** @phpstan-ignore-line */
@@ -57,7 +60,7 @@ class Application implements ApplicationInterface
 
     public function getEncryptor(): Encryptor
     {
-        if (!$this->encryptor) {
+        if (! $this->encryptor) {
             $this->encryptor = new Encryptor(
                 corpId: $this->getAccount()->getCorpId(),
                 token: $this->getAccount()->getToken(),
@@ -82,7 +85,7 @@ class Application implements ApplicationInterface
      */
     public function getServer(): Server|ServerInterface
     {
-        if (!$this->server) {
+        if (! $this->server) {
             $this->server = new Server(
                 request: $this->getRequest(),
                 encryptor: $this->getEncryptor()
@@ -101,7 +104,7 @@ class Application implements ApplicationInterface
 
     public function getAccessToken(): AccessTokenInterface
     {
-        if (!$this->accessToken) {
+        if (! $this->accessToken) {
             $this->accessToken = new AccessToken(
                 corpId: $this->getAccount()->getCorpId(),
                 secret: $this->getAccount()->getSecret(),
@@ -130,8 +133,8 @@ class Application implements ApplicationInterface
         return (new AccessTokenAwareClient(
             client: $this->getHttpClient(),
             accessToken: $this->getAccessToken(),
-            failureJudge: fn (Response $response) => !!($response->toArray()['errcode'] ?? 0),
-            throw: !!$this->config->get('http.throw', true),
+            failureJudge: fn (Response $response) => (bool) ($response->toArray()['errcode'] ?? 0),
+            throw: (bool) $this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
     }
 
@@ -149,7 +152,7 @@ class Application implements ApplicationInterface
 
     public function getTicket(): JsApiTicket
     {
-        if (!$this->ticket) {
+        if (! $this->ticket) {
             $this->ticket = new JsApiTicket(
                 corpId: $this->getAccount()->getCorpId(),
                 cache: $this->getCache(),
@@ -173,7 +176,7 @@ class Application implements ApplicationInterface
     protected function getHttpClientDefaultOptions(): array
     {
         return array_merge(
-            ['base_uri' => 'https://qyapi.weixin.qq.com/',],
+            ['base_uri' => 'https://qyapi.weixin.qq.com/'],
             (array) $this->config->get('http', [])
         );
     }

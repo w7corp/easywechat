@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\HttpClient;
 
+use function array_merge;
 use Closure;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\AccessTokenAwareHttpClient as AccessTokenAwareHttpClientInterface;
@@ -14,15 +15,11 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-use function array_merge;
-
 /**
  * Class AccessTokenAwareClient.
  *
- * @package EasyWeChat\Kernel\HttpClient
  *
  * @method HttpClientInterface withAppId(string $value = null)
- *
  */
 class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 {
@@ -50,6 +47,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 
     /**
      * @param  array<string, mixed>  $options
+     *
      * @throws TransportExceptionInterface
      */
     public function request(string $method, string $url, array $options = []): Response

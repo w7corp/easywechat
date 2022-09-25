@@ -16,9 +16,12 @@ use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Exception;
+use function is_array;
+use function is_string;
 use Mockery;
 use Mockery\Mock;
 use Nyholm\Psr7\Uri;
+use function str_starts_with;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
@@ -26,10 +29,6 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-
-use function is_array;
-use function is_string;
-use function str_starts_with;
 
 /**
  * @method ResponseInterface get(string $uri, array $options = [])
@@ -78,11 +77,11 @@ class Client implements HttpClientInterface
         ?HttpClientInterface $client = null,
         array $defaultOptions = []
     ) {
-        $this->throw = !!($defaultOptions['throw'] ?? true);
+        $this->throw = (bool) ($defaultOptions['throw'] ?? true);
 
         $this->defaultOptions = array_merge(self::OPTIONS_DEFAULTS, $this->defaultOptions);
 
-        if (!empty($defaultOptions)) {
+        if (! empty($defaultOptions)) {
             $defaultOptions = RequestUtil::formatDefaultOptions($this->defaultOptions);
             [, $this->defaultOptions] = self::prepareRequest(null, null, $defaultOptions, $this->defaultOptions);
         }
@@ -110,12 +109,12 @@ class Client implements HttpClientInterface
             $options['headers']['Authorization'] = $this->createSignature($method, $url, $options);
         } else {
             // v2 全部为 xml 请求
-            if (!empty($options['xml'])) {
+            if (! empty($options['xml'])) {
                 if (is_array($options['xml'])) {
                     $options['xml'] = Xml::build($this->attachLegacySignature($options['xml']));
                 }
 
-                if (!is_string($options['xml'])) {
+                if (! is_string($options['xml'])) {
                     throw new \InvalidArgumentException('The `xml` option must be a string or array.');
                 }
 
@@ -123,18 +122,18 @@ class Client implements HttpClientInterface
                 unset($options['xml']);
             }
 
-            if (!empty($options['body']) && is_array($options['body'])) {
+            if (! empty($options['body']) && is_array($options['body'])) {
                 $options['body'] = Xml::build($this->attachLegacySignature($options['body']));
             }
 
             /** @phpstan-ignore-next-line */
-            if (!isset($options['headers']['Content-Type']) && !isset($options['headers']['content-type'])) {
-                $options['headers']['Content-Type'] = 'text/xml';/** @phpstan-ignore-line */
+            if (! isset($options['headers']['Content-Type']) && ! isset($options['headers']['content-type'])) {
+                $options['headers']['Content-Type'] = 'text/xml'; /** @phpstan-ignore-line */
             }
         }
 
         // 合并通过 withHeader 和 withHeaders 设置的信息
-        if (!empty($this->prependHeaders)) {
+        if (! empty($this->prependHeaders)) {
             $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
         }
 
@@ -162,6 +161,7 @@ class Client implements HttpClientInterface
         if (\str_starts_with($name, 'with')) {
             return $this->handleMagicWithCall($name, $arguments[0] ?? null);
         }
+
         return $this->client->$name(...$arguments);
     }
 
@@ -177,8 +177,8 @@ class Client implements HttpClientInterface
 
     /**
      * @param  array<string, mixed>  $body
-     *
      * @return array<string, mixed>
+     *
      * @throws Exception
      */
     protected function attachLegacySignature(array $body): array

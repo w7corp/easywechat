@@ -11,7 +11,9 @@ use Symfony\Component\Cache\Psr16Cache;
 trait InteractWithCache
 {
     protected ?CacheInterface $cache = null;
+
     protected int $cacheLifetime = 1500;
+
     protected string $cacheNamespace = 'easywechat';
 
     public function getCacheLifetime(): int
@@ -43,7 +45,7 @@ trait InteractWithCache
 
     public function getCache(): CacheInterface
     {
-        if (!$this->cache) {
+        if (! $this->cache) {
             $this->cache = new Psr16Cache(new FilesystemAdapter($this->cacheNamespace, $this->cacheLifetime));
         }
 

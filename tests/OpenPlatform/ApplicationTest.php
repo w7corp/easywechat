@@ -20,8 +20,8 @@ use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use EasyWeChat\OpenPlatform\Server;
 use EasyWeChat\OpenPlatform\VerifyTicket;
-use Overtrue\Socialite\Providers\WeChat;
 use EasyWeChat\Tests\TestCase;
+use Overtrue\Socialite\Providers\WeChat;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -31,11 +31,11 @@ class ApplicationTest extends TestCase
     public function test_get_and_set_account()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'mock-aes_key',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'mock-aes_key',
+        ]);
 
         $this->assertInstanceOf(ApplicationInterface::class, $app);
         $this->assertInstanceOf(AccountInterface::class, $app->getAccount());
@@ -50,11 +50,11 @@ class ApplicationTest extends TestCase
     public function test_get_and_set_encryptor()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $this->assertInstanceOf(Encryptor::class, $app->getEncryptor());
         $this->assertSame($app->getEncryptor(), $app->getEncryptor());
@@ -72,11 +72,11 @@ class ApplicationTest extends TestCase
     public function test_get_and_set_server()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $this->assertInstanceOf(ServerInterface::class, $app->getServer());
         $this->assertSame($app->getServer(), $app->getServer());
@@ -93,11 +93,11 @@ class ApplicationTest extends TestCase
     public function test_get_and_set_component_access_token()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $this->assertInstanceOf(AccessTokenInterface::class, $app->getAccessToken());
         // set
@@ -109,11 +109,11 @@ class ApplicationTest extends TestCase
     public function test_get_and_set_verify_ticket()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $this->assertInstanceOf(VerifyTicketInterface::class, $app->getVerifyTicket());
 
@@ -126,11 +126,11 @@ class ApplicationTest extends TestCase
     public function test_get_authorization()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
         $verifyTicket->setTicket('mock-verify-ticket');
@@ -149,9 +149,9 @@ class ApplicationTest extends TestCase
                 'authorization_info' => ['authorizer_appid' => 'mock-appid'],
             ]),
             [
-            'http_code' => 201,
-            'response_headers' => ['Content-Type: application/json'],
-        ]
+                'http_code' => 201,
+                'response_headers' => ['Content-Type: application/json'],
+            ]
         );
         $httpClient = new MockHttpClient($mockResponse, 'https://api.weixin.qq.com/');
         $app->setHttpClient($httpClient);
@@ -199,9 +199,9 @@ class ApplicationTest extends TestCase
                 'error_code' => 100029,
             ]),
             [
-            'http_code' => 201,
-            'response_headers' => ['Content-Type: application/json'],
-        ]
+                'http_code' => 201,
+                'response_headers' => ['Content-Type: application/json'],
+            ]
         );
         $httpClient = new MockHttpClient($mockResponse, 'https://api.weixin.qq.com/');
         $app->setHttpClient($httpClient);
@@ -214,11 +214,11 @@ class ApplicationTest extends TestCase
     public function test_refresh_authorizer_token()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
         $verifyTicket->setTicket('mock-verify-ticket');
@@ -239,9 +239,9 @@ class ApplicationTest extends TestCase
                 'authorizer_access_token' => 'mock-access-token',
             ]),
             [
-            'http_code' => 201,
-            'response_headers' => ['Content-Type: application/json'],
-        ]
+                'http_code' => 201,
+                'response_headers' => ['Content-Type: application/json'],
+            ]
         );
         $httpClient = new MockHttpClient($mockResponse, 'https://api.weixin.qq.com/');
         $app->setHttpClient($httpClient);
@@ -310,11 +310,11 @@ class ApplicationTest extends TestCase
     public function test_get_oauth()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $this->assertInstanceOf(WeChat::class, $app->getOAuth());
     }
@@ -322,11 +322,11 @@ class ApplicationTest extends TestCase
     public function test_get_official_account()
     {
         $app = new Application([
-                'app_id' => 'wx3cf0f39249000060',
-                'secret' => 'mock-secret',
-                'token' => 'mock-token',
-                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
-            ]);
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
 
         $this->assertInstanceOf(
             OfficialAccountApplication::class,
