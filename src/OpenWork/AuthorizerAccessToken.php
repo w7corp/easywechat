@@ -24,15 +24,16 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
 {
     protected HttpClientInterface $httpClient;
+
     protected CacheInterface $cache;
 
     public function __construct(
-        protected string                $corpId,
-        protected string                $permanentCodeOrAccessToken,
+        protected string $corpId,
+        protected string $permanentCodeOrAccessToken,
         protected ?AccessTokenInterface $suiteAccessToken = null,
-        protected ?string               $key = null,
-        ?CacheInterface                 $cache = null,
-        ?HttpClientInterface            $httpClient = null,
+        protected ?string $key = null,
+        ?CacheInterface $cache = null,
+        ?HttpClientInterface $httpClient = null,
     ) {
         $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://qyapi.weixin.qq.com/']);
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
@@ -54,13 +55,13 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
      */
     public function getToken(): string
     {
-        if (!isset($this->suiteAccessToken)) {
+        if (! isset($this->suiteAccessToken)) {
             return $this->permanentCodeOrAccessToken;
         }
 
         $token = $this->cache->get($this->getKey());
 
-        if (!!$token && is_string($token)) {
+        if ((bool) $token && is_string($token)) {
             return $token;
         }
 
@@ -90,7 +91,7 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      */
-    #[ArrayShape(['access_token' => "string"])]
+    #[ArrayShape(['access_token' => 'string'])]
     #[Pure]
     #[ArrayShape(['access_token' => 'string'])]
     public function toQuery(): array
@@ -121,7 +122,7 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
      */
     public function refresh(): string
     {
-        if (!isset($this->suiteAccessToken)) {
+        if (! isset($this->suiteAccessToken)) {
             return '';
         }
 
@@ -136,7 +137,7 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
         ])->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Failed to get access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));
