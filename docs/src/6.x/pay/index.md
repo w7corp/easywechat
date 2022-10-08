@@ -87,3 +87,12 @@ $account->getSecretKey();
 $account->getV2SecretKey();
 $account->getPlatformCerts();
 ```
+
+### 一些可能会用到的
+
+#### 获取证书序列号
+
+```bash
+openssl x509 -in /path/to/merchant/apiclient_cert.pem -noout -serial | awk -F= '{print $2}'
+```
+
