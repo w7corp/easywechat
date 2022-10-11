@@ -255,17 +255,13 @@ class Application implements ApplicationInterface
     ): AuthorizerAccessToken {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
-        if (! $this->authorizerAccessToken) {
-            $this->authorizerAccessToken = new AuthorizerAccessToken(
-                corpId: $corpId,
-                permanentCodeOrAccessToken: $permanentCode,
-                suiteAccessToken: $suiteAccessToken,
-                cache: $this->getCache(),
-                httpClient: $this->getHttpClient(),
-            );
-        }
-
-        return $this->authorizerAccessToken;
+        return new AuthorizerAccessToken(
+            corpId: $corpId,
+            permanentCodeOrAccessToken: $permanentCode,
+            suiteAccessToken: $suiteAccessToken,
+            cache: $this->getCache(),
+            httpClient: $this->getHttpClient(),
+        );
     }
 
     public function createClient(): AccessTokenAwareClient
