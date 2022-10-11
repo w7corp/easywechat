@@ -137,7 +137,12 @@ class Client implements HttpClientInterface
             $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
         }
 
-        return new Response($this->client->request($method, $url, $options), throw: $this->throw);
+        
+        return new Response(
+            $this->client->request($method, $url, $options), 
+            failureJudge: $this->isV3Request($url) ? null : fn (Response $response) => (bool) ($response->toArray()['result_code'] === 'FAIL' || $response->toArray()['return_code'] === 'FAIL'),
+            throw: $this->throw
+        );
     }
 
     protected function isV3Request(string $url): bool
