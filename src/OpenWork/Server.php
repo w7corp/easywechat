@@ -219,6 +219,24 @@ class Server implements ServerInterface
         return $this;
     }
 
+    public function handleResetPermanentCode(callable $handler): static
+    {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'reset_permanent_code' ? $handler($message, $next) : $next($message);
+        });
+
+        return $this;
+    }
+
+    public function handleChangeAppAdmin(callable $handler): static
+    {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_app_admin' ? $handler($message, $next) : $next($message);
+        });
+
+        return $this;
+    }
+
     protected function decryptRequestMessage(): Closure
     {
         $query = $this->request->getQueryParams();
