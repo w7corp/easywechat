@@ -315,10 +315,11 @@ class Application implements ApplicationInterface
     ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
-        return (new OpenWeWork([
+        return (new OpenWeWork(array_filter([
             'client_id' => $suiteId,
             'redirect_url' => $this->config->get('oauth.redirect_url'),
-        ]))->withSuiteTicket($this->getSuiteTicket()->getTicket())
+            'base_url' => $this->config->get('http.base_uri'),
+        ])))->withSuiteTicket($this->getSuiteTicket()->getTicket())
             ->withSuiteAccessToken($suiteAccessToken->getToken())
             ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
     }
@@ -329,10 +330,11 @@ class Application implements ApplicationInterface
     ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
-        return (new OpenWeWork([
+        return (new OpenWeWork(array_filter([
             'client_id' => $corpId,
             'redirect_url' => $this->config->get('oauth.redirect_url'),
-        ]))->withSuiteTicket($this->getSuiteTicket()->getTicket())
+            'base_url' => $this->config->get('http.base_uri'),
+        ])))->withSuiteTicket($this->getSuiteTicket()->getTicket())
             ->withSuiteAccessToken($suiteAccessToken->getToken())
             ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
     }
