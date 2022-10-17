@@ -39,7 +39,7 @@ delete(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseI
 ### GET
 
 ```php
-$response = $api->get('/cgi-bin/user/list'， [
+$response = $api->get('/cgi-bin/user/list', [
     'next_openid' => 'OPENID1',
 ]);
 ```
