@@ -7,7 +7,7 @@
 $api = $app->getClient();
 
 $response = $api->getClient()->httpPostJson('wxa/generate_urllink',[
-    'path' => 'pages/index/shop',
+    'path' => 'pages/index/index',
     'is_expire' => true,
     'expire_type' => 1,
     'expire_interval' => 1
@@ -22,7 +22,6 @@ httpPostJson(string $uri, array $data = [], array $query = [])
 ```
 
 
-## 请求参数
 
 ### GET
 
