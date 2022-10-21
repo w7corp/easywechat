@@ -6,7 +6,7 @@
 ```php
 $api = $app->getClient();
 
-$response = $api->getClient()->httpPostJson('wxa/generate_urllink',[
+$response = $api->httpPostJson('wxa/generate_urllink',[
     'path' => 'pages/index/index',
     'is_expire' => true,
     'expire_type' => 1,
