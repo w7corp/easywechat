@@ -48,4 +48,22 @@ class ClientTest extends TestCase
 
         $this->assertSame('mock-result', $client->updateTaskcard(['userid1','userid2'], 1, 'taskid1', '已收到'));
     }
+
+    public function testTemplateCard()
+    {
+        $client = $this->mockApiClient(Client::class);
+
+        $params = [
+            'userids' => ['userid1','userid2'],
+            'agentid' => 1,
+            'response_code' => 'testcode',
+            'button' => [
+                'replace_name' => '已收到'
+            ]
+        ];
+
+        $client->expects()->httpPostJson('cgi-bin/message/update_template_card', $params)->andReturn('mock-result');
+
+        $this->assertSame('mock-result', $client->updateTemplateCard(['userid1','userid2'], 1, 'testcode', '已收到'));
+    }
 }

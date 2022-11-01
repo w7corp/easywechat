@@ -72,4 +72,33 @@ class Client extends BaseClient
 
         return $this->httpPostJson('cgi-bin/message/update_taskcard', $params);
     }
+
+    /**
+     *  * 更新模版卡片消息状态
+     *
+     * @see https://developer.work.weixin.qq.com/document/path/94888
+     *
+     * @param array $userids
+     * @param int $agentId
+     * @param string $responseCode
+     * @param string $replaceName
+     *
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function updateTemplateCard(array $userids, int $agentId, string $responseCode, string $replaceName = '已收到')
+    {
+        $params = [
+            'userids' => $userids,
+            'agentid' => $agentId,
+            'response_code' => $responseCode,
+            'button' => [
+                'replace_name' => $replaceName
+            ]
+        ];
+
+        return $this->httpPostJson('cgi-bin/message/update_template_card', $params);
+    }
 }
