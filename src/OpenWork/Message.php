@@ -9,6 +9,8 @@ namespace EasyWeChat\OpenWork;
  * @property string $ChangeType
  * @property string $SuiteTicket
  * @property string $SuiteId
+ * @property string $MsgType
+ * @property string $Event
  */
 class Message extends \EasyWeChat\Kernel\Message
 {

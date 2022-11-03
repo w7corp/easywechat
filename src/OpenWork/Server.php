@@ -231,7 +231,10 @@ class Server implements ServerInterface
     public function handleChangeAppAdmin(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_app_admin' ? $handler($message, $next) : $next($message);
+            return $message->MsgType === 'event' && $message->Event === 'change_app_admin' ? $handler(
+                $message,
+                $next
+            ) : $next($message);
         });
 
         return $this;
