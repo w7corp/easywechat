@@ -10,7 +10,7 @@
 - 授权成功 `create_auth`
 - 授权变更 `change_auth`
 - 授权取消 `cancel_auth`
-- 通讯录变更（Event） `change_contact`
+- 通讯录变更（InfoType） `change_contact`
   - ChangeType
     - 成员变更
       - 新增成员 `create_user`
@@ -23,6 +23,8 @@
     - 标签变更
       - 成员标签变更 `update_tag`
 - 共享应用事件回调 `share_agent_change`
+- 重置永久授权码通知 `reset_permanent_code`
+- 应用管理员变更通知 `change_app_admin`
 
 ## 内置消息处理器
 
@@ -121,6 +123,22 @@ $server->handleUserTagUpdated(function($message, \Closure $next) {
 
 ```php
 $server->handleShareAgentChanged(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+```
+### 重置永久授权码通知
+
+```php
+$server->handleResetPermanentCode(function($message, \Closure $next) {
+    // ...
+    return $next($message);
+});
+```
+### 应用管理员变更通知
+
+```php
+$server->handleChangeAppAdmin(function($message, \Closure $next) {
     // ...
     return $next($message);
 });
