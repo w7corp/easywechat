@@ -140,14 +140,22 @@ class Application implements ApplicationInterface
 
     public function getOAuth(): SocialiteProviderInterface
     {
-        return (new WeWork(
+        $provider = new WeWork(
             [
                 'client_id' => $this->getAccount()->getCorpId(),
                 'client_secret' => $this->getAccount()->getSecret(),
                 'redirect_url' => $this->config->get('oauth.redirect_url'),
             ]
-        ))->withApiAccessToken($this->getAccessToken()->getToken())
-            ->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
+        );
+
+        $provider->withApiAccessToken($this->getAccessToken()->getToken());
+        $provider->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
+
+        if ($this->config->has('agent_id') && \is_numeric($this->config->get('agent_id'))) {
+            $provider->withAgentId((int) $this->config->get('agent_id'));
+        }
+
+        return $provider;
     }
 
     public function getTicket(): JsApiTicket

@@ -19,6 +19,7 @@ use EasyWeChat\Work\Encryptor;
 use EasyWeChat\Work\JsApiTicket;
 use EasyWeChat\Work\Server;
 use EasyWeChat\Work\Utils;
+use Overtrue\Socialite\Providers\WeWork;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Psr16Cache;
@@ -250,5 +251,38 @@ class ApplicationTest extends TestCase
         );
 
         $this->assertInstanceOf(Utils::class, $app->getUtils());
+    }
+
+    public function test_get_oauth()
+    {
+        $app = new Application(
+            [
+                'corp_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $oauth = $app->getOauth();
+        $this->assertInstanceOf(WeWork::class, $oauth);
+        $ref = new \ReflectionProperty($oauth, 'agentId');
+        $this->assertNull($ref->getValue($oauth));
+
+        // with default agent id
+        $app = new Application(
+            [
+                'corp_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+                'agent_id' => '100001',
+            ]
+        );
+
+        $oauth = $app->getOauth();
+        $this->assertInstanceOf(WeWork::class, $oauth);
+        $ref = new \ReflectionProperty($oauth, 'agentId');
+        $this->assertSame(100001, $ref->getValue($oauth));
     }
 }
