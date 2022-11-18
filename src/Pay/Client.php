@@ -134,7 +134,7 @@ class Client implements HttpClientInterface
 
         // 合并通过 withHeader 和 withHeaders 设置的信息
         if (! empty($this->prependHeaders)) {
-            $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
+            $options['headers'] = array_merge($options['headers'] ?? [], $this->prependHeaders);
         }
 
         return new Response(
@@ -174,7 +174,7 @@ class Client implements HttpClientInterface
      *
      * @throws Exception
      */
-    protected function createSignature(string $method, string $url, array $options): string
+    public function createSignature(string $method, string $url, array $options): string
     {
         return (new Signature($this->merchant))->createHeader($method, $url, $options);
     }
