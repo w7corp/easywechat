@@ -77,6 +77,7 @@ trait InteractWithHandlers
                 $handler[0]
             ).$handler[1],
             $handler instanceof Closure => spl_object_hash($handler),
+            is_callable($handler) => spl_object_hash($handler),
             default => throw new InvalidArgumentException('Invalid handler: '.gettype($handler)),
         };
     }
