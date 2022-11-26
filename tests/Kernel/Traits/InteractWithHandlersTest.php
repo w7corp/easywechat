@@ -29,6 +29,21 @@ class InteractWithHandlersTest extends TestCase
 
         // remove
         $m->withoutHandler([$c, 'hello']);
+
+        $ci = new class()
+        {
+            public function __invoke()
+            {
+                return 'hello invoke';
+            }
+        };
+        $m->with($ci);
+        $this->assertCount(1, $m->getHandlers());
+        $this->assertSame('hello invoke', $m->handle('result'));
+
+        // remove
+        $m->withoutHandler($ci);
+
         $this->assertCount(0, $m->getHandlers());
 
         $this->assertSame('result', $m->handle('result'));
