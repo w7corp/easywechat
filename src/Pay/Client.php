@@ -110,7 +110,7 @@ class Client implements HttpClientInterface
         if ($this->isV3Request($url) && empty($options['headers']['Authorization'])) {
             [, $_options] = $this->prepareRequest($method, $url, $options, $this->defaultOptions, true);
 
-            $options['headers']['Authorization'] ??= $this->createSignature($method, $url, $_options);
+            $options['headers']['Authorization'] = $this->createSignature($method, $url, $_options);
         } else {
             // v2 全部为 xml 请求
             if (! empty($options['xml'])) {
