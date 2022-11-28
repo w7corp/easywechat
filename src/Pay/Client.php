@@ -107,10 +107,13 @@ class Client implements HttpClientInterface
 
         $options['headers']['User-Agent'] = UserAgent::create();
 
-        if ($this->isV3Request($url) && empty($options['headers']['Authorization'])) {
+        if ($this->isV3Request($url)) {
             [, $_options] = $this->prepareRequest($method, $url, $options, $this->defaultOptions, true);
 
-            $options['headers']['Authorization'] = $this->createSignature($method, $url, $_options);
+            // 部分签名算法需要使用到 body 中额外的部分，所以交由前置逻辑自行完成
+            if (empty($options['headers']['Authorization'])) {
+                $options['headers']['Authorization'] = $this->createSignature($method, $url, $_options);
+            }
         } else {
             // v2 全部为 xml 请求
             if (! empty($options['xml'])) {
