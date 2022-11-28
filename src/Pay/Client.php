@@ -6,6 +6,8 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
+use EasyWeChat\Kernel\Form\File;
+use EasyWeChat\Kernel\Form\Form;
 use EasyWeChat\Kernel\HttpClient\HttpClientMethods;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\HttpClient\RequestWithPresets;
@@ -16,6 +18,8 @@ use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Exception;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\SMimePart;
 use function is_array;
 use function is_string;
 use Mockery;
@@ -106,7 +110,7 @@ class Client implements HttpClientInterface
 
         if ($this->isV3Request($url)) {
             [, $options] = $this->prepareRequest($method, $url, $options, $this->defaultOptions, true);
-            $options['headers']['Authorization'] = $this->createSignature($method, $url, $options);
+            $options['headers']['Authorization'] ??= $this->createSignature($method, $url, $options);
         } else {
             // v2 全部为 xml 请求
             if (! empty($options['xml'])) {
@@ -159,6 +163,8 @@ class Client implements HttpClientInterface
 
     /**
      * @param  array<int, mixed>  $arguments
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __call(string $name, array $arguments): mixed
     {
@@ -167,6 +173,31 @@ class Client implements HttpClientInterface
         }
 
         return $this->client->$name(...$arguments);
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public function uploadMedia(string $uri, string $pathOrContents, string $filename = null): ResponseInterface
+    {
+        $meta = self::jsonEncode([
+            'filename' => $filename ?? basename($pathOrContents),
+            'sha256' => hash_file('sha256', $pathOrContents),
+        ]);
+
+        $form = Form::create([
+            'file' => File::from($pathOrContents),
+            'meta' => new DataPart($meta,null, 'application/json'),
+        ]);
+
+        $options = $signatureOptions = $form->toOptions();
+
+        $signatureOptions['body'] = $meta;
+
+        $options['headers']['Authorization'] = $this->createSignature('POST', $uri, $signatureOptions);
+
+        return $this->request('POST', $uri, $options);
     }
 
     /**

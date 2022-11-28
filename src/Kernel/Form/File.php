@@ -16,9 +16,25 @@ use function tempnam;
 class File extends DataPart
 {
     /**
-     * @throws RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public static function withContents(
+    public static function from(
+        string $pathOrContents,
+        ?string $filename = null,
+        ?string $contentType = null,
+        ?string $encoding = null
+    ): DataPart {
+        if (file_exists($pathOrContents)) {
+            return static::fromPath($pathOrContents, $filename, $contentType);
+        }
+
+        return static::fromContents($pathOrContents, $filename, $contentType, $encoding);
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    public static function fromContents(
         string $contents,
         ?string $filename = null,
         ?string $contentType = null,
@@ -32,7 +48,7 @@ class File extends DataPart
                 $contentType = $mimeTypes->getMimeTypes($ext)[0] ?? 'application/octet-stream';
             } else {
                 $tmp = tempnam(sys_get_temp_dir(), 'easywechat');
-                if (! $tmp) {
+                if (!$tmp) {
                     throw new RuntimeException('Failed to create temporary file.');
                 }
 
@@ -43,5 +59,19 @@ class File extends DataPart
         }
 
         return new self($contents, $filename, $contentType, $encoding);
+    }
+
+    /**
+     * @throws RuntimeException
+     *
+     * @deprecated since EasyWeChat 7.0, use fromContents() instead
+     */
+    public static function withContents(
+        string $contents,
+        ?string $filename = null,
+        ?string $contentType = null,
+        ?string $encoding = null
+    ): DataPart {
+        return self::fromContents(...func_get_args());
     }
 }
