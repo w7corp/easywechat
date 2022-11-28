@@ -137,7 +137,7 @@ class Client implements HttpClientInterface
 
         // 合并通过 withHeader 和 withHeaders 设置的信息
         if (! empty($this->prependHeaders)) {
-            $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
+            $options['headers'] = array_merge($options['headers'] ?? [], $this->prependHeaders);
         }
 
         return new Response(
@@ -194,9 +194,9 @@ class Client implements HttpClientInterface
 
         $signatureOptions['body'] = $meta;
 
-        $options['headers']['Authorization'] = $this->createSignature('POST', $uri, $signatureOptions);
-
-        return $this->request('POST', $uri, $options);
+        return $this->withHeaders([
+            'Authorization' => $this->createSignature('POST', $uri, $signatureOptions)
+        ])->request('POST', $uri, $options);
     }
 
     /**
