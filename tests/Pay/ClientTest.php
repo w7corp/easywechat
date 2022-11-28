@@ -23,10 +23,9 @@ class ClientTest extends TestCase
         ];
 
         $client->request('GET', 'https://api2.mch.weixin.qq.com/v3/certificates', $options);
-
         $this->assertSame('GET', $client->getRequestMethod());
         $this->assertSame('https://api2.mch.weixin.qq.com/v3/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: application/json', $client->getRequestOptions()['headers'][2]);
+        $this->assertSame('Content-Type: application/json', $client->getRequestOptions()['headers'][3]);
         $this->assertSame('accept: application/json', $client->getRequestOptions()['headers'][0]);
     }
 

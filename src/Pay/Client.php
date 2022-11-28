@@ -100,16 +100,17 @@ class Client implements HttpClientInterface
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
+        /** @var array{headers?:array<string, string>, xml?:array|string, body?:array|string} $options */
         if (empty($options['headers'])) {
             $options['headers'] = [];
         }
 
-        /** @phpstan-ignore-next-line */
         $options['headers']['User-Agent'] = UserAgent::create();
 
-        if ($this->isV3Request($url)) {
-            [, $options] = $this->prepareRequest($method, $url, $options, $this->defaultOptions, true);
-            $options['headers']['Authorization'] ??= $this->createSignature($method, $url, $options);
+        if ($this->isV3Request($url) && empty($options['headers']['Authorization'])) {
+            [, $_options] = $this->prepareRequest($method, $url, $options, $this->defaultOptions, true);
+
+            $options['headers']['Authorization'] ??= $this->createSignature($method, $url, $_options);
         } else {
             // v2 全部为 xml 请求
             if (! empty($options['xml'])) {
@@ -129,9 +130,8 @@ class Client implements HttpClientInterface
                 $options['body'] = Xml::build($this->attachLegacySignature($options['body']));
             }
 
-            /** @phpstan-ignore-next-line */
             if (! isset($options['headers']['Content-Type']) && ! isset($options['headers']['content-type'])) {
-                $options['headers']['Content-Type'] = 'text/xml'; /** @phpstan-ignore-line */
+                $options['headers']['Content-Type'] = 'text/xml';
             }
         }
 
@@ -178,11 +178,13 @@ class Client implements HttpClientInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function uploadMedia(string $uri, string $pathOrContents, string $filename = null): ResponseInterface
+    public function uploadMedia(string $uri, string $pathOrContents, array $meta = null): ResponseInterface
     {
-        $meta = self::jsonEncode([
-            'filename' => $filename ?? basename($pathOrContents),
-            'sha256' => hash_file('sha256', $pathOrContents),
+        $isFile = is_file($pathOrContents);
+
+        $meta = self::jsonEncode($meta ?? [
+            'filename' => $isFile ? basename($pathOrContents) : 'file',
+            'sha256' => $isFile ? hash_file('sha256', $pathOrContents) : hash('sha256', $pathOrContents),
         ]);
 
         $form = Form::create([
