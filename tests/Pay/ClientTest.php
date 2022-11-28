@@ -8,7 +8,6 @@ use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Pay\Client;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpClient\Response\MockResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class ClientTest extends TestCase
 {
@@ -136,9 +135,9 @@ class ClientTest extends TestCase
             '/v3/merchant/media/upload',
             \Mockery::on(function ($options) {
                 return $options['body'] === json_encode([
-                        "filename" => "image.jpg",
-                        "sha256" => hash('sha256', file_get_contents('./tests/fixtures/files/image.jpg')),
-                    ]);
+                    'filename' => 'image.jpg',
+                    'sha256' => hash('sha256', file_get_contents('./tests/fixtures/files/image.jpg')),
+                ]);
             })
         )->andReturn('mock-signature');
 
@@ -149,9 +148,9 @@ class ClientTest extends TestCase
             '/v3/merchant/media/upload',
             \Mockery::on(function ($options) {
                 return $options['body'] !== json_encode([
-                        "filename" => "image.jpg",
-                        "sha256" => hash('sha256', file_get_contents('./tests/fixtures/files/image.jpg')),
-                    ]);
+                    'filename' => 'image.jpg',
+                    'sha256' => hash('sha256', file_get_contents('./tests/fixtures/files/image.jpg')),
+                ]);
             })
         )->andReturn($response);
 

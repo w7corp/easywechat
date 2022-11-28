@@ -48,7 +48,7 @@ class File extends DataPart
                 $contentType = $mimeTypes->getMimeTypes($ext)[0] ?? 'application/octet-stream';
             } else {
                 $tmp = tempnam(sys_get_temp_dir(), 'easywechat');
-                if (!$tmp) {
+                if (! $tmp) {
                     throw new RuntimeException('Failed to create temporary file.');
                 }
 

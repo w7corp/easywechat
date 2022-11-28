@@ -18,8 +18,6 @@ use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Exception;
-use Symfony\Component\Mime\Part\DataPart;
-use Symfony\Component\Mime\Part\SMimePart;
 use function is_array;
 use function is_string;
 use Mockery;
@@ -30,6 +28,7 @@ use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -188,7 +187,7 @@ class Client implements HttpClientInterface
 
         $form = Form::create([
             'file' => File::from($pathOrContents),
-            'meta' => new DataPart($meta,null, 'application/json'),
+            'meta' => new DataPart($meta, null, 'application/json'),
         ]);
 
         $options = $signatureOptions = $form->toOptions();
