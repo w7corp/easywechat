@@ -178,12 +178,12 @@ class Client implements HttpClientInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function uploadMedia(string $uri, string $pathOrContents, array $meta = null): ResponseInterface
+    public function uploadMedia(string $uri, string $pathOrContents, array $meta = null, string $filename = null): ResponseInterface
     {
         $isFile = is_file($pathOrContents);
 
         $meta = self::jsonEncode($meta ?? [
-            'filename' => $isFile ? basename($pathOrContents) : 'file',
+            'filename' => $isFile ? basename($pathOrContents) : $filename ?? 'file',
             'sha256' => $isFile ? hash_file('sha256', $pathOrContents) : hash('sha256', $pathOrContents),
         ]);
 
