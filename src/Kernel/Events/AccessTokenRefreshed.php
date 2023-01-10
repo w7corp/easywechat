@@ -21,7 +21,7 @@ use EasyWeChat\Kernel\AccessToken;
 class AccessTokenRefreshed
 {
     /**
-     * @var \EasyWeChat\Kernel\AccessToken
+     * @var array
      */
     public $accessToken;
 
@@ -30,6 +30,6 @@ class AccessTokenRefreshed
      */
     public function __construct(AccessToken $accessToken)
     {
-        $this->accessToken = $accessToken;
+        $this->accessToken = $accessToken->getToken();
     }
 }
