@@ -166,6 +166,7 @@ class ServerResponse implements ResponseInterface
      * Resulting level can be greater than target level if a non-removable buffer has been encountered.
      *
      * @link https://github.com/symfony/http-foundation/blob/6.1/Response.php
+     *
      * @final
      */
     public static function closeOutputBuffers(int $targetLevel, bool $flush): void

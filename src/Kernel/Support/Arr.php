@@ -18,7 +18,7 @@ class Arr
     #[Pure]
     public static function get(mixed $array, string|int|null $key, mixed $default = null): mixed
     {
-        if (!is_array($array)) {
+        if (! is_array($array)) {
             return $default;
         }
 

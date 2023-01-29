@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @property string $FromUserName
  * @property string $ToUserName
  * @property string $Encrypt
+ *
  * @implements ArrayAccess<array-key, mixed>
  */
 abstract class Message implements ArrayAccess

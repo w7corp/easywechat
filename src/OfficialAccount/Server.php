@@ -97,6 +97,7 @@ class Server implements ServerInterface
 
     /**
      * @param  array<string,string>  $query
+     *
      * @psalm-suppress PossiblyNullArgument
      */
     protected function decryptRequestMessage(array $query): Closure
