@@ -24,6 +24,7 @@ $config = [
     // 平台证书：微信支付 APIv3 平台证书，需要使用工具下载
     // 下载工具：https://github.com/wechatpay-apiv3/CertificateDownloader
     'platform_certs' => [
+        // 请使用绝对路径
         // '/path/to/wechatpay/cert.pem',
     ],
 
