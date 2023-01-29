@@ -10,14 +10,18 @@ use JetBrains\PhpStorm\Pure;
 class Arr
 {
     /**
-     * @param  array<string|int, mixed>  $array
+     * @param  mixed  $array
      * @param  string|int|null  $key
      * @param  mixed  $default
      * @return mixed
      */
     #[Pure]
-    public static function get(array $array, string|int|null $key, mixed $default = null): mixed
+    public static function get(mixed $array, string|int|null $key, mixed $default = null): mixed
     {
+        if (!is_array($array)) {
+            return $default;
+        }
+
         if (is_null($key)) {
             return $array;
         }
