@@ -71,7 +71,7 @@ $server->with(function($message, \Closure $next) {
 $message = $server->getRequestMessage(); 
 ```
 
-`$message` 为一个 `EasyWeChat\OpenWork\Message` 实例。
+`$message` 为一个 `EasyWeChat\Pay\Message` 实例。
 
 你可以在处理完逻辑后自行创建一个响应，当然，在不同的框架里，响应写法也不一样，请自行实现。
 
