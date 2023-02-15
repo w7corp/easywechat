@@ -23,7 +23,7 @@
     "ext-sodium": "*",
     "ext-libxml": "*",
     "ext-curl": "*",
-    "monolog/monolog": "^2.2",
+    "monolog/monolog": "^2.2|^3.0",
     "nyholm/psr7": "^1.5",
     "nyholm/psr7-server": "^1.0",
     "overtrue/socialite": "^3.5.4|^4.0.1",
