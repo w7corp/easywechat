@@ -91,6 +91,53 @@ $account->getPlatformCerts();
 
 ### 一些可能会用到的
 
+#### 签名验证
+
+按官方说法，建议在拿到**微信接口响应**和**接收到微信支付的回调通知**时，对通知的签名进行验证，以确保通知是微信支付发送的。
+
+你可以通过以下方式获取签名验证器：
+
+```php
+$app->getValidator();
+```
+
+##### 推送消息的签名验证
+
+```php
+$server = $app->getServer();
+
+$server->handlePaid(function (Message $message, \Closure $next) use（$app） {
+    // $message->out_trade_no 获取商户订单号
+    // $message->payer['openid'] 获取支付者 openid
+    
+    try{
+        $app->getValidator()->validate($app->getRequest());
+       // 验证通过，业务处理
+    } catch(Exception $e){
+      // 验证失败
+    }
+ 
+    return $next($message);
+});
+
+// 默认返回 ['code' => 'SUCCESS', 'message' => '成功']
+return $server->serve();
+```
+
+##### API返回值的签名验证
+
+```php
+// API 请求示例
+$response = $app->getClient()->postJson("v3/pay/transactions/jsapi", [...]);
+
+try{
+    $app->getValidator()->validate($response->toPsrResponse());
+   // 验证通过
+} catch(Exception $e){
+  // 验证失败
+}
+```
+
 #### 获取证书序列号
 
 ```bash

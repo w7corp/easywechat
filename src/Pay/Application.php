@@ -11,6 +11,7 @@ use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
+use EasyWeChat\Pay\Contracts\Validator as ValidatorInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class Application implements \EasyWeChat\Pay\Contracts\Application
@@ -20,6 +21,8 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
     use InteractWithServerRequest;
 
     protected ?ServerInterface $server = null;
+
+    protected ?ValidatorInterface $validator = null;
 
     protected ?HttpClientInterface $client = null;
 
@@ -52,6 +55,26 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
         }
 
         return $this->merchant;
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function getValidator(): ValidatorInterface
+    {
+        if (! $this->validator) {
+            $this->validator = new Validator($this->getMerchant());
+        }
+
+        return $this->validator;
+    }
+
+    public function setValidator(ValidatorInterface $validator): static
+    {
+        $this->validator = $validator;
+
+        return $this;
     }
 
     /**
