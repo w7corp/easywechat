@@ -106,7 +106,7 @@ $app->getValidator();
 ```php
 $server = $app->getServer();
 
-$server->handlePaid(function (Message $message, \Closure $next) use（$app） {
+$server->handlePaid(function (Message $message, \Closure $next) use ($app) {
     // $message->out_trade_no 获取商户订单号
     // $message->payer['openid'] 获取支付者 openid
     
