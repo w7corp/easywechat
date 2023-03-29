@@ -35,4 +35,17 @@ class Client extends BaseClient
     {
         return $this->httpGet('wxa/getpaidunionid', compact('openid') + $options);
     }
+    
+    /**
+     * Get version info
+     *
+     * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getVersionInfo()
+    {
+        return $this->httpPostJson('wxa/getversioninfo');
+    }
 }
