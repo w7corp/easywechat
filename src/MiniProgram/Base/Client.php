@@ -36,7 +36,7 @@ class Client extends BaseClient
         return $this->httpGet('wxa/getpaidunionid', compact('openid') + $options);
     }
     
-   /**
+    /**
      * Get version info
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
