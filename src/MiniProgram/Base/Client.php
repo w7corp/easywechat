@@ -46,6 +46,6 @@ class Client extends BaseClient
      */
     public function getVersionInfo()
     {
-        return $this->httpPostJson('wxa/getversioninfo', []);
+        return $this->httpPostJson('wxa/getversioninfo');
     }
 }
