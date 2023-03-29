@@ -268,16 +268,4 @@ class Client extends BaseClient
             'auditid' => $auditId,
         ]);
     }
-
-    /**
-     * 查询小程序版本信息
-     *
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     */
-    public function getVersionInfo()
-    {
-        return $this->httpPostJson('wxa/getversioninfo', []);
-    }
 }
