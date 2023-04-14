@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel;
 
 use ArrayAccess;
+use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\HasAttributes;
@@ -17,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @implements ArrayAccess<array-key, mixed>
  */
-abstract class Message implements ArrayAccess
+abstract class Message implements ArrayAccess, Jsonable, \JsonSerializable
 {
     use HasAttributes;
 
