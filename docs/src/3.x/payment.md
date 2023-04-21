@@ -1,14 +1,12 @@
 # 支付
 
-
 你在阅读本文之前确认你已经仔细阅读了：[微信支付 | 商户平台开发文档](https://pay.weixin.qq.com/wiki/doc/api/index.html)。
 
-网友贡献的教程：[小能手马闯set 发布在 Laravel-China 的文章《基于 Laravel5.1 LTS 版的微信开发》](https://laravel-china.org/topics/3146)
+网友贡献的教程：[小能手马闯 set 发布在 Laravel-China 的文章《基于 Laravel5.1 LTS 版的微信开发》](https://laravel-china.org/topics/3146)
 
 ## 配置
 
 配置在前面的例子中已经提到过了，支付的相关配置如下：
-
 
 ```php
 <?php
@@ -54,7 +52,7 @@ $attributes = [
     'detail'           => 'iPad mini 16G 白色',
     'out_trade_no'     => '1217752501201407033233368018',
     'total_fee'        => 5388, // 单位：分
-    'notify_url'       => 'http://xxx.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+    'notify_url'       => 'http://easywechat.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
     'openid'           => '当前用户的 openid', // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
     // ...
 ];
@@ -76,7 +74,7 @@ $attributes = [
     'detail'           => 'iPad mini 16G 白色',
     'out_trade_no'     => '1217752501201407033233368018',
     'total_fee'        => 5388, // 单位：分
-    'notify_url'       => 'http://xxx.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+    'notify_url'       => 'http://easywechat.com/order-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
     'sub_openid'        => '当前用户的 openid', // 如果传入sub_openid, 请在实例化Application时, 同时传入$sub_app_id, $sub_merchant_id
     // ...
 ];
@@ -85,8 +83,7 @@ $order = new Order($attributes);
 
 ```
 
-
-通知url必须为直接可访问的url，不能携带参数。示例：notify_url：“https://pay.weixin.qq.com/wxpay/pay.action”
+通知 url 必须为直接可访问的 url，不能携带参数。示例：notify_url：“https://pay.weixin.qq.com/wxpay/pay.action”
 
 ## 下单接口
 
@@ -113,7 +110,7 @@ if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
 
 ## 支付结果通知
 
-在用户成功支付后，微信服务器会向该 **订单中设置的回调URL** 发起一个 POST 请求，请求的内容为一个 XML。里面包含了所有的详细信息，具体请参考：
+在用户成功支付后，微信服务器会向该 **订单中设置的回调 URL** 发起一个 POST 请求，请求的内容为一个 XML。里面包含了所有的详细信息，具体请参考：
 [支付结果通用通知](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_7)
 
 在本 SDK 中处理回调真的再简单不过了，请求验证你就不用管了，SDK 已经为你做好了，你只需要关注业务即可：
@@ -132,8 +129,8 @@ $response->send(); // Laravel 里请使用：return $response;
 1. `handleNotify` 只接收一个 [`callable`](http://php.net/manual/zh/language.types.callable.php) 参数，通常用一个匿名函数即可。
 2. 该匿名函数接收两个参数，这两个参数分别为：
 
-    - `$notify` 为封装了通知信息的 `EasyWeChat\Support\Collection` 对象，前面已经讲过这里就不赘述了，你可以以对象或者数组形式来读取通知内容，比如：`$notify->total_fee` 或者 `$notify['total_fee']`。
-    - `$successful` 这个参数其实就是判断 **用户是否付款成功了**（result_code == 'SUCCESS'）
+   - `$notify` 为封装了通知信息的 `EasyWeChat\Support\Collection` 对象，前面已经讲过这里就不赘述了，你可以以对象或者数组形式来读取通知内容，比如：`$notify->total_fee` 或者 `$notify['total_fee']`。
+   - `$successful` 这个参数其实就是判断 **用户是否付款成功了**（result_code == 'SUCCESS'）
 
 3. 该函数返回值就是告诉微信 **“我是否处理完成”**，如果你返回一个 `false` 或者一个具体的错误消息，那么微信会在稍后再次继续通知你，直到你明确的告诉它：“我已经处理完成了”，在函数里 `return true;` 代表处理完成。
 
@@ -176,12 +173,11 @@ return $response;
 > 注意：请把 “支付成功与否” 与 “是否处理完成” 分开，它俩没有必然关系。
 > 比如：微信通知你用户支付完成，但是支付失败了(result_code 为 'FAIL')，你应该**更新你的订单为支付失败**，但是要**告诉微信处理完成**。
 
-
-## 撤销订单API
+## 撤销订单 API
 
 目前只有 **刷卡支付** 有此功能。
 
-> 调用支付接口后请勿立即调用撤销订单API，建议支付后至少15s后再调用撤销订单接口。
+> 调用支付接口后请勿立即调用撤销订单 API，建议支付后至少 15s 后再调用撤销订单接口。
 
 ```php
 $orderNo = "商户系统内部的订单号（out_trade_no）";
@@ -196,17 +192,16 @@ $orderNo = "微信的订单号（transaction_id）";
 $payment->reverseByTransactionId($orderNo);
 ```
 
-
 ## 查询订单
 
 该接口提供所有微信支付订单的查询，商户可以通过该接口主动查询订单状态，完成下一步的业务逻辑。
 
 需要调用查询接口的情况：
 
-  - 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
-  - 调用支付接口后，返回系统错误或未知交易状态情况；
-  - 调用被扫支付API，返回USERPAYING的状态；
-  - 调用关单或撤销接口API之前，需确认支付状态；
+- 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知；
+- 调用支付接口后，返回系统错误或未知交易状态情况；
+- 调用被扫支付 API，返回 USERPAYING 的状态；
+- 调用关单或撤销接口 API 之前，需确认支付状态；
 
 ```php
 $orderNo = "商户系统内部的订单号（out_trade_no）";
@@ -223,7 +218,7 @@ $payment->queryByTransactionId($orderNo);
 
 ## 关闭订单
 
-> 注意：订单生成后不能马上调用关单接口，最短调用时间间隔为5分钟。
+> 注意：订单生成后不能马上调用关单接口，最短调用时间间隔为 5 分钟。
 
 ```php
 $orderNo = "商户系统内部的订单号（out_trade_no）";
@@ -273,7 +268,7 @@ $result = $payment->refundByTransactionId($transactionId, $refundNo, 100, 80, 19
 
 ## 查询退款
 
-提交退款申请后，通过调用该接口查询退款状态。退款有一定延时，用零钱支付的退款20分钟内到账，银行卡支付的退款3个工作日后重新查询退款状态。
+提交退款申请后，通过调用该接口查询退款状态。退款有一定延时，用零钱支付的退款 20 分钟内到账，银行卡支付的退款 3 个工作日后重新查询退款状态。
 
 ```php
 $result = $payment->queryRefund($outTradeNo);
@@ -299,10 +294,10 @@ file_put_contents('YOUR/PATH/TO/bill-20140603.csv', $bill);
 
 第二个参数为类型：
 
- - **ALL**：返回当日所有订单信息（默认值）
- - **SUCCESS**：返回当日成功支付的订单
- - **REFUND**：返回当日退款订单
- - **REVOKED**：已撤销的订单
+- **ALL**：返回当日所有订单信息（默认值）
+- **SUCCESS**：返回当日成功支付的订单
+- **REFUND**：返回当日退款订单
+- **REVOKED**：已撤销的订单
 
 ## 测速上报
 
@@ -320,10 +315,10 @@ $payment->report($api, $timeConsuming, $resultCode, $returnCode, [
 ## 转换短链接
 
 ```php
-$shortUrl = $payment->urlShorten('http://easywechat.org');
+$shortUrl = $payment->urlShorten('http://easywechat.com');
 ```
 
-## 授权码查询OPENID接口
+## 授权码查询 OPENID 接口
 
 ```php
 $response = $payment->authCodeToOpenId($authCode);
@@ -336,47 +331,47 @@ $response->openid;
 
 1. WeixinJSBridge:
 
-    ```php
-    $json = $payment->configForPayment($prepayId); // 返回 json 字符串，如果想返回数组，传第二个参数 false
-    ```
+   ```php
+   $json = $payment->configForPayment($prepayId); // 返回 json 字符串，如果想返回数组，传第二个参数 false
+   ```
 
-    javascript:
+   javascript:
 
-    ```js
-    ...
-    WeixinJSBridge.invoke(
-           'getBrandWCPayRequest', <?= $json ?>,
-           function(res){
-               if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                    // 使用以上方式判断前端返回,微信团队郑重提示：
-                    // res.err_msg将在用户支付成功后返回
-                    // ok，但并不保证它绝对可靠。
-               }
-           }
-       );
-    ...
-    ```
+   ```js
+   ...
+   WeixinJSBridge.invoke(
+          'getBrandWCPayRequest', <?= $json ?>,
+          function(res){
+              if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                   // 使用以上方式判断前端返回,微信团队郑重提示：
+                   // res.err_msg将在用户支付成功后返回
+                   // ok，但并不保证它绝对可靠。
+              }
+          }
+      );
+   ...
+   ```
 
 2. JSSDK:
 
-    ```php
-    $config = $payment->configForJSSDKPayment($prepayId); // 返回数组
-    ```
+   ```php
+   $config = $payment->configForJSSDKPayment($prepayId); // 返回数组
+   ```
 
-    javascript:
+   javascript:
 
-    ```js
-    wx.chooseWXPay({
-        timestamp: <?= $config['timestamp'] ?>,
-        nonceStr: '<?= $config['nonceStr'] ?>',
-        package: '<?= $config['package'] ?>',
-        signType: '<?= $config['signType'] ?>',
-        paySign: '<?= $config['paySign'] ?>', // 支付签名
-        success: function (res) {
-            // 支付成功后的回调函数
-        }
-    });
-    ```
+   ```js
+   wx.chooseWXPay({
+       timestamp: <?= $config['timestamp'] ?>,
+       nonceStr: '<?= $config['nonceStr'] ?>',
+       package: '<?= $config['package'] ?>',
+       signType: '<?= $config['signType'] ?>',
+       paySign: '<?= $config['paySign'] ?>', // 支付签名
+       success: function (res) {
+           // 支付成功后的回调函数
+       }
+   });
+   ```
 
 ## 生成共享收货地址 JS 配置
 
@@ -419,4 +414,3 @@ $config = $payment->configForAppPayment($prepayId);
 - https://github.com/Bacon/BaconQrCode
 - https://github.com/SimpleSoftwareIO/simple-qrcode (Bacon/BaconQrCode 的 Laravel 版本)
 - https://github.com/aferrandini/PHPQRCode
-

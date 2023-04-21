@@ -27,12 +27,12 @@ OAuth 是一个关于授权（authorization）的开放网络标准，在全世�
 
 > - **公众平台网页授权获取用户信息**
 
-**授权 URL**: `https://open.weixin.qq.com/connect/oauth2/authorize`  
+**授权 URL**: `https://open.weixin.qq.com/connect/oauth2/authorize`
 **Scopes**: `snsapi_base` 与 `snsapi_userinfo`
 
 > - **开放平台网页登录**
 
-**授权 URL**: `https://open.weixin.qq.com/connect/qrconnect`  
+**授权 URL**: `https://open.weixin.qq.com/connect/qrconnect`
 **Scopes**: `snsapi_login`
 
 他们的逻辑都一样：
@@ -117,7 +117,7 @@ $user = $oauth->userFromCode($code);
 我们这里来用公众号原生 PHP 写法举个例子，`oauth_callback` 是我们的授权回调 URL (未 urlencode 编码的 URL), `user/profile` 是我们需要授权才能访问的页面，它的 PHP 代码如下：
 
 ```php
-// http://easywechat.org/user/profile
+// http://easywechat.com/user/profile
 <?php
 
 use EasyWeChat\OfficialAccount\Application;
@@ -158,7 +158,7 @@ if (empty($_SESSION['wechat_user'])) {
 用户授权完成后浏览器调回的 URL 逻辑：
 
 ```php
-// http://easywechat.org/oauth_callback
+// http://easywechat.com/oauth_callback
 <?php
 
 use EasyWeChat\OfficialAccount\Application;

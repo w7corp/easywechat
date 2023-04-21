@@ -40,7 +40,7 @@ $app->template_message->deletePrivateTemplate($templateId);
 $app->template_message->send([
         'touser' => 'user-openid',
         'template_id' => 'template-id',
-        'url' => 'https://easywechat.org',
+        'url' => 'https://easywechat.com',
         'miniprogram' => [
                 'appid' => 'xxxxxxx',
                 'pagepath' => 'pages/xxx',
@@ -52,6 +52,7 @@ $app->template_message->send([
         ],
     ]);
 ```
+
 > 如果 url 和 miniprogram 字段都传，会优先跳转小程序。
 
 ## 发送一次性订阅消息
@@ -60,7 +61,7 @@ $app->template_message->send([
 $app->template_message->sendSubscription([
         'touser' => 'user-openid',
         'template_id' => 'template-id',
-        'url' => 'https://easywechat.org',
+        'url' => 'https://easywechat.com',
         'scene' => 1000,
         'data' => [
             'key1' => 'VALUE',

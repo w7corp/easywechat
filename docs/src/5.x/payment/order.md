@@ -53,7 +53,7 @@ $result = $app->order->unify([
     'plan_id' => 123,// 协议模板id
     'contract_code' => 100001256,// 签约协议号
     'contract_display_account' => '腾讯充值中心',// 签约用户的名称
-    'contract_notify_url' => 'http://easywechat.org/contract_notify'
+    'contract_notify_url' => 'http://easywechat.com/contract_notify'
 ], $isContract);
 
 //$result:

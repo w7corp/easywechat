@@ -1,6 +1,5 @@
 # 门店
 
-
 ## 获取实例
 
 ```php
@@ -43,8 +42,8 @@ $info = array(
          "longitude"       => 115.32375,
          "latitude"        => 25.097486,
          "photo_list"      => array(
-                               array("photo_url" => "https://XXX.com"),
-                               array("photo_url" => "https://XXX.com"),
+                               array("photo_url" => "https://easywechat.com"),
+                               array("photo_url" => "https://easywechat.com"),
                              ),
          "recommend"       => "麦辣鸡腿堡套餐,麦乐鸡,全家桶",
          "special"         => "免费 wifi,外卖服务",
@@ -56,14 +55,15 @@ $info = array(
 $result = $poi->create($info); // true or exception
 ```
 
-> 注意：新创建的门店在审核通过后,会以事件形式推送给商户填写的回调URL
+> 注意：新创建的门店在审核通过后,会以事件形式推送给商户填写的回调 URL
 
 ## 获取指定门店信息
 
 ```php
 $poi->get($poiId);
 ```
-- `$poiId` 为门店ID
+
+- `$poiId` 为门店 ID
 
 example:
 
@@ -117,7 +117,7 @@ $pois = $poi->lists(0, 2);// 取2条记录
 $poi->update($poiId, $data);
 ```
 
-- `$poiId` 为门店ID
+- `$poiId` 为门店 ID
 - `$data` 需要更新的部分数据，**若有填写内容则为覆盖更新,若无内容则视为不 修改,维持原有内容。photo_list 字段为全列表覆盖,若需要增加图片,需将之前图片同样放入 list 中,在其后增加新增图片。如:已有 A、B、C 三张图片,又要增加 D、E 两张图,则需要调 用该接口,photo_list 传入 A、B、C、D、E 五张图片的链接。**
 
 example:
@@ -149,6 +149,6 @@ $poi->delete(271262077);// true or exception
 - `invalid categories` 分类不合法,必须严格按照附表的分类填写
 - `invalid photo url` 图片 url 不合法,必须使用接口 1 的图片上传 接口所获取的 url
 - `poi audit state must be approved` 门店状态必须未审核通过
-- `invalid poiid`   poi_id 不正确
-- `invalid args`  参数不正确,请检查 json 字段
-- `system error`  系统错误,请稍后重试
+- `invalid poiid` poi_id 不正确
+- `invalid args` 参数不正确,请检查 json 字段
+- `system error` 系统错误,请稍后重试

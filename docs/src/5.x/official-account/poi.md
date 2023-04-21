@@ -29,8 +29,8 @@ $info = array(
          "longitude"       => 115.32375,
          "latitude"        => 25.097486,
          "photo_list"      => array(
-                               array("photo_url" => "https://XXX.com"),
-                               array("photo_url" => "https://XXX.com"),
+                               array("photo_url" => "https://easywechat.com"),
+                               array("photo_url" => "https://easywechat.com"),
                              ),
          "recommend"       => "麦辣鸡腿堡套餐,麦乐鸡,全家桶",
          "special"         => "免费 wifi,外卖服务",

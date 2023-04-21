@@ -133,7 +133,7 @@ $user = $app->oauth->user();
 我们这里来用原生 PHP 写法举个例子，`oauth_callback` 是我们的授权回调 URL (未 urlencode 编码的 URL), `user/profile` 是我们需要授权才能访问的页面，它的 PHP 代码如下：
 
 ```php
-// http://easywechat.org/user/profile
+// http://easywechat.com/user/profile
 <?php
 
 use EasyWeChat\Factory;
@@ -170,7 +170,7 @@ $user = $_SESSION['wechat_user'];
 授权回调页：
 
 ```php
-// http://easywechat.org/oauth_callback
+// http://easywechat.com/oauth_callback
 <?php
 
 use EasyWeChat\Factory;

@@ -15,7 +15,7 @@ use support\Request;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
-// 授权事件回调地址：http://yourdomain.com/OfficialAccount/server
+// 授权事件回调地址：http://easywechat.com/OfficialAccount/server
 
 class OfficialAccount
 {
@@ -33,6 +33,7 @@ class OfficialAccount
     }
 }
 ```
+
 </details>
 
 <!--
