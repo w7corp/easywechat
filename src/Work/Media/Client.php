@@ -85,6 +85,16 @@ class Client extends BaseClient
     }
 
     /**
+     * Upload Attachment Resources
+     *
+     * @return mixed
+     */
+    public function uploadAttachmentResources(string $path, string $mediaType = 'image', int $attachmentType = 1)
+    {
+        return $this->uploadAttachment($path, $mediaType, $attachmentType);
+    }
+
+    /**
      * Upload media.
      *
      * @return mixed
@@ -99,5 +109,27 @@ class Client extends BaseClient
         ];
 
         return $this->httpUpload('cgi-bin/media/upload', $files, [], compact('type'));
+    }
+
+    /**
+     * Upload media
+     *
+     * @return mixed
+     *
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function uploadAttachment(string $path, string $mediaType, int $attachmentType)
+    {
+        $files = [
+            'media' => $path,
+        ];
+
+        $query = [
+            'media_type' => $mediaType,
+            'attachment_type' => $attachmentType,
+        ];
+
+        return $this->httpUpload('cgi-bin/media/upload_attachment', $files, [], $query);
     }
 }
