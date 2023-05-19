@@ -19,6 +19,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * Class AccessTokenAwareClient.
  *
  *
+ * @method HttpClientInterface withAppIdAs(string $name = null) 自定义 app_id 参数名
  * @method HttpClientInterface withAppId(string $value = null)
  */
 class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
