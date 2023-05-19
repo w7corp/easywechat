@@ -128,6 +128,57 @@ $configId = '42b34949e138eb6e027c123cba77fad7';
 
 $app->contact_way->delete($configId);
 ```
+## 客户朋友圈
+
+### 企业发表内容到客户的朋友圈
+
+```php
+$msg = [
+	"text" => [
+		"content" => "文本消息内容"
+	],
+	"attachments" => [
+		[
+			"msgtype" => "image",
+			"image" => [
+				"media_id" => "MEDIA_ID"
+			]
+		],
+		[
+			"msgtype" => "video",
+			"video" => [
+				"media_id" => "MEDIA_ID"
+			]
+		],
+		[
+			"msgtype" => "link",
+			"link" => [
+				"title" => "消息标题",
+				"url" => "https://example.link.com/path",
+				"media_id" => "MEDIA_ID"
+			]
+		]
+	],
+ 	"visible_range" => [
+		"sender_list" => [
+			"user_list" => ["zhangshan","lisi"],
+			"department_list" => [2,3]
+		],
+		"external_contact_list" => [
+			"tag_list" => [ "etXXXXXXXXXX", "etYYYYYYYYYY"]
+		]
+	]
+];
+
+$app->external_contact_message->moments($msg);
+
+//{
+//	"errcode":0,
+//	"errmsg":"ok",
+//	"jobid":"xxxx"
+//}
+```
+
 
 ## 消息管理
 
