@@ -42,3 +42,17 @@ $app->media->uploadFile($path);
 ```php
 $app->media->get($mediaId);
 ```
+
+## 上传附件资源
+
+所有文件size必须大于5个字节
+
+目前 商品图册只支持图片类型； 朋友圈只支持图片、视频类型
+
+>  - 图片（image）：10MB，支持JPG,PNG格式，朋友圈类型图片不超过1440 x 1080
+>  - 视频（video） ：10MB，支持MP4格式，朋友圈类型视频时长不超过30秒
+>  - 文件（file） ：10MB
+
+```php
+$app->media->uploadAttachmentResources($path, 'image', 1);
+```
