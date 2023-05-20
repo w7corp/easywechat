@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount;
 
+use EasyWeChat\Kernel\Contracts\JsApiTicket as ContractsJsApiTicket;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use JetBrains\PhpStorm\ArrayShape;
 use function sprintf;
 
-class JsApiTicket extends AccessToken
+class JsApiTicket extends AccessToken implements ContractsJsApiTicket
 {
     /**
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
