@@ -101,14 +101,14 @@ $user = $oauth->userFromCode($code);
 - `$user->getNickname(); ` 对应微信的 `nickname`
 - `$user->getName(); ` 对应微信的 `nickname`
 - `$user->getAvatar(); ` 头像地址
-- ~~`$user->getRaw(); ` 原始 API 返回的结果~~
+- `$user->getRaw(); ` 原始 API 返回的结果
 - `$user->getAccessToken(); ` `access_token`
 - `$user->getRefreshToken(); ` `refresh_token`
 - `$user->getExpiresIn(); ` `expires_in`，Access Token 过期时间
 - `$user->getTokenResponse(); ` 返回 `access_token` 时的响应值
 
 > `$user` 里没有`openid`， `$user->id` 便是 `openid`.
-> 如果你想拿微信返回给你的原样的全部信息，请使用：~~$user->getRaw();~~$user->getAttributes();
+> 如果你想拿微信返回给你的原样的全部信息，请使用：$user->getRaw();
 
 当 `scope` 为 `snsapi_base` 时 `$oauth->userFromCode($code);` 对象里只有 `id`，没有其它信息。
 
