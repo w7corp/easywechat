@@ -14,7 +14,7 @@ $config = [
   'app_id' => 'wx3cf0f39249eb0exx', // 开放平台账号的 appid
   'secret' => 'f1c242f4f28f735d4687abb469072axx',   // 开放平台账号的 secret
   'token' => 'easywechat',  // 开放平台账号的 token
-  'aes_key' => ''   // 明文模式请勿填写 EncodingAESKey
+  'aes_key' => '',   // 明文模式请勿填写 EncodingAESKey
 
   /**
    * 接口请求相关配置，超时时间等，具体可用参数请参考：
@@ -100,7 +100,7 @@ $app->setComponentAccessToken($componentAccessToken)
 你可以通过以下方式拿到当前 verify_ticket 类：
 
 ```php
-$verifyTicket = $app->getVerfiyTicket();
+$verifyTicket = $app->getVerifyTicket();
 
 $verifyTicket->getTicket(); // strval
 ```
