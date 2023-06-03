@@ -19,7 +19,6 @@ class UserAgent
 {
     /**
      * @param  array<string>  $appends
-     * @return string
      */
     public static function create(array $appends = []): string
     {

@@ -43,7 +43,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getAccount(), $app->getAccount());
 
         // set
-        $account = new Account(corpId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token', aesKey:'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
+        $account = new Account(corpId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token', aesKey: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
         $app->setAccount($account);
         $this->assertSame($account, $app->getAccount());
     }

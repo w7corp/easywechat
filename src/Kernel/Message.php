@@ -31,9 +31,6 @@ abstract class Message implements ArrayAccess, Jsonable, \JsonSerializable
     }
 
     /**
-     * @param  ServerRequestInterface  $request
-     * @return Message
-     *
      * @throws BadRequestException
      */
     public static function createFromRequest(ServerRequestInterface $request): Message

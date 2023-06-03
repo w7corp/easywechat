@@ -4,6 +4,7 @@ namespace EasyWeChat\Tests\Kernel\HttpClient;
 
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Support\UserAgent;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpClient\Retry\GenericRetryStrategy;
 
@@ -87,6 +88,15 @@ class RequestUtilTest extends TestCase
         $this->assertArrayNotHasKey('hello', $formatted);
         $this->assertArrayHasKey('json', $formatted);
         $this->assertSame(['overtrue' => 'true', 'hello' => 'world'], $formatted['json']);
+
+        // POST with xml
+        $options = ['overtrue' => 'true', 'hello' => 'world', 'headers' => ['User-Agent' => 'EasyWeChat', 'content-type' => 'text/xml']];
+        $formatted = RequestUtil::formatOptions($options, 'POST');
+
+        $this->assertArrayNotHasKey('overtrue', $formatted);
+        $this->assertArrayNotHasKey('hello', $formatted);
+        $this->assertArrayHasKey('xml', $formatted);
+        $this->assertSame(['overtrue' => 'true', 'hello' => 'world'], $formatted['xml']);
 
         // PATCH
         $options = ['overtrue' => 'true', 'hello' => 'world', 'headers' => ['User-Agent' => 'EasyWeChat']];

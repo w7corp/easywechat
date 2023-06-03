@@ -8,9 +8,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface as ResponseInterfaceAlias;
 trait HttpClientMethods
 {
     /**
-     * @param  string  $url
      * @param  array<string, mixed>  $options
-     * @return Response|ResponseInterfaceAlias
      *
      * @throws TransportExceptionInterface
      */

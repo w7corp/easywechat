@@ -52,7 +52,6 @@ trait InteractWithHandlers
     }
 
     /**
-     * @param  callable|string  $handler
      * @return array{hash: string, handler: callable}
      *
      * @throws InvalidArgumentException

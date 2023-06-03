@@ -80,10 +80,15 @@ class RequestUtil
             return $options;
         }
 
+        $contentType = $options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null;
         $name = in_array($method, ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';
 
-        if (($options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null) === 'application/json') {
+        if ($contentType === 'application/json') {
             $name = 'json';
+        }
+
+        if ($contentType === 'text/xml') {
+            $name = 'xml';
         }
 
         foreach ($options as $key => $value) {
@@ -102,6 +107,8 @@ class RequestUtil
      */
     public static function formatBody(array $options): array
     {
+        $contentType = $options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null;
+
         if (isset($options['xml'])) {
             if (is_array($options['xml'])) {
                 $options['xml'] = Xml::build($options['xml']);
@@ -111,8 +118,7 @@ class RequestUtil
                 throw new InvalidArgumentException('The type of `xml` must be string or array.');
             }
 
-            /** @phpstan-ignore-next-line */
-            if (! isset($options['headers']['Content-Type']) && ! isset($options['headers']['content-type'])) {
+            if (! $contentType) {
                 /** @phpstan-ignore-next-line */
                 $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: text/xml'];
             }
@@ -134,8 +140,7 @@ class RequestUtil
                 throw new InvalidArgumentException('The type of `json` must be string or array.');
             }
 
-            /** @phpstan-ignore-next-line */
-            if (! isset($options['headers']['Content-Type']) && ! isset($options['headers']['content-type'])) {
+            if (! $contentType) {
                 /** @phpstan-ignore-next-line */
                 $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: application/json'];
             }

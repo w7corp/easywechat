@@ -11,15 +11,15 @@ use Psr\Http\Message\MessageInterface;
 
 class Validator implements \EasyWeChat\Pay\Contracts\Validator
 {
-    public const  MAX_ALLOWED_CLOCK_OFFSET = 300;
+    public const MAX_ALLOWED_CLOCK_OFFSET = 300;
 
-    public const  HEADER_TIMESTAMP = 'Wechatpay-Timestamp';
+    public const HEADER_TIMESTAMP = 'Wechatpay-Timestamp';
 
-    public const  HEADER_NONCE = 'Wechatpay-Nonce';
+    public const HEADER_NONCE = 'Wechatpay-Nonce';
 
-    public const  HEADER_SERIAL = 'Wechatpay-Serial';
+    public const HEADER_SERIAL = 'Wechatpay-Serial';
 
-    public const  HEADER_SIGNATURE = 'Wechatpay-Signature';
+    public const HEADER_SIGNATURE = 'Wechatpay-Signature';
 
     public function __construct(protected MerchantInterface $merchant)
     {

@@ -71,10 +71,6 @@ class Config implements ArrayAccess, ConfigInterface
         return $config;
     }
 
-    /**
-     * @param  string  $key
-     * @param  mixed|null  $value
-     */
     public function set(string $key, mixed $value = null): void
     {
         Arr::set($this->items, $key, $value);

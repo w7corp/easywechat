@@ -57,7 +57,7 @@ class JsApiTicketTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn($ticket['ticket']);
 
-        $jsApiTicket = new JsApiTicket('mock-corpid', cache:$cache, httpClient: $client);
+        $jsApiTicket = new JsApiTicket('mock-corpid', cache: $cache, httpClient: $client);
         $this->assertSame($ticket['ticket'], $jsApiTicket->getTicket());
 
         //设为过期
@@ -87,7 +87,7 @@ class JsApiTicketTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn($ticket['ticket']);
 
-        $jsApiTicket = new JsApiTicket('mock-corpid', cache:$cache, httpClient: $client);
+        $jsApiTicket = new JsApiTicket('mock-corpid', cache: $cache, httpClient: $client);
 
         $this->assertSame($ticket['ticket'], $jsApiTicket->getAgentTicket(100001));
 
@@ -111,7 +111,7 @@ class JsApiTicketTest extends TestCase
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn('mock-ticket');
 
-        $ticket = new JsApiTicket('mock-corpid', cache:$cache);
+        $ticket = new JsApiTicket('mock-corpid', cache: $cache);
 
         $result = $ticket->createConfigSignature('https://www.easywechat.com/', $nonce, $timestamp);
 

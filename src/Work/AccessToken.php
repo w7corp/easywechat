@@ -54,8 +54,6 @@ class AccessToken implements RefreshableAccessToken
     }
 
     /**
-     * @return string
-     *
      * @throws HttpException
      * @throws InvalidArgumentException
      * @throws ClientExceptionInterface
