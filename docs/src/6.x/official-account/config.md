@@ -15,11 +15,12 @@
     'aes_key' => '',                    // EncodingAESKey，兼容与安全模式下请一定要填写！！！
 
     /**
-     * 是否使用Stable Access token
+     * 是否使用 Stable Access Token
+     * 默认 false
      * https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html
      * true 使用 false 不使用
      */
-    'stable' => false,                    
+    'use_stable_access_token' => false,                    
 
     /**
      * OAuth 配置

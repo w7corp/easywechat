@@ -138,7 +138,7 @@ class Application implements ApplicationInterface
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
                 httpClient: $this->getHttpClient(),
-                stable: $this->config->get('stable', false),
+                stable: $this->config->get('use_stable_access_token', false),
             );
         }
 
@@ -194,7 +194,7 @@ class Application implements ApplicationInterface
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
                 httpClient: $this->getClient(),
-                stable: $this->config->get('stable', false),
+                stable: $this->config->get('use_stable_access_token', false),
             );
         }
 
