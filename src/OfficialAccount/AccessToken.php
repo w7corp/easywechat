@@ -35,6 +35,7 @@ class AccessToken implements RefreshableAccessTokenInterface
         protected ?string $key = null,
         ?CacheInterface $cache = null,
         ?HttpClientInterface $httpClient = null,
+        protected ?bool $stable = false
     ) {
         $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://api.weixin.qq.com/']);
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
@@ -100,6 +101,35 @@ class AccessToken implements RefreshableAccessTokenInterface
      */
     public function refresh(): string
     {
+        return $this->stable ? $this->getStableAccessToken() : $this->getAccessToken();
+    }
+
+    public function getStableAccessToken(bool $force_refresh = false): string
+    {
+        $response = $this->httpClient->request(
+            'POST',
+            'https://api.weixin.qq.com/cgi-bin/stable_token',
+            [
+                'json' => [
+                    'grant_type' => 'client_credential',
+                    'appid' => $this->appId,
+                    'secret' => $this->secret,
+                    'force_refresh' => $force_refresh
+                ],
+            ]
+        )->toArray(false);
+
+        if (empty($response['access_token'])) {
+            throw new HttpException('Failed to get stable access_token: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
+        }
+
+        $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));
+
+        return $response['access_token'];
+    }
+
+    public function getAccessToken(): string
+    {
         $response = $this->httpClient->request(
             'GET',
             'cgi-bin/token',
@@ -113,7 +143,7 @@ class AccessToken implements RefreshableAccessTokenInterface
         )->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Failed to get access_token: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));

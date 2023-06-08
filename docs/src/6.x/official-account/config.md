@@ -15,6 +15,13 @@
     'aes_key' => '',                    // EncodingAESKey，兼容与安全模式下请一定要填写！！！
 
     /**
+     * 是否使用Stable Access token
+     * https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html
+     * true 使用 false 不使用
+     */
+    'stable' => false,                    
+
+    /**
      * OAuth 配置
      *
      * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login
