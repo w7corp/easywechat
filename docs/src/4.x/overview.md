@@ -28,7 +28,7 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 
 ### 开始之前
 
-我们提供了视频教程：https://www.easywechat.com/tutorials 当然，我还是建议你具备以下基础知识，否则可能没有那么快上手。
+我们提供了视频教程：<https://easywechat.com/tutorials> 当然，我还是建议你具备以下基础知识，否则可能没有那么快上手。
 
 本 SDK 不是一个全新再造的东西，所以我不会从 0 开始教会你开发微信，你完全有必要在使用本 SDK 前做好以下工作：
 
@@ -43,8 +43,8 @@ EasyWeChat 的安装非常简单，因为它是一个标准的 [Composer](https:
 
 另外你有必要看一下以下的链接：
 
-> - https://learnku.com/laravel/t/535/assertion-people-who-do-not-understand-the-wisdom-of-asking-questions-will-not-graduate-from-junior-programmers
-> - http://laravel-china.github.io/php-the-right-way/
+> - <https://learnku.com/laravel/t/535/assertion-people-who-do-not-understand-the-wisdom-of-asking-questions-will-not-graduate-from-junior-programmers>
+> - <http://laravel-china.github.io/php-the-right-way/>
 
 如果你在群里问以下类似的问题，这真的是你没有做好上面的工作：
 

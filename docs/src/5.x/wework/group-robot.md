@@ -1,11 +1,12 @@
 # 群机器人
 
 ## 使用说明
+
 使用前必须先在群组里面添加机器人，然后将 `Webhook 地址` 中的 `key` 取出来，作为示例中 `$groupKey` 的值。
 
-> Webhook 地址示例：https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=`ab4f609a-3feb-427c-ae9d-b319ca712d36` 
+> Webhook 地址示例：<https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=`ab4f609a-3feb-427c-ae9d-b319ca712d36`>
 
-> 微信文档：https://work.weixin.qq.com/api/doc#90000/90136/91770
+> 微信文档：<https://work.weixin.qq.com/api/doc#90000/90136/91770>
 
 ## 发送文本类型消息
 
@@ -100,7 +101,7 @@ $items = [
     new NewsItem([
         'title' => '中秋节礼品领取',
         'description' => '今年中秋节公司有豪礼相送',
-        'url' => 'https://www.easywechat.com',
+        'url' => 'https://easywechat.com',
         'image' => 'http://res.mail.qq.com/node/ww/wwopenmng/images/independent/doc/test_pic_msg1.png',
     ]),
 

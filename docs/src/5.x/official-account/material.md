@@ -84,7 +84,7 @@ $result = $app->material->updateArticle($mediaId, [
     'show_cover' => 1, // 是否在文章内容显示封面图片
     'digest' => '这里是文章摘要',
     'content' => '这里是文章内容，你可以放很长的内容',
-    'source_url' => 'https://www.easywechat.com',
+    'source_url' => 'https://easywechat.com',
   ]);
 
 // 指定更新多图文中的第 2 篇
@@ -230,7 +230,7 @@ $stats = $app->material->stats();
 // }
 ```
 
-### 删除永久素材；
+### 删除永久素材
 
 ```php
 $app->material->delete($mediaId);

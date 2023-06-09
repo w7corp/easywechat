@@ -12,7 +12,7 @@
 在微信公众平台的设置中，您可以将您帐号中平台的 `url` 设置为 `您的网址/?id=xxx`，如:
 
 ```
-http://www.easywechat.com/wechat?id=1
+http://easywechat.com/wechat?id=1
 ```
 
 而在程序入口处，根据 `id` 查找对应帐号的 `appid` 和 其它信息来创建配置数组创建实例即可。

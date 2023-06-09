@@ -25,7 +25,7 @@ $miniProgram = $openPlatform->miniProgram(string $appId, string $refreshToken);
 
 > $appId 为授权方公众号 APPID，非开放平台第三方平台 APPID
 >
-> $refreshToken 为授权方的 refresh_token，可通过 [获取授权方授权信息](https://www.easywechat.com/docs/master/open-platform/index#heading-h2-2) 接口获得。
+> $refreshToken 为授权方的 refresh_token，可通过 [获取授权方授权信息](https://easywechat.com/docs/master/open-platform/index#heading-h2-2) 接口获得。
 
 ### 帮助授权方管理开放平台账号
 
@@ -51,11 +51,11 @@ $result = $account->getBinding();
 
 > 授权第三方平台注册的开放平台帐号只可用于获取用户 unionid 实现用户身份打通。
 >
->  第三方平台不可操作（包括绑定/解绑）通过 open.weixin.qq.com 线上流程注册的开放平台帐号。
+> 第三方平台不可操作（包括绑定/解绑）通过 open.weixin.qq.com 线上流程注册的开放平台帐号。
 >
->  公众号只可将此权限集授权给一个第三方平台，授权互斥。
+> 公众号只可将此权限集授权给一个第三方平台，授权互斥。
 
-接下来的 API 调用等操作和公众号、小程序的开发一致，请移步到[公众号](https://www.easywechat.com/docs/master/official-account/index)或[小程序](https://www.easywechat.com/docs/master/mini-program/index)开发章节继续进行开发吧。
+接下来的 API 调用等操作和公众号、小程序的开发一致，请移步到[公众号](https://easywechat.com/docs/master/official-account/index)或[小程序](https://easywechat.com/docs/master/mini-program/index)开发章节继续进行开发吧。
 
 ### 代码示例
 

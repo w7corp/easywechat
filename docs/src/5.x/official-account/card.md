@@ -37,7 +37,7 @@ $card->create($cardType = 'member_card', array $attributes);
 ```php
 <?php
 
-	$cardType = 'GROUPON';
+ $cardType = 'GROUPON';
 
     $attributes = [
       'base_info' => [
@@ -109,7 +109,7 @@ $attributes = [
     'logo_url' => 'http://mmbiz.qpic.cn/mmbiz/2aJY6aCPatSeibYAyy7yct9zJXL9WsNVL4JdkTbBr184gNWS6nibcA75Hia9CqxicsqjYiaw2xuxYZiaibkmORS2oovdg/0',
     'center_title' => '顶部居中按钮',
     'center_sub_title' => '按钮下方的wording',
-    'center_url' => 'http://www.easywechat.com',
+    'center_url' => 'http://easywechat.com',
     'custom_url_name' => '立即使用',
     'custom_url' => 'http://www.qq.com',
     'custom_url_sub_title' => '6个汉字tips',
