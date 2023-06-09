@@ -15,6 +15,14 @@
     'aes_key' => '',                    // EncodingAESKey，兼容与安全模式下请一定要填写！！！
 
     /**
+     * 是否使用 Stable Access Token
+     * 默认 false
+     * https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/mp-access-token/getStableAccessToken.html
+     * true 使用 false 不使用
+     */
+    'use_stable_access_token' => false,  
+
+    /**
      * 接口请求相关配置，超时时间等，具体可用参数请参考：
      * https://github.com/symfony/symfony/blob/5.3/src/Symfony/Contracts/HttpClient/HttpClientInterface.php
      */
