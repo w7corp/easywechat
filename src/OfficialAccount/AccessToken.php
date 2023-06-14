@@ -114,13 +114,13 @@ class AccessToken implements RefreshableAccessTokenInterface
                     'grant_type' => 'client_credential',
                     'appid' => $this->appId,
                     'secret' => $this->secret,
-                    'force_refresh' => $force_refresh
+                    'force_refresh' => $force_refresh,
                 ],
             ]
         )->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get stable access_token: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Failed to get stable access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));
@@ -143,7 +143,7 @@ class AccessToken implements RefreshableAccessTokenInterface
         )->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Failed to get access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));

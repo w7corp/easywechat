@@ -10,6 +10,7 @@ use EasyWeChat\Kernel\Message;
 use EasyWeChat\Kernel\Support\Xml;
 use function is_array;
 use function is_callable;
+use function is_string;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use function time;
@@ -48,7 +49,7 @@ trait RespondXmlMessage
      */
     protected function normalizeResponse(mixed $response): array
     {
-        if (is_callable($response)) {
+        if (! is_string($response) && is_callable($response)) {
             $response = $response();
         }
 
