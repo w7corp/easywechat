@@ -4,7 +4,6 @@ namespace EasyWeChat\Tests\Kernel\HttpClient;
 
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\Support\UserAgent;
-use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Tests\TestCase;
 use Symfony\Component\HttpClient\Retry\GenericRetryStrategy;
 
