@@ -95,10 +95,6 @@ exports = module.exports = [
         link: '/4.x/mini-program/template_message.html'
       },
       { text: '消息解密', link: '/4.x/mini-program/decrypt.html' },
-      {
-        text: '内容安全',
-        link: '/4.x/basic-services/content_security.html'
-      },
       { text: '物流助手', link: '/4.x/mini-program/express.html' },
       { text: '生物认证', link: '/4.x/mini-program/soter.html' },
       { text: '插件管理', link: '/4.x/mini-program/plugin.html' },
@@ -106,11 +102,6 @@ exports = module.exports = [
       {
         text: '订阅消息',
         link: '/4.x/mini-program/subscribe_message.html'
-      },
-      { text: '安全风控', link: '/4.x/mini-program/safety_control.html' },
-      {
-        text: 'URL Scheme',
-        link: '/4.x/mini-program/url_scheme_generate.html'
       }
     ]
   },
