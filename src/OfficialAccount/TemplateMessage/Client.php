@@ -88,9 +88,13 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function addTemplate($shortId)
+    public function addTemplate($shortId, $keywordList = [])
     {
         $params = ['template_id_short' => $shortId];
+
+        if ($keywordList) {
+            $params['keyword_name_list'] = $keywordList;
+        }
 
         return $this->httpPostJson('cgi-bin/template/api_add_template', $params);
     }
