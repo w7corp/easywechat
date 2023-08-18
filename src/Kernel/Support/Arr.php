@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
-use function is_string;
 use JetBrains\PhpStorm\Pure;
+
+use function is_string;
 
 class Arr
 {

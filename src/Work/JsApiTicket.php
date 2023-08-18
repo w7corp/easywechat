@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use function intval;
-use function is_string;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use function sprintf;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
@@ -21,6 +18,10 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+use function intval;
+use function is_string;
+use function sprintf;
+
 class JsApiTicket
 {
     protected HttpClientInterface $httpClient;
@@ -30,8 +31,8 @@ class JsApiTicket
     public function __construct(
         protected string $corpId,
         protected ?string $key = null,
-        ?CacheInterface $cache = null,
-        ?HttpClientInterface $httpClient = null
+        CacheInterface $cache = null,
+        HttpClientInterface $httpClient = null
     ) {
         $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://qyapi.weixin.qq.com/']);
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));

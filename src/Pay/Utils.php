@@ -2,14 +2,15 @@
 
 namespace EasyWeChat\Pay;
 
-use function base64_encode;
-use function call_user_func_array;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
-use function http_build_query;
 use JetBrains\PhpStorm\ArrayShape;
+
+use function base64_encode;
+use function call_user_func_array;
+use function http_build_query;
 use function openssl_sign;
 use function strtoupper;
 use function time;

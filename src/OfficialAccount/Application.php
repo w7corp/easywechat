@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OfficialAccount;
 
-use function array_merge;
-use function call_user_func;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\JsApiTicket as JsApiTicketInterface;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
@@ -28,10 +26,13 @@ use JetBrains\PhpStorm\Pure;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
 use Psr\Log\LoggerAwareTrait;
-use function sprintf;
-use function str_contains;
 use Symfony\Component\HttpClient\Response\AsyncContext;
 use Symfony\Component\HttpClient\RetryableHttpClient;
+
+use function array_merge;
+use function call_user_func;
+use function sprintf;
+use function str_contains;
 
 class Application implements ApplicationInterface
 {

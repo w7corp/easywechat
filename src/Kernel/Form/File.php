@@ -2,14 +2,16 @@
 
 namespace EasyWeChat\Kernel\Form;
 
+use const PATHINFO_EXTENSION;
+
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
+use Symfony\Component\Mime\MimeTypes;
+use Symfony\Component\Mime\Part\DataPart;
+
 use function file_put_contents;
 use function md5;
 use function pathinfo;
-use const PATHINFO_EXTENSION;
 use function strtolower;
-use Symfony\Component\Mime\MimeTypes;
-use Symfony\Component\Mime\Part\DataPart;
 use function sys_get_temp_dir;
 use function tempnam;
 
@@ -20,9 +22,9 @@ class File extends DataPart
      */
     public static function from(
         string $pathOrContents,
-        ?string $filename = null,
-        ?string $contentType = null,
-        ?string $encoding = null
+        string $filename = null,
+        string $contentType = null,
+        string $encoding = null
     ): DataPart {
         if (file_exists($pathOrContents)) {
             return static::fromPath($pathOrContents, $filename, $contentType);
@@ -36,9 +38,9 @@ class File extends DataPart
      */
     public static function fromContents(
         string $contents,
-        ?string $filename = null,
-        ?string $contentType = null,
-        ?string $encoding = null
+        string $filename = null,
+        string $contentType = null,
+        string $encoding = null
     ): DataPart {
         if (null === $contentType) {
             $mimeTypes = new MimeTypes();
@@ -68,9 +70,9 @@ class File extends DataPart
      */
     public static function withContents(
         string $contents,
-        ?string $filename = null,
-        ?string $contentType = null,
-        ?string $encoding = null
+        string $filename = null,
+        string $contentType = null,
+        string $encoding = null
     ): DataPart {
         return self::fromContents(...func_get_args());
     }

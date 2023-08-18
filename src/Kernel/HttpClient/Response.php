@@ -2,27 +2,20 @@
 
 namespace EasyWeChat\Kernel\HttpClient;
 
-use function array_key_exists;
+use const JSON_UNESCAPED_UNICODE;
+
 use ArrayAccess;
-use function base64_encode;
 use Closure;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Exceptions\BadMethodCallException;
 use EasyWeChat\Kernel\Exceptions\BadResponseException;
 use EasyWeChat\Kernel\Support\Xml;
-use function file_put_contents;
 use Http\Discovery\Exception\NotFoundException;
 use Http\Discovery\Psr17FactoryDiscovery;
-use function json_encode;
-use const JSON_UNESCAPED_UNICODE;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use function sprintf;
-use function str_contains;
-use function str_starts_with;
-use function strtolower;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Component\HttpClient\Response\StreamableInterface;
 use Symfony\Component\HttpClient\Response\StreamWrapper;
@@ -33,6 +26,15 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Throwable;
+
+use function array_key_exists;
+use function base64_encode;
+use function file_put_contents;
+use function json_encode;
+use function sprintf;
+use function str_contains;
+use function str_starts_with;
+use function strtolower;
 
 /**
  * @implements \ArrayAccess<array-key, mixed>
@@ -110,7 +112,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws ClientExceptionInterface
      * @throws BadResponseException
      */
-    public function toArray(?bool $throw = null): array
+    public function toArray(bool $throw = null): array
     {
         $throw ??= $this->throw;
 
@@ -141,7 +143,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws ClientExceptionInterface
      * @throws BadResponseException
      */
-    public function toJson(?bool $throw = null): string|false
+    public function toJson(bool $throw = null): string|false
     {
         return json_encode($this->toArray($throw), JSON_UNESCAPED_UNICODE);
     }
@@ -149,7 +151,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
     /**
      * {@inheritdoc}
      */
-    public function toStream(?bool $throw = null)
+    public function toStream(bool $throw = null)
     {
         if ($this->response instanceof StreamableInterface) {
             return $this->response->toStream($throw ?? $this->throw);
@@ -288,12 +290,12 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
         return $this->response->getStatusCode();
     }
 
-    public function getHeaders(?bool $throw = null): array
+    public function getHeaders(bool $throw = null): array
     {
         return $this->response->getHeaders($throw ?? $this->throw);
     }
 
-    public function getContent(?bool $throw = null): string
+    public function getContent(bool $throw = null): string
     {
         return $this->response->getContent($throw ?? $this->throw);
     }
@@ -327,7 +329,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function hasHeader(string $name, ?bool $throw = null): bool
+    public function hasHeader(string $name, bool $throw = null): bool
     {
         return isset($this->getHeaders($throw)[$name]);
     }
@@ -340,7 +342,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getHeader(string $name, ?bool $throw = null): array
+    public function getHeader(string $name, bool $throw = null): array
     {
         $name = strtolower($name);
         $throw ??= $this->throw;
@@ -354,7 +356,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getHeaderLine(string $name, ?bool $throw = null): string
+    public function getHeaderLine(string $name, bool $throw = null): string
     {
         $name = strtolower($name);
         $throw ??= $this->throw;

@@ -2,10 +2,11 @@
 
 namespace EasyWeChat\Pay;
 
+use RuntimeException;
+
 use function is_array;
 use function is_string;
 use function json_decode;
-use RuntimeException;
 
 /**
  * @property string $trade_state

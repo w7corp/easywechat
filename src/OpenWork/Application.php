@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenWork;
 
-use function array_merge;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
@@ -25,6 +24,8 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+
+use function array_merge;
 
 class Application implements ApplicationInterface
 {
@@ -219,7 +220,7 @@ class Application implements ApplicationInterface
     public function getAuthorization(
         string $corpId,
         string $permanentCode,
-        ?AccessTokenInterface $suiteAccessToken = null
+        AccessTokenInterface $suiteAccessToken = null
     ): Authorization {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
@@ -251,7 +252,7 @@ class Application implements ApplicationInterface
     public function getAuthorizerAccessToken(
         string $corpId,
         string $permanentCode,
-        ?AccessTokenInterface $suiteAccessToken = null
+        AccessTokenInterface $suiteAccessToken = null
     ): AuthorizerAccessToken {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
@@ -282,7 +283,7 @@ class Application implements ApplicationInterface
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getAuthorizerClient(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): AccessTokenAwareClient
+    public function getAuthorizerClient(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken = null): AccessTokenAwareClient
     {
         return (new AccessTokenAwareClient(
             client: $this->getHttpClient(),
@@ -300,7 +301,7 @@ class Application implements ApplicationInterface
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getJsApiTicket(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): JsApiTicket
+    public function getJsApiTicket(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken = null): JsApiTicket
     {
         return new JsApiTicket(
             corpId: $corpId,
@@ -311,7 +312,7 @@ class Application implements ApplicationInterface
 
     public function getOAuth(
         string $suiteId,
-        ?AccessTokenInterface $suiteAccessToken = null
+        AccessTokenInterface $suiteAccessToken = null
     ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
@@ -326,7 +327,7 @@ class Application implements ApplicationInterface
 
     public function getCorpOAuth(
         string $corpId,
-        ?AccessTokenInterface $suiteAccessToken = null
+        AccessTokenInterface $suiteAccessToken = null
     ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 

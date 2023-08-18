@@ -2,9 +2,10 @@
 
 namespace EasyWeChat\Kernel\Support;
 
+use JetBrains\PhpStorm\Pure;
+
 use function file_exists;
 use function file_get_contents;
-use JetBrains\PhpStorm\Pure;
 use function str_starts_with;
 
 class PrivateKey
