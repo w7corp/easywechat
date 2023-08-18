@@ -12,9 +12,19 @@ class ServerResponseTest extends TestCase
     {
         $response = ServerResponse::make(new Response(200, ['X-Foo' => 'bar'], 'foo'));
 
-        $response = explode("\r\n", $response);
-        $this->assertEquals('HTTP/1.1 200 OK', $response[0]);
-        $this->assertEquals('X-Foo: bar', $response[1]);
+        $responseLines = explode("\r\n", $response);
+        $this->assertEquals('HTTP/1.1 200 OK', $responseLines[0]);
+        $this->assertEquals('X-Foo: bar', $responseLines[1]);
+        $this->assertEquals('foo', $responseLines[3]);
+    }
+
+    public function test_to_string_without_headers()
+    {
+        $response = ServerResponse::make(new Response(200, [], 'foo'));
+
+        $responseLines = explode("\r\n", $response);
+        $this->assertEquals('HTTP/1.1 200 OK', $responseLines[0]);
+        $this->assertEquals('foo', $responseLines[2]);
     }
 
     public function test_it_can_send_response()

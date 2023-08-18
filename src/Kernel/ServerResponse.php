@@ -187,16 +187,18 @@ class ServerResponse implements ResponseInterface
     public function __toString(): string
     {
         $headers = $this->getHeaders();
-
-        ksort($headers);
-
-        $max = max(array_map('strlen', array_keys($headers))) + 1;
         $headersString = '';
 
-        foreach ($headers as $name => $values) {
-            $name = ucwords($name, '-');
-            foreach ($values as $value) {
-                $headersString .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
+        if (!empty($headers)) {
+            ksort($headers);
+
+            $max = max(array_map('strlen', array_keys($headers))) + 1;
+
+            foreach ($headers as $name => $values) {
+                $name = ucwords($name, '-');
+                foreach ($values as $value) {
+                    $headersString .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
+                }
             }
         }
 
