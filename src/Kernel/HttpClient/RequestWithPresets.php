@@ -2,12 +2,13 @@
 
 namespace EasyWeChat\Kernel\HttpClient;
 
-use function array_merge;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Form\File;
 use EasyWeChat\Kernel\Form\Form;
 use EasyWeChat\Kernel\Support\Str;
+
+use function array_merge;
 use function in_array;
 use function is_file;
 use function is_string;

@@ -6,12 +6,13 @@ namespace EasyWeChat\OpenPlatform;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
-use function is_string;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use function sprintf;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
+
+use function is_string;
+use function sprintf;
 
 class VerifyTicket implements VerifyTicketInterface
 {
@@ -20,7 +21,7 @@ class VerifyTicket implements VerifyTicketInterface
     public function __construct(
         protected string $appId,
         protected ?string $key = null,
-        ?CacheInterface $cache = null,
+        CacheInterface $cache = null,
     ) {
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }

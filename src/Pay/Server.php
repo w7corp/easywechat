@@ -12,14 +12,15 @@ use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
-use function is_array;
-use function json_decode;
-use function json_encode;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use function strval;
 use Throwable;
+
+use function is_array;
+use function json_decode;
+use function json_encode;
+use function strval;
 
 /**
  * @link https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay4_1.shtml
@@ -108,7 +109,7 @@ class Server implements ServerInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
+    public function getRequestMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
         $originContent = (string) ($request ?? $this->request)->getBody();
         $attributes = json_decode($originContent, true);
@@ -142,7 +143,7 @@ class Server implements ServerInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
+    public function getDecryptedMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
         return $this->getRequestMessage($request);
     }

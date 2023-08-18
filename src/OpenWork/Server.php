@@ -15,10 +15,11 @@ use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
-use function func_get_args;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+
+use function func_get_args;
 
 class Server implements ServerInterface
 {
@@ -28,7 +29,7 @@ class Server implements ServerInterface
 
     protected ServerRequestInterface $request;
 
-    protected Closure|null $defaultSuiteTicketHandler = null;
+    protected ?Closure $defaultSuiteTicketHandler = null;
 
     /**
      * @throws \Throwable
@@ -36,7 +37,7 @@ class Server implements ServerInterface
     public function __construct(
         protected Encryptor $encryptor,
         protected Encryptor $providerEncryptor,
-        ?ServerRequestInterface $request = null,
+        ServerRequestInterface $request = null,
     ) {
         $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
@@ -260,7 +261,7 @@ class Server implements ServerInterface
     /**
      * @throws BadRequestException
      */
-    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    public function getRequestMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
         return Message::createFromRequest($request ?? $this->request);
     }
@@ -269,7 +270,7 @@ class Server implements ServerInterface
      * @throws BadRequestException
      * @throws RuntimeException
      */
-    public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    public function getDecryptedMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
         $request = $request ?? $this->request;
         $message = $this->getRequestMessage($request);

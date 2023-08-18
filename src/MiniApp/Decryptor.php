@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace EasyWeChat\MiniApp;
 
-use function base64_decode;
 use EasyWeChat\Kernel\Exceptions\DecryptException;
 use EasyWeChat\Kernel\Support\AesCbc;
+use Throwable;
+
+use function base64_decode;
 use function is_array;
 use function json_decode;
 use function sprintf;
-use Throwable;
 
 class Decryptor
 {

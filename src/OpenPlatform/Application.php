@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\OpenPlatform;
 
-use function array_merge;
 use Closure;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
@@ -25,17 +24,19 @@ use EasyWeChat\OfficialAccount\Config as OfficialAccountConfig;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
-use function is_string;
-use function md5;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
 use Psr\SimpleCache\InvalidArgumentException;
-use function sprintf;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+
+use function array_merge;
+use function is_string;
+use function md5;
+use function sprintf;
 
 class Application implements ApplicationInterface
 {

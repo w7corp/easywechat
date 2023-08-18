@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel;
 
-use function base64_decode;
-use function base64_encode;
+use const OPENSSL_NO_PADDING;
+use const SORT_STRING;
+
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Pkcs7;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Kernel\Support\Xml;
 use Exception;
+use Throwable;
+
+use function base64_decode;
+use function base64_encode;
 use function implode;
 use function openssl_decrypt;
 use function openssl_encrypt;
-use const OPENSSL_NO_PADDING;
 use function pack;
 use function random_bytes;
 use function sha1;
 use function sort;
-use const SORT_STRING;
 use function strlen;
 use function substr;
-use Throwable;
 use function time;
 use function trim;
 use function unpack;
@@ -63,7 +65,7 @@ class Encryptor
 
     protected ?string $receiveId = null;
 
-    public function __construct(string $appId, string $token, string $aesKey, ?string $receiveId = null)
+    public function __construct(string $appId, string $token, string $aesKey, string $receiveId = null)
     {
         $this->appId = $appId;
         $this->token = $token;
@@ -80,7 +82,7 @@ class Encryptor
      * @throws RuntimeException
      * @throws Exception
      */
-    public function encrypt(string $plaintext, string|null $nonce = null, int|string $timestamp = null): string
+    public function encrypt(string $plaintext, string $nonce = null, int|string $timestamp = null): string
     {
         try {
             $plaintext = Pkcs7::padding(random_bytes(16).pack('N', strlen($plaintext)).$plaintext.$this->appId, 32);

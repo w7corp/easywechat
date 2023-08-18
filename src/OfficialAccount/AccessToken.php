@@ -6,13 +6,9 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use function intval;
-use function is_string;
 use JetBrains\PhpStorm\ArrayShape;
-use function json_encode;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use function sprintf;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
@@ -22,6 +18,11 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
+use function intval;
+use function is_string;
+use function json_encode;
+use function sprintf;
 
 class AccessToken implements RefreshableAccessTokenInterface
 {
@@ -33,8 +34,8 @@ class AccessToken implements RefreshableAccessTokenInterface
         protected string $appId,
         protected string $secret,
         protected ?string $key = null,
-        ?CacheInterface $cache = null,
-        ?HttpClientInterface $httpClient = null,
+        CacheInterface $cache = null,
+        HttpClientInterface $httpClient = null,
         protected ?bool $stable = false
     ) {
         $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://api.weixin.qq.com/']);

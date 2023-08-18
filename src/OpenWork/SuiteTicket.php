@@ -6,12 +6,13 @@ namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
-use function is_string;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
-use function sprintf;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
+
+use function is_string;
+use function sprintf;
 
 class SuiteTicket implements SuiteTicketInterface
 {
@@ -19,7 +20,7 @@ class SuiteTicket implements SuiteTicketInterface
 
     public function __construct(
         protected string $suiteId,
-        ?CacheInterface $cache = null,
+        CacheInterface $cache = null,
         protected ?string $key = null,
     ) {
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));

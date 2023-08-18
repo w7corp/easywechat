@@ -18,12 +18,9 @@ use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Exception;
-use function is_array;
-use function is_string;
 use Mockery;
 use Mockery\Mock;
 use Nyholm\Psr7\Uri;
-use function str_starts_with;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
@@ -32,6 +29,10 @@ use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
+
+use function is_array;
+use function is_string;
+use function str_starts_with;
 
 /**
  * @method ResponseInterface get(string $uri, array $options = [])
@@ -77,7 +78,7 @@ class Client implements HttpClientInterface
      */
     public function __construct(
         protected Merchant $merchant,
-        ?HttpClientInterface $client = null,
+        HttpClientInterface $client = null,
         array $defaultOptions = []
     ) {
         $this->throw = (bool) ($defaultOptions['throw'] ?? true);

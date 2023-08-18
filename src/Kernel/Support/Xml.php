@@ -8,7 +8,7 @@ use TheNorthMemory\Xml\Transformer;
 
 class Xml
 {
-    public static function parse(string $xml): array|null
+    public static function parse(string $xml): ?array
     {
         return Transformer::toArray($xml);
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Work;
 
-use function array_merge;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
@@ -18,6 +17,8 @@ use EasyWeChat\Work\Contracts\Account as AccountInterface;
 use EasyWeChat\Work\Contracts\Application as ApplicationInterface;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeWork;
+
+use function array_merge;
 
 class Application implements ApplicationInterface
 {
