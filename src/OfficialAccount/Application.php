@@ -6,6 +6,7 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\JsApiTicket as JsApiTicketInterface;
+use EasyWeChat\Kernel\Contracts\RefreshableJsApiTicket as RefreshableJsApiTicketInterface;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
@@ -187,7 +188,7 @@ class Application implements ApplicationInterface
         return $provider;
     }
 
-    public function getTicket(): JsApiTicketInterface
+    public function getTicket(): JsApiTicketInterface|RefreshableJsApiTicketInterface
     {
         if (! $this->ticket) {
             $this->ticket = new JsApiTicket(
@@ -202,7 +203,7 @@ class Application implements ApplicationInterface
         return $this->ticket;
     }
 
-    public function setTicket(JsApiTicketInterface $ticket): static
+    public function setTicket(JsApiTicketInterface|RefreshableJsApiTicketInterface $ticket): static
     {
         $this->ticket = $ticket;
 
