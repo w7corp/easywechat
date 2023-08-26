@@ -9,6 +9,7 @@ use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Support\AesGcm;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
@@ -112,7 +113,14 @@ class Server implements ServerInterface
     public function getRequestMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
         $originContent = (string) ($request ?? $this->request)->getBody();
-        $attributes = json_decode($originContent, true);
+
+        // 微信支付的回调数据回调，偶尔是 XML https://github.com/w7corp/easywechat/issues/2737
+        // PS: 这帮傻逼，真的是该死啊
+        if (str_starts_with($originContent, '<xml')) {
+            $attributes = Xml::parse($originContent);
+        } else {
+            $attributes = json_decode($originContent, true);
+        }
 
         if (! is_array($attributes)) {
             throw new RuntimeException('Invalid request body.');

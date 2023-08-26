@@ -6,8 +6,8 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\JsApiTicket as JsApiTicketInterface;
-use EasyWeChat\Kernel\Contracts\RefreshableJsApiTicket as RefreshableJsApiTicketInterface;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
+use EasyWeChat\Kernel\Contracts\RefreshableJsApiTicket as RefreshableJsApiTicketInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
