@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\ServerResponse;
+use EasyWeChat\Kernel\Support\AesEcb;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
@@ -116,11 +117,48 @@ class Server implements ServerInterface
 
         // 微信支付的回调数据回调，偶尔是 XML https://github.com/w7corp/easywechat/issues/2737
         // PS: 这帮傻逼，真的是该死啊
-        if (str_starts_with($originContent, '<xml')) {
-            $attributes = Xml::parse($originContent);
-        } else {
-            $attributes = json_decode($originContent, true);
+        $isXml = str_starts_with($originContent, '<xml');
+        $attributes = $isXml ? $this->decodeXmlMessage($originContent) : $this->decodeJsonMessage($originContent);
+
+        return new Message($attributes, $originContent);
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    protected function decodeXmlMessage(string $contents): array
+    {
+        $attributes = Xml::parse($contents);
+
+        if (! is_array($attributes)) {
+            throw new RuntimeException('Invalid request body.');
         }
+
+        if (! empty($attributes['req_info'])) {
+            $key = $this->merchant->getV2SecretKey();
+
+            if (empty($key)) {
+                throw new InvalidArgumentException('V2 secret key is required.');
+            }
+
+            $attributes = Xml::parse(AesEcb::decrypt($attributes['req_info'], $key, iv: ''));
+        }
+
+        if (! is_array($attributes)) {
+            throw new RuntimeException('Failed to decrypt request message.');
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+    protected function decodeJsonMessage(string $contents): array
+    {
+        $attributes = json_decode($contents, true);
 
         if (! is_array($attributes)) {
             throw new RuntimeException('Invalid request body.');
@@ -144,7 +182,7 @@ class Server implements ServerInterface
             throw new RuntimeException('Failed to decrypt request message.');
         }
 
-        return new Message($attributes, $originContent);
+        return $attributes;
     }
 
     /**
