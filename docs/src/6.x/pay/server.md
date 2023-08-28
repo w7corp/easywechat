@@ -52,7 +52,10 @@ $server->handleRefunded(function (Message $message, \Closure $next) {
 return $server->serve();
 ```
 
-> 🚨 注意：经测试发现官方扔存在[使用 v2 模式的退款推送](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_16&index=10)，所以如果你的退款逻辑有异常，请参考以下方式实现（需要配置 v2 API key）：
+🚨 注意：经网友发现官方扔存在[使用 v2 模式的退款推送](https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_16&index=10)，所以如果你的退款逻辑有异常，请参考以下方式实现（需要配置 v2 API key）：
+
+> 网友反馈的问题：https://github.com/w7corp/easywechat/issues/2737
+> 目前已知的情况是：微信商户平台填写的 API 回调地址，然后在商户平台手动处理退款的。
 
 ```php
 // 建议使用单独的路由处理退款！
