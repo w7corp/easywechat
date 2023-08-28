@@ -142,7 +142,7 @@ class Server implements ServerInterface
                 throw new InvalidArgumentException('V2 secret key is required.');
             }
 
-            $attributes = Xml::parse(AesEcb::decrypt($attributes['req_info'], $key, iv: ''));
+            $attributes = Xml::parse(AesEcb::decrypt($attributes['req_info'], md5($key), iv: ''));
         }
 
         if (! is_array($attributes)) {
