@@ -1,4 +1,4 @@
-## 文件上传
+## 文件上传  <version-tag>6.10.0+</version-tag>
 
 由于微信 v3 对文件类上传使用特殊的签名机制，参见：[微信支付 - 图片上传API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter2_1_1.shtml)。
 
