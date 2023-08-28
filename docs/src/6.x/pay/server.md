@@ -65,7 +65,13 @@ $message = $server->getReqeustMessage();
 // 你的逻辑...
 
 // 返回 SUCCESS 或者 FAIL 等其他状态
-return new \Nyholm\Psr7\Response(200, [], \EasyWeChat\Kernel\Support\Xml::build(['return_code' => 'SUCCESS', 'return_msg' => 'OK']));
+return new \Nyholm\Psr7\Response(
+        200, [],
+      \EasyWeChat\Kernel\Support\Xml::build([
+        'return_code' => 'SUCCESS',
+        'return_msg' => 'OK'
+      ])
+);
 ```
 
 ## 其它事件处理
