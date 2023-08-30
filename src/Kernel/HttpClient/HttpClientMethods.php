@@ -30,9 +30,11 @@ trait HttpClientMethods
     /**
      * @throws TransportExceptionInterface
      */
-    public function postJson(string $url, array $options = []): Response|ResponseInterfaceAlias
+    public function postJson(string $url, array $data = [], array $options = []): Response|ResponseInterfaceAlias
     {
         $options['headers']['Content-Type'] = 'application/json';
+
+        $options['json'] = $data;
 
         return $this->request('POST', $url, RequestUtil::formatOptions($options, 'POST'));
     }
@@ -40,9 +42,15 @@ trait HttpClientMethods
     /**
      * @throws TransportExceptionInterface
      */
-    public function postXml(string $url, array $options = []): Response|ResponseInterfaceAlias
+    public function postXml(string $url, array $data = [], array $options = []): Response|ResponseInterfaceAlias
     {
         $options['headers']['Content-Type'] = 'text/xml';
+
+        if (array_key_exists('xml', $data)) {
+            $data = $data['xml'];
+        }
+
+        $options['xml'] = $data;
 
         return $this->request('POST', $url, RequestUtil::formatOptions($options, 'POST'));
     }

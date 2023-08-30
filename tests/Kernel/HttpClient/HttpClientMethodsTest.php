@@ -51,6 +51,11 @@ class HttpClientMethodsTest extends TestCase
         $this->assertSame('http://easywechat.com', $response->getRequestUrl());
         $this->assertSame(['foo' => 'bar'], $response->getRequestOptions()['json']);
         $this->assertSame('application/json', $response->getRequestOptions()['headers']['Content-Type']);
+
+        // with options keywords
+        $response = $client->postJson('http://easywechat.com', ['foo' => 'bar', 'query' => 'k1=v1&k2=v2']);
+
+        $this->assertSame(['foo' => 'bar', 'query' => 'k1=v1&k2=v2'], $response->getRequestOptions()['json']);
     }
 
     public function test_post_xml()
@@ -58,7 +63,9 @@ class HttpClientMethodsTest extends TestCase
         $client = new DummyHttpClient();
 
         // no type
-        $response = $client->postXml('http://easywechat.com', ['foo' => 'bar', 'headers' => ['Accept' => 'application/xml']]);
+        $response = $client->postXml('http://easywechat.com', ['foo' => 'bar'], [
+            'headers' => ['Accept' => 'application/xml'],
+        ]);
 
         $this->assertSame('POST', $response->getRequestMethod());
         $this->assertSame('http://easywechat.com', $response->getRequestUrl());
@@ -81,6 +88,11 @@ class HttpClientMethodsTest extends TestCase
         $this->assertSame('http://easywechat.com', $response->getRequestUrl());
         $this->assertSame(Xml::build(['foo' => 'bar']), $response->getRequestOptions()['xml']);
         $this->assertSame('text/xml', $response->getRequestOptions()['headers']['Content-Type']);
+
+        // with options keywords
+        $response = $client->postXml('http://easywechat.com', ['xml' => ['foo' => 'bar', 'query' => 'k1=v1&k2=v2']]);
+
+        $this->assertSame(['foo' => 'bar', 'query' => 'k1=v1&k2=v2'], $response->getRequestOptions()['xml']);
     }
 
     public function test_put()
