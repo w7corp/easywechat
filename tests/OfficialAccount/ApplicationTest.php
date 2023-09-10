@@ -7,6 +7,7 @@ namespace EasyWeChat\Tests\OfficialAccount;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\OfficialAccount\AccessToken;
 use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Account as AccountInterface;
@@ -97,6 +98,34 @@ class ApplicationTest extends TestCase
         $accessToken = new AccessToken('wx3cf0f39249000060', 'mock-secret');
         $app->setAccessToken($accessToken);
         $this->assertSame($accessToken, $app->getAccessToken());
+    }
+
+    // https://github.com/w7corp/easywechat/issues/2743
+    public function test_get_client_without_http_config()
+    {
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $this->assertInstanceOf(AccessTokenAwareClient::class, $app->getClient());
+
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+                'http' => null,
+            ]
+        );
+
+        // no exception
+        $this->assertInstanceOf(AccessTokenAwareClient::class, $app->getClient());
     }
 
     public function test_get_and_set_ticket()

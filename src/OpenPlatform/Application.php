@@ -369,7 +369,7 @@ class Application implements ApplicationInterface
                     'token' => $this->config->get('token'),
                     'aes_key' => $this->config->get('aes_key'),
                     'logging' => $this->config->get('logging'),
-                    'http' => $this->config->get('http'),
+                    'http' => $this->config->get('http', []),
                 ],
                 $config
             )

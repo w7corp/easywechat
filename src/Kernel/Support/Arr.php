@@ -29,9 +29,7 @@ class Arr
         }
 
         foreach (explode('.', (string) $key) as $segment) {
-            /** @phpstan-ignore-next-line */
-            if (static::exists($array, $segment)) {
-                /** @phpstan-ignore-next-line */
+            if (is_array($array) && static::exists($array, $segment)) {
                 $array = $array[$segment];
             } else {
                 return $default;
