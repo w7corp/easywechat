@@ -49,8 +49,6 @@ $response = $server->serve();
 
 ## :heart: 支持我
 
-[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
-
 如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
 
 ## 由 JetBrains 赞助
