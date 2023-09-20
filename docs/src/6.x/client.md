@@ -24,10 +24,17 @@ $response = $api->postJson('/cgi-bin/user/info/updateremark', [
 ```php
 get(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 post(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
-postJson(string $url, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 patch(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 put(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 delete(string $uri, array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+```
+
+同时还内置了一些便捷方法：
+
+```php
+postJson(string $url, array $data = [], array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+patchJson(string $url, array $data = [], array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
+postXml(string $url, array $data = [], array $options = []): Symfony\Contracts\HttpClient\ResponseInterface
 ```
 
 `$options` 为请求参数，可以指定 `query`/`body`/`json`/`xml`/`headers` 等等，具体请参考：[HttpClientInterface::OPTIONS_DEFAULTS](https://github.com/symfony/symfony/blob/6.1/src/Symfony/Contracts/HttpClient/HttpClientInterface.php)
