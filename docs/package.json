@@ -16,7 +16,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/node": "^16.11.65",
     "vitepress": "1.0.0-alpha.21",
-    "postcss": "^8.4.18",
+    "postcss": "^8.4.31",
     "postcss-import": "^14.1.0",
     "terser": "^5.15.1"
   },
