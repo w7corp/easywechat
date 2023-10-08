@@ -32,7 +32,7 @@
 
 感谢所有 EasyWeChat 用户的热爱和支持，更要感谢所有的贡献者，因为爱好产生了 EasyWeChat，因为大家的热爱它才成为了今天拥有无数使用者的 EasyWeChat。希望在未来的路上我们能保持初心，一起努力，一起成长。
 
-- [@overtrue](https://github.com/overtrue) 2022/02/25 夜
+- [@overtrue](https://github.com/overtrue) 2022/02/25
 
 ### 感谢可爱的贡献者们
 
