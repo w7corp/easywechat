@@ -10,6 +10,7 @@ use Psr\Log\LoggerAwareInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\ScopingHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 use function property_exists;
 
 trait InteractWithHttpClient

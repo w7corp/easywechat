@@ -148,7 +148,7 @@ class Server implements ServerInterface
     public function handlePartyCreated(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'create_party' ? $handler(
+            return $message->Event === 'change_contact' && $message->ChangeType === 'create_party' ? $handler(
                 $message,
                 $next
             ) : $next($message);
@@ -163,7 +163,7 @@ class Server implements ServerInterface
     public function handlePartyUpdated(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'update_party' ? $handler(
+            return $message->Event === 'change_contact' && $message->ChangeType === 'update_party' ? $handler(
                 $message,
                 $next
             ) : $next($message);
@@ -178,7 +178,7 @@ class Server implements ServerInterface
     public function handlePartyDeleted(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
-            return $message->InfoType === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler(
+            return $message->Event === 'change_contact' && $message->ChangeType === 'delete_party' ? $handler(
                 $message,
                 $next
             ) : $next($message);
