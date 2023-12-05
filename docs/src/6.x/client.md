@@ -157,8 +157,26 @@ $media = $client->withFileContents($contents, 'media', 'filename.png')->post('cg
 
 ## 自定义 access_token
 
+自定义 Access Token 需要实现接口 `EasyWeChat\Kernel\Contracts\AccessToken`：
+
 ```php
-$client->withAccessToken('access_token');
+class MyAccessToken implements EasyWeChat\Kernel\Contracts\AccessToken
+{
+    public function getToken(): string
+    {
+        // 你的逻辑
+        return 'your token';
+    }
+
+    public function toQuery(): array
+    {
+        return ['access_token' => $this->getToken()];
+    }
+}
+```
+
+```php
+$client->withAccessToken(new MyAccessToken());
 $client->get('xxxx');
 $client->post('xxxx');
 //...
