@@ -13,6 +13,7 @@ $response = $api->post('/cgi-bin/user/info/updateremark', [
     ]);
 
 // or
+// 如果参数中存在query之类的关键字建议使用上面的方法，不建议以下调用方式
 $response = $api->postJson('/cgi-bin/user/info/updateremark', [
     "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
     "remark" => "pangzi"
