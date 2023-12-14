@@ -18,7 +18,7 @@ class Client extends BaseClient
      */
     public function uploadShippingInfo(array $params)
     {
-        return $this->httpPostJson('/wxa/sec/order/upload_shipping_info', $params);
+        return $this->httpPostJson('wxa/sec/order/upload_shipping_info', $params);
     }
 
     /**
@@ -33,7 +33,7 @@ class Client extends BaseClient
      */
     public function uploadCombineShippingInfo(array $params)
     {
-        return $this->httpPostJson('/wxa/sec/order/upload_combined_shipping_info', $params);
+        return $this->httpPostJson('wxa/sec/order/upload_combined_shipping_info', $params);
     }
 
 
@@ -49,7 +49,7 @@ class Client extends BaseClient
      */
     public function getOrder(array $params)
     {
-        return $this->httpPostJson('/wxa/sec/order/get_order', $params);
+        return $this->httpPostJson('wxa/sec/order/get_order', $params);
     }
 
     /**
@@ -64,7 +64,7 @@ class Client extends BaseClient
      */
     public function getOrderList(array $params = [])
     {
-        return $this->httpPostJson('/wxa/sec/order/get_order_list', $params);
+        return $this->httpPostJson('wxa/sec/order/get_order_list', $params);
     }
 
     /**
@@ -79,7 +79,7 @@ class Client extends BaseClient
      */
     public function notifyConfirmReceive(array $params)
     {
-        return $this->httpPostJson('/wxa/sec/order/notify_confirm_receive', $params);
+        return $this->httpPostJson('wxa/sec/order/notify_confirm_receive', $params);
     }
 
     /**
@@ -98,7 +98,7 @@ class Client extends BaseClient
             'path' => $path
         ];
 
-        return $this->httpPostJson('/wxa/sec/order/set_msg_jump_path', $params);
+        return $this->httpPostJson('wxa/sec/order/set_msg_jump_path', $params);
     }
 
     /**
@@ -107,19 +107,18 @@ class Client extends BaseClient
      * @param string $appID
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function isTradeManaged(string $appID = '')
     {
-        $config = $this->app->getConfig();
+//        $config = $this->app->getConfig();
 
         $params = [
-            'appid' => empty($appID) ? $config['app_id'] : $appID
+            'appid' => $appID
         ];
 
-        return $this->httpPostJson('/wxa/sec/order/is_trade_managed', $params);
+        return $this->httpPostJson('wxa/sec/order/is_trade_managed', $params);
     }
 
     /**
@@ -134,12 +133,12 @@ class Client extends BaseClient
      */
     public function isTradeCompleted(string $appID = '')
     {
-        $config = $this->app->getConfig();
+//        $config = $this->app->getConfig();
 
         $params = [
-            'appid' => empty($appID) ? $config['app_id'] : $appID
+            'appid' => $appID
         ];
 
-        return $this->httpPostJson('/wxa/sec/order/is_trade_management_confirmation_completed', $params);
+        return $this->httpPostJson('wxa/sec/order/is_trade_management_confirmation_completed', $params);
     }
 }

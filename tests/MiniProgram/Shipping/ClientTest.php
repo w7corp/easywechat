@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the overtrue/wechat.
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace EasyWeChat\Tests\MiniProgram\Shipping;
 
 use EasyWeChat\MiniProgram\Shipping\Client;
@@ -18,7 +9,7 @@ class ClientTest extends TestCase
 {
     public function testUploadShippingInfo()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
         $data = [
             'order_key' => [
@@ -45,14 +36,15 @@ class ClientTest extends TestCase
             ]
         ];
 
-        $client->expects()->httpPostJson('wxa/sec/order/upload_shipping_info', compact('data'))->andReturn('mock-result');
+        $client->expects()->httpPostJson('wxa/sec/order/upload_shipping_info', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->uploadShippingInfo($data));
+
     }
 
-    public function uploadCombineShippingInfo()
+    public function testUploadCombineShippingInfo()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
         $data = [
             'order_key' => [
@@ -87,100 +79,84 @@ class ClientTest extends TestCase
             ]
         ];
 
-        $client->expects()->httpPostJson('wxa/sec/order/upload_combined_shipping_info', compact('data'))->andReturn('mock-result');
+        $client->expects()->httpPostJson('wxa/sec/order/upload_combined_shipping_info', $data)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->uploadShippingInfo($data));
+        $this->assertSame('mock-result', $client->uploadCombineShippingInfo($data));
     }
 
     public function testGetOrder()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
-        $data = [
-            'transaction_id' => '42000020212023112332159214xx',
-            'merchant_id' => '',
-            'sub_merchant_id' => '',
-            'merchant_trade_no' => '',
+        $params = [
+            'transaction_id' => '42000020212023112332159214'
         ];
 
-        $client->expects()->httpPostJson('wxa/sec/order/get_order', compact('data'))->andReturn('mock-result');
-
-        $this->assertSame('mock-result', $client->getOrder($data));
+        $client->expects()->httpPostJson('wxa/sec/order/get_order', $params)->andReturn('mock-result');
+        $this->assertSame('mock-result', $client->getOrder($params));
     }
 
     public function testGetOrderList()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
-        $data = [
-            'pay_time_range' => [
-                'begin_time' => 123456789,
-                'end_time' => 123456789
-            ],
-            'order_state' => 1,
-            'openid' => '',
-            'last_index' => '',
-            'page_size' => 100
-        ];
+        $data = [];
 
-        $client->expects()->httpPostJson('wxa/sec/order/get_order_list', compact('data'))->andReturn('mock-result');
+        $client->expects()->httpPostJson('wxa/sec/order/get_order_list', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->getOrderList($data));
     }
 
     public function testNotifyConfirmReceive()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
         $data = [
             'transaction_id' => '42000020212023112332159214xx',
-            'merchant_id' => '',
-            'sub_merchant_id' => '',
-            'merchant_trade_no' => '',
             'received_time' => ''
         ];
 
-        $client->expects()->httpPostJson('wxa/sec/order/notify_confirm_receive', compact('data'))->andReturn('mock-result');
+        $client->expects()->httpPostJson('wxa/sec/order/notify_confirm_receive', $data)->andReturn('mock-result');
 
         $this->assertSame('mock-result', $client->notifyConfirmReceive($data));
     }
 
     public function testSetMsgJumpPath()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
         $data = [
             'path' => 'pages/not-found',
         ];
 
-        $client->expects()->httpPostJson('wxa/sec/order/set_msg_jump_path', compact('data'))->andReturn('mock-result');
+        $client->expects()->httpPostJson('wxa/sec/order/set_msg_jump_path', $data)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->setMsgJumpPath($data));
+        $this->assertSame('mock-result', $client->setMsgJumpPath('pages/not-found'));
     }
 
     public function testIsTradeManaged()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
         $data = [
-            'appid' => '',
+            'appid' => '123',
         ];
 
         $client->expects()->httpPostJson('wxa/sec/order/is_trade_managed', $data)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->isTradeManaged($data));
+        $this->assertSame('mock-result', $client->isTradeManaged('123'));
     }
 
     public function testIsTradeCompleted()
     {
-        $client = $this->mockApiClient(Client::class)->makePartial();
+        $client = $this->mockApiClient(Client::class);
 
         $data = [
-            'appid' => '',
+            'appid' => '123',
         ];
 
         $client->expects()->httpPostJson('wxa/sec/order/is_trade_management_confirmation_completed', $data)->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->isTradeCompleted($data));
+        $this->assertSame('mock-result', $client->isTradeCompleted('123'));
     }
 }
