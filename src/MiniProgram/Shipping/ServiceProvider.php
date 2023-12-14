@@ -7,7 +7,6 @@ use Pimple\ServiceProviderInterface;
 
 class ServiceProvider implements ServiceProviderInterface
 {
-
     public function register(Container $app)
     {
         $app['shipping'] = function ($app) {

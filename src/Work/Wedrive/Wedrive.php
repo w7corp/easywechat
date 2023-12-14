@@ -15,16 +15,15 @@ use Pimple\Container;
 
 /**
  * Class Wedrive
- * 
+ *
  * @property \EasyWeChat\Work\Wedrive\Client                 $base
  * @property \EasyWeChat\Work\Wedrive\SpaceClient            $space
  * @property \EasyWeChat\Work\Wedrive\FileClient             $file
- * 
+ *
  * @author lio990527 <lio990527@163.com>
  */
 class Wedrive extends Container
 {
-
     public function __get($key)
     {
         return $this->offsetGet($key);

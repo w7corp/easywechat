@@ -112,10 +112,8 @@ class Client extends BaseClient
      */
     public function isTradeManaged(string $appID = '')
     {
-//        $config = $this->app->getConfig();
-
         $params = [
-            'appid' => $appID
+            'appid' => empty($appID) ? $this->app['config']['app_id'] : $appID
         ];
 
         return $this->httpPostJson('wxa/sec/order/is_trade_managed', $params);
@@ -133,10 +131,8 @@ class Client extends BaseClient
      */
     public function isTradeCompleted(string $appID = '')
     {
-//        $config = $this->app->getConfig();
-
         $params = [
-            'appid' => $appID
+            'appid' => empty($appID) ? $this->app['config']['app_id'] : $appID
         ];
 
         return $this->httpPostJson('wxa/sec/order/is_trade_management_confirmation_completed', $params);

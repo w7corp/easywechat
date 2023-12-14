@@ -109,7 +109,7 @@ class ClientTest extends TestCase
         $client->expects()
             ->httpPostJson('cgi-bin/component/api_create_preauthcode', ['component_appid' => '123456'])
             ->andReturn('mock-result')
-            ;
+        ;
 
         $result = $client->createPreAuthorizationCode();
 
@@ -126,7 +126,7 @@ class ClientTest extends TestCase
         $client->expects()
             ->httpPostJson('cgi-bin/component/clear_quota', ['component_appid' => '123456'])
             ->andReturn('mock-result')
-            ;
+        ;
 
         $result = $client->clearQuota();
 
