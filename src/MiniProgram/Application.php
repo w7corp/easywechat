@@ -105,6 +105,8 @@ class Application extends ServiceContainer
         Shop\Delivery\ServiceProvider::class,
         Shop\Aftersale\ServiceProvider::class,
         Business\ServiceProvider::class,
+
+        Shipping\ServiceProvider::class,
     ];
 
     /**
