@@ -145,7 +145,11 @@ exports = module.exports = [
         text: 'Short Link',
         link: '/5.x/mini-program/short_link.html'
       },
-      { text: '手机号', link: '/5.x/mini-program/phone_number.html' }
+      { text: '手机号', link: '/5.x/mini-program/phone_number.html' },
+      {
+        text: '小程序发货信息管理服务',
+        link: '/5.x/mini-program/shipping.html'
+      }
     ]
   },
   {
