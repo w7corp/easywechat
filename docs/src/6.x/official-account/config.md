@@ -20,7 +20,7 @@
      * https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/getStableAccessToken.html
      * true 使用 false 不使用
      */
-    'use_stable_access_token' => false,                    
+    'use_stable_access_token' => false,
 
     /**
      * OAuth 配置
@@ -40,13 +40,13 @@
     'http' => [
         'timeout' => 5.0,
         // 'base_uri' => 'https://api.weixin.qq.com/', // 如果你在国外想要覆盖默认的 url 的时候才使用，根据不同的模块配置不同的 uri
-        
+
         'retry' => true, // 使用默认重试配置
         //  'retry' => [
         //      // 仅以下状态码重试
-        //      'http_codes' => [429, 500]
+        //      'status_codes' => [429, 500]
         //       // 最大重试次数
-        //      'max_retries' => 3, 
+        //      'max_retries' => 3,
         //      // 请求间隔 (毫秒)
         //      'delay' => 1000,
         //      // 如果设置，每次重试的等待时间都会增加这个系数

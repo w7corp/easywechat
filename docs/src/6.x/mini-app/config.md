@@ -20,7 +20,7 @@
      * https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/mp-access-token/getStableAccessToken.html
      * true 使用 false 不使用
      */
-    'use_stable_access_token' => false,  
+    'use_stable_access_token' => false,
 
     /**
      * 接口请求相关配置，超时时间等，具体可用参数请参考：
@@ -34,7 +34,7 @@
         'retry' => true, // 使用默认重试配置
         //  'retry' => [
         //      // 仅以下状态码重试
-        //      'http_codes' => [429, 500]
+        //      'status_codes' => [429, 500]
         //       // 最大重试次数
         //      'max_retries' => 3,
         //      // 请求间隔 (毫秒)

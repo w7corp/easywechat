@@ -463,7 +463,7 @@ $responses['users']->toArray();
         'retry' => true, // 使用默认配置
         // 'retry' => [
         //     // 仅以下状态码重试
-        //     'http_codes' => [429, 500]
+        //     'status_codes' => [429, 500]
         //     'max_retries' => 3
         //     // 请求间隔 (毫秒)
         //     'delay' => 1000,
