@@ -30,7 +30,7 @@
     "psr/http-client": "^1.0",
     "symfony/cache": "^5.4|^6.0",
     "symfony/http-foundation": "^5.4|^6.0",
-    "symfony/psr-http-message-bridge": "^2.1.2",
+    "symfony/psr-http-message-bridge": "^2.1.2|^6.0",
     "symfony/http-client": "^5.4|^6.0",
     "symfony/mime": "^5.4|^6.0",
     "symfony/polyfill-php81": "^1.25",
