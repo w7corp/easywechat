@@ -320,14 +320,14 @@ packages:
     resolution: {integrity: sha512-w7hEHXnPMEZ+4nGKl/KDRVpxkwYxYExuHOYXyzIzCDzEZ9ZCGMAewulr9IqJu2LR4N37fcnb1XVeuZ09qgOxhA==}
     dev: true
 
-  /@vitejs/plugin-vue@3.1.2(vite@3.2.7)(vue@3.2.41):
+  /@vitejs/plugin-vue@3.1.2(vite@3.2.8)(vue@3.2.41):
     resolution: {integrity: sha512-3zxKNlvA3oNaKDYX0NBclgxTQ1xaFdL7PzwF6zj9tGFziKwmBa3Q/6XcJQxudlT81WxDjEhHmevvIC4Orc1LhQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 3.2.7(@types/node@16.11.65)(terser@5.15.1)
+      vite: 3.2.8(@types/node@16.11.65)(terser@5.15.1)
       vue: 3.2.41
     dev: true
 
@@ -1247,8 +1247,8 @@ packages:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
     dev: false
 
-  /vite@3.2.7(@types/node@16.11.65)(terser@5.15.1):
-    resolution: {integrity: sha512-29pdXjk49xAP0QBr0xXqu2s5jiQIXNvE/xwd0vUizYT2Hzqe4BksNNoWllFVXJf4eLZ+UlVQmXfB4lWrc+t18g==}
+  /vite@3.2.8(@types/node@16.11.65)(terser@5.15.1):
+    resolution: {integrity: sha512-EtQU16PLIJpAZol2cTLttNP1mX6L0SyI0pgQB1VOoWeQnMSvtiwovV3D6NcjN8CZQWWyESD2v5NGnpz5RvgOZA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -1288,12 +1288,12 @@ packages:
     dependencies:
       '@docsearch/css': 3.2.1
       '@docsearch/js': 3.2.1
-      '@vitejs/plugin-vue': 3.1.2(vite@3.2.7)(vue@3.2.41)
+      '@vitejs/plugin-vue': 3.1.2(vite@3.2.8)(vue@3.2.41)
       '@vue/devtools-api': 6.4.4
       '@vueuse/core': 9.3.0(vue@3.2.41)
       body-scroll-lock: 4.0.0-beta.0
       shiki: 0.11.1
-      vite: 3.2.7(@types/node@16.11.65)(terser@5.15.1)
+      vite: 3.2.8(@types/node@16.11.65)(terser@5.15.1)
       vue: 3.2.41
     transitivePeerDependencies:
       - '@algolia/client-search'
