@@ -22,7 +22,7 @@ trait RespondXmlMessage
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function transformToReply(mixed $response, Message $message, Encryptor $encryptor = null): ResponseInterface
+    public function transformToReply(mixed $response, Message $message, ?Encryptor $encryptor = null): ResponseInterface
     {
         if (empty($response)) {
             return new Response(200, [], 'success');
@@ -79,7 +79,7 @@ trait RespondXmlMessage
      *
      * @throws RuntimeException
      */
-    protected function createXmlResponse(array $attributes, Encryptor $encryptor = null): ResponseInterface
+    protected function createXmlResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface
     {
         $xml = Xml::build($attributes);
 

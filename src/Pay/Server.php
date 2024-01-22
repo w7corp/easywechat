@@ -111,7 +111,7 @@ class Server implements ServerInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function getRequestMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
+    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
         $originContent = (string) ($request ?? $this->request)->getBody();
 
@@ -189,7 +189,7 @@ class Server implements ServerInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function getDecryptedMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
+    public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
         return $this->getRequestMessage($request);
     }

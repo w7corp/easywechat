@@ -24,7 +24,7 @@ class Form
     }
 
     /**
-     * @return  array<string,mixed>
+     * @return array<string,mixed>
      */
     #[ArrayShape(['headers' => 'array', 'body' => 'string'])]
     public function toArray(): array

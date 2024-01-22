@@ -24,7 +24,7 @@ class Account implements AccountInterface
 
     public function getSecret(): string
     {
-        if (null === $this->secret) {
+        if ($this->secret === null) {
             throw new RuntimeException('No secret configured.');
         }
 

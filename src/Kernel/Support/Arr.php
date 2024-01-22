@@ -10,9 +10,6 @@ use function is_string;
 
 class Arr
 {
-    /**
-     * @param  mixed  $default
-     */
     #[Pure]
     public static function get(mixed $array, string|int|null $key, mixed $default = null): mixed
     {
@@ -113,7 +110,7 @@ class Arr
             return false;
         }
 
-        if ([] === $keys) {
+        if ($keys === []) {
             return false;
         }
 

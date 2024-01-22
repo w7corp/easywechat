@@ -30,10 +30,10 @@ use function array_merge;
 class Application implements ApplicationInterface
 {
     use InteractWithCache;
+    use InteractWithClient;
     use InteractWithConfig;
     use InteractWithHttpClient;
     use InteractWithServerRequest;
-    use InteractWithClient;
 
     protected ?ServerInterface $server = null;
 
@@ -220,7 +220,7 @@ class Application implements ApplicationInterface
     public function getAuthorization(
         string $corpId,
         string $permanentCode,
-        AccessTokenInterface $suiteAccessToken = null
+        ?AccessTokenInterface $suiteAccessToken = null
     ): Authorization {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
@@ -252,7 +252,7 @@ class Application implements ApplicationInterface
     public function getAuthorizerAccessToken(
         string $corpId,
         string $permanentCode,
-        AccessTokenInterface $suiteAccessToken = null
+        ?AccessTokenInterface $suiteAccessToken = null
     ): AuthorizerAccessToken {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
@@ -283,7 +283,7 @@ class Application implements ApplicationInterface
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getAuthorizerClient(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken = null): AccessTokenAwareClient
+    public function getAuthorizerClient(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): AccessTokenAwareClient
     {
         return (new AccessTokenAwareClient(
             client: $this->getHttpClient(),
@@ -301,7 +301,7 @@ class Application implements ApplicationInterface
      * @throws DecodingExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getJsApiTicket(string $corpId, string $permanentCode, AccessTokenInterface $suiteAccessToken = null): JsApiTicket
+    public function getJsApiTicket(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): JsApiTicket
     {
         return new JsApiTicket(
             corpId: $corpId,
@@ -312,7 +312,7 @@ class Application implements ApplicationInterface
 
     public function getOAuth(
         string $suiteId,
-        AccessTokenInterface $suiteAccessToken = null
+        ?AccessTokenInterface $suiteAccessToken = null
     ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 
@@ -327,7 +327,7 @@ class Application implements ApplicationInterface
 
     public function getCorpOAuth(
         string $corpId,
-        AccessTokenInterface $suiteAccessToken = null
+        ?AccessTokenInterface $suiteAccessToken = null
     ): SocialiteProviderInterface {
         $suiteAccessToken = $suiteAccessToken ?? $this->getSuiteAccessToken();
 

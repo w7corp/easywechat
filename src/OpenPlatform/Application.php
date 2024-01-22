@@ -41,8 +41,8 @@ use function sprintf;
 class Application implements ApplicationInterface
 {
     use InteractWithCache;
-    use InteractWithConfig;
     use InteractWithClient;
+    use InteractWithConfig;
     use InteractWithHttpClient;
     use InteractWithServerRequest;
 

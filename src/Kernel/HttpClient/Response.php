@@ -41,7 +41,7 @@ use function strtolower;
  *
  * @see \Symfony\Contracts\HttpClient\ResponseInterface
  */
-class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, StreamableInterface
+class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, StreamableInterface
 {
     public function __construct(
         protected ResponseInterface $response,
@@ -98,7 +98,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
         }
 
         try {
-            return 400 <= $this->getStatusCode();
+            return $this->getStatusCode() >= 400;
         } catch (Throwable $e) {
             return true;
         }
@@ -112,7 +112,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws ClientExceptionInterface
      * @throws BadResponseException
      */
-    public function toArray(bool $throw = null): array
+    public function toArray(?bool $throw = null): array
     {
         $throw ??= $this->throw;
 
@@ -143,7 +143,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws ClientExceptionInterface
      * @throws BadResponseException
      */
-    public function toJson(bool $throw = null): string|false
+    public function toJson(?bool $throw = null): string|false
     {
         return json_encode($this->toArray($throw), JSON_UNESCAPED_UNICODE);
     }
@@ -151,7 +151,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
     /**
      * {@inheritdoc}
      */
-    public function toStream(bool $throw = null)
+    public function toStream(?bool $throw = null)
     {
         if ($this->response instanceof StreamableInterface) {
             return $this->response->toStream($throw ?? $this->throw);
@@ -175,11 +175,11 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
         return 'data:'.$this->getHeaderLine('content-type').';base64,'.base64_encode($this->getContent());
     }
 
-    public function toPsrResponse(ResponseFactoryInterface $responseFactory = null, StreamFactoryInterface $streamFactory = null): \Psr\Http\Message\ResponseInterface
+    public function toPsrResponse(?ResponseFactoryInterface $responseFactory = null, ?StreamFactoryInterface $streamFactory = null): \Psr\Http\Message\ResponseInterface
     {
         $streamFactory ??= $responseFactory instanceof StreamFactoryInterface ? $responseFactory : null;
 
-        if (null === $responseFactory || null === $streamFactory) {
+        if ($responseFactory === null || $streamFactory === null) {
             if (! class_exists(Psr17Factory::class) && ! class_exists(Psr17FactoryDiscovery::class)) {
                 throw new \LogicException('You cannot use the "Symfony\Component\HttpClient\Psr18Client" as no PSR-17 factories have been provided. Try running "composer require nyholm/psr7".');
             }
@@ -290,12 +290,12 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
         return $this->response->getStatusCode();
     }
 
-    public function getHeaders(bool $throw = null): array
+    public function getHeaders(?bool $throw = null): array
     {
         return $this->response->getHeaders($throw ?? $this->throw);
     }
 
-    public function getContent(bool $throw = null): string
+    public function getContent(?bool $throw = null): string
     {
         return $this->response->getContent($throw ?? $this->throw);
     }
@@ -305,7 +305,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
         $this->response->cancel();
     }
 
-    public function getInfo(string $type = null): mixed
+    public function getInfo(?string $type = null): mixed
     {
         return $this->response->getInfo($type);
     }
@@ -329,7 +329,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function hasHeader(string $name, bool $throw = null): bool
+    public function hasHeader(string $name, ?bool $throw = null): bool
     {
         return isset($this->getHeaders($throw)[$name]);
     }
@@ -342,7 +342,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getHeader(string $name, bool $throw = null): array
+    public function getHeader(string $name, ?bool $throw = null): array
     {
         $name = strtolower($name);
         $throw ??= $this->throw;
@@ -356,7 +356,7 @@ class Response implements Jsonable, Arrayable, ArrayAccess, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getHeaderLine(string $name, bool $throw = null): string
+    public function getHeaderLine(string $name, ?bool $throw = null): string
     {
         $name = strtolower($name);
         $throw ??= $this->throw;

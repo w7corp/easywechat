@@ -33,11 +33,11 @@ use function str_contains;
  */
 class Application implements ApplicationInterface
 {
-    use InteractWithConfig;
     use InteractWithCache;
-    use InteractWithServerRequest;
-    use InteractWithHttpClient;
     use InteractWithClient;
+    use InteractWithConfig;
+    use InteractWithHttpClient;
+    use InteractWithServerRequest;
     use LoggerAwareTrait;
 
     protected ?Encryptor $encryptor = null;

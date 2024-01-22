@@ -11,7 +11,7 @@ use function json_encode;
 trait HasAttributes
 {
     /**
-     * @var  array<int|string,mixed>
+     * @var array<int|string,mixed>
      */
     protected array $attributes = [];
 
@@ -52,7 +52,7 @@ trait HasAttributes
     }
 
     /**
-     * @return  array<int|string,mixed>  $attributes
+     * @return array<int|string,mixed> $attributes
      */
     public function jsonSerialize(): array
     {
@@ -82,7 +82,7 @@ trait HasAttributes
 
     public function offsetSet(mixed $offset, mixed $value): void
     {
-        if (null === $offset) {
+        if ($offset === null) {
             $this->attributes[] = $value;
         } else {
             $this->attributes[$offset] = $value;

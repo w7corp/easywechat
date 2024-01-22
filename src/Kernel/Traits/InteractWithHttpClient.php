@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
+use EasyWeChat\Kernel\HttpClient\ScopingHttpClient;
 use EasyWeChat\Kernel\Support\Arr;
 use Psr\Log\LoggerAwareInterface;
 use Symfony\Component\HttpClient\HttpClient;
-use EasyWeChat\Kernel\HttpClient\ScopingHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function property_exists;

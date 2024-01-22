@@ -54,7 +54,7 @@ class Config implements ArrayAccess, ConfigInterface
 
     /**
      * @param  array<string>  $keys
-     * @return  array<string, mixed>
+     * @return array<string, mixed>
      */
     #[Pure]
     public function getMany(array $keys): array
@@ -78,7 +78,7 @@ class Config implements ArrayAccess, ConfigInterface
     }
 
     /**
-     * @return  array<string, mixed>
+     * @return array<string, mixed>
      */
     public function all(): array
     {

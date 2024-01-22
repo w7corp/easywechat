@@ -12,11 +12,12 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 use Symfony\Contracts\Service\ResetInterface;
 
-class ScopingHttpClient implements HttpClientInterface, ResetInterface, LoggerAwareInterface
+class ScopingHttpClient implements HttpClientInterface, LoggerAwareInterface, ResetInterface
 {
     use HttpClientTrait;
 
     private HttpClientInterface $client;
+
     private array $defaultOptionsByRegexp;
 
     public function __construct(HttpClientInterface $client, array $defaultOptionsByRegexp)
@@ -37,7 +38,7 @@ class ScopingHttpClient implements HttpClientInterface, ResetInterface, LoggerAw
         return $this->client->request($method, $url, $options);
     }
 
-    public function stream(ResponseInterface|iterable $responses, float $timeout = null): ResponseStreamInterface
+    public function stream(ResponseInterface|iterable $responses, ?float $timeout = null): ResponseStreamInterface
     {
         return $this->client->stream($responses, $timeout);
     }

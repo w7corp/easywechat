@@ -23,9 +23,9 @@ use function func_get_args;
 
 class Server implements ServerInterface
 {
+    use DecryptXmlMessage;
     use InteractWithHandlers;
     use RespondXmlMessage;
-    use DecryptXmlMessage;
 
     protected ?Closure $defaultVerifyTicketHandler = null;
 
@@ -36,7 +36,7 @@ class Server implements ServerInterface
      */
     public function __construct(
         protected Encryptor $encryptor,
-        ServerRequestInterface $request = null,
+        ?ServerRequestInterface $request = null,
     ) {
         $this->request = $request ?? RequestUtil::createDefaultServerRequest();
     }
@@ -146,7 +146,7 @@ class Server implements ServerInterface
     /**
      * @throws BadRequestException
      */
-    public function getRequestMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
         return Message::createFromRequest($request ?? $this->request);
     }
@@ -155,7 +155,7 @@ class Server implements ServerInterface
      * @throws BadRequestException
      * @throws RuntimeException
      */
-    public function getDecryptedMessage(ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
+    public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
         $request = $request ?? $this->request;
         $message = $this->getRequestMessage($request);

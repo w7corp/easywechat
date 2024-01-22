@@ -27,12 +27,12 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 {
     use AsyncDecoratorTrait;
     use HttpClientMethods;
-    use RetryableClient;
     use MockableHttpClient;
     use RequestWithPresets;
+    use RetryableClient;
 
     public function __construct(
-        HttpClientInterface $client = null,
+        ?HttpClientInterface $client = null,
         protected ?AccessTokenInterface $accessToken = null,
         protected ?Closure $failureJudge = null,
         protected bool $throw = true

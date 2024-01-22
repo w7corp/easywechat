@@ -28,11 +28,11 @@
     "overtrue/socialite": "^3.5.4|^4.0.1",
     "psr/simple-cache": "^1.0|^2.0|^3.0",
     "psr/http-client": "^1.0",
-    "symfony/cache": "^5.4|^6.0",
-    "symfony/http-foundation": "^5.4|^6.0",
+    "symfony/cache": "^5.4|^6.0|^7.0",
+    "symfony/http-foundation": "^5.4|^6.0|^7.0",
     "symfony/psr-http-message-bridge": "^2.1.2|^6.4.0",
-    "symfony/http-client": "^5.4|^6.0",
-    "symfony/mime": "^5.4|^6.0",
+    "symfony/http-client": "^5.4|^6.0|^7.0",
+    "symfony/mime": "^5.4|^6.0|^7.0",
     "symfony/polyfill-php81": "^1.25",
     "thenorthmemory/xml": "^1.0"
   },
@@ -93,7 +93,8 @@
   },
   "config": {
     "allow-plugins": {
-      "composer/package-versions-deprecated": true
+      "composer/package-versions-deprecated": true,
+      "php-http/discovery": true
     }
   }
 }

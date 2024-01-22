@@ -36,8 +36,8 @@ class AccessToken implements RefreshableAccessToken
         protected string $corpId,
         protected string $secret,
         protected ?string $key = null,
-        CacheInterface $cache = null,
-        HttpClientInterface $httpClient = null
+        ?CacheInterface $cache = null,
+        ?HttpClientInterface $httpClient = null
     ) {
         $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://qyapi.weixin.qq.com/']);
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));

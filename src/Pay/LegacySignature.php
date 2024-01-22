@@ -51,7 +51,7 @@ class LegacySignature
             throw new InvalidConfigException('Missing V2 API key.');
         }
 
-        if (! empty($params['sign_type']) && 'HMAC-SHA256' === $params['sign_type']) {
+        if (! empty($params['sign_type']) && $params['sign_type'] === 'HMAC-SHA256') {
             $signType = fn (string $message): string => hash_hmac('sha256', $message, $attributes['key']);
         } else {
             $signType = 'md5';

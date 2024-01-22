@@ -13,7 +13,7 @@ use JetBrains\PhpStorm\Pure;
 /**
  * @implements ArrayAccess<string, mixed>
  */
-class Authorization implements ArrayAccess, Jsonable, Arrayable
+class Authorization implements Arrayable, ArrayAccess, Jsonable
 {
     use HasAttributes;
 

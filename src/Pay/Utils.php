@@ -164,7 +164,7 @@ class Utils
             throw new InvalidConfigException('Missing v2 secret key.');
         }
 
-        if ('HMAC-SHA256' === $params['signType']) {
+        if ($params['signType'] === 'HMAC-SHA256') {
             $method = function ($str) use ($secretKey) {
                 return hash_hmac('sha256', $str, $secretKey);
             };

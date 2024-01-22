@@ -134,7 +134,7 @@ class ServerResponse implements ResponseInterface
         }
 
         foreach ($this->getHeaders() as $name => $values) {
-            $replace = 0 === \strcasecmp($name, 'Content-Type');
+            $replace = \strcasecmp($name, 'Content-Type') === 0;
 
             foreach ($values as $value) {
                 header($name.': '.$value, $replace, $this->getStatusCode());
