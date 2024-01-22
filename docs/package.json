@@ -6,19 +6,19 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.12",
+    "autoprefixer": "^10.4.17",
     "clipboard": "^2.0.11",
     "dynamics.js": "^1.1.5",
-    "gsap": "^3.11.3",
-    "tailwindcss": "^3.1.8"
+    "gsap": "^3.12.5",
+    "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
     "@types/markdown-it": "^12.2.3",
-    "@types/node": "^16.11.65",
-    "vitepress": "1.0.0-alpha.21",
-    "postcss": "^8.4.31",
+    "@types/node": "^16.18.74",
+    "postcss": "^8.4.33",
     "postcss-import": "^14.1.0",
-    "terser": "^5.15.1"
+    "terser": "^5.27.0",
+    "vitepress": "1.0.0-rc.39"
   },
   "pnpm": {
     "peerDependencyRules": {
