@@ -176,10 +176,11 @@ $config = [
 
 $app = Factory::officialAccount($config);
 $oauth = $app->oauth;
-
 // 获取 OAuth 授权结果用户信息
 $code = "微信回调URL携带的 code";
-$user = $oauth->userFromCode($code);
+// 不少用户这里的 code 是来源于静默授权 如果这里你的 $oauth 没有配置 scopes 为 snsapi_base 调用 $oauth->userFromCode($code); 默认会走 snsapi_userinfo; 
+$oauth = $app->oauth->scopes(['snsapi_base'])
+$user = $oauth->userFromCode($code); 
 
 $_SESSION['wechat_user'] = $user->toArray();
 
