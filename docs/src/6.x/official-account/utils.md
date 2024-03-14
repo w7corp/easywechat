@@ -38,3 +38,29 @@ $config = $utils->buildJsSdkConfig(
 ];
 
 ```
+
+## 示例
+页面生成js配置（1.4和1.6版本任选一即可）：
+```html
+<script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js" type="text/javascript" charset="utf-8"></script>
+<!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js" type="text/javascript" charset="utf-8"></script> -->
+<script type="text/javascript" charset="utf-8">
+  wx.config(<?php echo json_encode($app->getUtils()->buildJsSdkConfig('当前页面url', ['updateAppMessageShareData', 'updateTimelineShareData'], [], false)); ?>);
+</script>
+```
+结果如下：
+```html
+<script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+  wx.config({
+    "jsApiList":["updateAppMessageShareData","updateTimelineShareData"],
+    "openTagList":[],
+    "debug":false,
+    "url":"当前页面url",
+    "nonceStr":"mYEeh068LPuWp06u",
+    "timestamp":1710381708,
+    "appId":"wxcb0f*****f5f6c2",
+    "signature":"9147682d4f77f7f03162915446f90288cafbda93"
+  });
+</script>
+```
