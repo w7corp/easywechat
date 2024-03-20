@@ -38,7 +38,9 @@ $config = [
 
 $app = new Application($config);
 
-$app->getServer()->with(fn() => "您好！EasyWeChat！");
+$server = $app->getServer();
+
+$server->with(fn() => "您好！EasyWeChat！");
 
 $response = $server->serve();
 ```
