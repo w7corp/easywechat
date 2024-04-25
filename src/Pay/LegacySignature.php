@@ -55,9 +55,8 @@ class LegacySignature
             $signType = fn (string $message): string => hash_hmac('sha256', $message, $attributes['key']);
         } else {
             $signType = 'md5';
+            unset($params['sign_type']);
         }
-
-        unset($params['sign_type']);
 
         $sign = call_user_func_array($signType, [urldecode(http_build_query($attributes))]);
 
