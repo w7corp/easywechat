@@ -16,7 +16,7 @@ class AesEcb implements Aes
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public static function encrypt(string $plaintext, string $key, ?string $iv = null): string
+    public static function encrypt(string $plaintext, string $key, string $iv = null): string
     {
         $ciphertext = \openssl_encrypt($plaintext, 'aes-256-ecb', $key, OPENSSL_RAW_DATA, (string) $iv);
 
@@ -30,7 +30,7 @@ class AesEcb implements Aes
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public static function decrypt(string $ciphertext, string $key, ?string $iv = null): string
+    public static function decrypt(string $ciphertext, string $key, string $iv = null): string
     {
         $plaintext = openssl_decrypt(
             base64_decode($ciphertext, true) ?: '',

@@ -20,7 +20,7 @@ class AesGcm implements Aes
     /**
      * @throws InvalidArgumentException
      */
-    public static function encrypt(string $plaintext, string $key, ?string $iv = null, string $aad = ''): string
+    public static function encrypt(string $plaintext, string $key, string $iv = null, string $aad = ''): string
     {
         $ciphertext = openssl_encrypt(
             $plaintext,
@@ -43,7 +43,7 @@ class AesGcm implements Aes
     /**
      * @throws InvalidArgumentException
      */
-    public static function decrypt(string $ciphertext, string $key, ?string $iv = null, string $aad = ''): string
+    public static function decrypt(string $ciphertext, string $key, string $iv = null, string $aad = ''): string
     {
         $ciphertext = base64_decode($ciphertext);
 

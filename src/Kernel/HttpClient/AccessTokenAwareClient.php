@@ -32,7 +32,7 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
     use RetryableClient;
 
     public function __construct(
-        ?HttpClientInterface $client = null,
+        HttpClientInterface $client = null,
         protected ?AccessTokenInterface $accessToken = null,
         protected ?Closure $failureJudge = null,
         protected bool $throw = true

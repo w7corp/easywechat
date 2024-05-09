@@ -36,8 +36,8 @@ class AccessToken implements RefreshableAccessTokenInterface
         protected string $appId,
         protected string $secret,
         protected ?string $key = null,
-        ?CacheInterface $cache = null,
-        ?HttpClientInterface $httpClient = null,
+        CacheInterface $cache = null,
+        HttpClientInterface $httpClient = null,
         protected ?bool $stable = false
     ) {
         $this->httpClient = $httpClient ?? HttpClient::create(['base_uri' => 'https://api.weixin.qq.com/']);
@@ -46,7 +46,7 @@ class AccessToken implements RefreshableAccessTokenInterface
 
     public function getKey(): string
     {
-        return $this->key ?? $this->key = sprintf('%s.access_token.%s.%s.%s', static::CACHE_KEY_PREFIX, $this->appId, $this->secret, (int)$this->stable);
+        return $this->key ?? $this->key = sprintf('%s.access_token.%s.%s.%s', static::CACHE_KEY_PREFIX, $this->appId, $this->secret, (int) $this->stable);
     }
 
     public function setKey(string $key): static
@@ -132,7 +132,7 @@ class AccessToken implements RefreshableAccessTokenInterface
         )->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get stable access_token: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Failed to get stable access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));
@@ -164,7 +164,7 @@ class AccessToken implements RefreshableAccessTokenInterface
         )->toArray(false);
 
         if (empty($response['access_token'])) {
-            throw new HttpException('Failed to get access_token: ' . json_encode($response, JSON_UNESCAPED_UNICODE));
+            throw new HttpException('Failed to get access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
         $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));

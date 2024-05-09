@@ -112,7 +112,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
      * @throws ClientExceptionInterface
      * @throws BadResponseException
      */
-    public function toArray(?bool $throw = null): array
+    public function toArray(bool $throw = null): array
     {
         $throw ??= $this->throw;
 
@@ -143,7 +143,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
      * @throws ClientExceptionInterface
      * @throws BadResponseException
      */
-    public function toJson(?bool $throw = null): string|false
+    public function toJson(bool $throw = null): string|false
     {
         return json_encode($this->toArray($throw), JSON_UNESCAPED_UNICODE);
     }
@@ -151,7 +151,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
     /**
      * {@inheritdoc}
      */
-    public function toStream(?bool $throw = null)
+    public function toStream(bool $throw = null)
     {
         if ($this->response instanceof StreamableInterface) {
             return $this->response->toStream($throw ?? $this->throw);
@@ -175,7 +175,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
         return 'data:'.$this->getHeaderLine('content-type').';base64,'.base64_encode($this->getContent());
     }
 
-    public function toPsrResponse(?ResponseFactoryInterface $responseFactory = null, ?StreamFactoryInterface $streamFactory = null): \Psr\Http\Message\ResponseInterface
+    public function toPsrResponse(ResponseFactoryInterface $responseFactory = null, StreamFactoryInterface $streamFactory = null): \Psr\Http\Message\ResponseInterface
     {
         $streamFactory ??= $responseFactory instanceof StreamFactoryInterface ? $responseFactory : null;
 
@@ -290,12 +290,12 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
         return $this->response->getStatusCode();
     }
 
-    public function getHeaders(?bool $throw = null): array
+    public function getHeaders(bool $throw = null): array
     {
         return $this->response->getHeaders($throw ?? $this->throw);
     }
 
-    public function getContent(?bool $throw = null): string
+    public function getContent(bool $throw = null): string
     {
         return $this->response->getContent($throw ?? $this->throw);
     }
@@ -305,7 +305,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
         $this->response->cancel();
     }
 
-    public function getInfo(?string $type = null): mixed
+    public function getInfo(string $type = null): mixed
     {
         return $this->response->getInfo($type);
     }
@@ -329,7 +329,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function hasHeader(string $name, ?bool $throw = null): bool
+    public function hasHeader(string $name, bool $throw = null): bool
     {
         return isset($this->getHeaders($throw)[$name]);
     }
@@ -342,7 +342,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getHeader(string $name, ?bool $throw = null): array
+    public function getHeader(string $name, bool $throw = null): array
     {
         $name = strtolower($name);
         $throw ??= $this->throw;
@@ -356,7 +356,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getHeaderLine(string $name, ?bool $throw = null): string
+    public function getHeaderLine(string $name, bool $throw = null): string
     {
         $name = strtolower($name);
         $throw ??= $this->throw;
