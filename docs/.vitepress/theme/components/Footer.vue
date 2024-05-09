@@ -1,24 +1,19 @@
 <script lang="ts" setup>
-import { useData } from 'vitepress'
+import { useData } from 'vitepress';
 
 const { theme } = useData()
 </script>
 
 <template>
-  <div
-    class="text-center border-t dark:border-black leading-loose py-6 text-xs"
-  >
+  <div class="text-center border-t dark:border-black leading-loose py-6 text-xs">
     <p v-if="theme.license" class="license">
       Released under the
       <a class="link" :href="theme.license.link" no-icon>
-        {{ theme.license.text }} </a
-      >.
+        {{ theme.license.text }} </a>.
     </p>
+    <p v-if="theme.copyright" class="copyright" v-html="theme.copyright"></p>
 
-    <p
-      v-if="theme.copyright"
-      class="copyright"
-      v-html="theme.copyright"
-    ></p>
+    <iframe src="https://udify.app/chatbot/ToIyNfYIpbpUlVpE" style="width: 100%; height: 100%; min-height: 700px" frameborder="0" allow="microphone">
+    </iframe>
   </div>
 </template>
