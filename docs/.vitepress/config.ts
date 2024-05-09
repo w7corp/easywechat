@@ -59,6 +59,22 @@ export default {
         name: 'twitter:image',
         content: 'https://easywechat/logo.png'
       }
+    ],
+    [
+      'script',
+      {},
+      `window.difyChatbotConfig = {
+        token: 'ToIyNfYIpbpUlVpE'
+       }
+      `
+    ],
+    [
+      'script',
+      {
+        defer: true,
+        id: 'ToIyNfYIpbpUlVpE',
+        src: 'https://udify.app/embed.min.js'
+      }
     ]
   ],
 

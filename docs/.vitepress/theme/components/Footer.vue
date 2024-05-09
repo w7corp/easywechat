@@ -12,8 +12,5 @@ const { theme } = useData()
         {{ theme.license.text }} </a>.
     </p>
     <p v-if="theme.copyright" class="copyright" v-html="theme.copyright"></p>
-
-    <iframe src="https://udify.app/chatbot/ToIyNfYIpbpUlVpE" style="width: 100%; height: 100%; min-height: 700px" frameborder="0" allow="microphone">
-    </iframe>
   </div>
 </template>
