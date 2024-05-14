@@ -78,7 +78,7 @@ class Client implements HttpClientInterface
      */
     public function __construct(
         protected Merchant $merchant,
-        HttpClientInterface $client = null,
+        ?HttpClientInterface $client = null,
         array $defaultOptions = []
     ) {
         $this->throw = (bool) ($defaultOptions['throw'] ?? true);
@@ -182,7 +182,7 @@ class Client implements HttpClientInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
-    public function uploadMedia(string $uri, string $pathOrContents, array $meta = null, string $filename = null): ResponseInterface
+    public function uploadMedia(string $uri, string $pathOrContents, ?array $meta = null, ?string $filename = null): ResponseInterface
     {
         $isFile = is_file($pathOrContents);
 

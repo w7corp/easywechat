@@ -88,7 +88,7 @@ trait RequestWithPresets
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function withFile(string $pathOrContents, string $formName = 'file', string $filename = null): static
+    public function withFile(string $pathOrContents, string $formName = 'file', ?string $filename = null): static
     {
         $file = is_file($pathOrContents) ? File::fromPath(
             $pathOrContents,
@@ -111,7 +111,7 @@ trait RequestWithPresets
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
-    public function withFileContents(string $contents, string $formName = 'file', string $filename = null): static
+    public function withFileContents(string $contents, string $formName = 'file', ?string $filename = null): static
     {
         return $this->withFile($contents, $formName, $filename);
     }

@@ -65,7 +65,7 @@ class Encryptor
 
     protected ?string $receiveId = null;
 
-    public function __construct(string $appId, string $token, string $aesKey, string $receiveId = null)
+    public function __construct(string $appId, string $token, string $aesKey, ?string $receiveId = null)
     {
         $this->appId = $appId;
         $this->token = $token;
@@ -82,7 +82,7 @@ class Encryptor
      * @throws RuntimeException
      * @throws Exception
      */
-    public function encrypt(string $plaintext, string $nonce = null, int|string $timestamp = null): string
+    public function encrypt(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): string
     {
         try {
             $plaintext = Pkcs7::padding(random_bytes(16).pack('N', strlen($plaintext)).$plaintext.$this->appId, 32);

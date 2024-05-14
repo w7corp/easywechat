@@ -20,7 +20,7 @@ class SuiteTicket implements SuiteTicketInterface
 
     public function __construct(
         protected string $suiteId,
-        CacheInterface $cache = null,
+        ?CacheInterface $cache = null,
         protected ?string $key = null,
     ) {
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));

@@ -37,7 +37,6 @@
     "thenorthmemory/xml": "^1.0"
   },
   "require-dev": {
-    "brainmaestro/composer-git-hooks": "^2.8",
     "mikey179/vfsstream": "^1.6",
     "mockery/mockery": "^1.4.4",
     "phpstan/phpstan": "^1.0",
@@ -56,36 +55,8 @@
       "EasyWeChat\\Tests\\": "tests/"
     }
   },
-  "extra": {
-    "hooks": {
-      "pre-commit": [
-        "composer check-style",
-        "composer phpstan",
-        "composer test"
-      ],
-      "pre-push": [
-        "composer check-style"
-      ],
-      "config": {
-        "stop-on-failure": [
-          "pre-commit",
-          "pre-push"
-        ]
-      }
-    }
-  },
   "scripts": {
-    "post-update-cmd": [
-      "cghooks remove",
-      "cghooks add --ignore-lock",
-      "cghooks update"
-    ],
     "post-merge": "composer install",
-    "post-install-cmd": [
-      "cghooks remove",
-      "cghooks add --ignore-lock",
-      "cghooks update"
-    ],
     "phpstan": "phpstan analyse --memory-limit=-1",
     "check-style": "vendor/bin/pint --test",
     "fix-style": "vendor/bin/pint",

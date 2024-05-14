@@ -21,7 +21,7 @@ class VerifyTicket implements VerifyTicketInterface
     public function __construct(
         protected string $appId,
         protected ?string $key = null,
-        CacheInterface $cache = null,
+        ?CacheInterface $cache = null,
     ) {
         $this->cache = $cache ?? new Psr16Cache(new FilesystemAdapter(namespace: 'easywechat', defaultLifetime: 1500));
     }
