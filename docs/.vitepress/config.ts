@@ -65,7 +65,7 @@ export default {
       'script',
       {},
       `window.difyChatbotConfig = {
-        token: 'ToIyNfYIpbpUlVpE'
+        token: 'V5ySX7nM1NRG9gjm'
        }
       `
     ],
@@ -73,7 +73,7 @@ export default {
       'script',
       {
         defer: true,
-        id: 'ToIyNfYIpbpUlVpE',
+        id: 'V5ySX7nM1NRG9gjm',
         src: 'https://udify.app/embed.min.js'
       }
     ],
