@@ -60,24 +60,6 @@ export default {
         content: 'https://easywechat/logo.png'
       }
     ],
-    // dify chatbot
-    [
-      'script',
-      {},
-      `window.difyChatbotConfig = {
-        token: 'V5ySX7nM1NRG9gjm'
-       }
-      `
-    ],
-    [
-      'script',
-      {
-        defer: true,
-        id: 'V5ySX7nM1NRG9gjm',
-        src: 'https://udify.app/embed.min.js'
-      }
-    ],
-    // end dify chatbot
     // google analytics
     [
       'script',
