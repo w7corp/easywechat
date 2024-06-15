@@ -17,11 +17,11 @@ $config = [
      * OAuth 配置
      *
      * scopes：公众平台（snsapi_userinfo / snsapi_base），开放平台：snsapi_login
-     * callback：OAuth授权完成后的回调页地址
+     * redirect_url：OAuth授权完成后的回调页地址
      */
     'oauth' => [
         'scopes'   => ['snsapi_userinfo'],
-        'callback' => '/examples/oauth_callback.php',
+        'redirect_url' => '/examples/oauth_callback.php',
     ],
 
     /**
