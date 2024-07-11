@@ -70,6 +70,7 @@ exports = module.exports = [
       { text: '账单', link: '/4.x/payment/bill.html' },
       { text: '通知', link: '/4.x/payment/notify.html' },
       { text: '红包', link: '/4.x/payment/redpack.html' },
+      { text: '付款码支付', link: '/4.x/payment/micropay.html' },
       { text: '扫码支付', link: '/4.x/payment/scan-pay.html' },
       { text: 'JSSDK', link: '/4.x/payment/jssdk.html' },
       { text: '企业付款', link: '/4.x/payment/transfer.html' },
