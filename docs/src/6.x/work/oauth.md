@@ -7,7 +7,7 @@
 创建实例：
 
 ```php
-use EasyWeChat\work\Application;
+use EasyWeChat\Work\Application;
 
 $config = [
     'corp_id' => 'xxxxxxxxxxxxxxxxx',
