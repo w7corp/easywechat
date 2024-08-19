@@ -198,6 +198,7 @@ $client->get('v3/pay/transactions/id/1217752501201407033233368018', [
 ```php
 $client->withMchId()->get('v3/pay/transactions/id/1217752501201407033233368018');
 ```
+注意：`withMchId` 默认产生的结果为：`mch_id`，因为微信支付官方的各种不统一， 可能有的场景你需要的不是 `mch_id` 而是 `mchid`, 可以通过 `withMchIdAs('mchid')` 来指定。
 
 原理就是 `with` + `配置 key`：
 
