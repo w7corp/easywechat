@@ -204,8 +204,6 @@ $client->withMchId()->get('endpoint');
 
 ```php
 $client->withMchIdAs('mchid')->get('v3/pay/transactions/id/1217752501201407033233368018');
-// 或者
-$client->withMchid()->get('v3/pay/transactions/id/1217752501201407033233368018');
 
 // 结果：v3/pay/transactions/id/1217752501201407033233368018?mchid=xxxxx
 ```
