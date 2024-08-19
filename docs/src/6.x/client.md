@@ -196,9 +196,19 @@ $client->get('v3/pay/transactions/id/1217752501201407033233368018', [
 不得不把商户号这种基础信息再读取传递一遍，比较麻烦，设计了如下的简化方案：
 
 ```php
-$client->withMchId()->get('v3/pay/transactions/id/1217752501201407033233368018');
+$client->withMchId()->get('endpoint');
+// 结果：endpoint?mchid=xxxxx
 ```
-注意：`withMchId` 默认产生的结果为：`mch_id`，因为微信支付官方的各种不统一， 可能有的场景你需要的不是 `mch_id` 而是 `mchid`, 可以通过 `withMchIdAs('mchid')` 来指定。
+
+注意：`withMchId` 默认产生的结果为：`mch_id`，因为微信支付官方的各种不统一， 可能有的场景你需要的不是 `mch_id` 而是 `mchid`, 可以通过 `withMchIdAs('mchid')` 来指定，比如：
+
+```php
+$client->withMchIdAs('mchid')->get('v3/pay/transactions/id/1217752501201407033233368018');
+// 或者
+$client->withMchid()->get('v3/pay/transactions/id/1217752501201407033233368018');
+
+// 结果：v3/pay/transactions/id/1217752501201407033233368018?mchid=xxxxx
+```
 
 原理就是 `with` + `配置 key`：
 
