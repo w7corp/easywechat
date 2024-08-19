@@ -26,7 +26,7 @@ class JsApiTicket extends AccessToken implements RefreshableJsApiTicketInterface
         $key = $this->getKey();
         $ticket = $this->cache->get($key);
 
-        if ((bool) $ticket && \is_string($ticket)) {
+        if ($ticket && \is_string($ticket)) {
             return $ticket;
         }
 

@@ -126,7 +126,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getClient(), $app->getClient());
 
         // set
-        $client = new AccessTokenAwareClient();
+        $client = new AccessTokenAwareClient;
         $app->setClient($client);
         $this->assertSame($client, $app->getClient());
     }
@@ -146,7 +146,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
 
         // set
-        $client = new AccessTokenAwareClient();
+        $client = new AccessTokenAwareClient;
         $app->setHttpClient($client);
         $this->assertSame($client, $app->getHttpClient());
     }

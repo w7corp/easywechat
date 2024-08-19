@@ -13,8 +13,7 @@ class Account implements AccountInterface
         protected string $secret,
         protected string $token,
         protected string $aesKey
-    ) {
-    }
+    ) {}
 
     public function getAppId(): string
     {

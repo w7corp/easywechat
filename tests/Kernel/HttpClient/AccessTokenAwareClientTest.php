@@ -91,7 +91,7 @@ class AccessTokenAwareClientTest extends TestCase
     {
         $client = AccessTokenAwareClient::mock();
 
-        $client->withAccessToken(new class() implements AccessToken
+        $client->withAccessToken(new class implements AccessToken
         {
             public function getToken(): string
             {
@@ -107,5 +107,28 @@ class AccessTokenAwareClientTest extends TestCase
         $client->get('v3/certificates', ['foo' => 'bar']);
 
         $this->assertSame('https://example.com/v3/certificates?foo=bar&access_token=mock-access-token', $client->getRequestUrl());
+    }
+
+    public function test_it_will_merge_presets()
+    {
+        $client = AccessTokenAwareClient::mock();
+
+        $client->setPresets([
+            'mch_id' => 'mock-mch-id',
+        ]);
+
+        // raw name
+        $client->withMchId()->get('v3/certificates');
+        $this->assertSame('https://example.com/v3/certificates?mch_id=mock-mch-id', $client->getRequestUrl());
+
+        $client = AccessTokenAwareClient::mock();
+
+        $client->setPresets([
+            'mch_id' => 'mock-mch-id',
+        ]);
+
+        // alias
+        $client->withMchIdAs('mchid')->get('v3/certificates');
+        $this->assertSame('https://example.com/v3/certificates?mchid=mock-mch-id', $client->getRequestUrl());
     }
 }

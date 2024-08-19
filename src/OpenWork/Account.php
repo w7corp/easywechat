@@ -15,8 +15,7 @@ class Account implements AccountInterface
         protected string $suiteSecret,
         protected string $token,
         protected string $aesKey
-    ) {
-    }
+    ) {}
 
     public function getCorpId(): string
     {

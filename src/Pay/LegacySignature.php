@@ -18,9 +18,7 @@ use function urldecode;
 
 class LegacySignature
 {
-    public function __construct(protected MerchantInterface $merchant)
-    {
-    }
+    public function __construct(protected MerchantInterface $merchant) {}
 
     /**
      * @param  array<string, mixed>  $params

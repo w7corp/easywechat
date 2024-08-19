@@ -156,7 +156,7 @@ class Application implements ApplicationInterface
     {
         $httpClient = $this->getHttpClient();
 
-        if ((bool) $this->config->get('http.retry', false)) {
+        if ($this->config->get('http.retry', false)) {
             $httpClient = new RetryableHttpClient(
                 $httpClient,
                 $this->getRetryStrategy(),
@@ -169,7 +169,7 @@ class Application implements ApplicationInterface
             accessToken: $this->getAccessToken(),
             failureJudge: fn (
                 Response $response
-            ) => (bool) ($response->toArray()['errcode'] ?? 0) || ! is_null($response->toArray()['error'] ?? null),
+            ) => ($response->toArray()['errcode'] ?? 0) || ! is_null($response->toArray()['error'] ?? null),
             throw: (bool) $this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
     }

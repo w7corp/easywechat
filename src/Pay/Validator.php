@@ -21,9 +21,7 @@ class Validator implements \EasyWeChat\Pay\Contracts\Validator
 
     public const HEADER_SIGNATURE = 'Wechatpay-Signature';
 
-    public function __construct(protected MerchantInterface $merchant)
-    {
-    }
+    public function __construct(protected MerchantInterface $merchant) {}
 
     /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException

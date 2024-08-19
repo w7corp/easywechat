@@ -52,7 +52,7 @@ class RetryableClientTest extends TestCase
 
         $this->assertNull($response->getInfo('ret'));
 
-        $client->retryUsing(new class() extends GenericRetryStrategy
+        $client->retryUsing(new class extends GenericRetryStrategy
         {
             public function __construct(
                 array $statusCodes = self::DEFAULT_RETRY_STATUS_CODES,

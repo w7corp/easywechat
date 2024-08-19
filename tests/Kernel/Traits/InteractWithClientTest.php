@@ -10,13 +10,13 @@ class InteractWithClientTest extends TestCase
 {
     public function test_get_and_set_client()
     {
-        $app = new DummyClassForInteractWithClientTest();
+        $app = new DummyClassForInteractWithClientTest;
 
         $this->assertInstanceOf(AccessTokenAwareClient::class, $app->getClient());
         $this->assertSame($app->getClient(), $app->getClient());
 
         // set
-        $client = new AccessTokenAwareClient();
+        $client = new AccessTokenAwareClient;
         $app->setClient($client);
         $this->assertSame($client, $app->getClient());
     }
@@ -28,6 +28,6 @@ class DummyClassForInteractWithClientTest
 
     public function createClient(): AccessTokenAwareClient
     {
-        return new AccessTokenAwareClient();
+        return new AccessTokenAwareClient;
     }
 }

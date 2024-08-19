@@ -81,7 +81,7 @@ class JsApiTicket
         $key = $this->getKey();
         $ticket = $this->cache->get($key);
 
-        if ((bool) $ticket && is_string($ticket)) {
+        if ($ticket && is_string($ticket)) {
             return $ticket;
         }
 
@@ -143,7 +143,7 @@ class JsApiTicket
         $key = $this->getAgentKey($agentId);
         $ticket = $this->cache->get($key);
 
-        if ((bool) $ticket && is_string($ticket)) {
+        if ($ticket && is_string($ticket)) {
             return $ticket;
         }
 

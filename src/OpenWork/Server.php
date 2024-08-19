@@ -51,7 +51,7 @@ class Server implements ServerInterface
     {
         $query = $this->request->getQueryParams();
 
-        if ((bool) ($str = $query['echostr'] ?? '')) {
+        if ($str = $query['echostr'] ?? '') {
             $response = $this->providerEncryptor->decrypt(
                 $str,
                 $query['msg_signature'] ?? '',

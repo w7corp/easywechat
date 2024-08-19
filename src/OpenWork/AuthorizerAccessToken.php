@@ -61,7 +61,7 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
 
         $token = $this->cache->get($this->getKey());
 
-        if ((bool) $token && is_string($token)) {
+        if ($token && is_string($token)) {
             return $token;
         }
 
@@ -91,8 +91,6 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
      * @throws TransportExceptionInterface
      * @throws ServerExceptionInterface
      */
-    #[ArrayShape(['access_token' => 'string'])]
-    #[Pure]
     #[ArrayShape(['access_token' => 'string'])]
     public function toQuery(): array
     {

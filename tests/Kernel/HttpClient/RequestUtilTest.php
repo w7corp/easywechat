@@ -129,7 +129,7 @@ class RequestUtilTest extends TestCase
         $this->assertArrayNotHasKey('xml', $options);
         $this->assertArrayHasKey('body', $options);
         $this->assertSame('<xml><foo>bar</foo></xml>', $options['body']);
-        $this->assertSame(['Content-Type: text/xml'], $options['headers']['Content-Type']);
+        $this->assertSame('text/xml', $options['headers']['Content-Type']);
 
         // xml array
         $options = RequestUtil::formatBody(['xml' => ['foo' => 'bar']]);
@@ -137,7 +137,7 @@ class RequestUtilTest extends TestCase
         $this->assertArrayNotHasKey('xml', $options);
         $this->assertArrayHasKey('body', $options);
         $this->assertSame('<xml><foo>bar</foo></xml>', $options['body']);
-        $this->assertSame(['Content-Type: text/xml'], $options['headers']['Content-Type']);
+        $this->assertSame('text/xml', $options['headers']['Content-Type']);
 
         // invalid xml
         $this->expectExceptionMessage('The type of `xml` must be string or array.');
@@ -152,7 +152,7 @@ class RequestUtilTest extends TestCase
         $this->assertArrayNotHasKey('json', $options);
         $this->assertArrayHasKey('body', $options);
         $this->assertSame('{"foo":"bar"}', $options['body']);
-        $this->assertSame(['Content-Type: application/json'], $options['headers']['Content-Type']);
+        $this->assertSame('application/json', $options['headers']['Content-Type']);
 
         // json array
         $options = RequestUtil::formatBody(['json' => ['foo' => 'bar', 'chinese' => '中文']]);

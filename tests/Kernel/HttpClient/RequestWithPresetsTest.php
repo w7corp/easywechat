@@ -9,7 +9,7 @@ class RequestWithPresetsTest extends TestCase
 {
     public function test_it_can_with_key_value()
     {
-        $client = new DummyClassForRequestWithPresetsTest();
+        $client = new DummyClassForRequestWithPresetsTest;
 
         $client->with('foo', 'bar')
             ->with('bar')
@@ -45,7 +45,7 @@ class RequestWithPresetsTest extends TestCase
 
     public function test_it_can_with_key_of_presets()
     {
-        $client = new DummyClassForRequestWithPresetsTest();
+        $client = new DummyClassForRequestWithPresetsTest;
 
         $client->setPresets([
             'appid' => 'wx123456',
@@ -67,7 +67,7 @@ class RequestWithPresetsTest extends TestCase
 
     public function test_it_can_with_use_magic_call()
     {
-        $client = new DummyClassForRequestWithPresetsTest();
+        $client = new DummyClassForRequestWithPresetsTest;
 
         $client->setPresets([
             'appid' => 'wx123456',
@@ -95,7 +95,7 @@ class RequestWithPresetsTest extends TestCase
 
     public function test_it_can_merge_to_options()
     {
-        $client = new DummyClassForRequestWithPresetsTest();
+        $client = new DummyClassForRequestWithPresetsTest;
 
         $client->setPresets([
             'appid' => 'wx123456',
@@ -206,7 +206,7 @@ class RequestWithPresetsTest extends TestCase
 
     public function test_it_can_with_headers()
     {
-        $client = new DummyClassForRequestWithPresetsTest();
+        $client = new DummyClassForRequestWithPresetsTest;
 
         $client->withHeaders(['content-type' => 'application/xml'])->withHeader('accept', 'application/json');
 

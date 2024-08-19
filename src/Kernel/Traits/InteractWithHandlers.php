@@ -97,7 +97,7 @@ trait InteractWithHandlers
              *
              * @phpstan-ignore-next-line https://github.com/phpstan/phpstan/issues/5867
              */
-            return fn (): mixed => (new $handler())(...func_get_args());
+            return fn (): mixed => (new $handler)(...func_get_args());
         }
 
         throw new InvalidArgumentException(sprintf('Invalid handler: %s.', $handler));

@@ -47,8 +47,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
         protected ResponseInterface $response,
         protected ?Closure $failureJudge = null,
         protected bool $throw = true
-    ) {
-    }
+    ) {}
 
     public function throw(bool $throw = true): static
     {
@@ -161,7 +160,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
             throw new BadMethodCallException(sprintf('%s does\'t implements %s', \get_class($this->response), StreamableInterface::class));
         }
 
-        return StreamWrapper::createResource(new MockResponse());
+        return StreamWrapper::createResource(new MockResponse);
     }
 
     /**
@@ -185,7 +184,7 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
             }
 
             try {
-                $psr17Factory = class_exists(Psr17Factory::class, false) ? new Psr17Factory() : null;
+                $psr17Factory = class_exists(Psr17Factory::class, false) ? new Psr17Factory : null;
                 $responseFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findResponseFactory(); /** @phpstan-ignore-line */
                 $streamFactory ??= $psr17Factory ?? Psr17FactoryDiscovery::findStreamFactory(); /** @phpstan-ignore-line */
 

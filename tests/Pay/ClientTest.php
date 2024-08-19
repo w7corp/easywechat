@@ -45,7 +45,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertContains('Content-Type: text/xml', $client->getRequestOptions()['headers']);
         $this->assertSame(Xml::build(['foo' => 'bar', 'sign' => 'mock-signature']), $client->getRequestOptions()['body']);
     }
 
@@ -61,7 +61,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertContains('Content-Type: text/xml', $client->getRequestOptions()['headers']);
         $this->assertSame(Xml::build(['foo' => 'bar', 'sign' => 'mock-signature']), $client->getRequestOptions()['body']);
     }
 
@@ -77,7 +77,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertContains('Content-Type: text/xml', $client->getRequestOptions()['headers']);
         $this->assertSame(Xml::build(['foo' => 'bar', 'sign' => 'mock-signature']), $client->getRequestOptions()['body']);
     }
 
@@ -94,7 +94,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertContains('Content-Type: text/xml', $client->getRequestOptions()['headers']);
         $this->assertSame('<xml><foo>bar</foo><sign>mock-signature</sign></xml>', $client->getRequestOptions()['body']);
 
         // XML string will not attach signature
@@ -106,7 +106,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertContains('Content-Type: text/xml', $client->getRequestOptions()['headers']);
         $this->assertSame(Xml::build(['foo' => 'bar']), $client->getRequestOptions()['body']);
     }
 
@@ -122,7 +122,7 @@ class ClientTest extends TestCase
 
         $this->assertSame('POST', $client->getRequestMethod());
         $this->assertSame('https://api.mch.weixin.qq.com/certificates', $client->getRequestUrl());
-        $this->assertSame('Content-Type: text/xml', $client->getRequestOptions()['headers'][1]);
+        $this->assertContains('Content-Type: text/xml', $client->getRequestOptions()['headers']);
         $this->assertSame(Xml::build(['foo' => 'bar']), $client->getRequestOptions()['body']);
     }
 

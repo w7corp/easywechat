@@ -18,9 +18,7 @@ use function urldecode;
 
 class Utils
 {
-    public function __construct(protected MerchantInterface $merchant)
-    {
-    }
+    public function __construct(protected MerchantInterface $merchant) {}
 
     /**
      * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml

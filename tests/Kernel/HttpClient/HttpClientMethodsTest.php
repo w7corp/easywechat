@@ -12,7 +12,7 @@ class HttpClientMethodsTest extends TestCase
 {
     public function test_get()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         $response = $client->get('http://easywechat.com');
 
@@ -23,7 +23,7 @@ class HttpClientMethodsTest extends TestCase
 
     public function test_post()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         $response = $client->post('http://easywechat.com', ['foo' => 'bar']);
         $this->assertSame('POST', $response->getRequestMethod());
@@ -43,7 +43,7 @@ class HttpClientMethodsTest extends TestCase
 
     public function test_post_json()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         $response = $client->postJson('http://easywechat.com', ['foo' => 'bar']);
 
@@ -60,7 +60,7 @@ class HttpClientMethodsTest extends TestCase
 
     public function test_post_xml()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         // no type
         $response = $client->postXml('http://easywechat.com', ['foo' => 'bar'], [
@@ -97,7 +97,7 @@ class HttpClientMethodsTest extends TestCase
 
     public function test_put()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         $response = $client->put('http://easywechat.com', ['foo' => 'bar']);
         $this->assertSame('PUT', $response->getRequestMethod());
@@ -107,7 +107,7 @@ class HttpClientMethodsTest extends TestCase
 
     public function test_patch()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         $response = $client->patch('http://easywechat.com', ['foo' => 'bar']);
         $this->assertSame('PATCH', $response->getRequestMethod());
@@ -117,7 +117,7 @@ class HttpClientMethodsTest extends TestCase
 
     public function test_patch_json()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         $response = $client->patchJson('http://easywechat.com', ['foo' => 'bar']);
         $this->assertSame('PATCH', $response->getRequestMethod());
@@ -128,7 +128,7 @@ class HttpClientMethodsTest extends TestCase
 
     public function test_delete()
     {
-        $client = new DummyHttpClient();
+        $client = new DummyHttpClient;
 
         $response = $client->delete('http://easywechat.com');
         $this->assertSame('DELETE', $response->getRequestMethod());

@@ -48,7 +48,7 @@ class Server implements ServerInterface
      */
     public function serve(): ResponseInterface
     {
-        if ((bool) ($str = $this->request->getQueryParams()['echostr'] ?? '')) {
+        if ($str = $this->request->getQueryParams()['echostr'] ?? '') {
             return new Response(200, [], $str);
         }
 

@@ -68,7 +68,7 @@ class AccessToken implements RefreshableAccessToken
     {
         $token = $this->cache->get($this->getKey());
 
-        if ((bool) $token && is_string($token)) {
+        if ($token && is_string($token)) {
             return $token;
         }
 

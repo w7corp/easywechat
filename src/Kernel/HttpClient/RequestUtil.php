@@ -104,8 +104,8 @@ class RequestUtil
     }
 
     /**
-     * @param  array<string, array<string,mixed>|mixed>  $options
-     * @return array<string, array|mixed>
+     * @param  array{headers?:array<string, string>, xml?:array|string, body?:array|string, json?:array|string}  $options
+     * @return array{headers?:array<string, string|array<string, string>|array<string>>, xml?:array|string, body?:array|string}
      */
     public static function formatBody(array $options): array
     {
@@ -121,8 +121,7 @@ class RequestUtil
             }
 
             if (! $contentType) {
-                /** @phpstan-ignore-next-line */
-                $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: text/xml'];
+                $options['headers']['Content-Type'] = 'text/xml';
             }
 
             $options['body'] = $options['xml'];
@@ -143,8 +142,7 @@ class RequestUtil
             }
 
             if (! $contentType) {
-                /** @phpstan-ignore-next-line */
-                $options['headers']['Content-Type'] = [$options['headers'][] = 'Content-Type: application/json'];
+                $options['headers']['Content-Type'] = 'application/json';
             }
 
             $options['body'] = $options['json'];
@@ -156,7 +154,7 @@ class RequestUtil
 
     public static function createDefaultServerRequest(): ServerRequestInterface
     {
-        $psr17Factory = new Psr17Factory();
+        $psr17Factory = new Psr17Factory;
 
         $creator = new ServerRequestCreator(
             serverRequestFactory: $psr17Factory,

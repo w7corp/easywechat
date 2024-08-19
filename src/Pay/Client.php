@@ -106,6 +106,8 @@ class Client implements HttpClientInterface
             $options['headers'] = [];
         }
 
+        $options = $this->mergeThenResetPrepends($options);
+
         $options['headers']['User-Agent'] = UserAgent::create();
 
         if ($this->isV3Request($url)) {
@@ -141,7 +143,7 @@ class Client implements HttpClientInterface
 
         // 合并通过 withHeader 和 withHeaders 设置的信息
         if (! empty($this->prependHeaders)) {
-            $options['headers'] = array_merge($this->prependHeaders, $options['headers'] ?? []);
+            $options['headers'] = array_merge($this->prependHeaders, $options['headers']);
         }
 
         return new Response(

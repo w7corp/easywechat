@@ -14,7 +14,7 @@ class AccessTokenExpiredRetryStrategyTest extends TestCase
 {
     public function test_it_will_passthru_to_parent_retry_strategy()
     {
-        $strategy = new AccessTokenExpiredRetryStrategy();
+        $strategy = new AccessTokenExpiredRetryStrategy;
 
         // no decider: 200 should not be retried
         $context = $this->getContext(2, 'GET', 'http://easywechat.com', 200);
@@ -27,7 +27,7 @@ class AccessTokenExpiredRetryStrategyTest extends TestCase
 
     public function test_it_will_refresh_access_token_when_token_is_refreshable()
     {
-        $strategy = new AccessTokenExpiredRetryStrategy();
+        $strategy = new AccessTokenExpiredRetryStrategy;
 
         $notRefreshAbleAccessToken = \Mockery::mock(AccessToken::class, function ($mock) {
             $mock->shouldReceive('refresh')->never();
@@ -77,6 +77,6 @@ class AccessTokenExpiredRetryStrategyTest extends TestCase
         ];
         $response = new MockResponse('', $info);
 
-        return new AsyncContext($passthru, new MockHttpClient(), $response, $info, null, 0);
+        return new AsyncContext($passthru, new MockHttpClient, $response, $info, null, 0);
     }
 }

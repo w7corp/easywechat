@@ -86,17 +86,16 @@ trait RequestWithPresets
 
     /**
      * @throws RuntimeException
-     * @throws InvalidArgumentException
      */
     public function withFile(string $pathOrContents, string $formName = 'file', ?string $filename = null): static
     {
         $file = is_file($pathOrContents) ? File::fromPath(
             $pathOrContents,
             $filename
-        ) : File::withContents($pathOrContents, $filename);
+        ) : File::fromContents($pathOrContents, $filename);
 
         /**
-         * @var array{headers: array<string, string>, body: string}
+         * @var array{headers: array<string, string>, body: string} $options
          */
         $options = Form::create([$formName => $file])->toOptions();
 
@@ -109,7 +108,6 @@ trait RequestWithPresets
 
     /**
      * @throws RuntimeException
-     * @throws InvalidArgumentException
      */
     public function withFileContents(string $contents, string $formName = 'file', ?string $filename = null): static
     {
@@ -118,7 +116,6 @@ trait RequestWithPresets
 
     /**
      * @throws RuntimeException
-     * @throws InvalidArgumentException
      */
     public function withFiles(array $files): static
     {

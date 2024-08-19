@@ -43,7 +43,7 @@ class File extends DataPart
         ?string $encoding = null
     ): DataPart {
         if ($contentType === null) {
-            $mimeTypes = new MimeTypes();
+            $mimeTypes = new MimeTypes;
 
             if ($filename) {
                 $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));

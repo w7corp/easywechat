@@ -57,7 +57,7 @@ class RespondXmlMessageTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid Response type "object".');
-        $this->transformToReply(new \stdClass(), \Mockery::mock(Message::class));
+        $this->transformToReply(new \stdClass, \Mockery::mock(Message::class));
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid Response type "boolean".');

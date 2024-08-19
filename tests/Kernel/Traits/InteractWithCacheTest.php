@@ -11,7 +11,7 @@ class InteractWithCacheTest extends TestCase
 {
     public function test_get_and_set_cache()
     {
-        $app = new DummyClassForInteractWithCacheTest();
+        $app = new DummyClassForInteractWithCacheTest;
 
         $this->assertInstanceOf(CacheInterface::class, $app->getCache());
         $this->assertSame($app->getCache(), $app->getCache());

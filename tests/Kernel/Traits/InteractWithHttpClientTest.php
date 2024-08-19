@@ -11,13 +11,13 @@ class InteractWithHttpClientTest extends TestCase
 {
     public function test_get_and_set_http_client()
     {
-        $app = new DummyClassForInteractWithHttpClientTest();
+        $app = new DummyClassForInteractWithHttpClientTest;
 
         $this->assertInstanceOf(HttpClientInterface::class, $app->getHttpClient());
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
 
         // set
-        $client = new CurlHttpClient();
+        $client = new CurlHttpClient;
         $app->setHttpClient($client);
         $this->assertSame($client, $app->getHttpClient());
     }

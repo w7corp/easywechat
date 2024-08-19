@@ -6,7 +6,6 @@ use const PHP_OUTPUT_HANDLER_CLEANABLE;
 use const PHP_OUTPUT_HANDLER_FLUSHABLE;
 use const PHP_OUTPUT_HANDLER_REMOVABLE;
 
-use JetBrains\PhpStorm\Pure;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -25,7 +24,6 @@ class ServerResponse implements ResponseInterface
         $this->response->getBody()->rewind();
     }
 
-    #[Pure]
     public static function make(ResponseInterface $response): ServerResponse
     {
         if ($response instanceof ServerResponse) {

@@ -10,7 +10,7 @@ class InteractWithServerRequestTest extends TestCase
 {
     public function test_get_and_set_request()
     {
-        $app = new DummyClassForInteractWithServerRequestTest();
+        $app = new DummyClassForInteractWithServerRequestTest;
 
         $this->assertInstanceOf(ServerRequestInterface::class, $app->getRequest());
         $this->assertSame($app->getRequest(), $app->getRequest());
@@ -23,7 +23,7 @@ class InteractWithServerRequestTest extends TestCase
 
     public function test_it_can_set_request_from_symfony_request()
     {
-        $app = new DummyClassForInteractWithServerRequestTest();
+        $app = new DummyClassForInteractWithServerRequestTest;
 
         $request = \Symfony\Component\HttpFoundation\Request::create('/foo', 'GET');
 

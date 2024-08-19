@@ -32,7 +32,7 @@ trait InteractWithServerRequest
 
     public function setRequestFromSymfonyRequest(Request $symfonyRequest): static
     {
-        $psr17Factory = new Psr17Factory();
+        $psr17Factory = new Psr17Factory;
         $psrHttpFactory = new PsrHttpFactory($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
 
         $this->request = $psrHttpFactory->createRequest($symfonyRequest);
