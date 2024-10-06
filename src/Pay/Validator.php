@@ -62,7 +62,7 @@ class Validator implements \EasyWeChat\Pay\Contracts\Validator
             base64_decode($signature),
             strval($publicKey),
             OPENSSL_ALGO_SHA256
-        ) === false) {
+        ) !== 1) {
             throw new InvalidSignatureException('Invalid Signature');
         }
     }
