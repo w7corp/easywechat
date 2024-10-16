@@ -50,7 +50,7 @@ class OfficialAccount
   ```php
   <?php
 
-namespace app\controller;
+namespace App\controller;
 
 use EasyWeChat\OfficialAccount\Application;
 use Hyperf\HttpServer\Contract\RequestInterface;
@@ -60,7 +60,7 @@ use Hyperf\Context\ApplicationContext;
 
 // 授权事件回调地址：http://easywechat.com/OfficialAccount/server
 
-class OfficialAccount
+class OfficialAccountController
 {
     public function server(RequestInterface $request, ResponseInterface $response)
     {
