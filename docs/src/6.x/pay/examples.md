@@ -142,6 +142,35 @@ $response = $api->post('/mmpaymkttransfers/promotion/transfers', [
 print_r($response->toArray());
 ```
 </details>
+
+
+<details>
+   <summary>JSAPI下单（服务商）</summary>
+
+   > 官方文档：<[https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_1.shtml](https://pay.weixin.qq.com/docs/partner/apis/partner-jsapi-payment/partner-jsons/partner-jsapi-prepay.html)>
+
+```php
+ $response = $app->getClient()->postJson("v3/pay/partner/transactions/jsapi", [
+            "sp_appid" => $appId, // 服务商应用ID
+            "sp_mchid" => '********', // 服务商户号
+            'sub_mchid' => '*********', // 子商户号/二级商户号
+            "sub_appid" => '********', // 子商户/二级商户应用ID(选填)
+            "description" => $this->payDesc($from), // 商品描述
+            "out_trade_no" => $order['pay_sn'], // 商户订单号
+            "notify_url" => $this->config['notify_url'], // 通知地址
+            "amount" => [
+                "total" => intval($order['order_amount'] * 100), // 总金额
+            ], // 订单金额信息
+            "payer" => [
+                "sp_openid" => $this->auth['openid'], // 用户服务标识，户在服务商AppID下的唯一标识
+                "sub_openid" => $this->auth['openid'] // 用户子标识，用户在子商户AppID下的唯一标识。若传sub_openid，那sub_appid必填。下单前需获取到用户的OpenID
+            ], // 支付者,(sp_openid 和 sub_openid 二选一)
+            'attach' => $from
+        ]);
+
+print_r($response->toArray());
+```
+</details>
   
 <!--
 <details>
