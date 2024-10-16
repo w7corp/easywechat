@@ -50,7 +50,7 @@ class OfficialAccount
   ```php
   <?php
 
-namespace App\controller;
+namespace App\Controller;
 
 use EasyWeChat\OfficialAccount\Application;
 use Hyperf\HttpServer\Contract\RequestInterface;
