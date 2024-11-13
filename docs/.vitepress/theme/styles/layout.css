@@ -62,3 +62,7 @@
 .dark .im-home .dark\:border-black {
   --tw-border-opacity: 0;
 }
+
+.DocSearch-Container {
+  backdrop-filter: blur(10px);
+}

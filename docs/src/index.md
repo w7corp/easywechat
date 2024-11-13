@@ -21,7 +21,7 @@ let latestVersion = versions[0]
         微信开发，可以更简单
       </h1>
     </div>
-    <p class="py-4 md:py-3 md:text-2xl">
+    <p class="w-56 md:w-auto py-4 md:py-3 md:text-2xl">
       每一个细节，都经过精心打磨，只为了提供更好的开发体验。
     </p>
     <div
