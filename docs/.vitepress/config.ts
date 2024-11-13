@@ -27,7 +27,11 @@ const nav = [
   {
     text: '赞助',
     link: 'https://github.com/sponsors/overtrue'
-  }
+  },
+  {
+    text: '蓝P站',
+    link: 'https://wechatpay.im/'
+  },
 ]
 
 export const sidebar = versions.reduce(
@@ -57,22 +61,24 @@ export default {
       'meta',
       {
         name: 'twitter:image',
-        content: 'https://easywechat/logo.png'
+        content: 'https://easywechat.com/logo.svg'
       }
     ],
-    // google analytics
-    [
-      'script',
-      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-ZVHYZEP1SR' }
-    ],
-    [
-      'script',
-      {},
-      `window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-ZVHYZEP1SR');`
-    ]
+    // google analytics, without tracing dev
+    ...(process?.argv?.[2] === 'dev' ? [] : [
+      [
+        'script',
+        { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-ZVHYZEP1SR' }
+      ],
+      [
+        'script',
+        {},
+        `window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-ZVHYZEP1SR');`
+      ],
+    ]),
     // end google analytics
   ],
 
@@ -83,12 +89,69 @@ export default {
     logo: '/logo-icon.svg',
 
     algolia: {
+      placeholder: '搜索文档',
+      translations: {
+        button: {
+          buttonText: '搜索文档',
+          buttonAriaLabel: '搜索文档'
+        },
+        modal: {
+          searchBox: {
+            resetButtonTitle: '清除查询条件',
+            resetButtonAriaLabel: '清除查询条件',
+            cancelButtonText: '取消',
+            cancelButtonAriaLabel: '取消'
+          },
+          startScreen: {
+            recentSearchesTitle: '搜索历史',
+            noRecentSearchesText: '没有搜索历史',
+            saveRecentSearchButtonTitle: '保存至搜索历史',
+            removeRecentSearchButtonTitle: '从搜索历史中移除',
+            favoriteSearchesTitle: '收藏',
+            removeFavoriteSearchButtonTitle: '从收藏中移除'
+          },
+          errorScreen: {
+            titleText: '无法获取结果',
+            helpText: '你可能需要检查你的网络连接'
+          },
+          footer: {
+            selectText: '选择',
+            navigateText: '切换',
+            closeText: '关闭',
+            searchByText: '搜索提供者'
+          },
+          noResultsScreen: {
+            noResultsText: '无法找到相关结果',
+            suggestedQueryText: '你可以尝试查询',
+            reportMissingResultsText: '你认为该查询应该有结果？',
+            reportMissingResultsLinkText: '点击反馈'
+          },
+        },
+      },
       indexName: 'easywechat',
       appId: 'X3KJL5SQXD',
       apiKey: '5c5ba71b35c48411f245bef4c695fc36'
       // searchParameters: {
       //   facetFilters: ['version:v3']
       // }
+    },
+
+    returnToTopLabel: '回到顶部',
+    sidebarMenuLabel: '菜单',
+    darkModeSwitchLabel: '主题模式',
+    lightModeSwitchTitle: '浅色模式',
+    darkModeSwitchTitle: '深色模式',
+
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
+    },
+
+    notFound: {
+      title: '未找到',
+      quote: '您所访问的页面未找到，或者已失效',
+      linkLabel: '返回首页',
+      linkText: '返回首页',
     },
 
     // carbonAds: {

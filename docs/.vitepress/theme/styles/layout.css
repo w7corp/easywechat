@@ -1,7 +1,64 @@
 .VPContent,
 .VPContent .VPContentPage,
 .VPContent .VPContentPage main,
-.VPContent .VPContentPage main > div,
-.VPContent .VPContentPage main > div > div {
+.VPContent .VPContentPage main>div,
+.VPContent .VPContentPage main>div>div {
   @apply flex-1 flex flex-col;
+}
+
+.dark .im-home {
+  --im-gradient-p1: #8356dc;
+  --im-gradient-p3: #5908a6;
+  --im-gradient-p2: #044f1e;
+  --im-gradient-p4: #49bcb7;
+}
+
+.im-home {
+  --im-gradient-p1: #ecd8ff;
+  --im-gradient-p2: #e8fca7;
+  --im-gradient-p3: #dafbe1;
+  --im-gradient-p4: #ffd8b5;
+  background: linear-gradient(-40deg, var(--im-gradient-p1), var(--im-gradient-p2), var(--im-gradient-p3), var(--im-gradient-p4));
+  background-size: 120% 120%;
+}
+
+.im-home .top {
+  --vp-nav-bg-color: transparent;
+  --vp-c-bg: transparent;
+  --vp-c-gutter: transparent;
+  --vp-c-bg-alt: transparent;
+  --vp-c-divider: transparent;
+}
+
+.im-home .VPContent {
+  justify-content: center;
+}
+
+.im-home .bash-composer:before {
+  content: "$";
+  letter-spacing: .35rem;
+  opacity: 1;
+  animation: im-blink 1s ease infinite;
+}
+
+@keyframes im-blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 8;
+  }
+}
+
+.im-home .border-t {
+  border-top-color: transparent;
+}
+
+.dark .im-home .dark\:border-black {
+  --tw-border-opacity: 0;
 }
