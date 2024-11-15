@@ -142,6 +142,11 @@ export default {
     lightModeSwitchTitle: '浅色模式',
     darkModeSwitchTitle: '深色模式',
 
+    outline: {
+      level: [2, 3],
+      label: '页面导航',
+    },
+
     docFooter: {
       prev: '上一页',
       next: '下一页'
