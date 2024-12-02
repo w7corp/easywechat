@@ -148,7 +148,7 @@ class Client implements HttpClientInterface
 
         return new Response(
             $this->client->request($method, $url, $options),
-            failureJudge: $this->isV3Request($url) ? null : fn (Response $response) => $response->toArray()['result_code'] === 'FAIL' || $response->toArray()['return_code'] === 'FAIL',
+            failureJudge: $this->isV3Request($url) ? null : fn (Response $response) => $response->toArray()['return_code'] === 'FAIL' || $response->toArray()['result_code'] === 'FAIL',
             throw: $this->throw
         );
     }
