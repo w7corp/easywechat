@@ -38,9 +38,8 @@ class LegacySignature
                     'sub_appid' => $params['sub_appid'] ?? null,
                 ],
                 $params
-            ), function ($value) {
-                return $value !== '' && !is_null($value);
-            }
+            ),
+            static fn ($value, $key) => !($key === 'sign' || $value === '' || is_null($value))
         );
 
         ksort($attributes);
