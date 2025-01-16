@@ -12,6 +12,7 @@ use EasyWeChat\Kernel\Support\AesEcb;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
+use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Exception;
 use Nyholm\Psr7\Response;
@@ -31,8 +32,7 @@ use function strval;
 class Server implements ServerInterface
 {
     use InteractWithHandlers;
-
-    protected ServerRequestInterface $request;
+    use InteractWithServerRequest;
 
     /**
      * @throws Throwable

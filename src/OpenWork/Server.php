@@ -14,6 +14,7 @@ use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
+use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -26,8 +27,7 @@ class Server implements ServerInterface
     use DecryptXmlMessage;
     use InteractWithHandlers;
     use RespondXmlMessage;
-
-    protected ServerRequestInterface $request;
+    use InteractWithServerRequest;
 
     protected ?Closure $defaultSuiteTicketHandler = null;
 
