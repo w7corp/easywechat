@@ -34,7 +34,7 @@ class Server implements ServerInterface
         ?ServerRequestInterface $request = null,
         protected ?Encryptor $encryptor = null,
     ) {
-        $this->request = $request ?? $this->getRequest();
+        $this->request = $request;
     }
 
     /**
@@ -44,12 +44,12 @@ class Server implements ServerInterface
      */
     public function serve(): ResponseInterface
     {
-        if ($str = $this->request->getQueryParams()['echostr'] ?? '') {
+        if ($str = $this->getRequest()->getQueryParams()['echostr'] ?? '') {
             return new Response(200, [], $str);
         }
 
-        $message = $this->getRequestMessage($this->request);
-        $query = $this->request->getQueryParams();
+        $message = $this->getRequestMessage($this->getRequest());
+        $query = $this->getRequest()->getQueryParams();
 
         if ($this->encryptor && ! empty($query['msg_signature'])) {
             $this->prepend($this->decryptRequestMessage($query));
@@ -123,7 +123,7 @@ class Server implements ServerInterface
      */
     public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
-        return Message::createFromRequest($request ?? $this->request);
+        return Message::createFromRequest($request ?? $this->getRequest());
     }
 
     /**
@@ -132,7 +132,7 @@ class Server implements ServerInterface
      */
     public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
-        $request = $request ?? $this->request;
+        $request = $request ?? $this->getRequest();
         $message = $this->getRequestMessage($request);
         $query = $request->getQueryParams();
 

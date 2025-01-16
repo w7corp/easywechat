@@ -40,7 +40,7 @@ class Server implements ServerInterface
         protected MerchantInterface $merchant,
         ?ServerRequestInterface $request,
     ) {
-        $this->request = $request ?? $this->getRequest();
+        $this->request = $request;
     }
 
     /**
@@ -112,7 +112,7 @@ class Server implements ServerInterface
      */
     public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
-        $originContent = (string) ($request ?? $this->request)->getBody();
+        $originContent = (string) ($request ?? $this->getRequest())->getBody();
 
         // 微信支付的回调数据回调，偶尔是 XML https://github.com/w7corp/easywechat/issues/2737
         // PS: 这帮傻逼，真的是该死啊
