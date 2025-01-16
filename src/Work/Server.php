@@ -10,7 +10,6 @@ use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
@@ -35,7 +34,7 @@ class Server implements ServerInterface
         protected Encryptor $encryptor,
         ?ServerRequestInterface $request = null,
     ) {
-        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
+        $this->request = $request ?? $this->getRequest();
     }
 
     /**

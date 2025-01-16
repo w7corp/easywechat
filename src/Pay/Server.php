@@ -6,7 +6,6 @@ use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
-use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Support\AesEcb;
 use EasyWeChat\Kernel\Support\AesGcm;
@@ -41,7 +40,7 @@ class Server implements ServerInterface
         protected MerchantInterface $merchant,
         ?ServerRequestInterface $request,
     ) {
-        $this->request = $request ?? RequestUtil::createDefaultServerRequest();
+        $this->request = $request ?? $this->getRequest();
     }
 
     /**
