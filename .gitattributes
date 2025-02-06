@@ -11,4 +11,5 @@ phpstan.neon export-ignore
 phpunit.php export-ignore
 phpunit.xml export-ignore
 phpunit.xml.dist export-ignore
+pint.json export-ignore
 .php-cs-fixer.dist.php  export-ignore

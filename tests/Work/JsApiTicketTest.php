@@ -60,7 +60,7 @@ class JsApiTicketTest extends TestCase
         $jsApiTicket = new JsApiTicket('mock-corpid', cache: $cache, httpClient: $client);
         $this->assertSame($ticket['ticket'], $jsApiTicket->getTicket());
 
-        //设为过期
+        // 设为过期
         $cache->expects()->get($cacheKey)->andReturn(false);
         $cache->expects()->set($cacheKey, $ticket['ticket'], $ticket['expires_in'])->andReturn(true);
 
@@ -91,7 +91,7 @@ class JsApiTicketTest extends TestCase
 
         $this->assertSame($ticket['ticket'], $jsApiTicket->getAgentTicket(100001));
 
-        //设为过期
+        // 设为过期
         $cache->expects()->get($cacheKey)->andReturn(false);
         $cache->expects()->set($cacheKey, $ticket['ticket'], $ticket['expires_in'])->andReturn(true);
 

@@ -46,7 +46,7 @@ class JsApiTicketTest extends TestCase
         $jsApiTicket = new JsApiTicket('mock-appid', 'mock-secret', null, $cache, $client);
         $this->assertSame($ticket['ticket'], $jsApiTicket->getTicket());
 
-        //设为过期
+        // 设为过期
         $cache->expects()->get($cacheKey)->andReturn(false);
         $cache->expects()->set($cacheKey, $ticket['ticket'], $ticket['expires_in'])->andReturn(true);
 

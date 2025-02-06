@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Pay;
 
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
+use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
 use EasyWeChat\Pay\Merchant;
 use EasyWeChat\Pay\Utils;
 use EasyWeChat\Tests\TestCase;
-use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
-use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 
 class UtilsTest extends TestCase
 {
@@ -77,18 +77,18 @@ aO0PlkMw1RLPdZbEZmldbGrIrOh/0XqSzNZ+mtB6H0eB7TSaoGFtdp/AWy3tb67m
 QpYIkVd4qmYE0qdpIQBMYOV1w7v1pYn6Z5QdKG4keemADTn4QaZZHrryTcHNYVsZ
 2OZ3aybrevSV3wDGnYGk2nt2xtkdfaNfFn4dGW+p4an5M4fRK+CnYpeTgI6POABk
 pwIDAQAB
------END PUBLIC KEY-----'
+-----END PUBLIC KEY-----',
             ]
         );
-         $utils = new Utils(merchant: $merchant);
-         $this->assertIsString($utils->encryptWithRsaPublicKey('mock-plaintext', 'PUB_KEY_ID_MOCK'));
-         $this->assertIsString($utils->encryptWithRsaPublicKey('mock-plaintext'));
+        $utils = new Utils(merchant: $merchant);
+        $this->assertIsString($utils->encryptWithRsaPublicKey('mock-plaintext', 'PUB_KEY_ID_MOCK'));
+        $this->assertIsString($utils->encryptWithRsaPublicKey('mock-plaintext'));
 
-         $this->expectException(InvalidConfigException::class);
-         $utils->encryptWithRsaPublicKey('mock-plaintext', 'PUB_KEY_ID_OTHER');
+        $this->expectException(InvalidConfigException::class);
+        $utils->encryptWithRsaPublicKey('mock-plaintext', 'PUB_KEY_ID_OTHER');
 
-         $this->expectException(EncryptionFailureException::class);
-         $utils->encryptWithRsaPublicKey('', 'PUB_KEY_ID_MOCK');
+        $this->expectException(EncryptionFailureException::class);
+        $utils->encryptWithRsaPublicKey('', 'PUB_KEY_ID_MOCK');
 
     }
 }

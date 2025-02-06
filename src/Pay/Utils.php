@@ -5,9 +5,9 @@ namespace EasyWeChat\Pay;
 use const OPENSSL_PKCS1_OAEP_PADDING;
 
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
-use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
 use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -158,25 +158,25 @@ class Utils
     /**
      * @see https://pay.weixin.qq.com/doc/v3/merchant/4013053257
      *
-     * @param string $plaintext The text to be encrypted.
-     * @param string|null $serial The serial number of the platform certificate to use for encryption. If null, the first available certificate will be used.
+     * @param  string  $plaintext  The text to be encrypted.
+     * @param  string|null  $serial  The serial number of the platform certificate to use for encryption. If null, the first available certificate will be used.
+     * @return string The base64-encoded encrypted text.
      *
      * @throws InvalidConfigException If no platform certificate is found.
      * @throws EncryptionFailureException If the encryption process fails.
-     *
-     * @return string The base64-encoded encrypted text.
      */
     public function encryptWithRsaPublicKey(string $plaintext, ?string $serial = null): string
     {
         $platformCerts = $this->merchant->getPlatformCerts();
-        $serial ??= array_key_first($platformCerts);
-        $platformCert = $this->merchant->getPlatformCert($serial);
+        /** @var string $identifier - One of the serial number of the platform certificates OR the weixin pay's public key identifier. */
+        $identifier = $serial ?? array_key_first($platformCerts);
+        $platformCert = $this->merchant->getPlatformCert($identifier);
 
         if (empty($platformCert)) {
             throw new InvalidConfigException('Missing platform certificate.');
         }
 
-        if (!openssl_public_encrypt($plaintext, $encrypted, $platformCert, OPENSSL_PKCS1_OAEP_PADDING)) {
+        if (! openssl_public_encrypt($plaintext, $encrypted, $platformCert, OPENSSL_PKCS1_OAEP_PADDING)) {
             throw new EncryptionFailureException('Encrypt failed.');
         }
 

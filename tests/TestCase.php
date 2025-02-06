@@ -14,7 +14,7 @@ class TestCase extends BaseTestCase
     /**
      * Tear down the test case.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         parent::tearDown();
         if ($container = \Mockery::getContainer()) {

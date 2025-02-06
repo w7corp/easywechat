@@ -11,6 +11,7 @@ use Psr\Log\LoggerAwareInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
+use function is_array;
 use function property_exists;
 
 trait InteractWithHttpClient
@@ -48,7 +49,7 @@ trait InteractWithHttpClient
 
         $client = HttpClient::create(RequestUtil::formatDefaultOptions($options));
 
-        if (! empty($optionsByRegexp)) {
+        if (is_array($optionsByRegexp) && ! empty($optionsByRegexp)) {
             $client = new ScopingHttpClient($client, $optionsByRegexp);
         }
 

@@ -166,15 +166,16 @@ class Client implements HttpClientInterface
         return false;
     }
 
-    public function withSerialHeader(?string $serial = null)
+    public function withSerialHeader(?string $serial = null): self
     {
         $platformCerts = $this->merchant->getPlatformCerts();
         if (empty($platformCerts)) {
             throw new InvalidConfigException('Missing platform certificate.');
         }
-        
-        $serial = $serial ?? array_key_first($platformCerts);
+
+        $serial ??= array_key_first($platformCerts);
         $this->withHeader('Wechatpay-Serial', $serial);
+
         return $this;
     }
 
@@ -210,6 +211,7 @@ class Client implements HttpClientInterface
             'meta' => new DataPart($meta, null, 'application/json'),
         ]);
 
+        /** @var array{headers:array,body:string} $options */
         $options = $signatureOptions = $form->toOptions();
 
         $signatureOptions['body'] = $meta;
@@ -263,7 +265,7 @@ aO0PlkMw1RLPdZbEZmldbGrIrOh/0XqSzNZ+mtB6H0eB7TSaoGFtdp/AWy3tb67m
 QpYIkVd4qmYE0qdpIQBMYOV1w7v1pYn6Z5QdKG4keemADTn4QaZZHrryTcHNYVsZ
 2OZ3aybrevSV3wDGnYGk2nt2xtkdfaNfFn4dGW+p4an5M4fRK+CnYpeTgI6POABk
 pwIDAQAB
------END PUBLIC KEY-----'
+-----END PUBLIC KEY-----',
             ]
         );
 

@@ -25,8 +25,8 @@ class Server implements ServerInterface
 {
     use DecryptXmlMessage;
     use InteractWithHandlers;
-    use RespondXmlMessage;
     use InteractWithServerRequest;
+    use RespondXmlMessage;
 
     protected ?Closure $defaultVerifyTicketHandler = null;
 

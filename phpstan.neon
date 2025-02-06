@@ -3,4 +3,51 @@ parameters:
     paths:
         - src
     inferPrivatePropertyTypeFromConstructor: true
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+        -
+            message: '#\$client .*? does not accept#'
+            path: src/Kernel/HttpClient/AccessTokenAwareClient.php
+        -
+            message: '#ServerResponse::with.*? should return static\(EasyWeChat\\Kernel\\ServerResponse\) but returns Psr\\Http\\Message\\ResponseInterface#'
+            path: src/Kernel/ServerResponse.php
+        -
+            message: '#Parameter \#1 \$object of function spl_object_hash expects object, callable given#'
+            path: src/Kernel/Traits/InteractWithHandlers.php
+        -
+            message: '#Match arm is unreachable because previous comparison is always true#'
+            path: src/Kernel/Traits/InteractWithHandlers.php
+        -
+            message: '#Parameter \$stable of class EasyWeChat\\MiniApp\\AccessToken constructor expects bool\|null, mixed given#'
+            path: src/MiniApp/Application.php
+        -
+            message: '#Parameter \#1 \$options of static method EasyWeChat\\Kernel\\HttpClient\\RequestUtil::mergeDefaultRetryOptions\(\) expects array<string, mixed>, array given#'
+            path: src/MiniApp/Application.php
+        -
+            message: '#Parameter \$stable of class EasyWeChat\\OfficialAccount\\(AccessToken|JsApiTicket) constructor expects bool\|null, mixed given#'
+            path: src/OfficialAccount/Application.php
+        -
+            message: '#Parameter \#1 \$options of static method EasyWeChat\\Kernel\\HttpClient\\RequestUtil::mergeDefaultRetryOptions\(\) expects array<string, mixed>, array given#'
+            path: src/OfficialAccount/Application.php
+        -
+            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>, array given#'
+            path: src/OfficialAccount/Application.php
+        -
+            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>, array given#'
+            path: src/OpenPlatform/Application.php
+        -
+            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>, array given#'
+            path: src/OpenWork/Application.php
+        -
+            message: '#Parameter \#3 \$defaultOptions of class EasyWeChat\\Pay\\Client constructor expects array<string, mixed>, array given#'
+            path: src/Pay/Application.php
+        -
+            message: '#Property .*?\$client \(Symfony\\Contracts\\HttpClient\\HttpClientInterface\) does not accept Mockery\\Mock\|Symfony\\Contracts\\HttpClient\\HttpClientInterface#'
+            path: src/Pay/Client.php
+        -
+            message: '#Method EasyWeChat\\Pay\\Client::createMockClient\(\) should return Mockery\\Mock\|Symfony\\Contracts\\HttpClient\\HttpClientInterface but returns Mockery\\LegacyMockInterface#'
+            path: src/Pay/Client.php
+        -
+            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>, array given#'
+            path: src/Work/Application.php

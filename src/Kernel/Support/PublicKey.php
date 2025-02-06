@@ -30,7 +30,7 @@ class PublicKey
             throw new InvalidConfigException('Read the $certificate failed, please check it whether or nor correct');
         }
 
-        return strtoupper($info['serialNumberHex'] ?? '');
+        return strtoupper($info['serialNumberHex']);
     }
 
     public function __toString(): string

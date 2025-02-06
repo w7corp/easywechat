@@ -22,7 +22,7 @@ interface Merchant
     public function getPlatformCert(string $serial): ?PublicKey;
 
     /**
-     * @return PublicKey[]
+     * @return array<string,PublicKey>
      */
     public function getPlatformCerts(): array;
 }
