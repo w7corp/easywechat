@@ -24,7 +24,7 @@ class Form
     }
 
     /**
-     * @return array<string,mixed>
+     * @return array{headers:array<string,string|string[]>,body:string}
      */
     #[ArrayShape(['headers' => 'array', 'body' => 'string'])]
     public function toArray(): array
@@ -33,7 +33,7 @@ class Form
     }
 
     /**
-     * @return array<string,mixed>
+     * @return array{headers:array<string,string|string[]>,body:string}
      */
     #[ArrayShape(['headers' => 'array', 'body' => 'string'])]
     public function toOptions(): array

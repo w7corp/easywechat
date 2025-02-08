@@ -211,7 +211,6 @@ class Client implements HttpClientInterface
             'meta' => new DataPart($meta, null, 'application/json'),
         ]);
 
-        /** @var array{headers:array,body:string} $options */
         $options = $signatureOptions = $form->toOptions();
 
         $signatureOptions['body'] = $meta;
