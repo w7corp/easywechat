@@ -29,6 +29,10 @@ use function time;
 use function trim;
 use function unpack;
 
+/**
+ * @link https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Message_encryption_and_decryption_instructions.html
+ * @link https://developer.work.weixin.qq.com/document/path/96211
+ */
 class Encryptor
 {
     public const ERROR_INVALID_SIGNATURE = -40001; // Signature verification failed
@@ -55,13 +59,14 @@ class Encryptor
 
     public const ILLEGAL_BUFFER = -41003; // Illegal buffer
 
+    /** AES block size in bytes */
+    private const BLOCK_SIZE = 16;
+
     protected string $appId;
 
     protected string $token;
 
     protected string $aesKey;
-
-    protected int $blockSize = 32;
 
     protected ?string $receiveId = null;
 
@@ -110,14 +115,17 @@ class Encryptor
     public function encryptAsArray(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): array
     {
         try {
-            $plaintext = Pkcs7::padding(random_bytes(16).pack('N', strlen($plaintext)).$plaintext.$this->appId, 32);
+            $plaintext = Pkcs7::padding(
+                random_bytes(self::BLOCK_SIZE).pack('N', strlen($plaintext)).$plaintext.$this->appId,
+                blockSize: strlen($this->aesKey)
+            );
             $ciphertext = base64_encode(
                 openssl_encrypt(
                     $plaintext,
                     'aes-256-cbc',
                     $this->aesKey,
                     OPENSSL_NO_PADDING,
-                    substr($this->aesKey, 0, 16)
+                    iv: substr($this->aesKey, 0, self::BLOCK_SIZE)
                 ) ?: ''
             );
         } catch (Throwable $e) {
@@ -159,11 +167,11 @@ class Encryptor
                 'aes-256-cbc',
                 $this->aesKey,
                 OPENSSL_NO_PADDING,
-                substr($this->aesKey, 0, 16)
+                iv: substr($this->aesKey, 0, self::BLOCK_SIZE)
             ) ?: '',
-            32
+            blockSize: strlen($this->aesKey)
         );
-        $plaintext = substr($plaintext, 16);
+        $plaintext = substr($plaintext, self::BLOCK_SIZE);
         $contentLength = (unpack('N', substr($plaintext, 0, 4)) ?: [])[1];
 
         if ($this->receiveId && trim(substr($plaintext, $contentLength + 4)) !== $this->receiveId) {

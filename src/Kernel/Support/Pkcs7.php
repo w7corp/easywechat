@@ -11,8 +11,8 @@ class Pkcs7
      */
     public static function padding(string $contents, int $blockSize): string
     {
-        if ($blockSize > 256) {
-            throw new InvalidArgumentException('$blockSize may not be more than 256');
+        if ($blockSize > 32) {
+            throw new InvalidArgumentException('$blockSize may not be more than 32 bytes(256 bits)');
         }
         $padding = $blockSize - (strlen($contents) % $blockSize);
         $pattern = chr($padding);
