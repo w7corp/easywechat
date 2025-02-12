@@ -69,13 +69,13 @@ trait InteractWithHandlers
     /**
      * @throws InvalidArgumentException
      */
-    protected function getHandlerHash(callable|string $handler): string
+    protected function getHandlerHash(callable|array|string $handler): string
     {
         return match (true) {
             is_string($handler) => $handler,
-            is_array($handler) => is_string($handler[0]) ? $handler[0].'::'.$handler[1] : get_class(
-                $handler[0]
-            ).$handler[1],
+            is_array($handler) => is_string($handler[0])
+                ? $handler[0].'::'.$handler[1]
+                : get_class($handler[0]).$handler[1],
             $handler instanceof Closure => spl_object_hash($handler),
             is_callable($handler) => spl_object_hash($handler),
             default => throw new InvalidArgumentException('Invalid handler: '.gettype($handler)),

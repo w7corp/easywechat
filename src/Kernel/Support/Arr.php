@@ -46,7 +46,7 @@ class Arr
 
     /**
      * @param  array<string|int, mixed>  $array
-     * @return array<string|int, mixed>
+     * @return array<string, mixed>
      */
     public static function set(array &$array, string|int|null $key, mixed $value): array
     {

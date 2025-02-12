@@ -74,7 +74,7 @@ class Merchant implements MerchantInterface
     }
 
     /**
-     * @param  array<array-key, string|PublicKey>  $platformCerts
+     * @param  array<array-key, mixed>  $platformCerts
      * @return array<string, PublicKey>
      *
      * @throws InvalidArgumentException

@@ -77,7 +77,7 @@ class AccessToken implements RefreshableAccessTokenInterface
     }
 
     /**
-     * @return array<string, string>
+     * @return array{access_token:string}
      *
      * @throws HttpException
      * @throws InvalidArgumentException

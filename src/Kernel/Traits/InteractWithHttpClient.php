@@ -8,11 +8,11 @@ use EasyWeChat\Kernel\HttpClient\RequestUtil;
 use EasyWeChat\Kernel\HttpClient\ScopingHttpClient;
 use EasyWeChat\Kernel\Support\Arr;
 use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function is_array;
-use function property_exists;
 
 trait InteractWithHttpClient
 {
@@ -32,8 +32,7 @@ trait InteractWithHttpClient
         $this->httpClient = $httpClient;
 
         if ($this instanceof LoggerAwareInterface && $httpClient instanceof LoggerAwareInterface
-            && property_exists($this, 'logger')
-            && $this->logger) {
+            && $this->logger instanceof LoggerInterface) {
             $httpClient->setLogger($this->logger);
         }
 

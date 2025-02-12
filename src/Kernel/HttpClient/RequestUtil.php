@@ -104,14 +104,14 @@ class RequestUtil
     }
 
     /**
-     * @param  array{headers?:array<string, string>, xml?:array|string, body?:array|string, json?:array|string}  $options
+     * @param  array{headers?:array<string, string>, xml?:mixed, body?:array|string, json?:mixed}  $options
      * @return array{headers?:array<string, string|array<string, string>|array<string>>, xml?:array|string, body?:array|string}
      */
     public static function formatBody(array $options): array
     {
         $contentType = $options['headers']['Content-Type'] ?? $options['headers']['content-type'] ?? null;
 
-        if (isset($options['xml'])) {
+        if (array_key_exists('xml', $options)) {
             if (is_array($options['xml'])) {
                 $options['xml'] = Xml::build($options['xml']);
             }
@@ -128,7 +128,7 @@ class RequestUtil
             unset($options['xml']);
         }
 
-        if (isset($options['json'])) {
+        if (array_key_exists('json', $options)) {
             if (is_array($options['json'])) {
                 /** XXX: 微信的 JSON 是比较奇葩的，比如菜单不能把中文 encode 为 unicode */
                 $options['json'] = json_encode(

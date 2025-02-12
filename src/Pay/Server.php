@@ -22,6 +22,7 @@ use Throwable;
 use function is_array;
 use function json_decode;
 use function json_encode;
+use function str_contains;
 use function strval;
 
 /**
@@ -115,8 +116,8 @@ class Server implements ServerInterface
         $originContent = (string) ($request ?? $this->getRequest())->getBody();
 
         // 微信支付的回调数据回调，偶尔是 XML https://github.com/w7corp/easywechat/issues/2737
-        // PS: 这帮傻逼，真的是该死啊
-        $isXml = str_starts_with($originContent, '<xml');
+        $contentType = ($request ?? $this->getRequest())->getHeaderLine('content-type');
+        $isXml = (str_contains($contentType, 'text/xml') || str_contains($contentType, 'application/xml')) && str_starts_with($originContent, '<xml');
         $attributes = $isXml ? $this->decodeXmlMessage($originContent) : $this->decodeJsonMessage($originContent);
 
         return new Message($attributes, $originContent);
@@ -159,11 +160,11 @@ class Server implements ServerInterface
     {
         $attributes = json_decode($contents, true);
 
-        if (! is_array($attributes)) {
+        if (! (is_array($attributes) && is_array($attributes['resource']))) {
             throw new RuntimeException('Invalid request body.');
         }
 
-        if (empty($attributes['resource']['ciphertext'])) {
+        if (empty($attributes['resource']['ciphertext'] ?? null)) {
             throw new RuntimeException('Invalid request.');
         }
 

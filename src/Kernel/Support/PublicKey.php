@@ -26,7 +26,7 @@ class PublicKey
     {
         $info = openssl_x509_parse($this->certificate);
 
-        if ($info === false || ! isset($info['serialNumberHex'])) {
+        if ($info === false) {
             throw new InvalidConfigException('Read the $certificate failed, please check it whether or nor correct');
         }
 

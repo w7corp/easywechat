@@ -126,6 +126,9 @@ trait RequestWithPresets
         return $this;
     }
 
+    /**
+     * @return array{xml?:array<string,mixed>|string,json?:array<string,mixed>|string,body?:array<string,mixed>|string,query?:array<string,mixed>,headers?:array<string,string>}
+     */
     public function mergeThenResetPrepends(array $options, string $method = 'GET'): array
     {
         $name = in_array(strtoupper($method), ['GET', 'HEAD', 'DELETE']) ? 'query' : 'body';

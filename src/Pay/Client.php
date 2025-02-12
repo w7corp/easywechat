@@ -33,6 +33,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use function is_array;
 use function is_string;
 use function str_starts_with;
+use function strcasecmp;
 
 /**
  * @method ResponseInterface get(string $uri, array $options = [])
@@ -54,7 +55,7 @@ class Client implements HttpClientInterface
     use RequestWithPresets;
 
     /**
-     * @var array<string, mixed>
+     * @var array{base_uri:string,headers:array{'Content-Type':string,Accept:string}}
      */
     protected array $defaultOptions = [
         'base_uri' => 'https://api.mch.weixin.qq.com/',
@@ -64,11 +65,21 @@ class Client implements HttpClientInterface
         ],
     ];
 
-    public const V3_URI_PREFIXES = [
+    protected const V3_URI_PREFIXES = [
         '/v3/',
-        '/sandbox/v3/',
         '/hk/v3/',
         '/global/v3/',
+    ];
+
+    /**
+     * Special absolute path string over `GET` method
+     */
+    protected const V2_URI_OVER_GETS = [
+        '/appauth/getaccesstoken', // secret API which's respond `JSON`, must keep in the first
+        '/papay/entrustweb',
+        '/papay/h5entrustweb',
+        '/papay/partner/entrustweb',
+        '/papay/partner/h5entrustweb',
     ];
 
     protected bool $throw = true;
@@ -101,7 +112,6 @@ class Client implements HttpClientInterface
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
-        /** @var array{headers?:array<string, string>, xml?:array|string, body?:array|string} $options */
         if (empty($options['headers'])) {
             $options['headers'] = [];
         }
@@ -118,8 +128,7 @@ class Client implements HttpClientInterface
                 $options['headers']['Authorization'] = $this->createSignature($method, $url, $_options);
             }
         } else {
-            // v2 全部为 xml 请求
-            if (! empty($options['xml'])) {
+            if (! strcasecmp($method, 'POST') && ! empty($options['xml'])) {
                 if (is_array($options['xml'])) {
                     $options['xml'] = Xml::build($this->attachLegacySignature($options['xml']));
                 }
@@ -136,6 +145,10 @@ class Client implements HttpClientInterface
                 $options['body'] = Xml::build($this->attachLegacySignature($options['body']));
             }
 
+            if (! strcasecmp($method, 'GET') && in_array($url, self::V2_URI_OVER_GETS) && is_array($options['query'] ?? null)) {
+                $options['query'] = $this->attachLegacySignature($options['query']);
+            }
+
             if (! isset($options['headers']['Content-Type']) && ! isset($options['headers']['content-type'])) {
                 $options['headers']['Content-Type'] = 'text/xml';
             }
@@ -148,17 +161,29 @@ class Client implements HttpClientInterface
 
         return new Response(
             $this->client->request($method, $url, $options),
-            failureJudge: $this->isV3Request($url) ? null : fn (Response $response) => $response->toArray()['return_code'] === 'FAIL' || $response->toArray()['result_code'] === 'FAIL',
+            failureJudge: $this->isV3Request($url) ? null : function (Response $response) use ($url): bool {
+                $arr = $response->toArray();
+
+                return ! (
+                    $url === self::V2_URI_OVER_GETS[0] && array_key_exists('retcode', $arr) && $arr['retcode'] === 0
+                ) || ! (
+                    // protocol code, most similar to the HTTP status code in APIv3
+                    array_key_exists('return_code', $arr) && $arr['return_code'] === 'SUCCESS'
+                ) || (
+                    // business code, most similar to the Response.JSON.code in APIv3
+                    array_key_exists('result_code', $arr) && $arr['result_code'] !== 'SUCCESS'
+                );
+            },
             throw: $this->throw
         );
     }
 
     protected function isV3Request(string $url): bool
     {
-        $uri = new Uri($url);
+        $uri = (new Uri($url))->getPath();
 
         foreach (self::V3_URI_PREFIXES as $prefix) {
-            if (str_starts_with('/'.ltrim($uri->getPath(), '/'), $prefix)) {
+            if (str_starts_with($uri, $prefix)) {
                 return true;
             }
         }
@@ -166,7 +191,7 @@ class Client implements HttpClientInterface
         return false;
     }
 
-    public function withSerialHeader(?string $serial = null): self
+    public function withSerialHeader(?string $serial = null): static
     {
         $platformCerts = $this->merchant->getPlatformCerts();
         if (empty($platformCerts)) {
