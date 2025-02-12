@@ -17,7 +17,6 @@ use Exception;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Throwable;
 
 use function is_array;
 use function json_decode;
@@ -34,9 +33,6 @@ class Server implements ServerInterface
     use InteractWithHandlers;
     use InteractWithServerRequest;
 
-    /**
-     * @throws Throwable
-     */
     public function __construct(
         protected MerchantInterface $merchant,
         ?ServerRequestInterface $request,

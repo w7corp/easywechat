@@ -30,9 +30,6 @@ class Server implements ServerInterface
 
     protected ?Closure $defaultSuiteTicketHandler = null;
 
-    /**
-     * @throws \Throwable
-     */
     public function __construct(
         protected Encryptor $encryptor,
         protected Encryptor $providerEncryptor,

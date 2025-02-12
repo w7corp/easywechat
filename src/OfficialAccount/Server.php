@@ -27,9 +27,6 @@ class Server implements ServerInterface
     use InteractWithServerRequest;
     use RespondXmlMessage;
 
-    /**
-     * @throws Throwable
-     */
     public function __construct(
         ?ServerRequestInterface $request = null,
         protected ?Encryptor $encryptor = null,
