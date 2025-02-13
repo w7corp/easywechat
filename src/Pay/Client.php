@@ -30,8 +30,10 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+use function array_key_exists;
 use function is_array;
 use function is_string;
+use function ltrim;
 use function str_starts_with;
 use function strcasecmp;
 
@@ -164,9 +166,11 @@ class Client implements HttpClientInterface
             failureJudge: $this->isV3Request($url) ? null : function (Response $response) use ($url): bool {
                 $arr = $response->toArray();
 
+                if ($url === self::V2_URI_OVER_GETS[0]) {
+                    return ! (array_key_exists('retcode', $arr) && $arr['retcode'] === 0);
+                }
+
                 return ! (
-                    $url === self::V2_URI_OVER_GETS[0] && array_key_exists('retcode', $arr) && $arr['retcode'] === 0
-                ) || ! (
                     // protocol code, most similar to the HTTP status code in APIv3
                     array_key_exists('return_code', $arr) && $arr['return_code'] === 'SUCCESS'
                 ) || (
@@ -180,7 +184,7 @@ class Client implements HttpClientInterface
 
     protected function isV3Request(string $url): bool
     {
-        $uri = (new Uri($url))->getPath();
+        $uri = '/'.ltrim((new Uri($url))->getPath(), '/');
 
         foreach (self::V3_URI_PREFIXES as $prefix) {
             if (str_starts_with($uri, $prefix)) {

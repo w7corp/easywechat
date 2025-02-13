@@ -18,7 +18,9 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function array_key_exists;
 use function is_array;
+use function is_string;
 use function json_decode;
 use function json_encode;
 use function str_contains;
@@ -139,6 +141,20 @@ class Server implements ServerInterface
             }
 
             $attributes = Xml::parse(AesEcb::decrypt($attributes['req_info'], md5($key), iv: ''));
+        }
+
+        if (
+            is_array($attributes)
+            && array_key_exists('event_ciphertext', $attributes) && is_string($attributes['event_ciphertext'])
+            && array_key_exists('event_nonce', $attributes) && is_string($attributes['event_nonce'])
+            && array_key_exists('event_associated_data', $attributes) && is_string($attributes['event_associated_data'])
+        ) {
+            $attributes += Xml::parse(AesGcm::decrypt(
+                $attributes['event_ciphertext'],
+                $this->merchant->getSecretKey(),
+                $attributes['event_nonce'],
+                $attributes['event_associated_data'] // maybe empty string
+            ));
         }
 
         if (! is_array($attributes)) {

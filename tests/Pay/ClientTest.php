@@ -126,6 +126,23 @@ class ClientTest extends TestCase
         $this->assertSame(Xml::build(['foo' => 'bar']), $client->getRequestOptions()['body']);
     }
 
+    public function test_v2_request_appauth_getaccesstoken()
+    {
+        $client = Client::mock('{"retcode":-1,"access_token":"mock-token"}', 200, ['Content-Type' => 'application/json']);
+        $client->shouldReceive('createSignature')->never();
+        $client->shouldReceive('isV3Request')->andReturn(false);
+        $client->shouldReceive('attachLegacySignature')->with([
+            'foo' => 'bar',
+        ])->andReturn(['foo' => 'bar', 'sign' => 'mock-signature']);
+
+        $response = $client->get('/appauth/getaccesstoken', ['query' => ['foo' => 'bar']]);
+
+        $this->assertSame('GET', $client->getRequestMethod());
+        $this->assertEquals(['foo' => 'bar', 'sign' => 'mock-signature'], $client->getRequestOptions()['query']);
+        $this->assertSame('https://api.mch.weixin.qq.com/appauth/getaccesstoken?foo=bar&sign=mock-signature', $client->getRequestUrl());
+        $this->assertContains('Content-Type: text/xml', $client->getRequestOptions()['headers']);
+    }
+
     public function test_v3_upload_media()
     {
         $client = Client::mock();
