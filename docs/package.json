@@ -13,12 +13,12 @@
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
-    "@types/markdown-it": "^12.2.3",
-    "@types/node": "^16.18.126",
-    "postcss": "^8.5.1",
-    "postcss-import": "^14.1.0",
-    "terser": "^5.38.1",
-    "vitepress": "1.1.4"
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.13.4",
+    "postcss": "^8.5.2",
+    "postcss-import": "^16.1.0",
+    "terser": "^5.39.0",
+    "vitepress": "1.6.3"
   },
   "pnpm": {
     "peerDependencyRules": {

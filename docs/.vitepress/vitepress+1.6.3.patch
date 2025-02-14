@@ -1,0 +1,40 @@
+diff --git a/node_modules/vitepress/dist/node/chunk-Zsoi3j4v.js b/node_modules/vitepress/dist/node/chunk-Zsoi3j4v.js
+index 8cfe39e..f37e255 100644
+--- a/node_modules/vitepress/dist/node/chunk-Zsoi3j4v.js
++++ b/node_modules/vitepress/dist/node/chunk-Zsoi3j4v.js
+@@ -35149,16 +35149,17 @@ function createContainer(klass, defaultTitle, md) {
+     {
+       render(tokens, idx, _options, env) {
+         const token = tokens[idx];
+-        const info = token.info.trim().slice(klass.length).trim();
+-        const attrs = md.renderer.renderAttrs(token);
+         if (token.nesting === 1) {
++          token.attrJoin("class", `${klass} custom-block`);
++          const attrs = md.renderer.renderAttrs(token);
++          const info = token.info.trim().slice(klass.length).trim();
+           const title = md.renderInline(info || defaultTitle, {
+             references: env.references
+           });
+           if (klass === "details")
+-            return `<details class="${klass} custom-block"${attrs}><summary>${title}</summary>
++            return `<details ${attrs}><summary>${title}</summary>
+ `;
+-          return `<div class="${klass} custom-block"${attrs}><p class="custom-block-title">${title}</p>
++          return `<div ${attrs}><p class="custom-block-title">${title}</p>
+ `;
+         } else return klass === "details" ? `</details>
+ ` : `</div>
+@@ -35731,8 +35732,12 @@ async function createMarkdownRenderer(srcDir, options = {}, base = "/", logger =
+     { target: "_blank", rel: "noreferrer", ...options.externalLinks },
+     base
+   ).use(lineNumberPlugin, options.lineNumbers);
++  const orgi = md.renderer.rules.table_open;
+   md.renderer.rules.table_open = function(tokens, idx, options2, env, self) {
+-    return '<table tabindex="0">\n';
++    tokens[idx].attrGet("tabindex") ?? tokens[idx].attrJoin("tabindex", "0");
++    return orgi
++      ? orgi(tokens, idx, options2, env, self)
++      : self.renderToken(tokens, idx, options2);
+   };
+   if (options.gfmAlerts !== false) {
+     md.use(gitHubAlertsPlugin);

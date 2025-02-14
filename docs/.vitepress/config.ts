@@ -82,6 +82,11 @@ export default {
     // end google analytics
   ],
 
+  markdown: {
+    codeCopyButtonTitle: '复制',
+    lineNumbers: true,
+  },
+
   themeConfig: {
     nav,
     sidebar,

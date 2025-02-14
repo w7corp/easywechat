@@ -72,16 +72,32 @@
   text-align: right;
 }
 
+.vp-code-group .tabs::-webkit-scrollbar,
+.vp-code-group .tabs::-webkit-scrollbar-track,
+.vp-doc [class*="language-"] pre::-webkit-scrollbar,
+.vp-doc [class*="language-"] pre::-webkit-scrollbar-track,
 .VPSidebar::-webkit-scrollbar,
 .VPSidebar::-webkit-scrollbar-track {
   background-color: initial
 }
 
+.vp-code-group .tabs::-webkit-scrollbar-thumb:active,
+.vp-code-group .tabs::-webkit-scrollbar-thumb:hover,
+.vp-doc [class*="language-"] pre::-webkit-scrollbar-thumb:active,
+.vp-doc [class*="language-"] pre::-webkit-scrollbar-thumb:hover,
 .VPSidebar::-webkit-scrollbar-thumb:active,
 .VPSidebar::-webkit-scrollbar-thumb:hover {
   background-color: var(--vp-c-text-1) !important
 }
 
+.vp-code-group .tabs:active::-webkit-scrollbar-thumb,
+.vp-code-group .tabs:focus-within::-webkit-scrollbar-thumb,
+.vp-code-group .tabs:focus::-webkit-scrollbar-thumb,
+.vp-code-group .tabs:hover::-webkit-scrollbar-thumb,
+.vp-code-group .tabs:active::-webkit-scrollbar-thumb,
+.vp-doc [class*="language-"] pre:focus-within::-webkit-scrollbar-thumb,
+.vp-doc [class*="language-"] pre:focus::-webkit-scrollbar-thumb,
+.vp-doc [class*="language-"] pre:hover::-webkit-scrollbar-thumb,
 .VPSidebar:active::-webkit-scrollbar-thumb,
 .VPSidebar:focus-within::-webkit-scrollbar-thumb,
 .VPSidebar:focus::-webkit-scrollbar-thumb,
@@ -90,4 +106,34 @@
   background-color: var(--vp-c-text-3);
   border: 4px solid #0000;
   border-radius: 10px
+}
+
+.custom-block:not(.im-badges)[class^="im-"] {
+  display: flex;
+  align-items: center;
+}
+
+.custom-block:not(.im-badges)[class^="im-"] .custom-block-title {
+  font-size: calc(var(--vp-custom-block-font-size, 14px) * 1.3);
+  letter-spacing: .25em;
+}
+
+.custom-block.info.im-badges {
+  background-color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+.custom-block.info.im-badges .custom-block-title {
+  display: none;
+}
+
+.custom-block.info.im-badges p:not(.custom-block-title) {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.custom-block.info.im-badges p:not(.custom-block-title) img {
+  margin: 0 .25em .25em 0;
 }
