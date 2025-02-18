@@ -13,3 +13,7 @@
 .vt-doc.sponsor h3 .header-anchor {
   display: none;
 }
+
+.custom-block.details.bg-transparent {
+  background-color: transparent
+}
