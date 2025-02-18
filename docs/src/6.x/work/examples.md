@@ -4,7 +4,7 @@
 
 ## [被动回复](https://developer.work.weixin.qq.com/document/path/90241) {#server-mode}
 
-::: details 被动回复一个图片信息 {open .bg-transparent}
+::: details 被动回复一个图片信息 {open}
 
 ```php
 $server->with(function ($message) {
