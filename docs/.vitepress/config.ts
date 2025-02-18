@@ -52,6 +52,7 @@ export default {
   srcDir: 'src',
   srcExclude: [],
   scrollOffset: 'header',
+  metaChunk: true,
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.svg' }],
@@ -214,10 +215,6 @@ export default {
         // for when developing with locally linked theme
         allow: ['../..']
       }
-    },
-    build: {
-      minify: 'terser',
-      chunkSizeWarningLimit: Infinity
     },
     json: {
       stringify: true

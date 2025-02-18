@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
           run_install: true
       - name: Build
         run: |
@@ -45,7 +45,7 @@ jobs:
         if: env.COS_SECRET_ID
         run: |
           python -m pip install --upgrade pip
-          python -m pip install setuptools tccli
+          python -m pip install setuptools
           python -m pip install https://github.com/tencentyun/coscmd/archive/refs/heads/master.zip
       - name: Upload to cos
         if: env.COS_SECRET_ID
@@ -54,7 +54,6 @@ jobs:
           coscmd upload -r -s $local_dir $remote_dir --ignore "$ignore"
       - name: Refresh CDN
         if: env.COS_SECRET_ID
-        run: |
-          tccli configure set secretId "${{secrets.COS_SECRET_ID}}"
-          tccli configure set secretKey "${{secrets.COS_SECRET_KEY}}"
-          tccli cdn PurgePathCache --cli-unfold-argument --Paths $domain --FlushType flush
+        env:
+          COS_SECRET_KEY: ${{secrets.COS_SECRET_KEY}}
+        run: pnpm run pure-caches
