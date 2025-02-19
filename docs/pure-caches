@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import TenYun from 'tenyun';
+const { default: TenYun } = require('tenyun');
 
 new TenYun(process.env.COS_SECRET_ID ?? '', process.env.COS_SECRET_KEY ?? '')
     .cdn
