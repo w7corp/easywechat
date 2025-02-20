@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+const { default: TenYun } = require('tenyun');
+
+const tc = new TenYun(process.env.COS_SECRET_ID ?? '', process.env.COS_SECRET_KEY ?? '');
+
+tc.cdn.PurgePathCache({
+    Paths: [process.env.domain ?? ''],
+    FlushType: 'flush',
+})
+.then(({ data }) => {
+    console.log(data);
+
+    return tc.cdn.DescribePurgeTasks({
+        TaskId: data.TaskId,
+        PurgeType: 'path',
+    });
+})
+.then(({ data }) => console.log(data));

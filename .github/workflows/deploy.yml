@@ -69,4 +69,4 @@ jobs:
         if: env.COS_SECRET_ID
         env:
           COS_SECRET_KEY: ${{secrets.COS_SECRET_KEY}}
-        run: ./docs/pure-caches
+        run: ./docs/purge-caches
