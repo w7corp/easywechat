@@ -7,6 +7,10 @@ on:
   # Triggers the workflow on push event but only for the 6.x branch(required the secrets environment)
   push:
     branches: [ 6.x ]
+    tags-ignore:
+      - '*'
+  pull_request:
+    branches: [ 6.x ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -40,10 +44,12 @@ jobs:
         with:
           node-version: '>=22.12.0'
           cache: 'pnpm'
+          cache-dependency-path: 'docs/pnpm-lock.yaml'
+      - name: Install dependencies
+        run: pnpm install
       - name: Build
         run: |
           cd docs
-          pnpm install
           patch -p1 -i .vitepress/vitepress+1.6.3.patch
           pnpm run build
       - name: Install coscmd
