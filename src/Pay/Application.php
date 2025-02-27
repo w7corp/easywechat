@@ -119,7 +119,7 @@ class Application implements \EasyWeChat\Pay\Contracts\Application
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function getClient(): HttpClientInterface
+    public function getClient(): Client|HttpClientInterface
     {
         return $this->client ?? $this->client = (new Client(
             $this->getMerchant(),
