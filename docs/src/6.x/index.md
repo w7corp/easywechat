@@ -20,8 +20,8 @@ EasyWeChat 是一个开源的 [微信](http://www.wechat.com) 非官方 SDK。�
 :::
 
 
-```shell
-composer require w7corp/easywechat:^6.7
+```shell:no-line-numbers
+composer require w7corp/easywechat:^6.17
 ```
 
 ## 使用

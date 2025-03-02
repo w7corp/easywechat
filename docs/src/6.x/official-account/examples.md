@@ -1,8 +1,13 @@
+---
+aside: false
+title: 微信公众号使用代码示例
+---
+
 # 示例
 
 > 👏🏻 欢迎点击本页下方 "帮助我们改善此页面！" 链接参与贡献更多的使用示例！
 
-<details>
+<details open>
     <summary>webman 服务端验证消息</summary>
 
 ```php
@@ -41,14 +46,15 @@ class OfficialAccount
 </details>
 
 
-<details>
+<details open>
     <summary>Hyperf 服务端验证消息</summary>
   
   ##### 方法一：
-  * 安装包，composer require limingxinleo/easywechat-classmap，
+  * 安装包: `composer require limingxinleo/easywechat-classmap`
   * 在授权回调地址中使用：
-  ```php
-  <?php
+
+```php
+<?php
 
 namespace App\Controller;
 
@@ -89,7 +95,8 @@ class OfficialAccountController
   ```
 
 ##### 方法二：
-* 安装包，composer require pengxuxu/hyperf-easywechat6，包里已替换了服务端请求和缓存，并封装了公众号、微信支付、小程序等外观。
+* 安装包: `composer require pengxuxu/hyperf-easywechat6`
+  > 包里已替换了服务端请求和缓存，并封装了公众号、微信支付、小程序等外观。
 * 参照文档在授权回调地址和其他场景中直接使用。
 </details>
 

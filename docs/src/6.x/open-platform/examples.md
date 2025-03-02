@@ -1,13 +1,18 @@
+---
+aside: false
+title: 微信开放平台代码使用示例
+---
+
 # 示例
 
 > 👏🏻 欢迎点击本页下方 "帮助我们改善此页面！" 链接参与贡献更多的使用示例！
 
-<details>
+<details open>
   <summary>Laravel 开放平台处理推送消息</summary>
 
-> 注意：对应路由需要关闭 csrf 验证。
+> 注意：对应路由需要[排除 csrf 验证](https://laravel.com/docs/12.x/csrf#csrf-excluding-uris)。
 
-假设你的开放平台第三方平台设置的授权事件接收 URL 为: https://easywechat.com/open-platform （其他事件推送同样会推送到这个 URL）
+假设你的开放平台第三方平台设置的授权事件接收 URL 为: `https://easywechat.com/open-platform` （其他事件推送同样会推送到这个 URL）
 
 ```php
 // routes/web.php
@@ -91,7 +96,7 @@ class OpenPlatform
 <details>
   <summary>Laravel 开放平台PC版预授权<version-tag>6.3.0+</version-tag></summary>
 
-官方文档： https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/Authorization_Process_Technical_Description.html
+> [官方文档](https://developers.weixin.qq.com/doc/oplatform/Third-party_Platforms/2.0/api/Before_Develop/Authorization_Process_Technical_Description.html)
 
 用例：
 
