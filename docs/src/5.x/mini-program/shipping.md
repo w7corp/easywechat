@@ -15,13 +15,15 @@ $data = [
     'logistics_type' => 4,
     'delivery_mode' => 1,
     'shipping_list' => [
-        'tracking_no' => '323244567777',
-        'express_company' => 'DHL',
-        'item_desc' => '微信红包抱枕*1个',
-        'contact' => [
-            'consignor_contact' => '189****1234',
-            'receiver_contact' => '189****1234'
-        ],
+      [
+          'tracking_no' => '323244567777',
+          'express_company' => 'DHL',
+          'item_desc' => '微信红包抱枕*1个',
+          'contact' => [
+              'consignor_contact' => '189****1234',
+              'receiver_contact' => '189****1234'
+          ],
+      ],
     ],
     'upload_time' => '2022-12-15T13:29:35.120+08:00',
     'payer' => [
@@ -51,12 +53,14 @@ $app->shipping->uploadShippingInfo($data);
         'logistics_type' => 4,
         'delivery_mode' => 1,
         'shipping_list' => [
-            'tracking_no' => '323244567777',
-            'express_company' => 'DHL',
-            'item_desc' => '微信红包抱枕*1个',
-            'contact' => [
-                'consignor_contact' => '189****1234',
-                'receiver_contact' => '189****1234'
+            [
+                'tracking_no' => '323244567777',
+                'express_company' => 'DHL',
+                'item_desc' => '微信红包抱枕*1个',
+                'contact' => [
+                    'consignor_contact' => '189****1234',
+                    'receiver_contact' => '189****1234'
+                ],
             ],
         ],
     ],
