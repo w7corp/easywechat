@@ -20,7 +20,6 @@
     "ext-fileinfo": "*",
     "ext-openssl": "*",
     "ext-simplexml": "*",
-    "ext-sodium": "*",
     "ext-libxml": "*",
     "ext-curl": "*",
     "nyholm/psr7": "^1.5",
@@ -41,7 +40,7 @@
     "mockery/mockery": "^1.4.4",
     "phpstan/phpstan": "^1.0 | ^2",
     "phpunit/phpunit": "^9.5",
-    "symfony/var-dumper": "^5.2",
+    "symfony/var-dumper": "^5.2|^6|^7",
     "jetbrains/phpstorm-attributes": "^1.0",
     "laravel/pint": "^1.2"
   },
