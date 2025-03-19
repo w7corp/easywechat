@@ -41,7 +41,7 @@ importers:
         version: 0.12.0
       vitepress:
         specifier: 1.6.3
-        version: 1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.7)(axios@1.8.1)(postcss@8.5.3)(search-insights@2.13.0)(terser@5.39.0)
+        version: 1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.7)(axios@1.8.3)(postcss@8.5.3)(search-insights@2.13.0)(terser@5.39.0)
 
 packages:
 
@@ -590,8 +590,8 @@ packages:
   '@vueuse/shared@12.7.0':
     resolution: {integrity: sha512-coLlUw2HHKsm7rPN6WqHJQr18WymN4wkA/3ThFaJ4v4gWGWAQQGK+MJxLuJTBs4mojQiazlVWAKNJNpUWGRkNw==}
 
-  acorn@8.14.0:
-    resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
+  acorn@8.14.1:
+    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -635,8 +635,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
 
-  axios@1.8.1:
-    resolution: {integrity: sha512-NN+fvwH/kV01dYUQ3PTOZns4LWtWhOFCAhQ/pHb88WQ1hNe5V/dvFwc4VJcDL11LT9xSX0QtsR8sWUuyOuOq7g==}
+  axios@1.8.3:
+    resolution: {integrity: sha512-iP4DebzoNlP/YN2dpwCgb8zoCmhtkajzS48JvwmkSkXvPI3DHc7m+XYL5tGnSlJtR6nImXZmdCuN5aP8dh1d8A==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -1853,13 +1853,13 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vueuse/integrations@12.7.0(axios@1.8.1)(focus-trap@7.6.4)':
+  '@vueuse/integrations@12.7.0(axios@1.8.3)(focus-trap@7.6.4)':
     dependencies:
       '@vueuse/core': 12.7.0
       '@vueuse/shared': 12.7.0
       vue: 3.5.13
     optionalDependencies:
-      axios: 1.8.1
+      axios: 1.8.3
       focus-trap: 7.6.4
     transitivePeerDependencies:
       - typescript
@@ -1872,7 +1872,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  acorn@8.14.0:
+  acorn@8.14.1:
     optional: true
 
   algoliasearch@5.20.3:
@@ -1922,7 +1922,7 @@ snapshots:
       postcss: 8.5.3
       postcss-value-parser: 4.2.0
 
-  axios@1.8.1:
+  axios@1.8.3:
     dependencies:
       follow-redirects: 1.15.9
       form-data: 4.0.2
@@ -2573,14 +2573,14 @@ snapshots:
 
   tenyun@0.12.0:
     dependencies:
-      axios: 1.8.1
+      axios: 1.8.3
     transitivePeerDependencies:
       - debug
 
   terser@5.39.0:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.14.0
+      acorn: 8.14.1
       commander: 2.20.3
       source-map-support: 0.5.21
     optional: true
@@ -2656,7 +2656,7 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.39.0
 
-  vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.7)(axios@1.8.1)(postcss@8.5.3)(search-insights@2.13.0)(terser@5.39.0):
+  vitepress@1.6.3(@algolia/client-search@5.20.3)(@types/node@22.13.7)(axios@1.8.3)(postcss@8.5.3)(search-insights@2.13.0)(terser@5.39.0):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.20.3)(search-insights@2.13.0)
@@ -2669,7 +2669,7 @@ snapshots:
       '@vue/devtools-api': 7.7.2
       '@vue/shared': 3.5.13
       '@vueuse/core': 12.7.0
-      '@vueuse/integrations': 12.7.0(axios@1.8.1)(focus-trap@7.6.4)
+      '@vueuse/integrations': 12.7.0(axios@1.8.3)(focus-trap@7.6.4)
       focus-trap: 7.6.4
       mark.js: 8.11.1
       minisearch: 7.1.2
