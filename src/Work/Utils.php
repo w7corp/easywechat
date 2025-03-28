@@ -2,15 +2,7 @@
 
 namespace EasyWeChat\Work;
 
-use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\Support\Str;
-use Exception;
-use Psr\SimpleCache\InvalidArgumentException;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 use function time;
 
@@ -24,15 +16,6 @@ class Utils
      * @param  array<string>  $jsApiList
      * @param  array<string>  $openTagList
      * @return array<string, mixed>
-     *
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws ClientExceptionInterface
-     * @throws TransportExceptionInterface
-     * @throws HttpException
-     * @throws ServerExceptionInterface
-     * @throws Exception
      */
     public function buildJsSdkConfig(
         string $url,
@@ -51,15 +34,6 @@ class Utils
      * @param  array<string>  $jsApiList
      * @param  array<string>  $openTagList
      * @return array<string, mixed>
-     *
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws TransportExceptionInterface
-     * @throws HttpException
-     * @throws ServerExceptionInterface
-     * @throws Exception
      */
     public function buildJsSdkAgentConfig(
         int $agentId,

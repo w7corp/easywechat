@@ -8,7 +8,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
-use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 
 use function base64_encode;
@@ -26,11 +25,7 @@ class Utils
     }
 
     /**
-     * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_1_4.shtml
-     *
      * @return array<string, mixed>
-     *
-     * @throws Exception
      */
     #[ArrayShape([
         'appId' => 'string',
@@ -70,8 +65,6 @@ class Utils
      * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
      *
      * @return array<string, mixed>
-     *
-     * @throws Exception
      */
     #[ArrayShape([
         'appId' => 'string',
@@ -95,8 +88,6 @@ class Utils
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      *
      * @return array<string, mixed>
-     *
-     * @throws Exception
      */
     #[ArrayShape([
         'appId' => 'string',
@@ -112,11 +103,7 @@ class Utils
     }
 
     /**
-     * @see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/apis/chapter4_2_4.shtml
-     *
      * @return array<string, mixed>
-     *
-     * @throws Exception
      */
     #[ArrayShape([
         'appid' => 'string',
@@ -156,7 +143,8 @@ class Utils
     }
 
     /**
-     * @see https://pay.weixin.qq.com/doc/v3/merchant/4013053257
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013053257
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013059044
      *
      * @param  string  $plaintext  The text to be encrypted.
      * @param  string|null  $serial  The serial number of the platform certificate to use for encryption. If null, the first available certificate will be used.

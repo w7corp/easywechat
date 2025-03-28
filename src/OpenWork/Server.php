@@ -71,18 +71,12 @@ class Server implements ServerInterface
         return ServerResponse::make($response);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function withDefaultSuiteTicketHandler(callable $handler): void
     {
         $this->defaultSuiteTicketHandler = fn (): mixed => $handler(...func_get_args());
         $this->handleSuiteTicketRefreshed($this->defaultSuiteTicketHandler);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function handleSuiteTicketRefreshed(callable $handler): static
     {
         if ($this->defaultSuiteTicketHandler) {

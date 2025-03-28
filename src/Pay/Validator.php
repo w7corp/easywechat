@@ -26,8 +26,8 @@ class Validator implements \EasyWeChat\Pay\Contracts\Validator
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\Pay\Exceptions\InvalidSignatureException
+     * @throws InvalidConfigException
+     * @throws InvalidSignatureException
      */
     public function validate(MessageInterface $message): void
     {

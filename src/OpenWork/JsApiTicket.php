@@ -6,15 +6,9 @@ namespace EasyWeChat\OpenWork;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use Psr\SimpleCache\CacheInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function intval;
@@ -39,14 +33,6 @@ class JsApiTicket
 
     /**
      * @return array<string, mixed>
-     *
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws HttpException
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
      */
     public function createConfigSignature(string $nonce, int $timestamp, string $url, array $jsApiList = [], bool $debug = false, bool $beta = true): array
     {
@@ -68,13 +54,7 @@ class JsApiTicket
     }
 
     /**
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws TransportExceptionInterface
      * @throws HttpException
-     * @throws ServerExceptionInterface
      */
     public function getTicket(): string
     {
@@ -108,15 +88,6 @@ class JsApiTicket
         return $this->key ?? $this->key = sprintf('open_work.jsapi_ticket.%s', $this->corpId);
     }
 
-    /**
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws HttpException
-     * @throws InvalidArgumentException
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
     public function createAgentConfigSignature(int $agentId, string $nonce, int $timestamp, string $url, array $jsApiList = []): array
     {
         return [
@@ -130,13 +101,7 @@ class JsApiTicket
     }
 
     /**
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws ClientExceptionInterface
      * @throws HttpException
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
      */
     public function getAgentTicket(int $agentId): string
     {

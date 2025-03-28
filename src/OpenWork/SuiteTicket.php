@@ -7,7 +7,6 @@ namespace EasyWeChat\OpenWork;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
 use Psr\SimpleCache\CacheInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
@@ -38,9 +37,6 @@ class SuiteTicket implements SuiteTicketInterface
         return $this;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function setTicket(string $ticket): static
     {
         $this->cache->set($this->getKey(), $ticket, 6000);
@@ -50,7 +46,6 @@ class SuiteTicket implements SuiteTicketInterface
 
     /**
      * @throws RuntimeException
-     * @throws InvalidArgumentException
      */
     public function getTicket(): string
     {

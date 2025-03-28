@@ -92,9 +92,6 @@ class Encryptor
         return $this->encryptAsXml($plaintext, $nonce, $timestamp);
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
     public function encryptAsXml(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): string
     {
         $encrypted = $this->encryptAsArray($plaintext, $nonce, $timestamp);
@@ -110,7 +107,7 @@ class Encryptor
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public function encryptAsArray(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): array
     {

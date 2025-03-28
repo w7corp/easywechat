@@ -23,6 +23,9 @@ class Message extends \EasyWeChat\Kernel\Message
         return is_array($attributes) ? $attributes : [];
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function getEventType(): ?string
     {
         $eventType = $this->getOriginalAttributes()['event_type'];

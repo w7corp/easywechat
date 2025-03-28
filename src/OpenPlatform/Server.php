@@ -7,9 +7,6 @@ namespace EasyWeChat\OpenPlatform;
 use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Exceptions\BadRequestException;
-use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
-use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
@@ -37,11 +34,6 @@ class Server implements ServerInterface
         $this->request = $request;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws BadRequestException
-     * @throws RuntimeException
-     */
     public function serve(): ResponseInterface
     {
         if ($str = $this->getRequest()->getQueryParams()['echostr'] ?? '') {
@@ -61,9 +53,6 @@ class Server implements ServerInterface
         return ServerResponse::make($response);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function handleAuthorized(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
@@ -73,9 +62,6 @@ class Server implements ServerInterface
         return $this;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function handleUnauthorized(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
@@ -85,9 +71,6 @@ class Server implements ServerInterface
         return $this;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function handleAuthorizeUpdated(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
@@ -97,18 +80,12 @@ class Server implements ServerInterface
         return $this;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function withDefaultVerifyTicketHandler(callable $handler): void
     {
         $this->defaultVerifyTicketHandler = fn (): mixed => $handler(...func_get_args());
         $this->handleVerifyTicketRefreshed($this->defaultVerifyTicketHandler);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     public function handleVerifyTicketRefreshed(callable $handler): static
     {
         if ($this->defaultVerifyTicketHandler) {
@@ -139,18 +116,11 @@ class Server implements ServerInterface
         };
     }
 
-    /**
-     * @throws BadRequestException
-     */
     public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
         return Message::createFromRequest($request ?? $this->getRequest());
     }
 
-    /**
-     * @throws BadRequestException
-     * @throws RuntimeException
-     */
     public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
         $request = $request ?? $this->getRequest();

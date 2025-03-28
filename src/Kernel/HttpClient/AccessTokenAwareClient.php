@@ -11,7 +11,6 @@ use EasyWeChat\Kernel\Traits\MockableHttpClient;
 use Symfony\Component\HttpClient\AsyncDecoratorTrait;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\MockHttpClient;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 use function array_merge;
@@ -49,8 +48,6 @@ class AccessTokenAwareClient implements AccessTokenAwareHttpClientInterface
 
     /**
      * @param  array<string, mixed>  $options
-     *
-     * @throws TransportExceptionInterface
      */
     public function request(string $method, string $url, array $options = []): Response
     {

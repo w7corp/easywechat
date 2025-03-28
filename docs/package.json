@@ -8,7 +8,7 @@
     "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.4.21",
     "clipboard": "^2.0.11",
     "dynamics.js": "^1.1.5",
     "gsap": "^3.12.7",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^22.13.7",
+    "@types/node": "^22.13.14",
     "postcss": "^8.5.3",
     "postcss-import": "^16.1.0",
     "tenyun": "^0.12.0",

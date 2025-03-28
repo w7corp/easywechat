@@ -34,7 +34,7 @@ class File extends DataPart
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public static function fromContents(
         string $contents,
