@@ -26,10 +26,6 @@ use function json_encode;
 use function str_contains;
 use function strval;
 
-/**
- * @link https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay4_1.shtml
- * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
- */
 class Server implements ServerInterface
 {
     use InteractWithHandlers;
@@ -42,10 +38,6 @@ class Server implements ServerInterface
         $this->request = $request;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
     public function serve(): ResponseInterface
     {
         $message = $this->getRequestMessage();
@@ -73,9 +65,57 @@ class Server implements ServerInterface
     }
 
     /**
-     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml
-     *
-     * @throws InvalidArgumentException
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012791861
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013070368
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012791836
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012791882
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012791902
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012158598
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421143
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421231
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421336
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421407
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012587960
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012647435
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085146
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013080237
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085680
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085875
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085801
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012231898
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462105
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462175
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462250
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462574
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012155283
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012586136
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085573
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013194298
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012284311
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012285856
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012286313
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012595808
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012289459
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013392770
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012086059
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012090195
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012076414
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012159706
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011935221
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011937152
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011937248
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011938508
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011941607
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011985057
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011985480
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011936650
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011989262
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011941679
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011941306
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011984334
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011989906
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011988207
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011984263
      */
     public function handlePaid(callable $handler): static
     {
@@ -88,9 +128,59 @@ class Server implements ServerInterface
     }
 
     /**
-     * @link https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_11.shtml
-     *
-     * @throws InvalidArgumentException
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012791865
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013070388
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012810605
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012791886
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012791906
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012085921
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421172
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421273
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421356
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013421448
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4013071196
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012268885
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012082022
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012587976
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012647469
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012083103
+     * @link https://pay.weixin.qq.com/doc/v3/merchant/4012285869
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085298
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013080241
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085681
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085876
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012085802
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012231901
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462126
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462195
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462327
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013462586
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013080628
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012167494
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012650317
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012166857
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012886275
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012086319
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012124635
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012076419
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4013163616
+     * @link https://pay.weixin.qq.com/doc/v3/partner/4012586138
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011940955
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011935223
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011937201
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011939959
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011939475
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011941681
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011985425
+     * @link https://pay.weixin.qq.com/doc/v2/merchant/4011987569
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011941745
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011936652
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011989265
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011984153
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4012297550
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011984440
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011989912
+     * @link https://pay.weixin.qq.com/doc/v2/partner/4011988218
      */
     public function handleRefunded(callable $handler): static
     {
@@ -105,10 +195,6 @@ class Server implements ServerInterface
         return $this;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
     public function getRequestMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
         $originContent = (string) ($request ?? $this->getRequest())->getBody();
@@ -122,8 +208,8 @@ class Server implements ServerInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     protected function decodeXmlMessage(string $contents): array
     {
@@ -165,8 +251,7 @@ class Server implements ServerInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     protected function decodeJsonMessage(string $contents): array
     {
@@ -197,10 +282,6 @@ class Server implements ServerInterface
         return $attributes;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
     public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message|Message
     {
         return $this->getRequestMessage($request);

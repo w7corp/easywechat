@@ -9,16 +9,10 @@ use EasyWeChat\Kernel\Contracts\RefreshableAccessToken;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 use Stringable;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
@@ -44,15 +38,6 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
         return $this->corpId;
     }
 
-    /**
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws ClientExceptionInterface
-     * @throws HttpException
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     */
     public function getToken(): string
     {
         if (! isset($this->suiteAccessToken)) {
@@ -68,29 +53,11 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
         return $this->refresh();
     }
 
-    /**
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws ClientExceptionInterface
-     * @throws HttpException
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     */
     public function __toString()
     {
         return $this->getToken();
     }
 
-    /**
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws InvalidArgumentException
-     * @throws ClientExceptionInterface
-     * @throws HttpException
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     */
     #[ArrayShape(['access_token' => 'string'])]
     public function toQuery(): array
     {
@@ -111,12 +78,6 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
 
     /**
      * @throws HttpException
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws InvalidArgumentException
      */
     public function refresh(): string
     {

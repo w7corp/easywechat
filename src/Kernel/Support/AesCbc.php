@@ -14,7 +14,7 @@ use function openssl_error_string;
 class AesCbc implements Aes
 {
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function encrypt(string $plaintext, string $key, ?string $iv = null): string
     {
@@ -28,7 +28,7 @@ class AesCbc implements Aes
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function decrypt(string $ciphertext, string $key, ?string $iv = null): string
     {

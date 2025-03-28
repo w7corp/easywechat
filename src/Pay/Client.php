@@ -26,7 +26,6 @@ use Symfony\Component\HttpClient\HttpClient as SymfonyHttpClient;
 use Symfony\Component\HttpClient\HttpClientTrait;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\Mime\Part\DataPart;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -109,8 +108,7 @@ class Client implements HttpClientInterface
     /**
      * @param  array<string, array|mixed>  $options
      *
-     * @throws TransportExceptionInterface
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function request(string $method, string $url, array $options = []): ResponseInterface
     {
@@ -195,6 +193,9 @@ class Client implements HttpClientInterface
         return false;
     }
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public function withSerialHeader(?string $serial = null): static
     {
         $platformCerts = $this->merchant->getPlatformCerts();
@@ -210,8 +211,6 @@ class Client implements HttpClientInterface
 
     /**
      * @param  array<int, mixed>  $arguments
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
     public function __call(string $name, array $arguments): mixed
     {
@@ -222,10 +221,6 @@ class Client implements HttpClientInterface
         return $this->client->$name(...$arguments);
     }
 
-    /**
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
     public function uploadMedia(string $uri, string $pathOrContents, ?array $meta = null, ?string $filename = null): ResponseInterface
     {
         $isFile = is_file($pathOrContents);
@@ -270,10 +265,6 @@ class Client implements HttpClientInterface
         return (new LegacySignature($this->merchant))->sign($body);
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws InvalidConfigException
-     */
     public static function createMockClient(MockHttpClient $mockHttpClient): HttpClientInterface|Mock
     {
         $mockMerchant = new Merchant(

@@ -6,7 +6,6 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
-use Exception;
 use Nyholm\Psr7\Uri;
 use Stringable;
 
@@ -29,8 +28,6 @@ class Signature
 
     /**
      * @param  array<string,mixed>  $options
-     *
-     * @throws Exception
      */
     public function createHeader(string $method, string $url, array $options): string
     {

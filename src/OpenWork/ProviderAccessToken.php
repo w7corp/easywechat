@@ -46,15 +46,6 @@ class ProviderAccessToken implements RefreshableAccessTokenInterface
         return $this;
     }
 
-    /**
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
     public function getToken(): string
     {
         $token = $this->cache->get($this->getKey());
@@ -68,14 +59,6 @@ class ProviderAccessToken implements RefreshableAccessTokenInterface
 
     /**
      * @return array<string, string>
-     *
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     #[ArrayShape(['provider_access_token' => 'string'])]
     public function toQuery(): array
@@ -84,13 +67,7 @@ class ProviderAccessToken implements RefreshableAccessTokenInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws HttpException
      */
     public function refresh(): string
     {

@@ -22,6 +22,9 @@ class Account implements AccountInterface
         return $this->appId;
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function getSecret(): string
     {
         if ($this->secret === null) {

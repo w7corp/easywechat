@@ -16,10 +16,7 @@ class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\BadResponseException
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
-     * @throws \EasyWeChat\Pay\Exceptions\InvalidSignatureException
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws BadResponseException
      */
     public function validate(PsrResponse|HttpClientResponse $response): void
     {

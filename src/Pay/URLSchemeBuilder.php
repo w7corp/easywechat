@@ -6,7 +6,6 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
-use Exception;
 
 use function sprintf;
 
@@ -16,9 +15,6 @@ class URLSchemeBuilder
     {
     }
 
-    /**
-     * @throws Exception
-     */
     public function forProduct(string|int $productId, string $appId): string
     {
         $params = [

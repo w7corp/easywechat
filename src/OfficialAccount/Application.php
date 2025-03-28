@@ -78,7 +78,7 @@ class Application implements ApplicationInterface
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function getEncryptor(): Encryptor
     {
@@ -108,11 +108,6 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    /**
-     * @throws \ReflectionException
-     * @throws InvalidArgumentException
-     * @throws \Throwable
-     */
     public function getServer(): Server|ServerInterface
     {
         if (! $this->server) {

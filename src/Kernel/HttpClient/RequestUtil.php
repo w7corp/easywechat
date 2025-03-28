@@ -106,6 +106,8 @@ class RequestUtil
     /**
      * @param  array{headers?:array<string, string>, xml?:mixed, body?:array|string, json?:mixed}  $options
      * @return array{headers?:array<string, string|array<string, string>|array<string>>, xml?:array|string, body?:array|string}
+     *
+     * @throws InvalidArgumentException
      */
     public static function formatBody(array $options): array
     {

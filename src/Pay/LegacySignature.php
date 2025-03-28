@@ -26,7 +26,8 @@ class LegacySignature
      * @param  array<string, mixed>  $params
      * @return array<string, mixed>
      *
-     * @throws \Exception
+     * @throws InvalidConfigException
+     * @throws RuntimeException
      */
     public function sign(array $params): array
     {
