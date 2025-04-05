@@ -13,6 +13,9 @@ $config = [
   'secret' => 'f1c242f4f28f735d4687abb469072axx',
   'token' => 'easywechat',
   'aes_key' => '35d4687abb469072a29f1c242xxxxxx',
+  // 记得配置suite_id，不然suite_ticket不能自动存储
+  'suite_id' => 'ww9f1388bf664xxxxx',
+  'suite_secret' => 'reuXvCX_5FhDVm_sOslJEHRVxxxxxxx'
 
   /**
    * 接口请求相关配置，超时时间等，具体可用参数请参考：
