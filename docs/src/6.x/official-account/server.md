@@ -203,3 +203,4 @@ return $response;
 ```
 
 > `$response` 是一个 [Psr\Http\Message\ResponseInterface](https://github.com/php-fig/http-message/blob/master/src/ResponseInterface.php) 实现，所以请自己决定如何适配您的框架。
+>  如果使用了 `thinkphp`、`workman` 等框架，需要先把框架请求转换成 Symfony 请求，再通过 `$app->setRequestFromSymfonyRequest($symfonyRequest)` 进行 request 对象替换，然后再调用 `getServer()`；
