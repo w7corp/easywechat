@@ -185,7 +185,7 @@ $client->post('xxxx');
 
 ## 预置参数的传递 <version-tag>6.4.0+</version-tag>
 
-在调用 API 的时候难免有的需要传递账号的一些信息，尤其是支付相关的 API，例如[查询订单](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_2.shtml)：
+在调用 API 的时候难免有的需要传递账号的一些信息，尤其是支付相关的 API，例如[查询订单](https://pay.weixin.qq.com/doc/v3/merchant/4012791858)：
 
 ```php
 $client->get('v3/pay/transactions/id/1217752501201407033233368018', [

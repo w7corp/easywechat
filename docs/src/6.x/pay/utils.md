@@ -23,7 +23,7 @@ $utils = $app->getUtils();
 
 ### WeixinJSBridge 调起支付 API
 
-:book: [官方文档 - WeixinJSBridge 调起支付](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_4.shtml)
+:book: [官方文档 - WeixinJSBridge 调起支付](https://pay.weixin.qq.com/doc/v3/merchant/4012791857)
 
 ```php
 $appId = '商户申请的公众号对应的 appid，由微信支付生成，可在公众号后台查看';
@@ -80,7 +80,7 @@ wx.chooseWXPay({
 
 ### 小程序调起支付 API
 
-:book: [官方文档 - 小程序调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_4.shtml)
+:book: [官方文档 - 小程序调起支付 API](https://pay.weixin.qq.com/doc/v3/merchant/4012791898)
 
 ```php
 $appId = '商户申请的小程序对应的appid，由微信支付生成，可在小程序后台查看';
@@ -105,14 +105,14 @@ wx.requestPayment({
 
 ### APP 调起支付 API
 
-:book: [官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_4.shtml)
+:book: [官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/doc/v3/merchant/4013070351)
 
 ```php
 $appId = '商户申请的公众号对应的appid，由微信支付生成，可在公众号后台查看';
 $config = $utils->buildAppConfig($prepayId, $appId); // 返回数组
 ```
 
-调用示例：[官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_4.shtml)
+调用示例：[官方文档 - APP 调起支付 API](https://pay.weixin.qq.com/doc/v3/merchant/4013070351)
 
 ### 使用微信支付公钥加密敏感字段 <version-tag>6.17.0+</version-tag>
 

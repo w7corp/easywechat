@@ -16,15 +16,15 @@
 1. Fork [w7corp/easywechat](https://github.com/w7corp/easywechat) 并 Clone 到本地.
 2. 创建新的分支：
 
-```shell
-    $ git checkout -b new_feature
+```shell:no-line-numbers
+git checkout -b new_feature
 ```
 
 3. 编写代码。
 4. Push 到你的分支:
 
-```shell
-    $ git push origin new_feature
+```shell:no-line-numbers
+git push origin new_feature
 ```
 
 5. 创建 Pull Request 并描述你完成的功能或者做出的修改。
@@ -33,16 +33,16 @@
 
 ## 更新文档
 
-我们的文档也是开源的，源代码在 [w7corp/EasyWeChat/docs](https://github.com/w7corp/easywechat/tree/master/docs)
+我们的文档也是开源的，源代码在 [w7corp/EasyWeChat/docs](https://github.com/w7corp/easywechat/tree/6.x/docs)
 
 ### 流程
 
 1. Fork [w7corp/EasyWeChat](https://github.com/w7corp/easywechat)
 2. Clone 到你的电脑：
 
-```shell
-    $ git clone https://github.com/<username>/site.git
-    $ cd docs
+```shell:no-line-numbers
+git clone https://github.com/<username>/site.git
+cd docs
 ```
 
 3. 创建新的分支，编辑文档
