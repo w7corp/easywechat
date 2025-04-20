@@ -1,6 +1,6 @@
 # 微信支付
 
-请仔细阅读并理解：[微信官方文档 - 微信支付](https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/pages/index.shtml)
+请仔细阅读并理解：[微信官方文档 - 微信支付](https://pay.weixin.qq.com/doc/v3/merchant/4012062524)
 
 > [!NOTE]
 > 2024 年 Q3，微信支付官方开启了「微信支付公钥」平替「平台证书」方案，初始化所需的参数仅需配置上 **微信支付公钥 ID** 及 **微信支付公钥** 即完全兼容支持，CLI/API 下载 **平台证书** 已不是一个必要步骤，可略过。

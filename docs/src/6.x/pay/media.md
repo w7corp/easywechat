@@ -1,6 +1,6 @@
 ## 文件上传  <version-tag>6.10.0+</version-tag>
 
-由于微信 v3 对文件类上传使用特殊的签名机制，参见：[微信支付 - 图片上传API](https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter2_1_1.shtml)。
+由于微信 v3 对文件类上传使用特殊的签名机制，参见：[微信支付 - 图片上传API](https://pay.weixin.qq.com/doc/v3/merchant/4012557233)。
 
 因此，我们提供了一个媒体上传方法，方便开发者使用。
 

@@ -21,7 +21,7 @@ wechat SDK 遵循了官方建议，所以在调用这些接口时，除了按照
 
 1. 下载 CA 证书
 
-你可以从 http://curl.haxx.se/ca/cacert.pem 下载 或者 使用[微信官方提供的证书](https://pay.weixin.qq.com/wiki/doc/api/app.php?chapter=4_3)中的 CA 证书 `rootca.pem` 也是同样的效果。
+你可以从 http://curl.haxx.se/ca/cacert.pem 下载，或者使用操作系统提供的包管理器比如`brew install ca-certificates`安装或者更新CA根证书。
 
 2. 在 `php.ini` 中配置 CA 证书
 
