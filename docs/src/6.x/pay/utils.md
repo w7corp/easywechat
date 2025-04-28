@@ -1,3 +1,8 @@
+---
+title: 工具 | 微信支付
+aside: false
+---
+
 # 工具
 
 提供各种支付需要的配置生成方法。
@@ -39,7 +44,7 @@ WeixinJSBridge.invoke(
   {
     timeStamp: "<?= $config['timeStamp'] ?>", //注意 timeStamp 的格式
     nonceStr: "<?= $config['nonceStr'] ?>",
-    package: "?= $config['package'] ?>",
+    package: "<?= $config['package'] ?>",
     signType: "<?= $config['signType'] ?>",
     paySign: "<?= $config['paySign'] ?>" // 支付签名
   },
