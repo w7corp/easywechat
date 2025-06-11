@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^22.15.29",
+    "@types/node": "^22.15.31",
     "postcss": "^8.5.4",
     "postcss-import": "^16.1.0",
     "tenyun": "^0.13.1",

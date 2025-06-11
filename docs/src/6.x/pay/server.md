@@ -63,7 +63,7 @@ $server = $app->getServer();
 
 // 推送消息，已解密
 // 结构参考：https://pay.weixin.qq.com/doc/v2/merchant/4011985425
-$message = $server->getReqeustMessage();
+$message = $server->getRequestMessage();
 
 // 你的逻辑...
 
