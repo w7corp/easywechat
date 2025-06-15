@@ -51,6 +51,9 @@ exports = module.exports = [
         text: '素材管理',
         link: '/5.x/official-account/material.html'
       },
+      { text: '草稿箱',
+        link: '/5.x/official-account/draft.html'
+      },
       { text: '菜单', link: '/5.x/official-account/menu.html' },
       { text: '卡券', link: '/5.x/official-account/card.html' },
       { text: '门店', link: '/5.x/official-account/poi.html' },
