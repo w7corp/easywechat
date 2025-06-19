@@ -40,7 +40,7 @@ class Transfer extends Message
      *
      * @param string|null $account
      */
-    public function __construct(string $account = null)
+    public function __construct(?string $account = null)
     {
         parent::__construct(compact('account'));
     }

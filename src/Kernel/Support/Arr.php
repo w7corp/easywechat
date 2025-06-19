@@ -134,7 +134,7 @@ class Arr
      *
      * @return mixed
      */
-    public static function first(array $array, callable $callback = null, $default = null)
+    public static function first(array $array, ?callable $callback = null, $default = null)
     {
         if (is_null($callback)) {
             if (empty($array)) {
@@ -164,7 +164,7 @@ class Arr
      *
      * @return mixed
      */
-    public static function last(array $array, callable $callback = null, $default = null)
+    public static function last(array $array, ?callable $callback = null, $default = null)
     {
         if (is_null($callback)) {
             return empty($array) ? $default : end($array);
@@ -389,7 +389,7 @@ class Arr
      *
      * @throws \InvalidArgumentException
      */
-    public static function random(array $array, int $amount = null)
+    public static function random(array $array, ?int $amount = null)
     {
         if (is_null($amount)) {
             return $array[array_rand($array)];

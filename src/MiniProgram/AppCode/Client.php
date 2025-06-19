@@ -63,7 +63,7 @@ class Client extends BaseClient
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function getQrCode(string $path, int $width = null)
+    public function getQrCode(string $path, ?int $width = null)
     {
         return $this->getStream('cgi-bin/wxaapp/createwxaqrcode', compact('path', 'width'));
     }

@@ -31,7 +31,7 @@ class TagClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create(string $tagName, int $tagId = null)
+    public function create(string $tagName, ?int $tagId = null)
     {
         $params = [
             'tagname' => $tagName,

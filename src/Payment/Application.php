@@ -155,7 +155,7 @@ class Application extends ServiceContainer
      *
      * @return $this
      */
-    public function setSubMerchant(string $mchId, string $appId = null)
+    public function setSubMerchant(string $mchId, ?string $appId = null)
     {
         $this['config']->set('sub_mch_id', $mchId);
         $this['config']->set('sub_appid', $appId);
@@ -178,7 +178,7 @@ class Application extends ServiceContainer
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
      */
-    public function getKey(string $endpoint = null)
+    public function getKey(?string $endpoint = null)
     {
         if ('sandboxnew/pay/getsignkey' === $endpoint) {
             return $this['config']->key;

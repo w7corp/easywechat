@@ -50,7 +50,7 @@ class BaseClient
      * @param \EasyWeChat\Kernel\ServiceContainer                    $app
      * @param \EasyWeChat\Kernel\Contracts\AccessTokenInterface|null $accessToken
      */
-    public function __construct(ServiceContainer $app, AccessTokenInterface $accessToken = null)
+    public function __construct(ServiceContainer $app, ?AccessTokenInterface $accessToken = null)
     {
         $this->app = $app;
         $this->accessToken = $accessToken ?? $this->app['access_token'];
@@ -261,7 +261,7 @@ class BaseClient
             function (
                 $retries,
                 RequestInterface $request,
-                ResponseInterface $response = null
+                ?ResponseInterface $response = null
             ) {
                 // Limit the number of retries to 2
                 if ($retries < $this->app->config->get('http.max_retries', 1) && $response && $body = $response->getBody()) {

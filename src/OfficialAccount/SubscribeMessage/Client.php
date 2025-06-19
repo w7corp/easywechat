@@ -42,7 +42,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function addTemplate(string $tid, array $kidList, string $sceneDesc = null)
+    public function addTemplate(string $tid, array $kidList, ?string $sceneDesc = null)
     {
         $sceneDesc = $sceneDesc ?? '';
         $data = \compact('tid', 'kidList', 'sceneDesc');

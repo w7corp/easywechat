@@ -85,7 +85,7 @@ class ShopClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function clearDevice(int $shopId, string $ssid = null)
+    public function clearDevice(int $shopId, ?string $ssid = null)
     {
         $data = [
             'shop_id' => $shopId,

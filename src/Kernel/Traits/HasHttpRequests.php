@@ -104,12 +104,12 @@ trait HasHttpRequests
     /**
      * Add a middleware.
      *
-     * @param callable $middleware
-     * @param string   $name
+     * @param callable    $middleware
+     * @param string|null $name
      *
      * @return $this
      */
-    public function pushMiddleware(callable $middleware, string $name = null)
+    public function pushMiddleware(callable $middleware, ?string $name = null)
     {
         if (!is_null($name)) {
             $this->middlewares[$name] = $middleware;

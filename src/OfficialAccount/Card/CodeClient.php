@@ -159,7 +159,7 @@ class CodeClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function consume(string $code, string $cardId = null)
+    public function consume(string $code, ?string $cardId = null)
     {
         $params = [
             'code' => $code,

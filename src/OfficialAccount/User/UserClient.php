@@ -66,13 +66,13 @@ class UserClient extends BaseClient
     /**
      * List users.
      *
-     * @param string $nextOpenId
+     * @param string|null $nextOpenId
      *
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
-    public function list(string $nextOpenId = null)
+    public function list(?string $nextOpenId = null)
     {
         $params = ['next_openid' => $nextOpenId];
 
@@ -110,7 +110,7 @@ class UserClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function blacklist(string $beginOpenid = null)
+    public function blacklist(?string $beginOpenid = null)
     {
         $params = ['begin_openid' => $beginOpenid];
 

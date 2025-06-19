@@ -30,7 +30,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function handleAuthorize(string $authCode = null)
+    public function handleAuthorize(?string $authCode = null)
     {
         $params = [
             'component_appid' => $this->app['config']['app_id'],

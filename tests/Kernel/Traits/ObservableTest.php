@@ -370,7 +370,7 @@ class DummyClassForObservableTest
     use Observable;
     protected $app;
 
-    public function __construct(ServiceContainer $app = null)
+    public function __construct(?ServiceContainer $app = null)
     {
         $this->app = $app;
     }

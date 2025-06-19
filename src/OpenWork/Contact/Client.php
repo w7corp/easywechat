@@ -37,7 +37,7 @@ class Client extends BaseClient
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @noinspection PhpFullyQualifiedNameUsageInspection
      */
-    public function idTranslate(string $authCorpId, array $mediaIdList, string $outputFileName = null, string $outputFileFormat = null)
+    public function idTranslate(string $authCorpId, array $mediaIdList, ?string $outputFileName = null, ?string $outputFileFormat = null)
     {
         /** @noinspection SpellCheckingInspection */
         return $this->httpPostJson('cgi-bin/service/contact/id_translate', [

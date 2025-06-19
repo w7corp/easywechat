@@ -291,16 +291,16 @@ class Client extends BaseClient
     /**
      * Get Approval Data.
      *
-     * @param int $startTime
-     * @param int $endTime
-     * @param int $nextNumber
+     * @param int      $startTime
+     * @param int      $endTime
+     * @param int|null $nextNumber
      *
      * @return mixed
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function approvalRecords(int $startTime, int $endTime, int $nextNumber = null)
+    public function approvalRecords(int $startTime, int $endTime, ?int $nextNumber = null)
     {
         $params = [
             'starttime' => $startTime,

@@ -160,14 +160,14 @@ class Client extends BaseClient
     /**
      * 获取登录url.
      *
-     * @param string $redirectUri
-     * @param string $scope
+     * @param string      $redirectUri
+     * @param string      $scope
      * @param string|null $state
      *
      * @return string
      * @throws \Exception
      */
-    public function getOAuthRedirectUrl(string $redirectUri = '', string $scope = 'snsapi_userinfo', string $state = null)
+    public function getOAuthRedirectUrl(string $redirectUri = '', string $scope = 'snsapi_userinfo', ?string $state = null)
     {
         $redirectUri || $redirectUri = $this->app->config['redirect_uri_oauth'];
         $state || $state = random_bytes(64);

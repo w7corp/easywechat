@@ -32,7 +32,7 @@ class TestCase extends BaseTestCase
      *
      * @return \Mockery\Mock
      */
-    public function mockApiClient($name, $methods = [], ServiceContainer $app = null)
+    public function mockApiClient($name, $methods = [], ?ServiceContainer $app = null)
     {
         $methods = implode(',', array_merge([
             'httpGet', 'httpPost', 'httpPostJson', 'httpUpload',

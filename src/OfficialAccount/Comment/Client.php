@@ -31,7 +31,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function open(string $msgId, int $index = null)
+    public function open(string $msgId, ?int $index = null)
     {
         $params = [
             'msg_data_id' => $msgId,
@@ -52,7 +52,7 @@ class Client extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function close(string $msgId, int $index = null)
+    public function close(string $msgId, ?int $index = null)
     {
         $params = [
             'msg_data_id' => $msgId,

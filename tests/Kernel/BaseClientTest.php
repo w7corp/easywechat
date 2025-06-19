@@ -23,7 +23,7 @@ use Monolog\Logger;
 
 class BaseClientTest extends TestCase
 {
-    public function makeClient($methods = [], ServiceContainer $app = null, AccessToken $accessToken = null)
+    public function makeClient($methods = [], ?ServiceContainer $app = null, ?AccessToken $accessToken = null)
     {
         $methods = !empty($methods) ? \sprintf('[%s]', implode(',', (array) $methods)) : '';
         $app = $app ?? \Mockery::mock(ServiceContainer::class);

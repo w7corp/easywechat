@@ -27,7 +27,7 @@ class Client extends BaseClient
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException|\GuzzleHttp\Exception\GuzzleException
      */
-    public function getPermitUsers(string $type = null)
+    public function getPermitUsers(?string $type = null)
     {
         return $this->httpPostJson('cgi-bin/msgaudit/get_permit_user_list', (empty($type) ? [] : ['type' => $type]));
     }

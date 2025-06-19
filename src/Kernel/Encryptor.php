@@ -70,7 +70,7 @@ class Encryptor
      * @param string|null $token
      * @param string|null $aesKey
      */
-    public function __construct(string $appId, string $token = null, string $aesKey = null)
+    public function __construct(string $appId, ?string $token = null, ?string $aesKey = null)
     {
         $this->appId = $appId;
         $this->token = $token;
