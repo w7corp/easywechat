@@ -243,8 +243,54 @@ class Client extends BaseClient
             'description' => $description,
         ];
 
-        return $this->safeRequest(
+        return $this->request(
             'secapi/pay/profitsharingreturn',
+            $params
+        );
+    }
+
+
+    /**
+     * Profit sharing Order AmountQuery.
+     * 查询订单待分账金额.
+     *
+     * @param string $transactionID   微信支付订单号
+     * @return array 查询结果数组
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+
+    public function profitSharingOrderAmountQuery(
+        string $transactionID
+    ) {
+        $params = [
+            'transaction_id' => $transactionID,
+        ];
+        return $this->safeRequest(
+            'pay/profitsharingorderamountquery',
+            $params
+        );
+    }
+
+
+    /**
+     * Profit sharing return.
+     * 查询最大分账比例.
+     *
+     * @param string $sub_mch_id   微信支付分配的子商户号，即分账的出资商户号。普通分账传入子商户号时，查询子商户号的设置的最大分账比例。
+     * @return array 查询结果数组
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     */
+
+    public function profitSharingMerchantRatioQuery(
+        string $sub_mch_id
+    ) {
+        $params = [
+            'sub_mch_id' => $sub_mch_id
+        ];
+        return $this->safeRequest(
+            'pay/profitsharingmerchantratioquery',
             $params
         );
     }
