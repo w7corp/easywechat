@@ -64,8 +64,14 @@ trait RespondJsonMessage
      */
     protected function createJsonResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface
     {
-        $json = json_encode($attributes, JSON_UNESCAPED_UNICODE);
+        $jsonStr = json_encode($attributes, JSON_UNESCAPED_UNICODE);
 
-        return new Response(200, ['Content-Type' => 'application/json'], $encryptor ? $encryptor->encrypt($json, messageType: $this->messageType) : $json);
+        if (is_string($jsonStr)) {
+            return new Response(200, ['Content-Type' => 'application/json'], $encryptor ? $encryptor->encrypt($jsonStr, messageType: $this->messageType) : $jsonStr);
+        }
+
+        throw new InvalidArgumentException(
+            sprintf('Invalid Response content "%s".', implode(',', $attributes))
+        );
     }
 }

@@ -56,6 +56,8 @@ class Encryptor
     public const ERROR_BASE64_DECODE = -40010; // Base64 decoding failed
 
     public const ERROR_XML_BUILD = -40011; // XML build failed
+    
+    public const ERROR_JSON_BUILD = -40012; // JOSN build failed
 
     public const ILLEGAL_BUFFER = -41003; // Illegal buffer
 
@@ -119,7 +121,13 @@ class Encryptor
             'nonce' => $encrypted['nonce'],
         ];
 
-        return json_encode($response);
+        $jsonStr = json_encode($response, JSON_UNESCAPED_UNICODE);
+
+        if ($jsonStr === false) {
+            throw new RuntimeException('Invalid json data.', self::ERROR_JSON_BUILD);
+        }
+
+        return $jsonStr;
     }
 
     /**
