@@ -8,9 +8,11 @@ use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\ServerResponse;
+use EasyWeChat\Kernel\Traits\DecryptJsonMessage;
 use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
+use EasyWeChat\Kernel\Traits\RespondJsonMessage;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -19,13 +21,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class Server implements ServerInterface
 {
     use DecryptXmlMessage;
+    use DecryptJsonMessage;
     use InteractWithHandlers;
     use InteractWithServerRequest;
     use RespondXmlMessage;
+    use RespondJsonMessage;
 
     public function __construct(
         protected Encryptor $encryptor,
         ?ServerRequestInterface $request = null,
+        protected string $messageType = 'xml',
     ) {
         $this->request = $request;
     }
@@ -52,7 +57,9 @@ class Server implements ServerInterface
         $response = $this->handle(new Response(200, [], 'SUCCESS'), $message);
 
         if (! ($response instanceof ResponseInterface)) {
-            $response = $this->transformToReply($response, $message, $this->encryptor);
+            $response = $this->messageType === 'xml' ?
+                $this->transformToReply($response, $message, $this->encryptor) :
+                $this->transformJsonToReply($response, $message, $this->encryptor);
         }
 
         return ServerResponse::make($response);
@@ -201,13 +208,16 @@ class Server implements ServerInterface
     {
         return function (Message $message, Closure $next): mixed {
             $query = $this->getRequest()->getQueryParams();
-            $this->decryptMessage(
-                $message,
-                $this->encryptor,
+
+            $params = [
                 $query['msg_signature'] ?? '',
                 $query['timestamp'] ?? '',
                 $query['nonce'] ?? ''
-            );
+            ];
+
+            $this->messageType === 'xml'
+                ? $this->decryptMessage($message, $this->encryptor, ...$params)
+                : $this->decryptJsonMessage($message, $this->encryptor, ...$params);
 
             return $next($message);
         };
@@ -224,12 +234,24 @@ class Server implements ServerInterface
         $message = $this->getRequestMessage($request);
         $query = $request->getQueryParams();
 
-        return $this->decryptMessage(
-            message: $message,
-            encryptor: $this->encryptor,
-            signature: $query['msg_signature'] ?? '',
-            timestamp: $query['timestamp'] ?? '',
-            nonce: $query['nonce'] ?? ''
-        );
+        $params = [
+            $query['msg_signature'] ?? '',
+            $query['timestamp'] ?? '',
+            $query['nonce'] ?? ''
+        ];
+
+        if ($this->messageType === 'xml') {
+            return $this->decryptMessage(
+                $message,
+                $this->encryptor,
+                ...$params
+            );
+        } else {
+            return $this->decryptJsonMessage(
+                $message,
+                $this->encryptor,
+                ...$params
+            );
+        }
     }
 }
