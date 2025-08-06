@@ -56,6 +56,8 @@ class Encryptor
     public const ERROR_BASE64_DECODE = -40010; // Base64 decoding failed
 
     public const ERROR_XML_BUILD = -40011; // XML build failed
+    
+    public const ERROR_JSON_BUILD = -40012; // JOSN build failed
 
     public const ILLEGAL_BUFFER = -41003; // Illegal buffer
 
@@ -87,9 +89,11 @@ class Encryptor
      * @throws RuntimeException
      * @throws Exception
      */
-    public function encrypt(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): string
+    public function encrypt(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null, string $messageType = 'xml'): string
     {
-        return $this->encryptAsXml($plaintext, $nonce, $timestamp);
+        return $messageType === 'xml' ?
+            $this->encryptAsXml($plaintext, $nonce, $timestamp) :
+            $this->encryptAsJson($plaintext, $nonce, $timestamp);
     }
 
     public function encryptAsXml(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): string
@@ -106,8 +110,28 @@ class Encryptor
         return Xml::build($response);
     }
 
+    public function encryptAsJson(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): string
+    {
+        $encrypted = $this->encryptAsArray($plaintext, $nonce, $timestamp);
+
+        $response = [
+            'encrypt' => $encrypted['ciphertext'],
+            'msgsignature' => $encrypted['signature'],
+            'timestamp' => $encrypted['timestamp'],
+            'nonce' => $encrypted['nonce'],
+        ];
+
+        $jsonStr = json_encode($response, JSON_UNESCAPED_UNICODE);
+
+        if ($jsonStr === false) {
+            throw new RuntimeException('Invalid json data.', self::ERROR_JSON_BUILD);
+        }
+
+        return $jsonStr;
+    }
+
     /**
-     * @throws RuntimeException
+     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     public function encryptAsArray(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): array
     {

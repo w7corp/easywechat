@@ -81,12 +81,13 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    public function getServer(): Server|ServerInterface
+    public function getServer(string $messageType = 'xml'): Server|ServerInterface
     {
         if (! $this->server) {
             $this->server = new Server(
                 encryptor: $this->getEncryptor(),
-                request: $this->getRequest()
+                request: $this->getRequest(),
+                messageType: $messageType,
             );
         }
 
