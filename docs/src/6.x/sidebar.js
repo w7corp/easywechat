@@ -87,7 +87,7 @@ exports = module.exports = [
       { text: 'API 调用', link: '/6.x/client.html' },
       { text: '网页授权', link: '/6.x/oauth.html' },
       { text: '自定义缓存', link: '/6.x/cache.html' },
-      // { text: '日志', link: '/6.x/common/logging.html' }
+      { text: '日志', link: '/6.x/logging.html' }
     ]
   }
 ]
