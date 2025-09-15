@@ -5,8 +5,7 @@
 例如URL Link接口
 
 ```php
-
-$response = $app->httpPostJson('wxa/generate_urllink',[
+$response = $app->getClient()->postJson('wxa/generate_urllink', [
     'path' => 'pages/index/index',
     'is_expire' => true,
     'expire_type' => 1,
@@ -17,24 +16,26 @@ $response = $app->httpPostJson('wxa/generate_urllink',[
 ## 语法说明
 
 ```php
-httpGet(string $uri, array $query = [])
-httpPostJson(string $uri, array $data = [], array $query = [])
+$app->getClient()->get(string $uri, array $options = [])
+$app->getClient()->postJson(string $uri, array $data = [], array $options = [])
+$app->getClient()->post(string $uri, array $options = [])
+$app->getClient()->postXml(string $uri, array $data = [], array $options = [])
 ```
-
-
 
 ### GET
 
 ```php
-$response = $app->httpGet('/cgi-bin/user/list', [
-    'next_openid' => 'OPENID1',
+$response = $app->getClient()->get('/cgi-bin/user/list', [
+    'query' => [
+        'next_openid' => 'OPENID1',
+    ]
 ]);
 ```
 
-### POST
+### POST JSON
 
 ```php
-$response = $app->httpPostJson('/cgi-bin/user/info/updateremark', [
+$response = $app->getClient()->postJson('/cgi-bin/user/info/updateremark', [
     "openid" => "oDF3iY9ffA-hqb2vVvbr7qxf6A0Q",
     "remark" => "pangzi"
 ]);
