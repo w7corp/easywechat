@@ -159,7 +159,9 @@ exports = module.exports = [
       { text: '微信小商店', link: '/5.x/mini-program/mall.html' },
       { text: '实时日志', link: '/5.x/mini-program/realtime_log.html' },
       { text: '风险控制', link: '/5.x/mini-program/risk_control.html' },
-      { text: '联盟推广', link: '/5.x/mini-program/union.html' }
+      { text: '联盟推广', link: '/5.x/mini-program/union.html' },
+      { text: '动态消息', link: '/5.x/mini-program/activity_message.html' },
+      { text: '搜索功能', link: '/5.x/mini-program/search.html' }
     ]
   },
   {
@@ -201,7 +203,8 @@ exports = module.exports = [
       { text: '企微帐号ID转换', link: '/5.x/wework/to-account.html' },
       { text: '日程', link: '/5.x/wework/calendar.html' },
       { text: '微盘', link: '/5.x/wework/wedrive.html' },
-      { text: '群聊管理', link: '/5.x/wework/chat.html' }
+      { text: '群聊管理', link: '/5.x/wework/chat.html' },
+      { text: '入群欢迎语', link: '/5.x/wework/group-welcome-template.html' }
     ]
   },
   {
