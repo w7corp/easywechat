@@ -103,7 +103,15 @@ exports = module.exports = [
       {
         text: '订阅消息',
         link: '/4.x/mini-program/subscribe_message.html'
-      }
+      },
+      { text: '商户功能', link: '/4.x/mini-program/business.html' },
+      { text: 'OCR 文字识别', link: '/4.x/mini-program/ocr.html' },
+      { text: '微信小商店', link: '/4.x/mini-program/mall.html' },
+      { text: '实时日志', link: '/4.x/mini-program/realtime_log.html' },
+      { text: '风险控制', link: '/4.x/mini-program/risk_control.html' },
+      { text: '联盟推广', link: '/4.x/mini-program/union.html' },
+      { text: '动态消息', link: '/4.x/mini-program/activity_message.html' },
+      { text: '搜索功能', link: '/4.x/mini-program/search.html' }
     ]
   },
   {
@@ -141,7 +149,11 @@ exports = module.exports = [
       { text: '小程序', link: '/4.x/wework/mini-program.html' },
       { text: 'JSSDK', link: '/4.x/wework/jssdk.html' },
       { text: '群机器人', link: '/4.x/wework/group-robot.html' },
-      { text: '移动端', link: '/4.x/wework/mobile.html' }
+      { text: '移动端', link: '/4.x/wework/mobile.html' },
+      { text: '日程', link: '/4.x/wework/calendar.html' },
+      { text: '微盘', link: '/4.x/wework/wedrive.html' },
+      { text: '群聊管理', link: '/4.x/wework/chat.html' },
+      { text: '入群欢迎语', link: '/4.x/wework/group-welcome-template.html' }
     ]
   },
   {
