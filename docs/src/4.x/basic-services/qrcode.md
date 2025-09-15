@@ -8,8 +8,17 @@
 ## 创建临时二维码
 
 ```php
-$result = $app->qrcode->temporary('foo', 6 * 24 * 3600);
+$response = $app->getClient()->postJson('/cgi-bin/qrcode/create', [
+    'expire_seconds' => 6 * 24 * 3600, // 6天后过期
+    'action_name' => 'QR_STR_SCENE',
+    'action_info' => [
+        'scene' => [
+            'scene_str' => 'foo'
+        ]
+    ]
+]);
 
+$result = $response->toArray();
 // Array
 // (
 //     [ticket] => gQFD8TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyTmFjVTRWU3ViUE8xR1N4ajFwMWsAAgS2uItZAwQA6QcA
@@ -21,7 +30,27 @@ $result = $app->qrcode->temporary('foo', 6 * 24 * 3600);
 ## 创建永久二维码
 
 ```php
-$result = $app->qrcode->forever(56);// 或者 $app->qrcode->forever("foo");
+// 永久字符串二维码
+$response = $app->getClient()->postJson('/cgi-bin/qrcode/create', [
+    'action_name' => 'QR_LIMIT_STR_SCENE',
+    'action_info' => [
+        'scene' => [
+            'scene_str' => 'foo'
+        ]
+    ]
+]);
+
+// 永久数字二维码
+$response = $app->getClient()->postJson('/cgi-bin/qrcode/create', [
+    'action_name' => 'QR_LIMIT_SCENE',
+    'action_info' => [
+        'scene' => [
+            'scene_id' => 56
+        ]
+    ]
+]);
+
+$result = $response->toArray();
 // Array
 // (
 //     [ticket] => gQFD8TwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyTmFjVTRWU3ViUE8xR1N4ajFwMWsAAgS2uItZAwQA6QcA
@@ -32,14 +61,13 @@ $result = $app->qrcode->forever(56);// 或者 $app->qrcode->forever("foo");
 ## 获取二维码网址
 
 ```php
-$url = $app->qrcode->url($ticket);
-// https://api.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET
+$url = "https://api.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($ticket);
 ```
 
 ## 获取二维码内容
 
 ```php
-$url = $app->qrcode->url($ticket);
+$url = "https://api.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($ticket);
 
 $content = file_get_contents($url); // 得到二进制图片内容
 

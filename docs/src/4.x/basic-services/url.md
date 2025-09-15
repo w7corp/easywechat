@@ -5,11 +5,16 @@
 ## 长链接转短链接
 
 ```php
-$shortUrl = $app->url->shorten('https://easywechat.com');
-//
-(
-    [errcode] => 0
-    [errmsg] => ok
-    [short_url] => https://w.url.cn/s/Aq7jWrd
-)
+$response = $app->getClient()->postJson('/cgi-bin/shorturl', [
+    'action' => 'long2short',
+    'long_url' => 'https://easywechat.com'
+]);
+
+$result = $response->toArray();
+// Array
+// (
+//     [errcode] => 0
+//     [errmsg] => ok
+//     [short_url] => https://w.url.cn/s/Aq7jWrd
+// )
 ```

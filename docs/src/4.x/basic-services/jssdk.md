@@ -7,31 +7,35 @@
 #### 获取JSSDK的配置数组
 
 ```php
-$app->jssdk->buildConfig(array $APIs, $debug = false, $beta = false, $json = true);
+$config = $app->getUtils()->buildJsSdkConfig($url, $jsApiList, $openTagList, $debug);
 ```
 
-默认返回 JSON 字符串，当 `$json` 为 `false` 时返回数组，你可以直接使用到网页中。
+参数说明：
+- `$url`: 当前页面的完整URL
+- `$jsApiList`: 需要使用的JS接口列表
+- `$openTagList`: 需要使用的开放标签列表（可选）
+- `$debug`: 是否开启调试模式（可选，默认false）
 
-#### 设置当前URL
-
-```php
-$app->jssdk->setUrl($url)
-```
-如果不想用默认读取的URL，可以使用此方法手动设置，通常不需要。
-
+返回配置数组，包含 appId、timestamp、nonceStr、signature 等字段。
 
 #### 示例
 
-我们可以生成js配置文件：
+我们可以生成js配置：
+
+```php
+$url = 'https://example.com/current-page';
+$jsApiList = ['updateAppMessageShareData', 'updateTimelineShareData'];
+$config = $app->getUtils()->buildJsSdkConfig($url, $jsApiList, [], true);
+```
 
 ```js
 <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8">
-    wx.config(<?php echo $app->jssdk->buildConfig(array('updateAppMessageShareData', 'updateTimelineShareData'), true) ?>);
+    wx.config(<?php echo json_encode($config) ?>);
 </script>
 ```
-结果如下：
 
+结果如下：
 
 ```js
 <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js" type="text/javascript" charset="utf-8"></script>
