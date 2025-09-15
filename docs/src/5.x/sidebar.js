@@ -153,7 +153,13 @@ exports = module.exports = [
       {
         text: '小程序发货信息管理服务',
         link: '/5.x/mini-program/shipping.html'
-      }
+      },
+      { text: '商户功能', link: '/5.x/mini-program/business.html' },
+      { text: 'OCR 文字识别', link: '/5.x/mini-program/ocr.html' },
+      { text: '微信小商店', link: '/5.x/mini-program/mall.html' },
+      { text: '实时日志', link: '/5.x/mini-program/realtime_log.html' },
+      { text: '风险控制', link: '/5.x/mini-program/risk_control.html' },
+      { text: '联盟推广', link: '/5.x/mini-program/union.html' }
     ]
   },
   {
