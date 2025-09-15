@@ -198,7 +198,10 @@ exports = module.exports = [
       { text: 'JSSDK', link: '/5.x/wework/jssdk.html' },
       { text: '群机器人', link: '/5.x/wework/group-robot.html' },
       { text: '移动端', link: '/5.x/wework/mobile.html' },
-      { text: '企微帐号ID转换', link: '/5.x/wework/to-account.html' }
+      { text: '企微帐号ID转换', link: '/5.x/wework/to-account.html' },
+      { text: '日程', link: '/5.x/wework/calendar.html' },
+      { text: '微盘', link: '/5.x/wework/wedrive.html' },
+      { text: '群聊管理', link: '/5.x/wework/chat.html' }
     ]
   },
   {
