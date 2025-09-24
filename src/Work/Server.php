@@ -20,12 +20,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
 {
-    use DecryptXmlMessage;
     use DecryptJsonMessage;
+    use DecryptXmlMessage;
     use InteractWithHandlers;
     use InteractWithServerRequest;
-    use RespondXmlMessage;
     use RespondJsonMessage;
+    use RespondXmlMessage;
 
     public function __construct(
         protected Encryptor $encryptor,
@@ -212,7 +212,7 @@ class Server implements ServerInterface
             $params = [
                 $query['msg_signature'] ?? '',
                 $query['timestamp'] ?? '',
-                $query['nonce'] ?? ''
+                $query['nonce'] ?? '',
             ];
 
             $this->messageType === 'xml'
@@ -237,7 +237,7 @@ class Server implements ServerInterface
         $params = [
             $query['msg_signature'] ?? '',
             $query['timestamp'] ?? '',
-            $query['nonce'] ?? ''
+            $query['nonce'] ?? '',
         ];
 
         if ($this->messageType === 'xml') {

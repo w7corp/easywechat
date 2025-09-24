@@ -3,10 +3,7 @@
 namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Encryptor;
-use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Message;
-use EasyWeChat\Kernel\Support\Xml;
-use Illuminate\Support\Facades\Log;
 
 trait DecryptJsonMessage
 {
@@ -21,16 +18,15 @@ trait DecryptJsonMessage
 
         $this->validateSignature($encryptor->getToken(), $ciphertext, $signature, $timestamp, $nonce);
 
-        $message->merge(json_decode(
+        $plain = json_decode(
             $encryptor->decrypt(
                 ciphertext: $ciphertext,
                 msgSignature: $signature,
                 nonce: $nonce,
                 timestamp: $timestamp
-            )
-        , true) ?? []);
+            ), true);
+        is_array($plain) && $message->merge($plain);
 
         return $message;
     }
-
 }

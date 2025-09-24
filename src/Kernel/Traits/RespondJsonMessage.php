@@ -5,21 +5,11 @@ namespace EasyWeChat\Kernel\Traits;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Message;
-use EasyWeChat\Kernel\Support\Xml;
-use Illuminate\Support\Facades\Log;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 trait RespondJsonMessage
 {
-    /**
-     * @param mixed $response
-     * @param Message $message
-     * @param Encryptor|null $encryptor
-     * @return ResponseInterface
-     * @throws InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
-     */
     public function transformJsonToReply(mixed $response, Message $message, ?Encryptor $encryptor = null): ResponseInterface
     {
         if (empty($response)) {
@@ -33,8 +23,6 @@ trait RespondJsonMessage
     }
 
     /**
-     * @param mixed $response
-     * @return array
      * @throws InvalidArgumentException
      */
     protected function normalizeJsonResponse(mixed $response): array
@@ -57,9 +45,6 @@ trait RespondJsonMessage
     }
 
     /**
-     * @param array $attributes
-     * @param Encryptor|null $encryptor
-     * @return ResponseInterface
      * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
      */
     protected function createJsonResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface
