@@ -40,6 +40,12 @@ class Application implements ApplicationInterface
 
     protected ?AccessTokenInterface $accessToken = null;
 
+    protected ?KfMessage $kfMessage = null;
+
+    protected ?KfAccount $kfAccount = null;
+
+    protected ?KfServicer $kfServicer = null;
+
     public function getAccount(): AccountInterface
     {
         if (! $this->account) {
@@ -177,6 +183,54 @@ class Application implements ApplicationInterface
         return $this;
     }
 
+    public function getKfMessage(): KfMessage
+    {
+        if (! $this->kfMessage) {
+            $this->kfMessage = new KfMessage($this->getClient());
+        }
+
+        return $this->kfMessage;
+    }
+
+    public function setKfMessage(KfMessage $kfMessage): static
+    {
+        $this->kfMessage = $kfMessage;
+
+        return $this;
+    }
+
+    public function getKfAccount(): KfAccount
+    {
+        if (! $this->kfAccount) {
+            $this->kfAccount = new KfAccount($this->getClient());
+        }
+
+        return $this->kfAccount;
+    }
+
+    public function setKfAccount(KfAccount $kfAccount): static
+    {
+        $this->kfAccount = $kfAccount;
+
+        return $this;
+    }
+
+    public function getKfServicer(): KfServicer
+    {
+        if (! $this->kfServicer) {
+            $this->kfServicer = new KfServicer($this->getClient());
+        }
+
+        return $this->kfServicer;
+    }
+
+    public function setKfServicer(KfServicer $kfServicer): static
+    {
+        $this->kfServicer = $kfServicer;
+
+        return $this;
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -186,5 +240,26 @@ class Application implements ApplicationInterface
             ['base_uri' => 'https://qyapi.weixin.qq.com/'],
             (array) $this->config->get('http', [])
         );
+    }
+
+    /**
+     * Handle dynamic property access for customer service (kf) modules.
+     *
+     * @param  string  $property
+     * @return KfMessage|KfAccount|KfServicer
+     */
+    public function __get(string $property): mixed
+    {
+        $propertyMap = [
+            'kf_message' => 'getKfMessage',
+            'kf_account' => 'getKfAccount',
+            'kf_servicer' => 'getKfServicer',
+        ];
+
+        if (isset($propertyMap[$property])) {
+            return $this->{$propertyMap[$property]}();
+        }
+
+        throw new \BadMethodCallException(sprintf('Property %s does not exist.', $property));
     }
 }

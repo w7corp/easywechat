@@ -106,7 +106,7 @@ $app->kf_message->updateState(string $openKfId, string $externalUserId, int $ser
 ### 读取消息
 
 ```php
-$app->kf_message->sync(string $cursor, string $token, int $limit);
+$app->kf_message->sync(string $cursor, string $token, int $limit, string $openKfId);
 ```
 
 ### 发送消息
