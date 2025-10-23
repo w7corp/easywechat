@@ -77,6 +77,7 @@ class MessageClient extends BaseClient
      *
      * @see https://open.work.weixin.qq.com/api/doc/90000/90135/94670
      *
+     * @param string $openKfId
      * @param string $cursor
      * @param string $token
      * @param int $limit
@@ -86,9 +87,10 @@ class MessageClient extends BaseClient
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sync(string $cursor, string $token, int $limit)
+    public function sync(string $openKfId, string $cursor, string $token, int $limit)
     {
         $params = [
+            'open_kfid' => $openKfId,
             'cursor' => $cursor,
             'token' => $token,
             'limit' => $limit
