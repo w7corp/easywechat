@@ -53,13 +53,13 @@ class MessageClientTest extends TestCase
     {
         $client = $this->mockApiClient(MessageClient::class);
         $client->expects()->httpPostJson('cgi-bin/kf/sync_msg', [
-            'open_kfid' => 'kfxxxxxxxxxxxxxx',
             'cursor' => '123',
             'token' => 'token_test',
-            'limit' => 1000
+            'limit' => 1000,
+            'open_kfid' => 'kfxxxxxxxxxxxxxx'
         ])->andReturn('mock-result');
 
-        $this->assertSame('mock-result', $client->sync('kfxxxxxxxxxxxxxx', '123', 'token_test', 1000));
+        $this->assertSame('mock-result', $client->sync('123', 'token_test', 1000, 'kfxxxxxxxxxxxxxx'));
     }
 
     public function testSend()
