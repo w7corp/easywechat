@@ -80,19 +80,24 @@ class MessageClient extends BaseClient
      * @param string $cursor
      * @param string $token
      * @param int $limit
+     * @param string $openKfId
      *
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      *
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function sync(string $cursor, string $token, int $limit)
+    public function sync(string $cursor, string $token, int $limit, string $openKfId = '')
     {
         $params = [
             'cursor' => $cursor,
             'token' => $token,
             'limit' => $limit
         ];
+
+        if ($openKfId) {
+            $params['open_kfid'] = $openKfId;
+        }
 
         return $this->httpPostJson('cgi-bin/kf/sync_msg', $params);
     }
