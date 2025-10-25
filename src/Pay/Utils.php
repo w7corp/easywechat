@@ -8,7 +8,6 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
-use JetBrains\PhpStorm\ArrayShape;
 
 use function base64_encode;
 use function call_user_func_array;
@@ -27,7 +26,7 @@ class Utils
     /**
      * @return array<string, mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'appId' => 'string',
         'timeStamp' => 'string',
         'nonceStr' => 'string',
@@ -66,7 +65,7 @@ class Utils
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'appId' => 'string',
         'nonceStr' => 'string',
         'package' => 'string',
@@ -89,7 +88,7 @@ class Utils
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'appId' => 'string',
         'timeStamp' => 'string',
         'nonceStr' => 'string',
@@ -105,7 +104,7 @@ class Utils
     /**
      * @return array<string, mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'appid' => 'string',
         'partnerid' => 'int',
         'prepayid' => 'string',

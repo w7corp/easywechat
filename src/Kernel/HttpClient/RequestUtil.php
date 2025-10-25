@@ -9,7 +9,6 @@ use const JSON_UNESCAPED_UNICODE;
 use EasyWeChat\Kernel\Support\UserAgent;
 use EasyWeChat\Kernel\Support\Xml;
 use InvalidArgumentException;
-use JetBrains\PhpStorm\ArrayShape;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,7 +27,7 @@ class RequestUtil
      * @param  array<string, mixed>  $options
      * @return array<string, mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'status_codes' => 'array',
         'delay' => 'int',
         'max_delay' => 'int',

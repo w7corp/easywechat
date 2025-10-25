@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Support;
 
-use JetBrains\PhpStorm\Pure;
-
 use function is_string;
 
 class Arr
 {
-    #[Pure]
+    #[\JetBrains\PhpStorm\Pure]
     public static function get(mixed $array, string|int|null $key, mixed $default = null): mixed
     {
         if (! is_array($array)) {
@@ -97,7 +95,7 @@ class Arr
      * @param  array<string|int, mixed>  $array
      * @param  string|int|array<string|int, mixed>|null  $keys
      */
-    #[Pure]
+    #[\JetBrains\PhpStorm\Pure]
     public static function has(array $array, string|int|array|null $keys): bool
     {
         if (is_null($keys)) {

@@ -9,7 +9,6 @@ use const JSON_UNESCAPED_UNICODE;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken as RefreshableAccessTokenInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
-use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -65,7 +64,7 @@ class SuiteAccessToken implements RefreshableAccessTokenInterface
     /**
      * @return array<string, string>
      */
-    #[ArrayShape(['suite_access_token' => 'string'])]
+    #[\JetBrains\PhpStorm\ArrayShape(['suite_access_token' => 'string'])]
     public function toQuery(): array
     {
         return ['suite_access_token' => $this->getToken()];

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EasyWeChat\Work;
 
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -35,7 +34,7 @@ class JsApiTicket
     /**
      * @return array<string, mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'url' => 'string',
         'nonceStr' => 'string',
         'timestamp' => 'int',
@@ -96,7 +95,7 @@ class JsApiTicket
     /**
      * @return array<string, mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'corpid' => 'string',
         'agentid' => 'int',
         'nonceStr' => 'string',

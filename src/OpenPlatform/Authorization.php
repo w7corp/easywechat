@@ -8,7 +8,6 @@ use ArrayAccess;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Traits\HasAttributes;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * @implements ArrayAccess<string, mixed>
@@ -23,7 +22,7 @@ class Authorization implements Arrayable, ArrayAccess, Jsonable
         return (string) $this->attributes['authorization_info']['authorizer_appid'] ?? '';
     }
 
-    #[Pure]
+    #[\JetBrains\PhpStorm\Pure]
     public function getAccessToken(): AuthorizerAccessToken
     {
         return new AuthorizerAccessToken(

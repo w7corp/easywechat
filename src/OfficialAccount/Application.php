@@ -23,7 +23,6 @@ use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
-use JetBrains\PhpStorm\Pure;
 use Overtrue\Socialite\Contracts\ProviderInterface as SocialiteProviderInterface;
 use Overtrue\Socialite\Providers\WeChat;
 use Psr\Log\LoggerAwareTrait;
@@ -205,7 +204,7 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    #[Pure]
+    #[\JetBrains\PhpStorm\Pure]
     public function getUtils(): Utils
     {
         return new Utils($this);
