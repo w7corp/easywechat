@@ -6,7 +6,6 @@ namespace EasyWeChat\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\RefreshableJsApiTicket as RefreshableJsApiTicketInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use JetBrains\PhpStorm\ArrayShape;
 
 use function sprintf;
 
@@ -44,7 +43,7 @@ class JsApiTicket extends AccessToken implements RefreshableJsApiTicketInterface
     /**
      * @return array<string,mixed>
      */
-    #[ArrayShape([
+    #[\JetBrains\PhpStorm\ArrayShape([
         'url' => 'string',
         'nonceStr' => 'string',
         'timestamp' => 'int',

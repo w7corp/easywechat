@@ -58,8 +58,5 @@ parameters:
             message: '#Method EasyWeChat\\Pay\\Client::createMockClient\(\) should return Mockery\\Mock\|Symfony\\Contracts\\HttpClient\\HttpClientInterface but returns Mockery\\LegacyMockInterface#'
             path: src/Pay/Client.php
         -
-            message: '#Call to function is_string\(\) with string will always evaluate to true#'
-            path: src/Pay/Client.php
-        -
             message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
             path: src/Work/Application.php

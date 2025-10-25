@@ -31,7 +31,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 use function array_key_exists;
 use function is_array;
-use function is_string;
 use function ltrim;
 use function str_starts_with;
 use function strcasecmp;
@@ -131,10 +130,6 @@ class Client implements HttpClientInterface
             if (! strcasecmp($method, 'POST') && ! empty($options['xml'])) {
                 if (is_array($options['xml'])) {
                     $options['xml'] = Xml::build($this->attachLegacySignature($options['xml']));
-                }
-
-                if (! is_string($options['xml'])) {
-                    throw new \InvalidArgumentException('The `xml` option must be a string or array.');
                 }
 
                 $options['body'] = $options['xml'];

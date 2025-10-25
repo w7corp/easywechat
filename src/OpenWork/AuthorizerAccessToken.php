@@ -7,7 +7,6 @@ namespace EasyWeChat\OpenWork;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Stringable;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -58,7 +57,7 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
         return $this->getToken();
     }
 
-    #[ArrayShape(['access_token' => 'string'])]
+    #[\JetBrains\PhpStorm\ArrayShape(['access_token' => 'string'])]
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];
