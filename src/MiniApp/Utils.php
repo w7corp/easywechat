@@ -35,4 +35,26 @@ class Utils
     {
         return Decryptor::decrypt($sessionKey, $iv, $ciphertext);
     }
+
+    /**
+     * @throws HttpException
+     */
+    public function getPhoneNumber(string $code): array
+    {
+        $response = $this->app->createClient()->request('POST', '/wxa/business/getuserphonenumber', [
+            'json' => [
+                'code' => $code,
+            ],
+        ])->toArray(false);
+
+        if (isset($response['errcode']) && $response['errcode'] !== 0) {
+            throw new HttpException('getPhoneNumber error: '.json_encode($response, JSON_UNESCAPED_UNICODE));
+        }
+
+        if (empty($response['phone_info'])) {
+            throw new HttpException('getPhoneNumber error: '.json_encode($response, JSON_UNESCAPED_UNICODE));
+        }
+
+        return $response;
+    }
 }

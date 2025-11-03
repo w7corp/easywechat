@@ -86,4 +86,68 @@ class UtilsTest extends TestCase
             ],
         ], $utils->decryptSession($sessionKey, $iv, $encryptedData));
     }
+
+    public function test_get_phone_number()
+    {
+        $response = [
+            'errcode' => 0,
+            'errmsg' => 'ok',
+            'phone_info' => [
+                'phoneNumber' => '13800138000',
+                'purePhoneNumber' => '13800138000',
+                'countryCode' => '86',
+                'watermark' => [
+                    'timestamp' => 1637744274,
+                    'appid' => 'xxxx',
+                ],
+            ],
+        ];
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(json_encode(['access_token' => 'mock-access-token', 'expires_in' => 7200])),
+            new MockResponse(json_encode($response)),
+        ]);
+
+        $app = new Application([
+            'app_id' => 'mock-appid',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'mock-aes_key',
+        ]);
+        $app->setHttpClient($httpClient);
+
+        $utils = new Utils($app);
+
+        $result = $utils->getPhoneNumber('mock-phone-code');
+
+        $this->assertSame($response, $result);
+    }
+
+    public function test_get_phone_number_with_error()
+    {
+        $this->expectException(\EasyWeChat\Kernel\Exceptions\HttpException::class);
+        $this->expectExceptionMessage('getPhoneNumber error:');
+
+        $errorResponse = [
+            'errcode' => 40029,
+            'errmsg' => 'invalid code',
+        ];
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(json_encode(['access_token' => 'mock-access-token', 'expires_in' => 7200])),
+            new MockResponse(json_encode($errorResponse)),
+        ]);
+
+        $app = new Application([
+            'app_id' => 'mock-appid',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'mock-aes_key',
+        ]);
+        $app->setHttpClient($httpClient);
+
+        $utils = new Utils($app);
+
+        $utils->getPhoneNumber('invalid-code');
+    }
 }

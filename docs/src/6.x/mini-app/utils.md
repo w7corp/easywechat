@@ -43,3 +43,27 @@ $session = $utils->decryptSession($sessionKey, $iv, $encryptedData);
 //    }
 //}
 ```
+
+### 获取手机号
+
+获取用户绑定的手机号，需先调用 `wx.login` 接口，然后通过 `getPhoneNumber` 方法获取用户手机号。
+
+参考文档：https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/user-info/phone-number/getPhoneNumber.html
+
+```php
+$response = $utils->getPhoneNumber($code);
+
+//{
+//    "errcode": 0,
+//    "errmsg": "ok",
+//    "phone_info": {
+//        "phoneNumber": "13800138000",
+//        "purePhoneNumber": "13800138000",
+//        "countryCode": "86",
+//        "watermark": {
+//            "timestamp": 1637744274,
+//            "appid": "xxxx"
+//        }
+//    }
+//}
+```
