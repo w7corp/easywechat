@@ -122,4 +122,32 @@ class UtilsTest extends TestCase
 
         $this->assertSame($response, $result);
     }
+
+    public function test_get_phone_number_with_error()
+    {
+        $this->expectException(\EasyWeChat\Kernel\Exceptions\HttpException::class);
+        $this->expectExceptionMessage('getPhoneNumber error:');
+
+        $errorResponse = [
+            'errcode' => 40029,
+            'errmsg' => 'invalid code',
+        ];
+
+        $httpClient = new MockHttpClient([
+            new MockResponse(json_encode(['access_token' => 'mock-access-token', 'expires_in' => 7200])),
+            new MockResponse(json_encode($errorResponse)),
+        ]);
+
+        $app = new Application([
+            'app_id' => 'mock-appid',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'mock-aes_key',
+        ]);
+        $app->setHttpClient($httpClient);
+
+        $utils = new Utils($app);
+
+        $utils->getPhoneNumber('invalid-code');
+    }
 }

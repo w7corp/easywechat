@@ -47,6 +47,10 @@ class Utils
             ],
         ])->toArray(false);
 
+        if (! empty($response['errcode']) && $response['errcode'] !== 0) {
+            throw new HttpException('getPhoneNumber error: '.json_encode($response, JSON_UNESCAPED_UNICODE));
+        }
+
         if (empty($response['phone_info'])) {
             throw new HttpException('getPhoneNumber error: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
