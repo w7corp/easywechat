@@ -152,12 +152,12 @@ Laravel 框架提供了便捷的缓存管理，你可以直接使用 Laravel 的
 ### 使用 Laravel Cache
 
 ```php
-use Symfony\Component\Cache\Adapter\Psr6Adapter;
+use Symfony\Component\Cache\Adapter\Psr16Adapter;
 use Symfony\Component\Cache\Psr16Cache;
 
 // 将 Laravel Cache 转换为 PSR-16 缓存
 $cache = new Psr16Cache(
-    new Psr6Adapter(
+    new Psr16Adapter(
         app('cache')->store() // 使用默认缓存驱动
     )
 );
@@ -170,7 +170,7 @@ $app->setCache($cache);
 ```php
 // 使用 Redis 作为缓存驱动
 $cache = new Psr16Cache(
-    new Psr6Adapter(
+    new Psr16Adapter(
         app('cache')->store('redis')
     )
 );
@@ -186,7 +186,7 @@ $app->setCache($cache);
 // app/Providers/WeChatServiceProvider.php
 use EasyWeChat\OfficialAccount\Application;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Cache\Adapter\Psr6Adapter;
+use Symfony\Component\Cache\Adapter\Psr16Adapter;
 use Symfony\Component\Cache\Psr16Cache;
 
 class WeChatServiceProvider extends ServiceProvider
@@ -198,7 +198,7 @@ class WeChatServiceProvider extends ServiceProvider
             
             // 使用 Laravel 缓存
             $cache = new Psr16Cache(
-                new Psr6Adapter(
+                new Psr16Adapter(
                     $app['cache']->store(config('wechat.cache_store', 'redis'))
                 )
             );
