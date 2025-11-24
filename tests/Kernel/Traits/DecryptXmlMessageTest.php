@@ -4,13 +4,13 @@ namespace EasyWeChat\Tests\Kernel\Traits;
 
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Message;
-use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
+use EasyWeChat\Kernel\Traits\DecryptMessage;
 use EasyWeChat\Tests\TestCase;
 use Nyholm\Psr7\ServerRequest;
 
 class DecryptXmlMessageTest extends TestCase
 {
-    use DecryptXmlMessage;
+    use DecryptMessage;
 
     public function test_it_can_decrypt_message()
     {

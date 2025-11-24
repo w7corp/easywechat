@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\OfficialAccount;
 
+use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\OfficialAccount\Server;
 use EasyWeChat\Tests\TestCase;
@@ -106,5 +107,46 @@ class ServerTest extends TestCase
         $this->assertSame('fromUser', $response['ToUserName']);
         $this->assertSame('text', $response['MsgType']);
         $this->assertSame('world', $response['Content']);
+    }
+
+    public function test_it_can_decrypt_json_mode_messages()
+    {
+        $plaintext = json_encode([
+            'ToUserName' => 'wx5823bf96d3bd56c7',
+            'FromUserName' => 'mycreate',
+            'CreateTime' => '1409659813',
+            'MsgType' => 'text',
+            'Content' => 'hello',
+            'MsgId' => '4561255354251345929',
+        ], JSON_UNESCAPED_UNICODE);
+
+        $this->assertIsString($plaintext);
+
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $encrypted = $encryptor->encryptAsArray(
+            plaintext: $plaintext,
+            nonce: '1372623149',
+            timestamp: '1409659813'
+        );
+
+        $body = json_encode([
+            'ToUserName' => 'wx5823bf96d3bd56c7',
+            'Encrypt' => $encrypted['ciphertext'],
+        ], JSON_UNESCAPED_UNICODE);
+
+        $this->assertIsString($body);
+
+        $request = (new ServerRequest('POST', 'http://easywechat.com/server', [], $body))->withQueryParams([
+            'msg_signature' => $encrypted['signature'],
+            'timestamp' => $encrypted['timestamp'],
+            'nonce' => $encrypted['nonce'],
+        ]);
+
+        $server = new Server($request, $encryptor);
+
+        $message = $server->getDecryptedMessage();
+
+        $this->assertSame('hello', $message->Content);
+        $this->assertSame('mycreate', $message->FromUserName);
     }
 }

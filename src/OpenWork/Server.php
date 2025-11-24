@@ -11,7 +11,7 @@ use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\ServerResponse;
-use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
+use EasyWeChat\Kernel\Traits\DecryptMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -23,7 +23,7 @@ use function func_get_args;
 
 class Server implements ServerInterface
 {
-    use DecryptXmlMessage;
+    use DecryptMessage;
     use InteractWithHandlers;
     use InteractWithServerRequest;
     use RespondXmlMessage;

@@ -8,8 +8,7 @@ use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\ServerResponse;
-use EasyWeChat\Kernel\Traits\DecryptJsonMessage;
-use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
+use EasyWeChat\Kernel\Traits\DecryptMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Traits\RespondJsonMessage;
@@ -20,8 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Server implements ServerInterface
 {
-    use DecryptJsonMessage;
-    use DecryptXmlMessage;
+    use DecryptMessage;
     use InteractWithHandlers;
     use InteractWithServerRequest;
     use RespondJsonMessage;
@@ -215,9 +213,7 @@ class Server implements ServerInterface
                 $query['nonce'] ?? '',
             ];
 
-            $this->messageType === 'xml'
-                ? $this->decryptMessage($message, $this->encryptor, ...$params)
-                : $this->decryptJsonMessage($message, $this->encryptor, ...$params);
+            $this->decryptMessage($message, $this->encryptor, ...$params);
 
             return $next($message);
         };
@@ -240,18 +236,10 @@ class Server implements ServerInterface
             $query['nonce'] ?? '',
         ];
 
-        if ($this->messageType === 'xml') {
-            return $this->decryptMessage(
-                $message,
-                $this->encryptor,
-                ...$params
-            );
-        } else {
-            return $this->decryptJsonMessage(
-                $message,
-                $this->encryptor,
-                ...$params
-            );
-        }
+        return $this->decryptMessage(
+            $message,
+            $this->encryptor,
+            ...$params
+        );
     }
 }

@@ -7,7 +7,7 @@ namespace EasyWeChat\Kernel;
 use ArrayAccess;
 use EasyWeChat\Kernel\Contracts\Jsonable;
 use EasyWeChat\Kernel\Exceptions\BadRequestException;
-use EasyWeChat\Kernel\Support\Xml;
+use EasyWeChat\Kernel\Support\MessageParser;
 use EasyWeChat\Kernel\Traits\HasAttributes;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -36,34 +36,17 @@ abstract class Message implements \JsonSerializable, ArrayAccess, Jsonable
      */
     public static function createFromRequest(ServerRequestInterface $request): Message
     {
-        $attributes = self::format($originContent = strval($request->getBody()));
-
-        return new static($attributes, $originContent);
+        return static::createFromStringContent(strval($request->getBody()));
     }
 
     /**
-     * @return array<string,string>
-     *
      * @throws BadRequestException
      */
-    public static function format(string $originContent): array
+    public static function createFromStringContent(string $originContent): Message
     {
-        if (stripos($originContent, '<') === 0) {
-            $attributes = Xml::parse($originContent);
-        }
+        $attributes = MessageParser::parse($originContent);
 
-        // Handle JSON format.
-        $dataSet = json_decode($originContent, true);
-
-        if (json_last_error() === JSON_ERROR_NONE && $originContent) {
-            $attributes = $dataSet;
-        }
-
-        if (empty($attributes) || ! is_array($attributes)) {
-            throw new BadRequestException('Failed to decode request contents.');
-        }
-
-        return $attributes;
+        return new static($attributes, $originContent);
     }
 
     public function getOriginalContents(): string

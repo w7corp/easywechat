@@ -10,9 +10,6 @@ parameters:
             message: '#Property EasyWeChat\\Kernel\\Config::\$items \(array<string, mixed>\) does not accept array#'
             path: src/Kernel/Config.php
         -
-            message: '#Method EasyWeChat\\Kernel\\Message::format\(\) should return array<string, string> but returns array#'
-            path: src/Kernel/Message.php
-        -
             message: '#\$client .*? does not accept#'
             path: src/Kernel/HttpClient/AccessTokenAwareClient.php
         -

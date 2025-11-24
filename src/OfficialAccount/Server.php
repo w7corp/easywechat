@@ -8,7 +8,7 @@ use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\ServerResponse;
-use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
+use EasyWeChat\Kernel\Traits\DecryptMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Kernel\Traits\RespondXmlMessage;
@@ -19,7 +19,7 @@ use Throwable;
 
 class Server implements ServerInterface
 {
-    use DecryptXmlMessage;
+    use DecryptMessage;
     use InteractWithHandlers;
     use InteractWithServerRequest;
     use RespondXmlMessage;
@@ -92,13 +92,7 @@ class Server implements ServerInterface
                 return null;
             }
 
-            $this->decryptMessage(
-                message: $message,
-                encryptor: $this->encryptor,
-                signature: $query['msg_signature'] ?? '',
-                timestamp: $query['timestamp'] ?? '',
-                nonce: $query['nonce'] ?? ''
-            );
+            $this->decryptIncomingMessage($message, $query);
 
             return $next($message);
         };
@@ -119,12 +113,28 @@ class Server implements ServerInterface
             return $message;
         }
 
+        return $this->decryptIncomingMessage($message, $query);
+    }
+
+    /**
+     * @param  array<string,string>  $query
+     */
+    protected function decryptIncomingMessage(Message $message, array $query): Message
+    {
+        if (! $this->encryptor) {
+            return $message;
+        }
+
+        $signature = $query['msg_signature'] ?? '';
+        $timestamp = $query['timestamp'] ?? '';
+        $nonce = $query['nonce'] ?? '';
+
         return $this->decryptMessage(
             message: $message,
             encryptor: $this->encryptor,
-            signature: $query['msg_signature'],
-            timestamp: $query['timestamp'] ?? '',
-            nonce: $query['nonce'] ?? ''
+            signature: $signature,
+            timestamp: $timestamp,
+            nonce: $nonce
         );
     }
 }
