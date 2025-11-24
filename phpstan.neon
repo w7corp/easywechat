@@ -57,3 +57,9 @@ parameters:
         -
             message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
             path: src/Work/Application.php
+        -
+            message: '#Trait .*? is used zero times and is not analysed#'
+            path: src/Kernel/Traits/DecryptJsonMessage.php
+        -
+            message: '#Trait .*? is used zero times and is not analysed#'
+            path: src/Kernel/Traits/DecryptXmlMessage.php

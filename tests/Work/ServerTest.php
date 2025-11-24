@@ -104,7 +104,7 @@ class ServerTest extends TestCase
 
         $request = $this->createEncryptedXmlMessageRequest('<xml>
             <ToUserName><![CDATA[toUser]]></ToUserName>
-            <FromUserName><![CDATA[sys]]></FromUserName> 
+            <FromUserName><![CDATA[sys]]></FromUserName>
             <CreateTime>1403610513</CreateTime>
             <MsgType><![CDATA[event]]></MsgType>
             <Event><![CDATA[change_contact]]></Event>
@@ -150,7 +150,7 @@ class ServerTest extends TestCase
 
         $request = $this->createEncryptedXmlMessageRequest('<xml>
             <ToUserName><![CDATA[toUser]]></ToUserName>
-            <FromUserName><![CDATA[sys]]></FromUserName> 
+            <FromUserName><![CDATA[sys]]></FromUserName>
             <CreateTime>1403610513</CreateTime>
             <MsgType><![CDATA[event]]></MsgType>
             <Event><![CDATA[change_contact]]></Event>

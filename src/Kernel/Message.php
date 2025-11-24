@@ -24,7 +24,7 @@ abstract class Message implements \JsonSerializable, ArrayAccess, Jsonable
     use HasAttributes;
 
     /**
-     * @param  array<string,string>  $attributes
+     * @param  array<string, mixed>  $attributes
      */
     final public function __construct(array $attributes = [], protected ?string $originContent = '')
     {

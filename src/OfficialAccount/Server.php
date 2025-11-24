@@ -119,7 +119,7 @@ class Server implements ServerInterface
     /**
      * @param  array<string,string>  $query
      */
-    protected function decryptIncomingMessage(Message $message, array $query): Message
+    protected function decryptIncomingMessage(\EasyWeChat\Kernel\Message $message, array $query): \EasyWeChat\Kernel\Message
     {
         if (! $this->encryptor) {
             return $message;
