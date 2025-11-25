@@ -18,22 +18,20 @@ class MessageParser
      */
     public static function parse(string $content): array
     {
-        // Try XML format if content starts with '<'
-        if (stripos($content, '<') === 0) {
-            $parsed = Xml::parse($content);
+        $content = trim($content);
 
-            if (is_array($parsed) && ! empty($parsed)) {
-                /** @var array<string, mixed> $parsed */
-                return $parsed;
-            }
-
-            throw new BadRequestException('Failed to decode XML content.');
-        }
-
-        // Otherwise try JSON format
+        // Try JSON format first
         $parsed = json_decode($content, true);
 
-        if (json_last_error() === JSON_ERROR_NONE && $content !== '' && is_array($parsed) && ! empty($parsed)) {
+        if (json_last_error() === JSON_ERROR_NONE && is_array($parsed) && ! empty($parsed)) {
+            /** @var array<string, mixed> $parsed */
+            return $parsed;
+        }
+
+        // If JSON decode failed or result is not an array, try XML format
+        $parsed = Xml::parse($content);
+
+        if (is_array($parsed) && ! empty($parsed)) {
             /** @var array<string, mixed> $parsed */
             return $parsed;
         }
