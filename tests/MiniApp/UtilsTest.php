@@ -5,6 +5,7 @@ namespace EasyWeChat\Tests\MiniApp;
 use EasyWeChat\MiniApp\Application;
 use EasyWeChat\MiniApp\Utils;
 use EasyWeChat\Tests\TestCase;
+use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
@@ -104,9 +105,11 @@ class UtilsTest extends TestCase
         ];
 
         $httpClient = new MockHttpClient([
-            new MockResponse(json_encode(['access_token' => 'mock-access-token', 'expires_in' => 7200])),
             new MockResponse(json_encode($response)),
         ]);
+
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->allows()->get(\Mockery::any())->andReturn('mock-access-token');
 
         $app = new Application([
             'app_id' => 'mock-appid',
@@ -115,6 +118,7 @@ class UtilsTest extends TestCase
             'aes_key' => 'mock-aes_key',
         ]);
         $app->setHttpClient($httpClient);
+        $app->setCache($cache);
 
         $utils = new Utils($app);
 
@@ -134,9 +138,11 @@ class UtilsTest extends TestCase
         ];
 
         $httpClient = new MockHttpClient([
-            new MockResponse(json_encode(['access_token' => 'mock-access-token', 'expires_in' => 7200])),
             new MockResponse(json_encode($errorResponse)),
         ]);
+
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->allows()->get(\Mockery::any())->andReturn('mock-access-token');
 
         $app = new Application([
             'app_id' => 'mock-appid',
@@ -145,6 +151,7 @@ class UtilsTest extends TestCase
             'aes_key' => 'mock-aes_key',
         ]);
         $app->setHttpClient($httpClient);
+        $app->setCache($cache);
 
         $utils = new Utils($app);
 

@@ -10,9 +10,6 @@ parameters:
             message: '#Property EasyWeChat\\Kernel\\Config::\$items \(array<string, mixed>\) does not accept array#'
             path: src/Kernel/Config.php
         -
-            message: '#Method EasyWeChat\\Kernel\\Message::format\(\) should return array<string, string> but returns array#'
-            path: src/Kernel/Message.php
-        -
             message: '#\$client .*? does not accept#'
             path: src/Kernel/HttpClient/AccessTokenAwareClient.php
         -
@@ -60,3 +57,9 @@ parameters:
         -
             message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
             path: src/Work/Application.php
+        -
+            message: '#Trait .*? is used zero times and is not analysed#'
+            path: src/Kernel/Traits/DecryptJsonMessage.php
+        -
+            message: '#Trait .*? is used zero times and is not analysed#'
+            path: src/Kernel/Traits/DecryptXmlMessage.php

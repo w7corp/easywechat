@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace EasyWeChat\Tests\Work;
 
 use EasyWeChat\Kernel\Support\Xml;
-use EasyWeChat\Kernel\Traits\DecryptXmlMessage;
+use EasyWeChat\Kernel\Traits\DecryptMessage;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\Application;
 use Nyholm\Psr7\ServerRequest;
 
 class ServerTest extends TestCase
 {
-    use DecryptXmlMessage;
+    use DecryptMessage;
 
     public function test_it_will_handle_validation_request()
     {
@@ -104,7 +104,7 @@ class ServerTest extends TestCase
 
         $request = $this->createEncryptedXmlMessageRequest('<xml>
             <ToUserName><![CDATA[toUser]]></ToUserName>
-            <FromUserName><![CDATA[sys]]></FromUserName> 
+            <FromUserName><![CDATA[sys]]></FromUserName>
             <CreateTime>1403610513</CreateTime>
             <MsgType><![CDATA[event]]></MsgType>
             <Event><![CDATA[change_contact]]></Event>
@@ -150,7 +150,7 @@ class ServerTest extends TestCase
 
         $request = $this->createEncryptedXmlMessageRequest('<xml>
             <ToUserName><![CDATA[toUser]]></ToUserName>
-            <FromUserName><![CDATA[sys]]></FromUserName> 
+            <FromUserName><![CDATA[sys]]></FromUserName>
             <CreateTime>1403610513</CreateTime>
             <MsgType><![CDATA[event]]></MsgType>
             <Event><![CDATA[change_contact]]></Event>
