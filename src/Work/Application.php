@@ -35,6 +35,10 @@ class Application implements ApplicationInterface
 
     protected ?ServerInterface $server = null;
 
+    protected ?string $serverMessageType = null;
+
+    protected bool $usesCustomServer = false;
+
     protected ?AccountInterface $account = null;
 
     protected ?JsApiTicket $ticket = null;
@@ -84,12 +88,18 @@ class Application implements ApplicationInterface
 
     public function getServer(string $messageType = 'xml'): Server|ServerInterface
     {
-        if (! $this->server) {
+        if ($this->usesCustomServer && $this->server) {
+            return $this->server;
+        }
+
+        if (! $this->server || $this->serverMessageType !== $messageType) {
             $this->server = new Server(
                 encryptor: $this->getEncryptor(),
                 request: $this->getRequest(),
                 messageType: $messageType,
             );
+            $this->serverMessageType = $messageType;
+            $this->usesCustomServer = false;
         }
 
         return $this->server;
@@ -98,6 +108,8 @@ class Application implements ApplicationInterface
     public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
+        $this->usesCustomServer = true;
+        $this->serverMessageType = null;
 
         return $this;
     }

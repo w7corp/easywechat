@@ -111,6 +111,53 @@ class ApplicationTest extends TestCase
         $this->assertSame($server, $app->getServer());
     }
 
+    public function test_get_server_honors_requested_message_type_after_server_is_cached()
+    {
+        $app = new Application(
+            [
+                'corp_id' => 'wx5823bf96d3bd56c7',
+                'secret' => 'mock-secret',
+                'token' => 'QDG6eK',
+                'aes_key' => 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C',
+            ]
+        );
+
+        $request = $this->createEncryptedXmlMessageRequest('<xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[sys]]></FromUserName>
+            <CreateTime>1403610513</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[change_contact]]></Event>
+            <ChangeType>change_contact</ChangeType>
+            <UserID><![CDATA[zhangsan]]></UserID>
+        </xml>', $app->getEncryptor());
+
+        $app->setRequest($request);
+
+        $this->assertInstanceOf(ServerInterface::class, $app->getServer());
+
+        $response = $app->getServer(messageType: 'json')
+            ->addMessageListener('event', function () {
+                return [
+                    'msgtype' => 'stream',
+                    'stream' => [
+                        'id' => 'id00001',
+                        'finish' => true,
+                        'content' => '信息已收到',
+                    ],
+                ];
+            })
+            ->serve();
+
+        $this->assertSame('application/json', $response->getHeaderLine('Content-Type'));
+
+        $payload = json_decode((string) $response->getBody(), true, flags: JSON_THROW_ON_ERROR);
+
+        $this->assertIsArray($payload);
+        $this->assertArrayHasKey('encrypt', $payload);
+        $this->assertArrayHasKey('msgsignature', $payload);
+    }
+
     public function test_get_and_set_client()
     {
         $app = new Application(
