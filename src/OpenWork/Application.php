@@ -36,17 +36,29 @@ class Application implements ApplicationInterface
 
     protected ?ServerInterface $server = null;
 
+    protected bool $usesCustomServer = false;
+
     protected ?AccountInterface $account = null;
 
     protected ?Encryptor $encryptor = null;
 
+    protected bool $usesCustomEncryptor = false;
+
     protected ?SuiteEncryptor $suiteEncryptor = null;
+
+    protected bool $usesCustomSuiteEncryptor = false;
 
     protected ?SuiteTicketInterface $suiteTicket = null;
 
+    protected bool $usesCustomSuiteTicket = false;
+
     protected ?AccessTokenInterface $accessToken = null;
 
+    protected bool $usesCustomProviderAccessToken = false;
+
     protected ?AccessTokenInterface $suiteAccessToken = null;
+
+    protected bool $usesCustomSuiteAccessToken = false;
 
     protected ?AuthorizerAccessToken $authorizerAccessToken = null;
 
@@ -69,6 +81,7 @@ class Application implements ApplicationInterface
     public function setAccount(AccountInterface $account): static
     {
         $this->account = $account;
+        $this->refreshDerivedDependenciesAfterAccountUpdated();
 
         return $this;
     }
@@ -81,6 +94,7 @@ class Application implements ApplicationInterface
                 token: $this->getAccount()->getToken(),
                 aesKey: $this->getAccount()->getAesKey(),
             );
+            $this->usesCustomEncryptor = false;
         }
 
         return $this->encryptor;
@@ -89,6 +103,7 @@ class Application implements ApplicationInterface
     public function setEncryptor(Encryptor $encryptor): static
     {
         $this->encryptor = $encryptor;
+        $this->usesCustomEncryptor = true;
 
         return $this;
     }
@@ -101,6 +116,7 @@ class Application implements ApplicationInterface
                 token: $this->getAccount()->getToken(),
                 aesKey: $this->getAccount()->getAesKey(),
             );
+            $this->usesCustomSuiteEncryptor = false;
         }
 
         return $this->suiteEncryptor;
@@ -109,6 +125,7 @@ class Application implements ApplicationInterface
     public function setSuiteEncryptor(SuiteEncryptor $encryptor): static
     {
         $this->suiteEncryptor = $encryptor;
+        $this->usesCustomSuiteEncryptor = true;
 
         return $this;
     }
@@ -121,6 +138,7 @@ class Application implements ApplicationInterface
                 providerEncryptor: $this->getEncryptor(),
                 request: $this->getRequest(),
             );
+            $this->usesCustomServer = false;
 
             $this->server->withDefaultSuiteTicketHandler(function (Message $message, \Closure $next): mixed {
                 if ($message->SuiteId === $this->getAccount()->getSuiteId()) {
@@ -137,6 +155,7 @@ class Application implements ApplicationInterface
     public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
+        $this->usesCustomServer = true;
 
         return $this;
     }
@@ -150,6 +169,7 @@ class Application implements ApplicationInterface
                 cache: $this->getCache(),
                 httpClient: $this->getHttpClient(),
             );
+            $this->usesCustomProviderAccessToken = false;
         }
 
         return $this->accessToken;
@@ -158,6 +178,7 @@ class Application implements ApplicationInterface
     public function setProviderAccessToken(AccessTokenInterface $accessToken): static
     {
         $this->accessToken = $accessToken;
+        $this->usesCustomProviderAccessToken = true;
         $this->resetClient();
 
         return $this;
@@ -173,6 +194,7 @@ class Application implements ApplicationInterface
                 cache: $this->getCache(),
                 httpClient: $this->getHttpClient(),
             );
+            $this->usesCustomSuiteAccessToken = false;
         }
 
         return $this->suiteAccessToken;
@@ -181,6 +203,7 @@ class Application implements ApplicationInterface
     public function setSuiteAccessToken(AccessTokenInterface $accessToken): static
     {
         $this->suiteAccessToken = $accessToken;
+        $this->usesCustomSuiteAccessToken = true;
 
         return $this;
     }
@@ -192,6 +215,7 @@ class Application implements ApplicationInterface
                 suiteId: $this->getAccount()->getSuiteId(),
                 cache: $this->getCache(),
             );
+            $this->usesCustomSuiteTicket = false;
         }
 
         return $this->suiteTicket;
@@ -200,6 +224,7 @@ class Application implements ApplicationInterface
     public function setSuiteTicket(SuiteTicketInterface $suiteTicket): SuiteTicketInterface
     {
         $this->suiteTicket = $suiteTicket;
+        $this->usesCustomSuiteTicket = true;
 
         return $this->suiteTicket;
     }
@@ -303,6 +328,35 @@ class Application implements ApplicationInterface
 
     protected function afterHttpClientUpdated(): void
     {
+        $this->resetClient();
+    }
+
+    protected function refreshDerivedDependenciesAfterAccountUpdated(): void
+    {
+        if (! $this->usesCustomEncryptor) {
+            $this->encryptor = null;
+        }
+
+        if (! $this->usesCustomSuiteEncryptor) {
+            $this->suiteEncryptor = null;
+        }
+
+        if (! $this->usesCustomServer) {
+            $this->server = null;
+        }
+
+        if (! $this->usesCustomProviderAccessToken) {
+            $this->accessToken = null;
+        }
+
+        if (! $this->usesCustomSuiteAccessToken) {
+            $this->suiteAccessToken = null;
+        }
+
+        if (! $this->usesCustomSuiteTicket) {
+            $this->suiteTicket = null;
+        }
+
         $this->resetClient();
     }
 

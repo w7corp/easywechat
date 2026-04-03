@@ -24,6 +24,8 @@ use EasyWeChat\OpenPlatform\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\Providers\WeChat;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
@@ -46,6 +48,84 @@ class ApplicationTest extends TestCase
         $account = new Account(appId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token', aesKey: 'mock-aes_key');
         $app->setAccount($account);
         $this->assertSame($account, $app->getAccount());
+    }
+
+    public function test_set_account_refreshes_default_dependencies()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $app->setCache(new Psr16Cache(new ArrayAdapter));
+
+        $clientResponse = new MockResponse('{}');
+        $app->setHttpClient(new MockHttpClient([
+            new MockResponse(\json_encode([
+                'component_access_token' => 'first-token',
+                'expires_in' => 7200,
+            ])),
+            new MockResponse(\json_encode([
+                'component_access_token' => 'second-token',
+                'expires_in' => 7200,
+            ])),
+            $clientResponse,
+        ], 'https://api.weixin.qq.com/'));
+
+        $firstVerifyTicket = $app->getVerifyTicket();
+        $firstVerifyTicket->setTicket('first-verify-ticket');
+
+        $firstAccessToken = $app->getComponentAccessToken();
+        $this->assertSame('first-token', $firstAccessToken->getToken());
+
+        $firstClient = $app->getClient();
+        $firstServer = $app->getServer();
+
+        $nextAccount = new Account(
+            appId: 'wx1234567890123456',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        );
+        $nextEncryptor = new Encryptor(
+            appId: $nextAccount->getAppId(),
+            token: $nextAccount->getToken(),
+            aesKey: $nextAccount->getAesKey(),
+        );
+
+        $app->setAccount($nextAccount);
+
+        $secondVerifyTicket = $app->getVerifyTicket();
+        $secondVerifyTicket->setTicket('second-verify-ticket');
+
+        $secondAccessToken = $app->getComponentAccessToken();
+        $this->assertSame('second-token', $secondAccessToken->getToken());
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/component/api_get_authorizer_info');
+
+        $app->setRequest($this->createEncryptedXmlMessageRequest('<xml>
+            <AppId>wx1234567890123456</AppId>
+            <CreateTime>1413192605</CreateTime>
+            <InfoType>component_verify_ticket</InfoType>
+            <ComponentVerifyTicket>persisted-verify-ticket</ComponentVerifyTicket>
+        </xml>', $nextEncryptor));
+
+        $secondServer = $app->getServer();
+        $response = $secondServer->serve();
+
+        $this->assertNotSame($firstVerifyTicket, $secondVerifyTicket);
+        $this->assertNotSame($firstAccessToken, $secondAccessToken);
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertNotSame($firstServer, $secondServer);
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=second-token',
+            $clientResponse->getRequestUrl()
+        );
+        $this->assertSame('success', (string) $response->getBody());
+        $this->assertSame('persisted-verify-ticket', $secondVerifyTicket->getTicket());
     }
 
     public function test_get_and_set_encryptor()
@@ -179,6 +259,45 @@ class ApplicationTest extends TestCase
         $verifyTicket = new VerifyTicket('wx3cf0f39249000060');
         $app->setVerifyTicket($verifyTicket);
         $this->assertSame($verifyTicket, $app->getVerifyTicket());
+    }
+
+    public function test_set_account_preserves_custom_dependencies()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $encryptor = new Encryptor(
+            appId: 'wx3cf0f39249000060',
+            token: 'mock-token',
+            aesKey: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG'
+        );
+        $server = \Mockery::mock(ServerInterface::class);
+        $accessToken = \Mockery::mock(AccessTokenInterface::class);
+        $verifyTicket = new VerifyTicket('wx3cf0f39249000060', cache: $app->getCache());
+        $client = new AccessTokenAwareClient;
+
+        $app->setEncryptor($encryptor);
+        $app->setServer($server);
+        $app->setComponentAccessToken($accessToken);
+        $app->setVerifyTicket($verifyTicket);
+        $app->setClient($client);
+
+        $app->setAccount(new Account(
+            appId: 'wx1234567890123456',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ));
+
+        $this->assertSame($encryptor, $app->getEncryptor());
+        $this->assertSame($server, $app->getServer());
+        $this->assertSame($accessToken, $app->getComponentAccessToken());
+        $this->assertSame($verifyTicket, $app->getVerifyTicket());
+        $this->assertSame($client, $app->getClient());
     }
 
     public function test_application_server_persists_verify_ticket_only_once()
