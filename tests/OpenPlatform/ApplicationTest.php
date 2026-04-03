@@ -26,6 +26,7 @@ use EasyWeChat\OpenPlatform\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\Providers\WeChat;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -731,6 +732,38 @@ class ApplicationTest extends TestCase
         $this->assertSame('authorizer-updated', $decrypted['Content']);
     }
 
+    public function test_get_official_account_inherits_runtime_dependencies()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $cache = new Psr16Cache(new ArrayAdapter);
+        $httpClient = new MockHttpClient([]);
+        $logger = new NullLogger;
+
+        $app->setCache($cache);
+        $app->setHttpClient($httpClient);
+        $app->setLogger($logger);
+
+        $officialAccount = $app->getOfficialAccount(
+            new AuthorizerAccessToken('wx8765432109876543', 'mock-access-token'),
+            ['secret' => 'mock-authorizer-secret']
+        );
+
+        $this->assertSame($cache, $officialAccount->getCache());
+        $this->assertSame($httpClient, $officialAccount->getHttpClient());
+        $this->assertSame(
+            $logger,
+            (function () {
+                return $this->logger;
+            })->call($officialAccount)
+        );
+    }
+
     public function test_get_mini_app()
     {
         $app = new Application([
@@ -805,5 +838,37 @@ class ApplicationTest extends TestCase
         ));
 
         $this->assertSame('authorizer-updated', $decrypted['Content']);
+    }
+
+    public function test_get_mini_app_inherits_runtime_dependencies()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $cache = new Psr16Cache(new ArrayAdapter);
+        $httpClient = new MockHttpClient([]);
+        $logger = new NullLogger;
+
+        $app->setCache($cache);
+        $app->setHttpClient($httpClient);
+        $app->setLogger($logger);
+
+        $miniApp = $app->getMiniApp(
+            new AuthorizerAccessToken('wx8765432109876543', 'mock-access-token'),
+            ['secret' => 'mock-authorizer-secret']
+        );
+
+        $this->assertSame($cache, $miniApp->getCache());
+        $this->assertSame($httpClient, $miniApp->getHttpClient());
+        $this->assertSame(
+            $logger,
+            (function () {
+                return $this->logger;
+            })->call($miniApp)
+        );
     }
 }

@@ -337,6 +337,7 @@ class Application implements ApplicationInterface
         );
 
         $app = new OfficialAccountApplication($config);
+        $this->propagateAuthorizerApplicationRuntimeDependencies($app);
 
         $app->setAccessToken($authorizerAccessToken);
         $app->setOAuthFactory($this->createAuthorizerOAuthFactory($authorizerAccessToken->getAppId(), $config));
@@ -379,6 +380,7 @@ class Application implements ApplicationInterface
                 $config
             )
         );
+        $this->propagateAuthorizerApplicationRuntimeDependencies($app);
 
         $app->setAccessToken($authorizerAccessToken);
 
@@ -436,6 +438,17 @@ class Application implements ApplicationInterface
     protected function afterHttpClientUpdated(): void
     {
         $this->resetClient();
+    }
+
+    protected function propagateAuthorizerApplicationRuntimeDependencies(
+        OfficialAccountApplication|MiniAppApplication $app
+    ): void {
+        $app->setCache($this->getCache());
+        $app->setHttpClient($this->getHttpClient());
+
+        if ($this->logger) {
+            $app->setLogger($this->logger);
+        }
     }
 
     protected function afterConfigUpdated(): void
