@@ -301,8 +301,12 @@ class Application implements ApplicationInterface
         string $suiteId,
         ?AccessTokenInterface $suiteAccessToken = null
     ): SocialiteProviderInterface {
+        $account = $this->getAccount();
+
         return $this->configureOpenWorkOAuthProvider(new OpenWeWork(array_filter([
             'client_id' => $suiteId,
+            'suite_id' => $suiteId,
+            'suite_secret' => $account->getSuiteSecret(),
             'redirect_url' => $this->config->get('oauth.redirect_url'),
             'base_url' => $this->config->get('http.base_uri'),
         ])), $suiteAccessToken)->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
@@ -312,8 +316,12 @@ class Application implements ApplicationInterface
         string $corpId,
         ?AccessTokenInterface $suiteAccessToken = null
     ): SocialiteProviderInterface {
+        $account = $this->getAccount();
+
         return $this->configureOpenWorkOAuthProvider(new OpenWeWork(array_filter([
             'client_id' => $corpId,
+            'suite_id' => $account->getSuiteId(),
+            'suite_secret' => $account->getSuiteSecret(),
             'redirect_url' => $this->config->get('oauth.redirect_url'),
             'base_url' => $this->config->get('http.base_uri'),
         ])), $suiteAccessToken)->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));

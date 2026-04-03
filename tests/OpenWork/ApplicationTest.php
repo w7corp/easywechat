@@ -22,6 +22,11 @@ use EasyWeChat\OpenWork\SuiteAccessToken;
 use EasyWeChat\OpenWork\SuiteEncryptor;
 use EasyWeChat\OpenWork\SuiteTicket;
 use EasyWeChat\Tests\TestCase;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response as Psr7Response;
 use Overtrue\Socialite\Providers\OpenWeWork;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
@@ -493,6 +498,94 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(OpenWeWork::class, $oauth);
         $this->assertInstanceOf(OpenWeWork::class, $corpOAuth);
+    }
+
+    public function test_get_oauth_can_lazily_resolve_suite_access_token_using_current_suite_credentials()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $suiteTicket = new SuiteTicket('suite-id', $app->getCache());
+        $suiteTicket->setTicket('mock-suite-ticket');
+        $app->setSuiteTicket($suiteTicket);
+
+        $oauth = $app->getOAuth('suite-id');
+
+        $history = [];
+        $mock = new MockHandler([
+            new Psr7Response(200, [], \json_encode([
+                'suite_access_token' => 'lazy-suite-token',
+            ])),
+            new Psr7Response(200, [], \json_encode([
+                'errcode' => 0,
+                'UserId' => 'user123',
+            ])),
+        ]);
+        $handler = HandlerStack::create($mock);
+        $handler->push(Middleware::history($history));
+        $client = new Client(['handler' => $handler]);
+
+        $reflection = new \ReflectionObject($oauth);
+        $httpClientProperty = $reflection->getProperty('httpClient');
+        $httpClientProperty->setAccessible(true);
+        $httpClientProperty->setValue($oauth, $client);
+
+        $user = $oauth->userFromCode('mock-code');
+
+        $this->assertSame('user123', $user->getId());
+        $this->assertCount(2, $history);
+
+        $suiteTokenPayload = \json_decode((string) $history[0]['request']->getBody(), true, flags: JSON_THROW_ON_ERROR);
+        \parse_str($history[1]['request']->getUri()->getQuery(), $userQuery);
+
+        $this->assertSame('suite-id', $suiteTokenPayload['suite_id'] ?? null);
+        $this->assertSame('mock-suite-secret', $suiteTokenPayload['suite_secret'] ?? null);
+        $this->assertSame('mock-suite-ticket', $suiteTokenPayload['suite_ticket'] ?? null);
+        $this->assertSame('lazy-suite-token', $userQuery['suite_access_token'] ?? null);
+        $this->assertSame('mock-code', $userQuery['code'] ?? null);
+    }
+
+    public function test_get_corp_oauth_can_lazily_resolve_suite_access_token_using_suite_credentials()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $suiteTicket = new SuiteTicket('suite-id', $app->getCache());
+        $suiteTicket->setTicket('mock-suite-ticket');
+        $app->setSuiteTicket($suiteTicket);
+
+        $corpOAuth = $app->getCorpOAuth('wx9876543210987654');
+
+        $history = [];
+        $mock = new MockHandler([
+            new Psr7Response(200, [], \json_encode([
+                'suite_access_token' => 'lazy-suite-token',
+            ])),
+            new Psr7Response(200, [], \json_encode([
+                'errcode' => 0,
+                'UserId' => 'user123',
+            ])),
+        ]);
+        $handler = HandlerStack::create($mock);
+        $handler->push(Middleware::history($history));
+        $client = new Client(['handler' => $handler]);
+
+        $reflection = new \ReflectionObject($corpOAuth);
+        $httpClientProperty = $reflection->getProperty('httpClient');
+        $httpClientProperty->setAccessible(true);
+        $httpClientProperty->setValue($corpOAuth, $client);
+
+        $user = $corpOAuth->userFromCode('mock-code');
+
+        $this->assertSame('user123', $user->getId());
+        $this->assertCount(2, $history);
+
+        $suiteTokenPayload = \json_decode((string) $history[0]['request']->getBody(), true, flags: JSON_THROW_ON_ERROR);
+        \parse_str($history[1]['request']->getUri()->getQuery(), $userQuery);
+
+        $this->assertSame('suite-id', $suiteTokenPayload['suite_id'] ?? null);
+        $this->assertSame('mock-suite-secret', $suiteTokenPayload['suite_secret'] ?? null);
+        $this->assertSame('mock-suite-ticket', $suiteTokenPayload['suite_ticket'] ?? null);
+        $this->assertSame('lazy-suite-token', $userQuery['suite_access_token'] ?? null);
+        $this->assertSame('mock-code', $userQuery['code'] ?? null);
     }
 
     /**
