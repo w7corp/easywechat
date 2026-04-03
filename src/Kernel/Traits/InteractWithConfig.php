@@ -29,7 +29,12 @@ trait InteractWithConfig
     public function setConfig(ConfigInterface $config): static
     {
         $this->config = $config;
+        $this->afterConfigUpdated();
 
         return $this;
+    }
+
+    protected function afterConfigUpdated(): void
+    {
     }
 }

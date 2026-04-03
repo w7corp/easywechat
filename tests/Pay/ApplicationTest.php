@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Pay;
 
+use EasyWeChat\Kernel\Config;
 use EasyWeChat\Pay\Application;
 use EasyWeChat\Pay\Client;
 use EasyWeChat\Pay\Contracts\Merchant;
@@ -154,5 +155,92 @@ class ApplicationTest extends TestCase
         $app->setValidator($validator);
 
         $this->assertSame($validator, $app->getValidator());
+    }
+
+    public function test_set_config_refreshes_default_dependencies()
+    {
+        $app = new Application(
+            [
+                'mch_id' => 101111111,
+                'secret_key' => 'mock-secret-key',
+                'private_key' => 'mock-private-key',
+                'certificate' => '/path/to/certificate.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO',
+                'http' => [
+                    'timeout' => 5,
+                ],
+            ]
+        );
+
+        $firstMerchant = $app->getMerchant();
+        $firstValidator = $app->getValidator();
+        $firstServer = $app->getServer();
+        $firstClient = $app->getClient();
+        $firstHttpClient = $app->getHttpClient();
+
+        $app->setConfig(new Config(
+            [
+                'mch_id' => 202222222,
+                'secret_key' => 'mock-secret-key-2',
+                'private_key' => 'mock-private-key-2',
+                'certificate' => '/path/to/certificate-2.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO-2',
+                'http' => [
+                    'timeout' => 10,
+                ],
+            ]
+        ));
+
+        $secondMerchant = $app->getMerchant();
+        $secondValidator = $app->getValidator();
+        $secondServer = $app->getServer();
+        $secondClient = $app->getClient();
+        $secondHttpClient = $app->getHttpClient();
+
+        $this->assertNotSame($firstMerchant, $secondMerchant);
+        $this->assertNotSame($firstValidator, $secondValidator);
+        $this->assertNotSame($firstServer, $secondServer);
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertNotSame($firstHttpClient, $secondHttpClient);
+        $this->assertSame(202222222, $secondMerchant->getMerchantId());
+    }
+
+    public function test_set_config_preserves_custom_dependencies()
+    {
+        $app = new Application(
+            [
+                'mch_id' => 101111111,
+                'secret_key' => 'mock-secret-key',
+                'private_key' => 'mock-private-key',
+                'certificate' => '/path/to/certificate.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO',
+            ]
+        );
+
+        $validator = \Mockery::mock(Validator::class);
+        $server = \Mockery::mock(Server::class);
+        $client = \Mockery::mock(HttpClientInterface::class);
+        $httpClient = \Mockery::mock(HttpClientInterface::class);
+
+        $app->setValidator($validator);
+        $app->setServer($server);
+        $app->setClient($client);
+        $app->setHttpClient($httpClient);
+
+        $app->setConfig(new Config(
+            [
+                'mch_id' => 202222222,
+                'secret_key' => 'mock-secret-key-2',
+                'private_key' => 'mock-private-key-2',
+                'certificate' => '/path/to/certificate-2.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO-2',
+            ]
+        ));
+
+        $this->assertSame(202222222, $app->getMerchant()->getMerchantId());
+        $this->assertSame($validator, $app->getValidator());
+        $this->assertSame($server, $app->getServer());
+        $this->assertSame($client, $app->getClient());
+        $this->assertSame($httpClient, $app->getHttpClient());
     }
 }

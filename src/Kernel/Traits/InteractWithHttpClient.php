@@ -18,10 +18,13 @@ trait InteractWithHttpClient
 {
     protected ?HttpClientInterface $httpClient = null;
 
+    protected bool $usesCustomHttpClient = false;
+
     public function getHttpClient(): HttpClientInterface
     {
         if (! $this->httpClient) {
             $this->httpClient = $this->createHttpClient();
+            $this->usesCustomHttpClient = false;
         }
 
         return $this->httpClient;
@@ -30,6 +33,7 @@ trait InteractWithHttpClient
     public function setHttpClient(HttpClientInterface $httpClient): static
     {
         $this->httpClient = $httpClient;
+        $this->usesCustomHttpClient = true;
 
         if ($this instanceof LoggerAwareInterface && $httpClient instanceof LoggerAwareInterface
             && $this->logger instanceof LoggerInterface) {
@@ -43,6 +47,15 @@ trait InteractWithHttpClient
 
     protected function afterHttpClientUpdated(): void
     {
+    }
+
+    protected function resetHttpClient(): void
+    {
+        if ($this->usesCustomHttpClient) {
+            return;
+        }
+
+        $this->httpClient = null;
     }
 
     protected function createHttpClient(): HttpClientInterface

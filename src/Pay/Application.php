@@ -24,7 +24,11 @@ class Application implements Contracts\Application
 
     protected ?ServerInterface $server = null;
 
+    protected bool $usesCustomServer = false;
+
     protected ?ValidatorInterface $validator = null;
+
+    protected bool $usesCustomValidator = false;
 
     protected ?HttpClientInterface $client = null;
 
@@ -57,6 +61,7 @@ class Application implements Contracts\Application
     {
         if (! $this->validator) {
             $this->validator = new Validator($this->getMerchant());
+            $this->usesCustomValidator = false;
         }
 
         return $this->validator;
@@ -65,6 +70,7 @@ class Application implements Contracts\Application
     public function setValidator(ValidatorInterface $validator): static
     {
         $this->validator = $validator;
+        $this->usesCustomValidator = true;
 
         return $this;
     }
@@ -76,6 +82,7 @@ class Application implements Contracts\Application
                 merchant: $this->getMerchant(),
                 request: $this->getRequest(),
             );
+            $this->usesCustomServer = false;
         }
 
         return $this->server;
@@ -84,6 +91,7 @@ class Application implements Contracts\Application
     public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
+        $this->usesCustomServer = true;
 
         return $this;
     }
@@ -91,6 +99,7 @@ class Application implements Contracts\Application
     public function setConfig(ConfigInterface $config): static
     {
         $this->config = $config;
+        $this->afterConfigUpdated();
 
         return $this;
     }
@@ -134,5 +143,20 @@ class Application implements Contracts\Application
     protected function afterHttpClientUpdated(): void
     {
         $this->resetClient();
+    }
+
+    protected function afterConfigUpdated(): void
+    {
+        $this->merchant = null;
+        $this->resetHttpClient();
+        $this->resetClient();
+
+        if (! $this->usesCustomValidator) {
+            $this->validator = null;
+        }
+
+        if (! $this->usesCustomServer) {
+            $this->server = null;
+        }
     }
 }
