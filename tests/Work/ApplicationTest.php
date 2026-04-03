@@ -23,7 +23,10 @@ use EasyWeChat\Work\Utils;
 use Overtrue\Socialite\Providers\WeWork;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\SimpleCache\CacheInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Psr16Cache;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApplicationTest extends TestCase
@@ -47,6 +50,96 @@ class ApplicationTest extends TestCase
         $account = new Account(corpId: 'wx3cf0f39249000060', secret: 'mock-secret', token: 'mock-token', aesKey: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG');
         $app->setAccount($account);
         $this->assertSame($account, $app->getAccount());
+    }
+
+    public function test_set_account_refreshes_default_access_token_client_server_and_ticket_dependencies()
+    {
+        $app = new Application(
+            [
+                'corp_id' => 'wx5823bf96d3bd56c7',
+                'secret' => 'mock-secret',
+                'token' => 'QDG6eK',
+                'aes_key' => 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C',
+            ]
+        );
+
+        $app->setCache(new Psr16Cache(new ArrayAdapter));
+
+        $tokenResponseA = new MockResponse(\json_encode([
+            'access_token' => 'first-token',
+            'expires_in' => 7200,
+        ]));
+        $tokenResponseB = new MockResponse(\json_encode([
+            'access_token' => 'second-token',
+            'expires_in' => 7200,
+        ]));
+        $clientResponse = new MockResponse('{}');
+
+        $app->setHttpClient(new MockHttpClient(
+            [$tokenResponseA, $tokenResponseB, $clientResponse],
+            'https://qyapi.weixin.qq.com/'
+        ));
+
+        $firstAccessToken = $app->getAccessToken();
+        $this->assertSame('first-token', $firstAccessToken->getToken());
+
+        $firstClient = $app->getClient();
+        $firstServer = $app->getServer();
+        $firstTicket = $app->getTicket();
+
+        $nextAccount = new Account(
+            corpId: 'wx9876543210987654',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        );
+        $nextEncryptor = new Encryptor(
+            corpId: $nextAccount->getCorpId(),
+            token: $nextAccount->getToken(),
+            aesKey: $nextAccount->getAesKey(),
+        );
+
+        $app->setAccount($nextAccount);
+
+        $secondAccessToken = $app->getAccessToken();
+        $this->assertSame('second-token', $secondAccessToken->getToken());
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/getcallbackip');
+
+        $app->setRequest($this->createEncryptedXmlMessageRequest('<xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[sys]]></FromUserName>
+            <CreateTime>1403610513</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[change_contact]]></Event>
+            <ChangeType>change_contact</ChangeType>
+            <UserID><![CDATA[zhangsan]]></UserID>
+        </xml>', $nextEncryptor));
+
+        $secondServer = $app->getServer();
+        $response = $secondServer
+            ->addMessageListener('event', function () {
+                return 'updated';
+            })
+            ->serve();
+
+        $message = Xml::parse((string) $response->getBody());
+        $payload = Xml::parse($nextEncryptor->decrypt(
+            $message['Encrypt'],
+            $message['MsgSignature'],
+            $message['Nonce'],
+            $message['TimeStamp']
+        ));
+
+        $secondTicket = $app->getTicket();
+
+        $this->assertNotSame($firstAccessToken, $secondAccessToken);
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertNotSame($firstServer, $secondServer);
+        $this->assertNotSame($firstTicket, $secondTicket);
+        $this->assertSame('https://qyapi.weixin.qq.com/cgi-bin/getcallbackip?access_token=second-token', $clientResponse->getRequestUrl());
+        $this->assertSame('updated', $payload['Content']);
     }
 
     public function test_get_and_set_encryptor()
@@ -326,6 +419,47 @@ class ApplicationTest extends TestCase
         $ticket = new JsApiTicket('wx3cf0f39249000060', 'mock-token', $app->getCache(), $app->getClient());
         $app->setTicket($ticket);
         $this->assertSame($ticket, $app->getTicket());
+    }
+
+    public function test_set_account_preserves_custom_dependencies()
+    {
+        $app = new Application(
+            [
+                'corp_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $encryptor = new Encryptor(
+            corpId: 'wx3cf0f39249000060',
+            token: 'mock-token',
+            aesKey: 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        );
+        $server = \Mockery::mock(ServerInterface::class);
+        $accessToken = \Mockery::mock(AccessTokenInterface::class);
+        $ticket = new JsApiTicket('wx3cf0f39249000060', null, $app->getCache(), new MockHttpClient);
+        $client = new AccessTokenAwareClient;
+
+        $app->setEncryptor($encryptor);
+        $app->setServer($server);
+        $app->setAccessToken($accessToken);
+        $app->setTicket($ticket);
+        $app->setClient($client);
+
+        $app->setAccount(new Account(
+            corpId: 'wx9876543210987654',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ));
+
+        $this->assertSame($encryptor, $app->getEncryptor());
+        $this->assertSame($server, $app->getServer());
+        $this->assertSame($accessToken, $app->getAccessToken());
+        $this->assertSame($ticket, $app->getTicket());
+        $this->assertSame($client, $app->getClient());
     }
 
     public function test_get_utils()
