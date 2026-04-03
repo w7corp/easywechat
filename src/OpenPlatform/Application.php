@@ -322,12 +322,13 @@ class Application implements ApplicationInterface
         AuthorizerAccessToken $authorizerAccessToken,
         array $config = []
     ): OfficialAccountApplication {
+        $platformAccount = $this->getAccount();
         $config = new OfficialAccountConfig(
             array_merge(
                 [
                     'app_id' => $authorizerAccessToken->getAppId(),
-                    'token' => $this->config->get('token'),
-                    'aes_key' => $this->config->get('aes_key'),
+                    'token' => $platformAccount->getToken(),
+                    'aes_key' => $platformAccount->getAesKey(),
                     'logging' => $this->config->get('logging'),
                     'http' => $this->config->get('http', []),
                 ],
@@ -338,7 +339,6 @@ class Application implements ApplicationInterface
         $app = new OfficialAccountApplication($config);
 
         $app->setAccessToken($authorizerAccessToken);
-        $app->setEncryptor($this->getEncryptor());
         $app->setOAuthFactory($this->createAuthorizerOAuthFactory($authorizerAccessToken->getAppId(), $config));
 
         return $app;
@@ -366,12 +366,13 @@ class Application implements ApplicationInterface
 
     public function getMiniApp(AuthorizerAccessToken $authorizerAccessToken, array $config = []): MiniAppApplication
     {
+        $platformAccount = $this->getAccount();
         $app = new MiniAppApplication(
             array_merge(
                 [
                     'app_id' => $authorizerAccessToken->getAppId(),
-                    'token' => $this->config->get('token'),
-                    'aes_key' => $this->config->get('aes_key'),
+                    'token' => $platformAccount->getToken(),
+                    'aes_key' => $platformAccount->getAesKey(),
                     'logging' => $this->config->get('logging'),
                     'http' => $this->config->get('http'),
                 ],
@@ -380,7 +381,6 @@ class Application implements ApplicationInterface
         );
 
         $app->setAccessToken($authorizerAccessToken);
-        $app->setEncryptor($this->getEncryptor());
 
         return $app;
     }

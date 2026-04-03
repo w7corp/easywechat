@@ -9,6 +9,7 @@ use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\MiniApp\Application as MiniAppApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
 use EasyWeChat\OpenPlatform\Account;
@@ -671,6 +672,65 @@ class ApplicationTest extends TestCase
         );
     }
 
+    public function test_get_official_account_uses_authorizer_app_encryptor_context()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+        $app->setAccount(new Account(
+            appId: 'wx1234567890123456',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ));
+
+        $officialAccount = $app->getOfficialAccount(
+            new AuthorizerAccessToken('wx8765432109876543', 'mock-access-token'),
+            ['secret' => 'mock-authorizer-secret']
+        );
+
+        $this->assertSame('wx8765432109876543', $officialAccount->getAccount()->getAppId());
+        $this->assertSame('new-token', $officialAccount->getConfig()->get('token'));
+        $this->assertSame(
+            'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+            $officialAccount->getConfig()->get('aes_key')
+        );
+
+        $authorizerEncryptor = new Encryptor(
+            appId: 'wx8765432109876543',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        );
+
+        $officialAccount->setRequest($this->createEncryptedXmlMessageRequest('<xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[fromUser]]></FromUserName>
+            <CreateTime>1348831860</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[this is an authorizer test]]></Content>
+            <MsgId>1234567890123456</MsgId>
+        </xml>', $authorizerEncryptor));
+
+        $response = $officialAccount->getServer()
+            ->addMessageListener('text', function () {
+                return 'authorizer-updated';
+            })
+            ->serve();
+
+        $payload = Xml::parse((string) $response->getBody());
+        $decrypted = Xml::parse($authorizerEncryptor->decrypt(
+            $payload['Encrypt'],
+            $payload['MsgSignature'],
+            $payload['Nonce'],
+            $payload['TimeStamp']
+        ));
+
+        $this->assertSame('authorizer-updated', $decrypted['Content']);
+    }
+
     public function test_get_mini_app()
     {
         $app = new Application([
@@ -686,5 +746,64 @@ class ApplicationTest extends TestCase
                 'secret' => 'mock-secret',
             ])
         );
+    }
+
+    public function test_get_mini_app_uses_authorizer_app_encryptor_context()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+        $app->setAccount(new Account(
+            appId: 'wx1234567890123456',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ));
+
+        $miniApp = $app->getMiniApp(
+            new AuthorizerAccessToken('wx8765432109876543', 'mock-access-token'),
+            ['secret' => 'mock-authorizer-secret']
+        );
+
+        $this->assertSame('wx8765432109876543', $miniApp->getAccount()->getAppId());
+        $this->assertSame('new-token', $miniApp->getConfig()->get('token'));
+        $this->assertSame(
+            'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+            $miniApp->getConfig()->get('aes_key')
+        );
+
+        $authorizerEncryptor = new Encryptor(
+            appId: 'wx8765432109876543',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        );
+
+        $miniApp->setRequest($this->createEncryptedXmlMessageRequest('<xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[fromUser]]></FromUserName>
+            <CreateTime>1348831860</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[this is an authorizer test]]></Content>
+            <MsgId>1234567890123456</MsgId>
+        </xml>', $authorizerEncryptor));
+
+        $response = $miniApp->getServer()
+            ->addMessageListener('text', function () {
+                return 'authorizer-updated';
+            })
+            ->serve();
+
+        $payload = Xml::parse((string) $response->getBody());
+        $decrypted = Xml::parse($authorizerEncryptor->decrypt(
+            $payload['Encrypt'],
+            $payload['MsgSignature'],
+            $payload['Nonce'],
+            $payload['TimeStamp']
+        ));
+
+        $this->assertSame('authorizer-updated', $decrypted['Content']);
     }
 }
