@@ -77,7 +77,8 @@ trait HasAttributes
 
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->attributes[$offset];
+        /** @phpstan-ignore-next-line */
+        return array_key_exists($offset, $this->attributes) ? $this->attributes[$offset] : null;
     }
 
     public function offsetSet(mixed $offset, mixed $value): void
