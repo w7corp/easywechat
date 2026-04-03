@@ -6,6 +6,7 @@ namespace EasyWeChat\Kernel\Traits;
 
 use Closure;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use JetBrains\PhpStorm\ArrayShape;
 
 use function array_reverse;
 use function array_unshift;
@@ -51,7 +52,7 @@ trait InteractWithHandlers
     /**
      * @return array{hash: string, handler: callable}
      */
-    #[\JetBrains\PhpStorm\ArrayShape(['hash' => 'string', 'handler' => 'callable'])]
+    #[ArrayShape(['hash' => 'string', 'handler' => 'callable'])]
     public function createHandlerItem(callable|string $handler): array
     {
         return [

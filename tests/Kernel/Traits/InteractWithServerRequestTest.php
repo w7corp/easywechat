@@ -5,6 +5,7 @@ namespace EasyWeChat\Tests\Kernel\Traits;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\Tests\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class InteractWithServerRequestTest extends TestCase
 {
@@ -25,7 +26,7 @@ class InteractWithServerRequestTest extends TestCase
     {
         $app = new DummyClassForInteractWithServerRequestTest;
 
-        $request = \Symfony\Component\HttpFoundation\Request::create('/foo', 'GET');
+        $request = Request::create('/foo', 'GET');
 
         $app->setRequestFromSymfonyRequest($request);
 

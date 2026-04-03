@@ -18,7 +18,7 @@ use function tempnam;
 class File extends DataPart
 {
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public static function from(
         string $pathOrContents,

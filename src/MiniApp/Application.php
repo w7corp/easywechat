@@ -19,6 +19,7 @@ use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
 use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
 use EasyWeChat\MiniApp\Contracts\Account as AccountInterface;
 use EasyWeChat\MiniApp\Contracts\Application as ApplicationInterface;
+use JetBrains\PhpStorm\Pure;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\HttpClient\Response\AsyncContext;
 use Symfony\Component\HttpClient\RetryableHttpClient;
@@ -140,7 +141,7 @@ class Application implements ApplicationInterface
         return $this;
     }
 
-    #[\JetBrains\PhpStorm\Pure]
+    #[Pure]
     public function getUtils(): Utils
     {
         return new Utils($this);

@@ -8,10 +8,11 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
+use JetBrains\PhpStorm\ArrayShape;
 
 use function base64_encode;
-use function call_user_func_array;
 use function http_build_query;
+use function md5;
 use function openssl_sign;
 use function strtoupper;
 use function time;
@@ -26,7 +27,7 @@ class Utils
     /**
      * @return array<string, mixed>
      */
-    #[\JetBrains\PhpStorm\ArrayShape([
+    #[ArrayShape([
         'appId' => 'string',
         'timeStamp' => 'string',
         'nonceStr' => 'string',
@@ -65,7 +66,7 @@ class Utils
      *
      * @return array<string, mixed>
      */
-    #[\JetBrains\PhpStorm\ArrayShape([
+    #[ArrayShape([
         'appId' => 'string',
         'nonceStr' => 'string',
         'package' => 'string',
@@ -88,7 +89,7 @@ class Utils
      *
      * @return array<string, mixed>
      */
-    #[\JetBrains\PhpStorm\ArrayShape([
+    #[ArrayShape([
         'appId' => 'string',
         'timeStamp' => 'string',
         'nonceStr' => 'string',
@@ -104,7 +105,7 @@ class Utils
     /**
      * @return array<string, mixed>
      */
-    #[\JetBrains\PhpStorm\ArrayShape([
+    #[ArrayShape([
         'appid' => 'string',
         'partnerid' => 'int',
         'prepayid' => 'string',
@@ -175,24 +176,24 @@ class Utils
      */
     public function createV2Signature(array $params): string
     {
-        $method = 'md5';
         $secretKey = $this->merchant->getV2SecretKey();
 
         if (empty($secretKey)) {
             throw new InvalidConfigException('Missing v2 secret key.');
         }
 
-        if ($params['signType'] === 'HMAC-SHA256') {
-            $method = function ($str) use ($secretKey) {
-                return hash_hmac('sha256', $str, $secretKey);
-            };
-        }
-
         ksort($params);
 
         $params['key'] = $secretKey;
 
-        // @phpstan-ignore-next-line
-        return strtoupper((string) call_user_func_array($method, [urldecode(http_build_query($params))]));
+        $message = urldecode(http_build_query($params));
+
+        if ($params['signType'] === 'HMAC-SHA256') {
+            $signature = hash_hmac('sha256', $message, $secretKey);
+        } else {
+            $signature = md5($message);
+        }
+
+        return strtoupper($signature);
     }
 }

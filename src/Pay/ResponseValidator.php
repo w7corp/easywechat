@@ -9,7 +9,7 @@ use EasyWeChat\Kernel\HttpClient\Response as HttpClientResponse;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use Psr\Http\Message\ResponseInterface as PsrResponse;
 
-class ResponseValidator implements \EasyWeChat\Pay\Contracts\ResponseValidator
+class ResponseValidator implements Contracts\ResponseValidator
 {
     public function __construct(protected MerchantInterface $merchant)
     {

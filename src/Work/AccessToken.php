@@ -8,6 +8,7 @@ use const JSON_UNESCAPED_UNICODE;
 
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use JetBrains\PhpStorm\ArrayShape;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
@@ -62,7 +63,7 @@ class AccessToken implements RefreshableAccessToken
     /**
      * @return array<string, string>
      */
-    #[\JetBrains\PhpStorm\ArrayShape(['access_token' => 'string'])]
+    #[ArrayShape(['access_token' => 'string'])]
     public function toQuery(): array
     {
         return ['access_token' => $this->getToken()];

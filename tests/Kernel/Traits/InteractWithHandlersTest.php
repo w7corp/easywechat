@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Kernel\Traits;
 
+use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
 use EasyWeChat\Tests\TestCase;
 
 class InteractWithHandlersTest extends TestCase
 {
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function test_it_has_callable_handlers()
     {
@@ -50,7 +51,7 @@ class InteractWithHandlersTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function test_it_has_closure_handlers()
     {
@@ -68,7 +69,7 @@ class InteractWithHandlersTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function test_it_has_class_based_handlers()
     {
@@ -86,7 +87,7 @@ class InteractWithHandlersTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function test_it_will_run_by_sort()
     {
@@ -116,7 +117,7 @@ class InteractWithHandlersTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function test_it_can_push_with_conditions()
     {
@@ -140,7 +141,7 @@ class InteractWithHandlersTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function test_it_can_handle_with_chain_handles()
     {
@@ -174,7 +175,7 @@ class InteractWithHandlersTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function test_it_can_handle_with_default_value()
     {

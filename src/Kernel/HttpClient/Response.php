@@ -32,9 +32,9 @@ use function str_starts_with;
 use function strtolower;
 
 /**
- * @implements \ArrayAccess<array-key, mixed>
+ * @implements ArrayAccess<array-key, mixed>
  *
- * @see \Symfony\Contracts\HttpClient\ResponseInterface
+ * @see ResponseInterface
  */
 class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, StreamableInterface
 {
@@ -269,15 +269,19 @@ class Response implements Arrayable, ArrayAccess, Jsonable, ResponseInterface, S
         return isset($this->getHeaders($throw)[$name]);
     }
 
-    /**
-     * @return array<array-key, mixed>
-     */
     public function getHeader(string $name, ?bool $throw = null): array
     {
         $name = strtolower($name);
         $throw ??= $this->throw;
 
-        return $this->hasHeader($name, $throw) ? $this->getHeaders($throw)[$name] : [];
+        if (! $this->hasHeader($name, $throw)) {
+            return [];
+        }
+
+        /** @var array<string> $headers */
+        $headers = $this->getHeaders($throw)[$name];
+
+        return $headers;
     }
 
     public function getHeaderLine(string $name, ?bool $throw = null): string

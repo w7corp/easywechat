@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Tests\MiniApp;
 
+use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\MiniApp\Application;
 use EasyWeChat\MiniApp\Utils;
 use EasyWeChat\Tests\TestCase;
@@ -129,7 +130,7 @@ class UtilsTest extends TestCase
 
     public function test_get_phone_number_with_error()
     {
-        $this->expectException(\EasyWeChat\Kernel\Exceptions\HttpException::class);
+        $this->expectException(HttpException::class);
         $this->expectExceptionMessage('getPhoneNumber error:');
 
         $errorResponse = [

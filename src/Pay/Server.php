@@ -261,16 +261,25 @@ class Server implements ServerInterface
             throw new RuntimeException('Invalid request body.');
         }
 
-        if (empty($attributes['resource']['ciphertext'] ?? null)) {
+        $resource = $attributes['resource'];
+        $ciphertext = $resource['ciphertext'] ?? null;
+        $nonce = $resource['nonce'] ?? null;
+        $associatedData = $resource['associated_data'] ?? null;
+
+        if (! is_string($ciphertext) || $ciphertext === '') {
             throw new RuntimeException('Invalid request.');
+        }
+
+        if (! is_string($nonce) || ! is_string($associatedData)) {
+            throw new RuntimeException('Invalid request resource.');
         }
 
         $attributes = json_decode(
             AesGcm::decrypt(
-                $attributes['resource']['ciphertext'],
+                $ciphertext,
                 $this->merchant->getSecretKey(),
-                $attributes['resource']['nonce'],
-                $attributes['resource']['associated_data'],
+                $nonce,
+                $associatedData,
             ),
             true
         );

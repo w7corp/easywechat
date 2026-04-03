@@ -6,6 +6,7 @@ namespace EasyWeChat\Tests\OfficialAccount;
 
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OfficialAccount\Application;
 use EasyWeChat\OfficialAccount\Config;
 use EasyWeChat\Tests\TestCase;
@@ -13,7 +14,7 @@ use EasyWeChat\Tests\TestCase;
 class ConfigTest extends TestCase
 {
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public function test_application_created_can_get_config()
     {
@@ -29,8 +30,8 @@ class ConfigTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function test_set_config_to_application()
     {
