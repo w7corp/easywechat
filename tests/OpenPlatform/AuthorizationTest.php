@@ -44,4 +44,31 @@ class AuthorizationTest extends TestCase
 
         $this->assertSame('mock-refresh-token', $authorization->getRefreshToken());
     }
+
+    public function test_missing_keys_return_empty_values_without_warnings()
+    {
+        $authorization = new Authorization([]);
+
+        $errors = [];
+        $handler = static function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        };
+
+        \set_error_handler($handler);
+
+        try {
+            $accessToken = $authorization->getAccessToken();
+
+            $this->assertSame('', $authorization->getAppId());
+            $this->assertSame('', $accessToken->getAppId());
+            $this->assertSame('', $accessToken->getToken());
+            $this->assertSame('', $authorization->getRefreshToken());
+        } finally {
+            \restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
+    }
 }

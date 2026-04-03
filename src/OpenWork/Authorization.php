@@ -7,7 +7,10 @@ namespace EasyWeChat\OpenWork;
 use ArrayAccess;
 use EasyWeChat\Kernel\Contracts\Arrayable;
 use EasyWeChat\Kernel\Contracts\Jsonable;
+use EasyWeChat\Kernel\Support\Arr;
 use EasyWeChat\Kernel\Traits\HasAttributes;
+
+use function is_string;
 
 /**
  * @implements ArrayAccess<string, mixed>
@@ -18,7 +21,13 @@ class Authorization implements Arrayable, ArrayAccess, Jsonable
 
     public function getAppId(): string
     {
-        /** @phpstan-ignore-next-line */
-        return (string) $this->attributes['auth_corp_info']['corpid'];
+        return $this->getCorpId();
+    }
+
+    public function getCorpId(): string
+    {
+        $corpId = Arr::get($this->attributes, 'auth_corp_info.corpid');
+
+        return is_string($corpId) ? $corpId : '';
     }
 }
