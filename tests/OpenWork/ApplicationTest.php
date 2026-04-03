@@ -10,6 +10,7 @@ use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\OpenWork\Account;
 use EasyWeChat\OpenWork\Application;
 use EasyWeChat\OpenWork\AuthorizerAccessToken;
+use EasyWeChat\OpenWork\Config;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
@@ -129,6 +130,99 @@ class ApplicationTest extends TestCase
         $secondServer = $app->getServer();
         $response = $secondServer->serve();
 
+        $this->assertNotSame($firstProviderAccessToken, $secondProviderAccessToken);
+        $this->assertNotSame($firstSuiteTicket, $secondSuiteTicket);
+        $this->assertNotSame($firstSuiteAccessToken, $secondSuiteAccessToken);
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertNotSame($firstServer, $secondServer);
+        $this->assertSame(
+            'https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token?provider_access_token=second-provider-token',
+            $clientResponse->getRequestUrl()
+        );
+        $this->assertSame('success', (string) $response->getBody());
+        $this->assertSame('persisted-suite-ticket', $secondSuiteTicket->getTicket());
+    }
+
+    public function test_set_config_refreshes_default_dependencies()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $app->setCache(new Psr16Cache(new ArrayAdapter));
+
+        $clientResponse = new MockResponse('{}');
+        $app->setHttpClient(new MockHttpClient([
+            new MockResponse(\json_encode([
+                'provider_access_token' => 'first-provider-token',
+                'expires_in' => 7200,
+            ])),
+            new MockResponse(\json_encode([
+                'suite_access_token' => 'first-suite-token',
+                'expires_in' => 7200,
+            ])),
+            new MockResponse(\json_encode([
+                'provider_access_token' => 'second-provider-token',
+                'expires_in' => 7200,
+            ])),
+            new MockResponse(\json_encode([
+                'suite_access_token' => 'second-suite-token',
+                'expires_in' => 7200,
+            ])),
+            $clientResponse,
+        ], 'https://qyapi.weixin.qq.com/'));
+
+        $firstAccount = $app->getAccount();
+        $firstProviderAccessToken = $app->getProviderAccessToken();
+        $this->assertSame('first-provider-token', $firstProviderAccessToken->getToken());
+
+        $firstSuiteTicket = $app->getSuiteTicket();
+        $firstSuiteTicket->setTicket('first-suite-ticket');
+
+        $firstSuiteAccessToken = $app->getSuiteAccessToken();
+        $this->assertSame('first-suite-token', $firstSuiteAccessToken->getToken());
+
+        $firstClient = $app->getClient();
+        $firstServer = $app->getServer();
+
+        $app->setConfig(new Config([
+            'corp_id' => 'wx9876543210987654',
+            'provider_secret' => 'mock-provider-secret-2',
+            'suite_id' => 'suite-id-2',
+            'suite_secret' => 'mock-suite-secret-2',
+            'token' => 'new-token',
+            'aes_key' => 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ]));
+
+        $nextSuiteEncryptor = new SuiteEncryptor(
+            suiteId: 'suite-id-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        );
+
+        $secondAccount = $app->getAccount();
+        $secondSuiteTicket = $app->getSuiteTicket();
+        $secondSuiteTicket->setTicket('second-suite-ticket');
+
+        $secondProviderAccessToken = $app->getProviderAccessToken();
+        $this->assertSame('second-provider-token', $secondProviderAccessToken->getToken());
+
+        $secondSuiteAccessToken = $app->getSuiteAccessToken();
+        $this->assertSame('second-suite-token', $secondSuiteAccessToken->getToken());
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/service/get_provider_token');
+
+        $app->setRequest($this->createEncryptedXmlMessageRequest('<xml>
+            <SuiteId><![CDATA[suite-id-2]]></SuiteId>
+            <InfoType><![CDATA[suite_ticket]]></InfoType>
+            <TimeStamp>1403610513</TimeStamp>
+            <SuiteTicket><![CDATA[persisted-suite-ticket]]></SuiteTicket>
+        </xml>', $nextSuiteEncryptor));
+
+        $secondServer = $app->getServer();
+        $response = $secondServer->serve();
+
+        $this->assertNotSame($firstAccount, $secondAccount);
+        $this->assertSame('wx9876543210987654', $secondAccount->getCorpId());
         $this->assertNotSame($firstProviderAccessToken, $secondProviderAccessToken);
         $this->assertNotSame($firstSuiteTicket, $secondSuiteTicket);
         $this->assertNotSame($firstSuiteAccessToken, $secondSuiteAccessToken);
@@ -266,6 +360,62 @@ class ApplicationTest extends TestCase
             aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
         ));
 
+        $this->assertSame($providerEncryptor, $app->getEncryptor());
+        $this->assertSame($suiteEncryptor, $app->getSuiteEncryptor());
+        $this->assertSame($server, $app->getServer());
+        $this->assertSame($providerAccessToken, $app->getProviderAccessToken());
+        $this->assertSame($suiteAccessToken, $app->getSuiteAccessToken());
+        $this->assertSame($suiteTicket, $app->getSuiteTicket());
+        $this->assertSame($client, $app->getClient());
+    }
+
+    public function test_set_config_preserves_custom_account_and_dependencies()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $account = new Account(
+            corpId: 'wx9999999999999999',
+            providerSecret: 'custom-provider-secret',
+            suiteId: 'custom-suite-id',
+            suiteSecret: 'custom-suite-secret',
+            token: 'custom-token',
+            aesKey: 'mnopqrstuvwxyz0123456789ABCDEFGHabcdefghijk',
+        );
+        $providerEncryptor = new Encryptor(
+            corpId: $account->getCorpId(),
+            token: $account->getToken(),
+            aesKey: $account->getAesKey(),
+        );
+        $suiteEncryptor = new SuiteEncryptor(
+            suiteId: $account->getSuiteId(),
+            token: $account->getToken(),
+            aesKey: $account->getAesKey(),
+        );
+        $server = \Mockery::mock(ServerInterface::class);
+        $providerAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $suiteAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $suiteTicket = new SuiteTicket($account->getSuiteId(), $app->getCache());
+        $client = new AccessTokenAwareClient;
+
+        $app->setAccount($account);
+        $app->setEncryptor($providerEncryptor);
+        $app->setSuiteEncryptor($suiteEncryptor);
+        $app->setServer($server);
+        $app->setProviderAccessToken($providerAccessToken);
+        $app->setSuiteAccessToken($suiteAccessToken);
+        $app->setSuiteTicket($suiteTicket);
+        $app->setClient($client);
+
+        $app->setConfig(new Config([
+            'corp_id' => 'wx9876543210987654',
+            'provider_secret' => 'mock-provider-secret-2',
+            'suite_id' => 'suite-id-2',
+            'suite_secret' => 'mock-suite-secret-2',
+            'token' => 'new-token',
+            'aes_key' => 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ]));
+
+        $this->assertSame($account, $app->getAccount());
         $this->assertSame($providerEncryptor, $app->getEncryptor());
         $this->assertSame($suiteEncryptor, $app->getSuiteEncryptor());
         $this->assertSame($server, $app->getServer());

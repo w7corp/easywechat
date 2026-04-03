@@ -13,6 +13,7 @@ use EasyWeChat\OfficialAccount\AccessToken;
 use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Application;
+use EasyWeChat\OfficialAccount\Config;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OfficialAccount\JsApiTicket;
 use EasyWeChat\OfficialAccount\Server;
@@ -128,6 +129,98 @@ class ApplicationTest extends TestCase
         $this->assertNotSame($firstAccessToken, $secondAccessToken);
         $this->assertNotSame($firstClient, $secondClient);
         $this->assertNotSame($firstServer, $secondServer);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=second-token', $clientResponse->getRequestUrl());
+        $this->assertSame('updated', $decrypted['Content']);
+    }
+
+    public function test_set_config_refreshes_default_dependencies()
+    {
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $app->setCache(new Psr16Cache(new ArrayAdapter));
+
+        $tokenResponseA = new MockResponse(\json_encode([
+            'access_token' => 'first-token',
+            'expires_in' => 7200,
+        ]));
+        $tokenResponseB = new MockResponse(\json_encode([
+            'access_token' => 'second-token',
+            'expires_in' => 7200,
+        ]));
+        $clientResponse = new MockResponse('{}');
+
+        $app->setHttpClient(new MockHttpClient(
+            [$tokenResponseA, $tokenResponseB, $clientResponse],
+            'https://api.weixin.qq.com/'
+        ));
+
+        $firstAccount = $app->getAccount();
+        $firstAccessToken = $app->getAccessToken();
+        $this->assertSame('first-token', $firstAccessToken->getToken());
+
+        $firstClient = $app->getClient();
+        $firstServer = $app->getServer();
+        $firstTicket = $app->getTicket();
+
+        $nextConfig = new Config([
+            'app_id' => 'wx1234567890123456',
+            'secret' => 'mock-secret-2',
+            'token' => 'new-token',
+            'aes_key' => 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ]);
+        $nextEncryptor = new Encryptor(
+            appId: 'wx1234567890123456',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        );
+
+        $app->setConfig($nextConfig);
+
+        $secondAccount = $app->getAccount();
+        $secondAccessToken = $app->getAccessToken();
+        $this->assertSame('second-token', $secondAccessToken->getToken());
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/getcallbackip');
+
+        $app->setRequest($this->createEncryptedXmlMessageRequest('<xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[fromUser]]></FromUserName>
+            <CreateTime>1348831860</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[this is an updated test]]></Content>
+            <MsgId>1234567890123456</MsgId>
+        </xml>', $nextEncryptor));
+
+        $secondServer = $app->getServer();
+        $response = $secondServer
+            ->addMessageListener('text', function () {
+                return 'updated';
+            })
+            ->serve();
+
+        $payload = Xml::parse((string) $response->getBody());
+        $decrypted = Xml::parse($nextEncryptor->decrypt(
+            $payload['Encrypt'],
+            $payload['MsgSignature'],
+            $payload['Nonce'],
+            $payload['TimeStamp']
+        ));
+        $secondTicket = $app->getTicket();
+
+        $this->assertNotSame($firstAccount, $secondAccount);
+        $this->assertSame('wx1234567890123456', $secondAccount->getAppId());
+        $this->assertNotSame($firstAccessToken, $secondAccessToken);
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertNotSame($firstServer, $secondServer);
+        $this->assertNotSame($firstTicket, $secondTicket);
         $this->assertSame('https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=second-token', $clientResponse->getRequestUrl());
         $this->assertSame('updated', $decrypted['Content']);
     }
@@ -345,6 +438,61 @@ class ApplicationTest extends TestCase
             aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
         ));
 
+        $this->assertSame($encryptor, $app->getEncryptor());
+        $this->assertSame($server, $app->getServer());
+        $this->assertSame($accessToken, $app->getAccessToken());
+        $this->assertSame($ticket, $app->getTicket());
+        $this->assertSame($client, $app->getClient());
+    }
+
+    public function test_set_config_preserves_custom_account_and_dependencies()
+    {
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $account = new Account(
+            appId: 'wx9999999999999999',
+            secret: 'custom-secret',
+            token: 'custom-token',
+            aesKey: 'mnopqrstuvwxyz0123456789ABCDEFGHabcdefghijk',
+        );
+        $encryptor = new Encryptor(
+            appId: $account->getAppId(),
+            token: $account->getToken(),
+            aesKey: $account->getAesKey(),
+        );
+        $server = \Mockery::mock(ServerInterface::class);
+        $accessToken = \Mockery::mock(AccessTokenInterface::class);
+        $ticket = new JsApiTicket(
+            $account->getAppId(),
+            $account->getSecret(),
+            null,
+            $app->getCache(),
+            new MockHttpClient
+        );
+        $client = new AccessTokenAwareClient;
+
+        $app->setAccount($account);
+        $app->setEncryptor($encryptor);
+        $app->setServer($server);
+        $app->setAccessToken($accessToken);
+        $app->setTicket($ticket);
+        $app->setClient($client);
+
+        $app->setConfig(new Config([
+            'app_id' => 'wx1234567890123456',
+            'secret' => 'mock-secret-2',
+            'token' => 'new-token',
+            'aes_key' => 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ]));
+
+        $this->assertSame($account, $app->getAccount());
         $this->assertSame($encryptor, $app->getEncryptor());
         $this->assertSame($server, $app->getServer());
         $this->assertSame($accessToken, $app->getAccessToken());

@@ -54,6 +54,8 @@ class Application implements ApplicationInterface
 
     protected ?AccountInterface $account = null;
 
+    protected bool $usesCustomAccount = false;
+
     protected ?AccessTokenInterface $componentAccessToken = null;
 
     protected bool $usesCustomComponentAccessToken = false;
@@ -66,6 +68,7 @@ class Application implements ApplicationInterface
     {
         if (! $this->account) {
             $this->account = $this->createAppIdAccount(Account::class);
+            $this->usesCustomAccount = false;
         }
 
         return $this->account;
@@ -74,6 +77,7 @@ class Application implements ApplicationInterface
     public function setAccount(AccountInterface $account): static
     {
         $this->account = $account;
+        $this->usesCustomAccount = true;
         $this->refreshDerivedDependenciesAfterAccountUpdated();
 
         return $this;
@@ -432,6 +436,32 @@ class Application implements ApplicationInterface
     protected function afterHttpClientUpdated(): void
     {
         $this->resetClient();
+    }
+
+    protected function afterConfigUpdated(): void
+    {
+        $this->resetHttpClient();
+        $this->resetClient();
+
+        if (! $this->usesCustomAccount) {
+            $this->account = null;
+
+            if (! $this->usesCustomEncryptor) {
+                $this->encryptor = null;
+            }
+
+            if (! $this->usesCustomServer) {
+                $this->server = null;
+            }
+
+            if (! $this->usesCustomVerifyTicket) {
+                $this->verifyTicket = null;
+            }
+        }
+
+        if (! $this->usesCustomComponentAccessToken) {
+            $this->componentAccessToken = null;
+        }
     }
 
     protected function refreshDerivedDependenciesAfterAccountUpdated(): void

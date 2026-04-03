@@ -43,6 +43,8 @@ class Application implements ApplicationInterface
 
     protected ?AccountInterface $account = null;
 
+    protected bool $usesCustomAccount = false;
+
     protected ?JsApiTicket $ticket = null;
 
     protected bool $usesCustomTicket = false;
@@ -60,6 +62,7 @@ class Application implements ApplicationInterface
                 token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
                 aesKey: (string) $this->config->get('aes_key'),/** @phpstan-ignore-line */
             );
+            $this->usesCustomAccount = false;
         }
 
         return $this->account;
@@ -68,6 +71,7 @@ class Application implements ApplicationInterface
     public function setAccount(AccountInterface $account): static
     {
         $this->account = $account;
+        $this->usesCustomAccount = true;
         $this->refreshDerivedDependenciesAfterAccountUpdated();
 
         return $this;
@@ -212,6 +216,33 @@ class Application implements ApplicationInterface
     protected function afterHttpClientUpdated(): void
     {
         $this->resetClient();
+    }
+
+    protected function afterConfigUpdated(): void
+    {
+        $this->resetHttpClient();
+        $this->resetClient();
+
+        if (! $this->usesCustomAccount) {
+            $this->account = null;
+
+            if (! $this->usesCustomEncryptor) {
+                $this->encryptor = null;
+            }
+
+            if (! $this->usesCustomServer) {
+                $this->server = null;
+                $this->serverMessageType = null;
+            }
+        }
+
+        if (! $this->usesCustomAccessToken) {
+            $this->accessToken = null;
+        }
+
+        if (! $this->usesCustomTicket) {
+            $this->ticket = null;
+        }
     }
 
     protected function refreshDerivedDependenciesAfterAccountUpdated(): void

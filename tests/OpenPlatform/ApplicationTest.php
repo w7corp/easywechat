@@ -17,6 +17,7 @@ use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Authorization;
 use EasyWeChat\OpenPlatform\AuthorizerAccessToken;
 use EasyWeChat\OpenPlatform\ComponentAccessToken;
+use EasyWeChat\OpenPlatform\Config;
 use EasyWeChat\OpenPlatform\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenPlatform\Contracts\VerifyTicket as VerifyTicketInterface;
 use EasyWeChat\OpenPlatform\Server;
@@ -116,6 +117,87 @@ class ApplicationTest extends TestCase
         $secondServer = $app->getServer();
         $response = $secondServer->serve();
 
+        $this->assertNotSame($firstVerifyTicket, $secondVerifyTicket);
+        $this->assertNotSame($firstAccessToken, $secondAccessToken);
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertNotSame($firstServer, $secondServer);
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info?component_access_token=second-token',
+            $clientResponse->getRequestUrl()
+        );
+        $this->assertSame('success', (string) $response->getBody());
+        $this->assertSame('persisted-verify-ticket', $secondVerifyTicket->getTicket());
+    }
+
+    public function test_set_config_refreshes_default_dependencies()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $app->setCache(new Psr16Cache(new ArrayAdapter));
+
+        $clientResponse = new MockResponse('{}');
+        $app->setHttpClient(new MockHttpClient([
+            new MockResponse(\json_encode([
+                'component_access_token' => 'first-token',
+                'expires_in' => 7200,
+            ])),
+            new MockResponse(\json_encode([
+                'component_access_token' => 'second-token',
+                'expires_in' => 7200,
+            ])),
+            $clientResponse,
+        ], 'https://api.weixin.qq.com/'));
+
+        $firstAccount = $app->getAccount();
+        $firstVerifyTicket = $app->getVerifyTicket();
+        $firstVerifyTicket->setTicket('first-verify-ticket');
+
+        $firstAccessToken = $app->getComponentAccessToken();
+        $this->assertSame('first-token', $firstAccessToken->getToken());
+
+        $firstClient = $app->getClient();
+        $firstServer = $app->getServer();
+
+        $app->setConfig(new Config([
+            'app_id' => 'wx1234567890123456',
+            'secret' => 'mock-secret-2',
+            'token' => 'new-token',
+            'aes_key' => 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ]));
+
+        $nextEncryptor = new Encryptor(
+            appId: 'wx1234567890123456',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        );
+
+        $secondAccount = $app->getAccount();
+        $secondVerifyTicket = $app->getVerifyTicket();
+        $secondVerifyTicket->setTicket('second-verify-ticket');
+
+        $secondAccessToken = $app->getComponentAccessToken();
+        $this->assertSame('second-token', $secondAccessToken->getToken());
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/component/api_get_authorizer_info');
+
+        $app->setRequest($this->createEncryptedXmlMessageRequest('<xml>
+            <AppId>wx1234567890123456</AppId>
+            <CreateTime>1413192605</CreateTime>
+            <InfoType>component_verify_ticket</InfoType>
+            <ComponentVerifyTicket>persisted-verify-ticket</ComponentVerifyTicket>
+        </xml>', $nextEncryptor));
+
+        $secondServer = $app->getServer();
+        $response = $secondServer->serve();
+
+        $this->assertNotSame($firstAccount, $secondAccount);
+        $this->assertSame('wx1234567890123456', $secondAccount->getAppId());
         $this->assertNotSame($firstVerifyTicket, $secondVerifyTicket);
         $this->assertNotSame($firstAccessToken, $secondAccessToken);
         $this->assertNotSame($firstClient, $secondClient);
@@ -293,6 +375,53 @@ class ApplicationTest extends TestCase
             aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
         ));
 
+        $this->assertSame($encryptor, $app->getEncryptor());
+        $this->assertSame($server, $app->getServer());
+        $this->assertSame($accessToken, $app->getComponentAccessToken());
+        $this->assertSame($verifyTicket, $app->getVerifyTicket());
+        $this->assertSame($client, $app->getClient());
+    }
+
+    public function test_set_config_preserves_custom_account_and_dependencies()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $account = new Account(
+            appId: 'wx9999999999999999',
+            secret: 'custom-secret',
+            token: 'custom-token',
+            aesKey: 'mnopqrstuvwxyz0123456789ABCDEFGHabcdefghijk',
+        );
+        $encryptor = new Encryptor(
+            appId: $account->getAppId(),
+            token: $account->getToken(),
+            aesKey: $account->getAesKey(),
+        );
+        $server = \Mockery::mock(ServerInterface::class);
+        $accessToken = \Mockery::mock(AccessTokenInterface::class);
+        $verifyTicket = new VerifyTicket($account->getAppId(), cache: $app->getCache());
+        $client = new AccessTokenAwareClient;
+
+        $app->setAccount($account);
+        $app->setEncryptor($encryptor);
+        $app->setServer($server);
+        $app->setComponentAccessToken($accessToken);
+        $app->setVerifyTicket($verifyTicket);
+        $app->setClient($client);
+
+        $app->setConfig(new Config([
+            'app_id' => 'wx1234567890123456',
+            'secret' => 'mock-secret-2',
+            'token' => 'new-token',
+            'aes_key' => 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ]));
+
+        $this->assertSame($account, $app->getAccount());
         $this->assertSame($encryptor, $app->getEncryptor());
         $this->assertSame($server, $app->getServer());
         $this->assertSame($accessToken, $app->getComponentAccessToken());
