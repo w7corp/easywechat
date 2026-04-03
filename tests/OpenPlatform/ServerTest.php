@@ -108,4 +108,39 @@ class ServerTest extends TestCase
         $this->assertSame('verify-ticket-refreshed-event-handled', $handleResult);
         $this->assertSame('success', \strval($response->getBody()));
     }
+
+    public function test_default_verify_ticket_handler_is_replaced_instead_of_duplicated()
+    {
+        $body = '<xml>
+            <AppId>some_appid</AppId>
+            <CreateTime>1413192605</CreateTime>
+            <InfoType>component_verify_ticket</InfoType>
+            <ComponentVerifyTicket>some_verify_ticket</ComponentVerifyTicket>
+            </xml>
+        ';
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
+
+        $server = new Server(encryptor: $encryptor, request: $request);
+
+        $firstHandlerCalls = 0;
+        $secondHandlerCalls = 0;
+
+        $server->withDefaultVerifyTicketHandler(function ($message, $next) use (&$firstHandlerCalls) {
+            $firstHandlerCalls++;
+
+            return $next($message);
+        });
+        $server->withDefaultVerifyTicketHandler(function ($message, $next) use (&$secondHandlerCalls) {
+            $secondHandlerCalls++;
+
+            return $next($message);
+        });
+
+        $response = $server->serve();
+
+        $this->assertSame(0, $firstHandlerCalls);
+        $this->assertSame(1, $secondHandlerCalls);
+        $this->assertSame('success', \strval($response->getBody()));
+    }
 }

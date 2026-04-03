@@ -141,6 +141,34 @@ class ApplicationTest extends TestCase
         $this->assertSame($verifyTicket, $app->getVerifyTicket());
     }
 
+    public function test_application_server_persists_verify_ticket_only_once()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $verifyTicket = \Mockery::mock(VerifyTicketInterface::class);
+        $verifyTicket->shouldReceive('setTicket')->once()->with('persisted-verify-ticket')->andReturnSelf();
+        $app->setVerifyTicket($verifyTicket);
+
+        $request = $this->createEncryptedXmlMessageRequest('<xml>
+            <AppId>some_appid</AppId>
+            <CreateTime>1413192605</CreateTime>
+            <InfoType>component_verify_ticket</InfoType>
+            <ComponentVerifyTicket>persisted-verify-ticket</ComponentVerifyTicket>
+        </xml>', $app->getEncryptor());
+
+        $app->setRequest($request);
+
+        $app->getServer();
+        $response = $app->getServer()->serve();
+
+        $this->assertSame('success', (string) $response->getBody());
+    }
+
     public function test_get_authorization()
     {
         $app = new Application([

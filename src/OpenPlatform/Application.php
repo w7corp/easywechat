@@ -117,9 +117,7 @@ class Application implements ApplicationInterface
                 serverClass: Server::class,
                 encryptor: $this->getEncryptor(),
             );
-        }
 
-        if ($this->server instanceof Server) {
             $this->server->withDefaultVerifyTicketHandler(
                 function (Message $message, Closure $next): mixed {
                     $ticket = $this->getVerifyTicket();

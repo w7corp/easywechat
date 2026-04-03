@@ -16,8 +16,6 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function func_get_args;
-
 class Server implements ServerInterface
 {
     use DecryptMessage;
@@ -82,14 +80,22 @@ class Server implements ServerInterface
 
     public function withDefaultVerifyTicketHandler(callable $handler): void
     {
-        $this->defaultVerifyTicketHandler = fn (): mixed => $handler(...func_get_args());
-        $this->handleVerifyTicketRefreshed($this->defaultVerifyTicketHandler);
+        if ($this->defaultVerifyTicketHandler) {
+            $this->withoutHandler($this->defaultVerifyTicketHandler);
+        }
+
+        $this->defaultVerifyTicketHandler = function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'component_verify_ticket' ? $handler($message, $next) : $next($message);
+        };
+
+        $this->with($this->defaultVerifyTicketHandler);
     }
 
     public function handleVerifyTicketRefreshed(callable $handler): static
     {
         if ($this->defaultVerifyTicketHandler) {
             $this->withoutHandler($this->defaultVerifyTicketHandler);
+            $this->defaultVerifyTicketHandler = null;
         }
 
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {

@@ -92,6 +92,44 @@ class ServerTest extends TestCase
         $this->assertSame('persisted-suite-ticket', $app->getSuiteTicket()->getTicket());
     }
 
+    public function test_default_suite_ticket_handler_is_replaced_instead_of_duplicated()
+    {
+        $body = '<xml>
+            <SuiteId>suite-id</SuiteId>
+            <InfoType>suite_ticket</InfoType>
+            <SuiteTicket>mock-suite-ticket</SuiteTicket>
+        </xml>';
+
+        $suiteEncryptor = $this->createSuiteEncryptor();
+        $request = $this->createEncryptedXmlMessageRequest($body, $suiteEncryptor);
+
+        $server = new Server(
+            encryptor: $suiteEncryptor,
+            providerEncryptor: $this->createProviderEncryptor(),
+            request: $request,
+        );
+
+        $firstHandlerCalls = 0;
+        $secondHandlerCalls = 0;
+
+        $server->withDefaultSuiteTicketHandler(function ($message, $next) use (&$firstHandlerCalls) {
+            $firstHandlerCalls++;
+
+            return $next($message);
+        });
+        $server->withDefaultSuiteTicketHandler(function ($message, $next) use (&$secondHandlerCalls) {
+            $secondHandlerCalls++;
+
+            return $next($message);
+        });
+
+        $response = $server->serve();
+
+        $this->assertSame(0, $firstHandlerCalls);
+        $this->assertSame(1, $secondHandlerCalls);
+        $this->assertSame('success', (string) $response->getBody());
+    }
+
     private function createSuiteEncryptor(): SuiteEncryptor
     {
         return new SuiteEncryptor(

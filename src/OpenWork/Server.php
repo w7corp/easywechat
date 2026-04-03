@@ -19,8 +19,6 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function func_get_args;
-
 class Server implements ServerInterface
 {
     use DecryptMessage;
@@ -73,14 +71,22 @@ class Server implements ServerInterface
 
     public function withDefaultSuiteTicketHandler(callable $handler): void
     {
-        $this->defaultSuiteTicketHandler = fn (): mixed => $handler(...func_get_args());
-        $this->handleSuiteTicketRefreshed($this->defaultSuiteTicketHandler);
+        if ($this->defaultSuiteTicketHandler) {
+            $this->withoutHandler($this->defaultSuiteTicketHandler);
+        }
+
+        $this->defaultSuiteTicketHandler = function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'suite_ticket' ? $handler($message, $next) : $next($message);
+        };
+
+        $this->with($this->defaultSuiteTicketHandler);
     }
 
     public function handleSuiteTicketRefreshed(callable $handler): static
     {
         if ($this->defaultSuiteTicketHandler) {
             $this->withoutHandler($this->defaultSuiteTicketHandler);
+            $this->defaultSuiteTicketHandler = null;
         }
 
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {
