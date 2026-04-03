@@ -764,6 +764,58 @@ class ApplicationTest extends TestCase
         );
     }
 
+    public function test_get_official_account_oauth_factory_uses_authorizer_redirect_and_captured_component_context()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            'oauth' => [
+                'redirect_url' => 'https://platform.example.com/callback',
+            ],
+        ]);
+
+        $firstComponentAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $firstComponentAccessToken->shouldReceive('getToken')->once()->andReturn('first-component-token');
+        $app->setComponentAccessToken($firstComponentAccessToken);
+
+        $officialAccount = $app->getOfficialAccount(
+            new AuthorizerAccessToken('wx8765432109876543', 'mock-access-token'),
+            [
+                'secret' => 'mock-authorizer-secret',
+                'oauth' => [
+                    'redirect_url' => 'https://authorizer.example.com/callback',
+                    'scopes' => ['snsapi_base'],
+                ],
+            ]
+        );
+
+        $app->setAccount(new Account(
+            appId: 'wx1234567890123456',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ));
+
+        $secondComponentAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $secondComponentAccessToken->shouldReceive('getToken')->never();
+        $app->setComponentAccessToken($secondComponentAccessToken);
+
+        $oauth = $officialAccount->getOAuth();
+        $redirectUrl = $oauth->redirect();
+
+        $this->assertSame('https://authorizer.example.com/callback', $oauth->getConfig()->get('redirect_url'));
+        $this->assertSame([
+            'id' => 'wx3cf0f39249000060',
+            'token' => 'first-component-token',
+        ], $oauth->getComponent());
+        $this->assertStringContainsString('appid=wx8765432109876543', $redirectUrl);
+        $this->assertStringContainsString('component_appid=wx3cf0f39249000060', $redirectUrl);
+        $this->assertStringContainsString('redirect_uri=https%3A%2F%2Fauthorizer.example.com%2Fcallback', $redirectUrl);
+        $this->assertStringContainsString('scope=snsapi_base', $redirectUrl);
+    }
+
     public function test_get_mini_app()
     {
         $app = new Application([

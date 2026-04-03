@@ -340,7 +340,12 @@ class Application implements ApplicationInterface
         $this->propagateAuthorizerApplicationRuntimeDependencies($app);
 
         $app->setAccessToken($authorizerAccessToken);
-        $app->setOAuthFactory($this->createAuthorizerOAuthFactory($authorizerAccessToken->getAppId(), $config));
+        $app->setOAuthFactory($this->createAuthorizerOAuthFactory(
+            authorizerAppId: $authorizerAccessToken->getAppId(),
+            componentAppId: $platformAccount->getAppId(),
+            componentAccessToken: $this->getComponentAccessToken(),
+            config: $config,
+        ));
 
         return $app;
     }
@@ -387,18 +392,24 @@ class Application implements ApplicationInterface
         return $app;
     }
 
-    protected function createAuthorizerOAuthFactory(string $authorizerAppId, OfficialAccountConfig $config): Closure
-    {
+    protected function createAuthorizerOAuthFactory(
+        string $authorizerAppId,
+        string $componentAppId,
+        AccessTokenInterface $componentAccessToken,
+        OfficialAccountConfig $config
+    ): Closure {
+        $redirectUrl = $config->get('oauth.redirect_url', $this->config->get('oauth.redirect_url'));
+
         return fn () => (new WeChat(
             [
                 'client_id' => $authorizerAppId,
 
                 'component' => [
-                    'component_app_id' => $this->getAccount()->getAppId(),
-                    'component_access_token' => fn () => $this->getComponentAccessToken()->getToken(),
+                    'component_app_id' => $componentAppId,
+                    'component_access_token' => fn () => $componentAccessToken->getToken(),
                 ],
 
-                'redirect_url' => $this->config->get('oauth.redirect_url'),
+                'redirect_url' => $redirectUrl,
             ]
         ))->scopes((array) $config->get('oauth.scopes', ['snsapi_userinfo']));
     }
