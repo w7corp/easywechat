@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   phpunit:
-    name: PHP-${{ matrix.php_version }}-${{ matrix.perfer }}
+    name: PHP-${{ matrix.php_version }}-${{ matrix.prefer }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -15,12 +15,39 @@ jobs:
           - 8.3
           - 8.4
           - 8.5
-        perfer:
+        prefer:
           - stable
           - lowest
     steps:
-    - uses: actions/checkout@master
-    - name: Install Dependencies
-      run: composer update --prefer-dist --no-interaction --no-suggest --prefer-${{ matrix.perfer }}
-    - name: Run PHPUnit
-      run: ./vendor/bin/phpunit
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          coverage: none
+      - name: Install Dependencies
+        run: composer update --prefer-dist --no-interaction --prefer-${{ matrix.prefer }}
+      - name: Run PHPUnit
+        run: ./vendor/bin/phpunit
+
+  phpunit-symfony-8:
+    name: PHP-8.4-symfony-8
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - name: Require Symfony 8
+        run: |
+          composer require --no-update \
+            "symfony/cache:^8.0" \
+            "symfony/http-foundation:^8.0" \
+            "symfony/psr-http-message-bridge:^8.0" \
+            "symfony/http-client:^8.0" \
+            "symfony/mime:^8.0" \
+            "symfony/var-dumper:^8.0"
+      - name: Install Dependencies
+        run: composer update -W --prefer-dist --no-interaction
+      - name: Run PHPUnit
+        run: ./vendor/bin/phpunit
