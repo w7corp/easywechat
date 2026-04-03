@@ -45,13 +45,21 @@ class Application implements ApplicationInterface
 
     protected ?Encryptor $encryptor = null;
 
+    protected bool $usesCustomEncryptor = false;
+
     protected ?ServerInterface $server = null;
+
+    protected bool $usesCustomServer = false;
 
     protected ?AccountInterface $account = null;
 
     protected AccessTokenInterface|RefreshableAccessTokenInterface|null $accessToken = null;
 
+    protected bool $usesCustomAccessToken = false;
+
     protected ?JsApiTicketInterface $ticket = null;
+
+    protected bool $usesCustomTicket = false;
 
     protected ?\Closure $oauthFactory = null;
 
@@ -67,6 +75,7 @@ class Application implements ApplicationInterface
     public function setAccount(AccountInterface $account): static
     {
         $this->account = $account;
+        $this->refreshDerivedDependenciesAfterAccountUpdated();
 
         return $this;
     }
@@ -82,6 +91,7 @@ class Application implements ApplicationInterface
                 token: $this->getAccount()->getToken(),
                 aesKey: $this->getAccount()->getAesKey(),
             );
+            $this->usesCustomEncryptor = false;
         }
 
         return $this->encryptor;
@@ -90,6 +100,7 @@ class Application implements ApplicationInterface
     public function setEncryptor(Encryptor $encryptor): static
     {
         $this->encryptor = $encryptor;
+        $this->usesCustomEncryptor = true;
 
         return $this;
     }
@@ -101,6 +112,7 @@ class Application implements ApplicationInterface
                 serverClass: Server::class,
                 encryptor: $this->getAccount()->getAesKey() ? $this->getEncryptor() : null,
             );
+            $this->usesCustomServer = false;
         }
 
         return $this->server;
@@ -109,6 +121,7 @@ class Application implements ApplicationInterface
     public function setServer(ServerInterface $server): static
     {
         $this->server = $server;
+        $this->usesCustomServer = true;
 
         return $this;
     }
@@ -123,6 +136,7 @@ class Application implements ApplicationInterface
                 httpClient: $this->getHttpClient(),
                 stable: $this->config->get('use_stable_access_token', false),
             );
+            $this->usesCustomAccessToken = false;
         }
 
         return $this->accessToken;
@@ -131,6 +145,7 @@ class Application implements ApplicationInterface
     public function setAccessToken(AccessTokenInterface|RefreshableAccessTokenInterface $accessToken): static
     {
         $this->accessToken = $accessToken;
+        $this->usesCustomAccessToken = true;
         $this->resetClient();
 
         return $this;
@@ -180,6 +195,7 @@ class Application implements ApplicationInterface
                 httpClient: $this->getClient(),
                 stable: $this->config->get('use_stable_access_token', false),
             );
+            $this->usesCustomTicket = false;
         }
 
         return $this->ticket;
@@ -188,6 +204,7 @@ class Application implements ApplicationInterface
     public function setTicket(JsApiTicketInterface|RefreshableJsApiTicketInterface $ticket): static
     {
         $this->ticket = $ticket;
+        $this->usesCustomTicket = true;
 
         return $this;
     }
@@ -219,6 +236,27 @@ class Application implements ApplicationInterface
 
     protected function afterHttpClientUpdated(): void
     {
+        $this->resetClient();
+    }
+
+    protected function refreshDerivedDependenciesAfterAccountUpdated(): void
+    {
+        if (! $this->usesCustomEncryptor) {
+            $this->encryptor = null;
+        }
+
+        if (! $this->usesCustomServer) {
+            $this->server = null;
+        }
+
+        if (! $this->usesCustomAccessToken) {
+            $this->accessToken = null;
+        }
+
+        if (! $this->usesCustomTicket) {
+            $this->ticket = null;
+        }
+
         $this->resetClient();
     }
 }
