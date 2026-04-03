@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\HttpException;
+use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\MiniApp\Application as MiniAppApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
 use EasyWeChat\OpenPlatform\Account;
@@ -104,6 +105,23 @@ class ApplicationTest extends TestCase
         $accessToken = new ComponentAccessToken('wx3cf0f39249000060', 'mock-secret', $app->getVerifyTicket());
         $app->setComponentAccessToken($accessToken);
         $this->assertSame($accessToken, $app->getAccessToken());
+    }
+
+    public function test_get_and_set_client()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $this->assertInstanceOf(AccessTokenAwareClient::class, $app->getClient());
+        $this->assertSame($app->getClient(), $app->getClient());
+
+        $client = new AccessTokenAwareClient;
+        $app->setClient($client);
+        $this->assertSame($client, $app->getClient());
     }
 
     public function test_get_and_set_verify_ticket()

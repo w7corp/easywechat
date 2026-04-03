@@ -200,7 +200,8 @@ class Application implements ApplicationInterface
     public function createClient(): AccessTokenAwareClient
     {
         return $this->createWeChatApiClient(
-            fn (Response $response): bool => (bool) ($response->toArray()['errcode'] ?? 0)
+            accessToken: $this->getAccessToken(),
+            failureJudge: fn (Response $response): bool => (bool) ($response->toArray()['errcode'] ?? 0),
         );
     }
 

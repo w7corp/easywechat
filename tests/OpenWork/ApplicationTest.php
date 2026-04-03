@@ -94,6 +94,19 @@ class ApplicationTest extends TestCase
         $this->assertSame($server, $app->getServer());
     }
 
+    public function test_get_and_set_client()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $this->assertInstanceOf(AccessTokenAwareClient::class, $app->getClient());
+        $this->assertSame($app->getClient(), $app->getClient());
+
+        $client = new AccessTokenAwareClient;
+        $app->setClient($client);
+
+        $this->assertSame($client, $app->getClient());
+    }
+
     public function test_get_and_set_suite_ticket_and_access_tokens()
     {
         $app = new Application($this->createAppConfig());

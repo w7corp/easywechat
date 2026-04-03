@@ -134,11 +134,14 @@ class Application implements ApplicationInterface
 
     public function createClient(): AccessTokenAwareClient
     {
-        return $this->createWeChatApiClient(function (Response $response): bool {
-            $payload = $response->toArray();
+        return $this->createWeChatApiClient(
+            accessToken: $this->getAccessToken(),
+            failureJudge: function (Response $response): bool {
+                $payload = $response->toArray();
 
-            return (bool) (($payload['errcode'] ?? 0) || ($payload['error'] ?? null) !== null);
-        });
+                return (bool) (($payload['errcode'] ?? 0) || ($payload['error'] ?? null) !== null);
+            },
+        );
     }
 
     /**

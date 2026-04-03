@@ -8,7 +8,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
-use EasyWeChat\Kernel\HttpClient\Response;
+use EasyWeChat\Kernel\Traits\InteractsWithWeChatApiClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -25,6 +25,7 @@ use function array_merge;
 
 class Application implements ApplicationInterface
 {
+    use InteractsWithWeChatApiClient;
     use InteractWithCache;
     use InteractWithClient;
     use InteractWithConfig;
@@ -246,22 +247,14 @@ class Application implements ApplicationInterface
 
     public function createClient(): AccessTokenAwareClient
     {
-        return (new AccessTokenAwareClient(
-            client: $this->getHttpClient(),
-            accessToken: $this->getProviderAccessToken(),
-            failureJudge: fn (Response $response) => (bool) ($response->toArray()['errcode'] ?? 0),
-            throw: (bool) $this->config->get('http.throw', true),
-        ))->setPresets($this->config->all());
+        return $this->createErrcodeAwareClient($this->getProviderAccessToken());
     }
 
     public function getAuthorizerClient(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): AccessTokenAwareClient
     {
-        return (new AccessTokenAwareClient(
-            client: $this->getHttpClient(),
-            accessToken: $this->getAuthorizerAccessToken($corpId, $permanentCode, $suiteAccessToken),
-            failureJudge: fn (Response $response) => (bool) ($response->toArray()['errcode'] ?? 0),
-            throw: (bool) $this->config->get('http.throw', true),
-        ))->setPresets($this->config->all());
+        return $this->createErrcodeAwareClient(
+            $this->getAuthorizerAccessToken($corpId, $permanentCode, $suiteAccessToken)
+        );
     }
 
     public function getJsApiTicket(string $corpId, string $permanentCode, ?AccessTokenInterface $suiteAccessToken = null): JsApiTicket

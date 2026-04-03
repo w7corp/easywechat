@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Kernel\Traits;
 
+use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\HttpClient\AccessTokenExpiredRetryStrategy;
 use EasyWeChat\Kernel\HttpClient\RequestUtil;
@@ -15,11 +16,33 @@ use function str_contains;
 
 trait InteractsWithWeChatApiClient
 {
-    protected function createWeChatApiClient(callable $failureJudge): AccessTokenAwareClient
+    protected function createWeChatApiClient(
+        AccessTokenInterface $accessToken,
+        callable $failureJudge,
+    ): AccessTokenAwareClient {
+        return $this->createAccessTokenAwareClient(
+            accessToken: $accessToken,
+            failureJudge: $failureJudge,
+            retryWhenConfigured: true,
+        );
+    }
+
+    protected function createErrcodeAwareClient(AccessTokenInterface $accessToken): AccessTokenAwareClient
     {
+        return $this->createAccessTokenAwareClient(
+            accessToken: $accessToken,
+            failureJudge: fn (Response $response): bool => (bool) ($response->toArray()['errcode'] ?? 0),
+        );
+    }
+
+    protected function createAccessTokenAwareClient(
+        AccessTokenInterface $accessToken,
+        callable $failureJudge,
+        bool $retryWhenConfigured = false,
+    ): AccessTokenAwareClient {
         $httpClient = $this->getHttpClient();
 
-        if ((bool) $this->config->get('http.retry', false)) {
+        if ($retryWhenConfigured && (bool) $this->config->get('http.retry', false)) {
             $httpClient = new RetryableHttpClient(
                 $httpClient,
                 $this->getRetryStrategy(),
@@ -29,7 +52,7 @@ trait InteractsWithWeChatApiClient
 
         return (new AccessTokenAwareClient(
             client: $httpClient,
-            accessToken: $this->getAccessToken(),
+            accessToken: $accessToken,
             failureJudge: fn (Response $response): bool => (bool) $failureJudge($response),
             throw: (bool) $this->config->get('http.throw', true),
         ))->setPresets($this->config->all());
@@ -37,7 +60,9 @@ trait InteractsWithWeChatApiClient
 
     public function getRetryStrategy(): AccessTokenExpiredRetryStrategy
     {
-        $retryConfig = RequestUtil::mergeDefaultRetryOptions((array) $this->config->get('http.retry', []));
+        /** @var array<string, mixed> $retryOptions */
+        $retryOptions = (array) $this->config->get('http.retry', []);
+        $retryConfig = RequestUtil::mergeDefaultRetryOptions($retryOptions);
 
         return (new AccessTokenExpiredRetryStrategy($retryConfig))
             ->decideUsing(function (AsyncContext $context, ?string $responseContent): bool {

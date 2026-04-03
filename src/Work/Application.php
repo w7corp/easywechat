@@ -7,7 +7,7 @@ namespace EasyWeChat\Work;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
-use EasyWeChat\Kernel\HttpClient\Response;
+use EasyWeChat\Kernel\Traits\InteractsWithWeChatApiClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
@@ -23,6 +23,7 @@ use function array_merge;
 
 class Application implements ApplicationInterface
 {
+    use InteractsWithWeChatApiClient;
     use InteractWithCache;
     use InteractWithClient;
     use InteractWithConfig;
@@ -129,12 +130,7 @@ class Application implements ApplicationInterface
 
     public function createClient(): AccessTokenAwareClient
     {
-        return (new AccessTokenAwareClient(
-            client: $this->getHttpClient(),
-            accessToken: $this->getAccessToken(),
-            failureJudge: fn (Response $response) => (bool) ($response->toArray()['errcode'] ?? 0),
-            throw: (bool) $this->config->get('http.throw', true),
-        ))->setPresets($this->config->all());
+        return $this->createErrcodeAwareClient($this->getAccessToken());
     }
 
     public function getOAuth(): SocialiteProviderInterface

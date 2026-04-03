@@ -22,16 +22,10 @@ parameters:
             message: '#Parameter \$stable of class EasyWeChat\\MiniApp\\AccessToken constructor expects bool\|null, mixed given#'
             path: src/MiniApp/Application.php
         -
-            message: '#Parameter \#1 \$options of static method EasyWeChat\\Kernel\\HttpClient\\RequestUtil::mergeDefaultRetryOptions\(\) expects array<string, mixed>#'
-            path: src/MiniApp/Application.php
-        -
             message: '#Method EasyWeChat\\MiniApp\\Decryptor::decrypt\(\) should return array<string, mixed> but returns array#'
             path: src/MiniApp/Decryptor.php
         -
             message: '#Parameter \$stable of class EasyWeChat\\OfficialAccount\\(AccessToken|JsApiTicket) constructor expects bool\|null, mixed given#'
-            path: src/OfficialAccount/Application.php
-        -
-            message: '#Parameter \#1 \$options of static method EasyWeChat\\Kernel\\HttpClient\\RequestUtil::mergeDefaultRetryOptions\(\) expects array<string, mixed>#'
             path: src/OfficialAccount/Application.php
         -
             message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
