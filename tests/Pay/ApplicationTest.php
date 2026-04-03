@@ -10,6 +10,7 @@ use EasyWeChat\Pay\Contracts\Merchant;
 use EasyWeChat\Pay\Contracts\Validator;
 use EasyWeChat\Pay\Server;
 use EasyWeChat\Tests\TestCase;
+use Nyholm\Psr7\ServerRequest;
 
 class ApplicationTest extends TestCase
 {
@@ -59,6 +60,34 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(Server::class, $app->getServer());
         $this->assertSame($app->getServer(), $app->getServer());
+    }
+
+    public function test_application_server_uses_updated_request_after_server_is_resolved()
+    {
+        $app = new Application(
+            [
+                'mch_id' => 101111111,
+                'secret_key' => 'key',
+                'private_key' => 'mock-private-key',
+                'certificate' => '/path/to/certificate.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO',
+            ]
+        );
+
+        $this->assertInstanceOf(Server::class, $app->getServer());
+
+        $app->setRequest(new ServerRequest(
+            'POST',
+            'http://easywechat.com/',
+            [
+                'Content-Type' => 'application/json',
+            ],
+            \fopen(__DIR__.'/../fixtures/files/pay_demo.json', 'r')
+        ));
+
+        $response = $app->getServer()->serve();
+
+        $this->assertSame('{"code":"SUCCESS","message":"成功"}', (string) $response->getBody());
     }
 
     public function test_get_and_set_validator()

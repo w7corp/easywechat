@@ -10,7 +10,7 @@ use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
-use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
+use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\Pay\Contracts\Validator as ValidatorInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -19,8 +19,8 @@ class Application implements Contracts\Application
 {
     use InteractWithConfig;
     use InteractWithHttpClient;
-    use InteractWithServerRequest;
     use LoggerAwareTrait;
+    use SynchronizesServerRequest;
 
     protected ?ServerInterface $server = null;
 

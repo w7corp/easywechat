@@ -13,7 +13,7 @@ use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
-use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
+use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
 use EasyWeChat\OpenWork\Contracts\SuiteTicket as SuiteTicketInterface;
@@ -30,8 +30,8 @@ class Application implements ApplicationInterface
     use InteractWithClient;
     use InteractWithConfig;
     use InteractWithHttpClient;
-    use InteractWithServerRequest;
     use LoggerAwareTrait;
+    use SynchronizesServerRequest;
 
     protected ?ServerInterface $server = null;
 

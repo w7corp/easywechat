@@ -154,6 +154,8 @@ class ApplicationTest extends TestCase
         $verifyTicket->shouldReceive('setTicket')->once()->with('persisted-verify-ticket')->andReturnSelf();
         $app->setVerifyTicket($verifyTicket);
 
+        $this->assertInstanceOf(ServerInterface::class, $app->getServer());
+
         $request = $this->createEncryptedXmlMessageRequest('<xml>
             <AppId>some_appid</AppId>
             <CreateTime>1413192605</CreateTime>
@@ -163,7 +165,6 @@ class ApplicationTest extends TestCase
 
         $app->setRequest($request);
 
-        $app->getServer();
         $response = $app->getServer()->serve();
 
         $this->assertSame('success', (string) $response->getBody());

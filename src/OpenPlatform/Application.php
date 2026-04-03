@@ -17,7 +17,7 @@ use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
-use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
+use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\MiniApp\Application as MiniAppApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
 use EasyWeChat\OfficialAccount\Config as OfficialAccountConfig;
@@ -41,8 +41,8 @@ class Application implements ApplicationInterface
     use InteractWithClient;
     use InteractWithConfig;
     use InteractWithHttpClient;
-    use InteractWithServerRequest;
     use LoggerAwareTrait;
+    use SynchronizesServerRequest;
 
     protected ?Encryptor $encryptor = null;
 

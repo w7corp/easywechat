@@ -9,6 +9,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\AccessToken;
 use EasyWeChat\Work\Account;
@@ -156,6 +157,48 @@ class ApplicationTest extends TestCase
         $this->assertIsArray($payload);
         $this->assertArrayHasKey('encrypt', $payload);
         $this->assertArrayHasKey('msgsignature', $payload);
+    }
+
+    public function test_application_server_uses_updated_request_after_server_is_resolved()
+    {
+        $app = new Application(
+            [
+                'corp_id' => 'wx5823bf96d3bd56c7',
+                'secret' => 'mock-secret',
+                'token' => 'QDG6eK',
+                'aes_key' => 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C',
+            ]
+        );
+
+        $this->assertInstanceOf(ServerInterface::class, $app->getServer());
+
+        $request = $this->createEncryptedXmlMessageRequest('<xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[sys]]></FromUserName>
+            <CreateTime>1403610513</CreateTime>
+            <MsgType><![CDATA[event]]></MsgType>
+            <Event><![CDATA[change_contact]]></Event>
+            <ChangeType>change_contact</ChangeType>
+            <UserID><![CDATA[zhangsan]]></UserID>
+        </xml>', $app->getEncryptor());
+
+        $app->setRequest($request);
+
+        $response = $app->getServer()
+            ->addMessageListener('event', function () {
+                return 'hello';
+            })
+            ->serve();
+
+        $message = Xml::parse((string) $response->getBody());
+        $payload = Xml::parse($app->getEncryptor()->decrypt(
+            $message['Encrypt'],
+            $message['MsgSignature'],
+            $message['Nonce'],
+            $message['TimeStamp']
+        ));
+
+        $this->assertSame('hello', $payload['Content']);
     }
 
     public function test_get_and_set_client()

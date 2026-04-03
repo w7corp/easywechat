@@ -20,7 +20,7 @@ use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
-use EasyWeChat\Kernel\Traits\InteractWithServerRequest;
+use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\OfficialAccount\Contracts\Account as AccountInterface;
 use EasyWeChat\OfficialAccount\Contracts\Application as ApplicationInterface;
 use JetBrains\PhpStorm\Pure;
@@ -40,8 +40,8 @@ class Application implements ApplicationInterface
     use InteractWithClient;
     use InteractWithConfig;
     use InteractWithHttpClient;
-    use InteractWithServerRequest;
     use LoggerAwareTrait;
+    use SynchronizesServerRequest;
 
     protected ?Encryptor $encryptor = null;
 

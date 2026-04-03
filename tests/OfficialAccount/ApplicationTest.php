@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
+use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\OfficialAccount\AccessToken;
 use EasyWeChat\OfficialAccount\Account;
 use EasyWeChat\OfficialAccount\Account as AccountInterface;
@@ -17,6 +18,7 @@ use EasyWeChat\OfficialAccount\JsApiTicket;
 use EasyWeChat\OfficialAccount\Server;
 use EasyWeChat\OfficialAccount\Utils;
 use EasyWeChat\Tests\TestCase;
+use Nyholm\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ApplicationTest extends TestCase
@@ -79,6 +81,38 @@ class ApplicationTest extends TestCase
         $server = new Server(\Mockery::mock(ServerRequestInterface::class));
         $app->setServer($server);
         $this->assertSame($server, $app->getServer());
+    }
+
+    public function test_application_server_uses_updated_request_after_server_is_resolved()
+    {
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+            ]
+        );
+
+        $this->assertInstanceOf(ServerInterface::class, $app->getServer());
+
+        $app->setRequest(new ServerRequest('POST', 'http://easywechat.com/server', [], '<xml>
+            <ToUserName><![CDATA[toUser]]></ToUserName>
+            <FromUserName><![CDATA[fromUser]]></FromUserName>
+            <CreateTime>1348831860</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[this is a test]]></Content>
+            <MsgId>1234567890123456</MsgId>
+        </xml>'));
+
+        $response = $app->getServer()
+            ->addMessageListener('text', function () {
+                return 'hello';
+            })
+            ->serve();
+
+        $payload = Xml::parse((string) $response->getBody());
+
+        $this->assertSame('hello', $payload['Content']);
     }
 
     public function test_get_and_set_access_token()
