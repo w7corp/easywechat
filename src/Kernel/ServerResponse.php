@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Kernel;
 
 use const PHP_OUTPUT_HANDLER_CLEANABLE;
@@ -17,6 +19,7 @@ use function max;
 use function sprintf;
 use function ucwords;
 
+/** @phpstan-consistent-constructor */
 class ServerResponse implements ResponseInterface
 {
     public function __construct(protected ResponseInterface $response)
@@ -24,13 +27,13 @@ class ServerResponse implements ResponseInterface
         $this->response->getBody()->rewind();
     }
 
-    public static function make(ResponseInterface $response): ServerResponse
+    public static function make(ResponseInterface $response): static
     {
-        if ($response instanceof ServerResponse) {
+        if ($response instanceof static) {
             return $response;
         }
 
-        return new self($response);
+        return new static($response);
     }
 
     public function getProtocolVersion(): string
@@ -38,9 +41,9 @@ class ServerResponse implements ResponseInterface
         return $this->response->getProtocolVersion();
     }
 
-    public function withProtocolVersion($version): ServerResponse|ResponseInterface
+    public function withProtocolVersion($version): static
     {
-        return $this->response->withProtocolVersion($version);
+        return static::make($this->response->withProtocolVersion($version));
     }
 
     public function getHeaders(): array
@@ -63,19 +66,19 @@ class ServerResponse implements ResponseInterface
         return $this->response->getHeaderLine($name);
     }
 
-    public function withHeader($name, $value): ServerResponse|ResponseInterface
+    public function withHeader($name, $value): static
     {
-        return $this->response->withHeader($name, $value);
+        return static::make($this->response->withHeader($name, $value));
     }
 
-    public function withAddedHeader($name, $value): ServerResponse|ResponseInterface
+    public function withAddedHeader($name, $value): static
     {
-        return $this->response->withAddedHeader($name, $value);
+        return static::make($this->response->withAddedHeader($name, $value));
     }
 
-    public function withoutHeader($name): ServerResponse|ResponseInterface
+    public function withoutHeader($name): static
     {
-        return $this->response->withoutHeader($name);
+        return static::make($this->response->withoutHeader($name));
     }
 
     public function getBody(): StreamInterface
@@ -83,9 +86,9 @@ class ServerResponse implements ResponseInterface
         return $this->response->getBody();
     }
 
-    public function withBody(StreamInterface $body): ServerResponse|ResponseInterface
+    public function withBody(StreamInterface $body): static
     {
-        return $this->response->withBody($body);
+        return static::make($this->response->withBody($body));
     }
 
     public function getStatusCode(): int
@@ -93,11 +96,9 @@ class ServerResponse implements ResponseInterface
         return $this->response->getStatusCode();
     }
 
-    public function withStatus($code, $reasonPhrase = ''): ServerResponse|ResponseInterface
+    public function withStatus($code, $reasonPhrase = ''): static
     {
-        $this->response->withStatus($code, $reasonPhrase);
-
-        return $this;
+        return static::make($this->response->withStatus($code, $reasonPhrase));
     }
 
     public function getReasonPhrase(): string

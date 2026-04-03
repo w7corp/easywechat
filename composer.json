@@ -16,33 +16,32 @@
     }
   ],
   "require": {
-    "php": ">=8.0.2",
+    "php": ">=8.4",
     "ext-fileinfo": "*",
     "ext-openssl": "*",
     "ext-simplexml": "*",
     "ext-libxml": "*",
     "ext-curl": "*",
-    "nyholm/psr7": "^1.5",
-    "nyholm/psr7-server": "^1.0",
-    "overtrue/socialite": "^3.5.4|^4.0.1",
-    "psr/simple-cache": "^1.0|^2.0|^3.0",
+    "nyholm/psr7": "^1.8.2",
+    "nyholm/psr7-server": "^1.1",
+    "overtrue/socialite": "^4.14",
+    "psr/simple-cache": "^3.0",
     "psr/http-client": "^1.0",
-    "symfony/cache": "^5.4|^6.0|^7.0|^8.0",
-    "symfony/http-foundation": "^5.4|^6.0|^7.0|^8.0",
-    "symfony/psr-http-message-bridge": "^2.1.2|^6.4.0|^7.1|^8.0",
-    "symfony/http-client": "^5.4|^6.0|^7.0|^8.0",
-    "symfony/mime": "^5.4|^6.0|^7.0|^8.0",
-    "symfony/polyfill-php81": "^1.25",
-    "thenorthmemory/xml": "^1.0"
+    "symfony/cache": "^8.0",
+    "symfony/http-foundation": "^8.0",
+    "symfony/psr-http-message-bridge": "^8.0",
+    "symfony/http-client": "^8.0",
+    "symfony/mime": "^8.0",
+    "thenorthmemory/xml": "^1.1"
   },
   "require-dev": {
-    "mikey179/vfsstream": "^1.6",
-    "mockery/mockery": "^1.4.4",
-    "phpstan/phpstan": "^1.0 | ^2",
-    "phpunit/phpunit": "^9.5",
-    "symfony/var-dumper": "^5.2|^6|^7|^8.0",
-    "jetbrains/phpstorm-attributes": "^1.0",
-    "laravel/pint": "^1.2"
+    "mikey179/vfsstream": "^1.6.12",
+    "mockery/mockery": "^1.6.12",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^12.5",
+    "symfony/var-dumper": "^8.0",
+    "jetbrains/phpstorm-attributes": "^1.2",
+    "laravel/pint": "^1.29"
   },
   "autoload": {
     "psr-4": {
@@ -66,7 +65,6 @@
   },
   "config": {
     "allow-plugins": {
-      "composer/package-versions-deprecated": true,
       "php-http/discovery": true
     }
   }

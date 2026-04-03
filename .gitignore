@@ -9,6 +9,7 @@ sftp-config.json
 /composer.lock
 .php-cs-fixer.cache
 .phpunit.result.cache
+.phpunit.cache/
 cghooks.lock
 docs/dist/
 docs/.vuepress/.temp/

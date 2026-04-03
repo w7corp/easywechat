@@ -6,18 +6,26 @@ jobs:
     name: PHPStan
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Install Dependencies
-      run: composer install --no-progress
-    - name: Run PHPStan
-      run: ./vendor/bin/phpstan analyse --no-progress
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - name: Install Dependencies
+        run: composer update -W --prefer-dist --no-interaction
+      - name: Run PHPStan
+        run: composer phpstan
 
-  php_cs_fixer:
-    name: PHP-CS-Fxier
+  pint:
+    name: Pint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Install Dependencies
-      run: composer install --no-progress
-    - name: Run PHP-CS-Fxier
-      run: composer check-style
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - name: Install Dependencies
+        run: composer update -W --prefer-dist --no-interaction
+      - name: Run Pint
+        run: composer check-style

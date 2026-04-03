@@ -13,9 +13,6 @@ parameters:
             message: '#\$client .*? does not accept#'
             path: src/Kernel/HttpClient/AccessTokenAwareClient.php
         -
-            message: '#ServerResponse::with.*? should return static\(EasyWeChat\\Kernel\\ServerResponse\) but returns Psr\\Http\\Message\\ResponseInterface#'
-            path: src/Kernel/ServerResponse.php
-        -
             message: '#Parameter \#1 \$object of function spl_object_hash expects object, callable given#'
             path: src/Kernel/Traits/InteractWithHandlers.php
         -
