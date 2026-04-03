@@ -158,6 +158,7 @@ class Application implements ApplicationInterface
     public function setProviderAccessToken(AccessTokenInterface $accessToken): static
     {
         $this->accessToken = $accessToken;
+        $this->resetClient();
 
         return $this;
     }
@@ -298,6 +299,11 @@ class Application implements ApplicationInterface
             ['base_uri' => 'https://qyapi.weixin.qq.com/'],
             (array) $this->config->get('http', [])
         );
+    }
+
+    protected function afterHttpClientUpdated(): void
+    {
+        $this->resetClient();
     }
 
     protected function configureOpenWorkOAuthProvider(

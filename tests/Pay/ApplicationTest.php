@@ -11,6 +11,8 @@ use EasyWeChat\Pay\Contracts\Validator;
 use EasyWeChat\Pay\Server;
 use EasyWeChat\Tests\TestCase;
 use Nyholm\Psr7\ServerRequest;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ApplicationTest extends TestCase
 {
@@ -44,6 +46,48 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(Client::class, $app->getClient());
         $this->assertSame($app->getHttpClient(), $app->getHttpClient());
+    }
+
+    public function test_set_http_client_refreshes_default_client()
+    {
+        $app = new Application(
+            [
+                'mch_id' => 101111111,
+                'secret_key' => 'mock-secret-key',
+                'private_key' => 'mock-private-key',
+                'certificate' => '/path/to/certificate.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO',
+            ]
+        );
+
+        $firstClient = $app->getClient();
+
+        $app->setHttpClient(new MockHttpClient);
+
+        $secondClient = $app->getClient();
+
+        $this->assertInstanceOf(Client::class, $secondClient);
+        $this->assertNotSame($firstClient, $secondClient);
+    }
+
+    public function test_set_http_client_preserves_custom_client()
+    {
+        $app = new Application(
+            [
+                'mch_id' => 101111111,
+                'secret_key' => 'mock-secret-key',
+                'private_key' => 'mock-private-key',
+                'certificate' => '/path/to/certificate.cert',
+                'certificate_serial_no' => 'MOCK-CERTIFICATE-SERIAL-NO',
+            ]
+        );
+
+        $client = \Mockery::mock(HttpClientInterface::class);
+
+        $app->setClient($client);
+        $app->setHttpClient(\Mockery::mock(HttpClientInterface::class));
+
+        $this->assertSame($client, $app->getClient());
     }
 
     public function test_get_server()

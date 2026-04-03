@@ -107,6 +107,46 @@ class ApplicationTest extends TestCase
         $this->assertSame($accessToken, $app->getAccessToken());
     }
 
+    public function test_set_component_access_token_refreshes_resolved_client()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $firstAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $firstAccessToken->shouldReceive('toQuery')->once()->andReturn(['component_access_token' => 'first-token']);
+
+        $secondAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $secondAccessToken->shouldReceive('toQuery')->once()->andReturn(['component_access_token' => 'second-token']);
+
+        $firstResponse = new MockResponse('{}');
+        $secondResponse = new MockResponse('{}');
+
+        $app->setHttpClient(new MockHttpClient([$firstResponse, $secondResponse], 'https://api.weixin.qq.com/'));
+        $app->setComponentAccessToken($firstAccessToken);
+
+        $firstClient = $app->getClient();
+        $firstClient->request('GET', 'cgi-bin/component/api_query_auth');
+
+        $app->setComponentAccessToken($secondAccessToken);
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/component/api_query_auth');
+
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=first-token',
+            $firstResponse->getRequestUrl()
+        );
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_query_auth?component_access_token=second-token',
+            $secondResponse->getRequestUrl()
+        );
+    }
+
     public function test_get_and_set_client()
     {
         $app = new Application([

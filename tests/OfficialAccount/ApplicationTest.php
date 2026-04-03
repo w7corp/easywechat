@@ -20,6 +20,8 @@ use EasyWeChat\OfficialAccount\Utils;
 use EasyWeChat\Tests\TestCase;
 use Nyholm\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 class ApplicationTest extends TestCase
 {
@@ -132,6 +134,41 @@ class ApplicationTest extends TestCase
         $accessToken = new AccessToken('wx3cf0f39249000060', 'mock-secret');
         $app->setAccessToken($accessToken);
         $this->assertSame($accessToken, $app->getAccessToken());
+    }
+
+    public function test_set_access_token_refreshes_resolved_client()
+    {
+        $app = new Application(
+            [
+                'app_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+            ]
+        );
+
+        $firstAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $firstAccessToken->shouldReceive('toQuery')->once()->andReturn(['access_token' => 'first-token']);
+
+        $secondAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $secondAccessToken->shouldReceive('toQuery')->once()->andReturn(['access_token' => 'second-token']);
+
+        $firstResponse = new MockResponse('{}');
+        $secondResponse = new MockResponse('{}');
+
+        $app->setHttpClient(new MockHttpClient([$firstResponse, $secondResponse], 'https://api.weixin.qq.com/'));
+        $app->setAccessToken($firstAccessToken);
+
+        $firstClient = $app->getClient();
+        $firstClient->request('GET', 'cgi-bin/token');
+
+        $app->setAccessToken($secondAccessToken);
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/token');
+
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/token?access_token=first-token', $firstResponse->getRequestUrl());
+        $this->assertSame('https://api.weixin.qq.com/cgi-bin/token?access_token=second-token', $secondResponse->getRequestUrl());
     }
 
     // https://github.com/w7corp/easywechat/issues/2743

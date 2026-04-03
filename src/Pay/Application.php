@@ -28,6 +28,8 @@ class Application implements Contracts\Application
 
     protected ?HttpClientInterface $client = null;
 
+    protected bool $usesCustomClient = false;
+
     protected ?Merchant $merchant = null;
 
     public function getUtils(): Utils
@@ -100,17 +102,37 @@ class Application implements Contracts\Application
 
     public function getClient(): Client|HttpClientInterface
     {
-        return $this->client ?? $this->client = (new Client(
-            $this->getMerchant(),
-            $this->getHttpClient(),
-            (array) $this->config->get('http', [])
-        ))->setPresets($this->config->all());
+        if (! $this->client) {
+            $this->client = (new Client(
+                $this->getMerchant(),
+                $this->getHttpClient(),
+                (array) $this->config->get('http', [])
+            ))->setPresets($this->config->all());
+            $this->usesCustomClient = false;
+        }
+
+        return $this->client;
     }
 
     public function setClient(HttpClientInterface $client): static
     {
         $this->client = $client;
+        $this->usesCustomClient = true;
 
         return $this;
+    }
+
+    protected function resetClient(): void
+    {
+        if ($this->usesCustomClient) {
+            return;
+        }
+
+        $this->client = null;
+    }
+
+    protected function afterHttpClientUpdated(): void
+    {
+        $this->resetClient();
     }
 }

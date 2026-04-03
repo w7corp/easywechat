@@ -36,7 +36,13 @@ trait InteractWithHttpClient
             $httpClient->setLogger($this->logger);
         }
 
+        $this->afterHttpClientUpdated();
+
         return $this;
+    }
+
+    protected function afterHttpClientUpdated(): void
+    {
     }
 
     protected function createHttpClient(): HttpClientInterface

@@ -23,6 +23,8 @@ use EasyWeChat\OpenWork\SuiteTicket;
 use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\Providers\OpenWeWork;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 class ApplicationTest extends TestCase
 {
@@ -133,6 +135,41 @@ class ApplicationTest extends TestCase
         $this->assertSame($suiteTicket, $app->getSuiteTicket());
         $this->assertSame($providerAccessToken, $app->getProviderAccessToken());
         $this->assertSame($suiteAccessToken, $app->getSuiteAccessToken());
+    }
+
+    public function test_set_provider_access_token_refreshes_resolved_client()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $firstAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $firstAccessToken->shouldReceive('toQuery')->once()->andReturn(['provider_access_token' => 'first-token']);
+
+        $secondAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $secondAccessToken->shouldReceive('toQuery')->once()->andReturn(['provider_access_token' => 'second-token']);
+
+        $firstResponse = new MockResponse('{}');
+        $secondResponse = new MockResponse('{}');
+
+        $app->setHttpClient(new MockHttpClient([$firstResponse, $secondResponse], 'https://qyapi.weixin.qq.com/'));
+        $app->setProviderAccessToken($firstAccessToken);
+
+        $firstClient = $app->getClient();
+        $firstClient->request('GET', 'cgi-bin/service/get_provider_token');
+
+        $app->setProviderAccessToken($secondAccessToken);
+
+        $secondClient = $app->getClient();
+        $secondClient->request('GET', 'cgi-bin/service/get_provider_token');
+
+        $this->assertNotSame($firstClient, $secondClient);
+        $this->assertSame(
+            'https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token?provider_access_token=first-token',
+            $firstResponse->getRequestUrl()
+        );
+        $this->assertSame(
+            'https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token?provider_access_token=second-token',
+            $secondResponse->getRequestUrl()
+        );
     }
 
     public function test_get_authorizer_client_jsapi_ticket_and_oauth_helpers()
