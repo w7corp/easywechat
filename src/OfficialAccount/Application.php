@@ -14,6 +14,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\HttpClient\Response;
+use EasyWeChat\Kernel\Traits\InteractsWithAppIdAccount;
 use EasyWeChat\Kernel\Traits\InteractsWithWeChatApiClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
@@ -33,6 +34,7 @@ use function sprintf;
 
 class Application implements ApplicationInterface
 {
+    use InteractsWithAppIdAccount;
     use InteractsWithWeChatApiClient;
     use InteractWithCache;
     use InteractWithClient;
@@ -56,12 +58,7 @@ class Application implements ApplicationInterface
     public function getAccount(): AccountInterface
     {
         if (! $this->account) {
-            $this->account = new Account(
-                appId: (string) $this->config->get('app_id'), /** @phpstan-ignore-line */
-                secret: (string) $this->config->get('secret'), /** @phpstan-ignore-line */
-                token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
-                aesKey: (string) $this->config->get('aes_key'),/** @phpstan-ignore-line */
-            );
+            $this->account = $this->createAppIdAccount(Account::class);
         }
 
         return $this->account;
@@ -80,18 +77,10 @@ class Application implements ApplicationInterface
     public function getEncryptor(): Encryptor
     {
         if (! $this->encryptor) {
-            $token = $this->getAccount()->getToken();
-            $aesKey = $this->getAccount()->getAesKey();
-
-            if (empty($token) || empty($aesKey)) {
-                throw new InvalidConfigException('token or aes_key cannot be empty.');
-            }
-
-            $this->encryptor = new Encryptor(
+            $this->encryptor = $this->createAppIdEncryptor(
                 appId: $this->getAccount()->getAppId(),
-                token: $token,
-                aesKey: $aesKey,
-                receiveId: $this->getAccount()->getAppId()
+                token: $this->getAccount()->getToken(),
+                aesKey: $this->getAccount()->getAesKey(),
             );
         }
 
@@ -108,9 +97,9 @@ class Application implements ApplicationInterface
     public function getServer(): Server|ServerInterface
     {
         if (! $this->server) {
-            $this->server = new Server(
-                request: $this->getRequest(),
-                encryptor: $this->getAccount()->getAesKey() ? $this->getEncryptor() : null
+            $this->server = $this->createAppIdServer(
+                serverClass: Server::class,
+                encryptor: $this->getAccount()->getAesKey() ? $this->getEncryptor() : null,
             );
         }
 
