@@ -15,7 +15,7 @@ use EasyWeChat\Pay\Contracts\Validator as ValidatorInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Application implements \EasyWeChat\Pay\Contracts\Application
+class Application implements Contracts\Application
 {
     use InteractWithConfig;
     use InteractWithHttpClient;

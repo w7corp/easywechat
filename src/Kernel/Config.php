@@ -8,6 +8,7 @@ use ArrayAccess;
 use EasyWeChat\Kernel\Contracts\Config as ConfigInterface;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
 use EasyWeChat\Kernel\Support\Arr;
+use JetBrains\PhpStorm\Pure;
 
 use function strval;
 
@@ -32,7 +33,7 @@ class Config implements ArrayAccess, ConfigInterface
         $this->checkMissingKeys();
     }
 
-    #[\JetBrains\PhpStorm\Pure]
+    #[Pure]
     public function has(string $key): bool
     {
         return Arr::has($this->items, $key);
@@ -41,7 +42,7 @@ class Config implements ArrayAccess, ConfigInterface
     /**
      * @param  array<string>|string  $key
      */
-    #[\JetBrains\PhpStorm\Pure]
+    #[Pure]
     public function get(array|string $key, mixed $default = null): mixed
     {
         if (is_array($key)) {
@@ -55,7 +56,7 @@ class Config implements ArrayAccess, ConfigInterface
      * @param  array<string>  $keys
      * @return array<string, mixed>
      */
-    #[\JetBrains\PhpStorm\Pure]
+    #[Pure]
     public function getMany(array $keys): array
     {
         $config = [];
@@ -84,13 +85,13 @@ class Config implements ArrayAccess, ConfigInterface
         return $this->items;
     }
 
-    #[\JetBrains\PhpStorm\Pure]
+    #[Pure]
     public function offsetExists(mixed $offset): bool
     {
         return $this->has(strval($offset));
     }
 
-    #[\JetBrains\PhpStorm\Pure]
+    #[Pure]
     public function offsetGet(mixed $offset): mixed
     {
         return $this->get(strval($offset));

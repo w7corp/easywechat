@@ -266,8 +266,7 @@ class ApplicationTest extends TestCase
 
         $oauth = $app->getOauth();
         $this->assertInstanceOf(WeWork::class, $oauth);
-        $ref = new \ReflectionProperty($oauth, 'agentId');
-        $this->assertNull($ref->getValue($oauth));
+        $this->assertNull($this->getOAuthAgentId($oauth));
 
         // with default agent id
         $app = new Application(
@@ -282,7 +281,16 @@ class ApplicationTest extends TestCase
 
         $oauth = $app->getOauth();
         $this->assertInstanceOf(WeWork::class, $oauth);
-        $ref = new \ReflectionProperty($oauth, 'agentId');
-        $this->assertSame(100001, $ref->getValue($oauth));
+        $this->assertSame(100001, $this->getOAuthAgentId($oauth));
+    }
+
+    private function getOAuthAgentId(WeWork $oauth): ?int
+    {
+        /** @var int|null $agentId */
+        $agentId = \Closure::bind(function (): ?int {
+            return $this->agentId;
+        }, $oauth, $oauth)();
+
+        return $agentId;
     }
 }

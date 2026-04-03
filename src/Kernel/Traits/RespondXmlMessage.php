@@ -55,11 +55,17 @@ trait RespondXmlMessage
         }
 
         if (is_array($response)) {
-            if (! isset($response['MsgType'])) {
+            $normalized = [];
+
+            foreach ($response as $key => $value) {
+                $normalized[(string) $key] = $value;
+            }
+
+            if (! isset($normalized['MsgType'])) {
                 throw new InvalidArgumentException('MsgType cannot be empty.');
             }
 
-            return $response;
+            return $normalized;
         }
 
         if (is_string($response) || is_numeric($response)) {

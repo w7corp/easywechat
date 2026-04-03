@@ -4,6 +4,7 @@ namespace EasyWeChat\Kernel\Traits;
 
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\Kernel\Exceptions\InvalidArgumentException;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Message;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -45,7 +46,7 @@ trait RespondJsonMessage
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     protected function createJsonResponse(array $attributes, ?Encryptor $encryptor = null): ResponseInterface
     {

@@ -14,6 +14,7 @@ use EasyWeChat\Kernel\Support\Xml;
 use Exception;
 use Throwable;
 
+use function array_map;
 use function base64_decode;
 use function base64_encode;
 use function implode;
@@ -131,7 +132,7 @@ class Encryptor
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public function encryptAsArray(string $plaintext, ?string $nonce = null, int|string|null $timestamp = null): array
     {
@@ -164,11 +165,16 @@ class Encryptor
         ];
     }
 
-    public function createSignature(mixed ...$attributes): string
+    public function createSignature(string|int ...$attributes): string
     {
+        $attributes = array_map(
+            static fn (string|int $attribute): string => (string) $attribute,
+            $attributes
+        );
+
         sort($attributes, SORT_STRING);
 
-        return sha1(implode($attributes));
+        return sha1(implode('', $attributes));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Kernel\Traits;
 
+use JetBrains\PhpStorm\Pure;
 use Mockery\Mock;
 use Symfony\Component\HttpClient\DecoratorTrait;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -52,13 +53,13 @@ trait MockableHttpClient
                 return $this->client->$name(...$arguments);
             }
 
-            #[\JetBrains\PhpStorm\Pure]
+            #[Pure]
             public function getRequestMethod(): string
             {
                 return $this->mockResponse->getRequestMethod();
             }
 
-            #[\JetBrains\PhpStorm\Pure]
+            #[Pure]
             public function getRequestUrl(): string
             {
                 return $this->mockResponse->getRequestUrl();
@@ -67,7 +68,7 @@ trait MockableHttpClient
             /**
              * @return array<string, mixed>
              */
-            #[\JetBrains\PhpStorm\Pure]
+            #[Pure]
             public function getRequestOptions(): array
             {
                 return $this->mockResponse->getRequestOptions();

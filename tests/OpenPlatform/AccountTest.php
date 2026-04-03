@@ -2,6 +2,7 @@
 
 namespace EasyWeChat\Tests\OpenPlatform;
 
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\OpenPlatform\Account;
 use EasyWeChat\OpenPlatform\Application;
 use EasyWeChat\OpenPlatform\Contracts\Account as AccountInterface;
@@ -24,7 +25,7 @@ class AccountTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public function test_set_account_to_application()
     {

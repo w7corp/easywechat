@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Work;
 
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Tests\TestCase;
 use EasyWeChat\Work\Account;
 use EasyWeChat\Work\Application;
@@ -12,7 +13,7 @@ use EasyWeChat\Work\Contracts\Account as AccountInterface;
 class AccountTest extends TestCase
 {
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public function test_application_created_can_get_account()
     {
@@ -30,7 +31,7 @@ class AccountTest extends TestCase
     }
 
     /**
-     * @throws \EasyWeChat\Kernel\Exceptions\RuntimeException
+     * @throws RuntimeException
      */
     public function test_set_account_to_application()
     {
