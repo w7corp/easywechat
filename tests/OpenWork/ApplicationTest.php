@@ -159,6 +159,17 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(AuthorizerAccessToken::class, $authorizerAccessToken);
     }
 
+    public function test_get_oauth_helpers_do_not_require_suite_ticket_or_access_token_up_front()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $oauth = $app->getOAuth('suite-id');
+        $corpOAuth = $app->getCorpOAuth('wx3cf0f39249000060');
+
+        $this->assertInstanceOf(OpenWeWork::class, $oauth);
+        $this->assertInstanceOf(OpenWeWork::class, $corpOAuth);
+    }
+
     /**
      * @return array<string, mixed>
      */

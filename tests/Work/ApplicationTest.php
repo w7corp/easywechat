@@ -374,6 +374,26 @@ class ApplicationTest extends TestCase
         $this->assertSame(100001, $this->getOAuthAgentId($oauth));
     }
 
+    public function test_get_oauth_does_not_eagerly_resolve_access_token()
+    {
+        $app = new Application(
+            [
+                'corp_id' => 'wx3cf0f39249000060',
+                'secret' => 'mock-secret',
+                'token' => 'mock-token',
+                'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+            ]
+        );
+
+        $accessToken = \Mockery::mock(AccessTokenInterface::class);
+        $accessToken->shouldNotReceive('getToken');
+        $app->setAccessToken($accessToken);
+
+        $oauth = $app->getOauth();
+
+        $this->assertInstanceOf(WeWork::class, $oauth);
+    }
+
     private function getOAuthAgentId(WeWork $oauth): ?int
     {
         /** @var int|null $agentId */

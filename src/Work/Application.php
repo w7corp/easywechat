@@ -155,7 +155,6 @@ class Application implements ApplicationInterface
             ]
         );
 
-        $provider->withApiAccessToken($this->getAccessToken()->getToken());
         $provider->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
 
         if ($this->config->has('agent_id') && \is_numeric($this->config->get('agent_id'))) {
