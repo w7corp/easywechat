@@ -40,7 +40,7 @@ jobs:
           coverage: none
       - name: Require Symfony 8
         run: |
-          composer require --no-update \
+          composer require --no-interaction --no-update \
             "symfony/cache:^8.0" \
             "symfony/http-foundation:^8.0" \
             "symfony/psr-http-message-bridge:^8.0" \
