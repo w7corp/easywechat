@@ -22,7 +22,7 @@ class ServerTest extends TestCase
         $this->assertSame('abcdefghijklmn', \strval($response->getBody()));
     }
 
-    public function test_it_will_decrypt_validation_request_in_safe_mode()
+    public function test_it_will_return_echostr_as_is_for_validation_request_in_safe_mode()
     {
         $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
         $encrypted = $encryptor->encryptAsArray(
@@ -41,7 +41,7 @@ class ServerTest extends TestCase
 
         $response = $server->serve();
 
-        $this->assertSame('1616140317555161061', \strval($response->getBody()));
+        $this->assertSame($encrypted['ciphertext'], \strval($response->getBody()));
     }
 
     public function test_it_will_response_success_without_handlers()

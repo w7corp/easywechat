@@ -9,7 +9,7 @@ use Nyholm\Psr7\ServerRequest;
 
 class ServerTest extends TestCase
 {
-    public function test_it_will_decrypt_validation_request()
+    public function test_it_will_return_echostr_as_is_for_validation_request()
     {
         $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
         $encrypted = $encryptor->encryptAsArray(
@@ -28,7 +28,7 @@ class ServerTest extends TestCase
         $server = new Server(encryptor: $encryptor, request: $request);
         $response = $server->serve();
 
-        $this->assertSame('1616140317555161061', \strval($response->getBody()));
+        $this->assertSame($encrypted['ciphertext'], \strval($response->getBody()));
     }
 
     public function test_it_will_handle_authorized_event()
