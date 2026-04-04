@@ -103,7 +103,7 @@ class SuiteAccessTokenTest extends TestCase
     {
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get('mock-cache-key')->andReturn(null);
-        $cache->expects()->set('mock-cache-key', 'mock-suite-access-token', 100)->andReturn(true);
+        $cache->expects()->set('mock-cache-key', 'mock-suite-access-token', 0)->andReturn(true);
 
         $suiteTicket = \Mockery::mock(SuiteTicketInterface::class);
         $suiteTicket->shouldReceive('getTicket')->andReturn('mock-suite-ticket');
@@ -145,5 +145,41 @@ class SuiteAccessTokenTest extends TestCase
         }
 
         $this->assertSame([], $errors);
+    }
+
+    public function test_refresh_clamps_small_expiry_to_zero()
+    {
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->expects()->get('mock-cache-key')->andReturn(null);
+        $cache->expects()->set('mock-cache-key', 'mock-suite-access-token', 0)->andReturn(true);
+
+        $suiteTicket = \Mockery::mock(SuiteTicketInterface::class);
+        $suiteTicket->shouldReceive('getTicket')->andReturn('mock-suite-ticket');
+
+        $response = \Mockery::mock(ResponseInterface::class);
+        $response->allows()->toArray(false)->andReturn([
+            'suite_access_token' => 'mock-suite-access-token',
+            'expires_in' => 90,
+        ]);
+
+        $httpClient = \Mockery::mock(HttpClientInterface::class);
+        $httpClient->allows()->request('POST', 'cgi-bin/service/get_suite_token', [
+            'json' => [
+                'suite_id' => 'mock-suite-id',
+                'suite_secret' => 'mock-suite-secret',
+                'suite_ticket' => 'mock-suite-ticket',
+            ],
+        ])->andReturn($response);
+
+        $accessToken = new SuiteAccessToken(
+            suiteId: 'mock-suite-id',
+            suiteSecret: 'mock-suite-secret',
+            suiteTicket: $suiteTicket,
+            key: 'mock-cache-key',
+            cache: $cache,
+            httpClient: $httpClient,
+        );
+
+        $this->assertSame('mock-suite-access-token', $accessToken->getToken());
     }
 }

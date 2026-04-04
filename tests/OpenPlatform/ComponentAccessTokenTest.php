@@ -73,7 +73,7 @@ class ComponentAccessTokenTest extends TestCase
 
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get('open_platform.component_access_token.mock-app-id')->andReturns(null)->once();
-        $cache->expects()->set('open_platform.component_access_token.mock-app-id', 'mock-access-token', 100)->once();
+        $cache->expects()->set('open_platform.component_access_token.mock-app-id', 'mock-access-token', 0)->once();
 
         $httpClient = new MockHttpClient(
             new MockResponse(\json_encode([
@@ -98,5 +98,27 @@ class ComponentAccessTokenTest extends TestCase
         }
 
         $this->assertSame([], $errors);
+    }
+
+    public function test_get_token_clamps_small_expiry_to_zero()
+    {
+        $verifyTicket = \Mockery::mock(VerifyTicket::class);
+        $verifyTicket->expects()->getTicket()->andReturns('mock-verify-ticket');
+
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->expects()->get('open_platform.component_access_token.mock-app-id')->andReturns(null)->once();
+        $cache->expects()->set('open_platform.component_access_token.mock-app-id', 'mock-access-token', 0)->once();
+
+        $httpClient = new MockHttpClient(
+            new MockResponse(\json_encode([
+                'component_access_token' => 'mock-access-token',
+                'expires_in' => 90,
+            ])),
+            'https://api.weixin.qq.com/'
+        );
+
+        $token = new ComponentAccessToken('mock-app-id', 'mock-secret', $verifyTicket, httpClient: $httpClient, cache: $cache);
+
+        $this->assertSame('mock-access-token', $token->getToken());
     }
 }
