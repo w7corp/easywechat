@@ -7,7 +7,6 @@ namespace EasyWeChat\OpenWork;
 use EasyWeChat\Kernel\Contracts\AccessToken as AccessTokenInterface;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Exceptions\HttpException;
-use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\HttpClient\AccessTokenAwareClient;
 use EasyWeChat\Kernel\Traits\InteractsWithWeChatApiClient;
 use EasyWeChat\Kernel\Traits\InteractWithCache;
@@ -305,7 +304,7 @@ class Application implements ApplicationInterface
     ): SocialiteProviderInterface {
         $account = $this->getAccount();
 
-        return $this->configureOpenWorkOAuthProvider(new OpenWeWork(array_filter([
+        return $this->configureOpenWorkOAuthProvider(new OAuthProvider(array_filter([
             'client_id' => $suiteId,
             'suite_id' => $suiteId,
             'suite_secret' => $account->getSuiteSecret(),
@@ -320,7 +319,7 @@ class Application implements ApplicationInterface
     ): SocialiteProviderInterface {
         $account = $this->getAccount();
 
-        return $this->configureOpenWorkOAuthProvider(new OpenWeWork(array_filter([
+        return $this->configureOpenWorkOAuthProvider(new OAuthProvider(array_filter([
             'client_id' => $corpId,
             'suite_id' => $account->getSuiteId(),
             'suite_secret' => $account->getSuiteSecret(),
@@ -386,11 +385,10 @@ class Application implements ApplicationInterface
     ): OpenWeWork {
         if ($suiteAccessToken) {
             $provider->withSuiteAccessToken($suiteAccessToken->getToken());
-        }
-
-        try {
-            $provider->withSuiteTicket($this->getSuiteTicket()->getTicket());
-        } catch (RuntimeException) {
+        } elseif ($provider instanceof OAuthProvider) {
+            $provider->withSuiteAccessTokenResolver(
+                fn (): string => $this->getSuiteAccessToken()->getToken()
+            );
         }
 
         return $provider;

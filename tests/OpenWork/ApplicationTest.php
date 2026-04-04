@@ -508,13 +508,15 @@ class ApplicationTest extends TestCase
         $suiteTicket->setTicket('mock-suite-ticket');
         $app->setSuiteTicket($suiteTicket);
 
+        $suiteTokenResponse = new MockResponse(\json_encode([
+            'suite_access_token' => 'lazy-suite-token',
+        ]));
+        $app->setHttpClient(new MockHttpClient([$suiteTokenResponse], 'https://qyapi.weixin.qq.com/'));
+
         $oauth = $app->getOAuth('suite-id');
 
         $history = [];
         $mock = new MockHandler([
-            new Psr7Response(200, [], \json_encode([
-                'suite_access_token' => 'lazy-suite-token',
-            ])),
             new Psr7Response(200, [], \json_encode([
                 'errcode' => 0,
                 'UserId' => 'user123',
@@ -532,16 +534,56 @@ class ApplicationTest extends TestCase
         $user = $oauth->userFromCode('mock-code');
 
         $this->assertSame('user123', $user->getId());
-        $this->assertCount(2, $history);
+        $this->assertCount(1, $history);
 
-        $suiteTokenPayload = \json_decode((string) $history[0]['request']->getBody(), true, flags: JSON_THROW_ON_ERROR);
-        \parse_str($history[1]['request']->getUri()->getQuery(), $userQuery);
+        $suiteTokenPayload = \json_decode($suiteTokenResponse->getRequestOptions()['body'] ?? '{}', true, flags: JSON_THROW_ON_ERROR);
+        \parse_str($history[0]['request']->getUri()->getQuery(), $userQuery);
 
         $this->assertSame('suite-id', $suiteTokenPayload['suite_id'] ?? null);
         $this->assertSame('mock-suite-secret', $suiteTokenPayload['suite_secret'] ?? null);
         $this->assertSame('mock-suite-ticket', $suiteTokenPayload['suite_ticket'] ?? null);
         $this->assertSame('lazy-suite-token', $userQuery['suite_access_token'] ?? null);
         $this->assertSame('mock-code', $userQuery['code'] ?? null);
+    }
+
+    public function test_get_oauth_uses_latest_suite_ticket_when_lazy_token_resolution_happens_later()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $suiteTicket = new SuiteTicket('suite-id', $app->getCache());
+        $suiteTicket->setTicket('stale-suite-ticket');
+        $app->setSuiteTicket($suiteTicket);
+
+        $suiteTokenResponse = new MockResponse(\json_encode([
+            'suite_access_token' => 'lazy-suite-token',
+        ]));
+        $app->setHttpClient(new MockHttpClient([$suiteTokenResponse], 'https://qyapi.weixin.qq.com/'));
+
+        $oauth = $app->getOAuth('suite-id');
+
+        $suiteTicket->setTicket('fresh-suite-ticket');
+
+        $history = [];
+        $mock = new MockHandler([
+            new Psr7Response(200, [], \json_encode([
+                'errcode' => 0,
+                'UserId' => 'user123',
+            ])),
+        ]);
+        $handler = HandlerStack::create($mock);
+        $handler->push(Middleware::history($history));
+        $client = new Client(['handler' => $handler]);
+
+        $reflection = new \ReflectionObject($oauth);
+        $httpClientProperty = $reflection->getProperty('httpClient');
+        $httpClientProperty->setAccessible(true);
+        $httpClientProperty->setValue($oauth, $client);
+
+        $oauth->userFromCode('mock-code');
+
+        $suiteTokenPayload = \json_decode($suiteTokenResponse->getRequestOptions()['body'] ?? '{}', true, flags: JSON_THROW_ON_ERROR);
+
+        $this->assertSame('fresh-suite-ticket', $suiteTokenPayload['suite_ticket'] ?? null);
     }
 
     public function test_get_corp_oauth_can_lazily_resolve_suite_access_token_using_suite_credentials()
@@ -552,13 +594,15 @@ class ApplicationTest extends TestCase
         $suiteTicket->setTicket('mock-suite-ticket');
         $app->setSuiteTicket($suiteTicket);
 
+        $suiteTokenResponse = new MockResponse(\json_encode([
+            'suite_access_token' => 'lazy-suite-token',
+        ]));
+        $app->setHttpClient(new MockHttpClient([$suiteTokenResponse], 'https://qyapi.weixin.qq.com/'));
+
         $corpOAuth = $app->getCorpOAuth('wx9876543210987654');
 
         $history = [];
         $mock = new MockHandler([
-            new Psr7Response(200, [], \json_encode([
-                'suite_access_token' => 'lazy-suite-token',
-            ])),
             new Psr7Response(200, [], \json_encode([
                 'errcode' => 0,
                 'UserId' => 'user123',
@@ -576,16 +620,56 @@ class ApplicationTest extends TestCase
         $user = $corpOAuth->userFromCode('mock-code');
 
         $this->assertSame('user123', $user->getId());
-        $this->assertCount(2, $history);
+        $this->assertCount(1, $history);
 
-        $suiteTokenPayload = \json_decode((string) $history[0]['request']->getBody(), true, flags: JSON_THROW_ON_ERROR);
-        \parse_str($history[1]['request']->getUri()->getQuery(), $userQuery);
+        $suiteTokenPayload = \json_decode($suiteTokenResponse->getRequestOptions()['body'] ?? '{}', true, flags: JSON_THROW_ON_ERROR);
+        \parse_str($history[0]['request']->getUri()->getQuery(), $userQuery);
 
         $this->assertSame('suite-id', $suiteTokenPayload['suite_id'] ?? null);
         $this->assertSame('mock-suite-secret', $suiteTokenPayload['suite_secret'] ?? null);
         $this->assertSame('mock-suite-ticket', $suiteTokenPayload['suite_ticket'] ?? null);
         $this->assertSame('lazy-suite-token', $userQuery['suite_access_token'] ?? null);
         $this->assertSame('mock-code', $userQuery['code'] ?? null);
+    }
+
+    public function test_get_corp_oauth_uses_latest_suite_ticket_when_lazy_token_resolution_happens_later()
+    {
+        $app = new Application($this->createAppConfig());
+
+        $suiteTicket = new SuiteTicket('suite-id', $app->getCache());
+        $suiteTicket->setTicket('stale-suite-ticket');
+        $app->setSuiteTicket($suiteTicket);
+
+        $suiteTokenResponse = new MockResponse(\json_encode([
+            'suite_access_token' => 'lazy-suite-token',
+        ]));
+        $app->setHttpClient(new MockHttpClient([$suiteTokenResponse], 'https://qyapi.weixin.qq.com/'));
+
+        $corpOAuth = $app->getCorpOAuth('wx9876543210987654');
+
+        $suiteTicket->setTicket('fresh-suite-ticket');
+
+        $history = [];
+        $mock = new MockHandler([
+            new Psr7Response(200, [], \json_encode([
+                'errcode' => 0,
+                'UserId' => 'user123',
+            ])),
+        ]);
+        $handler = HandlerStack::create($mock);
+        $handler->push(Middleware::history($history));
+        $client = new Client(['handler' => $handler]);
+
+        $reflection = new \ReflectionObject($corpOAuth);
+        $httpClientProperty = $reflection->getProperty('httpClient');
+        $httpClientProperty->setAccessible(true);
+        $httpClientProperty->setValue($corpOAuth, $client);
+
+        $corpOAuth->userFromCode('mock-code');
+
+        $suiteTokenPayload = \json_decode($suiteTokenResponse->getRequestOptions()['body'] ?? '{}', true, flags: JSON_THROW_ON_ERROR);
+
+        $this->assertSame('fresh-suite-ticket', $suiteTokenPayload['suite_ticket'] ?? null);
     }
 
     /**
