@@ -5,9 +5,32 @@ namespace EasyWeChat\Tests\OpenPlatform;
 use EasyWeChat\Kernel\Encryptor;
 use EasyWeChat\OpenPlatform\Server;
 use EasyWeChat\Tests\TestCase;
+use Nyholm\Psr7\ServerRequest;
 
 class ServerTest extends TestCase
 {
+    public function test_it_will_decrypt_validation_request()
+    {
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $encrypted = $encryptor->encryptAsArray(
+            plaintext: '1616140317555161061',
+            nonce: '1372623149',
+            timestamp: '1409659813'
+        );
+
+        $request = (new ServerRequest('GET', 'http://easywechat.com/server'))->withQueryParams([
+            'echostr' => $encrypted['ciphertext'],
+            'msg_signature' => $encrypted['signature'],
+            'timestamp' => $encrypted['timestamp'],
+            'nonce' => $encrypted['nonce'],
+        ]);
+
+        $server = new Server(encryptor: $encryptor, request: $request);
+        $response = $server->serve();
+
+        $this->assertSame('1616140317555161061', \strval($response->getBody()));
+    }
+
     public function test_it_will_handle_authorized_event()
     {
         $body = '<xml>

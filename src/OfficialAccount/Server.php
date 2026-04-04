@@ -33,12 +33,22 @@ class Server implements ServerInterface
 
     public function serve(): ResponseInterface
     {
-        if ($str = $this->getRequest()->getQueryParams()['echostr'] ?? '') {
+        $query = $this->getRequest()->getQueryParams();
+
+        if ($str = $query['echostr'] ?? '') {
+            if ($this->encryptor && ! empty($query['msg_signature'])) {
+                $str = $this->encryptor->decrypt(
+                    $str,
+                    $query['msg_signature'],
+                    $query['nonce'] ?? '',
+                    $query['timestamp'] ?? ''
+                );
+            }
+
             return new Response(200, [], $str);
         }
 
         $message = $this->getRequestMessage($this->getRequest());
-        $query = $this->getRequest()->getQueryParams();
 
         if ($this->encryptor && ! empty($query['msg_signature'])) {
             $this->prepend($this->decryptRequestMessage($query));
