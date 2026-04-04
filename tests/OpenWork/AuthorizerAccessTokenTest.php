@@ -20,6 +20,7 @@ class AuthorizerAccessTokenTest extends TestCase
 
         $this->assertSame('mock-corp-id', $token->getCorpId());
         $this->assertSame('mock-access-token', $token->getToken());
+        $this->assertSame('mock-access-token', $token->refresh());
         $this->assertSame('mock-access-token', (string) $token);
         $this->assertSame([
             'access_token' => 'mock-access-token',

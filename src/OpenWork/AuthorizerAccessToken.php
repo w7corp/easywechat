@@ -82,7 +82,7 @@ class AuthorizerAccessToken implements RefreshableAccessToken, Stringable
     public function refresh(): string
     {
         if (! isset($this->suiteAccessToken)) {
-            return '';
+            return $this->permanentCodeOrAccessToken;
         }
 
         $response = $this->httpClient->request('POST', 'cgi-bin/service/get_corp_token', [
