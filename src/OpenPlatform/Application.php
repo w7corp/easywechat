@@ -275,7 +275,9 @@ class Application implements ApplicationInterface
             $optional = [
                 'pre_auth_code' => $optional,
             ];
-        } else {
+        }
+
+        if (! is_string($optional['pre_auth_code'] ?? null) || $optional['pre_auth_code'] === '') {
             $optional['pre_auth_code'] = Arr::get($this->createPreAuthorizationCode(), 'pre_auth_code');
         }
 

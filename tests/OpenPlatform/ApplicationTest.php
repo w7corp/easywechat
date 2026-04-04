@@ -345,6 +345,72 @@ class ApplicationTest extends TestCase
         $this->assertSame($verifyTicket, $app->getVerifyTicket());
     }
 
+    public function test_create_pre_authorization_url_preserves_explicit_pre_auth_code()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $app->setHttpClient(new MockHttpClient(
+            static function (): never {
+                throw new \RuntimeException('Pre-authorization code should not be requested.');
+            },
+            'https://api.weixin.qq.com/'
+        ));
+
+        $url = $app->createPreAuthorizationUrl('https://easywechat.com/callback', [
+            'pre_auth_code' => 'provided-code',
+            'auth_type' => 3,
+        ]);
+
+        \parse_str((string) \parse_url($url, PHP_URL_QUERY), $query);
+
+        $this->assertSame('provided-code', $query['pre_auth_code'] ?? null);
+        $this->assertSame('3', $query['auth_type'] ?? null);
+        $this->assertSame('wx3cf0f39249000060', $query['component_appid'] ?? null);
+        $this->assertSame('https://easywechat.com/callback', $query['redirect_uri'] ?? null);
+    }
+
+    public function test_create_pre_authorization_url_fetches_pre_auth_code_when_missing()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $accessToken = \Mockery::mock(AccessTokenInterface::class);
+        $accessToken->shouldReceive('toQuery')->once()->andReturn(['component_access_token' => 'mock-component-token']);
+
+        $response = new MockResponse(\json_encode([
+            'pre_auth_code' => 'fetched-code',
+        ]));
+
+        $app->setComponentAccessToken($accessToken);
+        $app->setHttpClient(new MockHttpClient([$response], 'https://api.weixin.qq.com/'));
+
+        $url = $app->createPreAuthorizationUrl('https://easywechat.com/callback', [
+            'auth_type' => 3,
+        ]);
+
+        \parse_str((string) \parse_url($url, PHP_URL_QUERY), $query);
+        $requestPayload = \json_decode((string) $response->getRequestOptions()['body'], true, flags: JSON_THROW_ON_ERROR);
+
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_create_preauthcode?component_access_token=mock-component-token',
+            $response->getRequestUrl()
+        );
+        $this->assertSame('wx3cf0f39249000060', $requestPayload['component_appid'] ?? null);
+        $this->assertSame('fetched-code', $query['pre_auth_code'] ?? null);
+        $this->assertSame('3', $query['auth_type'] ?? null);
+        $this->assertSame('wx3cf0f39249000060', $query['component_appid'] ?? null);
+        $this->assertSame('https://easywechat.com/callback', $query['redirect_uri'] ?? null);
+    }
+
     public function test_set_account_preserves_custom_dependencies()
     {
         $app = new Application([
