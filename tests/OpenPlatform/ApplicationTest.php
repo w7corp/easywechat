@@ -27,6 +27,7 @@ use EasyWeChat\Tests\TestCase;
 use Overtrue\Socialite\Providers\WeChat;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\NullLogger;
+use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -708,6 +709,44 @@ class ApplicationTest extends TestCase
         $this->expectException(HttpException::class);
         $this->expectExceptionMessage('Failed to get authorizer_access_token: {"error_code":100029}');
         $app->refreshAuthorizerToken('mock-authorizer-appid', 'mock-refresh-token');
+    }
+
+    public function test_get_authorizer_access_token_clamps_small_expiry_to_zero()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $refreshToken = 'mock-refresh-token';
+        $cacheKey = 'open-platform.authorizer_access_token.mock-authorizer-appid.'.\md5($refreshToken);
+
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->expects()->get($cacheKey)->andReturn(null)->once();
+        $cache->expects()->set($cacheKey, 'mock-authorizer-access-token', 0)->once();
+        $app->setCache($cache);
+
+        $componentAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $componentAccessToken->shouldReceive('toQuery')->once()->andReturn(['component_access_token' => 'mock-component-token']);
+        $app->setComponentAccessToken($componentAccessToken);
+
+        $response = new MockResponse(\json_encode([
+            'authorizer_access_token' => 'mock-authorizer-access-token',
+            'expires_in' => 400,
+        ]));
+
+        $app->setHttpClient(new MockHttpClient([$response], 'https://api.weixin.qq.com/'));
+
+        $this->assertSame(
+            'mock-authorizer-access-token',
+            $app->getAuthorizerAccessToken('mock-authorizer-appid', $refreshToken)
+        );
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=mock-component-token',
+            $response->getRequestUrl()
+        );
     }
 
     public function test_get_oauth()

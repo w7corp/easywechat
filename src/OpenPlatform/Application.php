@@ -32,6 +32,7 @@ use Psr\Log\LoggerAwareTrait;
 use function array_merge;
 use function is_scalar;
 use function is_string;
+use function max;
 use function md5;
 use function sprintf;
 
@@ -441,7 +442,7 @@ class Application implements ApplicationInterface
         if (! $authorizerAccessToken) {
             $response = $this->refreshAuthorizerToken($appId, $refreshToken);
             $authorizerAccessToken = (string) $response['authorizer_access_token'];
-            $this->getCache()->set($cacheKey, $authorizerAccessToken, intval($response['expires_in'] ?? 7200) - 500);
+            $this->getCache()->set($cacheKey, $authorizerAccessToken, max(intval($response['expires_in'] ?? 7200) - 500, 0));
         }
 
         return $authorizerAccessToken;
