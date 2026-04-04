@@ -19,6 +19,9 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use function is_callable;
+use function is_string;
+
 class Server implements ServerInterface
 {
     use DecryptMessage;
@@ -63,7 +66,8 @@ class Server implements ServerInterface
         $response = $this->handle(new Response(200, [], 'success'), $message);
 
         if (! ($response instanceof ResponseInterface)) {
-            $response = $this->transformToReply($response, $message, $this->encryptor);
+            $response = $this->normalizeAcknowledgementResponse($response)
+                ?? $this->transformToReply($response, $message, $this->encryptor);
         }
 
         return ServerResponse::make($response);
@@ -252,6 +256,15 @@ class Server implements ServerInterface
 
             return $next($message);
         };
+    }
+
+    protected function normalizeAcknowledgementResponse(mixed $response): ?ResponseInterface
+    {
+        if (! is_string($response) && is_callable($response)) {
+            $response = $response();
+        }
+
+        return $response === 'success' ? new Response(200, [], 'success') : null;
     }
 
     /**

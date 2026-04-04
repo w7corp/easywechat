@@ -16,7 +16,7 @@ use Symfony\Component\Cache\Psr16Cache;
 
 class ServerTest extends TestCase
 {
-    public function test_it_will_handle_suite_ticket_refresh_event()
+    public function test_it_will_handle_suite_ticket_refresh_event(): void
     {
         $body = '<xml>
             <SuiteId>suite-id</SuiteId>
@@ -42,7 +42,7 @@ class ServerTest extends TestCase
         $this->assertSame('success', (string) $response->getBody());
     }
 
-    public function test_it_uses_suite_encryptor_for_validation_requests()
+    public function test_it_uses_suite_encryptor_for_validation_requests(): void
     {
         $suiteEncryptor = $this->createSuiteEncryptor();
         $encrypted = $suiteEncryptor->encryptAsArray(
@@ -69,7 +69,7 @@ class ServerTest extends TestCase
         $this->assertSame('validated-by-suite-encryptor', (string) $response->getBody());
     }
 
-    public function test_it_will_handle_auth_created_event()
+    public function test_it_will_handle_auth_created_event(): void
     {
         $body = '<xml>
             <SuiteId>suite-id</SuiteId>
@@ -95,7 +95,30 @@ class ServerTest extends TestCase
         $this->assertSame('success', (string) $response->getBody());
     }
 
-    public function test_application_server_persists_suite_ticket_by_default()
+    public function test_it_returns_plain_success_acknowledgement_without_encryption(): void
+    {
+        $body = '<xml>
+            <SuiteId>suite-id</SuiteId>
+            <InfoType>create_auth</InfoType>
+            <AuthCorpId>mock-corp-id</AuthCorpId>
+        </xml>';
+
+        $suiteEncryptor = $this->createSuiteEncryptor();
+        $request = $this->createEncryptedXmlMessageRequest($body, $suiteEncryptor);
+
+        $server = new Server(
+            encryptor: $suiteEncryptor,
+            providerEncryptor: $this->createProviderEncryptor(),
+            request: $request,
+        );
+
+        $response = $server->handleAuthCreated(fn () => 'success')->serve();
+
+        $this->assertSame('success', (string) $response->getBody());
+        $this->assertSame([], $response->getHeaders());
+    }
+
+    public function test_application_server_persists_suite_ticket_by_default(): void
     {
         $app = new Application([
             'corp_id' => 'wx3cf0f39249000060',
@@ -121,7 +144,7 @@ class ServerTest extends TestCase
         $this->assertSame('persisted-suite-ticket', $app->getSuiteTicket()->getTicket());
     }
 
-    public function test_default_suite_ticket_handler_is_replaced_instead_of_duplicated()
+    public function test_default_suite_ticket_handler_is_replaced_instead_of_duplicated(): void
     {
         $body = '<xml>
             <SuiteId>suite-id</SuiteId>
@@ -159,7 +182,7 @@ class ServerTest extends TestCase
         $this->assertSame('success', (string) $response->getBody());
     }
 
-    public function test_missing_decryption_query_parameters_throw_without_warnings()
+    public function test_missing_decryption_query_parameters_throw_without_warnings(): void
     {
         $body = '<xml>
             <SuiteId>suite-id</SuiteId>
