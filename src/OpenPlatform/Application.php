@@ -434,7 +434,12 @@ class Application implements ApplicationInterface
 
     public function getAuthorizerAccessToken(string $appId, string $refreshToken): string
     {
-        $cacheKey = sprintf('open-platform.authorizer_access_token.%s.%s', $appId, md5($refreshToken));
+        $cacheKey = sprintf(
+            'open-platform.authorizer_access_token.%s.%s.%s',
+            $this->getAccount()->getAppId(),
+            $appId,
+            md5($refreshToken)
+        );
 
         /** @phpstan-ignore-next-line */
         $authorizerAccessToken = (string) $this->getCache()->get($cacheKey);

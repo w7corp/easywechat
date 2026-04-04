@@ -721,7 +721,7 @@ class ApplicationTest extends TestCase
         ]);
 
         $refreshToken = 'mock-refresh-token';
-        $cacheKey = 'open-platform.authorizer_access_token.mock-authorizer-appid.'.\md5($refreshToken);
+        $cacheKey = 'open-platform.authorizer_access_token.wx3cf0f39249000060.mock-authorizer-appid.'.\md5($refreshToken);
 
         $cache = \Mockery::mock(CacheInterface::class);
         $cache->expects()->get($cacheKey)->andReturn(null)->once();
@@ -746,6 +746,66 @@ class ApplicationTest extends TestCase
         $this->assertSame(
             'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=mock-component-token',
             $response->getRequestUrl()
+        );
+    }
+
+    public function test_get_authorizer_access_token_cache_is_scoped_by_component_app_id()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $refreshToken = 'mock-refresh-token';
+        $cache = new Psr16Cache(new ArrayAdapter);
+        $app->setCache($cache);
+
+        $firstComponentAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $firstComponentAccessToken->shouldReceive('toQuery')->once()->andReturn(['component_access_token' => 'first-component-token']);
+        $app->setComponentAccessToken($firstComponentAccessToken);
+
+        $firstResponse = new MockResponse(\json_encode([
+            'authorizer_access_token' => 'first-authorizer-token',
+            'expires_in' => 7200,
+        ]));
+
+        $secondComponentAccessToken = \Mockery::mock(AccessTokenInterface::class);
+        $secondComponentAccessToken->shouldReceive('toQuery')->once()->andReturn(['component_access_token' => 'second-component-token']);
+
+        $secondResponse = new MockResponse(\json_encode([
+            'authorizer_access_token' => 'second-authorizer-token',
+            'expires_in' => 7200,
+        ]));
+
+        $app->setHttpClient(new MockHttpClient([$firstResponse, $secondResponse], 'https://api.weixin.qq.com/'));
+
+        $this->assertSame(
+            'first-authorizer-token',
+            $app->getAuthorizerAccessToken('mock-authorizer-appid', $refreshToken)
+        );
+
+        $app->setAccount(new Account(
+            appId: 'wx1234567890123456',
+            secret: 'mock-secret-2',
+            token: 'new-token',
+            aesKey: 'bcdefghijklmnopqrstuvwxyz0123456789ABCDEFGH',
+        ));
+        $app->setComponentAccessToken($secondComponentAccessToken);
+
+        $this->assertSame(
+            'second-authorizer-token',
+            $app->getAuthorizerAccessToken('mock-authorizer-appid', $refreshToken)
+        );
+
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=first-component-token',
+            $firstResponse->getRequestUrl()
+        );
+        $this->assertSame(
+            'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token=second-component-token',
+            $secondResponse->getRequestUrl()
         );
     }
 
