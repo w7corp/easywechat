@@ -92,7 +92,7 @@ class ComponentAccessToken implements RefreshableAccessTokenInterface
         $this->cache->set(
             $this->getKey(),
             $response['component_access_token'],
-            abs(intval($response['expires_in']) - 100)
+            abs(intval($response['expires_in'] ?? 0) - 100)
         );
 
         return $response['component_access_token'];

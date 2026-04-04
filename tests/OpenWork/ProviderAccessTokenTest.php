@@ -87,4 +87,47 @@ class ProviderAccessTokenTest extends TestCase
 
         $accessToken->refresh();
     }
+
+    public function test_refresh_without_expires_in_does_not_trigger_warnings()
+    {
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->expects()->get('mock-cache-key')->andReturn(null);
+        $cache->expects()->set('mock-cache-key', 'mock-access-token', 0)->andReturn(true);
+
+        $response = \Mockery::mock(ResponseInterface::class);
+        $response->allows()->toArray(false)->andReturn([
+            'provider_access_token' => 'mock-access-token',
+        ]);
+
+        $httpClient = \Mockery::mock(HttpClientInterface::class);
+        $httpClient->allows()->request('POST', 'cgi-bin/service/get_provider_token', [
+            'json' => [
+                'corpid' => 'mock-corp-id',
+                'provider_secret' => 'mock-provider-secret',
+            ],
+        ])->andReturn($response);
+
+        $errors = [];
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            $accessToken = new ProviderAccessToken(
+                corpId: 'mock-corp-id',
+                providerSecret: 'mock-provider-secret',
+                key: 'mock-cache-key',
+                cache: $cache,
+                httpClient: $httpClient,
+            );
+
+            $this->assertSame('mock-access-token', $accessToken->getToken());
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
+    }
 }

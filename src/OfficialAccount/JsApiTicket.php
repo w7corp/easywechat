@@ -36,7 +36,7 @@ class JsApiTicket extends AccessToken implements RefreshableJsApiTicketInterface
             throw new HttpException('Failed to get jssdk ticket: '.\json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->cache->set($this->getKey(), $response['ticket'], \intval($response['expires_in']));
+        $this->cache->set($this->getKey(), $response['ticket'], \intval($response['expires_in'] ?? 0));
 
         return $response['ticket'];
     }

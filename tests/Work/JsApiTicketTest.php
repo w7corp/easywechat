@@ -159,4 +159,36 @@ class JsApiTicketTest extends TestCase
         $sign = $ticket->getTicketSignature('mock-ticket', 'mock-nonce', 1601234567, 'https://www.easywechat.com/');
         $this->assertSame('22772d2fb393ab9f7f6a5a54168a566fbf1ab767', $sign);
     }
+
+    public function test_get_ticket_without_expires_in_does_not_trigger_warnings()
+    {
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->expects()->get('mock-key')->andReturn(false);
+        $cache->expects()->set('mock-key', 'mock-ticket', 0)->andReturn(true);
+
+        $response = \Mockery::mock(ResponseInterface::class);
+        $response->allows()->toArray(false)->andReturn([
+            'ticket' => 'mock-ticket',
+        ]);
+
+        $client = \Mockery::mock(HttpClientInterface::class);
+        $client->allows()->request('GET', '/cgi-bin/get_jsapi_ticket')->andReturn($response);
+
+        $errors = [];
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            $ticket = new JsApiTicket('mock-corpid', 'mock-key', $cache, $client);
+
+            $this->assertSame('mock-ticket', $ticket->getTicket());
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
+    }
 }

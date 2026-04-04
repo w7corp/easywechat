@@ -97,7 +97,7 @@ class AccessToken implements RefreshableAccessTokenInterface
             throw new HttpException('Failed to get stable access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));
+        $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in'] ?? 0));
 
         return $response['access_token'];
     }
@@ -123,7 +123,7 @@ class AccessToken implements RefreshableAccessTokenInterface
             throw new HttpException('Failed to get access_token: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in']));
+        $this->cache->set($this->getKey(), $response['access_token'], intval($response['expires_in'] ?? 0));
 
         return $response['access_token'];
     }

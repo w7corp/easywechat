@@ -85,7 +85,7 @@ class ProviderAccessToken implements RefreshableAccessTokenInterface
             ));
         }
 
-        $this->cache->set($this->getKey(), $response['provider_access_token'], intval($response['expires_in']));
+        $this->cache->set($this->getKey(), $response['provider_access_token'], intval($response['expires_in'] ?? 0));
 
         return $response['provider_access_token'];
     }

@@ -65,4 +65,38 @@ class ComponentAccessTokenTest extends TestCase
             'component_verify_ticket' => 'mock-verify-ticket',
         ]), $mockResponse->getRequestOptions()['body']);
     }
+
+    public function test_get_token_without_expires_in_does_not_trigger_warnings()
+    {
+        $verifyTicket = \Mockery::mock(VerifyTicket::class);
+        $verifyTicket->expects()->getTicket()->andReturns('mock-verify-ticket');
+
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->expects()->get('open_platform.component_access_token.mock-app-id')->andReturns(null)->once();
+        $cache->expects()->set('open_platform.component_access_token.mock-app-id', 'mock-access-token', 100)->once();
+
+        $httpClient = new MockHttpClient(
+            new MockResponse(\json_encode([
+                'component_access_token' => 'mock-access-token',
+            ])),
+            'https://api.weixin.qq.com/'
+        );
+
+        $errors = [];
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            $token = new ComponentAccessToken('mock-app-id', 'mock-secret', $verifyTicket, httpClient: $httpClient, cache: $cache);
+
+            $this->assertSame('mock-access-token', $token->getToken());
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
+    }
 }

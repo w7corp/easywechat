@@ -80,4 +80,37 @@ class JsApiTicketTest extends TestCase
 
         $this->assertSame($data, $result);
     }
+
+    public function test_get_ticket_without_expires_in_does_not_trigger_warnings()
+    {
+        $cache = \Mockery::mock(CacheInterface::class);
+        $cache->expects()->get('mock-key')->andReturn(false);
+        $cache->expects()->set('mock-key', 'mock-ticket', 0)->andReturn(true);
+
+        $response = \Mockery::mock(ResponseInterface::class);
+        $response->allows()->toArray(false)->andReturn([
+            'ticket' => 'mock-ticket',
+        ]);
+
+        $client = \Mockery::mock(HttpClientInterface::class);
+        $client->allows()->request('GET', '/cgi-bin/ticket/getticket', ['query' => ['type' => 'jsapi']])
+            ->andReturn($response);
+
+        $errors = [];
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            $ticket = new JsApiTicket('mock-appid', 'mock-secret', 'mock-key', $cache, $client);
+
+            $this->assertSame('mock-ticket', $ticket->getTicket());
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
+    }
 }
