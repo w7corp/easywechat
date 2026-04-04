@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EasyWeChat\Tests\Kernel;
 
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\Xml;
 use EasyWeChat\Tests\TestCase;
 
@@ -69,5 +72,32 @@ class EncryptorTest extends TestCase
     public function test_get_token()
     {
         $this->assertSame('pamtest', $this->getEncryptor()->getToken());
+    }
+
+    public function test_decrypt_with_illegal_buffer_does_not_trigger_warnings()
+    {
+        $ciphertext = base64_encode('bad');
+        $signature = $this->getEncryptor()->createSignature('pamtest', '1', 'nonce', $ciphertext);
+        $errors = [];
+
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            try {
+                $this->getEncryptor()->decrypt($ciphertext, $signature, 'nonce', '1');
+                $this->fail('Expected decrypt() to throw.');
+            } catch (RuntimeException $e) {
+                $this->assertSame('Illegal buffer.', $e->getMessage());
+                $this->assertSame(Encryptor::ILLEGAL_BUFFER, $e->getCode());
+            }
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
     }
 }

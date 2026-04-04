@@ -14,10 +14,13 @@ use EasyWeChat\Kernel\Support\Xml;
 use Exception;
 use Throwable;
 
+use function array_key_exists;
 use function array_map;
 use function base64_decode;
 use function base64_encode;
 use function implode;
+use function is_array;
+use function is_int;
 use function openssl_decrypt;
 use function openssl_encrypt;
 use function pack;
@@ -199,7 +202,17 @@ class Encryptor
             blockSize: strlen($this->aesKey)
         );
         $plaintext = substr($plaintext, self::BLOCK_SIZE);
-        $contentLength = (unpack('N', substr($plaintext, 0, 4)) ?: [])[1];
+
+        if (strlen($plaintext) < 4) {
+            throw new RuntimeException('Illegal buffer.', self::ILLEGAL_BUFFER);
+        }
+
+        $header = unpack('N', substr($plaintext, 0, 4));
+        $contentLength = is_array($header) && array_key_exists(1, $header) ? $header[1] : null;
+
+        if (! is_int($contentLength) || $contentLength < 0 || strlen($plaintext) < $contentLength + 4) {
+            throw new RuntimeException('Illegal buffer.', self::ILLEGAL_BUFFER);
+        }
 
         if ($this->receiveId && trim(substr($plaintext, $contentLength + 4)) !== $this->receiveId) {
             throw new RuntimeException('Invalid appId.', self::ERROR_INVALID_APP_ID);
