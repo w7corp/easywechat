@@ -42,11 +42,11 @@ class ServerTest extends TestCase
         $this->assertSame('success', (string) $response->getBody());
     }
 
-    public function test_it_uses_suite_encryptor_for_validation_requests(): void
+    public function test_it_uses_provider_encryptor_for_validation_requests(): void
     {
-        $suiteEncryptor = $this->createSuiteEncryptor();
-        $encrypted = $suiteEncryptor->encryptAsArray(
-            plaintext: 'validated-by-suite-encryptor',
+        $providerEncryptor = $this->createProviderEncryptor();
+        $encrypted = $providerEncryptor->encryptAsArray(
+            plaintext: 'validated-by-provider-encryptor',
             nonce: 'mock-nonce',
             timestamp: '1714112445',
         );
@@ -59,14 +59,14 @@ class ServerTest extends TestCase
         ]);
 
         $server = new Server(
-            encryptor: $suiteEncryptor,
-            providerEncryptor: $this->createProviderEncryptor(),
+            encryptor: $this->createSuiteEncryptor(),
+            providerEncryptor: $providerEncryptor,
             request: $request,
         );
 
         $response = $server->serve();
 
-        $this->assertSame('validated-by-suite-encryptor', (string) $response->getBody());
+        $this->assertSame('validated-by-provider-encryptor', (string) $response->getBody());
     }
 
     public function test_it_will_handle_auth_created_event(): void
