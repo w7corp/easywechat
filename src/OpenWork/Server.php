@@ -142,6 +142,15 @@ class Server implements ServerInterface
         return $this;
     }
 
+    public function handleContactChanged(callable $handler): static
+    {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'change_contact' ? $handler($message, $next) : $next($message);
+        });
+
+        return $this;
+    }
+
     public function handleUserCreated(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {

@@ -149,6 +149,33 @@ class ServerTest extends TestCase
         $this->assertSame('success', (string) $response->getBody());
     }
 
+    public function test_it_will_handle_contact_changed_event(): void
+    {
+        $body = '<xml>
+            <SuiteId>suite-id</SuiteId>
+            <InfoType>change_contact</InfoType>
+            <ChangeType>update_user</ChangeType>
+            <UserID>mock-user-id</UserID>
+        </xml>';
+
+        $suiteEncryptor = $this->createSuiteEncryptor();
+        $request = $this->createEncryptedXmlMessageRequest($body, $suiteEncryptor);
+
+        $server = new Server(
+            encryptor: $suiteEncryptor,
+            providerEncryptor: $this->createProviderEncryptor(),
+            request: $request,
+        );
+
+        $handled = null;
+        $response = $server->handleContactChanged(function ($message) use (&$handled) {
+            $handled = [$message->InfoType, $message->ChangeType, $message->UserID];
+        })->serve();
+
+        $this->assertSame(['change_contact', 'update_user', 'mock-user-id'], $handled);
+        $this->assertSame('success', (string) $response->getBody());
+    }
+
     public function test_it_returns_plain_success_acknowledgement_without_encryption(): void
     {
         $body = '<xml>
