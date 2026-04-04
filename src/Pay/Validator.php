@@ -37,10 +37,10 @@ class Validator implements Contracts\Validator
             }
         }
 
-        [$timestamp] = $message->getHeader(self::HEADER_TIMESTAMP);
-        [$nonce] = $message->getHeader(self::HEADER_NONCE);
-        [$serial] = $message->getHeader(self::HEADER_SERIAL);
-        [$signature] = $message->getHeader(self::HEADER_SIGNATURE);
+        $timestamp = $this->getRequiredHeaderValue($message, self::HEADER_TIMESTAMP);
+        $nonce = $this->getRequiredHeaderValue($message, self::HEADER_NONCE);
+        $serial = $this->getRequiredHeaderValue($message, self::HEADER_SERIAL);
+        $signature = $this->getRequiredHeaderValue($message, self::HEADER_SIGNATURE);
 
         $body = (string) $message->getBody();
 
@@ -67,5 +67,20 @@ class Validator implements Contracts\Validator
         ) !== 1) {
             throw new InvalidSignatureException('Invalid Signature');
         }
+    }
+
+    /**
+     * @throws InvalidSignatureException
+     */
+    protected function getRequiredHeaderValue(MessageInterface $message, string $header): string
+    {
+        $values = $message->getHeader($header);
+        $value = $values[0] ?? null;
+
+        if (! is_string($value) || $value === '') {
+            throw new InvalidSignatureException("Invalid Header: {$header}");
+        }
+
+        return $value;
     }
 }
