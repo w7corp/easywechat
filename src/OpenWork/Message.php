@@ -9,6 +9,9 @@ namespace EasyWeChat\OpenWork;
  * @property string $ChangeType
  * @property string $SuiteTicket
  * @property string $SuiteId
+ * @property string $AuthCorpId
+ * @property string $AuthType
+ * @property string $UserID
  * @property string $MsgType
  * @property string $Event
  */

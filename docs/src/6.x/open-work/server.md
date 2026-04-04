@@ -24,6 +24,9 @@
       - 成员标签变更 `update_tag`
 - 共享应用事件回调 `share_agent_change`
 - 重置永久授权码通知 `reset_permanent_code`
+- 获客助手权限变更通知
+  - 授权通过 `approve_special_auth`
+  - 授权取消 `cancel_special_auth`
 - 应用管理员变更通知 `change_app_admin`
 
 ## 内置消息处理器
@@ -127,6 +130,21 @@ $server->handleShareAgentChanged(function($message, \Closure $next) {
     return $next($message);
 });
 ```
+
+### 获客助手权限变更通知
+
+```php
+$server->handleSpecialAuthApproved(function($message, \Closure $next) {
+    // $message->AuthType 例如：customer_acquisition
+    return $next($message);
+});
+
+$server->handleSpecialAuthCancelled(function($message, \Closure $next) {
+    // $message->AuthType 例如：customer_acquisition
+    return $next($message);
+});
+```
+
 ### 重置永久授权码通知
 
 ```php
@@ -160,7 +178,8 @@ $server->handleSuiteTicketRefreshed(callable | string $handler);
 
 ```php
 $server->with(function($message, \Closure $next) {
-    // $message->event_type 事件类型
+    // $message->InfoType 事件类型
+    // 当 $message->InfoType === 'change_contact' 时，可继续读取 $message->ChangeType
     return $next($message);
 });
 ```
