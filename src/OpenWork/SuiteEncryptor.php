@@ -10,6 +10,6 @@ class SuiteEncryptor extends Encryptor
     #[Pure]
     public function __construct(string $suiteId, string $token, string $aesKey)
     {
-        parent::__construct($suiteId, $token, $aesKey, null);
+        parent::__construct($suiteId, $token, $aesKey, $suiteId);
     }
 }

@@ -42,6 +42,33 @@ class ServerTest extends TestCase
         $this->assertSame('success', (string) $response->getBody());
     }
 
+    public function test_it_uses_suite_encryptor_for_validation_requests()
+    {
+        $suiteEncryptor = $this->createSuiteEncryptor();
+        $encrypted = $suiteEncryptor->encryptAsArray(
+            plaintext: 'validated-by-suite-encryptor',
+            nonce: 'mock-nonce',
+            timestamp: '1714112445',
+        );
+
+        $request = (new ServerRequest('GET', 'http://easywechat.com/server'))->withQueryParams([
+            'echostr' => $encrypted['ciphertext'],
+            'msg_signature' => $encrypted['signature'],
+            'timestamp' => (string) $encrypted['timestamp'],
+            'nonce' => (string) $encrypted['nonce'],
+        ]);
+
+        $server = new Server(
+            encryptor: $suiteEncryptor,
+            providerEncryptor: $this->createProviderEncryptor(),
+            request: $request,
+        );
+
+        $response = $server->serve();
+
+        $this->assertSame('validated-by-suite-encryptor', (string) $response->getBody());
+    }
+
     public function test_it_will_handle_auth_created_event()
     {
         $body = '<xml>
