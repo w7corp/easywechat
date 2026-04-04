@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\OpenWork;
 
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\OpenWork\Application;
 use EasyWeChat\OpenWork\Encryptor;
 use EasyWeChat\OpenWork\Server;
 use EasyWeChat\OpenWork\SuiteEncryptor;
 use EasyWeChat\Tests\TestCase;
+use Nyholm\Psr7\ServerRequest;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 
@@ -128,6 +130,45 @@ class ServerTest extends TestCase
         $this->assertSame(0, $firstHandlerCalls);
         $this->assertSame(1, $secondHandlerCalls);
         $this->assertSame('success', (string) $response->getBody());
+    }
+
+    public function test_missing_decryption_query_parameters_throw_without_warnings()
+    {
+        $body = '<xml>
+            <SuiteId>suite-id</SuiteId>
+            <InfoType>suite_ticket</InfoType>
+            <SuiteTicket>mock-suite-ticket</SuiteTicket>
+        </xml>';
+
+        $suiteEncryptor = $this->createSuiteEncryptor();
+        $encrypted = $suiteEncryptor->encrypt($body);
+        $request = new ServerRequest('POST', 'http://easywechat.com/server', [], $encrypted);
+
+        $server = new Server(
+            encryptor: $suiteEncryptor,
+            providerEncryptor: $this->createProviderEncryptor(),
+            request: $request,
+        );
+
+        $errors = [];
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            try {
+                $server->serve();
+                $this->fail('Expected serve() to throw.');
+            } catch (BadRequestException $e) {
+                $this->assertSame('Request signature must not be empty.', $e->getMessage());
+            }
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
     }
 
     private function createSuiteEncryptor(): SuiteEncryptor

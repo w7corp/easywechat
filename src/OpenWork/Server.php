@@ -245,9 +245,9 @@ class Server implements ServerInterface
             $this->decryptMessage(
                 $message,
                 $this->encryptor,
-                $query['msg_signature'],
-                $query['timestamp'],
-                $query['nonce']
+                $query['msg_signature'] ?? '',
+                $query['timestamp'] ?? '',
+                $query['nonce'] ?? ''
             );
 
             return $next($message);
