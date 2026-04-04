@@ -69,7 +69,7 @@ $server->handleVerifyTicketRefreshed(function($message, \Closure $next) {
 
 ```php
 $server->with(function($message, \Closure $next) {
-    // $message->event_type 事件类型
+    // $message->InfoType 事件类型
     return $next($message);
 });
 ```
