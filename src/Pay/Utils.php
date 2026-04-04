@@ -12,7 +12,9 @@ use JetBrains\PhpStorm\ArrayShape;
 
 use function base64_encode;
 use function http_build_query;
+use function is_string;
 use function md5;
+use function openssl_pkey_get_public;
 use function openssl_sign;
 use function strtoupper;
 use function time;
@@ -156,15 +158,21 @@ class Utils
     public function encryptWithRsaPublicKey(string $plaintext, ?string $serial = null): string
     {
         $platformCerts = $this->merchant->getPlatformCerts();
-        /** @var string $identifier - One of the serial number of the platform certificates OR the weixin pay's public key identifier. */
         $identifier = $serial ?? array_key_first($platformCerts);
+
+        if (! is_string($identifier) || $identifier === '') {
+            throw new InvalidConfigException('Missing platform certificate.');
+        }
+
         $platformCert = $this->merchant->getPlatformCert($identifier);
 
         if (empty($platformCert)) {
             throw new InvalidConfigException('Missing platform certificate.');
         }
 
-        if (! openssl_public_encrypt($plaintext, $encrypted, $platformCert, OPENSSL_PKCS1_OAEP_PADDING)) {
+        $publicKey = openssl_pkey_get_public((string) $platformCert);
+
+        if ($publicKey === false || ! openssl_public_encrypt($plaintext, $encrypted, $publicKey, OPENSSL_PKCS1_OAEP_PADDING)) {
             throw new EncryptionFailureException('Encrypt failed.');
         }
 
@@ -184,11 +192,13 @@ class Utils
 
         ksort($params);
 
+        $signType = is_string($params['signType'] ?? null) ? $params['signType'] : 'MD5';
+        $params['signType'] = $signType;
         $params['key'] = $secretKey;
 
         $message = urldecode(http_build_query($params));
 
-        if ($params['signType'] === 'HMAC-SHA256') {
+        if ($signType === 'HMAC-SHA256') {
             $signature = hash_hmac('sha256', $message, $secretKey);
         } else {
             $signature = md5($message);
