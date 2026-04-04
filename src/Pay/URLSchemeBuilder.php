@@ -7,8 +7,6 @@ namespace EasyWeChat\Pay;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 
-use function sprintf;
-
 class URLSchemeBuilder
 {
     public function __construct(protected MerchantInterface $merchant)
@@ -32,6 +30,8 @@ class URLSchemeBuilder
 
     public function forCodeUrl(string $codeUrl): string
     {
-        return sprintf('weixin://wxpay/bizpayurl?sr=%s', $codeUrl);
+        return 'weixin://wxpay/bizpayurl?'.http_build_query([
+            'sr' => $codeUrl,
+        ]);
     }
 }
