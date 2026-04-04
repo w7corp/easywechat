@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EasyWeChat\Tests\Pay;
 
+use EasyWeChat\Kernel\Exceptions\RuntimeException;
 use EasyWeChat\Kernel\Support\AesEcb;
 use EasyWeChat\Kernel\Support\AesGcm;
 use EasyWeChat\Kernel\Support\Xml;
@@ -42,6 +43,42 @@ class ServerTest extends TestCase
 
         $response = $server->serve();
         $this->assertSame('{"code":"SUCCESS","message":"成功"}', \strval($response->getBody()));
+    }
+
+    public function test_invalid_json_notification_without_resource_throws_without_warnings()
+    {
+        /** @var Merchant&LegacyMockInterface $merchant */
+        $merchant = \Mockery::mock(Merchant::class);
+
+        $server = new Server($merchant, new ServerRequest(
+            'POST',
+            'http://easywechat.com/',
+            [
+                'Content-Type' => 'application/json',
+            ],
+            '{}'
+        ));
+
+        $errors = [];
+
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            try {
+                $server->getRequestMessage();
+                $this->fail('Expected getRequestMessage() to throw.');
+            } catch (RuntimeException $e) {
+                $this->assertSame('Invalid request body.', $e->getMessage());
+            }
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertSame([], $errors);
     }
 
     public function test_legacy_encryped_by_aesecb_refund_request()

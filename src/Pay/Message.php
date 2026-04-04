@@ -28,7 +28,7 @@ class Message extends \EasyWeChat\Kernel\Message
      */
     public function getEventType(): ?string
     {
-        $eventType = $this->getOriginalAttributes()['event_type'];
+        $eventType = $this->getOriginalAttributes()['event_type'] ?? null;
 
         if (! is_string($eventType)) {
             throw new RuntimeException('Invalid event type.');

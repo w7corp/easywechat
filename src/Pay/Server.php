@@ -257,11 +257,16 @@ class Server implements ServerInterface
     {
         $attributes = json_decode($contents, true);
 
-        if (! (is_array($attributes) && is_array($attributes['resource']))) {
+        if (! is_array($attributes)) {
             throw new RuntimeException('Invalid request body.');
         }
 
-        $resource = $attributes['resource'];
+        $resource = $attributes['resource'] ?? null;
+
+        if (! is_array($resource)) {
+            throw new RuntimeException('Invalid request body.');
+        }
+
         $ciphertext = $resource['ciphertext'] ?? null;
         $nonce = $resource['nonce'] ?? null;
         $associatedData = $resource['associated_data'] ?? null;
