@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
+use EasyWeChat\Pay\Exceptions\SignatureFailureException;
 use EasyWeChat\Pay\Merchant;
 use EasyWeChat\Pay\Utils;
 use EasyWeChat\Tests\TestCase;
@@ -172,6 +173,39 @@ pwIDAQAB
         }
 
         $this->assertSame('E7608A683BD0D0140AB6514A78619D90', $signature);
+        $this->assertSame([], $errors);
+    }
+
+    public function test_build_app_config_throws_when_private_key_is_invalid_without_warnings()
+    {
+        $certificate = \Mockery::mock(PublicKey::class);
+
+        $merchant = new Merchant(
+            mchId: 100001,
+            privateKey: new PrivateKey('not-a-private-key'),
+            certificate: $certificate,
+            secretKey: 'v3SecretKey',
+            v2SecretKey: 'v2SecretKey',
+            platformCerts: []
+        );
+        $utils = new Utils(merchant: $merchant);
+        $errors = [];
+
+        set_error_handler(function (int $severity, string $message) use (&$errors): bool {
+            $errors[] = [$severity, $message];
+
+            return true;
+        });
+
+        try {
+            $utils->buildAppConfig('mock-prepay-id', 'mock-appid');
+            $this->fail('Expected signature failure exception.');
+        } catch (SignatureFailureException $e) {
+            $this->assertSame('Sign failed.', $e->getMessage());
+        } finally {
+            restore_error_handler();
+        }
+
         $this->assertSame([], $errors);
     }
 }

@@ -6,6 +6,7 @@ namespace EasyWeChat\Pay;
 
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
+use EasyWeChat\Pay\Exceptions\SignatureFailureException;
 use Nyholm\Psr7\Uri;
 use Stringable;
 
@@ -14,6 +15,7 @@ use function base64_encode;
 use function http_build_query;
 use function is_scalar;
 use function ltrim;
+use function openssl_pkey_get_private;
 use function openssl_sign;
 use function parse_str;
 use function strtoupper;
@@ -28,6 +30,8 @@ class Signature
 
     /**
      * @param  array<string,mixed>  $options
+     *
+     * @throws SignatureFailureException
      */
     public function createHeader(string $method, string $url, array $options): string
     {
@@ -51,8 +55,7 @@ class Signature
             $timestamp."\n".
             $nonce."\n".
             $body."\n";
-
-        openssl_sign($message, $signature, $this->merchant->getPrivateKey()->getKey(), 'sha256WithRSAEncryption');
+        $signature = $this->sign($message);
 
         return sprintf(
             'WECHATPAY2-SHA256-RSA2048 %s',
@@ -62,8 +65,25 @@ class Signature
                 $nonce,
                 $timestamp,
                 $this->merchant->getCertificate()->getSerialNo(),
-                base64_encode($signature)
+                $signature
             )
         );
+    }
+
+    /**
+     * @throws SignatureFailureException
+     */
+    public function sign(string $message): string
+    {
+        $privateKey = openssl_pkey_get_private(
+            $this->merchant->getPrivateKey()->getKey(),
+            $this->merchant->getPrivateKey()->getPassphrase()
+        );
+
+        if ($privateKey === false || ! openssl_sign($message, $signature, $privateKey, 'sha256WithRSAEncryption')) {
+            throw new SignatureFailureException('Sign failed.');
+        }
+
+        return base64_encode($signature);
     }
 }

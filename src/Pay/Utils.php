@@ -8,6 +8,7 @@ use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\Support\Str;
 use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use EasyWeChat\Pay\Exceptions\EncryptionFailureException;
+use EasyWeChat\Pay\Exceptions\SignatureFailureException;
 use JetBrains\PhpStorm\ArrayShape;
 
 use function base64_encode;
@@ -15,7 +16,6 @@ use function http_build_query;
 use function is_string;
 use function md5;
 use function openssl_pkey_get_public;
-use function openssl_sign;
 use function strtoupper;
 use function time;
 use function urldecode;
@@ -28,6 +28,8 @@ class Utils
 
     /**
      * @return array<string, mixed>
+     *
+     * @throws SignatureFailureException
      */
     #[ArrayShape([
         'appId' => 'string',
@@ -67,6 +69,8 @@ class Utils
      * @see https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html#58
      *
      * @return array<string, mixed>
+     *
+     * @throws SignatureFailureException
      */
     #[ArrayShape([
         'appId' => 'string',
@@ -90,6 +94,8 @@ class Utils
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/payment/wx.requestPayment.html
      *
      * @return array<string, mixed>
+     *
+     * @throws SignatureFailureException
      */
     #[ArrayShape([
         'appId' => 'string',
@@ -106,6 +112,8 @@ class Utils
 
     /**
      * @return array<string, mixed>
+     *
+     * @throws SignatureFailureException
      */
     #[ArrayShape([
         'appid' => 'string',
@@ -137,11 +145,12 @@ class Utils
         return $params;
     }
 
+    /**
+     * @throws SignatureFailureException
+     */
     protected function createSignature(string $message): string
     {
-        openssl_sign($message, $signature, $this->merchant->getPrivateKey(), 'sha256WithRSAEncryption');
-
-        return base64_encode($signature);
+        return (new Signature($this->merchant))->sign($message);
     }
 
     /**
