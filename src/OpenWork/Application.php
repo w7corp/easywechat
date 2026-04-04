@@ -14,6 +14,7 @@ use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
+use EasyWeChat\Kernel\Traits\ResetsResolvedDependencies;
 use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\OpenWork\Contracts\Account as AccountInterface;
 use EasyWeChat\OpenWork\Contracts\Application as ApplicationInterface;
@@ -32,6 +33,7 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithHttpClient;
     use LoggerAwareTrait;
+    use ResetsResolvedDependencies;
     use SynchronizesServerRequest;
 
     protected ?ServerInterface $server = null;
@@ -350,58 +352,30 @@ class Application implements ApplicationInterface
 
         if (! $this->usesCustomAccount) {
             $this->account = null;
-
-            if (! $this->usesCustomEncryptor) {
-                $this->encryptor = null;
-            }
-
-            if (! $this->usesCustomSuiteEncryptor) {
-                $this->suiteEncryptor = null;
-            }
-
-            if (! $this->usesCustomServer) {
-                $this->server = null;
-            }
-
-            if (! $this->usesCustomSuiteTicket) {
-                $this->suiteTicket = null;
-            }
+            $this->resetResolvedDependencies([
+                [$this->usesCustomEncryptor, fn (): mixed => $this->encryptor = null],
+                [$this->usesCustomSuiteEncryptor, fn (): mixed => $this->suiteEncryptor = null],
+                [$this->usesCustomServer, fn (): mixed => $this->server = null],
+                [$this->usesCustomSuiteTicket, fn (): mixed => $this->suiteTicket = null],
+            ]);
         }
 
-        if (! $this->usesCustomProviderAccessToken) {
-            $this->accessToken = null;
-        }
-
-        if (! $this->usesCustomSuiteAccessToken) {
-            $this->suiteAccessToken = null;
-        }
+        $this->resetResolvedDependencies([
+            [$this->usesCustomProviderAccessToken, fn (): mixed => $this->accessToken = null],
+            [$this->usesCustomSuiteAccessToken, fn (): mixed => $this->suiteAccessToken = null],
+        ]);
     }
 
     protected function refreshDerivedDependenciesAfterAccountUpdated(): void
     {
-        if (! $this->usesCustomEncryptor) {
-            $this->encryptor = null;
-        }
-
-        if (! $this->usesCustomSuiteEncryptor) {
-            $this->suiteEncryptor = null;
-        }
-
-        if (! $this->usesCustomServer) {
-            $this->server = null;
-        }
-
-        if (! $this->usesCustomProviderAccessToken) {
-            $this->accessToken = null;
-        }
-
-        if (! $this->usesCustomSuiteAccessToken) {
-            $this->suiteAccessToken = null;
-        }
-
-        if (! $this->usesCustomSuiteTicket) {
-            $this->suiteTicket = null;
-        }
+        $this->resetResolvedDependencies([
+            [$this->usesCustomEncryptor, fn (): mixed => $this->encryptor = null],
+            [$this->usesCustomSuiteEncryptor, fn (): mixed => $this->suiteEncryptor = null],
+            [$this->usesCustomServer, fn (): mixed => $this->server = null],
+            [$this->usesCustomProviderAccessToken, fn (): mixed => $this->accessToken = null],
+            [$this->usesCustomSuiteAccessToken, fn (): mixed => $this->suiteAccessToken = null],
+            [$this->usesCustomSuiteTicket, fn (): mixed => $this->suiteTicket = null],
+        ]);
 
         $this->resetClient();
     }

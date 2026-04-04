@@ -10,6 +10,7 @@ use EasyWeChat\Kernel\Support\PrivateKey;
 use EasyWeChat\Kernel\Support\PublicKey;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
+use EasyWeChat\Kernel\Traits\ResetsResolvedDependencies;
 use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\Pay\Contracts\Validator as ValidatorInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -20,6 +21,7 @@ class Application implements Contracts\Application
     use InteractWithConfig;
     use InteractWithHttpClient;
     use LoggerAwareTrait;
+    use ResetsResolvedDependencies;
     use SynchronizesServerRequest;
 
     protected ?ServerInterface $server = null;
@@ -150,13 +152,9 @@ class Application implements Contracts\Application
         $this->merchant = null;
         $this->resetHttpClient();
         $this->resetClient();
-
-        if (! $this->usesCustomValidator) {
-            $this->validator = null;
-        }
-
-        if (! $this->usesCustomServer) {
-            $this->server = null;
-        }
+        $this->resetResolvedDependencies([
+            [$this->usesCustomValidator, fn (): mixed => $this->validator = null],
+            [$this->usesCustomServer, fn (): mixed => $this->server = null],
+        ]);
     }
 }

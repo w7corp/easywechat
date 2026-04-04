@@ -16,6 +16,7 @@ use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
+use EasyWeChat\Kernel\Traits\ResetsResolvedDependencies;
 use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\MiniApp\Contracts\Account as AccountInterface;
 use EasyWeChat\MiniApp\Contracts\Application as ApplicationInterface;
@@ -36,6 +37,7 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithHttpClient;
     use LoggerAwareTrait;
+    use ResetsResolvedDependencies;
     use SynchronizesServerRequest;
 
     protected ?Encryptor $encryptor = null;
@@ -185,34 +187,24 @@ class Application implements ApplicationInterface
 
         if (! $this->usesCustomAccount) {
             $this->account = null;
-
-            if (! $this->usesCustomEncryptor) {
-                $this->encryptor = null;
-            }
-
-            if (! $this->usesCustomServer) {
-                $this->server = null;
-            }
+            $this->resetResolvedDependencies([
+                [$this->usesCustomEncryptor, fn (): mixed => $this->encryptor = null],
+                [$this->usesCustomServer, fn (): mixed => $this->server = null],
+            ]);
         }
 
-        if (! $this->usesCustomAccessToken) {
-            $this->accessToken = null;
-        }
+        $this->resetResolvedDependencies([
+            [$this->usesCustomAccessToken, fn (): mixed => $this->accessToken = null],
+        ]);
     }
 
     protected function refreshDerivedDependenciesAfterAccountUpdated(): void
     {
-        if (! $this->usesCustomEncryptor) {
-            $this->encryptor = null;
-        }
-
-        if (! $this->usesCustomServer) {
-            $this->server = null;
-        }
-
-        if (! $this->usesCustomAccessToken) {
-            $this->accessToken = null;
-        }
+        $this->resetResolvedDependencies([
+            [$this->usesCustomEncryptor, fn (): mixed => $this->encryptor = null],
+            [$this->usesCustomServer, fn (): mixed => $this->server = null],
+            [$this->usesCustomAccessToken, fn (): mixed => $this->accessToken = null],
+        ]);
 
         $this->resetClient();
     }

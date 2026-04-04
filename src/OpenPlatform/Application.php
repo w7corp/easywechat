@@ -17,6 +17,7 @@ use EasyWeChat\Kernel\Traits\InteractWithCache;
 use EasyWeChat\Kernel\Traits\InteractWithClient;
 use EasyWeChat\Kernel\Traits\InteractWithConfig;
 use EasyWeChat\Kernel\Traits\InteractWithHttpClient;
+use EasyWeChat\Kernel\Traits\ResetsResolvedDependencies;
 use EasyWeChat\Kernel\Traits\SynchronizesServerRequest;
 use EasyWeChat\MiniApp\Application as MiniAppApplication;
 use EasyWeChat\OfficialAccount\Application as OfficialAccountApplication;
@@ -42,6 +43,7 @@ class Application implements ApplicationInterface
     use InteractWithConfig;
     use InteractWithHttpClient;
     use LoggerAwareTrait;
+    use ResetsResolvedDependencies;
     use SynchronizesServerRequest;
 
     protected ?Encryptor $encryptor = null;
@@ -469,42 +471,26 @@ class Application implements ApplicationInterface
 
         if (! $this->usesCustomAccount) {
             $this->account = null;
-
-            if (! $this->usesCustomEncryptor) {
-                $this->encryptor = null;
-            }
-
-            if (! $this->usesCustomServer) {
-                $this->server = null;
-            }
-
-            if (! $this->usesCustomVerifyTicket) {
-                $this->verifyTicket = null;
-            }
+            $this->resetResolvedDependencies([
+                [$this->usesCustomEncryptor, fn (): mixed => $this->encryptor = null],
+                [$this->usesCustomServer, fn (): mixed => $this->server = null],
+                [$this->usesCustomVerifyTicket, fn (): mixed => $this->verifyTicket = null],
+            ]);
         }
 
-        if (! $this->usesCustomComponentAccessToken) {
-            $this->componentAccessToken = null;
-        }
+        $this->resetResolvedDependencies([
+            [$this->usesCustomComponentAccessToken, fn (): mixed => $this->componentAccessToken = null],
+        ]);
     }
 
     protected function refreshDerivedDependenciesAfterAccountUpdated(): void
     {
-        if (! $this->usesCustomEncryptor) {
-            $this->encryptor = null;
-        }
-
-        if (! $this->usesCustomServer) {
-            $this->server = null;
-        }
-
-        if (! $this->usesCustomComponentAccessToken) {
-            $this->componentAccessToken = null;
-        }
-
-        if (! $this->usesCustomVerifyTicket) {
-            $this->verifyTicket = null;
-        }
+        $this->resetResolvedDependencies([
+            [$this->usesCustomEncryptor, fn (): mixed => $this->encryptor = null],
+            [$this->usesCustomServer, fn (): mixed => $this->server = null],
+            [$this->usesCustomComponentAccessToken, fn (): mixed => $this->componentAccessToken = null],
+            [$this->usesCustomVerifyTicket, fn (): mixed => $this->verifyTicket = null],
+        ]);
 
         $this->resetClient();
     }
