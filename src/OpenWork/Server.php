@@ -19,9 +19,6 @@ use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use function is_callable;
-use function is_string;
-
 class Server implements ServerInterface
 {
     use DecryptMessage;
@@ -260,10 +257,6 @@ class Server implements ServerInterface
 
     protected function normalizeAcknowledgementResponse(mixed $response): ?ResponseInterface
     {
-        if (! is_string($response) && is_callable($response)) {
-            $response = $response();
-        }
-
         return $response === 'success' ? new Response(200, [], 'success') : null;
     }
 
