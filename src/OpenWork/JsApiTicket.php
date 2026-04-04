@@ -71,7 +71,7 @@ class JsApiTicket
             throw new HttpException('Failed to get jssdk ticket: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->cache->set($key, $response['ticket'], intval($response['expires_in']));
+        $this->cache->set($key, $response['ticket'], intval($response['expires_in'] ?? 0));
 
         return $response['ticket'];
     }
@@ -118,7 +118,7 @@ class JsApiTicket
             throw new HttpException('Failed to get jssdk agentTicket: '.json_encode($response, JSON_UNESCAPED_UNICODE));
         }
 
-        $this->cache->set($key, $response['ticket'], intval($response['expires_in']));
+        $this->cache->set($key, $response['ticket'], intval($response['expires_in'] ?? 0));
 
         return $response['ticket'];
     }
