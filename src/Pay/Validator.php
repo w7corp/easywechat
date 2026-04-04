@@ -9,6 +9,7 @@ use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use EasyWeChat\Pay\Exceptions\InvalidSignatureException;
 use Psr\Http\Message\MessageInterface;
 
+use function abs;
 use function base64_decode;
 use function is_string;
 use function openssl_pkey_get_public;
@@ -50,7 +51,7 @@ class Validator implements Contracts\Validator
 
         $message = "{$timestamp}\n{$nonce}\n{$body}\n";
 
-        if (\time() - \intval($timestamp) > self::MAX_ALLOWED_CLOCK_OFFSET) {
+        if (abs(\time() - \intval($timestamp)) > self::MAX_ALLOWED_CLOCK_OFFSET) {
             throw new InvalidSignatureException('Clock Offset Exceeded');
         }
 

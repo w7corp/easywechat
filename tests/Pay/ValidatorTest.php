@@ -85,6 +85,44 @@ class ValidatorTest extends TestCase
         $validator->validate($message);
     }
 
+    public function test_validate_throws_when_timestamp_is_too_old()
+    {
+        $merchant = \Mockery::mock(Merchant::class);
+        $merchant->shouldReceive('getPlatformCert')->never();
+
+        $validator = new Validator($merchant);
+        $message = new Response(200, [
+            Validator::HEADER_TIMESTAMP => (string) (time() - Validator::MAX_ALLOWED_CLOCK_OFFSET - 1),
+            Validator::HEADER_NONCE => 'mock-nonce',
+            Validator::HEADER_SERIAL => 'mock-serial',
+            Validator::HEADER_SIGNATURE => base64_encode('mock-signature'),
+        ], 'body');
+
+        $this->expectException(InvalidSignatureException::class);
+        $this->expectExceptionMessage('Clock Offset Exceeded');
+
+        $validator->validate($message);
+    }
+
+    public function test_validate_throws_when_timestamp_is_too_far_in_future()
+    {
+        $merchant = \Mockery::mock(Merchant::class);
+        $merchant->shouldReceive('getPlatformCert')->never();
+
+        $validator = new Validator($merchant);
+        $message = new Response(200, [
+            Validator::HEADER_TIMESTAMP => (string) (time() + Validator::MAX_ALLOWED_CLOCK_OFFSET + 1),
+            Validator::HEADER_NONCE => 'mock-nonce',
+            Validator::HEADER_SERIAL => 'mock-serial',
+            Validator::HEADER_SIGNATURE => base64_encode('mock-signature'),
+        ], 'body');
+
+        $this->expectException(InvalidSignatureException::class);
+        $this->expectExceptionMessage('Clock Offset Exceeded');
+
+        $validator->validate($message);
+    }
+
     public function test_validate_throws_when_platform_certificate_is_invalid_without_warnings()
     {
         $merchant = new PayMerchant(
