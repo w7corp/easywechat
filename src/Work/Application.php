@@ -59,10 +59,10 @@ class Application implements ApplicationInterface
     {
         if (! $this->account) {
             $this->account = new Account(
-                corpId: (string) $this->config->get('corp_id'), /** @phpstan-ignore-line */
-                secret: (string) $this->config->get('secret'), /** @phpstan-ignore-line */
-                token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
-                aesKey: (string) $this->config->get('aes_key'),/** @phpstan-ignore-line */
+                corpId: $this->getStringConfig('corp_id'),
+                secret: $this->getStringConfig('secret'),
+                token: $this->getStringConfig('token'),
+                aesKey: $this->getStringConfig('aes_key'),
             );
             $this->usesCustomAccount = false;
         }
@@ -173,7 +173,7 @@ class Application implements ApplicationInterface
             ]
         );
 
-        $provider->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
+        $provider->scopes($this->getStringListConfig('oauth.scopes', ['snsapi_base']));
 
         if ($this->config->has('agent_id') && \is_numeric($this->config->get('agent_id'))) {
             $provider->withAgentId((int) $this->config->get('agent_id'));

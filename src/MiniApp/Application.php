@@ -129,7 +129,7 @@ class Application implements ApplicationInterface
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
                 httpClient: $this->getHttpClient(),
-                stable: $this->config->get('use_stable_access_token', false)
+                stable: $this->getBoolConfig('use_stable_access_token')
             );
             $this->usesCustomAccessToken = false;
         }

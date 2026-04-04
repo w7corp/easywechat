@@ -140,7 +140,7 @@ class Application implements ApplicationInterface
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
                 httpClient: $this->getHttpClient(),
-                stable: $this->config->get('use_stable_access_token', false),
+                stable: $this->getBoolConfig('use_stable_access_token'),
             );
             $this->usesCustomAccessToken = false;
         }
@@ -170,13 +170,15 @@ class Application implements ApplicationInterface
     public function getOAuth(): SocialiteProviderInterface
     {
         if (! $this->oauthFactory) {
+            $scopes = $this->getStringListConfig('oauth.scopes', ['snsapi_userinfo']);
+
             $this->oauthFactory = fn (self $app): SocialiteProviderInterface => (new WeChat(
                 [
                     'client_id' => $this->getAccount()->getAppId(),
                     'client_secret' => $this->getAccount()->getSecret(),
                     'redirect_url' => $this->config->get('oauth.redirect_url'),
                 ]
-            ))->scopes((array) $this->config->get('oauth.scopes', ['snsapi_userinfo']));
+            ))->scopes($scopes);
         }
 
         $provider = call_user_func($this->oauthFactory, $this);
@@ -199,7 +201,7 @@ class Application implements ApplicationInterface
                 secret: $this->getAccount()->getSecret(),
                 cache: $this->getCache(),
                 httpClient: $this->getClient(),
-                stable: $this->config->get('use_stable_access_token', false),
+                stable: $this->getBoolConfig('use_stable_access_token'),
             );
             $this->usesCustomTicket = false;
         }

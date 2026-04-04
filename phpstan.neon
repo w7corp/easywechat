@@ -19,35 +19,11 @@ parameters:
             message: '#Call to function is_callable\(\) with callable\(\): mixed will always evaluate to true#'
             path: src/Kernel/Traits/InteractWithHandlers.php
         -
-            message: '#Parameter \$stable of class EasyWeChat\\MiniApp\\AccessToken constructor expects bool\|null, mixed given#'
-            path: src/MiniApp/Application.php
-        -
-            message: '#Method EasyWeChat\\MiniApp\\Decryptor::decrypt\(\) should return array<string, mixed> but returns array#'
-            path: src/MiniApp/Decryptor.php
-        -
-            message: '#Parameter \$stable of class EasyWeChat\\OfficialAccount\\(AccessToken|JsApiTicket) constructor expects bool\|null, mixed given#'
-            path: src/OfficialAccount/Application.php
-        -
-            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
-            path: src/OfficialAccount/Application.php
-        -
-            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
-            path: src/OpenPlatform/Application.php
-        -
-            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
-            path: src/OpenWork/Application.php
-        -
-            message: '#Parameter \#3 \$defaultOptions of class EasyWeChat\\Pay\\Client constructor expects array<string, mixed>#'
-            path: src/Pay/Application.php
-        -
             message: '#Property .*?\$client \(Symfony\\Contracts\\HttpClient\\HttpClientInterface\) does not accept Mockery\\Mock\|Symfony\\Contracts\\HttpClient\\HttpClientInterface#'
             path: src/Pay/Client.php
         -
             message: '#Method EasyWeChat\\Pay\\Client::createMockClient\(\) should return Mockery\\Mock\|Symfony\\Contracts\\HttpClient\\HttpClientInterface but returns Mockery\\LegacyMockInterface#'
             path: src/Pay/Client.php
-        -
-            message: '#Parameter \#1 \$scopes of method Overtrue\\Socialite\\Providers\\Base::scopes\(\) expects array<string>#'
-            path: src/Work/Application.php
         -
             message: '#Trait .*? is used zero times and is not analysed#'
             path: src/Kernel/Traits/DecryptJsonMessage.php

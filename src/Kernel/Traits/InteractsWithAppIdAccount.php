@@ -18,10 +18,10 @@ trait InteractsWithAppIdAccount
     protected function createAppIdAccount(string $accountClass): object
     {
         return new $accountClass(
-            appId: (string) $this->config->get('app_id'), /** @phpstan-ignore-line */
-            secret: (string) $this->config->get('secret'), /** @phpstan-ignore-line */
-            token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
-            aesKey: (string) $this->config->get('aes_key'), /** @phpstan-ignore-line */
+            appId: $this->getStringConfig('app_id'),
+            secret: $this->getStringConfig('secret'),
+            token: $this->getStringConfig('token'),
+            aesKey: $this->getStringConfig('aes_key'),
         );
     }
 

@@ -34,6 +34,8 @@ class Decryptor
             if (! $decrypted || ! is_array($decrypted)) {
                 throw new DecryptException('The given payload is invalid.');
             }
+
+            /** @var array<string, mixed> $decrypted */
         } catch (Throwable $e) {
             throw new DecryptException(sprintf('The given payload is invalid: %s', $e->getMessage()));
         }

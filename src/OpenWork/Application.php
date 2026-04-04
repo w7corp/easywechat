@@ -70,12 +70,12 @@ class Application implements ApplicationInterface
     {
         if (! $this->account) {
             $this->account = new Account(
-                corpId: (string) $this->config->get('corp_id'), /** @phpstan-ignore-line */
-                providerSecret: (string) $this->config->get('provider_secret'), /** @phpstan-ignore-line */
-                suiteId: (string) $this->config->get('suite_id'), /** @phpstan-ignore-line */
-                suiteSecret: (string) $this->config->get('suite_secret'), /** @phpstan-ignore-line */
-                token: (string) $this->config->get('token'), /** @phpstan-ignore-line */
-                aesKey: (string) $this->config->get('aes_key'),/** @phpstan-ignore-line */
+                corpId: $this->getStringConfig('corp_id'),
+                providerSecret: $this->getStringConfig('provider_secret'),
+                suiteId: $this->getStringConfig('suite_id'),
+                suiteSecret: $this->getStringConfig('suite_secret'),
+                token: $this->getStringConfig('token'),
+                aesKey: $this->getStringConfig('aes_key'),
             );
             $this->usesCustomAccount = false;
         }
@@ -311,7 +311,7 @@ class Application implements ApplicationInterface
             'suite_secret' => $account->getSuiteSecret(),
             'redirect_url' => $this->config->get('oauth.redirect_url'),
             'base_url' => $this->config->get('http.base_uri'),
-        ])), $suiteAccessToken)->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
+        ])), $suiteAccessToken)->scopes($this->getStringListConfig('oauth.scopes', ['snsapi_base']));
     }
 
     public function getCorpOAuth(
@@ -326,7 +326,7 @@ class Application implements ApplicationInterface
             'suite_secret' => $account->getSuiteSecret(),
             'redirect_url' => $this->config->get('oauth.redirect_url'),
             'base_url' => $this->config->get('http.base_uri'),
-        ])), $suiteAccessToken)->scopes((array) $this->config->get('oauth.scopes', ['snsapi_base']));
+        ])), $suiteAccessToken)->scopes($this->getStringListConfig('oauth.scopes', ['snsapi_base']));
     }
 
     /**

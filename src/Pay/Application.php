@@ -46,13 +46,16 @@ class Application implements Contracts\Application
     public function getMerchant(): Merchant
     {
         if (! $this->merchant) {
+            /** @var array<int|string, string|PublicKey> $platformCerts */
+            $platformCerts = $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [];
+
             $this->merchant = new Merchant(
-                mchId: $this->config['mch_id'], /** @phpstan-ignore-line */
-                privateKey: new PrivateKey((string) $this->config['private_key']), /** @phpstan-ignore-line */
-                certificate: new PublicKey((string) $this->config['certificate']), /** @phpstan-ignore-line */
-                secretKey: (string) $this->config['secret_key'], /** @phpstan-ignore-line */
-                v2SecretKey: (string) $this->config['v2_secret_key'], /** @phpstan-ignore-line */
-                platformCerts: $this->config->has('platform_certs') ? (array) $this->config['platform_certs'] : [],/** @phpstan-ignore-line */
+                mchId: $this->getStringConfig('mch_id'),
+                privateKey: new PrivateKey($this->getStringConfig('private_key')),
+                certificate: new PublicKey($this->getStringConfig('certificate')),
+                secretKey: $this->getStringConfig('secret_key'),
+                v2SecretKey: $this->getStringConfig('v2_secret_key'),
+                platformCerts: $platformCerts,
             );
         }
 
@@ -114,10 +117,13 @@ class Application implements Contracts\Application
     public function getClient(): Client|HttpClientInterface
     {
         if (! $this->client) {
+            /** @var array<string, mixed> $httpOptions */
+            $httpOptions = (array) $this->config->get('http', []);
+
             $this->client = (new Client(
                 $this->getMerchant(),
                 $this->getHttpClient(),
-                (array) $this->config->get('http', [])
+                $httpOptions
             ))->setPresets($this->config->all());
             $this->usesCustomClient = false;
         }

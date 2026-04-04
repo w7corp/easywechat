@@ -30,6 +30,7 @@ use Overtrue\Socialite\Providers\WeChat;
 use Psr\Log\LoggerAwareTrait;
 
 use function array_merge;
+use function is_scalar;
 use function is_string;
 use function md5;
 use function sprintf;
@@ -297,7 +298,7 @@ class Application implements ApplicationInterface
                 'client_secret' => $this->getAccount()->getSecret(),
                 'redirect_url' => $this->config->get('oauth.redirect_url'),
             ]
-        ))->scopes((array) $this->config->get('oauth.scopes', ['snsapi_userinfo']));
+        ))->scopes($this->getStringListConfig('oauth.scopes', ['snsapi_userinfo']));
     }
 
     public function getOfficialAccountWithRefreshToken(
@@ -401,6 +402,13 @@ class Application implements ApplicationInterface
         OfficialAccountConfig $config
     ): Closure {
         $redirectUrl = $config->get('oauth.redirect_url', $this->config->get('oauth.redirect_url'));
+        $scopes = [];
+
+        foreach ((array) $config->get('oauth.scopes', ['snsapi_userinfo']) as $scope) {
+            if (is_scalar($scope) || $scope === null) {
+                $scopes[] = (string) $scope;
+            }
+        }
 
         return fn () => (new WeChat(
             [
@@ -413,7 +421,7 @@ class Application implements ApplicationInterface
 
                 'redirect_url' => $redirectUrl,
             ]
-        ))->scopes((array) $config->get('oauth.scopes', ['snsapi_userinfo']));
+        ))->scopes($scopes);
     }
 
     public function createClient(): AccessTokenAwareClient

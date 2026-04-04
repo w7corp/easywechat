@@ -46,7 +46,7 @@ trait InteractsWithWeChatApiClient
             $httpClient = new RetryableHttpClient(
                 $httpClient,
                 $this->getRetryStrategy(),
-                (int) $this->config->get('http.max_retries', 2) // @phpstan-ignore-line
+                $this->getIntConfig('http.max_retries', 2)
             );
         }
 
@@ -54,7 +54,7 @@ trait InteractsWithWeChatApiClient
             client: $httpClient,
             accessToken: $accessToken,
             failureJudge: fn (Response $response): bool => (bool) $failureJudge($response),
-            throw: (bool) $this->config->get('http.throw', true),
+            throw: $this->getBoolConfig('http.throw', true),
         ))->setPresets($this->config->all());
     }
 
