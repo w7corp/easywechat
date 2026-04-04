@@ -260,7 +260,7 @@ class Application implements ApplicationInterface
         )->toArray(false);
 
         if (empty($response['pre_auth_code'])) {
-            throw new HttpException('Failed to get authorizer_access_token: '.json_encode(
+            throw new HttpException('Failed to get pre_auth_code: '.json_encode(
                 $response,
                 JSON_UNESCAPED_UNICODE
             ));

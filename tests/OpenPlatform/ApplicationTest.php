@@ -412,6 +412,31 @@ class ApplicationTest extends TestCase
         $this->assertSame('https://easywechat.com/callback', $query['redirect_uri'] ?? null);
     }
 
+    public function test_create_pre_authorization_code_throws_with_precise_error_message()
+    {
+        $app = new Application([
+            'app_id' => 'wx3cf0f39249000060',
+            'secret' => 'mock-secret',
+            'token' => 'mock-token',
+            'aes_key' => 'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFG',
+        ]);
+
+        $accessToken = \Mockery::mock(AccessTokenInterface::class);
+        $accessToken->shouldReceive('toQuery')->once()->andReturn(['component_access_token' => 'mock-component-token']);
+
+        $app->setComponentAccessToken($accessToken);
+        $app->setHttpClient(new MockHttpClient([
+            new MockResponse(\json_encode([
+                'errcode' => 40013,
+            ])),
+        ], 'https://api.weixin.qq.com/'));
+
+        $this->expectException(HttpException::class);
+        $this->expectExceptionMessage('Failed to get pre_auth_code: {"errcode":40013}');
+
+        $app->createPreAuthorizationCode();
+    }
+
     public function test_set_account_preserves_custom_dependencies()
     {
         $app = new Application([
