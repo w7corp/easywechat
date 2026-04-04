@@ -47,7 +47,8 @@ class Server implements ServerInterface
         $response = $this->handle(new Response(200, [], 'success'), $message);
 
         if (! ($response instanceof ResponseInterface)) {
-            $response = $this->transformToReply($response, $message, $this->encryptor);
+            $response = $this->normalizeAcknowledgementResponse($response)
+                ?? $this->transformToReply($response, $message, $this->encryptor);
         }
 
         return ServerResponse::make($response);
@@ -142,5 +143,10 @@ class Server implements ServerInterface
             timestamp: $query['timestamp'] ?? '',
             nonce: $query['nonce'] ?? ''
         );
+    }
+
+    protected function normalizeAcknowledgementResponse(mixed $response): ?ResponseInterface
+    {
+        return $response === 'success' ? new Response(200, [], 'success') : null;
     }
 }

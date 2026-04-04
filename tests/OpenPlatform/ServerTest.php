@@ -9,7 +9,7 @@ use Nyholm\Psr7\ServerRequest;
 
 class ServerTest extends TestCase
 {
-    public function test_it_will_return_echostr_as_is_for_validation_request()
+    public function test_it_will_return_echostr_as_is_for_validation_request(): void
     {
         $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
         $encrypted = $encryptor->encryptAsArray(
@@ -31,7 +31,7 @@ class ServerTest extends TestCase
         $this->assertSame($encrypted['ciphertext'], \strval($response->getBody()));
     }
 
-    public function test_it_will_handle_authorized_event()
+    public function test_it_will_handle_authorized_event(): void
     {
         $body = '<xml>
               <AppId>第三方平台appid</AppId>
@@ -57,7 +57,7 @@ class ServerTest extends TestCase
         $this->assertSame('success', \strval($response->getBody()));
     }
 
-    public function test_it_will_handle_unauthorized_event()
+    public function test_it_will_handle_unauthorized_event(): void
     {
         $body = '<xml>
               <AppId>第三方平台appid</AppId>
@@ -80,7 +80,7 @@ class ServerTest extends TestCase
         $this->assertSame('success', \strval($response->getBody()));
     }
 
-    public function test_it_will_handle_authorize_updated_event()
+    public function test_it_will_handle_authorize_updated_event(): void
     {
         $body = '<xml>
               <AppId>第三方平台appid</AppId>
@@ -106,7 +106,7 @@ class ServerTest extends TestCase
         $this->assertSame('success', \strval($response->getBody()));
     }
 
-    public function test_it_will_handle_verify_ticket_refresh_event()
+    public function test_it_will_handle_verify_ticket_refresh_event(): void
     {
         $body = '<xml>
             <AppId>some_appid</AppId>
@@ -132,7 +132,27 @@ class ServerTest extends TestCase
         $this->assertSame('success', \strval($response->getBody()));
     }
 
-    public function test_default_verify_ticket_handler_is_replaced_instead_of_duplicated()
+    public function test_it_returns_plain_success_acknowledgement_without_encryption(): void
+    {
+        $body = '<xml>
+              <AppId>第三方平台appid</AppId>
+              <CreateTime>1413192760</CreateTime>
+              <InfoType>authorized</InfoType>
+              <AuthorizerAppid>公众号appid</AuthorizerAppid>
+            </xml>
+        ';
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = $this->createEncryptedXmlMessageRequest($body, $encryptor);
+
+        $server = new Server(encryptor: $encryptor, request: $request);
+
+        $response = $server->handleAuthorized(fn () => 'success')->serve();
+
+        $this->assertSame('success', \strval($response->getBody()));
+        $this->assertSame([], $response->getHeaders());
+    }
+
+    public function test_default_verify_ticket_handler_is_replaced_instead_of_duplicated(): void
     {
         $body = '<xml>
             <AppId>some_appid</AppId>
