@@ -124,6 +124,24 @@ class Server implements ServerInterface
         return $this;
     }
 
+    public function handleSpecialAuthApproved(callable $handler): static
+    {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'approve_special_auth' ? $handler($message, $next) : $next($message);
+        });
+
+        return $this;
+    }
+
+    public function handleSpecialAuthCancelled(callable $handler): static
+    {
+        $this->with(function (Message $message, Closure $next) use ($handler): mixed {
+            return $message->InfoType === 'cancel_special_auth' ? $handler($message, $next) : $next($message);
+        });
+
+        return $this;
+    }
+
     public function handleUserCreated(callable $handler): static
     {
         $this->with(function (Message $message, Closure $next) use ($handler): mixed {

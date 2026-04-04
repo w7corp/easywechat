@@ -95,6 +95,60 @@ class ServerTest extends TestCase
         $this->assertSame('success', (string) $response->getBody());
     }
 
+    public function test_it_will_handle_special_auth_approved_event(): void
+    {
+        $body = '<xml>
+            <SuiteId>suite-id</SuiteId>
+            <InfoType>approve_special_auth</InfoType>
+            <AuthCorpId>mock-corp-id</AuthCorpId>
+            <AuthType>customer_acquisition</AuthType>
+        </xml>';
+
+        $suiteEncryptor = $this->createSuiteEncryptor();
+        $request = $this->createEncryptedXmlMessageRequest($body, $suiteEncryptor);
+
+        $server = new Server(
+            encryptor: $suiteEncryptor,
+            providerEncryptor: $this->createProviderEncryptor(),
+            request: $request,
+        );
+
+        $handled = null;
+        $response = $server->handleSpecialAuthApproved(function ($message) use (&$handled) {
+            $handled = [$message->InfoType, $message->AuthType];
+        })->serve();
+
+        $this->assertSame(['approve_special_auth', 'customer_acquisition'], $handled);
+        $this->assertSame('success', (string) $response->getBody());
+    }
+
+    public function test_it_will_handle_special_auth_cancelled_event(): void
+    {
+        $body = '<xml>
+            <SuiteId>suite-id</SuiteId>
+            <InfoType>cancel_special_auth</InfoType>
+            <AuthCorpId>mock-corp-id</AuthCorpId>
+            <AuthType>customer_acquisition</AuthType>
+        </xml>';
+
+        $suiteEncryptor = $this->createSuiteEncryptor();
+        $request = $this->createEncryptedXmlMessageRequest($body, $suiteEncryptor);
+
+        $server = new Server(
+            encryptor: $suiteEncryptor,
+            providerEncryptor: $this->createProviderEncryptor(),
+            request: $request,
+        );
+
+        $handled = null;
+        $response = $server->handleSpecialAuthCancelled(function ($message) use (&$handled) {
+            $handled = [$message->InfoType, $message->AuthType];
+        })->serve();
+
+        $this->assertSame(['cancel_special_auth', 'customer_acquisition'], $handled);
+        $this->assertSame('success', (string) $response->getBody());
+    }
+
     public function test_it_returns_plain_success_acknowledgement_without_encryption(): void
     {
         $body = '<xml>
