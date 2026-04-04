@@ -27,6 +27,21 @@ class PublicKeyTest extends TestCase
         $this->assertSame($contents, \strval($cert));
     }
 
+    public function test_create_from_relative_path()
+    {
+        $cwd = getcwd();
+        chdir(dirname(__DIR__, 3));
+
+        try {
+            $contents = file_get_contents('tests/fixtures/cert.pem') ?: '';
+            $cert = new PublicKey('tests/fixtures/cert.pem');
+
+            $this->assertSame($contents, \strval($cert));
+        } finally {
+            chdir($cwd ?: dirname(__DIR__, 3));
+        }
+    }
+
     public function test_get_serial_no()
     {
         $contents = file_get_contents(__DIR__.'/../../fixtures/cert.pem') ?: '';

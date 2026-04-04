@@ -6,14 +6,18 @@ use JetBrains\PhpStorm\Pure;
 
 use function file_exists;
 use function file_get_contents;
+use function is_string;
+use function realpath;
 use function str_starts_with;
 
 class PrivateKey
 {
     public function __construct(protected string $key, protected ?string $passphrase = null)
     {
-        if (file_exists($key)) {
-            $this->key = "file://{$key}";
+        $path = realpath($key);
+
+        if (is_string($path) && file_exists($path)) {
+            $this->key = "file://{$path}";
         }
     }
 

@@ -9,6 +9,7 @@ use function file_get_contents;
 use function is_array;
 use function is_string;
 use function openssl_x509_parse;
+use function realpath;
 use function str_starts_with;
 use function strtoupper;
 
@@ -16,8 +17,10 @@ class PublicKey
 {
     public function __construct(public string $certificate)
     {
-        if (file_exists($certificate)) {
-            $this->certificate = "file://{$certificate}";
+        $path = realpath($certificate);
+
+        if (is_string($path) && file_exists($path)) {
+            $this->certificate = "file://{$path}";
         }
     }
 

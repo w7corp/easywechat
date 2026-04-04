@@ -9,6 +9,10 @@ use EasyWeChat\Pay\Contracts\Merchant as MerchantInterface;
 use EasyWeChat\Pay\Exceptions\InvalidSignatureException;
 use Psr\Http\Message\MessageInterface;
 
+use function base64_decode;
+use function is_string;
+use function openssl_pkey_get_public;
+
 class Validator implements Contracts\Validator
 {
     public const MAX_ALLOWED_CLOCK_OFFSET = 300;
@@ -59,10 +63,22 @@ class Validator implements Contracts\Validator
             );
         }
 
+        $decodedSignature = base64_decode($signature, true);
+
+        if (! is_string($decodedSignature) || $decodedSignature === '') {
+            throw new InvalidSignatureException('Invalid Signature');
+        }
+
+        $publicKeyResource = openssl_pkey_get_public((string) $publicKey);
+
+        if ($publicKeyResource === false) {
+            throw new InvalidConfigException("Invalid platform certificate for serial: {$serial}.");
+        }
+
         if (\openssl_verify(
             $message,
-            base64_decode($signature),
-            strval($publicKey),
+            $decodedSignature,
+            $publicKeyResource,
             OPENSSL_ALGO_SHA256
         ) !== 1) {
             throw new InvalidSignatureException('Invalid Signature');
