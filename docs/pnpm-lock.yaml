@@ -41,7 +41,7 @@ importers:
         version: 0.14.0
       vitepress:
         specifier: 1.6.3
-        version: 1.6.3(@algolia/client-search@5.41.0)(@types/node@22.18.12)(axios@1.13.5)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.39.0)
+        version: 1.6.3(@algolia/client-search@5.41.0)(@types/node@22.18.12)(axios@1.15.0)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.39.0)
 
 packages:
 
@@ -664,8 +664,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
 
-  axios@1.13.5:
-    resolution: {integrity: sha512-cz4ur7Vb0xS4/KUN0tPWe44eqxrIu31me+fbang3ijiNscE129POzipJJA6zniq2C/Z6sJCjMimjS8Lc/GAs8Q==}
+  axios@1.15.0:
+    resolution: {integrity: sha512-wWyJDlAatxk30ZJer+GeCWS209sA42X+N5jU2jy6oHTp7ufw8uzUTVFBX9+wTfAlhiJXGS0Bq7X6efruWjuK9Q==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -1158,8 +1158,9 @@ packages:
   property-information@7.1.0:
     resolution: {integrity: sha512-TwEZ+X+yCJmYfL7TPUOcvBZ4QfoT5YenQiJuX//0th53DE6w0xxLEtfK3iyryQFddXuvkIk51EEgrJQ0WJkOmQ==}
 
-  proxy-from-env@1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
+  proxy-from-env@2.1.0:
+    resolution: {integrity: sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==}
+    engines: {node: '>=10'}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -1915,13 +1916,13 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vueuse/integrations@12.8.2(axios@1.13.5)(focus-trap@7.6.5)':
+  '@vueuse/integrations@12.8.2(axios@1.15.0)(focus-trap@7.6.5)':
     dependencies:
       '@vueuse/core': 12.8.2
       '@vueuse/shared': 12.8.2
       vue: 3.5.22
     optionalDependencies:
-      axios: 1.13.5
+      axios: 1.15.0
       focus-trap: 7.6.5
     transitivePeerDependencies:
       - typescript
@@ -1985,11 +1986,11 @@ snapshots:
       postcss: 8.5.6
       postcss-value-parser: 4.2.0
 
-  axios@1.13.5:
+  axios@1.15.0:
     dependencies:
       follow-redirects: 1.15.11
       form-data: 4.0.5
-      proxy-from-env: 1.1.0
+      proxy-from-env: 2.1.0
     transitivePeerDependencies:
       - debug
 
@@ -2470,7 +2471,7 @@ snapshots:
 
   property-information@7.1.0: {}
 
-  proxy-from-env@1.1.0: {}
+  proxy-from-env@2.1.0: {}
 
   queue-microtask@1.2.3: {}
 
@@ -2648,7 +2649,7 @@ snapshots:
 
   tenyun@0.14.0:
     dependencies:
-      axios: 1.13.5
+      axios: 1.15.0
     transitivePeerDependencies:
       - debug
 
@@ -2731,7 +2732,7 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.39.0
 
-  vitepress@1.6.3(@algolia/client-search@5.41.0)(@types/node@22.18.12)(axios@1.13.5)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.39.0):
+  vitepress@1.6.3(@algolia/client-search@5.41.0)(@types/node@22.18.12)(axios@1.15.0)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.39.0):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.41.0)(search-insights@2.13.0)
@@ -2744,7 +2745,7 @@ snapshots:
       '@vue/devtools-api': 7.7.7
       '@vue/shared': 3.5.22
       '@vueuse/core': 12.8.2
-      '@vueuse/integrations': 12.8.2(axios@1.13.5)(focus-trap@7.6.5)
+      '@vueuse/integrations': 12.8.2(axios@1.15.0)(focus-trap@7.6.5)
       focus-trap: 7.6.5
       mark.js: 8.11.1
       minisearch: 7.2.0
