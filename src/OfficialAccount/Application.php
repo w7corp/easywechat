@@ -113,7 +113,9 @@ class Application implements ApplicationInterface
         if (! $this->server) {
             $this->server = new Server(
                 request: $this->getRequest(),
-                encryptor: $this->getAccount()->getAesKey() ? $this->getEncryptor() : null
+                encryptor: $this->getAccount()->getAesKey() ? $this->getEncryptor() : null,
+                token: $this->getAccount()->getToken(),
+                requireEncryption: (bool) $this->config->get('require_encryption', false),
             );
         }
 

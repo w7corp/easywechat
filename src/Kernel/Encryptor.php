@@ -17,6 +17,7 @@ use Throwable;
 use function array_map;
 use function base64_decode;
 use function base64_encode;
+use function hash_equals;
 use function implode;
 use function openssl_decrypt;
 use function openssl_encrypt;
@@ -184,7 +185,7 @@ class Encryptor
     {
         $signature = $this->createSignature($this->token, $timestamp, $nonce, $ciphertext);
 
-        if ($signature !== $msgSignature) {
+        if (! hash_equals($signature, $msgSignature)) {
             throw new RuntimeException('Invalid Signature.', self::ERROR_INVALID_SIGNATURE);
         }
 

@@ -39,10 +39,10 @@ class Server implements ServerInterface
 
         if (! empty($query['echostr'])) {
             $response = $this->encryptor->decrypt(
-                $query['echostr'],
-                $query['msg_signature'] ?? '',
-                $query['nonce'] ?? '',
-                $query['timestamp'] ?? ''
+                $this->getQueryValue($query, 'echostr'),
+                $this->getQueryValue($query, 'msg_signature'),
+                $this->getQueryValue($query, 'nonce'),
+                $this->getQueryValue($query, 'timestamp')
             );
 
             return new Response(200, [], $response);
@@ -208,9 +208,9 @@ class Server implements ServerInterface
             $query = $this->getRequest()->getQueryParams();
 
             $params = [
-                $query['msg_signature'] ?? '',
-                $query['timestamp'] ?? '',
-                $query['nonce'] ?? '',
+                $this->getQueryValue($query, 'msg_signature'),
+                $this->getQueryValue($query, 'timestamp'),
+                $this->getQueryValue($query, 'nonce'),
             ];
 
             $this->decryptMessage($message, $this->encryptor, ...$params);
@@ -231,9 +231,9 @@ class Server implements ServerInterface
         $query = $request->getQueryParams();
 
         $params = [
-            $query['msg_signature'] ?? '',
-            $query['timestamp'] ?? '',
-            $query['nonce'] ?? '',
+            $this->getQueryValue($query, 'msg_signature'),
+            $this->getQueryValue($query, 'timestamp'),
+            $this->getQueryValue($query, 'nonce'),
         ];
 
         return $this->decryptMessage(

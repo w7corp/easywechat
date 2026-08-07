@@ -3,8 +3,10 @@
 namespace EasyWeChat\Tests\OpenPlatform;
 
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\OpenPlatform\Server;
 use EasyWeChat\Tests\TestCase;
+use Nyholm\Psr7\ServerRequest;
 
 class ServerTest extends TestCase
 {
@@ -107,5 +109,32 @@ class ServerTest extends TestCase
 
         $this->assertSame('verify-ticket-refreshed-event-handled', $handleResult);
         $this->assertSame('success', \strval($response->getBody()));
+    }
+
+    public function test_it_will_reject_echostr_without_signature()
+    {
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = (new ServerRequest('GET', 'http://easywechat.com/'))
+            ->withQueryParams(['echostr' => '<script>alert(1)</script>']);
+
+        $server = new Server(encryptor: $encryptor, request: $request);
+
+        $this->expectException(BadRequestException::class);
+
+        $server->serve();
+    }
+
+    public function test_it_will_echo_echostr_with_valid_signature()
+    {
+        $encryptor = new Encryptor('wx5823bf96d3bd56c7', 'QDG6eK', 'jWmYm7qr5nMoAUwZRjGtBxmz3KA1tkAj3ykkR6q2B2C');
+        $request = (new ServerRequest('GET', 'http://easywechat.com/'))
+            ->withQueryParams($this->createPlainSignatureQuery('QDG6eK', ['echostr' => 'abcdefghijklmn']));
+
+        $server = new Server(encryptor: $encryptor, request: $request);
+
+        $response = $server->serve();
+
+        $this->assertSame('abcdefghijklmn', \strval($response->getBody()));
+        $this->assertSame('text/plain', $response->getHeaderLine('Content-Type'));
     }
 }

@@ -7,6 +7,8 @@ namespace EasyWeChat\OfficialAccount;
 use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
+use EasyWeChat\Kernel\Exceptions\InvalidConfigException;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
@@ -27,21 +29,36 @@ class Server implements ServerInterface
     public function __construct(
         ?ServerRequestInterface $request = null,
         protected ?Encryptor $encryptor = null,
+        protected ?string $token = null,
+        protected bool $requireEncryption = false,
     ) {
         $this->request = $request;
     }
 
+    /**
+     * @throws BadRequestException
+     * @throws InvalidConfigException
+     */
     public function serve(): ResponseInterface
     {
-        if ($str = $this->getRequest()->getQueryParams()['echostr'] ?? '') {
+        $query = $this->getRequest()->getQueryParams();
+
+        if ($str = $this->getQueryValue($query, 'echostr')) {
+            $this->validatePlainRequest($query);
+
             return new Response(200, [], $str);
         }
 
         $message = $this->getRequestMessage($this->getRequest());
-        $query = $this->getRequest()->getQueryParams();
 
-        if ($this->encryptor && ! empty($query['msg_signature'])) {
+        if ($this->encryptor && $this->isEncryptedRequest($query, $message)) {
             $this->prepend($this->decryptRequestMessage($query));
+        } else {
+            if ($this->requireEncryption) {
+                throw new BadRequestException('Encrypted message is required, plaintext message rejected.');
+            }
+
+            $this->validatePlainRequest($query);
         }
 
         $response = $this->handle(new Response(200, [], 'success'), $message);
@@ -103,21 +120,81 @@ class Server implements ServerInterface
         return Message::createFromRequest($request ?? $this->getRequest());
     }
 
+    /**
+     * @throws BadRequestException
+     * @throws InvalidConfigException
+     */
     public function getDecryptedMessage(?ServerRequestInterface $request = null): \EasyWeChat\Kernel\Message
     {
         $request = $request ?? $this->getRequest();
         $message = $this->getRequestMessage($request);
         $query = $request->getQueryParams();
 
-        if (! $this->encryptor || empty($query['msg_signature'])) {
-            return $message;
+        if ($this->encryptor && $this->isEncryptedRequest($query, $message)) {
+            return $this->decryptIncomingMessage($message, $query);
         }
 
-        return $this->decryptIncomingMessage($message, $query);
+        if ($this->requireEncryption) {
+            throw new BadRequestException('Encrypted message is required, plaintext message rejected.');
+        }
+
+        $this->validatePlainRequest($query);
+
+        return $message;
     }
 
     /**
-     * @param  array<string,string>  $query
+     * Whether the incoming request carries an encrypted message.
+     *
+     * Both the secure mode and the compatible mode push a ciphertext along with
+     * `encrypt_type=aes`, only the plaintext mode has neither.
+     *
+     * @param  array<string,mixed>  $query
+     */
+    protected function isEncryptedRequest(array $query, \EasyWeChat\Kernel\Message $message): bool
+    {
+        return ($query['encrypt_type'] ?? '') === 'aes'
+            || ! empty($message->Encrypt)
+            || ! empty($message->encrypt);
+    }
+
+    /**
+     * Validate the signature of a plaintext request.
+     *
+     * @param  array<string,mixed>  $query
+     *
+     * @throws BadRequestException
+     * @throws InvalidConfigException
+     */
+    protected function validatePlainRequest(array $query): void
+    {
+        $this->validatePlainSignature(
+            token: $this->getToken(),
+            signature: $this->getQueryValue($query, 'signature'),
+            timestamp: $this->getQueryValue($query, 'timestamp'),
+            nonce: $this->getQueryValue($query, 'nonce')
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException
+     */
+    protected function getToken(): string
+    {
+        $token = $this->token ?? $this->encryptor?->getToken();
+
+        if (empty($token)) {
+            throw new InvalidConfigException(
+                'The token is required to validate the request signature, '
+                .'please pass it to the server or configure the `token` of the application.'
+            );
+        }
+
+        return $token;
+    }
+
+    /**
+     * @param  array<string,mixed>  $query
      */
     protected function decryptIncomingMessage(\EasyWeChat\Kernel\Message $message, array $query): \EasyWeChat\Kernel\Message
     {
@@ -125,9 +202,9 @@ class Server implements ServerInterface
             return $message;
         }
 
-        $signature = $query['msg_signature'] ?? '';
-        $timestamp = $query['timestamp'] ?? '';
-        $nonce = $query['nonce'] ?? '';
+        $signature = $this->getQueryValue($query, 'msg_signature');
+        $timestamp = $this->getQueryValue($query, 'timestamp');
+        $nonce = $this->getQueryValue($query, 'nonce');
 
         return $this->decryptMessage(
             message: $message,

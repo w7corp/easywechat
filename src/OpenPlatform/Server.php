@@ -7,6 +7,7 @@ namespace EasyWeChat\OpenPlatform;
 use Closure;
 use EasyWeChat\Kernel\Contracts\Server as ServerInterface;
 use EasyWeChat\Kernel\Encryptor;
+use EasyWeChat\Kernel\Exceptions\BadRequestException;
 use EasyWeChat\Kernel\ServerResponse;
 use EasyWeChat\Kernel\Traits\DecryptMessage;
 use EasyWeChat\Kernel\Traits\InteractWithHandlers;
@@ -34,10 +35,22 @@ class Server implements ServerInterface
         $this->request = $request;
     }
 
+    /**
+     * @throws BadRequestException
+     */
     public function serve(): ResponseInterface
     {
-        if ($str = $this->getRequest()->getQueryParams()['echostr'] ?? '') {
-            return new Response(200, [], $str);
+        $query = $this->getRequest()->getQueryParams();
+
+        if ($echostr = $this->getQueryValue($query, 'echostr')) {
+            $this->validatePlainSignature(
+                token: $this->encryptor->getToken(),
+                signature: $this->getQueryValue($query, 'signature'),
+                timestamp: $this->getQueryValue($query, 'timestamp'),
+                nonce: $this->getQueryValue($query, 'nonce')
+            );
+
+            return new Response(200, ['Content-Type' => 'text/plain'], $echostr);
         }
 
         $message = $this->getRequestMessage($this->getRequest());
@@ -107,9 +120,9 @@ class Server implements ServerInterface
             $message = $this->decryptMessage(
                 message: $message,
                 encryptor: $this->encryptor,
-                signature: $query['msg_signature'] ?? '',
-                timestamp: $query['timestamp'] ?? '',
-                nonce: $query['nonce'] ?? ''
+                signature: $this->getQueryValue($query, 'msg_signature'),
+                timestamp: $this->getQueryValue($query, 'timestamp'),
+                nonce: $this->getQueryValue($query, 'nonce')
             );
 
             return $next($message);
@@ -130,9 +143,9 @@ class Server implements ServerInterface
         return $this->decryptMessage(
             message: $message,
             encryptor: $this->encryptor,
-            signature: $query['msg_signature'] ?? '',
-            timestamp: $query['timestamp'] ?? '',
-            nonce: $query['nonce'] ?? ''
+            signature: $this->getQueryValue($query, 'msg_signature'),
+            timestamp: $this->getQueryValue($query, 'timestamp'),
+            nonce: $this->getQueryValue($query, 'nonce')
         );
     }
 }

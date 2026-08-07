@@ -24,6 +24,32 @@ return $server->serve();
 >  如果使用了 `thinkphp`、`workman` 等框架，需要先把框架请求转换成 Symfony 请求，再通过 `$app->setRequestFromSymfonyRequest($symfonyRequest)` 进行 request 对象替换，然后再调用 `getServer()`；
 
 
+## 消息校验与加解密 <version-tag>6.20.0+</version-tag>
+
+`serve()` 与 `getDecryptedMessage()` 会**强制校验每一个请求的签名**，校验不通过时抛出 `EasyWeChat\Kernel\Exceptions\BadRequestException`：
+
+| 推送形态 | 校验方式 |
+| --- | --- |
+| 带密文（`encrypt_type=aes` 或消息体含 `Encrypt` 节点）且配置了 `aes_key` | 校验 `msg_signature` 并解密，缺失或不匹配即拒绝 |
+| 纯明文 | 校验 `signature`（`token`、`timestamp`、`nonce` 三者排序后 sha1） |
+| 纯明文，且配置了 `require_encryption => true` | 直接拒绝 |
+
+因此 **`token` 必须正确配置**，否则将抛出 `InvalidConfigException`。如果你是手动实例化 `Server` 而非通过 `$app->getServer()`，请记得传入 token：
+
+```php
+use EasyWeChat\OfficialAccount\Server;
+
+$server = new Server(
+    request: $request,
+    encryptor: $encryptor,   // 明文模式下可为 null
+    token: 'your-token',
+    requireEncryption: false,
+);
+```
+
+> 🚨 如果公众号后台设置的是「安全模式」，强烈建议同时配置 `'require_encryption' => true`，
+> 这样即使 token 泄露，攻击者也无法通过明文推送伪造消息。
+
 ## 自助处理推送消息
 
 > 🚨 注意：不要在返回 `$server->serve()` 前输出任何内容。

@@ -47,12 +47,12 @@ class Server implements ServerInterface
     {
         $query = $this->getRequest()->getQueryParams();
 
-        if ($str = $query['echostr'] ?? '') {
+        if ($str = $this->getQueryValue($query, 'echostr')) {
             $response = $this->providerEncryptor->decrypt(
                 $str,
-                $query['msg_signature'] ?? '',
-                $query['nonce'] ?? '',
-                $query['timestamp'] ?? ''
+                $this->getQueryValue($query, 'msg_signature'),
+                $this->getQueryValue($query, 'nonce'),
+                $this->getQueryValue($query, 'timestamp')
             );
 
             return new Response(200, [], $response);
@@ -239,9 +239,9 @@ class Server implements ServerInterface
             $this->decryptMessage(
                 $message,
                 $this->encryptor,
-                $query['msg_signature'],
-                $query['timestamp'],
-                $query['nonce']
+                $this->getQueryValue($query, 'msg_signature'),
+                $this->getQueryValue($query, 'timestamp'),
+                $this->getQueryValue($query, 'nonce')
             );
 
             return $next($message);
@@ -269,9 +269,9 @@ class Server implements ServerInterface
         return $this->decryptMessage(
             message: $message,
             encryptor: $this->encryptor,
-            signature: $query['msg_signature'] ?? '',
-            timestamp: $query['timestamp'] ?? '',
-            nonce: $query['nonce'] ?? ''
+            signature: $this->getQueryValue($query, 'msg_signature'),
+            timestamp: $this->getQueryValue($query, 'timestamp'),
+            nonce: $this->getQueryValue($query, 'nonce')
         );
     }
 }

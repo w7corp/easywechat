@@ -16,8 +16,16 @@ aside: false
      */
     'app_id'  => 'your-app-id',         // AppID
     'secret'  => 'your-app-secret',     // AppSecret
-    'token'   => 'your-token',          // Token
+    'token'   => 'your-token',          // Token，服务端消息推送的签名校验依赖它，必须填写！！！
     'aes_key' => '',                    // EncodingAESKey，兼容与安全模式下请一定要填写！！！
+
+    /**
+     * 是否只接受加密的推送消息
+     * 默认 false
+     * 消息推送设置为「安全模式」时，建议设置为 true，
+     * 开启后，服务端将拒绝一切明文推送的消息（即使其 signature 校验通过）
+     */
+    'require_encryption' => false,
 
     /**
      * 是否使用 Stable Access Token

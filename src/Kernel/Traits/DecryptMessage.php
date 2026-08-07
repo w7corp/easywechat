@@ -46,7 +46,7 @@ trait DecryptMessage
     }
 
     /**
-     * Validate the request signature.
+     * Validate the request signature of an encrypted message.
      *
      * @throws BadRequestException
      */
@@ -57,15 +57,52 @@ trait DecryptMessage
         int|string $timestamp,
         string $nonce
     ): void {
+        $this->assertSignatureMatches([$token, $timestamp, $nonce, $ciphertext], $signature);
+    }
+
+    /**
+     * Validate the request signature of a plaintext message.
+     *
+     * The plaintext signature only covers the token, timestamp and nonce, it does NOT
+     * cover the message body. It is the only signature available in plaintext mode.
+     *
+     * @throws BadRequestException
+     */
+    protected function validatePlainSignature(
+        string $token,
+        string $signature,
+        int|string $timestamp,
+        string $nonce
+    ): void {
+        $this->assertSignatureMatches([$token, $timestamp, $nonce], $signature);
+    }
+
+    /**
+     * Read a query param as string, non-scalar values (e.g. `?signature[]=foo`) are discarded.
+     *
+     * @param  array<string,mixed>  $query
+     */
+    protected function getQueryValue(array $query, string $key): string
+    {
+        $value = $query[$key] ?? '';
+
+        return is_scalar($value) ? strval($value) : '';
+    }
+
+    /**
+     * @param  array<int, int|string>  $params
+     *
+     * @throws BadRequestException
+     */
+    protected function assertSignatureMatches(array $params, string $signature): void
+    {
         if (empty($signature)) {
             throw new BadRequestException('Request signature must not be empty.');
         }
 
-        $params = [$token, $timestamp, $nonce, $ciphertext];
-
         sort($params, SORT_STRING);
 
-        if ($signature !== sha1(implode($params))) {
+        if (! hash_equals(sha1(implode($params)), $signature)) {
             throw new BadRequestException('Invalid request signature.');
         }
     }
