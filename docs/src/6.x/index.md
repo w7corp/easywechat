@@ -7,7 +7,7 @@ EasyWeChat 是一个开源的 [微信](http://www.wechat.com) 非官方 SDK。�
 
 ## 环境需求
 
-- PHP >= 8.0
+- PHP >= 8.1
 - [PHP cURL 扩展](http://php.net/manual/en/book.curl.php)
 - [PHP OpenSSL 扩展](http://php.net/manual/en/book.openssl.php)
 - [PHP SimpleXML 扩展](http://php.net/manual/en/book.simplexml.php)
