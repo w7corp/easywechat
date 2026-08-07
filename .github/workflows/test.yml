@@ -24,6 +24,12 @@ jobs:
         with:
           php-version: ${{ matrix.php_version }}
           coverage: none
+      # PHP 8.0 上 symfony/cache 会被解析到 5.4，而它与 psr/simple-cache 3.0+
+      # 运行时不兼容（symfony/cache 6.0 起才支持）。PHP 8.0 已 EOL，此处仅作约束
+      # 使 CI 可用，计划在下个 minor 版本中移除对 PHP 8.0 的支持。
+      - name: Constrain psr/simple-cache on PHP 8.0
+        if: matrix.php_version == 8.0
+        run: composer require --no-interaction --no-update "psr/simple-cache:^1.0|^2.0"
       - name: Install Dependencies
         run: composer update --prefer-dist --no-interaction --prefer-${{ matrix.prefer }}
       - name: Run PHPUnit
